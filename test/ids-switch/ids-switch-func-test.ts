@@ -4,9 +4,8 @@
 import IdsSwitch from '../../src/components/ids-switch/ids-switch';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import processAnimFrame from '../helpers/process-anim-frame';
-
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsSwitch Component', () => {
   let el: IdsSwitch;
@@ -14,7 +13,7 @@ describe('IdsSwitch Component', () => {
 
   beforeEach(() => {
     container = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
 
     el = new IdsSwitch();
     container.appendChild(el);
@@ -137,7 +136,7 @@ describe('IdsSwitch Component', () => {
   });
 
   it('can change language from the container', async () => {
-    await container.setLanguage('de');
+    await container.localeAPI.setLanguage('de');
     expect(el.getAttribute('language')).toEqual('de');
   });
 

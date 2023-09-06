@@ -5,6 +5,7 @@ import '../helpers/resize-observer-mock';
 
 import IdsDatePicker from '../../src/components/ids-date-picker/ids-date-picker';
 import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 const name = 'ids-date-picker';
 
@@ -115,8 +116,8 @@ describe('IdsDatePicker Component Tests', () => {
       component = new IdsDatePicker();
       setupComponent(component);
 
-      await container.setLanguage('en');
-      await container.setLocale('en-US');
+      await IdsGlobal.getLocale().setLanguage('en');
+      await IdsGlobal.getLocale().setLocale('en-US');
 
       container.appendChild(component);
     });

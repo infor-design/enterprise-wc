@@ -8,13 +8,16 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import '../../src/components/ids-icon/ids-icon';
 import type IdsIcon from '../../src/components/ids-icon/ids-icon';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
+import IdsLocale from '../../src/components/ids-locale/ids-locale';
 
 describe('IdsButton Component', () => {
   let btn: IdsButton;
+  let locale: IdsLocale;
 
   beforeEach(() => {
     btn = new IdsButton();
+    locale = IdsGlobal.getLocale();
     btn.id = 'test-button';
     btn.text = 'Test Button';
     document.body.appendChild(btn);
@@ -103,8 +106,8 @@ describe('IdsButton Component', () => {
     container.appendChild(btn);
     document.body.appendChild(container);
     expect(btn.container?.classList.contains('rtl')).toBeFalsy();
-    IdsLocaleData.loadedLanguages.set('ar', arMessages);
-    await container.setLanguage('ar');
+    locale.loadedLanguages.set('ar', arMessages);
+    await IdsGlobal.getLocale().setLanguage('ar');
     await processAnimFrame();
     expect(btn.localeAPI.isRTL()).toEqual(true);
   });
