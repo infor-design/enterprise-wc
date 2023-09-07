@@ -16,7 +16,10 @@
 
 .ids-trigger-field-slot-trigger-end,
 ::slotted(*[slot='trigger-end']:last-of-type:not([inline]):not([compact]):not([field-height='xs'])) {
-  margin-inline-end: var(--ids-trigger-field-button-margin);
+  /*
+  inset-block-start: -1px;
+  inset-inline-start: 1px;
+  */
 }
 
 .ids-input.color-variant-alternate-formatter {

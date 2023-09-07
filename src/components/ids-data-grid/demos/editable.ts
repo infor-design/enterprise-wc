@@ -93,14 +93,15 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   columns.push({
     id: 'publishTime',
     name: 'Pub. Time',
-    field: 'publishDate',
+    field: 'publishTime',
     resizable: true,
     reorderable: true,
     formatter: dataGrid.formatters.time,
     editor: {
       type: 'timepicker',
       editorSettings: {
-        dirtyTracker: true
+        dirtyTracker: true,
+        format: dataGrid.localeAPI?.calendar().timeFormat
       }
     }
   });

@@ -207,9 +207,16 @@ export default class IdsDataGridCell extends IdsElement {
     this.isEditing = true;
 
     // Save on Click Out Event
-    this.editor.input?.onEvent('focusout', this.editor.input, () => {
-      this.endCellEdit();
-    });
+    if (this.editor.type === 'timepicker') {
+      this.editor.input?.onEvent('focusout', this.editor.input, () => {
+        if (this.editor?.popup?.visible) return;
+        this.endCellEdit();
+      });
+    } else {
+      this.editor.input?.onEvent('focusout', this.editor.input, () => {
+        this.endCellEdit();
+      });
+    }
 
     this.dataGrid?.triggerEvent('celledit', this.dataGrid, {
       detail: {
