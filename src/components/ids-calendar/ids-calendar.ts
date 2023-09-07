@@ -205,7 +205,6 @@ export default class IdsCalendar extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
-    this.setDirection();
     this.changeView('month');
     this.#attachEventHandlers();
     this.#configureResizeObserver();

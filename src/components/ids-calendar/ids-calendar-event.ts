@@ -75,7 +75,6 @@ export default class IdsCalendarEvent extends Base {
   connectedCallback(): void {
     super.connectedCallback();
     this.#attachEventHandlers();
-    this.setDirection();
     this.refreshContent();
     this.recalc();
   }

@@ -10,7 +10,7 @@ import dataset from '../../src/assets/data/books.json';
 import productsDataset from '../../src/assets/data/products.json';
 import datasetTree from '../../src/assets/data/tree-buildings.json';
 import processAnimFrame from '../helpers/process-anim-frame';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 import createFromTemplate from '../helpers/create-from-template';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
@@ -234,11 +234,11 @@ describe('IdsDataGrid Component', () => {
       return { cssRules: [], replaceSync: () => '', insertRule: () => '' };
     };
     (window.StyleSheet as any).insertRule = () => '';
+    IdsGlobal.getLocale().loadedLanguages.set('ar', arMessages);
+    IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
+    IdsGlobal.getLocale().loadedLocales.set('de-DE', deDELocale);
 
     container = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('ar', arMessages);
-    IdsLocaleData.loadedLanguages.set('de', deMessages);
-    IdsLocaleData.loadedLocales.set('de-DE', deDELocale);
 
     dataGrid = new IdsDataGrid();
     container.appendChild(dataGrid);
@@ -1083,10 +1083,10 @@ describe('IdsDataGrid Component', () => {
       (window as any).getComputedStyle = () => ({ width: 200 });
       await processAnimFrame();
 
-      await container.setLanguage('ar');
+      await IdsGlobal.getLocale().setLanguage('ar');
       await processAnimFrame();
 
-      expect(dataGrid.localeAPI.isRTL()).toBe(true);
+      expect(IdsGlobal.getLocale().isRTL()).toBe(true);
 
       dataGrid.columns = [{
         id: 'price',
@@ -1278,17 +1278,6 @@ describe('IdsDataGrid Component', () => {
 
       expect(mockCallback.mock.calls.length).toBe(0);
     });
-
-    it('resets direction on sort', async () => {
-      await container.setLanguage('ar');
-      await processAnimFrame();
-      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
-
-      const headers = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell');
-      headers[2].querySelector('.ids-data-grid-header-cell-content').click();
-
-      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
-    });
   });
 
   describe('Reordering Tests', () => {
@@ -1436,9 +1425,8 @@ describe('IdsDataGrid Component', () => {
       }];
       await processAnimFrame();
 
-      await container.setLanguage('ar');
+      await IdsGlobal.getLocale().setLanguage('ar');
       await processAnimFrame();
-      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
 
       const cols = (dataGrid).columns;
       const nodes = dataGrid.container.querySelectorAll('.reorderer');
@@ -1888,11 +1876,9 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent.trim()).toEqual('13.99');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(10)').textContent.trim()).toEqual('14');
 
-      await container.setLanguage('ar');
+      await IdsGlobal.getLocale().setLanguage('ar');
       await processAnimFrame();
-      expect(dataGrid.getAttribute('dir')).toEqual('rtl');
-
-      container.locale = 'de-DE';
+      await IdsGlobal.getLocale().setLocale('de-DE');
       await processAnimFrame();
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(5)').textContent.trim()).toEqual('23.2.2021');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(6)').textContent.trim()).toEqual('13:25');

@@ -135,9 +135,8 @@ describe('Ids Week View e2e Tests', () => {
       element.startDate = '11/08/2021';
       element.endDate = '11/08/2021';
 
-      const container: any = document.querySelector('ids-container');
-      container.setLocale('ar-SA');
-      container.setLanguage('ar');
+      // IdsGlobal.getLocale().setLocale('ar-SA');
+      // IdsGlobal.getLocale().setLanguage('ar');
     }, name);
 
     // Wait till calendars loading

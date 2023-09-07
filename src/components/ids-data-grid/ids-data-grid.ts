@@ -94,6 +94,8 @@ export default class IdsDataGrid extends Base {
 
   cacheHash = Math.random().toString(32).substring(2, 10);
 
+  openMenu: null | IdsPopupMenu = null;
+
   /**
    * Types for contextmenu.
    */
@@ -139,6 +141,11 @@ export default class IdsDataGrid extends Base {
     this.redrawBody();
     setContextmenu.apply(this);
     this.#attachScrollEvents();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.openMenu = null;
   }
 
   /** Reference to datasource API */
@@ -329,6 +336,8 @@ export default class IdsDataGrid extends Base {
     if (this.columns.length === 0 || !this.initialized) {
       return;
     }
+
+    this.#removeAttachedMenus();
 
     const header = IdsDataGridHeader.template(this);
     const body = this.bodyTemplate();
@@ -664,8 +673,9 @@ export default class IdsDataGrid extends Base {
       const key = e.key;
 
       if (!e.shiftKey) this.#resetLastShiftedRow();
-      if (inFilter && (key === 'ArrowRight' || key === 'ArrowLeft')) return;
+      if (inFilter) return;
       if (!this.activeCell?.node) return;
+      if (this.openMenu) return;
 
       const cellNode = this.activeCell.node;
       const cellNumber = Number(this.activeCell?.cell);
@@ -716,11 +726,12 @@ export default class IdsDataGrid extends Base {
 
     // Handle Selection and Expand
     this.listen([' '], this, (e: Event) => {
+      if (this.openMenu) return;
       if (this.activeCellEditor) return;
       if (!this.activeCell?.node) return;
 
       const row = this.rowByIndex(this.activeCell.row)!;
-      if (row.disabled) return;
+      if (!row || row.disabled) return;
 
       const button = this.activeCell.node.querySelector('ids-button');
       if (button) {
@@ -743,10 +754,11 @@ export default class IdsDataGrid extends Base {
 
     // Follow links with keyboard and start editing
     this.listen(['Enter'], this, (e: KeyboardEvent) => {
+      if (this.openMenu) return;
       if (!this.activeCell?.node || findInPath(eventPath(e), '.ids-data-grid-header-cell')) return;
 
       const row = this.rowByIndex(this.activeCell.row)!;
-      if (row.disabled) return;
+      if (!row || row.disabled) return;
 
       const cellNode = this.activeCell.node;
       const hyperlink = cellNode.querySelector('ids-hyperlink');
@@ -781,6 +793,7 @@ export default class IdsDataGrid extends Base {
 
     // Cancel Edit
     this.listen(['Escape'], this, () => {
+      if (this.openMenu) return;
       const cellNode = this.activeCell.node;
       if (this.activeCellEditor) {
         cellNode.cancelCellEdit();
@@ -790,6 +803,7 @@ export default class IdsDataGrid extends Base {
 
     // Edit Next
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
+      if (this.openMenu) return;
       if (this.activeCellEditor) {
         if (e.shiftKey) this.#editAdjacentCell(IdsDirection.Previous);
         else this.#editAdjacentCell(IdsDirection.Next);
@@ -2675,5 +2689,16 @@ export default class IdsDataGrid extends Base {
    */
   cellByIndex(rowIndex: number, columnIndex: number): IdsDataGridCell | null {
     return this.rowByIndex(rowIndex)?.cellByIndex?.(columnIndex) ?? null;
+  }
+
+  /**
+   * Removes filter row menus that have been moved from filter row headers into the data grid wrapper
+   * @private
+   */
+  #removeAttachedMenus() {
+    const attachedMenus = this.wrapper?.querySelectorAll<IdsPopupMenu>('ids-popup-menu');
+    if (attachedMenus?.length) {
+      [...attachedMenus].forEach((el: IdsPopupMenu) => el.remove());
+    }
   }
 }

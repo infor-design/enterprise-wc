@@ -5,6 +5,12 @@
 Tags are UI embellishments that are used to label, categorize and organize keywords surrounding
 some contextual element such as a form.
 
+## Import
+
+```js
+import IdsTag from 'mode_modules/ids-enterprise-wc/components/ids-tag/ids-tag';
+```
+
 ## Use Cases
 
  Note that the tags and badges look the same but should not be used interchangeably. A badge is used mainly for alphanumeric values i.e. numbers currency ect. and should not cannot take an icon or text. For text information you can use use a tag. For icons use an icon or status icon or alert icon.

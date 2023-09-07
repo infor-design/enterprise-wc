@@ -34,7 +34,8 @@
   --ids-border-radius-01: 2px;
   --ids-border-radius-02: 4px;
   --ids-border-radius-03: 8px;
-  --ids-border-radius-04: 16px;
+  --ids-border-radius-04: 12px;
+  --ids-border-radius-05: 16px;
   --ids-border-radius-circle: 50%;
 
   // Cursors
@@ -67,9 +68,9 @@
   --ids-font-family-hi: 'Noto Sans', source sans pro, -apple-system, helvetica, arial;
   --ids-font-family-ja: 'Noto Sans JP', source sans pro, -apple-system, helvetica, arial;
   --ids-font-family-ko: 'Noto Sans KR', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-th: 'Sarabun', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-zh-cn: 'Noto Sans SC', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-zh-tw: 'Noto Sans TC', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-th: 'Noto Sans Thai', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-zh-hans: 'Noto Sans SC', source sans pro, -apple-system, helvetica, arial;
+  --ids-font-family-zh-hant: 'Noto Sans TC', source sans pro, -apple-system, helvetica, arial;
   --ids-font-family-mono: source code pro, monospace;
   --ids-font-weight-light: 300;
   --ids-font-weight-normal: 400;
@@ -172,7 +173,7 @@
   --ids-action-panel-content-background-color: var(--ids-color-neutral-00);
 
   // Action Sheet
-  --ids-action-sheet-border-radius: var(--ids-border-radius-04);
+  --ids-action-sheet-border-radius: var(--ids-border-radius-05);
   --ids-action-sheet-padding: var(--ids-space-40);
   --ids-action-sheet-shadow: 0 0 8px rgb(0 0 0 / 0.2);
   --ids-action-sheet-color-background: var(--ids-color-neutral-00);
@@ -507,6 +508,9 @@
   --ids-data-grid-header-expander-active-color:  var(--ids-color-neutral-00);
 
   // Data Grid (Filter)
+  --ids-data-grid-filter-icon-color: var(--ids-color-neutral-30);
+  --ids-data-grid-filter-icon-background-hover: transparent;
+  --ids-data-grid-filter-icon-color-hover: var(--ids-color-neutral-10);
   --ids-data-grid-filter-input-color-background: transparent;
   --ids-data-grid-filter-input-color-border-default: var(--ids-color-neutral-30);
   --ids-data-grid-filter-input-color-text-default: var(--ids-color-neutral-00);
@@ -862,11 +866,12 @@
   // Masthead
   --ids-masthead-color-background: var(--ids-color-neutral-100); // black -> slate-100
   --ids-masthead-color-text: var(--ids-color-neutral-30);
-  --ids-masthead-padding-inline: var(--ids-space-60);
-  --ids-masthead-height-min: 40px;
-  --ids-masthead-logo-padding-icon-inline: var(--ids-space-40);
-  --ids-masthead-logo-top-space-icon: var(--ids-space-10);
+  --ids-masthead-padding-inline: var(--ids-space-40);
+  --ids-masthead-height: 40px;
+  --ids-masthead-logo-padding-icon-inline: var(--ids-space-20);
+  --ids-masthead-logo-top-space-icon: 2.5px;
   --ids-masthead-title-margin-inline: var(--ids-space-40);
+  --ids-masthead-color-hover: var(--ids-color-neutral-00);
 
   // Menu
   --ids-menu-header-font-weight: var(--ids-font-weight-semibold);

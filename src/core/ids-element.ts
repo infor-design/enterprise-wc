@@ -270,7 +270,18 @@ export default class IdsElement extends HTMLElement {
     const head = (document.head as any);
     const styleElem = document.querySelector('#ids-theme');
     const style = styleElem || document.createElement('style');
-    style.textContent = themeStyles;
+
+    const localeFonts = `
+      html[lang='ar'] {--ids-font-family-default: var(--ids-font-family-ar)}
+      html[lang='he'] {--ids-font-family-default: var(--ids-font-family-he)}
+      html[lang='hi'] {--ids-font-family-default: var(--ids-font-family-hi)}
+      html[lang='ja'] {--ids-font-family-default: var(--ids-font-family-ja)}
+      html[lang='ko'] {--ids-font-family-default: var(--ids-font-family-ko)}
+      html[lang='th'] {--ids-font-family-default: var(--ids-font-family-th)}
+      html[lang='zh-Hans'] {--ids-font-family-default: var(--ids-font-family-zh-hans)}
+      html[lang='zh-Hant'] {--ids-font-family-default: var(--ids-font-family-zh-hant)}
+    `;
+    style.textContent = `${themeStyles}${localeFonts}`;
     style.id = 'ids-theme';
     if (this.nonce) style.setAttribute('nonce', this.nonce);
     if (!styleElem) {

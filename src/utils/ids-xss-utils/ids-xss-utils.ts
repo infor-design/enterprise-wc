@@ -19,6 +19,8 @@ export function sanitizeConsoleMethods(html: string | any) {
  */
 export function sanitizeHTML(html: string) {
   let santizedHtml = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g, '');
+  santizedHtml = santizedHtml.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+  santizedHtml = santizedHtml.replace(/<iframe\b[^<]*(?:(?!>)<[^<]*)*>/gi, '');
   santizedHtml = santizedHtml.replace(/<[^>]+/g, (match) => {
     const expr = /(\/|\s)on\w+=('|")?/g;
     let str = match;

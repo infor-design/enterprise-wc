@@ -492,6 +492,7 @@ const messages = {
   TextColor: { id: 'TextColor', value: 'Farbe für Text', comment: 'add or edit text color in the editor' },
   TextDropArea: { id: 'DropArea', value: 'Dateien mit Drag & Drop zum Hochladen auswählen', comment: 'text for drop area for advanced fileupload' },
   TextDropAreaWithBrowse: { id: 'TextDropAreaWithBrowse', value: 'Dateien mit Drag &Drop oder über <span class="hyperlink">Dateien auswählen</span> zum Hochladen auswählen' },
+  TextDropAreaWithBrowseLink: { id: 'TextDropAreaWithBrowse', value: 'Per drag & drop hierher oder {browseLink}', comment: 'Updated recently' },
   Thai: { id: 'Thai', value: 'Thailändisch', comment: 'Language name for Thai' },
   Theme: { id: 'Theme', value: 'Design', comment: 'Refers to an application Theme' },
   ThousandsAbbrev: { id: 'ThousandsAbbrev', value: '{0} T', comment: 'Refers to a value in a chart in thousands. i.e. 1K, 100K' },

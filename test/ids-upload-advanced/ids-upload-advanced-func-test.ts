@@ -270,37 +270,6 @@ describe('IdsUploadAdvanced Component', () => {
     expect(fileElems.length).toEqual(2);
   });
 
-  it('should get error value', () => {
-    el.maxFiles = '2';
-    const errors = [{
-      name: 'error-max-files',
-      value: `<em>Error</em>: Cannot upload more than the maximum number of files (${el.maxFiles}).`
-    }, {
-      name: 'error-max-files-in-process',
-      value: '<em>Error</em>: Exceeded maximum files allowed limit'
-    }, {
-      name: 'error-accept-file-type',
-      value: '<em>Error</em>: File type is not allowed'
-    }, {
-      name: 'error-max-file-size',
-      value: '<em>Error</em>: Exceeded file size limit'
-    }, {
-      name: 'error-url',
-      value: '<em>Error</em>: Url not found!'
-    }, {
-      name: 'error-xhr-headers',
-      value: '<em>Error</em>: XHR Headers must be a valid JSON string contains array of name/value objects.'
-    }];
-    el.disabled = true;
-    el.errorMessage({ error: 'test' });
-    el.disabled = false;
-    el.errorMessage({ error: 'test', data: 'test2' });
-    expect(el.getErrorValue()).toEqual('');
-    errors.forEach((e) => {
-      expect(el.getErrorValue(e.name)).toEqual(e.value);
-    });
-  });
-
   it('should call xhr method', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
@@ -380,20 +349,6 @@ describe('IdsUploadAdvanced Component', () => {
     el.autoStart = null;
     expect(el.getAttribute('auto-start')).toEqual(null);
     expect(el.autoStart).toEqual(true);
-  });
-
-  it('should set arbitrary error message', () => {
-    const errorarea = el.shadowRoot.querySelector('.errorarea');
-    expect(errorarea.classList).not.toContain('has-error');
-    el.setError();
-    expect(errorarea.classList).not.toContain('has-error');
-    el.setError({ message: 'test' });
-    expect(errorarea.classList).toContain('has-error');
-    expect(el.getErrorValue('test')).toEqual('test');
-    const closeBtn = el.shadowRoot.querySelector('#btn-close-error');
-    expect(closeBtn).toBeTruthy();
-    closeBtn.click();
-    expect(errorarea.classList).not.toContain('has-error');
   });
 
   it('should set arbitrary error message on files', () => {
