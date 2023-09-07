@@ -8,6 +8,7 @@ import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty
 import IdsClearableMixin from '../../mixins/ids-clearable-mixin/ids-clearable-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsFormInputMixin from '../../mixins/ids-form-input-mixin/ids-form-input-mixin';
 import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
 import IdsMaskMixin from '../../mixins/ids-mask-mixin/ids-mask-mixin';
 import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
@@ -48,8 +49,10 @@ const Base = IdsTooltipMixin(
                   IdsValidationMixin(
                     IdsLocaleMixin(
                       IdsKeyboardMixin(
-                        IdsEventsMixin(
-                          IdsElement
+                        IdsFormInputMixin(
+                          IdsEventsMixin(
+                            IdsElement
+                          )
                         )
                       )
                     )
@@ -353,8 +356,17 @@ export default class IdsInput extends Base {
    * @readonly
    * @returns {HTMLInputElement} the inner `input` element
    */
-  get input(): HTMLInputElement | undefined | null {
-    return this.container?.querySelector<HTMLInputElement>(`input[part="input"]`);
+  get input(): HTMLInputElement | null {
+    return this.container?.querySelector<HTMLInputElement>(`input[part="input"]`) ?? null;
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLInputElement} the inner `input` element
+   * @see IdsFormInputMixin.formInput
+   */
+  get formInput(): HTMLInputElement | null {
+    return this.input;
   }
 
   /**
@@ -618,52 +630,6 @@ export default class IdsInput extends Base {
           value: this.value
         }
       });
-    });
-
-    this.onEvent('input.native', this.input, (e: any) => {
-      this.triggeredByChange = true;
-      this.value = this.input?.value ?? '';
-      this.triggerInputEvent(e);
-    });
-
-    this.onEvent('change.native', this.input, (e: any) => {
-      this.triggeredByChange = true;
-      this.value = this.input?.value ?? '';
-      this.triggerInputEvent(e);
-    });
-  }
-
-  /**
-   * React to attributes changing on the web-component
-   * @param {string} name The property name
-   * @param {string} oldValue The property old value
-   * @param {string} newValue The property new value
-   */
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    super.attributeChangedCallback(name, oldValue, newValue);
-    if (oldValue === newValue) return;
-
-    if (name === attributes.VALUE) {
-      this.triggerInputEvent();
-    }
-  }
-
-  triggerInputEvent(nativeEvent?: Event | CustomEvent, element?: Element) {
-    element = element ?? (this.getRootNode() as ShadowRoot)?.host;
-
-    const value = this.value;
-    if (element) {
-      (element as HTMLInputElement).value = value;
-    }
-
-    const target = element ?? this;
-    this.triggerEvent(`input.${this.name ?? 'ids-input'}`, target, {
-      bubbles: true,
-      detail: {
-        elem: target,
-        value,
-        nativeEvent,
-      }
     });
   }
 

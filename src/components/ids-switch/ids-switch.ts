@@ -3,6 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsFormInputMixin from '../../mixins/ids-form-input-mixin/ids-form-input-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -11,8 +12,10 @@ import '../ids-text/ids-text';
 import styles from './ids-switch.scss';
 
 const Base = IdsLocaleMixin(
-  IdsEventsMixin(
-    IdsElement
+  IdsFormInputMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
@@ -29,9 +32,9 @@ const Base = IdsLocaleMixin(
 @customElement('ids-switch')
 @scss(styles)
 export default class IdsSwitch extends Base {
-  input?: HTMLInputElement | null;
+  // input?: HTMLInputElement | null;
 
-  labelEl?: HTMLLabelElement | null;
+  // labelEl?: HTMLLabelElement | null;
 
   /**
    * Call the constructor and then initialize
@@ -61,9 +64,6 @@ export default class IdsSwitch extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
-    this.labelEl = this.shadowRoot?.querySelector('label');
-
     this.#attachEventHandlers();
   }
 
@@ -114,17 +114,8 @@ export default class IdsSwitch extends Base {
           this.offEvent(eventName, this.input);
         }
       } else {
-        this.onEvent(eventName, this.input, (e: Event) => {
+        this.onEvent(eventName, this.input, () => {
           this.checked = !!this.input?.checked;
-
-          this.triggerEvent('input.ids-switch', this, {
-            bubbles: true,
-            detail: {
-              elem: this,
-              value: this.checked,
-              nativeEvent: e,
-            }
-          });
         });
       }
     }
@@ -185,7 +176,6 @@ export default class IdsSwitch extends Base {
    */
   set checked(value: boolean | string) {
     const slider = this.shadowRoot?.querySelector('.slider');
-    this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
     const val = stringToBool(value);
 
     if (val) {
@@ -202,11 +192,31 @@ export default class IdsSwitch extends Base {
   get checked(): boolean { return stringToBool(this.getAttribute(attributes.CHECKED)); }
 
   /**
+   * @readonly
+   * @returns {HTMLInputElement} the inner `input` element
+   * @see IdsFormInputMixin.formInput
+   */
+  get formInput(): HTMLInputElement | null {
+    return this.input ?? null;
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLInputElement} the inner `input` element
+   */
+  get input(): HTMLInputElement | null {
+    return this.shadowRoot?.querySelector<HTMLInputElement>('input[type="checkbox"]') ?? null;
+  }
+
+  get labelEl(): HTMLLabelElement | null {
+    return this.shadowRoot?.querySelector('label') ?? null;
+  }
+
+  /**
    * Sets checkbox to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value: boolean | string) {
-    this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
     const val = stringToBool(value);
     const labelText = this.shadowRoot?.querySelector('.label-text');
 
@@ -243,19 +253,27 @@ export default class IdsSwitch extends Base {
   get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
-   * Sets the checkbox `value` attribute
-   * @param {string | null} val the value property
+   * React to attributes changing on the web-component
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
    */
-  set value(val: string | null) {
-    this.input = this.shadowRoot?.querySelector('input[type="checkbox"]');
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    if (oldValue === newValue) return;
 
-    if (val) {
-      this.setAttribute(attributes.VALUE, val);
-    } else {
-      this.removeAttribute(attributes.VALUE);
+    if (name === attributes.VALUE) {
+      this.checked = !!newValue;
     }
-    this.input?.setAttribute(attributes.VALUE, (val || ''));
-    this.checked = !!val;
+  }
+
+  /**
+   * Sets the checkbox `value` attribute
+   * @param {string} value the value property
+   */
+  set value(value: string) {
+    super.value = value || '';
+    this.checked = !!value;
   }
 
   /**
@@ -267,7 +285,7 @@ export default class IdsSwitch extends Base {
    * If the value attribute is omitted, the default value for the checkbox is `on`.
    * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
    */
-  get value(): string | null { return this.checked ? (this.getAttribute(attributes.VALUE) ?? 'on') : null; }
+  get value(): string { return this.checked ? (super.value ?? 'on') : ''; }
 
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.

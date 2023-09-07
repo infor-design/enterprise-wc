@@ -313,14 +313,15 @@ export default class IdsDropdown extends Base {
     const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(selector);
     if (!elem) return;
 
+    // NOTE: setAttribute() must be called here, before the internal input.value is set below
+    this.setAttribute(attributes.VALUE, String(value));
+
     this.clearSelected();
     this.selectOption(elem);
     this.selectIcon(elem);
     this.selectTooltip(elem);
     if (this.input) this.input.value = elem.textContent?.trim();
     this.state.selectedIndex = [...((elem?.parentElement as any)?.children || [])].indexOf(elem);
-
-    this.setAttribute(attributes.VALUE, String(value));
 
     // Send the change event
     if (this.value === value) {

@@ -1,9 +1,8 @@
 import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor } from '../../core/ids-element';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
-import { LocaleHandler, LocaleMixinInterface } from '../ids-locale-mixin/ids-locale-mixin';
 
-type Constraints = IdsConstructor<EventsMixinInterface & LocaleMixinInterface & LocaleHandler>;
+type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
  * Adds validation to any input field
@@ -11,12 +10,18 @@ type Constraints = IdsConstructor<EventsMixinInterface & LocaleMixinInterface & 
  * @returns {any} The extended object
  */
 const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extends superclass {
-  #internals = this.attachInternals() as any;
-
+  // @see https://webkit.org/blog/13711/elementinternals-and-form-associated-custom-elements/
   static formAssociated = true;
+
+  #internals: ElementInternals;
 
   constructor(...args: any[]) {
     super(...args);
+    this.#internals = this.attachInternals?.();
+
+    if (this.#internals) {
+      this.#internals.ariaLabel = this.name || 'default aria label';
+    }
   }
 
   /**
@@ -45,18 +50,35 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
   connectedCallback() {
     super.connectedCallback?.();
+    this.#ariaDefaults();
 
+    this.offEvent('change.native', this.formInput);
     this.onEvent('change.native', this.formInput, (e: Event) => this.#handleInputEvent(e));
+
+    this.offEvent('input.native', this.formInput);
     this.onEvent('input.native', this.formInput, (e: Event) => this.#handleInputEvent(e));
   }
 
+  #ariaDefaults() {
+    const label = this.getAttribute(attributes.LABEL) ?? this.#internals?.ariaLabel ?? '';
+    this.formInput?.setAttribute('aria-label', label);
+  }
+
   #handleInputEvent(e: Event) {
-    this.#internals.setFormValue(this.value);
+    const value = this.value;
+    this.#internals?.setFormValue?.(value);
+
+    const inputWrapper = (this.getRootNode() as ShadowRoot)?.host;
+    if (inputWrapper) {
+      (inputWrapper as HTMLInputElement).value = value;
+    }
+
     this.triggerEvent(`input.${this.name ?? 'ids-form-input-mixin'}`, this, {
       bubbles: true,
+      composed: true,
       detail: {
         elem: this,
-        value: this.value,
+        value,
         nativeEvent: e,
       }
     });
@@ -66,27 +88,30 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
    * @readonly
    * @returns {HTMLInputElement} the inner `input` element
    */
-  get formInput(): HTMLInputElement | undefined | null {
-    return this.container?.querySelector<HTMLInputElement>(`input`);
+  get formInput(): HTMLInputElement | HTMLTextAreaElement | null {
+    return this.shadowRoot?.querySelector<HTMLInputElement>(`input`) ?? null;
   }
 
-  get form() { return this.#internals.form; }
+  get form() { return this.#internals?.form; }
 
   get type() { return this.localName; }
 
-  get value() { return this.formInput?.getAttribute?.(attributes.VALUE) ?? ''; }
+  get value(): string { return this.formInput?.getAttribute?.(attributes.VALUE) ?? ''; }
 
-  set value(value: string) { this.formInput?.setAttribute?.(attributes.VALUE, value); }
+  set value(value: string) {
+    // NOTE: this.setAttribute() will trigger IdsFormInputMixin.attributeChangedCallback()
+    this.setAttribute(attributes.VALUE, value ?? '');
+  }
 
-  get validity() { return this.#internals.validity; }
+  get validity() { return this.#internals?.validity; }
 
-  get validationMessage() { return this.#internals.validationMessage; }
+  get validationMessage() { return this.#internals?.validationMessage; }
 
-  get willValidate() { return this.#internals.willValidate; }
+  get willValidate() { return this.#internals?.willValidate; }
 
-  checkValidity() { return this.#internals.checkValidity(); }
+  checkValidity() { return this.#internals?.checkValidity?.(); }
 
-  reportValidity() { return this.#internals.reportValidity(); }
+  reportValidity() { return this.#internals?.reportValidity?.(); }
 };
 
 export default IdsFormInputMixin;
