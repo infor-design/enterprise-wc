@@ -2,9 +2,11 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
+import { IdsDeferred } from '../../utils/ids-deferred-utils/ids-deferred-utils';
 
 // Dependencies
 import IdsDataSource from '../../core/ids-data-source';
@@ -14,6 +16,7 @@ import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid
 import { containerArguments, containerTypes } from './ids-data-grid-container-arguments';
 import { IdsDataGridContextmenuArgs, setContextmenu, getContextmenuElem } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
+import IdsGlobal from '../ids-global/ids-global';
 
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import {
@@ -43,7 +46,6 @@ import IdsDataGridSaveSettingsMixin from './ids-data-grid-save-settings-mixin';
 import IdsDataGridTooltipMixin from './ids-data-grid-tooltip-mixin';
 import IdsDataGridCell from './ids-data-grid-cell';
 import { ExcelColumn } from '../../utils/ids-excel-exporter/ids-worksheet-templates';
-import { IdsDeferred } from '../../utils/ids-deferred-utils/ids-deferred-utils';
 
 const Base = IdsPagerMixin(
   IdsDataGridSaveSettingsMixin(
@@ -380,6 +382,12 @@ export default class IdsDataGrid extends Base {
         this.setActiveCell(0, 0, true);
         handleReady();
       });
+    } else {
+      requestAnimationTimeout(() => {
+        if (this.container) {
+          handleReady();
+        }
+      }, 150);
     }
   }
 
@@ -1705,8 +1713,9 @@ export default class IdsDataGrid extends Base {
   set rowStart(rowIndex: number) {
     this.setAttribute(attributes.ROW_START, String(rowIndex || 0));
 
+    // Wait for both theme and data to be loaded before handling rowStart
     Promise.all([
-      window.Ids.themeLoaded?.promise,
+      IdsGlobal.getOnThemeLoaded().promise,
       this.initialDataLoaded.promise
     ]).then(() => {
       this.#scrollRowIntoView(this.rowStart);
