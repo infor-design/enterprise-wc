@@ -1223,7 +1223,9 @@ export default class IdsDataGrid extends Base {
       this.body.innerHTML += missingRows.join('');
     }
 
-    if (rowsNeeded === 0 || data.length - 1 > lastRowIndex) {
+    // trigger recycling if missingRows is 0 because MAX_ROWS_IN_DOMS has
+    // been reached but there is still new row data to be rendered
+    if (missingRows.length === 0 && data.length - 1 > lastRowIndex) {
       this.#handleVirtualScroll(ROW_HEIGHT);
     }
   }

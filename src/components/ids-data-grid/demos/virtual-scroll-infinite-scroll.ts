@@ -103,8 +103,8 @@ dataGrid.addEventListener('scrollend', async (e: Event) => {
   const endIndex = (<CustomEvent>e).detail?.value || 0;
 
   const moreData = await fetchData(endIndex + 1);
-  setTimeout(() => {
-    if (moreData.length) dataGrid.appendData(moreData);
+  if (moreData.length) {
+    dataGrid.appendData(moreData);
     console.info(`${moreData.length} more rows added`);
-  }, 500);
+  }
 });

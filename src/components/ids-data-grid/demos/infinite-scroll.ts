@@ -90,7 +90,7 @@ const fetchData = async (startIndex = 0) => {
   if (startIndex > MAX_RESULTS_COUNT) return [];
 
   const numRowsNeeded = Math.max((MAX_RESULTS_COUNT - startIndex), 0);
-  return data.splice(startIndex, Math.min(numRowsNeeded, 33));
+  return data.splice(startIndex, Math.min(numRowsNeeded, startIndex === 0 ? 66 : 33));
 };
 
 const setData = async () => {
