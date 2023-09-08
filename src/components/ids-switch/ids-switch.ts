@@ -32,10 +32,6 @@ const Base = IdsLocaleMixin(
 @customElement('ids-switch')
 @scss(styles)
 export default class IdsSwitch extends Base {
-  // input?: HTMLInputElement | null;
-
-  // labelEl?: HTMLLabelElement | null;
-
   /**
    * Call the constructor and then initialize
    */
