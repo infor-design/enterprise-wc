@@ -2730,8 +2730,7 @@ export default class IdsDataGrid extends Base {
           return false;
         }
       }
-      return true;
     }
-    return false;
+    return true;
   }
 }

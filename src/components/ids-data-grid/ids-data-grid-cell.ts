@@ -207,7 +207,7 @@ export default class IdsDataGridCell extends IdsElement {
     this.isEditing = true;
 
     // Save on Click Out Event
-    if (this.editor.type === 'timepicker') {
+    if (['datepicker', 'timepicker'].includes(this.editor.type)) {
       this.editor.input?.onEvent('focusout', this.editor.input, () => {
         if (this.editor?.popup?.visible) return;
         this.endCellEdit();
@@ -239,11 +239,11 @@ export default class IdsDataGridCell extends IdsElement {
       (<IdsInput>input)?.checkValidation();
     }
 
-    if (editorType === 'dropdown' || editorType === 'datepicker') {
+    if (editorType === 'dropdown') {
       (<IdsDropdown>input)?.input?.checkValidation();
     }
 
-    if (editorType === 'timepicker') {
+    if (editorType === 'timepicker' || editorType === 'datepicker') {
       (<IdsTriggerField>input)?.checkValidation();
     }
 
