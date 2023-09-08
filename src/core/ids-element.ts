@@ -247,7 +247,7 @@ export default class IdsElement extends HTMLElement {
       setTimeout(() => {
         document.querySelector('ids-container')?.removeAttribute('hidden');
         themeLoaded.resolve();
-      }, 160);
+      }, 150);
       return;
     }
 
@@ -283,7 +283,7 @@ export default class IdsElement extends HTMLElement {
     setTimeout(() => {
       document.querySelector('ids-container')?.removeAttribute('hidden');
       themeLoaded.resolve();
-    }, 160);
+    }, 150);
   }
 
   /**
