@@ -446,3 +446,8 @@ td.ids-data-grid-cell {
     }
   }
 }
+
+// Fix slotted trigger button margins when nested within cells
+.ids-trigger-field-slot-trigger-end {
+  margin-inline-end: 0;
+}

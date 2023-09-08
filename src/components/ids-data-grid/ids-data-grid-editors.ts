@@ -12,7 +12,6 @@ import type IdsDataGridCell from './ids-data-grid-cell';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import IdsLocale from '../ids-locale/ids-locale';
-import type { IdsDataGridColumnFormatOptions } from './ids-data-grid-column';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
@@ -439,7 +438,11 @@ export class TimePickerEditor implements IdsDataGridEditor {
 
     component.insertAdjacentHTML(
       'beforeend',
-      `<ids-trigger-button id="${cell.column.field}-time-picker-btn" slot="trigger-end" icon="clock"></ids-trigger-button>`
+      `<ids-trigger-button
+        class="ids-trigger-field-slot-trigger-end"
+        id="${cell.column.field}-time-picker-btn"
+        slot="trigger-end"
+        icon="clock"></ids-trigger-button>`
     );
 
     return component;
@@ -467,10 +470,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
     const focusOutHandler = (evt: FocusEvent) => this.#stopPropagation(evt);
 
     this.input?.onEvent('focusout', this.input, focusOutHandler, { capture: true });
-    this.popup?.onEvent('focusout', this.popup, focusOutHandler, { capture: true });
-
     this.input?.listen(['Tab', 'Enter'], this.input, tabHandler);
-    this.popup?.listen(['Tab', 'Enter'], this.popup, tabHandler);
 
     this.popup?.onEvent('hide', this.popup, () => {
       cell?.endCellEdit();
@@ -492,6 +492,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
     this.input?.offEvent('focusout');
     this.input?.detachAllListeners();
     this.input?.remove();
+    this.popup?.offEvent('hide');
     this.popup?.detachAllListeners();
     this.popup?.remove();
 
