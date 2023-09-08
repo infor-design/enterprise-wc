@@ -2,11 +2,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
-import { IdsDeferred } from '../../utils/ids-deferred-utils/ids-deferred-utils';
 
 // Dependencies
 import IdsDataSource from '../../core/ids-data-source';
@@ -102,8 +100,6 @@ export default class IdsDataGrid extends Base {
    * Types for contextmenu.
    */
   contextmenuTypes = { ...containerTypes };
-
-  initialDataLoaded = new IdsDeferred();
 
   constructor() {
     super();
@@ -367,7 +363,7 @@ export default class IdsDataGrid extends Base {
   }
 
   /** Do some things after redraw */
-  afterRedraw() {
+  async afterRedraw() {
     const rowStart = this.rowStart || 0;
 
     // Handle ready state
@@ -383,11 +379,10 @@ export default class IdsDataGrid extends Base {
         handleReady();
       });
     } else {
-      requestAnimationTimeout(() => {
-        if (this.container) {
-          handleReady();
-        }
-      }, 150);
+      await IdsGlobal.getOnThemeLoaded().promise;
+      this.#scrollRowIntoView(rowStart);
+      this.body?.classList.remove('hidden');
+      handleReady();
     }
   }
 
@@ -413,7 +408,10 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
-    return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
+    let extraCss = '';
+    extraCss += this.rowStart ? 'hidden' : '';
+
+    return `<div class="ids-data-grid-body ${extraCss}" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
   /**
@@ -1223,7 +1221,6 @@ export default class IdsDataGrid extends Base {
       this.datasource.data = value;
       this.initialized = true;
       this.redraw();
-      this.initialDataLoaded.resolve();
     } else {
       this.datasource.data = [];
     }
@@ -1712,14 +1709,6 @@ export default class IdsDataGrid extends Base {
    */
   set rowStart(rowIndex: number) {
     this.setAttribute(attributes.ROW_START, String(rowIndex || 0));
-
-    // Wait for both theme and data to be loaded before handling rowStart
-    Promise.all([
-      IdsGlobal.getOnThemeLoaded().promise,
-      this.initialDataLoaded.promise
-    ]).then(() => {
-      this.#scrollRowIntoView(this.rowStart);
-    });
   }
 
   /**
