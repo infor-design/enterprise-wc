@@ -93,7 +93,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   columns.push({
     id: 'publishTime',
     name: 'Pub. Time',
-    field: 'publishTime',
+    field: 'publishDate',
     resizable: true,
     reorderable: true,
     formatter: dataGrid.formatters.time,
