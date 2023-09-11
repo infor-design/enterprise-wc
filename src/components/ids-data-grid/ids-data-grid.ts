@@ -379,7 +379,7 @@ export default class IdsDataGrid extends Base {
         handleReady();
       });
     } else {
-      await IdsGlobal.getOnThemeLoaded().promise;
+      await IdsGlobal.onThemeLoaded().promise;
       this.#scrollRowIntoView(rowStart);
       this.body?.classList.remove('hidden');
       handleReady();

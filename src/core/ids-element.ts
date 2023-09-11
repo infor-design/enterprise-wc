@@ -235,7 +235,7 @@ export default class IdsElement extends HTMLElement {
     if (this.lastTheme === theme) return;
     this.lastTheme = theme;
 
-    const themeLoaded = IdsGlobal.getOnThemeLoaded();
+    const themeLoaded = IdsGlobal.onThemeLoaded();
 
     // Handle setting theme via links
     document.querySelector('ids-container')?.setAttribute('hidden', '');

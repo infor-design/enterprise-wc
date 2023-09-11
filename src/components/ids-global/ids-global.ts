@@ -23,7 +23,7 @@ class IdsGlobal {
     return window.IdsGlobal.locale;
   }
 
-  static getOnThemeLoaded(): IdsDeferred {
+  static onThemeLoaded(): IdsDeferred {
     if (!window.IdsGlobal.themeLoaded) {
       window.IdsGlobal.themeLoaded = new IdsDeferred();
     }
