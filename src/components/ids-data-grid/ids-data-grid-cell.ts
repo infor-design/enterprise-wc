@@ -210,7 +210,10 @@ export default class IdsDataGridCell extends IdsElement {
     if (['datepicker', 'timepicker'].includes(this.editor.type)) {
       this.editor.input?.onEvent('focusout', this.editor.input, () => {
         if (this.editor?.popup?.visible) return;
-        this.endCellEdit();
+        setTimeout(() => {
+          if (this.contains(this.dataGrid!.shadowRoot!.activeElement)) return;
+          this.endCellEdit();
+        });
       });
     } else {
       this.editor.input?.onEvent('focusout', this.editor.input, () => {

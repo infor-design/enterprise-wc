@@ -282,6 +282,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
 
     if (this.popup) {
       const popup = this.popup;
+      this.popup.value = this.#displayValue;
       this.popup.attachment = '.ids-data-grid-wrapper';
       this.popup.slot = 'menu-container';
 
@@ -376,7 +377,8 @@ export class DatePickerEditor implements IdsDataGridEditor {
     const focusOutHandler = (evt: FocusEvent) => this.#stopPropagation(evt);
     this.input?.onEvent('focusout', this.input, focusOutHandler, { capture: true });
     this.popup?.onEvent('hide', this.popup, () => {
-      cell?.endCellEdit();
+      if (cell!.contains(cell!.dataGrid!.shadowRoot!.activeElement)) return;
+      cell?.focus();
     });
   }
 
@@ -522,9 +524,9 @@ export class TimePickerEditor implements IdsDataGridEditor {
 
     this.input?.onEvent('focusout', this.input, focusOutHandler, { capture: true });
     this.input?.listen(['Tab', 'Enter'], this.input, tabHandler);
-
     this.popup?.onEvent('hide', this.popup, () => {
-      cell?.endCellEdit();
+      if (cell!.contains(cell!.dataGrid!.shadowRoot!.activeElement)) return;
+      cell?.focus();
     });
   }
 
