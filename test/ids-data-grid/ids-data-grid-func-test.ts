@@ -90,7 +90,10 @@ describe('IdsDataGrid Component', () => {
       id: 'publishTime',
       name: 'Pub. Time',
       field: 'publishDate',
-      formatter: formatters.time
+      formatter: formatters.time,
+      formatOptions: {
+        pattern: 'h:mm a'
+      },
     });
     cols.push({
       id: 'price',
@@ -3250,7 +3253,7 @@ describe('IdsDataGrid Component', () => {
 
       // activate cell editing
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-      const datePicker = gridCell.querySelector('ids-date-picker');
+      const datePicker = gridCell.querySelector('ids-trigger-field'); // connected to IdsDatePickerPopup
       expect(datePicker).toBeDefined();
 
       // set new value
@@ -3276,7 +3279,7 @@ describe('IdsDataGrid Component', () => {
 
       // activate cell editing
       dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-      const timePicker = gridCell.querySelector('ids-time-picker');
+      const timePicker = gridCell.querySelector('ids-trigger-field'); // connected to IdsTimePickerPopup
       expect(timePicker).toBeDefined();
       expect(timePicker.value).toEqual('2:25 PM');
 
