@@ -464,6 +464,14 @@ export class TimePickerEditor implements IdsDataGridEditor {
       this.popup.popup!.y = 16;
       this.popup.refreshTriggerEvents();
 
+      if (this.#originalDate) {
+        const hours = this.#originalDate.getHours();
+        this.popup.hours = hours > 11 ? hours - 12 : hours;
+        this.popup.minutes = this.#originalDate.getMinutes();
+        this.popup.seconds = this.#originalDate.getSeconds();
+        this.popup.period = hours > 11 ? 'PM' : 'AM';
+      }
+
       if (autoOpen) {
         this.popup.show();
         this.popup.focus();
@@ -533,7 +541,21 @@ export class TimePickerEditor implements IdsDataGridEditor {
   save() {
     let date;
     const inputValue = this.input!.value;
-    if (inputValue) date = this.#localeAPI!.parseDate(inputValue, { pattern: this.input!.format }, true) as Date;
+    if (inputValue) {
+      date = this.#localeAPI!.parseDate(inputValue, { pattern: this.input!.format }, true) as Date;
+
+      // Timepicker formats don't include the "date" portion,
+      // So this fills in the missing parts from the `#originalDate` if possible to save a valid date value.
+      if (this.#originalDate && (
+        this.#originalDate.getMonth() !== date.getMonth()
+        || this.#originalDate.getFullYear() !== date.getFullYear()
+        || this.#originalDate.getDate() !== date.getDate()
+      )) {
+        date.setMonth(this.#originalDate.getMonth());
+        date.setFullYear(this.#originalDate.getFullYear());
+        date.setDate(this.#originalDate.getDate());
+      }
+    }
 
     return {
       value: date && isValidDate(date) ? date.toISOString() : undefined,

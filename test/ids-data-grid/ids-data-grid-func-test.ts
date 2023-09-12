@@ -78,11 +78,10 @@ describe('IdsDataGrid Component', () => {
       field: 'publishDate',
       formatter: formatters.date,
       editor: {
-        type: 'input',
+        type: 'datepicker',
         editorSettings: {
           autoselect: true,
-          dirtyTracker: false,
-          mask: 'date'
+          dirtyTracker: false
         }
       }
     });
@@ -94,6 +93,12 @@ describe('IdsDataGrid Component', () => {
       formatOptions: {
         pattern: 'h:mm a'
       },
+      editor: {
+        type: 'timepicker',
+        editorSettings: {
+          format: 'h:mm a',
+        }
+      }
     });
     cols.push({
       id: 'price',
@@ -3238,16 +3243,6 @@ describe('IdsDataGrid Component', () => {
     });
 
     it('supports a datepicker editor', () => {
-      const columnsCopy = columns();
-      const publishDateCol = columnsCopy.find((col) => col.id === 'publishDate');
-      publishDateCol!.editor = {
-        type: 'datepicker',
-        editorSettings: {
-          dirtyTracker: true
-        }
-      };
-      dataGrid.columns = columnsCopy;
-
       const activeCell = dataGrid.setActiveCell(4, 0);
       const gridCell = activeCell.node;
 
@@ -3264,16 +3259,6 @@ describe('IdsDataGrid Component', () => {
     });
 
     it('supports a timepicker editor', () => {
-      const columnsCopy = columns();
-      const publishDateCol = columnsCopy.find((col) => col.id === 'publishTime');
-      publishDateCol!.editor = {
-        type: 'timepicker',
-        editorSettings: {
-          dirtyTracker: true
-        }
-      };
-      dataGrid.columns = columnsCopy;
-
       const activeCell = dataGrid.setActiveCell(5, 0);
       const gridCell = activeCell.node;
 
