@@ -12,7 +12,6 @@ import type IdsTimePickerPopup from '../ids-time-picker/ids-time-picker-popup';
 import type IdsDataGridCell from './ids-data-grid-cell';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
-import IdsLocale from '../ids-locale/ids-locale';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
@@ -421,20 +420,17 @@ export class TimePickerEditor implements IdsDataGridEditor {
 
   #originalDate?: Date;
 
-  #localeAPI?: IdsLocale;
-
   init(cell?: IdsDataGridCell | undefined) {
     this.input = this.#buildTimePickerTriggerField(cell!);
     this.popup = this.#buildTimePickerPopup(cell!);
-    this.#localeAPI = cell!.dataGrid.localeAPI!;
     const autoOpen = (<HTMLElement> this.clickEvent?.target)?.classList?.contains('editor-cell-icon');
 
     // parse date string
     const dateString = cell!.originalValue as string ?? '';
-    const date = this.#localeAPI.parseDate(dateString, undefined, true) as Date;
+    const date = cell!.dataGrid!.localeAPI!.parseDate(dateString, undefined, true) as Date;
     const isValid = isValidDate(date);
     this.#originalDate = isValid ? date : undefined;
-    this.input.value = isValid ? this.#localeAPI.formatDate(this.#originalDate, { pattern: this.input.format }) : '';
+    this.input.value = isValid ? cell!.dataGrid!.localeAPI!.formatDate(this.#originalDate, { pattern: this.input.format }) : '';
 
     // insert time picker and focus
     cell!.innerHTML = '';
@@ -538,11 +534,11 @@ export class TimePickerEditor implements IdsDataGridEditor {
     });
   }
 
-  save() {
+  save(cell?: IdsDataGridCell) {
     let date;
     const inputValue = this.input!.value;
     if (inputValue) {
-      date = this.#localeAPI!.parseDate(inputValue, { pattern: this.input!.format }, true) as Date;
+      date = cell!.dataGrid.localeAPI!.parseDate(inputValue, { pattern: this.input!.format }, true) as Date;
 
       // Timepicker formats don't include the "date" portion,
       // So this fills in the missing parts from the `#originalDate` if possible to save a valid date value.
@@ -570,9 +566,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
     this.popup?.offEvent('hide');
     this.popup?.detachAllListeners();
     this.popup?.remove();
-
     this.#originalDate = undefined;
-    this.#localeAPI = undefined;
   }
 
   value() {
