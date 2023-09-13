@@ -398,7 +398,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
   }
 
   /**
-   * minute-interval attribute
+   * Minute Interval attribute
    * @returns {number} minuteInterval value
    */
   get minuteInterval(): number {

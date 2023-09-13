@@ -2,16 +2,17 @@ import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import productsJSON from '../../../assets/data/products.json';
+import IdsGlobal from '../../ids-global/ids-global';
 import '../../ids-layout-flex/ids-layout-flex';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-frozen');
-const container: any = document.querySelector('ids-container');
+const locale = IdsGlobal.getLocale();
 
 if (dataGrid) {
   (async function init() {
     // Set Locale and wait for it to load
-    await container?.setLocale('en-US');
+    await locale?.setLocale('en-US');
 
     // Do an ajax request
     const url: any = productsJSON.slice(0, 50);

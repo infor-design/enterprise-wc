@@ -2,16 +2,16 @@
 import '../ids-lookup';
 
 import booksJSON from '../../../assets/data/books.json';
+import IdsGlobal from '../../ids-global/ids-global';
 
 // Example for populating the DataGrid
 const lookup: Element | any = document.querySelector('#lookup-1');
-const container: Element | any = document.querySelector('ids-container');
 const autocompleteLookup: Element | any = document.querySelector('#lookup-6');
 const autocomplete: Element | any = autocompleteLookup?.shadowRoot?.querySelector('ids-trigger-field');
 
 (async function init() {
   // Set a Locale and wait for it to load
-  await container.setLocale('en-US');
+  await IdsGlobal.getLocale().setLocale('en-US');
 
   // Do an ajax request
   const url: any = booksJSON;

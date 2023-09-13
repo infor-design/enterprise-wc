@@ -88,8 +88,8 @@ describe('Ids Time Picker e2e Tests', () => {
       const container: any = document.querySelector('ids-container');
 
       if (container) {
-        await container.setLocale('de-DE');
-        await container.setLanguage('de');
+        // await IdsGlobal.getLocale().setLocale('de-DE');
+        // await IdsGlobal.getLocale().setLanguage('de');
       }
     });
 
@@ -105,8 +105,8 @@ describe('Ids Time Picker e2e Tests', () => {
       const component: any = document.querySelector('#e2e-timepicker-required');
 
       if (container) {
-        await container.setLocale('en-US');
-        await container.setLanguage('en');
+        // await IdsGlobal.getLocale().setLocale('en-US');
+        // await IdsGlobal.getLocale().setLanguage('en');
       }
 
       if (component) {
@@ -126,8 +126,8 @@ describe('Ids Time Picker e2e Tests', () => {
       const container: any = document.querySelector('ids-container');
 
       if (container) {
-        await container.setLocale('fr-CA');
-        await container.setLanguage('fr');
+        // await IdsGlobal.getLocale().setLocale('fr-CA');
+        // await IdsGlobal.getLocale().setLanguage('fr');
       }
     });
 

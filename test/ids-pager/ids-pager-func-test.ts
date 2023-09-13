@@ -5,12 +5,10 @@
 import processAnimFrame from '../helpers/process-anim-frame';
 import '../helpers/resize-observer-mock';
 import '../../src/components/ids-input/ids-input';
-import IdsContainer from '../../src/components/ids-container/ids-container';
 import '../../src/components/ids-pager/ids-pager';
 import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
-import IdsLocaleData from '../../src/components/ids-locale/ids-locale-data';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
-import IdsPagerButton from '../../src/components/ids-pager/ids-pager-button';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 const HTMLSnippets = {
   NAV_BUTTONS_WITHOUT_NESTING: (
@@ -97,12 +95,10 @@ const HTMLSnippets = {
 
 describe('IdsPager Component', () => {
   let elem: any;
-  let container: any;
 
   const createElemViaTemplate = async (innerHTML: any) => {
     elem?.remove?.();
-    container = new IdsContainer();
-    IdsLocaleData.loadedLanguages.set('de', deMessages);
+    IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
 
     const template = document.createElement('template');
     template.innerHTML = innerHTML;
@@ -811,14 +807,5 @@ describe('IdsPager Component', () => {
     elem.parentDisabled = false;
     expect(elem.parentDisabled).toEqual(false);
     expect(elem.hasAttribute('parent-disabled')).toEqual(false);
-  });
-
-  it('can change child languages', async () => {
-    const button1 = new IdsPagerButton();
-    container.appendChild(button1);
-    await container.setLanguage('de');
-    await processAnimFrame();
-    expect(button1.getAttribute('language')).toEqual('de');
-    expect(button1.language.name).toEqual('de');
   });
 });

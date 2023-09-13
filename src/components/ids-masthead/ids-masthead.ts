@@ -280,8 +280,7 @@ export default class IdsMasthead extends Base {
       if (button) {
         button.colorVariant = 'alternate';
         button.iconAlign = 'start';
-        button.square = true;
-        button.type = 'default';
+        button.type = 'button';
 
         const buttonParentSlot = button.closest('[slot]');
         const buttonText = button.querySelector<HTMLElement>('span, ids-text');

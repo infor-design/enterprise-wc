@@ -7,6 +7,7 @@ import IdsMonthView from '../../src/components/ids-month-view/ids-month-view';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import eventsData from '../../src/assets/data/events.json';
 import eventTypesData from '../../src/assets/data/event-types.json';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 const name = 'ids-month-view';
 const month = 0;
@@ -84,8 +85,8 @@ describe('IdsMonthView Component (using properties)', () => {
     component.showPicklistMonth = false;
     component.showPicklistWeek = true;
 
-    await container.setLanguage('en');
-    await container.setLocale('en-US');
+    await IdsGlobal.getLocale().setLanguage('en');
+    await IdsGlobal.getLocale().setLocale('en-US');
 
     container.appendChild(component);
   });

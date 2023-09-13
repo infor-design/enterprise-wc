@@ -1,14 +1,15 @@
 import '../ids-data-grid';
 import booksJSON from '../../../assets/data/books.json';
+import IdsGlobal from '../../ids-global/ids-global';
 
 // Example for populating the DataGrid
 const dataGrid: any = document.querySelector('#data-grid-contextmenu-thru-id');
-const container: any = document.querySelector('ids-container');
+const locale = IdsGlobal.getLocale();
 
 if (dataGrid) {
   (async function init() {
     // Set Locale and wait for it to load
-    await container?.setLocale('en-US');
+    await locale.setLocale('en-US');
 
     // Do an ajax request
     const url: any = booksJSON;

@@ -7,8 +7,11 @@
   align-items: center;
   justify-content: center;
   padding-inline: var(--ids-masthead-padding-inline);
-  min-height: var(--ids-masthead-height-min);
+  height: var(--ids-masthead-height);
   transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
+
+  --ids-button-formatter-color-background-hover: transparant;
+  --ids-button-formatter-color-text-hover: var(--ids-masthead-color-hover);
 
   #logo.icon-logo {
     padding-inline: var(--ids-masthead-logo-padding-icon-inline);

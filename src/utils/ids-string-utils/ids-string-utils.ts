@@ -1,6 +1,6 @@
 /**
  * Convert a string in presumed kebab case to camel case
- * @param {string} str [description]
+ * @param {string} str description
  * @returns {string} The return string
  */
 export function camelCase(str: string): string {

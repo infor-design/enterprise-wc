@@ -9,8 +9,10 @@
 - `[DataGrid]` Added new colored header and related styles. ([#1285](https://github.com/infor-design/enterprise-wc/issues/1285))
 - `[Editor]` Added new toolbar styles in all themes. ([#7606](https://github.com/infor-design/enterprise-wc/issues/7606))
 - `[Editor]` Fixed issue where buttons are disabled in source view. ([#1195](https://github.com/infor-design/enterprise-wc/issues/1195))
+- `[Locale]` Made Locale a global instance and moved it off ids-container and related fixes. ([#663](https://github.com/infor-design/enterprise-wc/issues/663))
 - `[Message]` Fix modal button separator. ([#1414](https://github.com/infor-design/enterprise-wc/issues/1414))
 - `[ModuleNav]` Added IdsModuleNav component with basic Role Switcher, Settings component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
+- `[PopupMenu]` Add support for RTL. ([#1429](https://github.com/infor-design/enterprise-wc/issues/1429))
 - `[Toolbar]` Added tooltip to the more button on toolbars. ([#1318](https://github.com/infor-design/enterprise-wc/issues/1318))
 
 ### 1.0.0-beta.15 Fixes
