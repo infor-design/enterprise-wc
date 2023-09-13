@@ -467,19 +467,15 @@ for (const col of dataGrid.columns) {
   }
 }
 const MAX_RESULTS_COUNT = 1386;
-let data: any = null;
 const fetchData = async (startIndex = 0) => {
-  if (data === null) {
-    const res = await fetch(url);
-    const results = await res.json();
-    data = results.slice(0, MAX_RESULTS_COUNT);
-  }
+  const res = await fetch(url);
+  const results = await res.json();
+  const data = results.slice(0, MAX_RESULTS_COUNT);
 
   if (startIndex > MAX_RESULTS_COUNT) return [];
 
   const numRowsNeeded = Math.max((MAX_RESULTS_COUNT - startIndex), 0);
-  const dataSet = data.splice(0, Math.min(numRowsNeeded, startIndex === 0 ? 66 : 33));
-  return dataSet;
+  return data.splice(startIndex, Math.min(numRowsNeeded, startIndex === 0 ? 66 : 33));
 };
 
 const setData = async () => {
@@ -496,6 +492,7 @@ setData();
 dataGrid.addEventListener('scrollend', async (e: Event) => {
   const endIndex = (<CustomEvent>e).detail?.value || 0;
   const moreData = await fetchData(endIndex + 1);
+
   if (moreData.length) {
     dataGrid.appendData(moreData);
     console.info('scrollend >>>', moreData.length);

@@ -1174,6 +1174,8 @@ export default class IdsDataGrid extends Base {
    * @param {Array} value The array to use
    */
   appendData(value: Array<Record<string, any>>) {
+    if (!value?.length) return;
+
     if (this.virtualScroll) {
       // NOTE: using originalData skips pagination-logic; it's ok in context of infinite-scroll
       this.datasource.data = this.datasource.originalData.concat(value);
@@ -1191,7 +1193,7 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
     if (!data.length || !rows.length) return;
 
-    const { MAX_ROWS_IN_DOM } = this.virtualScrollSettings;
+    const { MAX_ROWS_IN_DOM, ROW_HEIGHT } = this.virtualScrollSettings;
 
     const rowsNeeded = Math.min(data.length, MAX_ROWS_IN_DOM) - rows.length;
     const missingRows: any[] = [];
@@ -1207,6 +1209,12 @@ export default class IdsDataGrid extends Base {
 
     if (missingRows.length && this.body) {
       this.body.innerHTML += missingRows.join('');
+    }
+
+    // trigger recycling if missingRows is 0 because MAX_ROWS_IN_DOMS has
+    // been reached but there is still new row data to be rendered
+    if (missingRows.length === 0 && data.length - 1 > lastRowIndex) {
+      this.#handleVirtualScroll(ROW_HEIGHT);
     }
   }
 
