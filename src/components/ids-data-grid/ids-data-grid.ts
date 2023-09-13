@@ -2,7 +2,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
@@ -15,6 +14,7 @@ import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid
 import { containerArguments, containerTypes } from './ids-data-grid-container-arguments';
 import { IdsDataGridContextmenuArgs, setContextmenu, getContextmenuElem } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
+import IdsGlobal from '../ids-global/ids-global';
 
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import {
@@ -363,7 +363,7 @@ export default class IdsDataGrid extends Base {
   }
 
   /** Do some things after redraw */
-  afterRedraw() {
+  async afterRedraw() {
     const rowStart = this.rowStart || 0;
 
     // Handle ready state
@@ -379,25 +379,10 @@ export default class IdsDataGrid extends Base {
         handleReady();
       });
     } else {
-      requestAnimationTimeout(() => {
-        if (this.container) {
-          let scrollTopPixels = rowStart * (this.virtualScrollSettings.ROW_HEIGHT);
-          if (!this.virtualScrollSettings.ENABLED) {
-            const containerTopPosition = this.container.getBoundingClientRect().top;
-            scrollTopPixels = this.rowByIndex(rowStart)?.getBoundingClientRect?.()?.y ?? scrollTopPixels;
-            scrollTopPixels -= containerTopPosition;
-          }
-
-          const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
-          this.container.scrollTop = scrollTopPixels - headerHeight;
-          this.#scrollRowIntoView(rowStart);
-          requestAnimationTimeout(() => {
-            this.#attachVirtualScrollEvent();
-            this.#scrollRowIntoView(this.rowStart);
-          }, 150);
-          handleReady();
-        }
-      }, 150);
+      await IdsGlobal.onThemeLoaded().promise;
+      this.#scrollRowIntoView(rowStart);
+      this.body?.classList.remove('hidden');
+      handleReady();
     }
   }
 
@@ -423,7 +408,10 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
-    return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
+    let extraCss = '';
+    extraCss += this.rowStart ? 'hidden' : '';
+
+    return `<div class="ids-data-grid-body ${extraCss}" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
   /**
