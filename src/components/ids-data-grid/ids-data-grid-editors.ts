@@ -102,7 +102,6 @@ export class InputEditor implements IdsDataGridEditor {
     if (this.input) this.input.value = String(newValue);
   }
 }
-
 export class CheckboxEditor implements IdsDataGridEditor {
   /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type = 'checkbox';

@@ -12,7 +12,7 @@
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
-        <ids-toolbar padding="5">
+        <ids-toolbar>
           <ids-toolbar-section align="end" favor>
             <ids-menu-button id="menu-button" menu="row-height-menu">
               <ids-icon icon="more"></ids-icon>
@@ -22,15 +22,15 @@
               <ids-menu-group select="single">
                 <ids-menu-header><ids-text font-weight="semi-bold">Row Height</ids-text></ids-menu-header>
                 <ids-menu-item value="xxs">Extra Extra Small</ids-menu-item>
-                <ids-menu-item value="xs" selected="true">Extra Small</ids-menu-item>
+                <ids-menu-item value="xs">Extra Small</ids-menu-item>
                 <ids-menu-item value="sm">Small</ids-menu-item>
                 <ids-menu-item value="md">Medium</ids-menu-item>
-                <ids-menu-item value="lg">Large</ids-menu-item>
+                <ids-menu-item value="lg" selected="true">Large</ids-menu-item>
               </ids-menu-group>
             </ids-popup-menu>
           </ids-toolbar-section>
         </ids-toolbar>
-        <ids-data-grid id="data-grid-row-height" row-selection="multiple" label="Row Height" row-height="xs"></ids-data-grid>
+        <ids-data-grid id="data-grid-row-height" row-selection="multiple" label="Row Height" row-height="lg"></ids-data-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
