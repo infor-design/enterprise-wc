@@ -120,8 +120,6 @@ button {
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
 
-  color: var(--ids-button-color-text-default);
-
   // Everything below is only for icon buttons
   padding-inline-start: var(--ids-button-icon-padding);
   padding-inline-end: var(--ids-button-icon-padding);
