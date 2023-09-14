@@ -1,3 +1,6 @@
+import IdsIcon from '../../ids-icon/ids-icon';
+import appIconJSON from '../../ids-icon/demos/app-icon-data.json';
+
 import '../ids-module-nav';
 import '../ids-module-nav-bar';
 import '../ids-module-nav-button';
@@ -24,6 +27,14 @@ import '../../ids-toolbar/ids-toolbar-section';
 import type { IdsModuleNavDisplayMode } from '../ids-module-nav-common';
 
 let menuState: IdsModuleNavDisplayMode = 'collapsed';
+
+// Add App Icons from data
+(async function initIcons() {
+  const appIconUrl: any = appIconJSON;
+  const appIconRes = await fetch(appIconUrl);
+  const appIconData = await appIconRes.json();
+  IdsIcon.customIconData = appIconData;
+}());
 
 document.addEventListener('DOMContentLoaded', () => {
   const moduleNav: any = document.querySelector('ids-module-nav');

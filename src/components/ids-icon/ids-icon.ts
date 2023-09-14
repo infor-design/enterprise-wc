@@ -54,10 +54,12 @@ export default class IdsIcon extends Base {
       ...super.attributes,
       attributes.BADGE_COLOR,
       attributes.BADGE_POSITION,
+      attributes.FILL,
       attributes.HEIGHT,
       attributes.ICON,
       attributes.SIZE,
       attributes.STATUS_COLOR,
+      attributes.STROKE,
       attributes.VERTICAL,
       attributes.VIEWBOX,
       attributes.WIDTH
@@ -85,7 +87,14 @@ export default class IdsIcon extends Base {
     } else {
       viewBox = '0 0 18 18';
     }
-    let template = `<svg part="svg" xmlns="http://www.w3.org/2000/svg"${this.isMirrored(this.icon) ? ` class="mirrored"` : ''} stroke="currentColor" fill="none" viewBox="${viewBox}" aria-hidden="true">
+    let template = `<svg
+      part="svg"
+      xmlns="http://www.w3.org/2000/svg"
+      ${this.isMirrored(this.icon) ? ` class="mirrored"` : ''}
+      stroke="currentColor"
+      fill="none"
+      viewBox="${viewBox}"
+      aria-hidden="true">
       ${this.iconData()}
     </svg>`;
     if (this.badgePosition && this.badgeColor) {
@@ -274,6 +283,26 @@ export default class IdsIcon extends Base {
   }
 
   /**
+   * Return the fill value
+   * @returns {string | null} the fill value for the outer SVG element
+   */
+  get fill(): string | null {
+    return this.getAttribute(attributes.FILL) || 'none';
+  }
+
+  /**
+   * @param {string | null} value set a custom fill for the outer SVG element
+   */
+  set fill(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.FILL, value);
+    } else {
+      this.removeAttribute(attributes.FILL);
+    }
+    this.#adjustFill();
+  }
+
+  /**
    * Returns the height attribute
    * @returns {string} a stringified height number
    */
@@ -295,6 +324,26 @@ export default class IdsIcon extends Base {
   }
 
   /**
+   * Return the stroke value
+   * @returns {string | null} the stroke value for the outer SVG element
+   */
+  get stroke(): string | null {
+    return this.getAttribute(attributes.STROKE) || 'currentColor';
+  }
+
+  /**
+   * @param {string | null} value set a custom stroke for the outer SVG element
+   */
+  set stroke(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.STROKE, value);
+    } else {
+      this.removeAttribute(attributes.STROKE);
+    }
+    this.#adjustStroke();
+  }
+
+  /**
    * Return the viewbox
    * @returns {string | null} the string of viewbox numbers
    */
@@ -308,10 +357,10 @@ export default class IdsIcon extends Base {
   set viewbox(value: string | null) {
     if (value) {
       this.setAttribute(attributes.VIEWBOX, value);
-      this.#adjustViewbox();
     } else {
       this.removeAttribute(attributes.VIEWBOX);
     }
+    this.#adjustViewbox();
   }
 
   /**
@@ -401,6 +450,22 @@ export default class IdsIcon extends Base {
 
   get statusColor(): string {
     return this.getAttribute(attributes.STATUS_COLOR) || '';
+  }
+
+  #adjustFill(): void {
+    let fill = 'none';
+    if (this.fill) {
+      fill = this.fill;
+    }
+    this.container?.setAttribute(attributes.FILL, fill);
+  }
+
+  #adjustStroke(): void {
+    let stroke = 'currentColor';
+    if (this.stroke) {
+      stroke = this.stroke;
+    }
+    this.container?.setAttribute(attributes.STROKE, stroke);
   }
 
   /**
