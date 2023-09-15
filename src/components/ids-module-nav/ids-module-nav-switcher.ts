@@ -10,6 +10,7 @@ import styles from './ids-module-nav-switcher.scss';
 
 import type IdsModuleNavButton from './ids-module-nav-button';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
+import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsIcon from '../ids-icon/ids-icon';
 
@@ -126,6 +127,9 @@ export default class IdsModuleNavSwitcher extends Base {
           }
         }
       };
+
+      const listBox = this.roleDropdownEl.querySelector<IdsListBox>('ids-list-box');
+      listBox?.classList.add('module-nav');
 
       const opts = [...this.roleDropdownEl.querySelectorAll<IdsListBoxOption>('ids-list-box-option')];
       opts.forEach((opt) => opt.classList.add('module-nav'));
