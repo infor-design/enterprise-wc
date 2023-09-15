@@ -456,7 +456,7 @@ formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) =
 },
 ```
 
-Then in the style sheet you add for you page you put the styles.
+Then in the style sheet your add you can add styling for the css part.
 
 ```css
 ids-data-grid::part(custom-link) {

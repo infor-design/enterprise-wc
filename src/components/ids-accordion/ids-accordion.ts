@@ -485,7 +485,7 @@ export default class IdsAccordion extends Base {
     if (this.panels.length) {
       this.panels.forEach((panel) => {
         if (!excluded || panel !== excluded) {
-          panel.expanded = false;
+          panel.setAttribute(attributes.EXPANDED, String(false));
         }
       });
     }

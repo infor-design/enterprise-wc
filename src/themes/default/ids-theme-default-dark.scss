@@ -30,12 +30,12 @@
   --ids-color-success-10: var(--ids-color-emerald-90);
 
   // Elevations
-  --ids-shadow-none: 0 0 3px 2px rgba(85 163 243 / 0);
+  --ids-shadow-none: 0 0 3px 2px rgba(28 134 239 / 0);
   --ids-shadow-error: 0 0 3px 2px rgb(218 18 23 / 0.30);
-  --ids-box-shadow-inverse: 0 0 2px 1px rgba(255 255 255 / .8);
-  --ids-shadow-10: 0 0 3px 1px rgb(85 163 243 / 0.3);
-  --ids-shadow-20: 0 0 3px 2px rgb(85 163 243 / 0.3);
-  --ids-shadow-30: 0 0 4px 3px rgb(85 163 243 / 0.3);
+  --ids-box-shadow-inverse: 0 0 2px 1px rgba(28 134 239 / .8);
+  --ids-shadow-10: 0 0 3px 1px rgb(28 134 239 / 0.3);
+  --ids-shadow-20: 0 0 3px 2px rgb(28 134 239 / 0.3);
+  --ids-shadow-30: 0 0 4px 3px rgb(28 134 239 / 0.3);
   --ids-scroll-shadow: 0 -1px 3px -1px rgba(82 82 87 / 0.30);
   --ids-scroll-color-border-top: 1px solid rgba(82 82 87 / 1);
 
@@ -47,7 +47,7 @@
   --ids-accordion-header-color-border-bottom: var(--ids-color-neutral-70);
   --ids-accordion-header-color-border-disabled: var(--ids-color-neutral-50);
   --ids-accordion-header-color-text-disabled: var(--ids-color-neutral-50);
-  --ids-accordion-header-color-border-focus: var(--ids-color-azure-60);
+  --ids-accordion-header-color-border-focus: var(--ids-color-primary-60);
   --ids-accordion-header-color-icon: var(--ids-color-neutral-10);
 
   // Accordion (App Menu)
@@ -56,7 +56,7 @@
   --ids-app-menu-accordion-header-color-text-disabled: var(--ids-color-neutral-70);
   --ids-app-menu-accordion-header-color-background-default: var(--ids-color-neutral-100);
   --ids-app-menu-accordion-header-filter-match-color-text: var(--ids-color-neutral-40);
-  --ids-app-menu-accordion-header-color-border-focus: var(--ids-color-azure-40);
+  --ids-app-menu-accordion-header-color-border-focus: var(--ids-color-primary-40);
   --ids-app-menu-header-color-background-hover: var(--ids-color-neutral-100);
   --ids-app-menu-header-color-border-hover: var(--ids-color-neutral-100);
   --ids-app-menu-accordion-panel-color-background: var(--ids-color-neutral-90);
@@ -173,12 +173,26 @@
   // Charts
   --ids-chart-legend-color-text: var(--ids-color-text);
 
+  // Checkbox
+  --ids-checkbox-color-background-selected: var(--ids-color-neutral-80);
+  --ids-checkbox-color-border-selected: var(--ids-color-neutral-80);
+  --ids-checkbox-color-border-selected-after: var(--ids-color-neutral-00);
+  --ids-checkbox-color-background-indeterminate: var(--ids-color-neutral-80);
+  --ids-checkbox-color-border-indeterminate: var(--ids-color-neutral-80);
+  --ids-checkbox-color-border-indeterminate-after: var(--ids-color-neutral-00);
+  --ids-checkbox-color-background-disabled: var(--ids-color-neutral-60);
+  --ids-checkbox-color-border-disabled: var(--ids-color-neutral-60);
+  --ids-checkbox-color-background-selected-disabled: var(--ids-color-neutral-60);
+  --ids-checkbox-color-border-selected-disabled: var(--ids-color-neutral-60);
+  --ids-checkbox-color-text-disabled: var(--ids-color-neutral-60);
+  --ids-checkbox-color-background-multiselect: var(--ids-color-neutral-80);
+
   // Data Grid
   --ids-data-grid-color-background: var(--ids-color-neutral-100);
 
   // Data Grid (Cells)
-  --ids-data-grid-cell-color-background-default: var(--ids-color-neutral-100);
-  --ids-data-grid-cell-color-background-readonly: rgba(119 119 124 / 0.18);
+  --ids-data-grid-cell-color-background-default: var(--ids-color-neutral-90);
+  --ids-data-grid-cell-color-background-readonly: var(--ids-color-neutral-80);
   --ids-data-grid-cell-color-border: var(--ids-color-neutral-60);
   --ids-data-grid-cell-checkbox-color-border: var(--ids-color-neutral-40);
   --ids-data-grid-cell-color-text-default: var(--ids-color-neutral-00);
@@ -195,35 +209,39 @@
   --ids-data-grid-list-header-checkbox-color-background: var(--ids-color-neutral-40);
 
   // Data Grid (Header)
-  --ids-data-grid-header-color-border: var(--ids-color-neutral-80);
-  --ids-data-grid-header-color-background-default: var(--ids-color-neutral-20);
-  --ids-data-grid-header-hover-background-color: var(--ids-color-neutral-30);
-  --ids-data-grid-header-checkbox-color-border: var(--ids-color-neutral-100);
-  --ids-data-grid-header-checkbox-color-background: transparent;
-  --ids-data-grid-header-color-icon: var(--ids-color-neutral-100);
-  --ids-data-grid-header-color-background-placeholder-dragging: var(--ids-color-neutral-10);
-  --ids-data-grid-header-color-text: var(--ids-color-neutral-100);
-  --ids-data-grid-header-color-icon-unsorted: var(--ids-color-neutral-50);
-  --ids-data-grid-header-color-icon-sorted: var(--ids-color-neutral-100);
-  --ids-data-grid-header-expander-color: var(--ids-color-neutral-70);
-  --ids-data-grid-header-expander-active-color:  var(--ids-color-neutral-100);
+  --ids-data-grid-header-color-border: var(--ids-color-neutral-50);
+  --ids-data-grid-header-color-background-default: var(--ids-color-neutral-70);
+  --ids-data-grid-header-color-background-hover: var(--ids-color-neutral-80);
+  --ids-data-grid-header-checkbox-color-background: var(--ids-color-neutral-70);
+  --ids-data-grid-header-checkbox-color-border: var(--ids-color-neutral-40);
+  --ids-data-grid-header-color-icon: var(--ids-color-neutral-10);
+  --ids-data-grid-header-drag-background-color: var(--ids-color-neutral-70);
+  --ids-data-grid-header-drag-arrow-color-background: var(--ids-color-neutral-20);
+  --ids-data-grid-header-color-background-default-placeholder-dragging: var(--ids-color-neutral-80);
+  --ids-data-grid-header-color-text: var(--ids-color-neutral-10);
+  --ids-data-grid-header-color-icon-unsorted: var(--ids-color-neutral-30);
+  --ids-data-grid-header-color-icon-sorted: var(--ids-color-neutral-10);
+  --ids-data-grid-header-expander-color: var(--ids-color-neutral-40);
+  --ids-data-grid-header-expander-color-active:  var(--ids-color-neutral-20);
 
   // Data Grid (Filter)
-  --ids-data-grid-filter-input-color-border-default: var(--ids-color-neutral-60);
-  --ids-data-grid-filter-input-color-text-default: var(--ids-color-neutral-90);
-  --ids-data-grid-filter-input-color-background-hover: var(--ids-color-neutral-100);
-  --ids-data-grid-filter-input-color-border-focus: var(--ids-color-azure-50);
-  --ids-data-grid-filter-input-color-border-disabled: var(--ids-color-neutral-40);
-  --ids-data-grid-filter-input-color-text-disabled: var(--ids-color-neutral-40);
-  --ids-data-grid-filter-input-color-background-readonly: var(--ids-color-neutral-30);
-  --ids-data-grid-filter-input-color-border-readonly: var(--ids-color-neutral-40);
-  --ids-data-grid-filter-input-color-text-readonly: var(--ids-color-neutral-90);
+  --ids-data-grid-filter-icon-color: var(--ids-color-neutral-10);
+  --ids-data-grid-filter-icon-color-hover: var(--ids-color-neutral-00);
+  --ids-data-grid-filter-input-color-border-default: var(--ids-color-neutral-40);
+  --ids-data-grid-filter-input-color-text-default: var(--ids-color-neutral-00);
+  --ids-data-grid-filter-input-color-border-hover: var(--ids-color-neutral-10);
+  --ids-data-grid-filter-input-color-border-focus: var(--ids-color-primary-50);
+  --ids-data-grid-filter-input-color-border-disabled: var(--ids-color-neutral-50);
+  --ids-data-grid-filter-input-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-data-grid-filter-input-color-background-readonly: var(--ids-color-neutral-50);
+  --ids-data-grid-filter-input-color-border-readonly: var(--ids-color-neutral-50);
+  --ids-data-grid-filter-input-color-text-readonly: var(--ids-color-neutral-10);
   --ids-data-grid-filter-input-color-text-placeholder: var(--ids-color-neutral-40);
 
   // Data Grid (Rows)
-  --ids-data-grid-row-color-background-selected: rgba(85 163 243 / 0.12);
+  --ids-data-grid-row-color-background-selected: var(--ids-color-neutral-100);
   --ids-data-grid-row-alternating-color-background: var(--ids-color-neutral-80);
-  --ids-data-grid-row-shadow-focus: inset 0 0 0 1px var(--ids-color-azure-50), 0 1px 0 0 var(--ids-color-azure-50), 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-data-grid-row-shadow-focus: inset 0 0 0 1px var(--ids-color-primary-50), 0 1px 0 0 var(--ids-color-primary-50), 0 0 3px 2px rgb(54 138 192 / 0.3);
 
   // Date Picker
   --ids-date-picker-color-background: var(--ids-color-neutral-70);
@@ -306,7 +324,7 @@
   --ids-icon-status-color-ruby-color-background: transparent;
   --ids-icon-status-color-amber-color-background: transparent;
   --ids-icon-status-color-emerald-color-background: transparent;
-  --ids-icon-status-color-azure-color-background: transparent;
+  --ids-icon-status-color-primary-color-background: transparent;
   --ids-icon-status-color-turquoise-color-background: transparent;
   --ids-icon-status-color-amethyst-color-background: transparent;
   --ids-icon-status-color-neutral-color-background: transparent;
@@ -340,7 +358,7 @@
   // List View
   --ids-list-view-item-color-background-default: var(--ids-color-neutral-90);
   --ids-list-view-item-color-border-top: var(--ids-color-neutral-70);
-  --ids-list-view-item-color-border-focus: var(--ids-color-azure-70);
+  --ids-list-view-item-color-border-focus: var(--ids-color-primary-70);
   --ids-list-view-item-shadow-focus: none;
   --ids-list-view-item-color-text-disabled: var(--ids-color-neutral-50);
   --ids-list-view-item-top-color-border-disabled-focus: var(--ids-color-neutral-70);
@@ -348,7 +366,7 @@
   --ids-list-view-item-color-border-disabled: var(--ids-color-neutral-80);
   --ids-list-view-item-badge-color-text-disabled: var(--ids-color-neutral-40);
   --ids-list-view-item-color-text-link-disabled: var(--ids-color-neutral-40);
-  --ids-list-view-color-background-selected: var(--ids-color-azure-100);
+  --ids-list-view-color-background-selected: var(--ids-color-primary-100);
 
   // Loading Indicator
   --ids-loading-indicator-circle-color: var(--ids-color-neutral-80);
@@ -367,16 +385,16 @@
   --ids-modal-color-border: var(--ids-popup-color-border);
   --ids-modal-shadow-default: var(--ids-popup-menu-shadow-default);
   --ids-modal-footer-color-border: var(--ids-color-neutral-50);
-  --ids-modal-button-color-default: var(--ids-color-azure-40);
-  --ids-modal-button-color-hover: var(--ids-color-azure-30);
-  --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-azure-30);
+  --ids-modal-button-color-default: var(--ids-color-primary-40);
+  --ids-modal-button-color-hover: var(--ids-color-primary-30);
+  --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary-30);
 
   // Menu
   --ids-menu-header-color-text: var(--ids-color-neutral-00);
   --ids-menu-item-color-text-disabled: var(--ids-color-neutral-50);
   --ids-menu-item-highlight-color: var(--ids-color-neutral-80);
   --ids-menu-item-color-text-default: var(--ids-color-neutral-00);
-  --ids-menu-check-color-default: var(--ids-color-azure-60);
+  --ids-menu-check-color-default: var(--ids-color-primary-60);
 
   // Popup
   --ids-popup-color-background: var(--ids-color-neutral-90);
@@ -399,14 +417,14 @@
   --ids-calendar-month-view-color-text-alternate: var(--ids-color-neutral-50);
   --ids-calendar-month-view-color-background-hover: rgb(49 50 54 / 0.2);
   --ids-calendar-month-view-color-background-selected: var(--ids-color-neutral-70);
-  --ids-calendar-month-view-color-selected: var(--ids-color-azure-60);
+  --ids-calendar-month-view-color-selected: var(--ids-color-primary-60);
 
   // Month View (Compact)
-  --ids-calendar-month-view-day-color-background-compact-selected: var(--ids-color-azure-60);
+  --ids-calendar-month-view-day-color-background-compact-selected: var(--ids-color-primary-60);
   --ids-calendar-month-view-weekday-color-text-compact: var(--ids-calendar-month-view-color-text-default);
   --ids-calendar-month-view-color-text-compact: var(--ids-color-neutral-50);
   --ids-calendar-month-view-weekday-color-text-compact-hover: var(--ids-color-neutral-00);
-  --ids-calendar-month-view-range-color-background-compact-selected: var(--ids-color-azure-60);
+  --ids-calendar-month-view-range-color-background-compact-selected: var(--ids-color-primary-60);
 
   // Pie chart
   --ids-chart-pie-color-text: var(--ids-color-neutral-30);
@@ -416,23 +434,23 @@
   --ids-progress-bar-color-background-disabled: var(--ids-color-neutral-70);
   --ids-progress-bar-color-border: var(--ids-color-neutral-40);
   --ids-progress-bar-border: 1px solid var(--ids-progress-bar-color-border);
-  --ids-progress-bar-fill-color-background: var(--ids-color-azure-60);
+  --ids-progress-bar-fill-color-background: var(--ids-color-primary-60);
   --ids-progress-bar-label-color-text: var(--ids-color-text-label);
 
   // Progress Chart
   --ids-progress-chart-label-color-text: var(--ids-color-neutral-30);
   --ids-progress-chart-total-color-background: var(--ids-color-neutral-50);
-  --ids-progress-chart-bar-progress-color-background: var(--ids-color-azure-60);
+  --ids-progress-chart-bar-progress-color-background: var(--ids-color-primary-60);
 
   // Process Indicator
-  --ids-process-indicator-color-primary: var(--ids-color-azure-70);
-  --ids-process-indicator-color-active: var(--ids-color-azure-70);
+  --ids-process-indicator-color-primary: var(--ids-color-primary-70);
+  --ids-process-indicator-color-active: var(--ids-color-primary-70);
   --ids-process-indicator-canceled-step-color-background: var(--ids-color-error-50);
   --ids-process-indicator-canceled-step-color-icon: var(--ids-color-neutral-00);
 
   // Radio
-  --ids-radio-button-color-background-selected: var(--ids-color-azure-60);
-  --ids-radio-button-color-border-selected: var(--ids-color-azure-60);
+  --ids-radio-button-color-background-selected: var(--ids-color-primary-60);
+  --ids-radio-button-color-border-selected: var(--ids-color-primary-60);
   --ids-radio-button-inner-color-background-selected: var(--ids-color-neutral-00);
 
   // Required
@@ -440,7 +458,7 @@
 
   // Scroll View
   --ids-scroll-view-color-icon-default: var(--ids-color-neutral-40);
-  --ids-scroll-view-color-icon-selected: var(--ids-color-azure-60);
+  --ids-scroll-view-color-icon-selected: var(--ids-color-primary-60);
 
   // Search Field
   --ids-search-field-card-color-text: var(--ids-color-text);
@@ -454,11 +472,11 @@
   --ids-separator-alternate-color-background: var(--ids-color-neutral-30);
 
   // Slider
-  --ids-slider-tick-color-background-default: var(--ids-color-azure-60);
-  --ids-slider-thumb-color-background-default: var(--ids-color-azure-60);
-  --ids-slider-thumb-color-border-default: var(--ids-color-azure-60);
+  --ids-slider-tick-color-background-default: var(--ids-color-primary-60);
+  --ids-slider-thumb-color-background-default: var(--ids-color-primary-60);
+  --ids-slider-thumb-color-border-default: var(--ids-color-primary-60);
   --ids-slider-track-color-background-default: var(--ids-color-neutral-70);
-  --ids-slider-track-color-background-progress: var(--ids-color-azure-60);
+  --ids-slider-track-color-background-progress: var(--ids-color-primary-60);
   --ids-slider-tooltip-color-background: var(--ids-color-neutral-00);
   --ids-slider-tooltip-color-text: var(--ids-color-neutral-100);
   --ids-slider-color-disabled: var(--ids-color-neutral-20);
@@ -477,8 +495,8 @@
   // Splitter
   --ids-splitter-bar-color-border: var(--ids-color-neutral-70);
   --ids-splitter-bar-color-border-hover: var(--ids-color-neutral-70);
-  --ids-splitter-bar-color-border-dragging: var(--ids-color-azure-30);
-  --ids-splitter-handle-color-background-hover: var(--ids-color-azure-60);
+  --ids-splitter-bar-color-border-dragging: var(--ids-color-primary-30);
+  --ids-splitter-handle-color-background-hover: var(--ids-color-primary-60);
 
   // Stats
   --ids-stats-positive-color-text: var(--ids-color-emerald-50);
@@ -488,11 +506,11 @@
 
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-neutral-70);
-  --ids-step-chart-color-background-complete: var(--ids-color-azure-60);
+  --ids-step-chart-color-background-complete: var(--ids-color-primary-60);
 
   // Swappable
   --ids-swappable-item-color-background-hover: var(--ids-color-neutral-60);
-  --ids-swappable-item-color-background-selected: var(--ids-color-azure-60);
+  --ids-swappable-item-color-background-selected: var(--ids-color-primary-60);
   --ids-swappable-item-over-border: 1px dashed var(--ids-color-neutral-30);
 
   // Swaplist
@@ -501,7 +519,7 @@
   // Swipe Action
   --ids-swipe-action-color-background-left: var(--ids-color-neutral-60);
   --ids-swipe-action-color-text-left: var(--ids-color-neutral-00);
-  --ids-swipe-action-color-background-right: var(--ids-color-azure-50);
+  --ids-swipe-action-color-background-right: var(--ids-color-primary-50);
   --ids-swipe-action-color-text-right: var(--ids-color-neutral-00);
 
   // Switch
@@ -518,7 +536,7 @@
   --ids-switch-toggle-color-background-selected-disabled: var(--ids-color-primary-30);
   --ids-switch-toggle-color-border-selected-disabled: var(--ids-color-primary-30);
   --ids-switch-toggle-color-background-hover: var(--ids-color-neutral-30);
-  --ids-switch-toggle-shadow-focus: 0 0 0 3px var(--ids-color-azure-90), 0 0 0 4px var(--ids-color-azure-60);
+  --ids-switch-toggle-shadow-focus: 0 0 0 3px var(--ids-color-primary-90), 0 0 0 4px var(--ids-color-primary-60);
 
   // Tab
   --ids-tab-content-color-text: var(--ids-color-text);
@@ -582,8 +600,8 @@
   --ids-time-picker-popup-color-background: var(--ids-color-neutral-80);
   --ids-time-picker-popup-colons-color-text: var(--ids-color-neutral-30);
   --ids-time-picker-popup-button-color-border: var(--ids-color-neutral-50);
-  --ids-time-picker-popup-button-color-text-hover: var(--ids-color-azure-20);
-  --ids-time-picker-popup-button-color-text-default: var(--ids-color-azure-30);
+  --ids-time-picker-popup-button-color-text-hover: var(--ids-color-primary-20);
+  --ids-time-picker-popup-button-color-text-default: var(--ids-color-primary-30);
 
   // Toast
   --ids-toast-color-background: var(--ids-color-neutral-70);
@@ -605,7 +623,7 @@
 
   // Tree Node
   --ids-tree-node-color-text-disabled: var(--ids-color-neutral-50);
-  --ids-tree-node-color-border-focus: var(--ids-color-azure-60);
+  --ids-tree-node-color-border-focus: var(--ids-color-primary-60);
   --ids-tree-node-color-text-hover: var(--ids-color-neutral-00);
   --ids-tree-node-color-background-selected: var(--ids-color-neutral-60);
   --ids-tree-node-color-text-selected: var(--ids-color-neutral-00);
@@ -621,7 +639,7 @@
   --ids-upload-advanced-color-background-disabled: var(--ids-color-neutral-70);
   --ids-upload-advanced-color-border-disabled: var(--ids-color-neutral-50);
   --ids-upload-advanced-color-background-drag-enter: var(--ids-color-neutral-80);
-  --ids-upload-advanced-color-border-drag-enter: var(--ids-color-azure-60);
+  --ids-upload-advanced-color-border-drag-enter: var(--ids-color-primary-60);
   --ids-upload-advanced-color-background-hover: var(--ids-color-neutral-60);
   --ids-upload-advanced-color-border-hover: var(--ids-color-neutral-40);
   --ids-upload-advanced-color-text-hover: var(--ids-color-neutral-20);
