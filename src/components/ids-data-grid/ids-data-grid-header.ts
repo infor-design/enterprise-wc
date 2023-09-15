@@ -229,7 +229,7 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
           - (this.offsetParent as HTMLElement).offsetLeft;
       }
       dragArrows?.style.setProperty('left', `${this.dataGrid?.localeAPI.isRTL() ? cellRight - offsetLeft : cellLeft - offsetLeft}px`);
-      dragArrows?.style.setProperty('height', `${rect.height - 1}px`);
+      dragArrows?.style.setProperty('height', `${rect.height - 2}px`);
       dragArrows?.style.setProperty('display', 'block');
 
       e.preventDefault();
@@ -399,10 +399,8 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     `;
 
     const expanderTemplate = `<ids-icon class="header-expander" icon="plusminus-folder-closed"></ids-icon>`;
-
     const resizerTemplate = `<span class="resizer"></span>`;
     const reorderTemplate = `<div class="reorderer"><ids-icon icon="drag" size="medium"></ids-icon></div>`;
-
     const showFormatterExpander = ['expander', 'tree'].includes(column.formatter?.name ?? '');
     const showHeaderExpander = column?.showHeaderExpander || showFormatterExpander;
     const expander = showHeaderExpander ? expanderTemplate : '';
@@ -424,11 +422,12 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     // Content row cell template
     const headerContentWrapperTemplate = `<span class="${cssClasses}">
         ${expander}
+        ${column.sortable && column.align === 'right' ? sortIndicatorTemplate : ''}
         <span class="ids-data-grid-header-text">
           ${headerContentTemplate}
         </span>
         ${this.headerIconTemplate(column)}
-        ${column.sortable ? sortIndicatorTemplate : ''}
+        ${column.sortable && column.align !== 'right' ? sortIndicatorTemplate : ''}
       </span>${column.resizable ? resizerTemplate : ''}${column.reorderable ? reorderTemplate : ''}`;
 
     // Filter row cell template
@@ -446,12 +445,14 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
       if (typeof column?.uppercase === 'function') return column.uppercase('header-cell', column, index);
       return (column?.uppercase === 'true' || column?.uppercase === true);
     };
-    const uppercaseClass = isUppercase() ? ' is-uppercase' : '';
+
+    let headerCssClasses = isUppercase() ? ' is-uppercase' : '';
+    headerCssClasses += (column?.showHeaderExpander || column.sortable || column.reorderable) ? ' is-actionable' : '';
 
     // Header cell template
     const html = `
       <span
-        class="ids-data-grid-header-cell${uppercaseClass}${align}${frozen}"
+        class="ids-data-grid-header-cell${headerCssClasses}${align}${frozen}"
         ${column.reorderable ? 'draggable="true"' : ''}
         part="header-cell"
         aria-colindex="${index + 1}"

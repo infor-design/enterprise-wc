@@ -7,12 +7,22 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
+
     <ids-layout-grid auto-fit="true" padding="md">
-      <ids-text font-size="12" type="h1">Data Grid</ids-text>
+      <ids-text font-size="12" type="h1">Axis Chart - axis label</ids-text>
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
-        <ids-data-grid id="data-grid-1" row-selection="multiple" label="Books"></ids-data-grid>
+        <ids-bar-chart
+          axis-label-bottom="Bottom axis label"
+          axis-label-end="End axis label"
+          axis-label-start="Start axis label"
+          axis-label-top="Top axis label"
+          width="700"
+          height="400"
+          id="axis-label-example"
+          title="A axis chart showing component usage with axis-label"
+        ></ids-bar-chart>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

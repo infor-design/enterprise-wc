@@ -7,6 +7,10 @@
 
 .ids-trigger-field {
   justify-content: inherit;
+
+  &.compact .field-container {
+    height: var( --ids-input-height-10);
+  }
 }
 
 .ids-trigger-field-slot-trigger-start,

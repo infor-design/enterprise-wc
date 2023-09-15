@@ -469,6 +469,15 @@ $input-size-full: 100%;
       font-size: var(--ids-font-size-40);
     }
 
+    slot[name="trigger-start"],
+    slot[name="trigger-end"] {
+      display: flex;
+    }
+
+    slot[name="trigger-end"] {
+      padding-inline-end: 6px;
+    }
+
     .icon-dirty {
       display: none;
     }
@@ -672,7 +681,7 @@ $input-size-full: 100%;
 
     &:hover:not(.disabled).readonly.readonly-background.color-variant-alternate-formatter {
       .field-container {
-        border-color: var(--ids-data-grid-filter-input-color-background-hover);
+        border-color: var(--ids-data-grid-filter-input-color-border-hover);
       }
     }
 
@@ -707,7 +716,7 @@ $input-size-full: 100%;
     &:hover.readonly.readonly-background,
     &:hover:not(.readonly):not(.disabled) {
       .field-container {
-        border-color: var(--ids-data-grid-filter-input-color-background-hover);
+        border-color: var(--ids-data-grid-filter-input-color-border-hover);
       }
     }
 

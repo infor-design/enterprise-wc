@@ -1,6 +1,6 @@
 @use './ids-theme-default-colors.scss';
 
-// (namespace)-(style category)-(css property)-(scenario)-(interaction state)
+// (namespace)-(style category / component / component part)-(css property)-(scenario)-(interaction state)
 // --ids-checkbox-color-border-focus
 :host,
 :root {
@@ -463,7 +463,7 @@
   --ids-counts-label-font-size: var(--ids-font-size-40);
   --ids-counts-value-font-size: var(--ids-font-size-100);
 
-  // Data Grid (Common)
+  // Data Grid
   --ids-data-grid-color-background: var(--ids-color-neutral-00);
   --ids-data-grid-height-min: 350px;
   --ids-data-grid-font-size: var(--ids-font-size-40);
@@ -475,7 +475,7 @@
   --ids-data-grid-cell-color-border: var(--ids-color-neutral-30);
   --ids-data-grid-cell-checkbox-color-border: var(--ids-input-color-border-default);
   --ids-data-grid-cell-color-text-default: var(--ids-color-neutral-100);
-  --ids-data-grid-cell-color-text-disabled: var(--ids-color-neutral-30);
+  --ids-data-grid-cell-color-text-disabled: var(--ids-color-neutral-40);
   --ids-data-grid-cell-color-background-error: rgba(232 79 79 / 0.1);
 
   // Data Grid (List)
@@ -489,33 +489,34 @@
 
   // Data Grid (Header)
   --ids-data-grid-header-color-border: var(--ids-color-neutral-30);
-  --ids-data-grid-header-color-background-default: var(--ids-color-neutral-80);
-  --ids-data-grid-header-hover-background-color: var(--ids-color-neutral-90);
+  --ids-data-grid-header-color-background-default: var(--ids-color-neutral-10);
+  --ids-data-grid-header-color-background-hover: var(--ids-color-neutral-20);
   --ids-data-grid-header-checkbox-color-background: var(--ids-color-neutral-00);
-  --ids-data-grid-header-checkbox-color-border: var(--ids-color-neutral-00);
-  --ids-data-grid-header-color-icon: var(--ids-color-neutral-00);
-  --ids-data-grid-header-drag-background-color: var(--ids-color-neutral-100);
-  --ids-data-grid-header-color-background-placeholder-dragging: var(--ids-color-neutral-50);
-  --ids-data-grid-header-color-text: var(--ids-color-neutral-00);
+  --ids-data-grid-header-checkbox-color-border: var(--ids-color-neutral-30);
+  --ids-data-grid-header-color-icon: var(--ids-color-neutral-100);
+  --ids-data-grid-header-drag-background-color: var(--ids-color-neutral-30);
+  --ids-data-grid-header-drag-arrow-color-background: var(--ids-color-neutral-90);
+  --ids-data-grid-header-color-background-default-placeholder-dragging: var(--ids-color-neutral-00);
+  --ids-data-grid-header-color-text: var(--ids-color-neutral-100);
   --ids-data-grid-header-color-icon-unsorted: var(--ids-color-neutral-50);
-  --ids-data-grid-header-color-icon-sorted: var(--ids-color-neutral-00);
+  --ids-data-grid-header-color-icon-sorted: var(--ids-color-neutral-100);
   --ids-data-grid-header-lg-padding: 8px var(--ids-data-grid-padding-lg);
   --ids-data-grid-header-md-padding: 8px var(--ids-data-grid-padding-md);
   --ids-data-grid-header-sm-padding: 8px var(--ids-data-grid-padding-sm);
   --ids-data-grid-header-xs-padding: 6px var(--ids-data-grid-padding-xs);
-  --ids-data-grid-header-xxs-padding: 2px 2px;
-  --ids-data-grid-header-expander-color: var(--ids-color-neutral-20);
-  --ids-data-grid-header-expander-active-color:  var(--ids-color-neutral-00);
+  --ids-data-grid-header-xxs-padding: 5px 2px 0 2px;
+  --ids-data-grid-header-expander-color: var(--ids-color-neutral-90);
+  --ids-data-grid-header-expander-color-active:  var(--ids-color-neutral-100);
 
   // Data Grid (Filter)
-  --ids-data-grid-filter-icon-color: var(--ids-color-neutral-30);
-  --ids-data-grid-filter-icon-background-hover: transparent;
-  --ids-data-grid-filter-icon-color-hover: var(--ids-color-neutral-10);
+  --ids-data-grid-filter-icon-color: var(--ids-color-neutral-90);
+  --ids-data-grid-filter-icon-color-background-hover: transparent;
+  --ids-data-grid-filter-icon-color-hover: var(--ids-color-neutral-100);
   --ids-data-grid-filter-input-color-background: transparent;
-  --ids-data-grid-filter-input-color-border-default: var(--ids-color-neutral-30);
-  --ids-data-grid-filter-input-color-text-default: var(--ids-color-neutral-00);
-  --ids-data-grid-filter-input-color-background-hover: var(--ids-color-neutral-20);
-  --ids-data-grid-filter-input-color-border-focus: var(--ids-color-azure-50);
+  --ids-data-grid-filter-input-color-border-default: var(--ids-color-neutral-50);
+  --ids-data-grid-filter-input-color-text-default: var(--ids-color-neutral-100);
+  --ids-data-grid-filter-input-color-border-hover: var(--ids-color-neutral-90);
+  --ids-data-grid-filter-input-color-border-focus: var(--ids-color-azure-60);
   --ids-data-grid-filter-input-color-border-disabled: var(--ids-color-neutral-50);
   --ids-data-grid-filter-input-color-text-disabled: var(--ids-color-neutral-40);
   --ids-data-grid-filter-input-color-background-readonly: var(--ids-color-neutral-60);
@@ -772,7 +773,7 @@
   --ids-input-font-size: var(--ids-font-size-40);
   --ids-input-font-size-sm: var(--ids-font-size-40);
   --ids-input-color-background-default: var(--ids-color-neutral-00);
-  --ids-input-color-border-default: var(--ids-color-neutral-40);
+  --ids-input-color-border-default: var(--ids-color-neutral-50);
   --ids-input-color-text: var(--ids-color-text-data);
   --ids-input-color-text-placeholder: var(--ids-color-neutral-50);
   --ids-input-label-color-text-default: var(--ids-color-text-label);
