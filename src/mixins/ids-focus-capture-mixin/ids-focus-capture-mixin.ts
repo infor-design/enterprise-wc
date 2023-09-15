@@ -46,7 +46,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
     super.disconnectedCallback?.();
     this.#removeFocusEvents();
     this.#hostNode = undefined;
-    this.#focusableElementsInDocument = null;
+    this.#focusableElementsInDocument = [];
   }
 
   /**

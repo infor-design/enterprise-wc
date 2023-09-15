@@ -1,6 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import type { IdsPopupElementRef } from '../../components/ids-popup/ids-popup-attributes';
 import { IdsConstructor } from '../../core/ids-element';
+import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import IdsPopup from '../../components/ids-popup/ids-popup';
 
@@ -131,7 +132,7 @@ const IdsPopupInteractionsMixin = <T extends Constraints>(superclass: T) => clas
       const previousTarget = this.popup.alignTarget;
       this.removeTriggerEvents();
       if (typeof val === 'string') {
-        val = this.parentNode?.querySelector<HTMLElement>(val) || this.parentNode as HTMLElement;
+        val = getClosestContainerNode(this).querySelector<HTMLElement>(val) || this.parentNode as HTMLElement;
       }
       this.popup.alignTarget = val;
       this.refreshTriggerEvents();
@@ -176,7 +177,7 @@ const IdsPopupInteractionsMixin = <T extends Constraints>(superclass: T) => clas
    */
   set triggerElem(val: IdsPopupElementRef | string) {
     if (typeof val === 'string') {
-      const trueTriggerElem = this.parentNode?.querySelector(val);
+      const trueTriggerElem = getClosestContainerNode(this)?.querySelector(val);
       if (trueTriggerElem) {
         this.removeTriggerEvents();
         this.state.triggerElem = trueTriggerElem;

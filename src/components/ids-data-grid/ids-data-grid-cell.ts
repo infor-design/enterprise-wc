@@ -3,6 +3,7 @@ import IdsElement from '../../core/ids-element';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
 import type IdsInput from '../ids-input/ids-input';
 import type IdsDataGrid from './ids-data-grid';
+import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 import { IdsDataGridEditor } from './ids-data-grid-editors';
 
@@ -206,9 +207,19 @@ export default class IdsDataGridCell extends IdsElement {
     this.isEditing = true;
 
     // Save on Click Out Event
-    this.editor.input?.onEvent('focusout', this.editor.input, () => {
-      this.endCellEdit();
-    });
+    if (['datepicker', 'timepicker'].includes(this.editor.type)) {
+      this.editor.input?.onEvent('focusout', this.editor.input, () => {
+        if (this.editor?.popup?.visible) return;
+        setTimeout(() => {
+          if (this.contains(this.dataGrid!.shadowRoot!.activeElement)) return;
+          this.endCellEdit();
+        });
+      });
+    } else {
+      this.editor.input?.onEvent('focusout', this.editor.input, () => {
+        this.endCellEdit();
+      });
+    }
 
     this.dataGrid?.triggerEvent('celledit', this.dataGrid, {
       detail: {
@@ -231,8 +242,12 @@ export default class IdsDataGridCell extends IdsElement {
       (<IdsInput>input)?.checkValidation();
     }
 
-    if (editorType === 'dropdown' || editorType === 'timepicker' || editorType === 'datepicker') {
+    if (editorType === 'dropdown') {
       (<IdsDropdown>input)?.input?.checkValidation();
+    }
+
+    if (editorType === 'timepicker' || editorType === 'datepicker') {
+      (<IdsTriggerField>input)?.checkValidation();
     }
 
     const isDirty = column.editor?.editorSettings?.dirtyTracker && (input?.isDirty || input?.input.isDirty);
