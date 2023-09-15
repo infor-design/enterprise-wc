@@ -13,6 +13,7 @@ import IdsElement from '../../core/ids-element';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 
 import styles from './ids-icon.scss';
+import IdsGlobal from '../ids-global/ids-global';
 
 const emptyIconPathData: any = emptyPathImport;
 const pathData: Record<string, string> = pathImport;
@@ -109,32 +110,21 @@ export default class IdsIcon extends Base {
    */
   iconData(): string {
     const icon = this.icon;
-    const data = emptyIconPathData[icon] || pathData[icon] || (IdsIcon.customIconData ? (IdsIcon.customIconData as any)[icon] : '') || '';
+    const data = emptyIconPathData[icon] || pathData[icon] || (IdsGlobal.customIconData ? (IdsGlobal.customIconData as any)[icon] : '') || '';
     if (data === '') this.setAttribute('custom', '');
     return data;
   }
-
-  /** Holds the static single instance of custom icon data */
-  static customIconJsonData?: object = undefined;
 
   /**
    * Set the static custom icon instance
    */
   static set customIconData(json: object | undefined) {
-    this.customIconJsonData = json;
+    IdsGlobal.customIconData = json;
     querySelectorAllShadowRoot('ids-icon[custom]').forEach((elem: any) => {
       // eslint-disable-next-line no-self-assign
       elem.icon = elem.icon;
       elem.removeAttribute('custom');
     });
-  }
-
-  /**
-   * Get the static custom icon instance
-   * @returns {object} the icon json for custom icons
-   */
-  static get customIconData(): object | undefined {
-    return this.customIconJsonData;
   }
 
   /**
