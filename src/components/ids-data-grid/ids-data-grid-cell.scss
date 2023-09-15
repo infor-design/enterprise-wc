@@ -2,6 +2,7 @@
 .ids-data-grid-cell {
   // Border and Background and Sizing
   align-items: center;
+  background-color: var(--ids-data-grid-cell-color-background-default);
   border-inline-start: 1px solid;
   border-block-end: 1px solid;
   border-color: var(--ids-data-grid-cell-color-border);
