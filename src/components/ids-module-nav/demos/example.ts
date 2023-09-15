@@ -28,14 +28,6 @@ import type { IdsModuleNavDisplayMode } from '../ids-module-nav-common';
 
 let menuState: IdsModuleNavDisplayMode = 'collapsed';
 
-// Add App Icons from data
-(async function initIcons() {
-  const appIconUrl: any = appIconJSON;
-  const appIconRes = await fetch(appIconUrl);
-  const appIconData = await appIconRes.json();
-  IdsIcon.customIconData = appIconData;
-}());
-
 document.addEventListener('DOMContentLoaded', () => {
   const moduleNav: any = document.querySelector('ids-module-nav');
   const moduleNavDrawer: any = document.querySelector('ids-module-nav-bar');
@@ -91,6 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // =============================
   // Set initial
+
+  // Add App Icons from data
+  (async function initIcons() {
+    const appIconUrl: any = appIconJSON;
+    const appIconRes = await fetch(appIconUrl);
+    const appIconData = await appIconRes.json();
+    IdsIcon.customIconData = appIconData;
+  }());
 
   moduleNav.displayMode = menuState;
   moduleNavDrawer.filterable = true;
