@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.15 Features
 
+- `[Calendar]` Fix calendar dependency on ids container. ([#1359](https://github.com/infor-design/enterprise-wc/issues/1359))
 - `[DataGrid]` Treegrid `appendData()` no longer breaks rendering of existing rows, and `scrollend` triggers properly. ([#1425](https://github.com/infor-design/enterprise-wc/issues/1425))
 - `[DataGrid]` Prevent scroll when resize columns. ([#1209](https://github.com/infor-design/enterprise-wc/issues/1209))
 - `[DataGrid]` Fix virtual/infinite scroll when max rows in dom reached. ([#1454](https://github.com/infor-design/enterprise-wc/issues/1454))
