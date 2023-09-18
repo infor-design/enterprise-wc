@@ -35,6 +35,8 @@ ids-button::part(button) {
   margin: var(--ids-module-nav-switcher-button-gutter-size);
 
   &.display-mode-collapsed {
+    justify-content: center;
+
     ::slotted(ids-dropdown) {
       display: none;
     }
