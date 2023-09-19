@@ -940,6 +940,7 @@
   --ids-module-nav-input-bg-color: var(--ids-color-neutral-00);
   --ids-module-nav-input-border-color: var(--ids-color-slate-20);
   --ids-module-nav-input-text-color: var(--ids-color-slate-60);
+  --ids-module-nav-search-input-width: calc(var(--ids-module-nav-detail-size) + 2px);
 
   // Module Nav Item (Accordion Header/Menu Button)
   --ids-module-nav-item-height: 40px;
@@ -967,6 +968,7 @@
   --ids-module-nav-switcher-button-icon-margin: 2px;
   --ids-module-nav-switcher-dropdown-height: 40px;
   --ids-module-nav-switcher-dropdown-width: 260px;
+  --ids-module-nav-switcher-dropdown-item-margin-block: 4px;
   --ids-module-nav-switcher-dropdown-item-height: 48px;
   --ids-module-nav-switcher-dropdown-item-focus-bg-color: var(--ids-color-slate-20);
   --ids-module-nav-switcher-dropdown-item-text-color: var(--ids-color-slate-60);

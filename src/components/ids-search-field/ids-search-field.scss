@@ -214,5 +214,11 @@
     .ids-input-field {
       padding-inline-start: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
     }
+
+    &.full {
+      .field-container {
+        width: var(--ids-module-nav-search-input-width);
+      }
+    }
   }
 }

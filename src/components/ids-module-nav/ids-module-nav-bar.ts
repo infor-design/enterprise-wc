@@ -7,6 +7,7 @@ import IdsDrawer from '../ids-drawer/ids-drawer';
 
 import '../ids-accordion/ids-accordion';
 import '../ids-button/ids-button';
+import '../ids-empty-message/ids-empty-message';
 import '../ids-icon/ids-icon';
 import '../ids-separator/ids-separator';
 import '../ids-toolbar/ids-toolbar';
@@ -105,6 +106,11 @@ export default class IdsModuleNavBar extends Base {
           <slot name="search"></slot>
         </div>
         <ids-separator class="ids-module-nav-separator" color-variant="module-nav"></ids-separator>
+        <div class="ids-module-nav-search-no-results">
+          <ids-empty-message icon="empty-search-data-new">
+            <ids-text font-size="20" label="true" slot="description">No results found</ids-text>
+          </ids-empty-message>
+        </div>
         <div class="ids-module-nav-main">
           <slot></slot>
         </div>
@@ -146,6 +152,14 @@ export default class IdsModuleNavBar extends Base {
 
   /**
    * @readonly
+   * @returns {HTMLElement} container element for the slotted accordion
+   */
+  get mainEl() {
+    return this.container?.querySelector<HTMLElement>('.ids-module-nav-main');
+  }
+
+  /**
+   * @readonly
    * @returns {IdsAccordion} reference to an optionally-slotted IdsAccordion element
    */
   get accordion(): IdsAccordion | null {
@@ -165,7 +179,7 @@ export default class IdsModuleNavBar extends Base {
    * @returns {IdsSearchField} reference to an optionally-slotted IdsSearchField element
    */
   get searchFieldEl(): IdsSearchField | null {
-    return this.querySelector('ids-search-field');
+    return this.querySelector<IdsSearchField>('ids-search-field');
   }
 
   /**
@@ -192,7 +206,7 @@ export default class IdsModuleNavBar extends Base {
 
   set filterable(val: boolean) {
     setBooleanAttr(attributes.FILTERABLE, this, val);
-    if (!val) this.clearFilterAccordion();
+    if (!val) this.searchFieldEl?.clear();
   }
 
   get filterable(): boolean {
@@ -271,12 +285,16 @@ export default class IdsModuleNavBar extends Base {
    * Attaches a slotted IdsSearchField component to the Module Nav
    */
   #connectSearchField() {
-    const searchfield = this.querySelector<IdsSearchField>('ids-search-field[slot="search"]');
+    const searchfield = this.searchFieldEl;
     if (searchfield) {
       searchfield.colorVariant = 'module-nav';
       searchfield.onSearch = (value: string) => {
         if (value !== '') {
-          return this.filterAccordion(value);
+          const filterResult = this.filterAccordion(value);
+          if (!filterResult.length) {
+            this.renderNoFilterResults();
+          }
+          return filterResult;
         }
 
         this.clearFilterAccordion();
@@ -317,6 +335,8 @@ export default class IdsModuleNavBar extends Base {
    * @returns {void}
    */
   onDisplayModeChange(currentValue: string | false, newValue: string | false): void {
+    this.searchFieldEl?.clear();
+
     this.visible = (newValue !== false);
     if (this.content) this.content.displayMode = this.displayMode;
 
@@ -407,6 +427,20 @@ export default class IdsModuleNavBar extends Base {
   };
 
   /**
+   * @returns {HTMLElement} reference to shadow root element containing an empty state icon
+   */
+  get emptyIconContainerEl() {
+    return this.container?.querySelector('.ids-module-nav-search-no-results');
+  }
+
+  renderNoFilterResults() {
+    const iconContainer = this.emptyIconContainerEl;
+    iconContainer?.classList.add('visible');
+    const mainEl = this.mainEl;
+    mainEl?.setAttribute(attributes.HIDDEN, '');
+  }
+
+  /**
    * Clears a navigation accordion's previous filter result
    * @private
    */
@@ -416,6 +450,11 @@ export default class IdsModuleNavBar extends Base {
       header.hiddenByFilter = false;
       return header;
     });
+
+    const iconContainer = this.emptyIconContainerEl;
+    iconContainer?.classList.remove('visible');
+    const mainEl = this.mainEl;
+    mainEl?.removeAttribute(attributes.HIDDEN);
 
     // NOTE: Clear text highlighter here (See #494)
     this.#clearChildFilter();

@@ -75,7 +75,7 @@
 :host(.module-nav) {
   color: var(--ids-module-nav-settings-menu-item-text-color);
   min-height: var(--ids-module-nav-item-height);
-  margin-block: var(--ids-module-nav-switcher-button-icon-margin);
+  padding-block: var(--ids-module-nav-switcher-dropdown-item-margin-block);
 }
 
 :host(.module-nav) ::slotted(ids-icon) {
