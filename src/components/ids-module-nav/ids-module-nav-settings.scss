@@ -26,6 +26,10 @@
   @include single-line-ellipsis-text();
 }
 
+::slotted(ids-tooltip) {
+  z-index: var(--ids-z-index-60);
+}
+
 .ids-module-nav-settings {
   @include ids-base-button-styles();
   @include ids-module-nav-button-styles();
