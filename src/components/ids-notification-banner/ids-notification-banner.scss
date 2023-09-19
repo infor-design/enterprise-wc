@@ -3,7 +3,7 @@
   display: flex;
   padding-inline-start: var(--ids-notification-padding);
   align-items: center;
-  height: var(--ids-notification-banner-height);
+  min-height: var(--ids-notification-banner-height);
 }
 
 ids-alert,
@@ -47,6 +47,11 @@ ids-button::part(button):hover {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  &.wrap {
+    white-space: unset;
+    padding-block: var(--ids-space-50);
+  }
 }
 
 .ids-notification-banner[type='success'],
