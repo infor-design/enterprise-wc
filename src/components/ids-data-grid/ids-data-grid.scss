@@ -166,6 +166,11 @@
   min-width: fit-content;
 }
 
+// Used for row start
+.ids-data-grid-body.hidden {
+  visibility: hidden;
+}
+
 // Standalone Css Borders
 table.ids-data-grid {
   display: table;

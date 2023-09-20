@@ -9,9 +9,16 @@
 </head>
 
 <body>
-  <div class="test-style">
-    <ids-data-grid id="data-grid-1" row-selection="multiple" auto-fit="true" virtual-scroll="true"
-      row-height="xs"></ids-data-grid>
+  <ids-layout-grid auto-fit="true" padding="md">
+    <ids-text font-size="12" type="h1">Data Grid M3 (Virtual/Infinite Scroll)</ids-text>
+  </ids-layout-grid>
+  <ids-layout-grid auto-fit="true" padding-x="md">
+    <ids-layout-grid-cell>
+      <div class="test-style">
+        <ids-data-grid id="data-grid-1" row-selection="multiple" auto-fit="true" virtual-scroll="true" row-height="xs"></ids-data-grid>
+      </div>
+    </ids-layout-grid-cell>
+  </ids-layout-grid>
   </div>
 </body>
 

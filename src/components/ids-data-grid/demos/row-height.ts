@@ -66,6 +66,7 @@ if (dataGrid) {
       sortable: true,
       resizable: true,
       reorderable: true,
+      disabled: (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101,
       formatter: dataGrid.formatters.text
     });
     columns.push({

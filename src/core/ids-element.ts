@@ -1,3 +1,4 @@
+import IdsGlobal from '../components/ids-global/ids-global';
 import { camelCase } from '../utils/ids-string-utils/ids-string-utils';
 
 export type IdsBaseConstructor = new (...args: any[]) => IdsElement;
@@ -234,6 +235,8 @@ export default class IdsElement extends HTMLElement {
     if (this.lastTheme === theme) return;
     this.lastTheme = theme;
 
+    const themeLoaded = IdsGlobal.onThemeLoaded();
+
     // Handle setting theme via links
     document.querySelector('ids-container')?.setAttribute('hidden', '');
     const themeLink = document.querySelector('link[href*="ids-theme"]');
@@ -243,6 +246,7 @@ export default class IdsElement extends HTMLElement {
       themeLink.setAttribute('href', href?.replace(filename, `ids-theme-${theme}.css`) || '');
       setTimeout(() => {
         document.querySelector('ids-container')?.removeAttribute('hidden');
+        themeLoaded.resolve();
       }, 150);
       return;
     }
@@ -276,9 +280,9 @@ export default class IdsElement extends HTMLElement {
       else head.insertAdjacentHTML('beforeend', style);
     }
     this.loadLegacyTheme(theme);
-    document.querySelector('ids-container')?.setAttribute('animated', '');
     setTimeout(() => {
       document.querySelector('ids-container')?.removeAttribute('hidden');
+      themeLoaded.resolve();
     }, 150);
   }
 

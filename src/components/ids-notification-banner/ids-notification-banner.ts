@@ -13,6 +13,7 @@ import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-notification-banner.scss';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 const Base = IdsKeyboardMixin(
   IdsEventsMixin(
@@ -56,7 +57,8 @@ export default class IdsNotificationBanner extends Base {
       attributes.MESSAGE_TEXT,
       attributes.LINK,
       attributes.LINK_TEXT,
-      attributes.TYPE
+      attributes.TYPE,
+      attributes.WRAP
     ];
   }
 
@@ -74,12 +76,13 @@ export default class IdsNotificationBanner extends Base {
     }
 
     const type = (!this.type || TYPES[this.type] === undefined) ? TYPES.success.type : this.type;
+    const overflow = this.wrap ? '' : 'overflow="ellipsis"';
 
     return `
       <div class="ids-notification-banner" part="container" type="${type}">
         <ids-alert icon="${alertIcon === 'warning' ? 'alert' : alertIcon}"></ids-alert>
-        <div class="ids-notification-banner-message" part="message">
-          <ids-text overflow="ellipsis">${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
+        <div class="ids-notification-banner-message ${this.wrap ? 'wrap' : ''}" part="message">
+          <ids-text ${overflow}>${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
         </div>
 
         ${this.link !== null ? `<div part="link">
@@ -94,6 +97,30 @@ export default class IdsNotificationBanner extends Base {
         </div>
       </div>
     `;
+  }
+
+  /**
+   * Toggle text wrapping for overflowing messages.
+   * Text overflow style is ellipsis by default.
+   * @param {boolean | null} value wrapText value
+   */
+  set wrap(value: boolean | null) {
+    const messageContainer = this.container?.querySelector('.ids-notification-banner-message');
+    const messageText = messageContainer?.querySelector('ids-text');
+
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.WRAP, '');
+      messageContainer?.classList.add('wrap');
+      messageText?.setAttribute(attributes.OVERFLOW, 'none');
+    } else {
+      this.removeAttribute(attributes.WRAP);
+      messageContainer?.classList.remove('wrap');
+      messageText?.setAttribute(attributes.OVERFLOW, 'ellipsis');
+    }
+  }
+
+  get wrap(): boolean {
+    return stringToBool(this.getAttribute(attributes.WRAP));
   }
 
   /**
@@ -194,6 +221,7 @@ export default class IdsNotificationBanner extends Base {
     } = notification;
     const messageTextEl = this.container?.querySelector('[part="message"]');
     const alertIcon = this.container?.querySelector('ids-alert');
+    const overflow = this.wrap ? '' : 'overflow="ellipsis"';
 
     // Set properties
     if (id) {
@@ -202,7 +230,7 @@ export default class IdsNotificationBanner extends Base {
     this.type = type;
     this.messageText = messageText;
     alertIcon?.setAttribute('icon', this.type ?? '');
-    if (messageTextEl) messageTextEl.innerHTML = `<ids-text overflow="ellipsis">${this.messageText}</ids-text>`;
+    if (messageTextEl) messageTextEl.innerHTML = `<ids-text ${overflow}>${this.messageText}</ids-text>`;
 
     // Check for link and create the necassary elements.
     if (notification.link) {

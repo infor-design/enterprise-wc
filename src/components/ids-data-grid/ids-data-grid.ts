@@ -2,7 +2,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, IdsDirection } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
@@ -15,6 +14,7 @@ import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid
 import { containerArguments, containerTypes } from './ids-data-grid-container-arguments';
 import { IdsDataGridContextmenuArgs, setContextmenu, getContextmenuElem } from './ids-data-grid-contextmenu';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
+import IdsGlobal from '../ids-global/ids-global';
 
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import {
@@ -363,7 +363,7 @@ export default class IdsDataGrid extends Base {
   }
 
   /** Do some things after redraw */
-  afterRedraw() {
+  async afterRedraw() {
     const rowStart = this.rowStart || 0;
 
     // Handle ready state
@@ -379,25 +379,10 @@ export default class IdsDataGrid extends Base {
         handleReady();
       });
     } else {
-      requestAnimationTimeout(() => {
-        if (this.container) {
-          let scrollTopPixels = rowStart * (this.virtualScrollSettings.ROW_HEIGHT);
-          if (!this.virtualScrollSettings.ENABLED) {
-            const containerTopPosition = this.container.getBoundingClientRect().top;
-            scrollTopPixels = this.rowByIndex(rowStart)?.getBoundingClientRect?.()?.y ?? scrollTopPixels;
-            scrollTopPixels -= containerTopPosition;
-          }
-
-          const headerHeight = this.header?.getBoundingClientRect?.().height ?? 0;
-          this.container.scrollTop = scrollTopPixels - headerHeight;
-          this.#scrollRowIntoView(rowStart);
-          requestAnimationTimeout(() => {
-            this.#attachVirtualScrollEvent();
-            this.#scrollRowIntoView(this.rowStart);
-          }, 150);
-          handleReady();
-        }
-      }, 150);
+      await IdsGlobal.onThemeLoaded().promise;
+      this.#scrollRowIntoView(rowStart);
+      this.body?.classList.remove('hidden');
+      handleReady();
     }
   }
 
@@ -423,7 +408,10 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
-    return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
+    let extraCss = '';
+    extraCss += this.rowStart ? 'hidden' : '';
+
+    return `<div class="ids-data-grid-body ${extraCss}" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
   /**
@@ -711,7 +699,10 @@ export default class IdsDataGrid extends Base {
       const reachedVerticalBounds = nextRow >= this.data.length || prevRow < 0;
       if (movingVertical && reachedVerticalBounds) return;
 
-      if (this.activeCellEditor) cellNode.endCellEdit();
+      if (this.activeCellEditor) {
+        if (!this.activeCellCanClose()) return;
+        cellNode.endCellEdit();
+      }
 
       const activateCellNumber = cellNumber + cellDiff;
       const activateRowIndex = rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex;
@@ -747,6 +738,7 @@ export default class IdsDataGrid extends Base {
       if (this.openMenu) return;
       if (this.activeCellEditor) return;
       if (!this.activeCell?.node) return;
+      if (!this.activeCellCanClose()) return;
 
       const row = this.rowByIndex(this.activeCell.row)!;
       if (!row || row.disabled) return;
@@ -774,6 +766,7 @@ export default class IdsDataGrid extends Base {
     this.listen(['Enter'], this, (e: KeyboardEvent) => {
       if (this.openMenu) return;
       if (!this.activeCell?.node || findInPath(eventPath(e), '.ids-data-grid-header-cell')) return;
+      if (!this.activeCellCanClose()) return;
 
       const row = this.rowByIndex(this.activeCell.row)!;
       if (!row || row.disabled) return;
@@ -814,6 +807,7 @@ export default class IdsDataGrid extends Base {
       if (this.openMenu) return;
       const cellNode = this.activeCell.node;
       if (this.activeCellEditor) {
+        if (!this.activeCellCanClose()) return;
         cellNode.cancelCellEdit();
         cellNode.focus();
       }
@@ -823,6 +817,7 @@ export default class IdsDataGrid extends Base {
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
       if (this.openMenu) return;
       if (this.activeCellEditor) {
+        if (!this.activeCellCanClose()) return false;
         if (e.shiftKey) this.#editAdjacentCell(IdsDirection.Previous);
         else this.#editAdjacentCell(IdsDirection.Next);
 
@@ -1186,6 +1181,8 @@ export default class IdsDataGrid extends Base {
    * @param {Array} value The array to use
    */
   appendData(value: Array<Record<string, any>>) {
+    if (!value?.length) return;
+
     if (this.virtualScroll) {
       // NOTE: using originalData skips pagination-logic; it's ok in context of infinite-scroll
       this.datasource.data = this.datasource.originalData.concat(value);
@@ -1203,7 +1200,7 @@ export default class IdsDataGrid extends Base {
     const rows = this.rows;
     if (!data.length || !rows.length) return;
 
-    const { MAX_ROWS_IN_DOM } = this.virtualScrollSettings;
+    const { MAX_ROWS_IN_DOM, ROW_HEIGHT } = this.virtualScrollSettings;
 
     const rowsNeeded = Math.min(data.length, MAX_ROWS_IN_DOM) - rows.length;
     const missingRows: any[] = [];
@@ -1219,6 +1216,12 @@ export default class IdsDataGrid extends Base {
 
     if (missingRows.length && this.body) {
       this.body.innerHTML += missingRows.join('');
+    }
+
+    // trigger recycling if missingRows is 0 because MAX_ROWS_IN_DOMS has
+    // been reached but there is still new row data to be rendered
+    if (missingRows.length === 0 && data.length - 1 > lastRowIndex) {
+      this.#handleVirtualScroll(ROW_HEIGHT);
     }
   }
 
@@ -2710,5 +2713,20 @@ export default class IdsDataGrid extends Base {
     if (attachedMenus?.length) {
       [...attachedMenus].forEach((el: IdsPopupMenu) => el.remove());
     }
+  }
+
+  /**
+   * Checks on the active cell editor to see if its current state allows it to be closed.
+   * @returns {boolean} true if the cell editor is able to "close"
+   */
+  private activeCellCanClose() {
+    if (this.activeCellEditor && this.activeCellEditor.editor) {
+      if (this.activeCellEditor.editor.popup) {
+        if (this.activeCellEditor.editor.popup.visible) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }

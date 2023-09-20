@@ -56,6 +56,8 @@ class IdsTimePickerPopup extends Base {
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
+    this.removeEventListeners();
+    this.#value = null;
   }
 
   static get attributes(): Array<string> {
@@ -198,6 +200,13 @@ class IdsTimePickerPopup extends Base {
         this.hide(true);
       }
     });
+  }
+
+  private removeEventListeners() {
+    this.offEvent('change.time-picker-dropdowns');
+    this.offEvent('click.time-picker-set');
+    this.unlisten('Escape');
+    this.unlisten('Backspace');
   }
 
   /**
@@ -795,7 +804,7 @@ class IdsTimePickerPopup extends Base {
    * Stored timestring-value of the timepickers input-field
    * @private
    */
-  #value: string;
+  #value: string | null;
 
   /**
    * Sets a current timestring-value of the timepickers input-field

@@ -15,14 +15,10 @@
   }
 }
 
-// Grouped Headers
-.ids-data-grid-column-groups {
-  border-block-end: 1px solid var(--ids-data-grid-header-color-border);
-}
-
 // Header Cell Area
 .ids-data-grid-header-cell {
   border-inline-start: 1px solid var(--ids-data-grid-header-color-border);
+  border-block-end: 1px solid var(--ids-data-grid-header-color-border);
   background-color: var(--ids-data-grid-header-color-background-default);
   min-height: 28px;
   position: relative;
@@ -32,8 +28,8 @@
     border-inline-start-width: 0;
   }
 
-  &:hover {
-    background-color: var(--ids-data-grid-header-hover-background-color);
+  &:hover.is-actionable {
+    background-color: var(--ids-data-grid-header-color-background-hover);
   }
 
   &.align-center .ids-data-grid-header-cell-content,
@@ -44,6 +40,11 @@
   &.align-right .ids-data-grid-header-cell-content,
   &.align-right .ids-data-grid-header-cell-filter-wrapper {
     justify-content: flex-end;
+  }
+
+  &.align-right .is-sortable .ids-data-grid-header-text {
+    padding-inline-end: var(--ids-data-grid-padding-lg);
+    padding-inline-start: 5px;
   }
 
   &.align-right .ids-data-grid-header-cell-filter-wrapper {
@@ -85,12 +86,12 @@
   }
 
   &.align-right .reorderer {
-    inset-inline-end: 8px;
+    inset-inline-end: 5px;
     inset-inline-start: initial;
   }
 
   &:last-child .resizer {
-    margin-inline-start: calc(100% - 6px); // Prevents un needed scrollbar
+    margin-inline-start: calc(100% - 6px); // Prevents unneeded scrollbar
   }
 
   &.dragging {
@@ -104,7 +105,7 @@
   }
 
   &.active-drag-column {
-    background-color: var(--ids-data-grid-header-color-background-placeholder-dragging);
+    background-color: var(--ids-data-grid-header-color-background-default-placeholder-dragging);
 
     .sort-indicator {
       opacity: 0;
@@ -223,7 +224,7 @@
   margin-inline-start: var(--ids-space-50);
 
   &:hover {
-    color: var(--ids-data-grid-header-expander-active-color);
+    color: var(--ids-data-grid-header-expander-color-active);
   }
 }
 
@@ -288,12 +289,12 @@
   }
 
   &::before {
-    border-top: 5px solid var(--ids-data-grid-header-color-background-default);
+    border-top: 5px solid var(--ids-data-grid-header-drag-arrow-color-background);
     top: -6px;
   }
 
   &::after {
-    border-bottom: 5px solid var(--ids-data-grid-header-color-background-default);
+    border-bottom: 5px solid var(--ids-data-grid-header-drag-arrow-color-background);
     bottom: -9px;
   }
 }
@@ -356,7 +357,11 @@ th.ids-data-grid-header-cell {
     }
 
     .sort-indicator {
-      margin-inline-start: -6px;
+      margin-inline-start: -8px;
+    }
+
+    .ids-data-grid-header-cell.align-right .reorderer {
+      inset-inline-end: 3px;
     }
   }
 
@@ -370,10 +375,6 @@ th.ids-data-grid-header-cell {
     }
 
     .sort-indicator {
-      margin-inline-start: -2px;
-    }
-
-    .align-right .sort-indicator {
       margin-inline-start: -4px;
     }
   }
@@ -389,11 +390,17 @@ th.ids-data-grid-header-cell {
 
     .sort-indicator {
       margin-inline-start: -2px;
-      margin-block-start: -2px;
+      margin-inline-end: -2px;
+      margin-block-start: -3px;
     }
 
     .ids-data-grid-checkbox-container {
       padding-top: 2px;
+    }
+
+    .ids-data-grid-header-cell.align-right .is-sortable .ids-data-grid-header-text {
+      padding-inline-end: var(--ids-data-grid-padding-xs);
+      padding-inline-start: 5px;
     }
   }
 
@@ -408,7 +415,7 @@ th.ids-data-grid-header-cell {
 
     .sort-indicator {
       margin-inline-start: 0;
-      margin-block-start: -5px;
+      margin-block-start: -1px;
       height: 22px;
 
       > ids-icon:first-child {
@@ -420,8 +427,13 @@ th.ids-data-grid-header-cell {
       margin-inline-start: 0;
     }
 
-    .ids-data-grid-checkbox-container {
-      padding-top: 1px;
+    .ids-data-grid-header-text .ids-data-grid-checkbox-container {
+      padding-top: 3px;
+    }
+
+    .ids-data-grid-header-cell.align-right .is-sortable .ids-data-grid-header-text {
+      padding-inline-end: 3px;
+      padding-inline-start: 3px;
     }
 
     // Filter Adjustments

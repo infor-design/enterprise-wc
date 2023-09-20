@@ -220,7 +220,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {void}
    * @private
    */
-  #toggleExpanded(isExpanded: any): void {
+  #toggleExpanded(isExpanded: boolean): void {
     this.header?.setAttribute('aria-expanded', `${isExpanded}`);
 
     if (!isExpanded) {

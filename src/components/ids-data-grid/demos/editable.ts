@@ -100,7 +100,8 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     editor: {
       type: 'timepicker',
       editorSettings: {
-        dirtyTracker: true
+        dirtyTracker: true,
+        format: dataGrid.localeAPI?.calendar().timeFormat
       }
     }
   });
