@@ -62,6 +62,7 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * @type {IdsTextarea}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsFormInputMixin
  * @mixes IdsClearableMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsLabelStateMixin

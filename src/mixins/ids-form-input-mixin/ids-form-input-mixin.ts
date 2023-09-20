@@ -4,8 +4,6 @@ import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
 
-// class FormInputMixinCustomEvent extends CustomEvent {}
-
 /**
  * Adds validation to any input field
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -91,16 +89,12 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
   #handleChangeEvent(e: Event) {
     const value = this.value;
-    // const value = this.getAttribute(attributes.VALUE);
-    // const formValue = this.#internals?.form;
     this.#internals?.setFormValue?.(value);
 
     if (e instanceof CustomEvent) {
       e.stopPropagation();
-      // e.stopImmediatePropagation();
     }
 
-    // e.preventDefault();
     this.triggerEvent(`change.${this.name ?? 'ids-form-input-mixin'}`, this, {
       bubbles: true,
       composed: true,
@@ -114,13 +108,11 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
   #handleInputEvent(e: Event) {
     const value = this.value;
-    // const value = this.getAttribute(attributes.VALUE);
     this.#internals?.setFormValue?.(value);
 
     const inputWrapper = (this.getRootNode() as ShadowRoot)?.host;
     if (inputWrapper) {
       try {
-        // console.log('HELLOWORLD', inputWrapper);
         (inputWrapper as HTMLInputElement).value = value;
       } catch (err) {
         inputWrapper.setAttribute?.(attributes.VALUE, value);

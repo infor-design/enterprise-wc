@@ -768,13 +768,6 @@ export default class IdsTimePicker extends Base {
    */
   onLabelChange(value: string | null) {
     if (this.input) this.input.label = value ?? '';
-    // if (this.input) this.input.label = this.label;
-
-    // if (value) {
-    //   this.input?.setAttribute(attributes.LABEL, value);
-    // } else {
-    //   this.input?.removeAttribute(attributes.LABEL);
-    // }
   }
 
   /**

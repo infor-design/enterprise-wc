@@ -96,6 +96,7 @@ type IdsInputTemplateVariables = {
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsFormInputMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsClearableMixin
  * @mixes IdsColorVariantMixin
@@ -895,8 +896,6 @@ export default class IdsInput extends Base {
   set value(val: string | undefined) {
     let v = ['string', 'number'].includes(typeof val) ? String(val) : String(val || '');
     const currentValue = this.value;
-    // console.log({ currentValue, val });
-    // const currentValue = this.getAttribute(attributes.VALUE) || '';
 
     // If a mask is enabled, use the conformed value.
     // If no masking occurs, simply use the provided value.

@@ -791,7 +791,6 @@ export default class IdsColorPicker extends Base {
    * @param {boolean} label label
    */
   onLabelChange(label: string) {
-    // this.textInput?.setAttribute(attributes.LABEL, label);
     if (this.textInput) this.textInput.label = label ?? '';
   }
 
