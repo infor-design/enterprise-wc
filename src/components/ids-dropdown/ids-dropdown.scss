@@ -135,8 +135,23 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
     background-color: var(--ids-module-nav-input-bg-color);
     border-radius: var(--ids-module-nav-common-border-radius);
     border: var(--ids-module-nav-input-border-width) solid var(--ids-module-nav-input-border-color);
+    box-shadow: none;
     color: inherit;
     overflow: hidden;
+  }
+
+  ids-trigger-field:hover::part(field-container) {
+    background-color: var(--ids-module-nav-input-hover-bg-color);
+  }
+
+  ids-trigger-field:active::part(field-container) {
+    background-color: var(--ids-module-nav-item-selected-bg-color);
+    border-color: var(--ids-module-nav-item-selected-text-color);
+    color: var(--ids-module-nav-item-selected-text-color);
+  }
+
+  ids-trigger-field:focus-within::part(field-container) {
+    background-color: var(--ids-module-nav-input-focus-bg-color);
   }
 
   ids-trigger-field::part(input) {

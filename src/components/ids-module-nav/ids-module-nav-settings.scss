@@ -30,6 +30,10 @@
   z-index: var(--ids-z-index-60);
 }
 
+ids-separator::part(separator) {
+  background-color: var(--ids-module-nav-settings-menu-separator-color);
+}
+
 .ids-module-nav-settings {
   @include ids-base-button-styles();
   @include ids-module-nav-button-styles();

@@ -83,6 +83,11 @@
   margin-block-end: 1px;
 }
 
+:host(.module-nav:hover) {
+  background-color: var(--ids-module-nav-item-hover-bg-color);
+  color: var(--ids-module-nav-item-hover-text-color);
+}
+
 :host(.module-nav.is-selected) {
   background-color: var(--ids-module-nav-item-hover-bg-color);
   color: var(--ids-module-nav-item-hover-text-color);
