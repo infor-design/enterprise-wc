@@ -81,7 +81,7 @@
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.1",
     "htmlhint": "^1.1.4",
-    "ids-identity": "4.14.8",
+    "ids-identity": "4.15.3",
     "jest": "29.5.0",
     "jest-environment-jsdom": "29.5.0",
     "jest-puppeteer": "9.0.0",

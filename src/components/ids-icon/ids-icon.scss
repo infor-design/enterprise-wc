@@ -40,12 +40,12 @@ svg {
   width: 17px;
 }
 
-:host([icon^='empty-']) {
-  color: var(--ids-icon-empty-color);
-}
+:host([icon='favicon']) {
+  color: var(--ids-icon-infor-color);
 
-:host([icon^='empty-'][icon$='-new']) {
-  color: var(--ids-icon-empty-new-color);
+  path:nth-child(2) {
+    fill: white;
+  }
 }
 
 .notification-badge {
