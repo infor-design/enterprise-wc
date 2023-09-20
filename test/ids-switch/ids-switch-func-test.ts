@@ -104,7 +104,7 @@ describe('IdsSwitch Component', () => {
     el = document.querySelector('ids-switch') as IdsSwitch;
 
     el.attachNativeEvents('remove');
-    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
       el.addEventListener(evt, () => {

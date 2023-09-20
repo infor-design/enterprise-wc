@@ -292,11 +292,10 @@ export default class IdsSearchField extends IdsTriggerField {
   set value(val: string) {
     super.value = val;
 
-    const newValue = super.value;
-    this.#previousSearchValue = newValue;
+    this.#previousSearchValue = val;
 
     if (typeof this.onSearch === 'function') {
-      this.onSearch(newValue);
+      this.onSearch(val);
     }
   }
 

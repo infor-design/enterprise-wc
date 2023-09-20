@@ -125,7 +125,7 @@ export default class IdsSwitch extends Base {
    */
   attachNativeEvents(option = '') {
     if (this.input) {
-      const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+      const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt: string) => {
         if (option === 'remove') {
           const handler = this.handledEvents?.get(evt);

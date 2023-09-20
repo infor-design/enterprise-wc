@@ -178,8 +178,8 @@ class IdsTimePickerPopup extends Base {
   private attachEventListeners() {
     this.offEvent('change.time-picker-dropdowns');
     this.onEvent('change.time-picker-dropdowns', this.dropdownContainerEl, (e: any) => {
-      const currentId = e.detail?.elem?.id;
-      if (!currentId) return;
+      if (!e.target?.matches?.('ids-dropdown')) return;
+      const currentId = e.target?.id;
 
       this.setAttribute(currentId, e.detail.value);
       if (this.autoupdate) this.triggerSelectedEvent();

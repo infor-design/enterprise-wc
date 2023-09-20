@@ -226,7 +226,7 @@ describe('IdsSearchField Component', () => {
     s.addEventListener('change', changeEventListener);
 
     s.value = 'new keyword here';
-    expect(changeEventListener).toBeCalledTimes(2);
+    expect(changeEventListener).toBeCalledTimes(1);
   });
 
   it('triggers "search" event when action-button clicked', async () => {

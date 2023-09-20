@@ -616,21 +616,6 @@ export default class IdsInput extends Base {
    */
   #attachEventHandlers(): void {
     this.#attachNativeEvents();
-
-    // If the internal input value is updated and a change event is triggered,
-    // reflect that change on the WebComponent host element.
-    this.onEvent('change.input', this.container, (e: any) => {
-      this.triggeredByChange = true;
-      this.value = this.input?.value;
-      this.triggerEvent('change', this, {
-        bubbles: true,
-        detail: {
-          elem: this,
-          nativeEvent: e,
-          value: this.value
-        }
-      });
-    });
   }
 
   /**
@@ -909,20 +894,14 @@ export default class IdsInput extends Base {
    */
   set value(val: string | undefined) {
     let v = ['string', 'number'].includes(typeof val) ? String(val) : String(val || '');
-    const currentValue = this.getAttribute(attributes.VALUE) || '';
+    const currentValue = this.value;
+    // console.log({ currentValue, val });
+    // const currentValue = this.getAttribute(attributes.VALUE) || '';
 
     // If a mask is enabled, use the conformed value.
     // If no masking occurs, simply use the provided value.
     if (this.mask) {
       v = this.processMaskFromProperty(val) || v;
-    }
-
-    if (this.input && this.input?.value !== v) {
-      this.input.value = v;
-      if (!this.triggeredByChange) {
-        this.input?.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-      this.triggeredByChange = false;
     }
 
     if (currentValue !== v) {

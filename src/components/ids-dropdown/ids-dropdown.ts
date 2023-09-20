@@ -322,17 +322,6 @@ export default class IdsDropdown extends Base {
     this.selectTooltip(elem);
     if (this.input) this.input.value = elem.textContent?.trim();
     this.state.selectedIndex = [...((elem?.parentElement as any)?.children || [])].indexOf(elem);
-
-    // Send the change event
-    if (this.value === value) {
-      this.triggerEvent('change', this, {
-        bubbles: true,
-        detail: {
-          elem: this,
-          value: this.value
-        }
-      });
-    }
   }
 
   /**
@@ -356,7 +345,7 @@ export default class IdsDropdown extends Base {
    * @returns {string[]} value
    */
   get labels(): string[] {
-    return this.options.map((item) => item.textContent ?? '');
+    return this.options.map((item) => item.innerText ?? item.textContent ?? '');
   }
 
   /**
@@ -1277,7 +1266,7 @@ export default class IdsDropdown extends Base {
   onSizeChange(value: string) {
     if (value) this.dropdownList?.setAttribute(attributes.SIZE, value);
     else this.dropdownList?.removeAttribute(attributes.SIZE);
-    this.input?.setAttribute(attributes.SIZE, value);
+    this.input?.setAttribute(attributes.SIZE, value || 'md');
   }
 
   /**

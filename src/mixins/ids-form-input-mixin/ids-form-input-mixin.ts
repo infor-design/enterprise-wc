@@ -4,6 +4,8 @@ import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
 
+// class FormInputMixinCustomEvent extends CustomEvent {}
+
 /**
  * Adds validation to any input field
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -43,9 +45,29 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     super.attributeChangedCallback(name, oldValue, newValue);
-    if (oldValue === newValue) return;
+    if (oldValue === newValue || !this.formInput) return;
 
-    this.formInput?.setAttribute?.(name, newValue);
+    if (name === attributes.VALUE) {
+      if (!this.formInput) return;
+      const processedValue = this.getAttribute(attributes.VALUE) ?? '';
+
+      // NOTE: formInput.setAttribute('value') sets the default value and formInput.value sets current value
+      // @see https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute#gecko_notes
+      // TODO: remove call to formInput.setAttribute('value') and fix broken tests
+      this.formInput?.setAttribute?.(name, processedValue);
+      this.formInput.value = processedValue;
+
+      this.formInput?.dispatchEvent?.(new CustomEvent('change', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          elem: this,
+          value: processedValue,
+        },
+      }));
+    } else {
+      this.formInput?.setAttribute?.(name, newValue || '');
+    }
   }
 
   connectedCallback() {
@@ -53,7 +75,10 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
     this.#ariaDefaults();
 
     this.offEvent('change.native', this.formInput);
-    this.onEvent('change.native', this.formInput, (e: Event) => this.#handleInputEvent(e));
+    this.onEvent('change.native', this.formInput, (e: Event) => {
+      this.#handleInputEvent(e);
+      this.#handleChangeEvent(e);
+    });
 
     this.offEvent('input.native', this.formInput);
     this.onEvent('input.native', this.formInput, (e: Event) => this.#handleInputEvent(e));
@@ -64,13 +89,42 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
     this.formInput?.setAttribute('aria-label', label);
   }
 
+  #handleChangeEvent(e: Event) {
+    const value = this.value;
+    // const value = this.getAttribute(attributes.VALUE);
+    // const formValue = this.#internals?.form;
+    this.#internals?.setFormValue?.(value);
+
+    if (e instanceof CustomEvent) {
+      e.stopPropagation();
+      // e.stopImmediatePropagation();
+    }
+
+    // e.preventDefault();
+    this.triggerEvent(`change.${this.name ?? 'ids-form-input-mixin'}`, this, {
+      bubbles: true,
+      composed: true,
+      detail: {
+        elem: this,
+        value,
+        nativeEvent: e,
+      }
+    });
+  }
+
   #handleInputEvent(e: Event) {
     const value = this.value;
+    // const value = this.getAttribute(attributes.VALUE);
     this.#internals?.setFormValue?.(value);
 
     const inputWrapper = (this.getRootNode() as ShadowRoot)?.host;
     if (inputWrapper) {
-      (inputWrapper as HTMLInputElement).value = value;
+      try {
+        // console.log('HELLOWORLD', inputWrapper);
+        (inputWrapper as HTMLInputElement).value = value;
+      } catch (err) {
+        inputWrapper.setAttribute?.(attributes.VALUE, value);
+      }
     }
 
     this.triggerEvent(`input.${this.name ?? 'ids-form-input-mixin'}`, this, {
@@ -96,9 +150,15 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
   get type() { return this.localName; }
 
-  get value(): string { return this.formInput?.getAttribute?.(attributes.VALUE) ?? ''; }
+  get value(): string {
+    // NOTE: input.getAttribute('value') returns default, so input.value should be used current value
+    // @see https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute#gecko_notes
+    return this.formInput?.value ?? this.formInput?.getAttribute?.(attributes.VALUE) ?? '';
+  }
 
   set value(value: string) {
+    if (value === this.value) return;
+
     // NOTE: this.setAttribute() will trigger IdsFormInputMixin.attributeChangedCallback()
     this.setAttribute(attributes.VALUE, value ?? '');
   }
