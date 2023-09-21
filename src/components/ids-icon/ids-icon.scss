@@ -40,6 +40,12 @@ svg {
   width: 17px;
 }
 
+:host([icon='logo']) svg {
+  path:nth-child(1) {
+    display: none; // hide tradmark
+  }
+}
+
 :host([icon='favicon']) {
   color: var(--ids-icon-infor-color);
 
