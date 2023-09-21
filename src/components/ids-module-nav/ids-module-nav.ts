@@ -28,7 +28,6 @@ export default class IdsModuleNav extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.adjustSlottedElements();
   }
 
   disconnectedCallback(): void {
@@ -83,14 +82,6 @@ export default class IdsModuleNav extends Base {
     const parentEl: IdsContainer | undefined = getClosest(this, 'ids-container');
     if (parentEl) return parentEl;
     return undefined;
-  }
-
-  /**
-   * Adjusts the order of the bar/content to prevent z-index/stacking context issues
-   */
-  private adjustSlottedElements() {
-    if (!this.bar || !this.content) return;
-    this.insertAdjacentElement('beforeend', this.bar);
   }
 
   /**

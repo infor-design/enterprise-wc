@@ -4,7 +4,8 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 import IdsDrawer from '../ids-drawer/ids-drawer';
-import { toggleScrollbar } from './ids-module-nav-common';
+import IdsLocale from '../ids-locale/ids-locale';
+import { toggleScrollbar, checkItemOverflow } from './ids-module-nav-common';
 
 import '../ids-accordion/ids-accordion';
 import '../ids-button/ids-button';
@@ -24,12 +25,12 @@ import type IdsAccordion from '../ids-accordion/ids-accordion';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
 import type IdsModuleNav from './ids-module-nav';
+import type IdsModuleNavButton from './ids-module-nav-button';
 import type IdsModuleNavContent from './ids-module-nav-content';
 import type IdsModuleNavItem from './ids-module-nav-item';
 import type IdsModuleNavSettings from './ids-module-nav-settings';
 import type IdsModuleNavSwitcher from './ids-module-nav-switcher';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
-import IdsLocale from '../ids-locale/ids-locale';
 
 const CONTAINER_OPEN_CLASS = 'module-nav-is-open';
 
@@ -42,6 +43,8 @@ const Base = IdsModuleNavDisplayModeMixin(
     )
   )
 );
+
+type IdsModuleNavTooltipTarget = IdsModuleNavItem | IdsModuleNavButton | IdsModuleNavSettings;
 
 /**
  * IDS Module Nav Bar Component
@@ -288,7 +291,22 @@ export default class IdsModuleNavBar extends Base {
     // Listen for hover on key internal elements,
     // in order to re-attach the internal Module Nav tooltip where needed
     this.onEvent('mouseover.tooltip', this, (e: CustomEvent) => {
-      this.setTooltipTarget(e.target as HTMLElement);
+      this.setTooltipTarget(e.target as IdsModuleNavTooltipTarget);
+    });
+
+    // Conditionally veto the tooltip's visibility based on
+    // Module Nav Display Mode and each item's text overflow
+    this.onEvent('beforeshow.tooltip', this.tooltipEl, (e: CustomEvent) => {
+      let allowed = true;
+      if (!this.displayMode) allowed = false;
+      if (this.displayMode === 'expanded') {
+        const target = this.tooltipEl?.popup?.alignTarget;
+        if (!target) allowed = false;
+        else {
+          allowed = checkItemOverflow((target as IdsModuleNavItem)!.textNode);
+        }
+      }
+      e.detail.response(allowed);
     });
   }
 
@@ -296,6 +314,9 @@ export default class IdsModuleNavBar extends Base {
     this.offEvent('show.module-nav-show');
     this.offEvent('hide.module-nav-hide');
     this.offEvent('beforeexpanded.accordion');
+    this.offEvent('cleared.search');
+    this.offEvent('mouseover.tooltip');
+    this.offEvent('beforeshow.tooltip');
   }
 
   #clearContainer() {
@@ -593,14 +614,12 @@ export default class IdsModuleNavBar extends Base {
     this.container?.classList[sectionHasScrollbar ? 'add' : 'remove']('has-section-scrollbars');
   }
 
-  private setTooltipTarget(target: HTMLElement) {
-    if (this.displayMode !== 'collapsed') {
-      if (this.tooltipEl) {
-        this.tooltipEl.removeAttribute(attributes.TARGET);
-      }
-      return;
-    }
-
+  /**
+   * Swaps the element on which the built-in IdsTooltip is attached.
+   * @private
+   * @param {IdsModuleNavTooltipTarget} target the element receiving the tooltip
+   */
+  private setTooltipTarget(target: IdsModuleNavTooltipTarget) {
     const allowedElems = [
       'IDS-MODULE-NAV-BUTTON',
       'IDS-MODULE-NAV-ITEM',
@@ -612,6 +631,7 @@ export default class IdsModuleNavBar extends Base {
 
       if (this.tooltipEl) {
         this.tooltipEl.setAttribute(attributes.TARGET, `#${id}`);
+        this.tooltipEl.popup?.setAttribute(attributes.ARROW_TARGET, `#${id}`);
         this.tooltipEl.textContent = text;
       }
     }
