@@ -73,13 +73,6 @@ document.querySelectorAll('ids-color-picker').forEach((picker) => {
 
 // Implement Toggle Button
 window.onload = () => {
-  // Add an event listener to test clickable links
-  document.querySelectorAll('ids-toggle-button').forEach((idsButton) => {
-    idsButton.addEventListener('click', (e: any) => {
-      e.target.toggle();
-    });
-  });
-
   // Switch Values on Theme Change
   document.addEventListener('themechanged', () => {
     const style = getComputedStyle(document.body);

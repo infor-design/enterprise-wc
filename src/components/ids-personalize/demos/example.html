@@ -6,15 +6,6 @@
     <%= htmlWebpackPlugin.options.title %>
   </title>
   <%= htmlWebpackPlugin.options.font %>
-  <!--
-    <style id="my-theme" nonce="0a59a005">
-      :root, :host {
-        --ids-color-primary: #800;
-        --ids-color-background-default: #fdfdfe;
-        --ids-color-text: black;
-      }
-    </style>
-  -->
 </head>
 
 <body>
@@ -24,11 +15,9 @@
       <ids-layout-grid-cell col-span="2">
         <ids-text font-size="12" type="h1">Colors</ids-text>
         <br>
-        <ids-color-picker size="sm" label="Primary Color" suppress-labels value="#0066D4" id="primary-color"></ids-color-picker>
-        <ids-color-picker size="sm" label="Background Color" suppress-labels value="#FFFFFF" id="background-color"></ids-color-picker>
-        <ids-color-picker size="sm" label="Text Color" suppress-labels value="#2F2F32" id="text-color"></ids-color-picker>
+        <ids-color-picker size="sm" label="Personalization Color" suppress-labels value="#0066D4" id="pers-color"></ids-color-picker>
+        <ids-text font-size="12" type="h2">Color Progression</ids-text><br>
 
-        <ids-text font-size="16" type="span" label="true">Color Progression</ids-text><br>
         <ids-layout-grid-cell justify-content="center">
           <ids-color size="sm" id="color-10" hex="#E6F1FD" clickable="false"></ids-color>
           <ids-color size="sm" id="color-20" hex="#BEDCFA" clickable="false"></ids-color>
@@ -53,36 +42,33 @@
 
         <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
-            <ids-header>
-              <ids-toolbar>
-                <ids-toolbar-section type="button">
-                  <ids-button icon="menu" role="button">
-                    <span slot="text" class="audible">Application Menu Trigger</span>
-                  </ids-button>
-                </ids-toolbar-section>
-                <ids-toolbar-section type="title">
-                  <ids-text font-size="20">My Header</ids-text>
-                  <ids-text font-size="14">With some extra information below</ids-text>
-                </ids-toolbar-section>
-                <ids-toolbar-section align="end">
-                  <ids-search-field id="header-search" clearable label-state="collapsed" no-margins></ids-search-field>
-                </ids-toolbar-section>
-                <ids-toolbar-section type="button">
-                  <ids-theme-switcher></ids-theme-switcher>
-                </ids-toolbar-section>
-              </ids-toolbar>
-            </ids-header>
+          <ids-header>
+            <ids-toolbar>
+              <ids-toolbar-section type="button">
+                <ids-button icon="menu" role="button">
+                  <span slot="text" class="audible">Application Menu Trigger</span>
+                </ids-button>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="title">
+                <ids-text font-size="20">My Header</ids-text>
+                <ids-text font-size="14">With some extra information below</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="button">
+                <ids-theme-switcher></ids-theme-switcher>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </ids-header>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
         <!-- Buttons -->
-        <ids-layout-grid auto-fit="true" padding="sm">
+        <ids-layout-grid auto-fit="true" padding="sm" gap="none">
           <ids-layout-grid-cell>
             <ids-text font-size="12" type="h2">Buttons</ids-text>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-layout-grid cols="4" gap="md" padding="sm">
+        <ids-layout-grid cols="4" padding="sm">
           <ids-layout-grid-cell>
             <p>
               <ids-text font-size="12" type="h2">Primary</ids-text>

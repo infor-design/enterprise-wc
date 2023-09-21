@@ -387,7 +387,7 @@
     // Default/Tertiary Default/Light Mode
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      box-shadow: var(--ids-shadow-20);
+      box-shadow: var(--ids-button-tertiary-shadow-focus);
     }
 
     &.color-variant-alternate {

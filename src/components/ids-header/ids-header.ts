@@ -4,20 +4,9 @@ import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsElement from '../../core/ids-element';
-
-import '../ids-input/ids-input';
-
+import IdsPersonalization from '../ids-personalize/ids-personalize';
 import styles from './ids-header.scss';
-
-const Base = IdsColorVariantMixin(
-  IdsKeyboardMixin(
-    IdsEventsMixin(
-      IdsElement
-    )
-  )
-);
 
 /**
  * IDS Header Component
@@ -28,16 +17,17 @@ const Base = IdsColorVariantMixin(
  */
 @customElement('ids-header')
 @scss(styles)
-export default class IdsHeader extends Base {
+export default class IdsHeader extends IdsKeyboardMixin(IdsEventsMixin(IdsElement)) {
   colorVariants: string[] = ['alternate'];
 
   constructor() {
     super();
   }
 
+  personalization?: IdsPersonalization;
+
   connectedCallback() {
     super.connectedCallback();
-    this.#refreshVariants();
     // Set initial color
     const initialColor = this.getAttribute('color');
     if (initialColor) this.color = initialColor;
@@ -62,37 +52,20 @@ export default class IdsHeader extends Base {
   }
 
   /**
-   * Refresh the color variants on all elements
-   * @private
-   */
-  #refreshVariants() {
-    const elementNames = ['ids-button', 'ids-breadcrumb', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
-
-    if (this.colorVariant !== 'alternate') return;
-
-    for (const element of elementNames) {
-      const idsElements = [...this.querySelectorAll<any>(element)];
-      idsElements.forEach((elem) => {
-        elem.colorVariant = 'alternate';
-      });
-    }
-  }
-
-  /**
    * Sets the color attribute
-   * @param {string} c string value for color
+   * @param {string} value string value for color
    */
-  set color(c: string) {
-    if (typeof c !== 'string' || !c.length) {
+  set color(value: string) {
+    if (typeof value !== 'string' || !value.length) {
       return;
     }
-    const sanitzedVal = stripHTML(c);
-    // TODO Use Css Variables to set the color
-    if (this.container) this.container.style.backgroundColor = sanitzedVal;
-    this.setAttribute('color', sanitzedVal);
+    const sanitzedVal = stripHTML(value);
+
+    this.personalization = new IdsPersonalization();
+    this.personalization!.color = sanitzedVal;
   }
 
   get color(): string {
-    return this.getAttribute('color') || '#0072ed';
+    return this.getAttribute('color') || '#fff';
   }
 }

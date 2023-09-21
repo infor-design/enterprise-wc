@@ -418,7 +418,11 @@
   --ids-switch-toggle-shadow-focus: 0 0 0 3px var(--ids-color-primary-20), 0 0 0 4px var(--ids-color-primary-60), 0 0 4px 6px var(--ids-color-neutral-20);
 
   // Tab
-  --ids-tab-focus-hide-border-color: var(--ids-color-primary);
+  --ids-tab-divider-color-background: var(--ids-color-neutral-40);
+  --ids-tab-color-background-hover: var(--ids-color-primary-10);
+  --ids-tab-color-text-hover: var(--ids-color-primary-50);
+  --ids-tab-color-border-focus: var(--ids-color-primary-80);
+  --ids-tab-color-text-selected: var(--ids-color-primary-80);
 
   // Tab (Module Variant)
   --ids-tab-module-color-background-default: var(--ids-color-neutral-20);

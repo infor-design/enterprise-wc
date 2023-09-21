@@ -173,6 +173,9 @@
   // Charts
   --ids-chart-legend-color-text: var(--ids-color-text);
 
+  // Checkbox
+  --ids-checkbox-color-background-selected: var(--ids-color-neutral-70);
+
   // Data Grid
   --ids-data-grid-color-background: var(--ids-color-neutral-100);
 
@@ -523,10 +526,10 @@
   // Tab
   --ids-tab-content-color-text: var(--ids-color-text);
   --ids-tab-color-text-hover: var(--ids-color-neutral-00);
-  --ids-tab-color-background-hover: var(--ids-color-neutral-60);
+  --ids-tab-color-background-hover: var(--ids-color-neutral-80);
   --ids-tab-color-background-focus: var(--ids-color-background-default);
   --ids-tab-color-border-focus: var(--ids-color-neutral-00);
-  --ids-tab-color-text-selected: var(--ids-color-neutral-00);
+  --ids-tab-color-text-selected: var(--ids-color-azure-40);
   --ids-tab-color-text-disabled: var(--ids-color-neutral-60);
   --ids-tab-color-border-bottom: var(--ids-color-neutral-70);
 
