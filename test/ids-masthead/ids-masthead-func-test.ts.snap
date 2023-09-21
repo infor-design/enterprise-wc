@@ -6,7 +6,7 @@ exports[`IdsMasthead Component renders and updates logo 1`] = `
         <ids-toolbar-section id="start" align="start" type="fluid">
           <span id="logo-wrapper">
         <ids-button id="logo" class="icon-logo" color-variant="alternate" square="true">
-          <ids-icon icon="logo" viewbox="0 0 32 34" width="30" height="30"></ids-icon>
+          <ids-icon icon="logo" viewbox="0 0 32 34" width="32" height="32"></ids-icon>
           <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
@@ -64,7 +64,7 @@ exports[`IdsMasthead Component renders and updates title 1`] = `
         <ids-toolbar-section id="start" align="start" type="fluid">
           <span id="logo-wrapper">
         <ids-button id="logo" class="icon-logo" color-variant="alternate" square="true">
-          <ids-icon icon="logo" viewbox="0 0 32 34" width="30" height="30"></ids-icon>
+          <ids-icon icon="logo" viewbox="0 0 32 34" width="32" height="32"></ids-icon>
           <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>

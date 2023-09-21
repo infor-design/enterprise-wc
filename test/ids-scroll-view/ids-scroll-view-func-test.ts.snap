@@ -7,27 +7,27 @@ exports[`IdsScrollView Component renders correctly 1`] = `
       </div>
       <div class="ids-scroll-view-controls" part="controls" role="tablist">
         <ids-button data-slide-number="0" part="button" exportparts="button: scroll-view-button" role="tab" class="circle-button selected" aria-selected="true">
-          <ids-icon icon="filter-not-selected"></ids-icon>
+          <ids-icon icon="empty-circle-filled"></ids-icon>
           <span class="audible">Slide 1, Sony Camera, Front</span>
         </ids-button>
         <ids-button data-slide-number="1" part="button" exportparts="button: scroll-view-button" role="tab" class="circle-button">
-          <ids-icon icon="filter-not-selected"></ids-icon>
+          <ids-icon icon="empty-circle-filled"></ids-icon>
           <span class="audible">Slide 3, Sony Camera, Back Display</span>
         </ids-button>
         <ids-button data-slide-number="2" part="button" exportparts="button: scroll-view-button" role="tab" class="circle-button">
-          <ids-icon icon="filter-not-selected"></ids-icon>
+          <ids-icon icon="empty-circle-filled"></ids-icon>
           <span class="audible">Slide 3, Sony Camera, From Top</span>
         </ids-button>
         <ids-button data-slide-number="3" part="button" exportparts="button: scroll-view-button" role="tab" class="circle-button">
-          <ids-icon icon="filter-not-selected"></ids-icon>
+          <ids-icon icon="empty-circle-filled"></ids-icon>
           <span class="audible">Slide 4, Olympus Camera, Front</span>
         </ids-button>
         <ids-button data-slide-number="4" part="button" exportparts="button: scroll-view-button" role="tab" class="circle-button">
-          <ids-icon icon="filter-not-selected"></ids-icon>
+          <ids-icon icon="empty-circle-filled"></ids-icon>
           <span class="audible">Slide 5, Olympus Camera, Exposed to water</span>
         </ids-button>
         <ids-button data-slide-number="5" part="button" exportparts="button: scroll-view-button" role="tab" class="circle-button">
-          <ids-icon icon="filter-not-selected"></ids-icon>
+          <ids-icon icon="empty-circle-filled"></ids-icon>
           <span class="audible">Slide 6, Sony E-mount Camera, Front</span>
         </ids-button></div>
     </div>"
