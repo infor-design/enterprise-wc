@@ -922,7 +922,8 @@
   --ids-module-nav-gutter-size: 4px;
   --ids-module-nav-expanded-size: 320px;
   --ids-module-nav-text-color: var(--ids-color-slate-60);
-  --ids-module-nav-z-index: var(--ids-z-index-10);
+  --ids-module-nav-bar-z-index: var(--ids-z-index-10);
+  --ids-module-nav-content-z-index: var(--ids-z-index-0);
 
   // Module Nav (Detail)
   --ids-module-nav-detail-background-color: var(--ids-color-slate-20);

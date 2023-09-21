@@ -26,10 +26,6 @@
   @include single-line-ellipsis-text();
 }
 
-::slotted(ids-tooltip) {
-  z-index: var(--ids-z-index-60);
-}
-
 ids-separator::part(separator) {
   background-color: var(--ids-module-nav-settings-menu-separator-color);
 }

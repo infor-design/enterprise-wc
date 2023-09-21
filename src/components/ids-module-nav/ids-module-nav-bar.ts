@@ -632,7 +632,7 @@ export default class IdsModuleNavBar extends Base {
       if (this.tooltipEl) {
         this.tooltipEl.setAttribute(attributes.TARGET, `#${id}`);
         this.tooltipEl.popup?.setAttribute(attributes.ARROW_TARGET, `#${id}`);
-        this.tooltipEl.textContent = text;
+        this.tooltipEl.innerHTML = `<span class="ids-module-nav-tooltip-text">${text}</span>`;
       }
     }
   }
