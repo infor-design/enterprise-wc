@@ -193,7 +193,7 @@
   // Data Grid (Cells)
   --ids-data-grid-cell-color-background-default: var(--ids-color-neutral-00);
   --ids-data-grid-cell-color-background-readonly: rgba(0 0 0 / 0.08);
-  --ids-data-grid-cell-color-border: var(--ids-color-neutral-50);
+  --ids-data-grid-cell-color-border: var(--ids-color-neutral-60);
   --ids-data-grid-cell-checkbox-color-border: var(--ids-color-neutral-90);
   --ids-data-grid-cell-color-text-default: var(--ids-color-neutral-100);
   --ids-data-grid-cell-color-text-disabled: var(--ids-color-neutral-40);
@@ -209,14 +209,20 @@
   --ids-data-grid-list-header-checkbox-color-background: var(--ids-color-neutral-70);
 
   // Data Grid (Header)
-  --ids-data-grid-header-color-border: var(--ids-color-neutral-40);
-  --ids-data-grid-header-color-background-default: var(--ids-color-neutral-70);
+  --ids-data-grid-header-color-border: var(--ids-color-neutral-60);
+  --ids-data-grid-header-color-background-default: var(--ids-color-neutral-10);
+  --ids-data-grid-header-color-background-hover: var(--ids-color-neutral-20);
   --ids-data-grid-header-checkbox-color-background: var(--ids-color-neutral-00);
-  --ids-data-grid-header-color-icon: var(--ids-color-neutral-00);
-  --ids-data-grid-header-color-background-placeholder-dragging: var(--ids-color-neutral-50);
-  --ids-data-grid-header-color-text: var(--ids-color-neutral-00);
-  --ids-data-grid-header-color-icon-unsorted: var(--ids-color-neutral-40);
-  --ids-data-grid-header-color-icon-sorted: var(--ids-color-neutral-00);
+  --ids-data-grid-header-checkbox-color-border: var(--ids-color-neutral-40);
+  --ids-data-grid-header-color-icon: var(--ids-color-neutral-100);
+  --ids-data-grid-header-drag-background-color: var(--ids-color-neutral-40);
+  --ids-data-grid-header-drag-arrow-color-background: var(--ids-color-neutral-90);
+  --ids-data-grid-header-color-background-default-placeholder-dragging: var(--ids-color-neutral-00);
+  --ids-data-grid-header-color-text: var(--ids-color-neutral-100);
+  --ids-data-grid-header-color-icon-unsorted: var(--ids-color-neutral-60);
+  --ids-data-grid-header-color-icon-sorted: var(--ids-color-neutral-100);
+  --ids-data-grid-header-expander-color: var(--ids-color-neutral-100);
+  --ids-data-grid-header-expander-color-active:  var(--ids-color-neutral-100);
 
   // Data Grid (Filter)
   --ids-data-grid-filter-input-color-background-readonly: var(--ids-color-neutral-50);

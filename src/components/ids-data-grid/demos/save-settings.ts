@@ -82,7 +82,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     id: 'inStock',
     name: 'In Stock',
     field: 'inStock',
-    sortable: true,
+    sortable: false,
     resizable: true,
     reorderable: true,
     align: 'center',

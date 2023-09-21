@@ -17,7 +17,8 @@
   label {
     cursor: var(--ids-cursor-pointer);
     user-select: none;
-    padding-inline-start: 24px;
+    padding-block-start: 1px;
+    padding-inline-start: 25px;
     position: relative;
     display: inline-block;
 
@@ -152,7 +153,6 @@
 }
 
 :host-context(form) {
-  margin-top: var(--ids-space-40);
   display: flex;
 }
 

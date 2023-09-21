@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows a basic bar chart
+  - link: axis-label.html
+    type: Example
+    description: Shows axis labels
   - link: colors.html
     type: Example
     description: Shows configuring custom colors

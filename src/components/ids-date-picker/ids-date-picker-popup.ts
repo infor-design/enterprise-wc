@@ -92,6 +92,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
+    this.removeEventListeners();
     this.expandableArea = null;
     this.monthView = null;
     this.monthYearPicklist = null;
@@ -789,6 +790,14 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
         this.setAttribute(attributes.VALUE, e.detail.value);
       });
     }
+  }
+
+  private removeEventListeners() {
+    this.offEvent('dayselected.date-picker-calendar');
+    this.offEvent('datechange');
+    this.offEvent('click.date-picker-header');
+    this.offEvent('click.date-picker-footer');
+    this.offEvent('change.date-picker-input');
   }
 
   /**

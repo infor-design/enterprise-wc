@@ -1230,6 +1230,14 @@ class IdsLocale {
           );
         }
       } else {
+        // If day/month/year are missing, fill in the current date to make time formatting work
+        if (!dateObj.year || !dateObj.month || !dateObj.day) {
+          const today = new Date();
+          if (!dateObj.year) dateObj.year = today.getFullYear();
+          if (!dateObj.month) dateObj.month = today.getMonth();
+          if (!dateObj.day) dateObj.day = today.getDate();
+        }
+
         if (dateObj.h !== undefined) {
           dateObj.return = new Date(
             dateObj.year as number,

@@ -699,7 +699,10 @@ export default class IdsDataGrid extends Base {
       const reachedVerticalBounds = nextRow >= this.data.length || prevRow < 0;
       if (movingVertical && reachedVerticalBounds) return;
 
-      if (this.activeCellEditor) cellNode.endCellEdit();
+      if (this.activeCellEditor) {
+        if (!this.activeCellCanClose()) return;
+        cellNode.endCellEdit();
+      }
 
       const activateCellNumber = cellNumber + cellDiff;
       const activateRowIndex = rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex;
@@ -735,6 +738,7 @@ export default class IdsDataGrid extends Base {
       if (this.openMenu) return;
       if (this.activeCellEditor) return;
       if (!this.activeCell?.node) return;
+      if (!this.activeCellCanClose()) return;
 
       const row = this.rowByIndex(this.activeCell.row)!;
       if (!row || row.disabled) return;
@@ -762,6 +766,7 @@ export default class IdsDataGrid extends Base {
     this.listen(['Enter'], this, (e: KeyboardEvent) => {
       if (this.openMenu) return;
       if (!this.activeCell?.node || findInPath(eventPath(e), '.ids-data-grid-header-cell')) return;
+      if (!this.activeCellCanClose()) return;
 
       const row = this.rowByIndex(this.activeCell.row)!;
       if (!row || row.disabled) return;
@@ -802,6 +807,7 @@ export default class IdsDataGrid extends Base {
       if (this.openMenu) return;
       const cellNode = this.activeCell.node;
       if (this.activeCellEditor) {
+        if (!this.activeCellCanClose()) return;
         cellNode.cancelCellEdit();
         cellNode.focus();
       }
@@ -811,6 +817,7 @@ export default class IdsDataGrid extends Base {
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
       if (this.openMenu) return;
       if (this.activeCellEditor) {
+        if (!this.activeCellCanClose()) return false;
         if (e.shiftKey) this.#editAdjacentCell(IdsDirection.Previous);
         else this.#editAdjacentCell(IdsDirection.Next);
 
@@ -2706,5 +2713,20 @@ export default class IdsDataGrid extends Base {
     if (attachedMenus?.length) {
       [...attachedMenus].forEach((el: IdsPopupMenu) => el.remove());
     }
+  }
+
+  /**
+   * Checks on the active cell editor to see if its current state allows it to be closed.
+   * @returns {boolean} true if the cell editor is able to "close"
+   */
+  private activeCellCanClose() {
+    if (this.activeCellEditor && this.activeCellEditor.editor) {
+      if (this.activeCellEditor.editor.popup) {
+        if (this.activeCellEditor.editor.popup.visible) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }

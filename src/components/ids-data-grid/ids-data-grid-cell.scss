@@ -2,6 +2,7 @@
 .ids-data-grid-cell {
   // Border and Background and Sizing
   align-items: center;
+  background-color: var(--ids-data-grid-cell-color-background-default);
   border-inline-start: 1px solid;
   border-block-end: 1px solid;
   border-color: var(--ids-data-grid-cell-color-border);
@@ -112,8 +113,13 @@
     }
 
     .editor-cell-icon {
-      margin-inline-end: 10px;
+      margin-inline-end: 12px;
+      margin-block-start: 2px;
       display: none;
+    }
+
+    ids-trigger-button::part(button) {
+      color: inherit;
     }
 
     // is-borderless:hover
@@ -440,4 +446,9 @@ td.ids-data-grid-cell {
       border-color: var(--ids-input-dirty-indicator-color-background-dirty)  var(--ids-input-dirty-indicator-color-background-dirty) transparent  transparent;
     }
   }
+}
+
+// Fix slotted trigger button margins when nested within cells
+.ids-trigger-field-slot-trigger-end {
+  margin-inline-end: 0;
 }
