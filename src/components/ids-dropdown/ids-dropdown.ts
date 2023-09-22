@@ -305,7 +305,7 @@ export default class IdsDropdown extends Base {
     const labels = this.labels;
     const label = String(value);
     if (labels.includes(label)) {
-      value = this.values[labels.indexOf(label)];
+      value = this.optionValues[labels.indexOf(label)];
     }
 
     let selector = `ids-list-box-option[value="${value}"]`;
@@ -333,10 +333,10 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-   * Get all available values of the dropdown
+   * Get all available option-values for the dropdown
    * @returns {string[]} value
    */
-  get values(): string[] {
+  get optionValues(): string[] {
     return this.options.map((item) => item.value ?? '');
   }
 

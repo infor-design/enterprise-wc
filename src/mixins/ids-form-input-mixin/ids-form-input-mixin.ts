@@ -4,8 +4,10 @@ import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
 
+const noop = (...params: any) => params;
+
 /**
- * Adds validation to any input field
+ * Adds the capability for custom elements to participate in a native form submission and validation.
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
@@ -51,7 +53,6 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
       // NOTE: formInput.setAttribute('value') sets the default value and formInput.value sets current value
       // @see https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute#gecko_notes
-      // TODO: remove call to formInput.setAttribute('value') and fix broken tests
       this.formInput?.setAttribute?.(name, processedValue);
       this.formInput.value = processedValue;
 
@@ -89,6 +90,8 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
   #handleChangeEvent(e: Event) {
     const value = this.value;
+
+    // If value is null, the element won't participate in form submission.
     this.#internals?.setFormValue?.(value);
 
     if (e instanceof CustomEvent) {
@@ -108,6 +111,8 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
   #handleInputEvent(e: Event) {
     const value = this.value;
+
+    // If value is null, the element won't participate in form submission.
     this.#internals?.setFormValue?.(value);
 
     const inputWrapper = (this.getRootNode() as ShadowRoot)?.host;
@@ -155,15 +160,82 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
     this.setAttribute(attributes.VALUE, value ?? '');
   }
 
-  get validity() { return this.#internals?.validity; }
+  /**
+   * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/validity
+   * @see ElementInternals.validity
+   * @returns {ValidityState} - Returns the ValidityState object for internals's target element.
+   */
+  get validity(): ValidityState { return this.#internals?.validity; }
 
-  get validationMessage() { return this.#internals?.validationMessage; }
+  /**
+   * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/validationMessage
+   * @see ElementInternals.validationMessage
+   * @returns {string} - error message that would be shown to the user
+   */
+  get validationMessage(): string { return this.#internals?.validationMessage; }
 
-  get willValidate() { return this.#internals?.willValidate; }
+  /**
+   * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/willValidate
+   * @see ElementInternals.willValidate()
+   * @returns {boolean} - true if internals's target element will be validated when the form is submitted
+   */
+  get willValidate(): boolean { return this.#internals?.willValidate; }
 
-  checkValidity() { return this.#internals?.checkValidity?.(); }
+  /**
+   * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/checkValidity
+   * @see ElementInternals.checkValidity()
+   * @returns {boolean} - true if internals's target element has no validity problems
+   */
+  checkValidity(): boolean { return this.#internals?.checkValidity?.(); }
 
-  reportValidity() { return this.#internals?.reportValidity?.(); }
+  /**
+   * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/reportValidity
+   * @see ElementInternals.reportValidity()
+   * @returns {boolean} - true if internals's target element has no validity problems
+   */
+  reportValidity(): boolean { return this.#internals?.reportValidity?.(); }
+
+  /**
+   * Called when the associated form-element changes to the form param.
+   * ElementInternals.form returns the associated from element.
+   * @param {ElementInternals['form']} form - this elements parent form element
+   */
+  formAssociatedCallback(form: ElementInternals['form']) {
+    // @see https://webkit.org/blog/13711/elementinternals-and-form-associated-custom-elements/
+    noop(form);
+  }
+
+  /**
+   * Called when the form is being reset (e.g. user pressed input[type=reset] button).
+   * Custom element should clear whatever value set by the user.
+   */
+  formResetCallback() {}
+
+  /**
+   * Called when the disabled state of the element changes.
+   * @param {boolean} isDisabled - is disabled
+   */
+  formDisabledCallback(isDisabled: boolean) {
+    // @see https://webkit.org/blog/13711/elementinternals-and-form-associated-custom-elements/
+    noop(isDisabled);
+  }
+
+  /**
+   * Called when the browser is trying to restore element’s value using the state param,
+   * in which case the reason param is "restore".
+   *
+   * Also called when the browser is trying to fulfill autofill on behalf of user,
+   * in which case the reason param is "autocomplete".
+   *
+   * In the case of "restore", state is a string, File,
+   * or FormData object previously set as the second argument to setFormValue.
+   * @param {File|string|FormData|null} state - the form element's state
+   * @param {string} reason - "restore" or "autocomplete"
+   */
+  formStateRestoreCallback(state: File | string | FormData | null, reason: 'restore' | 'autocomplete') {
+    // @see https://webkit.org/blog/13711/elementinternals-and-form-associated-custom-elements/
+    noop(state, reason);
+  }
 };
 
 export default IdsFormInputMixin;
