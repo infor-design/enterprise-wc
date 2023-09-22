@@ -593,19 +593,6 @@ $input-size-full: 100%;
         height: var(--ids-module-nav-search-input-height);
       }
     }
-
-    &:hover:not(.readonly):not(.disabled) {
-      .field-container {
-        background-color: var(--ids-module-nav-item-hover-bg-color);
-      }
-    }
-
-    &:focus-within {
-      .field-container {
-        background-color: var(--ids-module-nav-input-focus-bg-color);
-        border-color: var(--ids-module-nav-item-selected-text-color);
-      }
-    }
   }
 
   // =======================================================
@@ -792,16 +779,13 @@ $input-size-full: 100%;
       }
     }
 
-    &:focus-within,
-    &.readonly:focus-within
-    &.is-active {
+    &:hover {
       .field-container {
-        background-color: var(--ids-module-nav-input-bg-color);
-        box-shadow: none;
+        background-color: var(--ids-module-nav-item-hover-bg-color);
       }
 
       .ids-input-field::placeholder {
-        color: var(--ids-module-nav-search-input-focused-placeholder-text-color);
+        color: var(--ids-module-nav-search-input-placeholder-text-color);
       }
 
       .ids-input-field {
@@ -809,9 +793,17 @@ $input-size-full: 100%;
       }
     }
 
-    &:hover {
+    &:focus-within,
+    &.readonly:focus-within
+    &.is-active {
+      .field-container {
+        background-color: var(--ids-module-nav-input-focus-bg-color);
+        border-color: var(--ids-module-nav-item-selected-text-color);
+        box-shadow: none;
+      }
+
       .ids-input-field::placeholder {
-        color: var(--ids-module-nav-search-input-placeholder-text-color);
+        color: var(--ids-module-nav-search-input-focused-placeholder-text-color);
       }
 
       .ids-input-field {
