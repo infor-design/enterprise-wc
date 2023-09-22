@@ -720,9 +720,8 @@
   --ids-icon-width-default: 18px;
   --ids-icon-color-default: currentColor;
   --ids-icon-color-default-disabled: var(--ids-color-text-disabled);
-  --ids-icon-empty-color: var(--ids-color-primary);
-  --ids-icon-empty-new-color: var(--ids-color-neutral-60);
   --ids-icon-status-color-padding: 3px;
+  --ids-icon-infor-color: #D5000E;
   --ids-icon-status-color-border-radius: var(--ids-border-radius-circle);
   --ids-icon-status-color-ruby-color-text: var(--ids-color-ruby-60);
   --ids-icon-status-color-ruby-color-background: var(--ids-color-ruby-10);
@@ -872,12 +871,12 @@
   --ids-loading-indicator-tertiary-destructive-color-border: var(--ids-color-ruby-30);
 
   // Masthead
-  --ids-masthead-color-background: var(--ids-color-neutral-100); // black -> slate-100
-  --ids-masthead-color-text: var(--ids-color-neutral-30);
+  --ids-masthead-color-background: var(--ids-color-neutral-100);
+  --ids-masthead-color-text: var(--ids-color-neutral-10);
   --ids-masthead-padding-inline: var(--ids-space-40);
   --ids-masthead-height: 40px;
   --ids-masthead-logo-padding-icon-inline: var(--ids-space-20);
-  --ids-masthead-logo-top-space-icon: 2.5px;
+  --ids-masthead-logo-top-space-icon: 2px;
   --ids-masthead-title-margin-inline: var(--ids-space-40);
   --ids-masthead-color-hover: var(--ids-color-neutral-00);
 
