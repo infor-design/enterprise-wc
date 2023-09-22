@@ -257,10 +257,6 @@
   }
 }
 
-.ids-module-nav-tooltip-text {
-  display: inline-block;
-}
-
 // Add some padding and sizing on Avatar Icons
 ::slotted(ids-icon[slot='avatar']) {
   padding: var(--ids-spacing-lg);
@@ -279,6 +275,7 @@
 
 ::slotted(ids-tooltip) {
   display: block;
+  white-space: nowrap;
 }
 
 ::slotted(ids-tooltip::part(tooltip)) {
