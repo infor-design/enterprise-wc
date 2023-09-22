@@ -36,7 +36,7 @@ export const toggleScrollbar = (el: HTMLElement, doToggle?: boolean) => {
 
 /**
  * Checks overflow of an element by cloning/appending to body
- * @param elem Element to check
+ * @param {any} elem Element to check
  * @returns {boolean} if the element is overflowed
  */
 export const checkItemOverflow = (elem: any) => {
