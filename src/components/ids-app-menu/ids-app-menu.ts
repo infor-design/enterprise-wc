@@ -11,7 +11,6 @@ import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import styles from './ids-app-menu.scss';
 import type IdsAccordion from '../ids-accordion/ids-accordion';
-import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
 import type IdsContainer from '../ids-container/ids-container';
 
@@ -45,7 +44,6 @@ export default class IdsAppMenu extends Base {
     this.edge = 'start';
     this.type = 'app-menu';
     this.#connectSearchField();
-    this.#refreshVariants();
     this.#setContainer();
     this.#attachEventHandlers();
   }
@@ -85,9 +83,6 @@ export default class IdsAppMenu extends Base {
       <div class="ids-app-menu-footer">
         <slot name="footer"></slot>
       </div>
-      <div class="ids-app-menu-branding">
-        <slot name="icon"></slot>
-      </div>
     </div>`;
   }
 
@@ -104,18 +99,6 @@ export default class IdsAppMenu extends Base {
    * @property {boolean} isFiltered true if the inner navigation accordion is currently being filtered
    */
   isFiltered = false;
-
-  #refreshVariants() {
-    const accordions = [...this.querySelectorAll<IdsAccordion>('ids-accordion')];
-    accordions.forEach((acc) => {
-      acc.colorVariant = 'app-menu';
-    });
-
-    const btns = [...this.querySelectorAll<IdsButton>('ids-button')];
-    btns.forEach((btn) => {
-      btn.colorVariant = 'alternate';
-    });
-  }
 
   #attachEventHandlers() {
     this.#detachEventHandlers();

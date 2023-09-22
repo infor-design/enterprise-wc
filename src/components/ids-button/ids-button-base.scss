@@ -54,7 +54,7 @@
 
   border: 1px solid transparent;
   background-color: transparent;
-  color: currentColor;
+  color: var(--ids-button-color-text-default);
 
   // Animate BG/Text/Border color changes on all styles
   transition:
@@ -297,7 +297,6 @@
       background-color: rgba(255 255 255 / 0.15);
     }
   }
-
 
   // These appear in places with dark background like app menu and masthead, generally default/tertiary buttons
   &.color-variant-alternate,

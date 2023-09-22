@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.15 Features
 
+- `[AppNav]` Fixed an issue when loading in angular templates/router-outlets. ([#1428](https://github.com/infor-design/enterprise-wc/issues/1428))
 - `[Calendar]` Fix calendar dependency on ids container. ([#1359](https://github.com/infor-design/enterprise-wc/issues/1359))
 - `[DataGrid]` Treegrid `appendData()` no longer breaks rendering of existing rows, and `scrollend` triggers properly. ([#1425](https://github.com/infor-design/enterprise-wc/issues/1425))
 - `[DataGrid]` Prevent scroll when resize columns. ([#1209](https://github.com/infor-design/enterprise-wc/issues/1209))
@@ -11,6 +12,7 @@
 - `[DataGrid]` Fix virtual/infinite scroll when max rows in dom reached. ([#1454](https://github.com/infor-design/enterprise-wc/issues/1454))
 - `[Editor]` Added new toolbar styles in all themes. ([#7606](https://github.com/infor-design/enterprise-wc/issues/7606))
 - `[Editor]` Fixed issue where buttons are disabled in source view. ([#1195](https://github.com/infor-design/enterprise-wc/issues/1195))
+- `[Icons]` Fixes for new icons pipeline, new icons and cleanup. ([#518](https://github.com/infor-design/design-system/issues/518))
 - `[Input]` Fixed input elements so values are properly reflected in Angular Reactive Forms. ([#1455](https://github.com/infor-design/enterprise-wc/issues/1455))
 - `[Locale]` Made Locale a global instance and moved it off ids-container and related fixes. ([#663](https://github.com/infor-design/enterprise-wc/issues/663))
 - `[Message]` Fix modal button separator. ([#1414](https://github.com/infor-design/enterprise-wc/issues/1414))
