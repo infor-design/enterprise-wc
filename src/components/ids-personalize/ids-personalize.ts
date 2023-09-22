@@ -20,8 +20,8 @@ class IdsPersonalization {
    * Set the current primary color info
    * @returns {Record<string, string>} An array of related colors
    */
-  get color(): Record<string, string> {
-    return this.colorProgression(this.state.color);
+  get color(): string {
+    return this.state.color;
   }
 
   /**
