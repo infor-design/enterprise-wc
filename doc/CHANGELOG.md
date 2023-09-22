@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.15 Features
 
+- `[AppNav]` Fixed an issue when loading in angular templates/router-outlets. ([#1428](https://github.com/infor-design/enterprise-wc/issues/1428))
 - `[Calendar]` Fix calendar dependency on ids container. ([#1359](https://github.com/infor-design/enterprise-wc/issues/1359))
 - `[DataGrid]` Treegrid `appendData()` no longer breaks rendering of existing rows, and `scrollend` triggers properly. ([#1425](https://github.com/infor-design/enterprise-wc/issues/1425))
 - `[DataGrid]` Prevent scroll when resize columns. ([#1209](https://github.com/infor-design/enterprise-wc/issues/1209))

@@ -290,6 +290,7 @@
   --ids-box-width: auto;
 
   // Button (Primary)
+  --ids-button-color-text-default: currentColor;
   --ids-button-primary-color-border-default: var(--ids-color-primary);
   --ids-button-primary-color-background-default: var(--ids-color-primary);
   --ids-button-primary-color-text-default: var(--ids-color-text-on-primary);
@@ -328,6 +329,12 @@
 
   // Button (Destructive)
   --ids-button-destructive-color-background-hover: var(--ids-color-error-10);
+
+  // Button (App Menu)
+  --ids-button-app-menu-color-text-default: var(--ids-color-neutral-20);
+  --ids-button-app-menu-color-background-hover: var(--ids-color-neutral-90);
+  --ids-button-app-menu-color-text-hover: var(--ids-color-neutral-00);
+  --ids-button-app-menu-color-text-disabled: var(--ids-color-neutral-50);
 
   // Button (Alternate)
   --ids-button-alternate-color-text-default: var(--ids-color-neutral-10);
