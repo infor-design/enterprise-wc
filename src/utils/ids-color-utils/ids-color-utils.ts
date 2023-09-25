@@ -121,7 +121,8 @@ function darkenColor(hexColor: string, magnitude: number) {
 
   let newHex = (g | (b << 8) | (r << 16)).toString(16);
   if (newHex.length === 5) newHex = `0${newHex}`;
-  if (newHex.length === 4) newHex = `00${newHex}`;
+  if (newHex.length === 4 || newHex.length === 1) newHex = `00${newHex}`;
+
   return `#${newHex}`;
 }
 
