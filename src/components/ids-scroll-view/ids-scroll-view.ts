@@ -304,7 +304,7 @@ export default class IdsScrollView extends Base {
 
       this.controls?.insertAdjacentHTML('beforeend', `
         <ids-button data-slide-number="${i}" part="button" exportparts="button: scroll-view-button" role="tab"${cssClass}${ariaSelected}${tooltip}>
-          <ids-icon icon="filter-not-selected"></ids-icon>
+          <ids-icon icon="empty-circle-filled"></ids-icon>
           <span class="audible">${label}</span>
         </ids-button>`);
     });

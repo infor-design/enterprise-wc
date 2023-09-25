@@ -63,6 +63,8 @@ export default class IdsAccordion extends Base {
     this.#contentObserver?.observe((this as any), {
       childList: true
     });
+    if (this.parentElement?.nodeName === 'IDS-APP-MENU') this.colorVariant = 'app-menu';
+    if (this.parentElement?.nodeName === 'IDS-MODULE-NAV-BAR') this.colorVariant = 'module-nav';
   }
 
   disconnectedCallback(): void {

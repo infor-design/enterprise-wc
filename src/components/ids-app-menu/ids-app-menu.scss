@@ -7,7 +7,6 @@
   align-items: stretch;
 }
 
-.ids-app-menu-branding,
 .ids-app-menu-footer,
 .ids-app-menu-header,
 .ids-app-menu-search,
@@ -44,9 +43,16 @@
   margin-block-end: var(--ids-space-40);
 }
 
-.ids-app-menu-branding {
-  // Specific Infor Logo sizing (@TODO: maybe make this its own component)
-  ::slotted(ids-icon[icon='logo']) {
-    padding: var(--ids-space-40);
-  }
+// Style Sub Components
+:host {
+  // Buttons
+  --ids-button-color-text-default: var(--ids-button-app-menu-color-text-default);
+  --ids-button-tertiary-color-text-default: var(--ids-button-app-menu-color-text-default);
+  --ids-button-tertiary-color-background-hover: var(--ids-button-app-menu-color-background-hover);
+  --ids-button-tertiary-color-text-hover: var(--ids-button-app-menu-color-text-hover);
+  --ids-button-tertiary-color-text-disabled: var(--ids-button-app-menu-color-text-disabled);
+
+  // Search Field
+  --ids-search-field-header-color-icon-hover: var(--ids-button-app-menu-color-background-hover);
+  --ids-button-formatter-color-text-hover: var(--ids-button-app-menu-color-text-default);
 }

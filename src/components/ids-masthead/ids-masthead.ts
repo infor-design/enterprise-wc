@@ -187,7 +187,7 @@ export default class IdsMasthead extends Base {
     let icon = this.icon;
 
     if (icon) {
-      const logoIcon = `<ids-icon icon="${icon}" viewbox="0 0 32 34" width="30" height="30"></ids-icon>`;
+      const logoIcon = `<ids-icon icon="${icon}" viewbox="0 0 32 34" width="32" height="32"></ids-icon>`;
       const otherIcon = `<ids-icon icon="${icon}"></ids-icon>`;
 
       icon = `
