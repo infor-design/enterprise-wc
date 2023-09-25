@@ -155,6 +155,9 @@
   - link: row-navigation.html
     type: Example
     description: Shows a data grid with row navigation
+  - link: set-active-cell.html
+    type: Example
+    description: Shows how to use the data grid's `setActiveCell` method under different conditions
   - link: side-by-side.html
     type: Side by Side
     description: Shows a data grid next to a 4.x data grid
