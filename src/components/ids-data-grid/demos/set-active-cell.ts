@@ -1,6 +1,7 @@
 import type IdsDataGrid from '../ids-data-grid';
 import type IdsButton from '../../ids-button/ids-button';
 import type IdsCheckbox from '../../ids-checkbox/ids-checkbox';
+import type IdsDropdown from '../../ids-dropdown/ids-dropdown';
 
 import '../ids-data-grid';
 import '../../ids-button/ids-button';
@@ -13,7 +14,6 @@ import '../../ids-toolbar/ids-toolbar-section';
 
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import booksJSON from '../../../assets/data/books.json';
-import IdsDropdown from '../../ids-dropdown/ids-dropdown';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-1')!;
