@@ -11,19 +11,19 @@
       <ids-text font-size="12" type="h1">Data Grid (setActiveCell demo)</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid auto-fit="true" padding-x="md">
-      <ids-layout-grid-cell col-span-sm="12" col-span-md="3" col-span-lg="2">
+    <ids-layout-grid cols="12" padding-x="md">
+      <ids-layout-grid-cell col-span="12" col-span-md="4" col-span-lg="3">
         <ids-checkbox id="toggle-row-navigation" label="Use `rowNavigation`"></ids-checkbox>
 
-        <ids-dropdown id="target-column" label="Target Column" size="sm" compact value="1">
+        <ids-dropdown id="target-column" label="Target Column" size="sm" value="1">
           <ids-list-box>
-            <ids-list-box-option></ids-list-box-option>
+            <ids-list-box-option value="1" selected>1 (#)</ids-list-box-option>
           </ids-list-box>
         </ids-dropdown>
 
-        <ids-dropdown id="target-row" label="Target Row" size="sm" compact value="4">
+        <ids-dropdown id="target-row" label="Target Row" size="sm" value="4">
           <ids-list-box>
-            <ids-list-box-option></ids-list-box-option>
+            <ids-list-box-option value="4" selected>4</ids-list-box-option>
           </ids-list-box>
         </ids-dropdown>
 
@@ -32,7 +32,7 @@
         </ids-button>
       </ids-layout-grid-cell>
 
-      <ids-layout-grid-cell col-span-sm="12" col-span-md="9" col-span-lg="10">
+      <ids-layout-grid-cell col-span="12" col-span-md="8" col-span-lg="9">
         <ids-data-grid id="data-grid-1" row-selection="multiple" label="Books"></ids-data-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>
