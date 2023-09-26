@@ -99,3 +99,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-40) - 2px);
 :host([uppercase]) ::slotted(ids-list-box-option) {
   text-transform: uppercase;
 }
+
+:host(.module-nav) {
+  max-height: none;
+}

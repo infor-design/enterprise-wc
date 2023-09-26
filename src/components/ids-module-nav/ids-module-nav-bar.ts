@@ -1,15 +1,19 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import { toggleScrollbar } from './ids-module-nav-common';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 import IdsDrawer from '../ids-drawer/ids-drawer';
+import IdsLocale from '../ids-locale/ids-locale';
+import { toggleScrollbar, checkItemOverflow } from './ids-module-nav-common';
 
 import '../ids-accordion/ids-accordion';
 import '../ids-button/ids-button';
+import '../ids-empty-message/ids-empty-message';
 import '../ids-icon/ids-icon';
 import '../ids-separator/ids-separator';
 import '../ids-toolbar/ids-toolbar';
+import '../ids-tooltip/ids-tooltip';
 
 import { attributes } from '../../core/ids-attributes';
 import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
@@ -21,20 +25,26 @@ import type IdsAccordion from '../ids-accordion/ids-accordion';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsSearchField from '../ids-search-field/ids-search-field';
 import type IdsModuleNav from './ids-module-nav';
+import type IdsModuleNavButton from './ids-module-nav-button';
 import type IdsModuleNavContent from './ids-module-nav-content';
 import type IdsModuleNavItem from './ids-module-nav-item';
 import type IdsModuleNavSettings from './ids-module-nav-settings';
 import type IdsModuleNavSwitcher from './ids-module-nav-switcher';
+import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 
 const CONTAINER_OPEN_CLASS = 'module-nav-is-open';
 
 const Base = IdsModuleNavDisplayModeMixin(
   IdsModuleNavTextDisplayMixin(
-    IdsKeyboardMixin(
-      IdsDrawer
+    IdsLocaleMixin(
+      IdsKeyboardMixin(
+        IdsDrawer
+      )
     )
   )
 );
+
+type IdsModuleNavTooltipTarget = IdsModuleNavItem | IdsModuleNavButton | IdsModuleNavSettings;
 
 /**
  * IDS Module Nav Bar Component
@@ -64,6 +74,7 @@ export default class IdsModuleNavBar extends Base {
 
     this.#connectSearchField();
     this.#connectAccordion();
+    this.#connectTooltip();
     this.#refreshVariants();
     this.setResize();
     this.setScrollable();
@@ -105,6 +116,11 @@ export default class IdsModuleNavBar extends Base {
           <slot name="search"></slot>
         </div>
         <ids-separator class="ids-module-nav-separator" color-variant="module-nav"></ids-separator>
+        <div class="ids-module-nav-search-no-results">
+          <ids-empty-message icon="empty-search-data-new">
+            <ids-text font-size="20" label="true" slot="description">No results found</ids-text>
+          </ids-empty-message>
+        </div>
         <div class="ids-module-nav-main">
           <slot></slot>
         </div>
@@ -146,6 +162,14 @@ export default class IdsModuleNavBar extends Base {
 
   /**
    * @readonly
+   * @returns {HTMLElement} container element for the slotted accordion
+   */
+  get mainEl() {
+    return this.container?.querySelector<HTMLElement>('.ids-module-nav-main');
+  }
+
+  /**
+   * @readonly
    * @returns {IdsAccordion} reference to an optionally-slotted IdsAccordion element
    */
   get accordion(): IdsAccordion | null {
@@ -165,7 +189,7 @@ export default class IdsModuleNavBar extends Base {
    * @returns {IdsSearchField} reference to an optionally-slotted IdsSearchField element
    */
   get searchFieldEl(): IdsSearchField | null {
-    return this.querySelector('ids-search-field');
+    return this.querySelector<IdsSearchField>('ids-search-field');
   }
 
   /**
@@ -186,13 +210,21 @@ export default class IdsModuleNavBar extends Base {
 
   /**
    * @readonly
+   * @returns {IdsTooltip | null} reference to an internal IdsTooltip
+   */
+  get tooltipEl(): IdsTooltip | null {
+    return this.querySelector<IdsTooltip>('ids-tooltip');
+  }
+
+  /**
+   * @readonly
    * @property {boolean} isFiltered true if the inner navigation accordion is currently being filtered
    */
   isFiltered = false;
 
   set filterable(val: boolean) {
     setBooleanAttr(attributes.FILTERABLE, this, val);
-    if (!val) this.clearFilterAccordion();
+    if (!val) this.searchFieldEl?.clear();
   }
 
   get filterable(): boolean {
@@ -255,12 +287,36 @@ export default class IdsModuleNavBar extends Base {
     this.onEvent('cleared.search', this.searchFieldEl, () => {
       this.accordion?.collapseAll();
     });
+
+    // Listen for hover on key internal elements,
+    // in order to re-attach the internal Module Nav tooltip where needed
+    this.onEvent('mouseover.tooltip', this, (e: CustomEvent) => {
+      this.setTooltipTarget(e.target as IdsModuleNavTooltipTarget);
+    });
+
+    // Conditionally veto the tooltip's visibility based on
+    // Module Nav Display Mode and each item's text overflow
+    this.onEvent('beforeshow.tooltip', this.tooltipEl, (e: CustomEvent) => {
+      let allowed = true;
+      if (!this.displayMode) allowed = false;
+      if (this.displayMode === 'expanded') {
+        const target = this.tooltipEl?.popup?.alignTarget;
+        if (!target) allowed = false;
+        else {
+          allowed = checkItemOverflow((target as IdsModuleNavItem)!.textNode);
+        }
+      }
+      e.detail.response(allowed);
+    });
   }
 
   #detachEventHandlers() {
     this.offEvent('show.module-nav-show');
     this.offEvent('hide.module-nav-hide');
     this.offEvent('beforeexpanded.accordion');
+    this.offEvent('cleared.search');
+    this.offEvent('mouseover.tooltip');
+    this.offEvent('beforeshow.tooltip');
   }
 
   #clearContainer() {
@@ -271,12 +327,16 @@ export default class IdsModuleNavBar extends Base {
    * Attaches a slotted IdsSearchField component to the Module Nav
    */
   #connectSearchField() {
-    const searchfield = this.querySelector<IdsSearchField>('ids-search-field[slot="search"]');
+    const searchfield = this.searchFieldEl;
     if (searchfield) {
       searchfield.colorVariant = 'module-nav';
       searchfield.onSearch = (value: string) => {
         if (value !== '') {
-          return this.filterAccordion(value);
+          const filterResult = this.filterAccordion(value);
+          if (!filterResult.length) {
+            this.renderNoFilterResults();
+          }
+          return filterResult;
         }
 
         this.clearFilterAccordion();
@@ -299,6 +359,20 @@ export default class IdsModuleNavBar extends Base {
   }
 
   /**
+   * Attaches a slotted IdsTooltip component to the Module Nav
+   */
+  #connectTooltip() {
+    const tooltip = this.tooltipEl;
+    const locale = this.localeAPI;
+
+    if (!tooltip) {
+      this.insertAdjacentHTML('beforeend', `<ids-tooltip
+        id="module-nav-tooltip"
+        placement="${locale.isRTL() ? 'left' : 'right'}"></ids-tooltip>`);
+    }
+  }
+
+  /**
    * Inherited from the Popup Open Events Mixin.
    * Runs when a click event is propagated to the window.
    * @returns {void}
@@ -317,6 +391,8 @@ export default class IdsModuleNavBar extends Base {
    * @returns {void}
    */
   onDisplayModeChange(currentValue: string | false, newValue: string | false): void {
+    this.searchFieldEl?.clear();
+
     this.visible = (newValue !== false);
     if (this.content) this.content.displayMode = this.displayMode;
 
@@ -407,6 +483,20 @@ export default class IdsModuleNavBar extends Base {
   };
 
   /**
+   * @returns {HTMLElement} reference to shadow root element containing an empty state icon
+   */
+  get emptyIconContainerEl() {
+    return this.container?.querySelector('.ids-module-nav-search-no-results');
+  }
+
+  renderNoFilterResults() {
+    const iconContainer = this.emptyIconContainerEl;
+    iconContainer?.classList.add('visible');
+    const mainEl = this.mainEl;
+    mainEl?.setAttribute(attributes.HIDDEN, '');
+  }
+
+  /**
    * Clears a navigation accordion's previous filter result
    * @private
    */
@@ -416,6 +506,11 @@ export default class IdsModuleNavBar extends Base {
       header.hiddenByFilter = false;
       return header;
     });
+
+    const iconContainer = this.emptyIconContainerEl;
+    iconContainer?.classList.remove('visible');
+    const mainEl = this.mainEl;
+    mainEl?.removeAttribute(attributes.HIDDEN);
 
     // NOTE: Clear text highlighter here (See #494)
     this.#clearChildFilter();
@@ -518,4 +613,33 @@ export default class IdsModuleNavBar extends Base {
 
     this.container?.classList[sectionHasScrollbar ? 'add' : 'remove']('has-section-scrollbars');
   }
+
+  /**
+   * Swaps the element on which the built-in IdsTooltip is attached.
+   * @private
+   * @param {IdsModuleNavTooltipTarget} target the element receiving the tooltip
+   */
+  private setTooltipTarget(target: IdsModuleNavTooltipTarget) {
+    const allowedElems = [
+      'IDS-MODULE-NAV-BUTTON',
+      'IDS-MODULE-NAV-ITEM',
+      'IDS-MODULE-NAV-SETTINGS'
+    ];
+    if (allowedElems.includes(target.tagName)) {
+      const id = target.getAttribute('id');
+      const text = target.textContent?.trim() || '';
+
+      if (this.tooltipEl) {
+        this.tooltipEl.setAttribute(attributes.TARGET, `#${id}`);
+        this.tooltipEl.popup?.setAttribute(attributes.ARROW_TARGET, `#${id}`);
+        this.tooltipEl.innerHTML = `<span class="ids-module-nav-tooltip-text">${text}</span>`;
+      }
+    }
+  }
+
+  onLanguageChange = (locale?: IdsLocale | undefined) => {
+    const rtl = locale?.isRTL();
+    this.tooltipEl?.setAttribute(attributes.PLACEMENT, rtl ? 'left' : 'right');
+    this.tooltipEl?.popup?.setAttribute(attributes.ALIGN, rtl ? 'left' : 'right');
+  };
 }

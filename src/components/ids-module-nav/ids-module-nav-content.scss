@@ -65,4 +65,5 @@
   transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
     transform var(--ids-motion-duration) var(--ids-motion-ease),
     width var(--ids-motion-duration) var(--ids-motion-ease);
+  z-index: var(--ids-module-nav-content-z-index);
 }

@@ -10,9 +10,9 @@
       <ids-module-nav-bar>
         <ids-module-nav-switcher
           slot="role-switcher">
-          <ids-module-nav-button>
-            <ids-icon id="module-switcher-icon" icon="database"></ids-icon>
-            <ids-text audible>Standard Module</ids-text>
+          <ids-module-nav-button id="module-nav-button">
+            <ids-icon icon="icon-app-ac" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
+            <ids-text audible>Admin Console Module</ids-text>
           </ids-module-nav-button>
           <ids-dropdown
             id="module-nav-role-dropdown"
@@ -23,31 +23,31 @@
             show-list-item-icon="false">
             <ids-list-box>
               <ids-list-box-option value="admin-console" id="admin-console">
-                <ids-icon icon="database"></ids-icon>
+                <ids-icon icon="icon-app-ac" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
                 <span>Admin Console</span>
               </ids-list-box-option>
               <ids-list-box-option value="job-console" id="job-console">
-                <ids-icon icon="mail"></ids-icon>
+                <ids-icon icon="icon-app-jo" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
                 <span>Job Console</span>
               </ids-list-box-option>
               <ids-list-box-option value="landing-page-designer" id="landing-page-designer">
-                <ids-icon icon="settings"></ids-icon>
+                <ids-icon icon="icon-app-lmd" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
                 <span>Landing Page Designer</span>
               </ids-list-box-option>
               <ids-list-box-option value="process-server-adminisrator" id="process-server-adminisrator">
-                <ids-icon icon="database"></ids-icon>
+                <ids-icon icon="icon-app-psa" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
                 <span>Process Server Administrator</span>
               </ids-list-box-option>
               <ids-list-box-option value="proxy-management" id="proxy-management">
-                <ids-icon icon="mail"></ids-icon>
+                <ids-icon icon="icon-app-pm" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
                 <span>Proxy Management</span>
               </ids-list-box-option>
               <ids-list-box-option value="security-system-management" id="security-system-management">
-                <ids-icon icon="settings"></ids-icon>
+                <ids-icon icon="icon-app-ssm" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
                 <span>Security System Management</span>
               </ids-list-box-option>
               <ids-list-box-option value="user-management" id="user-management">
-                <ids-icon icon="database"></ids-icon>
+                <ids-icon icon="icon-app-um" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
                 <span>User Management</span>
               </ids-list-box-option>
             </ids-list-box>
@@ -71,7 +71,7 @@
           <ids-accordion-section slot="" grow>
             <ids-accordion-panel>
               <ids-module-nav-item id="item-user" slot="header" icon="user">
-                <ids-text font-size="16">Configuration and Personalization</ids-text>
+                <ids-text font-size="16" overflow="ellipsis">My Configuration and Personalization</ids-text>
               </ids-module-nav-item>
               <ids-accordion-panel slot="content">
                 <ids-module-nav-item slot="header">

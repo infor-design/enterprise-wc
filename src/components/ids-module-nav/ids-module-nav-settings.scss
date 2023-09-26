@@ -26,6 +26,10 @@
   @include single-line-ellipsis-text();
 }
 
+ids-separator::part(separator) {
+  background-color: var(--ids-module-nav-settings-menu-separator-color);
+}
+
 .ids-module-nav-settings {
   @include ids-base-button-styles();
   @include ids-module-nav-button-styles();
@@ -56,6 +60,7 @@
     }
 
     &.display-mode-expanded {
+      padding: var(--ids-module-nav-item-margin-inline);
       margin-block-end: var(--ids-module-nav-accordion-gutter-size);
       text-align: start;
 
