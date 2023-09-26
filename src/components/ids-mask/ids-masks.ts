@@ -313,6 +313,8 @@ function getSplitterRegex(splitterStr: string) {
  * along with extra meta-data about the characters contained.
  */
 export function dateMask(rawValue = '', options: IdsMaskOptions = {}): IdsMaskGeneratorResult {
+  // TODO: this function fails to properly convert new Date()
+  // TODO: Write a test for rawValue = Mon Sep 04 2023 18:24:50 GMT-0400 (Eastern Daylight Time)
   let thisOptions = deepClone(DEFAULT_DATETIME_MASK_OPTIONS);
   thisOptions = Object.assign(thisOptions, options);
 

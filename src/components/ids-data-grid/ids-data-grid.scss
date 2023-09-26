@@ -9,6 +9,8 @@
 
 :host {
   --ids-data-grid-column-widths: repeat(1, minmax(110px, 1fr));
+
+  contain: content;
 }
 
 .ids-data-grid {
@@ -18,7 +20,6 @@
   border-radius: var(--ids-border-radius-01);
   border-collapse: collapse;
   box-sizing: border-box;
-  contain: content;
   overflow: auto;
   width: 100%;
 
@@ -159,16 +160,20 @@
   &.is-list-style {
     border-width: 0;
   }
+
+  // Used for row start
+  &.waiting-load {
+    overflow: hidden;
+
+    .ids-data-grid-body {
+      visibility: hidden;
+    }
+  }
 }
 
 // Used for Frozen Columns
 .ids-data-grid-body {
   min-width: fit-content;
-}
-
-// Used for row start
-.ids-data-grid-body.hidden {
-  visibility: hidden;
 }
 
 // Standalone Css Borders

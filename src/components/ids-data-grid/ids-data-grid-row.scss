@@ -141,7 +141,16 @@ tr.ids-data-grid-row {
 // Row Navigation Styles
 .ids-data-grid.row-navigation .ids-data-grid-row {
   &:focus-within {
-    box-shadow: var(--ids-data-grid-row-shadow-focus);
+    transform-style: preserve-3d;
+
+    &::after {
+      box-shadow: var(--ids-data-grid-row-shadow-focus);
+      content: ' ';
+      display: block;
+      height: 100%;
+      position: absolute;
+      width: 100%;
+    }
   }
 
   .ids-data-grid-cell:focus {

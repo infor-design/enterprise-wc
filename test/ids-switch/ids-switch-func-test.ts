@@ -80,8 +80,8 @@ describe('IdsSwitch Component', () => {
     el.value = value;
     expect(el.getAttribute('value')).toEqual(value);
     expect(el.input?.value).toEqual(value);
-    el.value = null;
-    expect(el.getAttribute('value')).toEqual(null);
+    el.value = '';
+    expect(el.getAttribute('value')).toEqual('');
   });
 
   it('should dispatch native events', () => {
@@ -98,14 +98,13 @@ describe('IdsSwitch Component', () => {
   });
 
   it('should remove events', () => {
-    el.input = null;
     document.body.innerHTML = '';
     const elem: any = new IdsSwitch();
     document.body.appendChild(elem);
     el = document.querySelector('ids-switch') as IdsSwitch;
 
     el.attachNativeEvents('remove');
-    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
       el.addEventListener(evt, () => {

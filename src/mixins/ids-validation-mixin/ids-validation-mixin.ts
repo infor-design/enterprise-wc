@@ -316,7 +316,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     const thisAsInput = this as IdsInputInterface;
 
     if (!id) return;
-    let elem = this.shadowRoot?.querySelector(`[validation-id="${id}"]`);
+    let elem = this.shadowRoot?.querySelector(`div[validation-id="${id}"]`);
     if (elem) return; // Already has this message
 
     // Add error and related details
@@ -391,7 +391,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       }
     };
 
-    const el: any = this.shadowRoot?.querySelector(`[validation-id="${id}"]`);
+    const el: any = this.shadowRoot?.querySelector(`div[validation-id="${id}"]`);
     if (el) {
       removeMsg(el);
     } else if (type && (id === null || typeof id === 'undefined')) {

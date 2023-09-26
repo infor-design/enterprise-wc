@@ -221,6 +221,7 @@ export default class IdsDataGrid extends Base {
 
     let cssClasses = `${this.alternateRowShading ? ' alt-row-shading' : ''}`;
     cssClasses += `${this.listStyle ? ' is-list-style' : ''}`;
+    cssClasses += ' waiting-load';
     const emptyMesageTemplate = emptyMessageTemplate.apply(this);
 
     const html = `<div class="ids-data-grid-wrapper">
@@ -369,6 +370,7 @@ export default class IdsDataGrid extends Base {
     // Handle ready state
     const handleReady = () => {
       this.header?.setIsHeaderExpanderCollapsed?.();
+      this.container?.classList.remove('waiting-load');
       this.triggerEvent('afterrendered', this, { bubbles: true, detail: { elem: this } });
     };
 
@@ -381,7 +383,6 @@ export default class IdsDataGrid extends Base {
     } else {
       await IdsGlobal.onThemeLoaded().promise;
       this.#scrollRowIntoView(rowStart);
-      this.body?.classList.remove('hidden');
       handleReady();
     }
   }
@@ -408,10 +409,7 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
-    let extraCss = '';
-    extraCss += this.rowStart ? 'hidden' : '';
-
-    return `<div class="ids-data-grid-body ${extraCss}" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
+    return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
   /**
@@ -1415,7 +1413,7 @@ export default class IdsDataGrid extends Base {
 
       if (reachedTheTop) {
         const firstRow: any = rows[0];
-        this.#triggerCustomScrollEvent(firstRow.rowIndex, 'start');
+        this.#triggerCustomScrollEvent(firstRow?.rowIndex ?? 0, 'start');
       }
       if (reachedTheBottom) {
         const lastRowIndex = this.datasource.originalData.length - 1;
