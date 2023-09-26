@@ -75,11 +75,17 @@
 :host(.module-nav) {
   color: var(--ids-module-nav-settings-menu-item-text-color);
   min-height: var(--ids-module-nav-item-height);
+  padding-block: var(--ids-module-nav-switcher-dropdown-item-margin-block);
 }
 
 :host(.module-nav) ::slotted(ids-icon) {
-  margin-inline-end: 20px;
+  margin-inline-end: 8px;
   margin-block-end: 1px;
+}
+
+:host(.module-nav:hover) {
+  background-color: var(--ids-module-nav-item-hover-bg-color);
+  color: var(--ids-module-nav-item-hover-text-color);
 }
 
 :host(.module-nav.is-selected) {

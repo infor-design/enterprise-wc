@@ -87,13 +87,14 @@ export default class IdsModuleNavItem extends Base {
   }
 
   #refreshTextNode() {
-    if (this.textNode) this.textNode.audible = this.displayMode !== 'expanded';
+    if (this.textNode) {
+      this.textNode.audible = this.displayMode !== 'expanded';
+      this.textNode.overflow = 'ellipsis';
+    }
   }
 
   onTextDisplayChange(val: string) {
     console.info(`text display change from header: "${this.textContent?.trim() || ''}"`, val);
     if (this.textNode) this.textNode.audible = val !== 'default';
-
-    // @TODO toggle tooltip
   }
 }

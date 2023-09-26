@@ -442,6 +442,7 @@ export const attributes = {
   STEP_NUMBER: 'step-number',
   STICKY: 'sticky',
   STICKY_POSITION: 'sticky-position',
+  STROKE: 'stroke',
   SUBMENU: 'submenu',
   SUBMIT_BUTTON: 'submit-button',
   SUBTITLE: 'subtitle',

@@ -4,6 +4,7 @@ import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 
 import IdsButton from '../ids-button/ids-button';
+import type IdsText from '../ids-text/ids-text';
 
 import styles from './ids-module-nav-button.scss';
 
@@ -49,5 +50,12 @@ export default class IdsModuleNavButton extends Base {
    */
   get protoClasses() {
     return ['ids-module-nav-button'];
+  }
+
+  /**
+   * @returns {IdsText} text node
+   */
+  get textNode() {
+    return this.querySelector<IdsText>('ids-text');
   }
 }

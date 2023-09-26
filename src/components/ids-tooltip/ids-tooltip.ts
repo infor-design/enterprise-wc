@@ -240,6 +240,7 @@ export default class IdsTooltip extends Base {
     // Trigger an async callback for contents
     if (this.state.beforeShow) {
       const stuff = await this.state.beforeShow();
+      if (!stuff) return;
       this.textContent = stuff;
       this.#updateAria();
     }

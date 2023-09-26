@@ -44,13 +44,6 @@ export default class IdsModuleNav extends Base {
     ];
   }
 
-  // Slots:
-  // - Role Switcher (IdsModuleNavSwitcher)
-  // - Search (IdsSearchField)
-  // - Main (IdsAccordionSection)
-  // - Footer (IdsAccordionSection)
-  // - Settings (IdsModuleNavSettings)
-  // - Detail (any)
   template() {
     return `<div class="ids-module-nav">
       <slot></slot>

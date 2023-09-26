@@ -10,6 +10,7 @@ import styles from './ids-module-nav-switcher.scss';
 
 import type IdsModuleNavButton from './ids-module-nav-button';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
+import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsIcon from '../ids-icon/ids-icon';
 
@@ -95,10 +96,12 @@ export default class IdsModuleNavSwitcher extends Base {
 
   configureComponents() {
     const COLOR_VARIANT_NAME = 'module-nav';
-    const POPUP_X_OFFSET = 48;
+    const POPUP_X_OFFSET = 44;
+    const POPUP_Y_OFFSET = 8;
 
     if (this.moduleButtonEl) {
       this.moduleButtonEl.colorVariant = COLOR_VARIANT_NAME;
+      this.moduleButtonEl.displayMode = this.displayMode;
     }
 
     if (this.roleDropdownEl) {
@@ -127,6 +130,9 @@ export default class IdsModuleNavSwitcher extends Base {
         }
       };
 
+      const listBox = this.roleDropdownEl.querySelector<IdsListBox>('ids-list-box');
+      listBox?.classList.add('module-nav');
+
       const opts = [...this.roleDropdownEl.querySelectorAll<IdsListBoxOption>('ids-list-box-option')];
       opts.forEach((opt) => opt.classList.add('module-nav'));
     }
@@ -144,7 +150,7 @@ export default class IdsModuleNavSwitcher extends Base {
 
         popup.onPlace = (popupRect: DOMRect) => {
           popupRect.x -= POPUP_X_OFFSET;
-          popupRect.y += 8;
+          popupRect.y += POPUP_Y_OFFSET;
           return popupRect;
         };
       }

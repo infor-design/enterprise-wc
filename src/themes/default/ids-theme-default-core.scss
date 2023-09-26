@@ -135,6 +135,7 @@
   --ids-line-height-40: 2;
 
   // Z Indexes
+  --ids-z-index-0: 0;
   --ids-z-index-10: 1;
   --ids-z-index-20: 2;
   --ids-z-index-30: 5;
@@ -788,7 +789,7 @@
   --ids-input-color-background-readonly: var(--ids-color-neutral-20);
   --ids-input-color-text-disabled: var(--ids-color-text-disabled);
   --ids-input-color-border-disabled: var(--ids-color-text-disabled);
-  --ids-input-color-border-hover: var(--ids-color-neutral-90);
+  --ids-input-color-border-hover: var(--ids-color-azure-60);
   --ids-input-color-border-focus: var(--ids-color-border-focus);
   --ids-input-header-color-text-default: var(--ids-color-neutral-00);
   --ids-input-header-color-text-placeholder: rgba(255 255 255 / 0.7);
@@ -927,7 +928,8 @@
   --ids-module-nav-gutter-size: 4px;
   --ids-module-nav-expanded-size: 320px;
   --ids-module-nav-text-color: var(--ids-color-slate-60);
-  --ids-module-nav-z-index: 1;
+  --ids-module-nav-bar-z-index: var(--ids-z-index-10);
+  --ids-module-nav-content-z-index: var(--ids-z-index-0);
 
   // Module Nav (Detail)
   --ids-module-nav-detail-background-color: var(--ids-color-slate-20);
@@ -946,6 +948,9 @@
   --ids-module-nav-input-bg-color: var(--ids-color-neutral-00);
   --ids-module-nav-input-border-color: var(--ids-color-slate-20);
   --ids-module-nav-input-text-color: var(--ids-color-slate-60);
+  --ids-module-nav-search-input-width: calc(var(--ids-module-nav-detail-size) + 2px);
+  --ids-module-nav-input-focus-bg-color: var(--ids-color-slate-10);
+  --ids-module-nav-input-hover-bg-color: var(--ids-color-slate-20);
 
   // Module Nav Item (Accordion Header/Menu Button)
   --ids-module-nav-item-height: 40px;
@@ -958,7 +963,7 @@
   --ids-module-nav-item-display-icon-collapsed-margin: 10px;
   --ids-module-nav-item-collapsed-general-spacing-size: 16px;
   --ids-module-nav-item-collapsed-first-last-spacing-size: 8px;
-  --ids-module-nav-item-expanded-icon-text-spacing-size: 24px;
+  --ids-module-nav-item-expanded-icon-text-spacing-size: 16px;
   --ids-module-nav-item-text-color: var(--ids-color-slate-100);
   --ids-module-nav-item-hover-bg-color: var(--ids-color-slate-20);
   --ids-module-nav-item-hover-text-color: var(--ids-color-slate-100);
@@ -969,10 +974,13 @@
 
   // Module Nav Switcher (Role Dropdown + Button)
   --ids-module-nav-switcher-button-size: 40px;
-  --ids-module-nav-switcher-button-gutter-size: 8px;
+  --ids-module-nav-switcher-button-gutter-size: 6px;
+  --ids-module-nav-switcher-button-icon-margin: 2px;
   --ids-module-nav-switcher-dropdown-height: 40px;
-  --ids-module-nav-switcher-dropdown-width: 256px;
+  --ids-module-nav-switcher-dropdown-width: 260px;
+  --ids-module-nav-switcher-dropdown-item-margin-block: 4px;
   --ids-module-nav-switcher-dropdown-item-height: 48px;
+  --ids-module-nav-switcher-dropdown-bg-color: var(--ids-color-slate-10);
   --ids-module-nav-switcher-dropdown-item-focus-bg-color: var(--ids-color-slate-20);
   --ids-module-nav-switcher-dropdown-item-text-color: var(--ids-color-slate-60);
   --ids-module-nav-switcher-dropdown-icon-top-offset: 11px;
@@ -981,7 +989,9 @@
   --ids-module-nav-search-wrapper-height: 40px;
   --ids-module-nav-search-input-height: 40px;
   --ids-module-nav-search-input-icon-y-offset: 20px;
+  --ids-module-nav-search-input-bg-color: var(--ids-color-slate-20);
   --ids-module-nav-search-input-text-color: var(--ids-color-slate-80);
+  --ids-module-nav-search-input-focused-bg-color: var(--ids-color-neutral-00);
   --ids-module-nav-search-input-focused-text-color: var(--ids-color-slate-100);
   --ids-module-nav-search-input-placeholder-text-color: var(--ids-color-slate-100);
   --ids-module-nav-search-input-focused-placeholder-text-color: var(--ids-color-slate-40);

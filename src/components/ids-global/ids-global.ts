@@ -9,6 +9,7 @@ declare global {
     IdsGlobal: {
       locale?: IdsLocale;
       themeLoaded?: IdsDeferred;
+      customIconData?: object;
     }
   }
 }
@@ -16,6 +17,10 @@ declare global {
 window.IdsGlobal ??= {};
 
 class IdsGlobal {
+  /**
+   *  Used to hold the single Locale instance
+   * @returns {IdsLocale} the locale object
+   */
   static getLocale(): IdsLocale {
     if (!window.IdsGlobal.locale) {
       window.IdsGlobal.locale = new IdsLocale();
@@ -23,12 +28,25 @@ class IdsGlobal {
     return window.IdsGlobal.locale;
   }
 
+  /**
+   *  Used for a global theme event
+   * @returns {IdsDeferred} the deferred object
+   */
   static onThemeLoaded(): IdsDeferred {
     if (!window.IdsGlobal.themeLoaded) {
       window.IdsGlobal.themeLoaded = new IdsDeferred();
     }
 
     return window.IdsGlobal.themeLoaded;
+  }
+
+  /** Used to hold custom icon json */
+  static set customIconData(json: object | undefined) {
+    window.IdsGlobal.customIconData = json;
+  }
+
+  static get customIconData(): object | undefined {
+    return window.IdsGlobal.customIconData;
   }
 }
 
