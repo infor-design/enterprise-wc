@@ -192,7 +192,7 @@
 
   // Data Grid (Cells)
   --ids-data-grid-cell-color-background-default: var(--ids-color-neutral-90);
-  --ids-data-grid-cell-color-background-readonly: var(--ids-color-neutral-80);
+  --ids-data-grid-cell-color-background-readonly: rgba(0 0 0 / 0.35);
   --ids-data-grid-cell-color-border: var(--ids-color-neutral-60);
   --ids-data-grid-cell-checkbox-color-border: var(--ids-color-neutral-40);
   --ids-data-grid-cell-color-text-default: var(--ids-color-neutral-00);
