@@ -1413,7 +1413,7 @@ export default class IdsDataGrid extends Base {
 
       if (reachedTheTop) {
         const firstRow: any = rows[0];
-        this.#triggerCustomScrollEvent(firstRow.rowIndex, 'start');
+        this.#triggerCustomScrollEvent(firstRow?.rowIndex ?? 0, 'start');
       }
       if (reachedTheBottom) {
         const lastRowIndex = this.datasource.originalData.length - 1;

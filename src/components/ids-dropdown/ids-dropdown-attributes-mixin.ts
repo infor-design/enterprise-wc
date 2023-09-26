@@ -142,7 +142,7 @@ const IdsDropdownAttributeMixin = <T extends Constraints>(superclass: T) => clas
     if (typeof this.onSizeChange === 'function') this.onSizeChange(value);
   }
 
-  get size(): string { return this.getAttribute(attributes.SIZE) ?? 'md'; }
+  get size(): string { return this.getAttribute(attributes.SIZE) || 'md'; }
 
   /**
    * Set the element's ability to display an optional icon in front of the text

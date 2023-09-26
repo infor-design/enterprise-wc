@@ -8,6 +8,7 @@ import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty
 import IdsClearableMixin from '../../mixins/ids-clearable-mixin/ids-clearable-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
+import IdsFormInputMixin from '../../mixins/ids-form-input-mixin/ids-form-input-mixin';
 import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
 import IdsMaskMixin from '../../mixins/ids-mask-mixin/ids-mask-mixin';
 import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
@@ -48,8 +49,10 @@ const Base = IdsTooltipMixin(
                   IdsValidationMixin(
                     IdsLocaleMixin(
                       IdsKeyboardMixin(
-                        IdsEventsMixin(
-                          IdsElement
+                        IdsFormInputMixin(
+                          IdsEventsMixin(
+                            IdsElement
+                          )
                         )
                       )
                     )
@@ -93,6 +96,7 @@ type IdsInputTemplateVariables = {
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsFormInputMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsClearableMixin
  * @mixes IdsColorVariantMixin
@@ -353,8 +357,17 @@ export default class IdsInput extends Base {
    * @readonly
    * @returns {HTMLInputElement} the inner `input` element
    */
-  get input(): HTMLInputElement | undefined | null {
-    return this.container?.querySelector<HTMLInputElement>(`input[part="input"]`);
+  get input(): HTMLInputElement | null {
+    return this.container?.querySelector<HTMLInputElement>(`input[part="input"]`) ?? null;
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLInputElement} the inner `input` element
+   * @see IdsFormInputMixin.formInput
+   */
+  get formInput(): HTMLInputElement | null {
+    return this.input;
   }
 
   /**
@@ -604,21 +617,6 @@ export default class IdsInput extends Base {
    */
   #attachEventHandlers(): void {
     this.#attachNativeEvents();
-
-    // If the internal input value is updated and a change event is triggered,
-    // reflect that change on the WebComponent host element.
-    this.onEvent('change.input', this.container, (e: any) => {
-      this.triggeredByChange = true;
-      this.value = this.input?.value;
-      this.triggerEvent('change', this, {
-        bubbles: true,
-        detail: {
-          elem: this,
-          nativeEvent: e,
-          value: this.value
-        }
-      });
-    });
   }
 
   /**
@@ -897,20 +895,12 @@ export default class IdsInput extends Base {
    */
   set value(val: string | undefined) {
     let v = ['string', 'number'].includes(typeof val) ? String(val) : String(val || '');
-    const currentValue = this.getAttribute(attributes.VALUE) || '';
+    const currentValue = this.value;
 
     // If a mask is enabled, use the conformed value.
     // If no masking occurs, simply use the provided value.
     if (this.mask) {
       v = this.processMaskFromProperty(val) || v;
-    }
-
-    if (this.input && this.input?.value !== v) {
-      this.input.value = v;
-      if (!this.triggeredByChange) {
-        this.input?.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-      this.triggeredByChange = false;
     }
 
     if (currentValue !== v) {
@@ -919,7 +909,7 @@ export default class IdsInput extends Base {
   }
 
   get value(): string {
-    return this.input?.value || '';
+    return this.input?.value ?? '';
   }
 
   /**

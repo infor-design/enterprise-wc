@@ -302,10 +302,19 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
+    const labels = this.labels;
+    const label = String(value);
+    if (labels.includes(label)) {
+      value = this.optionValues[labels.indexOf(label)];
+    }
+
     let selector = `ids-list-box-option[value="${value}"]`;
     if (value === ' ' || !value) selector = `ids-list-box-option:not([value])`;
     const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(selector);
     if (!elem) return;
+
+    // NOTE: setAttribute() must be called here, before the internal input.value is set below
+    this.setAttribute(attributes.VALUE, String(value));
 
     this.clearSelected();
     this.selectOption(elem);
@@ -313,22 +322,30 @@ export default class IdsDropdown extends Base {
     this.selectTooltip(elem);
     if (this.input) this.input.value = elem.textContent?.trim();
     this.state.selectedIndex = [...((elem?.parentElement as any)?.children || [])].indexOf(elem);
-
-    // Send the change event
-    if (this.value === value) {
-      this.triggerEvent('change', this, {
-        bubbles: true,
-        detail: {
-          elem: this,
-          value: this.value
-        }
-      });
-    }
-    this.setAttribute(attributes.VALUE, String(value));
   }
 
+  /**
+   * Get the current value of the dropdown
+   * @returns {string | null} value
+   */
   get value(): string | null {
     return this.getAttribute(attributes.VALUE);
+  }
+
+  /**
+   * Get all available option-values for the dropdown
+   * @returns {string[]} value
+   */
+  get optionValues(): string[] {
+    return this.options.map((item) => item.value ?? '');
+  }
+
+  /**
+   * Get all availabe labels of the dropdown
+   * @returns {string[]} value
+   */
+  get labels(): string[] {
+    return this.options.map((item) => item.innerText ?? item.textContent ?? '');
   }
 
   /**
@@ -1249,7 +1266,7 @@ export default class IdsDropdown extends Base {
   onSizeChange(value: string) {
     if (value) this.dropdownList?.setAttribute(attributes.SIZE, value);
     else this.dropdownList?.removeAttribute(attributes.SIZE);
-    this.input?.setAttribute(attributes.SIZE, value);
+    this.input?.setAttribute(attributes.SIZE, value || 'md');
   }
 
   /**
