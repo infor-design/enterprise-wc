@@ -143,7 +143,7 @@ tr.ids-data-grid-row {
   &:focus-within {
     transform-style: preserve-3d;
 
-    &:after {
+    &::after {
       box-shadow: var(--ids-data-grid-row-shadow-focus);
       content: ' ';
       display: block;
