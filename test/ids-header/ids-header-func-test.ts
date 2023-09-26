@@ -26,10 +26,10 @@ describe('IdsHeader Component', () => {
   });
 
   it('has a color attribute', () => {
-    elem.color = '#0072ed';
+    elem.color = '#fff';
 
-    expect(elem.color).toBe('#0072ed');
-    expect(elem.getAttribute('color')).toBe('#0072ed');
+    expect(elem.color).toBe('#fff');
+    expect(elem.getAttribute('color')).toBe(null);
 
     elem.setAttribute('color', '#bb5500');
 
@@ -39,7 +39,7 @@ describe('IdsHeader Component', () => {
     // Reset to default
     elem.removeAttribute('color');
 
-    expect(elem.color).toBe('#0072ed');
+    expect(elem.color).toBe('#fff');
     expect(elem.getAttribute('color')).toBe(null);
   });
 });

@@ -1,0 +1,10 @@
+---
+ component: Personalization
+ link: ids-personalize
+ description: Set a personalization color
+ category: Patterns
+ keywords: theme, color, personalize, personalization
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Showing a form with personalization

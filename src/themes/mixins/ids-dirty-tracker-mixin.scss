@@ -30,12 +30,13 @@
 // Checkbox
 .ids-checkbox {
   .icon-dirty {
-    margin-inline-start: -25px;
+    margin-inline-start: -26px;
+    top: -4px;
+    width: 9px;
 
     &[dir='rtl'] {
-      margin-inline-start: -20px;
-      transform: none;
-      top: -1px;
+      margin-inline-start: -26px;
+      top: -3px;
     }
   }
 

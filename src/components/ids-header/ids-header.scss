@@ -7,15 +7,22 @@
   flex-direction: column;
   transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
   width: 100%;
-}
 
-.ids-header.color-variant-alternate {
-  background-color: var(--ids-header-alternate-color-background);
-  border-bottom: none;
-  color: var(--ids-header-alternate-color-text);
+  // Button Styles
+  --ids-button-tertiary-color-text-default: var(--ids-header-button-color-text-default);
+  --ids-button-tertiary-color-background-hover:  var(--ids-header-button-color-background-hover);
+  --ids-button-tertiary-color-text-hover: var(--ids-header-button-color-text-hover);
+  --ids-input-color-border-hover: var(--ids-header-input-color-border-hover);
+  --ids-button-tertiary-color-text-disabled: var(--ids-header-button-color-text-disabled);
+  --ids-button-tertiary-shadow-focus: var(--ids-header-button-shadow-focus);
+  --ids-button-tertiary-color-border-focus: var(--ids-header-button-color-border-focus);
 }
 
 ::slotted(ids-toolbar),
 .ids-toolbar {
   padding: var(--ids-header-padding);
+}
+
+::slotted(ids-toolbar-section) {
+  color:  var(--ids-header-color-text);
 }
