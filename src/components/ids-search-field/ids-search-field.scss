@@ -207,12 +207,25 @@
     }
 
     .field-container {
-      background-color: var(--ids-module-nav-item-hover-bg-color);
+      background-color: var(--ids-module-nav-search-input-bg-color);
       color: var(--ids-module-nav-item-hover-text-color);
     }
 
     .ids-input-field {
       padding-inline-start: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
+    }
+
+    &.full {
+      .field-container {
+        width: var(--ids-module-nav-search-input-width);
+      }
+    }
+
+    &:focus-within {
+      .field-container {
+        background-color: var(--ids-module-nav-search-input-focused-bg-color);
+        border-color: var(--ids-module-nav-item-selected-text-color);
+      }
     }
   }
 }

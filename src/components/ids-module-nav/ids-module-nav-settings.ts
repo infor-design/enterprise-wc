@@ -4,11 +4,13 @@ import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+import IdsMenuItem from '../ids-menu/ids-menu-item';
+
+import type IdsLocale from '../ids-locale/ids-locale';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsText from '../ids-text/ids-text';
 
 import styles from './ids-module-nav-settings.scss';
-import IdsMenuItem from '../ids-menu/ids-menu-item';
 
 const Base = IdsModuleNavTextDisplayMixin(
   IdsModuleNavDisplayModeMixin(
@@ -130,7 +132,12 @@ export default class IdsModuleNavSettings extends Base {
   onTextDisplayChange(val: string) {
     console.info(`text display change from header: "${this.textContent?.trim() || ''}"`, val);
     if (this.textNode) this.textNode.audible = val !== 'default';
-
-    // @TODO toggle tooltip
   }
+
+  onLanguageChange = (locale?: IdsLocale | undefined) => {
+    if (!this.menuEl || !this.menuEl.popup) return;
+    if (this.displayMode === 'collapsed') {
+      this.menuEl.popup.align = locale?.isRTL() ? 'left' : 'right';
+    }
+  };
 }

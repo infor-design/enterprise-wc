@@ -320,6 +320,50 @@
   --ids-modal-button-color-hover: var(--ids-color-primary-90);
   --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary);
 
+  // Module Nav (Main)
+  --ids-module-nav-background-color: var(--ids-color-slate-20);
+  --ids-module-nav-border-color: var(--ids-color-slate-30);
+  --ids-module-nav-text-color: var(--ids-color-slate-70);
+
+  // Module Nav (Detail)
+  --ids-module-nav-detail-background-color: var(--ids-color-slate-30);
+
+  // Module Nav Accordion Separators
+  --ids-module-nav-separator-color: var(--ids-color-slate-30);
+
+  // Module Nav Input Field (Search/Role Dropdown)
+  --ids-module-nav-input-bg-color: var(--ids-color-neutral-00);
+  --ids-module-nav-input-border-color: var(--ids-color-slate-40);
+  --ids-module-nav-input-text-color: var(--ids-color-slate-100);
+  --ids-module-nav-input-focus-bg-color: var(--ids-color-slate-10);
+  --ids-module-nav-input-hover-bg-color: var(--ids-color-slate-20);
+
+  // Module Nav Item (Accordion Header/Menu Button)
+  --ids-module-nav-item-text-color: var(--ids-color-slate-100);
+  --ids-module-nav-item-hover-bg-color: var(--ids-color-slate-30);
+  --ids-module-nav-item-hover-text-color: var(--ids-color-slate-100);
+  --ids-module-nav-item-selected-bg-color: var(--ids-color-azure-20);
+  --ids-module-nav-item-selected-text-color: var(--ids-color-slate-100);
+
+  // Module Nav Switcher (Role Dropdown + Button)
+  --ids-module-nav-switcher-dropdown-bg-color: var(--ids-color-slate-10);
+  --ids-module-nav-switcher-dropdown-item-focus-bg-color: var(--ids-color-slate-30);
+  --ids-module-nav-switcher-dropdown-item-text-color: var(--ids-color-slate-90);
+
+  // Module Nav Search (Input Field)
+  --ids-module-nav-search-input-bg-color: var(--ids-color-slate-40);
+  --ids-module-nav-search-input-text-color: var(--ids-color-slate-90);
+  --ids-module-nav-search-input-focused-bg-color: var(--ids-color-neutral-00);
+  --ids-module-nav-search-input-focused-text-color: var(--ids-color-slate-100);
+  --ids-module-nav-search-input-placeholder-text-color: var(--ids-color-slate-100);
+  --ids-module-nav-search-input-focused-placeholder-text-color: var(--ids-color-slate-50);
+
+  // Module Nav Settings Menu (Accordion Header + Popupmenu)
+  --ids-module-nav-settings-menu-box-shadow: 0 0 8px 1px rgba(0 0 0 / 0.08);
+  --ids-module-nav-settings-menu-item-text-color: var(--ids-color-slate-70);
+  --ids-module-nav-settings-menu-item-icon-color: var(--ids-color-slate-70);
+  --ids-module-nav-settings-menu-separator-color: var(--ids-color-slate-20);
+
   // Popup
   --ids-popup-color-border: var(--ids-color-neutral-60);
   --ids-popup-shadow: 0 2px 5px rgba(0 0 0 / 0.2);

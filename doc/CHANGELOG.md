@@ -16,6 +16,7 @@
 - `[Locale]` Made Locale a global instance and moved it off ids-container and related fixes. ([#663](https://github.com/infor-design/enterprise-wc/issues/663))
 - `[Message]` Fix modal button separator. ([#1414](https://github.com/infor-design/enterprise-wc/issues/1414))
 - `[ModuleNav]` Added IdsModuleNav component with basic Role Switcher, Settings component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
+- `[ModuleNav]` Add Dark/Contrast themes, app icons, tooltip support, and other features to IdsModuleNav. ([#1417](https://github.com/infor-design/enterprise-wc/issues/1414))
 - `[NotificationBanner]` Added `wrap` setting for notification banner. ([#1435](https://github.com/infor-design/enterprise-wc/issues/1435))
 - `[Personalization]` Added a personalization API and adjusted some components to work with it. ([#1394](https://github.com/infor-design/enterprise-wc/issues/1394))
 - `[PopupMenu]` Add support for RTL. ([#1429](https://github.com/infor-design/enterprise-wc/issues/1429))

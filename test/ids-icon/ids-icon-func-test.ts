@@ -157,12 +157,12 @@ describe('IdsIcon Component', () => {
 
   it('can add a custom icon sheet', async () => {
     expect(customIconJSON).toBeTruthy();
-    IdsIcon.customIconData = customIconJSON;
-    expect(IdsIcon.customIconData).toBeTruthy();
+    IdsGlobal.customIconData = customIconJSON;
+    expect(IdsGlobal.customIconData).toBeTruthy();
 
     // <ids-icon icon="custom-airplane" size="large"></ids-icon>
     elem.icon = 'custom-airplane';
-    expect((IdsIcon.customIconData as any)['custom-airplane']).toBeTruthy();
-    expect(elem.container?.innerHTML).toEqual((IdsIcon.customIconData as any)['custom-airplane']);
+    expect((IdsGlobal.customIconData as any)['custom-airplane']).toBeTruthy();
+    expect(elem.container?.innerHTML).toEqual((IdsGlobal.customIconData as any)['custom-airplane']);
   });
 });

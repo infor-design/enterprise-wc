@@ -33,3 +33,30 @@ export const toggleScrollbar = (el: HTMLElement, doToggle?: boolean) => {
   }
   return didToggle;
 };
+
+/**
+ * Checks overflow of an element by cloning/appending to body
+ * @param {any} elem Element to check
+ * @returns {boolean} if the element is overflowed
+ */
+export const checkItemOverflow = (elem: any) => {
+  let clone;
+  if (elem!.container) {
+    clone = elem!.container.cloneNode(true);
+    clone.innerHTML = `${elem!.textContent}`;
+  } else {
+    clone = elem!.cloneNode(true);
+    clone.removeAttribute('overflow');
+  }
+
+  clone.style.display = 'inline';
+  clone.style.width = 'auto';
+  clone.style.visibility = 'hidden';
+  document.body.append(clone);
+
+  let result = false;
+  if (clone.offsetWidth > elem.offsetWidth) result = true;
+
+  clone.remove();
+  return result;
+};

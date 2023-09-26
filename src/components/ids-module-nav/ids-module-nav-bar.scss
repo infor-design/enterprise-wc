@@ -8,6 +8,7 @@
   flex-direction: column;
   flex-basis: max-content;
   transition: none;
+  z-index: var(--ids-module-nav-bar-z-index);
 }
 
 :host([pinned]) {
@@ -32,7 +33,6 @@
 
   &:not(.display-mode-collapsed):not(.display-mode-expanded) {
     pointer-events: none;
-    z-index: 0;
 
     .ids-module-nav-bar-main {
       width: 0;
@@ -62,8 +62,6 @@
 
   &.display-mode-collapsed,
   &.display-mode-expanded {
-    z-index: var(--ids-module-nav-z-index);
-
     &:not(.show-detail) {
       .ids-module-nav-bar-detail {
         display: none;
@@ -77,7 +75,6 @@
 
       .ids-module-nav-bar-detail {
         width: var(--ids-module-nav-submenu-size);
-        z-index: var(--ids-module-nav-z-index);
       }
     }
   }
@@ -191,7 +188,8 @@
   &.pinned {
     overflow: hidden;
 
-    .ids-module-nav-main {
+    .ids-module-nav-main,
+    .ids-module-nav-search-no-results {
       flex-grow: 1;
       overflow: auto;
     }
@@ -251,6 +249,14 @@
   padding: var(--ids-spacing-lg);
 }
 
+.ids-module-nav-search-no-results {
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+}
+
 // Add some padding and sizing on Avatar Icons
 ::slotted(ids-icon[slot='avatar']) {
   padding: var(--ids-spacing-lg);
@@ -265,4 +271,13 @@
 ::slotted(ids-toolbar) {
   padding-inline: var(--ids-spacing-lg);
   margin-block-end: var(--ids-spacing-lg);
+}
+
+::slotted(ids-tooltip) {
+  display: block;
+  white-space: nowrap;
+}
+
+::slotted(ids-tooltip::part(tooltip)) {
+  display: flex;
 }
