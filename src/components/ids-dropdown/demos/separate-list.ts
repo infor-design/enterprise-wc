@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       picker = createPopup(fieldId, btnId);
       currentTarget = picker.target as IdsDropdown;
+      picker.target = `#${fieldId}`;
+      picker.triggerElem = `#${btnId}`;
       if (field.value) picker.value = field.value;
 
       // Dropdown List's `hide` event can cause the field to become focused
@@ -74,6 +76,19 @@ document.addEventListener('DOMContentLoaded', () => {
       console.info('"selected" event triggered: ', e.detail.value, ` -- Value will be passed to field "${fieldId}"`);
       target.value = picker.value;
       picker.hide(true);
+    }
+  });
+
+  // Wire up click event to open/close the menu
+  dropdownEl.onEvent('click', dropdownEl, (e: CustomEvent) => {
+    const target = (e.target as any); // trigger field
+    if (target) {
+      const picker = document.querySelector<IdsDropdownList>('ids-dropdown-list')!;
+      const popup = picker.popup;
+      if (popup) {
+        if (!popup.visible) dropdownEl.open();
+        else dropdownEl.close();
+      }
     }
   });
 });
