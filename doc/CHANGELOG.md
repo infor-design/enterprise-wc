@@ -1,5 +1,13 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.16
+
+### 1.0.0-beta.16 Features
+
+### 1.0.0-beta.16 Fixes
+
+- `[Modal]` Removed overflow constraint on modal content area to enable proper display of lists/popups attached to inner components. ([#1436](https://github.com/infor-design/enterprise-wc/issues/1436))
+
 ## 1.0.0-beta.15
 
 ### 1.0.0-beta.15 Features
