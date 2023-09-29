@@ -225,6 +225,30 @@ export function checkOverflow(el?: HTMLElement | null) {
 }
 
 /**
+ * Toggles a scrollbar on an element that should only display one if its contents are overflowed
+ * NOTE: the element receiving the `has-scrollbar` class should have accompanying styles
+ *   applied for generating the scrollbar via `overflow: scroll;` or related prop.
+ * @param {HTMLElement} el target element
+ * @param {HTMLElement} [classEl] if defined, receives the CSS class needed to enable scrolling instead of the main element
+ * @param {boolean | undefined} [doToggle] if true, toggles the scrollbar
+ * @returns {boolean} true if the scrollbar was toggled
+ */
+export const toggleScrollbar = (el: HTMLElement, classEl?: HTMLElement, doToggle?: boolean) => {
+  let didToggle = false;
+  const classTargetEl = classEl || el;
+
+  if (el instanceof HTMLElement) {
+    if ((doToggle === undefined && el.scrollHeight > el.clientHeight) || doToggle === true) {
+      classTargetEl.classList.add('has-scrollbar');
+      didToggle = true;
+    } else {
+      classTargetEl.classList.remove('has-scrollbar');
+    }
+  }
+  return didToggle;
+};
+
+/**
  * Check if given element has given css class
  * @param {HTMLElement} el the element to act on
  * @param {string} className The class name
