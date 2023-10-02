@@ -22,16 +22,15 @@ if (listView) {
     listView.data = [...data].slice(numProducts);
   });
 
-  // listView.addEventListener('itemactivated', setNewData);
   listView.addEventListener('itemactivated', (e: any) => {
-    console.log('itemactivated', <CustomEvent>e.detail);
+    console.info('itemactivated', <CustomEvent>e.detail);
   });
 
   listView.addEventListener('selected', (e: any) => {
-    console.log('selected', <CustomEvent>e.detail);
+    console.info('selected', <CustomEvent>e.detail);
   });
 
   listView.addEventListener('deselected', (e: any) => {
-    console.log('deselected', <CustomEvent>e.detail);
+    console.info('deselected', <CustomEvent>e.detail);
   });
 }
