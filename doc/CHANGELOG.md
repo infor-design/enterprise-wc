@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.16
+
+### 1.0.0-beta.16 Breaking Changes
+
+- `[Checkbox/Radio]` Removed the dirty tracker feature from checkbox and radio buttons. We want to limit how much the dirty indicator is used and the UI for these components just does not work. ([#1489](https://github.com/infor-design/enterprise-wc/issues/1489))
+
 ## 1.0.0-beta.15
 
 ### 1.0.0-beta.15 Features
