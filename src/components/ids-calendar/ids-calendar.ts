@@ -1222,7 +1222,7 @@ export default class IdsCalendar extends Base {
 
     let legendData: Array<any> | null = null;
 
-    if (show && Array.isArray(eventTypes) && eventTypes.length) {
+    if (show && this.showLegend && Array.isArray(eventTypes) && eventTypes.length) {
       legendData = eventTypes.map((item: CalendarEventTypeData) => ({
         name: item.label,
         color: `${item.color}-60`,
