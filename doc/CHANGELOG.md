@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.16
+
+### 1.0.0-beta.16 Fixes
+
+- `[DataGrid]` Fixed a bug on the size of the `xxs` filter row inputs. ([#1456](https://github.com/infor-design/enterprise-wc/issues/1456))
+
 ## 1.0.0-beta.15
 
 ### 1.0.0-beta.15 Features
