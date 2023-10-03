@@ -300,7 +300,7 @@ export default class IdsDropdownList extends Base {
    * @returns {void}
    */
   setAriaOnMenuClose() {
-    this.setAttribute('aria-expanded', 'false');
+    this.removeAttribute('aria-expanded');
     this.listBox?.removeAttribute('tabindex');
 
     const selected = this.selected;
