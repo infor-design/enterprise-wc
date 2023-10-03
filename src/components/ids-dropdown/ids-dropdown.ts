@@ -260,7 +260,8 @@ export default class IdsDropdown extends Base {
       ${fieldHeight}
       ${compact}
       ${size}
-      ${value}>
+      ${value}
+      tabindex="-1">
       <slot></slot>
     </ids-dropdown-list>`;
   }
@@ -604,7 +605,8 @@ export default class IdsDropdown extends Base {
     }
 
     // Open the Dropdown List
-    this.dropdownList?.show();
+    this.dropdownList.removeAttribute(attributes.TABINDEX);
+    this.dropdownList.show();
 
     if (this.input) this.input.active = true;
 
@@ -667,6 +669,7 @@ export default class IdsDropdown extends Base {
     if (this.dropdownList) {
       if (this.dropdownList?.popup?.visible) this.dropdownList.hide(!noFocus);
       if (this.input) this.input.active = false;
+      this.dropdownList.setAttribute(attributes.TABINDEX, '-1');
     }
 
     if (!noFocus) {
