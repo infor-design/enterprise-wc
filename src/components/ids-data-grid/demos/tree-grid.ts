@@ -22,18 +22,28 @@ if (dataGrid) {
       align: 'center',
       frozen: 'left'
     });
-    columns.push({
-      id: 'name',
-      name: 'Name',
-      field: 'name',
+    columns.push({id: 'id',
+      name: 'Id',
+      field: 'id',
       sortable: true,
       resizable: true,
+      editor: {
+        type: 'input',
+        inline: true,
+        editorSettings: {
+          autoselect: true,
+          dirtyTracker: true,
+          validate: 'required'
+        }
+      },
       formatter: dataGrid.formatters.tree,
+      // dataGrid.formatters.tree,
       click: (info: any) => {
         console.info('Tree Expander Clicked', info);
       },
       width: 220,
-      frozen: 'left'
+      frozen: 'left',
+      align: 'right'
     });
     columns.push({
       id: 'rowNumber',
@@ -44,9 +54,9 @@ if (dataGrid) {
       width: 65
     });
     columns.push({
-      id: 'id',
-      name: 'Id',
-      field: 'id',
+      id: 'name',
+      name: 'Name',
+      field: 'name',
       sortable: true,
       resizable: true,
       formatter: dataGrid.formatters.text
