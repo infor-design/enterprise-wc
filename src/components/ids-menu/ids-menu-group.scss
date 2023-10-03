@@ -11,5 +11,6 @@
   flex-direction: column;
   flex-wrap: wrap;
   max-height: 90vh;
+  max-width: 100vw;
   width: max-content; // Doesn't work in Safari and Firefox
 }
