@@ -2,15 +2,19 @@
 
 ## 1.0.0-beta.16
 
+### 1.0.0-beta.16 Features
+
 ### 1.0.0-beta.16 Fixes
 
 - `[DataGrid]` Fixed a bug on the size of the `xxs` filter row inputs. ([#1456](https://github.com/infor-design/enterprise-wc/issues/1456))
+- `[Modal]` Changed the way z-index counting works to prevent a TypeScript/Angular compiler bug. ([#1476](https://github.com/infor-design/enterprise-wc/issues/1476))
 
 ## 1.0.0-beta.15
 
 ### 1.0.0-beta.15 Features
 
 - `[AppNav]` Fixed an issue when loading in angular templates/router-outlets. ([#1428](https://github.com/infor-design/enterprise-wc/issues/1428))
+- `[Calendar]` Fix hiding legend in mobilde view. ([#1473](https://github.com/infor-design/enterprise-wc/issues/1473))
 - `[Calendar]` Fix calendar dependency on ids container. ([#1359](https://github.com/infor-design/enterprise-wc/issues/1359))
 - `[DataGrid]` Tree grid `appendData()` no longer breaks rendering of existing rows, and `scrollend` triggers properly. ([#1425](https://github.com/infor-design/enterprise-wc/issues/1425))
 - `[DataGrid]` Prevent scroll when resize columns. ([#1209](https://github.com/infor-design/enterprise-wc/issues/1209))

@@ -15,7 +15,6 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
-import zCounter from './ids-modal-z-counter';
 import '../ids-popup/ids-popup';
 import '../ids-modal-button/ids-modal-button';
 import IdsOverlay from './ids-overlay';
@@ -58,6 +57,8 @@ const Base = IdsXssMixin(
 @customElement('ids-modal')
 @scss(styles)
 export default class IdsModal extends Base {
+  static zCount = 1020;
+
   shouldUpdate = false;
 
   onButtonClick?: (target: any) => void;
@@ -417,7 +418,7 @@ export default class IdsModal extends Base {
     }
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
-    this.style.setProperty('z-index', String(zCounter.increment()));
+    this.style.setProperty('z-index', String(++IdsModal.zCount));
     if (this.overlay) this.overlay.visible = true;
     if (this.popup) {
       this.popup.visible = true;
@@ -484,7 +485,7 @@ export default class IdsModal extends Base {
     }
     this.style.zIndex = '';
     this.setAttribute('aria-hidden', 'true');
-    zCounter.decrement();
+    --IdsModal.zCount;
 
     // Disable focus capture
     this.capturesFocus = false;
