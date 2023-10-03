@@ -68,6 +68,9 @@
   - link: contextmenu.html
     type: Example
     description: Shows a data grid with contextmenu
+  - link: contextmenu-submenu-mega.html
+    type: Example
+    description: Shows a data grid with contextmenu containing an extremely large submenu
   - link: contextmenu-thru-id.html
     type: Example
     description: Shows a data grid with contextmenu thru id

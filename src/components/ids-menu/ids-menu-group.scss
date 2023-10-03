@@ -7,4 +7,9 @@
 
 .ids-menu-group {
   @include reset-menu-style();
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 90vh;
+  width: max-content; // Doesn't work in Safari and Firefox
 }
