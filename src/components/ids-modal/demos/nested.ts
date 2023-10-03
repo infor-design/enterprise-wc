@@ -26,16 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   });
 
-  // Close the modals when their "close" buttons are clicked
-  parentModal.onButtonClick = (buttonEl: any) => {
-    if (buttonEl.cancel) {
-      parentModal.hide();
-    }
-  };
-  nestedModal.onButtonClick = () => {
-    nestedModal.hide();
-  };
-
   // When the modals are fully hidden, re-enable their trigger buttons
   parentModal.addEventListener('hide', () => {
     parentTriggerBtn.disabled = false;
