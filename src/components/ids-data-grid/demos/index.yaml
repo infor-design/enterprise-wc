@@ -182,6 +182,9 @@
   - link: tree-grid-filter.html
     type: Example
     description: Shows a tree with filter
+  - link: tree-grid-inline.html
+    type: Example
+    description: Shows displaying hierarchical data with "inline" editing style
   - link: tree-grid-paging.html
     type: Example
     description: Shows a tree with paging

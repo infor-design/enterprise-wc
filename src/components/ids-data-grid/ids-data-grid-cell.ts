@@ -119,6 +119,7 @@ export default class IdsDataGridCell extends IdsElement {
     const template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
 
     this.innerHTML = template;
+    if (column.formatter) this.classList.add(`formatter-${column.formatter.name}`);
   }
 
   /**

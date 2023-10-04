@@ -124,18 +124,20 @@
     flex-direction: row;
     align-items: center;
 
-    ids-button + .text-ellipsis {
-      padding-inline-start: 0;
+    ids-button + .ids-data-grid-tree-field-container .text-ellipsis {
+      margin-inline-start: 0;
     }
 
     ids-button {
-      padding-inline: 4px;
+      padding-inline-start: 4px;
+      padding-inline-end: 3px;
     }
 
     .text-ellipsis {
       // No Ellipsis on tree columns, let links be focusable
       overflow: initial;
-      padding-inline-start: 40px;
+      padding-inline-start: 0;
+      margin-inline-start: 40px;
 
       ids-hyperlink {
         margin-inline-start: 0;
@@ -143,16 +145,22 @@
     }
   }
 
+  .ids-data-grid-cell .ids-data-grid-tree-field-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
   // Dynamically added indents
   @for $i from 2 through 8 {
     [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container .text-ellipsis {
-      padding-inline-start: #{(($i - 2) * 27) + 64px};
+      margin-inline-start: #{(($i - 2) * 27) + 64px};
     }
     [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button {
-      padding-inline-start: #{(($i - 2) * 27) + 55px};
+      margin-inline-start: #{(($i - 2) * 27) + 50px};
     }
     [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button + .text-ellipsis {
-      padding-inline-start: 0;
+      margin-inline-start: 0;
     }
   }
 
