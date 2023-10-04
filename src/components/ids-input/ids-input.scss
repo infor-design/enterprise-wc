@@ -611,9 +611,6 @@ $input-size-full: 100%;
       .field-container,
       &.hover .field-container,
       &.focus-within .field-container {
-        border-color: var(--ids-input-color-border-readonly);
-        color: var(--ids-input-color-text-readonly);
-
         &.error,
         &.error:hover {
           border-color: var(--ids-color-error-default);
@@ -656,6 +653,7 @@ $input-size-full: 100%;
       }
     }
 
+    &.is-active,
     &:hover:not(.readonly):not(.disabled),
     &:hover.readonly.readonly-background {
       .field-container {

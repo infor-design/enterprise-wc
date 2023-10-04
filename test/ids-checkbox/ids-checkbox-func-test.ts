@@ -53,32 +53,6 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('checked')).toBe(null);
   });
 
-  it('should handle dirty tracking', () => {
-    expect(cb.getAttribute('dirty-tracker')).toEqual(null);
-    expect(cb.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
-    expect(cb.labelEl.querySelector('.msg-dirty')).toBeFalsy();
-    cb.dirtyTracker = true;
-    expect(cb.getAttribute('dirty-tracker')).toEqual('true');
-    expect(cb.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
-    expect(cb.labelEl.querySelector('.msg-dirty')).toBeFalsy();
-    cb.checked = true;
-    let val = cb.valMethod(cb.input);
-    cb.setDirtyTracker(val);
-    expect(cb.getAttribute('dirty-tracker')).toEqual('true');
-    expect(cb.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
-    expect(cb.labelEl.querySelector('.msg-dirty')).toBeTruthy();
-    cb.checked = false;
-    val = cb.valMethod(cb.input);
-    cb.setDirtyTracker(val);
-    expect(cb.getAttribute('dirty-tracker')).toEqual('true');
-    expect(cb.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
-    expect(cb.labelEl.querySelector('.msg-dirty')).toBeFalsy();
-    cb.dirtyTracker = false;
-    expect(cb.getAttribute('dirty-tracker')).toEqual(null);
-    expect(cb.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
-    expect(cb.labelEl.querySelector('.msg-dirty')).toBeFalsy();
-  });
-
   it('should renders as disabled', () => {
     expect(cb.getAttribute('disabled')).toEqual(null);
     expect(cb.input.hasAttribute('disabled')).toBe(false);

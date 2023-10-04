@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-text/ids-text';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 import IdsElement from '../../core/ids-element';
@@ -12,11 +11,9 @@ import type IdsRadio from './ids-radio';
 import styles from './ids-radio-group.scss';
 
 const Base = IdsValidationMixin(
-  IdsDirtyTrackerMixin(
-    IdsLocaleMixin(
-      IdsEventsMixin(
-        IdsElement
-      )
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
     )
   )
 );
@@ -26,7 +23,6 @@ const Base = IdsValidationMixin(
  * @type {IdsRadioGroup}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsDirtyTrackerMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsValidationMixin
  */
@@ -110,7 +106,6 @@ export default class IdsRadioGroup extends Base {
     this.handleHorizontal();
     this.handleDisabled();
     this.attachInternalEventHandlers();
-    this.handleDirtyTracker();
     this.handleValidation();
   }
 

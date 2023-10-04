@@ -5,7 +5,7 @@ import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 import IdsDrawer from '../ids-drawer/ids-drawer';
 import IdsLocale from '../ids-locale/ids-locale';
-import { toggleScrollbar, checkItemOverflow } from './ids-module-nav-common';
+import { checkItemOverflow } from './ids-module-nav-common';
 
 import '../ids-accordion/ids-accordion';
 import '../ids-button/ids-button';
@@ -17,7 +17,7 @@ import '../ids-tooltip/ids-tooltip';
 
 import { attributes } from '../../core/ids-attributes';
 import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getClosest, toggleScrollbar } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import styles from './ids-module-nav-bar.scss';
 
@@ -593,7 +593,7 @@ export default class IdsModuleNavBar extends Base {
    */
   private setBarScrollable(doToggle?: boolean) {
     const el = this.container;
-    if (el) toggleScrollbar(el, doToggle);
+    if (el) toggleScrollbar(el, undefined, doToggle);
   }
 
   /**
@@ -607,7 +607,7 @@ export default class IdsModuleNavBar extends Base {
 
     const container = this.accordion.container;
     if (container) {
-      const didToggle = toggleScrollbar(container, doToggle);
+      const didToggle = toggleScrollbar(container, undefined, doToggle);
       if (didToggle) sectionHasScrollbar = true;
     }
 

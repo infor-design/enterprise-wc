@@ -20,7 +20,7 @@ get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS) 
 @import '../../themes/mixins/ids-validation-mixin';
 
 .validation-message {
-  margin-top: - 10px;
+  margin-top: 10px;
 }
 ```
 

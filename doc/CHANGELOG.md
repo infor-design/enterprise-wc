@@ -1,11 +1,17 @@
 # What's New with Enterprise Web Components
 
-## 1.0.0-beta-16
+## 1.0.0-beta.16
+
+### 1.0.0-beta.16 Breaking Changes
+
+- `[Checkbox/Radio]` Removed the dirty tracker feature from checkbox and radio buttons. We want to limit how much the dirty indicator is used and the UI for these components just does not work. ([#1489](https://github.com/infor-design/enterprise-wc/issues/1489))
 
 ### 1.0.0-beta.16 Features
 
 ### 1.0.0-beta.16 Fixes
 
+- `[DataGrid]` Fixed a bug on the size of the `xxs` filter row inputs. ([#1456](https://github.com/infor-design/enterprise-wc/issues/1456))
+- `[Modal]` Removed overflow constraint on modal content area to enable proper display of lists/popups attached to inner components. ([#1436](https://github.com/infor-design/enterprise-wc/issues/1436))
 - `[Modal]` Changed the way z-index counting works to prevent a TypeScript/Angular compiler bug. ([#1476](https://github.com/infor-design/enterprise-wc/issues/1476))
 - `[Icons]` Fixed how icon sizes are applied to correct a bug where icons in safari are the wrong size. ([#1519](https://github.com/infor-design/enterprise-wc/issues/1519))
 
@@ -25,6 +31,7 @@
 - `[Editor]` Fixed issue where buttons are disabled in source view. ([#1195](https://github.com/infor-design/enterprise-wc/issues/1195))
 - `[Icons]` Fixes for new icons pipeline, new icons and cleanup. ([#518](https://github.com/infor-design/design-system/issues/518))
 - `[Input]` Fixed input elements so values are properly reflected in Angular Reactive Forms. ([#1455](https://github.com/infor-design/enterprise-wc/issues/1455))
+- `[ListView]` Added example to show that loading different dataset properly refreshes list-view and doesn't break custom events. ([#1352](https://github.com/infor-design/enterprise-wc/issues/1352))
 - `[Locale]` Made Locale a global instance and moved it off ids-container and related fixes. ([#663](https://github.com/infor-design/enterprise-wc/issues/663))
 - `[Message]` Fix modal button separator. ([#1414](https://github.com/infor-design/enterprise-wc/issues/1414))
 - `[ModuleNav]` Added IdsModuleNav component with basic Role Switcher, Settings component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
