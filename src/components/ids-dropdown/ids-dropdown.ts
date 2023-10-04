@@ -1,5 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes';
+import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool, escapeRegExp } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -260,7 +260,8 @@ export default class IdsDropdown extends Base {
       ${fieldHeight}
       ${compact}
       ${size}
-      ${value}>
+      ${value}
+      tabindex="-1">
       <slot></slot>
     </ids-dropdown-list>`;
   }
@@ -604,7 +605,9 @@ export default class IdsDropdown extends Base {
     }
 
     // Open the Dropdown List
-    this.dropdownList?.show();
+    this.dropdownList.setAttribute(htmlAttributes.ARIA_EXPANDED, 'true');
+    this.dropdownList.removeAttribute(attributes.TABINDEX);
+    this.dropdownList.show();
 
     if (this.input) this.input.active = true;
 
@@ -667,6 +670,8 @@ export default class IdsDropdown extends Base {
     if (this.dropdownList) {
       if (this.dropdownList?.popup?.visible) this.dropdownList.hide(!noFocus);
       if (this.input) this.input.active = false;
+      this.dropdownList.setAttribute(attributes.TABINDEX, '-1');
+      this.dropdownList.removeAttribute(htmlAttributes.ARIA_EXPANDED);
     }
 
     if (!noFocus) {
