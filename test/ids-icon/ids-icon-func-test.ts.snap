@@ -2,4 +2,4 @@
 
 exports[`IdsIcon Component renders correctly 1`] = `"<ids-icon icon="close"></ids-icon>"`;
 
-exports[`IdsIcon Component renders correctly 2`] = `"<ids-icon icon="close" size="small"></ids-icon>"`;
+exports[`IdsIcon Component renders correctly 2`] = `"<ids-icon icon="close" size="small" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon>"`;
