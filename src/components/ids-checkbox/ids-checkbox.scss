@@ -1,5 +1,4 @@
 @use '../../themes/mixins/ids-checkbox-mixin' as checkbox;
-@use '../../themes/mixins/ids-dirty-tracker-mixin' as dirty;
 @use '../../themes/mixins/ids-validation-mixin' as valid;
 
 :host(.justify-center) .ids-checkbox .checkmark,
@@ -109,6 +108,10 @@
 
     &:focus ~ .checkmark {
       @include checkbox.checkbox-focus();
+    }
+
+    &:focus.error ~ .checkmark {
+      @include checkbox.checkbox-focus-error();
     }
 
     &:disabled {

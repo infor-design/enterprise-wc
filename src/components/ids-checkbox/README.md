@@ -35,12 +35,6 @@ Set as Checked, the checkbox.
 <ids-checkbox label="Checked" checked="true"></ids-checkbox>
 ```
 
-Set the Dirty Tracking to Checkbox this way:
-
-```html
-<ids-checkbox label="Dirty tracking" dirty-tracker="true"></ids-checkbox>
-```
-
 Set the Hitbox to Checkbox this way:
 
 ```html
@@ -94,7 +88,6 @@ Hide label and show only checkbox:
 
 - `checked` {boolean} set checked state.
 - `color` {string} set the color for checkbox.
-- `dirty-tracker` {boolean} set dirty tracker.
 - `disabled` {boolean} set disabled state.
 - `horizontal` {boolean} set checkbox layout inline as horizontal.
 - `indeterminate` {boolean} This set to neither checked nor unchecked.
@@ -114,7 +107,7 @@ Hide label and show only checkbox:
 ## States
 
 - disabled
-- dirty
+- dirty (not supported on this component)
 - validation/error
 - focused
 - active
