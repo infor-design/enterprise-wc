@@ -437,14 +437,15 @@ th.ids-data-grid-header-cell {
     }
 
     // Filter Adjustments
-    ids-input {
+    ids-input,
+    ids-trigger-field {
       --ids-input-height-10: 24px;
     }
 
     .ids-data-grid-header-cell-filter-wrapper {
-      padding-inline-start: calc(var(--ids-data-grid-padding-xxs) + 1px);
-      padding-inline-end: calc(var(--ids-data-grid-padding-xxs) + 1px);
-      padding-block-end: calc(var(--ids-data-grid-padding-xxs) + 2px);
+      padding-inline-start: calc(var(--ids-data-grid-padding-xxs) + 2px);
+      padding-inline-end: calc(var(--ids-data-grid-padding-xxs) + 2px);
+      padding-block-end: var(--ids-data-grid-padding-xxs - 1px);
     }
   }
 }
