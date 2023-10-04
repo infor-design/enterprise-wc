@@ -12,7 +12,7 @@ import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import IdsElement from '../../core/ids-element';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { toggleScrollbar, waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import '../ids-popup/ids-popup';
@@ -74,6 +74,8 @@ export default class IdsModal extends Base {
     }
   };
 
+  ro?: ResizeObserver;
+
   constructor() {
     super();
 
@@ -118,6 +120,7 @@ export default class IdsModal extends Base {
 
     this.attachEventHandlers();
     this.shouldUpdate = true;
+    this.setResize();
     this.#setFullsizeDefault();
     this.#setFocusIfVisible();
   }
@@ -125,6 +128,8 @@ export default class IdsModal extends Base {
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.#clearBreakpointResponse();
+    this.ro?.disconnect();
+    this.ro = undefined;
   }
 
   /**
@@ -153,6 +158,25 @@ export default class IdsModal extends Base {
     </ids-popup>`;
   }
 
+  private setResize() {
+    if (typeof ResizeObserver === 'undefined') return;
+
+    this.ro?.disconnect();
+
+    if (!this.ro) {
+      this.ro = new ResizeObserver(() => {
+        this.setScrollable();
+      });
+    }
+
+    this.ro.observe(this);
+  }
+
+  private setScrollable() {
+    const modalContentEl = this.modalContentEl;
+    if (modalContentEl) toggleScrollbar(this, modalContentEl);
+  }
+
   /**
    * Used for ARIA Labels and other content
    * @readonly
@@ -168,6 +192,14 @@ export default class IdsModal extends Base {
    */
   get buttons(): NodeListOf<IdsModalButton> {
     return this.querySelectorAll<IdsModalButton>('[slot="buttons"]');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement | null} reference to the Modal's content wrapper element
+   */
+  get modalContentEl(): HTMLElement | null {
+    return this.container?.querySelector('.ids-modal-content') || null;
   }
 
   /**

@@ -31,7 +31,10 @@
   padding: var(--ids-modal-content-padding);
   flex-grow: 1;
   flex-shrink: 1;
-  overflow: auto;
+
+  &.has-scrollbar {
+    overflow: auto;
+  }
 }
 
 .ids-modal-header + .ids-modal-content {
