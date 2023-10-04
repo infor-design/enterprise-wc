@@ -11,9 +11,17 @@
       <ids-text font-size="12" type="h1">List View Data Changing</ids-text>
     </ids-layout-grid>
 
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-button id="btn-randomize-data" appearance="primary">
+          <ids-icon icon="settings"></ids-icon>
+          <span>Reload Random Data</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
     <ids-layout-grid cols="2" gap="xl" padding-x="md">
       <ids-layout-grid-cell col-span="1">
-        <ids-text>Changes data when clicking on an item</ids-text>
         <div class="parent-container">
           <ids-list-view item-height="76" selectable="mixed">
             <template>
