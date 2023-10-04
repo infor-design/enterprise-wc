@@ -17,24 +17,6 @@ export const DISPLAY_TEXT_TYPES = ['default', 'tooltip', 'hidden'];
 export const isValidTextDisplay = (val: string) => DISPLAY_TEXT_TYPES.includes(val);
 
 /**
- * @param {HTMLElement} el target element
- * @param {boolean | undefined} [doToggle] if true, toggles the scrollbar
- * @returns {boolean} true if the scrollbar was toggled
- */
-export const toggleScrollbar = (el: HTMLElement, doToggle?: boolean) => {
-  let didToggle = false;
-  if (el instanceof HTMLElement) {
-    if ((doToggle === undefined && el.scrollHeight > el.clientHeight) || doToggle === true) {
-      el.classList.add('has-scrollbar');
-      didToggle = true;
-    } else {
-      el.classList.remove('has-scrollbar');
-    }
-  }
-  return didToggle;
-};
-
-/**
  * Checks overflow of an element by cloning/appending to body
  * @param {any} elem Element to check
  * @returns {boolean} if the element is overflowed

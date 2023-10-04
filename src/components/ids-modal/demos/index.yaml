@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Showing a simple modal example
+  - link: contains-components.html
+    type: Example
+    description: Showing a modal that contains other IDS components that break containment
   - link: focus.html
     type: Example
     description: Demonstrates Focus Capture behavior
@@ -18,7 +21,7 @@
     type: Example
     description: Demonstrates how to keep a Modal from closing when clicking outside
   - link: nested.html
-    Type: Example
+    type: Example
     description: Showing a test page for nested modals
   - link: side-by-side.html
     type: Example
