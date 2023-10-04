@@ -200,7 +200,12 @@ export default class IdsDataGridFormatters {
     const button = (rowData?.children as any)?.length ? `<ids-button tabindex="-1" class="expand-button">
       <ids-icon icon="plusminus-folder-${rowData.rowExpanded === false ? 'closed' : 'open'}"></ids-icon>
     </ids-button>` : '&nbsp;';
-    return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
+    return `<span class="ids-data-grid-tree-container">
+      ${button}
+      <span class="ids-data-grid-tree-field-container">
+        <span class="text-ellipsis">${value}</span>
+      </span>
+    </span>`;
   }
 
   /** Shows an expander button */
@@ -209,7 +214,12 @@ export default class IdsDataGridFormatters {
     const button = `<ids-button tabindex="-1" class="expand-button">
         <ids-icon icon="plusminus-folder-${rowData.rowExpanded === true ? 'open' : 'closed'}"></ids-icon>
       </ids-button>`;
-    return `<span class="ids-data-grid-tree-container">${button}<span class="text-ellipsis">${value}</span></span>`;
+    return `<span class="ids-data-grid-tree-container">
+      ${button}
+      <span class="ids-data-grid-tree-field-container">
+        <span class="text-ellipsis">${value}</span>
+      </span>
+    </span>`;
   }
 
   /** Shows a dropdown list */

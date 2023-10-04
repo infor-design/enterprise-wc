@@ -1,3 +1,30 @@
+@mixin ids-data-grid-inline-editable-outline-large {
+  box-shadow: inset 0 0 0 4px var(--ids-data-grid-cell-color-background-default),
+    inset 0 0 0 5px var(--ids-input-color-border-default);
+}
+
+@mixin ids-data-grid-inline-editable-outline-small {
+  box-shadow: inset 0 0 0 2px var(--ids-input-color-background-default),
+    inset 0 0 0 3px var(--ids-input-color-border-default);
+}
+
+@mixin ids-data-grid-inline-editable-outline-medium {
+  box-shadow: inset 0 0 0 3px var(--ids-input-color-background-default),
+    inset 0 0 0 4px var(--ids-input-color-border-default);
+}
+
+@mixin ids-data-grid-cell-dirty-tracker-icon {
+  border-color: var(--ids-input-dirty-indicator-color-background-dirty) transparent transparent var(--ids-input-dirty-indicator-color-background-dirty);
+  border-style: solid;
+  border-width: 5px;
+  content: '';
+  display: inline-block;
+  margin-inline: 2px;
+  position: absolute;
+  inset-block-start: 2px;
+  z-index: 1;
+}
+
 /* Ids Data Grid Component - Cells */
 .ids-data-grid-cell {
   // Border and Background and Sizing
@@ -91,7 +118,32 @@
 
   &.is-editable {
     &.is-inline {
-      box-shadow: inset 0 0 0 4px var(--ids-data-grid-cell-color-background-default), inset 0 0 0 5px var(--ids-input-color-border-default);
+
+      &:not(.formatter-tree) {
+        @include ids-data-grid-inline-editable-outline-large;
+      }
+
+      &.formatter-tree {
+        .ids-data-grid-tree-container {
+          height: 100%;
+          width: 100%;
+        }
+
+        .ids-data-grid-tree-field-container {
+          height: 100%;
+          width: 100%;
+        }
+
+        .text-ellipsis {
+          @include ids-data-grid-inline-editable-outline-large;
+
+          align-items: center;
+          display: flex;
+          height: 100%;
+          justify-content: end;
+          width: 100%;
+        }
+      }
 
       ids-icon.editor-cell-icon {
         --ids-trigger-field-button-margin: 0;
@@ -235,20 +287,34 @@
   }
 
   &.is-dirty::before {
-    border-color: var(--ids-input-dirty-indicator-color-background-dirty) transparent transparent var(--ids-input-dirty-indicator-color-background-dirty);
-    border-style: solid;
-    border-width: 5px;
-    content: '';
-    display: inline-block;
-    margin-inline: 2px;
-    position: absolute;
-    top: 2px;
-    z-index: 1;
+    @include ids-data-grid-cell-dirty-tracker-icon;
   }
 
-  &.is-dirty.is-inline::before {
-    margin-inline: 6px;
-    top: 6px;
+  &.is-dirty.is-inline {
+    &:not(.formatter-tree) {
+      &::before {
+        margin-inline: 6px;
+        inset-block-start: 6px;
+      }
+    }
+
+    &.formatter-tree {
+      &::before {
+        display: none;
+        content: none;
+      }
+
+      .ids-data-grid-tree-field-container {
+        position: relative;
+
+        &::before {
+          @include ids-data-grid-cell-dirty-tracker-icon;
+
+          margin-inline: 6px;
+          inset-block-start: 6px;
+        }
+      }
+    }
   }
 
   &.is-invalid {
@@ -271,7 +337,15 @@
   }
 
   .is-editable.is-inline {
-    box-shadow: inset 0 0 0 2px var(--ids-input-color-background-default), inset 0 0 0 3px var(--ids-input-color-border-default);
+    &:not(.formatter-tree) {
+      @include ids-data-grid-inline-editable-outline-small;
+    }
+
+    &.formatter-tree {
+      .text-ellipsis {
+        @include ids-data-grid-inline-editable-outline-small;
+      }
+    }
   }
 
   ids-button {
@@ -327,7 +401,15 @@
   }
 
   .is-editable.is-inline {
-    box-shadow: inset 0 0 0 2px var(--ids-input-color-background-default), inset 0 0 0 3px var(--ids-input-color-border-default);
+    &:not(.formatter-tree) {
+      @include ids-data-grid-inline-editable-outline-small;
+    }
+
+    &.formatter-tree {
+      .text-ellipsis {
+        @include ids-data-grid-inline-editable-outline-small;
+      }
+    }
   }
 
   ids-button {
@@ -371,7 +453,15 @@
 
 [data-row-height='sm'] {
   .is-editable.is-inline {
-    box-shadow: inset 0 0 0 3px var(--ids-input-color-background-default), inset 0 0 0 4px var(--ids-input-color-border-default);
+    &:not(.formatter-tree) {
+      @include ids-data-grid-inline-editable-outline-medium;
+    }
+
+    &.formatter-tree {
+      .text-ellipsis {
+        @include ids-data-grid-inline-editable-outline-medium;
+      }
+    }
   }
 
   .ids-data-grid-cell.is-dirty.is-inline::before {
