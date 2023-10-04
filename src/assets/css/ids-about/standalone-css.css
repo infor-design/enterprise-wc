@@ -10,6 +10,8 @@ body {
 
 #about-example .ids-modal-header svg {
   margin-bottom: 8px;
+  height: 64px;
+  width: 64px;
 }
 
 #about-example .ids-modal-content .ids-text:not(:last-child) {
