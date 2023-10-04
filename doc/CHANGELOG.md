@@ -6,6 +6,7 @@
 
 ### 1.0.0-beta.16 Fixes
 
+- `[AxisChart]` Fixed responsive axis charts `inherit` setting value. ([#1458](https://github.com/infor-design/enterprise-wc/issues/1458))
 - `[Modal]` Removed overflow constraint on modal content area to enable proper display of lists/popups attached to inner components. ([#1436](https://github.com/infor-design/enterprise-wc/issues/1436))
 - `[Modal]` Changed the way z-index counting works to prevent a TypeScript/Angular compiler bug. ([#1476](https://github.com/infor-design/enterprise-wc/issues/1476))
 
