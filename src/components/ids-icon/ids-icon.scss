@@ -7,16 +7,10 @@
   position: relative;
 }
 
-svg:not([height]) {
-  height: var(--ids-icon-height-default);
-}
-
-svg:not([width]) {
-  width: var(--ids-icon-width-default);
-}
-
 svg {
   color: var(--ids-icon-color-default);
+  height: var(--ids-icon-height-default);
+  width: var(--ids-icon-width-default);
 }
 
 :host([hidden]) {
