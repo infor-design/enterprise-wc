@@ -199,7 +199,7 @@ export default class IdsDataGridFormatters {
     const value = this.#extractValue(rowData, columnData.field);
     const button = (rowData?.children as any)?.length ? `<ids-button tabindex="-1" class="expand-button">
       <ids-icon icon="plusminus-folder-${rowData.rowExpanded === false ? 'closed' : 'open'}"></ids-icon>
-    </ids-button>` : '&nbsp;';
+    </ids-button>` : '';
     return `<span class="ids-data-grid-tree-container">
       ${button}
       <span class="ids-data-grid-tree-field-container">

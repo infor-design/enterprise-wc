@@ -1930,7 +1930,7 @@ export default class IdsDataGrid extends Base {
       // eslint-disable-next-line eqeqeq
       if (index === 0) childRow = data.find((row: Record<string, any>) => row[this.idColumn] == r);
       // eslint-disable-next-line eqeqeq
-      else childRow = childRow.children.find((cRow: Record<string, any>) => cRow.id == r);
+      else childRow = childRow?.children.find((cRow: Record<string, any>) => cRow.id == r);
     });
     return childRow;
   }
