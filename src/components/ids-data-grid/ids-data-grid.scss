@@ -148,7 +148,7 @@
 
     ids-button {
       padding-inline-start: 4px;
-      padding-inline-end: 3px;
+      padding-inline-end: 0;
     }
 
     .text-ellipsis {
@@ -169,7 +169,7 @@
     align-items: center;
   }
 
-  // Dynamically added indents
+  // Dynamically added indents and position dirty indicator
   @for $i from 2 through 8 {
     [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container .text-ellipsis {
       margin-inline-start: #{(($i - 2) * 27) + 64px};
@@ -179,6 +179,29 @@
     }
     [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button + .text-ellipsis {
       margin-inline-start: 0;
+    }
+
+    [aria-level='#{$i}'] {
+      .ids-data-grid-cell.is-inline.is-dirty {
+        .ids-data-grid-tree-field-container::before {
+          margin-inline-start: #{(($i - 2) * 27) + 70px};
+        }
+        ids-button + .ids-data-grid-tree-field-container::before {
+          margin-inline-start: 6px;
+        }
+      }
+    }
+  }
+
+  // Level 1 has slightly-different dirty values
+  [aria-level='1'] {
+    .ids-data-grid-cell.is-inline.is-dirty {
+      .ids-data-grid-tree-field-container::before {
+        margin-inline-start: 46px;
+      }
+      ids-button + .ids-data-grid-tree-field-container::before {
+        margin-inline-start: 6px;
+      }
     }
   }
 
