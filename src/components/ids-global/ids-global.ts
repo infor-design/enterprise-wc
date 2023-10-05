@@ -11,6 +11,7 @@ declare global {
     IdsGlobal: {
       locale?: IdsLocale;
       themeLoaded?: IdsDeferred;
+      themeName?: string;
       version?: string;
       personalize?: IdsPersonalize;
       customIconData?: object;
@@ -20,7 +21,8 @@ declare global {
 
 window.IdsGlobal ??= {
   version,
-  personalize: new IdsPersonalize()
+  personalize: new IdsPersonalize(),
+  themeName: ''
 };
 
 class IdsGlobal {
@@ -53,6 +55,14 @@ class IdsGlobal {
 
   static get version(): IdsPersonalize {
     return IdsGlobal.version;
+  }
+
+  static get themeName(): string {
+    return window.IdsGlobal.themeName || '';
+  }
+
+  static set themeName(value: string) {
+    window.IdsGlobal.themeName = value;
   }
 
   /** Used to hold custom icon json */
