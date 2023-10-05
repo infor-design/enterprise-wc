@@ -5,12 +5,14 @@ import IdsLineChart from '../../src/components/ids-line-chart/ids-line-chart';
 import dataset from '../../src/assets/data/components.json';
 import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
+import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsLineChart Component', () => {
   let lineChart: any;
 
   beforeEach(async () => {
     lineChart = new IdsLineChart();
+    IdsGlobal.onThemeLoaded().resolve();
     document.body.appendChild(lineChart);
     lineChart.data = dataset;
   });

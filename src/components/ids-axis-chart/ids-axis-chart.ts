@@ -114,18 +114,6 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
   dataLoaded = new IdsDeferred();
 
-  constructor() {
-    super();
-
-    // Setup the default values
-    this.state = this.state || {};
-    this.state.horizontal = false;
-    this.state.yAxisFormatter = {
-      notation: 'compact',
-      compactDisplay: 'short'
-    };
-  }
-
   svg?: SVGElement | null;
 
   canvas?: HTMLCanvasElement;
@@ -146,20 +134,28 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
   resizeToParentWidth = false;
 
-  parentWidth = NaN;
-
-  parentHeight = NaN;
-
   /** Reference to datasource API */
   datasource = new IdsDataSource();
 
-  /**
-   * @returns {Array<string>} Drawer vetoable events
-   */
+  /** @returns {Array<string>} Drawer vetoable events */
   vetoableEventTypes = [
     'beforeselected',
     'beforedeselected'
   ];
+
+  protected isGrouped = false;
+
+  constructor() {
+    super();
+
+    // Setup the default values
+    this.state = this.state || {};
+    this.state.horizontal = false;
+    this.state.yAxisFormatter = {
+      notation: 'compact',
+      compactDisplay: 'short'
+    };
+  }
 
   /**
    * On selectable change
@@ -177,18 +173,25 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot?.querySelector('ids-empty-message');
     this.legend = this.shadowRoot?.querySelector('[name="legend"]');
 
-    Promise.all([
-      IdsGlobal.onThemeLoaded().promise,
-      this.dataLoaded
-    ]).then(() => {
-      if (this.getAttribute(attributes.WIDTH)) this.width = this.getAttribute(attributes.WIDTH) as string;
-      if (this.getAttribute(attributes.HEIGHT)) this.height = this.getAttribute(attributes.HEIGHT) as string;
+    const themeLoaded = IdsGlobal.onThemeLoaded();
+    if (themeLoaded) {
+      this.init();
+    } else {
+      Promise.all([
+        IdsGlobal.onThemeLoaded().promise, // wait for container visible
+        this.dataLoaded // wait for initial set of data
+      ]).then(() => { this.init(); });
+    }
+  }
 
-      this.initialized = true;
-      this.#resetAxisLabelsText();
-      this.#attachEventHandlers();
-      this.redraw();
-    });
+  init(): void {
+    if (this.getAttribute(attributes.WIDTH)) this.width = this.getAttribute(attributes.WIDTH) as string;
+    if (this.getAttribute(attributes.HEIGHT)) this.height = this.getAttribute(attributes.HEIGHT) as string;
+
+    this.initialized = true;
+    this.#resetAxisLabelsText();
+    this.#attachEventHandlers();
+    this.redraw();
   }
 
   /**
@@ -311,8 +314,6 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       this.#resizeObserver = undefined;
     }
   }
-
-  protected isGrouped = false;
 
   /**
    * Resize chart to given width height
@@ -630,28 +631,26 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @returns {string} The SVG markup
    */
   #axisTemplate(): string {
-    return `<title></title>
-    <title>${this.title}</title>
-    <defs>
-      ${this.#patterns()}
-    </defs>
-    <g class="grid vertical-lines${!this.showVerticalGridLines ? ' hidden' : ''}">
-      ${this.#verticalLines()}
-    </g>
-    <g class="grid horizontal-lines${!this.showHorizontalGridLines ? ' hidden' : ''}">
-      ${this.#horizontalLines()}
-    </g>
-    ${this.chartTemplate()}
-    <g class="labels x-labels">
-      ${this.#xLabels()}
-    </g>
-    <g class="labels y-labels">
-      ${this.#yLabels()}
-    </g>
-    <g class="labels axis-labels">
-      ${this.#axisLabels()}
-    </g>
-    `;
+    return `<title>${this.title}</title>
+      <defs>
+        ${this.#patterns()}
+      </defs>
+      <g class="grid vertical-lines${!this.showVerticalGridLines ? ' hidden' : ''}">
+        ${this.#verticalLines()}
+      </g>
+      <g class="grid horizontal-lines${!this.showHorizontalGridLines ? ' hidden' : ''}">
+        ${this.#horizontalLines()}
+      </g>
+      ${this.chartTemplate()}
+      <g class="labels x-labels">
+        ${this.#xLabels()}
+      </g>
+      <g class="labels y-labels">
+        ${this.#yLabels()}
+      </g>
+      <g class="labels axis-labels">
+        ${this.#axisLabels()}
+      </g>`;
   }
 
   /**
