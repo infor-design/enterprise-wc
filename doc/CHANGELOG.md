@@ -8,6 +8,8 @@
 
 ### 1.0.0-beta.16 Features
 
+- `[Themes]` For theme switching added logic to check for a `<base href="">` tag. ([#1498](https://github.com/infor-design/enterprise-wc/issues/1498))
+
 ### 1.0.0-beta.16 Fixes
 
 - `[DataGrid]` Fixed a bug on the size of the `xxs` filter row inputs. ([#1456](https://github.com/infor-design/enterprise-wc/issues/1456))
