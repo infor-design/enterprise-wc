@@ -55,6 +55,7 @@ export default class IdsMenuGroup extends Base {
     this.#attachEventHandlers();
     this.setAttribute(htmlAttributes.ROLE, 'group');
     this.refresh();
+    this.configureMegaMenu();
   }
 
   /**
@@ -216,5 +217,26 @@ export default class IdsMenuGroup extends Base {
         item.deselect();
       }
     });
+  }
+
+  configureMegaMenu() {
+    const hasManyMenuItems = this.items?.length > 10;
+    const hasParentPopupMenu = this.parentElement?.matches('ids-popup-menu');
+
+    if (hasManyMenuItems && hasParentPopupMenu) {
+      this.container?.classList.add('megamenu');
+
+      this.onEvent('aftershow', this.parentElement, () => {
+        requestAnimationFrame(() => {
+          const items = this.items;
+          const firstItem = items[0];
+          const lastItem = items[items.length - 1];
+          const left = Number(firstItem?.getBoundingClientRect?.().left ?? 0);
+          const right = Number(lastItem?.getBoundingClientRect?.().right ?? 0);
+          const minWidth = Math.floor(right - left);
+          this.container?.style.setProperty('min-width', `${minWidth}px`);
+        });
+      });
+    }
   }
 }
