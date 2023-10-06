@@ -39,7 +39,8 @@ export default class IdsMenuGroup extends Base {
   static get attributes() {
     return [
       attributes.KEEP_OPEN,
-      attributes.SELECT
+      attributes.SELECT,
+      attributes.WRAP
     ];
   }
 
@@ -53,9 +54,9 @@ export default class IdsMenuGroup extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#attachEventHandlers();
+    this.configureWrappedMenu();
     this.setAttribute(htmlAttributes.ROLE, 'group');
     this.refresh();
-    this.configureMegaMenu();
   }
 
   /**
@@ -169,6 +170,28 @@ export default class IdsMenuGroup extends Base {
   }
 
   /**
+   * Get the wrap attribute, which controls if child menu-items are styled into a column view.
+   * @returns {boolean} if true, the menu-group will wrap child menu-items into columns
+   */
+  get wrap() {
+    return this.hasAttribute(attributes.WRAP);
+  }
+
+  /**
+   * Set the wrap attribute, which controls if child menu-items are styled into a column view.
+   * @param {boolean | string} value - if true, child menu-items are styled into a column view
+   */
+  set wrap(value: boolean | string) {
+    if (value || value === '') {
+      this.setAttribute(attributes.WRAP, '');
+    } else {
+      this.removeAttribute(attributes.WRAP);
+    }
+
+    this.configureWrappedMenu();
+  }
+
+  /**
    * @returns {boolean} true if selection of an item within this group should
    * cause the parent menu to close
    */
@@ -219,13 +242,21 @@ export default class IdsMenuGroup extends Base {
     });
   }
 
-  configureMegaMenu() {
-    const hasManyMenuItems = this.items?.length > 10;
-    const hasParentPopupMenu = this.parentElement?.matches('ids-popup-menu');
+  /**
+   * Helper method for wrap getter/setter. Styles menu-items to appear in columns.
+   */
+  configureWrappedMenu() {
+    const wrappedClass = 'ids-menu-group-wrapped';
+    this.container?.classList.remove(wrappedClass);
+    this.offEvent('aftershow', this.parentElement);
 
-    if (hasManyMenuItems && hasParentPopupMenu) {
-      this.container?.classList.add('megamenu');
+    if (!this.wrap) return;
 
+    this.container?.classList.add(wrappedClass);
+
+    // TODO: remove this event-handler once Safari and FF properly supports width: max-content.
+    // @see ids-menu-group.scss#.ids-menu-group-wrapped
+    if (this.parentElement?.matches('ids-popup-menu')) {
       this.onEvent('aftershow', this.parentElement, () => {
         requestAnimationFrame(() => {
           const items = this.items;

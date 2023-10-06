@@ -9,7 +9,7 @@
   @include reset-menu-style();
 
 
-  &.megamenu {
+  &.ids-menu-group-wrapped {
     display: flex;
     flex-flow: column wrap;
     max-height: 90vh;
