@@ -307,7 +307,7 @@ export default class IdsIcon extends Base {
     if (value) {
       this.removeAttribute(attributes.SIZE);
       this.setAttribute(attributes.HEIGHT, value);
-      this.container?.setAttribute('height', value);
+      this?.style.setProperty('--ids-icon-height-default', `${value}px`);
     } else {
       this.removeAttribute(attributes.HEIGHT);
     }
@@ -368,7 +368,7 @@ export default class IdsIcon extends Base {
     if (value) {
       this.removeAttribute(attributes.SIZE);
       this.setAttribute(attributes.WIDTH, value);
-      this.container?.setAttribute('width', value);
+      this?.style.setProperty('--ids-icon-width-default', `${value}px`);
     } else {
       this.removeAttribute(attributes.WIDTH);
     }
@@ -417,8 +417,8 @@ export default class IdsIcon extends Base {
     if (value && sizes[value]) {
       const size = sizes[this.size];
       this.setAttribute(attributes.SIZE, value);
-      this.container?.setAttribute('height', String(size));
-      this.container?.setAttribute('width', String(size));
+      this?.style.setProperty('--ids-icon-height-default', `${String(size)}px`);
+      this?.style.setProperty('--ids-icon-width-default', `${String(size)}px`);
     } else {
       this.removeAttribute(attributes.SIZE);
     }

@@ -84,16 +84,6 @@ Set Radio Group Checked and Value
 </ids-radio-group>
 ```
 
-Set the Dirty Tracking to Radio Group this way:
-
-```html
-<ids-radio-group label="Select delivery method" dirty-tracker="true">
-  <ids-radio value="opt1" label="Option one"></ids-radio>
-  <ids-radio value="opt2" label="Option two" checked="true"></ids-radio>
-  <ids-radio value="opt3" label="Option three"></ids-radio>
-</ids-radio-group>
-```
-
 Set Radio Group as Disabled Group (each radio will set to disabled):
 
 ```html
@@ -164,7 +154,6 @@ Set Radio Group as Horizontal:
 
 ## Settings (Attributes) (for Radio Groups)
 
-- `dirty-tracker` {boolean} set dirty tracker.
 - `disabled` {boolean} set disabled state.
 - `horizontal` {boolean} set radio group layout inline as horizontal.
 - `label` {string} set the label text.
@@ -187,7 +176,7 @@ Set Radio Group as Horizontal:
 - Disabled
 - Focus
 - Error
-- Dirty
+- Dirty (Not supported on this component)
 - Active
 
 ## Keyboard Guidelines

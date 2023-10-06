@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-modal id="my-modal" aria-labelledby="my-modal-title">
+      <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Insert Anchor</ids-text>
+
+      <ids-layout-grid class="data-grid-container" auto-fit="true" gap="md" no-margins="true" min-col-width="300px">
+        <ids-layout-grid-cell>
+          <ids-input id="modal-input-url" label="Url" value="http://www.example.com" validate="required"></ids-input>
+          <ids-input id="modal-input-classes" label="Css Class" value="hyperlink"></ids-input>
+          <ids-dropdown id="modal-dropdown" label="Choose an Option">
+            <ids-list-box>
+              <ids-list-box-option value="1">Option One</ids-list-box-option>
+              <ids-list-box-option value="2">Option Two</ids-list-box-option>
+              <ids-list-box-option value="3">Option Three</ids-list-box-option>
+              <ids-list-box-option value="4">Option Four</ids-list-box-option>
+              <ids-list-box-option value="5">Option Five</ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+
+      <ids-modal-button slot="buttons" id="modal-close-btn" appearance="secondary">
+        <span>Reset</span>
+      </ids-modal-button>
+      <ids-modal-button slot="buttons" id="modal-close-apply" appearance="primary">
+        <span>Apply</span>
+      </ids-modal-button>
+    </ids-modal>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Modal</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-button id="modal-trigger-btn" appearance="secondary">
+          <span>Trigger a Modal</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

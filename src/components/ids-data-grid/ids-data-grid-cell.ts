@@ -233,12 +233,16 @@ export default class IdsDataGridCell extends IdsElement {
   /** End Cell Edit */
   endCellEdit() {
     const column = this.column;
-    const input = this.editor?.input;
+    const input = this.editor?.input as any;
     const editorType = this.editor?.type;
     input?.offEvent('focusout', input);
 
-    if (editorType === 'input') {
+    if (editorType === 'input' && input?.setDirtyTracker) {
       input?.setDirtyTracker(input?.value as any);
+      (<IdsInput>input)?.checkValidation();
+    }
+
+    if (editorType === 'input' && input?.checkValidation) {
       (<IdsInput>input)?.checkValidation();
     }
 
@@ -276,7 +280,7 @@ export default class IdsDataGridCell extends IdsElement {
   /** Cancel Cell Edit */
   cancelCellEdit() {
     const column = this.column;
-    const input = this.editor?.input;
+    const input = this.editor?.input as any;
     input?.offEvent('focusout', input);
     input?.setDirtyTracker(input?.value as any);
 
@@ -340,7 +344,7 @@ export default class IdsDataGridCell extends IdsElement {
       rowDirtyCells.push({
         cell: Number(this?.getAttribute('aria-colindex')) - 1,
         columnId: this.column.id,
-        originalValue: this?.editor?.input?.dirty.original
+        originalValue: (this?.editor?.input as any)?.dirty?.original
       });
       this.dataGrid?.updateDataset(this.row, {
         dirtyCells: rowDirtyCells

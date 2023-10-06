@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
 import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 import IdsHitboxMixin from '../../mixins/ids-hitbox-mixin/ids-hitbox-mixin';
@@ -13,14 +12,12 @@ import IdsElement from '../../core/ids-element';
 import '../ids-text/ids-text';
 import styles from './ids-checkbox.scss';
 
-const Base = IdsDirtyTrackerMixin(
-  IdsLabelStateMixin(
-    IdsValidationMixin(
-      IdsHitboxMixin(
-        IdsLocaleMixin(
-          IdsEventsMixin(
-            IdsElement
-          )
+const Base = IdsLabelStateMixin(
+  IdsValidationMixin(
+    IdsHitboxMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
         )
       )
     )
@@ -32,7 +29,6 @@ const Base = IdsDirtyTrackerMixin(
  * @type {IdsCheckbox}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsDirtyTrackerMixin
  * @mixes IdsHitboxMixin
  * @mixes IdsLabelStateMixin
  * @mixes IdsLocaleMixin
@@ -86,9 +82,6 @@ export default class IdsCheckbox extends Base {
   connectedCallback(): void {
     super.connectedCallback();
     this.#attachEventHandlers();
-    if (this.dirtyTracker) {
-      this.handleDirtyTracker();
-    }
   }
 
   /**
