@@ -260,10 +260,9 @@ export default class IdsMenuGroup extends Base {
       this.onEvent('aftershow', this.parentElement, () => {
         requestAnimationFrame(() => {
           const items = this.items;
-          const firstItem = items[0];
-          const lastItem = items[items.length - 1];
-          const left = Number(firstItem?.getBoundingClientRect?.().left ?? 0);
-          const right = Number(lastItem?.getBoundingClientRect?.().right ?? 0);
+          const [first, last] = [items.at(0), items.at(-1)];
+          const left = first?.getBoundingClientRect?.().left ?? 0;
+          const right = last?.getBoundingClientRect?.().right ?? 0;
           const minWidth = Math.floor(right - left);
           this.container?.style.setProperty('min-width', `${minWidth}px`);
         });
