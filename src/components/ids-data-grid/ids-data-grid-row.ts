@@ -201,48 +201,29 @@ export default class IdsDataGridRow extends IdsElement {
 
   /**
    * Toggle Expand/Collpase on the row element
-   * @param {boolean} noTrigger If true, will not trigger event
+   * @param {boolean} triggerEvent If true, will trigger event
    */
-  toggleExpandCollapse(noTrigger = false) {
+  toggleExpandCollapse(triggerEvent = true) {
     const isExpanded = this.getAttribute('aria-expanded') === 'true';
+    const shouldCollapse = isExpanded === true;
+    const shouldExpand = !shouldCollapse;
 
-    // Handle Expand/Collapse for an expandedable row
-    if (this.dataGrid?.expandableRow) {
-      const childRow = <HTMLElement> this.querySelector('.ids-data-grid-expandable-row');
-      if (!isExpanded) childRow.removeAttribute('hidden');
-      else childRow.setAttribute('hidden', '');
-
-      this.setAttribute('aria-expanded', String(!isExpanded));
-      this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: !isExpanded });
-      this.expandIcon?.setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
+    if (shouldExpand) {
+      this.#doExpand();
+    }
+    if (shouldCollapse) {
+      this.#doCollapse();
     }
 
-    // Handle Expand/Collapse for a tree
-    if (this.dataGrid?.treeGrid) {
-      this.setAttribute('aria-expanded', String(!isExpanded));
-      this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: !isExpanded });
-      this.expandIcon!.setAttribute('icon', !isExpanded ? 'plusminus-folder-open' : 'plusminus-folder-closed');
-      const level = this.getAttribute('aria-level');
-      let isParentCollapsed = false;
-
-      nextUntil(this, `[aria-level="${level}"]`).forEach((childRow) => {
-        const nodeLevel = Number(childRow.getAttribute('aria-level'));
-        if (nodeLevel > Number(level) && !isParentCollapsed) {
-          if (isExpanded) childRow.setAttribute('hidden', '');
-          else childRow.removeAttribute('hidden');
-          this.dataGrid?.updateDataset(Number(childRow.getAttribute('row-index')), { rowHidden: isExpanded });
-        }
-        if (childRow.getAttribute('aria-expanded')) isParentCollapsed = childRow.getAttribute('aria-expanded') === 'false';
-      });
-    }
-
-    // Emit an Event
-    if (!noTrigger) {
-      const visibleRowIndex = this.rowIndex;
-      this.dataGrid?.triggerEvent(`row${isExpanded ? 'collapsed' : 'expanded'}`, this.dataGrid, {
+    if (triggerEvent) {
+      const rowIndex = this.rowIndex;
+      const eventName = shouldExpand ? 'rowexpanded' : 'rowcollapsed';
+      this.dataGrid?.triggerEvent(eventName, this.dataGrid, {
         bubbles: true,
         detail: {
-          elem: this, row: visibleRowIndex, data: this.dataGrid?.data[visibleRowIndex]
+          elem: this,
+          row: rowIndex,
+          data: this.dataGrid?.data[rowIndex],
         }
       });
     }
@@ -493,5 +474,61 @@ export default class IdsDataGridRow extends IdsElement {
     columnIndex = Math.min(columnIndex, maxColumnIndex);
 
     return cells[columnIndex] ?? null;
+  }
+
+  /**
+   * Expand the row element
+   */
+  #doExpand() {
+    this.setAttribute('aria-expanded', 'true');
+    this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: true });
+    this.expandIcon?.setAttribute('icon', `plusminus-folder-open`);
+
+    if (this.dataGrid?.expandableRow) {
+      const childRow = this.querySelector<HTMLElement>('.ids-data-grid-expandable-row');
+      childRow?.removeAttribute('hidden');
+    }
+
+    if (this.dataGrid?.treeGrid) {
+      const level = Number(this.getAttribute('aria-level')) || 1;
+      const nextLevel = level + 1;
+
+      nextUntil(this, `[aria-level="${level}"]`).forEach((childRow) => {
+        const childAriaLevel = Number(childRow.getAttribute('aria-level')) || 1;
+        if (childAriaLevel === nextLevel) {
+          const childRowIndex = Number(childRow.getAttribute('row-index'));
+          this.dataGrid?.updateDataset(childRowIndex, { rowHidden: false });
+          childRow.removeAttribute('hidden');
+        }
+      });
+    }
+  }
+
+  /**
+   * Collapse the row element
+   */
+  #doCollapse() {
+    this.setAttribute('aria-expanded', 'false');
+    this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: false });
+    this.expandIcon?.setAttribute('icon', `plusminus-folder-closed`);
+
+    if (this.dataGrid?.expandableRow) {
+      const childRow = this.querySelector<HTMLElement>('.ids-data-grid-expandable-row');
+      childRow?.setAttribute('hidden', '');
+    }
+
+    if (this.dataGrid?.treeGrid) {
+      const level = Number(this.getAttribute('aria-level')) || 1;
+      const nextLevel = level + 1;
+
+      nextUntil(this, `[aria-level="${level}"]`).forEach((childRow) => {
+        const childAriaLevel = Number(childRow.getAttribute('aria-level')) || 1;
+        if (childAriaLevel === nextLevel) {
+          const childRowIndex = Number(childRow.getAttribute('row-index'));
+          this.dataGrid?.updateDataset(childRowIndex, { rowHidden: true });
+          childRow?.setAttribute('hidden', '');
+        }
+      });
+    }
   }
 }

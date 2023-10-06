@@ -276,7 +276,7 @@ export default class IdsDataGrid extends Base {
       .forEach((r: any) => {
         const row = Number(r.getAttribute('data-index'));
         rows.push({ row, data: this.data[row] });
-        r?.toggleExpandCollapse?.(true);
+        r?.toggleExpandCollapse?.(false);
       });
 
     this.triggerEvent(`row${opt === 'true' ? 'collapsed' : 'expanded'}`, this, {
