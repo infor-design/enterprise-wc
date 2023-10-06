@@ -10,6 +10,7 @@
 
 ### 1.0.0-beta.16 Fixes
 
+- `[DataGrid]` Fix contextmenu submenu so that it properly overflows if innumerable menu-items. ([#1410](https://github.com/infor-design/enterprise-wc/issues/1410))
 - `[DataGrid]` Fixed a bug on the size of the `xxs` filter row inputs. ([#1456](https://github.com/infor-design/enterprise-wc/issues/1456))
 - `[Icons]` Fixed how icon sizes are applied to correct a bug where icons in safari are the wrong size. ([#1519](https://github.com/infor-design/enterprise-wc/issues/1519))
 - `[Modal]` Removed overflow constraint on modal content area to enable proper display of lists/popups attached to inner components. ([#1436](https://github.com/infor-design/enterprise-wc/issues/1436))
@@ -28,7 +29,6 @@
 - `[DataGrid]` Added new colored header and related styles. ([#1285](https://github.com/infor-design/enterprise-wc/issues/1285))
 - `[DataGrid]` Fix virtual/infinite scroll when max rows in DOM reached. ([#1454](https://github.com/infor-design/enterprise-wc/issues/1454))
 - `[DataGrid]` Fix rowStart scrollbar position on load. ([#1497](https://github.com/infor-design/enterprise-wc/issues/1497))
-- `[DataGrid]` Fix contextmenu submenu so that it properly overflows if innumerable menu-items. ([#1410](https://github.com/infor-design/enterprise-wc/issues/1410))
 - `[Editor]` Added new toolbar styles in all themes. ([#7606](https://github.com/infor-design/enterprise-wc/issues/7606))
 - `[Editor]` Fixed issue where buttons are disabled in source view. ([#1195](https://github.com/infor-design/enterprise-wc/issues/1195))
 - `[Icons]` Fixes for new icons pipeline, new icons and cleanup. ([#518](https://github.com/infor-design/design-system/issues/518))
