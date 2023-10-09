@@ -207,6 +207,14 @@ export default class IdsDataGridCell extends IdsElement {
     if (column.editor.inline) this.classList.add('is-inline');
     this.isEditing = true;
 
+    // Pass column text alignment rules into the cell editor
+    if (column.align) {
+      let alignVal = column.align;
+      if (alignVal === 'left') alignVal = 'start';
+      if (alignVal === 'right') alignVal = 'end';
+      this.editor?.input?.setAttribute('text-align', `${alignVal}`);
+    }
+
     // Save on Click Out Event
     if (['datepicker', 'timepicker'].includes(this.editor.type)) {
       this.editor.input?.onEvent('focusout', this.editor.input, () => {
