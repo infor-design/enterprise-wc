@@ -1,18 +1,25 @@
-@mixin ids-data-grid-inline-editable-outline-large {
-  box-shadow: inset 0 0 0 4px var(--ids-data-grid-cell-color-background-default),
-    inset 0 0 0 5px var(--ids-input-color-border-default);
+// ================================================
+// Generates a pseudo-element in the form of an "outline"
+// in a cell that represents the "inline, editable" state.
+@mixin ids-data-grid-inline-editable-outline($margin, $heightOffset, $widthOffset) {
+  position: relative;
+
+  &::after {
+    border: 1px solid var(--ids-input-color-border-default);
+    border-radius: var(--ids-border-radius-01);
+    box-sizing: border-box;
+    display: block;
+    content: '';
+    margin: $margin;
+    height: calc(100% - $heightOffset);
+    position: absolute;
+    width: calc(100% - $widthOffset);
+  }
 }
 
-@mixin ids-data-grid-inline-editable-outline-small {
-  box-shadow: inset 0 0 0 2px var(--ids-input-color-background-default),
-    inset 0 0 0 3px var(--ids-input-color-border-default);
-}
-
-@mixin ids-data-grid-inline-editable-outline-medium {
-  box-shadow: inset 0 0 0 3px var(--ids-input-color-background-default),
-    inset 0 0 0 4px var(--ids-input-color-border-default);
-}
-
+// ================================================
+// Generates a pseudo-element representing the dirty tracker
+// icon in a cell that's been edited.
 @mixin ids-data-grid-cell-dirty-tracker-icon {
   border-color: var(--ids-input-dirty-indicator-color-background-dirty) transparent transparent var(--ids-input-dirty-indicator-color-background-dirty);
   border-style: solid;
@@ -120,7 +127,7 @@
     &.is-inline {
 
       &:not(.formatter-tree) {
-        @include ids-data-grid-inline-editable-outline-large;
+        @include ids-data-grid-inline-editable-outline(4px, 8px, 8px);
       }
 
       &.formatter-tree {
@@ -135,13 +142,17 @@
         }
 
         .text-ellipsis {
-          @include ids-data-grid-inline-editable-outline-large;
+          @include ids-data-grid-inline-editable-outline(4px, 8px, 8px);
 
           align-items: center;
           display: flex;
           height: 100%;
           justify-content: end;
           width: 100%;
+
+          &::after {
+            margin-inline-end: -8px;
+          }
         }
       }
 
@@ -255,7 +266,6 @@
 
   // Frozen Cells
   &.frozen {
-    background-color: var(--ids-data-grid-cell-color-background-default);
     position: sticky;
     z-index: 3;
   }
@@ -291,13 +301,6 @@
   }
 
   &.is-dirty.is-inline {
-    &:not(.formatter-tree) {
-      &::before {
-        margin-inline: 6px;
-        inset-block-start: 6px;
-      }
-    }
-
     &.formatter-tree {
       &::before {
         display: none;
@@ -309,9 +312,6 @@
 
         &::before {
           @include ids-data-grid-cell-dirty-tracker-icon;
-
-          margin-inline: 6px;
-          inset-block-start: 6px;
         }
       }
     }
@@ -326,6 +326,10 @@
   }
 }
 
+// =============================================
+// Row height: 'xxs'
+// =============================================
+
 [data-row-height='xxs'] {
   .ids-data-grid-cell.is-dirty::before {
     border-width: 4px;
@@ -338,12 +342,18 @@
 
   .is-editable.is-inline {
     &:not(.formatter-tree) {
-      @include ids-data-grid-inline-editable-outline-small;
+      @include ids-data-grid-inline-editable-outline(2px, 4px, 4px);
     }
 
     &.formatter-tree {
       .text-ellipsis {
-        @include ids-data-grid-inline-editable-outline-small;
+        @include ids-data-grid-inline-editable-outline(2px, 4px, 4px);
+
+        margin-inline-end: 2px;
+
+        &::after {
+          margin-inline-end: -2px;
+        }
       }
     }
   }
@@ -390,6 +400,10 @@
   }
 }
 
+// =============================================
+// Row height: 'xs'
+// =============================================
+
 [data-row-height='xs'] {
   .ids-data-grid-cell.is-dirty::before {
     border-width: 4px;
@@ -402,12 +416,16 @@
 
   .is-editable.is-inline {
     &:not(.formatter-tree) {
-      @include ids-data-grid-inline-editable-outline-small;
+      @include ids-data-grid-inline-editable-outline(2px, 4px, 4px);
     }
 
     &.formatter-tree {
       .text-ellipsis {
-        @include ids-data-grid-inline-editable-outline-small;
+        @include ids-data-grid-inline-editable-outline(2px, 4px, 4px);
+
+        &::after {
+          margin-inline-end: -2px;
+        }
       }
     }
   }
@@ -451,15 +469,23 @@
   }
 }
 
+// =============================================
+// Row height: 'sm'
+// =============================================
+
 [data-row-height='sm'] {
   .is-editable.is-inline {
     &:not(.formatter-tree) {
-      @include ids-data-grid-inline-editable-outline-medium;
+      @include ids-data-grid-inline-editable-outline(3px, 6px, 6px);
     }
 
     &.formatter-tree {
       .text-ellipsis {
-        @include ids-data-grid-inline-editable-outline-medium;
+        @include ids-data-grid-inline-editable-outline(3px, 6px, 6px);
+
+        &::after {
+          margin-inline-end: -5px;
+        }
       }
     }
   }
@@ -495,6 +521,10 @@
   }
 }
 
+// =============================================
+// Row height: 'md'
+// =============================================
+
 [data-row-height='md'] {
   // Adjust dropdown editor
   .ids-data-grid-cell.is-editable.is-inline ids-icon.editor-cell-icon {
@@ -517,6 +547,22 @@
   .ids-data-grid-cell {
     .ids-data-grid-checkbox-container:not(.is-selection-checkbox) {
       padding-inline: var(--ids-data-grid-padding-lg);
+    }
+  }
+}
+
+// =============================================
+// Row height: 'lg'
+// =============================================
+
+[data-row-height='lg'] {
+  .is-editable.is-inline {
+    &.formatter-tree {
+      .text-ellipsis {
+        &::after {
+          margin-inline-end: -12px;
+        }
+      }
     }
   }
 }
