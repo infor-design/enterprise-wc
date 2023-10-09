@@ -88,14 +88,22 @@
   }
 
   // Text Alignment
-  &.align-center > *:first-child {
-    display: inline-flex;
-    margin: 0 auto;
+  &.align-center {
+    & > *:first-child {
+      display: inline-flex;
+      margin: 0 auto;
+    }
   }
 
-  &.align-right > *:first-child {
-    margin-inline-start: auto;
-    margin-inline-end: 0;
+  &.align-right {
+    & > *:first-child {
+      margin-inline-start: auto;
+      margin-inline-end: 0;
+    }
+
+    ids-input {
+      text-align: right;
+    }
   }
 
   // Readonly and disabled Cells
