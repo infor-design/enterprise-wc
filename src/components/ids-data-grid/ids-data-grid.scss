@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../../themes/mixins/ids-core-mixins' as mixins;
 @import './ids-data-grid-filters';
 @import './ids-data-grid-header';
@@ -6,6 +7,7 @@
 @import '../../components/ids-popup-menu/ids-popup-menu';
 @import '../../themes/mixins/ids-checkbox-mixin';
 @import '../../themes/mixins/ids-radio-mixin';
+
 
 :host {
   --ids-data-grid-column-widths: repeat(1, minmax(110px, 1fr));
@@ -137,7 +139,6 @@
       // No Ellipsis on tree columns, let links be focusable
       overflow: initial;
       padding-inline-start: 0;
-      margin-inline-start: 40px;
 
       ids-hyperlink {
         margin-inline-start: 0;
@@ -151,38 +152,119 @@
     align-items: center;
   }
 
-  // Dynamically added indents and position dirty indicator
-  @for $i from 2 through 8 {
-    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container .text-ellipsis {
-      margin-inline-start: #{(($i - 2) * 27) + 64px};
-    }
-    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button {
-      margin-inline-start: #{(($i - 2) * 27) + 50px};
-    }
-    [aria-level='#{$i}'] .ids-data-grid-cell .ids-data-grid-tree-container ids-button + .text-ellipsis {
-      margin-inline-start: 0;
-    }
+  // =======================================================
+  // Maps used for altering alignments of editable grid cells in different scenarios.
+  // These rules are based on row-height, which is defined at the `.ids-data-grid` element level.
+  // =======================================================
+  $row-height-inline-tree-grid-button-widths: (
+    'xxs': 30,
+    'xs': 32,
+    'sm': 34,
+    'md': 40,
+    'lg': 40
+  );
 
-    [aria-level='#{$i}'] {
-      .ids-data-grid-cell.is-inline.is-dirty {
-        .ids-data-grid-tree-field-container::before {
-          margin-inline-start: #{(($i - 2) * 27) + 70px};
-        }
-        ids-button + .ids-data-grid-tree-field-container::before {
-          margin-inline-start: 6px;
+  $row-height-padding-offsets: (
+    'xxs': 12,
+    'xs': 10,
+    'sm': 8,
+    'md': 3,
+    'lg': 3
+  );
+
+  $row-height-dirty-indicator-offsets: (
+    'xxs': 1,
+    'xs': 1,
+    'sm': 1,
+    'md': 2,
+    'lg': 2
+  );
+
+  $row-height-inline-dirty-indicator-offsets: (
+    'xxs': 3,
+    'xs': 4,
+    'sm': 5,
+    'md': 6,
+    'lg': 6
+  );
+
+  $row-height-indents: (
+    'xxs': 12,
+    'xs': 13,
+    'sm': 15,
+    'md': 17,
+    'lg': 17
+  );
+
+  @each $rowHeight, $offset in $row-height-padding-offsets {
+    // These values are different for each Row Height
+    $button-width: map.get($row-height-inline-tree-grid-button-widths, $rowHeight);
+    $indent: map.get($row-height-indents, $rowHeight);
+    $dirty-indicator-offset: map.get($row-height-dirty-indicator-offsets, $rowHeight);
+    $inline-dirty-indicator-offset: map.get($row-height-inline-dirty-indicator-offsets, $rowHeight);
+
+    &[data-row-height='#{$rowHeight}'] {
+      // ================================================
+      // Top-level grid alignments that depend solely on row height
+      .ids-data-grid-cell {
+        &.is-dirty {
+          &:not(.is-inline) {
+            &.formatter-text {
+              &:before {
+                inset-block-start: #{$dirty-indicator-offset}px;
+                margin-inline-start: #{$dirty-indicator-offset}px;
+              }
+            }
+          }
+
+          &.is-inline {
+            &.formatter-text {
+              &:before {
+                inset-block-start: #{$inline-dirty-indicator-offset}px;
+                margin-inline-start: #{$inline-dirty-indicator-offset}px;
+              }
+            }
+          }
         }
       }
-    }
-  }
 
-  // Level 1 has slightly-different dirty values
-  [aria-level='1'] {
-    .ids-data-grid-cell.is-inline.is-dirty {
-      .ids-data-grid-tree-field-container::before {
-        margin-inline-start: 46px;
-      }
-      ids-button + .ids-data-grid-tree-field-container::before {
-        margin-inline-start: 6px;
+      // ================================================
+      // Expandable grid/tree grid nested alignment rules
+      @for $i from 1 through 8 {
+        [aria-level='#{$i}'] .ids-data-grid-cell {
+          @if $i == 1 {
+            .ids-data-grid-tree-field-container {
+              margin-inline-start: #{$button-width}px;
+            }
+            ids-button {
+              margin-inline-start: 0;
+            }
+            ids-button + .ids-data-grid-tree-field-container {
+              margin-inline-start: 0;
+            }
+          } @else {
+            .ids-data-grid-tree-field-container {
+              margin-inline-start: #{$button-width + $indent + $offset}px;
+            }
+            ids-button {
+              margin-inline-start: #{$button-width + $offset}px;
+            }
+            ids-button + .ids-data-grid-tree-field-container {
+              margin-inline-start: 0;
+            }
+          }
+
+          // ================================================
+          // Dirty-tracker rules dependent on `aria-level` nesting
+          &.is-dirty {
+            &.is-inline {
+              .ids-data-grid-tree-field-container::before {
+                inset-block-start: #{$inline-dirty-indicator-offset}px;
+                margin-inline-start: #{$inline-dirty-indicator-offset}px;
+              }
+            }
+          }
+        }
       }
     }
   }
