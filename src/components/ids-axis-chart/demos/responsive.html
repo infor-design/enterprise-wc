@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Axis Chart Responsive</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="2" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-card>
+          <div slot="card-header">
+            <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Axis Chart</ids-text>
+          </div>
+          <ids-axis-chart
+            slot="card-content"
+            title="A line chart showing component usage"
+            width="inherit"
+            height="inherit"
+            id="index-example">
+          </ids-axis-chart>
+        </ids-card>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-card>
+          <div slot="card-header">
+            <ids-text font-size="20" type="h2">Bar Chart</ids-text>
+          </div>
+          <ids-bar-chart
+            slot="card-content"
+            rotate-name-labels="-65"
+            id="bar-chart-example"
+            title="Bar Chart horizontal rotate name labels"
+            width="inherit"
+            height="inherit"
+            animated="false"
+            horizontal>
+          </ids-bar-chart>
+        </ids-card>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid cols="1" gap="md" padding-x="md" padding-y="md">
+      <ids-layout-grid-cell>
+        <ids-card>
+          <div slot="card-header">
+            <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Line Chart</ids-text>
+          </div>
+          <ids-line-chart
+            slot="card-content"
+            title="A line chart showing component usage"
+            width="inherit"
+            height="inherit"
+            id="line-chart-example"
+            show-vertical-grid-lines="true"
+            rotate-name-labels="-65">
+          </ids-line-chart>
+        </ids-card>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
