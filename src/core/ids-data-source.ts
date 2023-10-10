@@ -142,7 +142,13 @@ class IdsDataSource {
     if (!this.#flatten) return data;
 
     const newData: Array<Record<string, any>> = [];
-    const addRows = (subData: Record<string, any>, length: number, depth: number, parentElement: string) => {
+    const addRows = (
+      subData: Record<string, any>,
+      length: number,
+      depth: number,
+      parentElement: string,
+      hideChildren = false,
+    ) => {
       subData.map((row: Record<string, any>, index: number) => {
         row.parentElement = '';
         row.ariaLevel = depth;
@@ -155,14 +161,20 @@ class IdsDataSource {
             row.originalElement = index + ((this.pageNumber - 1) * this.pageSize);
           }
         }
-        if (depth > 1) row.parentElement = parentElement;
+        if (depth > 1) {
+          row.parentElement = parentElement;
+          row.rowHidden = hideChildren;
+        }
+
         newData.push(row);
 
         if (row.children) {
           if (this.pageNumber > 1) {
             index += ((this.pageNumber - 1) * this.pageSize);
           }
-          addRows(row.children, row.children.length, depth + 1, `${row.parentElement ? `${row.parentElement} ` : ''}${row.id}`);
+          const parentIds = `${row.parentElement ? `${row.parentElement} ` : ''}${row.id}`;
+          const childrenHidden = row.rowExpanded === false;
+          addRows(row.children, row.children.length, depth + 1, parentIds, childrenHidden);
         }
       });
     };
