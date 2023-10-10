@@ -4,13 +4,28 @@ import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import treeLargeJSON from '../../../assets/data/tree-large.json';
 import '../../ids-layout-flex/ids-layout-flex';
 
+let expandAll = false;
+
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#tree-grid-virtual-scroll')!;
+const btnExpandAll = document.querySelector('#btn-expand-all');
+const btnCollapseAll = document.querySelector('#btn-collapse-all');
+
+btnExpandAll?.addEventListener('click', () => {
+  dataGrid?.expandAll();
+  expandAll = true;
+});
+
+btnCollapseAll?.addEventListener('click', () => {
+  dataGrid?.collapseAll();
+  expandAll = false;
+});
 
 // Do an ajax request
 const url: any = treeLargeJSON;
 const columns: IdsDataGridColumn[] = [];
 let currentId = 1000;
+
 // Set up columns
 columns.push({
   id: 'selectionCheckbox',
@@ -42,7 +57,6 @@ columns.push({
   readonly: true,
   width: 66
 });
-
 columns.push({
   id: 'id',
   name: 'Id',
@@ -99,6 +113,8 @@ dataGrid.addEventListener('selectionchanged', (e: Event) => {
 });
 
 dataGrid.addEventListener('scrollend', (e: Event) => {
+  console.info(`scrollend`, (<CustomEvent>e).detail);
+
   const newDataArray : any[] = [];
   for (let counter = 0; counter < 10; counter++) {
     currentId++;
@@ -110,7 +126,7 @@ dataGrid.addEventListener('scrollend', (e: Event) => {
       available: '2022-05-08T01:57:17Z',
       comments: 'integer pede justo lacinia eget tincidunt eget tempus vel pede morbi porttitor lorem id ligula suspendisse ornare consequat lectus',
       time: '22:14:42',
-      rowExpanded: false,
+      rowExpanded: expandAll,
       children: [
         {
           id: currentId + 0.1,
@@ -119,13 +135,15 @@ dataGrid.addEventListener('scrollend', (e: Event) => {
           capacity: 2,
           available: '2022-01-14T02:43:11Z',
           time: '7:20:19',
-          rowHidden: true
+          rowHidden: !expandAll
         }
       ]
     };
     newDataArray.push(newData);
   }
-  console.info(`append`, newDataArray);
-  dataGrid.appendData(newDataArray);
-  console.info(`scrollend`, (<CustomEvent>e).detail);
+
+  setTimeout(() => {
+    console.info(`appendData`, newDataArray);
+    dataGrid.appendData(newDataArray);
+  }, 1000);
 });
