@@ -137,7 +137,7 @@ export default class IdsDataGridRow extends IdsElement {
   #setAttributes() {
     const rowIndex = this.rowIndex;
     const rowData = this.dataGrid.data[rowIndex];
-    const rowExpanded = rowData?.rowExpanded !== false;
+    const rowExpanded = this.isExpanded();
     const iconType = rowExpanded ? `plusminus-folder-open` : `plusminus-folder-closed`;
 
     this.setAttribute('data-index', String(rowIndex));
@@ -208,10 +208,7 @@ export default class IdsDataGridRow extends IdsElement {
    * @param {boolean} triggerEvent If true, will trigger event
    */
   toggleExpandCollapse(triggerEvent = true) {
-    const rowData = this.data[this.rowIndex];
-    // const isExpanded = !!(rowData?.rowExpanded ?? true);
-    // const isExpanded = this.getAttribute('aria-expanded') === 'true';
-    const isExpanded = rowData?.rowExpanded !== false;
+    const isExpanded = this.isExpanded();
     const shouldCollapse = isExpanded === true;
     const shouldExpand = !shouldCollapse;
 
@@ -435,7 +432,7 @@ export default class IdsDataGridRow extends IdsElement {
     let expandableRowHtml = '';
     if (dataGrid?.expandableRow) {
       const template = injectTemplate(dataGrid?.querySelector(`#${dataGrid?.expandableRowTemplate}`)?.innerHTML || '', row);
-      expandableRowHtml = `<div class="ids-data-grid-expandable-row"${row.rowExpanded === true ? '' : ` hidden`}>${template}</div>`;
+      expandableRowHtml = `<div class="ids-data-grid-expandable-row"${this.isExpanded() ? '' : ` hidden`}>${template}</div>`;
     }
 
     const frozenLast = dataGrid?.leftFrozenColumns.length;
@@ -481,6 +478,22 @@ export default class IdsDataGridRow extends IdsElement {
     columnIndex = Math.min(columnIndex, maxColumnIndex);
 
     return cells[columnIndex] ?? null;
+  }
+
+  /**
+   * Is this row currently expanded
+   * @returns {boolean} true if expanded
+   */
+  isExpanded(): boolean {
+    const rowData = this.dataGrid.data[this.rowIndex];
+
+    if (this.dataGrid?.expandableRow) {
+      // expandableRows are collapsed by default
+      return rowData?.rowExpanded === true;
+    }
+
+    // all other rows are expanded by default (i.e. in tree-grid)
+    return rowData?.rowExpanded !== false;
   }
 
   /**
