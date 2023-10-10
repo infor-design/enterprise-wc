@@ -488,11 +488,11 @@ export default class IdsDataGridRow extends IdsElement {
     const rowData = this.dataGrid.data[this.rowIndex];
 
     if (this.dataGrid?.expandableRow) {
-      // expandableRows are collapsed by default
+      // expandableRows are collapsed by default, so only expand if rowExpanded is explicity "true"
       return rowData?.rowExpanded === true;
     }
 
-    // all other rows are expanded by default (i.e. in tree-grid)
+    // all rows are expanded by default (i.e. tree-grid), unless rowExpanded is explicitly "false"
     return rowData?.rowExpanded !== false;
   }
 
