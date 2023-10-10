@@ -338,6 +338,13 @@ export default class IdsPopupMenu extends Base {
     // Show the popup and do placement
     this.popup?.setAttribute('visible', 'true');
 
+    this.triggerEvent('aftershow', this, {
+      bubbles: true,
+      detail: {
+        elem: this
+      }
+    });
+
     this.addOpenEvents();
   }
 

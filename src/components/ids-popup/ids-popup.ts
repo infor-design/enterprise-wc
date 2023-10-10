@@ -1444,6 +1444,9 @@ export default class IdsPopup extends Base {
     if (popupRect.top < topEdge) {
       fixedY += (Math.abs(popupRect.top) + topEdge);
     }
+    if (fixedY < 0) {
+      fixedY = 0;
+    }
 
     popupRect.x = fixedX;
     popupRect.y = fixedY;
