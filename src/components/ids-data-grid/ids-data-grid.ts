@@ -247,7 +247,27 @@ export default class IdsDataGrid extends Base {
    * @returns {void}
    */
   collapseAll() {
-    this.toggleAll(true);
+    const rows: any[] = [];
+    const icons = this.container?.querySelectorAll('ids-icon.header-expander');
+    icons?.forEach((iconEl: any) => {
+      if (iconEl) iconEl.icon = `plusminus-folder-closed`;
+    });
+
+    this.data.forEach((rowData, rowIndex) => {
+      this.updateDataset(rowIndex, { rowExpanded: false, rowHidden: !!rowData.parentElement });
+    });
+
+    this.rows
+      .forEach((row: IdsDataGridRow) => {
+        const rowIndex = row.rowIndex;
+        rows.push({ row: rowIndex, data: this.data[rowIndex] });
+        row.doCollapse();
+      });
+
+    this.triggerEvent(`rowcollapsed`, this, {
+      bubbles: true,
+      detail: { elem: this, rows }
+    });
   }
 
   /**
@@ -255,31 +275,24 @@ export default class IdsDataGrid extends Base {
    * @returns {void}
    */
   expandAll() {
-    this.toggleAll(false);
-  }
-
-  /**
-   * Toggle collapse/expand all expandable or tree rows.
-   * @param {boolean | string} opt false: will expand all, true: will collapse all
-   * @returns {void}
-   */
-  toggleAll(opt: boolean | string = false) {
     const rows: any[] = [];
-    opt = String(stringToBool(opt));
-    const icons = this.container?.querySelectorAll('.header-expander');
+    const icons = this.container?.querySelectorAll('ids-icon.header-expander');
     icons?.forEach((iconEl: any) => {
-      if (iconEl) iconEl.icon = `plusminus-folder-${opt === 'true' ? 'closed' : 'open'}`;
+      if (iconEl) iconEl.icon = `plusminus-folder-open`;
+    });
+
+    this.data.forEach((rowData, rowIndex) => {
+      this.updateDataset(rowIndex, { rowExpanded: true, rowHidden: false });
     });
 
     this.rows
-      .filter((r: any) => r?.getAttribute('aria-expanded') === opt)
-      .forEach((r: any) => {
-        const row = Number(r.getAttribute('data-index'));
-        rows.push({ row, data: this.data[row] });
-        r?.toggleExpandCollapse?.(false);
+      .forEach((row: IdsDataGridRow) => {
+        const rowIndex = row.rowIndex;
+        rows.push({ row: rowIndex, data: this.data[rowIndex] });
+        row.doExpand();
       });
 
-    this.triggerEvent(`row${opt === 'true' ? 'collapsed' : 'expanded'}`, this, {
+    this.triggerEvent(`rowexpanded`, this, {
       bubbles: true,
       detail: { elem: this, rows }
     });
@@ -1208,8 +1221,11 @@ export default class IdsDataGrid extends Base {
 
     while (missingRows.length < rowsNeeded) {
       const rowIndex = lastRowIndex + missingRows.length + 1;
-      const clonedRow = IdsDataGridRow.template(data[rowIndex], rowIndex, rowIndex + 1, this);
-      missingRows.push(clonedRow);
+      const rowData = data[rowIndex];
+      if (rowData) {
+        const clonedRow = IdsDataGridRow.template(data[rowIndex], rowIndex, rowIndex + 1, this);
+        missingRows.push(clonedRow);
+      }
     }
 
     if (missingRows.length && this.body) {
