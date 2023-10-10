@@ -210,7 +210,7 @@
         &.is-dirty {
           &:not(.is-inline) {
             &.formatter-text {
-              &:before {
+              &::before {
                 inset-block-start: #{$dirty-indicator-offset}px;
                 margin-inline-start: #{$dirty-indicator-offset}px;
               }
@@ -219,7 +219,7 @@
 
           &.is-inline {
             &.formatter-text {
-              &:before {
+              &::before {
                 inset-block-start: #{$inline-dirty-indicator-offset}px;
                 margin-inline-start: #{$inline-dirty-indicator-offset}px;
               }
@@ -236,9 +236,11 @@
             .ids-data-grid-tree-field-container {
               margin-inline-start: #{$button-width}px;
             }
+
             ids-button {
               margin-inline-start: 0;
             }
+
             ids-button + .ids-data-grid-tree-field-container {
               margin-inline-start: 0;
             }
@@ -246,9 +248,11 @@
             .ids-data-grid-tree-field-container {
               margin-inline-start: #{$button-width + ($indent * ($i - 1)) + ($offset)}px;
             }
+
             ids-button {
               margin-inline-start: #{($indent * ($i - 1)) + $offset}px;
             }
+
             ids-button + .ids-data-grid-tree-field-container {
               margin-inline-start: 0;
             }
