@@ -337,6 +337,10 @@ export default class IdsMenu extends Base {
       return;
     }
 
+    // Unset cached focus menu items
+    this.lastHovered = undefined;
+    this.lastNavigated = undefined;
+
     // Re-apply template (picks up top-level attributes from menu data)
     const template = document.createElement('template');
     const html = this.template();
