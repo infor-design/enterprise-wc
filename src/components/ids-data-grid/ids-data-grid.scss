@@ -244,10 +244,10 @@
             }
           } @else {
             .ids-data-grid-tree-field-container {
-              margin-inline-start: #{$button-width + $indent + $offset}px;
+              margin-inline-start: #{$button-width + ($indent * ($i - 1)) + ($offset)}px;
             }
             ids-button {
-              margin-inline-start: #{$button-width + $offset}px;
+              margin-inline-start: #{($indent * ($i - 1)) + $offset}px;
             }
             ids-button + .ids-data-grid-tree-field-container {
               margin-inline-start: 0;
