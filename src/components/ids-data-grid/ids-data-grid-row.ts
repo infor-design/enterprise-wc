@@ -509,21 +509,23 @@ export default class IdsDataGridRow extends IdsElement {
   doExpand() {
     this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: true, rowHidden: false });
 
+    // this.#setAttributes() will do this.setAttribute('aria-expanded', 'true');
+    this.#setAttributes();
+
     if (this.dataGrid?.treeGrid) {
       const level = Number(this.getAttribute('aria-level')) || 1;
+      let parentExpanded = this.isExpanded();
 
       nextUntil(this, `[aria-level="${level}"]`).forEach((childRow) => {
         const childAriaLevel = Number(childRow.getAttribute('aria-level')) || 1;
-        if (childAriaLevel > level) {
+        if (childAriaLevel > level && parentExpanded) {
           const childRowIndex = Number(childRow.getAttribute('row-index'));
           this.dataGrid?.updateDataset(childRowIndex, { rowHidden: false });
           childRow.removeAttribute('hidden');
+          parentExpanded = (childRow as IdsDataGridRow).isExpanded?.();
         }
       });
     }
-
-    // this.#setAttributes() will do this.setAttribute('aria-expanded', 'true');
-    this.#setAttributes();
   }
 
   /**
@@ -531,6 +533,9 @@ export default class IdsDataGridRow extends IdsElement {
    */
   doCollapse() {
     this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: false });
+
+    // this.#setAttributes() will do this.setAttribute('aria-expanded', 'false');
+    this.#setAttributes();
 
     if (this.dataGrid?.treeGrid) {
       const level = Number(this.getAttribute('aria-level')) || 1;
@@ -544,8 +549,5 @@ export default class IdsDataGridRow extends IdsElement {
         }
       });
     }
-
-    // this.#setAttributes() will do this.setAttribute('aria-expanded', 'false');
-    this.#setAttributes();
   }
 }
