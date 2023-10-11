@@ -11,10 +11,20 @@ export class IdsDeferred {
   // Reference to the promise's internal reject fn
   reject: any;
 
+  // Promise state
+  hasResolved = false;
+
   constructor() {
     this.promise = new Promise((resolve, reject) => {
-      this.resolve = resolve;
-      this.reject = reject;
+      this.resolve = (args: any) => {
+        this.hasResolved = true;
+        resolve(args);
+      };
+
+      this.reject = (args: any) => {
+        this.hasResolved = false;
+        reject(args);
+      };
     });
   }
 }

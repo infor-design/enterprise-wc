@@ -7,4 +7,17 @@
 
 .ids-menu-group {
   @include reset-menu-style();
+
+
+  &.ids-menu-group-wrapped {
+    display: flex;
+    flex-flow: column wrap;
+    max-height: 90vh;
+    max-width: 100vw;
+
+    // NOTE: "width: max-content" doesn't work in Safari and Firefox
+    // So added "aftershow" menu event to configure with manually
+    // @see IdsMenuGroup.configureMegaMenu()
+    width: max-content;
+  }
 }

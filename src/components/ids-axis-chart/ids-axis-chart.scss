@@ -86,6 +86,20 @@
       font-size: 1px;
     }
   }
+
+  &.full-height {
+    height: 100%;
+    overflow-y: hidden;
+
+    svg {
+      flex-grow: 1;
+    }
+  }
+
+  &.full-width {
+    width: 100%;
+    overflow-x: hidden;
+  }
 }
 
 // Center an Empty Message
