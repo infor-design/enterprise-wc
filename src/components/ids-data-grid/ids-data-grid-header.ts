@@ -73,10 +73,10 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
         const isColumnHeaderExpander = e.target?.closest('.column-header-expander');
         if (!isColumnHeaderExpander && !this.dataGrid?.showHeaderExpander) return;
 
-        const isHeaderExpanderCollapsed = this.isHeaderExpanderCollapsed;
-        this.isHeaderExpanderCollapsed = !this.isHeaderExpanderCollapsed;
+        const wasHeaderExpanderCollapsed = this.isHeaderExpanderCollapsed;
+        this.isHeaderExpanderCollapsed = !wasHeaderExpanderCollapsed;
 
-        if (isHeaderExpanderCollapsed) {
+        if (wasHeaderExpanderCollapsed) {
           this.dataGrid.expandAll();
         } else {
           this.dataGrid.collapseAll();
