@@ -8,6 +8,8 @@
 
 ### 1.0.0-beta.16 Features
 
+- `[Themes]` For theme switching added logic to check for a `<base href="">` tag. ([#1498](https://github.com/infor-design/enterprise-wc/issues/1498))
+
 ### 1.0.0-beta.16 Fixes
 
 - `[AxisChart]` Fixed responsive axis charts `inherit` setting value. ([#1458](https://github.com/infor-design/enterprise-wc/issues/1458))

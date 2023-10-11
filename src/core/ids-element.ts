@@ -255,7 +255,9 @@ export default class IdsElement extends HTMLElement {
     if (isSelfManaged) return;
 
     // Handle auto themes
-    const response = await fetch(`../themes/ids-theme-${theme}.css`, { cache: 'default' });
+    const baseHref = document.querySelector('base');
+    const subUrl = baseHref?.getAttribute('href') || '/';
+    const response = await fetch(`..${subUrl}themes/ids-theme-${theme}.css`, { cache: 'default' });
     const themeStyles = await response.text();
     const head = (document.head as any);
     const styleElem = document.querySelector('#ids-theme');

@@ -143,6 +143,21 @@ module.exports = {
             return css;
           }
         },
+        { // used to test base-href
+          from: './src/themes/**/*.scss',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            return `myappui/themes/${baseName.replace('scss', 'css')}`;
+          },
+          transform(content, transFormPath) {
+            const result = sass.renderSync({
+              file: transFormPath
+            });
+            let css = result.css.toString();
+            css = css.replace(':host {', ':root {');
+            return css;
+          }
+        },
       ]
     }),
   ].concat(htmlExamples)
