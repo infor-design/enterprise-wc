@@ -514,11 +514,13 @@ export default class IdsDataGridRow extends IdsElement {
 
     if (this.dataGrid?.treeGrid) {
       const level = Number(this.getAttribute('aria-level')) || 1;
+      const nextLevel = level + 1;
       let parentExpanded = this.isExpanded();
 
       nextUntil(this, `[aria-level="${level}"]`).forEach((childRow) => {
         const childAriaLevel = Number(childRow.getAttribute('aria-level')) || 1;
-        if (childAriaLevel > level && parentExpanded) {
+        const shouldExpand = (childAriaLevel === nextLevel) || parentExpanded;
+        if (shouldExpand) {
           const childRowIndex = Number(childRow.getAttribute('row-index'));
           this.dataGrid?.updateDataset(childRowIndex, { rowHidden: false });
           childRow.removeAttribute('hidden');

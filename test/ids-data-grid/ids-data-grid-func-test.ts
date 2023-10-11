@@ -2606,6 +2606,11 @@ describe('IdsDataGrid Component', () => {
       expandButton2.dispatchEvent(mouseClick);
       expect(seventhRow.getAttribute('aria-expanded')).toEqual('true');
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(4);
+
+      dataGrid.collapseAll();
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row:not([hidden])').length).toBe(6);
+      expandButton2.dispatchEvent(mouseClick);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row:not([hidden])').length).toBe(9);
     });
 
     it('handles selection without children', async () => {
