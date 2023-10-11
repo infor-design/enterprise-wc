@@ -250,7 +250,8 @@
       @for $i from 1 through 8 {
         [aria-level='#{$i}'] .ids-data-grid-cell {
           @if $i == 1 {
-            .ids-data-grid-tree-field-container {
+            .ids-data-grid-tree-field-container,
+            ids-input {
               margin-inline-start: #{$button-width}px;
             }
 
@@ -262,7 +263,8 @@
               margin-inline-start: 0;
             }
           } @else {
-            .ids-data-grid-tree-field-container {
+            .ids-data-grid-tree-field-container,
+            ids-input {
               margin-inline-start: #{$button-width + ($indent * ($i - 1)) + ($offset)}px;
             }
 
