@@ -136,7 +136,7 @@ export default class IdsDataGridRow extends IdsElement {
   /** Set row attributes and classes */
   #setAttributes() {
     const rowIndex = this.rowIndex;
-    const rowData = this.dataGrid.data[rowIndex];
+    const rowData = this.rowData;
     const rowExpanded = this.isExpanded();
     const iconType = rowExpanded ? `plusminus-folder-open` : `plusminus-folder-closed`;
 
@@ -166,7 +166,15 @@ export default class IdsDataGridRow extends IdsElement {
       this.setAttribute('aria-setsize', rowData?.ariaSetSize);
       this.setAttribute('aria-level', rowData?.ariaLevel);
       this.setAttribute('aria-posinset', rowData?.ariaPosinset);
-      this.setAttribute('aria-expanded', String(!!rowExpanded));
+
+      if (rowData?.children?.length) {
+        this.setAttribute('aria-expanded', String(!!rowExpanded));
+      } else {
+        // End nodes, nodes with no descendant nodes, should not have the aria-expanded attribute because,
+        // if they were to have it, they would be incorrectly described to assistive technologies as parent nodes.
+        // @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-expanded#treeitems
+        this.removeAttribute('aria-expanded');
+      }
 
       if ((rowData?.children as any)?.length) {
         this.expandIcon!.setAttribute('icon', iconType);
@@ -220,14 +228,13 @@ export default class IdsDataGridRow extends IdsElement {
     }
 
     if (triggerEvent) {
-      const rowIndex = this.rowIndex;
       const eventName = shouldExpand ? 'rowexpanded' : 'rowcollapsed';
       this.dataGrid?.triggerEvent(eventName, this.dataGrid, {
         bubbles: true,
         detail: {
           elem: this,
-          row: rowIndex,
-          data: this.dataGrid?.data[rowIndex],
+          row: this.rowIndex,
+          data: this.rowData,
         }
       });
     }
@@ -500,16 +507,14 @@ export default class IdsDataGridRow extends IdsElement {
    * Expand the row element
    */
   doExpand() {
-    this.setAttribute('aria-expanded', 'true');
     this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: true, rowHidden: false });
 
     if (this.dataGrid?.treeGrid) {
       const level = Number(this.getAttribute('aria-level')) || 1;
-      const nextLevel = level + 1;
 
       nextUntil(this, `[aria-level="${level}"]`).forEach((childRow) => {
         const childAriaLevel = Number(childRow.getAttribute('aria-level')) || 1;
-        if (childAriaLevel === nextLevel) {
+        if (childAriaLevel > level) {
           const childRowIndex = Number(childRow.getAttribute('row-index'));
           this.dataGrid?.updateDataset(childRowIndex, { rowHidden: false });
           childRow.removeAttribute('hidden');
@@ -517,6 +522,7 @@ export default class IdsDataGridRow extends IdsElement {
       });
     }
 
+    // this.#setAttributes() will do this.setAttribute('aria-expanded', 'true');
     this.#setAttributes();
   }
 
@@ -524,16 +530,14 @@ export default class IdsDataGridRow extends IdsElement {
    * Collapse the row element
    */
   doCollapse() {
-    this.setAttribute('aria-expanded', 'false');
     this.dataGrid?.updateDataset(this.rowIndex, { rowExpanded: false });
 
     if (this.dataGrid?.treeGrid) {
       const level = Number(this.getAttribute('aria-level')) || 1;
-      const nextLevel = level + 1;
 
       nextUntil(this, `[aria-level="${level}"]`).forEach((childRow) => {
         const childAriaLevel = Number(childRow.getAttribute('aria-level')) || 1;
-        if (childAriaLevel === nextLevel) {
+        if (childAriaLevel > level) {
           const childRowIndex = Number(childRow.getAttribute('row-index'));
           this.dataGrid?.updateDataset(childRowIndex, { rowHidden: true });
           childRow?.setAttribute('hidden', '');
@@ -541,6 +545,7 @@ export default class IdsDataGridRow extends IdsElement {
       });
     }
 
+    // this.#setAttributes() will do this.setAttribute('aria-expanded', 'false');
     this.#setAttributes();
   }
 }

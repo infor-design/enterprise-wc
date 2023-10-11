@@ -2578,24 +2578,28 @@ describe('IdsDataGrid Component', () => {
       dataGrid.data = datasetTree;
       dataGrid.rowSelection = 'multiple';
 
-      const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
+      const firstRow = dataGrid.rowByIndex(0);
       expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(3);
-      const expandButton = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
+      const expandButton = firstRow.querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
 
       const mouseClick = new MouseEvent('click', { bubbles: true });
       expandButton.dispatchEvent(mouseClick);
       expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(0);
 
-      const seventhRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[7];
+      const seventhRow = dataGrid.rowByIndex(6);
       expect(seventhRow.getAttribute('aria-expanded')).toEqual('true');
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(0);
-      const expandButton2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[7].querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
+      const expandButton2 = seventhRow.querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
 
       expandButton2.dispatchEvent(mouseClick);
       expect(seventhRow.getAttribute('aria-expanded')).toEqual('false');
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(7);
+
+      expandButton2.dispatchEvent(mouseClick);
+      expect(seventhRow.getAttribute('aria-expanded')).toEqual('true');
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(0);
     });
 
     it('handles selection without children', async () => {
