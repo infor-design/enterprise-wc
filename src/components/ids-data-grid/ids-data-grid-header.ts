@@ -4,6 +4,7 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 import type IdsDataGrid from './ids-data-grid';
+import type IdsIcon from '../ids-icon/ids-icon';
 import { IdsDataGridColumn, IdsDataGridColumnGroup } from './ids-data-grid-column';
 
 @customElement('ids-data-grid-header')
@@ -38,6 +39,11 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     return (this.rootNode.host) as IdsDataGrid;
   }
 
+  /* Returns all the ids-icon.header-expander elements in an array */
+  get expanderIcons(): IdsIcon[] {
+    return [...this.querySelectorAll<IdsIcon>('ids-icon.header-expander')];
+  }
+
   /**
    * Handle all header related events
    * @private
@@ -67,9 +73,14 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
         const isColumnHeaderExpander = e.target?.closest('.column-header-expander');
         if (!isColumnHeaderExpander && !this.dataGrid?.showHeaderExpander) return;
 
-        if (this.isHeaderExpanderCollapsed) this.dataGrid.expandAll();
-        else this.dataGrid.collapseAll();
+        const isHeaderExpanderCollapsed = this.isHeaderExpanderCollapsed;
         this.isHeaderExpanderCollapsed = !this.isHeaderExpanderCollapsed;
+
+        if (isHeaderExpanderCollapsed) {
+          this.dataGrid.expandAll();
+        } else {
+          this.dataGrid.collapseAll();
+        }
         return;
       }
 
@@ -292,6 +303,26 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     const all = this.dataGrid?.rows?.filter((r: any) => r?.hasAttribute('aria-expanded')) || [];
     const collapsedRows = all.filter((r: any) => r?.getAttribute('aria-expanded') === 'false');
     if (all.length && all.length === collapsedRows.length) this.isHeaderExpanderCollapsed = true;
+  }
+
+  /**
+   * Sets the state of the ids-icon.header-expander elements to open/expanded.
+   */
+  openExpanderIcons() {
+    this.isHeaderExpanderCollapsed = false;
+    this.expanderIcons?.forEach((iconElement: IdsIcon) => {
+      iconElement.icon = `plusminus-folder-open`;
+    });
+  }
+
+  /**
+   * Sets the state of the ids-icon.header-expander elements to closed/collapsed.
+   */
+  closeExpanderIcons() {
+    this.isHeaderExpanderCollapsed = true;
+    this.expanderIcons?.forEach((iconElement: IdsIcon) => {
+      iconElement.icon = `plusminus-folder-closed`;
+    });
   }
 
   /**

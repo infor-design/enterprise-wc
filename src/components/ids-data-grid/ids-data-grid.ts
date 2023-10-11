@@ -247,16 +247,13 @@ export default class IdsDataGrid extends Base {
    * @returns {void}
    */
   collapseAll() {
-    const rows: any[] = [];
-    const icons = this.container?.querySelectorAll('ids-icon.header-expander');
-    icons?.forEach((iconEl: any) => {
-      if (iconEl) iconEl.icon = `plusminus-folder-closed`;
-    });
-
     this.data.forEach((rowData, rowIndex) => {
       this.updateDataset(rowIndex, { rowExpanded: false, rowHidden: !!rowData.parentElement });
     });
 
+    this.header?.closeExpanderIcons();
+
+    const rows: any[] = [];
     this.rows
       .forEach((row: IdsDataGridRow) => {
         const rowIndex = row.rowIndex;
@@ -275,16 +272,13 @@ export default class IdsDataGrid extends Base {
    * @returns {void}
    */
   expandAll() {
-    const rows: any[] = [];
-    const icons = this.container?.querySelectorAll('ids-icon.header-expander');
-    icons?.forEach((iconEl: any) => {
-      if (iconEl) iconEl.icon = `plusminus-folder-open`;
-    });
-
     this.data.forEach((rowData, rowIndex) => {
       this.updateDataset(rowIndex, { rowExpanded: true, rowHidden: false });
     });
 
+    this.header?.openExpanderIcons();
+
+    const rows: any[] = [];
     this.rows
       .forEach((row: IdsDataGridRow) => {
         const rowIndex = row.rowIndex;
