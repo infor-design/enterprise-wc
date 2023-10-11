@@ -156,7 +156,6 @@
     .text-ellipsis {
       // No Ellipsis on tree columns, let links be focusable
       overflow: initial;
-      padding-inline-start: 0;
 
       ids-hyperlink {
         margin-inline-start: 0;

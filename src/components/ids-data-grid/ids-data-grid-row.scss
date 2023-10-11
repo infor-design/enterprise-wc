@@ -107,6 +107,15 @@
       ids-hyperlink {
         margin: var(--ids-data-grid-padding-xxs);
       }
+
+      // On 'xxs' row height, inline-editable cells have a slightly wider
+      // padding appearance to accommodate the inline display
+      &.is-inline {
+        .text-ellipsis {
+          padding-inline-start: var(--ids-data-grid-padding-xs);
+          padding-inline-end: var(--ids-data-grid-padding-xs);
+        }
+      }
     }
 
     .ids-data-grid-cell:not(.align-center) .ids-data-grid-header-cell-content:not(.vertical-align-center) .ids-data-grid-header-text {
