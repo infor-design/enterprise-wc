@@ -2668,8 +2668,8 @@ describe('IdsDataGrid Component', () => {
       dataGrid.columns = treeColumns;
       dataGrid.data = datasetTree;
 
-      const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
+      const firstRow = dataGrid.rowByIndex(0);
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
 
       dataGrid.setActiveCell(0, 0, true);
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
@@ -2677,7 +2677,7 @@ describe('IdsDataGrid Component', () => {
 
       const event2 = new KeyboardEvent('keydown', { key: ' ' });
       dataGrid.dispatchEvent(event2);
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
     });
 
     it('can set the suppressRowClickSelection setting', () => {
