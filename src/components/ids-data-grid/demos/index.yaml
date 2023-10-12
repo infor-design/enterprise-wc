@@ -29,6 +29,9 @@
   - link: columns-alignment.html
     type: Example
     description: Shows column and header alignment
+  - link: columns-checkbox-alignment.html
+    type: Example
+    description: Shows checkbox column alignment
   - link: columns-custom-css.html
     type: Example
     description: Shows initialy hidden columns

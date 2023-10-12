@@ -37,8 +37,26 @@
   .ids-data-grid-checkbox-container {
     cursor: var(--ids-cursor-pointer);
     display: flex;
-    justify-content: center;
     width: 100%;
+  }
+
+  // Checkbox alignments
+  .ids-data-grid-cell.align-left {
+    .ids-data-grid-checkbox-container {
+      justify-content: start;
+    }
+  }
+
+  .ids-data-grid-cell.align-center {
+    .ids-data-grid-checkbox-container {
+      justify-content: center;
+    }
+  }
+
+  .ids-data-grid-cell.align-right {
+    .ids-data-grid-checkbox-container {
+      justify-content: end;
+    }
   }
 
   .ids-data-grid-checkbox {
