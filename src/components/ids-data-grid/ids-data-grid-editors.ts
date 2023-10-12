@@ -12,6 +12,7 @@ import type IdsTimePickerPopup from '../ids-time-picker/ids-time-picker-popup';
 import type IdsDataGridCell from './ids-data-grid-cell';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
+import type IdsButton from '../ids-button/ids-button';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
@@ -577,6 +578,49 @@ export class TimePickerEditor implements IdsDataGridEditor {
   }
 }
 
+export class TreeEditor extends InputEditor {
+  expandButton?: IdsButton;
+
+  fieldContainer?: HTMLElement;
+
+  /**
+   * Adds extra button element for mimicking the tree formatter's display
+   * @param {IdsDataGridCell} cell the cell element
+   */
+  init(cell?: IdsDataGridCell) {
+    super.init(cell);
+
+    const buttonHTML = this.#isExpandable(cell!) ? `<ids-button class="expand-button" disabled="true">
+      <ids-icon icon="plusminus-folder-${this.#isExpanded(cell!) ? 'open' : 'closed'}"></ids-icon>
+    </ids-button>` : '';
+
+    cell!.insertAdjacentHTML('afterbegin', `<span class="ids-data-grid-tree-container">
+      ${buttonHTML}
+      <span class="ids-data-grid-tree-field-container"></span>
+    </span>`);
+
+    this.expandButton = cell!.querySelector<IdsButton>('.expand-button')!;
+    this.fieldContainer = cell!.querySelector<HTMLElement>('.ids-data-grid-tree-field-container')!;
+    this.fieldContainer.appendChild(this.input!);
+  }
+
+  #isExpanded(cell: IdsDataGridCell) {
+    return cell.dataGrid.rows[cell.rowIndex].getAttribute('aria-expanded') === 'true';
+  }
+
+  #isExpandable(cell: IdsDataGridCell) {
+    return cell.dataGrid.data[cell.rowIndex].children;
+  }
+
+  destroy() {
+    super.destroy();
+    this.expandButton?.remove();
+    this.fieldContainer?.remove();
+    this.expandButton = undefined;
+    this.fieldContainer = undefined;
+  }
+}
+
 export const editors: Array<{ type: string, editor?: IdsDataGridEditor }> = [];
 
 editors.push({
@@ -602,4 +646,9 @@ editors.push({
 editors.push({
   type: 'timepicker',
   editor: new TimePickerEditor()
+});
+
+editors.push({
+  type: 'tree',
+  editor: new TreeEditor()
 });
