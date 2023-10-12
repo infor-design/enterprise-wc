@@ -95,12 +95,12 @@ export default class IdsTextarea extends Base {
     return [
       ...super.attributes,
       attributes.AUTOGROW,
-      attributes.AUTOGROW_MAX_HEIGHT,
       attributes.AUTOSELECT,
       attributes.CHAR_MAX_TEXT,
       attributes.CHAR_REMAINING_TEXT,
       attributes.CHARACTER_COUNTER,
       attributes.DISABLED,
+      attributes.MAX_HEIGHT,
       attributes.MAXLENGTH,
       attributes.PLACEHOLDER,
       attributes.PRINTABLE,
@@ -243,8 +243,8 @@ export default class IdsTextarea extends Base {
   handleAutogrow(): void {
     if (this.input) {
       if (this.autogrow) {
-        if (this.autogrowMaxHeight) {
-          this.input.style.maxHeight = `${this.autogrowMaxHeight}px`;
+        if (this.maxHeight) {
+          this.input.style.maxHeight = `${this.maxHeight}px`;
         }
         this.input.style.overflow = 'hidden';
         this.setAutogrow();
@@ -297,7 +297,7 @@ export default class IdsTextarea extends Base {
   setAutogrow(): void {
     if (this.autogrow && !this.autogrowProcessing) {
       this.autogrowProcessing = true;
-      const maxHeight = parseInt((this.autogrowMaxHeight as any), 10) || 0;
+      const maxHeight = parseInt((this.maxHeight as any), 10) || 0;
       const oldHeight = this.input?.offsetHeight || 0;
 
       this.adjustHeight(oldHeight, maxHeight);
@@ -530,19 +530,19 @@ export default class IdsTextarea extends Base {
   get autogrow(): boolean { return stringToBool(this.getAttribute(attributes.AUTOGROW)); }
 
   /**
-   * Set textarea height to be autogrow-max-height
-   * @param {string | null} value of `autogrow-max-height` attribute
+   * Set textarea height to be max-height
+   * @param {string | null} value of `max-height` attribute
    */
-  set autogrowMaxHeight(value: string | null) {
+  set maxHeight(value: string | null) {
     if (value) {
-      this.setAttribute(attributes.AUTOGROW_MAX_HEIGHT, value.toString());
+      this.setAttribute(attributes.MAX_HEIGHT, value.toString());
     } else {
-      this.removeAttribute(attributes.AUTOGROW_MAX_HEIGHT);
+      this.removeAttribute(attributes.MAX_HEIGHT);
     }
     this.handleAutogrow();
   }
 
-  get autogrowMaxHeight(): string | null { return this.getAttribute(attributes.AUTOGROW_MAX_HEIGHT); }
+  get maxHeight(): string | null { return this.getAttribute(attributes.MAX_HEIGHT); }
 
   /**
    * When set the textarea will select all text on focus
