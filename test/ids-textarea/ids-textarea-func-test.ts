@@ -180,7 +180,7 @@ describe('IdsTextarea Component', () => {
   it('set autogrow to field', () => {
     textarea.autogrow = true;
     expect(textarea.getAttribute('autogrow')).toEqual('true');
-    textarea.autogrowMaxHeight = 200;
+    textarea.maxHeight = 200;
     Object.defineProperty(HTMLElement.prototype, 'scrollHeight', { configurable: true, value: 250 });
     Object.defineProperty(HTMLElement.prototype, 'offsetHeight', { configurable: true, value: 200 });
     textarea.setAutogrow();
@@ -202,12 +202,12 @@ describe('IdsTextarea Component', () => {
   });
 
   it('renders autogrow and max height to field', () => {
-    expect(textarea.getAttribute('autogrow-max-height')).toEqual(null);
-    textarea.autogrowMaxHeight = true;
+    expect(textarea.getAttribute('max-height')).toEqual(null);
+    textarea.maxHeight = true;
     textarea.autogrow = true;
-    expect(textarea.getAttribute('autogrow-max-height')).toEqual('true');
-    textarea.autogrowMaxHeight = false;
-    expect(textarea.getAttribute('autogrow-max-height')).toEqual(null);
+    expect(textarea.getAttribute('max-height')).toEqual('true');
+    textarea.maxHeight = false;
+    expect(textarea.getAttribute('max-height')).toEqual(null);
   });
 
   it('renders clearable to field', () => {
