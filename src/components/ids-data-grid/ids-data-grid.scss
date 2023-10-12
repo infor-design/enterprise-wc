@@ -227,6 +227,11 @@
         }
       }
 
+      // Remove start padding from tree-grid-contained `.text-ellipsis` elements
+      .ids-data-grid-tree-field-container .text-ellipsis {
+        padding-inline-start: 0;
+      }
+
       // ================================================
       // Expandable grid/tree grid nested alignment rules
       @for $i from 1 through 8 {

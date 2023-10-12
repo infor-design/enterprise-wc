@@ -609,7 +609,7 @@ export class TreeEditor extends InputEditor {
   }
 
   #isExpandable(cell: IdsDataGridCell) {
-    return cell.dataGrid.data[cell.rowIndex].children;
+    return cell.dataGrid.data[cell.rowIndex].childCount;
   }
 
   destroy() {
