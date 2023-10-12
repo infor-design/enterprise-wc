@@ -157,7 +157,7 @@
 
 .ids-data-grid-header-cell-content {
   display: flex;
-  height: 100%;
+  // height: 100%;
 }
 
 .ids-data-grid-header-text {
@@ -222,6 +222,7 @@
   max-height: 18px;
   cursor: var(--ids-cursor-pointer);
   color: var(--ids-data-grid-header-expander-color);
+  margin-inline-start: var(--ids-space-50);
 
   &:hover {
     color: var(--ids-data-grid-header-expander-color-active);
@@ -347,12 +348,6 @@ th.ids-data-grid-header-cell {
 
 // Adjust for Row Heights (large is default)
 .ids-data-grid {
-  &[data-row-height='lg'] {
-    .header-expander {
-      margin-inline-start: var(--ids-space-50);
-    }
-  }
-
   &[data-row-height='md'] {
     .ids-data-grid-header-text {
       padding: var(--ids-data-grid-header-md-padding);
@@ -360,10 +355,6 @@ th.ids-data-grid-header-cell {
 
     .reorderer ids-icon {
       inset-inline-start: -11px;
-    }
-
-    .header-expander {
-      margin-inline-start: var(--ids-space-50);
     }
 
     .sort-indicator {
@@ -376,10 +367,6 @@ th.ids-data-grid-header-cell {
   }
 
   &[data-row-height='sm'] {
-    .header-expander {
-      margin-inline-start: var(--ids-space-50);
-    }
-
     .ids-data-grid-header-text {
       padding: var(--ids-data-grid-header-sm-padding);
     }
@@ -394,10 +381,6 @@ th.ids-data-grid-header-cell {
   }
 
   &[data-row-height='xs'] {
-    .header-expander {
-      margin-inline-start: var(--ids-space-50);
-    }
-
     .ids-data-grid-header-text {
       padding: var(--ids-data-grid-header-xs-padding);
     }
@@ -423,10 +406,6 @@ th.ids-data-grid-header-cell {
   }
 
   &[data-row-height='xxs'] {
-    .header-expander {
-      margin-inline-start: var(--ids-space-50);
-    }
-
     .ids-data-grid-header-text {
       padding: var(--ids-data-grid-header-xxs-padding);
     }
