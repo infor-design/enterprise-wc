@@ -273,7 +273,7 @@ To cancel or disabled editing there are a few ways:
 
 The following settings are available on editors.
 
-`type` As of now can be `checkbox`, `input`, `datepicker`, `timepicker`, or `dropdown` but more will be added.
+`type` As of now can be `checkbox`, `input`, `datepicker`, `timepicker`, `dropdown`, or `tree` but more will be added.
 `inline` Default is false. If true the editor (for example an input) will be visible in a field.
 `editorSettings` Is an object that is loosely typed that lets you pass any option the editor supports in. For example any of the IdsInput or IdsCheckbox options can be passing in. Some special ones are:
 `editorSettings.autoselect` Text will be selected when entering edit mode

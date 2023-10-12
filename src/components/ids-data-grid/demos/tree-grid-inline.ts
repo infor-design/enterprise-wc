@@ -50,7 +50,7 @@ if (dataGrid) {
       sortable: true,
       resizable: true,
       editor: {
-        type: 'input',
+        type: 'tree',
         inline: true,
         editorSettings: {
           autoselect: true,
