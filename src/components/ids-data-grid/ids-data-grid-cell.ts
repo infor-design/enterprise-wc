@@ -243,15 +243,14 @@ export default class IdsDataGridCell extends IdsElement {
   endCellEdit() {
     const column = this.column;
     const input = this.editor?.input as any;
-    const editorType = this.editor?.type;
+    const editorType = (this.editor?.type as string);
     input?.offEvent('focusout', input);
 
-    if (editorType === 'input' && input?.setDirtyTracker) {
+    if (['input', 'tree'].includes(editorType) && input?.setDirtyTracker) {
       input?.setDirtyTracker(input?.value as any);
-      (<IdsInput>input)?.checkValidation();
     }
 
-    if (editorType === 'input' && input?.checkValidation) {
+    if (['input', 'tree'].includes(editorType) && input?.checkValidation) {
       (<IdsInput>input)?.checkValidation();
     }
 
