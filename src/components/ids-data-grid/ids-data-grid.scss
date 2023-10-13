@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use '../../themes/mixins/ids-core-mixins' as mixins;
+@import './ids-data-grid-common';
 @import './ids-data-grid-filters';
 @import './ids-data-grid-header';
 @import './ids-data-grid-row';
@@ -195,12 +196,30 @@
     'lg': 17
   );
 
+  $row-height-outline-padding: (
+    'xxs': 2,
+    'xs': 2,
+    'sm': 3,
+    'md': 4,
+    'lg': 4
+  );
+
+  $row-height-outline-offsets: (
+    'xxs': 4,
+    'xs': 2,
+    'sm': 5,
+    'md': 8,
+    'lg': 12
+  );
+
   @each $rowHeight, $offset in $row-height-padding-offsets {
     // These values are different for each Row Height
     $button-width: map.get($row-height-inline-tree-grid-button-widths, $rowHeight);
     $indent: map.get($row-height-indents, $rowHeight);
     $dirty-indicator-offset: map.get($row-height-dirty-indicator-offsets, $rowHeight);
     $inline-dirty-indicator-offset: map.get($row-height-inline-dirty-indicator-offsets, $rowHeight);
+    $outline-offset: map.get($row-height-outline-offsets, $rowHeight);
+    $outline-padding: map.get($row-height-outline-padding, $rowHeight);
 
     &[data-row-height='#{$rowHeight}'] {
       // ================================================
@@ -221,6 +240,23 @@
               &::before {
                 inset-block-start: #{$inline-dirty-indicator-offset}px;
                 margin-inline-start: #{$inline-dirty-indicator-offset}px;
+              }
+            }
+          }
+        }
+
+        // Defines the position of the "inline-edit" style's outline
+        &.is-editable.is-inline {
+          &:not(.formatter-tree) {
+            @include ids-data-grid-inline-editable-outline($outline-padding);
+          }
+
+          &.formatter-tree {
+            .text-ellipsis {
+              @include ids-data-grid-inline-editable-outline($outline-padding);
+
+              &::after {
+                margin-inline-end: -#{$outline-offset}px;
               }
             }
           }

@@ -1,37 +1,3 @@
-// ================================================
-// Generates a pseudo-element in the form of an "outline"
-// in a cell that represents the "inline, editable" state.
-@mixin ids-data-grid-inline-editable-outline($margin, $heightOffset, $widthOffset) {
-  position: relative;
-
-  &::after {
-    border: 1px solid var(--ids-input-color-border-default);
-    border-radius: var(--ids-border-radius-01);
-    box-sizing: border-box;
-    display: block;
-    content: '';
-    margin: $margin;
-    height: calc(100% - $heightOffset);
-    position: absolute;
-    width: calc(100% - $widthOffset);
-  }
-}
-
-// ================================================
-// Generates a pseudo-element representing the dirty tracker
-// icon in a cell that's been edited.
-@mixin ids-data-grid-cell-dirty-tracker-icon {
-  border-color: var(--ids-input-dirty-indicator-color-background-dirty) transparent transparent var(--ids-input-dirty-indicator-color-background-dirty);
-  border-style: solid;
-  border-width: 5px;
-  content: '';
-  display: inline-block;
-  margin-inline: 2px;
-  position: absolute;
-  inset-block-start: 2px;
-  z-index: 1;
-}
-
 /* Ids Data Grid Component - Cells */
 .ids-data-grid-cell {
   // Border and Background and Sizing
@@ -133,10 +99,6 @@
 
   &.is-editable {
     &.is-inline {
-      &:not(.formatter-tree) {
-        @include ids-data-grid-inline-editable-outline(4px, 8px, 8px);
-      }
-
       &.formatter-tree {
         .ids-data-grid-tree-container {
           height: 100%;
@@ -149,8 +111,6 @@
         }
 
         .text-ellipsis {
-          @include ids-data-grid-inline-editable-outline(4px, 8px, 8px);
-
           align-items: center;
           display: flex;
           height: 100%;
@@ -347,24 +307,6 @@
     top: 3px;
   }
 
-  .is-editable.is-inline {
-    &:not(.formatter-tree) {
-      @include ids-data-grid-inline-editable-outline(2px, 4px, 4px);
-    }
-
-    &.formatter-tree {
-      .text-ellipsis {
-        @include ids-data-grid-inline-editable-outline(2px, 4px, 4px);
-
-        margin-inline-end: 2px;
-
-        &::after {
-          margin-inline-end: -2px;
-        }
-      }
-    }
-  }
-
   ids-button {
     --ids-button-icon-padding: 2px;
   }
@@ -415,22 +357,6 @@
     top: 3px;
   }
 
-  .is-editable.is-inline {
-    &:not(.formatter-tree) {
-      @include ids-data-grid-inline-editable-outline(2px, 4px, 4px);
-    }
-
-    &.formatter-tree {
-      .text-ellipsis {
-        @include ids-data-grid-inline-editable-outline(2px, 4px, 4px);
-
-        &::after {
-          margin-inline-end: -2px;
-        }
-      }
-    }
-  }
-
   ids-button {
     --ids-button-icon-padding: 3px;
   }
@@ -469,27 +395,6 @@
 // =============================================
 
 [data-row-height='sm'] {
-  .is-editable.is-inline {
-    &:not(.formatter-tree) {
-      @include ids-data-grid-inline-editable-outline(3px, 6px, 6px);
-    }
-
-    &.formatter-tree {
-      .text-ellipsis {
-        @include ids-data-grid-inline-editable-outline(3px, 6px, 6px);
-
-        &::after {
-          margin-inline-end: -5px;
-        }
-      }
-    }
-  }
-
-  .ids-data-grid-cell.is-dirty.is-inline::before {
-    margin-inline: 5px;
-    top: 5px;
-  }
-
   ids-button {
     --ids-button-icon-padding: 4px;
   }
@@ -523,22 +428,6 @@
   .ids-data-grid-cell.is-editable.is-inline {
     --ids-trigger-field-button-margin: -3px;
     --ids-button-tertiary-color-background-hover: transparent;
-  }
-}
-
-// =============================================
-// Row height: 'lg'
-// =============================================
-
-[data-row-height='lg'] {
-  .is-editable.is-inline {
-    &.formatter-tree {
-      .text-ellipsis {
-        &::after {
-          margin-inline-end: -12px;
-        }
-      }
-    }
   }
 }
 
