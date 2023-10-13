@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { setSizeAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -246,11 +247,23 @@ export default class IdsTextarea extends Base {
         if (this.maxHeight) {
           this.input.style.maxHeight = `${this.maxHeight}px`;
         }
+        if (this.maxWidth) {
+          this.input.style.maxWidth = `${this.maxWidth}px`;
+        }
+        if (this.minHeight) {
+          this.input.style.minHeight = `${this.minHeight}px`;
+        }
+        if (this.minWidth) {
+          this.input.style.minWidth = `${this.minWidth}px`;
+        }
         this.input.style.overflow = 'hidden';
         this.setAutogrow();
       } else {
         this.input.style.overflow = '';
         this.input.style.maxHeight = '';
+        this.input.style.maxWidth = '';
+        this.input.style.minHeight = '';
+        this.input.style.minWidth = '';
         this.input.style.height = '';
       }
     }
@@ -530,19 +543,48 @@ export default class IdsTextarea extends Base {
   get autogrow(): boolean { return stringToBool(this.getAttribute(attributes.AUTOGROW)); }
 
   /**
-   * Set textarea height to be max-height
+   * Sets a "max-height" CSS property on the textarea
    * @param {string | null} value of `max-height` attribute
    */
   set maxHeight(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.MAX_HEIGHT, value.toString());
-    } else {
-      this.removeAttribute(attributes.MAX_HEIGHT);
-    }
+    setSizeAttr(attributes.MAX_HEIGHT, this, value);
     this.handleAutogrow();
   }
 
   get maxHeight(): string | null { return this.getAttribute(attributes.MAX_HEIGHT); }
+
+  /**
+   * Sets a "max-width" CSS property on the textarea
+   * @param {string | null} value of `max-width` attribute
+   */
+  set maxWidth(value: string | null) {
+    setSizeAttr(attributes.MAX_WIDTH, this, value);
+    this.handleAutogrow();
+  }
+
+  get maxWidth(): string | null { return this.getAttribute(attributes.MAX_WIDTH); }
+
+  /**
+   * Sets a "min-height" CSS property on the textarea
+   * @param {string | null} value of `min-height` attribute
+   */
+  set minHeight(value: string | null) {
+    setSizeAttr(attributes.MIN_HEIGHT, this, value);
+    this.handleAutogrow();
+  }
+
+  get minHeight(): string | null { return this.getAttribute(attributes.MIN_HEIGHT); }
+
+  /**
+   * Sets a "min-width" CSS property on the textarea
+   * @param {string | null} value of `min-width` attribute
+   */
+  set minWidth(value: string | null) {
+    setSizeAttr(attributes.MIN_WIDTH, this, value);
+    this.handleAutogrow();
+  }
+
+  get minWidth(): string | null { return this.getAttribute(attributes.MIN_WIDTH); }
 
   /**
    * When set the textarea will select all text on focus
