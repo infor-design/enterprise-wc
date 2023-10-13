@@ -85,6 +85,10 @@
     }
   }
 
+  &:not(.ids-icon-button) ::slotted(ids-icon) {
+    padding-inline-end: var(--ids-space-30);
+  }
+
   .ids-icon {
     vertical-align: middle;
   }
