@@ -89,6 +89,8 @@
       "project": ["./tsconfig.json"]
     },
     "rules": {
+     // No Missing / Wrong Promises
+     "@typescript-eslint/no-floating-promises": "error",
      // Allow var requires
      "@typescript-eslint/no-var-requires": "off",
       // Allow any

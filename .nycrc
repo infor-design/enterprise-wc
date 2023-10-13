@@ -1,0 +1,20 @@
+{
+  "reporter": [
+    "json",
+    "lcov",
+    "html"
+  ],
+  "include": [
+    "src/**/**/*.ts",
+    "!src/**/demos/*.ts"
+  ],
+  "exclude": [
+    "coverage/**",
+    "doc/**",
+    "build/**",
+    "dist/**",
+    "test/**",
+    "tests/**",
+    "node_modules"
+  ]
+}

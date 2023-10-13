@@ -50,6 +50,19 @@ const htmlExamples = htmlTemplates.map((template) => {
 
   // Special Entry for Main Homepage
   if (chunkName === 'ids-demo-app') {
+    // Special Entry for Blank Pages
+    if (chunkFileName === 'blank.html') {
+      return new HTMLWebpackPlugin({
+        template: `./${template}`,
+        title,
+        filename: `${chunkName}/${chunkFileName}`,
+        chunks: [],
+        favicon: './src/assets/images/favicon.ico',
+        meta: metaTags,
+        font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&amp;amp;display=swap" rel="stylesheet">'
+      });
+    }
+
     chunkList.push('ids-card');
     chunkList.push('ids-block-grid');
     chunkList.push('ids-hyperlink');
@@ -86,5 +99,5 @@ const htmlExamples = htmlTemplates.map((template) => {
 });
 
 // eslint-disable-next-line no-console
-console.info(`${htmlExamples.length} Examples`);
+console.info(`${htmlExamples.length} examples`);
 module.exports = htmlExamples;

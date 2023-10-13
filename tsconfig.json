@@ -24,9 +24,12 @@
   },
   "include": [
     "test/**/*.ts",
+    "tests/**/*.ts",
+    "tests/*.ts",
     "src/**/**/*.ts",
     "scripts/*.ts",
-     "./declaration.d.ts"
+    "./declaration.d.ts",
+    "*.ts"
   ],
   "exclude": [
     "src/**/*.d.ts",

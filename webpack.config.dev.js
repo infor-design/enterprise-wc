@@ -7,6 +7,7 @@ const handleUpload = require('./scripts/handle-upload');
 const htmlExamples = require('./scripts/webpack-html-templates');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
+const isCoverageMode = process.argv[process.argv.indexOf('--env') + 1] === 'coverage';
 
 module.exports = {
   entry: demoEntry(),
@@ -51,6 +52,19 @@ module.exports = {
   devtool: 'eval-source-map', // cheap-module-source-map -> original eval-cheap-module-source-map -> works but has csp errors
   module: {
     rules: [
+      (!isCoverageMode ? {} : {
+        test: /(src).*\.ts$/, // TO Exclude enterprise-wc.ts
+        exclude: [
+          '/src/enterprise-wc.ts',
+          '/src/**/demos/*.ts',
+          /node_modules/
+        ],
+        use: [
+          {
+            loader: '@jsdevtools/coverage-istanbul-loader'
+          }
+        ]
+      }),
       {
         test: /\.ts?$/,
         use: [
