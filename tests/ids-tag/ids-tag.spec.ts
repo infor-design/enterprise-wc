@@ -59,11 +59,11 @@ test.describe('IdsTag tests', () => {
       await tagHandle?.evaluate((node: IdsTag) => {
         node.color = 'success';
       });
-      expect(await tagLocator.getAttribute('color')).toEqual('success');
+      await expect(await tagLocator.getAttribute('color')).toEqual('success');
       await tagHandle?.evaluate((node: IdsTag) => {
         node.color = '';
       });
-      expect(await tagLocator.getAttribute('color')).toEqual(null);
+      await expect(await tagLocator.getAttribute('color')).toEqual(null);
     });
 
     test('be able to set to disabled', async ({ page }) => {
@@ -72,12 +72,12 @@ test.describe('IdsTag tests', () => {
         node.setAttribute('disabled', 'true');
         return node.disabled;
       });
-      expect(result).toEqual(true);
+      await expect(result).toEqual(true);
       result = await tagHandle?.evaluate((node2: IdsTag) => {
         node2.setAttribute('disabled', 'false');
         return node2.disabled;
       });
-      expect(await tagHandle?.getAttribute('disabled')).toEqual(null);
+      await expect(await tagHandle?.getAttribute('disabled')).toEqual(null);
     });
   });
 

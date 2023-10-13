@@ -1,0 +1,68 @@
+import { AxePuppeteer } from '@axe-core/puppeteer';
+import countObjects from '../helpers/count-objects';
+
+describe('Ids Tag e2e Tests', () => {
+  const url = 'http://localhost:4444/ids-tag/example.html';
+
+  beforeAll(async () => {
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+  });
+
+  it('should not have errors', async () => {
+    await expect(page.title()).resolves.toMatch('IDS Tag Component');
+    await expect(page.evaluate('document.querySelector("ids-theme-switcher").getAttribute("mode")'))
+      .resolves.toMatch('light');
+  });
+
+  it('should pass Axe accessibility tests', async () => {
+    await page.setBypassCSP(true);
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    // @TODO: Remove setting after #669 is fixed
+    const results = await new AxePuppeteer(page).disableRules(['color-contrast']).analyze();
+    expect(results.violations.length).toBe(0);
+  });
+
+  it('should be able to createElement', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        document.createElement('ids-tag');
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    await expect(hasError).toEqual(false);
+  });
+
+  it('should be able to set attributes before append', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        const elem: any = document.createElement('ids-tag');
+        elem.color = 'red';
+        elem.clickable = true;
+        elem.dismissible = true;
+        document.body.appendChild(elem);
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    await expect(hasError).toEqual(false);
+  });
+
+  it('should be able to set attributes after append', async () => {
+    let hasError = false;
+    try {
+      await page.evaluate(() => {
+        const elem:any = document.createElement('ids-tag');
+        document.body.appendChild(elem);
+        elem.color = 'red';
+        elem.clickable = true;
+        elem.dismissible = true;
+      });
+    } catch (err) {
+      hasError = true;
+    }
+    await expect(hasError).toEqual(false);
+  });
+});

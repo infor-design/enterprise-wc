@@ -89,8 +89,6 @@
       "project": ["./tsconfig.json"]
     },
     "rules": {
-     // No Missing / Wrong Promises
-     "@typescript-eslint/no-floating-promises": "error",
      // Allow var requires
      "@typescript-eslint/no-var-requires": "off",
       // Allow any
@@ -156,6 +154,7 @@
       "no-bitwise": 0,
       // Allows non-null assertions using the ! postfix operator.
       "no-non-null-assertion": "off",
+      // Turns off non unll assertion
       "@typescript-eslint/no-non-null-assertion": ["off"],
       // used in some componnets to re set the property
       "no-self-assign": "off"
