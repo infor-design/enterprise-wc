@@ -111,6 +111,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
       formatter: formatters.text,
       filterType: dataGrid.filters.dropdown,
       filterConditions: [
+        { value: 'not-filtered', label: '' },
         { value: 'Yes', label: 'Yes' },
         { value: 'No', label: 'No' }
       ]
@@ -663,8 +664,9 @@ describe('IdsDataGrid Component Filter Tests', () => {
   it('should renders filter with slot', () => {
     dataGrid = createFromTemplate(dataGrid, `<ids-data-grid>
       <div slot="filter-trackDeprecationHistory" column-id="trackDeprecationHistory">
-        <ids-dropdown label="Slotted dropdown" id="slotted-dropdown">
+        <ids-dropdown label="Slotted dropdown" id="slotted-dropdown" value="not-filtered">
           <ids-list-box>
+            <ids-list-box-option id="slotted-dropdown-opt-0" value="not-filtered"></ids-list-box-option>
             <ids-list-box-option id="slotted-dropdown-opt-1" value="Yes">Yes</ids-list-box-option>
             <ids-list-box-option id="slotted-dropdown-opt-2" value="No">No</ids-list-box-option>
           </ids-list-box>

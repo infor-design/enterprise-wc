@@ -324,6 +324,7 @@
   --ids-button-tertiary-color-text-hover: var(--ids-color-primary-70);
   --ids-button-tertiary-color-background-hover: var(--ids-color-primary-10);
   --ids-button-tertiary-color-text-disabled: var(--ids-color-neutral-30);
+  --ids-button-tertiary-shadow-focus: var(--ids-shadow-20);
   --ids-button-tertiary-font-weight: var(--ids-font-weight-semibold);
   --ids-button-tertiary-color-background-pressed: var(--ids-color-primary-30);
   --ids-button-icon-padding: calc(var(--ids-space-40) - 1px);
@@ -462,6 +463,7 @@
   --ids-checkbox-color-border-selected-disabled: var(--ids-input-color-text-disabled);
   --ids-checkbox-color-text-disabled: var(--ids-color-text-disabled);
   --ids-checkbox-color-border-focus: var(--ids-input-color-border-focus);
+  --ids-checkbox-color-border-focus-error: var(--ids-color-error-30);
   --ids-checkbox-shadow-focus: var(--ids-shadow-focus);
   --ids-checkbox-color-background-multiselect: var(--ids-color-background-default);
 
@@ -692,6 +694,13 @@
   --ids-header-color-border-bottom: var(--ids-color-neutral-30);
   --ids-header-color-background: var(--ids-color-neutral-00);
   --ids-header-color-text: var(--ids-color-text-default);
+  --ids-header-button-color-text-default: var(--ids-button-tertiary-color-text-default);
+  --ids-header-button-color-background-hover: var(--ids-button-tertiary-color-background-hover);
+  --ids-header-button-color-text-hover: var(--ids-button-tertiary-color-text-hover);
+  --ids-header-input-color-border-hover: var(--ids-input-color-border-hover);
+  --ids-header-button-color-text-disabled: var(--ids-button-tertiary-color-text-disabled);
+  --ids-header-button-shadow-focus: var(--ids-button-tertiary-shadow-focus);
+  --ids-header-button-color-border-focus: var(--ids-button-tertiary-color-border-focus);
   --ids-header-padding: 8px;
   --ids-header-gradient-opacity-none: rgb(0 114 237 / 1);
   --ids-header-gradient-opacity-full: rgb(0 114 237 / 0);
@@ -1330,12 +1339,13 @@
   --ids-tab-content-color-text: var(--ids-color-text);
   --ids-tab-color-text-default: var(--ids-color-text-default);
   --ids-tab-divider-color-background: var(--ids-color-neutral-30);
-  --ids-tab-color-background-hover: var(--ids-color-neutral-20);
-  --ids-tab-color-text-hover: var(--ids-color-neutral-80);
-  --ids-tab-color-border-focus: var(--ids-color-neutral-80);
-  --ids-tab-color-border-bottom: var(--ids-color-neutral-30);
-  --ids-tab-color-text-disabled: var(--ids-color-neutral-30);
-  --ids-tab-color-text-selected: var(--ids-color-neutral-100);
+  --ids-tab-color-background-hover: var(--ids-color-primary-10);
+  --ids-tab-color-text-hover: var(--ids-color-primary-60);
+  --ids-tab-color-border-focus: var(--ids-color-primary-60);
+  --ids-tab-shadow-focus: var(--ids-shadow-30);
+  --ids-tab-color-border-bottom: var(--ids-color-neutral-60);
+  --ids-tab-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-tab-color-text-selected: var(--ids-color-primary-60);
 
   // Tab (Header Variant)
   --ids-tab-header-color-background-hover: var(--ids-color-neutral-20);

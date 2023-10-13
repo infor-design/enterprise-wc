@@ -500,7 +500,6 @@ export default class IdsCalendar extends Base {
 
     this.offEvent('dayselected.calendar-container');
     this.onEvent('dayselected.calendar-container', this.container, (evt: CustomEvent) => {
-      evt.stopPropagation();
       clearTimeout(daySelectTimer);
       daySelectCount++;
 
@@ -1222,7 +1221,7 @@ export default class IdsCalendar extends Base {
 
     let legendData: Array<any> | null = null;
 
-    if (show && Array.isArray(eventTypes) && eventTypes.length) {
+    if (show && this.showLegend && Array.isArray(eventTypes) && eventTypes.length) {
       legendData = eventTypes.map((item: CalendarEventTypeData) => ({
         name: item.label,
         color: `${item.color}-60`,

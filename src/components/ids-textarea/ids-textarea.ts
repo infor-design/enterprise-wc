@@ -3,6 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsFormInputMixin from '../../mixins/ids-form-input-mixin/ids-form-input-mixin';
 import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsClearableMixin from '../../mixins/ids-clearable-mixin/ids-clearable-mixin';
@@ -21,8 +22,10 @@ const Base = IdsDirtyTrackerMixin(
     IdsLabelStateMixin(
       IdsValidationMixin(
         IdsClearableMixin(
-          IdsEventsMixin(
-            IdsElement
+          IdsFormInputMixin(
+            IdsEventsMixin(
+              IdsElement
+            )
           )
         )
       )
@@ -59,6 +62,7 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * @type {IdsTextarea}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsFormInputMixin
  * @mixes IdsClearableMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsLabelStateMixin
@@ -160,7 +164,16 @@ export default class IdsTextarea extends Base {
    * @returns {HTMLTextAreaElement} reference to this component's inner text input element
    */
   get input(): HTMLTextAreaElement | null {
-    return this.container?.querySelector('textarea') || null;
+    return this.container?.querySelector<HTMLTextAreaElement>('textarea') ?? null;
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLTextAreaElement} the inner `textarea` element
+   * @see IdsFormInputMixin.formInput
+   */
+  get formInput(): HTMLInputElement | HTMLTextAreaElement | null {
+    return this.input;
   }
 
   /**
@@ -423,7 +436,7 @@ export default class IdsTextarea extends Base {
            * @param {object} elem Actual event
            * @param {string} value The updated element value
            */
-          this.triggerEvent(e.type, this, {
+          this.triggerEvent(`${e.type}.ids-textarea`, this, {
             detail: { elem: this, nativeEvent: e, value: this.value }
           });
         });
@@ -758,7 +771,8 @@ export default class IdsTextarea extends Base {
    */
   set value(val: string) {
     const v = val || '';
-    this.setAttribute(attributes.VALUE, v);
+    super.value = v;
+
     if (this.input && this.input.value !== v) {
       this.input.value = this.getMaxValue(v);
       this.input.dispatchEvent(new Event('change', { bubbles: true }));

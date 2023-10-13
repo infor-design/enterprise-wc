@@ -316,7 +316,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     const thisAsInput = this as IdsInputInterface;
 
     if (!id) return;
-    let elem = this.shadowRoot?.querySelector(`[validation-id="${id}"]`);
+    let elem = this.shadowRoot?.querySelector(`div[validation-id="${id}"]`);
     if (elem) return; // Already has this message
 
     // Add error and related details
@@ -359,6 +359,12 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
       radioArr.forEach((r: HTMLElement) => r.setAttribute('validation-has-error', 'true'));
     }
+
+    // Add extra classes for checkboxes
+    const isCheckbox = thisAsInput.input?.classList.contains('checkbox');
+    if (isCheckbox) {
+      thisAsInput.input?.classList.add('error');
+    }
   }
 
   /**
@@ -391,7 +397,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       }
     };
 
-    const el: any = this.shadowRoot?.querySelector(`[validation-id="${id}"]`);
+    const el: any = this.shadowRoot?.querySelector(`div[validation-id="${id}"]`);
     if (el) {
       removeMsg(el);
     } else if (type && (id === null || typeof id === 'undefined')) {
@@ -411,6 +417,11 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     if (isRadioGroup) {
       const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
       radioArr.forEach((r: HTMLElement) => r.removeAttribute('validation-has-error'));
+    }
+
+    const isCheckbox = thisAsInput.input?.classList.contains('checkbox');
+    if (isCheckbox) {
+      thisAsInput.input?.classList.remove('error');
     }
 
     if (type) (this as any).validationElems?.main?.classList.remove(type);

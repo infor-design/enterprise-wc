@@ -29,6 +29,9 @@
   - link: columns-alignment.html
     type: Example
     description: Shows column and header alignment
+  - link: columns-checkbox-alignment.html
+    type: Example
+    description: Shows checkbox column alignment
   - link: columns-custom-css.html
     type: Example
     description: Shows initialy hidden columns
@@ -68,6 +71,9 @@
   - link: contextmenu.html
     type: Example
     description: Shows a data grid with contextmenu
+  - link: contextmenu-submenu-wrapped.html
+    type: Example
+    description: Shows a data grid with contextmenu containing an extremely large submenu
   - link: contextmenu-thru-id.html
     type: Example
     description: Shows a data grid with contextmenu thru id
@@ -155,6 +161,9 @@
   - link: row-navigation.html
     type: Example
     description: Shows a data grid with row navigation
+  - link: set-active-cell.html
+    type: Example
+    description: Shows how to use the data grid's `setActiveCell` method under different conditions
   - link: side-by-side.html
     type: Side by Side
     description: Shows a data grid next to a 4.x data grid

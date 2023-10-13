@@ -1,23 +1,52 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.16
+
+### 1.0.0-beta.16 Breaking Changes
+
+- `[Checkbox/Radio]` Removed the dirty tracker feature from checkbox and radio buttons. We want to limit how much the dirty indicator is used and the UI for these components just does not work. ([#1489](https://github.com/infor-design/enterprise-wc/issues/1489))
+
+### 1.0.0-beta.16 Features
+
+- `[Themes]` For theme switching added logic to check for a `<base href="">` tag. ([#1498](https://github.com/infor-design/enterprise-wc/issues/1498))
+
+### 1.0.0-beta.16 Fixes
+
+- `[AxisChart]` Fixed responsive axis charts `inherit` setting value. ([#1458](https://github.com/infor-design/enterprise-wc/issues/1458))
+- `[Calendar]` Allow propagation of `dayselected` event from calendar. ([#1470](https://github.com/infor-design/enterprise-wc/issues/1470))
+- `[DataGrid]` Added `wrap` attribute to `IdsMenuGroup` so large contextmenu menu-items can be wrapped into a column view. ([#1410](https://github.com/infor-design/enterprise-wc/issues/1410))
+- `[DataGrid]` Fixed contextmenu focused menu item in datagrid. ([#1453](https://github.com/infor-design/enterprise-wc/issues/1453))
+- `[DataGrid]` Add alignment rules and row-height specific padding to checkbox formatters. ([#1481](https://github.com/infor-design/enterprise-wc/issues/1481))
+- `[DataGrid]` Fixed a bug on the size of the `xxs` filter row inputs. ([#1456](https://github.com/infor-design/enterprise-wc/issues/1456))
+- `[DataGrid]` Fixed runtime- error on tree-grid when `IdsDataGrid.expandAll()` is executed. ([#1485](https://github.com/infor-design/enterprise-wc/issues/1485))
+- `[Icons]` Fixed how icon sizes are applied to correct a bug where icons in safari are the wrong size. ([#1519](https://github.com/infor-design/enterprise-wc/issues/1519))
+- `[Modal]` Removed overflow constraint on modal content area to enable proper display of lists/popups attached to inner components. ([#1436](https://github.com/infor-design/enterprise-wc/issues/1436))
+- `[Modal]` Changed the way z-index counting works to prevent a TypeScript/Angular compiler bug. ([#1476](https://github.com/infor-design/enterprise-wc/issues/1476))
+- `[Themes]` Fixed duplicate requests for theme files. ([#1491](https://github.com/infor-design/enterprise-wc/issues/1491))
+
 ## 1.0.0-beta.15
 
 ### 1.0.0-beta.15 Features
 
 - `[AppNav]` Fixed an issue when loading in angular templates/router-outlets. ([#1428](https://github.com/infor-design/enterprise-wc/issues/1428))
+- `[Calendar]` Fix hiding legend in mobile view. ([#1473](https://github.com/infor-design/enterprise-wc/issues/1473))
 - `[Calendar]` Fix calendar dependency on ids container. ([#1359](https://github.com/infor-design/enterprise-wc/issues/1359))
-- `[DataGrid]` Treegrid `appendData()` no longer breaks rendering of existing rows, and `scrollend` triggers properly. ([#1425](https://github.com/infor-design/enterprise-wc/issues/1425))
+- `[DataGrid]` Tree grid `appendData()` no longer breaks rendering of existing rows, and `scrollend` triggers properly. ([#1425](https://github.com/infor-design/enterprise-wc/issues/1425))
 - `[DataGrid]` Prevent scroll when resize columns. ([#1209](https://github.com/infor-design/enterprise-wc/issues/1209))
 - `[DataGrid]` Added new colored header and related styles. ([#1285](https://github.com/infor-design/enterprise-wc/issues/1285))
-- `[DataGrid]` Fix virtual/infinite scroll when max rows in dom reached. ([#1454](https://github.com/infor-design/enterprise-wc/issues/1454))
+- `[DataGrid]` Fix virtual/infinite scroll when max rows in DOM reached. ([#1454](https://github.com/infor-design/enterprise-wc/issues/1454))
+- `[DataGrid]` Fix rowStart scrollbar position on load. ([#1497](https://github.com/infor-design/enterprise-wc/issues/1497))
 - `[Editor]` Added new toolbar styles in all themes. ([#7606](https://github.com/infor-design/enterprise-wc/issues/7606))
 - `[Editor]` Fixed issue where buttons are disabled in source view. ([#1195](https://github.com/infor-design/enterprise-wc/issues/1195))
 - `[Icons]` Fixes for new icons pipeline, new icons and cleanup. ([#518](https://github.com/infor-design/design-system/issues/518))
+- `[Input]` Fixed input elements so values are properly reflected in Angular Reactive Forms. ([#1455](https://github.com/infor-design/enterprise-wc/issues/1455))
+- `[ListView]` Added example to show that loading different dataset properly refreshes list-view and doesn't break custom events. ([#1352](https://github.com/infor-design/enterprise-wc/issues/1352))
 - `[Locale]` Made Locale a global instance and moved it off ids-container and related fixes. ([#663](https://github.com/infor-design/enterprise-wc/issues/663))
 - `[Message]` Fix modal button separator. ([#1414](https://github.com/infor-design/enterprise-wc/issues/1414))
 - `[ModuleNav]` Added IdsModuleNav component with basic Role Switcher, Settings component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 - `[ModuleNav]` Add Dark/Contrast themes, app icons, tooltip support, and other features to IdsModuleNav. ([#1417](https://github.com/infor-design/enterprise-wc/issues/1414))
 - `[NotificationBanner]` Added `wrap` setting for notification banner. ([#1435](https://github.com/infor-design/enterprise-wc/issues/1435))
+- `[Personalization]` Added a personalization API and adjusted some components to work with it. ([#1394](https://github.com/infor-design/enterprise-wc/issues/1394))
 - `[PopupMenu]` Add support for RTL. ([#1429](https://github.com/infor-design/enterprise-wc/issues/1429))
 - `[Toolbar]` Added tooltip to the more button on toolbars. ([#1318](https://github.com/infor-design/enterprise-wc/issues/1318))
 
@@ -27,6 +56,7 @@
 - `[DataGrid]` Fixed missing/incorrect event handling in some cases with built-in filter menus/pickers. ([#1291](https://github.com/infor-design/enterprise-wc/issues/1291))
 - `[DataGrid]` Fixed incorrect placement of slotted filter menus/pickers. ([#1297](https://github.com/infor-design/enterprise-wc/issues/1297))
 - `[DataGrid]` Added example that shows context-menu with option to activate cell edit-mode on right-click. ([#1319](https://github.com/infor-design/enterprise-wc/issues/1319))
+- `[DataGrid]` Added example demonstrating `setActiveCell()` behavior under certain conditions. ([#1456](https://github.com/infor-design/enterprise-wc/issues/1456))
 
 ## 1.0.0-beta.14
 
@@ -36,9 +66,9 @@
 - `[Box]` Added new Box component. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
 - `[Button]` Add `contentAlign` property for setting text/icon alignment. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 - `[Cards/Widget/Box]` Separated the card component into a box, widget and card component, features moved around in each. ([#1327](https://github.com/infor-design/enterprise/issues/1327))
-- `[DataGrid]` Fix scrollend event triggering in different zoom levels. ([#1396](https://github.com/infor-design/enterprise/issues/1396))
+- `[DataGrid]` Fix `scrollend` event triggering in different zoom levels. ([#1396](https://github.com/infor-design/enterprise/issues/1396))
 - `[DataGrid]` Fixes scroll jumping in virtual/infinite scroll. ([#1390](https://github.com/infor-design/enterprise-wc/issues/1390))
-- `[DataGrid]` Fix scrollend event triggering in different zoom levels. ([#1396](https://github.com/infor-design/enterprise-wc/issues/1396))
+- `[DataGrid]` Fix `scrollend` event triggering in different zoom levels. ([#1396](https://github.com/infor-design/enterprise-wc/issues/1396))
 - `[DataGrid]` Added a `beforerowselected` and `beforeredeselected` event that can be vetoed to both lookup and datagrid. ([#1304](https://github.com/infor-design/enterprise-wc/issues/1304))
 - `[DropDown/DropDownList]` Add `showListItemIcon` setting for Module Nav component. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
 - `[Input]` Adds `module-nav` color variant. ([#1226](https://github.com/infor-design/enterprise-wc/issues/1226))
@@ -54,7 +84,7 @@
 - `[DataGrid]` Added `uppercase` and `maxlength` settings to editors and filters (text only). ([#1309](https://github.com/infor-design/enterprise-wc/issues/1309))
 - `[DataGrid]` Adds guards to Datagrid's `this.header` value because it is being referenced in some places before it is loaded in DOM. ([#1250](https://github.com/infor-design/enterprise-wc/issues/1250))
 - `[DataGrid]` Adjusted header cell height for `xxs` row size. ([#1369](https://github.com/infor-design/enterprise-wc/issues/1369))
-- `[DataGrid]` Add contexct menu shortcut for header and filters. ([#1340](https://github.com/infor-design/enterprise-wc/issues/1340))
+- `[DataGrid]` Add context menu shortcut for header and filters. ([#1340](https://github.com/infor-design/enterprise-wc/issues/1340))
 - `[DataGrid]` Fixed child-level data props when using `expandable-row-template` option. ([#1266](https://github.com/infor-design/enterprise-wc/issues/1266))
 - `[DataGrid]` Fixed an issue with the newer `maxlength` setting as it was not working in safari. ([#1403](https://github.com/infor-design/enterprise-wc/issues/1403))
 - `[DataGrid]` Added `column.showHeaderExpander` setting to `IdsDataGridColumn`. ([#1360](https://github.com/infor-design/enterprise-wc/issues/1360))

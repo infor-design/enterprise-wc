@@ -232,8 +232,8 @@ export default class IdsElement extends HTMLElement {
    */
   async loadTheme(theme: string) {
     // Reduce http requests
-    if (this.lastTheme === theme) return;
-    this.lastTheme = theme;
+    if (IdsGlobal.themeName === theme) return;
+    IdsGlobal.themeName = theme;
 
     const themeLoaded = IdsGlobal.onThemeLoaded();
 
@@ -255,7 +255,9 @@ export default class IdsElement extends HTMLElement {
     if (isSelfManaged) return;
 
     // Handle auto themes
-    const response = await fetch(`../themes/ids-theme-${theme}.css`, { cache: 'reload' });
+    const baseHref = document.querySelector('base');
+    const subUrl = baseHref?.getAttribute('href') || '/';
+    const response = await fetch(`..${subUrl}themes/ids-theme-${theme}.css`, { cache: 'default' });
     const themeStyles = await response.text();
     const head = (document.head as any);
     const styleElem = document.querySelector('#ids-theme');

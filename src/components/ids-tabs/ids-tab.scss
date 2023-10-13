@@ -21,7 +21,7 @@ $ids-tab-vertical-height: 42px;
 // without shadowDOM scope so need .selection-underline div
 // as workaround
 @mixin ids-tabs-selected-underline() {
-  border-bottom: 1px solid;
+  border-bottom: 2px solid;
 
   &::after,
   & .selection-underline {
@@ -81,7 +81,7 @@ $ids-tab-vertical-height: 42px;
   box-sizing: border-box;
   height: 100%;
   padding-inline: 4px;
-  padding-block: 8px;  
+  padding-block: 8px;
   list-style: none outside none;
   user-select: none;
   cursor: pointer;
@@ -90,7 +90,7 @@ $ids-tab-vertical-height: 42px;
   &:hover {
     color: var(--ids-tab-color-text-hover);
     background-color: var(--ids-tab-color-background-hover);
-    
+
     &::after,
     & .selection-underline {
       background-color: var(--ids-tab-color-text-hover);
@@ -138,6 +138,7 @@ $ids-tab-vertical-height: 42px;
     border-color: var(--ids-tab-color-border-focus);
     border-style: solid;
     outline: none;
+    box-shadow: var(--ids-tab-shadow-focus);
   }
 
   // Trigger Button Slot
@@ -289,6 +290,7 @@ $ids-tab-vertical-height: 42px;
   // Module - Focus state
   &:focus-visible {
     border-color: var(--ids-tab-color-border-focus);
+    box-shadow: var(--ids-tab-shadow-focus);
   }
 
   // Module - Disabled state

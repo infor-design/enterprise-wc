@@ -19,35 +19,6 @@
   margin-inline-start: 27px;
 }
 
-// Radio
-.ids-radio-group .icon-dirty {
-  margin-inline-start: -1px;
-  margin-block-start: 9px;
-  top: auto;
-  z-index: 1;
-}
-
-// Checkbox
-.ids-checkbox {
-  .icon-dirty {
-    margin-inline-start: -25px;
-
-    &[dir='rtl'] {
-      margin-inline-start: -20px;
-      transform: none;
-      top: -1px;
-    }
-  }
-
-  &.hitbox .icon-dirty {
-    margin-inline-start: -30px;
-
-    &[dir='rtl'] {
-      margin-inline-start: -26px;
-    }
-  }
-}
-
 .ids-textarea .icon-dirty {
   top: 0;
   margin-inline-start: 1px;

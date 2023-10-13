@@ -45,6 +45,21 @@ export function rgbaToHex(rgba: string, forceRemoveAlpha = false) {
 }
 
 /**
+ * Picks a light or dark color based on a background
+ * @param {string} bgColor The hex background color
+ * @param {string} lightColor The hex light color
+ * @param {string} darkColor The hex dark color
+ * @returns {string} the contrasting color
+ */
+export function contrastColor(bgColor: string, lightColor: string, darkColor: string) {
+  const color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
+  const r = parseInt(color.substring(0, 2), 16); // hexToR
+  const g = parseInt(color.substring(2, 4), 16); // hexToG
+  const b = parseInt(color.substring(4, 6), 16);
+  return (((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186) ? darkColor : lightColor;
+}
+
+/**
  * Converts the provided "built in" human-readable color to an RGB(A?) value
  * @private
  * @param {string} colorName any valid CSS color value, including "built-in".
@@ -106,7 +121,8 @@ function darkenColor(hexColor: string, magnitude: number) {
 
   let newHex = (g | (b << 8) | (r << 16)).toString(16);
   if (newHex.length === 5) newHex = `0${newHex}`;
-  if (newHex.length === 4) newHex = `0${newHex}`;
+  if (newHex.length === 4 || newHex.length === 1) newHex = `00${newHex}`;
+
   return `#${newHex}`;
 }
 

@@ -10,9 +10,22 @@
       <ids-layout-flex-item>
         <ids-theme-switcher mode="light"></ids-theme-switcher>
       </ids-layout-flex-item>
+
       <ids-layout-flex-item>
         <ids-text font-size="12" type="h1">Tree Grid (Virtual Scrolling)</ids-text>
       </ids-layout-flex-item>
+
+      <ids-layout-flex-item auto-fit="true" padding="md">
+        <ids-layout-flex-item-cell col-span="12" col-span-sm="6" col-span-lg="4">
+          <ids-button id="btn-expand-all" appearance="secondary">
+            <span>Expand All</span>
+          </ids-button>
+          <ids-button id="btn-collapse-all" appearance="secondary">
+            <span>Collapse All</span>
+          </ids-button>
+        </ids-layout-flex-item-cell>
+      </ids-layout-flex-item>
+
       <ids-layout-flex-item grow="1" overflow="hidden">
         <ids-data-grid id="tree-grid-virtual-scroll" suppress-tooltips="true" row-selection="multiple" tree-grid="true" auto-fit="true" virtual-scroll="true" row-height="md">
         </ids-data-grid>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Data Grid - Contextmenu</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+
+        <ids-data-grid id="data-grid-contextmenu" row-selection="multiple" label="Books">
+
+          <!-- Header Contextmenu -->
+          <ids-popup-menu trigger-type="custom" slot="header-contextmenu">
+            <ids-menu-group>
+              <ids-menu-item value="header-split">Split</ids-menu-item>
+              <ids-menu-item value="header-sort">Sort</ids-menu-item>
+              <ids-menu-item value="header-hide">Hide</ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+
+          <!-- Contextmenu -->
+          <ids-popup-menu trigger-type="custom" slot="contextmenu">
+            <ids-menu-group>
+              <ids-menu-item value="item-one">Item One</ids-menu-item>
+              <ids-menu-item value="item-two">Item Two</ids-menu-item>
+              <ids-menu-item value="item-three">Item Three</ids-menu-item>
+              <ids-menu-item value="item-four">Item Four</ids-menu-item>
+              <ids-separator></ids-separator>
+              <ids-menu-item id="item-five" value="more-actions">
+                More Actions
+                <ids-popup-menu>
+                  <ids-menu-group wrap>
+                    <ids-menu-item value="setting-one">Setting 1</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 2</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 3</ids-menu-item>
+                    <ids-menu-item value="setting-one">Setting 4</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 5</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 6</ids-menu-item>
+                    <ids-menu-item value="setting-one">Setting 7</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 8</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 9</ids-menu-item>
+                    <ids-menu-item value="setting-one">Setting 10</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 11</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 12</ids-menu-item>
+                    <ids-menu-item value="setting-one">Setting 13</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 14</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 15</ids-menu-item>
+                    <ids-menu-item value="setting-one">Setting 16</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 17</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 18</ids-menu-item>
+                    <ids-menu-item value="setting-one">Setting 19</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 20</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 21</ids-menu-item>
+                    <ids-menu-item value="setting-one">Setting 22</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 23</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 24</ids-menu-item>
+                    <ids-menu-item value="setting-one">Setting 25</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 26</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 27</ids-menu-item>
+                    <ids-menu-item value="setting-one">Setting 28</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 29</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 30</ids-menu-item>
+                    <ids-menu-item value="setting-one">Setting 31</ids-menu-item>
+                    <ids-menu-item value="setting-two">Setting 32</ids-menu-item>
+                    <ids-menu-item value="setting-three">Setting 33</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-menu-item>
+              <ids-menu-item id="item-six" value="even-more-actions">
+                Even More Actions
+                <ids-popup-menu>
+                  <ids-menu-group>
+                    <ids-menu-item icon="settings" value="change-settings">
+                      Change Settings
+                      <ids-popup-menu>
+                        <ids-menu-group wrap>
+                          <ids-menu-item value="setting-one">Setting 1</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 2</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 3</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 4</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 5</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 6</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 7</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 8</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 9</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 10</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 11</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 12</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 13</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 14</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 15</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 16</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 17</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 18</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 19</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 20</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 21</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 22</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 23</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 24</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 25</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 26</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 27</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 28</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 29</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 30</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 31</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 32</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 33</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 34</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 35</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 36</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 37</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 38</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 39</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 40</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 41</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 42</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 43</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 44</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 45</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 46</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 47</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 48</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 49</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 50</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 51</ids-menu-item>
+                          <ids-menu-item value="setting-one">Setting 52</ids-menu-item>
+                          <ids-menu-item value="setting-two">Setting 53</ids-menu-item>
+                          <ids-menu-item value="setting-three">Setting 54</ids-menu-item>
+                          <ids-menu-item value="reaaaaalllly-long-setting-number-four">REAAAAALLLLY Long Setting Number Four</ids-menu-item>
+                        </ids-menu-group>
+                      </ids-popup-menu>
+                    </ids-menu-item>
+                    <ids-menu-item icon="mail" value="send-mail">Send Mail</ids-menu-item>
+                    <ids-menu-item icon="filter" value="filter-content">Filter Content</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+
+        </ids-data-grid>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

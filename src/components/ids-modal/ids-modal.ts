@@ -12,10 +12,9 @@ import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import IdsElement from '../../core/ids-element';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { toggleScrollbar, waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
-import zCounter from './ids-modal-z-counter';
 import '../ids-popup/ids-popup';
 import '../ids-modal-button/ids-modal-button';
 import IdsOverlay from './ids-overlay';
@@ -58,6 +57,8 @@ const Base = IdsXssMixin(
 @customElement('ids-modal')
 @scss(styles)
 export default class IdsModal extends Base {
+  static zCount = 1020;
+
   shouldUpdate = false;
 
   onButtonClick?: (target: any) => void;
@@ -72,6 +73,8 @@ export default class IdsModal extends Base {
         break;
     }
   };
+
+  ro?: ResizeObserver;
 
   constructor() {
     super();
@@ -117,6 +120,7 @@ export default class IdsModal extends Base {
 
     this.attachEventHandlers();
     this.shouldUpdate = true;
+    this.setResize();
     this.#setFullsizeDefault();
     this.#setFocusIfVisible();
   }
@@ -124,6 +128,8 @@ export default class IdsModal extends Base {
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.#clearBreakpointResponse();
+    this.ro?.disconnect();
+    this.ro = undefined;
   }
 
   /**
@@ -152,6 +158,25 @@ export default class IdsModal extends Base {
     </ids-popup>`;
   }
 
+  private setResize() {
+    if (typeof ResizeObserver === 'undefined') return;
+
+    this.ro?.disconnect();
+
+    if (!this.ro) {
+      this.ro = new ResizeObserver(() => {
+        this.setScrollable();
+      });
+    }
+
+    this.ro.observe(this);
+  }
+
+  private setScrollable() {
+    const modalContentEl = this.modalContentEl;
+    if (modalContentEl) toggleScrollbar(this, modalContentEl);
+  }
+
   /**
    * Used for ARIA Labels and other content
    * @readonly
@@ -167,6 +192,14 @@ export default class IdsModal extends Base {
    */
   get buttons(): NodeListOf<IdsModalButton> {
     return this.querySelectorAll<IdsModalButton>('[slot="buttons"]');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement | null} reference to the Modal's content wrapper element
+   */
+  get modalContentEl(): HTMLElement | null {
+    return this.container?.querySelector('.ids-modal-content') || null;
   }
 
   /**
@@ -417,7 +450,7 @@ export default class IdsModal extends Base {
     }
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
-    this.style.setProperty('z-index', String(zCounter.increment()));
+    this.style.setProperty('z-index', String(++IdsModal.zCount));
     if (this.overlay) this.overlay.visible = true;
     if (this.popup) {
       this.popup.visible = true;
@@ -484,7 +517,7 @@ export default class IdsModal extends Base {
     }
     this.style.zIndex = '';
     this.setAttribute('aria-hidden', 'true');
-    zCounter.decrement();
+    --IdsModal.zCount;
 
     // Disable focus capture
     this.capturesFocus = false;

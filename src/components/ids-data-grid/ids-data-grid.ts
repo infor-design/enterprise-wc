@@ -221,6 +221,7 @@ export default class IdsDataGrid extends Base {
 
     let cssClasses = `${this.alternateRowShading ? ' alt-row-shading' : ''}`;
     cssClasses += `${this.listStyle ? ' is-list-style' : ''}`;
+    cssClasses += ' waiting-load';
     const emptyMesageTemplate = emptyMessageTemplate.apply(this);
 
     const html = `<div class="ids-data-grid-wrapper">
@@ -246,7 +247,24 @@ export default class IdsDataGrid extends Base {
    * @returns {void}
    */
   collapseAll() {
-    this.toggleAll(true);
+    this.data.forEach((rowData, rowIndex) => {
+      this.updateDataset(rowIndex, { rowExpanded: false, rowHidden: !!rowData.parentElement });
+    });
+
+    this.header?.closeExpanderIcons();
+
+    const rows: any[] = [];
+    this.rows
+      .forEach((row: IdsDataGridRow) => {
+        const rowIndex = row.rowIndex;
+        rows.push({ row: rowIndex, data: this.data[rowIndex] });
+        row.doCollapse();
+      });
+
+    this.triggerEvent(`rowcollapsed`, this, {
+      bubbles: true,
+      detail: { elem: this, rows }
+    });
   }
 
   /**
@@ -254,31 +272,21 @@ export default class IdsDataGrid extends Base {
    * @returns {void}
    */
   expandAll() {
-    this.toggleAll(false);
-  }
-
-  /**
-   * Toggle collapse/expand all expandable or tree rows.
-   * @param {boolean | string} opt false: will expand all, true: will collapse all
-   * @returns {void}
-   */
-  toggleAll(opt: boolean | string = false) {
-    const rows: any[] = [];
-    opt = String(stringToBool(opt));
-    const icons = this.container?.querySelectorAll('.header-expander');
-    icons?.forEach((iconEl: any) => {
-      if (iconEl) iconEl.icon = `plusminus-folder-${opt === 'true' ? 'closed' : 'open'}`;
+    this.data.forEach((rowData, rowIndex) => {
+      this.updateDataset(rowIndex, { rowExpanded: true, rowHidden: false });
     });
 
+    this.header?.openExpanderIcons();
+
+    const rows: any[] = [];
     this.rows
-      .filter((r: any) => r?.getAttribute('aria-expanded') === opt)
-      .forEach((r: any) => {
-        const row = Number(r.getAttribute('data-index'));
-        rows.push({ row, data: this.data[row] });
-        r?.toggleExpandCollapse?.(true);
+      .forEach((row: IdsDataGridRow) => {
+        const rowIndex = row.rowIndex;
+        rows.push({ row: rowIndex, data: this.data[rowIndex] });
+        row.doExpand();
       });
 
-    this.triggerEvent(`row${opt === 'true' ? 'collapsed' : 'expanded'}`, this, {
+    this.triggerEvent(`rowexpanded`, this, {
       bubbles: true,
       detail: { elem: this, rows }
     });
@@ -369,6 +377,7 @@ export default class IdsDataGrid extends Base {
     // Handle ready state
     const handleReady = () => {
       this.header?.setIsHeaderExpanderCollapsed?.();
+      this.container?.classList.remove('waiting-load');
       this.triggerEvent('afterrendered', this, { bubbles: true, detail: { elem: this } });
     };
 
@@ -381,7 +390,6 @@ export default class IdsDataGrid extends Base {
     } else {
       await IdsGlobal.onThemeLoaded().promise;
       this.#scrollRowIntoView(rowStart);
-      this.body?.classList.remove('hidden');
       handleReady();
     }
   }
@@ -408,10 +416,7 @@ export default class IdsDataGrid extends Base {
    * @returns {string} The template
    */
   bodyTemplate() {
-    let extraCss = '';
-    extraCss += this.rowStart ? 'hidden' : '';
-
-    return `<div class="ids-data-grid-body ${extraCss}" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
+    return `<div class="ids-data-grid-body" part="contents" role="rowgroup">${this.bodyInnerTemplate()}</div>`;
   }
 
   /**
@@ -1210,8 +1215,11 @@ export default class IdsDataGrid extends Base {
 
     while (missingRows.length < rowsNeeded) {
       const rowIndex = lastRowIndex + missingRows.length + 1;
-      const clonedRow = IdsDataGridRow.template(data[rowIndex], rowIndex, rowIndex + 1, this);
-      missingRows.push(clonedRow);
+      const rowData = data[rowIndex];
+      if (rowData) {
+        const clonedRow = IdsDataGridRow.template(data[rowIndex], rowIndex, rowIndex + 1, this);
+        missingRows.push(clonedRow);
+      }
     }
 
     if (missingRows.length && this.body) {
@@ -1415,7 +1423,7 @@ export default class IdsDataGrid extends Base {
 
       if (reachedTheTop) {
         const firstRow: any = rows[0];
-        this.#triggerCustomScrollEvent(firstRow.rowIndex, 'start');
+        this.#triggerCustomScrollEvent(firstRow?.rowIndex ?? 0, 'start');
       }
       if (reachedTheBottom) {
         const lastRowIndex = this.datasource.originalData.length - 1;
