@@ -366,7 +366,9 @@ export default class IdsCalendar extends Base {
       show-today="true"
       target="#btn-picker"
       trigger-elem="#btn-picker"
-      trigger-type="click"></ids-date-picker-popup>`;
+      trigger-type="click"
+      first-day-of-week="${this.firstDayOfWeek || 0}">
+    </ids-date-picker-popup>`;
 
     const todayBtn = this.#todayBtnTemplate();
 
@@ -885,11 +887,25 @@ export default class IdsCalendar extends Base {
       view.setAttribute(attributes.MONTH, String(date.getMonth()));
       view.setAttribute(attributes.DAY, String(date.getDate()));
     } else if (view.tagName === 'IDS-WEEK-VIEW') {
-      const start = isDayView ? date : firstDayOfWeekDate(date);
-      const end = isDayView ? date : lastDayOfWeekDate(date);
+      const { start, end } = this.#getDatesForWeek(date, isDayView);
       view.setAttribute(attributes.START_DATE, String(start));
       view.setAttribute(attributes.END_DATE, String(end));
     }
+  }
+
+  /**
+   * Get start/end dates for week from provided target date
+   * @param {Date} date target date
+   * @param {boolean} isDayView true if day view
+   * @returns {Record<string, Date>} start/end dates
+   */
+  #getDatesForWeek(date: Date, isDayView: boolean): { start: Date, end: Date } {
+    const start = isDayView ? date : firstDayOfWeekDate(date, this.firstDayOfWeek);
+    const end = isDayView ? date : lastDayOfWeekDate(date, this.firstDayOfWeek);
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+
+    return { start, end };
   }
 
   /**
@@ -986,7 +1002,8 @@ export default class IdsCalendar extends Base {
       <ids-month-view
         month="${date.getMonth()}"
         day="${date.getDate()}"
-        year="${date.getFullYear()}">
+        year="${date.getFullYear()}"
+        first-day-of-week="${this.firstDayOfWeek || 0}">
         <slot name="MonthViewCalendarEventTemplate" slot="customCalendarEvent"></slot>
       </ids-month-view>
     `;
@@ -999,8 +1016,7 @@ export default class IdsCalendar extends Base {
    */
   #createWeekTemplate(isDayView = false): string {
     const date = this.date;
-    const start = isDayView ? date : firstDayOfWeekDate(date);
-    const end = isDayView ? date : lastDayOfWeekDate(date);
+    const { start, end } = this.#getDatesForWeek(date, isDayView);
 
     return `
       <ids-week-view
@@ -1329,5 +1345,24 @@ export default class IdsCalendar extends Base {
     }
 
     return targetLocale.formatDate(startDate, { month: 'long', year: 'numeric' });
+  }
+
+  onFirstDayOfWeekChange(newValue: number): void {
+    const view = this.getView();
+    const picker = this.container?.querySelector('ids-date-picker-popup');
+
+    picker?.setAttribute(attributes.FIRST_DAY_OF_WEEK, String(newValue || 0));
+
+    if (view?.tagName === 'IDS-MONTH-VIEW') {
+      view.firstDayOfWeek = newValue;
+    }
+
+    if (view?.tagName === 'IDS-WEEK-VIEW') {
+      const date = this.date;
+      const isDayView = this.state.view === 'day';
+      const { start, end } = this.#getDatesForWeek(date, isDayView);
+      view.startDate = start;
+      view.endDate = end;
+    }
   }
 }
