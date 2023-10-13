@@ -502,7 +502,6 @@ export default class IdsCalendar extends Base {
 
     this.offEvent('dayselected.calendar-container');
     this.onEvent('dayselected.calendar-container', this.container, (evt: CustomEvent) => {
-      evt.stopPropagation();
       clearTimeout(daySelectTimer);
       daySelectCount++;
 

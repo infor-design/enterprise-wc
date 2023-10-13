@@ -46,6 +46,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         break;
     }
   });
+
+  // Listen to dayselected events
+  calendar.addEventListener('dayselected', (evt: any) => {
+    console.info('dayselected', evt.detail);
+  });
 });
 
 const monthview = document.querySelector('ids-calendar');

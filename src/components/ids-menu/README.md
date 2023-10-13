@@ -24,6 +24,7 @@ The IdsMenu Component provides the ui for a menu. This includes groups, icons, s
 - `disabled` {boolean} true if the entire menu should become disabled
 - `keep-open` {boolean} true if selection of an item within this group should cause the parent menu to close
 - `selection` {string} The type of selection to set this group between `single` and `multiple` or `none`
+- `wrap` {boolean} if true, the child menu-items will be styled into a column view.
 
 ## Features (With Code Examples)
 
@@ -31,7 +32,7 @@ A simple menu with three items can be created by creating a `ids-menu` with a si
 
 ```html
 <ids-menu id="simple-menu">
-  <ids-menu-group>
+  <ids-menu-group wrap>
     <ids-menu-item>One</ids-menu-item>
     <ids-menu-item>Two</ids-menu-item>
     <ids-menu-item>Three</ids-menu-item>

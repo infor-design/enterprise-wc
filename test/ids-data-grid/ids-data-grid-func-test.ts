@@ -2578,24 +2578,39 @@ describe('IdsDataGrid Component', () => {
       dataGrid.data = datasetTree;
       dataGrid.rowSelection = 'multiple';
 
-      const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
+      const firstRow = dataGrid.rowByIndex(0);
       expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(3);
-      const expandButton = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
+      const expandButton = firstRow.querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
 
       const mouseClick = new MouseEvent('click', { bubbles: true });
       expandButton.dispatchEvent(mouseClick);
       expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(0);
 
-      const seventhRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[7];
+      const seventhRow = dataGrid.rowByIndex(6);
       expect(seventhRow.getAttribute('aria-expanded')).toEqual('true');
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(0);
-      const expandButton2 = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[7].querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
+      const expandButton2 = seventhRow.querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
+
+      const tenth = dataGrid.rowByIndex(9);
+      expect(tenth.getAttribute('aria-expanded')).toEqual('true');
+      const expandButton3 = tenth.querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
+      expandButton3.dispatchEvent(mouseClick);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(4);
 
       expandButton2.dispatchEvent(mouseClick);
       expect(seventhRow.getAttribute('aria-expanded')).toEqual('false');
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(7);
+
+      expandButton2.dispatchEvent(mouseClick);
+      expect(seventhRow.getAttribute('aria-expanded')).toEqual('true');
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(4);
+
+      dataGrid.collapseAll();
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row:not([hidden])').length).toBe(6);
+      expandButton2.dispatchEvent(mouseClick);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row:not([hidden])').length).toBe(9);
     });
 
     it('handles selection without children', async () => {
@@ -2653,8 +2668,8 @@ describe('IdsDataGrid Component', () => {
       dataGrid.columns = treeColumns;
       dataGrid.data = datasetTree;
 
-      const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
+      const firstRow = dataGrid.rowByIndex(0);
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
 
       dataGrid.setActiveCell(0, 0, true);
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
@@ -2662,7 +2677,7 @@ describe('IdsDataGrid Component', () => {
 
       const event2 = new KeyboardEvent('keydown', { key: ' ' });
       dataGrid.dispatchEvent(event2);
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
+      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
     });
 
     it('can set the suppressRowClickSelection setting', () => {

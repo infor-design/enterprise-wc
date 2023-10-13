@@ -33,9 +33,12 @@ describe('IdsAxisChart Component', () => {
     locale.loadedLanguages.set('fr-FR', frFRMessages);
     locale.loadedLocales.set('fr-FR', frFRLocale);
     locale.loadedLocales.set('de-DE', deDELocale);
+    IdsGlobal.onThemeLoaded().resolve();
 
-    document.body.appendChild(container);
+    await IdsGlobal.onThemeLoaded().promise;
+
     axisChart.data = dataset;
+    document.body.appendChild(container);
   });
 
   afterEach(async () => {
@@ -70,7 +73,7 @@ describe('IdsAxisChart Component', () => {
     axisChart.data = dataset;
 
     expect(axisChart.svg.getAttribute('height')).toEqual('500');
-    axisChart.title = 'Test Title';
+    expect(axisChart.svg.getAttribute('width')).toEqual('500');
   });
 
   it('supports setting animated', () => {
@@ -87,46 +90,29 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelector('svg').getAttribute('width')).toEqual('400');
   });
 
-  it('supports setting width to parent', async () => {
-    axisChart.parentNode.style.width = '300px';
+  it('supports setting width to inherit', () => {
     axisChart.width = 'inherit';
-    await processAnimFrame();
-
-    axisChart.parentWidth = 400;
-    axisChart.resizeToParentWidth = true;
-    axisChart.resize([{ contentRect: { height: 500, width: 300 } }]);
-    expect(axisChart.width).toEqual(300);
-    expect(axisChart.shadowRoot.querySelector('svg').getAttribute('width')).toEqual('300');
+    expect(axisChart.getAttribute('width')).toEqual('inherit');
   });
 
-  it('skips resize when not initialized', async () => {
+  it('skips resize when not initialized', () => {
+    axisChart.width = 500;
     axisChart.initialized = false;
-    axisChart.width = 'inherit';
-    await processAnimFrame();
-    axisChart.resize([{ contentRect: { height: 500, width: 300 } }]);
-    axisChart.parentNode.style.width = '300px';
-    expect(axisChart.width).toEqual(700);
+    axisChart.resize(300, 300);
+    expect(axisChart.svg.getAttribute('width')).toEqual('500');
   });
 
-  it('supports setting height to parent', async () => {
-    axisChart.parentNode.style.height = '300px';
+  it('supports setting height to inherit', () => {
     axisChart.height = 'inherit';
-    axisChart.parentHeight = 400;
-    axisChart.resizeToParentHeight = true;
-    axisChart.resize([{ contentRect: { height: 300, width: 800 } }]);
-    await processAnimFrame();
-    expect(axisChart.height).toEqual(300);
-    expect(axisChart.shadowRoot.querySelector('svg').getAttribute('height')).toEqual('300');
+    expect(axisChart.getAttribute('height')).toEqual('inherit');
   });
 
-  it('supports setting height to parent even when hidden', async () => {
+  it('supports setting height even when hidden', async () => {
     container.hidden = true;
-    axisChart.parentNode.style.height = '300px';
-    axisChart.height = 'inherit';
-    await processAnimFrame();
+    axisChart.height = 300;
     expect(axisChart.height).toEqual(300);
     container.hidden = false;
-    expect(axisChart.shadowRoot.querySelector('svg').getAttribute('height')).toEqual('300');
+    expect(axisChart.svg.getAttribute('height')).toEqual('300');
   });
 
   it('supports setting margins', () => {

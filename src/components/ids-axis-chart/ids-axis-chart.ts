@@ -18,6 +18,8 @@ import styles from './ids-axis-chart.scss';
 import type IdsEmptyMessage from '../ids-empty-message/ids-empty-message';
 import type IdsText from '../ids-text/ids-text';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
+import { IdsDeferred } from '../../utils/ids-deferred-utils/ids-deferred-utils';
+import IdsGlobal from '../ids-global/ids-global';
 
 export type IdsChartData = {
   abbreviatedName?: string,
@@ -81,6 +83,10 @@ export type SectionHeight = {
   top: number;
 };
 
+const RESIZE_TIMEOUT = 200;
+const DEFAULT_WIDTH = 700;
+const DEFAULT_HEIGHT = 500;
+
 const Base = IdsChartLegendMixin(
   IdsChartSelectionMixin(
     IdsLocaleMixin(
@@ -106,17 +112,7 @@ const Base = IdsChartLegendMixin(
 export default class IdsAxisChart extends Base implements ChartSelectionHandler {
   initialized = false;
 
-  constructor() {
-    super();
-
-    // Setup the default values
-    this.state = this.state || {};
-    this.state.horizontal = false;
-    this.state.yAxisFormatter = {
-      notation: 'compact',
-      compactDisplay: 'short'
-    };
-  }
+  dataLoaded = new IdsDeferred();
 
   svg?: SVGElement | null;
 
@@ -134,24 +130,32 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
   sectionHeight = NaN;
 
-  resizeToParentHeight?: boolean;
+  resizeToParentHeight = false;
 
-  resizeToParentWidth?: boolean;
-
-  parentWidth = NaN;
-
-  parentHeight = NaN;
+  resizeToParentWidth = false;
 
   /** Reference to datasource API */
   datasource = new IdsDataSource();
 
-  /**
-   * @returns {Array<string>} Drawer vetoable events
-   */
+  /** @returns {Array<string>} Drawer vetoable events */
   vetoableEventTypes = [
     'beforeselected',
     'beforedeselected'
   ];
+
+  protected isGrouped = false;
+
+  constructor() {
+    super();
+
+    // Setup the default values
+    this.state = this.state || {};
+    this.state.horizontal = false;
+    this.state.yAxisFormatter = {
+      notation: 'compact',
+      compactDisplay: 'short'
+    };
+  }
 
   /**
    * On selectable change
@@ -168,12 +172,25 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     this.svg = this.shadowRoot?.querySelector('svg');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot?.querySelector('ids-empty-message');
     this.legend = this.shadowRoot?.querySelector('[name="legend"]');
+
+    const themeLoaded = IdsGlobal.onThemeLoaded();
+    if (themeLoaded) {
+      this.init();
+    } else {
+      Promise.all([
+        IdsGlobal.onThemeLoaded().promise, // wait for container visible
+        this.dataLoaded // wait for initial set of data
+      ]).then(() => { this.init(); });
+    }
+  }
+
+  init(): void {
     if (this.getAttribute(attributes.WIDTH)) this.width = this.getAttribute(attributes.WIDTH) as string;
     if (this.getAttribute(attributes.HEIGHT)) this.height = this.getAttribute(attributes.HEIGHT) as string;
 
+    this.initialized = true;
     this.#resetAxisLabelsText();
     this.#attachEventHandlers();
-    // TODO: Is this still needed?
     this.redraw();
   }
 
@@ -272,46 +289,49 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @private
    */
   #attachResizeObserver(): void {
-    // Set observer for resize
-    if ((this.resizeToParentHeight || this.resizeToParentWidth) && !this.#resizeObserver) {
-      this.parentWidth = this.parentElement?.offsetWidth as number;
-      this.parentHeight = this.parentElement?.offsetHeight as number;
-      this.#resizeObserver = new ResizeObserver(debounce((entries: ResizeObserverEntry[]) => {
-        this.resize(entries);
-      }, 350));
-      this.#resizeObserver.disconnect();
-      this.#resizeObserver.observe(this.parentElement as HTMLElement);
+    this.#resizeObserver?.disconnect();
+    this.#resizeObserver ??= new ResizeObserver(debounce((entries: ResizeObserverEntry[]) => {
+      const rect = entries[0].contentRect;
+      const width = this.resizeToParentWidth ? rect.width : this.width;
+
+      // height needs to be adjusted to (svg height - legend height)
+      const height = this.resizeToParentHeight
+        ? this.svg!.getBoundingClientRect().height
+        : this.height;
+
+      this.resize(width, height);
+    }, RESIZE_TIMEOUT));
+
+    this.#resizeObserver.observe(this.chartContainer!);
+  }
+
+  #detachResizeObserver(): void {
+    const widthAttr = this.getAttribute(attributes.WIDTH);
+    const heightAttr = this.getAttribute(attributes.HEIGHT);
+
+    if (widthAttr !== 'inherit' && heightAttr !== 'inherit') {
+      this.#resizeObserver?.disconnect();
+      this.#resizeObserver = undefined;
     }
   }
 
-  protected isGrouped = false;
-
   /**
-   * Handle Resizing
-   * @private
-   * @param {object} entries The resize observer entries
+   * Resize chart to given width height
+   * @param {number} width parent width
+   * @param {number} height parent height
    */
-  resize(entries: ResizeObserverEntry[]): void {
-    if (!this.initialized) {
-      return;
+  resize(width: number, height: number): void {
+    if (!this.initialized) return;
+
+    if (width) {
+      this.svg?.setAttribute(attributes.WIDTH, String(width));
     }
 
-    if ((entries[0].contentRect.width !== this.parentWidth && this.resizeToParentWidth && this.parentWidth > 0)
-      || (entries[0].contentRect.height !== this.parentHeight && this.resizeToParentHeight && this.parentHeight > 0)) {
-      this.initialized = false;
-      if (this.resizeToParentHeight) {
-        this.height = 'inherit';
-      }
-      if (this.resizeToParentWidth) {
-        this.width = 'inherit';
-      }
-      this.initialized = true;
-      this.redraw();
-      this.reanimate();
+    if (height) {
+      this.svg?.setAttribute(attributes.HEIGHT, String(height));
     }
 
-    this.parentWidth = this.parentElement?.offsetWidth as number;
-    this.parentHeight = this.parentElement?.offsetHeight as number;
+    this.redraw();
   }
 
   /**
@@ -319,9 +339,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @private
    */
   redraw(): void {
-    if (!this.initialized) {
-      return;
-    }
+    if (!this.initialized) return;
 
     if (this.data && this.data.length === 0 && this.initialized) {
       this.#showEmptyMessage();
@@ -329,11 +347,11 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       return;
     }
 
+    if (this.legend) this.legend.innerHTML = this.legendTemplate();
     this.#calculate();
-    (this as any).afterCalculateCallback?.();
+    this.afterCalculateCallback();
     this.#addColorVariables();
     if (this.svg) this.svg.innerHTML = this.#axisTemplate();
-    if (this.legend) this.legend.innerHTML = this.legendTemplate();
 
     this.adjustLabels();
     this.#adjustRTL();
@@ -349,9 +367,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       }
     });
 
-    if ((this as any).afterConnectedCallback) {
-      (this as any).afterConnectedCallback();
-    }
+    this.afterConnectedCallback();
   }
 
   /**
@@ -615,28 +631,26 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @returns {string} The SVG markup
    */
   #axisTemplate(): string {
-    return `<title></title>
-    <title>${this.title}</title>
-    <defs>
-      ${this.#patterns()}
-    </defs>
-    <g class="grid vertical-lines${!this.showVerticalGridLines ? ' hidden' : ''}">
-      ${this.#verticalLines()}
-    </g>
-    <g class="grid horizontal-lines${!this.showHorizontalGridLines ? ' hidden' : ''}">
-      ${this.#horizontalLines()}
-    </g>
-    ${this.chartTemplate()}
-    <g class="labels x-labels">
-      ${this.#xLabels()}
-    </g>
-    <g class="labels y-labels">
-      ${this.#yLabels()}
-    </g>
-    <g class="labels axis-labels">
-      ${this.#axisLabels()}
-    </g>
-    `;
+    return `<title>${this.title}</title>
+      <defs>
+        ${this.#patterns()}
+      </defs>
+      <g class="grid vertical-lines${!this.showVerticalGridLines ? ' hidden' : ''}">
+        ${this.#verticalLines()}
+      </g>
+      <g class="grid horizontal-lines${!this.showHorizontalGridLines ? ' hidden' : ''}">
+        ${this.#horizontalLines()}
+      </g>
+      ${this.chartTemplate()}
+      <g class="labels x-labels">
+        ${this.#xLabels()}
+      </g>
+      <g class="labels y-labels">
+        ${this.#yLabels()}
+      </g>
+      <g class="labels axis-labels">
+        ${this.#axisLabels()}
+      </g>`;
   }
 
   /**
@@ -1067,23 +1081,43 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
   /**
    * The width of the chart (in pixels) or 'inherit' from the parent
-   * @param {number | string} value The height value
+   * @param {number|string|'inherit'} value The height value
    */
-  set height(value: number | string) {
-    let height = value;
+  set height(value: number | string | 'inherit' | null) {
     if (value === 'inherit') {
-      height = this.#getParentDimensions().height;
+      this.setAttribute(attributes.HEIGHT, 'inherit');
+      this.chartContainer?.classList.add('full-height');
+      this.chartContainer?.style.removeProperty('height');
       this.resizeToParentHeight = true;
       this.#attachResizeObserver();
+      return;
     }
-    this.setAttribute(attributes.HEIGHT, String(height));
-    this.svg?.setAttribute(attributes.HEIGHT, String(height));
-    this.redraw();
+
+    if (!Number.isNaN(Number(value))) {
+      const height = Number(value);
+      this.setAttribute(attributes.HEIGHT, String(height));
+      this.svg?.setAttribute(attributes.HEIGHT, String(height));
+      this.redraw();
+    }
+
+    this.chartContainer?.classList.remove('full-height');
+    this.resizeToParentHeight = false;
+    this.#detachResizeObserver();
   }
 
   get height(): number {
-    const value = stringToNumber(this.getAttribute(attributes.HEIGHT));
-    return !Number.isNaN(value) ? value : 500;
+    const attrValue = this.getAttribute(attributes.HEIGHT);
+    const pixelValue = stringToNumber(attrValue);
+
+    if (attrValue === 'inherit' && this.svg) {
+      return this.svg.getBoundingClientRect().height;
+    }
+
+    if (!Number.isNaN(pixelValue)) {
+      return pixelValue;
+    }
+
+    return DEFAULT_HEIGHT;
   }
 
   /**
@@ -1114,46 +1148,48 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
   /**
    * The width of the chart (in pixels) or 'inherit' from the parent
-   * @param {number | string} value The width value
+   * @param {number|string|'inherit'} value The width value
    */
-  set width(value: number | string) {
-    let width = value;
+  set width(value: number | string | 'inherit' | null) {
     if (value === 'inherit') {
-      width = this.#getParentDimensions().width;
+      this.setAttribute(attributes.WIDTH, 'inherit');
+      this.chartContainer?.classList.add('full-width');
+      this.chartContainer?.style.removeProperty('width');
       this.resizeToParentWidth = true;
       this.#attachResizeObserver();
+      return;
     }
-    this.setAttribute(attributes.WIDTH, String(width));
-    this.svg?.setAttribute(attributes.WIDTH, String(width));
-    this.#setContainerWidth(Number(width));
-    this.redraw();
+
+    if (!Number.isNaN(Number(value))) {
+      const width = Number(value);
+      this.setAttribute(attributes.WIDTH, String(width));
+      this.svg?.setAttribute(attributes.WIDTH, String(width));
+      this.#setContainerWidth(Number(width));
+      this.redraw();
+    }
+
+    this.chartContainer?.classList.remove('full-width');
+    this.resizeToParentWidth = false;
+    this.#detachResizeObserver();
   }
 
   get width(): number {
-    const value = stringToNumber(this.getAttribute(attributes.WIDTH));
-    return !Number.isNaN(value) ? value : 700;
+    const attrValue = this.getAttribute(attributes.WIDTH);
+    const pixelValue = stringToNumber(attrValue);
+
+    if (attrValue === 'inherit' && this.svg) {
+      return this.chartContainer!.offsetWidth;
+    }
+
+    if (!Number.isNaN(pixelValue)) {
+      return pixelValue;
+    }
+
+    return DEFAULT_WIDTH;
   }
 
-  /**
-   * Get the parent element's width and height
-   * @returns {object} The height and width of the parent element
-   */
-  #getParentDimensions() {
-    const container: any = document.querySelector('ids-container');
-    let isHidden = false;
-    if (container.hidden) {
-      container.hidden = false;
-      isHidden = true;
-    }
-    const dims = {
-      width: this.parentElement?.offsetWidth || parseInt((this.parentElement as HTMLElement)?.style.width),
-      height: this.parentElement?.offsetHeight || parseInt((this.parentElement as HTMLElement)?.style.height)
-    };
-
-    if (isHidden) {
-      container.hidden = true;
-    }
-    return dims;
+  get chartContainer(): HTMLElement | null {
+    return this.shadowRoot?.querySelector('.ids-chart-container') || null;
   }
 
   /**
@@ -1161,13 +1197,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * @param {number} value The width value
    */
   #setContainerWidth(value: number) {
-    const container = this.container;
-    if (!container) return;
-    if (container.classList.contains('ids-chart-container')) {
-      container.style.width = `${value}px`;
-      return;
-    }
-    (container.parentNode as HTMLElement)?.style.setProperty('width', `${value}px`);
+    this.chartContainer?.style.setProperty('width', `${value}px`);
   }
 
   /**
@@ -1296,7 +1326,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     if (value) {
       this.#hideEmptyMessage();
       this.datasource.data = value as any;
-      this.initialized = true;
+      this.dataLoaded.resolve();
       this.redraw();
       this.reanimate();
       return;
@@ -1587,4 +1617,8 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
   get rotateNameLabels(): number {
     return Number(this.getAttribute(attributes.ROTATE_NAME_LABELS)) || 0;
   }
+
+  afterCalculateCallback() { /** override */ }
+
+  afterConnectedCallback() { /** override */ }
 }
