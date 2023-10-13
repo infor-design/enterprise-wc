@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from '@playwright/test';
-import { test } from '../helpers/base-fixture';
+import { test } from '../base-fixture';
 import IdsTag from '../../src/components/ids-tag/ids-tag';
 
 test.describe('IdsTag tests', () => {
@@ -82,7 +82,7 @@ test.describe('IdsTag tests', () => {
   });
 
   test.describe('method tests', () => {
-    test.only('call dismiss', async ({ page }) => {
+    test('call dismiss', async ({ page }) => {
       let tagHandle = await page.$('ids-tag[dismissible]:not([disabled])');
       let checkText = await tagHandle?.innerText();
       expect(checkText?.trim()).toBe('Dismissible Tag 1');

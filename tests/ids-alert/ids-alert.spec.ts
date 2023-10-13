@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from '@playwright/test';
-import { test } from '../helpers/base-fixture';
+import { test } from '../base-fixture';
 import IdsAlert from '../../src/components/ids-alert/ids-alert';
 
 test.describe('IdsAlert tests', () => {
