@@ -34,15 +34,22 @@ Walk through [this video](https://www.youtube.com/watch?v=LM4yqrOzmFE) for a gre
 
 ## Visual Regression tests
 
-We are using [percy.io](https://docs.percy.io/docs/puppeteer) for visual regression tests. First run the e2e tests with the special "percy" command `npm run test:visuals`. To run this you need to add the `PERCY_TOKEN` to your bashrc from the [percy settings page](https://percy.io/Infor-Design-System/IDS-Web-Components/settings).
+We are using [percy.io](https://docs.percy.io/docs/puppeteer) for visual regression tests.
 
-We should have one visual regression image per component. When you PR a test an action will ask that reviewers check the images and approve. An example test looks like this:
+
+### Running tests locally
+
+To run this you need to add the `PERCY_TOKEN` to your bashrc from the [percy settings page](https://percy.io/Infor-Design-System/IDS-Web-Components/settings).
+
+Then run the command `npx percy exec -- npm run test`
+
+We should have at least one visual regression image per component. When you create a Pull Request (PR) a github action will ask that reviewers check the images are as expected and approve. An example test looks like:
 
 ```js
-  it('should not have visual regressions (percy)', async () => {
-    await page.goto('http://localhost:4444/ids-tag', { waitUntil: ['networkidle0', 'domcontentloaded'] });
-    await percySnapshot(page, 'ids-tag');
-  });
+test('matches visual snapshot in percy', async ({ page, browserName }) => {
+  if (browserName !== 'chromium') return;
+  await percySnapshot(page, 'ids-tag');
+});
 ```
 
 ## Skipping Tests

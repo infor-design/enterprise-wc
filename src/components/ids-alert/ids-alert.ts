@@ -30,7 +30,7 @@ export default class IdsAlert extends IdsTooltipMixin(IdsEventsMixin(IdsElement)
   }
 
   /**
-   * Setup some special config for the tooltip
+   * Set the alert color on the tooltip (mixin function)
    * @param {any} tooltip the tooltip element
    */
   beforeTooltipShow(tooltip?: any) {
