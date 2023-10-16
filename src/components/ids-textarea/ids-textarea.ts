@@ -1,7 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { parseNumberWithUnits } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsFormInputMixin from '../../mixins/ids-form-input-mixin/ids-form-input-mixin';
@@ -268,24 +268,14 @@ export default class IdsTextarea extends Base {
   handleAutogrow(): void {
     if (this.input) {
       if (this.autogrow) {
-        if (this.maxHeight) {
-          this.input.style.overflowY = 'hidden';
-        }
-        if (this.maxWidth) {
-          this.input.style.overflowX = 'hidden';
-        }
-        if (this.minHeight) {
-          this.input.style.overflowY = 'hidden';
-        }
-        if (this.minWidth) {
-          this.input.style.overflowX = 'hidden';
-        }
+        this.input.style.overflowY = 'scroll';
+        if (this.maxWidth) this.input.style.overflowX = 'scroll';
         this.setAutogrow();
       } else {
-        this.input.style.overflowX = '';
         this.input.style.overflowY = '';
-        this.input.style.height = '';
-        this.input.style.width = '';
+        if (!this.resizable) {
+          this.input.style.height = '';
+        }
       }
     }
   }
@@ -328,7 +318,7 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  setAutogrow(): void {
+  private setAutogrow(): void {
     if (this.autogrow && !this.autogrowProcessing) {
       this.autogrowProcessing = true;
       this.constrainDimensions();
@@ -350,82 +340,34 @@ export default class IdsTextarea extends Base {
    * @private
    */
   private constrainDimensions() {
-    const maxHeight = parseInt((this.maxHeight as any), 10) || 0;
     const minHeight = parseInt((this.minHeight as any), 10) || 0;
     const oldHeight = this.input?.offsetHeight || 0;
-    this.adjustHeight(oldHeight, minHeight, maxHeight);
-
-    /*
-    const maxWidth = parseInt((this.maxWidth as any), 10) || 0;
-    const minWidth = parseInt((this.minWidth as any), 10) || 0;
-    const oldWidth = this.input?.offsetWidth || 0;
-    this.adjustWidth(oldWidth, minWidth, maxWidth);
-    */
+    this.adjustHeight(oldHeight, minHeight);
   }
 
   /**
    * Adjust height to given element
    * @private
    * @param {number} oldHeight old height
-   * @param {number} minHeight min height
    * @param {number} maxHeight max height
    * @param {HTMLElement|null} input The textarea input element
    * @returns {void}
    */
-  adjustHeight(oldHeight: number, minHeight: number, maxHeight: number, input: HTMLElement | null = null): void {
+  adjustHeight(oldHeight: number, maxHeight: number, input: HTMLElement | null = null): void {
     const elem = input || this.input;
     const newHeight = elem?.scrollHeight;
 
     if (elem && typeof newHeight === 'number' && (oldHeight !== newHeight)) {
       let height = newHeight;
-      if (newHeight < minHeight) {
-        height = minHeight;
-      }
-      if (maxHeight < newHeight) {
-        height = maxHeight;
-      }
       if (oldHeight > newHeight) {
         elem.style.height = '5px';
         height = elem.scrollHeight;
       }
       const isScrollable = (maxHeight > 0 && maxHeight < height);
-      elem.style.overflowY = isScrollable ? '' : 'hidden';
+      elem.style.overflowY = isScrollable ? '' : 'scroll';
       elem.style.height = `${height}px`;
     }
   }
-
-  /**
-   * Adjust width to given element
-   * @private
-   * @param {number} oldWidth old width
-   * @param {number} minWidth min width
-   * @param {number} maxWidth max width
-   * @param {HTMLElement|null} input The textarea input element
-   * @returns {void}
-   */
-  /*
-  adjustWidth(oldWidth: number, minWidth: number, maxWidth: number, input: HTMLElement | null = null): void {
-    const elem = input || this.input;
-    const newWidth = elem?.scrollWidth;
-
-    if (elem && typeof newWidth === 'number' && (oldWidth !== newWidth)) {
-      let width = newWidth;
-      if (newWidth < minWidth) {
-        width = minWidth;
-      }
-      if (maxWidth < newWidth) {
-        width = maxWidth;
-      }
-      if (oldWidth > newWidth) {
-        elem.style.width = '5px';
-        width = elem.scrollWidth;
-      }
-      const isScrollable = (maxWidth > 0 && maxWidth < width);
-      elem.style.overflowX = isScrollable ? '' : 'hidden';
-      elem.style.width = `${width}px`;
-    }
-  }
-  */
 
   /**
    * Handle character-counter
