@@ -1,4 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
+import { parseNumberWithUnits } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 
@@ -290,18 +291,9 @@ export default class IdsMenuButton extends IdsButton {
    * @param {string | number} value The formatter width value
    */
   set formatterWidth(value: string | number) {
-    let val = null;
-    if (typeof value === 'number' && !Number.isNaN(value)) {
-      val = `${value}px`;
-    } else if (typeof value === 'string') {
-      const last = parseInt(value.slice(-1), 10);
-      if ((typeof last === 'number' && !Number.isNaN(last))) {
-        val = `${value}px`;
-      } else if (/(px|em|vw|vh|ch|%)$/g.test(value) && !Number.isNaN(parseInt(value, 10))) {
-        this.container?.classList[/%$/g.test(value) ? 'add' : 'remove']('formatter-width-percentage');
-        val = value;
-      }
-    }
+    const val = parseNumberWithUnits(value);
+
+    this.container?.classList[/%$/g.test(val) ? 'add' : 'remove']('formatter-width-percentage');
 
     if (val) {
       this.setAttribute(attributes.FORMATTER_WIDTH, String(value));
