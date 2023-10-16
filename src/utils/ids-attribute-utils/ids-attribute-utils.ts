@@ -11,13 +11,3 @@ export const setBooleanAttr = (name: string, el: IdsElement, value: boolean | st
     el.container?.classList.remove(name);
   }
 };
-
-export const setSizeAttr = (name: string, el: IdsElement, value: string | null) => {
-  if (value) {
-    el.setAttribute(name, value.toString());
-    el.container?.classList.add(`has-${name}`);
-  } else {
-    el.removeAttribute(name);
-    el.container?.classList.remove(`has-${name}`);
-  }
-};

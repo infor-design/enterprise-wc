@@ -328,3 +328,27 @@ export function validMaxHeight(value: string | number | null) {
   val = (!Number.isNaN(val) && val > -1) ? `${val}px` : null;
   return val;
 }
+
+/**
+ * Parses a number or string representing a numeric size value
+ * (potentially with a unit type attached) into a string value
+ * compatible with a CSS length data type.
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/length
+ * @param {string | number | null} value incoming value definition
+ * @returns {string} stringified value representing a CSS length data type
+ */
+export function parseNumberWithUnits(value: string | number | null) {
+  let val = '';
+
+  if (typeof value === 'number' && !Number.isNaN(value)) {
+    val = `${value}px`;
+  } else if (typeof value === 'string') {
+    const last = parseInt(value.slice(-1), 10);
+    if ((typeof last === 'number' && !Number.isNaN(last))) {
+      val = `${value}px`;
+    } else if (/(px|em|vw|vh|ch|%)$/g.test(value) && !Number.isNaN(parseInt(value, 10))) {
+      val = value;
+    }
+  }
+  return val;
+}
