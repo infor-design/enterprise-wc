@@ -8,6 +8,7 @@
 
 ### 1.0.0-beta.16 Features
 
+- `[AxisCharts]` Added a `ticks` setting to control the number of ticks on the y axis. ([#1494](https://github.com/infor-design/enterprise-wc/issues/1494))
 - `[Themes]` For theme switching added logic to check for a `<base href="">` tag. ([#1498](https://github.com/infor-design/enterprise-wc/issues/1498))
 
 ### 1.0.0-beta.16 Fixes
@@ -15,8 +16,8 @@
 - `[AxisChart]` Fixed responsive axis charts `inherit` setting value. ([#1458](https://github.com/infor-design/enterprise-wc/issues/1458))
 - `[Calendar]` Fixed calendar `firstDayOfWeek` setting. ([#1467](https://github.com/infor-design/enterprise-wc/issues/1467))
 - `[Calendar]` Allow propagation of `dayselected` event from calendar. ([#1470](https://github.com/infor-design/enterprise-wc/issues/1470))
-- `[DataGrid]` Added `wrap` attribute to `IdsMenuGroup` so large contextmenu menu-items can be wrapped into a column view. ([#1410](https://github.com/infor-design/enterprise-wc/issues/1410))
-- `[DataGrid]` Fixed contextmenu focused menu item in datagrid. ([#1453](https://github.com/infor-design/enterprise-wc/issues/1453))
+- `[DataGrid]` Added `wrap` attribute to `IdsMenuGroup` so large `contextmenu` menu-items can be wrapped into a column view. ([#1410](https://github.com/infor-design/enterprise-wc/issues/1410))
+- `[DataGrid]` Fixed `contextmenu` focused menu item in datagrid. ([#1453](https://github.com/infor-design/enterprise-wc/issues/1453))
 - `[DataGrid]` Add alignment rules and row-height specific padding to checkbox formatters. ([#1481](https://github.com/infor-design/enterprise-wc/issues/1481))
 - `[DataGrid]` Fixed a bug on the size of the `xxs` filter row inputs. ([#1456](https://github.com/infor-design/enterprise-wc/issues/1456))
 - `[DataGrid]` Fixed runtime-error on tree-grid when `IdsDataGrid.expandAll()` is executed. ([#1485](https://github.com/infor-design/enterprise-wc/issues/1485))

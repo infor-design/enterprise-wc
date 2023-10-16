@@ -227,6 +227,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       attributes.HEIGHT,
       attributes.HORIZONTAL,
       attributes.MARGINS,
+      attributes.TICKS,
       attributes.SHOW_HORIZONTAL_GRID_LINES,
       attributes.SHOW_VERTICAL_GRID_LINES,
       attributes.ROTATE_NAME_LABELS,
@@ -484,7 +485,11 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
     // Calculate a Nice Scale
     const groupMax = Math.max(...this.markerData.groupTotals);
-    const scale: NiceScale = new NiceScale(this.yAxisMin, this.stacked ? groupMax : this.markerData.max);
+    const scale: NiceScale = new NiceScale(
+      this.yAxisMin,
+      this.stacked ? groupMax : this.markerData.max,
+      { maxTicks: this.ticks }
+    );
     this.markerData.scale = scale;
     this.markerData.scaleValues = [];
     for (let i = (scale.niceMin || 0); i <= (scale.niceMax); i += (Number(scale.tickSpacing))) {
@@ -1347,6 +1352,21 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
 
   get yAxisMin(): number {
     return parseInt(this.getAttribute(attributes.Y_AXIS_MIN) ?? '') || 0;
+  }
+
+  /**
+   * Set the number of ticks to show
+   * @param {number} value The value to use
+   */
+  set ticks(value: number | undefined) {
+    this.setAttribute(attributes.TICKS, String(value));
+    this.redraw();
+  }
+
+  get ticks(): number | undefined {
+    const value = this.getAttribute(attributes.TICKS);
+    if (value) return Number(value);
+    return undefined;
   }
 
   /**

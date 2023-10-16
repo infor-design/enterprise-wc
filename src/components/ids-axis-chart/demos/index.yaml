@@ -26,3 +26,6 @@
   - link: responsive.html
     type: Example
     description: Shows responsive example
+  - link: ticks.html
+    type: Example
+    description: Shows controling the ticks with a setting
