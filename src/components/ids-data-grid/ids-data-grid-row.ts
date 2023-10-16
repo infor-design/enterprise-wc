@@ -143,6 +143,16 @@ export default class IdsDataGridRow extends IdsElement {
     this.setAttribute('data-index', String(rowIndex));
     this.setAttribute('aria-rowindex', String(rowIndex + 1));
 
+    if (rowData?.rowHidden) {
+      this.hidden = true;
+      this.classList.add('hidden');
+      this.setAttribute('hidden', '');
+    } else {
+      this.hidden = false;
+      this.classList.remove('hidden');
+      this.removeAttribute('hidden');
+    }
+
     if (rowData?.rowSelected) {
       this.selected = rowData.rowSelected;
     }
@@ -179,16 +189,6 @@ export default class IdsDataGridRow extends IdsElement {
       if ((rowData?.children as any)?.length) {
         this.expandIcon!.setAttribute('icon', iconType);
       }
-    }
-
-    if (rowData?.rowHidden) {
-      this.hidden = true;
-      this.classList.add('hidden');
-      this.setAttribute('hidden', '');
-    } else {
-      this.hidden = false;
-      this.classList.remove('hidden');
-      this.removeAttribute('hidden');
     }
   }
 

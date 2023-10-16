@@ -24,7 +24,7 @@ export function isTodaysDate(date: Date) {
 export function firstDayOfWeekDate(date: Date, startsOn = 0, showRange = false): Date {
   const dayOfWeek = date.getDay();
   const firstDay = new Date(date);
-  const diff = dayOfWeek >= startsOn || showRange ? dayOfWeek - startsOn : 6 - dayOfWeek;
+  const diff = dayOfWeek >= startsOn || showRange ? dayOfWeek - startsOn : 7 - (startsOn - dayOfWeek);
 
   firstDay.setDate(date.getDate() - diff);
   firstDay.setHours(0, 0, 0, 0);

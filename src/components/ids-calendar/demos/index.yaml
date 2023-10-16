@@ -11,3 +11,6 @@
   - link: example-custom.html
     type: Example
     description: Custom Calendar View
+  - link: first-day-of-week.html
+    type: Example
+    description: Custom calendar first day of week

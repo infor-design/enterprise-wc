@@ -12,7 +12,7 @@ export type IdsDateAttributeChangeCallback = undefined | ((newValue: number, isV
 export interface DateAttributeInterface {
   // as instance functions
   onDayChange?(newValue: number, isValid: boolean): void;
-  onFirstDayOfWeekChange?(newValue: number | null): void;
+  onFirstDayOfWeekChange?(newValue: number): void;
   onFormatChange?(newValue: string | null): void;
   onMonthChange?(newValue: number, isValid: boolean): void;
   onYearChange?(newValue: number, isValid: boolean): void;
@@ -113,11 +113,17 @@ const IdsDateAttributeMixin = <T extends Constraints>(superclass: T) => class ex
 
   /**
    * Set month view first day of the week
-   * @param {string|number|null} val fist-day-of-week attribute value
+   * @param {string|number} val fist-day-of-week attribute value
    */
-  set firstDayOfWeek(val: string | number | null) {
-    this.setAttribute(attributes.FIRST_DAY_OF_WEEK, String(val));
-    if (typeof this.onFirstDayOfWeekChange === 'function') this.onFirstDayOfWeekChange(Number(val));
+  set firstDayOfWeek(val: string | number) {
+    let dayOfWeek = Number(val);
+    dayOfWeek = Math.max(dayOfWeek, 0);
+    dayOfWeek = Math.min(dayOfWeek, 6);
+
+    this.setAttribute(attributes.FIRST_DAY_OF_WEEK, String(dayOfWeek));
+    if (typeof this.onFirstDayOfWeekChange === 'function') {
+      this.onFirstDayOfWeekChange(dayOfWeek);
+    }
   }
 
   /**

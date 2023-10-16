@@ -43,7 +43,7 @@ describe('IdsDateUtils Tests', () => {
     // Monday
     expect(firstDayOfWeekDate(date, 1, true).getDay()).toEqual(1);
     // Thursday
-    expect(firstDayOfWeekDate(date, 6, false).getDay()).toEqual(4);
+    expect(firstDayOfWeekDate(date, 4, false).getDay()).toEqual(4);
   });
 
   it('should get the last day of the week', () => {
