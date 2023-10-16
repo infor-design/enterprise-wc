@@ -268,11 +268,12 @@ export default class IdsTextarea extends Base {
   handleAutogrow(): void {
     if (this.input) {
       if (this.autogrow) {
-        this.input.style.overflowY = 'scroll';
-        if (this.maxWidth) this.input.style.overflowX = 'scroll';
+        this.input.style.overflowY = 'auto';
+        if (this.maxWidth) this.input.style.overflowX = 'auto';
         this.setAutogrow();
       } else {
         this.input.style.overflowY = '';
+        this.input.style.overflowX = '';
         if (!this.resizable) {
           this.input.style.height = '';
         }
@@ -364,7 +365,7 @@ export default class IdsTextarea extends Base {
         height = elem.scrollHeight;
       }
       const isScrollable = (maxHeight > 0 && maxHeight < height);
-      elem.style.overflowY = isScrollable ? '' : 'scroll';
+      elem.style.overflowY = isScrollable ? '' : 'auto';
       elem.style.height = `${height}px`;
     }
   }
