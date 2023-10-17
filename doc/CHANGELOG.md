@@ -8,6 +8,7 @@
 
 ### 1.0.0-beta.16 Features
 
+- `[TextArea]` Added min/max width/height settings, integrating them with the autogrow and resizable settings. ([#1482](https://github.com/infor-design/enterprise-wc/issues/1482))
 - `[Themes]` For theme switching added logic to check for a `<base href="">` tag. ([#1498](https://github.com/infor-design/enterprise-wc/issues/1498))
 
 ### 1.0.0-beta.16 Fixes
