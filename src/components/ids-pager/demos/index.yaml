@@ -14,6 +14,9 @@
   - link: pager-size-dropdown.html
     type: Example
     description: Showing an example page-size dropdown
+  - link: pager-size-dropdown-label.html
+    type: Example
+    description: Showing an example page-size dropdown label
   - link: list.html
     type: Example
     description: Showing a list style Pager example

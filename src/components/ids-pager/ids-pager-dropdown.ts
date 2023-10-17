@@ -105,7 +105,7 @@ export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
    */
   get label(): string {
     const labelText = this.pageSize > 1 ? 'Records per page' : 'Record per page';
-    return this.getAttribute(attributes.LABEL) || labelText;
+    return this.getAttribute(attributes.LABEL) ?? labelText;
   }
 
   /**
@@ -183,7 +183,6 @@ export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
 
     const popupMenuGroup = popupMenu?.querySelector('ids-menu-group');
     if (popupMenuGroup) {
-      popupMenuGroup.style.minWidth = '175px';
       popupMenuGroup.style.textAlign = 'left';
       const sel = stringToNumber(popupMenu?.getSelectedValues?.()?.[0]);
       if (!Number.isNaN(sel) && sel !== pageSize) {
