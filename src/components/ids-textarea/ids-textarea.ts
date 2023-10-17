@@ -360,7 +360,9 @@ export default class IdsTextarea extends Base {
    */
   adjustHeight(oldHeight: number, maxHeight: number, input: HTMLElement | null = null): void {
     const elem = input || this.input;
-    const newHeight = elem?.scrollHeight;
+    let newHeight = elem?.offsetHeight || 0;
+    const scrollHeight = elem?.scrollHeight || 0;
+    if (scrollHeight > newHeight) newHeight = scrollHeight;
 
     if (elem && typeof newHeight === 'number' && (oldHeight !== newHeight)) {
       let height = newHeight;
