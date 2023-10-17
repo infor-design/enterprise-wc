@@ -85,6 +85,29 @@ $textarea-size-default-height: 120px;
     }
   }
 
+  &.resizable,
+  &.resizable-x {
+    .ids-textarea-field {
+      width: $textarea-size-default;
+    }
+
+    &.sm .ids-textarea-field {
+      width: $textarea-size-sm;
+    }
+
+    &.md .ids-textarea-field {
+      width: $textarea-size-md;
+    }
+
+    &.lg .ids-textarea-field {
+      width: $textarea-size-lg;
+    }
+
+    &.full .ids-textarea-field {
+      width: $textarea-size-full;
+    }
+  }
+
   &:not(.resizable):not(.resizable-y) {
     .ids-textarea-field {
       min-height: $textarea-size-default-height;
