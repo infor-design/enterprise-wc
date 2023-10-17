@@ -223,13 +223,22 @@ describe('IdsTextarea Component', () => {
 
   it('renders resizable to field', () => {
     expect(textarea.getAttribute('resizable')).toEqual(null);
-    expect(textarea.input.classList).not.toContain('resizable');
+    expect(textarea.container.classList).not.toContain('resizable');
     textarea.resizable = true;
     expect(textarea.getAttribute('resizable')).toEqual('true');
-    expect(textarea.input.classList).toContain('resizable');
+    expect(textarea.container.classList).toContain('resizable');
+    textarea.resizable = 'x';
+    expect(textarea.getAttribute('resizable')).toEqual('x');
+    expect(textarea.container.classList).toContain('resizable-x');
+    textarea.resizable = 'y';
+    expect(textarea.getAttribute('resizable')).toEqual('y');
+    expect(textarea.container.classList).toContain('resizable-y');
+    textarea.resizable = 'both';
+    expect(textarea.getAttribute('resizable')).toEqual('both');
+    expect(textarea.container.classList).toContain('resizable');
     textarea.resizable = false;
     expect(textarea.getAttribute('resizable')).toEqual(null);
-    expect(textarea.input.classList).not.toContain('resizable');
+    expect(textarea.container.classList).not.toContain('resizable');
   });
 
   it('renders printable to field', () => {

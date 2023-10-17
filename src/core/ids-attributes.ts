@@ -286,7 +286,7 @@ export const attributes = {
   MIN_SIZE: 'min-size',
   MIN_TRANSFORM_X: 'min-transform-x',
   MIN_TRANSFORM_Y: 'min-transform-y',
-  MIN_WIDTH: 'min-height',
+  MIN_WIDTH: 'min-width',
   MODE: 'mode',
   MONTH: 'month',
   MORE_ACTIONS: 'more-actions',
