@@ -192,6 +192,24 @@ describe('IdsTextarea Component', () => {
     expect(textarea.getAttribute('autogrow')).toEqual(null);
   });
 
+  it('set min/max height', () => {
+    textarea.maxHeight = 500;
+    expect(textarea.container.classList.contains('has-max-height')).toBeTruthy();
+    expect(textarea.input.style.maxHeight).toEqual('500px');
+    textarea.minHeight = 200;
+    expect(textarea.container.classList.contains('has-min-height')).toBeTruthy();
+    expect(textarea.input.style.minHeight).toEqual('200px');
+  });
+
+  it('set min/max width', () => {
+    textarea.maxWidth = 500;
+    expect(textarea.container.classList.contains('has-max-width')).toBeTruthy();
+    expect(textarea.input.style.maxWidth).toEqual('500px');
+    textarea.minWidth = 200;
+    expect(textarea.container.classList.contains('has-min-width')).toBeTruthy();
+    expect(textarea.input.style.minWidth).toEqual('200px');
+  });
+
   it('should set value with slotchange', (done) => {
     textarea.textContent = 'test';
     expect(textarea.textContent).toEqual('test');
