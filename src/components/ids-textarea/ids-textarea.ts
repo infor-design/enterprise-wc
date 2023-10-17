@@ -70,6 +70,8 @@ export const setSizeAttr = (name: string, el: IdsTextarea, value: string | null,
   }
 };
 
+export type IdsTextareaResizeSetting = boolean | 'x' | 'y' | 'both';
+
 /**
  * IDS Textarea Component
  * @type {IdsTextarea}
@@ -333,6 +335,8 @@ export default class IdsTextarea extends Base {
   private setInitialConstraint() {
     this.minHeight = this.minHeight;
     this.maxHeight = this.maxHeight;
+    this.minWidth = this.minWidth;
+    this.maxWidth = this.maxWidth;
     this.constrainDimensions();
   }
 
@@ -587,7 +591,13 @@ export default class IdsTextarea extends Base {
    */
   set maxWidth(value: string | null) {
     setSizeAttr(attributes.MAX_WIDTH, this, value, this.input!);
-    this.handleAutogrow();
+    if (this.fieldContainer) {
+      if (value) {
+        this.fieldContainer.style.setProperty(attributes.MAX_WIDTH, parseNumberWithUnits(value));
+      } else {
+        this.fieldContainer.style.removeProperty(attributes.MAX_WIDTH);
+      }
+    }
   }
 
   get maxWidth(): string | null { return this.getAttribute(attributes.MAX_WIDTH); }
@@ -609,7 +619,13 @@ export default class IdsTextarea extends Base {
    */
   set minWidth(value: string | null) {
     setSizeAttr(attributes.MIN_WIDTH, this, value, this.input!);
-    this.handleAutogrow();
+    if (this.fieldContainer) {
+      if (value) {
+        this.fieldContainer.style.setProperty(attributes.MIN_WIDTH, parseNumberWithUnits(value));
+      } else {
+        this.fieldContainer.style.removeProperty(attributes.MIN_WIDTH);
+      }
+    }
   }
 
   get minWidth(): string | null { return this.getAttribute(attributes.MIN_WIDTH); }
@@ -775,20 +791,42 @@ export default class IdsTextarea extends Base {
 
   /**
    * Set the textarea to resizable state
-   * @param {boolean|string} value If true will set `resizable` attribute
+   * @param {IdsTextareaResizeSetting|string} value If true will set `resizable` attribute
    */
-  set resizable(value: boolean | string) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.RESIZABLE, val.toString());
-      this.input?.classList.add(attributes.RESIZABLE);
+  set resizable(value: IdsTextareaResizeSetting | string) {
+    const isTruthy = stringToBool(value);
+    if (isTruthy) {
+      this.setAttribute(attributes.RESIZABLE, value.toString());
     } else {
       this.removeAttribute(attributes.RESIZABLE);
-      this.input?.classList.remove(attributes.RESIZABLE);
+    }
+
+    this.container?.classList.remove(
+      attributes.RESIZABLE,
+      `${attributes.RESIZABLE}-x`,
+      `${attributes.RESIZABLE}-y`,
+    );
+
+    if (value) {
+      const stringVal = value.toString();
+      switch (stringVal) {
+        case 'x':
+          this.container?.classList.add(`${attributes.RESIZABLE}-x`);
+          break;
+        case 'y':
+          this.container?.classList.add(`${attributes.RESIZABLE}-y`);
+          break;
+        case 'both':
+        case 'true':
+          this.container?.classList.add(attributes.RESIZABLE);
+          break;
+        default: // false
+          break;
+      }
     }
   }
 
-  get resizable(): boolean { return stringToBool(this.getAttribute(attributes.RESIZABLE)); }
+  get resizable(): IdsTextareaResizeSetting { return stringToBool(this.getAttribute(attributes.RESIZABLE)); }
 
   /**
    * Set the rows for textarea
