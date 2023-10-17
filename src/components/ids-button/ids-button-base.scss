@@ -118,6 +118,11 @@
   &:not(.btn-secondary):not(.no-margins) {
     margin: var(--ids-space-10);
   }
+
+  ::slotted(span) {
+    // important due to reset in enterprise
+    font-weight: inherit !important;
+  }
 }
 
 /**
