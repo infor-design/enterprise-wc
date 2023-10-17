@@ -20,6 +20,9 @@
   - link: list.html
     type: Example
     description: Showing a list style Pager example
+  - link: custom-pager-sizes.html
+    type: Example
+    description: Showing a custom pager sizes
   - link: sandbox.html
     type: Sandbox
     description: Showing a test page for pager states

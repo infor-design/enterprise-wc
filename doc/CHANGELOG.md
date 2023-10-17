@@ -20,6 +20,8 @@
 - `[DataGrid]` Fixed `contextmenu` focused menu item in datagrid. ([#1453](https://github.com/infor-design/enterprise-wc/issues/1453))
 - `[DataGrid]` Add alignment rules and row-height specific padding to checkbox formatters. ([#1481](https://github.com/infor-design/enterprise-wc/issues/1481))
 - `[DataGrid]` Fixed a bug on the size of the `xxs` filter row inputs. ([#1456](https://github.com/infor-design/enterprise-wc/issues/1456))
+- `[DataGrid]` Fixed runtime- error on tree-grid when `IdsDataGrid.expandAll()` is executed. ([#1485](https://github.com/infor-design/enterprise-wc/issues/1485))
+- `[DataGrid]` Improve/implement style for inline-editable data grid cells. ([#1229](https://github.com/infor-design/enterprise-wc/issues/1229))
 - `[DataGrid]` Fixed runtime-error on tree-grid when `IdsDataGrid.expandAll()` is executed. ([#1485](https://github.com/infor-design/enterprise-wc/issues/1485))
 - `[DataGrid]` Fixed blank rows on tree-grid after `IdsDataGrid.collapseAll()` is executed. ([#1486](https://github.com/infor-design/enterprise-wc/issues/1486))
 - `[General]` Update side by side examples to latest enterprise version for bug fixes. ([#1549](https://github.com/infor-design/enterprise-wc/issues/1549))
@@ -27,6 +29,7 @@
 - `[Modal]` Removed overflow constraint on modal content area to enable proper display of lists/popups attached to inner components. ([#1436](https://github.com/infor-design/enterprise-wc/issues/1436))
 - `[Modal]` Changed the way z-index counting works to prevent a TypeScript/Angular compiler bug. ([#1476](https://github.com/infor-design/enterprise-wc/issues/1476))
 - `[Pager]` Fix ability to set empty label to pager dropdowns. ([#1507](https://github.com/infor-design/enterprise-wc/issues/1507))
+- `[Pager]` Added `pageSizes` setting to IdsPager. ([#1508](https://github.com/infor-design/enterprise-wc/issues/1508))
 - `[Themes]` Fixed duplicate requests for theme files. ([#1491](https://github.com/infor-design/enterprise-wc/issues/1491))
 
 ## 1.0.0-beta.15
