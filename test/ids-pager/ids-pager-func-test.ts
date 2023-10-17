@@ -258,6 +258,12 @@ describe('IdsPager Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('can set custom page sizes', () => {
+    expect(elem.pageSizes).toEqual([5, 10, 25, 50, 100]);
+    elem.pageSizes = [1, 2, 3];
+    expect(elem.pageSizes).toEqual([1, 2, 3]);
+  });
+
   it('sets the ids-pager page-number to invalid values and it gets reset to 1', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     elem.setAttribute('page-number', 'z35');

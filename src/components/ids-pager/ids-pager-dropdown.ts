@@ -23,6 +23,8 @@ import type IdsPager from './ids-pager';
 export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
   rootNode: any;
 
+  sizes = [5, 10, 25, 50, 100];
+
   readonly DEFAULT_PAGE_SIZE = 10;
 
   constructor() {
@@ -82,8 +84,7 @@ export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
    */
   #itemsTemplate(pageSize?: number): string {
     pageSize = pageSize ?? this.pageSize;
-    const sizes = [5, 10, 25, 50, 100];
-    const uniqueSizes = [...new Set([pageSize, ...sizes])].sort((a, b) => a - b);
+    const uniqueSizes = [...new Set([pageSize, ...this.sizes])].sort((a, b) => a - b);
 
     const items = uniqueSizes.map((size) => {
       const selected = size === pageSize ? ' selected' : '';
@@ -192,6 +193,12 @@ export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
     }
 
     this.#attachEventListeners();
+  }
+
+  updatePageSizes(sizes: number[]): void {
+    if (sizes.join('-') === this.sizes.join('-')) return;
+    this.sizes = sizes;
+    this.popupMenu.innerHTML = this.#itemsTemplate(this.pageSize);
   }
 
   #attachEventListeners() {

@@ -28,6 +28,8 @@ export default class IdsPager extends IdsEventsMixin(IdsElement) {
 
   readonly DEFAULT_PAGE_SIZE = 10;
 
+  sizes = [5, 10, 25, 50, 100];
+
   constructor() {
     super();
   }
@@ -199,6 +201,26 @@ export default class IdsPager extends IdsEventsMixin(IdsElement) {
   /** @returns {number} The number of items shown per page */
   get pageSize(): number {
     return this.#validPageSize(this.getAttribute(attributes.PAGE_SIZE));
+  }
+
+  /**
+   * Sets page sizes
+   * @param {number[]} sizes array of page sizes
+   */
+  set pageSizes(sizes: number[]) {
+    sizes = sizes.filter((n, idx) => !Number.isNaN(Number(n)) && sizes.indexOf(n) === idx);
+    sizes = sizes.length ? sizes : this.sizes;
+    sizes.sort((a, b) => a - b);
+    this.sizes = sizes;
+    this.elements.dropdowns.forEach((elem: IdsPagerDropdown) => elem.updatePageSizes(sizes));
+  }
+
+  /**
+   * Gets page sizes
+   * @returns {number[]} array of page sizes
+   */
+  get pageSizes(): number[] {
+    return this.sizes;
   }
 
   /**
