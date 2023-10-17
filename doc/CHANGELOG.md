@@ -14,6 +14,7 @@
 ### 1.0.0-beta.16 Fixes
 
 - `[AxisChart]` Fixed responsive axis charts `inherit` setting value. ([#1458](https://github.com/infor-design/enterprise-wc/issues/1458))
+- `[Button]` Fixed an issue with padding when enterprise is loaded on the page. ([#1513](https://github.com/infor-design/enterprise-wc/issues/1513))
 - `[Calendar]` Fixed calendar `firstDayOfWeek` setting. ([#1467](https://github.com/infor-design/enterprise-wc/issues/1467))
 - `[Calendar]` Allow propagation of `dayselected` event from calendar. ([#1470](https://github.com/infor-design/enterprise-wc/issues/1470))
 - `[DataGrid]` Added `wrap` attribute to `IdsMenuGroup` so large `contextmenu` menu-items can be wrapped into a column view. ([#1410](https://github.com/infor-design/enterprise-wc/issues/1410))
