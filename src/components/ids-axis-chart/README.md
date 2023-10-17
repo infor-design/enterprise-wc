@@ -178,6 +178,7 @@ The following data attributes can be used on the data passed to a chart.
 - `axisLabelTop` {string} Option to add top axis label.
 - `axisLabelMargin` {string|number} Axis label margin value.
 - `rotateNameLabels` {string|number} Sets the rotation of the labels on the name axis (style guide recommends -60 but you may want to tweak it based on labels. The `shortName` and `abbreviatedName` labels do not work with this setting.
+- `ticks` {number} Sets the number of ticks to show, to either reduce or show more ticks on the axis. This is an approximation based on the shape of the data and height of the chart the exact number of ticks specified might be altered to fit the algorithm.
 
 ## Events
 

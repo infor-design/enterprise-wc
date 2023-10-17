@@ -44,3 +44,6 @@
   - link: horizontal-rotate-name-labels.html
     type: Example
     description: Shows a horizontal rotating name labels bar chart
+  - link: ticks.html
+    type: Example
+    description: Shows controling the ticks with a setting
