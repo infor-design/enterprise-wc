@@ -119,6 +119,7 @@ export default class IdsDataGridCell extends IdsElement {
     const template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
 
     this.innerHTML = template;
+    if (column.formatter) this.classList.add(`formatter-${column.formatter.name}`);
   }
 
   /**
@@ -206,6 +207,14 @@ export default class IdsDataGridCell extends IdsElement {
     if (column.editor.inline) this.classList.add('is-inline');
     this.isEditing = true;
 
+    // Pass column text alignment rules into the cell editor
+    if (column.align) {
+      let alignVal = column.align;
+      if (alignVal === 'left') alignVal = 'start';
+      if (alignVal === 'right') alignVal = 'end';
+      this.editor?.input?.setAttribute('text-align', `${alignVal}`);
+    }
+
     // Save on Click Out Event
     if (['datepicker', 'timepicker'].includes(this.editor.type)) {
       this.editor.input?.onEvent('focusout', this.editor.input, () => {
@@ -234,15 +243,14 @@ export default class IdsDataGridCell extends IdsElement {
   endCellEdit() {
     const column = this.column;
     const input = this.editor?.input as any;
-    const editorType = this.editor?.type;
+    const editorType = (this.editor?.type as string);
     input?.offEvent('focusout', input);
 
-    if (editorType === 'input' && input?.setDirtyTracker) {
+    if (['input', 'tree'].includes(editorType) && input?.setDirtyTracker) {
       input?.setDirtyTracker(input?.value as any);
-      (<IdsInput>input)?.checkValidation();
     }
 
-    if (editorType === 'input' && input?.checkValidation) {
+    if (['input', 'tree'].includes(editorType) && input?.checkValidation) {
       (<IdsInput>input)?.checkValidation();
     }
 

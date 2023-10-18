@@ -54,14 +54,22 @@
   }
 
   // Text Alignment
-  &.align-center > *:first-child {
-    display: inline-flex;
-    margin: 0 auto;
+  &.align-center {
+    & > *:first-child {
+      display: inline-flex;
+      margin: 0 auto;
+    }
   }
 
-  &.align-right > *:first-child {
-    margin-inline-start: auto;
-    margin-inline-end: 0;
+  &.align-right {
+    & > *:first-child {
+      margin-inline-start: auto;
+      margin-inline-end: 0;
+    }
+
+    ids-input {
+      text-align: right;
+    }
   }
 
   // Readonly and disabled Cells
@@ -91,7 +99,29 @@
 
   &.is-editable {
     &.is-inline {
-      box-shadow: inset 0 0 0 4px var(--ids-data-grid-cell-color-background-default), inset 0 0 0 5px var(--ids-input-color-border-default);
+      &.formatter-tree {
+        .ids-data-grid-tree-container {
+          height: 100%;
+          width: 100%;
+        }
+
+        .ids-data-grid-tree-field-container {
+          height: 100%;
+          width: 100%;
+        }
+
+        .text-ellipsis {
+          align-items: center;
+          display: flex;
+          height: 100%;
+          justify-content: end;
+          width: 100%;
+        }
+
+        .text-ellipsis::after {
+          margin-inline-end: -8px;
+        }
+      }
 
       ids-icon.editor-cell-icon {
         --ids-trigger-field-button-margin: 0;
@@ -203,7 +233,6 @@
 
   // Frozen Cells
   &.frozen {
-    background-color: var(--ids-data-grid-cell-color-background-default);
     position: sticky;
     z-index: 3;
   }
@@ -235,20 +264,24 @@
   }
 
   &.is-dirty::before {
-    border-color: var(--ids-input-dirty-indicator-color-background-dirty) transparent transparent var(--ids-input-dirty-indicator-color-background-dirty);
-    border-style: solid;
-    border-width: 5px;
-    content: '';
-    display: inline-block;
-    margin-inline: 2px;
-    position: absolute;
-    top: 2px;
-    z-index: 1;
+    @include ids-data-grid-cell-dirty-tracker-icon;
   }
 
-  &.is-dirty.is-inline::before {
-    margin-inline: 6px;
-    top: 6px;
+  &.is-dirty.is-inline {
+    &.formatter-tree {
+      &::before {
+        display: none;
+        content: none;
+      }
+
+      .ids-data-grid-tree-field-container {
+        position: relative;
+
+        &::before {
+          @include ids-data-grid-cell-dirty-tracker-icon;
+        }
+      }
+    }
   }
 
   &.is-invalid {
@@ -260,6 +293,10 @@
   }
 }
 
+// =============================================
+// Row height: 'xxs'
+// =============================================
+
 [data-row-height='xxs'] {
   .ids-data-grid-cell.is-dirty::before {
     border-width: 4px;
@@ -268,10 +305,6 @@
   .ids-data-grid-cell.is-dirty.is-inline::before {
     margin-inline: 3px;
     top: 3px;
-  }
-
-  .is-editable.is-inline {
-    box-shadow: inset 0 0 0 2px var(--ids-input-color-background-default), inset 0 0 0 3px var(--ids-input-color-border-default);
   }
 
   ids-button {
@@ -316,6 +349,10 @@
   }
 }
 
+// =============================================
+// Row height: 'xs'
+// =============================================
+
 [data-row-height='xs'] {
   .ids-data-grid-cell.is-dirty::before {
     border-width: 4px;
@@ -324,10 +361,6 @@
   .ids-data-grid-cell.is-dirty.is-inline::before {
     margin-inline: 3px;
     top: 3px;
-  }
-
-  .is-editable.is-inline {
-    box-shadow: inset 0 0 0 2px var(--ids-input-color-background-default), inset 0 0 0 3px var(--ids-input-color-border-default);
   }
 
   ids-button {
@@ -369,16 +402,11 @@
   }
 }
 
+// =============================================
+// Row height: 'sm'
+// =============================================
+
 [data-row-height='sm'] {
-  .is-editable.is-inline {
-    box-shadow: inset 0 0 0 3px var(--ids-input-color-background-default), inset 0 0 0 4px var(--ids-input-color-border-default);
-  }
-
-  .ids-data-grid-cell.is-dirty.is-inline::before {
-    margin-inline: 5px;
-    top: 5px;
-  }
-
   ids-button {
     --ids-button-icon-padding: 4px;
   }
@@ -404,6 +432,10 @@
     }
   }
 }
+
+// =============================================
+// Row height: 'md'
+// =============================================
 
 [data-row-height='md'] {
   // Adjust dropdown editor
