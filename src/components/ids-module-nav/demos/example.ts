@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   displayModeDropdown.addEventListener('change', (e: CustomEvent) => {
-    const selectedValue = e.detail.value;
+    const selectedValue = e.detail.value.toLowerCase();
     updateDisplayMode(selectedValue);
   });
 
