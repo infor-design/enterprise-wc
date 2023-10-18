@@ -10,23 +10,32 @@ Infor Design System Enterprise Web Components Library is a framework independent
 ## Key Features
 
 - Three themes, including a WCAG 2.0 AAA compatible high-contrast theme and ability to theme anything
-- Responsive components, patterns and layouts
+- Responsive components
 - Touch-friendly interactions
 - SVG-based iconography for high DPI screens and scaling
 - Built-in, extendible localization system
 - Built-in mitigation of XSS exploits
-- 85-100% Functional Test Coverage
-- Passes all code security scans and is fully CSP compliant
+- Excellent test coverage
 - Well documented in `.md` format
 - Contains an extensive [Change log](./doc/CHANGELOG.md) which lists any and all breaking changes
 - [Fully linted code](./doc/LINTING.md)
-- Follows [WAI-ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard-interaction-12) with a focus on accessibility
-- Fully Namespaced with an `ids-` namespace
-- We Follow the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki)
+- Follows [WAI-ARIA authoring practices](https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard-interaction-12) with a focus on accessibility
+- Fully namespaced with an `ids-` namespace
+- We follow the [Gold standard for making web components](https://github.com/webcomponents/gold-standard/wiki)
 - Includes types for typescript users
-- Every component has the CSS and DOM Encapsulation
+- Every component has the CSS and DOM Encapsulation for css collision avoidance
 - 100+ Components
-- Includes Visual Code and [standard schemas](https://github.com/webcomponents/custom-elements-manifest)
+- Includes Visual Code intellisense with [standard schemas](https://github.com/webcomponents/custom-elements-manifest)
+- Typescript types
+- We now support Es Modules
+- Bundle size in npm is 33% smaller (with code splitting enabled)
+- Supports [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) including css and js CSP
+- The newest designs will be added here
+- Removed a lot of older less commonly used features and misused patterns
+- New scroll view component to replace circle pager
+- New chart components
+- Data Grid virtual DOM
+- Flexible Flex Grid and responsive grid
 
 ## Browser Support
 
@@ -57,13 +66,7 @@ npm i
 npm run start
 ```
 
-## Documentation
-
-- For each component see the `.md` file in the relevant [component folder](https://github.com/infor-design/enterprise-wc/tree/main/src)
-- See the [Change Log](doc/CHANGELOG.md) for info on breaking changes as well more info in each individual component
-- See the [Examples in popular frameworks](https://github.com/infor-design/enterprise-wc-examples) for examples and notes on using these in several frameworks
-
-## Usage for Code Hinting
+## Using Code Hinting
 
 The npm package ships with a file called `vscode.html-custom-data.json`. The file describes the custom elements and their settings for use in Visual Studio Code to provide “IntelliSense”. To enable it, you just need to tell VS Code where the file is.
 
@@ -82,13 +85,21 @@ You may need to restart VS Code for the changes to take affect.
 
 Most popular editors support custom code completion with different configurations. Please [submit a feature request and/or pull request](https://github.com/infor-design/enterprise-wc/issues/new/choose) if you want to add your editor.
 
-## Contributing
+## Documentation
 
+- See the [Documentation](doc/DOC-INDEX.md) for each component in markdown format. In addition to this index you will see a `.md` file in each [component folder](https://github.com/infor-design/enterprise-wc/tree/main/src/components) if browsing the source and examples.
+- See the [Migration Guide](doc/MIGRATION-GUIDE.md)
+- See the [Change Log](doc/CHANGELOG.md) for info and breaking changes by version
+- See the [Examples in popular frameworks](https://github.com/infor-design/enterprise-wc-examples) for examples and notes on using these in several frameworks
+
+## Other Documentation
+
+- [Contributors Guide](doc/CONTRIBUTING.md)
 - [Articles about Web Components](doc/ARTICLES.md)
 - [Things to consider for each component](doc/CHECKLIST.md)
-- [How to Make a new Component](doc/COMPONENTS.md)
+- [How to make a new component](doc/COMPONENTS.md)
 - [Info on which linters we use](doc/LINTING.md)
-- [Info on Running and Debugging Tests](doc/TESTING.md)
-- Use [Github Issues](https://github.com/infor-design/enterprise-wc/issues) to report all requests, bugs, questions, and feature requests
+- [Info on running and debugging tests](doc/TESTING.md)
+- Use [Github Issues](https://github.com/infor-design/enterprise-wc/issues) to report enhancements, bugs, questions, and feature requests
 - [Review source code changes](https://github.com/infor-design/enterprise-wc/pulls)
 - [Roadmap and Sprint Board](https://github.com/orgs/infor-design/projects)
