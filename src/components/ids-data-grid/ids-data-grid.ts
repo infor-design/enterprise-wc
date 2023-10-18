@@ -124,7 +124,27 @@ export default class IdsDataGrid extends Base {
   get rows(): IdsDataGridRow[] {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
     if (!this.container) return [];
-    return [...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row')];
+    return [
+      ...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row')
+    ];
+  }
+
+  /* Returns all the hidden row elements in an array */
+  get rowsHidden(): IdsDataGridRow[] {
+    // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
+    if (!this.container) return [];
+    return [
+      ...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row[hidden]')
+    ];
+  }
+
+  /* Returns all the visible row elements in an array */
+  get rowsVisible(): IdsDataGridRow[] {
+    // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
+    if (!this.container) return [];
+    return [
+      ...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row:not([hidden])')
+    ];
   }
 
   /* Returns the outside wrapper element */
@@ -1388,7 +1408,12 @@ export default class IdsDataGrid extends Base {
     const ROW_HEIGHT = this.rowPixelHeight || 50;
     const MAX_ROWS_IN_DOM = this.virtualScrollMaxRowsInDOM;
     const BODY_HEIGHT = MAX_ROWS_IN_DOM * ROW_HEIGHT;
-    const BUFFER_ROWS = 52;
+
+    let BUFFER_ROWS = 54;
+    if (this.rowsHidden.length) {
+      BUFFER_ROWS = Math.ceil((BUFFER_ROWS / MAX_ROWS_IN_DOM) * this.rowsVisible.length);
+    }
+
     const BUFFER_HEIGHT = BUFFER_ROWS * ROW_HEIGHT;
     const RAF_DELAY = 60;
     const DEBOUNCE_RATE = 10;
@@ -1930,7 +1955,7 @@ export default class IdsDataGrid extends Base {
       // eslint-disable-next-line eqeqeq
       if (index === 0) childRow = data.find((row: Record<string, any>) => row[this.idColumn] == r);
       // eslint-disable-next-line eqeqeq
-      else childRow = childRow.children.find((cRow: Record<string, any>) => cRow.id == r);
+      else childRow = childRow?.children.find((cRow: Record<string, any>) => cRow.id == r);
     });
     return childRow;
   }

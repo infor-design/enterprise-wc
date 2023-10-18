@@ -526,6 +526,10 @@ $input-size-full: 100%;
       font-size: var(--ids-font-size-40);
     }
 
+    .validation-message {
+      display: none;
+    }
+
     &.ids-input.field-height-lg .ids-input-field {
       padding-inline: 11px;
       height: 40px;

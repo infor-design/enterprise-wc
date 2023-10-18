@@ -169,6 +169,7 @@ class IdsDataSource {
         newData.push(row);
 
         if (row.children) {
+          row.childCount = row.children.length;
           if (this.pageNumber > 1) {
             index += ((this.pageNumber - 1) * this.pageSize);
           }

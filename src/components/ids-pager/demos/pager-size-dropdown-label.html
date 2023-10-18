@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid cols="3" gap="md" padding="md">
+      <ids-text font-size="12" type="h1">Ids Pager</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-pager page-number="1" page-size="20" total="200" id="ids-pager-example">
+          <ids-pager-dropdown slot="start" label="Products per page"></ids-pager-dropdown>
+          <ids-pager-button first></ids-pager-button>
+          <ids-pager-button previous></ids-pager-button>
+          <ids-pager-input></ids-pager-input>
+          <ids-pager-button next></ids-pager-button>
+          <ids-pager-button last></ids-pager-button>
+          <ids-pager-dropdown slot="end" label=""></ids-pager-dropdown>
+        </ids-pager>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

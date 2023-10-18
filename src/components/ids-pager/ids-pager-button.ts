@@ -55,7 +55,6 @@ export default class IdsPagerButton extends Base {
         ${type}
         ${this.hasAttribute(attributes.DISABLED) ? ' disabled' : ''}
         part="button"
-        square
       >
         <ids-icon icon="${type}-page" size="medium" part="icon"></ids-icon>
       </ids-button>`

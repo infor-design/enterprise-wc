@@ -42,7 +42,7 @@ class IdsPersonalization {
       primary80: adjustColor(color, -0.30),
       primary90: adjustColor(color, -0.40),
       primary100: adjustColor(color, -0.55),
-      contrast: contrastColor(color, '#FAFAFA', '#161618')
+      contrast: contrastColor(color, '#f5f5f5', '#161618')
     };
   }
 

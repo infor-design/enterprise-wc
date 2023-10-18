@@ -23,6 +23,8 @@ import type IdsPager from './ids-pager';
 export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
   rootNode: any;
 
+  sizes = [5, 10, 25, 50, 100];
+
   readonly DEFAULT_PAGE_SIZE = 10;
 
   constructor() {
@@ -64,7 +66,7 @@ export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
   template(): string {
     return `
       <div class="ids-pager-dropdown">
-        <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon>
+        <ids-menu-button id="pager-size-menu-button" menu="pager-size-menu" role="button" dropdown-icon no-padding>
           <span>${this.pageSize} ${this.label}</span>
         </ids-menu-button>
         <ids-popup-menu id="pager-size-menu" target="#pager-size-menu-button" trigger-type="click">
@@ -82,8 +84,7 @@ export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
    */
   #itemsTemplate(pageSize?: number): string {
     pageSize = pageSize ?? this.pageSize;
-    const sizes = [5, 10, 25, 50, 100];
-    const uniqueSizes = [...new Set([pageSize, ...sizes])].sort((a, b) => a - b);
+    const uniqueSizes = [...new Set([pageSize, ...this.sizes])].sort((a, b) => a - b);
 
     const items = uniqueSizes.map((size) => {
       const selected = size === pageSize ? ' selected' : '';
@@ -105,7 +106,7 @@ export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
    */
   get label(): string {
     const labelText = this.pageSize > 1 ? 'Records per page' : 'Record per page';
-    return this.getAttribute(attributes.LABEL) || labelText;
+    return this.getAttribute(attributes.LABEL) ?? labelText;
   }
 
   /**
@@ -183,7 +184,6 @@ export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
 
     const popupMenuGroup = popupMenu?.querySelector('ids-menu-group');
     if (popupMenuGroup) {
-      popupMenuGroup.style.minWidth = '175px';
       popupMenuGroup.style.textAlign = 'left';
       const sel = stringToNumber(popupMenu?.getSelectedValues?.()?.[0]);
       if (!Number.isNaN(sel) && sel !== pageSize) {
@@ -192,6 +192,12 @@ export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
     }
 
     this.#attachEventListeners();
+  }
+
+  updatePageSizes(sizes: number[]): void {
+    if (sizes.join('-') === this.sizes.join('-')) return;
+    this.sizes = sizes;
+    this.popupMenu.innerHTML = this.#itemsTemplate(this.pageSize);
   }
 
   #attachEventListeners() {
