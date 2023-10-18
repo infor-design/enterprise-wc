@@ -1,9 +1,11 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getClosest, waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsElement from '../../core/ids-element';
 
+import '../ids-modal/ids-overlay';
+import type IdsOverlay from '../ids-modal/ids-overlay';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 
 import styles from './ids-module-nav-content.scss';
@@ -38,7 +40,10 @@ export default class IdsModuleNavContent extends Base {
   }
 
   template() {
-    return `<div class="ids-module-nav-content"><slot></slot></div>`;
+    return `<div class="ids-module-nav-content">
+      <ids-overlay></ids-overlay>
+      <slot></slot>
+    </div>`;
   }
 
   /**
@@ -70,5 +75,30 @@ export default class IdsModuleNavContent extends Base {
    */
   get offsetContent(): boolean {
     return this.hasAttribute(attributes.OFFSET_CONTENT);
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsOverlay | undefined} mobile-only overlay that covers the content area
+   */
+  get overlay(): IdsOverlay | null {
+    return this.container!.querySelector<IdsOverlay>('ids-overlay');
+  }
+
+  /**
+   * Shows the module nav content overlay
+   */
+  showOverlay() {
+    this.overlay!.style.setProperty('z-index', 'var(--ids-z-index-10)');
+    this.overlay!.setAttribute(attributes.VISIBLE, 'true');
+  }
+
+  /**
+   * Hides the module nav content overlay
+   */
+  async hideOverlay() {
+    this.overlay!.removeAttribute(attributes.VISIBLE);
+    await waitForTransitionEnd(this.overlay!.container!, 'background-color');
+    this.overlay!.style.removeProperty('z-index');
   }
 }

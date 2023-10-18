@@ -9,10 +9,17 @@
 
   display: block;
   height: 100%;
+  position: relative;
   width: 100%;
   transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
     transform var(--ids-motion-duration) var(--ids-motion-ease),
     width var(--ids-motion-duration) var(--ids-motion-ease);
+
+  ids-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
 
   // =====================================================
   // Display Mode: Collapsed
@@ -65,5 +72,4 @@
   transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
     transform var(--ids-motion-duration) var(--ids-motion-ease),
     width var(--ids-motion-duration) var(--ids-motion-ease);
-  z-index: var(--ids-module-nav-content-z-index);
 }

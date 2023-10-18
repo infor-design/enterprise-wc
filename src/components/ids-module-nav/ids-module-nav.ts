@@ -1,7 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
+import { Breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import IdsElement from '../../core/ids-element';
 
+import IdsBreakpointMixin from '../../mixins/ids-breakpoint-mixin/ids-breakpoint-mixin';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 
 import styles from './ids-module-nav.scss';
@@ -11,7 +13,9 @@ import type IdsModuleNavBar from './ids-module-nav-bar';
 import type IdsModuleNavContent from './ids-module-nav-content';
 
 const Base = IdsModuleNavDisplayModeMixin(
-  IdsElement
+  IdsBreakpointMixin(
+    IdsElement
+  )
 );
 
 /**
@@ -28,6 +32,7 @@ export default class IdsModuleNav extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.configureResponsiveBehavior();
   }
 
   disconnectedCallback(): void {
@@ -90,5 +95,37 @@ export default class IdsModuleNav extends Base {
   onDisplayModeChange(): void {
     if (this.bar) this.bar.displayMode = this.displayMode;
     if (this.content) this.content.displayMode = this.displayMode;
+  }
+
+  /**
+   * Sets up required parts for IdsBreakpointMixin-driven mobile behavior
+   */
+  private configureResponsiveBehavior() {
+    this.onBreakpointDownResponse = (detectedBreakpoint: keyof Breakpoints, matches: boolean) => {
+      if (matches) {
+        this.handleBelowBreakpoint();
+      } else {
+        this.handleAboveBreakpoint();
+      }
+    };
+    this.respondDown = 'md';
+  }
+
+  /**
+   * Switches the Module Nav into its mobile behavior mode
+   */
+  private handleAboveBreakpoint() {
+    console.info('Mobile module nav deactivated');
+    this.content?.hideOverlay();
+  }
+
+  /**
+   * Switches the Module Nav into its desktop behavior mode
+   */
+  private handleBelowBreakpoint() {
+    console.info('Mobile module nav activated');
+    if (this.displayMode === 'expanded') {
+      this.content?.showOverlay();
+    }
   }
 }
