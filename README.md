@@ -87,7 +87,7 @@ Most popular editors support custom code completion with different configuration
 
 ## Documentation
 
-- See the [Documentation](doc/DOC-INDEX.md) for each component in markdown format. In addition to this index you will see a `.md` file in each [component folder](https://github.com/infor-design/enterprise-wc/tree/main/src/components) if browsing the source and examples.
+- See the [Documentation](doc/DOCUMENTATION.md) for each component in markdown format. In addition to this index you will see a `.md` file in each [component folder](https://github.com/infor-design/enterprise-wc/tree/main/src/components) if browsing the source and examples.
 - See the [Migration Guide](doc/MIGRATION-GUIDE.md)
 - See the [Change Log](doc/CHANGELOG.md) for info and breaking changes by version
 - See the [Examples in popular frameworks](https://github.com/infor-design/enterprise-wc-examples) for examples and notes on using these in several frameworks
