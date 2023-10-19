@@ -14,6 +14,9 @@
   - link: side-by-side.html
     type: Side by Side
     description: Showing a textarea side by side working with 4.x
+  - link: sizes.html
+    type: Example
+    description: Showing all configurations of size attributes for textareas
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a limited toolbar that works with css only

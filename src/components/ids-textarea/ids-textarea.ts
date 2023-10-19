@@ -1,5 +1,6 @@
-import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+import { parseNumberWithUnits } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -57,6 +58,20 @@ const TEXT_ALIGN: Record<string, string> = {
 const CHAR_MAX_TEXT = 'Character count maximum of';
 const CHAR_REMAINING_TEXT = 'Characters left {0}';
 
+export const setSizeAttr = (name: string, el: IdsTextarea, value: string | null, propTargetEl?: HTMLElement) => {
+  if (value) {
+    el.setAttribute(name, value.toString());
+    el.container?.classList.add(`has-${name}`);
+    if (propTargetEl) propTargetEl.style.setProperty(name, parseNumberWithUnits(value));
+  } else {
+    el.removeAttribute(name);
+    el.container?.classList.remove(`has-${name}`);
+    if (propTargetEl) propTargetEl.style.removeProperty(name);
+  }
+};
+
+export type IdsTextareaResizeSetting = boolean | 'x' | 'y' | 'both';
+
 /**
  * IDS Textarea Component
  * @type {IdsTextarea}
@@ -95,13 +110,16 @@ export default class IdsTextarea extends Base {
     return [
       ...super.attributes,
       attributes.AUTOGROW,
-      attributes.AUTOGROW_MAX_HEIGHT,
       attributes.AUTOSELECT,
       attributes.CHAR_MAX_TEXT,
       attributes.CHAR_REMAINING_TEXT,
       attributes.CHARACTER_COUNTER,
       attributes.DISABLED,
+      attributes.MAX_HEIGHT,
+      attributes.MAX_WIDTH,
       attributes.MAXLENGTH,
+      attributes.MIN_HEIGHT,
+      attributes.MIN_WIDTH,
       attributes.PLACEHOLDER,
       attributes.PRINTABLE,
       attributes.SIZE,
@@ -119,7 +137,16 @@ export default class IdsTextarea extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
+    this.setInitialConstraint();
     this.#attachEventHandlers();
+  }
+
+  /**
+   * Custom Element `disconnectedCallback` implementation
+   * @returns {void}
+   */
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
   }
 
   /**
@@ -243,15 +270,15 @@ export default class IdsTextarea extends Base {
   handleAutogrow(): void {
     if (this.input) {
       if (this.autogrow) {
-        if (this.autogrowMaxHeight) {
-          this.input.style.maxHeight = `${this.autogrowMaxHeight}px`;
-        }
-        this.input.style.overflow = 'hidden';
+        this.input.style.overflowY = 'auto';
+        if (this.maxWidth) this.input.style.overflowX = 'auto';
         this.setAutogrow();
       } else {
-        this.input.style.overflow = '';
-        this.input.style.maxHeight = '';
-        this.input.style.height = '';
+        this.input.style.overflowY = '';
+        this.input.style.overflowX = '';
+        if (!this.resizable) {
+          this.input.style.height = '';
+        }
       }
     }
   }
@@ -294,15 +321,33 @@ export default class IdsTextarea extends Base {
    * @private
    * @returns {void}
    */
-  setAutogrow(): void {
+  private setAutogrow(): void {
     if (this.autogrow && !this.autogrowProcessing) {
       this.autogrowProcessing = true;
-      const maxHeight = parseInt((this.autogrowMaxHeight as any), 10) || 0;
-      const oldHeight = this.input?.offsetHeight || 0;
-
-      this.adjustHeight(oldHeight, maxHeight);
+      this.constrainDimensions();
       this.autogrowProcessing = false;
     }
+  }
+
+  /**
+   * Set initial size constraints on the textarea
+   */
+  private setInitialConstraint() {
+    this.minHeight = this.minHeight;
+    this.maxHeight = this.maxHeight;
+    this.minWidth = this.minWidth;
+    this.maxWidth = this.maxWidth;
+    this.constrainDimensions();
+  }
+
+  /**
+   * Adjust width/height based on defined values
+   * @private
+   */
+  private constrainDimensions() {
+    const minHeight = parseInt((this.minHeight as any), 10) || 0;
+    const oldHeight = this.input?.offsetHeight || 0;
+    this.adjustHeight(oldHeight, minHeight);
   }
 
   /**
@@ -315,7 +360,9 @@ export default class IdsTextarea extends Base {
    */
   adjustHeight(oldHeight: number, maxHeight: number, input: HTMLElement | null = null): void {
     const elem = input || this.input;
-    const newHeight = elem?.scrollHeight;
+    let newHeight = elem?.offsetHeight || 0;
+    const scrollHeight = elem?.scrollHeight || 0;
+    if (scrollHeight > newHeight) newHeight = scrollHeight;
 
     if (elem && typeof newHeight === 'number' && (oldHeight !== newHeight)) {
       let height = newHeight;
@@ -324,7 +371,7 @@ export default class IdsTextarea extends Base {
         height = elem.scrollHeight;
       }
       const isScrollable = (maxHeight > 0 && maxHeight < height);
-      elem.style.overflow = isScrollable ? '' : 'hidden';
+      elem.style.overflowY = isScrollable ? '' : 'auto';
       elem.style.height = `${height}px`;
     }
   }
@@ -530,19 +577,60 @@ export default class IdsTextarea extends Base {
   get autogrow(): boolean { return stringToBool(this.getAttribute(attributes.AUTOGROW)); }
 
   /**
-   * Set textarea height to be autogrow-max-height
-   * @param {string | null} value of `autogrow-max-height` attribute
+   * Sets a "max-height" CSS property on the textarea
+   * @param {string | null} value of `max-height` attribute
    */
-  set autogrowMaxHeight(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.AUTOGROW_MAX_HEIGHT, value.toString());
-    } else {
-      this.removeAttribute(attributes.AUTOGROW_MAX_HEIGHT);
-    }
+  set maxHeight(value: string | null) {
+    setSizeAttr(attributes.MAX_HEIGHT, this, value, this.input!);
     this.handleAutogrow();
   }
 
-  get autogrowMaxHeight(): string | null { return this.getAttribute(attributes.AUTOGROW_MAX_HEIGHT); }
+  get maxHeight(): string | null { return this.getAttribute(attributes.MAX_HEIGHT); }
+
+  /**
+   * Sets a "max-width" CSS property on the textarea
+   * @param {string | null} value of `max-width` attribute
+   */
+  set maxWidth(value: string | null) {
+    setSizeAttr(attributes.MAX_WIDTH, this, value, this.input!);
+    if (this.fieldContainer) {
+      if (value) {
+        this.fieldContainer.style.setProperty(attributes.MAX_WIDTH, parseNumberWithUnits(value));
+      } else {
+        this.fieldContainer.style.removeProperty(attributes.MAX_WIDTH);
+      }
+    }
+  }
+
+  get maxWidth(): string | null { return this.getAttribute(attributes.MAX_WIDTH); }
+
+  /**
+   * Sets a "min-height" CSS property on the textarea
+   * @param {string | null} value of `min-height` attribute
+   */
+  set minHeight(value: string | null) {
+    setSizeAttr(attributes.MIN_HEIGHT, this, value, this.input!);
+    this.handleAutogrow();
+  }
+
+  get minHeight(): string | null { return this.getAttribute(attributes.MIN_HEIGHT); }
+
+  /**
+   * Sets a "min-width" CSS property on the textarea
+   * @param {string | null} value of `min-width` attribute
+   */
+  set minWidth(value: string | null) {
+    setSizeAttr(attributes.MIN_WIDTH, this, value, this.input!);
+    if (this.fieldContainer) {
+      if (value) {
+        this.fieldContainer.style.setProperty(attributes.MIN_WIDTH, parseNumberWithUnits(value));
+      } else {
+        this.fieldContainer.style.removeProperty(attributes.MIN_WIDTH);
+      }
+    }
+  }
+
+  get minWidth(): string | null { return this.getAttribute(attributes.MIN_WIDTH); }
 
   /**
    * When set the textarea will select all text on focus
@@ -705,20 +793,42 @@ export default class IdsTextarea extends Base {
 
   /**
    * Set the textarea to resizable state
-   * @param {boolean|string} value If true will set `resizable` attribute
+   * @param {IdsTextareaResizeSetting|string} value If true will set `resizable` attribute
    */
-  set resizable(value: boolean | string) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.RESIZABLE, val.toString());
-      this.input?.classList.add(attributes.RESIZABLE);
+  set resizable(value: IdsTextareaResizeSetting | string) {
+    const isTruthy = stringToBool(value);
+    if (isTruthy) {
+      this.setAttribute(attributes.RESIZABLE, value.toString());
     } else {
       this.removeAttribute(attributes.RESIZABLE);
-      this.input?.classList.remove(attributes.RESIZABLE);
+    }
+
+    this.container?.classList.remove(
+      attributes.RESIZABLE,
+      `${attributes.RESIZABLE}-x`,
+      `${attributes.RESIZABLE}-y`,
+    );
+
+    if (value) {
+      const stringVal = value.toString();
+      switch (stringVal) {
+        case 'x':
+          this.container?.classList.add(`${attributes.RESIZABLE}-x`);
+          break;
+        case 'y':
+          this.container?.classList.add(`${attributes.RESIZABLE}-y`);
+          break;
+        case 'both':
+        case 'true':
+          this.container?.classList.add(attributes.RESIZABLE);
+          break;
+        default: // false
+          break;
+      }
     }
   }
 
-  get resizable(): boolean { return stringToBool(this.getAttribute(attributes.RESIZABLE)); }
+  get resizable(): IdsTextareaResizeSetting { return stringToBool(this.getAttribute(attributes.RESIZABLE)); }
 
   /**
    * Set the rows for textarea
