@@ -72,8 +72,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     moduleNavAccordion.allowOnePane = e.detail.checked;
   });
 
-  displayModeDropdown.addEventListener('change', (e: CustomEvent) => {
-    const selectedValue = e.detail.value.toLowerCase();
+  displayModeDropdown.addEventListener('change', () => {
+    let selectedValue = displayModeDropdown.value;
+    if (selectedValue === '') selectedValue = false;
     updateDisplayMode(selectedValue);
   });
 
@@ -83,6 +84,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   pinSectionsCheck.addEventListener('change', (e: CustomEvent) => {
     moduleNavDrawer.pinned = e.detail.checked;
+  });
+
+  moduleNav.addEventListener('displaymodechange', (e: CustomEvent) => {
+    const newMenuState = e.detail.displayMode;
+    console.info('Module Nav "displaymodechange" event handled: ', newMenuState);
+    if (newMenuState !== menuState) {
+      updateDisplayMode(newMenuState);
+    }
   });
 
   // =============================

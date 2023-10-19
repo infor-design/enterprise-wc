@@ -15,10 +15,13 @@ import styles from './ids-module-nav.scss';
 import type IdsContainer from '../ids-container/ids-container';
 import type IdsModuleNavBar from './ids-module-nav-bar';
 import type IdsModuleNavContent from './ids-module-nav-content';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 
 const Base = IdsModuleNavDisplayModeMixin(
   IdsBreakpointMixin(
-    IdsElement
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
@@ -118,6 +121,13 @@ export default class IdsModuleNav extends Base {
     } else if (this.isWithinMobileBreakpoint()) {
       this.content?.showOverlay();
     }
+
+    this.triggerEvent('displaymodechange', this, {
+      detail: {
+        displayMode: this.displayMode,
+        elem: this
+      }
+    });
   }
 
   /**

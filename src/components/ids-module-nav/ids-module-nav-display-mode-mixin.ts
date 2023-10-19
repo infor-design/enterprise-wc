@@ -45,17 +45,15 @@ const IdsModuleNavDisplayModeMixin = <T extends Constraints>(superclass: T) => c
    * @param {IdsModuleNavDisplayMode | null} value Display Mode setting
    */
   set displayMode(value: IdsModuleNavDisplayMode | null) {
-    let safeValue: any = null;
-    if (typeof value === 'string') {
-      safeValue = stripTags(value, '');
+    let safeValue: IdsModuleNavDisplayMode = false;
+    if (typeof value === 'string' && (value === 'expanded' || value === 'collapsed')) {
+      safeValue = value;
     }
 
     const currentValue = this.displayMode;
     if (currentValue !== safeValue) {
-      if (DISPLAY_MODE_TYPES.includes(safeValue)) {
-        if (safeValue !== false) {
-          this.setAttribute(attributes.DISPLAY_MODE, `${safeValue}`);
-        }
+      if (safeValue !== false) {
+        this.setAttribute(attributes.DISPLAY_MODE, `${safeValue}`);
       } else {
         this.removeAttribute(attributes.DISPLAY_MODE);
         safeValue = false;
