@@ -25,11 +25,12 @@ import '../../ids-toolbar/ids-toolbar';
 import '../../ids-toolbar/ids-toolbar-section';
 
 import type { IdsModuleNavDisplayMode } from '../ids-module-nav-common';
+import type IdsModuleNav from '../ids-module-nav';
 
 let menuState: IdsModuleNavDisplayMode = 'collapsed';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const moduleNav: any = document.querySelector('ids-module-nav');
+  const moduleNav = <IdsModuleNav>document.querySelector('ids-module-nav');
   const moduleNavDrawer: any = document.querySelector('ids-module-nav-bar');
   const moduleNavAccordion: any = document.querySelector('ids-accordion');
   const appMenuTriggerBtn: any = document.querySelector('#module-nav-trigger');
@@ -63,7 +64,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   appMenuTriggerBtn.addEventListener('click', () => {
-    updateDisplayMode(menuState === 'expanded' ? 'collapsed' : 'expanded');
+    const alternateMode = moduleNav.isWithinMobileBreakpoint() ? false : 'collapsed';
+    updateDisplayMode(menuState === 'expanded' ? alternateMode : 'expanded');
   });
 
   accordionOnePaneCheck.addEventListener('change', (e: CustomEvent) => {
