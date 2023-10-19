@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.17
+
+### 1.0.0-beta.17 Features
+
+- `[General]` Added an initial migration guide. ([#1561](https://github.com/infor-design/enterprise-wc/issues/1561))
+
 ## 1.0.0-beta.16
 
 ### 1.0.0-beta.16 Breaking Changes
