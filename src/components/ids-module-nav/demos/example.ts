@@ -41,10 +41,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   moduleNavDrawer.target = appMenuTriggerBtn;
 
   const updateDisplayMode = (val: IdsModuleNavDisplayMode) => {
-    menuState = val;
-    moduleNav.displayMode = val;
-    if (displayModeDropdown.value !== val) displayModeDropdown.value = val;
-    console.info('Module Nav Display Mode Updated:', val || 'hidden');
+    if (menuState !== val) {
+      menuState = val;
+      moduleNav.displayMode = val;
+      if (displayModeDropdown.value !== val) displayModeDropdown.value = val;
+      console.info('Module Nav Display Mode Updated:', val || 'hidden');
+    }
   };
 
   // ============================
@@ -85,6 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Set initial
 
   moduleNav.displayMode = menuState;
+  moduleNav.responsive = true;
   moduleNavDrawer.filterable = true;
 
   // Add App Icons from data

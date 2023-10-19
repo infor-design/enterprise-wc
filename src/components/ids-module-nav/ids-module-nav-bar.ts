@@ -18,6 +18,7 @@ import '../ids-tooltip/ids-tooltip';
 import { attributes } from '../../core/ids-attributes';
 import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { getClosest, toggleScrollbar } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import styles from './ids-module-nav-bar.scss';
 
@@ -63,6 +64,7 @@ export default class IdsModuleNavBar extends Base {
   constructor() {
     super();
     this.accordionPaneSetting = false;
+    this.onOutsideClick = () => {};
   }
 
   connectedCallback() {
@@ -373,18 +375,6 @@ export default class IdsModuleNavBar extends Base {
   }
 
   /**
-   * Inherited from the Popup Open Events Mixin.
-   * Runs when a click event is propagated to the window.
-   * @returns {void}
-   */
-  onOutsideClick() {
-    // Don't close the popup if md+ media query breakpoint
-    if (window.innerWidth < 840) {
-      this.hide();
-    }
-  }
-
-  /**
    * Inherited from Module Nav Display Mode Mixin.
    * @param {string | false} currentValue current display mode value being changed
    * @param {string | false} newValue new display mode value to be set
@@ -407,6 +397,7 @@ export default class IdsModuleNavBar extends Base {
 
     if (this.settingsEl) this.settingsEl.displayMode = this.displayMode;
 
+    this.setOutsideClick();
     this.setScrollable();
     this.setResize();
   }
@@ -635,6 +626,25 @@ export default class IdsModuleNavBar extends Base {
         this.tooltipEl.innerHTML = `<span class="ids-module-nav-tooltip-text">${text}</span>`;
       }
     }
+  }
+
+  private setOutsideClick() {
+    if (this.displayMode === 'expanded') {
+      this.establishOutsideClick();
+    } else {
+      this.removeOutsideClick();
+    }
+  }
+
+  private async establishOutsideClick() {
+    await cssTransitionTimeout(10);
+    this.onOutsideClick = () => {
+      this.parent!.handleOutsideClick();
+    };
+  }
+
+  private removeOutsideClick() {
+    this.onOutsideClick = () => {};
   }
 
   onLanguageChange = (locale?: IdsLocale | undefined) => {
