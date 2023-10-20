@@ -42,8 +42,8 @@
     // use `.offset-content` to make the content area
     // stay out from underneath the Module Nav bar
     &:not(.offset-content) {
-      margin-inline-start: var(--ids-module-nav-collapsed-size);
-      width: calc(100% - var(--ids-module-nav-collapsed-size));
+      margin-inline-start: 0;
+      width: 100%;
     }
 
     &.offset-content {

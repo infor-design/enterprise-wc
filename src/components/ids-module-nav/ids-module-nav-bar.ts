@@ -72,7 +72,10 @@ export default class IdsModuleNavBar extends Base {
 
     this.edge = 'start';
     this.type = 'module-nav';
-    if (this.visible && !this.displayMode) this.displayMode = 'collapsed';
+    this.visible = true;
+
+    //
+    // if (this.visible && !this.displayMode) this.displayMode = 'collapsed';
 
     this.#connectSearchField();
     this.#connectAccordion();
@@ -383,7 +386,6 @@ export default class IdsModuleNavBar extends Base {
   onDisplayModeChange(currentValue: string | false, newValue: string | false): void {
     this.searchFieldEl?.clear();
 
-    this.visible = (newValue !== false);
     if (this.content) this.content.displayMode = this.displayMode;
 
     if (this.switcherEl) this.switcherEl.displayMode = this.displayMode;
@@ -638,8 +640,10 @@ export default class IdsModuleNavBar extends Base {
 
   private async establishOutsideClick() {
     await cssTransitionTimeout(10);
-    this.onOutsideClick = () => {
-      this.parent!.handleOutsideClick();
+    this.onOutsideClick = (e: MouseEvent) => {
+      if (!this.contains(e.target as Node)) {
+        this.parent!.handleOutsideClick();
+      }
     };
   }
 

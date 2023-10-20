@@ -26,9 +26,12 @@ const Base = IdsModuleNavDisplayModeMixin(
 );
 
 /**
- * IDS Module Nav Bar Component
- * @type {IdsModuleNavBar}
- * @inherits IdsDrawer
+ * IDS Module Nav Component
+ * @type {IdsModuleNav}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsBreakpointMixin
+ * @mixes IdsModuleNavDisplayModeMixin
  */
 @customElement('ids-module-nav')
 @scss(styles)
@@ -169,6 +172,7 @@ export default class IdsModuleNav extends Base {
     if (this.displayMode !== 'expanded') {
       this.displayMode = 'collapsed';
     }
+    this.content!.offsetContent = true;
   }
 
   /**
@@ -181,6 +185,7 @@ export default class IdsModuleNav extends Base {
     } else {
       this.displayMode = false;
     }
+    this.content!.offsetContent = false;
   }
 
   private hideContentOverlay() {

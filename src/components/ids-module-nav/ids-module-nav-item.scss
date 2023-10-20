@@ -50,6 +50,25 @@
   }
 
   // ================================================
+  // Display Mode: Hidden
+
+  &:not([class*='display-mode-']) {
+    height: var(--ids-module-nav-item-collapsed-size);
+    margin-block: var(--ids-module-nav-item-collapsed-general-spacing-size);
+    margin-inline: auto;
+    padding-block: var(--ids-module-nav-item-margin-inline);
+    padding-inline: auto;
+    width: 0;
+
+    .ids-accordion-display-icon {
+      justify-self: center;
+      align-self: center;
+      margin-inline: 0;
+      padding: 0;
+    }
+  }
+
+  // ================================================
   // Display Mode: Collapsed
 
   &.display-mode-collapsed {

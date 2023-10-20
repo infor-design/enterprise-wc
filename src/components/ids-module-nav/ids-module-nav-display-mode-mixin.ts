@@ -1,10 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
-import { DISPLAY_MODE_TYPES } from './ids-module-nav-common';
 
 import type { IdsModuleNavDisplayMode } from './ids-module-nav-common';
 import type { IdsConstructor } from '../../core/ids-element';
-
-import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 export interface DisplayModeHandler {
   onDisplayModeChange?(currentValue: string | false, newValue: string | false): void;

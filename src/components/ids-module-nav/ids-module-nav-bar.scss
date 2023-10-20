@@ -49,6 +49,10 @@
     .ids-module-nav-search-wrapper {
       display: none;
     }
+
+    .ids-module-nav-separator {
+      display: none;
+    }
   }
 
   &:not(.display-mode-expanded) {
@@ -218,6 +222,7 @@
   transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
     transform var(--ids-motion-duration) var(--ids-motion-ease),
     width var(--ids-motion-duration) var(--ids-motion-ease);
+  overflow-y: hidden;
 }
 
 .ids-module-nav-bar-detail {
