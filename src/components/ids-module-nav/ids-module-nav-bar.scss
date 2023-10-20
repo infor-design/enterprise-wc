@@ -27,6 +27,7 @@
   flex-direction: column;
   overflow: hidden;
   align-items: stretch;
+  padding-top: 6px;
 
   // =====================================================
   // Display Mode: Hidden
@@ -222,7 +223,6 @@
   transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
     transform var(--ids-motion-duration) var(--ids-motion-ease),
     width var(--ids-motion-duration) var(--ids-motion-ease);
-  overflow-y: hidden;
 }
 
 .ids-module-nav-bar-detail {

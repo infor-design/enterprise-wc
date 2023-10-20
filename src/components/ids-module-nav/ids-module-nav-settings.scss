@@ -34,6 +34,10 @@ ids-separator::part(separator) {
   @include ids-base-button-styles();
   @include ids-module-nav-button-styles();
 
+  &:not(.ids-icon-button) ::slotted(ids-icon) {
+    padding-inline-end: 0;
+  }
+
   &.color-variant-module-nav {
     // ================================================
     // Display Mode: Hidden

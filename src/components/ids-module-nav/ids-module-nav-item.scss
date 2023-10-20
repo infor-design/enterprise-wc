@@ -102,6 +102,12 @@
     .ids-accordion-display-icon {
       margin-inline-end: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
     }
+
+    .ids-accordion-expander-icon {
+      &:last-child {
+        margin-inline-end: 4px;
+      }
+    }
   }
 }
 
