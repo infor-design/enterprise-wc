@@ -11,6 +11,7 @@ import styles from './ids-accordion-header.scss';
 import IdsText from '../ids-text/ids-text';
 
 import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsAccordionPanel from './ids-accordion-panel';
 
 // Expander Types
 const EXPANDER_TYPES = ['caret', 'plus-minus'];
@@ -50,6 +51,7 @@ export default class IdsAccordionHeader extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#refreshIconDisplay(this.icon);
+    this.#refreshExpanderIconType();
     this.refreshDepth();
   }
 
@@ -120,6 +122,21 @@ export default class IdsAccordionHeader extends Base {
     }
 
     return false;
+  }
+
+  /**
+   * @returns {boolean} if this header component
+   */
+  get siblingsCanExpand() {
+    const panel = this.panel;
+    const parent = <IdsAccordionPanel>panel.parentElement;
+
+    let canExpand = false;
+    parent.childPanels?.forEach((childPanel: IdsAccordionPanel) => {
+      if (!canExpand && childPanel.isExpandable) canExpand = true;
+    });
+
+    return canExpand;
   }
 
   /**
@@ -197,8 +214,8 @@ export default class IdsAccordionHeader extends Base {
     const cl = this.container?.classList;
     const oldTypeClass = `expander-type-${oldType}`;
     const newTypeClass = `expander-type-${newType}`;
-    cl?.remove(oldTypeClass);
-    cl?.add(newTypeClass);
+    if (oldType) cl?.remove(oldTypeClass);
+    if (newType) cl?.add(newTypeClass);
   }
 
   /**
@@ -245,7 +262,12 @@ export default class IdsAccordionHeader extends Base {
     }
 
     const hasParentIcon = this.parentHasIcon;
+    const siblingsCanExpand = this.siblingsCanExpand;
+    const expandable = this.panel.isExpandable;
+
     this.container?.classList[hasParentIcon ? 'add' : 'remove']('parent-has-icon');
+    this.container?.classList[expandable ? 'add' : 'remove']('is-expandable');
+    this.container?.classList[siblingsCanExpand ? 'add' : 'remove']('siblings-can-expand');
   }
 
   /**
@@ -350,6 +372,7 @@ export default class IdsAccordionHeader extends Base {
       iconType = this.expanded ? ICON_PLUS : ICON_MINUS;
     }
     icon.setAttribute('icon', iconType);
+    this.#refreshExpanderIconClass(null, this.expanderType);
   }
 
   /**

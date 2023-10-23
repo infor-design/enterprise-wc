@@ -159,6 +159,15 @@ export default class IdsAccordionPanel extends Base {
 
   /**
    * @readonly
+   * @returns {IdsAccordionPanel[]} child accordion panels nested in this panel, if applicable
+   */
+  get childPanels(): IdsAccordionPanel[] {
+    const panels = this.querySelectorAll<IdsAccordionPanel>('ids-accordion-panel');
+    return panels.length ? [...panels] : [];
+  }
+
+  /**
+   * @readonly
    * @returns {boolean} true if this pane resides inside another pane
    */
   get hasParentPanel(): boolean {
