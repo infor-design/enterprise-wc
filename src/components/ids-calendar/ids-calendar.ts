@@ -80,13 +80,14 @@ export default class IdsCalendar extends Base {
 
   constructor() {
     super();
-    if (!this.state) this.state = {};
+    this.state ??= {};
   }
 
   static get attributes() {
     return [
       ...super.attributes,
       attributes.DATE,
+      attributes.FIRST_DAY_OF_WEEK,
       attributes.SHOW_DETAILS,
       attributes.SHOW_LEGEND
     ];
@@ -205,8 +206,8 @@ export default class IdsCalendar extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
-    this.changeView('month');
     this.#attachEventHandlers();
+    this.changeView('month');
     this.#configureResizeObserver();
     this.viewPickerConnected();
     this.onLocaleChange(this.localeAPI);
@@ -586,6 +587,32 @@ export default class IdsCalendar extends Base {
       this.#selectedEventId = elem.eventData.id;
       this.#removePopup();
       this.#insertFormPopup(elem.container, elem.eventData);
+    });
+
+    // Relay month before render event, ignore before render events from datepicker
+    this.offEvent('beforerendermonth');
+    this.onEvent('beforerendermonth', this.container, (evt: CustomEvent) => {
+      evt.stopPropagation();
+      evt.stopImmediatePropagation();
+      if (evt.detail.elem.parentElement?.classList?.contains('calendar-view-pane')) {
+        this.triggerEvent('beforerendermonth', this, {
+          bubbles: true,
+          detail: { ...evt.detail }
+        });
+      }
+    });
+
+    // Relay month after render event, ignore after render events from datepicker
+    this.offEvent('afterrendermonth');
+    this.onEvent('afterrendermonth', this.container, (evt: CustomEvent) => {
+      evt.stopPropagation();
+      evt.stopImmediatePropagation();
+      if (evt.detail.elem.parentElement?.classList?.contains('calendar-view-pane')) {
+        this.triggerEvent('afterrendermonth', this, {
+          bubbles: true,
+          detail: { ...evt.detail }
+        });
+      }
     });
 
     if (this.viewPicker) this.attachViewPickerEvents('month');
@@ -996,13 +1023,16 @@ export default class IdsCalendar extends Base {
    */
   #createMonthTemplate(): string {
     const date = this.date;
+    const firstDayOfWeek = this.firstDayOfWeek
+      ? `first-day-of-week="${this.firstDayOfWeek}"`
+      : '';
 
     return `
       <ids-month-view
         month="${date.getMonth()}"
         day="${date.getDate()}"
         year="${date.getFullYear()}"
-        first-day-of-week="${this.firstDayOfWeek || 0}">
+        ${firstDayOfWeek}>
         <slot name="MonthViewCalendarEventTemplate" slot="customCalendarEvent"></slot>
       </ids-month-view>
     `;
@@ -1225,6 +1255,8 @@ export default class IdsCalendar extends Base {
     return this.container?.querySelector<IdsMonthView>('ids-month-view') || this.container?.querySelector<IdsWeekView>('ids-week-view');
   }
 
+  #lastMonthLegendData: Array<any> | null = null;
+
   /**
    * Toggle Month View Legend
    * @param {CalendarEventTypeData[]} eventTypes calendar event types data
@@ -1247,7 +1279,10 @@ export default class IdsCalendar extends Base {
       }));
     }
 
-    component.legend = legendData;
+    if (this.#lastMonthLegendData !== legendData) {
+      this.#lastMonthLegendData = legendData;
+      component.legend = legendData;
+    }
   }
 
   /**
