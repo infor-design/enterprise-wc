@@ -868,6 +868,10 @@ export default class IdsCalendar extends Base {
     this.insertViewTemplate(template);
     this.relayCalendarData();
     this.state.view = view;
+
+    if (view === 'month' && this.disableSettings?.dates?.length) {
+      (this.getView() as IdsMonthView).disableSettings = this.disableSettings;
+    }
   }
 
   /**
