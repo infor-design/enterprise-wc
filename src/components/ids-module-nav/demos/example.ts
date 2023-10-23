@@ -1,14 +1,3 @@
-import IdsIcon from '../../ids-icon/ids-icon';
-import appIconJSON from '../../ids-icon/demos/app-icon-data.json';
-
-import '../ids-module-nav';
-import '../ids-module-nav-bar';
-import '../ids-module-nav-button';
-import '../ids-module-nav-content';
-import '../ids-module-nav-item';
-import '../ids-module-nav-settings';
-import '../ids-module-nav-switcher';
-
 import '../../ids-accordion/ids-accordion';
 import '../../ids-accordion/ids-accordion-section';
 import '../../ids-accordion/ids-accordion-header';
@@ -100,10 +89,4 @@ document.addEventListener('DOMContentLoaded', async () => {
   moduleNav.displayMode = menuState;
   moduleNav.responsive = true;
   moduleNavDrawer.filterable = true;
-
-  // Add App Icons from data
-  const appIconUrl: any = appIconJSON;
-  const appIconRes = await fetch(appIconUrl);
-  const appIconData = await appIconRes.json();
-  IdsIcon.customIconData = appIconData;
 });
