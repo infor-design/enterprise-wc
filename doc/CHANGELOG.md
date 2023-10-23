@@ -1,5 +1,7 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.17
+
 ### 1.0.0-beta.17 Fixes
 
 - `[Calendar]` Fix multiple `beforerendermonth` events. ([#1464](https://github.com/infor-design/enterprise-wc/issues/1464))
