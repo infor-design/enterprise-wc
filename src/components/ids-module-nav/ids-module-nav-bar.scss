@@ -132,7 +132,6 @@
     border-right: 1px solid var(--ids-module-nav-border-color);
 
     .ids-module-nav-search-wrapper {
-      padding-block-end: var(--ids-module-nav-accordion-gutter-size);
       padding-inline: var(--ids-module-nav-accordion-gutter-size);
     }
 
@@ -172,10 +171,6 @@
     .ids-module-nav-search-wrapper {
       display: none;
       pointer-events: none;
-
-      + .ids-module-nav-separator {
-        display: none;
-      }
     }
   }
 

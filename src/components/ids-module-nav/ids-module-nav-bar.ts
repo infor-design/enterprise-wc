@@ -51,6 +51,10 @@ type IdsModuleNavTooltipTarget = IdsModuleNavItem | IdsModuleNavButton | IdsModu
  * IDS Module Nav Bar Component
  * @type {IdsModuleNavBar}
  * @inherits IdsDrawer
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsLocaleMixin
+ * @mixes IdsModuleNavTextDisplayMixin
+ * @mixes IdsModuleNavDisplayModeMixin
  */
 @customElement('ids-module-nav-bar')
 @scss(styles)
@@ -117,7 +121,6 @@ export default class IdsModuleNavBar extends Base {
         <div class="ids-module-nav-search-wrapper">
           <slot name="search"></slot>
         </div>
-        <ids-separator class="ids-module-nav-separator" color-variant="module-nav"></ids-separator>
         <div class="ids-module-nav-search-no-results">
           <ids-empty-message icon="empty-search-data-new">
             <ids-text font-size="20" label="true" slot="description">No results found</ids-text>
