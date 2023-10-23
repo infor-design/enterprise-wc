@@ -85,6 +85,13 @@ export default class IdsModuleNavSettings extends Base {
     if (this.displayMode === 'expanded') {
       this.menuEl.popup.align = 'top, left';
     }
+
+    this.menuEl.popup.onPlace = (popupRect: DOMRect) => {
+      if (this.displayMode === 'collapsed') {
+        popupRect.y -= 8;
+      }
+      return popupRect;
+    };
   }
 
   /**
