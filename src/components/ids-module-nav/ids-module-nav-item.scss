@@ -124,8 +124,9 @@
 .ids-module-nav-item {
   @include border-box();
 
-  transition: margin var(--ids-motion-duration) var(ids-motion-ease),
-    height var(--ids-motion-duration) var(ids-motion-ease),
+  transition: height var(--ids-motion-duration) var(ids-motion-ease),
+    margin var(--ids-motion-duration) var(ids-motion-ease),
+    padding var(--ids-motion-duration) var(ids-motion-ease),
     width var(--ids-motion-duration) var(ids-motion-ease);
 
   &.color-variant-module-nav {
