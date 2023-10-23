@@ -388,7 +388,6 @@ export default class IdsModuleNavBar extends Base {
     if (this.switcherEl) this.switcherEl.displayMode = this.displayMode;
 
     if (this.accordion) {
-      debugger;
       if (newValue !== 'expanded') this.accordion.collapseAll();
       this.items?.forEach((item) => {
         if (item.textNode) item.displayMode = this.displayMode;

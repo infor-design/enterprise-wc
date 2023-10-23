@@ -27,7 +27,7 @@
   flex-direction: column;
   overflow: hidden;
   align-items: stretch;
-  padding-top: 6px;
+  padding-block-start: var(--ids-module-nav-bar-padding-top);
 
   // =====================================================
   // Display Mode: Hidden
@@ -52,7 +52,7 @@
     }
 
     .ids-module-nav-separator {
-      display: none;
+      visibility: hidden;
     }
   }
 
@@ -91,7 +91,7 @@
     border-inline-end: 1px solid var(--ids-module-nav-border-color);
 
     .ids-module-nav-separator {
-      display: none;
+      visibility: hidden;
     }
 
     .ids-module-nav-search-wrapper {
