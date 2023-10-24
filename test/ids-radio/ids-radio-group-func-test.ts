@@ -47,7 +47,7 @@ describe('IdsRadioGroup Component', () => {
 
   it('should renders as disabled', () => {
     expect(rg.getAttribute('disabled')).toEqual(null);
-    let radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    let radioArr = [...rg.querySelectorAll('ids-radio')];
     radioArr.forEach((r: any) => {
       expect(r.getAttribute('group-disabled')).toEqual(null);
     });
@@ -56,7 +56,7 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.disabled).toEqual(false);
     rg.disabled = true;
     expect(rg.getAttribute('disabled')).toEqual('true');
-    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    radioArr = [...rg.querySelectorAll('ids-radio')];
     radioArr.forEach((r: any) => {
       expect(r.getAttribute('group-disabled')).toEqual('true');
     });
@@ -65,7 +65,7 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.disabled).toEqual(true);
     rg.disabled = false;
     expect(rg.getAttribute('disabled')).toEqual(null);
-    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    radioArr = [...rg.querySelectorAll('ids-radio')];
     radioArr.forEach((r: any) => {
       expect(r.getAttribute('group-disabled')).toEqual(null);
     });
@@ -184,7 +184,7 @@ describe('IdsRadioGroup Component', () => {
     rg = document.body.appendChild(elem);
     rg.template();
     rg.setValue();
-    let radioArr: any[] = [].slice.call(rg.querySelectorAll('ids-radio'));
+    let radioArr: any[] = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr[0].getAttribute('checked')).toEqual(null);
     expect(radioArr[1].getAttribute('checked')).toEqual('true');
     expect(rg.getAttribute('value')).toEqual('t2');
@@ -202,7 +202,7 @@ describe('IdsRadioGroup Component', () => {
     rg.setAttribute('label-required', 'false');
     rg.template();
     rg.setValue();
-    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    radioArr = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr[0].getAttribute('checked')).toEqual(null);
     expect(radioArr[1].getAttribute('checked')).toEqual('true');
 
@@ -217,7 +217,7 @@ describe('IdsRadioGroup Component', () => {
     rg.setAttribute('label', 'test');
     rg.template();
     rg.setValue();
-    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    radioArr = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr[0].getAttribute('checked')).toEqual('true');
     expect(radioArr[1].getAttribute('checked')).toEqual(null);
 
@@ -225,7 +225,7 @@ describe('IdsRadioGroup Component', () => {
     elem = document.createElement('ids-radio-group');
     rg = document.body.appendChild(elem);
     rg.template();
-    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    radioArr = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr.length).toEqual(0);
   });
 
@@ -241,21 +241,21 @@ describe('IdsRadioGroup Component', () => {
     rg = document.body.appendChild(elem);
     rg.template();
     rg.setValue();
-    let radioArr: any[] = [].slice.call(rg.querySelectorAll('ids-radio'));
+    let radioArr: any[] = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr[0].getAttribute('checked')).toEqual(null);
     expect(radioArr[1].getAttribute('checked')).toEqual('true');
     rg.clear();
-    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    radioArr = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr[0].getAttribute('checked')).toEqual(null);
     expect(radioArr[1].getAttribute('checked')).toEqual(null);
   });
 
   it('should make checked', () => {
-    let radioArr: any[] = [].slice.call(rg.querySelectorAll('ids-radio'));
+    let radioArr: any[] = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr[0].getAttribute('checked')).toEqual(null);
     expect(radioArr[1].getAttribute('checked')).toEqual(null);
     rg.makeChecked(radioArr[0], true);
-    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    radioArr = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr[0].getAttribute('checked')).toEqual('true');
     expect(radioArr[1].getAttribute('checked')).toEqual(null);
     radioArr[0].value = null;
@@ -293,7 +293,7 @@ describe('IdsRadioGroup Component', () => {
   });
 
   it('should trigger key events', () => {
-    const radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    const radioArr = [...rg.querySelectorAll('ids-radio')];
     const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
     const keys = [...allow, 'DummyKey'];
     let response = null;

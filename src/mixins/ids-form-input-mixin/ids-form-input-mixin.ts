@@ -12,7 +12,11 @@ const noop = (...params: any) => params;
  * @returns {any} The extended object
  */
 const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extends superclass {
-  // @see https://webkit.org/blog/13711/elementinternals-and-form-associated-custom-elements/
+  /**
+   * ElementInternals adds the capability for custom elements to participate in a form submission.
+   * To use this feature, we must declare that a custom element is associated with forms as follows:
+   * @see https://webkit.org/blog/13711/elementinternals-and-form-associated-custom-elements/
+   */
   static formAssociated = true;
 
   #internals: ElementInternals;
