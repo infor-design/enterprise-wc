@@ -1236,6 +1236,9 @@ export default class IdsPopup extends Base {
     // Account for absolute-positioned parents
     popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect, this.scrollParentElem);
 
+    // Pass X-coordinate through RTL correction, if applicable
+    popupRect = this.#correctRTL(popupRect);
+
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
       popupRect = this.onPlace(popupRect);
@@ -1369,6 +1372,9 @@ export default class IdsPopup extends Base {
 
     // Account for absolute-positioned parents
     popupRect = this.#removeRelativeParentDistance(this.parentNode as HTMLElement, popupRect, this.scrollParentElem);
+
+    // Pass X-coordinate through RTL correction, if applicable
+    popupRect = this.#correctRTL(popupRect);
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
@@ -1514,8 +1520,8 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #renderPlacementInPixels(popupRect: DOMRect): void {
-    this.style.left = `${popupRect.x}px`;
-    this.style.top = `${popupRect.y}px`;
+    this.style.insetInlineStart = `${popupRect.x}px`;
+    this.style.insetBlockStart = `${popupRect.y}px`;
   }
 
   /**
@@ -1619,6 +1625,15 @@ export default class IdsPopup extends Base {
 
     removeRelativeDistance(elem);
     return elemRect as DOMRect;
+  }
+
+  #correctRTL(popupRect: DOMRect) {
+    if (this.localeAPI.isRTL()) {
+      const viewportWidth = window.innerWidth;
+      const rectX = popupRect.x;
+      popupRect.x = viewportWidth - rectX;
+    }
+    return popupRect;
   }
 
   /**
