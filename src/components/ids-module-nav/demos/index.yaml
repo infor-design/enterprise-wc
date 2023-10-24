@@ -14,3 +14,6 @@
   - link: nesting-with-icons.html
     type: Example
     description: Shows Module Nav accordion with icons, nested
+  - link: sandbox.html
+    type: Example
+    description: Shows all possible Module Nav configurations
