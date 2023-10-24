@@ -17,7 +17,7 @@ import type { IdsModuleNavDisplayMode } from '../ids-module-nav-common';
 
 let menuState: IdsModuleNavDisplayMode = 'collapsed';
 
-let doOffsetContent = false;
+let doOffsetContent = true;
 
 document.addEventListener('DOMContentLoaded', async () => {
   const moduleNav: any = document.querySelector('ids-module-nav');
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     displayModeDropdown.disabled = useResponsive;
 
     useOffsetCheck.disabled = useResponsive;
-    useOffsetCheck.value = useResponsive || doOffsetContent;
+    useOffsetCheck.value = useResponsive ? true : doOffsetContent;
   });
 
   useOffsetCheck.addEventListener('change', (e: CustomEvent) => {
