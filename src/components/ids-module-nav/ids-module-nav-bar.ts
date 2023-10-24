@@ -306,7 +306,7 @@ export default class IdsModuleNavBar extends Base {
       if (!this.displayMode) allowed = false;
       if (this.displayMode === 'expanded') {
         const target = this.tooltipEl?.popup?.alignTarget;
-        if (!target) allowed = false;
+        if (!target || target.tagName === 'IDS-MODULE-NAV-BUTTON') allowed = false;
         else {
           allowed = checkItemOverflow((target as IdsModuleNavItem)!.textNode);
         }
