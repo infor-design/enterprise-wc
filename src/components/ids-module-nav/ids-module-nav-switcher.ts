@@ -146,10 +146,14 @@ export default class IdsModuleNavSwitcher extends Base {
         popup.type = 'module-nav';
         popup.align = 'bottom, left';
         popup.arrow = 'none';
-        popup.style.left = `-${POPUP_X_OFFSET}px`;
 
+        popup.style[popup.localeAPI.isRTL() ? 'right' : 'left'] = `-${POPUP_X_OFFSET}px`;
         popup.onPlace = (popupRect: DOMRect) => {
-          popupRect.x -= POPUP_X_OFFSET;
+          if (popup.localeAPI.isRTL()) {
+            popupRect.x += POPUP_X_OFFSET;
+          } else {
+            popupRect.x -= POPUP_X_OFFSET;
+          }
           popupRect.y += POPUP_Y_OFFSET;
           return popupRect;
         };
