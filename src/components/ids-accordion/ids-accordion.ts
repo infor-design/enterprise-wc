@@ -478,21 +478,6 @@ export default class IdsAccordion extends Base {
   }
 
   /**
-   *
-   */
-  #markSpecialHeaderPositions(panel: any) {
-    const children = [...panel.children];
-    children.forEach((el: any) => {
-      if (el.previousElementSibling && el.previousElementSibling?.tagName !== 'IDS-ACCORDION-PANEL') {
-        el.header?.container?.classList.add('first-child');
-      }
-      if (!el.nextElementSibling) {
-        el.header?.container?.classList.add('last-child');
-      }
-    });
-  }
-
-  /**
    * Collapses all child accordion panels at once
    * @param {IdsAccordionPanel | null | undefined} [excluded] if provided,
    *   excludes this accordion header from being collapsed
