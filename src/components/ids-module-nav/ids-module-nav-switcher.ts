@@ -26,6 +26,9 @@ const Base = IdsModuleNavTextDisplayMixin(
  * IDS Module Nav Switcher Component
  * @type {IdsModuleNavSwitcher}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsModuleNavDisplayModeMixin
+ * @mixes IdsModuleNavTextDisplayMixin
  */
 @customElement('ids-module-nav-switcher')
 @scss(styles)

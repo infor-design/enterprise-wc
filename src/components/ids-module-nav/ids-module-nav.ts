@@ -156,7 +156,7 @@ export default class IdsModuleNav extends Base {
           this.handleAboveBreakpoint();
         }
       };
-      this.respondDown = RESPONSIVE_BREAKPOINT;
+      if (!this.respondDown) this.respondDown = RESPONSIVE_BREAKPOINT;
     } else {
       this.onBreakpointDownResponse = () => {};
       this.respondDown = null;

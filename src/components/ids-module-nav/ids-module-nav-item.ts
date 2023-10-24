@@ -19,7 +19,9 @@ const Base = IdsModuleNavDisplayModeMixin(
  * IDS Module Nav Item Component
  * @type {IdsModuleNavItem}
  * @inherits IdsAccordionHeader
+ * @mixes IdsHideFocusMixin
  * @mixes IdsModuleNavDisplayModeMixin
+ * @mixes IdsModuleNavTextDisplayMixin
  * @part expander - this accoridon header's expander button element
  * @part header - the accordion header's root element
  * @part icon - the accordion header's icon element

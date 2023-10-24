@@ -20,6 +20,7 @@ const Base = IdsModuleNavDisplayModeMixin(
  * IDS Module Nav Component
  * @type {IdsModuleNavContent}
  * @inherits IdsElement
+ * @mixes IdsModuleNavDisplayModeMixin
  */
 @customElement('ids-module-nav-content')
 @scss(styles)

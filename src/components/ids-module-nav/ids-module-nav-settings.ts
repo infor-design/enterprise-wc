@@ -6,7 +6,6 @@ import IdsModuleNavTextDisplayMixin from './ids-module-nav-text-display-mixin';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import IdsMenuItem from '../ids-menu/ids-menu-item';
 
-import type IdsLocale from '../ids-locale/ids-locale';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsText from '../ids-text/ids-text';
 
@@ -22,6 +21,8 @@ const Base = IdsModuleNavTextDisplayMixin(
  * IDS Module Nav Settings Component
  * @type {IdsModuleNavSettings}
  * @inherits IdsModuleNavItem
+ * @mixes IdsModuleNavDisplayModeMixin
+ * @mixes IdsModuleNavTextDisplayMixin
  * @part expander - this accoridon header's expander button element
  * @part header - the accordion header's root element
  * @part icon - the accordion header's icon element
