@@ -74,17 +74,9 @@ export default class IdsModuleNavSettings extends Base {
     }
 
     this.setPopupmenuType();
+    this.setPopupmenuCoords();
 
     this.menuEl.popup.arrow = 'none';
-    this.menuEl.popup.x = 8;
-    this.menuEl.popup.y = 12;
-
-    if (this.displayMode === 'collapsed') {
-      this.menuEl.popup.align = 'right, bottom';
-    }
-    if (this.displayMode === 'expanded') {
-      this.menuEl.popup.align = 'top, left';
-    }
 
     this.menuEl.popup.onPlace = (popupRect: DOMRect) => {
       if (this.displayMode === 'collapsed') {
@@ -120,6 +112,21 @@ export default class IdsModuleNavSettings extends Base {
     });
   }
 
+  setPopupmenuCoords() {
+    const isRTL = this.menuEl.popup.localeAPI.isRTL();
+
+    this.menuEl.popup.x = 8;
+    this.menuEl.popup.y = 12;
+    this.menuEl.popup.useRight = isRTL;
+
+    if (this.displayMode === 'collapsed') {
+      this.menuEl.popup.align = 'right, bottom';
+    }
+    if (this.displayMode === 'expanded') {
+      this.menuEl.popup.align = `${isRTL ? 'bottom' : 'top'}, ${isRTL ? 'right' : 'left'}`;
+    }
+  }
+
   /**
    * @param {string | undefined | null} variantName name of the new colorVariant
    */
@@ -141,10 +148,8 @@ export default class IdsModuleNavSettings extends Base {
     if (this.textNode) this.textNode.audible = val !== 'default';
   }
 
-  onLanguageChange = (locale?: IdsLocale | undefined) => {
+  onLanguageChange = () => {
     if (!this.menuEl || !this.menuEl.popup) return;
-    if (this.displayMode === 'collapsed') {
-      this.menuEl.popup.align = locale?.isRTL() ? 'left' : 'right';
-    }
+    this.setPopupmenuCoords();
   };
 }

@@ -652,8 +652,14 @@ export default class IdsModuleNavBar extends Base {
   }
 
   onLanguageChange = (locale?: IdsLocale | undefined) => {
-    const rtl = locale?.isRTL();
-    this.tooltipEl?.setAttribute(attributes.PLACEMENT, rtl ? 'left' : 'right');
-    this.tooltipEl?.popup?.setAttribute(attributes.ALIGN, rtl ? 'left' : 'right');
+    const rtl = locale?.isRTL() || false;
+    const attr = rtl ? 'left' : 'right';
+    const popup = this.tooltipEl?.popup;
+
+    this.tooltipEl?.setAttribute(attributes.PLACEMENT, attr);
+    if (popup) {
+      popup.useRight = rtl;
+      popup.setAttribute(attributes.ALIGN, attr);
+    }
   };
 }

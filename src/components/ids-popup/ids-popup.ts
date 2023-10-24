@@ -59,6 +59,8 @@ export default class IdsPopup extends Base {
 
   scrollParentElem?: HTMLElement | null;
 
+  useRight = false;
+
   constructor() {
     super();
     this.#align = CENTER;
@@ -1241,6 +1243,9 @@ export default class IdsPopup extends Base {
       popupRect = this.onPlace(popupRect);
     }
 
+    // Correct RTL
+    popupRect = this.#correctRTL(popupRect);
+
     this.#renderPlacementInPixels(popupRect);
   }
 
@@ -1374,6 +1379,9 @@ export default class IdsPopup extends Base {
     if (typeof this.onPlace === 'function') {
       popupRect = this.onPlace(popupRect);
     }
+
+    // Correct for RTL Position
+    popupRect = this.#correctRTL(popupRect);
 
     this.#renderPlacementInPixels(popupRect);
 
@@ -1514,8 +1522,14 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   #renderPlacementInPixels(popupRect: DOMRect): void {
-    this.style.left = `${popupRect.x}px`;
-    this.style.top = `${popupRect.y}px`;
+    this.style.removeProperty('left');
+    this.style.removeProperty('right');
+    this.style.removeProperty('top');
+
+    let xProp = 'left';
+    if (this.useRight) xProp = 'right';
+    this.style.setProperty(xProp, `${popupRect.x}px`);
+    this.style.setProperty('top', `${popupRect.y}px`);
   }
 
   /**
@@ -1619,6 +1633,20 @@ export default class IdsPopup extends Base {
 
     removeRelativeDistance(elem);
     return elemRect as DOMRect;
+  }
+
+  /**
+   * If `useRight` property is configured, correct X coordinate values for RTL-based positions
+   * @param {DOMRect} popupRect original values
+   * @returns {DOMRect} corrected values
+   */
+  #correctRTL(popupRect: DOMRect) {
+    if (this.useRight) {
+      if (this.localeAPI.isRTL()) {
+        popupRect.x = window.innerWidth - popupRect.x - popupRect.width;
+      }
+    }
+    return popupRect;
   }
 
   /**
