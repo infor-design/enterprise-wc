@@ -53,6 +53,7 @@ export default class IdsAccordionHeader extends Base {
     this.#refreshIconDisplay(this.icon);
     this.#refreshExpanderIconType();
     this.refreshDepth();
+    this.refreshPlacement();
   }
 
   /**
@@ -458,5 +459,16 @@ export default class IdsAccordionHeader extends Base {
 
     this.depth = depth;
     if (depth > 0) this.container.classList.add(`depth-${depth}`);
+  }
+
+  refreshPlacement() {
+    if (!this.container) return;
+
+    const panel = this.panel;
+    const isFirstChild = !panel.previousElementSibling || (panel.previousElementSibling && panel.previousElementSibling.tagName !== 'IDS-ACCORDION-PANEL');
+    const isLastChild = !panel.nextElementSibling;
+
+    this.container!.classList[isFirstChild ? 'add' : 'remove']('first-child');
+    this.container!.classList[isLastChild ? 'add' : 'remove']('last-child');
   }
 }

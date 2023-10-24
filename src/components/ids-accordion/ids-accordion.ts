@@ -248,7 +248,9 @@ export default class IdsAccordion extends Base {
       if (element.tagName === 'IDS-ACCORDION-PANEL') {
         (element as IdsAccordionPanel).nested = subLevelDepth;
       }
-      if (element.container) addDepthClass(element.container, depth);
+      if (element.container) {
+        addDepthClass(element.container, depth);
+      }
 
       // Assign Color Variant
       if (doColorVariant && this.colorVariant) {
@@ -471,6 +473,21 @@ export default class IdsAccordion extends Base {
     [...parent.children].forEach((node) => {
       if (node.tagName === 'IDS-ACCORDION-PANEL') {
         node.contentAlignment = status ? 'has-icon' : null;
+      }
+    });
+  }
+
+  /**
+   *
+   */
+  #markSpecialHeaderPositions(panel: any) {
+    const children = [...panel.children];
+    children.forEach((el: any) => {
+      if (el.previousElementSibling && el.previousElementSibling?.tagName !== 'IDS-ACCORDION-PANEL') {
+        el.header?.container?.classList.add('first-child');
+      }
+      if (!el.nextElementSibling) {
+        el.header?.container?.classList.add('last-child');
       }
     });
   }

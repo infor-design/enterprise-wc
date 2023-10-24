@@ -104,6 +104,16 @@
     margin-inline: var(--ids-module-nav-item-margin-inline);
     padding: var(--ids-module-nav-item-margin-block);
 
+    &:not(.depth-1) {
+      &.first-child {
+        margin-block-start: 0;
+      }
+
+      &.last-child {
+        margin-block-end: 0;
+      }
+    }
+
     .ids-accordion-display-icon {
       margin-inline-end: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
     }
