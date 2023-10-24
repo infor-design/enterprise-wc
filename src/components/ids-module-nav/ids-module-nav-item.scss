@@ -56,7 +56,7 @@
     height: var(--ids-module-nav-item-collapsed-size);
     margin-block: var(--ids-module-nav-item-collapsed-general-spacing-size);
     margin-inline: auto;
-    padding-block: var(--ids-module-nav-item-margin-inline);
+    padding-block: var(--ids-module-nav-item-padding-block);
     padding-inline: auto;
     width: 0;
 
@@ -102,7 +102,7 @@
   &.display-mode-expanded {
     margin-block: var(--ids-module-nav-item-margin-block);
     margin-inline: var(--ids-module-nav-item-margin-inline);
-    padding: var(--ids-module-nav-item-margin-block);
+    padding: var(--ids-module-nav-item-padding-block);
 
     &:not(.depth-1) {
       &.first-child {
@@ -181,10 +181,10 @@
     @for $i from 1 through 6 {
       &.depth-#{$i} {
         @if $i == 1 {
-          padding-inline-start: var(--ids-module-nav-item-margin-block);
+          padding-inline-start: var(--ids-module-nav-item-padding-block);
 
           &.is-expandable {
-            padding-inline-start: var(--ids-module-nav-item-margin-block);
+            padding-inline-start: var(--ids-module-nav-item-padding-block);
           }
         } @else {
           $this-depth-offset: ($depth-offset * ($i - 1));
