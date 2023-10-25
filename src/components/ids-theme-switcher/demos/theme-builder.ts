@@ -74,8 +74,8 @@ import cssListView from '../../../assets/css/ids-list-view/index.css';
 import eventsJSON from '../../../assets/data/events.json';
 import eventTypesJSON from '../../../assets/data/event-types.json';
 import headshot from '../../../assets/images/headshot-1.jpg';
-import periodsJSON from '../../../assets/data/periods.json';
 import placeHolderImg200x200 from '../../../assets/images/placeholder-200x200.png';
+import swaplistData from '../../../assets/data/swaplist-data.json';
 import treeBasicJSON from '../../../assets/data/tree-basic.json';
 
 // Types
@@ -692,7 +692,7 @@ document.querySelectorAll('.loading-indicator-tb[progress]').forEach((el: any) =
 const swaplistEl: any = document.querySelector('#swaplist-tb');
 if (swaplistEl) {
   const setData = async () => {
-    const res = await fetch((periodsJSON as any));
+    const res = await fetch((swaplistData as any));
     const data = await res.json();
     swaplistEl.data = data;
   };
