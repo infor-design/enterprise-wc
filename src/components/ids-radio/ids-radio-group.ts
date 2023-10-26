@@ -204,31 +204,16 @@ export default class IdsRadioGroup extends Base {
    * Make given radio as checked.
    * @private
    * @param {object} radio to make checked
-   * @param {boolean} isFocus if true will set focus
    * @returns {void}
    */
-  makeChecked(radio: any, isFocus: boolean): void {
-    const radioArr = this.radios;
-    const targetEl = radioArr.filter((r) => r !== radio);
-    targetEl.forEach((r: any) => r.removeAttribute(attributes.CHECKED));
-    this.checked = radio;
-    const val = radio.value;
-    if (val) {
-      this.value = val;
-    }
-    if (isFocus) {
-      radio.shadowRoot?.querySelector('input[type="radio"]')?.focus();
-    }
+  makeChecked(radio: IdsRadio): void {
+    const value = radio?.value ?? '';
+    this.value = value;
 
-    // Mark if first radio checked in group, use for css style
-    const className = 'first-item-checked';
-    if (radio === radioArr[0]) {
-      this.input?.classList.add(className);
-    } else {
-      this.input?.classList.remove(className);
-    }
+    this.checked = radio ?? false;
+    if (radio) radio.checked = true;
 
-    const args = { detail: { value: val, checked: radio } };
+    const args = { detail: { value, checked: radio ?? false } };
     this.triggerEvent('change', this.input, args);
     this.triggerEvent('change', this, args);
   }
@@ -241,9 +226,9 @@ export default class IdsRadioGroup extends Base {
   attachRadioGroupChangeEvent(): void {
     const radioArr = this.radios;
 
-    radioArr.forEach((r) => {
-      this.onEvent('change', r, () => {
-        this.makeChecked(r, false);
+    radioArr.forEach((radio) => {
+      this.onEvent('change', radio, () => {
+        this.makeChecked(radio);
       });
     });
   }
@@ -254,7 +239,7 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   attachRadioGroupKeydown(): void {
-    const radioArr = [...this.querySelectorAll('ids-radio:not([disabled="true"])')];
+    const radioArr = [...this.querySelectorAll<IdsRadio>('ids-radio:not([disabled="true"])')];
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
       this.onEvent('keydown', r, (e: KeyboardEvent) => {
@@ -267,7 +252,8 @@ export default class IdsRadioGroup extends Base {
           } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
             idx = (i <= 0) ? (len - 1) : (idx - 1);
           }
-          this.makeChecked(radioArr[idx], true);
+          this.makeChecked(radioArr[idx]);
+          radioArr[idx].focus();
           e.preventDefault();
         }
       });

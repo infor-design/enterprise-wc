@@ -254,7 +254,7 @@ describe('IdsRadioGroup Component', () => {
     let radioArr: any[] = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr[0].getAttribute('checked')).toEqual(null);
     expect(radioArr[1].getAttribute('checked')).toEqual(null);
-    rg.makeChecked(radioArr[0], true);
+    rg.makeChecked(radioArr[0]);
     radioArr = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr[0].getAttribute('checked')).toEqual('true');
     expect(radioArr[1].getAttribute('checked')).toEqual(null);
@@ -262,6 +262,9 @@ describe('IdsRadioGroup Component', () => {
     radioArr[1].value = null;
     rg.makeChecked(radioArr[0]);
     expect(radioArr[0].getAttribute('checked')).toEqual('true');
+    expect(radioArr[1].getAttribute('checked')).toEqual(null);
+    rg.makeChecked();
+    expect(radioArr[0].getAttribute('checked')).toEqual(null);
     expect(radioArr[1].getAttribute('checked')).toEqual(null);
   });
 
