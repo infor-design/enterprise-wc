@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.17
+
+### 1.0.0-beta.17 Fixes
+
+- `[FlexLayout]` Added a flex example using IdsButtons and IdsInputs. ([#1395](https://github.com/infor-design/enterprise-wc/issues/1395))
+
 ## 1.0.0-beta.16
 
 ### 1.0.0-beta.16 Breaking Changes
