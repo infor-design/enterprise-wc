@@ -423,7 +423,11 @@ ids-popup-menu,
 }
 
 ::slotted(ids-trigger-button) {
+  align-items: center;
   color: currentColor;
-  height: fit-content;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin-inline-end: var(--ids-tab-dismiss-button-offset);
   place-self: center;
 }

@@ -123,7 +123,7 @@ export default class IdsTab extends Base {
     const inheritColor = this.colorVariant === 'module' ? '' : 'inherit-color';
 
     return `<ids-trigger-button slot="close" label="Close" ${colorVariant} ${inheritColor}>
-      <ids-icon icon="close" size="xsmall"></ids-icon>
+      <ids-icon icon="close" size="small"></ids-icon>
     </ids-trigger-button>`;
   }
 
