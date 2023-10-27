@@ -42,6 +42,14 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
   }
 
   /**
+   * @readonly
+   * @returns {HTMLInputElement} the inner `input` element
+   */
+  get formInput(): HTMLInputElement | HTMLTextAreaElement | null {
+    return this.shadowRoot?.querySelector<HTMLInputElement>(`input`) ?? null;
+  }
+
+  /**
    * React to attributes changing on the web-component
    * @param {string} name The property name
    * @param {string} oldValue The property old value
@@ -137,14 +145,6 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
         nativeEvent: e,
       }
     });
-  }
-
-  /**
-   * @readonly
-   * @returns {HTMLInputElement} the inner `input` element
-   */
-  get formInput(): HTMLInputElement | HTMLTextAreaElement | null {
-    return this.shadowRoot?.querySelector<HTMLInputElement>(`input`) ?? null;
   }
 
   get form() { return this.#internals?.form; }

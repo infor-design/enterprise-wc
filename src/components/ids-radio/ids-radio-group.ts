@@ -103,7 +103,7 @@ export default class IdsRadioGroup extends Base {
 
   /**
    * Get the selected child ids-radio button in this group
-   * @returns {IdsRadio[]} the currently selected ids-radio
+   * @returns {IdsRadio[]} list of selected radios
    */
   get radiosSelected(): IdsRadio[] {
     return [...this.querySelectorAll<IdsRadio>('ids-radio[checked]')];
