@@ -433,3 +433,8 @@ ids-popup-menu,
   margin-inline-end: var(--ids-tab-dismiss-button-offset);
   place-self: center;
 }
+
+::slotted(.ids-tab-more-menu-item-text) {
+  display: inline-block;
+  margin-inline-start: 4px;
+}
