@@ -545,7 +545,9 @@ export default class IdsPopupMenu extends Base {
         this.hide();
         if (mouseLeaveNode?.tagName === 'IDS-MENU-ITEM') {
           mouseLeaveNode.highlight();
-          if (mouseLeaveNode.menu) mouseLeaveNode.menu.hideSubmenus(mouseLeaveNode);
+          if (mouseLeaveNode.menu && typeof mouseLeaveNode.menu.hideSubmenus === 'function') {
+            mouseLeaveNode.menu.hideSubmenus(mouseLeaveNode);
+          }
         }
       }
     }

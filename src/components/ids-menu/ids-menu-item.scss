@@ -27,9 +27,11 @@
   pointer-events: none;
 }
 
+/*
 ::slotted(ids-icon) {
   pointer-events: none;
 }
+*/
 
 // Resets position rules for nested menus
 ::slotted(ids-popup-menu) {

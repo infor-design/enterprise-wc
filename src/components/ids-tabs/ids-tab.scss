@@ -417,9 +417,11 @@ ids-popup-menu,
 }
 
 // "More Tabs" tab flex rules
-::slotted(ids-icon) {
-  color: currentColor;
-  pointer-events: none;
+.ids-tab:not(.more) {
+  ::slotted(ids-icon) {
+    color: currentColor;
+    pointer-events: none;
+  }
 }
 
 ::slotted(ids-trigger-button) {

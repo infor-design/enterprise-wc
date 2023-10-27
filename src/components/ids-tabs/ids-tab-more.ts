@@ -8,6 +8,7 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import '../ids-popup-menu/ids-popup-menu';
 import '../ids-text/ids-text';
 import type IdsTabs from './ids-tabs';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 
@@ -346,7 +347,8 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
     this.menu.width = '100%';
     this.menu.popup.align = 'bottom, left';
     this.menu.popup.y = -10;
-    this.menu.popup.alignTarget = this.container;
+    this.menu.target = this;
+    this.menu.triggerType = 'click';
   }
 
   #attachMoreMenuEvents(): void {
@@ -365,6 +367,19 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
         this.menu.show();
       } else {
         this.menu.hide();
+      }
+    });
+
+    this.onEvent('click', this.menu, (e: MouseEvent) => {
+      const target = (e.target as HTMLElement);
+      if (target) {
+        // If the icon inside the menu item is a "close" icon, dismiss the tab.
+        if (target.tagName === 'IDS-ICON' && target.getAttribute('icon') === 'close') {
+          const menuItem = getClosest(target, 'ids-menu-item');
+          if (menuItem) {
+            (menuItem.overflowTarget as IdsTab).dismiss();
+          }
+        }
       }
     });
 
