@@ -62,12 +62,26 @@
   // ================================================
   // Standard Rules for a menu item with no icons
   a {
+    --menu-item-checkmark-column-size: 0;
+    --menu-item-icon-start-column-size: 0;
+    --menu-item-text-column-size: max-content;
+    --menu-item-shortcuts-column-size: 0;
+    --menu-item-icon-end-column-size: 0;
+    --menu-item-submenu-column-size: 0;
+
+    // grid-template-columns: 0 max-content;
+    grid-template-columns: var(--menu-item-checkmark-column-size)
+      var(--menu-item-icon-start-column-size)
+      var(--menu-item-text-column-size)
+      var(--menu-item-shortcuts-column-size)
+      var(--menu-item-icon-end-column-size)
+      var(--menu-item-submenu-column-size);
+
     padding-inline-start: 12px;
     padding-inline-end: 8px;
     padding-block: 8px 8px;
     display: grid;
     font-size: var(--ids-menu-item-font-size);
-    grid-template-columns: 0 max-content;
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -92,29 +106,30 @@
       justify-content: center;
     }
 
-    ids-icon,
-    .ids-icon,
-    .ids-menu-item-display-icon {
+    // When checkmarks are present, all column placements change
+    .check {
       grid-column-start: 1;
     }
 
-    .ids-menu-item-text {
+    .ids-menu-item-icon,
+    .ids-menu-item-display-icon {
       grid-column-start: 2;
+    }
 
-      span,
-      .ids-text {
-        display: inline-block;
-      }
+    .ids-menu-item-text {
+      grid-column-start: 3;
+    }
 
-      ::slotted(ids-text) {
-        display: inline-block;
-      }
+    .ids-menu-item-shortcuts {
+      grid-column-start: 4;
+    }
+
+    .ids-menu-item-icon-end {
+      grid-column-start: 5;
     }
 
     .ids-menu-item-submenu-icon {
-      margin-inline-start: 12px;
-      grid-column-start: 3;
-      transform: rotateZ(-90deg);
+      grid-column-start: 6;
     }
   }
 
@@ -198,9 +213,14 @@
   // Rules for a menu item with shortcut keys
 
   &.has-shortcuts {
+    // --menu-item-text-column-size: 50%;
+    --menu-item-shortcuts-column-size: max-content;
+
+    /*
     a {
       grid-template-columns: 0 50% 50%;
     }
+    */
 
     &:not(.has-submenu) {
       .ids-menu-item-shortcuts {
@@ -214,17 +234,30 @@
   // Rules for a menu item with an icon
 
   &.has-icon {
+    --menu-item-icon-start-column-size: 30px;
+    // --menu-item-text-column-size: calc(100% - 30px);
+
     a {
       padding-inline-start: 8px;
       padding-inline-end: 8px;
-      grid-template-columns: 30px max-content;
+      // grid-template-columns: 30px max-content;
     }
   }
 
+  &.has-icon-end {
+    --menu-item-icon-end-column-size: 30px;
+  }
+
   &.has-shortcuts.has-icon {
+    // --menu-item-icon-start-column-size: 30px;
+    // --menu-item-shortcuts-column-size: calc(50% - 15px);
+    // --menu-item-text-column-size: calc(50% - 15px);
+
+    /*
     a {
       grid-template-columns: 30px calc(50% - 15px) calc(50% - 15px);
     }
+    */
   }
 
   // ================================================
@@ -232,45 +265,45 @@
 
   &.has-checkmark,
   &.has-multi-checkmark {
+    --menu-item-checkmark-column-size: 30px;
+
+    /*
     a {
       padding-inline-start: 4px;
-      grid-template-columns: 30px 0 max-content 0;
-
-      // When checkmarks are present, all column placements change
-      .check {
-        grid-column-start: 1;
-      }
-
-      ids-icon,
-      .ids-icon,
-      .ids-menu-item-display-icon {
-        grid-column-start: 2;
-      }
-
-      .ids-menu-item-text {
-        grid-column-start: 3;
-      }
-
-      .ids-menu-item-submenu-icon {
-        grid-column-start: 4;
-      }
+      grid-template-columns: 30px 0 max-content 0 0;
     }
+    */
   }
 
   &.has-shortcuts.has-checkmark,
   &.has-shortcuts.has-multi-checkmark {
+    /*
     a {
-      grid-template-columns: 30px 0 50% calc(50% - 30px);
+      grid-template-columns: 30px 0 50% 0 calc(50% - 30px);
     }
+    */
+  }
+
+
+  &.has-icon-end.has-checkmark,
+  &.has-icon-end.has-multi-checkmark {
+    /*
+    a {
+      grid-template-columns: 30px 0 50% 30px calc(50% - 60px);
+    }
+    */
   }
 
   // ================================================
   // Rules for a menu item with a submenu + submenu icon
 
   &.has-submenu {
+    --menu-item-submenu-column-size: 25px;
+    /*
     a {
       grid-template-columns: 0 calc(100% - 25px) 25px;
     }
+    */
 
     // NOTE: Submenu items contain this element,
     // but hide it from the grid template calculation
@@ -286,16 +319,18 @@
   &.has-icon.has-multi-checkmark {
     a {
       padding-inline-start: 4px;
-      grid-template-columns: 30px 30px calc(100% - 60px);
+      // grid-template-columns: 30px 30px calc(100% - 60px);
       width: calc(100% - 12px);
     }
   }
 
   &.has-shortcuts.has-icon.has-checkmark,
   &.has-shortcuts.has-icon.has-mutlt-checkmark {
+    /*
     a {
       grid-template-columns: 30px 30px calc(50% - 30px) calc(50% - 30px);
     }
+    */
   }
 
   // ================================================
@@ -303,27 +338,44 @@
   // Also for a menu item with a checkmark, and a submenu + submenu icon
 
   &.has-icon.has-submenu {
+    /*
     a {
       grid-template-columns: 30px calc(100% - 55px) 25px;
     }
+    */
   }
 
   // Icon slot is still present (but hidden) in this configuration
   &.has-checkmark.has-submenu,
-  &.has-multi-checkmark.has-submenu {
+  &.has-multi-checkmark.has-submenu,
+  &.has-icon-end.has-submenu {
+    /*
     a {
       grid-template-columns: 30px 0 calc(100% - 55px) 25px;
     }
+    */
   }
 
   // ================================================
   // Rules for a menu item with a checkmark, action-defined icon, and a submenu + submenu icon
 
   &.has-icon.has-checkmark.has-submenu,
-  &.has-icon.has-multi-checkmark.has-submenu {
+  &.has-icon.has-multi-checkmark.has-submenu,
+  &.has-icon.has-icon-end.has-submenu {
+    /*
     a {
       grid-template-columns: 30px 30px calc(100% - 85px) 25px;
     }
+    */
+  }
+
+  &.has-icon.has-icon-end.has-checkmark.has-submenu,
+  &.has-icon.has-icon-end.has-multi-checkmark.has-submenu {
+    /*
+    a {
+      grid-template-columns: 30px 30px calc(100% - 85px) 25px 25px;
+    }
+    */
   }
 
   // ================================================
@@ -420,11 +472,27 @@
   }
 }
 
+.ids-menu-item-text {
+  span,
+  .ids-text {
+    display: inline-block;
+  }
+
+  ::slotted(ids-text) {
+    display: inline-block;
+  }
+}
+
+.ids-menu-item-submenu-icon {
+  margin-inline-start: 12px;
+  transform: rotateZ(-90deg);
+}
+
 // RTL Fixes
 .ids-menu-item[dir='rtl'],
 .ids-menu-item.rtl {
   a .ids-menu-item-submenu-icon {
-    grid-column-start: 3;
+    grid-column-start: 4;
     transform: rotateZ(90deg);
   }
 }

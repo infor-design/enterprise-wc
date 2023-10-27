@@ -56,6 +56,7 @@ export default class IdsMenu extends Base {
     this.lastHovered = undefined;
     this.lastNavigated = undefined;
     this.hasIcons = false;
+    this.hasEndIcons = false;
   }
 
   static get attributes(): Array<string> {
@@ -739,9 +740,14 @@ export default class IdsMenu extends Base {
   }
 
   /**
-   * @param {boolean} hasIcons true if the menu contains items displaying icons
+   * @param {boolean} hasIcons true if the menu contains items displaying icons at the "start" of the menu item
    */
   protected hasIcons: boolean;
+
+  /**
+   * @param {boolean} hasEndIcons true if the menu contains items displaying icons on the "end" of the menu item
+   */
+  protected hasEndIcons: boolean;
 
   /**
    * Determines if this menu (not including its submenus) contains icons inside its visible menu items
@@ -749,10 +755,14 @@ export default class IdsMenu extends Base {
    */
   detectIcons() {
     this.hasIcons = false;
+    this.hasEndIcons = true;
     for (let i = 0, item: IdsMenuItem; i < this.items.length; i++) {
-      if (this.hasIcons) break;
+      if (this.hasIcons && this.hasEndIcons) break;
       item = this.items[i];
-      if (!item.hidden && item.icon && item.icon.length) this.hasIcons = true;
+      if (!item.hidden) {
+        if (item.icon && item.icon.length) this.hasIcons = true;
+        if (item.iconEnd && item.iconEnd.length) this.hasEndIcons = true;
+      }
     }
     return this.hasIcons;
   }

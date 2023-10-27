@@ -92,6 +92,11 @@ export default class IdsMenuItem extends Base {
     let shortcutClass = '';
     if (this.shortcutKeys) shortcutClass = ' has-shortcuts';
 
+    // Icon End
+    const iconEndSlot = `<span class="ids-menu-item-icon-end" role="presentation"><slot name="icon-end"></slot></span>`;
+    let iconEndClass = '';
+    if (this.iconEnd) iconEndClass = ' has-icon-end';
+
     // Submenu
     let submenuClass = '';
     if (this.submenu) submenuClass = ' has-submenu';
@@ -108,9 +113,9 @@ export default class IdsMenuItem extends Base {
     const textSlot = `<span class="ids-menu-item-text" part="text"><slot></slot></span>`;
 
     // Main
-    return `<div role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${shortcutClass}${submenuClass}${textClass}">
+    return `<div role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${shortcutClass}${submenuClass}${textClass}${iconEndClass}">
       <a role="menuitem" ${tabindex} ${disabledAttr}>
-        ${check}${iconSlot}${textSlot}${shortcutSlot}
+        ${check}${iconSlot}${textSlot}${shortcutSlot}${iconEndSlot}
       </a>
       <slot name="submenu"></slot>
     </div>`;
@@ -186,7 +191,10 @@ export default class IdsMenuItem extends Base {
     this.detectHidden();
     this.detectSubmenu();
     this.detectSelectability();
-    if (this.menu) this.decorateForIcon((this.menu as any).hasIcons);
+    if (this.menu) {
+      this.decorateForIcon((this.menu as any).hasIcons);
+      this.decorateForIconEnd((this.menu as any).hasEndIcons);
+    }
   }
 
   /**
@@ -371,7 +379,22 @@ export default class IdsMenuItem extends Base {
    * @returns {any} [IdsIcon | undefined] reference to a defined IDS Icon element, if applicable
    */
   get iconEl() {
-    const icon = [...this.children].find((e) => e.matches('ids-icon')) as IdsIcon | undefined;
+    const icon = [...this.children].find((e) => e.matches('ids-icon:not([slot]), ids-icon[slot="icon"]')) as IdsIcon | undefined;
+    return icon;
+  }
+
+  /**
+   * @returns {string | undefined} a defined IdsIcon's `icon` attribute, if one is present
+   */
+  get iconEnd() {
+    return this.iconEndEl?.icon;
+  }
+
+  /**
+   * @returns {any} [IdsIcon | undefined] reference to a defined IDS Icon element, if applicable
+   */
+  get iconEndEl() {
+    const icon = [...this.children].find((e) => e.matches('ids-icon[slot="icon-end"]')) as IdsIcon | undefined;
     return icon;
   }
 
@@ -409,6 +432,10 @@ export default class IdsMenuItem extends Base {
    */
   decorateForIcon(doShow?: boolean) {
     this.container?.classList[doShow ? 'add' : 'remove']('has-icon');
+  }
+
+  decorateForIconEnd(doShow?: boolean) {
+    this.container?.classList[doShow ? 'add' : 'remove']('has-icon-end');
   }
 
   /**
