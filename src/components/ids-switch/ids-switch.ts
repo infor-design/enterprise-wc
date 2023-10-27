@@ -191,7 +191,9 @@ export default class IdsSwitch extends Base {
     }
   }
 
-  get checked(): boolean { return stringToBool(this.input?.checked); }
+  get checked(): boolean {
+    return stringToBool(this.input ? this.input.checked : this.getAttribute(attributes.CHECKED));
+  }
 
   /**
    * @readonly
