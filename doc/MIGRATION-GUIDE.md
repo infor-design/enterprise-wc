@@ -2,7 +2,7 @@
 
 While everyone's path and and needs may vary, this guide is meant to provide a list of common questions and answers and notes that may be helpful while migrating from previous versions of IDS or using it for the first. This is meant to be a live guide. If you have suggestions please [make an issue](https://github.com/infor-design/enterprise-wc/issues) and even better [a pull request](./CONTRIBUTING.md).
 
-## What is a Web Component
+## What is a Web Component?
 
 One of the best guides on web components can be found on [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_components). We use the following concepts heavily and as a developer you should probably be aware of the following.
 
