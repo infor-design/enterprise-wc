@@ -47,7 +47,7 @@ We have found [the MacOS app](https://getkap.co), and [the Chrome plugin Screenc
 
 Feature requests are welcome. Before you submit one be sure to have:
 
-1. Does your idea fits with the our general scope of the project? Might better fit being an app/plugin/extension?
+1. Does your idea fit within the general scope of the project? Would it be better served as an app/plugin/extension?
 1. Would anyone else but you want this feature?
 1. Remember, it's up to you to make a strong case to convince the merits of this feature.
 
