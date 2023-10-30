@@ -21,12 +21,12 @@ $ids-tab-vertical-height: 42px;
 // without shadowDOM scope so need .selection-underline div
 // as workaround
 @mixin ids-tabs-selected-underline() {
-  border-bottom: 2px solid;
+  border-bottom: 1px solid transparent;
 
   &::after,
   & .selection-underline {
     position: absolute;
-    bottom: 0;
+    bottom: -1px;
     height: 1px;
     left: -1px;
     width: calc(100% + 2px);
@@ -113,7 +113,8 @@ $ids-tab-vertical-height: 42px;
       font-weight: 700;
     }
 
-    &::after {
+    &::after,
+    & .selection-underline {
       background-color: var(--ids-tab-color-text-selected);
     }
   }
@@ -159,10 +160,6 @@ $ids-tab-vertical-height: 42px;
       &.selected,
       &:hover {
         @include ids-tabs-selected-underline();
-
-        &::after {
-          background-color: var(--ids-tab-color-text-selected);
-        }
       }
 
       // Hide the underline on disabled
@@ -245,13 +242,13 @@ $ids-tab-vertical-height: 42px;
 
       border-style: none;
 
-      &::before {
-        border-color: var(--ids-tab-vertical-color-border-selected);
+      &::after,
+      & .selection-underline {
+        background-color: var(--ids-tab-vertical-color-border-selected);
       }
     }
   }
 }
-
 
 // =================================================
 // Module Color Variant
@@ -372,6 +369,11 @@ $ids-tab-vertical-height: 42px;
 
     &.selected {
       color: var(--ids-tab-alternate-color-text-disabled);
+
+      &::after,
+      & .selection-underline {
+        background-color: var(--ids-tab-alternate-color-text-disabled);
+      }
     }
   }
 
@@ -390,6 +392,15 @@ $ids-tab-vertical-height: 42px;
 .ids-tab.color-variant-header {
   &:hover {
     background-color: var(--ids-tab-header-color-background-hover);
+  }
+
+  &.selected {
+    color: var(--ids-tab-header-color-text-selected);
+
+    &::after,
+    & .selection-underline {
+      background-color: var(--ids-tab-header-color-text-selected);
+    }
   }
 }
 
