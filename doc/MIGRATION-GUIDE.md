@@ -73,7 +73,7 @@ Go Component By Component: Most components have a side-by-side example to test i
 
 ## What are settings / attributes / properties
 
-To clarify we use these terms in the following way:
+Not all properties will correspond to attributes, but all attributes are represented by properties.  To clarify, IDS uses these terms as described below:
 
 - `settings` In general everything is a setting as a generic term. For example `minute interval` is a setting on date picker for the time minutes picker. Almost every component has an array of settings mentioned in the docs. In case we missed one in the docs note that they can always been seen in each component source in a `attributes` section like [this component](https://github.com/infor-design/enterprise-wc/blob/main/src/components/ids-alert/ids-alert.ts#L49).
 - `attributes` Refer to either the html attribute name. Or the fact that the [web component spec](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements#responding_to_attribute_changes) calls the attributes. So all settings can also be referred to as attributes. When used in markup they are done with kebab case as is the html spec. For example `<ids-date-picker minute-interval="15"`. Note that primitive types can have html attribute style settings, any object settings must be done with Js.
