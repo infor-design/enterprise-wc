@@ -96,7 +96,7 @@ We added a seperate section on ways you can [customize a component](./DOCUMENTAT
 
 ## Component specific changes
 
-When migrating a component, review the documentation for the component your migrating. Note that each component doc contains a section called `Converting from Previous Versions (Breaking Changes)` which lists specific notes for each component. Again if we missed anything [make an issue](https://github.com/infor-design/enterprise-wc/issues/new/choose).
+When migrating a component, closely review that component's documentation. Note that each component doc contains a section called `Converting from Previous Versions (Breaking Changes)` which lists specific notes for upgrading. If we missed anything, [please raise a Github issue](https://github.com/infor-design/enterprise-wc/issues/new/choose).
 
 ## Getting Help
 
