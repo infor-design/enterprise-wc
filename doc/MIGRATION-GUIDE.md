@@ -1,6 +1,6 @@
 #  Migration Guide
 
-While everyone's path and and needs may vary, this guide is meant to provide a list of common questions and answers and notes that may be helpful while migrating from previous versions of IDS or using it for the first. This is meant to be a live guide. If you have suggestions please [make an issue](https://github.com/infor-design/enterprise-wc/issues) and even better [a pull request](./CONTRIBUTING.md).
+While everyone's path and and needs may vary, this guide is meant to provide a list of common questions and answers and notes that may be helpful while migrating from previous versions of IDS, or using it for the first time. This is meant to be a live guide. If you have suggestions please [raise an issue on Github](https://github.com/infor-design/enterprise-wc/issues) or even better [a pull request with your contribution](./CONTRIBUTING.md).
 
 ## What is a Web Component?
 
