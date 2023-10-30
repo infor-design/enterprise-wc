@@ -88,7 +88,7 @@ myDatePicker.minuteInterval = 15;
 
 All the features should be in the docs for each component. See the index for a full listing of [docs for each component](./DOCUMENTATION.md). If a setting is missing in the docs you can also consult the [source for the components](https://github.com/infor-design/enterprise-wc/tree/main/src/components). And [let us know](https://github.com/infor-design/enterprise-wc/issues/new/choose) or give us a pull request.
 
-Note that we did not add every feature from the previous version. We tried to select the most common / used features. We also wanted to deprecate some things that were confusing / wrong or badly done. If we missed one that you find important and need [let us know](https://github.com/infor-design/enterprise-wc/issues/new/choose) or give us a pull request.
+Note that we did not add every feature from the previous version. We selected the most common / used features. We also wanted to deprecate some things that were confusing, incorrect, or did not provide an adequate user experience. If we missed a feature that you find important, let us know or [contribute it with a pull request](https://github.com/infor-design/enterprise-wc/issues/new/choose).
 
 ## Customizing and Themes
 
