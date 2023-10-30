@@ -64,6 +64,8 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
           value: processedValue,
         },
       }));
+    } else if (name === 'readonly' || name === 'disabled') {
+      this.formInput?.removeAttribute?.(name);
     } else {
       this.formInput?.setAttribute?.(name, newValue || '');
     }
