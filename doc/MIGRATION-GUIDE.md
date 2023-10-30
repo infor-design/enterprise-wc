@@ -107,7 +107,7 @@ We :heart: working with developers and we have a few channels for questions or s
 
 ## Example Projects
 
-We dont recommend any particular framework but we try to test with the most common ones and provide guidance on how to use the components. If we missed anything or you want to see a pattern example in a framework [make an issue](https://github.com/infor-design/enterprise-wc/issues/new/choose). As of now we have examples for the following frameworks click the link for guidance on each one. The example project can be found on [this repo](https://github.com/infor-design/enterprise-wc-examples), each example is in various levels of maturity.
+We don't recommend any particular framework, but we try to test with the most common ones and provide guidance on how to integrate. If we missed anything, or you want to see a pattern example in a framework, [please raise a Github issue](https://github.com/infor-design/enterprise-wc/issues/new/choose).  See the links below for guidance and integration examples of the frameworks we currently support. The example project can be found on [this repo](https://github.com/infor-design/enterprise-wc-examples), each example is in various levels of maturity.
 
 - **[Angular](https://github.com/infor-design/enterprise-wc-examples/tree/main/angular-ids-wc)**
 - **[React](https://github.com/infor-design/enterprise-wc-examples/tree/main/react-ids-wc)**
