@@ -102,7 +102,7 @@ export default class IdsCalendarEvent extends Base {
 
     const displayTime = this.getDisplayTime();
     const text = this.eventData.shortSubject || this.eventData.subject;
-    const tooltip = this.eventData.subject;
+    const tooltip = this.disabled ? '' : this.eventData.subject;
     const overflow = this.overflow;
     const icon = this.eventData.icon ? `<ids-icon class="calendar-event-icon" icon="${this.eventData.icon}" height="11" width="11"></ids-icon>` : '';
 
@@ -129,6 +129,7 @@ export default class IdsCalendarEvent extends Base {
     this.onEvent('click', this.container, (evt: MouseEvent) => {
       evt.preventDefault();
       evt.stopPropagation();
+      if (this.disabled) return;
       triggerFn('click');
     });
   }
@@ -435,5 +436,25 @@ export default class IdsCalendarEvent extends Base {
    */
   get dateKey(): string {
     return this.#dateKey;
+  }
+
+  /**
+   * Set disabled property
+   * @param {boolean|string|null} val disabled value
+   */
+  set disabled(val: boolean | string | null) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.DISABLED, '');
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+    }
+  }
+
+  /**
+   * Get disabled property
+   * @returns {boolean} disabled value
+   */
+  get disabled(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
   }
 }

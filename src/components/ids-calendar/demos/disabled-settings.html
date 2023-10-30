@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-toolbar>
+      <ids-toolbar-section align="end" type="fluid">
+        <ids-menu-button menu="add-event" value="${view}">
+          <ids-icon icon="add"></ids-icon>
+          <span class="audible">Add Event</span>
+        </ids-menu-button>
+        <ids-popup-menu id="add-event" trigger="click">
+          <ids-menu-group>
+            <ids-menu-item value="add-api">
+              <ids-text>Add Event (API)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="add-modal">
+              <ids-text>Add Event (Modal)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="clear">
+              <ids-text>Clear Events</ids-text>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+
+        <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+      </ids-toolbar-section>
+    </ids-toolbar>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Calendar View</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-calendar date="10/22/2019" show-legend show-details show-today view-picker></ids-calendar>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -1585,6 +1585,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
         const month = start.getMonth();
         calendarEvent.dateKey = `${year}${month}${day}`;
         const dateCell = this.container?.querySelector(`td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`);
+        calendarEvent.disabled = !!dateCell?.classList.contains('is-disabled');
 
         if (dateCell) {
           // multi day events
