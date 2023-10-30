@@ -30,7 +30,7 @@ The ids-enterprise-wc web components no longer have any (dev) dependencies.
 - We dropped jQuery as a dependency, its no longer needed unless running old components side by side
 - We dropped d3 as a dependency, its no longer needed unless running old components side by side.
 
-## Installing into your framework
+## Installation
 
 The components are available via npm/yarn:
 
