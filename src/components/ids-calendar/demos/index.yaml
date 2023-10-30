@@ -14,3 +14,6 @@
   - link: first-day-of-week.html
     type: Example
     description: Custom calendar first day of week
+  - link: disabled-settings.html
+    type: Example
+    description: Calendar with disabled settings
