@@ -92,7 +92,7 @@ Note that we did not add every feature from the previous version. We selected th
 
 ## Customizing and Themes
 
-We added a seperate section on ways you can [customize a component](./DOCUMENTATION.md). These include using themes, css parts, extending ect.
+We added a separate section on ways you can [customize a component](./DOCUMENTATION.md). These include using themes, css parts, extending etc.
 
 ## Component specific changes
 
