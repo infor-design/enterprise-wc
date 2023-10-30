@@ -48,7 +48,7 @@ We have found [the MacOS app](https://getkap.co), and [the Chrome plugin Screenc
 Feature requests are welcome. Before you submit one be sure to have:
 
 1. Does your idea fit within the general scope of the project? Would it be better served as an app/plugin/extension?
-1. Would anyone else but you want this feature?
+1. Could this feature be adopted and used by other Infor teams?
 1. Remember, it's up to you to make a strong case to convince the merits of this feature.
 
 ## Submitting Pull Requests
