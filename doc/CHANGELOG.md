@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.17 Fixes
 
+- `[Calendar]` Add `disableSettings` property to calendar. ([#1471](https://github.com/infor-design/enterprise-wc/issues/1471))
 - `[FlexLayout]` Added a flex example using IdsButtons and IdsInputs. ([#1395](https://github.com/infor-design/enterprise-wc/issues/1395))
 
 ## 1.0.0-beta.16
