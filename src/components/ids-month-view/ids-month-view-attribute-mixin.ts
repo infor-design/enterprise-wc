@@ -94,7 +94,9 @@ const IdsMonthViewAttributeMixin = <T extends Constraints>(superclass: T) => cla
       ...deepClone(val)
     };
 
-    if (typeof this.onDisableSettingsChange === 'function') this.onDisableSettingsChange(this.#disableSettings);
+    if (typeof this.onDisableSettingsChange === 'function') {
+      this.onDisableSettingsChange(this.#disableSettings);
+    }
   }
 
   /**
