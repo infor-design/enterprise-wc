@@ -38,10 +38,6 @@ export default class IdsRadioGroup extends Base {
 
   isFormComponent = true;
 
-  input?: HTMLElement | null;
-
-  labelEl?: HTMLElement | null;
-
   checked: any = null;
 
   /**
@@ -58,7 +54,7 @@ export default class IdsRadioGroup extends Base {
       attributes.LANGUAGE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
-      attributes.VALUE
+      attributes.VALUE,
     ];
   }
 
@@ -68,10 +64,13 @@ export default class IdsRadioGroup extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
+
     const slot = this.shadowRoot?.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
     });
+
+    this.attachInternalEventHandlers();
   }
 
   /**
@@ -109,15 +108,20 @@ export default class IdsRadioGroup extends Base {
     return [...this.querySelectorAll<IdsRadio>('ids-radio[checked]')];
   }
 
+  get input(): HTMLElement | null {
+    return this.shadowRoot?.querySelector<HTMLElement>('.ids-radio-group') ?? null;
+  }
+
+  get labelEl(): HTMLElement | null {
+    return this.shadowRoot?.querySelector<HTMLElement>('.group-label-text') ?? null;
+  }
+
   /**
    * Set after children ready
    * @private
    * @returns {void}
    */
   afterChildrenReady(): void {
-    this.input = this.shadowRoot?.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot?.querySelector('.group-label-text');
-
     this.setValue();
     this.handleHorizontal();
     this.handleDisabled();
@@ -131,23 +135,27 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   setValue(): void {
+    const defaultValue = this.value;
+
     const radios = this.radios;
     const radiosSelected = this.radiosSelected;
 
-    if (!radiosSelected.length) {
+    if (!defaultValue && !radiosSelected.length) {
       const firstRadio = radios[0];
       firstRadio?.shadowRoot?.querySelector('.ids-radio')?.setAttribute('tabindex', '0');
       return;
     }
 
     const lastSelected = radiosSelected?.at(-1);
+    const currentSelected = radios.find((radio) => radio.value === defaultValue) || lastSelected;
 
-    radiosSelected.forEach((radio) => {
-      if (lastSelected === radio) {
-        this.setAttribute(attributes.VALUE, lastSelected?.value ?? '');
-        lastSelected.checked = true;
+    radios.forEach((radio: IdsRadio) => {
+      if (radio === currentSelected) {
+        this.setAttribute(attributes.VALUE, radio?.value ?? '');
+        radio.setAttribute(attributes.CHECKED, 'true');
       } else {
-        radio.checked = false;
+        // radio.checked = false; // For some reason this messes up the checked setter.
+        radio.removeAttribute(attributes.CHECKED);
       }
     });
   }
@@ -211,7 +219,7 @@ export default class IdsRadioGroup extends Base {
     this.value = value;
 
     this.checked = radio ?? false;
-    if (radio) radio.checked = true;
+    if (radio) radio.setAttribute(attributes.CHECKED, 'true');
 
     const args = { detail: { value, checked: radio ?? false } };
     this.triggerEvent('change', this.input, args);
@@ -242,6 +250,7 @@ export default class IdsRadioGroup extends Base {
     const radioArr = [...this.querySelectorAll<IdsRadio>('ids-radio:not([disabled="true"])')];
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
+      this.offEvent('keydown', r);
       this.onEvent('keydown', r, (e: KeyboardEvent) => {
         const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
         const key = e.code;
@@ -354,24 +363,16 @@ export default class IdsRadioGroup extends Base {
   set value(value: string | null) {
     const radios = this.radios;
 
-    if (!value) {
-      this.removeAttribute(attributes.VALUE);
-      radios.forEach((radio) => {
-        radio.checked = false;
-      });
-      return;
-    }
-
     radios.forEach((radio) => {
-      if (radio.value === value) {
-        radio.checked = true;
+      if (value && radio.value === value) {
         this.setAttribute(attributes.VALUE, radio.value);
+        radio.setAttribute(attributes.CHECKED, 'true');
       } else {
-        radio.checked = false;
+        radio.removeAttribute(attributes.CHECKED);
       }
     });
 
-    if (!this.radiosSelected?.length) {
+    if (!value) {
       this.removeAttribute(attributes.VALUE);
     }
   }
