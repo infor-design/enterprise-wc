@@ -247,23 +247,23 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   attachRadioGroupKeydown(): void {
-    const radioArr = [...this.querySelectorAll<IdsRadio>('ids-radio:not([disabled="true"])')];
-    const len = radioArr.length;
-    radioArr.forEach((r, i) => {
-      this.offEvent('keydown', r);
-      this.onEvent('keydown', r, (e: KeyboardEvent) => {
-        const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
-        const key = e.code;
-        if (allow.indexOf(key) > -1) {
-          let idx = i;
+    const activeRadios = [...this.querySelectorAll<IdsRadio>('ids-radio:not([disabled="true"])')];
+    const numActive = activeRadios.length;
+    activeRadios.forEach((radio, index) => {
+      this.offEvent('keydown', radio);
+      this.onEvent('keydown', radio, (evt: KeyboardEvent) => {
+        const allowedKeys = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
+        const key = evt.code;
+        if (allowedKeys.includes(key)) {
+          let nextIndex = index;
           if (key === 'ArrowDown' || key === 'ArrowRight') {
-            idx = (i >= (len - 1)) ? 0 : (idx + 1);
+            nextIndex = (index >= (numActive - 1)) ? 0 : (nextIndex + 1);
           } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
-            idx = (i <= 0) ? (len - 1) : (idx - 1);
+            nextIndex = (index <= 0) ? (numActive - 1) : (nextIndex - 1);
           }
-          this.makeChecked(radioArr[idx]);
-          radioArr[idx].focus();
-          e.preventDefault();
+          this.makeChecked(activeRadios[nextIndex]);
+          activeRadios[nextIndex].focus();
+          evt.preventDefault();
         }
       });
     });
