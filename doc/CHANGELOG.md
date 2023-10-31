@@ -15,6 +15,8 @@
 ### 1.0.0-beta.16 Features
 
 - `[AxisCharts]` Added a `ticks` setting to control the number of ticks on the y axis. ([#1494](https://github.com/infor-design/enterprise-wc/issues/1494))
+- `[Module Nav]` Bring into feature parity with Soho (4.x) Module Nav ([#1518](https://github.com/infor-design/enterprise-wc/issues/1518))
+- `[Module Nav]` Add mobile breakpoint responsive behavior ([#1536](https://github.com/infor-design/enterprise-wc/issues/1536))
 - `[TextArea]` Added min/max width/height settings, integrating them with the `autogrow` and resizable settings. ([#1482](https://github.com/infor-design/enterprise-wc/issues/1482))
 - `[Themes]` For theme switching added logic to check for a `<base href="">` tag. ([#1498](https://github.com/infor-design/enterprise-wc/issues/1498))
 

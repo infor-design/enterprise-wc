@@ -354,6 +354,7 @@ export const attributes = {
   RESIZE_ON_DRAG_END: 'resize-on-drag-end',
   RESPOND_DOWN: 'respond-down',
   RESPOND_UP: 'respond-up',
+  RESPONSIVE: 'responsive',
   RESULT: 'result',
   REVEAL: 'reveal',
   REVEALABLE_PASSWORD: 'revealable-password',

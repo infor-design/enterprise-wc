@@ -10,6 +10,8 @@ export type IdsAccordionTextDisplay = ['default', 'tooltip', 'hidden'];
 
 export const DISPLAY_TEXT_TYPES = ['default', 'tooltip', 'hidden'];
 
+export const RESPONSIVE_BREAKPOINT = 'md';
+
 /**
  * @param {string} val incoming text display type
  * @returns {boolean} true if the text display is valid

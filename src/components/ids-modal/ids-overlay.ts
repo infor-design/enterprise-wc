@@ -2,6 +2,7 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { transitionToPromise } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
@@ -106,9 +107,8 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
     if (val && !cl?.contains('visible')) {
       // Make visible
       cl?.add('visible');
-      requestAnimationFrame(() => {
-        this.#changeOpacity(this.opacity);
-      });
+      await cssTransitionTimeout(2);
+      this.#changeOpacity(this.opacity);
     } else if (!val && cl?.contains('visible')) {
       // Make hidden
       await this.#changeOpacity(0);
