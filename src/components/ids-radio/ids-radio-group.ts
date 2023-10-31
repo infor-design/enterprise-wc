@@ -147,7 +147,7 @@ export default class IdsRadioGroup extends Base {
     }
 
     const lastSelected = radiosSelected?.at(-1);
-    const currentSelected = radios.find((radio) => radio.value === defaultValue) || lastSelected;
+    const currentSelected = radios.find((radio) => (defaultValue && radio.value === defaultValue)) || lastSelected;
 
     radios.forEach((radio: IdsRadio) => {
       if (radio === currentSelected) {

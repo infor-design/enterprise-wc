@@ -108,8 +108,8 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
           thisAsInput.input?.setAttribute('aria-required', true);
 
           if (isRadioGroup) {
-            const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
-            radioArr.forEach((r: any) => r.input.setAttribute('required', 'required'));
+            const radios = [...this.querySelectorAll('ids-radio')];
+            radios.forEach((radio: any) => radio.input?.setAttribute('required', 'required'));
           }
           (this as any).validationElems?.editor?.setAttribute('aria-required', true);
         }
