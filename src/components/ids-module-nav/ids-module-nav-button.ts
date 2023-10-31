@@ -18,6 +18,8 @@ const Base = IdsModuleNavTextDisplayMixin(
  * IDS Module Nav Button Component
  * @type {IdsModuleNavButton}
  * @inherits IdsButton
+ * @mixes IdsModuleNavDisplayModeMixin
+ * @mixes IdsModuleNavTextDisplayMixin
  * @part expander - this accoridon header's expander button element
  * @part header - the accordion header's root element
  * @part icon - the accordion header's icon element

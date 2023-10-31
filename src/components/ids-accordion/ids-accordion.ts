@@ -248,7 +248,9 @@ export default class IdsAccordion extends Base {
       if (element.tagName === 'IDS-ACCORDION-PANEL') {
         (element as IdsAccordionPanel).nested = subLevelDepth;
       }
-      if (element.container) addDepthClass(element.container, depth);
+      if (element.container) {
+        addDepthClass(element.container, depth);
+      }
 
       // Assign Color Variant
       if (doColorVariant && this.colorVariant) {
