@@ -593,7 +593,12 @@
   --ids-tab-color-border-bottom: var(--ids-color-neutral-70);
 
   // Tab (Header Variant)
+  --ids-tab-header-color-text-default: var(--ids-color-slate-30);
+  --ids-tab-header-color-text-disabled: var(--ids-color-neutral-60);
+  --ids-tab-header-color-text-hover: var(--ids-color-neutral-00);
+  --ids-tab-header-color-text-selected: var(--ids-color-neutral-00);
   --ids-tab-header-color-background-hover: var(--ids-color-neutral-90);
+  --ids-tab-header-color-border-focus: var(--ids-color-neutral-00);
 
   // Tab (Vertical Variant)
   --ids-tab-vertical-color-background-default: var(--ids-color-neutral-70);
@@ -604,6 +609,7 @@
   --ids-tab-vertical-color-text-hover: var(--ids-color-neutral-00);
   --ids-tab-vertical-color-background-disabled: var(--ids-color-neutral-60);
   --ids-tab-vertical-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-tab-vertical-color-border-default: var(--ids-color-slate-60);
 
   // Tab (Module Variant)
   --ids-tab-module-color-background-default: var(--ids-color-slate-80);

@@ -400,8 +400,11 @@ $ids-tab-vertical-height: 42px;
 // Header Color Variant
 // =================================================
 .ids-tab.color-variant-header {
+  color: var(--ids-tab-header-color-text-default);
+
   &:hover {
     background-color: var(--ids-tab-header-color-background-hover);
+    color: var(--ids-tab-header-color-text-hover);
   }
 
   &.selected {
@@ -410,6 +413,19 @@ $ids-tab-vertical-height: 42px;
     &::after,
     & .selection-underline {
       background-color: var(--ids-tab-header-color-text-selected);
+    }
+  }
+
+  &.disabled {
+    color: var(--ids-tab-header-color-text-disabled);
+  }
+
+  // Alternate - Focus state
+  &:not(.hide-focus) {
+    &:focus-visible,
+    &:focus,
+    &:focus-within {
+      border-color: var(--ids-tab-header-color-border-focus);
     }
   }
 }

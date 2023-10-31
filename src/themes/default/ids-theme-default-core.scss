@@ -1354,8 +1354,12 @@
   --ids-tab-dismiss-button-offset: 4px;
 
   // Tab (Header Variant)
+  --ids-tab-header-color-text-default: var(--ids-color-slate-60);
+  --ids-tab-header-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-tab-header-color-text-hover: var(--ids-color-slate-100);
   --ids-tab-header-color-text-selected: var(--ids-color-slate-100);
   --ids-tab-header-color-background-hover: var(--ids-color-neutral-20);
+  --ids-tab-header-color-border-focus: var(--ids-color-slate-100);
 
   // Tab (Vertical Orientation)
   --ids-tab-vertical-color-background-default: var(--ids-color-slate-10);
