@@ -1,7 +1,7 @@
 ---
  component: SwapList
  link: ids-swaplist
- description: Displays SwapList component
+ description: Select from two lists
  category: Lists
  keywords: ids-swaplist, SwapList
  examples:

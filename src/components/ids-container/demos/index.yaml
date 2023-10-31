@@ -1,7 +1,7 @@
 ---
  component: Container
  link: ids-container
- description: Main container for themes / locale
+ description: Main container for themes / page body
  category: Layouts
  keywords: layout, container, locale, theme
  examples:
