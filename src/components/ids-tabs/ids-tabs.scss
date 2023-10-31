@@ -1,19 +1,24 @@
-// :host(ids-tabs),
 .ids-tabs-container {
   --tab-width: 100%;
+  --vertical-container-width: 250px;
 
   display: flex;
 
   // Horizontal Tabs
   &:not(.orientation-vertical) {
     .ids-tabs-list {
-      width: 100%;
+      width: var(--tab-width);
     }
   }
 
   // Vertical Tabs
   &.orientation-vertical {
-    .ids-tabs-list {
+    flex-direction: column;
+    height: 100%;
+    width: var(--vertical-container-width);
+
+    .ids-tabs-list,
+    .ids-tabs-list-more {
       flex-direction: column;
     }
   }
@@ -45,7 +50,7 @@
 }
 
 .ids-tabs-container:not(.orientation-vertical):not([class*='color-variant-']) {
-  border-bottom: 1px solid var(--ids-tab-color-border-bottom);
+  border-bottom: 1px solid var(--ids-tab-divider-color-background);
 }
 
 // Module Tabs
@@ -55,7 +60,14 @@
 
   &.has-more-actions {
     .ids-tabs-list-more {
-      border-left: 1px solid var(--ids-tab-module-color-border-right);
+      border-inline-start: 1px solid var(--ids-tab-module-color-border-right);
     }
   }
+}
+
+// Vertical Tabs
+
+.ids-tabs-container.orientation-vertical {
+  background-color: var(--ids-tab-vertical-color-background-default);
+  border-inline-end: 1px solid var(--ids-tab-vertical-color-border-default);
 }

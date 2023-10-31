@@ -3,16 +3,20 @@ $ids-tab-min-width: 135px;
 $ids-tab-actionable-min-width: 44px;
 $ids-tab-vertical-height: 42px;
 
-@mixin ids-tabs-focus-border() {
-  &::before {
-    border: 1px solid;
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
-    content: '';
-    pointer-events: none;
+@mixin ids-tabs-focus-border($inset-x-distance: 4, $inset-y-distance: 4, $offset-x-distance: -1, $offset-y-distance: 0) {
+  outline: none;
+
+  &:not(.hide-focus) {
+    &::before {
+      border: 1px solid;
+      position: absolute;
+      inset-block-start: #{$offset-x-distance}px;
+      inset-inline-start: #{$offset-y-distance}px;
+      width: calc(100% - #{$inset-x-distance}px);
+      height: calc(100% - #{$inset-y-distance}px);
+      content: '';
+      pointer-events: none;
+    }
   }
 }
 
@@ -26,13 +30,28 @@ $ids-tab-vertical-height: 42px;
   &::after,
   & .selection-underline {
     position: absolute;
-    bottom: -1px;
     height: 1px;
-    left: -1px;
-    width: calc(100% + 2px);
+    inset-block-end: -1px;
+    inset-inline: 0;
     z-index: 1;
     pointer-events: none;
     content: '';
+  }
+}
+
+@mixin display-data-text-as-bold() {
+  &::after {
+    content: attr(data-text);
+    content: attr(data-text) / '';
+    font-weight: 700;
+    visibility: hidden;
+    height: 0;
+    user-select: none;
+    pointer-events: none;
+
+    @media speech {
+      display: none;
+    }
   }
 }
 
@@ -77,7 +96,6 @@ $ids-tab-vertical-height: 42px;
   display: flex;
   position: relative;
   color: var(--ids-tab-color-text-default);
-  border: 1px solid transparent;
   box-sizing: border-box;
   height: 100%;
   padding-inline: 4px;
@@ -134,12 +152,8 @@ $ids-tab-vertical-height: 42px;
     }
   }
 
-  // Focus state
-  &:focus-visible:not(.hide-focus) {
-    border-color: var(--ids-tab-color-border-focus);
-    border-style: solid;
+  &:focus-visible {
     outline: none;
-    box-shadow: var(--ids-tab-shadow-focus);
   }
 
   // Trigger Button Slot
@@ -154,12 +168,17 @@ $ids-tab-vertical-height: 42px;
       padding-top: 8px;
     }
 
-    // Round borders on regular horizontal tabs
+    // In-page and Header Tabs only
     &:not(.color-variant-module) {
-      // Show the underline on hover
+      border-bottom: 1px solid transparent;
+
+      &:focus-visible {
+        @include ids-tabs-focus-border(0, 2, 0, -1);
+      }
+
       &.selected,
       &:hover {
-        @include ids-tabs-selected-underline();
+        @include ids-tabs-selected-underline;
       }
 
       // Hide the underline on disabled
@@ -182,18 +201,10 @@ $ids-tab-vertical-height: 42px;
     justify-content: space-between;
   }
 
-  & ids-text::part(text)::after,
-  &.ids-tab.ids-text::after {
-    font-weight: 700;
-    content: attr(data-text);
-    content: attr(data-text) / '';
-    visibility: hidden;
-    height: 0;
-    user-select: none;
-    pointer-events: none;
-
-    @media speech {
-      display: none;
+  &:not(.orientation-vertical) {
+    ids-text::part(text),
+    .ids-tab.ids-text {
+      @include display-data-text-as-bold;
     }
   }
 
@@ -231,17 +242,17 @@ $ids-tab-vertical-height: 42px;
     color: var(--ids-tab-vertical-color-text-disabled);
   }
 
+  &:focus-visible {
+    @include ids-tabs-focus-border(4, 4, 1, 1);
+  }
+
   // vertical selected state
   &.selected {
     border-style: none;
     background-color: var(--ids-tab-vertical-color-background-selected);
     color: var(--ids-tab-vertical-color-text-selected);
 
-    &:not(.hide-focus):focus {
-      @include ids-tabs-focus-border();
-
-      border-style: none;
-
+    &:focus-visible:not(.hide-focus) {
       &::after,
       & .selection-underline {
         background-color: var(--ids-tab-vertical-color-border-selected);
@@ -286,8 +297,7 @@ $ids-tab-vertical-height: 42px;
 
   // Module - Focus state
   &:focus-visible {
-    border-color: var(--ids-tab-color-border-focus);
-    box-shadow: var(--ids-tab-shadow-focus);
+    @include ids-tabs-focus-border(4, 4, 1, 1);
   }
 
   // Module - Disabled state
