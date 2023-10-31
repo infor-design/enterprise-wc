@@ -25,6 +25,8 @@ import styles from './ids-modal.scss';
 
 type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | 'always';
 
+const VALID_POSITIONS = ['left', 'right'];
+
 const Base = IdsXssMixin(
   IdsBreakpointMixin(
     IdsFocusCaptureMixin(
@@ -92,6 +94,7 @@ export default class IdsModal extends Base {
       ...super.attributes,
       attributes.FULLSIZE,
       attributes.MESSAGE_TITLE,
+      attributes.SHOW_CLOSE_BUTTON,
       attributes.VISIBLE
     ];
   }
@@ -260,6 +263,31 @@ export default class IdsModal extends Base {
           break;
       }
     }
+  }
+
+  set showCloseButton(position: string | null) {
+    if (typeof position === 'string') {
+      position = VALID_POSITIONS.includes(position) ? position : 'right';
+      this.setAttribute(attributes.SHOW_CLOSE_BUTTON, position);
+      this.#attachCloseButton();
+    } else {
+      this.removeAttribute(attributes.SHOW_CLOSE_BUTTON);
+      this.#removeCloseButton();
+    }
+  }
+
+  get showCloseButton(): string | null {
+    const attrValue = this.getAttribute(attributes.SHOW_CLOSE_BUTTON);
+
+    if (typeof attrValue === 'string') {
+      return VALID_POSITIONS.includes(attrValue) ? attrValue : 'right';
+    }
+
+    return null;
+  }
+
+  get closeButton(): HTMLElement | null {
+    return this.container?.querySelector<HTMLElement>('.modal-control-close') ?? null;
   }
 
   /**
@@ -690,5 +718,35 @@ export default class IdsModal extends Base {
       return;
     }
     this.hide();
+  }
+
+  /**
+   * Add button with icon to the modal
+   * Reusing ids-modal-button component with cancel attribute and extra css class to change appearance
+   */
+  #attachCloseButton() {
+    this.#removeCloseButton();
+    const position = this.showCloseButton || 'right';
+
+    const element = `<ids-modal-button
+      class="modal-control-close ${position}"
+      slot="buttons"
+      appearance="tertiary"
+      css-class="ids-icon-button ids-modal-icon-button"
+      cancel>
+      <span class="audible">Close modal</span>
+      <ids-icon icon="close"></ids-icon>
+    </ids-modal-button>`;
+
+    this.container?.querySelector('.ids-modal-container')?.insertAdjacentHTML('afterbegin', element);
+
+    // attach close button handler
+    this.onEvent('click.modal-close', this.closeButton, () => this.hide());
+  }
+
+  #removeCloseButton() {
+    const closeButton = this.closeButton;
+    this.offEvent('click.modal-close', closeButton);
+    closeButton?.remove();
   }
 }

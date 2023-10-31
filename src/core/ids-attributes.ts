@@ -408,6 +408,7 @@ export const attributes = {
   SHOW_BROWSE_LINK: 'show-browse-link',
   SHOW_CANCEL: 'show-cancel',
   SHOW_CLEAR: 'show-clear',
+  SHOW_CLOSE_BUTTON: 'show-close-button',
   SHOW_DETAILS: 'show-details',
   SHOW_HEADER_EXPANDER: 'show-header-expander',
   SHOW_HORIZONTAL_GRID_LINES: 'show-horizontal-grid-lines',
