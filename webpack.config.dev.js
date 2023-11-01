@@ -160,7 +160,10 @@ module.exports = {
           }
         },
       ]
-    }),
-    (isProduction ? new BundleAnalyzerPlugin() : [])
+    })
   ].concat(htmlExamples)
 };
+
+if (isProduction) {
+  module.exports.plugins.push(new BundleAnalyzerPlugin());
+}
