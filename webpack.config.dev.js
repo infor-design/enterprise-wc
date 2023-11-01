@@ -1,5 +1,6 @@
 const path = require('path');
 const sass = require('sass');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const demoEntry = require('./scripts/webpack-dev-entry');
@@ -160,5 +161,6 @@ module.exports = {
         },
       ]
     }),
+    (isProduction ? new BundleAnalyzerPlugin() : [])
   ].concat(htmlExamples)
 };
