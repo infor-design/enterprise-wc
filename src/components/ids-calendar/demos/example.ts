@@ -61,3 +61,11 @@ monthview?.addEventListener('beforeeventrendered', (e: Event) => {
 monthview?.addEventListener('aftereventrendered', (e: Event) => {
   console.info(`After Event Rendered`, (e as CustomEvent).detail);
 });
+
+monthview?.addEventListener('beforerendermonth', (e: Event) => {
+  console.info('Before Month Rendered', (e as CustomEvent).detail);
+});
+
+monthview?.addEventListener('afterrendermonth', (e: Event) => {
+  console.info('After Month Rendered', (e as CustomEvent).detail);
+});

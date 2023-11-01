@@ -2,10 +2,17 @@
 
 ## 1.0.0-beta.17
 
+### 1.0.0-beta.17 Features
+
+- `[General]` Added an initial migration guide. ([#1561](https://github.com/infor-design/enterprise-wc/issues/1561))
+
 ### 1.0.0-beta.17 Fixes
 
+- `[Calendar]` Fix multiple `beforerendermonth` events. ([#1464](https://github.com/infor-design/enterprise-wc/issues/1464))
+- `[Calendar]` Add `afterrendermonth` event to calendar and month view. ([#1465](https://github.com/infor-design/enterprise-wc/issues/1465))
 - `[Calendar]` Add `disableSettings` property to calendar. ([#1471](https://github.com/infor-design/enterprise-wc/issues/1471))
 - `[FlexLayout]` Added a flex example using IdsButtons and IdsInputs. ([#1395](https://github.com/infor-design/enterprise-wc/issues/1395))
+- `[Modal]` Add `showCloseButton` setting to modal. ([#1527](https://github.com/infor-design/enterprise-wc/issues/1527))
 
 ## 1.0.0-beta.16
 
@@ -16,6 +23,8 @@
 ### 1.0.0-beta.16 Features
 
 - `[AxisCharts]` Added a `ticks` setting to control the number of ticks on the y axis. ([#1494](https://github.com/infor-design/enterprise-wc/issues/1494))
+- `[Module Nav]` Bring into feature parity with Soho (4.x) Module Nav ([#1518](https://github.com/infor-design/enterprise-wc/issues/1518))
+- `[Module Nav]` Add mobile breakpoint responsive behavior ([#1536](https://github.com/infor-design/enterprise-wc/issues/1536))
 - `[TextArea]` Added min/max width/height settings, integrating them with the `autogrow` and resizable settings. ([#1482](https://github.com/infor-design/enterprise-wc/issues/1482))
 - `[Themes]` For theme switching added logic to check for a `<base href="">` tag. ([#1498](https://github.com/infor-design/enterprise-wc/issues/1498))
 

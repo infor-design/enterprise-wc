@@ -782,6 +782,12 @@ $input-size-full: 100%;
       }
     }
 
+    &.has-clearable {
+      .btn-clear {
+        margin-inline-end: 5px;
+      }
+    }
+
     &:hover {
       .field-container {
         background-color: var(--ids-module-nav-item-hover-bg-color);
