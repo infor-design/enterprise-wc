@@ -105,6 +105,9 @@ export default class IdsButton extends Base {
     if (this.hasAttribute(attributes.CONTENT_ALIGN)) this.setContentAlignClass(this.getAttribute(attributes.CONTENT_ALIGN));
     this.setIconAlignment();
     this.refreshProtoClasses();
+
+    // set initial direction
+    this.localeAPI.updateDirectionAttribute(this, this.localeAPI.language.name);
   }
 
   /**

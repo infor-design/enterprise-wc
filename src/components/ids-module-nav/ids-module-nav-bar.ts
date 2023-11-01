@@ -18,6 +18,7 @@ import '../ids-tooltip/ids-tooltip';
 import { attributes } from '../../core/ids-attributes';
 import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { getClosest, toggleScrollbar } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import styles from './ids-module-nav-bar.scss';
 
@@ -50,6 +51,10 @@ type IdsModuleNavTooltipTarget = IdsModuleNavItem | IdsModuleNavButton | IdsModu
  * IDS Module Nav Bar Component
  * @type {IdsModuleNavBar}
  * @inherits IdsDrawer
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsLocaleMixin
+ * @mixes IdsModuleNavTextDisplayMixin
+ * @mixes IdsModuleNavDisplayModeMixin
  */
 @customElement('ids-module-nav-bar')
 @scss(styles)
@@ -63,6 +68,7 @@ export default class IdsModuleNavBar extends Base {
   constructor() {
     super();
     this.accordionPaneSetting = false;
+    this.onOutsideClick = () => {};
   }
 
   connectedCallback() {
@@ -70,7 +76,7 @@ export default class IdsModuleNavBar extends Base {
 
     this.edge = 'start';
     this.type = 'module-nav';
-    if (this.visible && !this.displayMode) this.displayMode = 'collapsed';
+    this.visible = true;
 
     this.#connectSearchField();
     this.#connectAccordion();
@@ -115,7 +121,6 @@ export default class IdsModuleNavBar extends Base {
         <div class="ids-module-nav-search-wrapper">
           <slot name="search"></slot>
         </div>
-        <ids-separator class="ids-module-nav-separator" color-variant="module-nav"></ids-separator>
         <div class="ids-module-nav-search-no-results">
           <ids-empty-message icon="empty-search-data-new">
             <ids-text font-size="20" label="true" slot="description">No results found</ids-text>
@@ -301,7 +306,7 @@ export default class IdsModuleNavBar extends Base {
       if (!this.displayMode) allowed = false;
       if (this.displayMode === 'expanded') {
         const target = this.tooltipEl?.popup?.alignTarget;
-        if (!target) allowed = false;
+        if (!target || target.tagName === 'IDS-MODULE-NAV-BUTTON') allowed = false;
         else {
           allowed = checkItemOverflow((target as IdsModuleNavItem)!.textNode);
         }
@@ -373,18 +378,6 @@ export default class IdsModuleNavBar extends Base {
   }
 
   /**
-   * Inherited from the Popup Open Events Mixin.
-   * Runs when a click event is propagated to the window.
-   * @returns {void}
-   */
-  onOutsideClick() {
-    // Don't close the popup if md+ media query breakpoint
-    if (window.innerWidth < 840) {
-      this.hide();
-    }
-  }
-
-  /**
    * Inherited from Module Nav Display Mode Mixin.
    * @param {string | false} currentValue current display mode value being changed
    * @param {string | false} newValue new display mode value to be set
@@ -393,7 +386,6 @@ export default class IdsModuleNavBar extends Base {
   onDisplayModeChange(currentValue: string | false, newValue: string | false): void {
     this.searchFieldEl?.clear();
 
-    this.visible = (newValue !== false);
     if (this.content) this.content.displayMode = this.displayMode;
 
     if (this.switcherEl) this.switcherEl.displayMode = this.displayMode;
@@ -407,6 +399,7 @@ export default class IdsModuleNavBar extends Base {
 
     if (this.settingsEl) this.settingsEl.displayMode = this.displayMode;
 
+    this.setOutsideClick();
     this.setScrollable();
     this.setResize();
   }
@@ -637,9 +630,36 @@ export default class IdsModuleNavBar extends Base {
     }
   }
 
+  private setOutsideClick() {
+    if (this.displayMode === 'expanded') {
+      this.establishOutsideClick();
+    } else {
+      this.removeOutsideClick();
+    }
+  }
+
+  private async establishOutsideClick() {
+    await cssTransitionTimeout(10);
+    this.onOutsideClick = (e: MouseEvent) => {
+      if (!this.contains(e.target as Node)) {
+        this.parent!.handleOutsideClick();
+      }
+    };
+  }
+
+  private removeOutsideClick() {
+    this.onOutsideClick = () => {};
+  }
+
   onLanguageChange = (locale?: IdsLocale | undefined) => {
-    const rtl = locale?.isRTL();
-    this.tooltipEl?.setAttribute(attributes.PLACEMENT, rtl ? 'left' : 'right');
-    this.tooltipEl?.popup?.setAttribute(attributes.ALIGN, rtl ? 'left' : 'right');
+    const rtl = locale?.isRTL() || false;
+    const attr = rtl ? 'left' : 'right';
+    const popup = this.tooltipEl?.popup;
+
+    this.tooltipEl?.setAttribute(attributes.PLACEMENT, attr);
+    if (popup) {
+      popup.useRight = rtl;
+      popup.setAttribute(attributes.ALIGN, attr);
+    }
   };
 }

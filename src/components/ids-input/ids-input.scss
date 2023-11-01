@@ -253,6 +253,7 @@ $input-size-full: 100%;
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
+    box-sizing: border-box;
     transition: border var(--ids-motion-duration) var(--ids-motion-ease);
     margin: var(--ids-space-none);
     padding: var(--ids-space-none);
@@ -778,6 +779,12 @@ $input-size-full: 100%;
 
       &:active {
         color: var(--ids-module-nav-search-input-text-color);
+      }
+    }
+
+    &.has-clearable {
+      .btn-clear {
+        margin-inline-end: 5px;
       }
     }
 
