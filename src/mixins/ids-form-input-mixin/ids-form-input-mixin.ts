@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor } from '../../core/ids-element';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
@@ -64,8 +65,10 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
           value: processedValue,
         },
       }));
-    } else {
+    } else if (stringToBool(newValue)) {
       this.formInput?.setAttribute?.(name, newValue || '');
+    } else {
+      this.formInput?.removeAttribute?.(name);
     }
   }
 
