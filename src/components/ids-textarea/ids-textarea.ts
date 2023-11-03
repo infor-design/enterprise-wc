@@ -54,10 +54,6 @@ const TEXT_ALIGN: Record<string, string> = {
   right: 'right'
 };
 
-// Character counter default strings
-const CHAR_MAX_TEXT = 'Character count maximum of';
-const CHAR_REMAINING_TEXT = 'Characters left {0}';
-
 export const setSizeAttr = (name: string, el: IdsTextarea, value: string | null, propTargetEl?: HTMLElement) => {
   if (value) {
     el.setAttribute(name, value.toString());
@@ -148,6 +144,10 @@ export default class IdsTextarea extends Base {
   disconnectedCallback(): void {
     super.disconnectedCallback();
   }
+
+  onLocaleChange = () => {
+    this.updateCounter();
+  };
 
   /**
    * Create the Template for the contents
@@ -546,7 +546,7 @@ export default class IdsTextarea extends Base {
       let text = this.charRemainingText.replace('{0}', remaining.toString());
 
       if (length >= max) {
-        text = (this.charMaxText === CHAR_MAX_TEXT) ? `${this.charMaxText} ${max}` : this.charMaxText.replace('{0}', max.toString());
+        text = this.charMaxText.replace('{0}', max.toString());
         elem.textContent = text;
         elem.classList.remove(cssClass);
       } else {
@@ -660,7 +660,7 @@ export default class IdsTextarea extends Base {
     this.removeAttribute(attributes.CHAR_MAX_TEXT);
   }
 
-  get charMaxText(): string { return this.getAttribute(attributes.CHAR_MAX_TEXT) || CHAR_MAX_TEXT; }
+  get charMaxText(): string { return this.getAttribute(attributes.CHAR_MAX_TEXT) || this.localeAPI.translate('CharactersMax'); }
 
   /**
    * Set `char-remaining-text` text for character counter
@@ -675,7 +675,7 @@ export default class IdsTextarea extends Base {
   }
 
   get charRemainingText(): string {
-    return this.getAttribute(attributes.CHAR_REMAINING_TEXT) || CHAR_REMAINING_TEXT;
+    return this.getAttribute(attributes.CHAR_REMAINING_TEXT) || this.localeAPI.translate('CharactersLeft');
   }
 
   /**
@@ -684,10 +684,10 @@ export default class IdsTextarea extends Base {
    */
   set characterCounter(value: boolean | string) {
     const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.CHARACTER_COUNTER, val.toString());
-    } else {
+    if (value === null || value === undefined) {
       this.removeAttribute(attributes.CHARACTER_COUNTER);
+    } else {
+      this.setAttribute(attributes.CHARACTER_COUNTER, val.toString());
     }
     this.handleCharacterCounter();
   }
