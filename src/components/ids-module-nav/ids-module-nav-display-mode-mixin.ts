@@ -10,6 +10,8 @@ export interface DisplayModeHandler {
 type Constraints = IdsConstructor<DisplayModeHandler>;
 
 const IdsModuleNavDisplayModeMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  previousDisplayMode: IdsModuleNavDisplayMode = false;
+
   constructor(...args: any[]) {
     super(...args);
   }
@@ -47,7 +49,7 @@ const IdsModuleNavDisplayModeMixin = <T extends Constraints>(superclass: T) => c
       safeValue = value;
     }
 
-    const currentValue = this.displayMode;
+    const currentValue = this.previousDisplayMode;
     if (currentValue !== safeValue) {
       if (safeValue !== false) {
         this.setAttribute(attributes.DISPLAY_MODE, `${safeValue}`);
@@ -55,6 +57,7 @@ const IdsModuleNavDisplayModeMixin = <T extends Constraints>(superclass: T) => c
         this.removeAttribute(attributes.DISPLAY_MODE);
         safeValue = false;
       }
+      this.previousDisplayMode = safeValue;
       this.#setDisplayMode(currentValue, safeValue);
     }
   }
@@ -71,6 +74,16 @@ const IdsModuleNavDisplayModeMixin = <T extends Constraints>(superclass: T) => c
     // Fire optional callback
     if (typeof this.onDisplayModeChange === 'function') {
       this.onDisplayModeChange(currentValue, newValue);
+    }
+  }
+
+  /**
+   * Detects if state changes from outside the component library have occured against
+   * the `display-mode` attribute and corrects component state.
+   */
+  checkDisplayMode() {
+    if (this.previousDisplayMode !== this.displayMode) {
+      this.#setDisplayMode(this.previousDisplayMode, this.displayMode);
     }
   }
 };
