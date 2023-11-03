@@ -345,6 +345,7 @@ class IdsMultiselect extends IdsDropdown {
 
     (this.dropdownList?.listBox?.optionsSorted ?? [])
       .forEach((option: IdsListBoxOption) => {
+        option.classList.remove('last-selected');
         option.hidden = false;
         if (this.#selectedList.includes(option.value)) {
           option.selected = true;
@@ -355,6 +356,7 @@ class IdsMultiselect extends IdsDropdown {
         }
       });
 
+    selectedOptions.at(-1)?.classList.add('last-selected');
     this.dropdownList.listBox.prepend(...selectedOptions.concat(unselectedOptions));
   }
 
