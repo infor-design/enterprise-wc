@@ -312,6 +312,7 @@ export default class IdsAccordion extends Base {
   checkExpanders() {
     this.headers?.forEach((header) => {
       header.toggleExpanderIcon(header.panel.isExpandable);
+      header.refreshIconDisplay(header.icon);
     });
   }
 
