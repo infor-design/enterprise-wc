@@ -1356,10 +1356,10 @@ export default class IdsTree extends Base {
   get toggleIconRotate(): boolean | string { return IdsTreeShared.getBoolVal(this, attributes.TOGGLE_ICON_ROTATE); }
 
   /**
-   * Sets the tree to use toggle target
-   * @param {boolean|string} value If true will set to use toggle target
+   * Sets the tree's expand target
+   * @param {boolean|string} value Either node or icon
    */
-  set expandTarget(value: 'node' | 'icon') {
+  set expandTarget(value: 'node' | 'icon' | string) {
     if (value) {
       this.setAttribute(attributes.EXPAND_TARGET, `${value}`);
     } else {

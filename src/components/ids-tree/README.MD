@@ -288,7 +288,7 @@ treeDemo?.data = dataset;
 - Disabled: Disabled nodes cannot be clicked, hovered, focused or selected
 - Expand or Collapse: Tree can display show/hide child nodes thru its parent/group node
 - Selection (single): Tree supports the single node selection
-- Toggle Target: This provide to toggle expand/collapse by icon only
+- Expand Target: Provides an option to expand by clicking either the node or on just on the icon
 - Tree by Markup: Tree can set thru the markup only
 
 ## Keyboard Guidelines

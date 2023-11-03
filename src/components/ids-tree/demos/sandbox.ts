@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Toggle Target
+  // Expand Target
   const treeTt: any = document.querySelector('#tree-toggle-target');
   if (treeTt) {
     treeTt.expandTarget = 'icon';
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Toggle Target (No icon rotation animtion)
+  // Expand Target (No icon rotation animtion)
   const treeTtNoIr: any = document.querySelector('#tree-toggle-target-no-rotation');
   if (treeTtNoIr) {
     treeTtNoIr.toggleIconRotate = false;

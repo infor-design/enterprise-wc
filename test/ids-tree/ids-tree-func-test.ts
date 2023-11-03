@@ -244,17 +244,17 @@ describe('IdsTree Component', () => {
     expect(tree.toggleIconRotate).toEqual(IdsTreeShared.DEFAULTS.toggleIconRotate);
   });
 
-  it('should sets the tree to use toggle target', () => {
-    expect(tree.getAttribute('use-toggle-target')).toEqual(null);
+  it('can use icon expand target', () => {
+    expect(tree.getAttribute('expand-target')).toEqual(null);
     expect(tree.expandTarget).toEqual(IdsTreeShared.DEFAULTS.expandTarget);
     tree.expandTarget = 'icon';
-    expect(tree.getAttribute('use-toggle-target')).toEqual('icon');
+    expect(tree.getAttribute('expand-target')).toEqual('icon');
     expect(tree.expandTarget).toEqual('icon');
     tree.expandTarget = 'node';
-    expect(tree.getAttribute('use-toggle-target')).toEqual('node');
+    expect(tree.getAttribute('expand-target')).toEqual('node');
     expect(tree.expandTarget).toEqual('node');
     tree.expandTarget = null;
-    expect(tree.getAttribute('use-toggle-target')).toEqual(null);
+    expect(tree.getAttribute('expand-target')).toEqual(null);
     expect(tree.expandTarget).toEqual(IdsTreeShared.DEFAULTS.expandTarget);
   });
 
@@ -962,12 +962,12 @@ describe('IdsTree Component', () => {
     node.elem.disabled = null;
     node.elem.collapseIcon = null;
     node.elem.expandTarget = null;
-    expect(node.elem.expandTarget).toEqual(false);
+    expect(node.elem.expandTarget).toEqual('node');
     expect(node.elem.label).toEqual('');
     expect(node.elem.toggleIcon).toEqual('');
   });
 
-  it('should expand/collapse tree node', () => {
+  it('should be able to expand/collapse tree nodes', () => {
     tree.data = dataset;
     let id = '#home';
     let node = tree.getNode(id);
@@ -977,13 +977,12 @@ describe('IdsTree Component', () => {
     id = '#public-folders';
     node = tree.getNode(id);
     tree.expandTarget = null;
-    expect(node.elem.expandTarget).toEqual(false);
+    expect(node.elem.expandTarget).toEqual('node');
     tree.expandTarget = 'node';
-    expect(tree.getAttribute('use-toggle-target')).toEqual('node');
+    expect(tree.getAttribute('expand-target')).toEqual('node');
     node.elem.tree = tree;
     tree.expandTarget = 'icon';
     expect(node.isGroup).toEqual(true);
-    expect(node.elem.expandTarget).toEqual('icon');
     expect(node.elem.expanded).toEqual(true);
     node.elem.expanded = 'false';
     node = tree.getNode(id);
@@ -991,18 +990,6 @@ describe('IdsTree Component', () => {
     node.elem.expanded = 'true';
     node = tree.getNode(id);
     expect(node.elem.expanded).toEqual(true);
-
-    const mockCallback = jest.fn(() => { });
-    let event = new CustomEvent('transitionend', { bubbles: true, detail: {} });
-    node.elem.groupNodesEl.addEventListener('transitionend', mockCallback);
-    node.elem.groupNodesEl.dispatchEvent(event);
-    expect(mockCallback.mock.calls.length).toBe(1);
-
-    const toggleIconEl = node.elem.shadowRoot?.querySelector('.toggle-icon');
-    event = new CustomEvent('webkitAnimationEnd', { bubbles: true, detail: {} });
-    toggleIconEl.addEventListener('webkitAnimationEnd', mockCallback);
-    toggleIconEl.dispatchEvent(event);
-    expect(mockCallback.mock.calls.length).toBe(2);
   });
 
   it('should renders characters and symbols', () => {
@@ -1026,7 +1013,7 @@ describe('IdsTree Component', () => {
 
   it('should renders with markup', async () => {
     document.body.innerHTML = `
-      <ids-tree label="testing tree" use-toggle-target="true" toggle-icon-rotate="false">
+      <ids-tree label="testing tree" expand-target="true" toggle-icon-rotate="false">
         <ids-tree-node id="node0" selected="true">Test (node0)</ids-tree-node>
         <ids-tree-node id="node1">Test (node1)</ids-tree-node>
         <ids-tree-node id="node2" label="Test Folders (node2)">

@@ -519,7 +519,7 @@ export default class IdsTreeNode extends Base {
    * Sets the trees expand target between clicking the whole node or just the icon
    * @param {boolean|string} value Either 'node' or 'icon'
    */
-  set expandTarget(value: 'node' | 'icon') {
+  set expandTarget(value: 'node' | 'icon' | string) {
     if (IdsTreeShared.isBool(value)) {
       this.setAttribute(attributes.EXPAND_TARGET, `${value}`);
     } else {
@@ -528,5 +528,5 @@ export default class IdsTreeNode extends Base {
     this.#setToggleIconElement();
   }
 
-  get expandTarget(): 'node' | 'icon' { return IdsTreeShared.getBoolVal((this as any), attributes.EXPAND_TARGET); }
+  get expandTarget(): 'node' | 'icon' | string { return this.getAttribute(attributes.EXPAND_TARGET) || 'node'; }
 }
