@@ -386,8 +386,7 @@ export default class IdsDropdown extends Base {
    * @returns {Array<IdsListBoxOption>} the array of options
    */
   get options() {
-    if (!this.dropdownList || !this.dropdownList.listBox) return [];
-    return [...this.dropdownList.listBox.querySelectorAll<IdsListBoxOption>('ids-list-box-option')];
+    return [...this.dropdownList?.listBox?.querySelectorAll<IdsListBoxOption>('ids-list-box-option') ?? []];
   }
 
   /**

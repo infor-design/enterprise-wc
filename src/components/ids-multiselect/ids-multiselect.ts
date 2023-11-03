@@ -1,19 +1,18 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool, stringToNumber, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
 
 import '../ids-checkbox/ids-checkbox';
 import '../ids-tag/ids-tag';
 import '../ids-text/ids-text';
+import '../ids-list-box/ids-list-box-option';
 
 import styles from './ids-multiselect.scss';
 
-import type { IdsDropdownOption, IdsDropdownOptions } from '../ids-dropdown/ids-dropdown-common';
+import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTag from '../ids-tag/ids-tag';
-import type IdsIcon from '../ids-icon/ids-icon';
-import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import type IdsText from '../ids-text/ids-text';
 
 /**
@@ -35,13 +34,10 @@ class IdsMultiselect extends IdsDropdown {
   connectedCallback() {
     super.connectedCallback();
     this.resetDirtyTracker();
-    this.#setOptionsData();
     this.#populateSelected();
   }
 
   #selectedList: Array<string> = [];
-
-  #optionsData: IdsDropdownOptions = [];
 
   /**
    * Return the attributes we handle as getters and setters
@@ -295,8 +291,10 @@ class IdsMultiselect extends IdsDropdown {
    * Update value in the input visually
    */
   #updateDisplay() {
-    const selected = this.#optionsData.filter((item: IdsDropdownOption) => this.#selectedList.includes(item.value));
-    const newValue = selected.map((item: IdsDropdownOption) => item.label).join(', ');
+    const options = this.dropdownList?.listBox?.options ?? [];
+    const selected = options.filter((item: IdsListBoxOption) => this.#selectedList.includes(item.value));
+    const newValue = selected.map((item: IdsListBoxOption) => item.label).join(', ');
+
     // Clear tags/text before rerender
     this.input?.querySelectorAll<IdsTag>('ids-tag').forEach((item) => item.remove());
     this.input?.querySelector<IdsText>('ids-text')?.remove();
@@ -342,59 +340,22 @@ class IdsMultiselect extends IdsDropdown {
    */
   #updateList() {
     if (!this.dropdownList?.listBox) return;
+    const selectedOptions: IdsListBoxOption[] = [];
+    const unselectedOptions: IdsListBoxOption[] = [];
 
-    const selected = this.#optionsData.filter((item: IdsDropdownOption) => this.#selectedList.includes(item.value))
-      .map((item: IdsDropdownOption) => ({
-        ...item,
-        selected: true
-      }));
-    const options = this.#optionsData.filter((item: IdsDropdownOption) => !this.#selectedList.includes(item.value))
-      .map((item: any, index: number) => ({
-        ...item,
-        border: index === 0 && selected.length !== 0,
-        selected: false
-      }))
-      .sort((first, second) => (first.index as number) - (second.index as number));
+    (this.dropdownList?.listBox?.optionsSorted ?? [])
+      .forEach((option: IdsListBoxOption) => {
+        option.hidden = false;
+        if (this.#selectedList.includes(option.value)) {
+          option.selected = true;
+          selectedOptions.push(option);
+        } else {
+          option.selected = false;
+          unselectedOptions.push(option);
+        }
+      });
 
-    this.dropdownList.listBox.innerHTML = '';
-
-    const html = [...selected, ...options]
-      // Exclude empty groups
-      .filter((option: IdsDropdownOption, index: number, list: IdsDropdownOptions) => {
-        const emptyGroup = option.groupLabel && (list[index + 1]?.groupLabel || !list[index + 1]);
-
-        return !emptyGroup;
-      })
-      .map((option: IdsDropdownOption) => this.#templatelistBoxOption(option))
-      .join('');
-    this.dropdownList.listBox.insertAdjacentHTML('afterbegin', html);
-  }
-
-  /**
-   * Create the list box option template.
-   * @param {IdsDropdownOption} option id, value, label object
-   * @returns {string} ids-list-box-option template
-   */
-  #templatelistBoxOption(option: IdsDropdownOption): string {
-    const classAttr: string = buildClassAttrib(
-      !option.groupLabel && 'multiselect-option',
-      (option as any).border && 'multiselect-border'
-    );
-
-    return `
-      <ids-list-box-option
-        ${classAttr}
-        ${option.id ? `id=${option.id}` : ''}
-        ${option.value ? `value="${option.value}"` : ''}
-        ${option.groupLabel ? 'group-label' : ''}
-      >${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${!option.groupLabel ? `
-        <ids-checkbox
-          no-margin
-          class="justify-center multiselect-checkbox"
-          label="${option.label}"
-          checked="${option.selected}"
-        ></ids-checkbox>
-      ` : option.label}</ids-list-box-option>`;
+    this.dropdownList.listBox.prepend(...selectedOptions.concat(unselectedOptions));
   }
 
   /**
@@ -416,21 +377,6 @@ class IdsMultiselect extends IdsDropdown {
     });
 
     this.value = this.#selectedList;
-  }
-
-  /**
-   * Map slotted ids-list-box-option elements to the dataset
-   */
-  #setOptionsData() {
-    this.#optionsData = [...this.options].map((item, index) => ({
-      id: item?.id,
-      label: item?.textContent?.trim() || item?.querySelector<IdsCheckbox>('ids-checkbox')?.label || '',
-      value: item?.getAttribute(attributes.VALUE) ?? '',
-      groupLabel: item?.hasAttribute(attributes.GROUP_LABEL),
-      selected: item?.hasAttribute('selected'),
-      icon: item?.querySelector<IdsIcon>('ids-icon')?.icon,
-      index
-    }));
   }
 }
 
