@@ -99,7 +99,8 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter')!;
     resizable: true,
     reorderable: true,
     formatter: dataGrid.formatters.text,
-    filterType: dataGrid.filters.text
+    filterType: dataGrid.filters.text,
+    align: 'right'
   });
 
   // Do an ajax request

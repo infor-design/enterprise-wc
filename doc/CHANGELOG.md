@@ -5,6 +5,8 @@
 ### 1.0.0-beta.17 Features
 
 - `[General]` Added an initial migration guide. ([#1561](https://github.com/infor-design/enterprise-wc/issues/1561))
+- `[Tree]` Added `addNodes` method to dynamically add tree nodes. ([#1517](https://github.com/infor-design/enterprise-wc/issues/1517))
+- `[Tree]` Renamed `useToggleTarget` to `expandTarget`, now available as a setting to toggle tree nodes only when clicking the icon. ([#1528](https://github.com/infor-design/enterprise-wc/issues/1528))
 
 ### 1.0.0-beta.17 Fixes
 

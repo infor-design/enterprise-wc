@@ -11,6 +11,9 @@
   - link: multi-select.html
     type: Example
     description: Shows multi-select tree view
+  - link: add-node.html
+    type: Example
+    description: Shows the add node function
   - link: sandbox.html
     type: Sandbox
     description: Shows other tree scenarios

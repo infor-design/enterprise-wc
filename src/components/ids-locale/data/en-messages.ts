@@ -59,7 +59,7 @@ const messages = {
   Clear: { id: 'Clear', value: 'Clear', comment: 'Tooltip for a clear action' },
   ClearFilter: { id: 'ClearFilter', value: 'Clear filter', comment: 'Clear the current filter criteria' },
   ClearFormatting: { id: 'ClearFormatting', value: 'Clear formatting', comment: 'Clear the formatting in editor' },
-  ClearSelection: { id: 'ClearSelection', value: '(Clear felection)', comment: 'clear dropdown selection' },
+  ClearSelection: { id: 'ClearSelection', value: '(Clear selection)', comment: 'clear dropdown selection' },
   Clickable: { id: 'Clickable', value: 'Clickable in editor', comment: 'Clickable in editor' },
   Clock: { id: 'Clock', value: 'Clock', comment: 'Clock tooltip' },
   Close: { id: 'Close', value: 'Close', comment: 'Tooltip for a Close Button Action' },
