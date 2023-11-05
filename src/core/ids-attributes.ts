@@ -67,7 +67,6 @@ export const attributes = {
   CHARACTER_COUNTER: 'character-counter',
   CHAR_MAX_TEXT: 'char-max-text',
   CHAR_REMAINING_TEXT: 'char-remaining-text',
-  CHECKBOX: 'checkbox',
   CHECKED: 'checked',
   CHILD_FILTER_MATCH: 'child-filter-match',
   CLEARABLE: 'clearable',

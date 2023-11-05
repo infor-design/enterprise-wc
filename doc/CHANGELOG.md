@@ -14,6 +14,7 @@
 - `[FlexLayout]` Added a flex example using IdsButtons and IdsInputs. ([#1395](https://github.com/infor-design/enterprise-wc/issues/1395))
 - `[Inputs]` Fixed removing `readonly` and `disabled` not working after form additions. ([#1570](https://github.com/infor-design/enterprise-wc/issues/1570))
 - `[Modal]` Add `showCloseButton` setting to modal. ([#1527](https://github.com/infor-design/enterprise-wc/issues/1527))
+- `[Multiselect]` Fix rerender logic so that state is maintained while using ngFor directive in Angular. ([#1411](https://github.com/infor-design/enterprise-wc/issues/1411))
 
 ## 1.0.0-beta.16
 
