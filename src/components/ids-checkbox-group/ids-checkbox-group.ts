@@ -2,7 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
-import '../ids-checkbox/ids-checkbox';
+import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 import styles from './ids-checkbox-group.scss';
 
@@ -63,5 +63,21 @@ export default class IdsCheckboxGroup extends IdsEventsMixin(IdsElement) {
 
     const textElem = this.container?.querySelector('ids-text');
     if (textElem) textElem.innerHTML = value;
+  }
+
+  /**
+   * Get child ids-checkbox inputs in this group
+   * @returns {IdsCheckbox[]} list of checkboxes
+   */
+  get checkboxes(): IdsCheckbox[] {
+    return [...this.querySelectorAll<IdsCheckbox>('ids-checkbox')];
+  }
+
+  /**
+   * Get the selected ids-checkbox inputs in this group
+   * @returns {IdsCheckbox[]} list of selected checkboxes
+   */
+  get checkboxesSelected(): IdsCheckbox[] {
+    return [...this.querySelectorAll<IdsCheckbox>('ids-checkbox[checked]')];
   }
 }

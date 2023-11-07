@@ -29,25 +29,13 @@ const Base = IdsLocaleMixin(
 @customElement('ids-radio')
 @scss(styles)
 export default class IdsRadio extends Base {
-  input?: HTMLInputElement | null;
-
-  labelEl?: HTMLLabelElement | null;
-
-  rootEl?: HTMLElement | null;
-
-  /**
-   * Call the constructor and then initialize
-   */
-  constructor() {
-    super();
-  }
-
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
   static get attributes(): Array<string> {
     return [
+      ...super.attributes,
       attributes.CHECKED,
       attributes.COLOR,
       attributes.DISABLED,
@@ -60,15 +48,24 @@ export default class IdsRadio extends Base {
     ];
   }
 
+  get input(): HTMLInputElement | null {
+    return this.shadowRoot?.querySelector<HTMLInputElement>('input[type="radio"]') ?? null;
+  }
+
+  get labelEl(): HTMLLabelElement | null {
+    return this.shadowRoot?.querySelector<HTMLLabelElement>('label') ?? null;
+  }
+
+  get rootEl(): HTMLElement | null {
+    return this.shadowRoot?.querySelector<HTMLElement>('.ids-radio') ?? null;
+  }
+
   /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
   connectedCallback(): void {
     super.connectedCallback();
-    this.input = this.shadowRoot?.querySelector('input[type="radio"]');
-    this.labelEl = this.shadowRoot?.querySelector('label');
-    this.rootEl = this.shadowRoot?.querySelector('.ids-radio');
 
     if (this.checked && !this.input?.getAttribute(attributes.CHECKED)) {
       this.checked = true;
@@ -82,7 +79,6 @@ export default class IdsRadio extends Base {
    * @returns {string} The template
    */
   template(): string {
-    // Checkbox
     const isDisabled = stringToBool(this.groupDisabled) || stringToBool(this.disabled);
     const disabled = isDisabled ? ' disabled' : '';
     const disabledAria = isDisabled ? ' aria-disabled="true"' : '';
@@ -91,11 +87,12 @@ export default class IdsRadio extends Base {
     const checked = stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-radio${disabled}${horizontal}"`;
     const radioClass = ' class="radio-button"';
+    const value = ` value="${this.value ?? ''}"`;
 
     return `
       <div${rootClass}${color}>
         <label>
-          <input type="radio" part="radio" tabindex="-1"${radioClass}${disabled}${checked}>
+          <input type="radio" part="radio" tabindex="-1"${radioClass}${value}${disabled}${checked}>
           <span class="circle${checked}" part="circle"></span>
           <ids-text class="label-text"${disabledAria} part="label">${this.label}</ids-text>
         </label>
@@ -215,13 +212,14 @@ export default class IdsRadio extends Base {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value: boolean | string) {
-    const labelText = this.shadowRoot?.querySelector('.label-text');
     const val = stringToBool(value);
+    const labelText = this.shadowRoot?.querySelector('.label-text');
+    const rootEl = this.rootEl;
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val.toString());
-      this.rootEl?.classList.add(attributes.DISABLED);
-      this.rootEl?.setAttribute('tabindex', '-1');
+      rootEl?.classList.add(attributes.DISABLED);
+      rootEl?.setAttribute('tabindex', '-1');
       labelText?.setAttribute('aria-disabled', 'true');
       labelText?.setAttribute(attributes.DISABLED, 'true');
     } else {
@@ -229,7 +227,7 @@ export default class IdsRadio extends Base {
       this.input?.removeAttribute(attributes.DISABLED);
       labelText?.removeAttribute('aria-disabled');
       labelText?.removeAttribute(attributes.DISABLED);
-      this.rootEl?.classList.remove(attributes.DISABLED);
+      rootEl?.classList.remove(attributes.DISABLED);
     }
   }
 
