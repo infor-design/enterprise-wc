@@ -12,7 +12,7 @@
     padding $transition-length $transition-ease;
 
   &.expanded {
-    padding-block: 8px;
+    padding-block-start: 8px;
   }
 }
 
@@ -28,7 +28,7 @@
 
 @mixin accordion-panel-module-nav-rules() {
   .ids-accordion-pane-content {
-    padding-inline: 0;
+    padding-inline-start: 0;
   }
 
   &.nested {
@@ -41,7 +41,7 @@
 
 @mixin accordion-panel-sub-module-nav-rules() {
   .ids-accordion-pane-content {
-    padding-inline: 0;
+    padding-inline-start: 0;
   }
 
   &.nested {
@@ -57,7 +57,7 @@
 
 @mixin accordion-pane-standard-size() {
   .ids-accordion-pane-content {
-    padding-inline: 8px;
+    padding-inline-start: 8px;
   }
 
   &:not(.rtl) {
@@ -85,7 +85,29 @@
 @mixin accordion-pane-in-page-standard-size() {
   .ids-accordion-pane-content {
     padding-block: 8px;
-    padding-inline: 18px;
+    padding-inline-start: 18px;
+  }
+
+  &.nested {
+    .ids-accordion-pane-content {
+      padding-inline-start: 22px;
+    }
+  }
+
+  &.has-icon {
+    .ids-accordion-pane-content {
+      padding-inline-start: 30px;
+    }
+  }
+}
+
+@mixin nested-accordion-panel-indentation() {
+  ::slotted(ids-accordion-panel) {
+    padding-inline-start: 24px;
+  }
+
+  .ids-accordion-panel {
+    padding-inline-start: 24px;
   }
 }
 
@@ -103,6 +125,7 @@
   &.color-variant-app-menu {
     @include accordion-panel-app-menu-colors();
     @include accordion-pane-standard-size();
+    @include nested-accordion-panel-indentation();
   }
 
   &.color-variant-sub-app-menu {
@@ -117,22 +140,6 @@
 
   &.color-variant-sub-module-nav {
     @include accordion-panel-sub-module-nav-rules();
-  }
-
-  // ============================================
-  // Content Alignment Rules
-
-  &.has-icon {
-    // LTR content alignment (padding comes from the left)
-    &:not(.rtl) {
-      ::slotted(ids-accordion-panel) {
-        padding-inline-start: 24px;
-      }
-
-      .ids-accordion-panel {
-        padding-inline-start: 24px;
-      }
-    }
   }
 }
 
