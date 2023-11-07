@@ -35,6 +35,12 @@ class IdsMultiselect extends IdsDropdown {
     super.connectedCallback();
     this.resetDirtyTracker();
     this.#populateSelected();
+
+    const defaultSlot = this.container?.querySelector<HTMLSlotElement>('slot');
+    this.offEvent('slotchange.mulitselect', defaultSlot);
+    this.onEvent('slotchange.mulitselect', defaultSlot, () => {
+      this.#populateSelected();
+    });
   }
 
   #selectedList: Array<string> = [];
@@ -364,6 +370,8 @@ class IdsMultiselect extends IdsDropdown {
    * Update options list on the component mount with classes/attributes
    */
   #populateSelected() {
+    this.#selectedList = [];
+
     this.options.forEach((item: any) => {
       const checkbox = item.querySelector('ids-checkbox');
 
