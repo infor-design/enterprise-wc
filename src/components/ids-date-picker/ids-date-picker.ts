@@ -1228,7 +1228,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
     }
-    if (this.#picker) this.#picker.secondInterval = numberVal;
+    if (this.#picker) this.#picker.minuteInterval = numberVal;
   }
 
   /**

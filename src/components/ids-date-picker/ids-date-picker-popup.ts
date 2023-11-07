@@ -649,6 +649,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
     }
 
     this.setAttribute(attributes.VALUE, val);
+    this.timepicker?.setAttribute(attributes.VALUE, val);
     this.#value = val;
   }
 
