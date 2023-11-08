@@ -40,13 +40,15 @@ test.describe('IdsTag tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page }) => {
+    test('should match innerHTML snapshot', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
       const handle = await page.$('ids-tag');
       const html = await handle?.evaluate((el: IdsTag) => el?.outerHTML);
       await expect(html).toMatchSnapshot('tag-html');
     });
 
-    test('should match shadowRoot snapshot', async ({ page }) => {
+    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
       const handle = await page.$('ids-tag');
       const html = await handle?.evaluate((el: IdsTag) => {
         el?.shadowRoot?.querySelector('style')?.remove();

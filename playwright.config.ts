@@ -19,6 +19,8 @@ export default defineConfig({
   retries: process.env.CI ? 4 : 2,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
+  /* Control the snap shot names */
+  snapshotPathTemplate: '{testDir}/{testFileDir}/snapshots/{arg}.snap',
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html']

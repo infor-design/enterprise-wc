@@ -39,13 +39,15 @@ test.describe('IdsAlert tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page }) => {
+    test('should match innerHTML snapshot', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
       const handle = await page.$('ids-alert');
       const html = await handle?.evaluate((el: IdsAlert) => el?.outerHTML);
       await expect(html).toMatchSnapshot('alert-html');
     });
 
-    test('should match shadowRoot snapshot', async ({ page }) => {
+    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
       const handle = await page.$('ids-alert');
       const html = await handle?.evaluate((el: IdsAlert) => {
         el?.shadowRoot?.querySelector('style')?.remove();
