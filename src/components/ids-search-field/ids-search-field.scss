@@ -135,17 +135,6 @@
 
   // =============================
   // Default Styles for color variants (Applicable to all themes)
-  &.color-variant-alternate {
-    .field-container {
-      border-style: none;
-      background-color: var(--ids-search-field-header-color-background);
-      color: var(--ids-search-field-header-color-text);
-   }
-
-    ids-icon {
-      color: var(--ids-search-field-header-color-icon-default);
-    }
-  }
 
   &.color-variant-card {
     .field-container {

@@ -136,7 +136,7 @@
   --ids-button-tertiary-color-text-default: var(--ids-color-neutral-20);
   --ids-button-tertiary-color-border-focus: var(--ids-color-border-focus);
   --ids-button-tertiary-color-text-hover: var(--ids-color-text-on-primary);
-  --ids-button-tertiary-color-background-hover: var(--ids-color-neutral-70);
+  --ids-button-tertiary-color-background-hover: var(--ids-color-neutral-80);
   --ids-button-tertiary-color-text-disabled: var(--ids-color-neutral-60);
   --ids-button-tertiary-color-background-pressed: var(--ids-color-primary-40);
   --ids-button-destructive-color-background-hover: var(--ids-color-neutral-90);
@@ -347,6 +347,10 @@
   --ids-input-color-border-disabled: var(--ids-color-text-disabled);
   --ids-input-color-border-hover: var(--ids-color-neutral-10);
   --ids-input-color-border-focus: var(--ids-color-border-focus);
+  --ids-input-header-color-text-default: var(--ids-color-neutral-00);
+  --ids-input-header-color-text-placeholder: var(--ids-color-neutral-40);
+  --ids-input-header-color-background: transparent;
+  --ids-input-header-color-border: rgba(255 255 255 / 0.7);
 
   // Layout Grid
   --ids-layout-grid-color-background: var(--ids-color-neutral-70);
@@ -594,7 +598,7 @@
 
   // Tab (Header Variant)
   --ids-tab-header-color-text-default: var(--ids-color-slate-30);
-  --ids-tab-header-color-text-disabled: var(--ids-color-neutral-60);
+  --ids-tab-header-color-text-disabled: var(--ids-color-neutral-50);
   --ids-tab-header-color-text-hover: var(--ids-color-neutral-00);
   --ids-tab-header-color-text-selected: var(--ids-color-neutral-00);
   --ids-tab-header-color-background-hover: var(--ids-color-neutral-90);
@@ -608,7 +612,7 @@
   --ids-tab-vertical-color-text-selected: var(--ids-color-neutral-00);
   --ids-tab-vertical-color-text-hover: var(--ids-color-neutral-00);
   --ids-tab-vertical-color-background-disabled: var(--ids-color-neutral-60);
-  --ids-tab-vertical-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-tab-vertical-color-text-disabled: var(--ids-color-neutral-40);
   --ids-tab-vertical-color-border-default: var(--ids-color-slate-60);
 
   // Tab (Module Variant)
