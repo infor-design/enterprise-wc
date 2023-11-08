@@ -64,6 +64,55 @@ test.describe('IdsTag tests', () => {
   });
 
   test.describe('setting/attribute tests', () => {
+    test('should be able to set attributes before append', async ({ page }) => {
+      let exceptions = null;
+      page.on('pageerror', (error) => {
+        exceptions = error;
+      });
+
+      await page.evaluate(() => {
+        const elem: any = document.createElement('ids-tag');
+        elem.color = 'red';
+        elem.clickable = true;
+        elem.dismissible = true;
+        document.body.appendChild(elem);
+      });
+      await expect(exceptions).toBeNull();
+    });
+
+    test('should be able to set attributes after append', async ({ page }) => {
+      let exceptions = null;
+      page.on('pageerror', (error) => {
+        exceptions = error;
+      });
+
+      await page.evaluate(() => {
+        const elem:any = document.createElement('ids-tag');
+        document.body.appendChild(elem);
+        elem.icon = 'alert';
+        elem.color = 'red';
+        elem.clickable = true;
+        elem.dismissible = true;
+      });
+
+      await expect(exceptions).toBeNull();
+    });
+
+    test('should be able to set attributes after insertAdjacentHTML', async ({ page }) => {
+      let exceptions = null;
+      page.on('pageerror', (error) => {
+        exceptions = error;
+      });
+
+      await page.evaluate(() => {
+        document.body.insertAdjacentHTML('beforeend', '<ids-tag id="test" color="error"></ids-tag>');
+        const elem:any = document.querySelector('#test');
+        elem.color = 'alert';
+      });
+
+      await expect(exceptions).toBeNull();
+    });
+
     test('should be able to set color', async ({ page }) => {
       const locator = await page.locator('ids-tag').first();
       const handle = await page.$('ids-tag');

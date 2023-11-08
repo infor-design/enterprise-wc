@@ -49,7 +49,7 @@ jobs:
       run: npm run build:coverage
 
     - name: Install Browsers
-      run: npx playwright install
+      run: npx playwright install --with-deps
 
     - name: Run Tests
       run: npx percy exec -- npm run test:ci
