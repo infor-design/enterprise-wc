@@ -42,15 +42,15 @@ test.describe('IdsTag tests', () => {
   test.describe('snapshot tests', () => {
     test('should match innerHTML snapshot', async ({ page }) => {
       const handle = await page.$('ids-tag');
-      const html = await handle?.evaluate((node: IdsTag) => node?.outerHTML);
+      const html = await handle?.evaluate((el: IdsTag) => el?.outerHTML);
       await expect(html).toMatchSnapshot('tag-html');
     });
 
     test('should match shadowRoot snapshot', async ({ page }) => {
       const handle = await page.$('ids-tag');
-      const html = await handle?.evaluate((node: IdsTag) => {
-        node?.shadowRoot?.querySelector('style')?.remove();
-        return node?.shadowRoot?.innerHTML;
+      const html = await handle?.evaluate((el: IdsTag) => {
+        el?.shadowRoot?.querySelector('style')?.remove();
+        return el?.shadowRoot?.innerHTML;
       });
       await expect(html).toMatchSnapshot('tag-shadow');
     });
@@ -65,26 +65,26 @@ test.describe('IdsTag tests', () => {
     test('should be able to set color', async ({ page }) => {
       const locator = await page.locator('ids-tag').first();
       const handle = await page.$('ids-tag');
-      await handle?.evaluate((node: IdsTag) => {
-        node.color = 'success';
+      await handle?.evaluate((el: IdsTag) => {
+        el.color = 'success';
       });
       await expect(await locator.getAttribute('color')).toEqual('success');
-      await handle?.evaluate((node: IdsTag) => {
-        node.color = '';
+      await handle?.evaluate((el: IdsTag) => {
+        el.color = '';
       });
       await expect(await locator.getAttribute('color')).toEqual(null);
     });
 
     test('should be able to set disabled', async ({ page }) => {
       const handle = await page.$('ids-tag');
-      let result = await handle?.evaluate((node: IdsTag) => {
-        node.setAttribute('disabled', 'true');
-        return node.disabled;
+      let result = await handle?.evaluate((el: IdsTag) => {
+        el.setAttribute('disabled', 'true');
+        return el.disabled;
       });
       await expect(result).toEqual(true);
-      result = await handle?.evaluate((node2: IdsTag) => {
-        node2.setAttribute('disabled', 'false');
-        return node2.disabled;
+      result = await handle?.evaluate((el: IdsTag) => {
+        el.setAttribute('disabled', 'false');
+        return el.disabled;
       });
       await expect(await handle?.getAttribute('disabled')).toEqual(null);
     });
@@ -96,7 +96,7 @@ test.describe('IdsTag tests', () => {
       let checkText = await handle?.innerText();
       expect(checkText?.trim()).toBe('Dismissible Tag 1');
 
-      await handle?.evaluate((node: IdsTag) => node.dismiss());
+      await handle?.evaluate((el: IdsTag) => el.dismiss());
 
       handle = await page.$('ids-tag[dismissible]:not([disabled])');
       checkText = await handle?.innerText();

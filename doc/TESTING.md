@@ -1,26 +1,14 @@
 # Testing
 
-The IDS components are backed by end-to-end (e2e) test suites.  When contributing to the IDS enterprise project, before we can accept pull requests we expect that new tests will be provided to prove that new functionality works, and that all existing tests pass.
+The IDS components are backed by end-to-end (e2e) test suites using [Playwright](https://playwright.dev).  When contributing to the IDS enterprise project, before we expect that new tests will be provided to prove that new functionality works, and that all existing tests pass.
 
-The testing strategy is to aim for 100% coverage but initially 80% is the minimum. You should try to make sure to cover all the functionality of the component with tests. Any time you fix a bug you should also make an additional test for that bug if it was not noticed by a test.
+You should try to make sure to cover all the functionality of the component with tests. Any time you fix a bug you should also make an additional test for that bug if it was not noticed by a test.
 
-When covering tests you can use either the functional tests `*-func-test.js` or e2e puppeteer tests `*-e2e-test.js`. The coverage is combined between these. Because the functional tests use JSDOM this means that some things may not be testable with it so in that case you should try to test it in an e2e puppeteer test which uses a real browser.
-
-Aim for 100% but the minimum is 80% and we can come back to some.
+Aim for both coverage and that the functionality is correctly tested.
 
 ## Test Stack
 
-- [Jest](https://webdriver.io/) test runner for all tests.
-- [Jest Puppeteer](https://github.com/smooth-code/jest-puppeteer) test runner for e2e tests.
-- [Puppeteer](https://pptr.dev/) puppeteer documentation.
-
-## Puppeteer Troubleshooting
-
-If you are having an issue with puppeteer when running tests, and have already installed project dependencies (e.g. `npm i`), then you can try running:
-
-```sh
-node node_modules/puppeteer/install.js
-```
+- [Playwright](https://playwright.dev) playwright documentation.
 
 ## Debugging Tests
 
@@ -32,14 +20,17 @@ Another tip is to run `npm run build && node server` and then open the browser t
 
 Walk through [this video](https://www.youtube.com/watch?v=LM4yqrOzmFE) for a great description on this process.
 
-## Visual Regression tests
-
-We are using [percy.io](https://docs.percy.io/docs/puppeteer) for visual regression tests.
-
-
 ### Running tests locally
 
-To run this you need to add the `PERCY_TOKEN` to your bashrc from the [percy settings page](https://percy.io/Infor-Design-System/IDS-Web-Components/settings).
+You may want to run the test commands in a few ways depending what your doing.
+
+- Full build, test run and coverage. This requires building and generating coverage so takes a while. Use command `npm run test:coverage`
+- Full test run and coverage. If the code did not change and only tests did. You may want to skip the build step to save time. Use command `test:coverage:no-build`
+- Running or debugging a few tests. If the code did not change and your not interested in coverage you can run a single component tests. Use command `npx playwright test -- alert`
+
+## Visual Regression tests
+
+We are using [percy.io](https://docs.percy.io/docs/puppeteer) for visual regression tests. To run this you need to add the `PERCY_TOKEN` to your bashrc from the [percy settings page](https://percy.io/Infor-Design-System/IDS-Web-Components/settings).
 
 Then run the command `npx percy exec -- npm run test`
 
@@ -71,10 +62,6 @@ Do try to fix any errors but if needed you may want to skip some elements or rul
 - [Skipping Rules](https://playwright.dev/docs/accessibility-testing#disabling-individual-scan-rules)
 - [Excluding Elements](https://playwright.dev/docs/accessibility-testing#excluding-individual-elements-from-a-scan)
 
-## Coverage
-
-We are trying for full coverage (100%) but this is not always possible. But do your best.
-
 ## Avoiding Flaky Tests
 
 - [Use retrying assertions](https://playwright.dev/docs/test-assertions#auto-retrying-assertions)
@@ -84,3 +71,4 @@ We are trying for full coverage (100%) but this is not always possible. But do y
 ## Trouble Shooting
 
 `Error: browserType.launch: Executable doesn't exist at /Users` - reinstall browsers with command `npx playwright install`
+`Not getting expected coverage` - Run `npm run build:coverage` to instrument the code. It may have been replaced with a watch run or app run build.
