@@ -162,6 +162,46 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
+        <ids-layout-grid auto-fit="true" gap="md" padding="md">
+          <ids-text font-size="12" type="h2">Buttons</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid cols="2" padding-x="md">
+          <ids-layout-grid-cell col-span="1" class="fill">
+            <ids-layout-flex gap="8">
+              <ids-layout-flex-item grow="0">
+                <ids-button appearance="primary" width="100%">
+                  <span>Grow: 0</span>
+                </ids-button>
+              </ids-layout-flex-item>
+              <ids-layout-flex-item grow="0">
+                <ids-button appearance="primary" width="100%">
+                  <span>Grow: 0</span>
+                </ids-button>
+              </ids-layout-flex-item>
+              <ids-layout-flex-item grow="1">
+                <ids-button appearance="primary" width="100%">
+                  <span>Grow: 1</span>
+                </ids-button>
+              </ids-layout-flex-item>
+            </ids-layout-flex>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+        <ids-layout-grid auto-fit="true" gap="md" padding="md">
+          <ids-text font-size="12" type="h2">Inputs</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid cols="2" padding-x="md">
+          <ids-layout-grid-cell col-span="1" class="fill">
+            <ids-layout-flex gap="8">
+              <ids-layout-flex-item grow="0">
+                <ids-input size="xs" type="text" label="Grow: 0" placeholder="Size xs"></ids-input>
+              </ids-layout-flex-item>
+              <ids-layout-flex-item grow="1">
+                <ids-input size="full" type="text" label="Grow: 1" placeholder="Size full"></ids-input>
+              </ids-layout-flex-item>
+            </ids-layout-flex>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
       </div>
     </ids-container>
   </body>

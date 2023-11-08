@@ -176,16 +176,24 @@ export default class IdsSwitch extends Base {
 
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
-      this.input?.setAttribute(attributes.CHECKED, val.toString());
       slider?.classList.add(attributes.CHECKED);
+      if (this.input) {
+        this.input.setAttribute(attributes.CHECKED, val.toString());
+        this.input.checked = true;
+      }
     } else {
       this.removeAttribute(attributes.CHECKED);
-      this.input?.removeAttribute(attributes.CHECKED);
       slider?.classList.remove(attributes.CHECKED);
+      if (this.input) {
+        this.input.removeAttribute(attributes.CHECKED);
+        this.input.checked = false;
+      }
     }
   }
 
-  get checked(): boolean { return stringToBool(this.getAttribute(attributes.CHECKED)); }
+  get checked(): boolean {
+    return stringToBool(this.input ? this.input.checked : this.getAttribute(attributes.CHECKED));
+  }
 
   /**
    * @readonly

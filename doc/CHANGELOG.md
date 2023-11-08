@@ -11,7 +11,12 @@
 - `[Calendar]` Fix multiple `beforerendermonth` events. ([#1464](https://github.com/infor-design/enterprise-wc/issues/1464))
 - `[Calendar]` Add `afterrendermonth` event to calendar and month view. ([#1465](https://github.com/infor-design/enterprise-wc/issues/1465))
 - `[Calendar]` Add `disableSettings` property to calendar. ([#1471](https://github.com/infor-design/enterprise-wc/issues/1471))
+- `[FlexLayout]` Added a flex example using IdsButtons and IdsInputs. ([#1395](https://github.com/infor-design/enterprise-wc/issues/1395))
+- `[Inputs]` Fixed removing `readonly` and `disabled` not working after form additions. ([#1570](https://github.com/infor-design/enterprise-wc/issues/1570))
+- `[Modal]` Add `showCloseButton` setting to modal. ([#1527](https://github.com/infor-design/enterprise-wc/issues/1527))
+- `[Module Nav]` Small improvements to better enable usage in an Angular codebase. ([#1597](https://github.com/infor-design/enterprise-wc/issues/1597))
 - `[Tabs]` Sync component with Figma design changes related to Alabaster default theme. ([#1050](https://github.com/infor-design/enterprise-wc/issues/1050))
+- `[Textarea]` Made sure strings are translated and fixed `character-count` setting. ([#1598](https://github.com/infor-design/enterprise-wc/issues/1598))
 
 ## 1.0.0-beta.16
 
@@ -43,6 +48,7 @@
 - `[DataGrid]` Fixed runtime-error on tree-grid when `IdsDataGrid.expandAll()` is executed. ([#1485](https://github.com/infor-design/enterprise-wc/issues/1485))
 - `[DataGrid]` Fixed blank rows on tree-grid after `IdsDataGrid.collapseAll()` is executed. ([#1486](https://github.com/infor-design/enterprise-wc/issues/1486))
 - `[General]` Update side by side examples to latest enterprise version for bug fixes. ([#1549](https://github.com/infor-design/enterprise-wc/issues/1549))
+- `[Input]` Fixed input elements (checkbox, radio-group, switch) so values are properly reflected in Angular Forms when using ngModel directive. ([#1505](https://github.com/infor-design/enterprise-wc/issues/1505))
 - `[Icons]` Fixed how icon sizes are applied to correct a bug where icons in safari are the wrong size. ([#1519](https://github.com/infor-design/enterprise-wc/issues/1519))
 - `[Message]` Fixed missing status icon in safari. ([#1541](https://github.com/infor-design/enterprise-wc/issues/1541))
 - `[Modal]` Removed overflow constraint on modal content area to enable proper display of lists/popups attached to inner components. ([#1436](https://github.com/infor-design/enterprise-wc/issues/1436))

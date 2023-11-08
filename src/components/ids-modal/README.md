@@ -20,6 +20,7 @@ The IDS Modal Component builds on top of the [Ids Popup](../ids-popup/README.md)
 - `visible` can be used to make the Modal show or hide
 - `buttons` (readonly) contains a list of references to any Modal Buttons present
 - `messageTitle` The text present at the very top of the Modal to indicate its purpose
+- `showCloseButton` used to show and position close button in modal. Can be set to values `left` or `right`.
 
 ## Themeable Parts
 
