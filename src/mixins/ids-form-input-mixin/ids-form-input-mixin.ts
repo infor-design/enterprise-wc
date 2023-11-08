@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { IdsConstructor } from '../../core/ids-element';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
@@ -12,7 +13,11 @@ const noop = (...params: any) => params;
  * @returns {any} The extended object
  */
 const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extends superclass {
-  // @see https://webkit.org/blog/13711/elementinternals-and-form-associated-custom-elements/
+  /**
+   * ElementInternals adds the capability for custom elements to participate in a form submission.
+   * To use this feature, we must declare that a custom element is associated with forms as follows:
+   * @see https://webkit.org/blog/13711/elementinternals-and-form-associated-custom-elements/
+   */
   static formAssociated = true;
 
   #internals: ElementInternals;
@@ -35,6 +40,14 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
       ...attributes.NAME,
       ...attributes.VALUE,
     ];
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLInputElement} the inner `input` element
+   */
+  get formInput(): HTMLInputElement | HTMLTextAreaElement | null {
+    return this.shadowRoot?.querySelector<HTMLInputElement>(`input`) ?? null;
   }
 
   /**
@@ -64,8 +77,10 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
           value: processedValue,
         },
       }));
-    } else {
+    } else if (stringToBool(newValue)) {
       this.formInput?.setAttribute?.(name, newValue || '');
+    } else {
+      this.formInput?.removeAttribute?.(name);
     }
   }
 
@@ -133,14 +148,6 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
         nativeEvent: e,
       }
     });
-  }
-
-  /**
-   * @readonly
-   * @returns {HTMLInputElement} the inner `input` element
-   */
-  get formInput(): HTMLInputElement | HTMLTextAreaElement | null {
-    return this.shadowRoot?.querySelector<HTMLInputElement>(`input`) ?? null;
   }
 
   get form() { return this.#internals?.form; }

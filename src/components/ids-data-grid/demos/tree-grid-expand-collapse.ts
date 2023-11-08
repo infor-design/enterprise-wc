@@ -1,4 +1,6 @@
 import type IdsDataGrid from '../ids-data-grid';
+import type IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
+import type IdsMenuItem from '../../ids-menu/ids-menu-item';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import buildingsJSON from '../../../assets/data/tree-buildings.json';
@@ -11,6 +13,27 @@ const btnExpandAll = document.querySelector('#btn-expand-all');
 const btnCollapseAll = document.querySelector('#btn-collapse-all');
 btnExpandAll?.addEventListener('click', () => dataGrid?.expandAll());
 btnCollapseAll?.addEventListener('click', () => dataGrid?.collapseAll());
+
+// Row Height menu
+const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
+
+// Change row height with popup menu
+rowHeightMenu?.addEventListener('selected', (e: Event) => {
+  const value = (e.target as IdsMenuItem).value;
+  if (value !== 'is-list') {
+    dataGrid.rowHeight = value as string;
+  }
+  if (value === 'is-list') {
+    dataGrid.listStyle = !dataGrid.listStyle;
+  }
+});
+
+rowHeightMenu?.addEventListener('deselected', (e: Event) => {
+  const value = (e.target as IdsMenuItem).value;
+  if (value === 'is-list') {
+    dataGrid.listStyle = !dataGrid.listStyle;
+  }
+});
 
 if (dataGrid) {
   (async function init() {

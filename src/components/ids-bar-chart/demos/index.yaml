@@ -1,9 +1,9 @@
 ---
  component: Bar Chart
  link: ids-bar-chart
- description: Chart used to convey relational quanity information
+ description: Chart used to convey relational quantity information
  category: Charts and Visualizations
- keywords: bar chart, column, chart, visualization, quanity, relational information, trends
+ keywords: bar chart, column, chart, visualization, quantity, relational information, trends
  examples:
   - link: example.html
     type: Main Example
@@ -44,3 +44,6 @@
   - link: horizontal-rotate-name-labels.html
     type: Example
     description: Shows a horizontal rotating name labels bar chart
+  - link: ticks.html
+    type: Example
+    description: Shows controling the ticks with a setting

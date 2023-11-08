@@ -159,6 +159,15 @@ export default class IdsAccordionPanel extends Base {
 
   /**
    * @readonly
+   * @returns {IdsAccordionPanel[]} child accordion panels nested in this panel, if applicable
+   */
+  get childPanels(): IdsAccordionPanel[] {
+    const panels = this.querySelectorAll<IdsAccordionPanel>('ids-accordion-panel');
+    return panels.length ? [...panels] : [];
+  }
+
+  /**
+   * @readonly
    * @returns {boolean} true if this pane resides inside another pane
    */
   get hasParentPanel(): boolean {
@@ -182,26 +191,36 @@ export default class IdsAccordionPanel extends Base {
     return [...this.children].length > 1;
   }
 
+  #expanded = false;
+
   /**
    * Set the expanded property
    * @param {boolean} value true/false
    */
   set expanded(value: boolean) {
     const isValueTruthy = stringToBool(value);
-    const currentValue = this.expanded;
+    const currentValue = this.#expanded;
 
-    if (isValueTruthy) {
-      const canExpand = this.triggerVetoableEvent('beforeexpanded', this);
-      if (!canExpand) return;
-      this.setAttribute(attributes.EXPANDED, `${value}`);
-    } else {
-      const canCollapse = this.triggerVetoableEvent('beforecollapsed', this);
-      if (!canCollapse) return;
-      this.removeAttribute(attributes.EXPANDED);
-    }
-
-    if (isValueTruthy !== currentValue) {
-      this.#toggleExpanded(isValueTruthy);
+    if (currentValue !== isValueTruthy) {
+      if (isValueTruthy) {
+        const canExpand = this.triggerVetoableEvent('beforeexpanded', this);
+        if (!canExpand) {
+          this.removeAttribute(attributes.EXPANDED);
+          return;
+        }
+        this.#expanded = true;
+        this.setAttribute(attributes.EXPANDED, `${value}`);
+        this.#toggleExpanded(true);
+      } else {
+        const canCollapse = this.triggerVetoableEvent('beforecollapsed', this);
+        if (!canCollapse) {
+          this.setAttribute(attributes.EXPANDED, `true`);
+          return;
+        }
+        this.#expanded = false;
+        this.removeAttribute(attributes.EXPANDED);
+        this.#toggleExpanded(false);
+      }
     }
   }
 

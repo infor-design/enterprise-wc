@@ -55,6 +55,7 @@ export default class IdsMessage extends IdsModal {
     if (currentContentEl) {
       this.message = currentContentEl.innerHTML;
     }
+    this.#refreshStatus(this.status);
   }
 
   /**

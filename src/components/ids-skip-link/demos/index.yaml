@@ -1,7 +1,7 @@
 ---
  component: Skip Link
  link: ids-skip-link
- description: Accessibile Navigation
+ description: Accessible Navigation
  category: Navigation and Interaction
  keywords: number, spinbox, spinner, input, form
  examples:

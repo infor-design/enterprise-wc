@@ -1,14 +1,3 @@
-import IdsIcon from '../../ids-icon/ids-icon';
-import appIconJSON from '../../ids-icon/demos/app-icon-data.json';
-
-import '../ids-module-nav';
-import '../ids-module-nav-bar';
-import '../ids-module-nav-button';
-import '../ids-module-nav-content';
-import '../ids-module-nav-item';
-import '../ids-module-nav-settings';
-import '../ids-module-nav-switcher';
-
 import '../../ids-accordion/ids-accordion';
 import '../../ids-accordion/ids-accordion-section';
 import '../../ids-accordion/ids-accordion-header';
@@ -31,20 +20,16 @@ let menuState: IdsModuleNavDisplayMode = 'collapsed';
 document.addEventListener('DOMContentLoaded', async () => {
   const moduleNav: any = document.querySelector('ids-module-nav');
   const moduleNavDrawer: any = document.querySelector('ids-module-nav-bar');
-  const moduleNavAccordion: any = document.querySelector('ids-accordion');
   const appMenuTriggerBtn: any = document.querySelector('#module-nav-trigger');
-  const displayModeDropdown: any = document.querySelector('#dd-display-mode-setting');
-  const accordionOnePaneCheck: any = document.querySelector('#one-accordion-pane');
-  const filterableCheck: any = document.querySelector('#is-filterable');
-  const pinSectionsCheck: any = document.querySelector('#pin-sections');
 
   moduleNavDrawer.target = appMenuTriggerBtn;
 
   const updateDisplayMode = (val: IdsModuleNavDisplayMode) => {
-    menuState = val;
-    moduleNav.displayMode = val;
-    if (displayModeDropdown.value !== val) displayModeDropdown.value = val;
-    console.info('Module Nav Display Mode Updated:', val || 'hidden');
+    if (menuState !== val) {
+      menuState = val;
+      moduleNav.displayMode = val;
+      console.info('Module Nav Display Mode Updated:', val || 'hidden');
+    }
   };
 
   // ============================
@@ -61,35 +46,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   appMenuTriggerBtn.addEventListener('click', () => {
-    updateDisplayMode(menuState === 'expanded' ? 'collapsed' : 'expanded');
+    const alternateMode = moduleNav.isWithinMobileBreakpoint() ? false : 'collapsed';
+    updateDisplayMode(menuState === 'expanded' ? alternateMode : 'expanded');
   });
 
-  accordionOnePaneCheck.addEventListener('change', (e: CustomEvent) => {
-    moduleNavAccordion.allowOnePane = e.detail.checked;
-  });
-
-  displayModeDropdown.addEventListener('change', (e: CustomEvent) => {
-    const selectedValue = e.detail.value;
-    updateDisplayMode(selectedValue);
-  });
-
-  filterableCheck.addEventListener('change', (e: CustomEvent) => {
-    moduleNavDrawer.filterable = e.detail.checked;
-  });
-
-  pinSectionsCheck.addEventListener('change', (e: CustomEvent) => {
-    moduleNavDrawer.pinned = e.detail.checked;
+  moduleNav.addEventListener('displaymodechange', (e: CustomEvent) => {
+    const newMenuState = e.detail.displayMode;
+    console.info('Module Nav "displaymodechange" event handled: ', newMenuState);
+    if (newMenuState !== menuState) {
+      updateDisplayMode(newMenuState);
+    }
   });
 
   // =============================
   // Set initial
 
   moduleNav.displayMode = menuState;
+  moduleNav.responsive = true;
   moduleNavDrawer.filterable = true;
-
-  // Add App Icons from data
-  const appIconUrl: any = appIconJSON;
-  const appIconRes = await fetch(appIconUrl);
-  const appIconData = await appIconRes.json();
-  IdsIcon.customIconData = appIconData;
+  moduleNavDrawer.pinned = true;
 });

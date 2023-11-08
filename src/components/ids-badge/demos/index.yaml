@@ -2,7 +2,7 @@
  component: Badge
  link: ids-badge
  description: Ui Text decoration
- category: Navigation and Interaction
+ category: Charts and Visualizations
  keywords: badge, decoration
  examples:
   - link: example.html

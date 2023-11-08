@@ -1,10 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
-import { DISPLAY_MODE_TYPES } from './ids-module-nav-common';
 
 import type { IdsModuleNavDisplayMode } from './ids-module-nav-common';
 import type { IdsConstructor } from '../../core/ids-element';
-
-import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 export interface DisplayModeHandler {
   onDisplayModeChange?(currentValue: string | false, newValue: string | false): void;
@@ -13,6 +10,8 @@ export interface DisplayModeHandler {
 type Constraints = IdsConstructor<DisplayModeHandler>;
 
 const IdsModuleNavDisplayModeMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  previousDisplayMode: IdsModuleNavDisplayMode = false;
+
   constructor(...args: any[]) {
     super(...args);
   }
@@ -45,21 +44,20 @@ const IdsModuleNavDisplayModeMixin = <T extends Constraints>(superclass: T) => c
    * @param {IdsModuleNavDisplayMode | null} value Display Mode setting
    */
   set displayMode(value: IdsModuleNavDisplayMode | null) {
-    let safeValue: any = null;
-    if (typeof value === 'string') {
-      safeValue = stripTags(value, '');
+    let safeValue: IdsModuleNavDisplayMode = false;
+    if (typeof value === 'string' && (value === 'expanded' || value === 'collapsed')) {
+      safeValue = value;
     }
 
-    const currentValue = this.displayMode;
+    const currentValue = this.previousDisplayMode;
     if (currentValue !== safeValue) {
-      if (DISPLAY_MODE_TYPES.includes(safeValue)) {
-        if (safeValue !== false) {
-          this.setAttribute(attributes.DISPLAY_MODE, `${safeValue}`);
-        }
+      if (safeValue !== false) {
+        this.setAttribute(attributes.DISPLAY_MODE, `${safeValue}`);
       } else {
         this.removeAttribute(attributes.DISPLAY_MODE);
         safeValue = false;
       }
+      this.previousDisplayMode = safeValue;
       this.#setDisplayMode(currentValue, safeValue);
     }
   }
@@ -76,6 +74,16 @@ const IdsModuleNavDisplayModeMixin = <T extends Constraints>(superclass: T) => c
     // Fire optional callback
     if (typeof this.onDisplayModeChange === 'function') {
       this.onDisplayModeChange(currentValue, newValue);
+    }
+  }
+
+  /**
+   * Detects if state changes from outside the component library have occured against
+   * the `display-mode` attribute and corrects component state.
+   */
+  checkDisplayMode() {
+    if (this.previousDisplayMode !== this.displayMode) {
+      this.#setDisplayMode(this.previousDisplayMode, this.displayMode);
     }
   }
 };

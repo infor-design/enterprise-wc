@@ -32,7 +32,6 @@ export const attributes = {
   AUTO: 'auto',
   AUTOCOMPLETE: 'autocomplete',
   AUTOGROW: 'autogrow',
-  AUTOGROW_MAX_HEIGHT: 'autogrow-max-height',
   AUTOSELECT: 'autoselect',
   AUTOUPDATE: 'autoupdate',
   AUTO_FIT: 'auto-fit',
@@ -287,6 +286,7 @@ export const attributes = {
   MIN_SIZE: 'min-size',
   MIN_TRANSFORM_X: 'min-transform-x',
   MIN_TRANSFORM_Y: 'min-transform-y',
+  MIN_WIDTH: 'min-width',
   MODE: 'mode',
   MONTH: 'month',
   MORE_ACTIONS: 'more-actions',
@@ -354,6 +354,7 @@ export const attributes = {
   RESIZE_ON_DRAG_END: 'resize-on-drag-end',
   RESPOND_DOWN: 'respond-down',
   RESPOND_UP: 'respond-up',
+  RESPONSIVE: 'responsive',
   RESULT: 'result',
   REVEAL: 'reveal',
   REVEALABLE_PASSWORD: 'revealable-password',
@@ -408,6 +409,7 @@ export const attributes = {
   SHOW_BROWSE_LINK: 'show-browse-link',
   SHOW_CANCEL: 'show-cancel',
   SHOW_CLEAR: 'show-clear',
+  SHOW_CLOSE_BUTTON: 'show-close-button',
   SHOW_DETAILS: 'show-details',
   SHOW_HEADER_EXPANDER: 'show-header-expander',
   SHOW_HORIZONTAL_GRID_LINES: 'show-horizontal-grid-lines',
@@ -472,6 +474,7 @@ export const attributes = {
   TEXT_OFF: 'text-off',
   TEXT_ON: 'text-on',
   THEME: 'theme',
+  TICKS: 'ticks',
   TIMELINE_INTERVAL: 'timeline-interval',
   TIMEOUT: 'timeout',
   TITLE: 'title',
@@ -557,7 +560,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.15';
+export const version = '1.0.0-beta.16';
 
 export enum IdsDirection {
   Up = 'up',

@@ -129,11 +129,17 @@
   // Animates X/Y movement, fade in/out of the popup.
   &.animated {
     transition:
+      border-color var(--ids-motion-duration) var(--ids-motion-linear),
       opacity var(--ids-motion-duration) var(--ids-motion-linear),
       transform var(--ids-motion-duration) var(--ids-motion-linear);
 
+    ::slotted(*) {
+      transition: opacity var(--ids-motion-duration) var(--ids-motion-linear);
+    }
+
     &.open {
       transition:
+        border-color var(--ids-motion-duration) var(--ids-motion-linear),
         opacity var(--ids-motion-duration) var(--ids-motion-linear),
         height var(--ids-motion-duration) var(--ids-motion-linear),
         width var(--ids-motion-duration) var(--ids-motion-linear),
@@ -156,9 +162,17 @@
     transform-style: preserve-3d;
     transform: perspective(1000px) translate3d(0, 0, -500px);
 
+    ::slotted(*) {
+      opacity: 0;
+    }
+
     &.open {
       opacity: 1;
       transform: perspective(1000px) translate3d(0, 0, 0);
+
+      ::slotted(*) {
+        opacity: 1;
+      }
     }
   }
 
@@ -472,12 +486,16 @@
   // style: "modal"
   &.modal {
     background-color: var(--ids-modal-color-background);
-    border: 1px solid var(--ids-modal-color-border);
+    border: 1px solid transparent;
     padding: var(--ids-modal-padding);
     border-radius: var(--ids-modal-border-radius);
-    box-shadow: var(--ids-modal-shadow-default);
     font-family: var(--ids-font-family-default);
     color: var(--ids-modal-color-text);
+
+    &.open {
+      border-color: var(--ids-modal-color-border);
+      box-shadow: var(--ids-modal-shadow-default);
+    }
   }
 
   // style: "dropdown"

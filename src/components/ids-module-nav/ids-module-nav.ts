@@ -1,7 +1,13 @@
-import { customElement, scss } from '../../core/ids-decorators';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import IdsElement from '../../core/ids-element';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
+import { Breakpoints, isWidthBelow } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
+import { RESPONSIVE_BREAKPOINT } from './ids-module-nav-common';
+
+import IdsBreakpointMixin from '../../mixins/ids-breakpoint-mixin/ids-breakpoint-mixin';
 import IdsModuleNavDisplayModeMixin from './ids-module-nav-display-mode-mixin';
 
 import styles from './ids-module-nav.scss';
@@ -9,15 +15,23 @@ import styles from './ids-module-nav.scss';
 import type IdsContainer from '../ids-container/ids-container';
 import type IdsModuleNavBar from './ids-module-nav-bar';
 import type IdsModuleNavContent from './ids-module-nav-content';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 
 const Base = IdsModuleNavDisplayModeMixin(
-  IdsElement
+  IdsBreakpointMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
+  )
 );
 
 /**
- * IDS Module Nav Bar Component
- * @type {IdsModuleNavBar}
- * @inherits IdsDrawer
+ * IDS Module Nav Component
+ * @type {IdsModuleNav}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsBreakpointMixin
+ * @mixes IdsModuleNavDisplayModeMixin
  */
 @customElement('ids-module-nav')
 @scss(styles)
@@ -28,6 +42,7 @@ export default class IdsModuleNav extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.configureResponsiveBehavior();
   }
 
   disconnectedCallback(): void {
@@ -40,7 +55,8 @@ export default class IdsModuleNav extends Base {
    */
   static get attributes() {
     return [
-      ...super.attributes
+      ...super.attributes,
+      attributes.RESPONSIVE,
     ];
   }
 
@@ -85,10 +101,104 @@ export default class IdsModuleNav extends Base {
   }
 
   /**
+   * @param {boolean | string} val if truthy, causes the Module Nav system to respond to a mobile breakpoint
+   */
+  set responsive(val: boolean | string) {
+    setBooleanAttr(attributes.RESPONSIVE, this, val);
+    this.configureResponsiveBehavior();
+  }
+
+  get responsive() {
+    return this.hasAttribute(attributes.RESPONSIVE);
+  }
+
+  /**
    * Inherited from IdsModuleNavDisplayModeMixin
    */
   onDisplayModeChange(): void {
     if (this.bar) this.bar.displayMode = this.displayMode;
     if (this.content) this.content.displayMode = this.displayMode;
+
+    if (this.displayMode !== 'expanded') {
+      this.hideContentOverlay();
+    } else if (this.isWithinMobileBreakpoint()) {
+      this.content?.showOverlay();
+    }
+
+    this.triggerEvent('displaymodechange', this, {
+      detail: {
+        displayMode: this.displayMode,
+        elem: this
+      }
+    });
+  }
+
+  /**
+   * Responds to outside clicks established by the Module Nav bar
+   * using the IDS Breakpoint system established in this component.
+   */
+  handleOutsideClick() {
+    // Don't close the popup if md+ media query breakpoint
+    if (this.displayMode === 'expanded' && this.isWithinMobileBreakpoint()) {
+      this.displayMode = false;
+    }
+  }
+
+  /**
+   * Sets up required parts for IdsBreakpointMixin-driven mobile behavior
+   */
+  private configureResponsiveBehavior() {
+    if (this.responsive) {
+      this.onBreakpointDownResponse = (detectedBreakpoint: keyof Breakpoints, matches: boolean) => {
+        if (matches) {
+          this.handleBelowBreakpoint();
+        } else {
+          this.handleAboveBreakpoint();
+        }
+      };
+      if (!this.respondDown) this.respondDown = RESPONSIVE_BREAKPOINT;
+    } else {
+      this.onBreakpointDownResponse = () => {};
+      this.respondDown = null;
+    }
+  }
+
+  /**
+   * Switches the Module Nav into its mobile behavior mode
+   */
+  private handleAboveBreakpoint() {
+    console.info('Mobile module nav deactivated');
+    this.hideContentOverlay();
+    if (this.displayMode !== 'expanded') {
+      this.displayMode = 'collapsed';
+    }
+    this.content!.offsetContent = true;
+  }
+
+  /**
+   * Switches the Module Nav into its desktop behavior mode
+   */
+  private handleBelowBreakpoint() {
+    console.info('Mobile module nav activated');
+    if (this.displayMode === 'expanded') {
+      this.content?.showOverlay();
+    } else {
+      this.displayMode = false;
+    }
+    this.content!.offsetContent = false;
+  }
+
+  private hideContentOverlay() {
+    if (this.content && this.content.overlay!.visible) {
+      this.content.hideOverlay();
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the mobile breakpoint conditions are currently being met
+   */
+  isWithinMobileBreakpoint() {
+    const mq = isWidthBelow(RESPONSIVE_BREAKPOINT);
+    return mq.matches;
   }
 }

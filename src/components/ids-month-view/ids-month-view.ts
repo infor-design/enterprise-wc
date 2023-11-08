@@ -95,6 +95,14 @@ const Base = IdsMonthViewAttributeMixin(
 @customElement('ids-month-view')
 @scss(styles)
 class IdsMonthView extends Base implements IdsRangeSettingsInterface {
+  #lastRenderedYear = NaN;
+
+  #lastRenderedDay = NaN;
+
+  #lastRenderedMonth = NaN;
+
+  #lastRenderedFirstDayOfWeek = NaN;
+
   constructor() {
     super();
   }
@@ -980,7 +988,10 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     const weeksCount = this.#isDisplayRange()
       ? weeksInRange(this.startDate, this.endDate, this.firstDayOfWeek)
       : weeksInMonth(this.year, this.month, this.day, this.firstDayOfWeek, this.localeAPI?.isIslamic());
-    this.triggerEvent('beforerendermonth', this, { bubbles: true, composed: true });
+    this.triggerEvent('beforerendermonth', this, {
+      bubbles: true,
+      detail: { elem: this }
+    });
 
     const rowsTemplate = Array.from({ length: weeksCount }).map((_, weekIndex) => `<tr>${this.#getCellTemplate(weekIndex)}</tr>`).join('');
 
@@ -995,6 +1006,16 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     if (!this.compact && !this.isDatePicker) {
       this.renderEventsData();
     }
+
+    this.#lastRenderedYear = this.year;
+    this.#lastRenderedMonth = this.month;
+    this.#lastRenderedDay = this.day;
+    this.#lastRenderedFirstDayOfWeek = this.firstDayOfWeek;
+
+    this.triggerEvent('afterrendermonth', this, {
+      bubbles: true,
+      detail: { elem: this }
+    });
   }
 
   /**
@@ -1159,7 +1180,9 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    * @returns {void}
    */
   onFirstDayOfWeekChange() {
-    if (this.container) this.#renderMonth();
+    if (this.container && this.firstDayOfWeek !== this.#lastRenderedFirstDayOfWeek) {
+      this.#renderMonth();
+    }
   }
 
   /**
@@ -1172,7 +1195,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     // Month change in range calendar doesn't trigger a rerender, just selects a day
     if (this.#isDisplayRange()) {
       this.selectDay(this.year, this.month, this.day);
-    } else {
+    } else if (this.month !== this.#lastRenderedMonth) {
       this.#renderMonth();
       this.#renderRangeSelection();
     }
@@ -1188,7 +1211,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     // Year change in range calendar doesn't trigger a rerender, just selects a day
     if (this.#isDisplayRange()) {
       this.selectDay(this.year, this.month, this.day);
-    } else {
+    } else if (this.year !== this.#lastRenderedYear) {
       this.#renderMonth();
       this.#renderRangeSelection();
     }
@@ -1201,7 +1224,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
    * @returns {void}
    */
   onDayChange(numberVal: number, validates: boolean) {
-    if (!this.container) return;
+    if (!this.container || this.day === this.#lastRenderedDay) return;
 
     if (!(this.rangeSettings.start || this.useRange) && !this.isDatePicker) {
       this.selectDay(this.year, this.month, validates ? numberVal : this.day);
@@ -1562,6 +1585,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
         const month = start.getMonth();
         calendarEvent.dateKey = `${year}${month}${day}`;
         const dateCell = this.container?.querySelector(`td[data-year="${year}"][data-month="${month}"][data-day="${day}"]`);
+        calendarEvent.disabled = !!dateCell?.classList.contains('is-disabled');
 
         if (dateCell) {
           // multi day events

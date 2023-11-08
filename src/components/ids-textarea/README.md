@@ -79,7 +79,7 @@ Set the Auto Grow to Textarea this way:
 Set the Auto Grow and Max Height to Textarea this way:
 
 ```html
-<ids-textarea label="Auto Grow (Max Height)" autogrow="true" autogrow-max-height="200"></ids-textarea>
+<ids-textarea label="Auto Grow (Max Height)" autogrow="true" max-height="200"></ids-textarea>
 ```
 
 Set the Rows to Textarea this way:
@@ -112,7 +112,7 @@ Set the sizes, available sizes are `'sm'|'md'|'lg'|'full'` and default type is `
 ## Settings (Attributes)
 
 - `autogrow` {boolean} set automatically expand to fit the contents when typing.
-- `autogrowMaxHeight` {number|string} set max height of the textarea when autogrow is enabled.
+- `maxHeight` {number|string} set max height of the textarea when autogrow is enabled.
 - `autoselect` {boolean} set auto select text on focus to textarea.
 - `charMaxText` {string} set text that will be used in place of the `max` text.
 - `charRemainingText` {string} set text that will be used in place of the `remaining` text.

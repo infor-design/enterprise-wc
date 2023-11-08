@@ -81,14 +81,7 @@ export default class IdsPopupMenu extends Base {
       this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
 
-    // If this Popupmenu is a submenu, and no target is pre-defined,
-    // align the menu against the parent menu item.
-    if (this.parentMenuItem) {
-      this.popupDelay = 200;
-      this.target = this.parentMenuItem;
-      this.triggerType = 'hover';
-      this.align = 'right, top';
-    }
+    this.configureSubmenuAlignment();
     this.setOnPlace(!!this.parentMenuItem);
   }
 
@@ -273,7 +266,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {string} a comma-delimited set of alignment types `direction1, direction2`
    */
   get align() {
-    return this.popup?.align || 'top, left';
+    return this.popup?.align || `top, ${this.popup?.localeAPI.isRTL() ? 'right' : 'left'}`;
   }
 
   /**
@@ -325,8 +318,8 @@ export default class IdsPopupMenu extends Base {
       return;
     }
 
-    this.align = this.localeAPI.isRTL() ? 'left, top' : this.align;
-
+    // this.align = this.localeAPI.isRTL() ? 'left, top' : this.align;
+    this.configureSubmenuAlignment();
     this.refreshIconAlignment();
 
     this.hidden = false;
@@ -617,5 +610,19 @@ export default class IdsPopupMenu extends Base {
     this.recentlyHidden = true;
     await cssTransitionTimeout(10);
     this.recentlyHidden = false;
+  }
+
+  /**
+   * If this Popupmenu is a submenu, and no target is pre-defined,
+   * align the menu against the parent menu item.
+   */
+  private configureSubmenuAlignment() {
+    const isRTL = this.popup?.localeAPI.isRTL() || false;
+    if (this.parentMenuItem) {
+      this.popupDelay = 200;
+      this.target = this.parentMenuItem;
+      this.triggerType = 'hover';
+      this.align = `${isRTL ? 'left' : 'right'}, top`;
+    }
   }
 }

@@ -1,0 +1,33 @@
+// ================================================
+// Generates a pseudo-element in the form of an "outline"
+// in a cell that represents the "inline, editable" state.
+@mixin ids-data-grid-inline-editable-outline($margin) {
+  position: relative;
+
+  &::after {
+    border: 1px solid var(--ids-input-color-border-default);
+    border-radius: var(--ids-border-radius-01);
+    box-sizing: border-box;
+    display: block;
+    content: '';
+    margin: #{$margin}px;
+    height: calc(100% - #{$margin * 2}px);
+    position: absolute;
+    width: calc(100% - #{$margin * 2}px);
+  }
+}
+
+// ================================================
+// Generates a pseudo-element representing the dirty tracker
+// icon in a cell that's been edited.
+@mixin ids-data-grid-cell-dirty-tracker-icon {
+  border-color: var(--ids-input-dirty-indicator-color-background-dirty) transparent transparent var(--ids-input-dirty-indicator-color-background-dirty);
+  border-style: solid;
+  border-width: 5px;
+  content: '';
+  display: inline-block;
+  margin-inline: 2px;
+  position: absolute;
+  inset-block-start: 2px;
+  z-index: 1;
+}

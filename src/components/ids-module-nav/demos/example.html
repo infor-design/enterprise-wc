@@ -6,13 +6,13 @@
 </head>
 <body>
   <ids-container role="main" padding="0" hidden>
-    <ids-module-nav id="module-nav">
+    <ids-module-nav id="module-nav" responsive>
       <ids-module-nav-bar>
         <ids-module-nav-switcher
           slot="role-switcher">
           <ids-module-nav-button id="module-nav-button">
             <ids-icon icon="icon-app-ac" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
-            <ids-text audible>Admin Console Module</ids-text>
+            <ids-text audible>Admin Console</ids-text>
           </ids-module-nav-button>
           <ids-dropdown
             id="module-nav-role-dropdown"
@@ -271,20 +271,9 @@
         <ids-layout-grid auto-fit="true" padding="md">
           <ids-text font-size="12" type="h1">IDS Module Nav</ids-text>
         </ids-layout-grid>
-        <ids-layout-grid auto-fit="true" padding-x="md">
-          <ids-dropdown id="dd-display-mode-setting" label="Display Mode" value="collapsed" dirty-tracker="true">
-            <ids-list-box>
-              <ids-list-box-option id="dd-display-mode-false" value="">Hidden (false)</ids-list-box-option>
-              <ids-list-box-option id="dd-display-mode-collapsed" value="collapsed">Collapsed</ids-list-box-option>
-              <ids-list-box-option id="dd-display-mode-expanded" value="expanded">Expanded</ids-list-box-option>
-            </ids-list-box>
-          </ids-dropdown>
-        </ids-layout-grid>
-        <ids-layout-grid cols="4" gap="md" padding-x="md">
+        <ids-layout-grid auto-fit="true" gap="md" padding-x="md">
           <ids-layout-grid-cell>
-            <ids-checkbox id="one-accordion-pane" label="Expand one IdsAccordionPanel at a time"></ids-checkbox>
-            <ids-checkbox id="is-filterable" label="Enable Filtering" checked></ids-checkbox>
-            <ids-checkbox id="pin-sections" label="Pin Sections"></ids-checkbox>
+            <ids-text type="p">Use the Hamburger button in the header to change Display Mode.  Also use the browser viewport to observe mobile/responsve behavior.</ids-text>
           </ids-layout-grid-cell>
         </ids-layout-grid>
       </ids-module-nav-content>

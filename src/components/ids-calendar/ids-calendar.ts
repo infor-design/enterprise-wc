@@ -37,6 +37,8 @@ import {
   subtractDate
 } from '../../utils/ids-date-utils/ids-date-utils';
 import IdsLocale from '../ids-locale/ids-locale';
+import IdsMonthViewAttributeMixin from '../ids-month-view/ids-month-view-attribute-mixin';
+import { IdsDisableSettings } from '../ids-month-view/ids-month-view-common';
 
 type CalendarEventDetail = {
   id: string;
@@ -52,11 +54,13 @@ type CalendarEventDetail = {
 
 type CalendarViewTypes = 'month' | 'week' | 'day';
 
-const Base = IdsDateAttributeMixin(
-  IdsCalendarEventsMixin(
-    IdsLocaleMixin(
-      IdsEventsMixin(
-        IdsElement
+const Base = IdsMonthViewAttributeMixin(
+  IdsDateAttributeMixin(
+    IdsCalendarEventsMixin(
+      IdsLocaleMixin(
+        IdsEventsMixin(
+          IdsElement
+        )
       )
     )
   )
@@ -68,6 +72,8 @@ const Base = IdsDateAttributeMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsCalendarEventsMixin
+ * @mixes IdsLocaleMixin
+ * @mixes IdsDateAttributeMixin
  */
 @customElement('ids-calendar')
 @scss(styles)
@@ -80,13 +86,14 @@ export default class IdsCalendar extends Base {
 
   constructor() {
     super();
-    if (!this.state) this.state = {};
+    this.state ??= {};
   }
 
   static get attributes() {
     return [
       ...super.attributes,
       attributes.DATE,
+      attributes.FIRST_DAY_OF_WEEK,
       attributes.SHOW_DETAILS,
       attributes.SHOW_LEGEND
     ];
@@ -205,8 +212,8 @@ export default class IdsCalendar extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
-    this.changeView('month');
     this.#attachEventHandlers();
+    this.changeView('month');
     this.#configureResizeObserver();
     this.viewPickerConnected();
     this.onLocaleChange(this.localeAPI);
@@ -439,9 +446,6 @@ export default class IdsCalendar extends Base {
         id="${id}"
         label="${this.localeAPI.translate(labelKey)}"
         size="full"
-        year="${date.getFullYear()}"
-        month="${date.getMonth()}"
-        day="${date.getDate()}"
         value="${this.localeAPI.formatDate(date)}"
         mask>
       </ids-date-picker>
@@ -454,7 +458,7 @@ export default class IdsCalendar extends Base {
         label="&nbsp"
         size="full"
         disabled="${stringToBool(data.isAllDay)}"
-        value="${this.localeAPI.formatHour(date.getHours() + (date.getMinutes() / 60))}">
+        value="${this.localeAPI.formatDate(date, { hour: 'numeric', minute: 'numeric' })}">
       </ids-time-picker>
     `;
 
@@ -586,6 +590,32 @@ export default class IdsCalendar extends Base {
       this.#selectedEventId = elem.eventData.id;
       this.#removePopup();
       this.#insertFormPopup(elem.container, elem.eventData);
+    });
+
+    // Relay month before render event, ignore before render events from datepicker
+    this.offEvent('beforerendermonth');
+    this.onEvent('beforerendermonth', this.container, (evt: CustomEvent) => {
+      evt.stopPropagation();
+      evt.stopImmediatePropagation();
+      if (evt.detail.elem.parentElement?.classList?.contains('calendar-view-pane')) {
+        this.triggerEvent('beforerendermonth', this, {
+          bubbles: true,
+          detail: { ...evt.detail }
+        });
+      }
+    });
+
+    // Relay month after render event, ignore after render events from datepicker
+    this.offEvent('afterrendermonth');
+    this.onEvent('afterrendermonth', this.container, (evt: CustomEvent) => {
+      evt.stopPropagation();
+      evt.stopImmediatePropagation();
+      if (evt.detail.elem.parentElement?.classList?.contains('calendar-view-pane')) {
+        this.triggerEvent('afterrendermonth', this, {
+          bubbles: true,
+          detail: { ...evt.detail }
+        });
+      }
     });
 
     if (this.viewPicker) this.attachViewPickerEvents('month');
@@ -814,26 +844,22 @@ export default class IdsCalendar extends Base {
     const isAllDayBool = formElem.querySelector('#event-is-all-day')?.checked;
     const isAllDay = isAllDayBool === 'true' ? 'true' : 'false';
     const comments = formElem.querySelector('#event-comments')?.value;
+
     const fromDate = formElem.querySelector('#event-from-date');
     const fromHours = formElem.querySelector('#event-from-hour');
-    const starts: string = new Date(
-      fromDate.year,
-      fromDate.month,
-      fromDate.day,
-      isAllDayBool ? 0 : fromHours.hours24,
-      isAllDayBool ? 0 : fromHours.minutes,
-      isAllDayBool ? 0 : fromHours.seconds
-    ).toISOString();
+    const startDate: Date = fromDate.dateValue;
+    startDate.setHours(isAllDayBool ? 0 : fromHours.hours24);
+    startDate.setMinutes(isAllDayBool ? 0 : fromHours.minutes);
+    startDate.setSeconds(isAllDayBool ? 0 : fromHours.seconds);
+    const starts: string = startDate.toISOString();
+
     const toDate = formElem.querySelector('#event-to-date');
     const toHours = formElem.querySelector('#event-to-hour');
-    const ends = new Date(
-      toDate.year,
-      toDate.month,
-      toDate.day,
-      isAllDayBool ? 23 : toHours.hours24,
-      isAllDayBool ? 59 : toHours.minutes,
-      isAllDayBool ? 59 : toHours.seconds
-    ).toISOString();
+    const endDate: Date = toDate.dateValue;
+    endDate.setHours(isAllDayBool ? 23 : toHours.hours24);
+    endDate.setMinutes(isAllDayBool ? 59 : toHours.minutes);
+    endDate.setSeconds(isAllDayBool ? 59 : toHours.seconds);
+    const ends = endDate.toISOString();
 
     const eventData = {
       id, subject, type, isAllDay, starts, ends, comments
@@ -869,6 +895,10 @@ export default class IdsCalendar extends Base {
     this.insertViewTemplate(template);
     this.relayCalendarData();
     this.state.view = view;
+
+    if (view === 'month' && this.disableSettings?.dates?.length) {
+      (this.getView() as IdsMonthView).disableSettings = this.disableSettings;
+    }
   }
 
   /**
@@ -996,13 +1026,16 @@ export default class IdsCalendar extends Base {
    */
   #createMonthTemplate(): string {
     const date = this.date;
+    const firstDayOfWeek = this.firstDayOfWeek
+      ? `first-day-of-week="${this.firstDayOfWeek}"`
+      : '';
 
     return `
       <ids-month-view
         month="${date.getMonth()}"
         day="${date.getDate()}"
         year="${date.getFullYear()}"
-        first-day-of-week="${this.firstDayOfWeek || 0}">
+        ${firstDayOfWeek}>
         <slot name="MonthViewCalendarEventTemplate" slot="customCalendarEvent"></slot>
       </ids-month-view>
     `;
@@ -1225,6 +1258,8 @@ export default class IdsCalendar extends Base {
     return this.container?.querySelector<IdsMonthView>('ids-month-view') || this.container?.querySelector<IdsWeekView>('ids-week-view');
   }
 
+  #lastMonthLegendData: Array<any> | null = null;
+
   /**
    * Toggle Month View Legend
    * @param {CalendarEventTypeData[]} eventTypes calendar event types data
@@ -1247,7 +1282,10 @@ export default class IdsCalendar extends Base {
       }));
     }
 
-    component.legend = legendData;
+    if (this.#lastMonthLegendData !== legendData) {
+      this.#lastMonthLegendData = legendData;
+      component.legend = legendData;
+    }
   }
 
   /**
@@ -1362,6 +1400,14 @@ export default class IdsCalendar extends Base {
       const { start, end } = this.#getDatesForWeek(date, isDayView);
       view.startDate = start;
       view.endDate = end;
+    }
+  }
+
+  onDisableSettingsChange(settings: IdsDisableSettings): void {
+    const view = this.getView();
+
+    if (view?.tagName === 'IDS-MONTH-VIEW') {
+      (view as IdsMonthView).disableSettings = settings;
     }
   }
 }

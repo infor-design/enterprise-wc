@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Textarea (sizes)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" cols-md="3" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-textarea
+          label="Auto Grow + Resizable Both (no limits)"
+          autogrow="true"
+          placeholder="Type your notes here..."
+          resizable="both"></ids-textarea>
+        <ids-textarea
+          label="Auto Grow + Max Height + Resizable Y"
+          autogrow="true"
+          max-height="500"
+          resizable="y">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ids-textarea>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-textarea
+          label="Min Height + Max Height + Resizable Y"
+          placeholder="Type your notes here..."
+          min-height="200"
+          max-height="500"
+          resizable="y"></ids-textarea>
+        <ids-textarea
+          label="Min Height + Resizable Y"
+          min-height="200"
+          resizable="y">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ids-textarea>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-textarea
+          label="Min Width + Max Width + Resizable X"
+          placeholder="Type your notes here..."
+          min-width="200"
+          max-width="500"
+          resizable="x"></ids-textarea>
+        <ids-textarea
+          label="Min Width + Resizable X"
+          min-width="200"
+          resizable="x">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ids-textarea>
+        <ids-textarea
+          label="Max Width + Resizable X"
+          max-width="500"
+          resizable="x">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ids-textarea>
+        </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -1,7 +1,7 @@
 ---
  component: Splitter
  link: ids-splitter
- description: IDS Splitter
+ description: Split Content panes
  category: Layouts
  keywords: splitter, pane, resize, grid
  examples:

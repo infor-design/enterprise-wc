@@ -127,7 +127,7 @@ const IdsClearableMixin = <T extends Constraints>(superclass: T) => class extend
 
     if (selfInput.input) {
       const value = '';
-      selfInput.value = value;
+      selfInput.input.value = value;
       this.triggerEvent('input.ids-clearable', this, { detail: { elem: this, value } });
       selfInput.input.dispatchEvent(new Event('change', { bubbles: true }));
       selfInput.input.focus();

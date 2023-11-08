@@ -43,39 +43,105 @@ $textarea-size-default-height: 120px;
     padding: var(--ids-space-none);
     position: relative;
     display: flex;
-    max-width: $textarea-size-default;
+  }
 
-    // textarea sizes: [sm, md, lg, full]
-    &.sm {
-      max-width: $textarea-size-sm;
+  // Set max widths on textareas that are not resizable on the X-plane
+  &:not(.resizable):not(.resizable-x) {
+    .field-container {
+      max-width: $textarea-size-default;
 
-      ~ .textarea-character-counter {
-        width: $textarea-size-sm;
+      // textarea sizes: [sm, md, lg, full]
+      &.sm {
+        max-width: $textarea-size-sm;
+
+        ~ .textarea-character-counter {
+          width: $textarea-size-sm;
+        }
+      }
+
+      &.md {
+        max-width: $textarea-size-md;
+
+        ~ .textarea-character-counter {
+          width: $textarea-size-md;
+        }
+      }
+
+      &.lg {
+        max-width: $textarea-size-lg;
+
+        ~ .textarea-character-counter {
+          width: $textarea-size-lg;
+        }
+      }
+
+      &.full {
+        max-width: $textarea-size-full;
+
+        ~ .textarea-character-counter {
+          width: $textarea-size-full;
+        }
       }
     }
+  }
 
-    &.md {
-      max-width: $textarea-size-md;
-
-      ~ .textarea-character-counter {
-        width: $textarea-size-md;
-      }
+  &.resizable,
+  &.resizable-x {
+    .ids-textarea-field {
+      width: $textarea-size-default;
     }
 
-    &.lg {
-      max-width: $textarea-size-lg;
-
-      ~ .textarea-character-counter {
-        width: $textarea-size-lg;
-      }
+    &.sm .ids-textarea-field {
+      width: $textarea-size-sm;
     }
 
-    &.full {
-      max-width: $textarea-size-full;
+    &.md .ids-textarea-field {
+      width: $textarea-size-md;
+    }
 
-      ~ .textarea-character-counter {
-        width: $textarea-size-full;
-      }
+    &.lg .ids-textarea-field {
+      width: $textarea-size-lg;
+    }
+
+    &.full .ids-textarea-field {
+      width: $textarea-size-full;
+    }
+  }
+
+  &:not(.resizable):not(.resizable-y) {
+    .ids-textarea-field {
+      min-height: $textarea-size-default-height;
+    }
+  }
+
+  &.resizable,
+  &.resizable-y {
+    .ids-textarea-field {
+      height: $textarea-size-default-height;
+    }
+  }
+
+  &:not([class*='resizable']) {
+    .ids-textarea-field {
+      resize: none;
+    }
+  }
+
+  &.resizable-x {
+    .ids-textarea-field {
+      resize: horizontal;
+    }
+  }
+
+  &.resizable-y {
+    .ids-textarea-field {
+      resize: vertical;
+    }
+  }
+
+  &.resizable {
+    .ids-textarea-field {
+      resize: both;
     }
   }
 
@@ -95,8 +161,6 @@ $textarea-size-default-height: 120px;
     border-collapse: separate;
     border-radius: var(--ids-border-radius-01);
     display: inline-block;
-    min-height: $textarea-size-default-height;
-    resize: none;
     text-align: left;
     width: 100%;
 
@@ -128,10 +192,6 @@ $textarea-size-default-height: 120px;
       ~ .textarea-character-counter {
         display: none;
       }
-    }
-
-    &.resizable {
-      resize: vertical;
     }
 
     &[rows] {

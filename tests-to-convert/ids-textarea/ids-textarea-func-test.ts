@@ -180,7 +180,7 @@ describe('IdsTextarea Component', () => {
   it('set autogrow to field', () => {
     textarea.autogrow = true;
     expect(textarea.getAttribute('autogrow')).toEqual('true');
-    textarea.autogrowMaxHeight = 200;
+    textarea.maxHeight = 200;
     Object.defineProperty(HTMLElement.prototype, 'scrollHeight', { configurable: true, value: 250 });
     Object.defineProperty(HTMLElement.prototype, 'offsetHeight', { configurable: true, value: 200 });
     textarea.setAutogrow();
@@ -190,6 +190,24 @@ describe('IdsTextarea Component', () => {
     textarea.adjustHeight(270, 200);
     textarea.autogrow = false;
     expect(textarea.getAttribute('autogrow')).toEqual(null);
+  });
+
+  it('set min/max height', () => {
+    textarea.maxHeight = 500;
+    expect(textarea.container.classList.contains('has-max-height')).toBeTruthy();
+    expect(textarea.input.style.maxHeight).toEqual('500px');
+    textarea.minHeight = 200;
+    expect(textarea.container.classList.contains('has-min-height')).toBeTruthy();
+    expect(textarea.input.style.minHeight).toEqual('200px');
+  });
+
+  it('set min/max width', () => {
+    textarea.maxWidth = 500;
+    expect(textarea.container.classList.contains('has-max-width')).toBeTruthy();
+    expect(textarea.input.style.maxWidth).toEqual('500px');
+    textarea.minWidth = 200;
+    expect(textarea.container.classList.contains('has-min-width')).toBeTruthy();
+    expect(textarea.input.style.minWidth).toEqual('200px');
   });
 
   it('should set value with slotchange', (done) => {
@@ -202,12 +220,12 @@ describe('IdsTextarea Component', () => {
   });
 
   it('renders autogrow and max height to field', () => {
-    expect(textarea.getAttribute('autogrow-max-height')).toEqual(null);
-    textarea.autogrowMaxHeight = true;
+    expect(textarea.getAttribute('max-height')).toEqual(null);
+    textarea.maxHeight = true;
     textarea.autogrow = true;
-    expect(textarea.getAttribute('autogrow-max-height')).toEqual('true');
-    textarea.autogrowMaxHeight = false;
-    expect(textarea.getAttribute('autogrow-max-height')).toEqual(null);
+    expect(textarea.getAttribute('max-height')).toEqual('true');
+    textarea.maxHeight = false;
+    expect(textarea.getAttribute('max-height')).toEqual(null);
   });
 
   it('renders clearable to field', () => {
@@ -223,13 +241,22 @@ describe('IdsTextarea Component', () => {
 
   it('renders resizable to field', () => {
     expect(textarea.getAttribute('resizable')).toEqual(null);
-    expect(textarea.input.classList).not.toContain('resizable');
+    expect(textarea.container.classList).not.toContain('resizable');
     textarea.resizable = true;
     expect(textarea.getAttribute('resizable')).toEqual('true');
-    expect(textarea.input.classList).toContain('resizable');
+    expect(textarea.container.classList).toContain('resizable');
+    textarea.resizable = 'x';
+    expect(textarea.getAttribute('resizable')).toEqual('x');
+    expect(textarea.container.classList).toContain('resizable-x');
+    textarea.resizable = 'y';
+    expect(textarea.getAttribute('resizable')).toEqual('y');
+    expect(textarea.container.classList).toContain('resizable-y');
+    textarea.resizable = 'both';
+    expect(textarea.getAttribute('resizable')).toEqual('both');
+    expect(textarea.container.classList).toContain('resizable');
     textarea.resizable = false;
     expect(textarea.getAttribute('resizable')).toEqual(null);
-    expect(textarea.input.classList).not.toContain('resizable');
+    expect(textarea.container.classList).not.toContain('resizable');
   });
 
   it('renders printable to field', () => {
@@ -271,7 +298,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.shadowRoot.querySelector('.textarea-character-counter')).toBeTruthy();
     textarea.maxlength = null;
     textarea.characterCounter = 'false';
-    expect(textarea.getAttribute('character-counter')).toEqual(null);
+    expect(textarea.getAttribute('character-counter')).toEqual('false');
     expect(textarea.shadowRoot.querySelector('.textarea-character-counter')).toBeFalsy();
     textarea.maxlength = '90';
     textarea.characterCounter = null;
@@ -284,7 +311,7 @@ describe('IdsTextarea Component', () => {
     const valueAlmostEmpty = '012345678901234';
     const maxlength = 20;
     const defaultText = {
-      charMaxText: `Character count maximum of`,
+      charMaxText: `Character count maximum of {0}`,
       charRemainingText: `Characters left ${maxlength}`,
       almostEmptyText: `Characters left ${maxlength - valueAlmostEmpty.length}`
     };
@@ -308,7 +335,7 @@ describe('IdsTextarea Component', () => {
     expect(counter.classList).toContain('almost-empty');
     textarea.value = valueMax;
     counter = textarea.shadowRoot.querySelector('.textarea-character-counter');
-    expect(counter.textContent).toEqual(`${defaultText.charMaxText} ${maxlength}`);
+    expect(counter.textContent).toEqual('Character count maximum of 20');
     expect(counter.classList).not.toContain('almost-empty');
   });
 
@@ -316,7 +343,7 @@ describe('IdsTextarea Component', () => {
     const valueMax = '01234567890123456789';
     const maxlength = '20';
     const defaultText: any = {
-      charMaxText: `Character count maximum of`,
+      charMaxText: `Character count maximum of {0}`,
       charRemainingText: `Characters left ${maxlength}`
     };
     defaultText.charMaxTextVal = `${defaultText.charMaxText} ${maxlength}`;
