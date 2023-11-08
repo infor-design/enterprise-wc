@@ -310,19 +310,22 @@ export default class IdsDropdown extends Base {
     }
 
     let selector = `ids-list-box-option[value="${value}"]`;
-    if (value === ' ' || !value) selector = `ids-list-box-option:not([value])`;
-    const elem = this.dropdownList?.listBox?.querySelector<IdsListBoxOption>(selector);
-    if (!elem) return;
+    if (value === ' ' || !value) {
+      selector = `ids-list-box-option[value=""], ids-list-box-option:not([value])`;
+    }
+
+    const listBoxOption = [...this.dropdownList?.listBox?.querySelectorAll<IdsListBoxOption>(selector) ?? []].at(0);
+    if (!listBoxOption) return;
 
     // NOTE: setAttribute() must be called here, before the internal input.value is set below
     this.setAttribute(attributes.VALUE, String(value));
 
     this.clearSelected();
-    this.selectOption(elem);
-    this.selectIcon(elem);
-    this.selectTooltip(elem);
-    if (this.input) this.input.value = elem.textContent?.trim();
-    this.state.selectedIndex = [...((elem?.parentElement as any)?.children || [])].indexOf(elem);
+    this.selectOption(listBoxOption);
+    this.selectIcon(listBoxOption);
+    this.selectTooltip(listBoxOption);
+    if (this.input) this.input.value = listBoxOption.textContent?.trim();
+    this.state.selectedIndex = [...((listBoxOption?.parentElement as any)?.children || [])].indexOf(listBoxOption);
   }
 
   /**
