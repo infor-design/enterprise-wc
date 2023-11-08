@@ -48,7 +48,10 @@ jobs:
     - name: Build and Compile
       run: npm run build:coverage
 
-    - name: Run Tests (including Percy)
+    - name: Install Browsers
+      run: npx playwright install
+
+    - name: Run Tests
       run: npx percy exec -- npm run test:ci
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
