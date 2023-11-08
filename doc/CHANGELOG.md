@@ -5,6 +5,7 @@
 ### 1.0.0-beta.17 Features
 
 - `[General]` Added an initial migration guide. ([#1561](https://github.com/infor-design/enterprise-wc/issues/1561))
+- `[Tests]` Changed test framework to playwright. ([#1225](https://github.com/infor-design/enterprise-wc/issues/1225))
 
 ### 1.0.0-beta.17 Fixes
 

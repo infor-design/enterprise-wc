@@ -397,7 +397,7 @@ export default class IdsListView extends Base {
     if (this.#childElements()?.length) {
       this.searchFilterCallback = (term: string) => {
         this.#childElements()?.forEach((item: any) => {
-          // NOTE: using textContent because innerText was causing jest to fail
+          // NOTE: using textContent because innerText was causing older jest tests to fail
           // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
           const haystack = String(item?.textContent ?? '').toLowerCase();
           const needle = String(term).toLowerCase();

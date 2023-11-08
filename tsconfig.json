@@ -20,7 +20,8 @@
     "emitDeclarationOnly": true,
     "declarationMap": false,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./build/types"
+    "outDir": "./build/types",
+    "skipLibCheck": true,
   },
   "include": [
     "test/**/*.ts",
@@ -36,6 +37,7 @@
     "scripts/*.mjs",
     "node_modules",
     "node_modules/@types/node/globals.d.ts",
+    "node_modules/@percy/playwright",
     "node_modules/typescript/lib/lib.dom.d.ts",
     "build/types",
     "dist",
@@ -43,8 +45,5 @@
     "scripts/*.js"
   ],
   "types": [
-    "@types/jest",
-    "@types/puppeteer",
-    "@types/jest-axe"
   ]
 }

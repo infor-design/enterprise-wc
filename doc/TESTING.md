@@ -30,7 +30,7 @@ You may want to run the test commands in a few ways depending what your doing.
 
 ## Visual Regression tests
 
-We are using [percy.io](https://docs.percy.io/docs/puppeteer) for visual regression tests. To run this you need to add the `PERCY_TOKEN` to your bashrc from the [percy settings page](https://percy.io/Infor-Design-System/IDS-Web-Components/settings).
+We are using [percy.io](https://github.com/percy/percy-playwright) for visual regression tests. To run this you need to add the `PERCY_TOKEN` to your bashrc from the [percy settings page](https://percy.io/Infor-Design-System/IDS-Web-Components/settings).
 
 Then run the command `npx percy exec -- npm run test`
 
