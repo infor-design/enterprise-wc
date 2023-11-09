@@ -1516,14 +1516,18 @@ export default class IdsDataGrid extends Base {
 
     this.offEvent('rowexpanded', this);
     this.onEvent('rowexpanded', this, (evt: CustomEvent) => {
-      console.log('rowexpanded', evt.detail);
-      // set all children rowHidden to false;
-      const rowIndex = evt.detail.row;
-      const childrenCount = evt.detail?.data?.children?.length || 0;
-      const data = this.data;
+      if (evt.detail.row === undefined) return;
 
+      const rowData = evt.detail.data;
+      const rowIndex = evt.detail.row;
+      const childrenCount = rowData?.children?.length || 0;
+
+      // update parent expanded state
+      this.updateDataset(rowIndex, { rowExpanded: true, rowHidden: false });
+
+      // update children hidden state
       for (let i = 0; i < childrenCount; i++) {
-        data[rowIndex + i + 1].rowHidden = false;
+        this.updateDataset(rowIndex + i + 1, { rowHidden: false });
       }
 
       // recycle rows after expanded row
@@ -1543,16 +1547,19 @@ export default class IdsDataGrid extends Base {
 
     this.offEvent('rowcollapsed', this);
     this.onEvent('rowcollapsed', this, (evt: CustomEvent) => {
-      const childrenCount = evt.detail?.data?.children?.length || 0;
-      const dataIndex = this.data.indexOf(evt.detail.data);
-      const vRowIndex = Math.floor(this.container!.scrollTop / virtualRowHeight);
-      const data = this.data;
+      if (evt.detail.row === undefined) return;
 
-      //console.log('rowcollapsed', evt.detail, evt.detail.data.id, vRowIndex);
+      const rowData = evt.detail.data;
+      const rowIndex = evt.detail.row;
+      const childrenCount = rowData.children?.length || 0;
+      const vRowIndex = Math.floor(this.container!.scrollTop / virtualRowHeight);
+
+      // update parent expanded state
+      this.updateDataset(rowIndex, { rowExpanded: false, rowHidden: false });
 
       // set all children rowHidden to true;
       for (let i = 0; i < childrenCount; i++) {
-        data[dataIndex + i + 1].rowHidden = true;
+        this.updateDataset(rowIndex + i + 1, { rowHidden: true });
       }
 
       this.#recycleAllTreeRows(vRowIndex);
@@ -1670,11 +1677,39 @@ export default class IdsDataGrid extends Base {
     if (!isScrollBottom) this.container!.scrollTop -= headerHeight;
   }
 
-  #scrollToTreeRow(rowIndex: number) {
+  #scrollToTreeRow(dataRowIndex: number) {
+    console.log('scrolling to tree row', dataRowIndex);
+    if (!this.container) return;
+
     const { ROW_HEIGHT } = this.virtualScrollSettings;
-    if (this.container) {
-      this.container.scrollTop = rowIndex * ROW_HEIGHT;
+    const data = this.data;
+    const isRowHidden = data[dataRowIndex].rowHidden;
+
+    if (isRowHidden) {
+      // find parent row
+      let cursor = dataRowIndex;
+      let parentRow = null;
+
+      while (cursor >= 0 && parentRow === null) {
+        cursor--;
+        const cursorRow = data[cursor];
+        if (cursorRow.children?.length) parentRow = cursorRow;
+      }
+
+      // expand parent row, show parent children
+      if (parentRow) {
+        this.updateDataset(cursor, { rowExpanded: true });
+        const childrenLength = parentRow.children.length;
+
+        for (let i = 0; i < childrenLength; i++) {
+          this.updateDataset(cursor + i, { rowHidden: false });
+        }
+      }
     }
+
+    const virtualRowIndex = this.dataRowsVisible.indexOf(this.data[dataRowIndex]);
+    this.container.scrollTop = virtualRowIndex * ROW_HEIGHT;
+    this.#recycleAllTreeRows(virtualRowIndex);
   }
 
   /**
@@ -1684,6 +1719,7 @@ export default class IdsDataGrid extends Base {
   scrollRowIntoView(rowIndex: number) {
     if (this.treeGrid && this.virtualScroll) {
       this.#scrollToTreeRow(rowIndex);
+      return;
     }
 
     this.#scrollRowIntoView(rowIndex);
@@ -1813,29 +1849,18 @@ export default class IdsDataGrid extends Base {
     const moveRowsUp = moveRowsDown < 0 ? Math.abs(moveRowsDown) : NaN;
     const isInRange = cursorIndex >= firstDomRowVirtualIndex && cursorIndex <= lastDomRowVirtualIndex;
 
-    console.log(
-      'SCROLL',
-      `cursor: ${cursorIndex}`,
-      `virtualHeadIndex: ${upperLimitIndex}`,
-      `virtualTailIndex: ${bottomLimitIndex}`,
-      `firstDomRowVirtualIndex: ${firstDomRowVirtualIndex}`,
-      `lastDomRowVirtualIndex: ${lastDomRowVirtualIndex}`,
-      `isInRage: ${isInRange}`,
-      `moveRowsDown: ${moveRowsDown}`,
-      `moveRowsUp: ${moveRowsUp}`
-    );
-
     // console.log(
-    //   '#scrolling',
-    //   `rowPosition ${rowPosition}`,
-    //   `firstVRow ${firstVisibleRowIndex}`,
-    //   `lastVRow ${lastVisibleRowIndex}`,
-    //   `bufferRowIndex ${bufferRowIndex}`,
-    //   `moveRowsDown ${moveRowsDown}`,
-    //   `moveRowsUp ${moveRowsUp}`
+    //   'SCROLL',
+    //   `cursor: ${cursorIndex}`,
+    //   `virtualHeadIndex: ${upperLimitIndex}`,
+    //   `virtualTailIndex: ${bottomLimitIndex}`,
+    //   `firstDomRowVirtualIndex: ${firstDomRowVirtualIndex}`,
+    //   `lastDomRowVirtualIndex: ${lastDomRowVirtualIndex}`,
+    //   `isInRage: ${isInRange}`,
+    //   `moveRowsDown: ${moveRowsDown}`,
+    //   `moveRowsUp: ${moveRowsUp}`
     // );
 
-    //console.log('scrolling', rowPosition, headBufferRowIndex, tailBufferRowIndex);
     const data = {
       maxRowIndex,
       firstVisibleRowIndex,

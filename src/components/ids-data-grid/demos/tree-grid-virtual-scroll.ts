@@ -35,9 +35,10 @@ columns.push({
   width: 220,
   frozen: 'left'
 });
+
 columns.push({
   id: 'rowNumber',
-  name: '#',
+  name: 'Row #',
   formatter: dataGrid.formatters.rowNumber,
   sortable: false,
   readonly: true,
@@ -45,25 +46,18 @@ columns.push({
 });
 
 columns.push({
-  id: 'zip',
+  id: 'zipCode',
   name: 'Zip',
-  field: 'zip',
+  field: 'zipCode',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.text
 });
+
 columns.push({
   id: 'street',
   name: 'Street',
   field: 'street',
-  sortable: true,
-  resizable: true,
-  formatter: dataGrid.formatters.text
-});
-columns.push({
-  id: 'city',
-  name: 'City',
-  field: 'city',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.text
@@ -74,7 +68,7 @@ dataGrid.columns = columns;
 const setData = async () => {
   const res = await fetch(url);
   const data = await res.json();
-  dataGrid.data = data.splice(0, 120);
+  dataGrid.data = data;
 };
 
 setData();

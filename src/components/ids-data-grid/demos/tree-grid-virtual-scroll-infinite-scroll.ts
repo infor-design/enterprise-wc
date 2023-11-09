@@ -143,5 +143,7 @@ dataGrid.addEventListener('scrollend', (e: Event) => {
   }
 
   console.info(`appendData`, newDataArray);
-  //dataGrid.appendData(newDataArray);
+  setTimeout(() => {
+    dataGrid.appendData(newDataArray);
+  }, 200);
 });
