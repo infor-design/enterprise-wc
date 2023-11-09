@@ -639,12 +639,19 @@ export class LookupEditor implements IdsDataGridEditor {
   init(cell?: IdsDataGridCell) {
     console.log('LookupEditor.init(cell)', cell);
     // console.log('LookupEditor.init(cell)', cell, cell?.column.editor);
+
+    const isInline = cell?.column.editor?.inline;
     this.input = <IdsLookup>document.createElement('ids-lookup');
+    // this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
+    this.input.size = isInline ? 'full' : '';
+    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
+    this.input.labelState = 'collapsed';
 
     // Clear cell and set value
     const value = cell?.innerText ?? '';
     cell!.innerHTML = '';
     cell?.appendChild(this.input as any);
+    this.input.input.noMargins = true;
     this.input.value = value;
 
     applySettings(this.input, { ...cell?.column.editor?.editorSettings });
