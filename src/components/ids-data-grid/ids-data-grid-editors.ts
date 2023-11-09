@@ -4,15 +4,18 @@ import IdsInput from '../ids-input/ids-input';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
 import '../ids-time-picker/ids-time-picker';
 import '../ids-date-picker/ids-date-picker';
+import '../ids-lookup/ids-lookup';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsDatePicker from '../ids-date-picker/ids-date-picker';
 import type IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
+import type IdsLookup from '../ids-lookup/ids-lookup';
 import type IdsTimePicker from '../ids-time-picker/ids-time-picker';
 import type IdsTimePickerPopup from '../ids-time-picker/ids-time-picker-popup';
 import type IdsDataGridCell from './ids-data-grid-cell';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import type IdsButton from '../ids-button/ids-button';
+import type IdsModal from '../ids-modal/ids-modal';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
@@ -34,9 +37,9 @@ export interface IdsDataGridEditor {
   /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type: string;
   /** The main editor element */
-  input?: IdsInput | IdsCheckbox | IdsDropdown | IdsDatePicker | IdsTimePicker;
+  input?: IdsInput | IdsCheckbox | IdsDropdown | IdsDatePicker | IdsTimePicker | IdsLookup;
   /** Optional Popup interface for some cell types */
-  popup?: IdsDatePickerPopup | IdsTimePickerPopup;
+  popup?: IdsDatePickerPopup | IdsTimePickerPopup | IdsModal;
   /** The function that invokes and sets values on the input */
   init: (cell?: IdsDataGridCell) => void;
   /** The function that transforms and saved the editor */
@@ -577,7 +580,6 @@ export class TimePickerEditor implements IdsDataGridEditor {
     if (this.input) this.input.value = String(newValue);
   }
 }
-
 export class TreeEditor extends InputEditor {
   expandButton?: IdsButton;
 
@@ -621,6 +623,59 @@ export class TreeEditor extends InputEditor {
   }
 }
 
+export class LookupEditor implements IdsDataGridEditor {
+  type = 'lookup';
+
+  input?: IdsLookup;
+
+  popup?: IdsModal;
+
+  clickEvent?: MouseEvent | undefined;
+
+  /**
+   * Create an input and set the value and focus states
+   * @param {IdsDataGridCell} cell the cell element
+   */
+  init(cell?: IdsDataGridCell) {
+    console.log('LookupEditor.init(cell)', cell);
+    // console.log('LookupEditor.init(cell)', cell, cell?.column.editor);
+    this.input = <IdsLookup>document.createElement('ids-lookup');
+
+    // Clear cell and set value
+    const value = cell?.innerText ?? '';
+    cell!.innerHTML = '';
+    cell?.appendChild(this.input as any);
+    this.input.value = value;
+
+    applySettings(this.input, { ...cell?.column.editor?.editorSettings });
+
+    this.input.focus();
+  }
+
+  value() {
+    return this.input?.value ?? '';
+  }
+
+  change(newValue: boolean | number | string) {
+    if (this.input) this.input.value = String(newValue);
+  }
+
+  /* Save selected dropdown value */
+  save(cell?: IdsDataGridCell | undefined): IdsDataGridSaveValue | undefined | null {
+    console.log('LookupEditor.save(cell)', cell);
+    return {
+      value: this.input?.value,
+      // dirtyCheckValue: this.input?.value
+    };
+  }
+
+  /* Destroy the editor */
+  destroy() {
+    this.input?.offEvent('keydown');
+    this.input = undefined;
+  }
+}
+
 export const editors: Array<{ type: string, editor?: IdsDataGridEditor }> = [];
 
 editors.push({
@@ -651,4 +706,9 @@ editors.push({
 editors.push({
   type: 'tree',
   editor: new TreeEditor()
+});
+
+editors.push({
+  type: 'lookup',
+  editor: new LookupEditor()
 });

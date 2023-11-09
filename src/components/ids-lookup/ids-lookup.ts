@@ -188,8 +188,8 @@ export default class IdsLookup extends Base {
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-      <ids-modal-button slot="buttons" id="modal-cancel-btn" appearance="secondary">
-        <span>Cancel</span>
+        <ids-modal-button slot="buttons" id="modal-cancel-btn" appearance="secondary">
+          <span>Cancel</span>
         </ids-modal-button>
         <ids-modal-button slot="buttons" id="modal-apply-btn" appearance="primary">
           <span>Apply</span>

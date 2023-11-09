@@ -101,6 +101,9 @@
   - link: editable.html
     type: Example
     description: Shows a data grid with editable cells
+  - link: editable-lookup.html
+    type: Example
+    description: Shows a data grid with editable lookup cell
   - link: editable-contextmenu-before-show.html
     type: Example
     description: Shows a data grid with editable cells and contextmenu before show event

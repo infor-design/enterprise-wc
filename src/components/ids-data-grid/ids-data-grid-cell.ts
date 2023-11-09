@@ -209,14 +209,14 @@ export default class IdsDataGridCell extends IdsElement {
 
     // Pass column text alignment rules into the cell editor
     if (column.align) {
-      let alignVal = column.align;
-      if (alignVal === 'left') alignVal = 'start';
-      if (alignVal === 'right') alignVal = 'end';
-      this.editor?.input?.setAttribute('text-align', `${alignVal}`);
+      let columnAlign = column.align;
+      if (columnAlign === 'left') columnAlign = 'start';
+      if (columnAlign === 'right') columnAlign = 'end';
+      this.editor?.input?.setAttribute('text-align', `${columnAlign}`);
     }
 
     // Save on Click Out Event
-    if (['datepicker', 'timepicker'].includes(this.editor.type)) {
+    if (['datepicker', 'timepicker'].includes(editorType)) {
       this.editor.input?.onEvent('focusout', this.editor.input, () => {
         if (this.editor?.popup?.visible) return;
         setTimeout(() => {
