@@ -64,7 +64,7 @@ test.describe('IdsTag tests', () => {
   });
 
   test.describe('setting/attribute tests', () => {
-    test('should be able to set attributes before append', async ({ page }) => {
+    test('should set attributes before append', async ({ page }) => {
       let exceptions = null;
       page.on('pageerror', (error) => {
         exceptions = error;
@@ -80,7 +80,7 @@ test.describe('IdsTag tests', () => {
       await expect(exceptions).toBeNull();
     });
 
-    test('should be able to set attributes after append', async ({ page }) => {
+    test('should set attributes after append', async ({ page }) => {
       let exceptions = null;
       page.on('pageerror', (error) => {
         exceptions = error;
@@ -98,7 +98,7 @@ test.describe('IdsTag tests', () => {
       await expect(exceptions).toBeNull();
     });
 
-    test('should be able to set attributes after insertAdjacentHTML', async ({ page }) => {
+    test('should set attributes after insertAdjacentHTML', async ({ page }) => {
       let exceptions = null;
       page.on('pageerror', (error) => {
         exceptions = error;
@@ -113,7 +113,7 @@ test.describe('IdsTag tests', () => {
       await expect(exceptions).toBeNull();
     });
 
-    test('should be able to set color', async ({ page }) => {
+    test('should set color', async ({ page }) => {
       const locator = await page.locator('ids-tag').first();
       const handle = await page.$('ids-tag');
       await handle?.evaluate((el: IdsTag) => {
@@ -126,7 +126,38 @@ test.describe('IdsTag tests', () => {
       await expect(await locator.getAttribute('color')).toEqual(null);
     });
 
-    test('should be able to set disabled', async ({ page }) => {
+    test('should set color by attribute', async ({ page }) => {
+      const locator = await page.locator('ids-tag').first();
+      const handle = await page.$('ids-tag');
+      await handle?.evaluate((el: IdsTag) => {
+        el.setAttribute('color', 'error');
+      });
+      await expect(await locator.getAttribute('color')).toEqual('error');
+    });
+
+    test('should set color as hex', async ({ page }) => {
+      const locator = await page.locator('ids-tag').first();
+      const handle = await page.$('ids-tag');
+      await handle?.evaluate((el: IdsTag) => {
+        el.setAttribute('color', '#800000');
+      });
+      await expect(await locator.getAttribute('color')).toEqual('#800000');
+      const setterValue = await handle?.evaluate((el: IdsTag) => el.color);
+      await expect(setterValue).toEqual('#800000');
+    });
+
+    test('renders an extra border on secondary tag', async ({ page }) => {
+      const locator = await page.locator('ids-tag').first();
+      const handle = await page.$('ids-tag');
+      await handle?.evaluate((el: IdsTag) => {
+        el.color = 'secondary';
+      });
+      await expect(await locator.getAttribute('color')).toEqual('secondary');
+      const setterValue = await handle?.evaluate((el: IdsTag) => el.color);
+      await expect(setterValue).toEqual('secondary');
+    });
+
+    test('should set disabled', async ({ page }) => {
       const handle = await page.$('ids-tag');
       let result = await handle?.evaluate((el: IdsTag) => {
         el.setAttribute('disabled', 'true');
@@ -138,6 +169,106 @@ test.describe('IdsTag tests', () => {
         return el.disabled;
       });
       await expect(await handle?.getAttribute('disabled')).toEqual(null);
+    });
+
+    test('should set dismissible', async ({ page }) => {
+      const handle = await page.$('ids-tag');
+      const result = await handle?.evaluate((el: IdsTag) => {
+        el.setAttribute('dismissible', 'true');
+        return el.dismissible;
+      });
+      await expect(result).toEqual(true);
+      await handle?.evaluate((el: IdsTag) => {
+        el.setAttribute('dismissible', 'false');
+      });
+      await expect(await handle?.getAttribute('dismissible')).toEqual(null);
+    });
+
+    test('should dismiss on click', async ({ page }) => {
+      const handle = await page.$('ids-tag');
+      expect(await handle?.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      await handle?.evaluate((el: IdsTag) => {
+        el.setAttribute('dismissible', 'true');
+      });
+      const locator = await page.locator('ids-tag ids-icon[icon="close"]').first();
+      await locator.click();
+      expect(await handle?.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(12);
+    });
+
+    test('should dismiss on keyboard', async ({ page }) => {
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      await page.evaluate(() => {
+        const event = new KeyboardEvent('keydown', { key: 'Backspace' });
+        document.querySelector('ids-tag[dismissible]')?.dispatchEvent(event);
+      });
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(12);
+    });
+
+    test('should remove the clickable attribute when reset', async ({ page }) => {
+      const attr = await page.evaluate(() => {
+        const tag = document.querySelector<IdsTag>('ids-tag[clickable]');
+        tag!.clickable = false;
+        return tag!.getAttribute('clickable');
+      });
+      expect(attr).toBeNull();
+    });
+  });
+
+  test.describe('event tests', () => {
+    test('should fire click event on enter', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const event = new KeyboardEvent('keydown', { key: 'Enter' });
+        const tag = document.querySelector('ids-tag[clickable]');
+        tag?.addEventListener('click', () => { calls++; });
+        tag?.dispatchEvent(event);
+        return calls;
+      });
+      expect(noOfCalls).toBe(1);
+    });
+
+    test('should veto dismiss in beforetagremove', async ({ page }) => {
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      await page.evaluate(() => {
+        const tag = document.querySelector<IdsTag>('ids-tag[dismissible]');
+        tag?.addEventListener('beforetagremove', (e: any) => { e.detail.response(false); });
+        tag?.dismiss();
+      });
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+    });
+
+    test('should fire tagremove on dismiss', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const tag = document.querySelector<IdsTag>('ids-tag[dismissible]');
+        tag?.addEventListener('tagremove', () => { calls++; });
+        tag?.dismiss();
+        return calls;
+      });
+      expect(noOfCalls).toBe(1);
+    });
+
+    test('should fire aftertagremove on dismiss', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const tag = document.querySelector<IdsTag>('ids-tag[dismissible]');
+        tag?.addEventListener('aftertagremove', () => { calls++; });
+        tag?.dismiss();
+        return calls;
+      });
+      expect(noOfCalls).toBe(1);
+    });
+
+    test('should be clickable when set', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const tag = document.querySelector<IdsTag>('ids-tag[clickable]');
+        tag?.listen('Enter', tag, () => { calls++; });
+        const event = new KeyboardEvent('keydown', { key: 'Enter' });
+        tag?.dispatchEvent(event);
+        return calls;
+      });
+      expect(noOfCalls).toBe(1);
     });
   });
 
@@ -152,6 +283,14 @@ test.describe('IdsTag tests', () => {
       handle = await page.$('ids-tag[dismissible]:not([disabled])');
       checkText = await handle?.innerText();
       expect(checkText?.trim()).toBe('Dismissible Tag 2');
+    });
+
+    test('should cancel dismiss when not dismissible', async ({ page }) => {
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      await page.evaluate(() => {
+        document.querySelector<IdsTag>('ids-tag')?.dismiss();
+      });
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
     });
   });
 });
