@@ -11,6 +11,7 @@ import '../../ids-tree/ids-tree';
 
 import type IdsModal from '../ids-modal';
 import type IdsListView from '../../ids-list-view/ids-list-view';
+import type IdsSplitter from '../../ids-splitter/ids-splitter';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#modal-trigger-btn';
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modal = document.querySelector<IdsModal>('ids-modal')!;
   const tree: any = document.querySelector('ids-tree');
   const listView = document.querySelector<IdsListView>('ids-list-view:not([id])');
+  const splitter = document.querySelector<IdsSplitter>('ids-splitter');
 
   modal.style.setProperty('--ids-modal-content-padding', '0');
   modal.style.setProperty('--ids-modal-footer-margin', '1px 0 0 0');
@@ -55,6 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
   modal.addEventListener('beforeshow', () => {
     triggerBtn.disabled = true;
     return true;
+  });
+
+  modal.addEventListener('aftershow', () => {
+    splitter?.resize();
   });
 
   // Close the modal when its inner button is clicked.

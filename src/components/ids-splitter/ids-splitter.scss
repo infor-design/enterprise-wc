@@ -3,6 +3,7 @@
   display: flex;
   position: relative;
   height: 100%;
+  white-space: nowrap;
   width: 100%;
 
   &.axis-x {
