@@ -227,6 +227,7 @@ export default class IdsModal extends Base {
       this.popup.height = doFullsize ? '100%' : '';
       this.popup.place();
       if (this.popup.open) {
+        this.setScrollable();
         this.popup.correct3dMatrix();
       }
     };
@@ -485,6 +486,8 @@ export default class IdsModal extends Base {
       if (this.popup.animated && this.popup.container) {
         await waitForTransitionEnd(this.popup.container, 'opacity');
       }
+      this.setScrollable();
+      this.popup.correct3dMatrix();
     }
 
     this.removeAttribute('aria-hidden');

@@ -21,6 +21,10 @@
   &[visible] {
     pointer-events: auto;
   }
+
+  &.fullsize {
+    height: 100%;
+  }
 }
 
 .ids-modal-header {
