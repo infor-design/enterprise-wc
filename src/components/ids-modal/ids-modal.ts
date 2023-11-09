@@ -11,6 +11,7 @@ import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/id
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import IdsElement from '../../core/ids-element';
 
+import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { toggleScrollbar, waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
@@ -86,6 +87,7 @@ export default class IdsModal extends Base {
     }
     this.state.fullsize = '';
     this.state.overlay = null;
+    this.state.scrollable = true;
     this.state.messageTitle = null;
   }
 
@@ -94,6 +96,7 @@ export default class IdsModal extends Base {
       ...super.attributes,
       attributes.FULLSIZE,
       attributes.MESSAGE_TITLE,
+      attributes.SCROLLABLE,
       attributes.SHOW_CLOSE_BUTTON,
       attributes.VISIBLE
     ];
@@ -360,6 +363,16 @@ export default class IdsModal extends Base {
 
       this.#refreshModalHeader(!!trueVal);
     }
+  }
+
+  set scrollable(val: string | boolean | null) {
+    const bool = stringToBool(val);
+    setBooleanAttr(attributes.SCROLLABLE, this, bool);
+    this.state.scrollable = bool;
+  }
+
+  get scrollable() {
+    return this.state.scrollable;
   }
 
   /**
