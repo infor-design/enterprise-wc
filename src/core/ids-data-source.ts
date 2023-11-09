@@ -168,8 +168,9 @@ class IdsDataSource {
 
         newData.push(row);
 
-        if (row.children) {
+        if (row.children?.length) {
           row.childCount = row.children.length;
+          row.rowExpanded = !(row.rowExpanded === false);
           if (this.pageNumber > 1) {
             index += ((this.pageNumber - 1) * this.pageSize);
           }
