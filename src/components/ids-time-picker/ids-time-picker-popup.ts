@@ -76,7 +76,7 @@ class IdsTimePickerPopup extends Base {
     const dropdownHTML = `<div class="dropdowns" part="dropdowns">${this.#dropdowns()}</div>`;
 
     if (this.embeddable) {
-      return `<div class="ids-time-picker-popup embedded" part="container">${dropdownHTML}</div>`;
+      return `<div class="ids-time-picker-popup embedded" part="container"><section slot="content">${dropdownHTML}</section></div>`;
     }
 
     return `<ids-popup class="ids-time-picker-popup" type="menu" tabIndex="-1" align="bottom, left" arrow="bottom" part="popup" animated>
@@ -542,8 +542,8 @@ class IdsTimePickerPopup extends Base {
       this.removeAttribute(attributes.MINUTES);
     }
 
-    this.updateValue();
     this.container?.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, String(value));
+    this.updateValue();
   }
 
   /**
