@@ -298,7 +298,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.shadowRoot.querySelector('.textarea-character-counter')).toBeTruthy();
     textarea.maxlength = null;
     textarea.characterCounter = 'false';
-    expect(textarea.getAttribute('character-counter')).toEqual(null);
+    expect(textarea.getAttribute('character-counter')).toEqual('false');
     expect(textarea.shadowRoot.querySelector('.textarea-character-counter')).toBeFalsy();
     textarea.maxlength = '90';
     textarea.characterCounter = null;
@@ -311,7 +311,7 @@ describe('IdsTextarea Component', () => {
     const valueAlmostEmpty = '012345678901234';
     const maxlength = 20;
     const defaultText = {
-      charMaxText: `Character count maximum of`,
+      charMaxText: `Character count maximum of {0}`,
       charRemainingText: `Characters left ${maxlength}`,
       almostEmptyText: `Characters left ${maxlength - valueAlmostEmpty.length}`
     };
@@ -335,7 +335,7 @@ describe('IdsTextarea Component', () => {
     expect(counter.classList).toContain('almost-empty');
     textarea.value = valueMax;
     counter = textarea.shadowRoot.querySelector('.textarea-character-counter');
-    expect(counter.textContent).toEqual(`${defaultText.charMaxText} ${maxlength}`);
+    expect(counter.textContent).toEqual('Character count maximum of 20');
     expect(counter.classList).not.toContain('almost-empty');
   });
 
@@ -343,7 +343,7 @@ describe('IdsTextarea Component', () => {
     const valueMax = '01234567890123456789';
     const maxlength = '20';
     const defaultText: any = {
-      charMaxText: `Character count maximum of`,
+      charMaxText: `Character count maximum of {0}`,
       charRemainingText: `Characters left ${maxlength}`
     };
     defaultText.charMaxTextVal = `${defaultText.charMaxText} ${maxlength}`;
