@@ -83,6 +83,7 @@ locale.extendTranslations(localeAPI.currentLanguage.name, myStrings);
 locale.translate('Thanks');      // Returns Grazie
 locale.translate('YourWelcome'); // Returns Prego
 ```
+
 ### Alternate localeDataPath
 
 If the default localeDataPath (../locale-data/) does not work for your project you can change the url path to locale-data using this variable.
