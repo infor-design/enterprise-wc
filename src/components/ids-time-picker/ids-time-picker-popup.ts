@@ -844,7 +844,9 @@ class IdsTimePickerPopup extends Base {
    */
   getFormattedTime() {
     const date: Date = new Date();
-    const dayPeriodIndex: number = this.localeAPI?.calendar().dayPeriods?.indexOf(this.period);
+    const periods: string[] = this.#getDayPeriodsWithRange();
+    const dayPeriodIndex: number = periods.map((item: string) => item.toLowerCase())
+      .indexOf(this.period?.toLowerCase());
 
     date.setHours(hoursTo24(this.hours, dayPeriodIndex), this.minutes, this.seconds);
     return this.localeAPI.formatDate(date, { pattern: this.format });

@@ -169,11 +169,7 @@ export default class IdsTimePicker extends Base {
       ></ids-time-picker-popup>`;
 
     if (this.embeddable) {
-      return `
-        <div class="ids-time-picker" part="container">
-          ${createTimePicker()}
-        </div>
-      `;
+      return createTimePicker();
     }
 
     const colorVariant = this.colorVariant ? ` color-variant="${this.colorVariant}"` : '';
