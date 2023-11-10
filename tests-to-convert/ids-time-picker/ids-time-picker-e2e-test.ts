@@ -27,11 +27,6 @@ describe('Ids Time Picker e2e Tests', () => {
     ]);
   });
 
-  it('should not have errors', async () => {
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page.title()).resolves.toMatch('IDS Time Picker Component');
-  });
-
   it('should change value on input value change', async () => {
     // Set value to the input
     await page.$eval(

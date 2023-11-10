@@ -60,18 +60,6 @@ describe('IdsSlider Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', async () => {
-    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
-    slider.labels = ['terrible', 'poor', 'average', 'good', 'excellent'];
-    slider.min = 0;
-    slider.max = 100;
-    slider.value = 50;
-    slider.stepNumber = 5;
-    slider.type = 'step';
-    slider.template();
-    expect(slider.outerHTML).toMatchSnapshot();
-  });
-
   it('sets color correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
 

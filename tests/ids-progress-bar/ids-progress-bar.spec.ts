@@ -14,7 +14,7 @@ test.describe('IdsProgressBar tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS ProgressBar Component');
+      await expect(page).toHaveTitle('IDS Progress Bar Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

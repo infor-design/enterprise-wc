@@ -94,13 +94,6 @@ describe('IdsHidden Component', () => {
     (<any>window.requestAnimationFrame).mockRestore();
   });
 
-  it('renders correctly', () => {
-    expect(el.outerHTML).toMatchSnapshot();
-    el.hideDown = 'sm';
-    el.hideUp = 'md';
-    expect(el.outerHTML).toMatchSnapshot();
-  });
-
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     el.remove();

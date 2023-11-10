@@ -25,11 +25,6 @@ describe('IdsHyperlink Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    elem.href = 'test';
-    elem.target = '_blank';
-  });
-
   it('renders href setting', () => {
     elem.href = 'test';
     expect(elem.href).toEqual('test');

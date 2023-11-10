@@ -7,6 +7,6 @@
             <ids-icon icon="clock" part="icon"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-        <ids-time-picker-popup id="popup-e2e-timepicker-default" align="left, top" animated="" arrow="bottom" format="h:mm a" trigger-type="click" use-current-time="true" focus-inline="true" hours="3" minutes="20" value="3:20 PM" seconds="0" period="PM" target="#e2e-timepicker-default" trigger-elem="#triggerBtn-e2e-timepicker-default"></ids-time-picker-popup>
+        <ids-time-picker-popup id="popup-e2e-timepicker-default" align="left, top" animated="" arrow="bottom" format="h:mm a" trigger-type="click" use-current-time="true" focus-inline="true" hours="2" minutes="55" value="2:55 PM" seconds="0" period="PM" target="#e2e-timepicker-default" trigger-elem="#triggerBtn-e2e-timepicker-default"></ids-time-picker-popup>
       <div>
     </div></div>

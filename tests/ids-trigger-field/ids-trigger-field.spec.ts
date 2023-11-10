@@ -14,7 +14,7 @@ test.describe('IdsTriggerField tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS TriggerField Component');
+      await expect(page).toHaveTitle('IDS Trigger Field Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

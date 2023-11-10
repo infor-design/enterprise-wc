@@ -14,7 +14,7 @@ test.describe('IdsSwipeAction tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS SwipeAction Component');
+      await expect(page).toHaveTitle('IDS Swipe Action Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

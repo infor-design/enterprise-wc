@@ -59,6 +59,7 @@ test.describe('IdsModal tests', () => {
 
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
+      await page.locator('#modal-trigger-btn').click();
       await percySnapshot(page, 'ids-modal-light');
     });
   });

@@ -42,19 +42,6 @@ describe('IdsMasthead Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    element.icon = '';
-    element.title = '';
-    expect(element.outerHTML).toMatchSnapshot();
-
-    element.icon = 'info';
-    expect(element.outerHTML).toMatchSnapshot();
-
-    element.icon = 'logo';
-    element.title = 'Infor Application';
-    expect(element.outerHTML).toMatchSnapshot();
-  });
-
   it('renders any icon', () => {
     element.setAttribute('icon', '');
     expect(element.icon).toBe('');
@@ -95,7 +82,7 @@ describe('IdsMasthead Component', () => {
     expect(element.template()).toMatchSnapshot();
   });
 
-  it.skip('renders clickable logo', () => {});
+  it.skip('renders clickable logo', () => { });
 
   it('renders and updates title', () => {
     element.setAttribute('title', '');

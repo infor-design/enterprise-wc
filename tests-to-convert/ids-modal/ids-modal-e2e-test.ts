@@ -4,19 +4,6 @@ import countObjects from '../helpers/count-objects';
 describe('Ids Modal e2e Tests', () => {
   const url = 'http://localhost:4444/ids-modal/visible.html';
 
-  it('should not have errors', async () => {
-    await page.goto(url, { waitUntil: 'load' });
-    await expect(page.title()).resolves.toMatch('IDS Modal Component');
-  });
-
-  it('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await checkForAxeViolations(page, [
-      'color-contrast'
-    ]);
-  });
-
   it.skip('should have its "OK" button focused when it opens', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
 

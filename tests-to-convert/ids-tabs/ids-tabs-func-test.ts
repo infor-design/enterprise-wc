@@ -165,14 +165,6 @@ describe('IdsTabs Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', async () => {
-    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
-
-    await processAnimFrame();
-
-    expect(elem.outerHTML).toMatchSnapshot();
-  });
-
   it('renders with counts, and has no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
 

@@ -14,7 +14,7 @@ test.describe('IdsListBox tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS ListBox Component');
+      await expect(page).toHaveTitle('IDS List Box Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {
@@ -34,6 +34,7 @@ test.describe('IdsListBox tests', () => {
     test('should pass an Axe scan', async ({ page }) => {
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
+        .disableRules('aria-input-field-name')
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });

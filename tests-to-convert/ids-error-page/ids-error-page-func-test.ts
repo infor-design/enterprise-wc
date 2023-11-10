@@ -27,10 +27,6 @@ describe('Ids Error Page Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(errorPage.shadowRoot.innerHTML).toMatchSnapshot();
-  });
-
   it('can set the error icon', () => {
     const iconId = 'empty-error-loading';
 

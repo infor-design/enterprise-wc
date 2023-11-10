@@ -58,24 +58,6 @@ describe('IdsMenuButton Component', () => {
     expect(buttonEl.shouldUpdate).toBeTruthy();
   });
 
-  it('renders correctly', () => {
-    const newButtonElem: any = new IdsMenuButton();
-    newButtonElem.id = 'new-button';
-    newButtonElem.dropdownIcon = 'more';
-    document.body.appendChild(newButtonElem);
-
-    const newMenuElem: any = new IdsPopupMenu();
-    newMenuElem.id = 'new-menu';
-    document.body.appendChild(newMenuElem);
-
-    // Connect the components
-    newButtonElem.menu = 'new-menu';
-    newMenuElem.target = newButtonElem;
-
-    newButtonElem.template();
-    expect(newButtonElem.outerHTML).toMatchSnapshot();
-  });
-
   it('can change/remove its dropdown icon', () => {
     buttonEl.dropdownIcon = 'launch';
     let iconEl = buttonEl.button.querySelector('ids-icon');

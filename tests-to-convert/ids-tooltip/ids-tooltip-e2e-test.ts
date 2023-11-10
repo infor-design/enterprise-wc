@@ -8,10 +8,6 @@ describe('Ids Tooltip e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Tooltip Component');
-  });
-
   it('should open on focus', async () => {
     await page.$eval('#tooltip-example', (e: any) => e.setAttribute('visible', 'true'));
     const element = await page.waitForSelector('#tooltip-example[visible]');

@@ -14,7 +14,7 @@ test.describe('IdsDataGrid tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS DataGrid Component');
+      await expect(page).toHaveTitle('IDS Data Grid Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

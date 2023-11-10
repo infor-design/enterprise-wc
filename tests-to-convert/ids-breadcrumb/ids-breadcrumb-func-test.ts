@@ -18,10 +18,6 @@ describe('IdsBreadcrumb Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders as expected', () => {
-    expect(breadcrumb.outerHTML).toMatchSnapshot();
-  });
-
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     breadcrumb = createFromTemplate(breadcrumb, `<ids-breadcrumb></ids-breadcrumb>`);

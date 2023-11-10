@@ -41,11 +41,6 @@ describe('IdsThemeSwitcher Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    switcher.shadowRoot.querySelector('style').remove();
-    expect(switcher.shadowRoot.innerHTML).toMatchSnapshot();
-  });
-
   it('handles selected from the ids-popup-menu', () => {
     const event = new CustomEvent('selected', { detail: { elem: { value: 'classic' } } });
     switcher.shadowRoot.querySelector('ids-popup-menu').dispatchEvent(event);

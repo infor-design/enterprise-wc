@@ -10,16 +10,6 @@ describe('Ids Week View e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Week View Component');
-  });
-
-  it('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).analyze();
-    expect(results.violations.length).toBe(0);
-  });
 
   it('should render one day and show correct day', async () => {
     // Set startDay = endDate to render one day view

@@ -30,19 +30,6 @@ describe('IdsProgressChart Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    const elem = new IdsProgressChart();
-    elem.label = 'test';
-    elem.progressLabel = '30 mins';
-    elem.totalLabel = '60 mins';
-    elem.progress = '30';
-    elem.total = '60';
-    elem.size = 'small';
-    document.body.appendChild(elem);
-    elem.template();
-    expect(elem.outerHTML).toMatchSnapshot();
-  });
-
   it('sets icon correctly', () => {
     const icon = chart.container?.querySelector('.icon') as IdsIcon;
 

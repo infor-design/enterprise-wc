@@ -8,17 +8,6 @@ describe('Ids Tabs e2e Tests', () => {
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
   });
 
-  it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Tabs Component');
-  });
-
-  it('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).disableRules(['nested-interactive', 'color-contrast']).analyze();
-    expect(results.violations.length).toBe(0);
-  });
-
   it('should update via resize observer', async () => {
     await page.evaluate(`document.querySelector("ids-tabs").innerHTML = '<ids-tab value="tab1">Tab 1</ids-tab><ids-tab value="tab2">Tab 2</ids-tab>'`);
     const innerHTML = await page.evaluate('document.querySelector("ids-tabs").innerHTML');

@@ -45,13 +45,6 @@ describe('IdsWizard Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(elem.outerHTML).toMatchSnapshot();
-    elem.stepNumber = 2;
-    expect(elem.outerHTML).toMatchSnapshot();
-    expect(elem.stepNumber).toEqual(2);
-  });
-
   it('render via document.createElement (append laate)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const wizardElem: any = document.createElement('ids-wizard');

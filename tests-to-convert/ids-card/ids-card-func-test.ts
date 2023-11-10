@@ -31,10 +31,6 @@ describe('IdsCard Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(card.outerHTML).toMatchSnapshot();
-  });
-
   it('renders auto-height from an attribute', () => {
     card.setAttribute('auto-height', 'true');
     expect(card.getAttribute('auto-height')).toEqual('true');
@@ -199,26 +195,6 @@ describe('IdsCard Component', () => {
       document.body.appendChild(elem);
       expect(document.querySelectorAll('ids-card-action').length).toEqual(1);
       expect(errors).not.toHaveBeenCalled();
-    });
-
-    it('renders card action correctly', () => {
-      const elem: any = new IdsCardAction();
-      document.body.appendChild(elem);
-      expect(elem.outerHTML).toMatchSnapshot();
-    });
-
-    it('renders card action markup correctly', () => {
-      card.href = '/something';
-      expect(card.actionableButtonTemplate()).toMatchSnapshot();
-    });
-
-    it('renders card action markup', () => {
-      expect(card.template()).toMatchSnapshot();
-      card.href = '';
-      card.actionable = true;
-      expect(card.template()).toMatchSnapshot();
-      card.href = '/something';
-      expect(card.template()).toMatchSnapshot();
     });
 
     it('should allow setting actionable', () => {

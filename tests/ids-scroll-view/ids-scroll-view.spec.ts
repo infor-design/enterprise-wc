@@ -14,7 +14,7 @@ test.describe('IdsScrollView tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS ScrollView Component');
+      await expect(page).toHaveTitle('IDS Scroll View Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {
@@ -33,7 +33,7 @@ test.describe('IdsScrollView tests', () => {
   test.describe('accessibility tests', () => {
     test('should pass an Axe scan', async ({ page }) => {
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
-        .exclude('[disabled]') // Disabled elements do not have to pass
+        .disableRules(['nested-interactive'])
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });

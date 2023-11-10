@@ -7,22 +7,11 @@ describe('Ids Wizard e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Wizard Component');
-  });
-
   it('should be able to click first step', async () => {
     await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelectorAll("a")[0].click()');
     const activeStep = await page.evaluate(`document.querySelector("ids-wizard").stepNumber`);
     expect(activeStep).toEqual(1);
     await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelectorAll("a")[0].click()');
-  });
-
-  it.skip('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).analyze();
-    expect(results.violations.length).toBe(0);
   });
 
   it.skip('should be able to focus and enter on a step', async () => {

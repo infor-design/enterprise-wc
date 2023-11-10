@@ -24,11 +24,6 @@ describe('IdsSkipLink Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    elem.href = 'test';
-    expect(elem.outerHTML).toMatchSnapshot();
-  });
-
   it('renders href setting', () => {
     elem.href = 'test';
     expect(elem.href).toEqual('test');

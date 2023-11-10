@@ -72,10 +72,6 @@ describe('IdsActionSheet Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(el.outerHTML).toMatchSnapshot();
-  });
-
   it('can set the visible attribute', () => {
     expect(el.getAttribute('visible')).toBe(null);
 

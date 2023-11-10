@@ -14,7 +14,7 @@ test.describe('IdsCheckboxGroup tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS CheckboxGroup Component');
+      await expect(page).toHaveTitle('IDS Checkbox Group Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

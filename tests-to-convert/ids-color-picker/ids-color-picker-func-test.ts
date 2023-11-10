@@ -29,11 +29,6 @@ describe('Ids Color Picker Component', () => {
     colorpicker = null;
   });
 
-  it('renders invisible popup correctly', () => {
-    expect(colorpicker.popup.visible).toBe(false);
-    expect(colorpicker).toMatchSnapshot();
-  });
-
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     colorpicker.remove();
@@ -254,11 +249,6 @@ describe('Ids Color Picker Component', () => {
     afterEach(() => {
       colorpicker.close();
       expect(colorpicker.popup.visible).toBe(false);
-    });
-
-    it('renders visible popup correctly', () => {
-      expect(colorpicker.popup.visible).toBe(true);
-      expect(colorpicker).toMatchSnapshot();
     });
 
     it('closes popup on Escape', () => {

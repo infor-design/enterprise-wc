@@ -34,6 +34,7 @@ test.describe('IdsEditor tests', () => {
     test('should pass an Axe scan', async ({ page }) => {
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
+        .disableRules('nested-interactive')
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });

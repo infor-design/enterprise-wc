@@ -129,12 +129,6 @@ describe('IdsListBuilder Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', async () => {
-    idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
-    expect(idsListBuilder.outerHTML).toMatchSnapshot();
-    expect(idsListBuilder.querySelector('[list-builder-action="add"]')).toBeTruthy();
-  });
-
   it('injects template correctly and sets data correctly', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
     idsListBuilder.data = [...sampleData];

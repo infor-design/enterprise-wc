@@ -68,12 +68,6 @@ describe('IdsDataGridCell Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    expect(cell.innerHTML).toMatchSnapshot();
-    expect(cell.renderCell());
-    expect(cell.innerHTML).toMatchSnapshot();
-  });
-
   it('renders rowNumber', () => {
     const cell1 = dataGrid.shadowRoot.querySelector('ids-data-grid-cell:nth-child(2)');
     expect(cell1.innerHTML).toBe(`<span class="text-ellipsis">1</span>`);

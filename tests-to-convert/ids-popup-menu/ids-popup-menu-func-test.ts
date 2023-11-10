@@ -484,25 +484,6 @@ describe('IdsPopupMenu Component', () => {
       expect(item5.submenu.items.length).toEqual(3);
     });
 
-    it('can render a new item correctly', () => {
-      const newItem = new IdsMenuItem();
-      newItem.id = 'newitem';
-      newItem.icon = 'settings';
-      newItem.selected = true;
-      newItem.value = 1;
-      newItem.tabIndex = 1;
-
-      group1.appendChild(newItem);
-      const newSubmenu = new IdsPopupMenu();
-      newSubmenu.id = 'new-submenu';
-      newSubmenu.insertAdjacentHTML('afterbegin', newSubmenuHTML);
-      newItem.appendChild(newSubmenu);
-
-      newItem.template();
-
-      expect(newItem.outerHTML).toMatchSnapshot();
-    });
-
     it('can programmatically show/hide the submenu', (done) => {
       item6.showSubmenu();
 

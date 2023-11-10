@@ -8,17 +8,6 @@ describe('Ids Treemap e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Treemap Component');
-  });
-
-  it('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).analyze();
-    expect(results.violations.length).toBe(0);
-  });
-
   it('should resize the width when the viewport changes', async () => {
     await page.setViewport({ width: 589, height: 9999, deviceScaleFactor: 1 });
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

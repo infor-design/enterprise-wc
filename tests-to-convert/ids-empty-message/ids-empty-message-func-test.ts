@@ -41,10 +41,6 @@ describe('Ids Empty Message Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(elem.shadowRoot?.innerHTML).toMatchSnapshot();
-  });
-
   it('can update the icon', () => {
     expect(elem.getAttribute('icon')).toBe('empty-generic');
     elem.icon = 'empty-no-data';

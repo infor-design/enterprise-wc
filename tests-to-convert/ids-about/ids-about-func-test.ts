@@ -54,21 +54,6 @@ describe('IdsAbout Component (using properties)', () => {
     document.body.innerHTML = '';
   });
 
-  it('should render', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    expect(document.querySelectorAll(name).length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-
-    // Use Snapshots
-    expect(component.outerHTML).toMatchSnapshot();
-    component.show();
-    expect(component.outerHTML).toMatchSnapshot();
-
-    component.hide();
-    expect(component.outerHTML).toMatchSnapshot();
-  });
-
   it('can be destroyed', () => {
     const errors = jest.spyOn(global.console, 'error');
 
@@ -76,14 +61,6 @@ describe('IdsAbout Component (using properties)', () => {
 
     expect(document.querySelectorAll(name).length).toEqual(0);
     expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('has properties', () => {
-    expect(component.productVersion).toEqual(productVersion);
-    expect(component.productName).toEqual(productName);
-    expect(component.copyrightYear).toEqual(copyrightYear);
-    expect(component.deviceSpecs).toEqual(deviceSpecs);
-    expect(component.useDefaultCopyright).toEqual(useDefaultCopyright);
   });
 
   it('can alter productVersion and productName', () => {

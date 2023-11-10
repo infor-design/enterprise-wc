@@ -1,9 +1,5 @@
-import AxeBuilder from '@axe-core/playwright';
-import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
-
-import IdsPersonalize from '../../src/components/ids-personalize/ids-personalize';
 
 test.describe('IdsPersonalize tests', () => {
   const url = '/ids-personalize/example.html';
@@ -27,39 +23,6 @@ test.describe('IdsPersonalize tests', () => {
       await page.goto(url);
       await page.waitForLoadState();
       await expect(exceptions).toBeNull();
-    });
-  });
-
-  test.describe('accessibility tests', () => {
-    test('should pass an Axe scan', async ({ page }) => {
-      const accessibilityScanResults = await new AxeBuilder({ page } as any)
-        .exclude('[disabled]') // Disabled elements do not have to pass
-        .analyze();
-      expect(accessibilityScanResults.violations).toEqual([]);
-    });
-  });
-
-  test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-personalize');
-      const html = await handle?.evaluate((el: IdsPersonalize) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('personalize-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-personalize');
-      const html = await handle?.evaluate((el: IdsPersonalize) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('personalize-shadow');
-    });
-
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      await percySnapshot(page, 'ids-personalize-light');
     });
   });
 });

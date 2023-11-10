@@ -14,7 +14,7 @@ test.describe('IdsStepChart tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS StepChart Component');
+      await expect(page).toHaveTitle('IDS Step Chart Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

@@ -62,12 +62,6 @@ describe('IdsSwappable Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', async () => {
-    idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
-    idsSwappable.template();
-    expect(idsSwappable.outerHTML).toMatchSnapshot();
-  });
-
   it('can select ids-swappable-item', async () => {
     idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
     const items = idsSwappable.querySelectorAll('ids-swappable-item');

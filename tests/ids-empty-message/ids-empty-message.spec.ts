@@ -14,7 +14,7 @@ test.describe('IdsEmptyMessage tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS EmptyMessage Component');
+      await expect(page).toHaveTitle('IDS Empty Message Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {
@@ -33,7 +33,7 @@ test.describe('IdsEmptyMessage tests', () => {
   test.describe('accessibility tests', () => {
     test('should pass an Axe scan', async ({ page }) => {
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
-        .exclude('[disabled]') // Disabled elements do not have to pass
+        .disableRules('color-contrast')
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });

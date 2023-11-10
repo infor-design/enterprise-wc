@@ -14,7 +14,7 @@ test.describe('IdsPieChart tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS PieChart Component');
+      await expect(page).toHaveTitle('IDS Pie Chart Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

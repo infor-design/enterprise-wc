@@ -22,7 +22,7 @@ describe('IdsMultiselect Component', () => {
   let multiselect: any;
   let container: any;
 
-  const createFromTemplate = (innerHTML:any) => {
+  const createFromTemplate = (innerHTML: any) => {
     multiselect?.remove();
     container?.remove();
 
@@ -58,15 +58,11 @@ describe('IdsMultiselect Component', () => {
   it('renders empty multiselect with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     multiselect.remove();
-    const elem:any = new IdsMultiselect();
+    const elem: any = new IdsMultiselect();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-multiselect').length).toEqual(0);
     expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('renders correctly', () => {
-    expect(multiselect.outerHTML).toMatchSnapshot();
   });
 
   it('renders with disabled', () => {

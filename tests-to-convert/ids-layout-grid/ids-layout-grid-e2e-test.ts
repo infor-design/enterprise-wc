@@ -3,21 +3,6 @@ import { AxePuppeteer } from '@axe-core/puppeteer';
 describe('ids-layout-grid', () => {
   const url = 'http://localhost:4444/ids-layout-grid/example.html';
 
-  beforeAll(async () => {
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-  });
-
-  it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Layout Grid');
-  });
-
-  it('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).analyze();
-    expect(results.violations.length).toBe(0);
-  });
-
   it('should render 8 column ids-layout-grid with child elements', async () => {
     // find the ids-layout-grid component
     const idsLayoutGrid = await page.$('#eight-column-grid');

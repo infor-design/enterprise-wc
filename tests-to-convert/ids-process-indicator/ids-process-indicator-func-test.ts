@@ -70,12 +70,6 @@ describe('IdsProcessIndicator Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', async () => {
-    processIndicator = await createElemViaTemplate(HTMLSnippets.VANILLA_PROCESS_INDICATOR);
-    processIndicator.template();
-    expect(processIndicator.outerHTML).toMatchSnapshot();
-  });
-
   it('sets labels correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.VANILLA_PROCESS_INDICATOR);
     const steps = document.querySelectorAll('ids-process-indicator-step');

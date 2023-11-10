@@ -62,14 +62,6 @@ describe('IdsAccordion Component', () => {
     (header2 as any) = null;
   });
 
-  it('renders correctly', async () => {
-    expect(accordion.outerHTML).toMatchSnapshot();
-    panel.expanded = true;
-    expect(accordion.outerHTML).toMatchSnapshot();
-    panel.expanded = false;
-    expect(accordion.outerHTML).toMatchSnapshot();
-  });
-
   it('renders with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
     accordion.remove();

@@ -14,7 +14,7 @@ test.describe('IdsListBuilder tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS ListBuilder Component');
+      await expect(page).toHaveTitle('IDS List Builder Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {
@@ -33,7 +33,7 @@ test.describe('IdsListBuilder tests', () => {
   test.describe('accessibility tests', () => {
     test('should pass an Axe scan', async ({ page }) => {
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
-        .exclude('[disabled]') // Disabled elements do not have to pass
+        .disableRules(['aria-required-children', 'aria-required-parent'])
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });

@@ -52,11 +52,6 @@ describe('IdsContainer Component', () => {
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
 
-  it('renders correctly', () => {
-    container.shadowRoot?.querySelector('style')?.remove();
-    expect(container.shadowRoot?.innerHTML).toMatchSnapshot();
-  });
-
   it('renders correctly for unscrollable', () => {
     container.scrollable = false;
     expect(container.template()).toEqual('<div class="ids-container" part="container"><slot></slot></div>');
@@ -103,7 +98,7 @@ describe('IdsContainer Component', () => {
 
   it('should remove hidden on window elem', () => {
     container.hidden = true;
-    const event = new KeyboardEvent('load', { });
+    const event = new KeyboardEvent('load', {});
     window.dispatchEvent(event);
     expect(container.hidden).toEqual(false);
   });

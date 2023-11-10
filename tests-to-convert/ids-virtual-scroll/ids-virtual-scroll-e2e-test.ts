@@ -8,17 +8,6 @@ describe('Ids Virtual Scroll e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Virtual Scroll Component');
-  });
-
-  it('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await checkForAxeViolations(page, [
-      'scrollable-region-focusable',
-    ]);
-  });
 
   it('should render some rows', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });

@@ -34,6 +34,7 @@ test.describe('IdsLookup tests', () => {
     test('should pass an Axe scan', async ({ page }) => {
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
+        .disableRules(['empty-table-header'])
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });

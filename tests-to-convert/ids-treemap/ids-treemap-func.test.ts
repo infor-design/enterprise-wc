@@ -91,12 +91,6 @@ describe('IdsTreeMap Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    treemap.title = 'Storage Utilization (78 GB)';
-    expect(treemap.outerHTML).toMatchSnapshot();
-    expect(treemap.data).toBeDefined();
-  });
-
   it('can set the treemap title', () => {
     expect(treemap.title).toBe('');
     expect(treemap.getAttribute('title')).toBe(null);

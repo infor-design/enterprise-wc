@@ -14,7 +14,7 @@ test.describe('IdsProcessIndicator tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS ProcessIndicator Component');
+      await expect(page).toHaveTitle('IDS Process Indicator Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

@@ -20,12 +20,6 @@ describe('IdsExpandableArea Component', () => {
     (window.requestAnimationFrame as any).mockRestore();
   });
 
-  it('renders correctly', () => {
-    expect(el.outerHTML).toMatchSnapshot();
-    el.type = 'toggle-btn';
-    expect(el.outerHTML).toMatchSnapshot();
-  });
-
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     el.remove();

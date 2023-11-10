@@ -127,16 +127,6 @@ describe('IdsDatePicker Component Tests', () => {
       component = null;
     });
 
-    it('should render', () => {
-      const errors = jest.spyOn(global.console, 'error');
-
-      expect(document.querySelectorAll(name).length).toEqual(1);
-      expect(errors).not.toHaveBeenCalled();
-
-      // Use Snapshots
-      expect(component.outerHTML).toMatchSnapshot();
-    });
-
     it('can be destroyed', () => {
       const errors = jest.spyOn(global.console, 'error');
 

@@ -38,11 +38,6 @@ describe('Ids Step Chart Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    elem.shadowRoot.querySelector('style').remove();
-    expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
-  });
-
   it('generates the correct number of steps', () => {
     expect(elem.shadowRoot.querySelectorAll('.step').length).toEqual(7);
   });

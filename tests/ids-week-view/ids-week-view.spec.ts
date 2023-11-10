@@ -14,7 +14,7 @@ test.describe('IdsWeekView tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS WeekView Component');
+      await expect(page).toHaveTitle('IDS Week View Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

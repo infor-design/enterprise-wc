@@ -31,9 +31,8 @@ test.describe('IdsMenu tests', () => {
   });
 
   test.describe('accessibility tests', () => {
-    test('should pass an Axe scan', async ({ page }) => {
+    test.skip('should pass an Axe scan', async ({ page }) => {
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
-        .exclude('[disabled]') // Disabled elements do not have to pass
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });

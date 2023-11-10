@@ -118,11 +118,6 @@ describe('IdsTriggerField Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(triggerField.outerHTML).toMatchSnapshot();
-    expect(triggerField.outerHTML).toMatchSnapshot();
-  });
-
   it('fires triggerevent on trigger', () => {
     triggerField.addEventListener('triggerfield', (e: any) => {
       e.detail.response(false);

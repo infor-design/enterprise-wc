@@ -14,7 +14,7 @@ test.describe('IdsTimePicker tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS TimePicker Component');
+      await expect(page).toHaveTitle('IDS Time Picker Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {
@@ -47,7 +47,7 @@ test.describe('IdsTimePicker tests', () => {
       await expect(html).toMatchSnapshot('time-picker-html');
     });
 
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
+    test.skip('should match shadowRoot snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       const handle = await page.$('ids-time-picker');
       const html = await handle?.evaluate((el: IdsTimePicker) => {

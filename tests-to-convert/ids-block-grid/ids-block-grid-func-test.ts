@@ -36,15 +36,6 @@ describe('IdsBlockgrid Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    blockgridEl.align = 'left';
-    expect(blockgridEl.outerHTML).toMatchSnapshot();
-    blockgridEl.align = 'center';
-    expect(blockgridEl.outerHTML).toMatchSnapshot();
-    blockgridEl.align = 'right';
-    expect(blockgridEl.outerHTML).toMatchSnapshot();
-  });
-
   it('renders align setting', () => {
     blockgridEl.align = 'center';
     expect(blockgridEl.align).toEqual('center');
@@ -99,10 +90,6 @@ describe('IdsBlockgridItem Component', () => {
     elem.remove();
     expect(document.querySelectorAll('ids-block-grid-item').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('renders correctly', () => {
-    expect(blockgridItemEl.outerHTML).toMatchSnapshot();
   });
 
   it('support block grid selection single', () => {

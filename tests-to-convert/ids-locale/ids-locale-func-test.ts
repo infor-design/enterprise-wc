@@ -414,11 +414,6 @@ describe('IdsLocale API', () => {
       expect(locale.translate('Actions', { language: 'de' })).toEqual('Aktionen');
     });
 
-    it('renders correctly', () => {
-      expect(locale).toBeTruthy();
-      expect(locale.translate).toBeTruthy();
-    });
-
     it('is set correctly', () => {
       expect(locale).toBeTruthy();
       expect(locale.translate).toBeTruthy();

@@ -44,10 +44,6 @@ describe('IdsScrollView Component', () => {
     elem.remove();
   });
 
-  it('renders correctly', () => {
-    expect(scrollView.shadowRoot.innerHTML).toMatchSnapshot();
-  });
-
   it('should sets loop', () => {
     expect(scrollView.getAttribute(attributes.LOOP)).toEqual(null);
     expect(scrollView.loop).toEqual(false);

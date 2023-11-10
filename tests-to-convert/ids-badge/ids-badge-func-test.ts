@@ -26,15 +26,6 @@ describe('IdsBadge Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(badge.outerHTML).toMatchSnapshot();
-    badge.color = 'error';
-    expect(badge.outerHTML).toMatchSnapshot();
-    badge.color = 'alert';
-    badge.shape = 'round';
-    expect(badge.outerHTML).toMatchSnapshot();
-  });
-
   it('renders alert color and round shape of badge', () => {
     badge.color = 'alert';
     expect(badge.getAttribute('color')).toEqual('alert');

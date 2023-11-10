@@ -14,7 +14,7 @@ test.describe('IdsHomePage tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS HomePage Component');
+      await expect(page).toHaveTitle('IDS Home Page Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

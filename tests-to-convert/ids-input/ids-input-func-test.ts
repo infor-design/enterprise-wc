@@ -29,11 +29,6 @@ describe('IdsInput Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    input.type = 'text';
-    expect(input.outerHTML).toMatchSnapshot();
-  });
-
   it('renders default field type', () => {
     input.type = 'text';
     expect(input.getAttribute('type')).toEqual('text');
@@ -178,25 +173,25 @@ describe('IdsInput Component', () => {
   });
 
   it('should have an input with "aria-label" set when label-state="hidden" or "collapsed" '
-  + 'is flagged and a label exists, then toggles this by unsetting it', async () => {
-    input.labelState = 'hidden';
-    expect(input.labelState).toBeTruthy();
-    await processAnimFrame();
+    + 'is flagged and a label exists, then toggles this by unsetting it', async () => {
+      input.labelState = 'hidden';
+      expect(input.labelState).toBeTruthy();
+      await processAnimFrame();
 
-    expect(input.input.getAttribute('aria-label')?.length).toBeGreaterThan(0);
+      expect(input.input.getAttribute('aria-label')?.length).toBeGreaterThan(0);
 
-    input.labelState = null;
-    expect(input.labelState).toBeFalsy();
-    await processAnimFrame();
+      input.labelState = null;
+      expect(input.labelState).toBeFalsy();
+      await processAnimFrame();
 
-    expect(input.input.hasAttribute('aria-label')).toBeFalsy();
+      expect(input.input.hasAttribute('aria-label')).toBeFalsy();
 
-    input.labelState = 'collapsed';
-    expect(input.labelState).toBeTruthy();
-    await processAnimFrame();
+      input.labelState = 'collapsed';
+      expect(input.labelState).toBeTruthy();
+      await processAnimFrame();
 
-    expect(input.input.getAttribute('aria-label')?.length).toBeGreaterThan(0);
-  });
+      expect(input.input.getAttribute('aria-label')?.length).toBeGreaterThan(0);
+    });
 
   it('renders label-state from a template with no issues', async () => {
     const errors = jest.spyOn(global.console, 'error');

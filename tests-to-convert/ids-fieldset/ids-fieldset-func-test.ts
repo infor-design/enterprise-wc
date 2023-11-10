@@ -24,8 +24,4 @@ describe('IdsFieldset Component', () => {
     expect(document.querySelectorAll('ids-fieldset').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
-
-  it('renders correctly', () => {
-    expect(fieldset.outerHTML).toMatchSnapshot();
-  });
 });

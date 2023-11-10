@@ -14,7 +14,7 @@ test.describe('IdsToggleButton tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS ToggleButton Component');
+      await expect(page).toHaveTitle('IDS Toggle Button Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

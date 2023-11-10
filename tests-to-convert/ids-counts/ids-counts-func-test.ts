@@ -45,9 +45,6 @@ describe('IdsCounts Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(count.outerHTML).toMatchSnapshot();
-  });
 
   it('renders a specific hex color', () => {
     count.color = '#800000';

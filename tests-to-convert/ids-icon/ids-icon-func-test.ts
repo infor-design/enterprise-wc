@@ -37,12 +37,6 @@ describe('IdsIcon Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(elem.outerHTML).toMatchSnapshot();
-    elem.size = 'small';
-    expect(elem.outerHTML).toMatchSnapshot();
-  });
-
   it('renders size setting', () => {
     elem.size = 'large';
     expect(elem.size).toEqual('large');

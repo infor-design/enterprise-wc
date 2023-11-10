@@ -74,16 +74,6 @@ describe('IdsSearchField Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', async () => {
-    const elem = await createFromTemplate(s, HTMLSnippets.VANILLA_SEARCH_FIELD);
-    elem.label = 'Test Search Field Label';
-    elem.value = 'Eevee';
-    elem.placeholder = 'Please type a Pokemon';
-    document.body.appendChild(elem);
-    elem.template();
-    expect(elem.outerHTML).toMatchSnapshot();
-  });
-
   it('sets the label correctly', () => {
     expect(s.label).toBe('Search');
 

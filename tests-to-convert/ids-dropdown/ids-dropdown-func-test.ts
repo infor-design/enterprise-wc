@@ -62,10 +62,6 @@ describe('IdsDropdown Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(dropdown.outerHTML).toMatchSnapshot();
-  });
-
   it('renders with disabled', () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-1" disabled="true" label="Test"></ids-dropdown>`);
     expect(dropdown.disabled).toBeTruthy();

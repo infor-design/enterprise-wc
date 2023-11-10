@@ -65,14 +65,6 @@ describe('IdsToast Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(toast.outerHTML).toMatchSnapshot();
-    options.messageId = 'test-message-id';
-    toast.show(options);
-    const messageElem = toast.messageElem(options.messageId);
-    expect(messageElem?.outerHTML).toMatchSnapshot();
-  });
-
   it('should set to put links in the toast message', () => {
     expect(toast.getAttribute('allow-link')).toEqual(null);
     expect(toast.allowLink).toEqual(DEFAULTS.allowLink);
@@ -605,7 +597,7 @@ describe('IdsToast Component', () => {
     messageEl1.progressBar = null;
     messageEl1.timeout = null;
     messageEl1.messageId = null;
-    messageEl1.timer = { destroy: () => {} };
+    messageEl1.timer = { destroy: () => { } };
 
     messageEl2.audible = true;
     messageEl2.draggable = true;

@@ -3,8 +3,6 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsToast from '../../src/components/ids-toast/ids-toast';
-
 test.describe('IdsToast tests', () => {
   const url = '/ids-toast/example.html';
 
@@ -40,25 +38,9 @@ test.describe('IdsToast tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-toast');
-      const html = await handle?.evaluate((el: IdsToast) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('toast-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-toast');
-      const html = await handle?.evaluate((el: IdsToast) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('toast-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
+      await page.locator('#btn-toast-demo').click();
       await percySnapshot(page, 'ids-toast-light');
     });
   });

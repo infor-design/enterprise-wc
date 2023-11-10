@@ -34,10 +34,6 @@ describe('IdsVirtualScroll Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(virtualScroll.innerHTML).toMatchSnapshot();
-  });
-
   it('renders rows on native scroll events', async () => {
     const startingHtml = virtualScroll.innerHTML;
 

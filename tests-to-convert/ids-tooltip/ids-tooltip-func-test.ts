@@ -46,11 +46,6 @@ describe('IdsTooltip Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    tooltip.shadowRoot.querySelector('style').remove();
-    expect(tooltip.shadowRoot.innerHTML).toMatchSnapshot();
-  });
-
   it('renders via document.createElement (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem = document.createElement('ids-tooltip');

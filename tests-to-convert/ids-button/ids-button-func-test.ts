@@ -39,27 +39,6 @@ describe('IdsButton Component', () => {
     expect(btn.shouldUpdate).toBeTruthy();
   });
 
-  it('renders correctly', async () => {
-    const elem: any = new IdsButton();
-    document.body.appendChild(elem);
-    elem.cssClass = 'test-class';
-    elem.disabled = true;
-    elem.icon = 'add';
-    elem.text = 'test';
-    elem.state.appearance = 'icon';
-    expect(elem.outerHTML).toMatchSnapshot();
-  });
-
-  it('renders icons on the opposite side correctly', () => {
-    const elem: any = new IdsButton();
-    document.body.appendChild(elem);
-    elem.id = 'test-button';
-    elem.icon = 'settings';
-    elem.iconAlign = 'end';
-    elem.text = 'Settings';
-    expect(elem.outerHTML).toMatchSnapshot();
-  });
-
   it('exposes its inner button component', () => {
     expect(btn.button).toBeDefined();
     expect(btn.button instanceof HTMLElement).toBeTruthy();

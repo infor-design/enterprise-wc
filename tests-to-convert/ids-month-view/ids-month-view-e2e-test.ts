@@ -3,23 +3,7 @@ import countObjects from '../helpers/count-objects';
 
 describe('Ids Month View e2e Tests', () => {
   const url = 'http://localhost:4444/ids-month-view/example.html';
-  const name = 'ids-month-view';
 
-  beforeAll(async () => {
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-  });
-
-  it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Month View Component');
-  });
-
-  it('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await checkForAxeViolations(page, [
-      'color-contrast'
-    ]);
-  });
 
   it('should display correct number of days in a month', async () => {
     // Initial month
@@ -122,78 +106,6 @@ describe('Ids Month View e2e Tests', () => {
     expect(selectedClick).toBeTruthy();
   });
 
-  it.skip('should support changing locale', async () => {
-    await page.evaluate((el: any) => {
-      const component: any = document.querySelector(el);
-
-      component.month = 11;
-      component.year = 2021;
-      component.day = 22;
-      component.firstDayOfWeek = 0;
-
-      // IdsGlobal.getLocale().setLocale('ar-SA');
-      // IdsGlobal.getLocale().setLanguage('ar');
-    }, name);
-
-    // Wait till calendars load
-    await page.waitForFunction(() => (document as any).querySelector('ids-month-view')?.locale?.calendar().name === 'islamic-umalqura');
-
-    // RTL check
-    let isRtl = await page.$eval(name, (el: any) => el.getAttribute('dir') === 'rtl');
-
-    expect(isRtl).toBeTruthy();
-
-    // Selected day
-    const day = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected').dataset.day);
-    const month = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected').dataset.month);
-    const year = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected').dataset.year);
-    const localeDay = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected').textContent);
-
-    expect(+day).toEqual(22);
-    expect(+month).toEqual(11);
-    expect(+year).toEqual(2021);
-    expect(+localeDay).toEqual(18);
-
-    // Number of days in given month
-    let numberOfDays = await page.$eval(name, (el: any) => el.shadowRoot.querySelectorAll('td:not(.alternate)').length);
-
-    expect(numberOfDays).toEqual(30);
-
-    // Prev month
-    await page.$eval(name, (el: any) => el.changeDate('previous-month'));
-
-    numberOfDays = await page.$eval(name, (el: any) => el.shadowRoot.querySelectorAll('td:not(.alternate)').length);
-
-    expect(numberOfDays).toEqual(29);
-
-    // Back to initial month and next month
-    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('.btn-next')?.click());
-    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('.btn-next')?.click());
-
-    numberOfDays = await page.$eval(name, (el: any) => el.shadowRoot.querySelectorAll('td:not(.alternate)').length);
-
-    expect(numberOfDays).toEqual(29);
-
-    // Selectable
-    await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td:not(.alternate)')?.click());
-
-    numberOfDays = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected')?.textContent);
-
-    expect(+numberOfDays).toEqual(1);
-
-    await page.evaluate(() => {
-      // IdsGlobal.getLocale().setLocale('en-US');
-      // IdsGlobal.getLocale().setLanguage('en');
-    });
-
-    // Wait till calendars load
-    await page.waitForFunction(() => (document as any).querySelector('ids-month-view')?.locale?.calendar().name === 'gregorian');
-
-    // RTL check
-    isRtl = await page.$eval(name, (el: any) => el.getAttribute('dir'));
-
-    expect(isRtl).toBeNull();
-  });
 
   it('should trigger compact view and today button', async () => {
     let hasFullSizeClass = await page.$eval(name, (el: any) => el.container.classList.contains('is-fullsize'));
@@ -539,8 +451,8 @@ describe('Ids Month View e2e Tests', () => {
 
     let hasError = false;
 
-    page.on('error', () => {});
-    page.on('pageerror', () => {});
+    page.on('error', () => { });
+    page.on('pageerror', () => { });
 
     // Add empty erray as legend - throws the error
     try {

@@ -26,10 +26,6 @@ describe('IdsTriggerButton Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(triggerButton.outerHTML).toMatchSnapshot();
-  });
-
   it('supports readonly', () => {
     triggerButton.readonly = true;
     expect(triggerButton.readonly).toEqual(true);

@@ -60,13 +60,6 @@ describe('IdsSwapList Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', async () => {
-    idsSwapList = await createElemViaTemplate(HTMLSnippets.SWAPLIST_COMPONENT);
-    idsSwapList.template();
-    idsSwapList.data = dataset;
-    expect(idsSwapList.outerHTML).toMatchSnapshot();
-  });
-
   it('can swap item to next/previous list on click event', async () => {
     const event0 = new MouseEvent('click', {
       bubbles: true,

@@ -137,11 +137,6 @@ describe('IdsHierarchy Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(el.outerHTML).toMatchSnapshot();
-    expect(item.outerHTML).toMatchSnapshot();
-  });
-
   it('can set the expanded attribute', () => {
     expect(item.getAttribute('expanded')).toBe(null);
 

@@ -92,11 +92,6 @@ describe('IdsLookup Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(lookup.outerHTML).toMatchSnapshot();
-    expect(lookup.shadowRoot.innerHTML).toMatchSnapshot();
-  });
-
   it('renders with disabled', () => {
     lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-1" disabled="true" label="Test"></ids-lookup>`);
     expect(lookup.disabled).toBeTruthy();

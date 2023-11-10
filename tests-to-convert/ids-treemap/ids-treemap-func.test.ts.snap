@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`IdsTreeMap Component renders correctly 1`] = `"<ids-treemap title="Storage Utilization (78 GB)"></ids-treemap>"`;

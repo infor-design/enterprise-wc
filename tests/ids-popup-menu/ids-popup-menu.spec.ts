@@ -14,7 +14,7 @@ test.describe('IdsPopupMenu tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS PopupMenu Component');
+      await expect(page).toHaveTitle('IDS Popup Menu Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {

@@ -29,14 +29,6 @@ describe('IdsText Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(elem.outerHTML).toMatchSnapshot();
-    elem.fontSize = 24;
-    expect(elem.outerHTML).toMatchSnapshot();
-    elem.type = 'h1';
-    expect(elem.outerHTML).toMatchSnapshot();
-  });
-
   it('renders font size setting', () => {
     elem.fontSize = 24;
     expect(elem.fontSize).toEqual('24');

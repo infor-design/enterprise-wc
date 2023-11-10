@@ -36,10 +36,6 @@ describe('IdsDataLabel Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(dataLabel.outerHTML).toMatchSnapshot();
-  });
-
   it('renders with label-position', async () => {
     expect(dataLabel.container?.classList).toContain('top-positioned');
 

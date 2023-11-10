@@ -59,6 +59,7 @@ test.describe('IdsMessage tests', () => {
 
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
+      await page.locator('#message-example-error-trigger').click();
       await percySnapshot(page, 'ids-message-light');
     });
   });
