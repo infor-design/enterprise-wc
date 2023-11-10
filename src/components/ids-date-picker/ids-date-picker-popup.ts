@@ -166,6 +166,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
         second-interval="${this.secondInterval}"
         use-current-time="${this.useCurrentTime}"
         embeddable="true"
+        autoupdate="true"
         format="${this.format}"
         value="${this.value}"
       ></ids-time-picker-popup>
@@ -592,8 +593,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       this.removeAttribute(attributes.USE_CURRENT_TIME);
       this.timepicker?.removeAttribute(attributes.USE_CURRENT_TIME);
     }
-
-    this.updateTimepickerDisplay();
   }
 
   onUseRangeChange(val: boolean) {
@@ -786,6 +785,18 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       this.offEvent('change.date-picker-input');
       this.onEvent('change.date-picker-input', this.target, (e: any) => {
         this.setAttribute(attributes.VALUE, e.detail.value);
+      });
+    }
+
+    // Time picker value change triggers input value change
+    if (this.hasTime()) {
+      this.offEvent('timeselected.date-picker-time');
+      this.onEvent('timeselected.date-picker-time', this.timepicker, () => {
+        this.value = this.localeAPI.formatDate(
+          this.setTime(this.getActiveDate()),
+          { pattern: this.format }
+        );
+        this.triggerSelectedEvent();
       });
     }
   }

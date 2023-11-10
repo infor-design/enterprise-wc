@@ -285,6 +285,7 @@ class IdsDatePicker extends Base {
             use-range="${this.useRange}"
             minute-interval="${this.minuteInterval}"
             second-interval="${this.secondInterval}"
+            use-current-time="${this.useCurrentTime}"
           ></ids-date-picker-popup>
         ` : ''}
       </div>
