@@ -103,3 +103,10 @@ $border-input-field-height-lg: calc(var(--ids-input-height-40) - 2px);
 :host(.module-nav) {
   max-height: none;
 }
+
+:host-context(ids-multiselect) {
+  ::slotted(ids-list-box-option[selected].last-selected) {
+    border-bottom: 1px solid var(--ids-dropdown-group-color-border);
+    margin-bottom: var(--ids-dropdown-group-padding);
+  }
+}
