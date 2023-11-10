@@ -678,7 +678,6 @@ class IdsTimePickerPopup extends Base {
 
     // Updating hours dropdown with AM/PM range
     this.updateValue();
-    this.renderDropdowns();
     if (value) {
       if (this.#hasHourRange()) {
         this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.#getHourOptions()[0]));

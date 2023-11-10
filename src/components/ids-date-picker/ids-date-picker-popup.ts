@@ -420,8 +420,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
       this.timepicker?.removeAttribute(attributes.MINUTE_INTERVAL);
     }
-
-    this.updateTimepickerDisplay();
   }
 
   /**
@@ -446,8 +444,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       this.removeAttribute(attributes.SECOND_INTERVAL);
       this.timepicker?.removeAttribute(attributes.SECOND_INTERVAL);
     }
-
-    this.updateTimepickerDisplay();
   }
 
   /**
@@ -651,7 +647,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
 
     this.setAttribute(attributes.VALUE, val);
     this.#value = val;
-    this.timepicker?.setAttribute(attributes.MINUTE_INTERVAL, `${this.minuteInterval}`);
     this.timepicker?.setAttribute(attributes.VALUE, val);
   }
 
