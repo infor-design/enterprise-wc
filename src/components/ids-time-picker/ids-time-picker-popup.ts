@@ -681,6 +681,7 @@ class IdsTimePickerPopup extends Base {
     this.updateValue();
     if (value) {
       if (this.#hasHourRange()) {
+        this.renderDropdowns();
         this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.#getHourOptions()[0]));
       } else {
         this.container?.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, value.toString().toUpperCase());
