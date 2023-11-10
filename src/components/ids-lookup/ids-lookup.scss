@@ -8,5 +8,23 @@ ids-trigger-field::part(clearable-button) {
 }
 
 :host-context(ids-data-grid-cell) {
+  border: 0;
+  outline: none;
   width: 100%;
+
+  ids-trigger-field::part(field-container) {
+    background: transparent;
+    border: 1px solid red;
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    height: 100%;
+    width: 100%;
+  }
+
+  // .ids-input .field-container {
+  //   border: 1px solid red;
+  //   border: 0;
+  //   outline: none;
+  // }
 }
