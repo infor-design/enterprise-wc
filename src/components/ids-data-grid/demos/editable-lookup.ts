@@ -51,27 +51,71 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     //   return row % 2 === 0;
     // },
   });
+  // columns.push({
+  //   id: 'ledger',
+  //   name: 'Ledger',
+  //   field: 'ledger',
+  //   resizable: true,
+  //   reorderable: true,
+  //   formatter: dataGrid.formatters.text,
+  //   filterType: dataGrid.filters.text,
+  //   filterOptions: {
+  //     maxlength: 2,
+  //     uppercase: true
+  //   },
+  //   uppercase: true,
+  //   editor: {
+  //     type: 'input',
+  //     editorSettings: {
+  //       autoselect: true,
+  //       dirtyTracker: true,
+  //       // mask: [/[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/],
+  //       maxlength: 2,
+  //       uppercase: true
+  //     }
+  //   },
+  // });
   columns.push({
-    id: 'ledger',
-    name: 'Ledger',
-    field: 'ledger',
-    resizable: true,
+    id: 'location',
+    name: 'Location Lookup',
+    field: 'location',
+    formatter: dataGrid.formatters.hyperlink,
+    href: '#',
     reorderable: true,
-    formatter: dataGrid.formatters.text,
-    filterType: dataGrid.filters.text,
-    filterOptions: {
-      maxlength: 2,
-      uppercase: true
-    },
-    uppercase: true,
+    resizable: true,
+    sortable: true,
     editor: {
-      type: 'input',
+      type: 'lookup',
       editorSettings: {
-        autoselect: true,
-        dirtyTracker: true,
-        // mask: [/[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/],
-        maxlength: 2,
-        uppercase: true
+        dirtyTracker: false,
+        columns: [
+          {
+            id: 'id',
+            name: 'ID',
+            field: 'location',
+            formatter: dataGrid.formatters.selectionCheckbox,
+            align: 'center',
+            resizable: false,
+            sortable: false,
+            width: 50,
+          },
+          {
+            id: 'location',
+            name: 'Location',
+            field: 'location',
+            formatter: dataGrid.formatters.text,
+          },
+        ],
+        data: [
+          { location: 'Brazil' },
+          { location: 'Canada' },
+          { location: 'Germany' },
+          { location: 'Italy' },
+          { location: 'Mexico' },
+          { location: 'Spain' },
+          { location: 'United Kingdom' },
+          { location: 'United States' },
+        ],
       }
     },
   });
@@ -164,58 +208,45 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
       }
     }
   });
-  columns.push({
-    id: 'transactionCurrency',
-    name: 'Transaction Currency',
-    field: 'transactionCurrency',
-    formatter: dataGrid.formatters.text
-  });
-  columns.push({
-    id: 'integer',
-    name: 'Price (Int)',
-    field: 'price',
-    formatter: dataGrid.formatters.integer,
-    formatOptions: { locale: 'en-US' }, // Data Values are in en-US
-    editor: {
-      type: 'input',
-      editorSettings: {
-        autoselect: true,
-        dirtyTracker: true,
-        mask: 'number',
-        maskOptions: {
-          allowDecimal: false,
-          integerLimit: 3
-        },
-        validate: 'required'
-      }
-    },
-  });
-  columns.push({
-    id: 'location',
-    name: 'Location',
-    field: 'location',
-    formatter: dataGrid.formatters.hyperlink,
-    href: '#',
-    editor: {
-      type: 'lookup',
-      editorSettings: {
-        dirtyTracker: false,
-      }
-    },
-  });
-  columns.push({
-    id: 'postHistory',
-    name: 'Post History',
-    field: 'postHistory',
-    formatter: dataGrid.formatters.checkbox,
-    align: 'center',
-    editor: {
-      type: 'checkbox',
-      editorSettings: {
-        dirtyTracker: false,
-      }
-    },
-  });
+  // columns.push({
+  //   id: 'transactionCurrency',
+  //   name: 'Transaction Currency',
+  //   field: 'transactionCurrency',
+  //   formatter: dataGrid.formatters.text
+  // });
+  // columns.push({
+  //   id: 'integer',
+  //   name: 'Price (Int)',
+  //   field: 'price',
+  //   formatter: dataGrid.formatters.integer,
+  //   formatOptions: { locale: 'en-US' }, // Data Values are in en-US
+  //   editor: {
+  //     type: 'input',
+  //     editorSettings: {
+  //       autoselect: true,
+  //       dirtyTracker: true,
+  //       mask: 'number',
+  //       maskOptions: {
+  //         allowDecimal: false,
+  //         integerLimit: 3
+  //       },
+  //       validate: 'required'
+  //     }
+  //   },
+  // });
+  // columns.push({
+  //   id: 'postHistory',
+  //   name: 'Post History',
+  //   field: 'postHistory',
+  //   formatter: dataGrid.formatters.checkbox,
+  //   align: 'center',
+  //   editor: {
+  //     type: 'checkbox',
+  //     editorSettings: {
+  //       dirtyTracker: false,
+  //     }
+  //   },
+  // });
 
   dataGrid.columns = columns;
   const setData = async () => {

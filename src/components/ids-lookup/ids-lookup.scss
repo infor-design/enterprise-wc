@@ -12,6 +12,12 @@ ids-trigger-field::part(clearable-button) {
   outline: none;
   width: 100%;
 
+  ids-trigger-field::part(input) {
+    padding-inline-start: var(--ids-space-60);
+    padding-inline-end: var(--ids-space-60);
+  }
+
+  ids-trigger-field::part(container),
   ids-trigger-field::part(field-container) {
     background: transparent;
     border: 1px solid red;
@@ -21,10 +27,4 @@ ids-trigger-field::part(clearable-button) {
     height: 100%;
     width: 100%;
   }
-
-  // .ids-input .field-container {
-  //   border: 1px solid red;
-  //   border: 0;
-  //   outline: none;
-  // }
 }
