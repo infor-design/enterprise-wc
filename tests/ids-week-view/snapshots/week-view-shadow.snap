@@ -1,0 +1,802 @@
+<div class="ids-week-view" style="--offset-top: 107px;"><div class="week-view-container">
+      <table class="week-view-table">
+        <thead class="week-view-table-header">
+          <tr>
+            <th>
+              <div class="week-view-header-wrapper">
+                <ids-text translate-text="true" audible="true" translation-key="Hour">Hour</ids-text>
+              </div>
+              <div class="week-view-all-day-wrapper" style="height: 90px;">
+                <ids-text font-size="12" translate-text="true" translation-key="AllDay">All day</ids-text>
+              </div>
+            </th>
+            
+        <th data-key="20190923">
+          <div class="week-view-header-wrapper">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="20">23</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16">Wed</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper" style="height: 90px;"></div>
+        </th>
+      
+        <th data-key="20190924">
+          <div class="week-view-header-wrapper">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="20">24</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16">Thu</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper" style="height: 90px;"></div>
+        </th>
+      
+        <th data-key="20190925">
+          <div class="week-view-header-wrapper">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="20">25</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16">Fri</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper" style="height: 90px;"><ids-calendar-event data-id="52"></ids-calendar-event></div>
+        </th>
+      
+        <th data-key="20190926">
+          <div class="week-view-header-wrapper">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="20">26</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16">Sat</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper" style="height: 90px;"><ids-calendar-event data-id="51"></ids-calendar-event></div>
+        </th>
+      
+        <th data-key="20190927">
+          <div class="week-view-header-wrapper">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="20">27</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16">Sun</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper" style="height: 90px;"></div>
+        </th>
+      
+        <th data-key="20190928">
+          <div class="week-view-header-wrapper">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="20">28</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16">Mon</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper" style="height: 90px;"><ids-calendar-event data-id="55"></ids-calendar-event></div>
+        </th>
+      
+        <th data-key="20190929">
+          <div class="week-view-header-wrapper">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="20">29</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16">Tue</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper" style="height: 90px;"><ids-calendar-event data-id="55"></ids-calendar-event></div>
+        </th>
+      
+        <th data-key="20190930">
+          <div class="week-view-header-wrapper">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="20">30</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16">Wed</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper" style="height: 90px;"><ids-calendar-event data-id="55"></ids-calendar-event><ids-calendar-event data-id="56" y-offset="22px"></ids-calendar-event><ids-calendar-event data-id="57" y-offset="44px"></ids-calendar-event><ids-calendar-event data-id="58" y-offset="66px"></ids-calendar-event></div>
+        </th>
+      
+        <th data-key="20190931">
+          <div class="week-view-header-wrapper">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="20">31</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16">Thu</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper" style="height: 90px;"><ids-calendar-event data-id="54"></ids-calendar-event></div>
+        </th>
+      
+        <th data-key="20191001">
+          <div class="week-view-header-wrapper">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="20">1</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16">Fri</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper" style="height: 90px;"></div>
+        </th>
+      
+          </tr>
+        </thead>
+        <tbody>
+          
+      <tr class="week-view-hour-row" data-hour="7">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">7:00 AM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="7.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="8">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">8:00 AM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="8.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="9">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">9:00 AM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="9.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="10">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">10:00 AM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="10.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"><ids-calendar-event data-id="48" height="25px"></ids-calendar-event></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="11">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">11:00 AM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="11.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="12">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">12:00 PM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"><ids-calendar-event data-id="50" height="259px" display-time="" overflow="normal"></ids-calendar-event></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="12.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="13">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">1:00 PM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"><ids-calendar-event data-id="49" height="12px"></ids-calendar-event></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="13.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="14">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">2:00 PM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="14.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="15">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">3:00 PM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"><ids-calendar-event data-id="59" height="50.999985555555554px"></ids-calendar-event></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="15.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="16">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">4:00 PM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="16.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="17">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">5:00 PM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="17.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="18">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">6:00 PM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="18.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-hour-row" data-hour="19">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">7:00 PM</ids-text>
+          </div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+      <tr class="week-view-half-hour-row" data-hour="19.5">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        <td data-date="23">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="24">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="25">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="26">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="27">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="28">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="29">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="30">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="31">
+        <div class="week-view-cell-wrapper"></div>
+      </td><td data-date="1">
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+      </tr>
+        </tbody>
+      </table>
+    </div></div>

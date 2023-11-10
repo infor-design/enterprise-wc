@@ -1,0 +1,18 @@
+<div class="ids-drawer ids-app-menu type-app-menu edge-start">
+      <div class="ids-app-menu-user">
+        <slot name="avatar"></slot>
+        <slot name="username"></slot>
+      </div>
+      <div class="ids-app-menu-header">
+        <slot name="header"></slot>
+      </div>
+      <div class="ids-app-menu-search">
+        <slot name="search"></slot>
+      </div>
+      <div class="ids-app-menu-content">
+        <slot></slot>
+      </div>
+      <div class="ids-app-menu-footer">
+        <slot name="footer"></slot>
+      </div>
+    </div>

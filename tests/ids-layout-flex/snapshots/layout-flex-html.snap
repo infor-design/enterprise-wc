@@ -1,0 +1,11 @@
+<ids-layout-flex gap="8">
+              <ids-layout-flex-item>
+                <div class="box"></div>
+              </ids-layout-flex-item>
+              <ids-layout-flex-item>
+                <div class="box"></div>
+              </ids-layout-flex-item>
+              <ids-layout-flex-item>
+                <div class="box"></div>
+              </ids-layout-flex-item>
+            </ids-layout-flex>

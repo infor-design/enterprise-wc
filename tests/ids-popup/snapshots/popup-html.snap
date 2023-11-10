@@ -1,0 +1,7 @@
+<ids-popup x="15" y="0" align-target="#popup-trigger-btn" align="right" animated="" type="menu" id="popup-1" position-style="absolute" arrow="right">
+      <div slot="content">
+        <div class="demo-popup">
+          <ids-text font-size="12" type="span">Popup Content</ids-text>
+        </div>
+      </div>
+    </ids-popup>

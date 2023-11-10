@@ -1,0 +1,12 @@
+<div id="ids-spinbox" class="ids-spinbox ids-trigger-field ids-input field-height-md sm" part="container">
+        <label class="ids-label-text" for="ids-spinbox-1-input" part="label">
+      <slot name="label-pre"></slot>
+      <ids-text part="label" label="true" color-unset="">Basic Spinbox</ids-text>
+      <slot name="label-post"></slot>
+    </label>
+        <div class="field-container" part="field-container">
+          <slot name="trigger-start"></slot>
+          <input part="input" id="ids-spinbox-1-input" type="text" class="ids-input-field readonly-background center" value="0" aria-label="Basic Spinbox" size="sm" text-align="center" label="Basic Spinbox">
+          <slot name="trigger-end"></slot>
+        </div>
+      </div>

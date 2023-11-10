@@ -1,0 +1,9 @@
+
+      <div class="ids-action-sheet">
+        <ids-overlay opacity=".5"></ids-overlay>
+        <div class="ids-action-sheet-inner">
+          <slot></slot>
+          <ids-button appearance="secondary" part="cancel-btn" style="display: inline-flex;">Cancel</ids-button>
+        </div>
+      </div>
+    

@@ -1,0 +1,8 @@
+<div class="ids-tabs-container orientation-horizontal">
+      <div class="ids-tabs-list">
+        <slot></slot>
+      </div>
+      <div class="ids-tabs-list-more">
+        <slot name="fixed"></slot>
+      </div>
+    </div>

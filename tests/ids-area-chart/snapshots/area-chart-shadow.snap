@@ -1,0 +1,85 @@
+<div class="ids-chart-container" part="container" style="width: 800px;">
+      <svg class="ids-axis-chart" part="chart" width="800" height="500" xmlns="http://www.w3.org/2000/svg"><title>An area chart showing component usage</title>
+      <defs>
+        
+      </defs>
+      <g class="grid vertical-lines hidden">
+        <line x1="35.5703125" x2="35.5703125" y1="16" y2="464"></line><line x1="186.05625" x2="186.05625" y1="16" y2="464"></line><line x1="336.5421875" x2="336.5421875" y1="16" y2="464"></line><line x1="487.02812500000005" x2="487.02812500000005" y1="16" y2="464"></line><line x1="637.5140625" x2="637.5140625" y1="16" y2="464"></line><line x1="788" x2="788" y1="16" y2="464"></line>
+      </g>
+      <g class="grid horizontal-lines">
+        <line x1="27.5703125" x2="796" y1="16" y2="16"></line><line x1="27.5703125" x2="796" y1="72" y2="72"></line><line x1="27.5703125" x2="796" y1="128" y2="128"></line><line x1="27.5703125" x2="796" y1="184" y2="184"></line><line x1="27.5703125" x2="796" y1="240" y2="240"></line><line x1="27.5703125" x2="796" y1="296" y2="296"></line><line x1="27.5703125" x2="796" y1="352" y2="352"></line><line x1="27.5703125" x2="796" y1="408" y2="408"></line><line x1="27.5703125" x2="796" y1="464" y2="464"></line>
+      </g>
+      
+    <g class="marker-lines">
+      <polyline part="line" class="data-line color-1" points="35.5703125,458.4 186.05625,289.784 336.5421875,272.98400000000004 487.02812500000005,436 637.5140625,272.98400000000004 788,100 " stroke="var(var(--ids-chart-color-accent-01)" group-index="0">
+      <animate attributeName="points" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="35.5703125,464 186.05625,464 336.5421875,464 487.02812500000005,464 637.5140625,464 788,464 " to="35.5703125,458.4 186.05625,289.784 336.5421875,272.98400000000004 487.02812500000005,436 637.5140625,272.98400000000004 788,100 "></animate>
+      </polyline><polyline part="line" class="data-line color-2" points="35.5703125,340.184 186.05625,345.784 336.5421875,328.98400000000004 487.02812500000005,351.384 637.5140625,328.98400000000004 788,306.584 " stroke="var(var(--ids-chart-color-accent-02)" group-index="1">
+      <animate attributeName="points" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="35.5703125,464 186.05625,464 336.5421875,464 487.02812500000005,464 637.5140625,464 788,464 " to="35.5703125,340.184 186.05625,345.784 336.5421875,328.98400000000004 487.02812500000005,351.384 637.5140625,328.98400000000004 788,306.584 "></animate>
+      </polyline><polyline part="line" class="data-line color-3" points="35.5703125,396.18399999999997 186.05625,401.784 336.5421875,384.984 487.02812500000005,407.384 637.5140625,16 788,464 " stroke="var(var(--ids-chart-color-accent-03)" group-index="2">
+      <animate attributeName="points" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="35.5703125,464 186.05625,464 336.5421875,464 487.02812500000005,464 637.5140625,464 788,464 " to="35.5703125,396.18399999999997 186.05625,401.784 336.5421875,384.984 487.02812500000005,407.384 637.5140625,16 788,464 "></animate>
+      </polyline>
+    </g>
+    <g class="areas">
+      <path class="color-1 animate" part="area" d="M35.5703125,458.4L35.5703125,464L186.05625,464L186.05625,289.784M186.05625,289.784L186.05625,464L336.5421875,464L336.5421875,272.98400000000004M336.5421875,272.98400000000004L336.5421875,464L487.02812500000005,464L487.02812500000005,436M487.02812500000005,436L487.02812500000005,464L637.5140625,464L637.5140625,272.98400000000004M637.5140625,272.98400000000004L637.5140625,464L788,464L788,100Z" fill="var(var(--ids-chart-color-accent-01))" }="" group-index="0">
+      </path><path class="color-2 animate" part="area" d="M35.5703125,340.184L35.5703125,464L186.05625,464L186.05625,345.784M186.05625,345.784L186.05625,464L336.5421875,464L336.5421875,328.98400000000004M336.5421875,328.98400000000004L336.5421875,464L487.02812500000005,464L487.02812500000005,351.384M487.02812500000005,351.384L487.02812500000005,464L637.5140625,464L637.5140625,328.98400000000004M637.5140625,328.98400000000004L637.5140625,464L788,464L788,306.584Z" fill="var(var(--ids-chart-color-accent-02))" }="" group-index="1">
+      </path><path class="color-3 animate" part="area" d="M35.5703125,396.18399999999997L35.5703125,464L186.05625,464L186.05625,401.784M186.05625,401.784L186.05625,464L336.5421875,464L336.5421875,384.984M336.5421875,384.984L336.5421875,464L487.02812500000005,464L487.02812500000005,407.384M487.02812500000005,407.384L487.02812500000005,464L637.5140625,464L637.5140625,16M637.5140625,16L637.5140625,464L788,464L788,464Z" fill="var(var(--ids-chart-color-accent-03))" }="" group-index="2">
+      </path>
+    </g>
+    <g class="markers">
+      <g class="marker-set"><circle part="marker" group-index="0" index="0" class="color-1" cx="35.5703125" cy="458.4" data-value="100" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="458.4"></animate>
+        </circle><circle part="marker" group-index="0" index="1" class="color-1" cx="186.05625" cy="289.784" data-value="3111" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="289.784"></animate>
+        </circle><circle part="marker" group-index="0" index="2" class="color-1" cx="336.5421875" cy="272.98400000000004" data-value="3411" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="272.98400000000004"></animate>
+        </circle><circle part="marker" group-index="0" index="3" class="color-1" cx="487.02812500000005" cy="436" data-value="500" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="436"></animate>
+        </circle><circle part="marker" group-index="0" index="4" class="color-1" cx="637.5140625" cy="272.98400000000004" data-value="3411" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="272.98400000000004"></animate>
+        </circle><circle part="marker" group-index="0" index="5" class="color-1" cx="788" cy="100" data-value="6500" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="100"></animate>
+        </circle></g><g class="marker-set"><circle part="marker" group-index="1" index="0" class="color-2" cx="35.5703125" cy="340.184" data-value="2211" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="340.184"></animate>
+        </circle><circle part="marker" group-index="1" index="1" class="color-2" cx="186.05625" cy="345.784" data-value="2111" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="345.784"></animate>
+        </circle><circle part="marker" group-index="1" index="2" class="color-2" cx="336.5421875" cy="328.98400000000004" data-value="2411" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="328.98400000000004"></animate>
+        </circle><circle part="marker" group-index="1" index="3" class="color-2" cx="487.02812500000005" cy="351.384" data-value="2011" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="351.384"></animate>
+        </circle><circle part="marker" group-index="1" index="4" class="color-2" cx="637.5140625" cy="328.98400000000004" data-value="2411" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="328.98400000000004"></animate>
+        </circle><circle part="marker" group-index="1" index="5" class="color-2" cx="788" cy="306.584" data-value="2811" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="306.584"></animate>
+        </circle></g><g class="marker-set"><circle part="marker" group-index="2" index="0" class="color-3" cx="35.5703125" cy="396.18399999999997" data-value="1211" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="396.18399999999997"></animate>
+        </circle><circle part="marker" group-index="2" index="1" class="color-3" cx="186.05625" cy="401.784" data-value="1111" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="401.784"></animate>
+        </circle><circle part="marker" group-index="2" index="2" class="color-3" cx="336.5421875" cy="384.984" data-value="1411" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="384.984"></animate>
+        </circle><circle part="marker" group-index="2" index="3" class="color-3" cx="487.02812500000005" cy="407.384" data-value="1011" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="407.384"></animate>
+        </circle><circle part="marker" group-index="2" index="4" class="color-3" cx="637.5140625" cy="16" data-value="8000" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="16"></animate>
+        </circle><circle part="marker" group-index="2" index="5" class="color-3" cx="788" cy="464" data-value="0" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="464" to="464"></animate>
+        </circle></g>
+    </g>
+      <g class="labels x-labels">
+        <text x="35.5703125" y="484" aria-hidden="true">Jan</text><text x="186.05625" y="484" aria-hidden="true">Feb</text><text x="336.5421875" y="484" aria-hidden="true">Mar</text><text x="487.02812500000005" y="484" aria-hidden="true">Apr</text><text x="637.5140625" y="484" aria-hidden="true">May</text><text x="788" y="484" aria-hidden="true">Jun</text>
+      </g>
+      <g class="labels y-labels">
+        <text x="19.5703125" y="19" aria-hidden="true">8K</text><text x="19.5703125" y="75" aria-hidden="true">7K</text><text x="19.5703125" y="131" aria-hidden="true">6K</text><text x="19.5703125" y="187" aria-hidden="true">5K</text><text x="19.5703125" y="243" aria-hidden="true">4K</text><text x="19.5703125" y="299" aria-hidden="true">3K</text><text x="19.5703125" y="355" aria-hidden="true">2K</text><text x="19.5703125" y="411" aria-hidden="true">1K</text><text x="19.5703125" y="467" aria-hidden="true">0</text>
+      </g>
+      <g class="labels axis-labels">
+        
+      </g></svg>
+      <slot name="legend"><div class="chart-legend" style=""><a data-index="0" class="chart-legend-item" aria-hidden="true"><div class="swatch color-1"></div>Component A</a><a data-index="1" class="chart-legend-item" aria-hidden="true"><div class="swatch color-2"></div>Component B</a><a data-index="2" class="chart-legend-item" aria-hidden="true"><div class="swatch color-3"></div>Component C</a></div></slot>
+      <slot name="empty-message">
+        <ids-empty-message icon="empty-no-data" style="" hidden="">
+          <ids-text type="h2" font-size="20" label="true" slot="label">No data available</ids-text>
+        </ids-empty-message>
+      </slot>
+      <slot name="tooltip">
+        <ids-tooltip id="tooltip"></ids-tooltip>
+      </slot>
+    </div>

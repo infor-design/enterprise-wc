@@ -1,0 +1,3 @@
+<ids-button id="test-button-primary" appearance="primary">
+            <span>Action</span>
+          </ids-button>

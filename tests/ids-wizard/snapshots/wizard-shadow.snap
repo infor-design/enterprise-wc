@@ -1,0 +1,65 @@
+<div class="ids-wizard">
+      <nav class="steps">
+        <a class="step visited clickable" part="step" step-number="1" tabindex="0" '="">
+        <div class="step-marker">
+          
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12"></circle>
+    </svg>
+  
+          
+        </div>
+        <div class="step-label" step-number="1" style="max-width: 89.6016px;">
+        <ids-text overflow="ellipsis" size="18" color="unset">Step One
+        </ids-text>
+      </div>
+      </a>
+      <div class="path-segment visited" part="path-segment"></div><a class="step visited clickable" part="step" step-number="2" tabindex="0" '="">
+        <div class="step-marker">
+          
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12"></circle>
+    </svg>
+  
+          
+        </div>
+        <div class="step-label" step-number="2" style="max-width: 88.4297px;">
+        <ids-text overflow="ellipsis" size="18" color="unset">Step Two
+        </ids-text>
+      </div>
+      </a>
+      <div class="path-segment visited" part="path-segment"></div><a class="step current visited clickable" part="step" step-number="3" tabindex="0" '="">
+        <div class="step-marker">
+          
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12"></circle>
+    </svg>
+  
+          
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12"></circle>
+    </svg>
+  
+        </div>
+        <div class="step-label" step-number="3" style="max-width: 104.688px;">
+        <ids-text overflow="ellipsis" size="18" font-weight="bold" color="unset">Step Three
+        </ids-text>
+      </div>
+      </a>
+      <div class="path-segment" part="path-segment"></div><a class="step clickable" part="step" step-number="4" tabindex="0" '="">
+        <div class="step-marker">
+          
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="12"></circle>
+    </svg>
+  
+          
+        </div>
+        <div class="step-label" step-number="4" style="max-width: 92.2578px;">
+        <ids-text overflow="ellipsis" size="18" color="unset">Step Four
+        </ids-text>
+      </div>
+      </a>
+      
+      </nav>
+    </div>

@@ -1,0 +1,54 @@
+<div class="ids-chart-container legend-right" part="container">
+      <div class="ids-chart-svg-container">
+        <svg class="ids-pie-chart" part="chart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><title></title>
+      <title>A pie chart showing component usage</title>
+      <defs>
+        
+      </defs>
+      <g role="list">
+        <g role="listitem">
+        <circle class="slice color-1" part="circle" stroke="var(--ids-chart-color-accent-01)" stroke-width="50" index="0" percent="10.761854022376133" r="25" cx="50" cy="50" stroke-dasharray="157.07963267948966" stroke-dashoffset="140.17495191163835" transform="rotate(-90 50 50)" pointer-events="stroke" style="transition: stroke-dashoffset 40.895ms cubic-bezier(0.17, 0.04, 0.03, 0.94) 40.895ms;"></circle>
+        <text class="audible">Item A  11%</text>
+        </g><g role="listitem">
+        <circle class="slice color-2" part="circle" stroke="var(--ids-chart-color-accent-02)" stroke-width="50" index="1" percent="12.999467234949389" r="25" cx="50" cy="50" stroke-dasharray="157.07963267948966" stroke-dashoffset="136.66011729654056" transform="rotate(-51.25732551944592 50 50)" pointer-events="stroke" style="transition: stroke-dashoffset 49.398ms cubic-bezier(0.17, 0.04, 0.03, 0.94) 90.293ms;"></circle>
+        <text class="audible">Item B  13%</text>
+        </g><g role="listitem">
+        <circle class="slice color-3" part="circle" stroke="var(--ids-chart-color-accent-03)" stroke-width="50" index="2" percent="15.290356952583911" r="25" cx="50" cy="50" stroke-dasharray="157.07963267948966" stroke-dashoffset="133.06159614298804" transform="rotate(-4.459243473628121 50 50)" pointer-events="stroke" style="transition: stroke-dashoffset 58.1034ms cubic-bezier(0.17, 0.04, 0.03, 0.94) 148.396ms;"></circle>
+        <text class="audible">Item C  15%</text>
+        </g><g role="listitem">
+        <circle class="slice color-4" part="circle" stroke="var(--ids-chart-color-accent-04)" stroke-width="50" index="3" percent="16.62226957911561" r="25" cx="50" cy="50" stroke-dasharray="157.07963267948966" stroke-dashoffset="130.9694326816203" transform="rotate(50.58604155567397 50 50)" pointer-events="stroke" style="transition: stroke-dashoffset 63.1646ms cubic-bezier(0.17, 0.04, 0.03, 0.94) 211.561ms;"></circle>
+        <text class="audible">Item D  17%</text>
+        </g><g role="listitem">
+        <circle class="slice color-5" part="circle" stroke="var(--ids-chart-color-accent-05)" stroke-width="50" index="4" percent="44.326052210974964" r="25" cx="50" cy="50" stroke-dasharray="157.07963267948966" stroke-dashoffset="87.45243268517139" transform="rotate(110.42621204049013 50 50)" pointer-events="stroke" style="transition: stroke-dashoffset 168.439ms cubic-bezier(0.17, 0.04, 0.03, 0.94) 380ms;"></circle>
+        <text class="audible">Item E  44%</text>
+        </g>
+      </g>
+      <circle class="donut-hole" r="25" cx="50" cy="50" fill="transparent" stroke-width="0"></circle>
+      <text class="donut-text" x="50%" y="50%" dy=".3em"></text>
+      </svg>
+      </div>
+      <slot name="legend"><div class="chart-legend"><a href="#legend-item-a" data-index="0" class="chart-legend-item">
+        <div class="swatch color-1"></div>
+        Item A (11%)
+        </a><a href="#legend-item-b" data-index="1" class="chart-legend-item">
+        <div class="swatch color-2"></div>
+        Item B (13%)
+        </a><a href="#legend-item-c" data-index="2" class="chart-legend-item">
+        <div class="swatch color-3"></div>
+        Item C (15%)
+        </a><a href="#legend-item-d" data-index="3" class="chart-legend-item">
+        <div class="swatch color-4"></div>
+        Item D (17%)
+        </a><a href="#legend-item-e" data-index="4" class="chart-legend-item">
+        <div class="swatch color-5"></div>
+        Item E (44%)
+        </a></div></slot>
+      <slot name="empty-message">
+        <ids-empty-message icon="empty-no-data" hidden="">
+          <ids-text type="h2" font-size="20" label="true" slot="label">No data available</ids-text>
+        </ids-empty-message>
+      </slot>
+      <slot name="tooltip">
+        <ids-tooltip id="tooltip"></ids-tooltip>
+      </slot>
+    </div>

@@ -3,12 +3,6 @@ import pageSnapshot from '../helpers/page-snapshot';
 describe('Ids Bar Chart Percy Tests', () => {
   const url = 'http://localhost:4444/ids-bar-chart/no-animation.html';
 
-  it('should not have visual regressions in new light theme (percy)', async () => {
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await page.waitForSelector('pierce/.chart-legend');
-    await pageSnapshot(page, 'ids-bar-chart-new-light');
-  });
-
   it('should not have visual regressions in new light theme (percy) for rotated axis', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('pierce/.chart-legend');

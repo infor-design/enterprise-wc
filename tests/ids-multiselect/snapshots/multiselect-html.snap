@@ -1,0 +1,24 @@
+<ids-multiselect id="dropdown-1" label="Multiselect (with max 3 choices and dirty tracker)" max="3" dirty-tracker="true" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-dropdown-1">
+          <ids-list-box role="listbox" size="md" id="ids-list-box-dropdown-1" aria-label="Listbox">
+      <ids-list-box-option class="multiselect-option" id="nj2" value="nj" role="option" tabindex="-1">
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="New Jersey" checked="true"></ids-checkbox>
+      </ids-list-box-option>
+      <ids-list-box-option class="multiselect-option multiselect-border" id="al2" value="al" role="option" tabindex="-1">
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="Alabama"></ids-checkbox>
+      </ids-list-box-option>
+      <ids-list-box-option class="multiselect-option" id="ak2" value="ak" role="option" tabindex="-1">
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="Alaska"></ids-checkbox>
+      </ids-list-box-option>
+      <ids-list-box-option class="multiselect-option" id="az2" value="az" role="option" tabindex="-1">
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="Arizona"></ids-checkbox>
+      </ids-list-box-option>
+      <ids-list-box-option class="multiselect-option" id="ar2" value="ar" role="option" tabindex="-1">
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="Arkansas"></ids-checkbox>
+      </ids-list-box-option>
+      <ids-list-box-option class="multiselect-option" id="ca2" value="ca" role="option" tabindex="-1">
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="California"></ids-checkbox>
+      </ids-list-box-option>
+      <ids-list-box-option class="multiselect-option" id="co2" value="co" role="option" tabindex="-1">
+        <ids-checkbox no-margin="" class="justify-center multiselect-checkbox" label="Colorado"></ids-checkbox>
+      </ids-list-box-option></ids-list-box>
+        </ids-multiselect>

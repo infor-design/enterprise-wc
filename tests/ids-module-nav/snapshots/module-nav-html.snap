@@ -1,0 +1,243 @@
+<ids-module-nav id="module-nav" responsive="true" respond-down="md" display-mode="collapsed">
+      <ids-module-nav-bar edge="start" type="module-nav" visible="true" display-mode="collapsed" filterable="true" pinned="true">
+        <ids-module-nav-switcher slot="role-switcher" display-mode="collapsed">
+          <ids-module-nav-button id="module-nav-button" color-variant="module-nav" display-mode="collapsed">
+            <ids-icon icon="icon-app-ac" height="32" width="32" viewbox="0 0 32 32" stroke="none" style="--ids-icon-width-default: 32px; --ids-icon-height-default: 32px;"></ids-icon>
+            <ids-text audible="">Admin Console</ids-text>
+          </ids-module-nav-button>
+          <ids-dropdown id="module-nav-role-dropdown" dropdown-icon="expand-all" color-variant="module-nav" label="Role Selector" value="admin-console" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-module-nav-role-dropdown" label-state="collapsed" size="full">
+            <ids-list-box role="listbox" size="full" id="ids-list-box-module-nav-role-dropdown" aria-label="Listbox" class="module-nav">
+              <ids-list-box-option value="admin-console" id="admin-console" role="option" tabindex="-1" class="module-nav">
+                <ids-icon icon="icon-app-ac" height="32" width="32" viewbox="0 0 32 32" stroke="none" style="--ids-icon-width-default: 32px; --ids-icon-height-default: 32px;"></ids-icon>
+                <span>Admin Console</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="job-console" id="job-console" role="option" tabindex="-1" class="module-nav">
+                <ids-icon icon="icon-app-jo" height="32" width="32" viewbox="0 0 32 32" stroke="none" style="--ids-icon-width-default: 32px; --ids-icon-height-default: 32px;"></ids-icon>
+                <span>Job Console</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="landing-page-designer" id="landing-page-designer" role="option" tabindex="-1" class="module-nav">
+                <ids-icon icon="icon-app-lmd" height="32" width="32" viewbox="0 0 32 32" stroke="none" style="--ids-icon-width-default: 32px; --ids-icon-height-default: 32px;"></ids-icon>
+                <span>Landing Page Designer</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="process-server-adminisrator" id="process-server-adminisrator" role="option" tabindex="-1" class="module-nav">
+                <ids-icon icon="icon-app-psa" height="32" width="32" viewbox="0 0 32 32" stroke="none" style="--ids-icon-width-default: 32px; --ids-icon-height-default: 32px;"></ids-icon>
+                <span>Process Server Administrator</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="proxy-management" id="proxy-management" role="option" tabindex="-1" class="module-nav">
+                <ids-icon icon="icon-app-pm" height="32" width="32" viewbox="0 0 32 32" stroke="none" style="--ids-icon-width-default: 32px; --ids-icon-height-default: 32px;"></ids-icon>
+                <span>Proxy Management</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="security-system-management" id="security-system-management" role="option" tabindex="-1" class="module-nav">
+                <ids-icon icon="icon-app-ssm" height="32" width="32" viewbox="0 0 32 32" stroke="none" style="--ids-icon-width-default: 32px; --ids-icon-height-default: 32px;"></ids-icon>
+                <span>Security System Management</span>
+              </ids-list-box-option>
+              <ids-list-box-option value="user-management" id="user-management" role="option" tabindex="-1" class="module-nav">
+                <ids-icon icon="icon-app-um" height="32" width="32" viewbox="0 0 32 32" stroke="none" style="--ids-icon-width-default: 32px; --ids-icon-height-default: 32px;"></ids-icon>
+                <span>User Management</span>
+              </ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+        </ids-module-nav-switcher>
+
+        <ids-search-field id="search" clearable="true" color-variant="module-nav" label="Module Nav Search" label-state="collapsed" no-margins="" placeholder="Search" size="full" slot="search"></ids-search-field>
+
+        <!-- Main Content (Accordion Navigation) -->
+        <ids-accordion color-variant="module-nav">
+          <!-- Main Section -->
+          <ids-accordion-section slot="" grow="true">
+            <ids-accordion-panel color-variant="module-nav" expanded="false">
+              <ids-module-nav-item id="item-user" slot="header" icon="user" aria-expanded="false" display-mode="collapsed">
+                <ids-text font-size="16" overflow="ellipsis" audible="true">My Configuration and Personalization</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel color-variant="module-nav" expanded="false">
+              <ids-module-nav-item id="item-database" slot="header" icon="database" aria-expanded="false" display-mode="collapsed">
+                <ids-text font-size="16" audible="true" overflow="ellipsis">Database</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel color-variant="module-nav" expanded="false">
+              <ids-module-nav-item id="item-data-translation" slot="header" icon="translate" aria-expanded="false" display-mode="collapsed">
+                <ids-text font-size="16" audible="true" overflow="ellipsis">Data Translation</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel color-variant="module-nav" expanded="false">
+              <ids-module-nav-item id="item-security" slot="header" icon="security-on" aria-expanded="false" display-mode="collapsed">
+                <ids-text font-size="16" audible="true" overflow="ellipsis">Security</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel color-variant="module-nav" expanded="false">
+              <ids-module-nav-item id="item-analytics" slot="header" icon="line-bar-chart" aria-expanded="false" display-mode="collapsed">
+                <ids-text font-size="16" audible="true" overflow="ellipsis">Analytics</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+            <ids-accordion-panel color-variant="module-nav" expanded="false">
+              <ids-module-nav-item id="item-audit-monitoring" slot="header" icon="import-spreadsheet" aria-expanded="false" display-mode="collapsed">
+                <ids-text font-size="16" audible="true" overflow="ellipsis">Audit and Monitoring</ids-text>
+              </ids-module-nav-item>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+              <ids-accordion-panel slot="content" color-variant="sub-module-nav" expanded="false">
+                <ids-module-nav-item slot="header" aria-expanded="false" display-mode="collapsed">
+                  <ids-text font-size="14" audible="true" overflow="ellipsis">Label</ids-text>
+                </ids-module-nav-item>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+          </ids-accordion-section>
+        </ids-accordion>
+
+        <!-- Pinned Footer Section -->
+        <ids-accordion slot="footer" color-variant="module-nav">
+          <ids-accordion-section pinned="true">
+            <ids-accordion-panel color-variant="module-nav">
+              <ids-module-nav-item id="item-document" slot="header" icon="document" aria-expanded="false" display-mode="collapsed">
+                <ids-text font-size="16" audible="true" overflow="ellipsis">Documents</ids-text>
+              </ids-module-nav-item>
+            </ids-accordion-panel>
+            <ids-accordion-panel color-variant="module-nav">
+              <ids-module-nav-item id="item-reports" slot="header" icon="report" aria-expanded="false" display-mode="collapsed">
+                <ids-text font-size="16" audible="true" overflow="ellipsis">Reports</ids-text>
+              </ids-module-nav-item>
+            </ids-accordion-panel>
+            <ids-accordion-panel color-variant="module-nav">
+              <ids-module-nav-item id="item-notification" slot="header" icon="notification" aria-expanded="false" display-mode="collapsed">
+                <ids-text font-size="16" audible="true" overflow="ellipsis">Notification</ids-text>
+              </ids-module-nav-item>
+            </ids-accordion-panel>
+          </ids-accordion-section>
+        </ids-accordion>
+
+        <ids-module-nav-settings slot="settings" role="button" icon="settings" id="module-nav-settings-btn" menu="module-nav-settings-menu" color-variant="module-nav" content-align="start" no-margins="" no-ripple="" aria-controls="module-nav-settings-menu" aria-haspopup="menu" display-mode="collapsed"><ids-icon icon="settings" class="ids-icon"></ids-icon>
+          <ids-text audible="true">Settings</ids-text>
+        </ids-module-nav-settings>
+        <ids-popup-menu id="module-nav-settings-menu" target="#module-nav-settings-btn" trigger-type="click" slot="settings" role="none" hidden="">
+          <ids-menu-group role="group" aria-label="Menu group containing 11 item(s)">
+            <ids-menu-item icon="observation-precautions" value="jobs" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="observation-precautions" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Jobs</ids-menu-item>
+            <ids-menu-item icon="report" value="reports" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="report" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Reports</ids-menu-item>
+            <ids-menu-item icon="isolation" value="actions" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="isolation" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Actions</ids-menu-item>
+            <ids-menu-item icon="edit" value="personalization" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="edit" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Personalization</ids-menu-item>
+            <ids-separator></ids-separator>
+            <ids-menu-item value="create-report" inherit-color="" color-variant="module-nav">Create Report</ids-menu-item>
+            <ids-menu-item value="proxy" inherit-color="" color-variant="module-nav">Proxy</ids-menu-item>
+            <ids-menu-item value="set-as-of-date" inherit-color="" color-variant="module-nav">Set "As Of Date"</ids-menu-item>
+            <ids-menu-item value="user-context" inherit-color="" color-variant="module-nav">User Context</ids-menu-item>
+            <ids-separator></ids-separator>
+            <ids-menu-item icon="settings" value="settings" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="settings" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Settings</ids-menu-item>
+            <ids-menu-item icon="info" value="about" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="info" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>About</ids-menu-item>
+            <ids-menu-item icon="help" value="help" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="help" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Help</ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+
+      <ids-tooltip id="module-nav-tooltip" placement="right"></ids-tooltip></ids-module-nav-bar>
+
+      <ids-module-nav-content offset-content="" display-mode="collapsed">
+        <!-- Page Header -->
+        <ids-header>
+          <ids-toolbar role="toolbar">
+            <ids-toolbar-section type="button">
+              <ids-button id="module-nav-trigger" icon="menu"><ids-icon icon="menu" class="ids-icon"></ids-icon>
+                <span class="audible">Open Module Nav</span>
+              </ids-button>
+            </ids-toolbar-section>
+            <ids-toolbar-section type="title">
+              <ids-text font-size="20" type="h1">Module Nav Example</ids-text>
+            </ids-toolbar-section>
+            <ids-toolbar-section align="end" type="button">
+              <ids-theme-switcher mode="light" theme="default-light"></ids-theme-switcher>
+            </ids-toolbar-section>
+          </ids-toolbar>
+        </ids-header>
+
+        <!-- Page Body -->
+        <ids-layout-grid auto-fit="" padding="md" class="ids-layout-grid">
+          <ids-text font-size="12" type="h1">IDS Module Nav</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fit="" gap="md" padding-x="md" class="ids-layout-grid">
+          <ids-layout-grid-cell class="ids-layout-grid-cell">
+            <ids-text type="p">Use the Hamburger button in the header to change Display Mode.  Also use the browser viewport to observe mobile/responsve behavior.</ids-text>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+      </ids-module-nav-content>
+    </ids-module-nav>

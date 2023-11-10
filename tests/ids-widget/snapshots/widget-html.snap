@@ -1,0 +1,22 @@
+<ids-widget slot="widget" style="width: 360px; height: 368px; transition: all 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91) 0s; left: 0px; top: 0px;">
+          <div slot="widget-header">
+            <ids-toolbar role="toolbar">
+              <ids-toolbar-section type="title" favor="">
+                <ids-text font-size="20">Bordered</ids-text>
+              </ids-toolbar-section>
+              <ids-toolbar-section type="buttonset" align="end">
+                <ids-menu-button menu="icon-actions-1" id="actions-button-1" system-button="" hidden="" aria-controls="icon-actions-1" aria-haspopup="menu">
+                  <ids-icon icon="vertical-ellipsis"></ids-icon>
+                  <span class="audible">Actions</span>
+                </ids-menu-button>
+                <ids-popup-menu id="icon-actions-1" target="#actions-button-1" role="none" hidden="">
+                  <ids-menu-group role="group" aria-label="Menu group containing 2 item(s)">
+                    <ids-menu-item>Action one</ids-menu-item>
+                    <ids-menu-item>Action two</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-toolbar-section>
+            </ids-toolbar>
+          </div>
+          <div slot="widget-content"></div>
+        </ids-widget>

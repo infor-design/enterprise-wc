@@ -1,0 +1,3 @@
+<ids-menu-button id="menu-button" icon="settings" appearance="tertiary" menu="my-menu" dropdown-icon="dropdown" aria-controls="my-menu" aria-haspopup="menu"><ids-icon icon="settings" class="ids-icon"></ids-icon>
+            <span>Settings</span>
+          </ids-menu-button>

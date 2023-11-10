@@ -1,0 +1,3 @@
+<div class="ids-toolbar" role="toolbar">
+      <slot></slot>
+    </div>

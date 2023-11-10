@@ -1,0 +1,8 @@
+<ids-container padding="8" role="main">
+    <ids-theme-switcher mode="light" theme="default-light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="" class="ids-layout-grid">
+      <ids-layout-grid-cell class="ids-layout-grid-cell">
+        <ids-text font-size="12" type="h1">Container</ids-text>
+      </ids-layout-grid-cell></ids-layout-grid>ids-layout-grid-cell&gt;
+    
+  </ids-container>
