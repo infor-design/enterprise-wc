@@ -17,6 +17,8 @@
 - `[Module Nav]` Small improvements to better enable usage in an Angular codebase. ([#1597](https://github.com/infor-design/enterprise-wc/issues/1597))
 - `[Tabs]` Sync component with Figma design changes related to Alabaster default theme. ([#1050](https://github.com/infor-design/enterprise-wc/issues/1050))
 - `[Textarea]` Made sure strings are translated and fixed `character-count` setting. ([#1598](https://github.com/infor-design/enterprise-wc/issues/1598))
+- `[Textarea]` Made sure strings are translated and fixed `character-count`` setting. ([#1598](https://github.com/infor-design/enterprise-wc/issues/1598))
+- `[Multiselect]` Fix rerender logic so that state is maintained while using ngFor directive in Angular. ([#1411](https://github.com/infor-design/enterprise-wc/issues/1411))
 
 ## 1.0.0-beta.16
 
