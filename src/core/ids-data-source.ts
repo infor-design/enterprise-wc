@@ -174,6 +174,7 @@ class IdsDataSource {
           if (this.pageNumber > 1) {
             index += ((this.pageNumber - 1) * this.pageSize);
           }
+
           const parentIds = `${row.parentElement ? `${row.parentElement} ` : ''}${row.id}`;
           const childrenHidden = row.rowExpanded === false;
           addRows(row.children, row.children.length, depth + 1, parentIds, childrenHidden);

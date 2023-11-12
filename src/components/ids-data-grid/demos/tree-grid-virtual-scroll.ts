@@ -68,7 +68,7 @@ dataGrid.columns = columns;
 const setData = async () => {
   const res = await fetch(url);
   const data = await res.json();
-  dataGrid.data = data;
+  dataGrid.data = data.slice(0, 50);
 };
 
 setData();

@@ -424,7 +424,11 @@ export default class IdsDataGrid extends Base {
       });
     } else {
       await IdsGlobal.onThemeLoaded().promise;
-      this.#scrollRowIntoView(rowStart);
+      if (this.treeGrid && this.virtualScroll) {
+        this.#scrollToTreeRow(rowStart);
+      } else {
+        this.#scrollRowIntoView(rowStart);
+      }
       handleReady();
     }
   }
@@ -1511,12 +1515,16 @@ export default class IdsDataGrid extends Base {
     this.offEvent('scrollend.data-grid.virtual-scroll', this.container);
     this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
-      //this.#handleVirtualScroll(virtualRowHeight);
+      if (!this.treeGrid) this.#handleVirtualScroll(virtualRowHeight);
     });
 
     this.offEvent('rowexpanded', this);
     this.onEvent('rowexpanded', this, (evt: CustomEvent) => {
-      if (evt.detail.row === undefined) return;
+      const vRowIndex = Math.floor(this.container!.scrollTop / virtualRowHeight);
+      if (evt.detail.row === undefined) {
+        this.#recycleAllTreeRows(vRowIndex);
+        return;
+      }
 
       const rowData = evt.detail.data;
       const rowIndex = evt.detail.row;
@@ -1530,29 +1538,20 @@ export default class IdsDataGrid extends Base {
         this.updateDataset(rowIndex + i + 1, { rowHidden: false });
       }
 
-      // recycle rows after expanded row
-      this.#recycleTreeRowsAfter(evt.detail.elem);
-
-      // update padding bottom to account for added visible rows
-      const visibleRows = this.dataRowsVisible;
-      const scrollSettings = this.virtualScrollSettings;
-      const firstVisibleRow = this.rowsVisible[0];
-      const firstVisibleRowIndex = visibleRows.indexOf(firstVisibleRow.rowData);
-      this.#setVirtualScrollPaddingBottom(
-        this.virtualScrollSettings,
-        visibleRows.length,
-        firstVisibleRowIndex * scrollSettings.ROW_HEIGHT
-      );
+      this.#recycleAllTreeRows(vRowIndex);
     });
 
     this.offEvent('rowcollapsed', this);
     this.onEvent('rowcollapsed', this, (evt: CustomEvent) => {
-      if (evt.detail.row === undefined) return;
+      const vRowIndex = Math.floor(this.container!.scrollTop / virtualRowHeight);
+      if (evt.detail.row === undefined) {
+        this.#recycleAllTreeRows(vRowIndex);
+        return;
+      }
 
       const rowData = evt.detail.data;
       const rowIndex = evt.detail.row;
       const childrenCount = rowData.children?.length || 0;
-      const vRowIndex = Math.floor(this.container!.scrollTop / virtualRowHeight);
 
       // update parent expanded state
       this.updateDataset(rowIndex, { rowExpanded: false, rowHidden: false });
@@ -1566,38 +1565,26 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  #recycleTreeRowsAfter(domRow: IdsDataGridRow) {
-    const rows = this.rows;
-    const visibleRows = this.dataRowsVisible;
-    const rowsToUpdate = rows.slice(rows.indexOf(domRow) + 1);
-    const treeRowIndex = visibleRows.indexOf(domRow.rowData);
-
-    rowsToUpdate.forEach((row: IdsDataGridRow, idx: number) => {
-      const nextTreeRowIndex = treeRowIndex + idx + 1;
-      const nextDataRowIndex = this.data.indexOf(visibleRows[nextTreeRowIndex]);
-      row.rowIndex = nextDataRowIndex;
-    });
-  }
-
   #recycleAllTreeRows(cursorIndex: number) {
     const rows = this.rows;
     const data = this.data;
     const virtualRows = this.dataRowsVisible;
     const scrollSettings = this.virtualScrollSettings;
+    const maxRowsInDom = Math.min(scrollSettings.MAX_ROWS_IN_DOM, virtualRows.length);
 
     const maxVirtualRowIndex = virtualRows.length - 1;
     cursorIndex = Math.max(cursorIndex, 0);
     cursorIndex = Math.min(cursorIndex, maxVirtualRowIndex);
 
     let upperBoundsIndex = cursorIndex - scrollSettings.BUFFER_ROWS;
-    upperBoundsIndex = Math.min(upperBoundsIndex, maxVirtualRowIndex - scrollSettings.MAX_ROWS_IN_DOM + 1);
-    upperBoundsIndex = Math.min(upperBoundsIndex, maxVirtualRowIndex);
+    upperBoundsIndex = Math.min(upperBoundsIndex, maxVirtualRowIndex - maxRowsInDom + 1);
     upperBoundsIndex = Math.max(upperBoundsIndex, 0);
-    const lowerBoundsIndex = Math.min(virtualRows.length, rows.length);
 
-    for (let i = 0; i < lowerBoundsIndex; i++) {
+    let i: number;
+    let vRow: number;
+    for (i = 0; i < rows.length; i++) {
+      vRow = upperBoundsIndex + i;
       const row = rows[i];
-      const vRow = upperBoundsIndex + i;
       const dataRowIndex = data.indexOf(virtualRows[vRow]);
 
       if (row.rowIndex !== dataRowIndex) {
@@ -1605,17 +1592,36 @@ export default class IdsDataGrid extends Base {
       }
     }
 
+    if (maxRowsInDom - rows.length !== 0) {
+      // too many rows
+      const excessRows = rows.length - maxRowsInDom;
+      if (excessRows > 0) {
+        rows.slice(-1 * excessRows).forEach((row) => row.remove());
+      }
+
+      // need more rows
+      const neededRows = maxRowsInDom - rows.length;
+      if (neededRows > 0) {
+        this.body!.innerHTML += [...Array(neededRows)]
+          .map(() => {
+            const dataRowIndex = data.indexOf(virtualRows[++vRow]);
+            return IdsDataGridRow.template(data[dataRowIndex], dataRowIndex, dataRowIndex + 1, this);
+          })
+          .join('');
+      }
+    }
+
+    // position virtual window
     const bodyTranslateY = upperBoundsIndex * scrollSettings.ROW_HEIGHT;
     this.body?.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
     this.#setVirtualScrollPaddingBottom(scrollSettings, this.dataRowsVisible.length, bodyTranslateY);
-    console.log('recycled all tree rows', cursorIndex, upperBoundsIndex);
   }
 
   #handleVirtualScroll(rowHeight: number) {
     const rowIndex = Math.floor(this.container!.scrollTop / rowHeight);
 
     if (this.treeGrid) {
-      this.#scrollTreeRowIntoView(rowIndex, false);
+      this.#scrollTreeRowIntoView(rowIndex);
       return;
     }
 
@@ -1678,7 +1684,6 @@ export default class IdsDataGrid extends Base {
   }
 
   #scrollToTreeRow(dataRowIndex: number) {
-    console.log('scrolling to tree row', dataRowIndex);
     if (!this.container) return;
 
     const { ROW_HEIGHT } = this.virtualScrollSettings;
@@ -1815,7 +1820,7 @@ export default class IdsDataGrid extends Base {
     this.body?.style.setProperty('padding-bottom', `${Math.max(paddingBottom, 0)}px`);
   }
 
-  #scrollTreeRowIntoView(cursorIndex: number, doScroll = false) {
+  #scrollTreeRowIntoView(cursorIndex: number) {
     const domRows = this.rows;
     const virtualRows = this.dataRowsVisible;
 
@@ -1836,9 +1841,6 @@ export default class IdsDataGrid extends Base {
     let upperLimitIndex = cursorIndex - scrollSettings.BUFFER_ROWS;
     upperLimitIndex = Math.max(upperLimitIndex, 0);
     upperLimitIndex = Math.min(upperLimitIndex, maxRowIndex);
-    let bottomLimitIndex = (upperLimitIndex + scrollSettings.MAX_ROWS_IN_DOM) - 1;
-    bottomLimitIndex = Math.max(bottomLimitIndex, 0);
-    bottomLimitIndex = Math.min(bottomLimitIndex, maxRowIndex);
 
     const firstDomRow = domRows[0];
     const firstDomRowVirtualIndex = virtualRows.indexOf(firstDomRow.rowData);
@@ -1848,18 +1850,6 @@ export default class IdsDataGrid extends Base {
     const moveRowsDown = upperLimitIndex - firstDomRowVirtualIndex;
     const moveRowsUp = moveRowsDown < 0 ? Math.abs(moveRowsDown) : NaN;
     const isInRange = cursorIndex >= firstDomRowVirtualIndex && cursorIndex <= lastDomRowVirtualIndex;
-
-    // console.log(
-    //   'SCROLL',
-    //   `cursor: ${cursorIndex}`,
-    //   `virtualHeadIndex: ${upperLimitIndex}`,
-    //   `virtualTailIndex: ${bottomLimitIndex}`,
-    //   `firstDomRowVirtualIndex: ${firstDomRowVirtualIndex}`,
-    //   `lastDomRowVirtualIndex: ${lastDomRowVirtualIndex}`,
-    //   `isInRage: ${isInRange}`,
-    //   `moveRowsDown: ${moveRowsDown}`,
-    //   `moveRowsUp: ${moveRowsUp}`
-    // );
 
     const data = {
       maxRowIndex,
