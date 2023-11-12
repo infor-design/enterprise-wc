@@ -129,7 +129,7 @@
   }
 
   &.status-warning {
-    color: var(--ids-color-text-success);
+    color: var(--ids-color-text-warning);
 
     &::before {
       background-color: var(--ids-color-text-warning);
