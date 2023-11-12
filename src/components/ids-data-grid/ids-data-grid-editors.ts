@@ -637,8 +637,6 @@ export class LookupEditor implements IdsDataGridEditor {
    * @param {IdsDataGridCell} cell the cell element
    */
   init(cell?: IdsDataGridCell) {
-    console.log('LookupEditor.init(cell)', cell);
-
     const isInline = cell?.column.editor?.inline;
     this.input = <IdsLookup>document.createElement('ids-lookup');
     this.input.size = isInline ? 'full' : '';
@@ -658,14 +656,6 @@ export class LookupEditor implements IdsDataGridEditor {
     if (popup) this.popup = popup;
 
     this.input.focus();
-
-    // this.input?.offEvent('focusout', this.input);
-    this.input?.onEvent('focusout', this.input, (evt: FocusEvent) => {
-      if (this.popup?.visible) {
-        // evt.stopPropagation();
-        // evt.stopImmediatePropagation();
-      }
-    });
   }
 
   value() {
@@ -677,11 +667,10 @@ export class LookupEditor implements IdsDataGridEditor {
   }
 
   /* Save selected dropdown value */
-  save(cell?: IdsDataGridCell | undefined): IdsDataGridSaveValue | undefined | null {
-    console.log('LookupEditor.save(cell)', cell);
+  save(): IdsDataGridSaveValue | undefined | null {
     return {
       value: this.input?.value,
-      // dirtyCheckValue: this.input?.value
+      dirtyCheckValue: this.input?.input?.value
     };
   }
 

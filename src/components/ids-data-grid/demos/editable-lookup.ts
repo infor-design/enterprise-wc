@@ -60,7 +60,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     editor: {
       type: 'lookup',
       editorSettings: {
-        dirtyTracker: false,
+        dirtyTracker: true,
         dataGridSettings: {
           rowSelection: 'multiple',
           // rowSelection: 'single',
