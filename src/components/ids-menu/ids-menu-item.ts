@@ -197,6 +197,16 @@ export default class IdsMenuItem extends Base {
     this.onEvent('slotchange', this.container, () => {
       this.refresh();
     });
+
+    this.onLocaleChange = () => {
+      const isRTL = this.localeAPI.isRTL();
+
+      if (isRTL) {
+        this.container?.classList.add('rtl');
+      } else {
+        this.container?.classList.remove('rtl');
+      }
+    };
   }
 
   /**
