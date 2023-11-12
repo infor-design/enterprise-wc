@@ -216,7 +216,7 @@ export default class IdsDataGridCell extends IdsElement {
     }
 
     // Save on Click Out Event
-    if (['datepicker', 'timepicker'].includes(editorType)) {
+    if (['datepicker', 'timepicker', 'lookup'].includes(editorType)) {
       this.editor.input?.onEvent('focusout', this.editor.input, () => {
         if (this.editor?.popup?.visible) return;
         setTimeout(() => {

@@ -638,11 +638,9 @@ export class LookupEditor implements IdsDataGridEditor {
    */
   init(cell?: IdsDataGridCell) {
     console.log('LookupEditor.init(cell)', cell);
-    // console.log('LookupEditor.init(cell)', cell, cell?.column.editor);
 
     const isInline = cell?.column.editor?.inline;
     this.input = <IdsLookup>document.createElement('ids-lookup');
-    // this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
     this.input.size = isInline ? 'full' : '';
     this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
     this.input.labelState = 'collapsed';
@@ -656,7 +654,18 @@ export class LookupEditor implements IdsDataGridEditor {
 
     applySettings(this.input, { ...cell?.column.editor?.editorSettings });
 
+    const popup = this.input.modal;
+    if (popup) this.popup = popup;
+
     this.input.focus();
+
+    // this.input?.offEvent('focusout', this.input);
+    this.input?.onEvent('focusout', this.input, (evt: FocusEvent) => {
+      if (this.popup?.visible) {
+        // evt.stopPropagation();
+        // evt.stopImmediatePropagation();
+      }
+    });
   }
 
   value() {
