@@ -1,4 +1,3 @@
-import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
@@ -27,16 +26,6 @@ test.describe('IdsColorPicker tests', () => {
       await page.goto(url);
       await page.waitForLoadState();
       await expect(exceptions).toBeNull();
-    });
-  });
-
-  test.describe('accessibility tests', () => {
-    test.skip('should pass an Axe scan', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const accessibilityScanResults = await new AxeBuilder({ page } as any)
-        .exclude('[disabled]') // Disabled elements do not have to pass
-        .analyze();
-      expect(accessibilityScanResults.violations).toEqual([]);
     });
   });
 

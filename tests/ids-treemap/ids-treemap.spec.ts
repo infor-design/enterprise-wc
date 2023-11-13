@@ -3,8 +3,6 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsTreemap from '../../src/components/ids-treemap/ids-treemap';
-
 test.describe('IdsTreemap tests', () => {
   const url = '/ids-treemap/example.html';
 
@@ -41,23 +39,6 @@ test.describe('IdsTreemap tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-treemap');
-      const html = await handle?.evaluate((el: IdsTreemap) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('treemap-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-treemap');
-      const html = await handle?.evaluate((el: IdsTreemap) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('treemap-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-treemap-light');

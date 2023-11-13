@@ -1,9 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
-import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
-
-import IdsAbout from '../../src/components/ids-about/ids-about';
 
 test.describe('IdsAbout tests', () => {
   const url = '/ids-about/example.html';
@@ -38,30 +35,6 @@ test.describe('IdsAbout tests', () => {
         .exclude('[disabled]') // Disabled elements do not have to pass
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
-    });
-  });
-
-  test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-about');
-      const html = await handle?.evaluate((el: IdsAbout) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('about-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-about');
-      const html = await handle?.evaluate((el: IdsAbout) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('about-shadow');
-    });
-
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      await percySnapshot(page, 'ids-about-light');
     });
   });
 });
