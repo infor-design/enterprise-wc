@@ -84,6 +84,16 @@ locale.translate('Thanks');      // Returns Grazie
 locale.translate('YourWelcome'); // Returns Prego
 ```
 
+### Alternate localeDataPath
+
+If the default localeDataPath (../locale-data/) does not work for your project you can change the url path to locale-data using this variable.
+
+```js
+const locale = IdsGlobal.getLocale();
+locale.localeDataPath = '/abc/def/locale-data/';
+await locale.setLocale('it-lT');
+```
+
 ### Translation API
 
 - `translate` {string, options} returns {string} Takes a string as a key and returns the translated value in the strings if found. If not found it returns the value in either the english locale or in [SquareBrackets] if not found. Options can be used to find a string in another language for example `{ language: 'de' }` not that you need to load the language first with setLanguage or setLocale or english is returned.
