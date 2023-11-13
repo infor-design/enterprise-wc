@@ -20,6 +20,7 @@ The IDS Modal Component builds on top of the [Ids Popup](../ids-popup/README.md)
 - `visible` can be used to make the Modal show or hide
 - `buttons` (readonly) contains a list of references to any Modal Buttons present
 - `messageTitle` The text present at the very top of the Modal to indicate its purpose
+- `scrollable` If true, allows the "modal-content" element inside the modal to scroll its contents
 - `showCloseButton` used to show and position close button in modal. Can be set to values `left` or `right`.
 
 ## Themeable Parts
@@ -103,6 +104,12 @@ IdsModal can alter its display mode to take up 100% of the browser viewport's wi
 The fullsize attribute can be defined with an IDS Breakpoint, as defined in the [IdsBreakpointMixin](../../mixins/ids-breakpoint-mixin/README.md).  Alternatively, this setting can be changed to `null` or `''` resulting in no fullscreen mode, or `'always'` which forces the fullscreen mode to be displayed indefinitely.
 
 By default, the fullsize setting on all modals is set to Small (sm) and will break when the viewport width is below 600px.
+
+### Handling scrolled content
+
+Scrolled content on IdsModal can be configured using the `scrollable` setting.  By default, scrolling is disabled on the internal `ids-modal-content` element, which wraps the slot containing all nested content outside the header and footer areas.  In situations where scrolling is not handled by one of the slotted elements, using `scrollable="true"` will enable the scrolling internally.
+
+If a scrollable element such as [IdsSplitter](../ids-splitter/README.md) has been slotted, a best practice is to defer to that element for scrolling behavior on its own child elements.  In this case, `scrollable` should be set to false.
 
 ## Converting from Previous Versions (Breaking Changes)
 

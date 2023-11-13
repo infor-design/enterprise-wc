@@ -283,6 +283,9 @@ class IdsDatePicker extends Base {
             month="${this.month}"
             day="${this.day}"
             use-range="${this.useRange}"
+            minute-interval="${this.minuteInterval}"
+            second-interval="${this.secondInterval}"
+            use-current-time="${this.useCurrentTime}"
           ></ids-date-picker-popup>
         ` : ''}
       </div>
@@ -1228,7 +1231,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
     }
-    if (this.#picker) this.#picker.secondInterval = numberVal;
+    if (this.#picker) this.#picker.minuteInterval = numberVal;
   }
 
   /**
