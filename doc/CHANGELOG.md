@@ -5,6 +5,7 @@
 ### 1.0.0-beta.17 Features
 
 - `[General]` Added an initial migration guide. ([#1561](https://github.com/infor-design/enterprise-wc/issues/1561))
+- `[Locale]` Added `localeDataPath` to retrieve locale data from an alternate location to the default. ([#1622](https://github.com/infor-design/enterprise-wc/issues/1622))
 
 ### 1.0.0-beta.17 Fixes
 
