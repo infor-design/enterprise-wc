@@ -16,9 +16,9 @@ export default defineConfig({
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 1 : 2,
-  workers: 4,
+  /* No Retry anywhere */
+  retries: 0,
+  workers: process.env.CI ? 2 : undefined,
   /* Control the snap shot names */
   snapshotPathTemplate: '{testDir}/{testFileDir}/snapshots/{arg}.snap',
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -30,8 +30,8 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:4444',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer , 'on-first-retry' */
+    trace: 'off',
 
     /* Changes the timezone of the context. */
     timezoneId: 'America/New_York'
