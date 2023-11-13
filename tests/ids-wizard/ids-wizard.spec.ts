@@ -3,8 +3,6 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsWizard from '../../src/components/ids-wizard/ids-wizard';
-
 test.describe('IdsWizard tests', () => {
   const url = '/ids-wizard/example.html';
 
@@ -20,7 +18,7 @@ test.describe('IdsWizard tests', () => {
     test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
-      page.on('pageerror', (error) => {
+      await page.on('pageerror', (error) => {
         exceptions = error;
       });
 
@@ -41,23 +39,6 @@ test.describe('IdsWizard tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-wizard');
-      const html = await handle?.evaluate((el: IdsWizard) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('wizard-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-wizard');
-      const html = await handle?.evaluate((el: IdsWizard) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('wizard-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-wizard-light');

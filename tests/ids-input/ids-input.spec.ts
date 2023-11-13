@@ -20,7 +20,7 @@ test.describe('IdsInput tests', () => {
     test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
-      page.on('pageerror', (error) => {
+      await page.on('pageerror', (error) => {
         exceptions = error;
       });
 

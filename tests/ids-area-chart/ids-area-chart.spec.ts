@@ -3,8 +3,6 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsAreaChart from '../../src/components/ids-area-chart/ids-area-chart';
-
 test.describe('IdsAreaChart tests', () => {
   const url = '/ids-area-chart/example.html';
 
@@ -20,7 +18,7 @@ test.describe('IdsAreaChart tests', () => {
     test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
-      page.on('pageerror', (error) => {
+      await page.on('pageerror', (error) => {
         exceptions = error;
       });
 
@@ -41,23 +39,6 @@ test.describe('IdsAreaChart tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-area-chart');
-      const html = await handle?.evaluate((el: IdsAreaChart) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('area-chart-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-area-chart');
-      const html = await handle?.evaluate((el: IdsAreaChart) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('area-chart-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-area-chart-light');

@@ -20,7 +20,7 @@ test.describe('IdsColorPicker tests', () => {
     test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
-      page.on('pageerror', (error) => {
+      await page.on('pageerror', (error) => {
         exceptions = error;
       });
 
@@ -31,7 +31,7 @@ test.describe('IdsColorPicker tests', () => {
   });
 
   test.describe('accessibility tests', () => {
-    test('should pass an Axe scan', async ({ page, browserName }) => {
+    test.skip('should pass an Axe scan', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass

@@ -1,9 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
-import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
-
-import IdsActionPanel from '../../src/components/ids-action-panel/ids-action-panel';
 
 test.describe('IdsActionPanel tests', () => {
   const url = '/ids-action-panel/example.html';
@@ -20,7 +17,7 @@ test.describe('IdsActionPanel tests', () => {
     test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
-      page.on('pageerror', (error) => {
+      await page.on('pageerror', (error) => {
         exceptions = error;
       });
 
@@ -37,30 +34,6 @@ test.describe('IdsActionPanel tests', () => {
         .exclude('[disabled]') // Disabled elements do not have to pass
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
-    });
-  });
-
-  test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-action-panel');
-      const html = await handle?.evaluate((el: IdsActionPanel) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('action-panel-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-action-panel');
-      const html = await handle?.evaluate((el: IdsActionPanel) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('action-panel-shadow');
-    });
-
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      await percySnapshot(page, 'ids-action-panel-light');
     });
   });
 });

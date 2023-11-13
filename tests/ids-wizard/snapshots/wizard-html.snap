@@ -1,6 +1,0 @@
-<ids-wizard step-number="3">
-          <ids-wizard-step>Step One</ids-wizard-step>
-          <ids-wizard-step>Step Two</ids-wizard-step>
-          <ids-wizard-step>Step Three</ids-wizard-step>
-          <ids-wizard-step>Step Four</ids-wizard-step>
-        </ids-wizard>

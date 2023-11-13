@@ -452,7 +452,7 @@ describe('Ids Month View e2e Tests', () => {
     let hasError = false;
 
     page.on('error', () => { });
-    page.on('pageerror', () => { });
+    await page.on('pageerror', () => { });
 
     // Add empty erray as legend - throws the error
     try {

@@ -20,7 +20,7 @@ test.describe('IdsTag tests', () => {
     test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
-      page.on('pageerror', (error) => {
+      await page.on('pageerror', (error) => {
         exceptions = error;
       });
 
@@ -68,7 +68,7 @@ test.describe('IdsTag tests', () => {
     test('should set attributes before append', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       let exceptions = null;
-      page.on('pageerror', (error) => {
+      await page.on('pageerror', (error) => {
         exceptions = error;
       });
 
@@ -85,7 +85,7 @@ test.describe('IdsTag tests', () => {
     test('should set attributes after append', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       let exceptions = null;
-      page.on('pageerror', (error) => {
+      await page.on('pageerror', (error) => {
         exceptions = error;
       });
 
@@ -104,7 +104,7 @@ test.describe('IdsTag tests', () => {
     test('should set attributes after insertAdjacentHTML', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       let exceptions = null;
-      page.on('pageerror', (error) => {
+      await page.on('pageerror', (error) => {
         exceptions = error;
       });
 
