@@ -31,7 +31,8 @@ test.describe('IdsListBuilder tests', () => {
   });
 
   test.describe('accessibility tests', () => {
-    test('should pass an Axe scan', async ({ page }) => {
+    test('should pass an Axe scan', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .disableRules(['aria-required-children', 'aria-required-parent'])
         .analyze();

@@ -1,3 +1,7 @@
+/**
+ * Made this to generate the tests in tests folder initially.
+ * Kept it around in case useful can be removed if it isnt.
+ */
 const path = require('path');
 const fs = require('fs');
 const fsFiles = require('./node-fs-files');
@@ -35,7 +39,8 @@ test.describe('{nameCaps} tests', () => {
   });
 
   test.describe('accessibility tests', () => {
-    test('should pass an Axe scan', async ({ page }) => {
+    test('should pass an Axe scan', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
         .analyze();

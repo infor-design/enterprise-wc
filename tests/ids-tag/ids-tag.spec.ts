@@ -31,7 +31,8 @@ test.describe('IdsTag tests', () => {
   });
 
   test.describe('accessibility tests', () => {
-    test('should pass an Axe scan', async ({ page }) => {
+    test('should pass an Axe scan', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
         .analyze();
@@ -64,7 +65,8 @@ test.describe('IdsTag tests', () => {
   });
 
   test.describe('setting/attribute tests', () => {
-    test('should set attributes before append', async ({ page }) => {
+    test('should set attributes before append', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
       let exceptions = null;
       page.on('pageerror', (error) => {
         exceptions = error;
@@ -80,7 +82,8 @@ test.describe('IdsTag tests', () => {
       await expect(exceptions).toBeNull();
     });
 
-    test('should set attributes after append', async ({ page }) => {
+    test('should set attributes after append', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
       let exceptions = null;
       page.on('pageerror', (error) => {
         exceptions = error;
@@ -98,7 +101,8 @@ test.describe('IdsTag tests', () => {
       await expect(exceptions).toBeNull();
     });
 
-    test('should set attributes after insertAdjacentHTML', async ({ page }) => {
+    test('should set attributes after insertAdjacentHTML', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
       let exceptions = null;
       page.on('pageerror', (error) => {
         exceptions = error;

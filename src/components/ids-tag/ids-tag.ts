@@ -259,7 +259,6 @@ export default class IdsTag extends Base {
   #attachKeyboardListeners(): object {
     if (this.dismissible) {
       this.listen(['Delete', 'Backspace'], this, () => {
-        debugger
         this.dismiss();
       });
     }

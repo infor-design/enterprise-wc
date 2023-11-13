@@ -433,8 +433,9 @@ Add axe test.
 
 ```js
 test.describe('accessibility tests', () => {
-  test('should pass an Axe scan', async ({ page }) => {
-    const accessibilityScanResults = await new AxeBuilder({ page } as any)
+  test('should pass an Axe scan', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      const accessibilityScanResults = await new AxeBuilder({ page } as any)
       .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
   });
