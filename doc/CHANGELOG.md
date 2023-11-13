@@ -14,6 +14,7 @@
 - `[Calendar]` Add `disableSettings` property to calendar. ([#1471](https://github.com/infor-design/enterprise-wc/issues/1471))
 - `[DataGrid]` Fix setting rtl direction on component init. ([#1501](https://github.com/infor-design/enterprise-wc/issues/1501))
 - `[DataGrid]` Make hyperlink cells clickable when `rowNavigation` is enabled. ([#1523](https://github.com/infor-design/enterprise-wc/issues/1523))
+- `[DatePicker]` Fixed time picker value change is not reflected dynamically in date time picker trigger field. ([#1576](https://github.com/infor-design/enterprise-wc/issues/1576))
 - `[FlexLayout]` Added a flex example using IdsButtons and IdsInputs. ([#1395](https://github.com/infor-design/enterprise-wc/issues/1395))
 - `[Inputs]` Fixed removing `readonly` and `disabled` not working after form additions. ([#1570](https://github.com/infor-design/enterprise-wc/issues/1570))
 - `[Modal]` Add `showCloseButton` setting to modal. ([#1527](https://github.com/infor-design/enterprise-wc/issues/1527))
