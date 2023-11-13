@@ -38,10 +38,6 @@ export default class IdsRadioGroup extends Base {
 
   isFormComponent = true;
 
-  input?: HTMLElement | null;
-
-  labelEl?: HTMLElement | null;
-
   checked: any = null;
 
   /**
@@ -58,7 +54,7 @@ export default class IdsRadioGroup extends Base {
       attributes.LANGUAGE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
-      attributes.VALUE
+      attributes.VALUE,
     ];
   }
 
@@ -68,10 +64,13 @@ export default class IdsRadioGroup extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
+
     const slot = this.shadowRoot?.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
     });
+
+    this.attachInternalEventHandlers();
   }
 
   /**
@@ -94,14 +93,35 @@ export default class IdsRadioGroup extends Base {
   }
 
   /**
+   * Get child ids-radio buttons in this group
+   * @returns {IdsRadio[]} list of radios
+   */
+  get radios(): IdsRadio[] {
+    return [...this.querySelectorAll<IdsRadio>('ids-radio')];
+  }
+
+  /**
+   * Get the selected child ids-radio button in this group
+   * @returns {IdsRadio[]} list of selected radios
+   */
+  get radiosSelected(): IdsRadio[] {
+    return [...this.querySelectorAll<IdsRadio>('ids-radio[checked]')];
+  }
+
+  get input(): HTMLElement | null {
+    return this.shadowRoot?.querySelector<HTMLElement>('.ids-radio-group') ?? null;
+  }
+
+  get labelEl(): HTMLElement | null {
+    return this.shadowRoot?.querySelector<HTMLElement>('.group-label-text') ?? null;
+  }
+
+  /**
    * Set after children ready
    * @private
    * @returns {void}
    */
   afterChildrenReady(): void {
-    this.input = this.shadowRoot?.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot?.querySelector('.group-label-text');
-
     this.setValue();
     this.handleHorizontal();
     this.handleDisabled();
@@ -115,19 +135,29 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   setValue(): void {
-    const radioArr: any = [].slice.call(this.querySelectorAll('ids-radio[checked="true"]'));
-    const len = radioArr.length;
-    const value = radioArr[len - 1]?.getAttribute(attributes.VALUE);
-    if (value) {
-      this.setAttribute(attributes.VALUE, value);
-    } else if (!len) {
-      const radio = this.querySelector('ids-radio');
-      const rootEl = radio?.shadowRoot?.querySelector('.ids-radio');
-      rootEl?.setAttribute('tabindex', '0');
-    } else if (len > 1) {
-      radioArr.pop();
-      radioArr.forEach((r: any) => r.removeAttribute(attributes.CHECKED));
+    const defaultValue = this.value;
+
+    const radios = this.radios;
+    const radiosSelected = this.radiosSelected;
+
+    if (!defaultValue && !radiosSelected.length) {
+      const firstRadio = radios[0];
+      firstRadio?.shadowRoot?.querySelector('.ids-radio')?.setAttribute('tabindex', '0');
+      return;
     }
+
+    const lastSelected = radiosSelected?.at(-1);
+    const currentSelected = radios.find((radio) => (defaultValue && radio.value === defaultValue)) || lastSelected;
+
+    radios.forEach((radio: IdsRadio) => {
+      if (radio === currentSelected) {
+        this.setAttribute(attributes.VALUE, radio?.value ?? '');
+        radio.setAttribute(attributes.CHECKED, 'true');
+      } else {
+        // radio.checked = false; // For some reason this messes up the checked setter.
+        radio.removeAttribute(attributes.CHECKED);
+      }
+    });
   }
 
   /**
@@ -148,7 +178,7 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   handleDisabled(): void {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+    const radioArr = this.radios;
     const rootEl = this.shadowRoot?.querySelector('.ids-radio-group');
 
     if (stringToBool(this.disabled)) {
@@ -167,7 +197,7 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   handleHorizontal(): void {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+    const radioArr = this.radios;
     const rootEl = this.shadowRoot?.querySelector('.ids-radio-group');
     if (stringToBool(this.horizontal)) {
       rootEl?.classList.add(attributes.HORIZONTAL);
@@ -182,31 +212,16 @@ export default class IdsRadioGroup extends Base {
    * Make given radio as checked.
    * @private
    * @param {object} radio to make checked
-   * @param {boolean} isFocus if true will set focus
    * @returns {void}
    */
-  makeChecked(radio: any, isFocus: boolean): void {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
-    const targetEl = radioArr.filter((r) => r !== radio);
-    targetEl.forEach((r: any) => r.removeAttribute(attributes.CHECKED));
-    this.checked = radio;
-    const val = radio.value;
-    if (val) {
-      this.value = val;
-    }
-    if (isFocus) {
-      radio.shadowRoot?.querySelector('input[type="radio"]')?.focus();
-    }
+  makeChecked(radio: IdsRadio): void {
+    const value = radio?.value ?? '';
+    this.value = value;
 
-    // Mark if first radio checked in group, use for css style
-    const className = 'first-item-checked';
-    if (radio === radioArr[0]) {
-      this.input?.classList.add(className);
-    } else {
-      this.input?.classList.remove(className);
-    }
+    this.checked = radio ?? false;
+    if (radio) radio.setAttribute(attributes.CHECKED, 'true');
 
-    const args = { detail: { value: val, checked: radio } };
+    const args = { detail: { value, checked: radio ?? false } };
     this.triggerEvent('change', this.input, args);
     this.triggerEvent('change', this, args);
   }
@@ -217,11 +232,11 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   attachRadioGroupChangeEvent(): void {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+    const radioArr = this.radios;
 
-    radioArr.forEach((r) => {
-      this.onEvent('change', r, () => {
-        this.makeChecked(r, false);
+    radioArr.forEach((radio) => {
+      this.onEvent('change', radio, () => {
+        this.makeChecked(radio);
       });
     });
   }
@@ -232,21 +247,23 @@ export default class IdsRadioGroup extends Base {
    * @returns {void}
    */
   attachRadioGroupKeydown(): void {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
-    const len = radioArr.length;
-    radioArr.forEach((r, i) => {
-      this.onEvent('keydown', r, (e: KeyboardEvent) => {
-        const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
-        const key = e.code;
-        if (allow.indexOf(key) > -1) {
-          let idx = i;
+    const activeRadios = [...this.querySelectorAll<IdsRadio>('ids-radio:not([disabled="true"])')];
+    const numActive = activeRadios.length;
+    activeRadios.forEach((radio, index) => {
+      this.offEvent('keydown', radio);
+      this.onEvent('keydown', radio, (evt: KeyboardEvent) => {
+        const allowedKeys = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
+        const key = evt.code;
+        if (allowedKeys.includes(key)) {
+          let nextIndex = index;
           if (key === 'ArrowDown' || key === 'ArrowRight') {
-            idx = (i >= (len - 1)) ? 0 : (idx + 1);
+            nextIndex = (index >= (numActive - 1)) ? 0 : (nextIndex + 1);
           } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
-            idx = (i <= 0) ? (len - 1) : (idx - 1);
+            nextIndex = (index <= 0) ? (numActive - 1) : (nextIndex - 1);
           }
-          this.makeChecked(radioArr[idx], true);
-          e.preventDefault();
+          this.makeChecked(activeRadios[nextIndex]);
+          activeRadios[nextIndex].focus();
+          evt.preventDefault();
         }
       });
     });
@@ -341,28 +358,22 @@ export default class IdsRadioGroup extends Base {
 
   /**
    * Sets the checkbox `value` attribute
-   * @param {string | null} val the value property
+   * @param {string | null} value the value property
    */
-  set value(val: string | null) {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
-    if (val) {
-      const state: any = { on: [], off: [] };
-      radioArr.forEach((r: any) => {
-        const rVal: any = r.getAttribute(attributes.VALUE);
-        state[rVal === val ? 'on' : 'off'].push(r);
-      });
-      state.off.forEach((r: any) => r.removeAttribute(attributes.CHECKED));
-      const r: any = state.on[state.on.length - 1];
-      if (r) {
-        r.setAttribute(attributes.CHECKED, 'true');
-        this.setAttribute(attributes.VALUE, val);
-        this.checked = r;
+  set value(value: string | null) {
+    const radios = this.radios;
+
+    radios.forEach((radio) => {
+      if (value && radio.value === value) {
+        this.setAttribute(attributes.VALUE, radio.value);
+        radio.setAttribute(attributes.CHECKED, 'true');
       } else {
-        this.removeAttribute(attributes.VALUE);
+        radio.removeAttribute(attributes.CHECKED);
       }
-    } else {
+    });
+
+    if (!value) {
       this.removeAttribute(attributes.VALUE);
-      radioArr.forEach((r: any) => r.removeAttribute(attributes.CHECKED));
     }
   }
 

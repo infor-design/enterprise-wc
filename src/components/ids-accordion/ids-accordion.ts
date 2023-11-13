@@ -211,7 +211,7 @@ export default class IdsAccordion extends Base {
    * Labels Headers and Panels with styling information that is
    * dependent on how deeply-nested they are within the Accordion tree.
    * @param {HTMLElement} element the element to check
-   * @param {number} depth the zero.
+   * @param {number} depth the current depth within the accordion tree
    * @param {boolean} doColorVariant if true, modifies the color variant
    * @param {boolean} doExpanderType if true, modifies the expander type
    * @param {boolean} doDisplayIconType if true, modifies the display icon type
@@ -304,6 +304,16 @@ export default class IdsAccordion extends Base {
         doRTL
       );
     }
+  }
+
+  /**
+   * Runs a check on all depth-depdenent styles
+   */
+  checkExpanders() {
+    this.headers?.forEach((header) => {
+      header.toggleExpanderIcon(header.panel.isExpandable);
+      header.refreshIconDisplay(header.icon);
+    });
   }
 
   /**

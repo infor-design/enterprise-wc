@@ -414,6 +414,8 @@ describe('IdsMultiselect Component', () => {
     );
     const getText = () => multiselect.input.querySelector('ids-text');
 
+    await processAnimFrame();
+
     expect(multiselect.value).toEqual(['opt1', 'opt2', 'opt3']);
     expect(getText()?.textContent).toEqual('Option One, Option Two, Option Three');
 
