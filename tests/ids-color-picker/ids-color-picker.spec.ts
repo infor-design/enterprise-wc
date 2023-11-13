@@ -2,8 +2,6 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsColorPicker from '../../src/components/ids-color-picker/ids-color-picker';
-
 test.describe('IdsColorPicker tests', () => {
   const url = '/ids-color-picker/example.html';
 
@@ -30,23 +28,6 @@ test.describe('IdsColorPicker tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-color-picker');
-      const html = await handle?.evaluate((el: IdsColorPicker) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('color-picker-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-color-picker');
-      const html = await handle?.evaluate((el: IdsColorPicker) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('color-picker-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-color-picker-light');

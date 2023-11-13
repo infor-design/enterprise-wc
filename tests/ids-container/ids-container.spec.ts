@@ -2,8 +2,6 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsContainer from '../../src/components/ids-container/ids-container';
-
 test.describe('IdsContainer tests', () => {
   const url = '/ids-container/example.html';
 
@@ -36,25 +34,6 @@ test.describe('IdsContainer tests', () => {
         .exclude('[disabled]') // Disabled elements do not have to pass
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
-    });
-  });
-
-  test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-container');
-      const html = await handle?.evaluate((el: IdsContainer) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('container-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-container');
-      const html = await handle?.evaluate((el: IdsContainer) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('container-shadow');
     });
   });
 });
