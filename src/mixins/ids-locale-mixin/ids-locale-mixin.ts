@@ -27,9 +27,17 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
   connectedCallback() {
     super.connectedCallback?.();
 
+    const language = this.localeAPI.language.name;
+    const locale = this.localeAPI.name;
+
     // Set initial lang and locale
-    if (this.localeAPI.language.name !== 'en') this.setAttribute('language', this.localeAPI.language.name);
-    if (this.localeAPI.name !== 'en-US') this.setAttribute('locale', this.localeAPI.name);
+    if (language !== 'en') this.setAttribute('language', language);
+    if (locale !== 'en-US') this.setAttribute('locale', locale);
+
+    // set initial direction
+    if (language === 'ar' || language === 'he') {
+      this.setAttribute('dir', 'rtl');
+    }
   }
 
   static get attributes() {
