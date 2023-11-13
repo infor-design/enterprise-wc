@@ -11,6 +11,9 @@
   - link: contains-components.html
     type: Example
     description: Showing a modal that contains other IDS components that break containment
+  - link: contains-tree-detail.html
+    type: Example
+    description: Showing a modal that contains a tree/detail pattern
   - link: focus.html
     type: Example
     description: Demonstrates Focus Capture behavior

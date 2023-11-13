@@ -312,7 +312,7 @@ export default class IdsSplitter extends Base {
    * Attach the resize observer.
    * @private
    */
-  #resizeObserver = new ResizeObserver(() => this.#resize());
+  #resizeObserver = new ResizeObserver(() => this.resize());
 
   /**
    * Attach the initialize observer.
@@ -384,10 +384,9 @@ export default class IdsSplitter extends Base {
 
   /**
    * Resize the component
-   * @private
    * @returns {void}
    */
-  #resize(): void {
+  resize(): void {
     this.#setProp();
     requestAnimationFrame(() => {
       this.#setContainer();
@@ -1186,7 +1185,7 @@ export default class IdsSplitter extends Base {
 
   /** Handle Languages Changes - for switching between RTL to LTR */
   onLanguageChange = () => {
-    this.#resize();
+    this.resize();
   };
 
   /**
