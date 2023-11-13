@@ -35,7 +35,7 @@ test.describe('IdsAlert tests', () => {
       if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .analyze();
-      expect(accessibilityScanResults.violations).toEqual([]);
+      expect(await accessibilityScanResults.violations).toEqual([]);
     });
   });
 
@@ -132,8 +132,8 @@ test.describe('IdsAlert tests', () => {
     });
 
     test('should support disable and enable', async ({ page }) => {
-      const alertLocator = page.locator('ids-alert').first();
-      const iconLocator = page.locator('ids-alert ids-icon').first();
+      const alertLocator = await page.locator('ids-alert').first();
+      const iconLocator = await page.locator('ids-alert ids-icon').first();
       await expect(iconLocator).not.toHaveClass(/disabled/);
       await expect(alertLocator).not.toHaveAttribute('disabled');
       await page.evaluate(() => {
@@ -186,7 +186,7 @@ test.describe('IdsAlert tests', () => {
     });
 
     test('should be able to set color', async ({ page }) => {
-      const locator = page.locator('ids-alert').first();
+      const locator = await page.locator('ids-alert').first();
       expect(await locator.getAttribute('color')).toEqual(null);
       await page.evaluate(() => {
         const elem: any = document.querySelector('ids-alert');

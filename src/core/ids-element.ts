@@ -159,7 +159,6 @@ export default class IdsElement extends HTMLElement {
     if (this.shadowRoot?.firstElementChild?.nodeName !== 'STYLE' && !this.container) {
       this.container = (this.shadowRoot?.firstElementChild as HTMLElement);
     }
-    if (!this.container) debugger
     return this;
   }
 

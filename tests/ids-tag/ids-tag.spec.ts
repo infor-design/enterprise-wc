@@ -214,7 +214,7 @@ test.describe('IdsTag tests', () => {
         tag!.clickable = false;
         return tag!.getAttribute('clickable');
       });
-      expect(attr).toBeNull();
+      expect(await attr).toBeNull();
     });
   });
 
@@ -228,7 +228,7 @@ test.describe('IdsTag tests', () => {
         tag?.dispatchEvent(event);
         return calls;
       });
-      expect(noOfCalls).toBe(1);
+      expect(await noOfCalls).toBe(1);
     });
 
     test('should veto dismiss in beforetagremove', async ({ page }) => {
@@ -249,7 +249,7 @@ test.describe('IdsTag tests', () => {
         tag?.dismiss();
         return calls;
       });
-      expect(noOfCalls).toBe(1);
+      expect(await noOfCalls).toBe(1);
     });
 
     test('should fire aftertagremove on dismiss', async ({ page }) => {
@@ -260,7 +260,7 @@ test.describe('IdsTag tests', () => {
         tag?.dismiss();
         return calls;
       });
-      expect(noOfCalls).toBe(1);
+      expect(await noOfCalls).toBe(1);
     });
 
     test('should be clickable when set', async ({ page }) => {
@@ -272,7 +272,7 @@ test.describe('IdsTag tests', () => {
         tag?.dispatchEvent(event);
         return calls;
       });
-      expect(noOfCalls).toBe(1);
+      expect(await noOfCalls).toBe(1);
     });
   });
 
@@ -280,13 +280,13 @@ test.describe('IdsTag tests', () => {
     test('should be able to call dismiss', async ({ page }) => {
       let handle = await page.$('ids-tag[dismissible]:not([disabled])');
       let checkText = await handle?.innerText();
-      expect(checkText?.trim()).toBe('Dismissible Tag 1');
+      expect(await checkText?.trim()).toBe('Dismissible Tag 1');
 
       await handle?.evaluate((el: IdsTag) => el.dismiss());
 
       handle = await page.$('ids-tag[dismissible]:not([disabled])');
       checkText = await handle?.innerText();
-      expect(checkText?.trim()).toBe('Dismissible Tag 2');
+      expect(await checkText?.trim()).toBe('Dismissible Tag 2');
     });
 
     test('should cancel dismiss when not dismissible', async ({ page }) => {
