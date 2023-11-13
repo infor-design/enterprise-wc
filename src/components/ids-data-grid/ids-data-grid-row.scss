@@ -166,4 +166,10 @@ tr.ids-data-grid-row {
     box-shadow: none;
     outline: none;
   }
+
+  // Fixes an issue where hyperlinks in row-navigation mode cannot be directly clicked
+  ids-hyperlink,
+  .ids-hyperlink {
+    transform: translateZ(1px);
+  }
 }
