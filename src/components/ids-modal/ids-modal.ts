@@ -11,6 +11,7 @@ import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/id
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import IdsElement from '../../core/ids-element';
 
+import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { toggleScrollbar, waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
@@ -86,6 +87,7 @@ export default class IdsModal extends Base {
     }
     this.state.fullsize = '';
     this.state.overlay = null;
+    this.state.scrollable = true;
     this.state.messageTitle = null;
   }
 
@@ -94,6 +96,7 @@ export default class IdsModal extends Base {
       ...super.attributes,
       attributes.FULLSIZE,
       attributes.MESSAGE_TITLE,
+      attributes.SCROLLABLE,
       attributes.SHOW_CLOSE_BUTTON,
       attributes.VISIBLE
     ];
@@ -227,6 +230,7 @@ export default class IdsModal extends Base {
       this.popup.height = doFullsize ? '100%' : '';
       this.popup.place();
       if (this.popup.open) {
+        this.setScrollable();
         this.popup.correct3dMatrix();
       }
     };
@@ -361,6 +365,16 @@ export default class IdsModal extends Base {
     }
   }
 
+  set scrollable(val: string | boolean | null) {
+    const bool = stringToBool(val);
+    setBooleanAttr(attributes.SCROLLABLE, this, bool);
+    this.state.scrollable = bool;
+  }
+
+  get scrollable() {
+    return this.state.scrollable;
+  }
+
   /**
    * Refreshes the state of the Modal header, either adding its slot/contents or removing it
    * @param {boolean} hasTitle true if the title should be rendered
@@ -485,6 +499,8 @@ export default class IdsModal extends Base {
       if (this.popup.animated && this.popup.container) {
         await waitForTransitionEnd(this.popup.container, 'opacity');
       }
+      this.setScrollable();
+      this.popup.correct3dMatrix();
     }
 
     this.removeAttribute('aria-hidden');
