@@ -20,9 +20,9 @@ ids-trigger-field::part(clearable-button) {
   ids-trigger-field::part(container),
   ids-trigger-field::part(field-container) {
     background: transparent;
-    border: 1px solid red;
     border: 0;
     border-radius: 0;
+    box-shadow: none;
     outline: none;
     height: 100%;
     width: 100%;
