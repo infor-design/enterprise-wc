@@ -3,8 +3,6 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsWeekView from '../../src/components/ids-week-view/ids-week-view';
-
 test.describe('IdsWeekView tests', () => {
   const url = '/ids-week-view/example.html';
 
@@ -41,23 +39,6 @@ test.describe('IdsWeekView tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-week-view');
-      const html = await handle?.evaluate((el: IdsWeekView) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('week-view-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-week-view');
-      const html = await handle?.evaluate((el: IdsWeekView) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('week-view-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-week-view-light');

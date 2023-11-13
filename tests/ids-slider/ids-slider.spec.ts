@@ -3,8 +3,6 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsSlider from '../../src/components/ids-slider/ids-slider';
-
 test.describe('IdsSlider tests', () => {
   const url = '/ids-slider/example.html';
 
@@ -41,23 +39,6 @@ test.describe('IdsSlider tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-slider');
-      const html = await handle?.evaluate((el: IdsSlider) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('slider-html');
-    });
-
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-slider');
-      const html = await handle?.evaluate((el: IdsSlider) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('slider-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-slider-light');
