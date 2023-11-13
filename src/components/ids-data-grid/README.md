@@ -363,6 +363,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`formatter`| {Function} | Controls how the data is rendered in the cell.|
 |`hidden` | {boolean} | Excludes the column from being added to the DOM.|
 |`align` | {string} | Can be `left` or `right` or `center` to align both the cell and the header. Left is the default so does not need to be specified. |
+|`filterAlign` | {string} | Can be `left` or `right` or `center` to control the alignment of just the filter row in the cell header. Left is the default so does not need to be specified. |
 |`headerAlign` | {string} | Can be `left` or `right` or `center` to align just the header. Left is the default so does not need to be specified. |
 |`minWidth` | {number} | The minimum width used to prevent resizing a column below this size. |
 |`maxWidth` | {number} | The maximum width used to prevent resizing a column above this size. |
