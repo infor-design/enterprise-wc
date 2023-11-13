@@ -238,7 +238,7 @@ export default class IdsModal extends Base {
     };
 
     const safeVal = `${val}`;
-    if (current !== val) {
+    if (current !== val && this.popup) {
       switch (val) {
         case 'always':
           this.#clearBreakpointResponse();
