@@ -98,6 +98,8 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter')!;
     sortable: true,
     resizable: true,
     reorderable: true,
+    align: 'right',
+    filterAlign: 'left',
     formatter: dataGrid.formatters.text,
     filterType: dataGrid.filters.text,
     align: 'right'
