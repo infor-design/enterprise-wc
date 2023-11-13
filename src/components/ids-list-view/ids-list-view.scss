@@ -41,10 +41,6 @@
       list-style-type: none;
       padding: var(--ids-list-view-item-padding);
 
-      &:first-child {
-        margin-block-start: var(--ids-space-20);
-      }
-
       &:focus {
         border-color: var(--ids-list-view-item-color-border-focus);
         box-shadow: var(--ids-list-view-item-shadow-focus);
@@ -151,6 +147,6 @@ ids-swappable-item[over] {
   border: 1px dashed var(--ids-color-neutral-80);
 }
 
-.ids-list-view-search {
+::slotted(ids-search-field) {
   margin-bottom: 8px;
 }

@@ -12,6 +12,8 @@ class IdsLocale {
 
   loadedLanguages = new Map();
 
+  localeDataPath = '../locale-data/';
+
   constructor() {
     this.loadedLocales.set('en-US', localeEn);
     this.loadedLanguages.set('en', messagesEn);
@@ -103,7 +105,7 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   loadLanguageScript(value: string) {
-    const promise = import(/* webpackIgnore: true */`../locale-data/${value}-messages.js`);
+    const promise = import(/* webpackIgnore: true */`${this.localeDataPath}${value}-messages.js`);
     promise.then((module) => {
       // do something with the translations
       this.loadedLanguages.set(value, module.messages);
@@ -205,7 +207,7 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   async loadLocaleScript(value: string) {
-    const promise = import(/* webpackIgnore: true */`../locale-data/${value}.js`);
+    const promise = import(/* webpackIgnore: true */`${this.localeDataPath}${value}.js`);
     promise.then((module) => {
       this.loadedLocales.set(value, module.locale);
     });
