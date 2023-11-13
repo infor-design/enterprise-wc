@@ -1,21 +1,21 @@
 // eslint-disable-next-line max-classes-per-file
+import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsCheckbox from '../ids-checkbox/ids-checkbox';
-import IdsInput from '../ids-input/ids-input';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
-import '../ids-time-picker/ids-time-picker';
-import '../ids-date-picker/ids-date-picker';
-import '../ids-lookup/ids-lookup';
+import IdsInput from '../ids-input/ids-input';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import type IdsButton from '../ids-button/ids-button';
+import type IdsDataGridCell from './ids-data-grid-cell';
 import type IdsDatePicker from '../ids-date-picker/ids-date-picker';
 import type IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
 import type IdsLookup from '../ids-lookup/ids-lookup';
+import type IdsModal from '../ids-modal/ids-modal';
 import type IdsTimePicker from '../ids-time-picker/ids-time-picker';
 import type IdsTimePickerPopup from '../ids-time-picker/ids-time-picker-popup';
-import type IdsDataGridCell from './ids-data-grid-cell';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
-import type IdsButton from '../ids-button/ids-button';
-import type IdsModal from '../ids-modal/ids-modal';
+import '../ids-time-picker/ids-time-picker';
+import '../ids-date-picker/ids-date-picker';
+import '../ids-lookup/ids-lookup';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
