@@ -101,8 +101,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter')!;
     align: 'right',
     filterAlign: 'left',
     formatter: dataGrid.formatters.text,
-    filterType: dataGrid.filters.text,
-    align: 'right'
+    filterType: dataGrid.filters.text
   });
 
   // Do an ajax request
