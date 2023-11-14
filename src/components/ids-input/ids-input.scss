@@ -93,6 +93,7 @@ $input-size-full: 100%;
 // Mixin for label wrap ellipsis
 @mixin ids-input-label-wrap-ellipsis {
   .ids-label-text {
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
