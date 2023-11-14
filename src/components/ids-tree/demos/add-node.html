@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Tree (add node)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-menu-button id="add-button" icon="tree" appearance="tertiary" menu="add-menu" dropdown-icon>
+          <span>Add Node</span>
+        </ids-menu-button>
+        <ids-popup-menu id="add-menu" target="add-button" trigger-type="click">
+          <ids-menu-group>
+            <ids-menu-item value="top">Top of tree</ids-menu-item>
+            <ids-menu-item value="bottom">Bottom of tree</ids-menu-item>
+            <ids-menu-item value="before">Before selected node</ids-menu-item>
+            <ids-menu-item value="after">After selected node</ids-menu-item>
+            <ids-menu-item value="child">As children of selected folder</ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+        <br>
+        <br>
+        <ids-tree id="tree-demo" label="Tree Demo"></ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -79,7 +79,7 @@ export default class IdsTreeNode extends Base {
       attributes.SELECTABLE,
       attributes.SELECTED,
       attributes.TABBABLE,
-      attributes.USE_TOGGLE_TARGET
+      attributes.EXPAND_TARGET
     ];
   }
 
@@ -105,7 +105,8 @@ export default class IdsTreeNode extends Base {
         }
       }
       const templ = this.getTemplate(true);
-      return templ.replace('{group-nodes}', childNodesHTML);
+      // Handle empty parent nodes
+      return templ.replace('{group-nodes}', childNodesHTML.replace('<ids-tree-node></ids-tree-node>', ''));
     }
 
     // Node template
@@ -128,8 +129,7 @@ export default class IdsTreeNode extends Base {
     if (isGroup) {
       const ariaExpanded = ` aria-expanded="${this.expanded}"`;
       const cssClass = `class="ids-tree-node ${this.toggleClass}"`;
-      return `
-        <li ${cssClass} part="group-node" role="none"${disabled}${selected}>
+      return `<li ${cssClass} part="group-node" role="none"${disabled}${selected}>
           <span class="node-container" part="node-container" role="treeitem"${tabindex}${disabled}${selected}${ariaDisabled}${ariaSelected}${ariaExpanded}>
             <ids-icon class="icon" icon="${this.nodeIcon}" part="icon"></ids-icon>
             ${this.toggleIconHtml}
@@ -182,7 +182,7 @@ export default class IdsTreeNode extends Base {
     this.container?.classList.add(this.toggleClass);
     this.nodeContainer?.setAttribute('aria-expanded', this.expanded.toString());
 
-    if (this.useToggleTarget) {
+    if (this.expandTarget === 'icon') {
       const toggleIconEl = this.shadowRoot?.querySelector('.toggle-icon');
       toggleIconEl?.setAttribute(attributes.ICON, this.toggleIcon);
       this.#rotatePlusminus({
@@ -221,7 +221,7 @@ export default class IdsTreeNode extends Base {
    * @returns {void}
    */
   #rotatePlusminus(target: any) {
-    if (this.tree?.toggleIconRotate && this.useToggleTarget && target?.elem) {
+    if (this.tree?.toggleIconRotate && this.expandTarget === 'icon' && target?.elem) {
       target.elem.classList.add(target.rotateClass);
       const events = ['webkitAnimationEnd', 'oAnimationEnd', 'msAnimationEnd', 'animationend'];
       events.forEach((evt) => {
@@ -252,7 +252,7 @@ export default class IdsTreeNode extends Base {
    */
   #setToggleIconElement() {
     const toggleIconEl = this.nodeContainer?.querySelector('.toggle-icon');
-    if (this.isGroup && this.useToggleTarget && !toggleIconEl) {
+    if (this.isGroup && this.expandTarget === 'icon' && !toggleIconEl) {
       const refEl = this.shadowRoot?.querySelector('slot.badge') as HTMLSlotElement;
       const template = document.createElement('template');
       template.innerHTML = this.toggleIconHtml;
@@ -306,7 +306,7 @@ export default class IdsTreeNode extends Base {
    * @returns {HTMLElement} the toggle icon html
    */
   get toggleIconHtml(): any {
-    return this.useToggleTarget
+    return this.expandTarget === 'icon'
       ? `<ids-icon class="toggle-icon" icon="${this.toggleIcon}" part="toggle-icon"></ids-icon>`
       : '';
   }
@@ -354,7 +354,7 @@ export default class IdsTreeNode extends Base {
    * @returns {string} The toggle icon
    */
   get toggleIcon(): string {
-    if (this.useToggleTarget) {
+    if (this.expandTarget === 'icon') {
       return this.expanded
         ? (this.treeAttribute(attributes.TOGGLE_EXPAND_ICON)
           || IdsTreeShared.DEFAULTS.toggleExpandIcon)
@@ -516,17 +516,17 @@ export default class IdsTreeNode extends Base {
   get tabbable(): boolean | string { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
 
   /**
-   * Sets the tree to use toggle target
-   * @param {boolean|string} value If true will set to use toggle target
+   * Sets the trees expand target between clicking the whole node or just the icon
+   * @param {boolean|string} value Either 'node' or 'icon'
    */
-  set useToggleTarget(value: boolean | string) {
+  set expandTarget(value: 'node' | 'icon' | string) {
     if (IdsTreeShared.isBool(value)) {
-      this.setAttribute(attributes.USE_TOGGLE_TARGET, `${value}`);
+      this.setAttribute(attributes.EXPAND_TARGET, `${value}`);
     } else {
-      this.removeAttribute(attributes.USE_TOGGLE_TARGET);
+      this.removeAttribute(attributes.EXPAND_TARGET);
     }
     this.#setToggleIconElement();
   }
 
-  get useToggleTarget(): boolean | string { return IdsTreeShared.getBoolVal((this as any), attributes.USE_TOGGLE_TARGET); }
+  get expandTarget(): 'node' | 'icon' | string { return this.getAttribute(attributes.EXPAND_TARGET) || 'node'; }
 }
