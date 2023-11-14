@@ -7,13 +7,46 @@ import IdsElement from '../../core/ids-element';
 
 import IdsDataSource from '../../core/ids-data-source';
 import IdsTreeShared from './ids-tree-shared';
-import './ids-tree-node';
 import '../ids-text/ids-text';
+import './ids-tree-node';
+import type IdsTreeNode from './ids-tree-node';
 
 import { unescapeHTML, escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-tree.scss';
+
+export interface IdsTreeData {
+  /* Set the id attribute */
+  id?: string;
+  /* Sets the text label */
+  text?: string;
+  /* Sets the icon name */
+  icon?: string;
+  /* Sets if expanded */
+  expanded?: string | boolean;
+  /* Sets if disabled */
+  disabled?: string | boolean;
+  /* Sets if expanded */
+  children?: Array<IdsTreeData>;
+}
+
+export interface IdsTreeNodeData {
+  /* The Html Node/Element */
+  elem?: IdsTreeNode;
+  /* The attached data element */
+  data?: IdsTreeData;
+  /* The overal indx */
+  idx?: number;
+  /* Is it a group node */
+  isGroup?: boolean;
+  /* The tree level */
+  level?: number;
+  /* The position within the tree level */
+  posinset?: number;
+  /* The number of items with it in the set */
+  setsize?: number;
+}
 
 const Base = IdsLocaleMixin(
   IdsEventsMixin(
@@ -44,7 +77,7 @@ export default class IdsTree extends Base {
 
     // if data set before connected
     if (this.datasource?.data?.length) {
-      this.#redraw();
+      this.redraw();
     } else {
       this.#init();
     }
@@ -67,7 +100,7 @@ export default class IdsTree extends Base {
       attributes.TOGGLE_COLLAPSE_ICON,
       attributes.TOGGLE_EXPAND_ICON,
       attributes.TOGGLE_ICON_ROTATE,
-      attributes.USE_TOGGLE_TARGET
+      attributes.EXPAND_TARGET
     ];
   }
 
@@ -183,6 +216,94 @@ export default class IdsTree extends Base {
   }
 
   /**
+   * Get the index's data from a given node
+   * @param {HTMLElement} node The node HTMLElement
+   * @returns {object} The node element and index
+   */
+  getNodeData(node: HTMLElement): IdsTreeNodeData {
+    const nodeData = this.#nodes.find((el) => el.elem === node);
+    return nodeData;
+  }
+
+  /**
+   * Add more node data into the tree
+   * @param {Array<IdsTreeData>} nodeData The selector string to use
+   * @param {string} location The location where to add the data
+   * @param {HTMLElement} node The option HtmlElement to connect before and after to
+   * @returns {void}
+   */
+  addNodes(nodeData: Array<IdsTreeData>, location?: 'bottom' | 'top' | 'before' | 'after' | 'child', node?: HTMLElement) {
+    const slot = this.shadowRoot?.querySelector('slot');
+    if (!slot) return;
+    const { data, html } = this.#htmlAndData(nodeData);
+    if (location === 'top') {
+      this.nodesData = [...data, ...this.nodesData];
+      this.datasource.data = [...nodeData, ...this.datasource.data];
+      slot.insertAdjacentHTML('afterbegin', html);
+    }
+    if (location === 'bottom') {
+      this.nodesData = [...this.nodesData, ...data];
+      this.datasource.data = [...this.datasource.data, ...nodeData];
+      slot.insertAdjacentHTML('beforeend', html);
+    }
+    if (location === 'before' && node) {
+      const nodeDatum = this.getNodeData(node);
+      const idx = nodeDatum.idx || 0;
+      const bottomNodes = this.nodesData.splice(0, idx);
+      const topNodes = this.nodesData.splice(idx - 1);
+      this.nodesData = [...bottomNodes, ...data, ...topNodes];
+
+      const parentArray = (nodeDatum?.data as any)?.parent;
+      if (parentArray) {
+        const bottomNodesChildren = parentArray.children.splice(0, Number(nodeDatum.posinset) - 1);
+        const topNodesChildren = parentArray.children;
+        parentArray.children = [...bottomNodesChildren, ...nodeData, ...topNodesChildren];
+      } else {
+        const bottomNodesOrg = this.datasource.data.splice(0, idx);
+        const topNodesOrg = this.datasource.data.splice(idx - 1);
+        this.datasource.data = [...bottomNodesOrg, ...nodeData, ...topNodesOrg];
+      }
+      node.insertAdjacentHTML('beforebegin', html);
+    }
+    if (location === 'after' && node) {
+      const nodeDatum = this.getNodeData(node);
+      const idx = nodeDatum.idx || 0;
+      const bottomNodes = this.nodesData.splice(0, idx + 1);
+      const topNodes = this.nodesData.splice(idx + 1);
+      this.nodesData = [...bottomNodes, ...data, ...topNodes];
+
+      const parentArray = (nodeDatum?.data as any)?.parent;
+      if (parentArray) {
+        const bottomNodesChildren = parentArray.children.splice(0, nodeDatum.posinset);
+        const topNodesChildren = parentArray.children.splice(Number(nodeDatum?.posinset) - 1);
+        parentArray.children = [...bottomNodesChildren, ...nodeData, ...topNodesChildren];
+      } else {
+        const bottomNodesOrg = this.datasource.data.splice(0, idx + 1);
+        const topNodesOrg = this.datasource.data.splice(idx - 1);
+        this.datasource.data = [...bottomNodesOrg, ...nodeData, ...topNodesOrg];
+      }
+
+      node.insertAdjacentHTML('afterend', html);
+    }
+    if (location === 'child' && node) {
+      const nodeDatum = this.getNodeData(node);
+      const idx = nodeDatum.idx;
+      if (this.nodesData && idx !== undefined) {
+        if (!this.nodesData[idx].children) this.nodesData[idx].children = [];
+        this.nodesData[idx].children = data;
+        const sourceData = (nodeDatum?.data as any)?.dataRef;
+        sourceData.children.push(...data);
+      }
+      (node as any).isGroup = true;
+      node.shadowRoot?.querySelector('li')?.insertAdjacentHTML('beforeend', `<ul class="group-nodes" role="group">${html}</ul>`);
+    }
+    this.#setNodes();
+    this.#initIcons();
+    this.#initTabbable();
+    this.#initSelection();
+  }
+
+  /**
    * Active node elements.
    * @private
    * @type {object}
@@ -204,21 +325,22 @@ export default class IdsTree extends Base {
   /**
    * The current flatten data array.
    * @private
-   * @type {Array<object>}
+   * @type {Array<IdsTreeData>}
    */
-  #nodesData = [];
+  nodesData: Array<IdsTreeData> = [];
 
   /**
    * Build nodes html and flatten data array
    * @private
+   * @param {Array<IdsTreeData>} nodeData the nodes to add (or partial nodes)
    * @returns {object} The html and data array
    */
-  #htmlAndData() {
+  #htmlAndData(nodeData: Array<IdsTreeData>) {
     const processed = (s: any) => (/&#?[^\s].{1,9};/g.test(s) ? unescapeHTML(s) : s);
     const validatedText = (s: any) => escapeHTML(processed(s));
     let html = '';
     const data: any = [];
-    const nodesHtml = (nodesData: any) => {
+    const nodesHtml = (nodesData: any, parent?: any) => {
       nodesData.forEach((n: any) => {
         const hasKey = (key: any, node = n) => typeof node[key] !== 'undefined';
         const addKey = (key?: any, useKey?: any) => {
@@ -227,7 +349,11 @@ export default class IdsTree extends Base {
             html += ` ${useKey || key}="${text}"`;
           }
         };
+
+        n.dataRef = n;
+        if (parent) n.parent = parent;
         data.push(n);
+
         html += '<ids-tree-node';
         addKey('id');
         addKey('disabled');
@@ -239,14 +365,22 @@ export default class IdsTree extends Base {
           addKey((hasKey('expanded') ? 'expanded' : 'open'), 'expanded');
           addKey((hasKey('label') ? 'label' : 'text'), 'label');
           html += '>';
-          nodesHtml(n.children);
+
+          let fakeChildren = false;
+          if (n.children.length === 0) {
+            n.children = [{}];
+            fakeChildren = true;
+          }
+          nodesHtml(n.children, n);
+          if (fakeChildren) n.children = [];
         } else {
           addKey('icon');
           addKey((this.isMultiSelect && hasKey('label') ? 'label' : 'text'), 'label');
           const text = hasKey('label') ? n.label : (n.text || '');
           html += `>${validatedText(text)}`;
         }
-        // Buld the badge
+
+        // Add a badge
         if (hasKey('badge')) {
           const hasBadgeKey = (key: any) => hasKey(key, n.badge);
           let badgeHtml = '<ids-badge slot="badge"';
@@ -273,7 +407,7 @@ export default class IdsTree extends Base {
       });
     };
 
-    nodesHtml(this.data);
+    nodesHtml(nodeData);
     return { html, data };
   }
 
@@ -282,7 +416,7 @@ export default class IdsTree extends Base {
    * @private
    * @returns {void}
    */
-  #redraw() {
+  redraw() {
     if (this.data.length === 0 || !this.shadowRoot) {
       return;
     }
@@ -290,8 +424,8 @@ export default class IdsTree extends Base {
     const slot = this.shadowRoot?.querySelector('slot');
 
     if (slot) {
-      const { data, html } = this.#htmlAndData();
-      this.#nodesData = data;
+      const { data, html } = this.#htmlAndData(this.data);
+      this.nodesData = data;
       slot.innerHTML = html;
       this.#init();
     }
@@ -345,8 +479,8 @@ export default class IdsTree extends Base {
         const args: any = {
           elem, level, posinset, setsize, idx, isGroup: elem.isGroup
         };
-        if (this.#nodesData[idx]) {
-          args.data = this.#nodesData[idx];
+        if (this.nodesData[idx]) {
+          args.data = this.nodesData[idx];
         }
         this.#nodes.push(args);
         if (elem.isGroup) {
@@ -368,7 +502,7 @@ export default class IdsTree extends Base {
     const collapseIcon = this.getAttribute(attributes.COLLAPSE_ICON);
     const expandIcon = this.getAttribute(attributes.EXPAND_ICON);
     const icon = this.getAttribute(attributes.ICON);
-    const useToggleTarget = this.getAttribute(attributes.USE_TOGGLE_TARGET);
+    const expandTarget = this.getAttribute(attributes.EXPAND_TARGET);
     if (collapseIcon) {
       this.#updateNodeAttribute(attributes.COLLAPSE_ICON);
     }
@@ -378,8 +512,8 @@ export default class IdsTree extends Base {
     if (icon) {
       this.#updateNodeAttribute(attributes.ICON);
     }
-    if (useToggleTarget) {
-      this.#updateNodeAttribute(attributes.USE_TOGGLE_TARGET);
+    if (expandTarget) {
+      this.#updateNodeAttribute(attributes.EXPAND_TARGET);
     }
     return this;
   }
@@ -429,10 +563,10 @@ export default class IdsTree extends Base {
   /**
    * Get the current node element and index
    * @private
-   * @param {HTMLElement} target The target node element
+   * @param {HTMLElement | undefined} target The target node element
    * @returns {object} The node element and index
    */
-  #current(target: HTMLElement) {
+  #current(target: HTMLElement | undefined) {
     return this.#nodes.find((n: any) => n.elem === target);
   }
 
@@ -941,14 +1075,12 @@ export default class IdsTree extends Base {
       }
     };
 
-    // Check if contains atleast one css class, in given list separated by spaces
-    const hasSomeClass = (el: any, str: any) => str.split(' ').some((s: any) => el.classList.contains(s));
-
     // Handle mouse click, and keyup space, enter keys
     const handleClick = (e: any, node: any) => {
       if (!node.elem.disabled) {
-        if (this.useToggleTarget || this.isMultiSelect) {
-          if (node.elem.isGroup && hasSomeClass(e.target, 'icon toggle-icon')) {
+        if (this.expandTarget === 'icon' || this.isMultiSelect) {
+          const hasToggle = e.composedPath().find((el: any) => el.nodeName === 'IDS-ICON' && (el.classList.contains('toggle-icon') || el.classList.contains('icon')));
+          if (node.elem.isGroup && hasToggle) {
             this.#toggle(node);
           } else {
             if (this.isMultiSelect) {
@@ -972,56 +1104,68 @@ export default class IdsTree extends Base {
       }
     };
 
-    this.#nodes.forEach((n: any) => {
-      this.onEvent('keydown.tree', n.elem.nodeContainer, (e: any) => {
-        if (n.elem.disabled) {
-          return;
-        }
-        // Keep `Space` in keydown allow options, so page not scrolls
-        const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
-        const key = e.code;
-        if (allow.indexOf(key) > -1) {
-          const current = this.#current(n.elem);
-          const isRTL = this.localeAPI.isRTL();
+    this.offEvent('keydown.tree', this.container);
+    this.onEvent('keydown.tree', this.container, (e: any) => {
+      const node = e.composedPath().find((el: any) => el.nodeName === 'IDS-TREE-NODE');
+      const nodeData = this.getNodeData(node);
+      if (nodeData.elem?.disabled) {
+        return;
+      }
+      // Keep `Space` in keydown allow options, so page not scrolls
+      const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
+      const key = e.code;
+      if (allow.indexOf(key) > -1) {
+        const current = this.#current(nodeData.elem);
+        const isRTL = this.localeAPI.isRTL();
 
-          if (key === 'ArrowDown') {
-            move.next(current);
-          } else if (key === 'ArrowUp') {
-            move.previous(current);
-          } else if (key === 'ArrowRight') {
-            move[isRTL ? 'backward' : 'forward'](current);
-          } else if (key === 'ArrowLeft') {
-            move[isRTL ? 'forward' : 'backward'](current);
-          }
-          e.preventDefault();
-          e.stopPropagation();
+        if (key === 'ArrowDown') {
+          move.next(current);
+        } else if (key === 'ArrowUp') {
+          move.previous(current);
+        } else if (key === 'ArrowRight') {
+          move[isRTL ? 'backward' : 'forward'](current);
+        } else if (key === 'ArrowLeft') {
+          move[isRTL ? 'forward' : 'backward'](current);
         }
-      });
-
-      this.onEvent('keyup.tree', n.elem.nodeContainer, (e: any) => {
-        const allow = ['Space', 'Enter'];
-        const key = e.code;
-        if (allow.indexOf(key) > -1) {
-          handleClick(e, n);
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      });
-
-      this.onEvent('click.tree', n.elem.nodeContainer, (e: any) => {
+        e.preventDefault();
         e.stopPropagation();
-        handleClick(e, n);
+      }
+    });
+
+    this.offEvent('keyup.tree', this.container);
+    this.onEvent('keyup.tree', this.container, (e: any) => {
+      const allow = ['Space', 'Enter'];
+      const key = e.code;
+      const node = e.composedPath().find((el: any) => el.nodeName === 'IDS-TREE-NODE');
+      const nodeData = this.#nodes.find((el) => el.elem === node);
+      if (allow.indexOf(key) > -1) {
+        handleClick(e, nodeData);
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
+
+    this.offEvent('click.tree', this.container);
+    this.onEvent('click.tree', this.container, (e: any) => {
+      const found = e.composedPath().find((i: any) => {
+        if (i.nodeName === 'SPAN' || i?.classList?.contains('.node-container')) {
+          return i;
+        }
       });
+      if (!found) return;
+      const node = e.composedPath().find((el: any) => el.nodeName === 'IDS-TREE-NODE');
+      const nodeData = this.#nodes.find((el) => el.elem === node);
+      handleClick(e, nodeData);
     });
   }
 
   /**
    * The currently selected
-   * @returns {object|null} An node object if selectable: single
+   * @returns {IdsTreeNodeData | null} An node object if selectable: single
    */
-  get selected(): object | null {
+  get selected(): IdsTreeNodeData | null {
     if (this.selectable) {
-      const selected = this.#nodes.filter((n: any) => n.elem.isSelected);
+      const selected = this.#nodes.filter((n: any) => n.elem.isSelected) as any;
       const len = selected.length;
       if (this.selectable === 'single') {
         return len ? selected[0] : null;
@@ -1050,16 +1194,16 @@ export default class IdsTree extends Base {
    * Set the data array of the tree
    * @param {Array} value The array to use
    */
-  set data(value: Array<any>) {
+  set data(value: Array<IdsTreeData>) {
     if (value && value.constructor === Array) {
       this.datasource.data = value;
-      this.#redraw();
+      this.redraw();
       return;
     }
     this.datasource.data = null;
   }
 
-  get data(): Array<any> { return this.datasource?.data || []; }
+  get data(): Array<IdsTreeData> { return this.datasource?.data || []; }
 
   /**
    * Sets the tree to disabled
@@ -1212,17 +1356,17 @@ export default class IdsTree extends Base {
   get toggleIconRotate(): boolean | string { return IdsTreeShared.getBoolVal(this, attributes.TOGGLE_ICON_ROTATE); }
 
   /**
-   * Sets the tree to use toggle target
-   * @param {boolean|string} value If true will set to use toggle target
+   * Sets the tree's expand target
+   * @param {boolean|string} value Either node or icon
    */
-  set useToggleTarget(value: boolean | string) {
-    if (IdsTreeShared.isBool(value)) {
-      this.setAttribute(attributes.USE_TOGGLE_TARGET, `${value}`);
+  set expandTarget(value: 'node' | 'icon' | string) {
+    if (value) {
+      this.setAttribute(attributes.EXPAND_TARGET, `${value}`);
     } else {
-      this.removeAttribute(attributes.USE_TOGGLE_TARGET);
+      this.removeAttribute(attributes.EXPAND_TARGET);
     }
-    this.#updateNodeAttribute(attributes.USE_TOGGLE_TARGET);
+    this.#updateNodeAttribute(attributes.EXPAND_TARGET);
   }
 
-  get useToggleTarget(): boolean | string { return IdsTreeShared.getBoolVal(this, attributes.USE_TOGGLE_TARGET); }
+  get expandTarget(): 'node' | 'icon' | string { return this.getAttribute(attributes.EXPAND_TARGET) || 'node'; }
 }

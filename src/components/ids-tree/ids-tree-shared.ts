@@ -15,7 +15,7 @@ const IdsTreeShared = {
     expanded: true,
     icon: 'tree-node',
     selectable: 'single',
-    useToggleTarget: false,
+    expandTarget: 'node',
     toggleCollapseIcon: 'plusminus-folder-closed',
     toggleExpandIcon: 'plusminus-folder-open',
     toggleIconRotate: true
