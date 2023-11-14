@@ -52,7 +52,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     id: 'location',
     name: 'Location Lookup',
     field: 'location',
-    formatter: dataGrid.formatters.hyperlink,
+    formatter: dataGrid.formatters.lookup,
     href: '#',
     reorderable: true,
     resizable: true,
