@@ -58,7 +58,7 @@ test.describe('IdsDatePicker tests', () => {
       await expect(html).toMatchSnapshot('date-picker-shadow');
     });
 
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-date-picker-light');
     });

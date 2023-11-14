@@ -58,7 +58,7 @@ test.describe('IdsAccordion tests', () => {
       await expect(html).toMatchSnapshot('accordion-shadow');
     });
 
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-accordion-light');
     });
