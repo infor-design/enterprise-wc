@@ -1104,7 +1104,8 @@ export default class IdsDataGridFilters {
   #btnAndInputTemplate(type: string, column: IdsDataGridColumn) {
     const input = `${this.#inputTemplate(type, column)}`;
     const button = `${this.#filterButtonTemplate(type, column)}`;
-    if (column.align === 'right') {
+    const align = column.filterAlign || column.align;
+    if (align === 'right') {
       return `${input}${button}`;
     }
     return `${button}${input}`;

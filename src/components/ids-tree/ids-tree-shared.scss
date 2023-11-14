@@ -26,4 +26,8 @@
     margin: 0;
     margin-inline-end: 8px;
   }
+
+  ::slotted(ids-badge) {
+    align-self: center;
+  }
 }
