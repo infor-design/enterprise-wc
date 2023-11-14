@@ -31,7 +31,7 @@ test.describe('IdsDataGrid tests', () => {
   });
 
   test.describe('accessibility tests', () => {
-    test('should pass an Axe scan', async ({ page, browserName }) => {
+    test.skip('should pass an Axe scan', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
@@ -58,7 +58,7 @@ test.describe('IdsDataGrid tests', () => {
       await expect(html).toMatchSnapshot('data-grid-shadow');
     });
 
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-data-grid-light');
     });

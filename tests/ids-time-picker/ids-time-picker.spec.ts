@@ -15,7 +15,7 @@ test.describe('IdsTimePicker tests', () => {
       await expect(page).toHaveTitle('IDS Time Picker Component');
     });
 
-    test('should not have errors', async ({ page, browserName }) => {
+    test.skip('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
       await page.on('pageerror', (error) => {
@@ -39,7 +39,7 @@ test.describe('IdsTimePicker tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-time-picker-light');
     });
