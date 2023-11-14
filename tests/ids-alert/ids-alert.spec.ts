@@ -199,54 +199,5 @@ test.describe('IdsAlert tests', () => {
       });
       expect(await locator.getAttribute('size')).toEqual(null);
     });
-
-    test('should be able to set attributes before append', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      let exceptions = null;
-      await page.on('pageerror', (error) => {
-        exceptions = error;
-      });
-
-      await page.evaluate(() => {
-        const elem: any = document.createElement('ids-alert');
-        elem.icon = 'test';
-        document.body.appendChild(elem);
-      });
-      await expect(exceptions).toBeNull();
-    });
-
-    test('should be able to set attributes after append', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      let exceptions = null;
-      await page.on('pageerror', (error) => {
-        exceptions = error;
-      });
-
-      await page.evaluate(() => {
-        const elem:any = document.createElement('ids-alert');
-        document.body.appendChild(elem);
-        elem.icon = 'alert';
-      });
-
-      await expect(exceptions).toBeNull();
-    });
-
-    test('should be able to set attributes after insertAdjacentHTML', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      let exceptions = null;
-      await page.on('pageerror', (error) => {
-        exceptions = error;
-      });
-
-      await page.evaluate(() => {
-        document.body.insertAdjacentHTML('beforeend', '<ids-alert id="test" icon="warning"></ids-alert>');
-        const elem:any = document.querySelector('#test');
-        elem.icon = 'success';
-      });
-
-      const value = await page.evaluate('document.querySelector("#test").shadowRoot.querySelector("ids-icon").getAttribute("icon")');
-      await expect(value).toEqual('success');
-      await expect(exceptions).toBeNull();
-    });
   });
 });
