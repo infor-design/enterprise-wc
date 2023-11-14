@@ -630,13 +630,14 @@ export class LookupEditor implements IdsDataGridEditor {
 
   popup?: IdsModal;
 
-  clickEvent?: MouseEvent | undefined;
+  clickEvent?: MouseEvent;
 
   /**
    * Create an input and set the value and focus states
    * @param {IdsDataGridCell} cell the cell element
    */
   init(cell?: IdsDataGridCell) {
+    const autoOpen = (<HTMLElement> this.clickEvent?.target)?.classList?.contains('editor-cell-icon');
     const isInline = cell?.column.editor?.inline;
     this.input = <IdsLookup>document.createElement('ids-lookup');
     this.input.size = isInline ? 'full' : '';
@@ -652,10 +653,14 @@ export class LookupEditor implements IdsDataGridEditor {
 
     applySettings(this.input, { ...cell?.column.editor?.editorSettings });
 
-    const popup = this.input.modal;
-    if (popup) this.popup = popup;
+    this.popup = this.input.modal ?? undefined;
 
-    this.input.focus();
+    if (autoOpen && this.popup) {
+      this.popup.show();
+      this.popup.focus();
+    } else {
+      this.input.focus();
+    }
   }
 
   value() {
