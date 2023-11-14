@@ -749,6 +749,13 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
             } else if (navBtn.classList.contains('btn-today')) {
               this.monthView?.changeDate('today');
               this.setCurrentTime();
+              if (this.target) {
+                this.value = this.localeAPI.formatDate(
+                  this.setTime(this.getActiveDate()),
+                  { pattern: this.format }
+                );
+              }
+              this.triggerSelectedEvent();
             }
           }
         }
