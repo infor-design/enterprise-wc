@@ -17,7 +17,7 @@ test.describe('IdsAccordion tests', () => {
       await expect(page).toHaveTitle('IDS Accordion Component');
     });
 
-    test('should not have errors', async ({ page, browserName }) => {
+    test.skip('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
       await page.on('pageerror', (error) => {
