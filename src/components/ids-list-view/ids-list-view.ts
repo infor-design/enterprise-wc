@@ -23,9 +23,10 @@ import '../ids-virtual-scroll/ids-virtual-scroll';
 import './ids-list-view-item';
 import styles from './ids-list-view.scss';
 
+import type IdsListViewItem from './ids-list-view-item';
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
-import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import type IdsText from '../ids-text/ids-text';
+import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
 const Base = IdsLocaleMixin(
   IdsPagerMixin(
@@ -168,6 +169,34 @@ export default class IdsListView extends Base {
       attributes.SUPPRESS_DEACTIVATION,
       attributes.SUPPRESS_DESELECTION,
       attributes.VIRTUAL_SCROLL
+    ];
+  }
+
+  get items(): IdsListViewItem[] {
+    return [
+      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item'),
+      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item') ?? []),
+    ];
+  }
+
+  get itemsActive(): IdsListViewItem[] {
+    return [
+      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[active]'),
+      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item[active]') ?? []),
+    ];
+  }
+
+  get itemsDisabled(): IdsListViewItem[] {
+    return [
+      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[disabled]'),
+      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item[disabled]') ?? []),
+    ];
+  }
+
+  get itemsSelected(): IdsListViewItem[] {
+    return [
+      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[selected]'),
+      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item[selected]') ?? []),
     ];
   }
 
