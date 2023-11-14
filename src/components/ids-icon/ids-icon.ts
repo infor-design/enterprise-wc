@@ -198,6 +198,7 @@ export default class IdsIcon extends Base {
       'no-attachment',
       'no-comment',
       'no-filter',
+      'open-folder',
       'paste',
       'phone',
       'previous-page',
