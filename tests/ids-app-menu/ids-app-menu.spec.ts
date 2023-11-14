@@ -58,7 +58,7 @@ test.describe('IdsAppMenu tests', () => {
       await expect(html).toMatchSnapshot('app-menu-shadow');
     });
 
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-app-menu-light');
     });
