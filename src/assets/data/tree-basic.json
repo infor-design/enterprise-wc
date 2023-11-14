@@ -209,7 +209,9 @@
     "text": "Blog"
   },
   {
-    "id": "contact",
-    "text": "Contact"
+    "id": "contacts",
+    "text": "Contacts",
+    "children": [],
+    "expanded": "false"
   }
 ]

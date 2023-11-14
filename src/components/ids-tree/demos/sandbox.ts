@@ -21,20 +21,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Toggle Target
+  // Expand Target
   const treeTt: any = document.querySelector('#tree-toggle-target');
   if (treeTt) {
-    treeTt.useToggleTarget = true;
+    treeTt.expandTarget = 'icon';
     await getData((data: any) => {
       treeTt.data = data;
     });
   }
 
-  // Toggle Target (No Icon Rotation)
+  // Expand Target (No icon rotation animtion)
   const treeTtNoIr: any = document.querySelector('#tree-toggle-target-no-rotation');
   if (treeTtNoIr) {
     treeTtNoIr.toggleIconRotate = false;
-    treeTtNoIr.useToggleTarget = true;
+    treeTtNoIr.collapseIcon = 'plusminus-folder-closed';
+    treeTtNoIr.expandIcon = 'plusminus-folder-open';
+    treeTtNoIr.toggleCollapseIcon = 'plusminus-folder-right';
+    treeTtNoIr.toggleExpandIcon = 'plusminus-folder-down';
+    treeTtNoIr.expandTarget = 'icon';
     await getData((data: any) => {
       treeTtNoIr.data = data;
     });
@@ -43,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Custom Icons
   const treeCi: any = document.querySelector('#tree-custom-icons');
   if (treeCi) {
-    treeCi.useToggleTarget = true;
+    treeCi.expandTarget = 'icon';
     treeCi.collapseIcon = 'user-folder-closed';
     treeCi.expandIcon = 'user-folder-open';
     treeCi.toggleCollapseIcon = 'chevron-right';
@@ -127,7 +131,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await getData((data: any) => {
       treeEv.data = data;
     });
-    treeEv.useToggleTarget = true;
+    treeEv.expandTarget = 'icon';
     treeEv.addEventListener('beforeselected', (e: any) => {
       show('beforeselected', e.detail);
       // e.detail.response(false); // veto
