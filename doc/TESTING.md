@@ -48,7 +48,7 @@ test('matches visual snapshot in percy', async ({ page, browserName }) => {
 - You can run a specific test by name such as `npx playwright test example.spec-a example.spec-b`
 - To run only one test in a suite add only. For example `test.only(`. This only works when limiting scope. (i.e. `npm run test -- component-func`)
 - To run only one suite use `describe.only(`. This only works when limiting scope. (i.e. `npm run test -- component-func`)
-- To skip a test add `test.skip(`
+- To skip a test add `test(`
 - You can also tag tests and run them via a grep [see docs for details](https://playwright.dev/docs/test-annotations#tag-tests).
 
 ## Test writing tips

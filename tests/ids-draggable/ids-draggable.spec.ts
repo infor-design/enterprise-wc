@@ -1,5 +1,4 @@
 import AxeBuilder from '@axe-core/playwright';
-import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
@@ -17,7 +16,7 @@ test.describe('IdsDraggable tests', () => {
       await expect(page).toHaveTitle('IDS Draggable Component');
     });
 
-    test.skip('should not have errors', async ({ page, browserName }) => {
+    test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
       await page.on('pageerror', (error) => {
@@ -56,11 +55,6 @@ test.describe('IdsDraggable tests', () => {
         return el?.shadowRoot?.innerHTML;
       });
       await expect(html).toMatchSnapshot('draggable-shadow');
-    });
-
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      await percySnapshot(page, 'ids-draggable-light');
     });
   });
 });

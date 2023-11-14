@@ -17,7 +17,7 @@ test.describe('IdsCalendar tests', () => {
       await expect(page).toHaveTitle('IDS Calendar Component');
     });
 
-    test.skip('should not have errors', async ({ page, browserName }) => {
+    test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
       await page.on('pageerror', (error) => {
@@ -31,7 +31,7 @@ test.describe('IdsCalendar tests', () => {
   });
 
   test.describe('accessibility tests', () => {
-    test.skip('should pass an Axe scan', async ({ page, browserName }) => {
+    test('should pass an Axe scan', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
@@ -59,7 +59,7 @@ test.describe('IdsCalendar tests', () => {
       await expect(html).toMatchSnapshot('calendar-shadow');
     });
 
-    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-calendar-light');
     });

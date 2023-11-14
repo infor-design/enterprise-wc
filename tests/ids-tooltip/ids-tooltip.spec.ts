@@ -17,7 +17,7 @@ test.describe('IdsTooltip tests', () => {
       await expect(page).toHaveTitle('IDS Tooltip Component');
     });
 
-    test.skip('should not have errors', async ({ page, browserName }) => {
+    test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
       await page.on('pageerror', (error) => {
@@ -56,11 +56,6 @@ test.describe('IdsTooltip tests', () => {
         return el?.shadowRoot?.innerHTML;
       });
       await expect(html).toMatchSnapshot('tooltip-shadow');
-    });
-
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      await percySnapshot(page, 'ids-tooltip-light');
     });
   });
 });

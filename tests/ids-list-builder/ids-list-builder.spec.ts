@@ -17,7 +17,7 @@ test.describe('IdsListBuilder tests', () => {
       await expect(page).toHaveTitle('IDS List Builder Component');
     });
 
-    test.skip('should not have errors', async ({ page, browserName }) => {
+    test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
       await page.on('pageerror', (error) => {
