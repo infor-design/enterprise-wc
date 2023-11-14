@@ -13,8 +13,9 @@ import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-lab
 import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import '../ids-trigger-field/ids-trigger-field';
 import '../ids-modal/ids-modal';
+import '../ids-trigger-field/ids-trigger-field';
+// import '../ids-data-grid/ids-data-grid';
 
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
