@@ -13,6 +13,8 @@ type Constraints = IdsConstructor<OrientationHandler>;
  * @returns {any} The extended object
  */
 const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  #orientation: string | null = 'horizontal';
+
   constructor(...args: any[]) {
     super(...args);
 
@@ -20,14 +22,13 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
     // to color variant styling after it runs, keeping the visual state in-sync.
     this.render = () => {
       super.render();
-      this.#refreshOrientation();
+      this.#refreshOrientation('horizontal', this.orientation);
       return this;
     };
   }
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.#refreshOrientation('horizontal', this.orientation);
   }
 
   static get attributes() {
@@ -43,10 +44,10 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
   orientations = ['horizontal', 'vertical'];
 
   /**
-   * @returns {string} the name of the orientation currently applied
+   * @returns {string | null} the name of the orientation currently applied
    */
-  get orientation(): string {
-    return this.getAttribute(attributes.ORIENTATION) ?? 'horizontal';
+  get orientation(): string | null {
+    return this.#orientation;
   }
 
   /**
@@ -55,7 +56,7 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
   set orientation(val: string | null) {
     val ??= 'horizontal';
     const safeValue = String(stripTags(val, ''));
-    const currentValue = this.orientation;
+    const currentValue = this.#orientation;
 
     if (currentValue !== safeValue) {
       if (this.orientations.includes(safeValue)) {
@@ -64,6 +65,7 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
         this.removeAttribute(attributes.ORIENTATION);
       }
 
+      this.#orientation = safeValue;
       this.#refreshOrientation(currentValue, safeValue);
     }
   }
@@ -71,11 +73,11 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
   /**
    * Refreshes the component's orientation state, driven by
    * a CSS class on the WebComponent's `container` element
-   * @param {string} oldVariantName the orientation variant name to "remove" from the style
-   * @param {string} newVariantName the orientation variant name to "add" to the style
+   * @param {string | null} oldVariantName the orientation variant name to "remove" from the style
+   * @param {string | null} newVariantName the orientation variant name to "add" to the style
    * @returns {void}
    */
-  #refreshOrientation(oldVariantName?: string, newVariantName?: string) {
+  #refreshOrientation(oldVariantName: string | null, newVariantName: string | null) {
     if (!this.container) return;
     const cl = this.container.classList;
 

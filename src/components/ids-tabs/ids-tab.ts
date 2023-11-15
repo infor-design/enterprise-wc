@@ -86,7 +86,7 @@ export default class IdsTab extends Base {
     const cssClassAttr = buildClassAttrib(
       'ids-tab',
       this.selected,
-      this.orientation,
+      `orientation-${this.orientation}`,
       this.count
     );
     const selectedAttr = this.selected ? ' font-weight="semi-bold"' : '';
@@ -254,7 +254,7 @@ export default class IdsTab extends Base {
         this.container?.setAttribute(htmlAttributes.TABINDEX, '-1');
       } else {
         this.setAttribute(attributes.SELECTED, '');
-        this.container?.children?.[0]?.setAttribute?.(attributes.FONT_WEIGHT, 'bold');
+        this.container?.children?.[0]?.setAttribute?.(attributes.FONT_WEIGHT, 'semi-bold');
         this.container?.classList.add(attributes.SELECTED);
         this.setAttribute(htmlAttributes.TABINDEX, '0');
         this.container?.setAttribute(htmlAttributes.TABINDEX, '0');
