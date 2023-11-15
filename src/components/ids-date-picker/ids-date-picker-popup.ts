@@ -747,15 +747,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
             } else if (navBtn.classList.contains('btn-previous')) {
               this.monthView?.changeDate('previous-month');
             } else if (navBtn.classList.contains('btn-today')) {
-              this.monthView?.changeDate('today');
-              this.setCurrentTime();
-              if (this.target) {
-                this.value = this.localeAPI.formatDate(
-                  this.setTime(this.getActiveDate()),
-                  { pattern: this.format }
-                );
-              }
-              this.triggerSelectedEvent();
+              this.handleTodayEvent();
             }
           }
         }
@@ -947,6 +939,32 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       this.hide(true);
       this.triggerSelectedEvent(e);
     }
+  }
+
+  /**
+   * Click to Today button event handler
+   * @returns {void}
+   */
+  private handleTodayEvent(): void {
+    if (!this.monthView) return;
+    this.monthView.changeDate('today');
+
+    // If range is enabled just set the start date to today
+    if (this.useRange) {
+      const rangeSettings = this.getRangeSettings();
+      rangeSettings.start = this.getActiveDate();
+      rangeSettings.end = null;
+      this.setRangeSettings(rangeSettings);
+
+      return;
+    }
+
+    this.value = this.localeAPI.formatDate(
+      this.setTime(this.getActiveDate()),
+      { pattern: this.format }
+    );
+    this.triggerSelectedEvent();
+    this.hide(true);
   }
 
   /**
