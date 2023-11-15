@@ -242,16 +242,6 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Add the sortable class to the list items
-   * @returns {void}
-   */
-  #addSortableStyles(): void {
-    this.getAllLi()?.forEach((li: HTMLElement) => {
-      li.classList.add('sortable');
-    });
-  }
-
-  /**
    * Get the item info for given element.
    * @param {HTMLElement} el The element.
    * @returns {IdsListViewItemInfo|null} Item info, or null if item not found.
@@ -402,9 +392,9 @@ export default class IdsListView extends Base {
   }
 
   #attachEventListeners() {
-    const childSlot = this.#childSlot();
-    this.offEvent('slotchange.listview', childSlot);
-    this.onEvent('slotchange.listview', childSlot, () => {
+    const defaultSlot = this.container?.querySelector<HTMLSlotElement>('slot:not([name])') ?? undefined;
+    this.offEvent('slotchange.listview', defaultSlot);
+    this.onEvent('slotchange.listview', defaultSlot, () => {
       if (this.#childElements()?.length) {
         this.redrawLazy();
       }
@@ -425,9 +415,7 @@ export default class IdsListView extends Base {
     });
 
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
-    if (this.sortable) {
-      this.#addSortableStyles();
-    } else {
+    if (!this.sortable) {
       // Set selection/activation by ckick
       this.offEvent('click.listview-selection', this.container);
       this.onEvent('click.listview-selection', this.container, (e: any) => this.#handleOnClick(e));
@@ -605,14 +593,6 @@ export default class IdsListView extends Base {
       return !nextLi?.hasAttribute('disabled');
     });
     return nextLi;
-  }
-
-  /**
-   * Get the default <slot> within <ids-list-view>
-   * @returns {HTMLSlotElement} The default slot
-   */
-  #childSlot(): HTMLSlotElement | undefined {
-    return this.container?.querySelector<HTMLSlotElement>('slot:not([name])') ?? undefined;
   }
 
   /**
