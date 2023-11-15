@@ -132,8 +132,9 @@
       }
     }
 
-    &.is-timepicker,
-    &.is-datepicker {
+    &.is-lookup,
+    &.is-datepicker,
+    &.is-timepicker {
       justify-content: space-between;
 
       .text-ellipsis {
@@ -183,8 +184,9 @@
 
   // Editing with popups
   &.is-editing.is-dropdown,
-  &.is-editing.is-timepicker,
-  &.is-editing.is-datepicker {
+  &.is-editing.is-lookup,
+  &.is-editing.is-datepicker,
+  &.is-editing.is-timepicker {
     overflow: visible;
   }
 

@@ -1,5 +1,6 @@
 // Supporting components
 import '../ids-lookup';
+import '../../ids-data-grid/ids-data-grid';
 
 import booksJSON from '../../../assets/data/books.json';
 import IdsGlobal from '../../ids-global/ids-global';
