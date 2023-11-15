@@ -55,7 +55,7 @@
     "@babel/preset-env": "^7.23.3",
     "@custom-elements-manifest/analyzer": "^0.9.0",
     "@jsdevtools/coverage-istanbul-loader": "^3.0.5",
-    "@percy/cli": "^1.27.4",
+    "@percy/cli": "^1.18.0",
     "@percy/playwright": "^1.0.4",
     "@playwright/test": "^1.39.0",
     "@types/node": "^20.9.0",
