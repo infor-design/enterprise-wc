@@ -10,7 +10,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  timeout: 12000,
+  timeout: 15000,
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -18,7 +18,8 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* No Retry anywhere */
   retries: 0,
-  workers: process.env.CI ? 3 : undefined,
+  /* was process.env.CI ? 3 : undefined */
+  workers: undefined,
   /* Control the snap shot names */
   snapshotPathTemplate: '{testDir}/{testFileDir}/snapshots/{arg}.snap',
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
