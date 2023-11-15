@@ -1,13 +1,24 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsOrientationMixin from '../../mixins/ids-orientation-mixin/ids-orientation-mixin';
 import IdsElement from '../../core/ids-element';
 
 import './ids-tab-content';
 
-import styles from './ids-tabs.scss';
+import styles from './ids-tabs-context.scss';
+
 import type IdsTabContent from './ids-tab-content';
+import type IdsTabs from './ids-tabs';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+const Base = IdsOrientationMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
+);
 
 /**
  * IDS Tabs Context Component
@@ -18,7 +29,7 @@ import type IdsTabContent from './ids-tab-content';
  */
 @customElement('ids-tabs-context')
 @scss(styles)
-export default class IdsTabsContext extends IdsEventsMixin(IdsElement) {
+export default class IdsTabsContext extends Base {
   constructor() {
     super();
   }
@@ -51,12 +62,33 @@ export default class IdsTabsContext extends IdsEventsMixin(IdsElement) {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.AUTO_FIT,
       attributes.VALUE
     ];
   }
 
   template() {
     return '<slot></slot>';
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsTabs} reference to the internal IdsTabs list
+   */
+  get tabList() {
+    return this.querySelector<IdsTabs>('ids-tabs');
+  }
+
+  /**
+   * Set the tabs context element to auto fit to its parent container's size
+   * @param {boolean|string|null} value The auto fit
+   */
+  set autoFit(value) {
+    setBooleanAttr(attributes.AUTO_FIT, this, stringToBool(value));
+  }
+
+  get autoFit(): boolean | string | null {
+    return this.hasAttribute(attributes.AUTO_FIT);
   }
 
   /** @param {string} value The value representing a currently selected tab */
@@ -83,5 +115,12 @@ export default class IdsTabsContext extends IdsEventsMixin(IdsElement) {
     const targetPane = contentPanes.find((el) => el.value === newValue);
     if (currentPane) currentPane.active = false;
     if (targetPane) targetPane.active = true;
+  }
+
+  /**
+   * Inherited from IdsOrientationMixin
+   */
+  onOrientationRefresh(): void {
+    if (this.orientation) this.tabList?.setAttribute(attributes.ORIENTATION, this.orientation);
   }
 }

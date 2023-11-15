@@ -8,6 +8,7 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import '../ids-popup-menu/ids-popup-menu';
 import '../ids-text/ids-text';
 import type IdsTabs from './ids-tabs';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 
@@ -73,6 +74,10 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
     return this.shadowRoot?.querySelector('ids-popup-menu');
   }
 
+  /**
+   * @readonly
+   * @returns {HTMLElement} More Actions menu group
+   */
   get moreActionsGroup(): any {
     return this.querySelector(MORE_ACTIONS_SELECTOR);
   }
@@ -106,6 +111,14 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
   }
 
   /**
+   * @readonly
+   * @returns {HTMLElement} the "dropdown arrow" IdsIcon element
+   */
+  get dropdownIcon() {
+    return this.shadowRoot?.querySelector('ids-icon[icon="dropdown"]');
+  }
+
+  /**
    * @private
    * @returns {string} the template for the More Actions Menu Group
    */
@@ -114,7 +127,7 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
     const renderedTabItems = childTabs?.map((i: HTMLElement) => this.#moreActionsItemTemplate(i)).join('') || '';
 
     // Cycle through tabs, if present, and render a menu item that represents them
-    return `<ids-menu-group ${attributes.MORE_ACTIONS}>
+    return `<ids-menu-group ${attributes.MORE_ACTIONS} select="single">
       ${renderedTabItems}
     </ids-menu-group>`;
   }
@@ -138,6 +151,8 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
       overflowed = this.isOverflowed(item) ? '' : ' hidden';
     }
 
+    const iconTemplate = (iconDef: string) => `<ids-icon slot="icon" icon="${iconDef}" size="xsmall"></ids-icon>`;
+
     // Handles regular tabs
     const handleTab = (thisItem: any) => {
       text = thisItem.textContent;
@@ -146,7 +161,7 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
 
       const tabIcon = thisItem.querySelector('ids-icon');
       if (tabIcon) {
-        icon = ` icon="${tabIcon.icon}"`;
+        icon = iconTemplate(tabIcon.icon);
       }
     };
 
@@ -165,7 +180,7 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
     // These represent menu items in Dropdown Tabs, which can be hidden.
     const handleMenuItem = (thisItem: any) => {
       if (thisItem.disabled) disabled = ' disabled';
-      if (thisItem.icon) icon = ` icon="${thisItem.icon}"`;
+      if (thisItem.icon) icon = iconTemplate(thisItem.icon);
       if (thisItem.hidden) hidden = ` hidden`;
       text = thisItem.text;
 
@@ -191,10 +206,11 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
     }
 
     // Sanitize text from Tabs to fit menu items
-    text = removeNewLines(text)?.trim();
+    text = `<span class="ids-tab-more-menu-item-text">${removeNewLines(text)?.trim()}</span>`;
 
-    return `<ids-menu-item${disabled}${icon}${hidden || overflowed}${value}>
+    return `<ids-menu-item${disabled}${hidden || overflowed}${value}>
       ${text}
+      ${icon}
       ${submenu}
     </ids-menu-item>`;
   }
@@ -343,10 +359,19 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
   }
 
   #configureMenu() {
-    this.menu.width = '100%';
-    this.menu.popup.align = 'bottom, left';
-    this.menu.popup.y = -10;
-    this.menu.popup.alignTarget = this.container;
+    this.menu.target = this;
+    this.menu.triggerType = 'click';
+
+    if (this.colorVariant !== 'module') {
+      this.menu.popup.arrow = 'bottom';
+      this.menu.popup.arrowTarget = this.dropdownIcon || this;
+      this.menu.popup.align = 'bottom, right';
+      this.menu.popup.y = 4;
+    } else {
+      this.menu.popup.align = 'bottom, left';
+      this.menu.width = '100%';
+      this.menu.popup.y = -10;
+    }
   }
 
   #attachMoreMenuEvents(): void {
@@ -365,6 +390,19 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
         this.menu.show();
       } else {
         this.menu.hide();
+      }
+    });
+
+    this.onEvent('click', this.menu, (e: MouseEvent) => {
+      const target = (e.target as HTMLElement);
+      if (target) {
+        // If the icon inside the menu item is a "close" icon, dismiss the tab.
+        if (target.tagName === 'IDS-ICON' && target.getAttribute('icon') === 'close') {
+          const menuItem = getClosest(target, 'ids-menu-item');
+          if (menuItem) {
+            (menuItem.overflowTarget as IdsTab).dismiss();
+          }
+        }
       }
     });
 
