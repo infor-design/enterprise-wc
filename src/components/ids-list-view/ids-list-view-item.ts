@@ -82,19 +82,9 @@ export default class IdsListViewItem extends Base {
 
   #setAttributes() {
     const listView = this.listView;
-    const rowIndex = this.rowIndex;
     const rowData = this.rowData;
-    console.log('rowData', rowData);
-
-    // const disabled = rowData.disabled ? ' disabled' : '';
+    const rowIndex = this.rowIndex;
     const tabindex = typeof rowIndex !== 'undefined' && !rowIndex ? '0' : '-1';
-    // const activated = rowData.itemActivated ? ' activated' : '';
-    // let selected = '';
-
-    // if (rowData.itemSelected) {
-    //   selected = ' selected aria-selected="true"';
-    //   if (listView.selectable === 'mixed') selected += ' hide-selected-color';
-    // }
 
     if (listView.sortable) {
       this.classList.add('sortable');
@@ -112,16 +102,6 @@ export default class IdsListViewItem extends Base {
     this.setAttribute('aria-posinset', String(rowIndex + 1));
     this.setAttribute('index', String(rowIndex));
     this.setAttribute('tabindex', tabindex);
-
-    // return `
-    //   role="option"
-    //   row-index="${rowIndex}"
-    //   index="${rowIndex}"
-    //   class="${this.sortable ? 'sortable' : ''}"
-    //   aria-posinset="${rowIndex + 1}"
-    //   aria-setsize="${this.data.length ? this.#size : this.itemsFiltered.length}"
-    //   ${tabindex}${activated}${selected}${disabled}
-    // `;
   }
 
   /**
@@ -148,17 +128,6 @@ export default class IdsListViewItem extends Base {
         </div>
       </div>
     `;
-
-    // return `
-    //   <div class="list-item-area">
-    //     <slot name="prefix"></slot>
-    //     ${this.templateCheckbox()}
-    //     <div class="list-item-content">
-    //       <slot></slot>
-    //     </div>
-    //     <slot name="suffix"></slot>
-    //   </div>
-    // `;
   }
 
   /**
