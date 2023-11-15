@@ -636,6 +636,34 @@ export default class IdsListView extends Base {
   }
 
   /**
+   * Get custom HTML for list item.
+   * @param {number} index - the index from this.data
+   * @returns {string} The html for the <ids-list-view-item> template.
+   */
+  #generateListItemFromCustomHTML(index: number): string {
+    const data = this.data[index] ?? {};
+    return this.templateListItemWrapper(
+      `<ids-list-view-item row-index="${index}">${this.templateCustomHTML(data)}</ids-list-view-item>`,
+      index
+    );
+  }
+
+  /**
+   * Get custom slot for user-provided list item.
+   * @param {number} index - the index from this.data
+   * @returns {string} The html for the <slot>.
+   */
+  #generateListItemSlot(index: number): string {
+    const item = this.itemsFiltered.at(index);
+    if (!item) return ``;
+
+    const slotName = `slot-child-${index}`;
+    item.setAttribute('slot', slotName);
+    item.rowIndex = index;
+    return this.templateListItemWrapper(`<slot name="${slotName}"></slot>`, index);
+  }
+
+  /**
    * Inner template contents
    * @returns {string} The template
    */
@@ -644,74 +672,6 @@ export default class IdsListView extends Base {
       ${this.searchTemplate?.()}
       ${this.virtualScroll ? this.templateVirtualScroll() : this.templateStatic()}
     `;
-  }
-
-  /**
-   * Get template function for list item.
-   * @returns {Function} The list item template function.
-   */
-  listItemTemplateFunc(): any {
-    const itemTemplate = (item: any, index: number) => {
-      if (this.selectable === 'multiple' || this.selectable === 'mixed') {
-        const checked = item.itemSelected ? ' checked' : '';
-        const disabled = item.disabled ? ' disabled' : '';
-        let checkbox = `<ids-checkbox class="list-item-checkbox" label="cb-item-${index}" label-state="hidden"${checked}${disabled}></ids-checkbox>`;
-        if (this.selectable === 'multiple' && this.hideCheckboxes) checkbox = '';
-
-        return `
-          <div class="list-item-area">
-            ${checkbox}
-            <div class="list-item-content">
-              ${this.itemTemplate(item)}
-            </div>
-          </div>`;
-      }
-      return this.itemTemplate(item);
-    };
-
-    const kids = this.#childElements(true);
-    const func = (item: any, index: number) => {
-      if (item?.setAttribute) {
-        item?.setAttribute('slot', `slot-child-${index}`);
-        item.rowIndex = index;
-      }
-
-      const disabled = item.disabled ? ' disabled' : '';
-      const tabindex = `tabindex="${typeof index !== 'undefined' && !index ? '0' : '-1'}"`;
-      const activated = item.itemActivated ? ' activated' : '';
-      let selected = '';
-      if (item.itemSelected) {
-        selected = ' selected aria-selected="true"';
-        if (this.selectable === 'mixed') selected += ' hide-selected-color';
-      }
-
-      return `
-        ${this.sortable ? `<ids-swappable-item
-            role="listitem"
-            tabindex="-1"
-            tabbable="${index === 0 ? 'true' : 'false'}"
-            index="${index}"
-            id="id_item_${index + 1}"
-            aria-posinset="${index + 1}"
-            aria-setsize="${this.data?.length || kids.length}"
-            ${disabled}
-          >` : ''}
-          <div
-            part="list-item"
-            role="option"
-            index="${index}"
-            class="${this.sortable ? 'sortable' : ''}"
-            aria-posinset="${index + 1}"
-            aria-setsize="${this.data.length ? this.#size : kids.length}"
-            ${tabindex}${activated}${selected}${disabled}
-          >
-            ${itemTemplate(item, index)}
-          </div>
-        ${this.sortable ? `</ids-swappable-item>` : ''}
-      `;
-    };
-
-    return func;
   }
 
   /**
@@ -748,31 +708,20 @@ export default class IdsListView extends Base {
     `;
   }
 
+  templateCustomHTML(item: object) {
+    return injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item);
+  }
+
   /**
    * Helper method to render the list-view-item template
    * @returns {string} html
    */
   templateListItems(): string {
-    // for rendering user-provided data using user's custom-template
     if (this.data?.length) {
-      return this.data
-        .map((item: any, index: number) => this.templateListItemWrapper(
-          // then we render custom-template into the  <ids-list-view-items> body
-          `<ids-list-view-item row-index="${index}">${this.templateCustomHTML(item)}</ids-list-view-item>`,
-          index
-        ))
-        .join('');
+      return this.data.map((item: any, idx: number) => this.#generateListItemFromCustomHTML(idx)).join('');
     }
 
-    // for user-provided child <ids-list-view-item>, generate named-slots to contain list-items
-    return this.itemsFiltered
-      .map((item: IdsListViewItem, index: number) => {
-        const slotName = `slot-child-${index}`;
-        item.setAttribute('slot', slotName);
-        item.rowIndex = index;
-        return this.templateListItemWrapper(`<slot name="${slotName}"></slot>`, index);
-      })
-      .join('');
+    return this.itemsFiltered.map((item: any, idx: number) => this.#generateListItemSlot(idx)).join('');
   }
 
   /**
@@ -822,10 +771,6 @@ export default class IdsListView extends Base {
     return this.#childValidListViewItem(item)
       ? `<slot name="${item?.getAttribute?.('slot')}"></slot>`
       : injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item);
-  }
-
-  templateCustomHTML(item: object) {
-    return injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item);
   }
 
   /**
@@ -1026,7 +971,7 @@ export default class IdsListView extends Base {
 
         if (this.virtualScrollContainer) {
           this.virtualScrollContainer.itemHeight = itemHeight;
-          this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
+          this.virtualScrollContainer.itemTemplate = (item: any, idx: number) => this.#generateListItemFromCustomHTML(idx);
           this.virtualScrollContainer.data = this.data;
         }
       }
