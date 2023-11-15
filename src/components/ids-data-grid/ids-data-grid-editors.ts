@@ -1,18 +1,21 @@
 // eslint-disable-next-line max-classes-per-file
+import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsCheckbox from '../ids-checkbox/ids-checkbox';
-import IdsInput from '../ids-input/ids-input';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
-import '../ids-time-picker/ids-time-picker';
-import '../ids-date-picker/ids-date-picker';
+import IdsInput from '../ids-input/ids-input';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import type IdsButton from '../ids-button/ids-button';
+import type IdsDataGridCell from './ids-data-grid-cell';
 import type IdsDatePicker from '../ids-date-picker/ids-date-picker';
 import type IdsDatePickerPopup from '../ids-date-picker/ids-date-picker-popup';
+import type IdsLookup from '../ids-lookup/ids-lookup';
+import type IdsModal from '../ids-modal/ids-modal';
 import type IdsTimePicker from '../ids-time-picker/ids-time-picker';
 import type IdsTimePickerPopup from '../ids-time-picker/ids-time-picker-popup';
-import type IdsDataGridCell from './ids-data-grid-cell';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
-import type IdsButton from '../ids-button/ids-button';
+import '../ids-time-picker/ids-time-picker';
+import '../ids-date-picker/ids-date-picker';
+import '../ids-lookup/ids-lookup';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
@@ -34,9 +37,9 @@ export interface IdsDataGridEditor {
   /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type: string;
   /** The main editor element */
-  input?: IdsInput | IdsCheckbox | IdsDropdown | IdsDatePicker | IdsTimePicker;
+  input?: IdsInput | IdsCheckbox | IdsDropdown | IdsDatePicker | IdsTimePicker | IdsLookup;
   /** Optional Popup interface for some cell types */
-  popup?: IdsDatePickerPopup | IdsTimePickerPopup;
+  popup?: IdsDatePickerPopup | IdsTimePickerPopup | IdsModal;
   /** The function that invokes and sets values on the input */
   init: (cell?: IdsDataGridCell) => void;
   /** The function that transforms and saved the editor */
@@ -51,12 +54,23 @@ export interface IdsDataGridEditor {
   change: (newValue: boolean | number | string) => void;
 }
 
-const applySettings = (elem: any, settings?: Record<string, any> | undefined) => {
+const applyEditorSettings = (elem: any, settings?: Record<string, any> | undefined) => {
   // eslint-disable-next-line guard-for-in
   for (const setting in settings) {
     elem[setting] = settings[setting];
   }
 };
+
+const applyEditorPopupFocus = (editor: IdsDataGridEditor) => {
+  const autoOpen = (<HTMLElement> editor.clickEvent?.target)?.classList?.contains('editor-cell-icon');
+  if (autoOpen) {
+    editor.popup?.show();
+    editor.popup?.focus();
+  } else {
+    editor.input?.focus();
+  }
+};
+
 export class InputEditor implements IdsDataGridEditor {
   /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type = 'input';
@@ -84,7 +98,7 @@ export class InputEditor implements IdsDataGridEditor {
 
     if (this.input instanceof IdsInput && cell) {
       if (!isInline) this.input.shadowRoot?.querySelector('input')?.style.setProperty('width', `${cell.offsetWidth - 5}px`);
-      applySettings(this.input, cell?.column.editor?.editorSettings);
+      applyEditorSettings(this.input, cell?.column.editor?.editorSettings);
     }
     this.input.focus();
   }
@@ -189,7 +203,7 @@ export class DropdownEditor implements IdsDataGridEditor {
 
     // apply user settings
     delete settings.options;
-    applySettings(this.input, settings);
+    applyEditorSettings(this.input, settings);
     this.input.typeahead = false;
 
     cell!.innerHTML = '';
@@ -265,7 +279,6 @@ export class DatePickerEditor implements IdsDataGridEditor {
   init(cell?: IdsDataGridCell) {
     this.input = this.#buildDatePickerTriggerField(cell!);
     this.popup = this.#buildDatePickerPopup(cell!);
-    const autoOpen = (<HTMLElement> this.clickEvent?.target)?.classList?.contains('editor-cell-icon');
 
     // parse date string
     this.#update(cell!, cell!.originalValue as string);
@@ -301,12 +314,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
       this.popup.popup!.y = 16;
       this.popup.refreshTriggerEvents();
 
-      if (autoOpen) {
-        this.popup.show();
-        this.popup.focus();
-      } else {
-        this.input.focus();
-      }
+      applyEditorPopupFocus(this);
     }
 
     this.#attachEventListeners(cell);
@@ -316,7 +324,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
     const component = <IdsTriggerField>document.createElement('ids-trigger-field');
 
     // apply user settings
-    applySettings(component, cell?.column.editor?.editorSettings);
+    applyEditorSettings(component, cell?.column.editor?.editorSettings);
 
     component.id = `${cell.column.field}-date-picker`;
     component.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
@@ -341,7 +349,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
     const component = <IdsDatePickerPopup>document.createElement('ids-date-picker-popup');
 
     // apply user settings
-    applySettings(component, cell?.column.editor?.editorSettings);
+    applyEditorSettings(component, cell?.column.editor?.editorSettings);
 
     return component;
   }
@@ -423,7 +431,6 @@ export class TimePickerEditor implements IdsDataGridEditor {
   init(cell?: IdsDataGridCell | undefined) {
     this.input = this.#buildTimePickerTriggerField(cell!);
     this.popup = this.#buildTimePickerPopup(cell!);
-    const autoOpen = (<HTMLElement> this.clickEvent?.target)?.classList?.contains('editor-cell-icon');
 
     // parse date string
     const dateString = cell!.originalValue as string ?? '';
@@ -468,12 +475,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
         this.popup.period = hours > 11 ? 'PM' : 'AM';
       }
 
-      if (autoOpen) {
-        this.popup.show();
-        this.popup.focus();
-      } else {
-        this.input.focus();
-      }
+      applyEditorPopupFocus(this);
     }
 
     this.#attachEventListeners(cell);
@@ -483,7 +485,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
     const component = <IdsTriggerField>document.createElement('ids-trigger-field');
 
     // apply user settings
-    applySettings(component, cell?.column.editor?.editorSettings);
+    applyEditorSettings(component, cell?.column.editor?.editorSettings);
 
     // apply required settings
     component.id = `${cell.column.field}-time-picker`;
@@ -509,7 +511,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
     const popup = <IdsTimePickerPopup>document.createElement('ids-time-picker-popup');
 
     // apply user settings
-    applySettings(popup, cell?.column.editor?.editorSettings);
+    applyEditorSettings(popup, cell?.column.editor?.editorSettings);
 
     return popup;
   }
@@ -577,7 +579,6 @@ export class TimePickerEditor implements IdsDataGridEditor {
     if (this.input) this.input.value = String(newValue);
   }
 }
-
 export class TreeEditor extends InputEditor {
   expandButton?: IdsButton;
 
@@ -621,6 +622,62 @@ export class TreeEditor extends InputEditor {
   }
 }
 
+export class LookupEditor implements IdsDataGridEditor {
+  type = 'lookup';
+
+  input?: IdsLookup;
+
+  popup?: IdsModal;
+
+  clickEvent?: MouseEvent;
+
+  /**
+   * Create an input and set the value and focus states
+   * @param {IdsDataGridCell} cell the cell element
+   */
+  init(cell?: IdsDataGridCell) {
+    const isInline = cell?.column.editor?.inline;
+    this.input = <IdsLookup>document.createElement('ids-lookup');
+    this.input.size = isInline ? 'full' : '';
+    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
+    this.input.labelState = 'collapsed';
+
+    // Clear cell and set value
+    const value = cell?.innerText ?? '';
+    cell!.innerHTML = '';
+    cell?.appendChild(this.input as any);
+    this.input.input.noMargins = true;
+    this.input.value = value;
+
+    this.popup = this.input.modal ?? undefined;
+
+    applyEditorSettings(this.input, { ...cell?.column.editor?.editorSettings });
+    applyEditorPopupFocus(this);
+  }
+
+  value() {
+    return this.input?.value ?? '';
+  }
+
+  change(newValue: boolean | number | string) {
+    if (this.input) this.input.value = String(newValue);
+  }
+
+  /* Save selected dropdown value */
+  save(): IdsDataGridSaveValue | undefined | null {
+    return {
+      value: this.input?.value,
+      dirtyCheckValue: this.input?.input?.value
+    };
+  }
+
+  /* Destroy the editor */
+  destroy() {
+    this.input?.offEvent('keydown');
+    this.input = undefined;
+  }
+}
+
 export const editors: Array<{ type: string, editor?: IdsDataGridEditor }> = [];
 
 editors.push({
@@ -651,4 +708,9 @@ editors.push({
 editors.push({
   type: 'tree',
   editor: new TreeEditor()
+});
+
+editors.push({
+  type: 'lookup',
+  editor: new LookupEditor()
 });
