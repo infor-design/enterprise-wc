@@ -17,7 +17,7 @@ test.describe('IdsBlockGrid tests', () => {
       await expect(page).toHaveTitle('IDS Block Grid Component');
     });
 
-    test.skip('should not have errors', async ({ page, browserName }) => {
+    test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
       let exceptions = null;
       await page.on('pageerror', (error) => {
@@ -58,7 +58,7 @@ test.describe('IdsBlockGrid tests', () => {
       await expect(html).toMatchSnapshot('block-grid-shadow');
     });
 
-    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-block-grid-light');
     });

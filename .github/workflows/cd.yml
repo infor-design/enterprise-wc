@@ -40,13 +40,13 @@ jobs:
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: ids-enterprise-wc-036
+        key: ids-enterprise-wc-037
 
     - name: Install Dependencies
       run: npm ci
 
     - name: Build and Compile
-      run: npm run build:coverage
+      run: npm run build
 
     - name: Install Browsers
       run: npx playwright install --with-deps
