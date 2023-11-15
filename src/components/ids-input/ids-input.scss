@@ -253,20 +253,20 @@ $input-size-full: 100%;
 
   // Applied to the wrapper element that wraps the input and other interactable elements
   .field-container {
-    box-sizing: border-box;
-    transition: border var(--ids-motion-duration) var(--ids-motion-ease);
-    margin: var(--ids-space-none);
-    padding: var(--ids-space-none);
-    position: relative;
     border: 1px solid;
-    align-items: center;
     border-collapse: separate;
     border-radius: 2px;
+    box-sizing: border-box;
     color: inherit;
     display: flex;
+    align-items: center;
+    margin: var(--ids-space-none);
+    max-width: var(--ids-input-width-full);
+    padding: var(--ids-space-none);
+    position: relative;
     resize: none;
     text-align: left;
-    max-width: var(--ids-input-width-full);
+    transition: border var(--ids-motion-duration) var(--ids-motion-ease);
   }
 
   &:focus-within,

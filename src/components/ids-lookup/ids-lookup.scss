@@ -6,3 +6,34 @@
 ids-trigger-field::part(clearable-button) {
   margin-inline-end: -4px;
 }
+
+:host-context(ids-data-grid-cell) {
+  border: 0;
+  outline: none;
+  width: 100%;
+
+  ids-trigger-field::part(container),
+  ids-trigger-field::part(field-container) {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+@mixin ids-lookup-padding-inline($size) {
+  :host-context([data-row-height='#{$size}']) {
+    ids-trigger-field::part(input) {
+      padding-inline: var(--ids-data-grid-padding-#{$size});
+    }
+  }
+}
+
+@include ids-lookup-padding-inline(xxs);
+@include ids-lookup-padding-inline(xs);
+@include ids-lookup-padding-inline(sm);
+@include ids-lookup-padding-inline(md);
+@include ids-lookup-padding-inline(lg);

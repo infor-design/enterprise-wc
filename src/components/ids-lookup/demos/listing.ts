@@ -1,4 +1,5 @@
 // Listing Page
+import '../../ids-data-grid/ids-data-grid';
 import '../../ids-demo-app/ids-demo-listing';
 import indexYaml from './index.yaml';
 
