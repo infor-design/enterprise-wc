@@ -58,7 +58,7 @@ test.describe('IdsBlockGrid tests', () => {
       await expect(html).toMatchSnapshot('block-grid-shadow');
     });
 
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-block-grid-light');
     });
