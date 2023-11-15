@@ -353,11 +353,10 @@ class IdsMultiselect extends IdsDropdown {
       .forEach((option: IdsListBoxOption) => {
         option.classList.remove('last-selected');
         option.hidden = false;
-        if (this.#selectedList.includes(option.value)) {
-          option.selected = true;
+        option.selected = this.#selectedList.includes(option.value);
+        if (option.selected) {
           selectedOptions.push(option);
         } else {
-          option.selected = false;
           unselectedOptions.push(option);
         }
       });
