@@ -1,7 +1,7 @@
 import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
-import treeLargeJSON from '../../../assets/data/tree-large-children.json';
+import treeLargeJSON from '../../../assets/data/tree-large.json';
 import '../../ids-layout-flex/ids-layout-flex';
 
 // Example for populating the DataGrid
@@ -21,11 +21,10 @@ columns.push({
   align: 'center',
   frozen: 'left'
 });
-
 columns.push({
-  id: 'fullName',
-  name: 'Full Name',
-  field: 'fullName',
+  id: 'name',
+  name: 'Name',
+  field: 'name',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.tree,
@@ -35,10 +34,9 @@ columns.push({
   width: 220,
   frozen: 'left'
 });
-
 columns.push({
   id: 'rowNumber',
-  name: 'Row #',
+  name: '#',
   formatter: dataGrid.formatters.rowNumber,
   sortable: false,
   readonly: true,
@@ -46,18 +44,41 @@ columns.push({
 });
 
 columns.push({
-  id: 'zipCode',
-  name: 'Zip',
-  field: 'zipCode',
+  id: 'id',
+  name: 'Id',
+  field: 'id',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.text
 });
-
 columns.push({
-  id: 'street',
-  name: 'Street',
-  field: 'street',
+  id: 'location',
+  name: 'Location',
+  field: 'location',
+  sortable: true,
+  resizable: true,
+  formatter: dataGrid.formatters.text
+});
+columns.push({
+  id: 'capacity',
+  name: 'Capacity',
+  field: 'capacity',
+  sortable: true,
+  resizable: true,
+  formatter: dataGrid.formatters.integer
+});
+columns.push({
+  id: 'available',
+  name: 'Available',
+  field: 'available',
+  sortable: true,
+  resizable: true,
+  formatter: dataGrid.formatters.date
+});
+columns.push({
+  id: 'comments',
+  name: 'Comments',
+  field: 'comments',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.text
@@ -68,7 +89,7 @@ dataGrid.columns = columns;
 const setData = async () => {
   const res = await fetch(url);
   const data = await res.json();
-  dataGrid.data = data.slice(0, 50);
+  dataGrid.data = data.splice(0, 120);
 };
 
 setData();
