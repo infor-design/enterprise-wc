@@ -41,6 +41,8 @@ export default class IdsDropdownList extends Base {
 
   listBox?: IdsListBox | null;
 
+  lastHovered: IdsListBoxOption | null = null;
+
   constructor() {
     super();
   }
@@ -80,10 +82,12 @@ export default class IdsDropdownList extends Base {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.listBox = null;
+    this.lastHovered = null;
   }
 
   onHide() {
     this.setAriaOnMenuClose();
+    this.lastHovered = null;
   }
 
   onShow() {
@@ -114,6 +118,19 @@ export default class IdsDropdownList extends Base {
         this.value = target.getAttribute(attributes.VALUE) || '';
 
         this.triggerSelectedEvent();
+      }
+    });
+
+    this.offEvent('mouseover.dropdown-list-box');
+    this.onEvent('mouseover.dropdown-list-box', this.listBox, (e: any) => {
+      let target: HTMLElement | null = (e.target as HTMLElement);
+
+      if (target && target.nodeName !== 'IDS-LIST-BOX-OPTION') {
+        target = target.closest('ids-list-box-option');
+      }
+
+      if (target) {
+        this.lastHovered = (target as IdsListBoxOption);
       }
     });
   }

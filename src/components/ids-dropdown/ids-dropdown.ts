@@ -1414,6 +1414,9 @@ export default class IdsDropdown extends Base {
   }
 
   onTooltipTargetDetection(): HTMLElement | SVGElement {
+    if (this.dropdownList?.visible) {
+      return this.dropdownList?.lastHovered || this;
+    }
     return this.input?.fieldContainer || this;
   }
 }
