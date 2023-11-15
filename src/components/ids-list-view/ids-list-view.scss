@@ -39,7 +39,7 @@
       border-top-color: var(--ids-list-view-item-color-border-top);
       contain: content;
       list-style-type: none;
-      padding: var(--ids-list-view-item-padding);
+      // padding: var(--ids-list-view-item-padding);
 
       &:focus {
         border-color: var(--ids-list-view-item-color-border-focus);

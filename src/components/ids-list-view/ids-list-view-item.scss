@@ -6,9 +6,11 @@
   }
 }
 
+li,
 .list-item-area {
   display: flex;
   align-items: center;
+  padding: var(--ids-list-view-item-padding);
 
   .list-item-checkbox {
     padding-inline-end: var(--ids-space-70);
