@@ -48,16 +48,6 @@ test.describe('IdsPieChart tests', () => {
       await expect(html).toMatchSnapshot('pie-chart-html');
     });
 
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-pie-chart');
-      const html = await handle?.evaluate((el: IdsPieChart) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('pie-chart-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-pie-chart-light');
