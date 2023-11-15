@@ -524,9 +524,12 @@ export default class IdsDropdown extends Base {
    * @param {HTMLElement} option the option to select
    */
   selectTooltip(option: HTMLElement | undefined | null) {
+    if (!option) return;
+
     const tooltip = option?.getAttribute('tooltip');
     if (tooltip) {
       this.tooltip = tooltip;
+      if (this.tooltipEl) this.tooltipEl.target = option;
     }
   }
 
@@ -1408,5 +1411,9 @@ export default class IdsDropdown extends Base {
     else {
       // make it work
     }
+  }
+
+  onTooltipTargetDetection(): HTMLElement | SVGElement {
+    return this.input?.fieldContainer || this;
   }
 }
