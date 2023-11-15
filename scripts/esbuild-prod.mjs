@@ -70,12 +70,12 @@ const result = await esbuild
   .catch(() => process.exit(1));
 
 // Copy Locales
-const locales = fsFiles('./src/components/ids-locale/data', 'ts');
+const locales = fsFiles('./src/components/ids-locale/data', 'json');
 const localeDir = `${outDir}/locale-data/`;
 fs.mkdirSync(localeDir, { recursive: true }, () => {});
 
 locales.forEach((locale) => {
-  fs.copyFileSync(locale, `${localeDir}${path.basename(locale)}`.replace('.ts', '.js'));
+  fs.copyFileSync(locale, `${localeDir}${path.basename(locale)}`);
 });
 
 // Copy Types
@@ -100,23 +100,18 @@ fs.copyFileSync('./README.md', `${outDir}/README.md`);
 fs.copyFileSync('./custom-elements.json', `${outDir}/custom-elements.json`);
 fs.copyFileSync('./vscode.html-custom-data.json', `${outDir}/vscode.html-custom-data.json`);
 
-// Minify locale data
+// Copy and Minify (gzip?) json data
 if (mode === 'production') {
-  fs.rmSync(`${outDir}/locale-data`, { recursive: true, force: true });
-
-  const localesOnly = fsFiles('./src/components/ids-locale/data', 'ts');
-  await esbuild
-    .build({
-      entryPoints: localesOnly,
-      outdir: `${outDir}/locale-data`,
-      minify: true,
-    })
-    .catch(() => process.exit(1));
+  // TODO
 }
-
-fs.rmSync(`${outDir}/themes/default`, { recursive: true, force: true });
 
 // Create Stats File
 // Can view this file at https://esbuild.github.io/analyze/
 fs.writeFileSync('build-stats.json', JSON.stringify(result.metafile));
+
+// Remove Extra/Dup Files
+fs.rmSync(`${outDir}/components/enterprise-wc.js`);
+fs.rmSync(`${outDir}/components/enterprise-wc.js.map`);
+fs.rmSync(`${outDir}/components/enterprise-wc.d.ts`);
+
 console.info(`⚡ Build complete ⚡`);

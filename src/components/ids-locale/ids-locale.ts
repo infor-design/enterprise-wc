@@ -1,7 +1,7 @@
 import { isValidDate, gregorianToUmalqura } from '../../utils/ids-date-utils/ids-date-utils';
-import { locale as localeEn } from './data/en-US';
+import localeEn from './data/en-US.json';
 import { querySelectorAllShadowRoot } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { messages as messagesEn } from './data/en-messages';
+import messagesEn from './data/en-messages.json';
 import type { IdsLocaleNumberOptions } from './ids-locale-number-options';
 
 class IdsLocale {
@@ -105,10 +105,9 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   loadLanguageScript(value: string) {
-    const promise = import(/* webpackIgnore: true */`${this.localeDataPath}${value}-messages.js`);
-    promise.then((module) => {
-      // do something with the translations
-      this.loadedLanguages.set(value, module.messages);
+    const promise = fetch(`${this.localeDataPath}${value}-messages.json`);
+    promise.then(async (response) => {
+      this.loadedLanguages.set(value, response.json());
     });
     return promise;
   }
@@ -207,9 +206,9 @@ class IdsLocale {
    * @returns {Promise} A promise that will resolve when complete
    */
   async loadLocaleScript(value: string) {
-    const promise = import(/* webpackIgnore: true */`${this.localeDataPath}${value}.js`);
-    promise.then((module) => {
-      this.loadedLocales.set(value, module.locale);
+    const promise = fetch(`${this.localeDataPath}${value}.json`);
+    promise.then(async (response) => {
+      this.loadedLocales.set(value, response.json());
     });
     return promise;
   }

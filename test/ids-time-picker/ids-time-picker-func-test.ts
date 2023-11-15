@@ -11,7 +11,7 @@ import '../../src/components/ids-time-picker/ids-time-picker-popup';
 
 import { attributes } from '../../src/core/ids-attributes';
 import { hoursTo12 } from '../../src/utils/ids-date-utils/ids-date-utils';
-import { messages as esMessages } from '../../src/components/ids-locale/data/es-messages';
+import esMessages from '../../src/components/ids-locale/data/es-messages.json';
 import { locale as es419Locale } from '../../src/components/ids-locale/data/es-419';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 

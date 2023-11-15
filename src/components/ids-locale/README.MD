@@ -28,6 +28,14 @@ The Locale API handles the following
 - When you need to format hours
 - Displaying Timezones on Dates
 
+## Sources
+
+All source for the data are from the Unicode Common Locale Data Repository (CLDR).
+
+- [Github Repo](https://github.com/unicode-org/cldr-json)
+- [Old JSON Source](http://www.unicode.org/Public/cldr/25/)
+- [Currency Symbols](http://www.currencysymbols.in))
+
 ## Terminology
 
 - **Umm al-Qura**: A type of calendar used the Arabian Peninsula that centers around the moon

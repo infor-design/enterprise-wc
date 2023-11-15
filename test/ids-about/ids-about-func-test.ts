@@ -13,7 +13,7 @@ import '../../src/components/ids-text/ids-text';
 import '../../src/components/ids-hyperlink/ids-hyperlink';
 
 // locale messages
-import { messages as esMessages } from '../../src/components/ids-locale/data/es-messages';
+import esMessages from '../../src/components/ids-locale/data/es-messages.json';
 import { messages as jaMessages } from '../../src/components/ids-locale/data/ja-messages';
 import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
 import IdsGlobal from '../../src/components/ids-global/ids-global';

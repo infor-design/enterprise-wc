@@ -1,4 +1,4 @@
-const messages = {
+{
   AboutText: { id: 'AboutText', value: 'Copyright &copy; {0} Infor. Les termes et marques de conception mentionnés ci-après sont des marques et/ou des marques déposées d\'Infor et/ou de ses partenaires et filiales. Toutes les autres marques répertoriées ci-après sont la propriété de leurs propriétaires respectifs.' },
   Actions: { id: 'Actions', value: 'Actions', comment: 'Tooltip text for the action button with additional in context actions' },
   Add: { id: 'Add', value: 'Ajouter', comment: 'Add' },
@@ -168,7 +168,7 @@ const messages = {
   GoBack: { id: 'GoBack', value: 'Précédent', comment: 'Move Page / object this directionp' },
   GoDown: { id: 'GoDown', value: 'Vers le bas', comment: 'Move Page / object this directionp' },
   GoUp: { id: 'GoUp', value: 'Vers le haut', comment: 'Move Page / object this direction' },
-  Go: { id: 'Go', value: 'OK', comment: 'Go, perform a movement, start a search, move to the next "thing" in a workflow.' },
+  Go: { id: 'Go', value: 'OK', comment: 'Go, perform a movement, start a search, move to the next thing in a workflow.' },
   Graphite: { id: 'Graphite', value: 'Graphite', comment: 'Color in our color palette' },
   GreaterOrEquals: { id: 'GreaterOrEquals', value: 'Supérieur ou égal à', comment: 'Greater Than Or Equals in icons for filtering' },
   GreaterThan: { id: 'GreaterThan', value: 'Supérieur à', comment: 'Greater Than in icons for filtering' },

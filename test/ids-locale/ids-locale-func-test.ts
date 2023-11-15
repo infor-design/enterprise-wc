@@ -12,7 +12,7 @@ import { messages as csMessages } from '../../src/components/ids-locale/data/cs-
 import { messages as daMessages } from '../../src/components/ids-locale/data/da-messages';
 import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
 import { messages as elMessages } from '../../src/components/ids-locale/data/el-messages';
-import { messages as esMessages } from '../../src/components/ids-locale/data/es-messages';
+import esMessages from '../../src/components/ids-locale/data/es-messages.json';
 import { messages as etMessages } from '../../src/components/ids-locale/data/et-messages';
 import { messages as fiMessages } from '../../src/components/ids-locale/data/fi-messages';
 import { messages as frCAMessages } from '../../src/components/ids-locale/data/fr-CA-messages';
@@ -68,7 +68,7 @@ import { locale as enNZLocale } from '../../src/components/ids-locale/data/en-NZ
 import { locale as enZALocale } from '../../src/components/ids-locale/data/en-ZA';
 import { locale as es419Locale } from '../../src/components/ids-locale/data/es-419';
 import { locale as esARLocale } from '../../src/components/ids-locale/data/es-AR';
-import { locale as esESLocale } from '../../src/components/ids-locale/data/es-ES';
+import esESLocale from '../../src/components/ids-locale/data/es-ES.json';
 import { locale as esMXLocale } from '../../src/components/ids-locale/data/es-MX';
 import { locale as esUSLocale } from '../../src/components/ids-locale/data/es-US';
 import { locale as etEELocale } from '../../src/components/ids-locale/data/et-EE';
