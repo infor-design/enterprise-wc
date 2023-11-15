@@ -7,6 +7,7 @@ import '../ids-checkbox/ids-checkbox';
 import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
 import styles from './ids-list-view-item.scss';
+import type IdsListView from './ids-list-view';
 
 const Base = IdsEventsMixin(
   IdsElement
@@ -20,6 +21,25 @@ const Base = IdsEventsMixin(
 @customElement('ids-list-view-item')
 @scss(styles)
 export default class IdsListViewItem extends Base {
+  #rootNode?: IdsListView;
+
+  /**
+   * Reference to the ids-list-view parent element
+   * @returns {IdsListView} the ids-list-view parent
+   */
+  get listView() {
+    if (!this.#rootNode) this.#rootNode = (this.getRootNode() as any)?.host ?? this.closest('ids-list-view');
+    return this.#rootNode as IdsListView;
+  }
+
+  get data() {
+    return this.listView?.data ?? [];
+  }
+
+  get rowData() {
+    return this.data[this.rowIndex] ?? {};
+  }
+
   #parentListView: HTMLElement | null = null;
 
   /**
@@ -52,6 +72,51 @@ export default class IdsListViewItem extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#parentListView = this.parentElement;
+
+    this.#setAttributes();
+  }
+
+  #setAttributes() {
+    const listView = this.listView;
+    const rowIndex = this.rowIndex;
+    const rowData = this.rowData;
+
+    // const disabled = rowData.disabled ? ' disabled' : '';
+    const tabindex = typeof rowIndex !== 'undefined' && !rowIndex ? '0' : '-1';
+    // const activated = rowData.itemActivated ? ' activated' : '';
+    // let selected = '';
+
+    // if (rowData.itemSelected) {
+    //   selected = ' selected aria-selected="true"';
+    //   if (listView.selectable === 'mixed') selected += ' hide-selected-color';
+    // }
+
+    if (listView.sortable) {
+      this.classList.add('sortable');
+    } else {
+      this.classList.remove('sortable');
+    }
+
+    this.active = !!rowData.itemActivated;
+    this.disabled = !!rowData.disabled;
+    this.selected = !!rowData.itemSelected;
+
+    const size = listView?.data?.length || listView?.itemsFiltered?.length;
+    this.setAttribute('role', 'option');
+    this.setAttribute('aria-setsize', String(size));
+    this.setAttribute('aria-posinset', String(rowIndex + 1));
+    this.setAttribute('index', String(rowIndex));
+    this.setAttribute('tabindex', tabindex);
+
+    // return `
+    //   role="option"
+    //   row-index="${rowIndex}"
+    //   index="${rowIndex}"
+    //   class="${this.sortable ? 'sortable' : ''}"
+    //   aria-posinset="${rowIndex + 1}"
+    //   aria-setsize="${this.data.length ? this.#size : this.itemsFiltered.length}"
+    //   ${tabindex}${activated}${selected}${disabled}
+    // `;
   }
 
   /**
@@ -70,7 +135,57 @@ export default class IdsListViewItem extends Base {
    * @returns {string} The template
    */
   template(): string {
-    return `<slot></slot>`;
+    return `
+      <div class="list-item-area">
+        ${this.templateCheckbox()}
+        <div class="list-item-content">
+          <slot></slot>
+        </div>
+      </div>
+    `;
+
+    // return `
+    //   <div class="list-item-area">
+    //     <slot name="prefix"></slot>
+    //     ${this.templateCheckbox()}
+    //     <div class="list-item-content">
+    //       <slot></slot>
+    //     </div>
+    //     <slot name="suffix"></slot>
+    //   </div>
+    // `;
+  }
+
+  /**
+   * Helper method to render the list-view-item template
+   * @returns {string} html
+   */
+  templateCheckbox(): string {
+    const listView = this.listView;
+    if (!listView) return '';
+
+    const rowData = this.rowData;
+    const rowIndex = this.rowIndex;
+
+    if (listView.selectable === 'multiple' || listView.selectable === 'mixed') {
+      const checked = rowData.itemSelected ? ' checked' : '';
+      const disabled = rowData.disabled ? ' disabled' : '';
+      let checkbox = `
+        <ids-checkbox
+          class="list-item-checkbox"
+          label="cb-item-${rowIndex}"
+          label-state="hidden"
+          ${checked}
+          ${disabled}>
+        </ids-checkbox>
+      `;
+
+      if (listView.selectable === 'multiple' && listView.hideCheckboxes) checkbox = '';
+
+      return checkbox;
+    }
+
+    return '';
   }
 
   /**
@@ -85,6 +200,23 @@ export default class IdsListViewItem extends Base {
       attributes.SELECTED,
       attributes.ROW_INDEX,
     ];
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    if (oldValue === newValue) return;
+
+    if (name === attributes.ROW_INDEX) {
+      this.renderCustomHTML();
+    }
+  }
+
+  renderCustomHTML() {
+    if (!this.data.length) return;
+    console.log('renderCustomHTML', this.rowData);
+    // const html = this.listView?.templateCustomHTML(this.rowData);
+    // // const slot = this.container?.querySelector<HTMLSlotElement>('slot:not([name])');
+    // const slot = this.container?.querySelectorAll<HTMLSlotElement>('slot');
+    // console.log('renderCustomHTML', slot);
   }
 
   /**
@@ -124,8 +256,10 @@ export default class IdsListViewItem extends Base {
   set active(value: boolean) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.ACTIVE, 'true');
+      this.setAttribute('activated', 'true');
     } else {
       this.removeAttribute(attributes.ACTIVE);
+      this.removeAttribute('activated');
     }
   }
 
@@ -166,8 +300,12 @@ export default class IdsListViewItem extends Base {
   set selected(value: boolean) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.SELECTED, 'true');
+      this.setAttribute('aria-selected', 'true');
+      if (listView.selectable === 'mixed') this.setAttribute('hide-selected-color', '');
     } else {
       this.removeAttribute(attributes.SELECTED);
+      this.removeAttribute('aria-selected');
+      this.removeAttribute('hide-selected-color');
     }
   }
 }

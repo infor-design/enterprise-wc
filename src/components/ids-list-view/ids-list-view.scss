@@ -1,6 +1,6 @@
 :host([selectable]) {
   .ids-list-view .ids-list-view-body {
-    div[part='list-item'],
+    [part='list-item'],
     li {
       cursor: var(--ids-cursor-pointer);
     }
@@ -9,7 +9,7 @@
 
 :host([no-margins]) {
   .ids-list-view .ids-list-view-body {
-    div[part='list-item'],
+    [part='list-item'],
     li {
       &:first-child {
         margin-block-start: var(--ids-space-none);
@@ -32,7 +32,7 @@
       border-color: var(--ids-list-view-color-border-focus);
     }
 
-    div[part='list-item'],
+    [part='list-item'],
     li {
       background-color: var(--ids-list-view-item-color-background-default);
       border: var(--ids-list-view-item-border);
@@ -46,7 +46,7 @@
         box-shadow: var(--ids-list-view-item-shadow-focus);
         outline: var(--ids-list-view-item-outline-focus);
 
-        + div[part='list-item'] {
+        + [part='list-item'] {
           border-top-color: transparent;
         }
       }
@@ -91,7 +91,7 @@
   }
 
   &.has-searchfield .ids-list-view-body {
-    div[part='list-item'],
+    [part='list-item'],
     li {
       &:first-child {
         margin-block-start: 8px;
@@ -102,7 +102,7 @@
   &.selectable-single .ids-list-view-body,
   &.selectable-multiple .ids-list-view-body,
   &.selectable-mixed .ids-list-view-body {
-    div[part='list-item']:not([disabled]):not(.sortable),
+    [part='list-item']:not([disabled]):not(.sortable),
     li:not([disabled]):not(.sortable) {
       &:hover,
       &[activated],

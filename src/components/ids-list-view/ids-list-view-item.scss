@@ -5,3 +5,20 @@
     padding: 0;
   }
 }
+
+.list-item-area {
+  display: flex;
+  align-items: center;
+
+  .list-item-checkbox {
+    padding-inline-end: var(--ids-space-70);
+    flex-grow: 0;
+    flex-shrink: 0;
+    max-height: var(--ids-space-60);
+    max-width: var(--ids-space-60);
+  }
+
+  .list-item-checkbox[disabled]::part(checkmark) {
+    background-color: transparent;
+  }
+}
