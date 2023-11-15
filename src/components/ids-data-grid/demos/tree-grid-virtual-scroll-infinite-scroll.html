@@ -27,7 +27,16 @@
       </ids-layout-flex-item>
 
       <ids-layout-flex-item grow="1" overflow="hidden">
-        <ids-data-grid id="tree-grid-virtual-scroll" suppress-tooltips="true" row-selection="multiple" tree-grid="true" auto-fit="true" virtual-scroll="true" row-height="xs">
+        <ids-data-grid
+          id="tree-grid-virtual-scroll"
+          suppress-tooltips="true"
+          suppress-row-click-selection="true"
+          editable="true"
+          row-selection="multiple"
+          tree-grid="true"
+          auto-fit="true"
+          virtual-scroll="true"
+          row-height="sm">
         </ids-data-grid>
       </ids-layout-flex-item>
     </ids-layout-flex>

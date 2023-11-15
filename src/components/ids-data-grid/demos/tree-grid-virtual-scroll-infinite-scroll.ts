@@ -1,10 +1,8 @@
 import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
-import treeLargeJSON from '../../../assets/data/tree-large.json';
+import treeLargeJSON from '../../../assets/data/tree-large-children.json';
 import '../../ids-layout-flex/ids-layout-flex';
-
-let expandAll = false;
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#tree-grid-virtual-scroll')!;
@@ -13,18 +11,15 @@ const btnCollapseAll = document.querySelector('#btn-collapse-all');
 
 btnExpandAll?.addEventListener('click', () => {
   dataGrid?.expandAll();
-  expandAll = true;
 });
 
 btnCollapseAll?.addEventListener('click', () => {
   dataGrid?.collapseAll();
-  expandAll = false;
 });
 
 // Do an ajax request
 const url: any = treeLargeJSON;
 const columns: IdsDataGridColumn[] = [];
-let currentId = 1000;
 
 // Set up columns
 columns.push({
@@ -36,10 +31,20 @@ columns.push({
   align: 'center',
   frozen: 'left'
 });
+
 columns.push({
-  id: 'name',
-  name: 'Name',
-  field: 'name',
+  id: 'rowNumber',
+  name: 'Row #',
+  formatter: dataGrid.formatters.rowNumber,
+  sortable: false,
+  readonly: true,
+  width: 66
+});
+
+columns.push({
+  id: 'fullName',
+  name: 'Full Name',
+  field: 'fullName',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.tree,
@@ -49,101 +54,94 @@ columns.push({
   width: 220,
   frozen: 'left'
 });
+
 columns.push({
-  id: 'rowNumber',
-  name: '#',
-  formatter: dataGrid.formatters.rowNumber,
-  sortable: false,
-  readonly: true,
-  width: 66
-});
-columns.push({
-  id: 'id',
-  name: 'Id',
-  field: 'id',
+  id: 'street',
+  name: 'Street',
+  field: 'street',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
+  editor: {
+    type: 'tree',
+    inline: true,
+    editorSettings: {
+      autoselect: true,
+      dirtyTracker: true,
+      validate: 'required'
+    }
+  },
 });
+
 columns.push({
-  id: 'location',
-  name: 'Location',
-  field: 'location',
+  id: 'city',
+  name: 'City',
+  field: 'city',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
 });
+
 columns.push({
-  id: 'capacity',
-  name: 'Capacity',
-  field: 'capacity',
+  id: 'zipCode',
+  name: 'Zip Code',
+  field: 'zipCode',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.integer
+  formatter: dataGrid.formatters.text,
+  width: 100
 });
+
 columns.push({
-  id: 'available',
-  name: 'Available',
-  field: 'available',
+  id: 'phone',
+  name: 'Phone',
+  field: 'phone',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.date
+  formatter: dataGrid.formatters.text,
 });
+
 columns.push({
-  id: 'comments',
-  name: 'Comments',
-  field: 'comments',
+  id: 'dob',
+  name: 'DOB',
+  field: 'dob',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
 });
 
 dataGrid.columns = columns;
 
-const setData = async () => {
+const fetchData = async () => {
   const res = await fetch(url);
   const data = await res.json();
-  dataGrid.data = data.splice(0, 120);
+
+  return data;
 };
 
+const setData = async () => {
+  const data = await fetchData();
+  dataGrid.data = data.slice(0, 50);
+};
 setData();
 
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);
 });
 
-dataGrid.addEventListener('scrollend', (e: Event) => {
+dataGrid.addEventListener('scrollend', async (e: any) => {
   console.info(`scrollend`, (<CustomEvent>e).detail);
+  const lastRowLoaded = e.detail.value;
+  const data = await fetchData();
+  const rowsToAdd = data.slice(lastRowLoaded + 1, lastRowLoaded + 4);
 
-  const newDataArray : any[] = [];
-  for (let counter = 0; counter < 10; counter++) {
-    currentId++;
-    const newData = {
-      id: currentId,
-      name: `Crawler-${currentId}`,
-      location: 'St. Louis',
-      capacity: 44,
-      available: '2022-05-08T01:57:17Z',
-      comments: 'integer pede justo lacinia eget tincidunt eget tempus vel pede morbi porttitor lorem id ligula suspendisse ornare consequat lectus',
-      time: '22:14:42',
-      rowExpanded: expandAll,
-      children: [
-        {
-          id: currentId + 0.1,
-          name: 'Battery',
-          location: 'Lower',
-          capacity: 2,
-          available: '2022-01-14T02:43:11Z',
-          time: '7:20:19',
-          rowHidden: !expandAll
-        }
-      ]
-    };
-    newDataArray.push(newData);
+  if (rowsToAdd.length) {
+    // simulate fetch delay
+    setTimeout(() => {
+      dataGrid.appendData(rowsToAdd);
+      console.info('appending rows:', rowsToAdd.length, dataGrid.virtualRows.length);
+    }, 200);
+  } else {
+    console.info('END OF DATA');
   }
-
-  console.info(`appendData`, newDataArray);
-  setTimeout(() => {
-    dataGrid.appendData(newDataArray);
-  }, 200);
 });

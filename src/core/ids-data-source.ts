@@ -65,6 +65,12 @@ class IdsDataSource {
   #filtered = false;
 
   /**
+   * Internal data id used for virtual scrolling
+   * @private
+   */
+  #vsRefId = 0;
+
+  /**
    * Return all the currently used data, without paging or filter
    * @returns {Array | null} All the currently used data
    */
@@ -141,6 +147,8 @@ class IdsDataSource {
   #flattenData(data: Array<Record<string, any>>) {
     if (!this.#flatten) return data;
 
+    this.#vsRefId = 0;
+
     const newData: Array<Record<string, any>> = [];
     const addRows = (
       subData: Record<string, any>,
@@ -154,6 +162,7 @@ class IdsDataSource {
         row.ariaLevel = depth;
         row.ariaSetSize = length;
         row.ariaPosinset = index + 1;
+        row.vsRefId = this.#vsRefId++;
 
         if (depth === 1) {
           row.originalElement = index;
