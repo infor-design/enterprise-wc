@@ -37,7 +37,11 @@ export default class IdsListViewItem extends Base {
   }
 
   get rowData() {
-    return this.data[this.rowIndex] ?? {};
+    return this.data[this.rowIndex] ?? {
+      disabled: this.disabled,
+      itemActivated: this.itemActivated,
+      itemSelected: this.itemSelected,
+    };
   }
 
   #parentListView: HTMLElement | null = null;
@@ -80,6 +84,7 @@ export default class IdsListViewItem extends Base {
     const listView = this.listView;
     const rowIndex = this.rowIndex;
     const rowData = this.rowData;
+    console.log('rowData', rowData);
 
     // const disabled = rowData.disabled ? ' disabled' : '';
     const tabindex = typeof rowIndex !== 'undefined' && !rowIndex ? '0' : '-1';
@@ -264,22 +269,22 @@ export default class IdsListViewItem extends Base {
   }
 
   /**
+   * Get the list-item disabled state.
+   * @returns {boolean} true/false
+   */
+  get disabled(): boolean { return this.hasAttribute(attributes.DISABLED); }
+
+  /**
    * Set the list-item disabled state.
    * @param {boolean} value true/false
    */
   set disabled(value: boolean) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.DISABLED, 'true');
+      this.setAttribute(attributes.DISABLED, '');
     } else {
       this.removeAttribute(attributes.DISABLED);
     }
   }
-
-  /**
-   * Get the list-item disabled state.
-   * @returns {boolean} true/false
-   */
-  get disabled(): boolean { return this.hasAttribute(attributes.DISABLED); }
 
   /**
    * Wrapper function that adds interface to match dataset interface.
@@ -299,9 +304,9 @@ export default class IdsListViewItem extends Base {
    */
   set selected(value: boolean) {
     if (stringToBool(value)) {
-      this.setAttribute(attributes.SELECTED, 'true');
-      this.setAttribute('aria-selected', 'true');
-      if (listView.selectable === 'mixed') this.setAttribute('hide-selected-color', '');
+      this.setAttribute(attributes.SELECTED, '');
+      this.setAttribute('aria-selected', '');
+      if (this.listView?.selectable === 'mixed') this.setAttribute('hide-selected-color', '');
     } else {
       this.removeAttribute(attributes.SELECTED);
       this.removeAttribute('aria-selected');

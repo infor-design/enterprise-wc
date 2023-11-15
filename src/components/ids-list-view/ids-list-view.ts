@@ -172,6 +172,19 @@ export default class IdsListView extends Base {
     ];
   }
 
+  /**
+   * Get the list item DOM element.
+   * @param {number} rowIndex The value of row-index.
+   * @returns {IdsListViewItem|undefined} The DOM element, or undefined if item not found.
+   */
+  itemByIndex(rowIndex: number): IdsListViewItem | undefined {
+    const rowSelector = `ids-list-view-item[row-index="${rowIndex}"]`;
+    return [
+      ...this.querySelectorAll<IdsListViewItem>(rowSelector),
+      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>(rowSelector) ?? []),
+    ][0] ?? undefined;
+  }
+
   get items(): IdsListViewItem[] {
     return [
       ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item'),
@@ -680,7 +693,7 @@ export default class IdsListView extends Base {
             index="${index}"
             id="id_item_${index + 1}"
             aria-posinset="${index + 1}"
-            aria-setsize="${this.data.length ? this.data.length : kids.length}"
+            aria-setsize="${this.data?.length || kids.length}"
             ${disabled}
           >` : ''}
           <div
@@ -708,11 +721,16 @@ export default class IdsListView extends Base {
    * @returns {string} html
    */
   templateListItemWrapper(innerHTML: string, index = -1): string {
-    if (!this.sortable) return `<div part="list-item">${innerHTML}</div>`;
-
-    const data = this.data[index] ?? {};
-    const items = this.itemsFiltered;
+    const item = this.itemByIndex(index);
+    const data = this.data[index] ?? item?.rowData ?? {};
+    const activated = data.itemActivated ? ' activated' : '';
     const disabled = data.disabled ? ' disabled' : '';
+    const selected = data.itemSelected ? ' selected' : '';
+    const sortable = this.sortable ? ' class="sortable"' : '';
+
+    const wrappedInnerHTML = `<div part="list-item" ${activated}${disabled}${selected}${sortable}>${innerHTML}</div>`;
+
+    if (!sortable) return wrappedInnerHTML;
 
     return `
       <ids-swappable-item
@@ -722,10 +740,10 @@ export default class IdsListView extends Base {
           index="${index}"
           id="id_item_${index + 1}"
           aria-posinset="${index + 1}"
-          aria-setsize="${this.data.length ? this.data.length : items.length}"
+          aria-setsize="${this.data?.length || this.itemsFiltered.length}"
           ${disabled}
         >
-        <div part="list-item" class="sortable">${innerHTML}</div>
+        ${wrappedInnerHTML}
       </ids-swappable-item>
     `;
   }
@@ -735,7 +753,7 @@ export default class IdsListView extends Base {
    * @returns {string} html
    */
   templateListItems(): string {
-    // If data exists, create  <ids-list-view-items> in the list-view shadowRoot, then render the data using custom-html
+    // for rendering user-provided data using user's custom-template
     if (this.data?.length) {
       return this.data
         .map((item: any, index: number) => this.templateListItemWrapper(
@@ -746,7 +764,7 @@ export default class IdsListView extends Base {
         .join('');
     }
 
-    // If user provides child <ids-list-view-item>, generate named-slots to contain list-items in the list-view
+    // for user-provided child <ids-list-view-item>, generate named-slots to contain list-items
     return this.itemsFiltered
       .map((item: IdsListViewItem, index: number) => {
         const slotName = `slot-child-${index}`;
