@@ -600,48 +600,6 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     this.detachEventsByName('keydown.shortcuts');
   }
 
-  /**
-   * When "Enter" "keydown" event fired , this triggers "enter" and "return" helper events
-   * @param {KeyboardEvent} event - the native keydown event
-   */
-  #keydownEnter(event: KeyboardEvent): void {
-    const options = {
-      bubbles: false, // no need to bubble this up to children
-      capture: true, // catching keydown event as quickly as possible
-      composed: false, // no need to bubble beyond web-component boundary
-      detail: {
-        nativeEvent: event
-      }
-    };
-
-    const key = event.code.toLowerCase();
-    if (key === 'enter' || key === 'return') {
-      this.triggerEvent('enter.ids-events-mixin', this, { ...options });
-      this.triggerEvent('return.ids-events-mixin', this, { ...options });
-    }
-  }
-
-  /**
-   * When "Space" "keydown" event fired , this triggers "space" and "spacebar" helper events
-   * @param {KeyboardEvent} event - the native keydown event
-   */
-  #keydownSpace(event: KeyboardEvent): void {
-    const options = {
-      bubbles: false, // no need to bubble this up to children
-      capture: true, // catching keydown event as quickly as possible
-      composed: false, // no need to bubble beyond web-component boundary
-      detail: {
-        nativeEvent: event
-      }
-    };
-
-    const key = event.code.toLowerCase();
-    if (key === 'space' || key === ' ') {
-      this.triggerEvent('space.ids-events-mixin', this, { ...options });
-      this.triggerEvent('spacebar.ids-events-mixin', this, { ...options });
-    }
-  }
-
   #attachKeyDownShortcuts() {
     this.onEvent('keydown.shortcuts', this, (event: KeyboardEvent) => {
       this.#triggerKeyboardShortcuts(event, 'enter', ['shortcut.enter', 'shortcut.return']);
