@@ -9,6 +9,7 @@ import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin
 import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
 import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
 import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
@@ -29,13 +30,15 @@ type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | '
 const VALID_POSITIONS = ['left', 'right'];
 
 const Base = IdsXssMixin(
-  IdsBreakpointMixin(
-    IdsFocusCaptureMixin(
-      IdsKeyboardMixin(
-        IdsPopupInteractionsMixin(
-          IdsPopupOpenEventsMixin(
-            IdsEventsMixin(
-              IdsElement
+  IdsLocaleMixin(
+    IdsBreakpointMixin(
+      IdsFocusCaptureMixin(
+        IdsKeyboardMixin(
+          IdsPopupInteractionsMixin(
+            IdsPopupOpenEventsMixin(
+              IdsEventsMixin(
+                IdsElement
+              )
             )
           )
         )
@@ -53,6 +56,7 @@ const Base = IdsXssMixin(
  * @mixes IdsKeyboardMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsPopupOpenEventsMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsXssMixin
  * @part popup - the popup outer element
  * @part overlay - the inner overlay element
@@ -269,10 +273,9 @@ export default class IdsModal extends Base {
     }
   }
 
-  set showCloseButton(position: string | null) {
-    if (typeof position === 'string') {
-      position = VALID_POSITIONS.includes(position) ? position : 'right';
-      this.setAttribute(attributes.SHOW_CLOSE_BUTTON, position);
+  set showCloseButton(val: boolean) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.SHOW_CLOSE_BUTTON, '');
       this.#attachCloseButton();
     } else {
       this.removeAttribute(attributes.SHOW_CLOSE_BUTTON);
@@ -742,10 +745,9 @@ export default class IdsModal extends Base {
    */
   #attachCloseButton() {
     this.#removeCloseButton();
-    const position = this.showCloseButton || 'right';
 
     const element = `<ids-modal-button
-      class="modal-control-close ${position}"
+      class="modal-control-close"
       slot="buttons"
       appearance="tertiary"
       css-class="ids-icon-button ids-modal-icon-button"

@@ -25,6 +25,7 @@
 - `[Modal]` Add `showCloseButton` setting to modal. ([#1527](https://github.com/infor-design/enterprise-wc/issues/1527))
 - `[Modal]` Fix `fullsize` setting on init. ([#1525](https://github.com/infor-design/enterprise-wc/issues/1525))
 - `[Modal]` Fix problems with slotting scrollable components and resize behavior. ([#1529](https://github.com/infor-design/enterprise-wc/issues/1529)/[#1530](https://github.com/infor-design/enterprise-wc/issues/1530))
+- `[Modal]` Fix `showCloseButton` setting to default to top-right corner. ([#1647](https://github.com/infor-design/enterprise-wc/issues/1647))
 - `[Module Nav]` Small improvements to better enable usage in an Angular codebase. ([#1597](https://github.com/infor-design/enterprise-wc/issues/1597))
 - `[Multiselect]` Fix rerender logic so that state is maintained while using ngFor directive in Angular. ([#1411](https://github.com/infor-design/enterprise-wc/issues/1411))
 - `[PopupMenu]` Fix arrow icon direction in rtl. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
