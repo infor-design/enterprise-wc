@@ -79,7 +79,7 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
 
   connectedCallback(): void {
     super.connectedCallback?.();
-    this.#attachKeyDownShortcuts();
+    this.#attachKeyboardShortcuts();
   }
 
   disconnectedCallback(): void {
@@ -217,7 +217,7 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     this.#removeHoverEndListener();
     this.#removeSlopedMouseLeaveListener();
     this.#removeKeyDownEndListener();
-    this.#removeKeyDownShortcuts();
+    this.#removeKeyboardShortcuts();
     this.#removeSwipeListener();
   }
 
@@ -593,15 +593,15 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
   }
 
   /**
-   * Detach all keydown.shortcuts events
+   * Detach all keyup.shortcuts events
    * @private
    */
-  #removeKeyDownShortcuts() {
-    this.detachEventsByName('keydown.shortcuts');
+  #removeKeyboardShortcuts() {
+    this.detachEventsByName('keyup.shortcuts');
   }
 
-  #attachKeyDownShortcuts() {
-    this.onEvent('keydown.shortcuts', this, (event: KeyboardEvent) => {
+  #attachKeyboardShortcuts() {
+    this.onEvent('keyup.shortcuts', this, (event: KeyboardEvent) => {
       this.#triggerKeyboardShortcuts(event, 'enter', ['shortcut.enter', 'shortcut.return']);
       this.#triggerKeyboardShortcuts(event, ['space', ' '], ['shortcut.space', 'shortcut.spacebar']);
       this.#triggerKeyboardShortcuts(event, 'tab', 'shortcut.tab');
