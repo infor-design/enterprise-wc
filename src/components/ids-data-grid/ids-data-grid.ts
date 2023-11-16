@@ -486,7 +486,7 @@ export default class IdsDataGrid extends Base {
       const visibleRows = this.virtualRows.slice(0, virtualScrollSettings.MAX_ROWS_IN_DOM);
 
       for (let i = 0; i < visibleRows.length; i++) {
-        const dataIndex = this.#findIndexByRefId(data, visibleRows[i].vsRefId);
+        const dataIndex = visibleRows[i].vsRefId;
         innerHTML += IdsDataGridRow.template(data[dataIndex], dataIndex, dataIndex + 1, this);
       }
 
@@ -1245,6 +1245,7 @@ export default class IdsDataGrid extends Base {
     if (this.virtualScroll) {
       // NOTE: using originalData skips pagination-logic; it's ok in context of infinite-scroll
       this.datasource.data = this.datasource.originalData.concat(value);
+      this.header.resetSortStates();
       this.resetCache();
 
       if (this.treeGrid) {
@@ -1560,10 +1561,6 @@ export default class IdsDataGrid extends Base {
     this.#recycleAllTreeRows(scrollIndex);
   }
 
-  #findIndexByRefId(data: Array<Record<string, any>>, refId: number): number {
-    return data.findIndex((item) => item.vsRefId === refId);
-  }
-
   /**
    * Recycle all dom tree rows for virtual scroll window
    * @param {number} scrollIndex scroll position row index
@@ -1591,7 +1588,7 @@ export default class IdsDataGrid extends Base {
     for (i = 0; i < rows.length; i++) {
       vRow = firstVRow + i;
       const row = rows[i];
-      const dataRowIndex = this.#findIndexByRefId(data, virtualRows[vRow]?.vsRefId);
+      const dataRowIndex = virtualRows[vRow]?.vsRefId;
 
       if (dataRowIndex >= 0) {
         row.rowIndex = dataRowIndex;
@@ -1610,7 +1607,7 @@ export default class IdsDataGrid extends Base {
       const neededRows = maxRowsInDom - rows.length;
       if (neededRows > 0) {
         this.body!.innerHTML += [...Array(neededRows)].map(() => {
-          const dataRowIndex = this.#findIndexByRefId(data, virtualRows[++vRow]?.vsRefId);
+          const dataRowIndex = virtualRows[++vRow]?.vsRefId;
           return IdsDataGridRow.template(data[dataRowIndex], dataRowIndex, dataRowIndex + 1, this);
         }).join('');
       }
@@ -1886,7 +1883,7 @@ export default class IdsDataGrid extends Base {
       const nextIndex = lastVisibleRowIndex + (idx) + 1;
       const visibleRowData = dataVisibleRows[nextIndex];
       if (nextIndex > maxRowIndex) return;
-      const dataRowIndex = this.#findIndexByRefId(this.data, visibleRowData.vsRefId);
+      const dataRowIndex = visibleRowData.vsRefId;
       row.rowIndex = dataRowIndex;
       rowsToMove.push(row);
     });
@@ -1903,7 +1900,7 @@ export default class IdsDataGrid extends Base {
     staleRows.forEach((row, idx) => {
       const prevIndex = firstVisibleRowIndex - (idx + 1);
       const visibleRowData = dataVisibleRows[prevIndex];
-      const dataRowIndex = this.#findIndexByRefId(this.data, visibleRowData.vsRefId);
+      const dataRowIndex = visibleRowData.vsRefId;
       row.rowIndex = dataRowIndex;
       rowsToMove.push(row);
     });
