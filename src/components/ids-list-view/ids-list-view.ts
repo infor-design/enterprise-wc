@@ -550,21 +550,22 @@ export default class IdsListView extends Base {
    * Get currently focused list item.
    * @returns {Element|undefined} The focused list item.
    */
-  getFocusedLi(): Element | undefined {
-    return this.itemsTabbable?.at(0) ?? this.items?.at(0);
+  getFocusedLi(): IdsListViewItem | undefined {
+    return this.itemsTabbable?.at(0) ?? this.itemByIndex(0);
   }
 
   /**
    * Get previous list item for a given list item.
-   * @param {any} listItem The list item.
-   * @returns {HTMLElement|undefined} The previous list item
+   * @param {IdsListViewItem} listItem The list item.
+   * @returns {IdsListViewItem|undefined} The previous list item
    */
-  getPreviousLi(listItem?: any): HTMLElement | undefined {
+  getPreviousLi(listItem?: IdsListViewItem): HTMLElement | undefined {
     const focusedItem = listItem ?? this.getFocusedLi();
 
-    let previousItem = focusedItem?.previousElementSibling;
-    while (previousItem?.matches('ids-list-view-item[disabled]')) {
-      previousItem = previousItem?.previousElementSibling;
+    let rowIndex = focusedItem?.rowIndex ?? 0;
+    let previousItem = this.itemByIndex(--rowIndex);
+    while (previousItem && previousItem?.disabled) {
+      previousItem = this.itemByIndex(--rowIndex);
     }
 
     return previousItem;
@@ -572,15 +573,16 @@ export default class IdsListView extends Base {
 
   /**
    * Get next list item for a given list item.
-   * @param {any} listItem The list item.
-   * @returns {HTMLElement|undefined} The next list item
+   * @param {IdsListViewItem} listItem The list item.
+   * @returns {IdsListViewItem|undefined} The next list item
    */
-  getNextLi(listItem?: any): HTMLElement | undefined {
+  getNextLi(listItem?: any): IdsListViewItem | undefined {
     const focusedItem = listItem ?? this.getFocusedLi();
 
-    let nextItem = focusedItem?.nextElementSibling;
-    while (nextItem?.matches('ids-list-view-item[disabled]')) {
-      nextItem = nextItem?.nextElementSibling;
+    let rowIndex = focusedItem.rowIndex ?? 0;
+    let nextItem = this.itemByIndex(++rowIndex);
+    while (nextItem && nextItem?.disabled) {
+      nextItem = this.itemByIndex(++rowIndex);
     }
 
     return nextItem;
@@ -1651,7 +1653,7 @@ export default class IdsListView extends Base {
    * @returns {any} focusedLiIndex
    */
   getFocusedLiIndex(): any {
-    return this.#focusedLiIndex;
+    return this.getFocusedLi()?.rowIndex ?? 0;
   }
 
   /**
