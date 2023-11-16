@@ -602,9 +602,9 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
 
   #attachKeyboardShortcuts() {
     this.onEvent('keyup.shortcuts', this, (event: KeyboardEvent) => {
-      this.#triggerKeyboardShortcuts(event, 'enter', ['shortcut.enter', 'shortcut.return']);
-      this.#triggerKeyboardShortcuts(event, ['space', ' '], ['shortcut.space', 'shortcut.spacebar']);
-      this.#triggerKeyboardShortcuts(event, 'tab', 'shortcut.tab');
+      this.#triggerKeyboardShortcuts(event, 'enter', ['enter.shortcut', 'return.shortcut']);
+      this.#triggerKeyboardShortcuts(event, ['space', ' '], ['space.shortcut', 'spacebar.shortcut']);
+      this.#triggerKeyboardShortcuts(event, 'tab', 'tab.shortcut');
     });
   }
 
