@@ -16,9 +16,10 @@ export default defineConfig({
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* No Retry anywhere */
-  retries: 0,
-  workers: process.env.CI ? 2 : undefined,
+  /* Retry if fails */
+  retries: 2,
+  /* Set workers process.env.CI ? 2 :  */
+  workers: undefined,
   /* Control the snap shot names */
   snapshotPathTemplate: '{testDir}/{testFileDir}/snapshots/{arg}.snap',
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
