@@ -8,6 +8,7 @@ import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
 import styles from './ids-list-view-item.scss';
 import type IdsListView from './ids-list-view';
+import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 const Base = IdsEventsMixin(
   IdsElement
@@ -77,31 +78,8 @@ export default class IdsListViewItem extends Base {
     super.connectedCallback();
     this.#parentListView = this.parentElement;
 
+    this.#attachEventListeners();
     this.#setAttributes();
-  }
-
-  #setAttributes() {
-    const listView = this.listView;
-    const rowData = this.rowData;
-    const rowIndex = this.rowIndex;
-    const tabindex = typeof rowIndex !== 'undefined' && !rowIndex ? '0' : '-1';
-
-    if (listView.sortable) {
-      this.classList.add('sortable');
-    } else {
-      this.classList.remove('sortable');
-    }
-
-    this.active = !!rowData.itemActivated;
-    this.disabled = !!rowData.disabled;
-    this.selected = !!rowData.itemSelected;
-
-    const size = listView?.data?.length || listView?.itemsFiltered?.length;
-    this.setAttribute('role', 'option');
-    this.setAttribute('aria-setsize', String(size));
-    this.setAttribute('aria-posinset', String(rowIndex + 1));
-    this.setAttribute('index', String(rowIndex));
-    this.setAttribute('tabindex', tabindex);
   }
 
   /**
@@ -112,6 +90,64 @@ export default class IdsListViewItem extends Base {
       super.disconnectedCallback();
       this.removeAttribute?.('slot');
       (this.parentListView as any)?.disconnectedCallback?.();
+    }
+  }
+
+  #attachEventListeners() {
+    this.offEvent('click.listview-item', this);
+    this.onEvent('click.listview-item', this, () => this.#clicked());
+
+    // this.offEvent('click.listview-item', this.checkbox);
+    // this.onEvent('click.listview-item', this.checkbox, () => this.toggleSelect(!this.selected));
+  }
+
+  get checkbox(): IdsCheckbox | undefined {
+    return [
+      ...this.querySelectorAll<IdsCheckbox>('ids-checkbox'),
+      ...(this.shadowRoot?.querySelectorAll<IdsCheckbox>('ids-checkbox') ?? [])
+    ][0] ?? undefined;
+  }
+
+  toggleCheckbox(doSelect?: boolean) {
+    if (doSelect === undefined) doSelect = this.selected !== true;
+    const checkbox = this.checkbox;
+    // if (!checkbox) return;
+    if (checkbox) checkbox.checked = doSelect;
+
+    // const listView = this.listView;
+    // const selectable = listView?.selectable ?? '';
+
+    // if (selectable !== 'mixed') this.toggleSelect(doSelect);
+    // if (selectable === 'single' || selectable === 'multiple') this.toggleSelect(doSelect);
+  }
+
+  toggleSelect(doSelect?: boolean) {
+    if (doSelect === undefined) doSelect = this.selected !== true;
+
+    const listView = this.listView;
+    const selectable = listView?.selectable ?? '';
+
+    if (!selectable) {
+      return listView?.itemsSelected.forEach((item) => { item.selected = false; });
+    }
+    if (selectable === 'single') {
+      listView?.itemsSelected.forEach((item) => {
+        if (item !== this) item.selected = false;
+      });
+    }
+    // if (selectable === 'mixed') {
+    //   // toggle checkbox if it is clicked directly
+    // }
+    // if (selectable === 'multiple') {
+    //   // do not alter any other list-items
+    // }
+
+    this.selected = doSelect;
+
+    if (doSelect) {
+      this.triggerEvent('itemSelect', listView, {
+        detail: this.rowData
+      });
     }
   }
 
@@ -176,23 +212,6 @@ export default class IdsListViewItem extends Base {
     ];
   }
 
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    if (oldValue === newValue) return;
-
-    if (name === attributes.ROW_INDEX) {
-      this.renderCustomHTML();
-    }
-  }
-
-  renderCustomHTML() {
-    if (!this.data.length) return;
-    console.log('renderCustomHTML', this.rowData);
-    // const html = this.listView?.templateCustomHTML(this.rowData);
-    // // const slot = this.container?.querySelector<HTMLSlotElement>('slot:not([name])');
-    // const slot = this.container?.querySelectorAll<HTMLSlotElement>('slot');
-    // console.log('renderCustomHTML', slot);
-  }
-
   /**
    * Set the row index. This index can be used to lazy-load data from IdsListView.data.
    * @param {number} value the index
@@ -235,6 +254,8 @@ export default class IdsListViewItem extends Base {
       this.removeAttribute(attributes.ACTIVE);
       this.removeAttribute('activated');
     }
+
+    this.#tabbed();
   }
 
   /**
@@ -281,5 +302,51 @@ export default class IdsListViewItem extends Base {
       this.removeAttribute('aria-selected');
       this.removeAttribute('hide-selected-color');
     }
+  }
+
+  #clicked() {
+    const listView = this.listView;
+    listView?.itemsActive?.forEach((item) => { item.active = false; });
+    this.active = true;
+
+    this.toggleSelect(!this.selected);
+  }
+
+  #tabbed() {
+    this.listView?.itemsTabbable?.forEach((item) => {
+      item.tabIndex = -1;
+      item.setAttribute('tabindex', '-1');
+    });
+
+    if (this.active) {
+      this.tabIndex = 0;
+      this.setAttribute('tabindex', '0');
+    }
+  }
+
+  #setAttributes() {
+    const listView = this.listView;
+    const rowData = this.rowData;
+    const rowIndex = this.rowIndex;
+    // const tabindex = typeof rowIndex !== 'undefined' && !rowIndex ? '0' : '-1';
+
+    if (listView.sortable) {
+      this.classList.add('sortable');
+    } else {
+      this.classList.remove('sortable');
+    }
+
+    this.active = !!rowData.itemActivated;
+    this.disabled = !!rowData.disabled;
+    this.selected = !!rowData.itemSelected;
+
+    this.tabIndex = -1;
+    this.setAttribute('tabindex', '-1');
+
+    const size = listView?.data?.length || listView?.itemsFiltered?.length;
+    this.setAttribute('role', 'option');
+    this.setAttribute('aria-setsize', String(size));
+    this.setAttribute('aria-posinset', String(rowIndex + 1));
+    this.setAttribute('index', String(rowIndex));
   }
 }

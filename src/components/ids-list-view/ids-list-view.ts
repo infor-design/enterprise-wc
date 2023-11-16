@@ -221,6 +221,13 @@ export default class IdsListView extends Base {
     ];
   }
 
+  get itemsTabbable(): IdsListViewItem[] {
+    return [
+      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[tabindex="0"]'),
+      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item[tabindex="0"]') ?? []),
+    ];
+  }
+
   #extractTemplateLiteralsFromHTML(string: string) {
     return Array.from(string?.matchAll(/\${(.*)}/g), ([, token]) => token);
   }
@@ -230,7 +237,7 @@ export default class IdsListView extends Base {
    * @returns {NodeListOf<HTMLElement>} List of all list item elements
    */
   getAllLi(): NodeListOf<HTMLElement> | undefined {
-    return this.container?.querySelectorAll<HTMLElement>('div[part="list-item"]');
+    return this.container?.querySelectorAll<HTMLElement>('[part="list-item"]');
   }
 
   /**
@@ -260,7 +267,7 @@ export default class IdsListView extends Base {
    */
   #itemByIndex(index: number): HTMLElement | null {
     return Number.isNaN(index) || !this.container ? null
-      : this.container.querySelector(`div[part="list-item"][index="${index}"]`);
+      : this.container.querySelector(`[part="list-item"][index="${index}"]`);
   }
 
   /**
@@ -332,11 +339,11 @@ export default class IdsListView extends Base {
     switch (e.code) {
       case 'ArrowUp':
         e.preventDefault();
-        this.focusLi(this.getPreviousLi(this.getFocusedLi()));
+        this.focusLi(this.getPreviousLi());
         break;
       case 'ArrowDown':
         e.preventDefault();
-        this.focusLi(this.getNextLi(this.getFocusedLi()));
+        this.focusLi(this.getNextLi());
         break;
       case 'Space':
         e.preventDefault();
@@ -420,8 +427,8 @@ export default class IdsListView extends Base {
       this.offEvent('click.listview-selection', this.container);
       this.onEvent('click.listview-selection', this.container, (e: any) => this.#handleOnClick(e));
 
-      this.offEvent('keydown.listview-selection', this.container);
-      this.onEvent('keydown.listview-selection', this.container, (e: any) => this.#handleOnKeydown(e));
+      this.offEvent('keydown.listview-selection', this);
+      this.onEvent('keydown.listview-selection', this, (e: any) => this.#handleOnKeydown(e));
 
       this.offEvent('keyup.listview-selection', this.container);
       this.onEvent('keyup.listview-selection', this.container, (e: any) => this.#handleOnKeyup(e));
@@ -541,58 +548,42 @@ export default class IdsListView extends Base {
 
   /**
    * Get currently focused list item.
-   * @returns {HTMLElement} The focused list item.
+   * @returns {Element|undefined} The focused list item.
    */
-  getFocusedLi(): HTMLElement | undefined | null {
-    const savedFocusedLi = this.container?.querySelector<HTMLElement>(`div[part="list-item"][index="${this.#focusedLiIndex}"]`);
-    const val = savedFocusedLi ?? this.container?.querySelector<HTMLElement>('div[part="list-item"][tabindex="0"]');
-    return val;
+  getFocusedLi(): Element | undefined {
+    return this.itemsTabbable?.at(0) ?? this.items?.at(0);
   }
 
   /**
    * Get previous list item for a given list item.
-   * @param {any} li The list item.
+   * @param {any} listItem The list item.
    * @returns {HTMLElement|undefined} The previous list item
    */
-  getPreviousLi(li: any): HTMLElement | undefined {
-    let idx = li && typeof li.getAttribute === 'function' ? li.getAttribute('index') : null;
-    idx = stringToNumber(idx);
-    if (Number.isNaN(idx)) return;
-    const items = [...this.getAllLi() ?? []].slice(0, (idx + 1));
-    const prev = (item: any): any => (
-      this.sortable
-        ? item.parentElement.previousElementSibling?.firstElementChildwrapper
-        : item.previousElementSibling
-    );
-    let prevLi = li;
-    items.reverse().some((item: any) => {
-      prevLi = prev(item);
-      return !prevLi?.hasAttribute('disabled');
-    });
-    return prevLi;
+  getPreviousLi(listItem?: any): HTMLElement | undefined {
+    const focusedItem = listItem ?? this.getFocusedLi();
+
+    let previousItem = focusedItem?.previousElementSibling;
+    while (previousItem?.matches('ids-list-view-item[disabled]')) {
+      previousItem = previousItem?.previousElementSibling;
+    }
+
+    return previousItem;
   }
 
   /**
    * Get next list item for a given list item.
-   * @param {any} li The list item.
+   * @param {any} listItem The list item.
    * @returns {HTMLElement|undefined} The next list item
    */
-  getNextLi(li: any): HTMLElement | undefined {
-    let idx = li && typeof li.getAttribute === 'function' ? li.getAttribute('index') : null;
-    idx = stringToNumber(idx);
-    if (Number.isNaN(idx)) return;
-    const items = [...this.getAllLi() ?? []].slice(idx);
-    const next = (item: any): any => (
-      this.sortable
-        ? item.parentElement.nextElementSibling?.firstElementChild
-        : item.nextElementSibling
-    );
-    let nextLi = li;
-    items.some((item: any) => {
-      nextLi = next(item);
-      return !nextLi?.hasAttribute('disabled');
-    });
-    return nextLi;
+  getNextLi(listItem?: any): HTMLElement | undefined {
+    const focusedItem = listItem ?? this.getFocusedLi();
+
+    let nextItem = focusedItem?.nextElementSibling;
+    while (nextItem?.matches('ids-list-view-item[disabled]')) {
+      nextItem = nextItem?.nextElementSibling;
+    }
+
+    return nextItem;
   }
 
   /**
@@ -880,7 +871,7 @@ export default class IdsListView extends Base {
    */
   updateDataFromDOM(): void {
     const newData: any = [];
-    this.container?.querySelectorAll<HTMLElement>('div[part="list-item"]').forEach((x) => {
+    this.container?.querySelectorAll<HTMLElement>('[part="list-item"]').forEach((x) => {
       const objItem: any = {};
       x.querySelectorAll<IdsText>('ids-text').forEach((value, i) => {
         objItem[this.dataKeys[i]] = value.innerHTML;

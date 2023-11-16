@@ -39,9 +39,9 @@
       border-top-color: var(--ids-list-view-item-color-border-top);
       contain: content;
       list-style-type: none;
-      // padding: var(--ids-list-view-item-padding);
 
-      &:focus {
+      &:focus,
+      &:focus-within {
         border-color: var(--ids-list-view-item-color-border-focus);
         box-shadow: var(--ids-list-view-item-shadow-focus);
         outline: var(--ids-list-view-item-outline-focus);
