@@ -9,12 +9,16 @@ const dataGrid = document.querySelector<IdsDataGrid>('#tree-grid-virtual-scroll'
 const btnExpandAll = document.querySelector('#btn-expand-all');
 const btnCollapseAll = document.querySelector('#btn-collapse-all');
 
+let isExpanded = false;
+
 btnExpandAll?.addEventListener('click', () => {
   dataGrid?.expandAll();
+  isExpanded = true;
 });
 
 btnCollapseAll?.addEventListener('click', () => {
   dataGrid?.collapseAll();
+  isExpanded = false;
 });
 
 // Do an ajax request
@@ -133,15 +137,20 @@ dataGrid.addEventListener('scrollend', async (e: any) => {
   console.info(`scrollend`, (<CustomEvent>e).detail);
   const lastRowLoaded = e.detail.value;
   const data = await fetchData();
-  const rowsToAdd = data.slice(lastRowLoaded + 1, lastRowLoaded + 4);
+  const rowsToAdd = data
+    .slice(lastRowLoaded + 1, lastRowLoaded + 5)
+    .map((row: any) => {
+      row.rowExpanded = isExpanded;
+      return row;
+    });
 
   if (rowsToAdd.length) {
     // simulate fetch delay
     setTimeout(() => {
       dataGrid.appendData(rowsToAdd);
-      console.info('appending rows:', rowsToAdd.length, dataGrid.virtualRows.length);
-    }, 200);
+      console.info('Appending Rows:', rowsToAdd.length);
+    }, 150);
   } else {
-    console.info('END OF DATA');
+    console.info('---END OF DATA---');
   }
 });
