@@ -63,7 +63,7 @@ columns.push({
   resizable: true,
   formatter: dataGrid.formatters.text,
   editor: {
-    type: 'tree',
+    type: 'input',
     inline: true,
     editorSettings: {
       autoselect: true,
