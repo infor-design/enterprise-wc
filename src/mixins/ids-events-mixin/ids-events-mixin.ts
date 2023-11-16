@@ -77,6 +77,11 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     ];
   }
 
+  connectedCallback(): void {
+    super.connectedCallback?.();
+    this.#attachKeyDownShortcuts();
+  }
+
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.detachAllEvents();
@@ -212,6 +217,7 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     this.#removeHoverEndListener();
     this.#removeSlopedMouseLeaveListener();
     this.#removeKeyDownEndListener();
+    this.#removeKeyDownShortcuts();
     this.#removeSwipeListener();
   }
 
@@ -584,6 +590,93 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     this.keyDownEndOn = false;
     this.clearTimer();
     this.detachEventsByName('keydown.eventsmixin');
+  }
+
+  /**
+   * Detach all keydown.shortcuts events
+   * @private
+   */
+  #removeKeyDownShortcuts() {
+    this.detachEventsByName('keydown.shortcuts');
+  }
+
+  /**
+   * When "Enter" "keydown" event fired , this triggers "enter" and "return" helper events
+   * @param {KeyboardEvent} event - the native keydown event
+   */
+  #keydownEnter(event: KeyboardEvent): void {
+    const options = {
+      bubbles: false, // no need to bubble this up to children
+      capture: true, // catching keydown event as quickly as possible
+      composed: false, // no need to bubble beyond web-component boundary
+      detail: {
+        nativeEvent: event
+      }
+    };
+
+    const key = event.code.toLowerCase();
+    if (key === 'enter' || key === 'return') {
+      this.triggerEvent('enter.ids-events-mixin', this, { ...options });
+      this.triggerEvent('return.ids-events-mixin', this, { ...options });
+    }
+  }
+
+  /**
+   * When "Space" "keydown" event fired , this triggers "space" and "spacebar" helper events
+   * @param {KeyboardEvent} event - the native keydown event
+   */
+  #keydownSpace(event: KeyboardEvent): void {
+    const options = {
+      bubbles: false, // no need to bubble this up to children
+      capture: true, // catching keydown event as quickly as possible
+      composed: false, // no need to bubble beyond web-component boundary
+      detail: {
+        nativeEvent: event
+      }
+    };
+
+    const key = event.code.toLowerCase();
+    if (key === 'space' || key === ' ') {
+      this.triggerEvent('space.ids-events-mixin', this, { ...options });
+      this.triggerEvent('spacebar.ids-events-mixin', this, { ...options });
+    }
+  }
+
+  #attachKeyDownShortcuts() {
+    this.onEvent('keydown.shortcuts', this, (event: KeyboardEvent) => {
+      this.#triggerKeyboardShortcuts(event, 'enter', ['shortcut.enter', 'shortcut.return']);
+      this.#triggerKeyboardShortcuts(event, ['space', ' '], ['shortcut.space', 'shortcut.spacebar']);
+      this.#triggerKeyboardShortcuts(event, 'tab', 'shortcut.tab');
+    });
+  }
+
+  /**
+   * Helper to trigger custom "keyboard" events (i.e. shortcuts) when a "keyboard" event is fired
+   * @param {KeyboardEvent} event - the native keyboard event
+   * @param {string[]|string} codes - target list of keyboard event.code
+   * @param {string[]|string} shortcuts - list of short cuts to create
+   */
+  #triggerKeyboardShortcuts(event: KeyboardEvent, codes: string[] | string, shortcuts: string[] | string): void {
+    // @see https://javascript.info/bubbling-and-capturing#capturing
+    const options = {
+      bubbles: false, // no need to bubble this up to children
+      capture: true, // catching keyboard event as quickly as possible
+      composed: false, // no need to bubble beyond web-component boundary
+      detail: {
+        nativeEvent: event
+      }
+    };
+
+    const keyboardCode = event.code.toLowerCase();
+
+    codes = Array.isArray(codes) ? codes : [codes];
+    shortcuts = Array.isArray(shortcuts) ? shortcuts : [shortcuts];
+
+    shortcuts.forEach((shortcut) => {
+      if (codes.includes(keyboardCode)) {
+        this.triggerEvent(shortcut, this, { ...options });
+      }
+    });
   }
 };
 
