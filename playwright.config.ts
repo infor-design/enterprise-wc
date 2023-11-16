@@ -18,8 +18,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* No Retry anywhere */
   retries: 0,
-  /* was process.env.CI ? 3 : undefined */
-  workers: undefined,
+  workers: process.env.CI ? 2 : undefined,
   /* Control the snap shot names */
   snapshotPathTemplate: '{testDir}/{testFileDir}/snapshots/{arg}.snap',
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
