@@ -1,3 +1,14 @@
+.disabled,
+:host-context([disabled]),
+:host-context(.disabled) {
+  // cursor: not-allowed;
+  // pointer-events: none;
+  color: var(--ids-list-view-item-color-text-disabled);
+  cursor: var(--ids-cursor-default);
+  pointer-events: none;
+  user-select: none;
+}
+
 .selectable,
 :host-context([selectable]),
 :host-context(.selectable) {

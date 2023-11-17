@@ -284,6 +284,13 @@ export default class IdsListViewItem extends Base {
 
   #onClick(e?: Event) {
     console.log('onClick()');
+    if (this.disabled) {
+      e?.preventDefault();
+      e?.stopPropagation();
+      e?.stopImmediatePropagation();
+      return;
+    }
+
     this.listView?.itemsActive?.forEach((item) => { item.active = false; });
     this.active = true;
 
@@ -300,14 +307,10 @@ export default class IdsListViewItem extends Base {
     }
   }
 
-  #onCheckbox(e?: Event) {
-    e?.preventDefault();
-    e?.stopImmediatePropagation();
-
-    console.log('onCheckbox()');
+  #onCheckbox() {
+    this.checked = Boolean(this.checkbox?.checked);
     if (this.selectable !== 'mixed') {
-      this.checked = Boolean(this.checkbox?.checked);
-      this.selected = Boolean(this.checkbox?.checked);
+      this.selected = this.checked;
     }
   }
 

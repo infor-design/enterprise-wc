@@ -214,6 +214,13 @@ export default class IdsListView extends Base {
     ];
   }
 
+  get itemsChecked(): IdsListViewItem[] {
+    return [
+      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[checked]'),
+      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item[checked]') ?? []),
+    ];
+  }
+
   get itemsSelected(): IdsListViewItem[] {
     return [
       ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[selected]'),
