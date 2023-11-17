@@ -4,8 +4,8 @@
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import processAnimFrame from '../helpers/process-anim-frame';
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
-import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
+import deMessages from '../../src/components/ids-locale/data/de-messages.json';
 import customIconJSON from '../../src/components/ids-icon/demos/custom-icon-data.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 

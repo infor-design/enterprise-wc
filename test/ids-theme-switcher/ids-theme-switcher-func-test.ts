@@ -9,7 +9,7 @@ import '../../src/components/ids-container/ids-container';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsThemeSwitcher from '../../src/components/ids-theme-switcher/ids-theme-switcher';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsThemeSwitcher Component', () => {

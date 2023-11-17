@@ -8,7 +8,7 @@ import '../../src/components/ids-button/ids-button';
 import createFromTemplate from '../helpers/create-from-template';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import waitForTimeout from '../helpers/wait-for-timeout';
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 import IdsLocale from '../../src/components/ids-locale/ids-locale';
 

@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  */
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
-import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
-import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
-import { locale as arSALocale } from '../../src/components/ids-locale/data/ar-SA';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
+import deMessages from '../../src/components/ids-locale/data/de-messages.json';
+import deDELocale from '../../src/components/ids-locale/data/de-DE.json';
+import arSALocale from '../../src/components/ids-locale/data/ar-SA.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsContainer Component', () => {

@@ -39,7 +39,7 @@ exports[`IdsThemeSwitcher Component renders correctly 1`] = `
               <ids-text>(uk-UA)</ids-text>
             </ids-menu-item>
             <ids-menu-item value="es-ES">
-              <ids-text translate-text="true">Spanish (Spain)</ids-text>
+              <ids-text translate-text="true">Spanish</ids-text>
               <ids-text>(es-ES)</ids-text>
             </ids-menu-item>
             <ids-menu-item value="he-IL">

@@ -10,7 +10,7 @@ import {
   id,
   EVENTS
 } from '../../src/components/ids-toast/ids-toast-shared';
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsToast Component', () => {

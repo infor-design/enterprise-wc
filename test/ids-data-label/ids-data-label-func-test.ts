@@ -5,7 +5,7 @@ import IdsDataLabel from '../../src/components/ids-data-label/ids-data-label';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import waitForTimeout from '../helpers/wait-for-timeout';
 import processAnimFrame from '../helpers/process-anim-frame';
-import { messages as frMessages } from '../../src/components/ids-locale/data/fr-messages';
+import frMessages from '../../src/components/ids-locale/data/fr-messages.json';
 
 describe('IdsDataLabel Component', () => {
   let dataLabel: IdsDataLabel;

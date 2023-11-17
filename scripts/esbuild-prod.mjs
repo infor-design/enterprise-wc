@@ -110,8 +110,8 @@ if (mode === 'production') {
 fs.writeFileSync('build-stats.json', JSON.stringify(result.metafile));
 
 // Remove Extra/Dup Files
-fs.rmSync(`${outDir}/components/enterprise-wc.js`);
-fs.rmSync(`${outDir}/components/enterprise-wc.js.map`);
-fs.rmSync(`${outDir}/components/enterprise-wc.d.ts`);
+if (fs.existsSync(`${outDir}/components/enterprise-wc.js`)) fs.rmSync(`${outDir}/components/enterprise-wc.js`);
+if (fs.existsSync(`${outDir}/components/enterprise-wc.map`)) fs.rmSync(`${outDir}/components/enterprise-wc.js.map`);
+if (fs.existsSync(`${outDir}/components/enterprise-wc.d.ts`)) fs.rmSync(`${outDir}/components/enterprise-wc.d.ts`);
 
 console.info(`⚡ Build complete ⚡`);

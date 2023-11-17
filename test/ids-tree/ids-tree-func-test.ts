@@ -4,7 +4,7 @@
 import IdsTree from '../../src/components/ids-tree/ids-tree';
 import IdsTreeShared from '../../src/components/ids-tree/ids-tree-shared';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 import processAnimFrame from '../helpers/process-anim-frame';
 

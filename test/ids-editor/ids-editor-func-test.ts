@@ -16,7 +16,7 @@ import '../../src/components/ids-editor/ids-editor-clean-utils';
 import '../../src/components/ids-editor/ids-editor-shared';
 import '../../src/components/ids-editor/ids-editor-formatters';
 
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 document.execCommand = jest.fn();

@@ -7,8 +7,8 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import '../helpers/resize-observer-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
-import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
-import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
+import deMessages from '../../src/components/ids-locale/data/de-messages.json';
+import deDELocale from '../../src/components/ids-locale/data/de-DE.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsPieChart Component', () => {

@@ -8,7 +8,7 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 /**

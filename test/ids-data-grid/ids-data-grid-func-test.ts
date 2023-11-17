@@ -17,9 +17,9 @@ import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-u
 import IdsPager from '../../src/components/ids-pager/ids-pager';
 import '../../src/components/ids-checkbox/ids-checkbox';
 
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
-import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
-import { locale as deDELocale } from '../../src/components/ids-locale/data/de-DE';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
+import deMessages from '../../src/components/ids-locale/data/de-messages.json';
+import deDELocale from '../../src/components/ids-locale/data/de-DE.json';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid: any;
