@@ -2,7 +2,7 @@
   .ids-list-view .ids-list-view-body {
     [part='list-item'],
     li {
-      cursor: var(--ids-cursor-pointer);
+      // cursor: var(--ids-cursor-pointer);
     }
   }
 }
@@ -103,6 +103,7 @@
   &.selectable-multiple .ids-list-view-body,
   &.selectable-mixed .ids-list-view-body {
     [part='list-item']:not([disabled]):not(.sortable),
+    ids-list-view-item:not([disabled]):not(.sortable),
     li:not([disabled]):not(.sortable) {
       &:hover,
       &[activated],

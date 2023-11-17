@@ -321,12 +321,13 @@ export default class IdsListView extends Base {
    * @returns {void}
    */
   #handleOnClick(e: any): void {
-    const itemInfo = this.#itemInfo(e.target);
-    if (itemInfo) {
-      this.#isTargetCheckbox = e.target?.classList.contains('list-item-checkbox');
-      if (this.#isTargetCheckbox) e.preventDefault();
-      this.#setSelection(itemInfo);
-    }
+    console.log('handleOnClick', e);
+    // const itemInfo = this.#itemInfo(e.target);
+    // if (itemInfo) {
+    //   this.#isTargetCheckbox = e.target?.classList.contains('list-item-checkbox');
+    //   if (this.#isTargetCheckbox) e.preventDefault();
+    //   this.#setSelection(itemInfo);
+    // }
   }
 
   /**
@@ -424,8 +425,8 @@ export default class IdsListView extends Base {
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
     if (!this.sortable) {
       // Set selection/activation by ckick
-      this.offEvent('click.listview-selection', this.container);
-      this.onEvent('click.listview-selection', this.container, (e: any) => this.#handleOnClick(e));
+      // this.offEvent('click.listview-selection', this);
+      // this.onEvent('click.listview-selection', this, (e: any) => this.#handleOnClick(e));
 
       this.offEvent('keydown.listview-selection', this);
       this.onEvent('keydown.listview-selection', this, (e: any) => this.#handleOnKeydown(e));
@@ -615,8 +616,16 @@ export default class IdsListView extends Base {
    */
   #generateListItemFromCustomHTML(index: number): string {
     const data = this.data[index] ?? {};
+    // const item = this.itemByIndex(index);
+    // const data = this.data[index] ?? item?.rowData ?? {};
+    const activated = data.itemActivated ? ' activated' : '';
+    const disabled = data.disabled ? ' disabled' : '';
+    const selected = data.itemSelected ? ' selected' : '';
+    const sortable = this.sortable ? ' class="sortable"' : '';
     return this.templateListItemWrapper(
-      `<ids-list-view-item row-index="${index}">${this.templateCustomHTML(data)}</ids-list-view-item>`,
+      `<ids-list-view-item row-index="${index}" ${activated}${disabled}${selected}${sortable}>
+        ${this.templateCustomHTML(data)}
+      </ids-list-view-item>`,
       index
     );
   }
@@ -661,7 +670,8 @@ export default class IdsListView extends Base {
     const selected = data.itemSelected ? ' selected' : '';
     const sortable = this.sortable ? ' class="sortable"' : '';
 
-    const wrappedInnerHTML = `<div part="list-item" ${activated}${disabled}${selected}${sortable}>${innerHTML}</div>`;
+    const wrappedInnerHTML = `<div part="list-item">${innerHTML}</div>`;
+    // const wrappedInnerHTML = `<div part="list-item" ${activated}${disabled}${selected}${sortable}>${innerHTML}</div>`;
 
     if (!sortable) return wrappedInnerHTML;
 
