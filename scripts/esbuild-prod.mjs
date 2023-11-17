@@ -1,5 +1,3 @@
-/* eslint-disable guard-for-in */
-/* eslint-disable no-console */
 // Custom Build Script Using Es Build
 // usage:
 //  node scripts/esbuild-prod.mjs -- mode=production
@@ -7,9 +5,7 @@
 //  node scripts/esbuild-prod.mjs
 import * as fs from 'fs';
 import * as path from 'path';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as esbuild from 'esbuild';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { sassPlugin } from 'esbuild-sass-plugin';
 // eslint-disable-next-line import/extensions
 import fsFiles from './node-fs-files.mjs';
@@ -124,4 +120,5 @@ if (fs.existsSync(`${outDir}/components/enterprise-wc.js`)) fs.rmSync(`${outDir}
 if (fs.existsSync(`${outDir}/components/enterprise-wc.map`)) fs.rmSync(`${outDir}/components/enterprise-wc.js.map`);
 if (fs.existsSync(`${outDir}/components/enterprise-wc.d.ts`)) fs.rmSync(`${outDir}/components/enterprise-wc.d.ts`);
 
+// eslint-disable-next-line no-console
 console.info(`⚡ Build complete ⚡`);
