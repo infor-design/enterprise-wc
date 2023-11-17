@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 /* eslint-disable no-console */
 // Custom Build Script Using Es Build
 // usage:
@@ -102,7 +103,16 @@ fs.copyFileSync('./vscode.html-custom-data.json', `${outDir}/vscode.html-custom-
 
 // Copy and Minify (gzip?) json data
 if (mode === 'production') {
-  // TODO
+  const jsons = fsFiles(`${outDir}/locale-data`, 'json');
+  jsons.forEach((filePath) => {
+    const contents = fs.readFileSync(filePath, { encoding: 'utf-8' });
+    // Remove comments field
+    let newFile = contents.replaceAll(/[,]{1}[\s]*?"comment"[ ]*?[:][ ]*?".*"[^,]|"comment"[ ]*?[:][ ]*?".*"[,]{0,1}/g, '');
+    // Remove white space not in fields
+    newFile = JSON.stringify(JSON.parse(newFile));
+    // Rewrite file
+    fs.writeFileSync(filePath, newFile);
+  });
 }
 
 // Create Stats File

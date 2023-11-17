@@ -2,6 +2,12 @@
 
 ## 1.0.0-beta.17
 
+### 1.0.0-beta.17 Breaking Changes
+
+- `[Locale]` All locale data is now `json` not `js`, this may require you to re-copy the locale data if you made a copy of it. This removed the .js files from the bundles so they are truly dynamic now. ([#1596](https://github.com/infor-design/enterprise-wc/issues/1596))
+
+## 1.0.0-beta.17
+
 ### 1.0.0-beta.17 Features
 
 - `[General]` Added an initial migration guide. ([#1561](https://github.com/infor-design/enterprise-wc/issues/1561))

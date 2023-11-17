@@ -107,7 +107,8 @@ class IdsLocale {
   loadLanguageScript(value: string) {
     const promise = fetch(`${this.localeDataPath}${value}-messages.json`);
     promise.then(async (response) => {
-      this.loadedLanguages.set(value, response.json());
+      const data = await response.json();
+      this.loadedLanguages.set(value, data);
     });
     return promise;
   }
@@ -208,7 +209,8 @@ class IdsLocale {
   async loadLocaleScript(value: string) {
     const promise = fetch(`${this.localeDataPath}${value}.json`);
     promise.then(async (response) => {
-      this.loadedLocales.set(value, response.json());
+      const data = await response.json();
+      this.loadedLocales.set(value, data);
     });
     return promise;
   }
