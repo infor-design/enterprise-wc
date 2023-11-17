@@ -593,6 +593,28 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
   }
 
   /**
+   * Attach all keyup.shortcuts events
+   * @private
+   */
+  #attachKeyboardShortcuts() {
+    this.onEvent('keyup.shortcuts', this, (event: KeyboardEvent) => {
+      const keyCode = (event.code === ' ') ? 'Space' : event.code;
+
+      const shortcuts = {
+        ArrowDown: 'down.shortcut',
+        ArrowLeft: 'left.shortcut',
+        ArrowRight: 'right.shortcut',
+        ArrowUp: 'up.shortcut',
+        Enter: ['enter.shortcut', 'return.shortcut'],
+        Space: ['space.shortcut', 'spacebar.shortcut'],
+        Tab: 'tab.shortcut',
+      }[keyCode];
+
+      if (shortcuts) this.#triggerKeyboardShortcuts(event, shortcuts);
+    });
+  }
+
+  /**
    * Detach all keyup.shortcuts events
    * @private
    */
@@ -600,21 +622,12 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     this.detachEventsByName('keyup.shortcuts');
   }
 
-  #attachKeyboardShortcuts() {
-    this.onEvent('keyup.shortcuts', this, (event: KeyboardEvent) => {
-      this.#triggerKeyboardShortcuts(event, 'enter', ['enter.shortcut', 'return.shortcut']);
-      this.#triggerKeyboardShortcuts(event, ['space', ' '], ['space.shortcut', 'spacebar.shortcut']);
-      this.#triggerKeyboardShortcuts(event, 'tab', 'tab.shortcut');
-    });
-  }
-
   /**
    * Helper to trigger custom "keyboard" events (i.e. shortcuts) when a "keyboard" event is fired
    * @param {KeyboardEvent} event - the native keyboard event
-   * @param {string[]|string} codes - target list of keyboard event.code
    * @param {string[]|string} shortcuts - list of short cuts to create
    */
-  #triggerKeyboardShortcuts(event: KeyboardEvent, codes: string[] | string, shortcuts: string[] | string): void {
+  #triggerKeyboardShortcuts(event: KeyboardEvent, shortcuts: string[] | string): void {
     // @see https://javascript.info/bubbling-and-capturing#capturing
     const options = {
       bubbles: false, // no need to bubble this up to children
@@ -625,15 +638,9 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
       }
     };
 
-    const keyboardCode = event.code.toLowerCase();
-
-    codes = Array.isArray(codes) ? codes : [codes];
     shortcuts = Array.isArray(shortcuts) ? shortcuts : [shortcuts];
-
     shortcuts.forEach((shortcut) => {
-      if (codes.includes(keyboardCode)) {
-        this.triggerEvent(shortcut, this, { ...options });
-      }
+      this.triggerEvent(shortcut, this, { ...options });
     });
   }
 };
