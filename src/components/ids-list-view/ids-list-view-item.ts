@@ -72,6 +72,21 @@ export default class IdsListViewItem extends Base {
   }
 
   /**
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
+   */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.ACTIVE,
+      attributes.CHECKED,
+      attributes.DISABLED,
+      attributes.SELECTED,
+      attributes.ROW_INDEX,
+    ];
+  }
+
+  /**
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
@@ -92,17 +107,6 @@ export default class IdsListViewItem extends Base {
       this.removeAttribute?.('slot');
       (this.parentListView as any)?.disconnectedCallback?.();
     }
-  }
-
-  #attachEventListeners() {
-    this.offEvent('change.listview-item', this.checkbox);
-    this.onEvent('change.listview-item', this.checkbox, (e) => this.#onCheckbox(e));
-
-    this.offEvent('blur.listview-item', this);
-    this.onEvent('blur.listview-item', this, () => { this.active = false; });
-
-    this.offEvent('click.listview-item', this);
-    this.onEvent('click.listview-item', this, (e) => this.#onClick(e));
   }
 
   get checkbox(): IdsCheckbox | undefined {
@@ -159,20 +163,6 @@ export default class IdsListViewItem extends Base {
     }
 
     return '';
-  }
-
-  /**
-   * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
-   */
-  static get attributes() {
-    return [
-      ...super.attributes,
-      attributes.ACTIVE,
-      attributes.DISABLED,
-      attributes.SELECTED,
-      attributes.ROW_INDEX,
-    ];
   }
 
   /**
@@ -253,6 +243,24 @@ export default class IdsListViewItem extends Base {
   get selectable(): string { return String(this.listView?.selectable ?? ''); }
 
   /**
+   * Get the list-item checked state.
+   * @returns {boolean} true/false
+   */
+  get checked(): boolean { return this.hasAttribute(attributes.CHECKED); }
+
+  /**
+   * Set the list-item checked state.
+   * @param {boolean} value true/false
+   */
+  set checked(value: boolean) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.CHECKED, '');
+    } else {
+      this.removeAttribute(attributes.CHECKED);
+    }
+  }
+
+  /**
    * Get the list-item selected state.
    * @returns {boolean} true/false
    */
@@ -275,10 +283,15 @@ export default class IdsListViewItem extends Base {
   }
 
   #onClick(e?: Event) {
-    e?.preventDefault();
     console.log('onClick()');
     this.listView?.itemsActive?.forEach((item) => { item.active = false; });
     this.active = true;
+
+    if (!this.selectable) return;
+
+    if (['single', 'multiple'].includes(this.selectable)) {
+      e?.preventDefault();
+    }
 
     if (this.selected) {
       this.#onDeselect();
@@ -293,6 +306,7 @@ export default class IdsListViewItem extends Base {
 
     console.log('onCheckbox()');
     if (this.selectable !== 'mixed') {
+      this.checked = Boolean(this.checkbox?.checked);
       this.selected = Boolean(this.checkbox?.checked);
     }
   }
@@ -330,6 +344,17 @@ export default class IdsListViewItem extends Base {
       this.tabIndex = 0;
       this.setAttribute('tabindex', '0');
     }
+  }
+
+  #attachEventListeners() {
+    this.offEvent('blur.listview-item', this);
+    this.onEvent('blur.listview-item', this, () => { this.active = false; });
+
+    this.offEvent('click.listview-item', this);
+    this.onEvent('click.listview-item', this, (e) => this.#onClick(e));
+
+    this.offEvent('change.listview-item', this.checkbox);
+    this.onEvent('change.listview-item', this.checkbox, (e) => this.#onCheckbox(e));
   }
 
   #setAttributes() {
