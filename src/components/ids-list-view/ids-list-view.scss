@@ -2,7 +2,7 @@
   .ids-list-view .ids-list-view-body {
     [part='list-item'],
     li {
-      // cursor: var(--ids-cursor-pointer);
+      cursor: var(--ids-cursor-pointer);
     }
   }
 }
@@ -58,33 +58,6 @@
 
         &:first-child {
           margin-block-start: var(--ids-space-none);
-        }
-      }
-
-      &[disabled] {
-        color: var(--ids-list-view-item-color-text-disabled);
-        cursor: var(--ids-cursor-default);
-        pointer-events: none;
-        user-select: none;
-
-        &:focus {
-          border-color: var(--ids-list-view-item-color-border-disabled-focus);
-          border-top-color: var(--ids-list-view-item-top-color-border-disabled-focus);
-          box-shadow: var(--ids-list-view-item-shadow-disabled-focus);
-        }
-
-        ids-badge::part(badge) {
-          background-color: var(--ids-list-view-item-color-background-disabled);
-          border-color: var(--ids-list-view-item-color-border-disabled);
-          color: var(--ids-list-view-item-badge-color-text-disabled);
-        }
-
-        ids-hyperlink::part(link) {
-          color: var(--ids-list-view-item-color-text-link-disabled);
-        }
-
-        ids-image {
-          opacity: var(--ids-list-view-item-opacity-disabled);
         }
       }
     }
