@@ -1537,14 +1537,32 @@ export default class IdsDataGrid extends Base {
     });
   }
 
+  /**
+   * Updates tree node and its children's rowHidden states for virtual scrolling
+   * @param {Record<string, any>} treeNode tre node
+   * @param {boolean} show show/hidden flag
+   */
+  #syncTreeHiddenStates(treeNode: Record<string, any>, show: boolean) {
+    const hasChildren = treeNode.childrenVRefIds?.length > 0;
+    const isExpanded = treeNode.rowExpanded;
+
+    this.updateDataset(treeNode.vsRedId, { rowHidden: !show });
+    treeNode.rowHidden = !show;
+
+    if (hasChildren) {
+      treeNode.childrenVRefIds.forEach((childIndex: number) => {
+        this.#syncTreeHiddenStates(this.data[childIndex], isExpanded && !treeNode.rowHidden);
+      });
+    }
+  }
+
   #handleTreeRowExpandCollapse(expanded: boolean, payload: Record<string, any>) {
     const rowIndex = payload.row;
-    const rowData = payload.data;
     const allRows = payload.allRows;
     const rowHeight = this.virtualScrollSettings.ROW_HEIGHT;
     const scrollIndex = Math.floor(this.container!.scrollTop / rowHeight);
 
-    // collapseAll or expandAll was invoked
+    // collapseAll/expandAll invoked and already updated show/hide states
     if (allRows) {
       this.#recycleAllTreeRows(scrollIndex);
       return;
@@ -1553,19 +1571,19 @@ export default class IdsDataGrid extends Base {
     // update parent expanded state
     this.updateDataset(rowIndex, { rowExpanded: expanded, rowHidden: false });
 
-    // update children hidden state
-    for (let i = 0; i < rowData?.children.length; i++) {
-      this.updateDataset(rowIndex + i + 1, { rowHidden: !expanded });
-    }
+    // sync show/hide states of subtree
+    this.#syncTreeHiddenStates(this.data[rowIndex], true);
 
+    // refresh virtual rows to reflect new show/hidden states
     this.#recycleAllTreeRows(scrollIndex);
   }
 
   /**
    * Recycle all dom tree rows for virtual scroll window
    * @param {number} scrollIndex scroll position row index
+   * @param {Record<number, boolean>} forceRender rows to force render
    */
-  #recycleAllTreeRows(scrollIndex: number) {
+  #recycleAllTreeRows(scrollIndex: number, forceRender: Record<number, boolean> = {}) {
     const rows = this.rows;
     const data = this.data;
     const virtualRows = this.virtualRows;
@@ -1592,6 +1610,10 @@ export default class IdsDataGrid extends Base {
 
       if (dataRowIndex >= 0) {
         row.rowIndex = dataRowIndex;
+      }
+
+      if (forceRender[dataRowIndex]) {
+        row.renderRow(dataRowIndex);
       }
     }
 
@@ -1680,33 +1702,29 @@ export default class IdsDataGrid extends Base {
     if (!this.container || !this.data.length) return;
 
     const { ROW_HEIGHT } = this.virtualScrollSettings;
-    const data = this.data;
-    const isRowHidden = data[rowIndex].rowHidden;
+    const isRowHidden = this.data[rowIndex].rowHidden;
+    const forceRender: Record<number, boolean> = {};
 
+    // if row is hidden, first expand all parent rows
     if (isRowHidden) {
-      let cursorIndex = rowIndex;
-      let parentRow = null;
+      const targetRow = this.data[rowIndex];
+      let parentRow = this.#findParentRow(this.data, targetRow.parentElement ?? '');
 
       // find parent row
-      while (cursorIndex >= 0 && parentRow === null) {
-        cursorIndex--;
-        const cursorRow = data[cursorIndex];
-        if (cursorRow.children?.length) parentRow = cursorRow;
+      while (parentRow) {
+        forceRender[parentRow.vsRefId] = true;
+        this.updateDataset(parentRow.vsRefId, { rowExpanded: true, rowHidden: false });
+        parentRow = this.#findParentRow(this.data, parentRow.parentElement ?? '');
       }
 
-      // expand parent row, show parent children
-      if (parentRow) {
-        this.updateDataset(cursorIndex, { rowExpanded: true, rowHidden: false });
-        const childrenLength = parentRow.children.length;
-
-        for (let i = 0; i < childrenLength; i++) {
-          this.updateDataset(cursorIndex + i + 1, { rowHidden: false });
-        }
+      const rootRow = this.#findRootRow(targetRow);
+      if (rootRow) {
+        this.#syncTreeHiddenStates(rootRow, true);
       }
     }
 
     const virtualRowIndex = this.virtualRows.indexOf(this.data[rowIndex]);
-    this.#recycleAllTreeRows(virtualRowIndex);
+    this.#recycleAllTreeRows(virtualRowIndex, forceRender);
     this.container.scrollTop = virtualRowIndex * ROW_HEIGHT;
   }
 
@@ -2229,6 +2247,16 @@ export default class IdsDataGrid extends Base {
       else childRow = childRow?.children.find((cRow: Record<string, any>) => cRow.id == r);
     });
     return childRow;
+  }
+
+  #findRootRow(row: Record<string, any>) {
+    if (!row.parentElement) return row;
+
+    const rootId = row.parentElement.split(' ')[0];
+    // eslint-disable-next-line eqeqeq
+    const rootRow = this.data.find((item) => item[this.idColumn] == rootId);
+
+    return rootRow;
   }
 
   /**

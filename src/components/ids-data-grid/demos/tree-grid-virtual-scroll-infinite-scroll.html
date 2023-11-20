@@ -12,18 +12,23 @@
       </ids-layout-flex-item>
 
       <ids-layout-flex-item>
-        <ids-text font-size="12" type="h1">Tree Grid (Virtual Scrolling)</ids-text>
+        <ids-text font-size="12" type="h1">Tree Grid (Virtual + Infinite Scrolling)</ids-text>
       </ids-layout-flex-item>
 
       <ids-layout-flex-item auto-fit="true" padding="md">
-        <ids-layout-flex-item-cell col-span="12" col-span-sm="6" col-span-lg="4">
-          <ids-button id="btn-expand-all" appearance="secondary">
-            <span>Expand All</span>
-          </ids-button>
-          <ids-button id="btn-collapse-all" appearance="secondary">
-            <span>Collapse All</span>
-          </ids-button>
-        </ids-layout-flex-item-cell>
+        <ids-layout-flex directin="row" justify-content="space-between">
+          <ids-layout-flex-item>
+            <ids-button id="btn-expand-all" appearance="secondary">
+              <span>Expand All</span>
+            </ids-button>
+            <ids-button id="btn-collapse-all" appearance="secondary">
+              <span>Collapse All</span>
+            </ids-button>
+          </ids-layout-flex-item>
+          <ids-layout-flex-item>
+            <ids-input id="scroll-to-input" type="number" placeholder="Scroll to row" size="sm" no-margins="true"></ids-input>
+          </ids-layout-flex-item>
+        </ids-layout-flex>
       </ids-layout-flex-item>
 
       <ids-layout-flex-item grow="1" overflow="hidden">
@@ -37,7 +42,7 @@
           auto-fit="true"
           virtual-scroll="true"
           row-height="sm"
-          alternate-row-shading="true">
+          row-start="349">
         </ids-data-grid>
       </ids-layout-flex-item>
     </ids-layout-flex>

@@ -3,11 +3,13 @@ import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import treeLargeJSON from '../../../assets/data/tree-large-children.json';
 import '../../ids-layout-flex/ids-layout-flex';
+import '../../ids-input/ids-input';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#tree-grid-virtual-scroll')!;
 const btnExpandAll = document.querySelector('#btn-expand-all');
 const btnCollapseAll = document.querySelector('#btn-collapse-all');
+const scrollToInput = document.querySelector('#scroll-to-input');
 
 let isExpanded = false;
 
@@ -20,6 +22,11 @@ btnCollapseAll?.addEventListener('click', () => {
   dataGrid?.collapseAll();
   isExpanded = false;
 });
+
+scrollToInput?.addEventListener('change', ((evt: CustomEvent) => {
+  const rowIndex = Number(evt.detail.value);
+  if (!Number.isNaN(rowIndex)) dataGrid.scrollRowIntoView(rowIndex);
+}) as EventListener);
 
 // Do an ajax request
 const url: any = treeLargeJSON;
@@ -46,9 +53,9 @@ columns.push({
 });
 
 columns.push({
-  id: 'fullName',
-  name: 'Full Name',
-  field: 'fullName',
+  id: 'name',
+  name: 'Name',
+  field: 'name',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.tree,
@@ -60,11 +67,21 @@ columns.push({
 });
 
 columns.push({
-  id: 'street',
-  name: 'Street',
-  field: 'street',
+  id: 'email',
+  name: 'Email',
+  field: 'email',
   sortable: true,
   resizable: true,
+  formatter: dataGrid.formatters.text,
+});
+
+columns.push({
+  id: 'company',
+  name: 'Company',
+  field: 'company',
+  sortable: true,
+  resizable: true,
+  width: 200,
   formatter: dataGrid.formatters.text,
   editor: {
     type: 'input',
@@ -78,22 +95,13 @@ columns.push({
 });
 
 columns.push({
-  id: 'city',
-  name: 'City',
-  field: 'city',
+  id: 'age',
+  name: 'Age',
+  field: 'age',
   sortable: true,
   resizable: true,
+  width: 100,
   formatter: dataGrid.formatters.text,
-});
-
-columns.push({
-  id: 'zipCode',
-  name: 'Zip Code',
-  field: 'zipCode',
-  sortable: true,
-  resizable: true,
-  formatter: dataGrid.formatters.text,
-  width: 100
 });
 
 columns.push({
@@ -102,16 +110,17 @@ columns.push({
   field: 'phone',
   sortable: true,
   resizable: true,
+  width: 200,
   formatter: dataGrid.formatters.text,
 });
 
 columns.push({
-  id: 'dob',
-  name: 'DOB',
-  field: 'dob',
+  id: 'address',
+  name: 'Address',
+  field: 'address',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text,
+  formatter: dataGrid.formatters.text
 });
 
 dataGrid.columns = columns;
@@ -149,7 +158,7 @@ dataGrid.addEventListener('scrollend', async (e: any) => {
     setTimeout(() => {
       dataGrid.appendData(rowsToAdd);
       console.info('Appending Rows:', rowsToAdd.length);
-    }, 150);
+    }, 100);
   } else {
     console.info('---END OF DATA---');
   }
