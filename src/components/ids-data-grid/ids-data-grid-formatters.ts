@@ -96,6 +96,13 @@ export default class IdsDataGridFormatters {
     return `<span class="text-ellipsis">${value}</span>${icon}`;
   }
 
+  /** Formats adds search-list to cells that have lookup editor associated with them */
+  lookup(rowData: Record<string, unknown>, columnData: IdsDataGridColumn): string {
+    const value: any = this.#extractValue(rowData, columnData.field);
+    const icon = columnData.editor?.type === 'lookup' ? '<ids-icon icon="search-list" class="editor-cell-icon"></ids-icon>' : '';
+    return `<span class="text-ellipsis">${value}</span>${icon}`;
+  }
+
   /** Formats date data as a time string in the desired format */
   time(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number, api: IdsDataGrid): string {
     let value: any = this.#extractValue(rowData, columnData.field);

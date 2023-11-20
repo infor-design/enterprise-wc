@@ -11,16 +11,16 @@ import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-valid
 import IdsElement from '../../core/ids-element';
 import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
 import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
-import { IdsDataGridColumn } from '../ids-data-grid/ids-data-grid-column';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import '../ids-trigger-field/ids-trigger-field';
 import '../ids-modal/ids-modal';
-import '../ids-data-grid/ids-data-grid';
+import '../ids-trigger-field/ids-trigger-field';
+// import '../ids-data-grid/ids-data-grid';
 
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid/ids-data-grid-column';
 import type IdsModal from '../ids-modal/ids-modal';
 import type IdsText from '../ids-text/ids-text';
 import styles from './ids-lookup.scss';
@@ -188,8 +188,8 @@ export default class IdsLookup extends Base {
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-      <ids-modal-button slot="buttons" id="modal-cancel-btn" appearance="secondary">
-        <span>Cancel</span>
+        <ids-modal-button slot="buttons" id="modal-cancel-btn" appearance="secondary">
+          <span>Cancel</span>
         </ids-modal-button>
         <ids-modal-button slot="buttons" id="modal-apply-btn" appearance="primary">
           <span>Apply</span>
