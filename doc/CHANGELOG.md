@@ -17,6 +17,7 @@
 - `[DataGrid]` Added `lookup` type to `IdsDataGridEditor` so that ids-lookup field can be used as editable datagrid cell. ([#1478](https://github.com/infor-design/enterprise-wc/issues/1478))
 - `[DataGrid]` Fix setting `rtl` direction on component init. ([#1501](https://github.com/infor-design/enterprise-wc/issues/1501))
 - `[DataGrid]` Make hyperlink cells clickable when `rowNavigation` is enabled. ([#1523](https://github.com/infor-design/enterprise-wc/issues/1523))
+- `[DataGrid]` Fix virtual scrolling for tree grids. ([#1573](https://github.com/infor-design/enterprise-wc/issues/1573))/([#1587](https://github.com/infor-design/enterprise-wc/issues/1587))
 - `[DataGrid]` Add `filterAlign` setting to columns for independently aligning filter row contents. ([#1575](https://github.com/infor-design/enterprise-wc/issues/1575))
 - `[DatePicker]` Set trigger field's value with today's date when today button is clicked. ([#1614](https://github.com/infor-design/enterprise-wc/issues/1614))
 - `[DatePicker]` Fixed time picker value change is not reflected dynamically in date time picker trigger field. ([#1576](https://github.com/infor-design/enterprise-wc/issues/1576))
