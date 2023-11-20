@@ -98,6 +98,11 @@
   width: 100%;
 }
 
+::slotted([slot='widget-content']) {
+  height: calc(var(--ids-widget-height) - 48px);
+  margin-inline: var(--ids-widget-header-padding-inline);
+}
+
 // Search Area
 ::slotted([slot='widget-search']) {
   height: var(--ids-widget-search-height);
