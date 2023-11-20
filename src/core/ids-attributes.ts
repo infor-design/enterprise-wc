@@ -390,6 +390,7 @@ export const attributes = {
   SAVE_SORT_ORDER: 'save-sort-order',
   SAVE_USER_SETTINGS: 'save-user-settings',
   SCROLLABLE: 'scrollable',
+  SCROLL_MAX_ROWS: 'scroll-max-rows',
   SCROLL_TOP: 'scroll-top',
   SEARCH_FIELD: 'search-field',
   SEARCH_FIELD_ID: 'search-field-id',

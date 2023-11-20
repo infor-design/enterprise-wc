@@ -217,6 +217,7 @@ export default class IdsDataGrid extends Base {
       attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
       attributes.ROW_START,
+      attributes.SCROLL_MAX_ROWS,
       attributes.SHOW_HEADER_EXPANDER,
       attributes.SUPPRESS_CACHING,
       attributes.SUPPRESS_EMPTY_MESSAGE,
@@ -1460,7 +1461,11 @@ export default class IdsDataGrid extends Base {
 
   #virtualScrollMaxRowsInDom = 100;
 
-  set virtualScrollMaxRows(virtualRows: number) {
+  /**
+   * Setting for max virtual scroll rows in DOM
+   * @param {number} virtualRows number of rows
+   */
+  set scrollMaxRows(virtualRows: number) {
     const prevMaxRows = this.#virtualScrollMaxRowsInDom;
     const newMaxRows = Number(virtualRows);
     this.#virtualScrollMaxRowsInDom = !Number.isNaN(newMaxRows) ? newMaxRows : prevMaxRows;
@@ -1475,6 +1480,10 @@ export default class IdsDataGrid extends Base {
       // Note: Non-tree grids need testing for dynamic max rows
       this.#recycleAllRows(rowIndex);
     }
+  }
+
+  get scrollMaxRows(): number {
+    return this.#virtualScrollMaxRowsInDom;
   }
 
   /* Attach Events for global scrolling */
