@@ -195,6 +195,8 @@ export interface IdsDataGridColumn {
   headerIcon?: string;
   /** Align the column to either `left`, `center` or `right` */
   align?: string;
+  /** Separately align the filter row contents to either `left`, `center`, or `right` */
+  filterAlign?: string;
   /** Seperately align the header to either `left`, `center` or `right` */
   headerAlign?: string;
   /** Freeze the columns to either the `left` or `right` sides */
@@ -223,7 +225,7 @@ export interface IdsDataGridColumn {
   cellSelectedCssPart?: string | ((rowIndex: number, cellIndex: number) => string);
   /** Setup an editor */
   editor?: {
-    type: 'input' | 'date' | 'time' | 'checkbox' | 'dropdown' | 'datepicker' | 'timepicker' | 'tree',
+    type: 'input' | 'date' | 'time' | 'checkbox' | 'dropdown' | 'datepicker' | 'timepicker' | 'tree' | 'lookup',
     inline?: boolean,
     editor?: IdsDataGridEditor,
     editorSettings?: Record<string, unknown>

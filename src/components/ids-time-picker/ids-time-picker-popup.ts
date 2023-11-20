@@ -76,7 +76,7 @@ class IdsTimePickerPopup extends Base {
     const dropdownHTML = `<div class="dropdowns" part="dropdowns">${this.#dropdowns()}</div>`;
 
     if (this.embeddable) {
-      return `<div class="ids-time-picker-popup embedded" part="container">${dropdownHTML}</div>`;
+      return `<div class="ids-time-picker-popup embedded" part="container"><section slot="content">${dropdownHTML}</section></div>`;
     }
 
     return `<ids-popup class="ids-time-picker-popup" type="menu" tabIndex="-1" align="bottom, left" arrow="bottom" part="popup" animated>
@@ -180,6 +180,7 @@ class IdsTimePickerPopup extends Base {
   private attachEventListeners() {
     this.offEvent('change.time-picker-dropdowns');
     this.onEvent('change.time-picker-dropdowns', this.dropdownContainerEl, (e: any) => {
+      e.stopPropagation();
       if (!e.target?.matches?.('ids-dropdown')) return;
       const currentId = e.target?.id;
 
@@ -542,8 +543,8 @@ class IdsTimePickerPopup extends Base {
       this.removeAttribute(attributes.MINUTES);
     }
 
-    this.updateValue();
     this.container?.querySelector('ids-dropdown#minutes')?.setAttribute(attributes.VALUE, String(value));
+    this.updateValue();
   }
 
   /**
@@ -678,9 +679,9 @@ class IdsTimePickerPopup extends Base {
 
     // Updating hours dropdown with AM/PM range
     this.updateValue();
-    this.renderDropdowns();
     if (value) {
       if (this.#hasHourRange()) {
+        this.renderDropdowns();
         this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.#getHourOptions()[0]));
       } else {
         this.container?.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, value.toString().toUpperCase());
@@ -844,7 +845,9 @@ class IdsTimePickerPopup extends Base {
    */
   getFormattedTime() {
     const date: Date = new Date();
-    const dayPeriodIndex: number = this.localeAPI?.calendar().dayPeriods?.indexOf(this.period);
+    const periods: string[] = this.#getDayPeriodsWithRange();
+    const dayPeriodIndex: number = periods.map((item: string) => item.toLowerCase())
+      .indexOf(this.period?.toLowerCase());
 
     date.setHours(hoursTo24(this.hours, dayPeriodIndex), this.minutes, this.seconds);
     return this.localeAPI.formatDate(date, { pattern: this.format });

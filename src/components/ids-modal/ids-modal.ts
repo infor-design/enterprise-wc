@@ -11,6 +11,7 @@ import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/id
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import IdsElement from '../../core/ids-element';
 
+import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { toggleScrollbar, waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
@@ -24,6 +25,8 @@ import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 import styles from './ids-modal.scss';
 
 type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | 'always';
+
+const VALID_POSITIONS = ['left', 'right'];
 
 const Base = IdsXssMixin(
   IdsBreakpointMixin(
@@ -84,6 +87,7 @@ export default class IdsModal extends Base {
     }
     this.state.fullsize = '';
     this.state.overlay = null;
+    this.state.scrollable = true;
     this.state.messageTitle = null;
   }
 
@@ -92,6 +96,8 @@ export default class IdsModal extends Base {
       ...super.attributes,
       attributes.FULLSIZE,
       attributes.MESSAGE_TITLE,
+      attributes.SCROLLABLE,
+      attributes.SHOW_CLOSE_BUTTON,
       attributes.VISIBLE
     ];
   }
@@ -224,12 +230,13 @@ export default class IdsModal extends Base {
       this.popup.height = doFullsize ? '100%' : '';
       this.popup.place();
       if (this.popup.open) {
+        this.setScrollable();
         this.popup.correct3dMatrix();
       }
     };
 
     const safeVal = `${val}`;
-    if (current !== val) {
+    if (current !== val && this.popup) {
       switch (val) {
         case 'always':
           this.#clearBreakpointResponse();
@@ -260,6 +267,31 @@ export default class IdsModal extends Base {
           break;
       }
     }
+  }
+
+  set showCloseButton(position: string | null) {
+    if (typeof position === 'string') {
+      position = VALID_POSITIONS.includes(position) ? position : 'right';
+      this.setAttribute(attributes.SHOW_CLOSE_BUTTON, position);
+      this.#attachCloseButton();
+    } else {
+      this.removeAttribute(attributes.SHOW_CLOSE_BUTTON);
+      this.#removeCloseButton();
+    }
+  }
+
+  get showCloseButton(): string | null {
+    const attrValue = this.getAttribute(attributes.SHOW_CLOSE_BUTTON);
+
+    if (typeof attrValue === 'string') {
+      return VALID_POSITIONS.includes(attrValue) ? attrValue : 'right';
+    }
+
+    return null;
+  }
+
+  get closeButton(): HTMLElement | null {
+    return this.container?.querySelector<HTMLElement>('.modal-control-close') ?? null;
   }
 
   /**
@@ -331,6 +363,16 @@ export default class IdsModal extends Base {
 
       this.#refreshModalHeader(!!trueVal);
     }
+  }
+
+  set scrollable(val: string | boolean | null) {
+    const bool = stringToBool(val);
+    setBooleanAttr(attributes.SCROLLABLE, this, bool);
+    this.state.scrollable = bool;
+  }
+
+  get scrollable() {
+    return this.state.scrollable;
   }
 
   /**
@@ -457,6 +499,8 @@ export default class IdsModal extends Base {
       if (this.popup.animated && this.popup.container) {
         await waitForTransitionEnd(this.popup.container, 'opacity');
       }
+      this.setScrollable();
+      this.popup.correct3dMatrix();
     }
 
     this.removeAttribute('aria-hidden');
@@ -690,5 +734,35 @@ export default class IdsModal extends Base {
       return;
     }
     this.hide();
+  }
+
+  /**
+   * Add button with icon to the modal
+   * Reusing ids-modal-button component with cancel attribute and extra css class to change appearance
+   */
+  #attachCloseButton() {
+    this.#removeCloseButton();
+    const position = this.showCloseButton || 'right';
+
+    const element = `<ids-modal-button
+      class="modal-control-close ${position}"
+      slot="buttons"
+      appearance="tertiary"
+      css-class="ids-icon-button ids-modal-icon-button"
+      cancel>
+      <span class="audible">Close modal</span>
+      <ids-icon icon="close"></ids-icon>
+    </ids-modal-button>`;
+
+    this.container?.querySelector('.ids-modal-container')?.insertAdjacentHTML('afterbegin', element);
+
+    // attach close button handler
+    this.onEvent('click.modal-close', this.closeButton, () => this.hide());
+  }
+
+  #removeCloseButton() {
+    const closeButton = this.closeButton;
+    this.offEvent('click.modal-close', closeButton);
+    closeButton?.remove();
   }
 }

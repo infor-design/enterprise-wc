@@ -328,26 +328,27 @@ export default class IdsDataGridFilters {
     this.#suppressFilteredEvent = true;
     this.resetFilters();
     const toBeRemoved: any = [];
-    conditions.forEach((c, i) => {
-      const el = this.filterWrapperById(c.columnId);
-      if (!el || hasClass(el, 'disabled') || hasClass(el, 'readonly')) return;
+    conditions.forEach((condition, i) => {
+      const headerFilterWrapper = this.filterWrapperById(condition.columnId);
+      if (!headerFilterWrapper || hasClass(headerFilterWrapper, 'disabled') || hasClass(headerFilterWrapper, 'readonly')) return;
 
-      const slot = el.querySelector('slot[name^="filter-"]');
-      const node = slot ? slot.assignedElements()[0] : el;
-      if (node) {
-        const input = node.querySelector('ids-input');
-        const btn = node.querySelector('ids-menu-button');
-        const dropdown = node.querySelector('ids-dropdown');
-        const triggerField = node.querySelector('ids-trigger-field');
-        const timePicker = node.querySelector('ids-time-picker');
-        const headerElem = node.closest('.ids-data-grid-header-cell');
-        const columnData = this.root.columnDataByHeaderElem(headerElem);
+      const headerSlot = headerFilterWrapper.querySelector('slot[name^="filter-"]');
+      const headerRoot = headerSlot ? headerSlot.assignedElements()[0] : headerFilterWrapper;
+      if (headerRoot) {
+        const input = headerRoot.querySelector('ids-input');
+        const button = headerRoot.querySelector('ids-menu-button');
+        const dropdown = headerRoot.querySelector('ids-dropdown');
+        const triggerField = headerRoot.querySelector('ids-trigger-field');
+        const timePicker = headerRoot.querySelector('ids-time-picker');
+        const headerCell = headerRoot.closest('.ids-data-grid-header-cell');
+        const columnData = this.root.columnDataByHeaderElem(headerCell);
 
-        if (input) input.value = c.value || '';
-        if (triggerField) triggerField.value = c.value || '';
-        if (timePicker) timePicker.value = c.value || '';
+        const conditionValue = condition.value || '';
+        if (input) input.value = conditionValue;
+        if (triggerField) triggerField.value = conditionValue;
+        if (timePicker) timePicker.value = conditionValue;
         if (dropdown) {
-          dropdown.value = c.value || '';
+          dropdown.value = conditionValue;
           if (dropdown.value === this.#dropdownNotFilterItem(columnData).value) toBeRemoved.push(i);
         }
         if (timePicker && !columnData.formatOptions?.dateFormat && !columnData.formatOptions?.timeStyle) {
@@ -355,16 +356,16 @@ export default class IdsDataGridFilters {
           columnData.formatOptions.dateFormat = timePicker.format;
           columnData.formatOptions.timeStyle = 'short';
         }
-        if (btn) {
-          let item = btn.menuEl.items.filter((itm: any) => itm.value === c.operator)[0];
-          if (!item) item = btn.menuEl.items[0];
-          if (item) btn.menuEl.selectItem(item);
+        if (button) {
+          let item = button.menuEl.items.filter((itm: any) => itm.value === condition.operator)[0];
+          if (!item) item = button.menuEl.items[0];
+          if (item) button.menuEl.selectItem(item);
         }
-        if (!c.filterElem) c.filterElem = timePicker || triggerField || dropdown || input;
-        this.#setDatePicker(triggerField, c.operator);
+        if (!condition.filterElem) condition.filterElem = timePicker || triggerField || dropdown || input;
+        this.#setDatePicker(triggerField, condition.operator);
       }
     });
-    if (toBeRemoved.length) conditions = conditions.filter((c, i) => !toBeRemoved.includes(i));
+    if (toBeRemoved.length) conditions = conditions.filter((condition, idx) => !toBeRemoved.includes(idx));
     this.#suppressFilteredEvent = false;
     return conditions;
   }
@@ -1103,7 +1104,8 @@ export default class IdsDataGridFilters {
   #btnAndInputTemplate(type: string, column: IdsDataGridColumn) {
     const input = `${this.#inputTemplate(type, column)}`;
     const button = `${this.#filterButtonTemplate(type, column)}`;
-    if (column.align === 'right') {
+    const align = column.filterAlign || column.align;
+    if (align === 'right') {
       return `${input}${button}`;
     }
     return `${button}${input}`;

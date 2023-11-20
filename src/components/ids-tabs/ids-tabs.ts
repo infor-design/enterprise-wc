@@ -286,7 +286,7 @@ export default class IdsTabs extends Base {
             this.#selectTab(elem);
           }
         }
-        if (elem.tagName === 'IDS-TRIGGER-BUTTON') {
+        if (elem.tagName === 'IDS-TRIGGER-BUTTON' || getClosest(elem, 'ids-trigger-button')) {
           e.stopPropagation();
           const tab = getClosest(elem, 'ids-tab');
           this.#dismissTab(tab);

@@ -34,6 +34,7 @@ import {
 import styles from './ids-input.scss';
 import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsButton from '../ids-button/ids-button';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 let instanceCounter = 0;
 
@@ -202,6 +203,10 @@ export default class IdsInput extends Base {
 
     if (this.getAttribute('maxlength')) {
       this.maxlength = this.getAttribute('maxlength');
+    }
+
+    if (getClosest(this, 'ids-header, .ids-header')) {
+      this.colorVariant = 'alternate';
     }
   }
 
@@ -901,6 +906,9 @@ export default class IdsInput extends Base {
     // If no masking occurs, simply use the provided value.
     if (this.mask) {
       v = this.processMaskFromProperty(val) || v;
+      if (this.input) {
+        this.input.value = v;
+      }
     }
 
     if (currentValue !== v) {

@@ -50,7 +50,7 @@ export default class IdsAccordionHeader extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#refreshIconDisplay(this.icon);
+    this.refreshIconDisplay(this.icon);
     this.#refreshExpanderIconType();
     this.refreshDepth();
     this.refreshPlacement();
@@ -244,14 +244,14 @@ export default class IdsAccordionHeader extends Base {
         this.setAttribute('icon', `${val}`);
       }
 
-      this.#refreshIconDisplay(val);
+      this.refreshIconDisplay(val);
     }
   }
 
   /**
    * @param {string} val the icon definition to apply
    */
-  #refreshIconDisplay(val: string | any[] | null) {
+  refreshIconDisplay(val: string | any[] | null) {
     const iconDef = typeof val === 'string' && val.length ? val : '';
     const iconElem = this.container?.querySelector<IdsIcon>('.ids-accordion-display-icon');
 

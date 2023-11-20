@@ -107,7 +107,7 @@ const treeDemo = document.querySelector('#tree-demo');
 treeDemo?.data = dataset;
 ```
 
-A tree using toggle target setting
+A tree using expand target setting
 
 ```html
 <ids-tree id="tree-demo" label="Demo Tree"></ids-tree>
@@ -126,11 +126,11 @@ const dataset = [{
   }]
 }];
 const treeDemo = document.querySelector('#tree-demo');
-treeDemo?.useToggleTarget = true;
+treeDemo?.expandTarget = 'icon'; // will expand when clicking the icon only
 treeDemo?.data = dataset;
 ```
 
-A tree using toggle target setting and (No Icon Rotation)
+A tree using expand target setting with No icon rotation (animation)
 
 ```html
 <ids-tree id="tree-demo" label="Demo Tree"></ids-tree>
@@ -150,7 +150,7 @@ const dataset = [{
 }];
 const treeDemo = document.querySelector('#tree-demo');
 treeDemo?.toggleIconRotate = false;
-treeDemo?.useToggleTarget = true;
+treeDemo?.expandTarget = 'icon';
 treeDemo?.data = dataset;
 ```
 
@@ -173,7 +173,7 @@ const dataset = [{
   }]
 }];
 const treeDemo = document.querySelector('#tree-demo');
-treeDemo?.useToggleTarget = true;
+treeDemo?.expandTarget = 'icon';
 treeDemo?.toggleIconRotate = false;
 treeDemo?.collapseIcon = 'user-folder-closed';
 treeDemo?.expandIcon = 'user-folder-open';
@@ -222,7 +222,7 @@ treeDemo?.data = dataset;
 - `toggleCollapseIcon` {string} Sets the tree group toggle collapse icon
 - `toggleExpandIcon` {string} Sets the tree group toggle expand icon
 - `toggleIconRotate` {boolean} Sets the tree to use toggle icon rotate
-- `useToggleTarget` {boolean} Sets the tree to use toggle target
+- `expandTarget` {'node' | 'icon'} Sets the trees expand target between `node` (the whole tree item) and just the `icon`
 
 ## Settings and Attributes (Tree Node)
 
@@ -235,7 +235,7 @@ treeDemo?.data = dataset;
 - `selectable` {string} Sets the tree node to be selectable
 - `selected` {boolean} Sets the tree node to be selected
 - `tabbable` {boolean} Set if the node is tabbable
-- `useToggleTarget` {boolean} Sets the tree node to use toggle target
+- `expandTarget` {'node' | 'icon'} Sets the trees expand target between `node` (the whole tree item) and just the `icon`
 
 ## Theme-able Parts (Tree)
 
@@ -272,10 +272,13 @@ treeDemo?.data = dataset;
 - `unselect(selector: string): void` UnSelects a tree node by given CSS selector
 - `isSelected(selector: string): boolean` Check if related node is selected or not, by given CSS selector
 - `getNode(selector: string): object` Get a tree node by given CSS selector
+- `addNodes(nodeData: Array<IdsTreeData>, location?: 'bottom' | 'top' | 'before' | 'after' | 'child', node?: HTMLElement): void` Loops through an array with one or more nodes and adds them to the tree. Location can be 'bottom', 'top', 'before' or 'after' or as a 'child'. Before / after / child are used with a node reference. May use getNode() to find the node you want to add next to. In order to add child nodes specify the parent option in the dataset
+
 
 ## Methods (Tree Node)
 
-- `setFocus(): void` Set focus to node container
+- `setFocus()` Set focus to node container
+- `getNode(selector: string)` Get a node given a css selector
 
 ## States and Variations (With Code Examples)
 
@@ -285,7 +288,7 @@ treeDemo?.data = dataset;
 - Disabled: Disabled nodes cannot be clicked, hovered, focused or selected
 - Expand or Collapse: Tree can display show/hide child nodes thru its parent/group node
 - Selection (single): Tree supports the single node selection
-- Toggle Target: This provide to toggle expand/collapse by icon only
+- Expand Target: Provides an option to expand by clicking either the node or on just on the icon
 - Tree by Markup: Tree can set thru the markup only
 
 ## Keyboard Guidelines
@@ -331,3 +334,4 @@ In Right To Left Languages the icons, text and alignment will flow to the other 
 - Tree nodes can contain other tree nodes (nesting).
 - If using events, events are now plain JS events.
 - Can now be imported as a single JS file and used with encapsulated styles.
+- `addNode` is now `addNodes` as it can accept one or more nodes at once

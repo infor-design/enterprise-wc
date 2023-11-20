@@ -46,9 +46,9 @@ export default class IdsMenu extends Base {
 
   keyboardEventTarget: HTMLElement | null = null;
 
-  lastHovered?: any;
+  lastHovered?: IdsMenuItem;
 
-  lastNavigated?: any;
+  lastNavigated?: IdsMenuItem;
 
   constructor() {
     super();
@@ -123,13 +123,25 @@ export default class IdsMenu extends Base {
     this.offEvent('mouseout');
     this.onEvent('mouseout', this, (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target && target.tagName === 'IDS-MENU-ITEM') {
-        e.stopPropagation();
+      if (target) {
+        if (target.tagName === 'IDS-ICON') {
+          e.stopPropagation();
+          return;
+        }
 
-        // Unhighlight
-        const menuItem = target as unknown as IdsMenuItem;
-        if (!menuItem.hasSubmenu || menuItem.submenu?.hidden) {
-          menuItem.unhighlight();
+        if (target.tagName === 'IDS-MENU-ITEM') {
+          e.stopPropagation();
+
+          // Unhighlight
+          const menuItem = target as unknown as IdsMenuItem;
+          if ((!menuItem.hasSubmenu || menuItem.submenu?.hidden) && menuItem !== this.lastHovered) {
+            menuItem.unhighlight();
+          }
+          return;
+        }
+
+        if (['IDS-POPUP-MENU', 'IDS-MENU', 'IDS-MENU-GROUP'].includes(target.tagName)) {
+          this.lastHovered?.unhighlight();
         }
       }
     });
@@ -192,6 +204,16 @@ export default class IdsMenu extends Base {
     requestAnimationFrame(() => {
       this.makeTabbable(this.detectTabbable());
     });
+  }
+
+  /**
+   * Runs when the menu element is disconnected from the DOM.
+   * @returns {void}
+   */
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.lastHovered = undefined;
+    this.lastNavigated = undefined;
   }
 
   /**
@@ -579,7 +601,7 @@ export default class IdsMenu extends Base {
     }
 
     this.lastNavigated = currentItem;
-    if (this.lastHovered) this.lastHovered = null;
+    if (this.lastHovered) this.lastHovered = undefined;
 
     // Focus/Highlight
     if (!currentItem.disabled && !currentItem.hidden && doFocus) {

@@ -1,0 +1,16 @@
+
+:host([auto-fit]) {
+  height: 100%;
+}
+
+:host([auto-fit]) ::slotted(.ids-tabs-content) {
+  height: 100%;
+}
+
+.orientation-vertical {
+  display: flex;
+}
+
+.auto-fit {
+  height: 100%;
+}

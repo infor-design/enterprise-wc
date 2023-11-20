@@ -27,8 +27,9 @@
   pointer-events: none;
 }
 
-::slotted(ids-icon) {
-  pointer-events: none;
+// For menu items including a close button, shift by 1px for alignment's sake
+::slotted(ids-icon[icon="close"]) {
+  inset-block-start: 1px;
 }
 
 // Resets position rules for nested menus

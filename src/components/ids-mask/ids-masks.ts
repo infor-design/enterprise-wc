@@ -69,7 +69,7 @@ function addThousandsSeparator(n: string, options: any = {}, localeStringOpts: a
 
   // If a locale was passed, use the Locale to format
   let formatted = n;
-  if (options.locale) {
+  if (options.locale?.formatNumber) {
     formatted = options.locale.formatNumber(n, localeStringOpts);
   }
 

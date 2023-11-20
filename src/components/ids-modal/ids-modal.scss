@@ -21,6 +21,22 @@
   &[visible] {
     pointer-events: auto;
   }
+
+  &.fullsize {
+    height: 100%;
+  }
+
+  &:not(.scrollable) {
+    .has-scrollbar {
+      overflow: hidden;
+    }
+  }
+
+  &.scrollable {
+    .has-scrollbar {
+      overflow: auto;
+    }
+  }
 }
 
 .ids-modal-header {
@@ -31,10 +47,6 @@
   padding: var(--ids-modal-content-padding);
   flex-grow: 1;
   flex-shrink: 1;
-
-  &.has-scrollbar {
-    overflow: auto;
-  }
 }
 
 .ids-modal-header + .ids-modal-content {
@@ -67,6 +79,31 @@
 ::slotted([slot='buttons']) {
   flex-grow: 1;
   display: flex;
+}
+
+.modal-control-close {
+  position: absolute;
+  top: 4px;
+
+  &:not([dir='rtl']) {
+    &.right {
+      right: 4px;
+    }
+
+    &.left {
+      left: 4px;
+    }
+  }
+
+  &[dir='rtl'] {
+    &.right {
+      left: 4px;
+    }
+
+    &.left {
+      right: 4px;
+    }
+  }
 }
 
 // =====================================================

@@ -40,6 +40,7 @@ export default class IdsAbout extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.showCloseButton = this.getAttribute(attributes.SHOW_CLOSE_BUTTON) || 'right';
   }
 
   /**
@@ -73,7 +74,6 @@ export default class IdsAbout extends Base {
   attachEventHandlers(): object {
     super.attachEventHandlers();
     this.#refreshProduct();
-    this.#attachCloseButton();
     this.#refreshDeviceSpecs();
     this.#refreshCopyright();
 
@@ -88,19 +88,6 @@ export default class IdsAbout extends Base {
       this.#refreshCopyright();
     };
     return this;
-  }
-
-  /**
-   * Add button with icon to the modal
-   * Reusing ids-modal-button component with cancel attribute and extra css class to change appearance
-   */
-  #attachCloseButton() {
-    const element = `<ids-modal-button cancel slot="buttons" appearance="tertiary" css-class="ids-icon-button ids-modal-icon-button">
-      <span class="audible">Close modal</span>
-      <ids-icon icon="close"></ids-icon>
-    </ids-modal-button>`;
-
-    this.insertAdjacentHTML('beforeend', element);
   }
 
   /**

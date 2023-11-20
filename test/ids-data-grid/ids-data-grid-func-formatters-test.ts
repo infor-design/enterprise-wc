@@ -705,7 +705,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.color,
       };
 
-      expect(formatters.color({ rowData, color: null }, columnData, 1)).toMatchSnapshot();
+      expect(formatters.color({ ...rowData, color: null }, columnData, 1)).toMatchSnapshot();
     });
 
     it('can render with the color formatter with blank color', () => {
@@ -716,7 +716,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.color,
       };
 
-      expect(formatters.color({ rowData, color: null }, columnData, 1)).toMatchSnapshot();
+      expect(formatters.color({ ...rowData, color: null }, columnData, 1)).toMatchSnapshot();
     });
 
     it('can render with the icon formatter', () => {
@@ -738,7 +738,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.icon,
       };
 
-      expect(formatters.icon({ rowData, icon: null }, columnData, 1)).toMatchSnapshot();
+      expect(formatters.icon({ ...rowData, icon: null }, columnData, 1)).toMatchSnapshot();
     });
 
     it('can render with the icon formatter with icon-override', () => {
@@ -762,7 +762,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.icon,
       };
 
-      expect(formatters.icon({ rowData, icon: null }, columnData, 1)).toMatchSnapshot();
+      expect(formatters.icon({ ...rowData, icon: null }, columnData, 1)).toMatchSnapshot();
     });
 
     it('can render with the icon formatter with color-override', () => {
@@ -820,7 +820,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.favorite,
       };
 
-      expect(formatters.favorite({ rowData, inStock: null }, columnData, 1)).toMatchSnapshot();
+      expect(formatters.favorite({ ...rowData, inStock: null }, columnData, 1)).toMatchSnapshot();
     });
 
     it('can render with the favorite formatter with size-override', () => {
@@ -866,7 +866,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.tag,
       };
 
-      expect(formatters.tag({ rowData, category: null }, columnData, 1)).toMatchSnapshot();
+      expect(formatters.tag({ ...rowData, category: null }, columnData, 1)).toMatchSnapshot();
     });
 
     it('can render with the progress formatter', () => {
@@ -912,7 +912,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.progress,
       };
 
-      expect(formatters.progress({ rowData, count: null }, columnData, 0)).toMatchSnapshot();
+      expect(formatters.progress({ ...rowData, count: null }, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the rating formatter', () => {
@@ -994,7 +994,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.rating,
       };
 
-      expect(formatters.rating({ rowData, count: null }, columnData, 1)).toMatchSnapshot();
+      expect(formatters.rating({ ...rowData, count: null }, columnData, 1)).toMatchSnapshot();
     });
 
     it('can render with the slider formatter', () => {
@@ -1088,7 +1088,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.slider,
       };
 
-      expect(formatters.slider({ rowData, count: null }, columnData, 1)).toMatchSnapshot();
+      expect(formatters.slider({ ...rowData, count: null }, columnData, 1)).toMatchSnapshot();
     });
 
     it('can render with the stepChart formatter', () => {
@@ -1134,7 +1134,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.stepChart,
       };
 
-      expect(formatters.stepChart({ rowData, count: null }, columnData, 1)).toMatchSnapshot();
+      expect(formatters.stepChart({ ...rowData, count: null }, columnData, 1)).toMatchSnapshot();
     });
 
     it('can render with the image formatter', () => {
@@ -1168,7 +1168,7 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.image,
       };
 
-      expect(formatters.image({ rowData, image: null }, columnData, 0)).toMatchSnapshot();
+      expect(formatters.image({ ...rowData, image: null }, columnData, 0)).toMatchSnapshot();
     });
 
     it('can render with the card formatter', () => {
@@ -1190,7 +1190,38 @@ describe('IdsDataGrid Component', () => {
         formatter: formatters.card,
       };
 
-      expect(formatters.card({ rowData, convention: null }, columnData)).toMatchSnapshot();
+      expect(formatters.card({ ...rowData, convention: null }, columnData)).toMatchSnapshot();
+    });
+
+    it('can render with the lookup formatter without editor', () => {
+      const columnData = {
+        id: 'location-lookup',
+        name: 'Location',
+        field: 'location',
+        formatter: formatters.lookup,
+      };
+
+      expect(formatters.lookup(rowData, columnData)).toMatchSnapshot();
+    });
+
+    it('can render with the lookup formatter with editor', () => {
+      const columnData = {
+        id: 'location-lookup',
+        name: 'Location',
+        field: 'location',
+        formatter: formatters.lookup,
+        editor: {
+          type: 'lookup' as any,
+          editorSettings: {
+            field: 'location',
+            delimiter: ', ',
+            columns: [],
+            data: [],
+          }
+        },
+      };
+
+      expect(formatters.lookup(rowData, columnData)).toMatchSnapshot();
     });
   });
 });
