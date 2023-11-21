@@ -65,6 +65,12 @@ class IdsDataSource {
   #filtered = false;
 
   /**
+   * Internal data id used for virtual scrolling
+   * @private
+   */
+  #vsRefId = 0;
+
+  /**
    * Return all the currently used data, without paging or filter
    * @returns {Array | null} All the currently used data
    */
@@ -141,19 +147,25 @@ class IdsDataSource {
   #flattenData(data: Array<Record<string, any>>) {
     if (!this.#flatten) return data;
 
+    this.#vsRefId = 0;
+
     const newData: Array<Record<string, any>> = [];
     const addRows = (
-      subData: Record<string, any>,
+      subData: Array<Record<string, any>>,
       length: number,
       depth: number,
       parentElement: string,
-      hideChildren = false,
+      parentRow: Record<string, any>,
+      hideChildren = false
     ) => {
       subData.map((row: Record<string, any>, index: number) => {
         row.parentElement = '';
         row.ariaLevel = depth;
         row.ariaSetSize = length;
         row.ariaPosinset = index + 1;
+        row.vsRefId = this.#vsRefId++;
+        row.isRoot = depth === 1;
+        row.childrenVRefIds = [];
 
         if (depth === 1) {
           row.originalElement = index;
@@ -161,26 +173,30 @@ class IdsDataSource {
             row.originalElement = index + ((this.pageNumber - 1) * this.pageSize);
           }
         }
+
         if (depth > 1) {
           row.parentElement = parentElement;
           row.rowHidden = hideChildren;
+          parentRow.childrenVRefIds.push(row.vsRefId);
         }
 
         newData.push(row);
 
-        if (row.children) {
+        if (row.children?.length) {
           row.childCount = row.children.length;
+          row.rowExpanded = !(row.rowExpanded === false);
           if (this.pageNumber > 1) {
             index += ((this.pageNumber - 1) * this.pageSize);
           }
+
           const parentIds = `${row.parentElement ? `${row.parentElement} ` : ''}${row.id}`;
-          const childrenHidden = row.rowExpanded === false;
-          addRows(row.children, row.children.length, depth + 1, parentIds, childrenHidden);
+          const childrenHidden = row.rowExpanded === false || hideChildren;
+          addRows(row.children, row.children.length, depth + 1, parentIds, row, childrenHidden);
         }
       });
     };
 
-    addRows(data, data.length, 1, '');
+    addRows(data, data.length, 1, '', data[0]);
     return newData;
   }
 
@@ -202,6 +218,10 @@ class IdsDataSource {
       delete row.ariaPosinset;
       const level = row.ariaLevel;
       delete row.ariaLevel;
+      delete row.isRoot;
+      delete row.childrenVRefIds;
+      delete row.vsRefId;
+      delete row.rowHidden;
 
       dataMap[row.id] = row;
 

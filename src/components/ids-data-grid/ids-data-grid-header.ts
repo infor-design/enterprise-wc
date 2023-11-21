@@ -374,6 +374,13 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
   }
 
   /**
+   * Resets sort header sort states
+   */
+  resetSortStates() {
+    this.querySelectorAll('.ids-data-grid-header-cell').forEach((elem) => elem.removeAttribute('aria-sort'));
+  }
+
+  /**
    * Set filter row to be shown or hidden
    * @private
    * @returns {object} This API object for chaining
