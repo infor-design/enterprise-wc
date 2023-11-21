@@ -12,6 +12,7 @@
 
 ### 1.0.0-beta.17 Fixes
 
+- `[AxisChart]` Improved sizing behavior in a widget and improved responsive example. ([#1555](https://github.com/infor-design/enterprise-wc/issues/1555))
 - `[Calendar]` Fix multiple `beforerendermonth` events. ([#1464](https://github.com/infor-design/enterprise-wc/issues/1464))
 - `[Calendar]` Add `afterrendermonth` event to calendar and month view. ([#1465](https://github.com/infor-design/enterprise-wc/issues/1465))
 - `[Calendar]` Add `disableSettings` property to calendar. ([#1471](https://github.com/infor-design/enterprise-wc/issues/1471))
@@ -29,10 +30,10 @@
 - `[Modal]` Fix `fullsize` setting on init. ([#1525](https://github.com/infor-design/enterprise-wc/issues/1525))
 - `[Modal]` Fix problems with slotting scrollable components and resize behavior. ([#1529](https://github.com/infor-design/enterprise-wc/issues/1529)/[#1530](https://github.com/infor-design/enterprise-wc/issues/1530))
 - `[Module Nav]` Small improvements to better enable usage in an Angular codebase. ([#1597](https://github.com/infor-design/enterprise-wc/issues/1597))
-- `[Multiselect]` Fix rerender logic so that state is maintained while using ngFor directive in Angular. ([#1411](https://github.com/infor-design/enterprise-wc/issues/1411))
-- `[PopupMenu]` Fix arrow icon direction in rtl. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
+- `[Multiselect]` Fix `rerender` logic so that state is maintained while using `ngFor` directive in Angular. ([#1411](https://github.com/infor-design/enterprise-wc/issues/1411))
+- `[PopupMenu]` Fix arrow icon direction in RTL. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
 - `[Tabs]` Sync component with Figma design changes related to Alabaster default theme. ([#1050](https://github.com/infor-design/enterprise-wc/issues/1050))
-- `[PopupMenu]` Fix arrow icon direction in `rtl`. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
+- `[PopupMenu]` Fix arrow icon direction in RTL. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
 - `[Text]` Fixed wrong status warning color. ([#1619](https://github.com/infor-design/enterprise-wc/issues/1619))
 - `[Textarea]` Made sure strings are translated and fixed `character-count`` setting. ([#1598](https://github.com/infor-design/enterprise-wc/issues/1598))
 
