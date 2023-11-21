@@ -57,7 +57,7 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 ## Class Hierarchy
 
 - IdsTag
-    - IdsElement
+  - IdsElement
 - Mixins
   IdsEventsMixin
   IdsKeyboardMixin

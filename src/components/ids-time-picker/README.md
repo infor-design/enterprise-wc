@@ -82,7 +82,6 @@ timePicker.popup.addEventListener('hide');
 - `seconds` allowing to style the seconds dropdown
 - `period` allowing to style the period dropdown
 
-
 ## Features (With Code Examples)
 
 A normal timepicker used as a web component.
@@ -144,12 +143,12 @@ It's also possible to control the intervals of minutes and seconds available for
 ## Class Hierarchy
 
 - IdsTimePicker
-    - IdsElement
+  - IdsElement
 - Mixins
-    - IdsEventsMixin
-    - IdsKeyboardMixin
-    - IdsPopupOpenEventsMixin
-    - IdsLocaleMixin
+  - IdsEventsMixin
+  - IdsKeyboardMixin
+  - IdsPopupOpenEventsMixin
+  - IdsLocaleMixin
 
 ## Keyboard Guidelines
 

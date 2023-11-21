@@ -55,8 +55,8 @@ To use system buttons in your widget, add the system-button attribute on the but
 ## Class Hierarchy
 
 - IdsWidget
-    - IdsBox
-      - IdsElement
+  - IdsBox
+    - IdsElement
 - Mixins
   IdsEventsMixin
   IdsScrollEffectMixin

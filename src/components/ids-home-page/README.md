@@ -263,7 +263,6 @@ The widget vertical gap for single span.
 - `gapX` {number} Set widget horizontal gap for single span
 - `gapY` {number} Set widget vertical gap for single span
 
-
 ## Settings for widgets
 
 - `colspan` {number} Set the horizontal span size (`widget-width * colspan`)

@@ -305,7 +305,6 @@ localeAPI.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm', lo
 - `isIslamic(locale)` - Returns true if the current or provided locale uses the islamic calendar as the primary calendar
 - `isTRL(locale)` - Returns true if the current or provided locale is a right-to-left language
 
-
 ## Converting from Previous Versions (Breaking Changes)
 
 **3.x to 4.x**

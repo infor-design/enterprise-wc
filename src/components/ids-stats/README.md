@@ -36,15 +36,15 @@ A simple state component with all options.
 ## Class Hierarchy
 
 - IdsStats
-    - IdsBox
-    - IdsElement
+  - IdsBox
+  - IdsElement
 - Mixins
-    - IdsEventsMixin
-    - IdsKeyboardMixin
+  - IdsEventsMixin
+  - IdsKeyboardMixin
 - Uses
-    - IdsIcon
-    - IdsText
-    - IdsLayoutFlex
+  - IdsIcon
+  - IdsText
+  - IdsLayoutFlex
 
 ## Settings (Attributes)
 
