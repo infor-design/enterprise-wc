@@ -70,9 +70,8 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
   showTooltip() {
     // For ellipsis tooltip check if overflowing and only show if it is
     if (this.nodeName === 'IDS-TEXT' && this.tooltip === 'true' && this.container) {
-      if (!checkOverflow(this.container)) return;
+      if (!checkOverflow(this.container) && !checkOverflow(this.parentElement)) return;
     }
-
     // Append an IDS Tooltip and show it
     const tooltip: IdsTooltip = document.createElement('ids-tooltip') as IdsTooltip;
     let container = document.querySelector('ids-container');
@@ -118,6 +117,7 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
     if (value) {
       this.setAttribute('tooltip', value);
       this.container?.setAttribute('tooltip', value);
+      this.handleTooltipEvents();
     }
   }
 
