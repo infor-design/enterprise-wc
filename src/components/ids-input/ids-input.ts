@@ -836,8 +836,14 @@ export default class IdsInput extends Base {
   set labelWrap(value: IdsInputLabelWrap) {
     if (!value || LABEL_WRAPS.indexOf(value as any) < 0) {
       this.removeAttribute(attributes.LABEL_WRAP);
+      this.container?.querySelector('ids-text')?.removeAttribute('overflow');
+      this.container?.querySelector('ids-text')?.removeAttribute('tooltip');
     } else {
       this.setAttribute(attributes.LABEL_WRAP, value);
+      if (value === 'ellipsis' || value === 'ellipsis-no-stretch') {
+        this.container?.querySelector('ids-text')?.setAttribute('overflow', 'ellipsis');
+        this.container?.querySelector('ids-text')?.setAttribute('tooltip', 'true');
+      }
     }
   }
 
