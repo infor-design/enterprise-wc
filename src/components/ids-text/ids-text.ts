@@ -468,7 +468,7 @@ export default class IdsText extends Base {
 
   canTooltipShow() {
     if (this.tooltip === 'true' && this.container) {
-      return ((!checkOverflow(this.container) && !checkOverflow(this.parentElement))) || false;
+      return ((checkOverflow(this.container) || checkOverflow(this.parentElement))) || false;
     }
     return false;
   }
