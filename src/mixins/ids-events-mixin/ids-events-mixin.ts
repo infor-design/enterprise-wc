@@ -420,8 +420,11 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
    * @param {EventOptions} options Additional event settings (passive, once, bubbles ect)
    */
   #addHoverEndListener(eventName: string, target: Element, options?: EventOptions) {
+    const startName = options?.bubbles ? 'mouseover' : 'mouseenter';
+    const endName = options?.bubbles ? 'mouseout' : 'mouseleave';
+
     // Setup events
-    this.onEvent('mouseenter.eventsmixin', target, (e: MouseEvent) => {
+    this.onEvent(`${startName}.eventsmixin`, target, (e: MouseEvent) => {
       this.clearTimer();
       this.timer = requestAnimationTimeout(() => {
         const event = new MouseEvent(getEventBaseName(eventName), e);
@@ -430,7 +433,7 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
       }, (options?.delay as number));
     });
 
-    this.onEvent('mouseleave.eventsmixin', target, () => {
+    this.onEvent(`${endName}.eventsmixin`, target, () => {
       this.clearTimer();
     });
 
@@ -565,6 +568,8 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     this.detachEventsByName('mousemove.eventsmixin');
     this.detachEventsByName('mouseleave.eventsmixin');
     this.detachEventsByName('mouseenter.eventsmixin');
+    this.detachEventsByName('mouseover.eventsmixin');
+    this.detachEventsByName('mouseout.eventsmixin');
     this.clearTimer();
   }
 
