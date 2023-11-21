@@ -46,6 +46,8 @@
     "scss/dollar-variable-empty-line-before": null,
     "alpha-value-notation": "number",
     "keyframes-name-pattern": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "declaration-block-no-shorthand-property-overrides": null,
     "value-keyword-case": ["lower", {
       "ignoreKeywords": ["currentColor"]
     }]

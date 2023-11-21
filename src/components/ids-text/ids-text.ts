@@ -357,7 +357,7 @@ export default class IdsText extends Base {
 
   /**
    * Set how content overflows; can specify 'ellipsis', or undefined or 'none'
-   * @param {string | null} [value=null] how content is overflow
+   * @param {string | null} value how content is overflow
    */
   set overflow(value: string | null) {
     const isEllipsis = value === 'ellipsis';

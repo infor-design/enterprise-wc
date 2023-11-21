@@ -1,0 +1,7 @@
+<ids-menu id="simple-menu" role="none">
+          <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
+            <ids-menu-item>One</ids-menu-item>
+            <ids-menu-item>Two</ids-menu-item>
+            <ids-menu-item>Three</ids-menu-item>
+          </ids-menu-group>
+        </ids-menu>

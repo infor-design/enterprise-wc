@@ -1,0 +1,76 @@
+<ids-action-panel id="cap-company-info" fullsize="lg" aria-label="Company Information" role="dialog" respond-down="lg">
+      <ids-toolbar slot="toolbar" role="toolbar">
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20" type="h2">Company Information</ids-text>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section type="buttonset" align="end">
+          <ids-button id="btn-save" icon="save" no-padding=""><ids-icon icon="save" class="ids-icon"></ids-icon>
+            <ids-text font-weight="semi-bold">Save</ids-text>
+          </ids-button>
+          <ids-separator vertical="true"></ids-separator>
+          <ids-button id="btn-close" icon="close" no-padding=""><ids-icon icon="close" class="ids-icon"></ids-icon>
+            <ids-text font-weight="semi-bold">Close</ids-text>
+          </ids-button>
+        </ids-toolbar-section>
+      </ids-toolbar>
+
+      <ids-layout-grid cols="2" gap="md" min-col-width="150px" padding-x="md" padding-y="sm" class="ids-layout-grid" style="--min-col-width: 150px;">
+        <ids-layout-grid-cell class="ids-layout-grid-cell">
+          <ids-dropdown id="cap-dd-company-name" label="Company Name" value="" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-cap-dd-company-name">
+            <ids-list-box role="listbox" size="md" id="ids-list-box-cap-dd-company-name" aria-label="Listbox">
+              <ids-list-box-option value="" selected="true" role="option" tabindex="-1" row-index="0">None</ids-list-box-option>
+              <ids-list-box-option value="jawbone" role="option" tabindex="-1" row-index="1">Jawbone, Inc.</ids-list-box-option>
+              <ids-list-box-option value="infor" role="option" tabindex="-1" row-index="2">Infor</ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+
+          <ids-dropdown id="cap-dd-purchase-form" label="Purchase Form" value="3567" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-cap-dd-purchase-form">
+            <ids-list-box role="listbox" size="md" id="ids-list-box-cap-dd-purchase-form" aria-label="Listbox">
+              <ids-list-box-option value="" role="option" tabindex="-1" row-index="0">None</ids-list-box-option>
+              <ids-list-box-option value="3567" selected="true" role="option" tabindex="-1" row-index="1">3567</ids-list-box-option>
+              <ids-list-box-option value="3568" role="option" tabindex="-1" row-index="2">3568</ids-list-box-option>
+              <ids-list-box-option value="3569" role="option" tabindex="-1" row-index="3">3569</ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+
+          <ids-dropdown id="cap-dd-template" label="Template" value="1" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-cap-dd-template">
+            <ids-list-box role="listbox" size="md" id="ids-list-box-cap-dd-template" aria-label="Listbox">
+              <ids-list-box-option value="" role="option" tabindex="-1" row-index="0">None</ids-list-box-option>
+              <ids-list-box-option value="1" selected="true" role="option" tabindex="-1" row-index="1">Template #1</ids-list-box-option>
+              <ids-list-box-option value="2" role="option" tabindex="-1" row-index="2">3568</ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+
+          <ids-textarea id="cap-textarea-notes" label="Notes"></ids-textarea>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell class="ids-layout-grid-cell">
+          <ids-dropdown id="cap-dd-ship-terms" label="Ship Terms" value="" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-cap-dd-ship-terms">
+            <ids-list-box role="listbox" size="md" id="ids-list-box-cap-dd-ship-terms" aria-label="Listbox">
+              <ids-list-box-option value="" selected="true" role="option" tabindex="-1" row-index="0">None</ids-list-box-option>
+              <ids-list-box-option value="default" role="option" tabindex="-1" row-index="1">Default</ids-list-box-option>
+              <ids-list-box-option value="alternate" role="option" tabindex="-1" row-index="2">Alternate</ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+
+          <ids-dropdown id="cap-dd-ship-via" label="Ship via" value="" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-cap-dd-ship-via">
+            <ids-list-box role="listbox" size="md" id="ids-list-box-cap-dd-ship-via" aria-label="Listbox">
+              <ids-list-box-option value="" selected="true" role="option" tabindex="-1" row-index="0">None</ids-list-box-option>
+              <ids-list-box-option value="default" role="option" tabindex="-1" row-index="1">USPS</ids-list-box-option>
+              <ids-list-box-option value="alternate" role="option" tabindex="-1" row-index="2">Other</ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+
+          <ids-dropdown id="cap-dd-issue-method" label="Issue Method" value="email" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-cap-dd-issue-method">
+            <ids-list-box role="listbox" size="md" id="ids-list-box-cap-dd-issue-method" aria-label="Listbox">
+              <ids-list-box-option value="" role="option" tabindex="-1" row-index="0">None</ids-list-box-option>
+              <ids-list-box-option value="phone" role="option" tabindex="-1" row-index="1">Telephone</ids-list-box-option>
+              <ids-list-box-option value="email" selected="true" role="option" tabindex="-1" row-index="2">Email</ids-list-box-option>
+              <ids-list-box-option value="sms" role="option" tabindex="-1" row-index="3">SMS Message</ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
+
+          <ids-checkbox id="cap-check-freight" label="Freight" checked="true"></ids-checkbox>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </ids-action-panel>

@@ -1,0 +1,3 @@
+<ids-drawer id="drawer-app-menu" edge="start" type="app-menu">
+      <ids-text>This is my drawer</ids-text>
+    </ids-drawer>

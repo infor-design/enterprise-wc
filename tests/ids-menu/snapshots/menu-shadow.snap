@@ -1,0 +1,1 @@
+<nav class="ids-menu" id="simple-menu" part="menu" role="none"><slot></slot></nav>

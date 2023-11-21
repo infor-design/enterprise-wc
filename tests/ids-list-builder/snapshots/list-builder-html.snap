@@ -1,0 +1,42 @@
+<ids-list-builder height="310px" selectable="single" id="list-builder-1" sortable="true" loaded="true">
+      <ids-toolbar slot="toolbar" type="formatter" tabbable="true" role="toolbar">
+        <ids-toolbar-section type="buttonset" toolbar-type="formatter">
+          
+      <ids-button list-builder-action="add" tooltip="Add New" color-variant="alternate-formatter">
+        <span class="audible">Add New</span>
+        <ids-icon icon="add"></ids-icon>
+      </ids-button>
+    
+          <ids-separator vertical=""></ids-separator>
+          
+      <ids-button list-builder-action="move-up" tooltip="Move Up" color-variant="alternate-formatter">
+        <span class="audible">Move Up</span>
+        <ids-icon icon="arrow-up"></ids-icon>
+      </ids-button>
+    
+          
+      <ids-button list-builder-action="move-down" tooltip="Move Down" color-variant="alternate-formatter">
+        <span class="audible">Move Down</span>
+        <ids-icon icon="arrow-down"></ids-icon>
+      </ids-button>
+    
+          <ids-separator vertical=""></ids-separator>
+          
+      <ids-button list-builder-action="edit" tooltip="Edit" color-variant="alternate-formatter">
+        <span class="audible">Edit</span>
+        <ids-icon icon="edit"></ids-icon>
+      </ids-button>
+    
+          
+      <ids-button list-builder-action="delete" tooltip="Delete" color-variant="alternate-formatter">
+        <span class="audible">Delete</span>
+        <ids-icon icon="delete"></ids-icon>
+      </ids-button>
+    
+        </ids-toolbar-section>
+      </ids-toolbar>
+    
+          <template>
+            <ids-text font-size="16" type="span">${manufacturerName}</ids-text>
+          </template>
+        </ids-list-builder>

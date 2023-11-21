@@ -1,0 +1,4 @@
+
+    <div class="ids-header">
+      <slot></slot>
+    </div>

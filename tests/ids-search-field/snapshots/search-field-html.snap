@@ -1,0 +1,1 @@
+<ids-search-field clearable="true" dirty-tracker="true" label="Products" value="Anti-virus Software" validate="required" placeholder="Type to search"></ids-search-field>

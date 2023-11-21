@@ -466,6 +466,7 @@ export default class IdsBreadcrumb extends Base {
     if (this.buttonEl) this.buttonEl.colorVariant = menuButtonVariant;
     [...this.children].forEach((link) => {
       link.setAttribute(attributes.COLOR_VARIANT, breadcrumbVariant);
+      (link as any).container?.classList.add(`color-variant-${breadcrumbVariant}`);
     });
   }
 }

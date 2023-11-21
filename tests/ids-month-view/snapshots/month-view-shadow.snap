@@ -1,0 +1,213 @@
+<div class="ids-month-view is-fullsize" part="container">
+      <div class="month-view-container" part="table-container">
+        <table class="month-view-table" aria-label="Calendar" role="application">
+          <thead class="month-view-table-header">
+            <tr>
+        <th scope="col" abbr="Sunday">
+          <ids-text class="weekday-text" font-size="14">Sun</ids-text>
+        </th>
+      
+        <th scope="col" abbr="Monday">
+          <ids-text class="weekday-text" font-size="14">Mon</ids-text>
+        </th>
+      
+        <th scope="col" abbr="Tuesday">
+          <ids-text class="weekday-text" font-size="14">Tue</ids-text>
+        </th>
+      
+        <th scope="col" abbr="Wednesday">
+          <ids-text class="weekday-text" font-size="14">Wed</ids-text>
+        </th>
+      
+        <th scope="col" abbr="Thursday">
+          <ids-text class="weekday-text" font-size="14">Thu</ids-text>
+        </th>
+      
+        <th scope="col" abbr="Friday">
+          <ids-text class="weekday-text" font-size="14">Fri</ids-text>
+        </th>
+      
+        <th scope="col" abbr="Saturday">
+          <ids-text class="weekday-text" font-size="14">Sat</ids-text>
+        </th>
+      </tr>
+          </thead>
+          <tbody><tr><td aria-label="Sunday, October 31, 2021" data-year="2021" data-month="9" data-day="31" class="alternate" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">31</ids-text>
+        </span>
+        <div class="events-container" data-key="20210931"></div>
+      </td><td aria-label="Monday, November 1, 2021" data-year="2021" data-month="10" data-day="1" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">1</ids-text>
+        </span>
+        <div class="events-container" data-key="20211001"></div>
+      </td><td aria-label="Tuesday, November 2, 2021" data-year="2021" data-month="10" data-day="2" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">2</ids-text>
+        </span>
+        <div class="events-container" data-key="20211002"></div>
+      </td><td aria-label="Wednesday, November 3, 2021" data-year="2021" data-month="10" data-day="3" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">3</ids-text>
+        </span>
+        <div class="events-container" data-key="20211003"></div>
+      </td><td aria-label="Thursday, November 4, 2021" data-year="2021" data-month="10" data-day="4" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">4</ids-text>
+        </span>
+        <div class="events-container" data-key="20211004"></div>
+      </td><td aria-label="Friday, November 5, 2021" data-year="2021" data-month="10" data-day="5" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">5</ids-text>
+        </span>
+        <div class="events-container" data-key="20211005"></div>
+      </td><td aria-label="Saturday, November 6, 2021" data-year="2021" data-month="10" data-day="6" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">6</ids-text>
+        </span>
+        <div class="events-container" data-key="20211006"></div>
+      </td></tr><tr><td aria-label="Sunday, November 7, 2021" data-year="2021" data-month="10" data-day="7" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">7</ids-text>
+        </span>
+        <div class="events-container" data-key="20211007"></div>
+      </td><td aria-label="Monday, November 8, 2021" data-year="2021" data-month="10" data-day="8" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">8</ids-text>
+        </span>
+        <div class="events-container" data-key="20211008"></div>
+      </td><td aria-label="Tuesday, November 9, 2021" data-year="2021" data-month="10" data-day="9" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">9</ids-text>
+        </span>
+        <div class="events-container" data-key="20211009"></div>
+      </td><td aria-label="Wednesday, November 10, 2021" data-year="2021" data-month="10" data-day="10" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">10</ids-text>
+        </span>
+        <div class="events-container" data-key="20211010"></div>
+      </td><td aria-label="Thursday, November 11, 2021" data-year="2021" data-month="10" data-day="11" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">11</ids-text>
+        </span>
+        <div class="events-container" data-key="20211011"></div>
+      </td><td aria-label="Friday, November 12, 2021" data-year="2021" data-month="10" data-day="12" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">12</ids-text>
+        </span>
+        <div class="events-container" data-key="20211012"></div>
+      </td><td aria-label="Saturday, November 13, 2021" data-year="2021" data-month="10" data-day="13" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">13</ids-text>
+        </span>
+        <div class="events-container" data-key="20211013"></div>
+      </td></tr><tr><td aria-label="Sunday, November 14, 2021" data-year="2021" data-month="10" data-day="14" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">14</ids-text>
+        </span>
+        <div class="events-container" data-key="20211014"></div>
+      </td><td aria-label="Monday, November 15, 2021" data-year="2021" data-month="10" data-day="15" class="is-selected" aria-selected="true" tabindex="0" role="gridcell">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">15</ids-text>
+        </span>
+        <div class="events-container" data-key="20211015"></div>
+      </td><td aria-label="Tuesday, November 16, 2021" data-year="2021" data-month="10" data-day="16" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">16</ids-text>
+        </span>
+        <div class="events-container" data-key="20211016"></div>
+      </td><td aria-label="Wednesday, November 17, 2021" data-year="2021" data-month="10" data-day="17" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">17</ids-text>
+        </span>
+        <div class="events-container" data-key="20211017"></div>
+      </td><td aria-label="Thursday, November 18, 2021" data-year="2021" data-month="10" data-day="18" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">18</ids-text>
+        </span>
+        <div class="events-container" data-key="20211018"></div>
+      </td><td aria-label="Friday, November 19, 2021" data-year="2021" data-month="10" data-day="19" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">19</ids-text>
+        </span>
+        <div class="events-container" data-key="20211019"></div>
+      </td><td aria-label="Saturday, November 20, 2021" data-year="2021" data-month="10" data-day="20" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">20</ids-text>
+        </span>
+        <div class="events-container" data-key="20211020"></div>
+      </td></tr><tr><td aria-label="Sunday, November 21, 2021" data-year="2021" data-month="10" data-day="21" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">21</ids-text>
+        </span>
+        <div class="events-container" data-key="20211021"></div>
+      </td><td aria-label="Monday, November 22, 2021" data-year="2021" data-month="10" data-day="22" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">22</ids-text>
+        </span>
+        <div class="events-container" data-key="20211022"></div>
+      </td><td aria-label="Tuesday, November 23, 2021" data-year="2021" data-month="10" data-day="23" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">23</ids-text>
+        </span>
+        <div class="events-container" data-key="20211023"></div>
+      </td><td aria-label="Wednesday, November 24, 2021" data-year="2021" data-month="10" data-day="24" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">24</ids-text>
+        </span>
+        <div class="events-container" data-key="20211024"></div>
+      </td><td aria-label="Thursday, November 25, 2021" data-year="2021" data-month="10" data-day="25" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">25</ids-text>
+        </span>
+        <div class="events-container" data-key="20211025"></div>
+      </td><td aria-label="Friday, November 26, 2021" data-year="2021" data-month="10" data-day="26" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">26</ids-text>
+        </span>
+        <div class="events-container" data-key="20211026"></div>
+      </td><td aria-label="Saturday, November 27, 2021" data-year="2021" data-month="10" data-day="27" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">27</ids-text>
+        </span>
+        <div class="events-container" data-key="20211027"></div>
+      </td></tr><tr><td aria-label="Sunday, November 28, 2021" data-year="2021" data-month="10" data-day="28" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">28</ids-text>
+        </span>
+        <div class="events-container" data-key="20211028"></div>
+      </td><td aria-label="Monday, November 29, 2021" data-year="2021" data-month="10" data-day="29" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">29</ids-text>
+        </span>
+        <div class="events-container" data-key="20211029"></div>
+      </td><td aria-label="Tuesday, November 30, 2021" data-year="2021" data-month="10" data-day="30" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">30</ids-text>
+        </span>
+        <div class="events-container" data-key="20211030"></div>
+      </td><td aria-label="Wednesday, December 1, 2021" data-year="2021" data-month="11" data-day="1" class="alternate" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">1</ids-text>
+        </span>
+        <div class="events-container" data-key="20211101"></div>
+      </td><td aria-label="Thursday, December 2, 2021" data-year="2021" data-month="11" data-day="2" class="alternate" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">2</ids-text>
+        </span>
+        <div class="events-container" data-key="20211102"></div>
+      </td><td aria-label="Friday, December 3, 2021" data-year="2021" data-month="11" data-day="3" class="alternate" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">3</ids-text>
+        </span>
+        <div class="events-container" data-key="20211103"></div>
+      </td><td aria-label="Saturday, December 4, 2021" data-year="2021" data-month="11" data-day="4" class="alternate" role="link">
+        <span class="day-container">
+          <ids-text aria-hidden="true" class="day-text" font-size="14">4</ids-text>
+        </span>
+        <div class="events-container" data-key="20211104"></div>
+      </td></tr></tbody>
+        </table>
+      </div>
+    </div>
