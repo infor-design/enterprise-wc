@@ -483,7 +483,7 @@
   "TextBtnRemove": { "id": "TextBtnRemove", "value": "Κλείσιμο αυτού του σφάλματος", "comment": "text for remove button for advanced fileupload" },
   "TextColor": { "id": "TextColor", "value": "Χρώμα κειμένου", "comment": "add or edit text color in the editor" },
   "TextDropArea": { "id": "DropArea", "value": "Μεταφορά και απόθεση αρχείων για αποστολή", "comment": "text for drop area for advanced fileupload" },
-  "TextDropAreaWithBrowse": { "id": "TextDropAreaWithBrowse", "value": "Μεταφορά και απόθεση ή <span class='hyperlink'>Επιλογή αρχείων</span> για αποστολή" },
+  "TextDropAreaWithBrowse": { "id": "TextDropAreaWithBrowse", "value": "Μεταφορά και απόθεση ή <span class=\"hyperlink\">Επιλογή αρχείων</span> για αποστολή" },
   "Thai": { "id": "Thai", "value": "Ταϊλανδικά", "comment": "Language name for Thai" },
   "Theme": { "id": "Theme", "value": "Θέμα", "comment": "Refers to an application Theme" },
   "ThousandsAbbrev": { "id": "ThousandsAbbrev", "value": "{0}κ", "comment": "Refers to a value in a chart in thousands. i.e. 1K, 100K" },

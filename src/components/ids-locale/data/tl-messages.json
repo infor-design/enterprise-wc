@@ -491,7 +491,7 @@
   "TextBtnRemove": { "id": "TextBtnRemove", "value": "Isara ang error na ito", "comment": "text for remove button for advanced fileupload" },
   "TextColor": { "id": "TextColor", "value": "Kulay ng text", "comment": "add or edit text color in the editor" },
   "TextDropArea": { "id": "DropArea", "value": "I-drag at I-drop ang mga Files para I-upload", "comment": "text for drop area for advanced fileupload" },
-  "TextDropAreaWithBrowse": { "id": "TextDropAreaWithBrowse", "value": "I-drag at I-drop o <span class='hyperlink'>Select Files</span> para I-upload" },
+  "TextDropAreaWithBrowse": { "id": "TextDropAreaWithBrowse", "value": "I-drag at I-drop o <span class=\"hyperlink\">Select Files</span> para I-upload" },
   "Thai": { "id": "Thai", "value": "Wikang Thai", "comment": "Language name for Thai" },
   "Theme": { "id": "Theme", "value": "Tema", "comment": "Refers to an application Theme" },
   "ThousandsAbbrev": { "id": "ThousandsAbbrev", "value": "{0}k", "comment": "Refers to a value in a chart in thousands. i.e. 1K, 100K" },

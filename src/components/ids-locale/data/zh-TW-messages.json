@@ -491,7 +491,7 @@
   "TextBtnRemove": { "id": "TextBtnRemove", "value": "關閉此錯誤", "comment": "text for remove button for advanced fileupload" },
   "TextColor": { "id": "TextColor", "value": "文字色彩", "comment": "add or edit text color in the editor" },
   "TextDropArea": { "id": "DropArea", "value": "拖放檔案以上載", "comment": "text for drop area for advanced fileupload" },
-  "TextDropAreaWithBrowse": { "id": "TextDropAreaWithBrowse", "value": "拖放或<span class='hyperlink'>選取檔案</span>以上載" },
+  "TextDropAreaWithBrowse": { "id": "TextDropAreaWithBrowse", "value": "拖放或<span class=\"hyperlink\">選取檔案</span>以上載" },
   "Thai": { "id": "Thai", "value": "泰文", "comment": "Language name for Thai" },
   "Theme": { "id": "Theme", "value": "佈景主題", "comment": "Refers to an application Theme" },
   "ThousandsAbbrev": { "id": "ThousandsAbbrev", "value": "{0}k", "comment": "Refers to a value in a chart in thousands. i.e. 1K, 100K" },

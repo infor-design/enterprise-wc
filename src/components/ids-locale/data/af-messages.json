@@ -483,7 +483,7 @@
   "TextBtnRemove": { "id": "TextBtnRemove", "value": "Maak hierdie fout toe", "comment": "text for remove button for advanced fileupload" },
   "TextColor": { "id": "TextColor", "value": "Tekskleur", "comment": "add or edit text color in the editor" },
   "TextDropArea": { "id": "DropArea", "value": "Sleep-en-los lêers om op te laai", "comment": "text for drop area for advanced fileupload" },
-  "TextDropAreaWithBrowse": { "id": "TextDropAreaWithBrowse", "value": "Sleep-en-los of <span class='hyperlink'> Kies lêers </span> om op te laai" },
+  "TextDropAreaWithBrowse": { "id": "TextDropAreaWithBrowse", "value": "Sleep-en-los of <span class=\"hyperlink\"> Kies lêers </span> om op te laai" },
   "Thai": { "id": "Thai", "value": "Thai", "comment": "Language name for Thai" },
   "Theme": { "id": "Theme", "value": "Tema", "comment": "Refers to an application Theme" },
   "ThousandsAbbrev": { "id": "ThousandsAbbrev", "value": "{0}k", "comment": "Refers to a value in a chart in thousands. i.e. 1K, 100K" },

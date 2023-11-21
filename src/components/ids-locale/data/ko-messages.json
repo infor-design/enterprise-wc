@@ -491,7 +491,7 @@
   "TextBtnRemove": { "id": "TextBtnRemove", "value": "이 오류 닫기", "comment": "text for remove button for advanced fileupload" },
   "TextColor": { "id": "TextColor", "value": "텍스트 색상", "comment": "add or edit text color in the editor" },
   "TextDropArea": { "id": "DropArea", "value": "업로드할 파일을 끌어다 놓으십시오.", "comment": "text for drop area for advanced fileupload" },
-  "TextDropAreaWithBrowse": { "id": "TextDropAreaWithBrowse", "value": "업로드할 <span class='hyperlink'>파일을 선택</span>하거나 끌어다 놓으십시오." },
+  "TextDropAreaWithBrowse": { "id": "TextDropAreaWithBrowse", "value": "업로드할 <span class=\"hyperlink\">파일을 선택</span>하거나 끌어다 놓으십시오." },
   "Thai": { "id": "Thai", "value": "태국어", "comment": "Language name for Thai" },
   "Theme": { "id": "Theme", "value": "테마", "comment": "Refers to an application Theme" },
   "ThousandsAbbrev": { "id": "ThousandsAbbrev", "value": "{0}k", "comment": "Refers to a value in a chart in thousands. i.e. 1K, 100K" },
