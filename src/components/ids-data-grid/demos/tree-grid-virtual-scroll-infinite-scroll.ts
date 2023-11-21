@@ -147,7 +147,7 @@ dataGrid.addEventListener('scrollend', async (e: any) => {
   const lastRowLoaded = e.detail.value;
   const data = await fetchData();
   const rowsToAdd = data
-    .slice(lastRowLoaded + 1, lastRowLoaded + 5)
+    .slice(lastRowLoaded + 1, lastRowLoaded + 10)
     .map((row: any) => {
       row.rowExpanded = isExpanded;
       return row;
