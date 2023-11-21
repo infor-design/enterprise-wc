@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`IdsVirtualScroll Component renders correctly 1`] = `"<div class="ids-list-view-body" part="contents"></div>"`;

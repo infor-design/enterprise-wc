@@ -167,7 +167,7 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
    * Create and trigger a custom event
    * @param {string} eventName The event id with optional namespace
    * @param {HTMLElement} target The DOM element to register
-   * @param {object} [options = {}] The custom data to send
+   * @param {object} [options] The custom data to send
    */
   triggerEvent(eventName: string, target: any, options?: CustomEventInit<unknown>) {
     const event = new CustomEvent(getEventBaseName(eventName), options);

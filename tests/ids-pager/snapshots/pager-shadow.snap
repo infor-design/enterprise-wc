@@ -1,0 +1,7 @@
+
+      <div class="ids-pager">
+        <section class="pager-section start"><slot name="start"></slot></section>
+        <section class="pager-section middle" role="navigation"><slot></slot></section>
+        <section class="pager-section end"><slot name="end"></slot></section>
+      </div>
+    

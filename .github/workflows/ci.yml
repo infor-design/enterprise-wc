@@ -43,12 +43,15 @@ jobs:
       run: npm ci
 
     - name: Run Lint Checks
-      run: npm run lint && npx tsc
+      run: npm run lint
 
     - name: Build and Compile
       run: npm run build:coverage
 
-    - name: Run Tests (including Percy)
+    - name: Install Browsers
+      run: npx playwright install --with-deps
+
+    - name: Run Tests
       run: npx percy exec -- npm run test:ci
       env:
         NODE_OPTIONS: "--max-old-space-size=8192"

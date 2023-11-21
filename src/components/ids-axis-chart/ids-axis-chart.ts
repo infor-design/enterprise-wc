@@ -230,6 +230,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       attributes.TICKS,
       attributes.SHOW_HORIZONTAL_GRID_LINES,
       attributes.SHOW_VERTICAL_GRID_LINES,
+      attributes.SHOW_TOOLTIP,
       attributes.ROTATE_NAME_LABELS,
       attributes.STACKED,
       attributes.TITLE,
@@ -688,6 +689,8 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    * Setup handlers on tooltip elements
    */
   attachTooltipEvents(): void {
+    if (!this.showTooltip) return;
+
     // Need one event per bar due to the nature of the events for tooltip
     this.tooltipElements().forEach((element: SVGElement) => {
       this.onEvent('hoverend', element, async () => {
@@ -1367,6 +1370,19 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     const value = this.getAttribute(attributes.TICKS);
     if (value) return Number(value);
     return undefined;
+  }
+
+  /**
+   * Disable Tooltips
+   * @param {boolean} value True or false to show the grid lines
+   */
+  set showTooltip(value: boolean) {
+    this.setAttribute(attributes.SHOW_TOOLTIP, String(value));
+  }
+
+  get showTooltip(): boolean {
+    const value = this.getAttribute(attributes.SHOW_TOOLTIP);
+    return value !== null ? stringToBool(value) : true;
   }
 
   /**

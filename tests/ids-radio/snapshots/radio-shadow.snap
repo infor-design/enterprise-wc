@@ -1,0 +1,9 @@
+
+      <div class="ids-radio">
+        <label>
+          <input type="radio" part="radio" tabindex="-1" class="radio-button" value="opt1">
+          <span class="circle" part="circle"></span>
+          <ids-text class="label-text" part="label">Option one</ids-text>
+        </label>
+      </div>
+    

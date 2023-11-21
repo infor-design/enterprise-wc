@@ -1,0 +1,25 @@
+<ids-calendar date="10/22/2019" show-legend="" show-details="" show-today="" view-picker="">
+      <ids-accordion id="event-types-legend" slot="legend">
+        <ids-accordion-panel expanded="true">
+          <ids-accordion-header slot="header" expander-type="caret" aria-expanded="true">
+            <ids-text translate-text="true" translation-key="Legend">Legend</ids-text>
+          </ids-accordion-header>
+          <div slot="content"><p>
+      <ids-checkbox class="event-type-checkbox" checked="true" data-id="dto" label="Discretionary time off" color="azure">
+      </ids-checkbox>
+    
+      <ids-checkbox class="event-type-checkbox" checked="true" data-id="admin" label="Administrative leave" color="amethyst">
+      </ids-checkbox>
+    
+      <ids-checkbox class="event-type-checkbox" checked="true" data-id="team" label="Team event" color="emerald">
+      </ids-checkbox>
+    
+      <ids-checkbox class="event-type-checkbox" checked="true" data-id="sick" label="Sick time" color="amber">
+      </ids-checkbox>
+    
+      <ids-checkbox class="event-type-checkbox" checked="true" data-id="holiday" label="Company holiday" color="slate" disabled="true">
+      </ids-checkbox>
+    </p></div>
+        </ids-accordion-panel>
+      </ids-accordion>
+    </ids-calendar>

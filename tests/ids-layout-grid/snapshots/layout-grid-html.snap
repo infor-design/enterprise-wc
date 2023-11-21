@@ -1,0 +1,5 @@
+<ids-layout-grid auto-fit="" padding="md" class="ids-layout-grid">
+        <ids-layout-grid-cell class="ids-layout-grid-cell">
+          <ids-text font-size="12" type="h1">8 column grid</ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>

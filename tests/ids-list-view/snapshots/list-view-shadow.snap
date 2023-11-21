@@ -1,0 +1,788 @@
+
+      <div class="ids-list-view-search" part="search"><slot name="search"></slot></div>
+      
+      <div class="ids-list-view" style="height: 100%;">
+        <div class="ids-list-view-body" role="listbox" aria-label="Ids list view">
+          
+            
+        
+          <div part="list-item" role="option" index="0" class="" aria-posinset="1" aria-setsize="77" tabindex="0">
+            
+                <ids-text font-size="16" type="h2">Discretionary Time Off</ids-text>
+                <ids-text font-size="12" type="span">ID: 1</ids-text>
+                <ids-text font-size="12" type="span">Comments: Short getaway</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="1" class="" aria-posinset="2" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Dentist</ids-text>
+                <ids-text font-size="12" type="span">ID: 2</ids-text>
+                <ids-text font-size="12" type="span">Comments: Quick check-up</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="2" class="" aria-posinset="3" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Team Meeting</ids-text>
+                <ids-text font-size="12" type="span">ID: 3</ids-text>
+                <ids-text font-size="12" type="span">Comments: Discuss fiscal year goals</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="3" class="" aria-posinset="4" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Moving Offices</ids-text>
+                <ids-text font-size="12" type="span">ID: 4</ids-text>
+                <ids-text font-size="12" type="span">Comments: Moving from floor 6 to 7</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="4" class="" aria-posinset="5" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Scrum</ids-text>
+                <ids-text font-size="12" type="span">ID: 5</ids-text>
+                <ids-text font-size="12" type="span">Comments: What are you working on? Any blockers?</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="5" class="" aria-posinset="6" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Discretionary Time Off</ids-text>
+                <ids-text font-size="12" type="span">ID: 6</ids-text>
+                <ids-text font-size="12" type="span">Comments: Personal time</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="6" class="" aria-posinset="7" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Team Event</ids-text>
+                <ids-text font-size="12" type="span">ID: 7</ids-text>
+                <ids-text font-size="12" type="span">Comments: Bowling and BBQ</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="7" class="" aria-posinset="8" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Labor Day</ids-text>
+                <ids-text font-size="12" type="span">ID: 8</ids-text>
+                <ids-text font-size="12" type="span">Comments: US Holiday</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="8" class="" aria-posinset="9" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Autumn Foliage Trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 9</ids-text>
+                <ids-text font-size="12" type="span">Comments: Annual Autumn Foliage Trip</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="9" class="" aria-posinset="10" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Birthday Off</ids-text>
+                <ids-text font-size="12" type="span">ID: 10</ids-text>
+                <ids-text font-size="12" type="span">Comments: Taking my birthday off</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="10" class="" aria-posinset="11" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Mexico Trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 11</ids-text>
+                <ids-text font-size="12" type="span">Comments: I week vacation in mexico</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="11" class="" aria-posinset="12" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Staying Home with Flu</ids-text>
+                <ids-text font-size="12" type="span">ID: 12</ids-text>
+                <ids-text font-size="12" type="span">Comments: I dont feel well. Taking the day off.</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="12" class="" aria-posinset="13" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Long Weekend</ids-text>
+                <ids-text font-size="12" type="span">ID: 13</ids-text>
+                <ids-text font-size="12" type="span">Comments: Going to DC</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="13" class="" aria-posinset="14" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Scrum</ids-text>
+                <ids-text font-size="12" type="span">ID: 14</ids-text>
+                <ids-text font-size="12" type="span">Comments: What are you working on? Any blockers?</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="14" class="" aria-posinset="15" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">One on One</ids-text>
+                <ids-text font-size="12" type="span">ID: 15</ids-text>
+                <ids-text font-size="12" type="span">Comments: What are you working on? Any blockers?</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="15" class="" aria-posinset="16" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Christmas</ids-text>
+                <ids-text font-size="12" type="span">ID: 16</ids-text>
+                <ids-text font-size="12" type="span">Comments: Santa and Presents</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="16" class="" aria-posinset="17" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Aruba Trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 17</ids-text>
+                <ids-text font-size="12" type="span">Comments: Family Trip</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="17" class="" aria-posinset="18" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Errands</ids-text>
+                <ids-text font-size="12" type="span">ID: 18</ids-text>
+                <ids-text font-size="12" type="span">Comments: Run a few errands, bring giant card.</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="18" class="" aria-posinset="19" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Spa Appt</ids-text>
+                <ids-text font-size="12" type="span">ID: 19</ids-text>
+                <ids-text font-size="12" type="span">Comments: Quick Spa Appt.</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="19" class="" aria-posinset="20" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Doctors Appt</ids-text>
+                <ids-text font-size="12" type="span">ID: 20</ids-text>
+                <ids-text font-size="12" type="span">Comments: See a Dr Smith</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="20" class="" aria-posinset="21" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Quick bite</ids-text>
+                <ids-text font-size="12" type="span">ID: 21</ids-text>
+                <ids-text font-size="12" type="span">Comments: Chick-fil-a Lancaster</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="21" class="" aria-posinset="22" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Sick Day</ids-text>
+                <ids-text font-size="12" type="span">ID: 22</ids-text>
+                <ids-text font-size="12" type="span">Comments: Not feeling well</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="22" class="" aria-posinset="23" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 23</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="23" class="" aria-posinset="24" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 24</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="24" class="" aria-posinset="25" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 25</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="25" class="" aria-posinset="26" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 26</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="26" class="" aria-posinset="27" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 27</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="27" class="" aria-posinset="28" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 28</ids-text>
+                <ids-text font-size="12" type="span">Comments: Going to Aruba</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="28" class="" aria-posinset="29" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 29</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="29" class="" aria-posinset="30" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 30</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="30" class="" aria-posinset="31" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 31</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="31" class="" aria-posinset="32" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 32</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="32" class="" aria-posinset="33" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 33</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="33" class="" aria-posinset="34" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Standup Meeting</ids-text>
+                <ids-text font-size="12" type="span">ID: 34</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="34" class="" aria-posinset="35" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">IDS Component Updates</ids-text>
+                <ids-text font-size="12" type="span">ID: 34</ids-text>
+                <ids-text font-size="12" type="span">Comments: IDS Team Call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="35" class="" aria-posinset="36" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 35</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="36" class="" aria-posinset="37" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 36</ids-text>
+                <ids-text font-size="12" type="span">Comments: Long Weekend</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="37" class="" aria-posinset="38" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event A</ids-text>
+                <ids-text font-size="12" type="span">ID: 37</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="38" class="" aria-posinset="39" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event B</ids-text>
+                <ids-text font-size="12" type="span">ID: 38</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="39" class="" aria-posinset="40" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event C</ids-text>
+                <ids-text font-size="12" type="span">ID: 39</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="40" class="" aria-posinset="41" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event D</ids-text>
+                <ids-text font-size="12" type="span">ID: 40</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="41" class="" aria-posinset="42" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event E</ids-text>
+                <ids-text font-size="12" type="span">ID: 41</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="42" class="" aria-posinset="43" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event F</ids-text>
+                <ids-text font-size="12" type="span">ID: 42</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="43" class="" aria-posinset="44" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event G</ids-text>
+                <ids-text font-size="12" type="span">ID: 43</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="44" class="" aria-posinset="45" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event H</ids-text>
+                <ids-text font-size="12" type="span">ID: 44</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="45" class="" aria-posinset="46" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event I</ids-text>
+                <ids-text font-size="12" type="span">ID: 45</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="46" class="" aria-posinset="47" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event J</ids-text>
+                <ids-text font-size="12" type="span">ID: 46</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="47" class="" aria-posinset="48" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Test Event K</ids-text>
+                <ids-text font-size="12" type="span">ID: 47</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="48" class="" aria-posinset="49" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">IDS Component Updates</ids-text>
+                <ids-text font-size="12" type="span">ID: 48</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="49" class="" aria-posinset="50" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">QA Updates and Further Information</ids-text>
+                <ids-text font-size="12" type="span">ID: 49</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="50" class="" aria-posinset="51" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Out of office in the afternoon</ids-text>
+                <ids-text font-size="12" type="span">ID: 50</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="51" class="" aria-posinset="52" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Day Trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 51</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="52" class="" aria-posinset="53" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Sample Event</ids-text>
+                <ids-text font-size="12" type="span">ID: 52</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="53" class="" aria-posinset="54" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Conference</ids-text>
+                <ids-text font-size="12" type="span">ID: 53</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="54" class="" aria-posinset="55" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Day Trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 54</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="55" class="" aria-posinset="56" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Conference</ids-text>
+                <ids-text font-size="12" type="span">ID: 55</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="56" class="" aria-posinset="57" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">All Day Event A</ids-text>
+                <ids-text font-size="12" type="span">ID: 56</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="57" class="" aria-posinset="58" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">All Day Event B</ids-text>
+                <ids-text font-size="12" type="span">ID: 57</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="58" class="" aria-posinset="59" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">All Day Event C</ids-text>
+                <ids-text font-size="12" type="span">ID: 58</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="59" class="" aria-posinset="60" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Sample Event</ids-text>
+                <ids-text font-size="12" type="span">ID: 59</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="60" class="" aria-posinset="61" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Dentist</ids-text>
+                <ids-text font-size="12" type="span">ID: 60</ids-text>
+                <ids-text font-size="12" type="span">Comments: Dentist Appt</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="61" class="" aria-posinset="62" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Doctor</ids-text>
+                <ids-text font-size="12" type="span">ID: 61</ids-text>
+                <ids-text font-size="12" type="span">Comments: Doctor Appt</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="62" class="" aria-posinset="63" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Personal</ids-text>
+                <ids-text font-size="12" type="span">ID: 62</ids-text>
+                <ids-text font-size="12" type="span">Comments: Personal Appt</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="63" class="" aria-posinset="64" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Chiropractor</ids-text>
+                <ids-text font-size="12" type="span">ID: 63</ids-text>
+                <ids-text font-size="12" type="span">Comments: Chiropractor Appt</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="64" class="" aria-posinset="65" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Day Off</ids-text>
+                <ids-text font-size="12" type="span">ID: 64</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="65" class="" aria-posinset="66" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Personal</ids-text>
+                <ids-text font-size="12" type="span">ID: 65</ids-text>
+                <ids-text font-size="12" type="span">Comments: Personal Appt</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="66" class="" aria-posinset="67" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Mom in Town</ids-text>
+                <ids-text font-size="12" type="span">ID: 66</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="67" class="" aria-posinset="68" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Quick trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 67</ids-text>
+                <ids-text font-size="12" type="span">Comments: Short getaway</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="68" class="" aria-posinset="69" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Friends in Town</ids-text>
+                <ids-text font-size="12" type="span">ID: 68</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="69" class="" aria-posinset="70" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Quick trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 69</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="70" class="" aria-posinset="71" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Meetings</ids-text>
+                <ids-text font-size="12" type="span">ID: 70</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="71" class="" aria-posinset="72" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">More Meetings</ids-text>
+                <ids-text font-size="12" type="span">ID: 71</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="72" class="" aria-posinset="73" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Sick</ids-text>
+                <ids-text font-size="12" type="span">ID: 72</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="73" class="" aria-posinset="74" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Sick</ids-text>
+                <ids-text font-size="12" type="span">ID: 73</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="74" class="" aria-posinset="75" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Super Fun Party Day</ids-text>
+                <ids-text font-size="12" type="span">ID: 74</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="75" class="" aria-posinset="76" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Emergency Meeting</ids-text>
+                <ids-text font-size="12" type="span">ID: 75</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+        
+          <div part="list-item" role="option" index="76" class="" aria-posinset="77" aria-setsize="77" tabindex="-1">
+            
+                <ids-text font-size="16" type="h2">Meeting</ids-text>
+                <ids-text font-size="12" type="span">ID: 76</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
+          </div>
+        
+      
+          
+          <slot></slot>
+        </div>
+      </div>
+    
+    
+      
+      
+      
+    
+    

@@ -119,7 +119,7 @@ export default class IdsSpinbox extends IdsTriggerField {
 
     // NOTE: aXe requires `aria-label` on all fields with other aria attributes
     // like `aria-valuenow` that cause it to be interpreted as an "aria input field"
-    // See https://dequeuniversity.com/rules/axe/4.3/aria-input-field-name?application=axe-puppeteer
+    // See https://dequeuniversity.com/rules/axe/4.3/aria-input-field-name
     this.setAttribute(htmlAttributes.ARIA_VALUENOW, this.value);
     this.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
 

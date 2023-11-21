@@ -1,0 +1,19 @@
+<ids-header>
+      <ids-toolbar role="toolbar">
+        <ids-toolbar-section type="button">
+          <ids-button icon="menu" role="button"><ids-icon icon="menu" class="ids-icon"></ids-icon>
+            <span slot="text" class="audible">Application Menu Trigger</span>
+          </ids-button>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20">My Header</ids-text>
+          <ids-text font-size="14">With some extra information below</ids-text>
+        </ids-toolbar-section>
+        <ids-toolbar-section align="end">
+          <ids-search-field id="header-search" clearable="true" label-state="collapsed" no-margins="" color-variant="alternate" placeholder="Type to search" label="Search"></ids-search-field>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="button">
+          <ids-theme-switcher theme="default-light"></ids-theme-switcher>
+        </ids-toolbar-section>
+      </ids-toolbar>
+    </ids-header>

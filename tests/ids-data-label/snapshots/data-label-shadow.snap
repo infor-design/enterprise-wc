@@ -1,0 +1,4 @@
+<div class="left-positioned">
+        <ids-text class="label" font-size="16">Shipping to<span class="colon">:</span></ids-text>
+        <ids-text class="description" font-size="16"><slot></slot></ids-text>
+      </div>

@@ -3,6 +3,7 @@
     "stylelint.vscode-stylelint",
     "dbaeumer.vscode-eslint",
     "htmlhint.vscode-htmlhint",
-    "vunguyentuan.vscode-css-variables"
+    "vunguyentuan.vscode-css-variables",
+    "ms-playwright.playwright"
   ]
 }

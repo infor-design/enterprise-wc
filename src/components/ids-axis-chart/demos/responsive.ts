@@ -3,6 +3,8 @@ import barChartJSON from '../../../assets/data/components-long-text.json';
 import '../../ids-card/ids-card';
 import '../../ids-bar-chart/ids-bar-chart';
 import '../../ids-line-chart/ids-line-chart';
+import '../../ids-home-page/ids-home-page';
+
 import type IdsAxisChart from '../ids-axis-chart';
 
 const setData = async () => {

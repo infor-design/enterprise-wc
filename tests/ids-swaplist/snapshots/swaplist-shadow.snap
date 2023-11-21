@@ -1,0 +1,81 @@
+<div class="ids-swaplist"><ids-card class="list-card card card-0" data-id="1" data-name="Available">
+        <div slot="card-header">
+          <ids-text font-size="20">Available</ids-text>
+          <div class="swap-buttons">
+            
+      <ids-button id="right-arrow-0" class="right-arrow">
+        <span class="audible">Swap Item Left</span>
+        <ids-icon icon="swap-list-right"></ids-icon>
+      </ids-button>
+    
+          </div>
+        </div>
+        <div slot="card-content">
+          <ids-swappable selection="multiple" dropzone="move">
+            <ids-swappable-item data-value="option_a" data-id="1" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option A</ids-text>
+          
+    </ids-swappable-item><ids-swappable-item data-value="option_b" data-id="2" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option B</ids-text>
+          
+    </ids-swappable-item>
+          </ids-swappable>
+        </div>
+      </ids-card><ids-card class="list-card card card-1" data-id="2" data-name="Selected">
+        <div slot="card-header">
+          <ids-text font-size="20">Selected</ids-text>
+          <div class="swap-buttons">
+            
+      <ids-button id="left-arrow-1" class="left-arrow">
+        <span class="audible">Swap Item Left</span>
+        <ids-icon icon="swap-list-left"></ids-icon>
+      </ids-button>
+    
+      <ids-button id="right-arrow-1" class="right-arrow">
+        <span class="audible">Swap Item Left</span>
+        <ids-icon icon="swap-list-right"></ids-icon>
+      </ids-button>
+    
+          </div>
+        </div>
+        <div slot="card-content">
+          <ids-swappable selection="multiple" dropzone="move">
+            <ids-swappable-item data-value="option_c" data-id="3" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option C</ids-text>
+          
+    </ids-swappable-item><ids-swappable-item data-value="option_d" data-id="4" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option D</ids-text>
+          
+    </ids-swappable-item>
+          </ids-swappable>
+        </div>
+      </ids-card><ids-card class="list-card card card-2 card-last" data-id="3" data-name="Additional">
+        <div slot="card-header">
+          <ids-text font-size="20">Additional</ids-text>
+          <div class="swap-buttons">
+            
+      <ids-button id="left-arrow-2" class="left-arrow">
+        <span class="audible">Swap Item Left</span>
+        <ids-icon icon="swap-list-left"></ids-icon>
+      </ids-button>
+    
+          </div>
+        </div>
+        <div slot="card-content">
+          <ids-swappable selection="multiple" dropzone="move">
+            <ids-swappable-item data-value="option_e" data-id="5" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option E</ids-text>
+          
+    </ids-swappable-item><ids-swappable-item data-value="option_f" data-id="6" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option F</ids-text>
+          
+    </ids-swappable-item>
+          </ids-swappable>
+        </div>
+      </ids-card></div>

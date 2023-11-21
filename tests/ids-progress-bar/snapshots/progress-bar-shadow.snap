@@ -1,0 +1,7 @@
+
+      <div class="ids-progress-bar">
+        <label for="ids-progress-bar-id" class="progress-label">
+          <ids-text>Percent complete</ids-text>
+        </label>
+        <progress class="progress-bar" id="ids-progress-bar-id" max="100" value="10">10%</progress>
+      </div>

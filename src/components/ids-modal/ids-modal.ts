@@ -189,7 +189,9 @@ export default class IdsModal extends Base {
    * @returns {string} concatenating the status and title together.
    */
   get ariaLabelContent(): string {
-    return this.messageTitle;
+    let ariaLabel = this.messageTitle;
+    if (!ariaLabel) ariaLabel = this.querySelector('ids-toolbar [type="title"]')?.textContent?.trim() || '';
+    return ariaLabel;
   }
 
   /**

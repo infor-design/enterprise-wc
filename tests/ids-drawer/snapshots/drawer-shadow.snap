@@ -1,0 +1,3 @@
+<div class="ids-drawer type-app-menu edge-start">
+      <slot></slot>
+    </div>

@@ -1,0 +1,6 @@
+
+      <div class="ids-checkbox-group" part="checkbox-group">
+        <ids-text font-size="16" type="span">Choose from these options:</ids-text>
+        <slot></slot>
+      </div>
+    

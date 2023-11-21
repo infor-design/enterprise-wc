@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`IdsDataGridCell Component renders with no errors 1`] = `"<span class="text-ellipsis">101</span>"`;
-
-exports[`IdsDataGridCell Component renders with no errors 2`] = `"<span class="text-ellipsis">101</span>"`;

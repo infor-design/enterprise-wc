@@ -1,0 +1,13 @@
+
+      <div class="ids-upload field-height-md" part="container">
+        <label for="ids-upload-id" class="ids-upload-filetype-label" aria-hidden="true" tabindex="-1">
+          <ids-text audible="true" class="label-filetype" part="label">Single File, Press Enter to Browse for files</ids-text>
+        </label>
+        <input id="ids-upload-id" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1">
+        <ids-trigger-field readonly="true" readonly-background="true" field-height="md" clearable-forced="true" label="Single File" validation-events="blur change" text-ellipsis="true" css-class="ids-upload" part="input">
+          <ids-trigger-button slot="trigger-end" part="button" class="trigger" field-height="md">
+            <ids-text audible="true" class="trigger-label">trigger button for Single File</ids-text>
+            <ids-icon icon="folder"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+      </div>

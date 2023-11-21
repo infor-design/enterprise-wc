@@ -1,0 +1,5 @@
+
+      <ids-hyperlink part="link" text-decoration="none" class="ids-counts message-text" href="#" role="link" style="color: var(--ids-color-base);">
+      <slot></slot>
+      </ids-hyperlink>
+    

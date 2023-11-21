@@ -1,0 +1,5 @@
+<ids-fieldset>
+          <legend><ids-text font-size="20" type="h2" id="user-info">User Information</ids-text></legend>
+          <ids-input type="text" label="User Name" id="user-name"></ids-input>
+          <ids-input type="text" label="User Address" id="user-address"></ids-input>
+        </ids-fieldset>

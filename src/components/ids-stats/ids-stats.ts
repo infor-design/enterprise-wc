@@ -30,6 +30,7 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
   connectedCallback() {
     super.connectedCallback();
     this.#attachEventHandlers();
+    this.actionable = this.actionable;
   }
 
   /**
@@ -128,10 +129,10 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
       });
       if (isValueTruthy) {
         this.setAttribute(attributes.SELECTED, `${value}`);
-        (this.container?.parentElement as IdsBox).setAttribute(attributes.SELECTED, 'true');
+        (this.container?.parentElement as IdsBox)?.setAttribute(attributes.SELECTED, 'true');
       } else {
         this.removeAttribute(attributes.SELECTED);
-        (this.container?.parentElement as IdsBox).removeAttribute(attributes.SELECTED);
+        (this.container?.parentElement as IdsBox)?.removeAttribute(attributes.SELECTED);
       }
     }
   }
@@ -145,10 +146,10 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
   set actionable(value: boolean) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.ACTIONABLE, value.toString());
-      (this.container?.parentElement as IdsBox).setAttribute(attributes.SELECTED, 'true');
+      (this.container?.parentElement as IdsBox)?.setAttribute(attributes.SELECTED, 'true');
     } else {
       this.removeAttribute(attributes.ACTIONABLE);
-      (this.container?.parentElement as IdsBox).removeAttribute(attributes.SELECTED);
+      (this.container?.parentElement as IdsBox)?.removeAttribute(attributes.SELECTED);
     }
   }
 

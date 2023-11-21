@@ -406,183 +406,48 @@ Add info on what behaviors or considerations the developer needs to know regardi
 - Test the settings for all settings and test both setting the attribute and the js setting
 - Any api functions for input/result
 - Any external event handlers fire
-- Aim for 100% test coverage in the functional tests
-- Basic e2e tests including Axe and Percy tests
+- Aim for 100% test coverage in the tests
+- Include Axe and Percy tests
 
-#### Code the functional tests
+#### Code the playwright tests
 
-First run `npm run test:coverage` and then open up the file at `coverage/index.html` to see the lacking coverage. We want all the columns to have 100%. With this page you can drill into the component and see whats lacking.
-
-Create a folder in `tests/component-name` with the file `test/component-name/component-name-func-test.js` and wire it to import the component and any supporting html and inserts that into the page in beforeEach.
-
-Note that sometimes you need to import the component itself and not the markup so that the web component API works in jest. And also make sure to set the innerHTML of the body in afterEach to cleanup after so no other tests can be impacted. For example:
-
-```js
-import IdsTag from '../../src/components/ids-tag';
-
-describe('IdsTag Component', () => {
-  let tag;
-
-  beforeEach(async () => {
-    const elem = new IdsTag();
-    document.body.appendChild(elem);
-    tag = document.querySelector('ids-tag');
-  });
-
-  afterEach(async () => {
-    document.body.innerHTML = '';
-  });
-```
-
-Add a test that checks if the component errors out. Basically this test watches for errors and then while watching append your component and check there are no errors. For example:
-
-```js
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsTag();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-tag').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-```
-
-Add a test that adds a [jest snapshot](https://jestjs.io/docs/snapshot-testing) for this test you can either test the outerHTML or the shadowRoot's html depending whats more important. You can remove the style tag as this may change more frequently
-
-```js
-  it('renders correctly', () => {
-    scrollView.shadowRoot.querySelector('style').remove();
-    expect(scrollView.shadowRoot.innerHTML).toMatchSnapshot();
-  });
-```
-
-Then for each setting add a test that sets all settings via the JS api.
-
-```js
-  it('renders error from the api', () => {
-    tag.color = 'error';
-    expect(tag.getAttribute('color')).toEqual('error');
-    expect(tag.color).toEqual('error');
-  });
-```
-
-Sets each setting from the settings and responds to the update accordingly.
-
-```js
-  it('renders error from the api', () => {
-    tag.getAttribute('color', 'error');
-    expect(tag.getAttribute('color')).toEqual('error');
-    expect(tag.color).toEqual('error');
-  });
-```
-
-Can reset each setting to the default.
-
-```js
-it('renders error from the api', () => {
-  tag.color = 'error';
-  tag.color = '';
-  expect(tag.getAttribute('color')).toEqual('default');
-  expect(tag.color).toEqual('default');
-});
-```
-
-Can add a test for keyboard handlers
-
-```js
-it('dismisses on backspace/delete', () => {
-  tag.dismissible = true;
-  const event = new KeyboardEvent('keydown', { key: 'Backspace' });
-  tag.dispatchEvent(event);
-  expect(document.querySelectorAll('ids-tag').length).toEqual(0);
-});
-```
-
-Should add a test that the component can have its getters called before and after being in the DOM.
-
-```js
-  it('should be able to set attributes before append', async () => {
-    const elem: any = new IdsTag();
-    elem.color = 'red';
-    elem.clickable = true;
-    elem.dismissible = true;
-    elem.disabled = true;
-    document.body.appendChild(elem);
-
-    expect(elem.getAttribute('color')).toEqual('red');
-    expect(elem.getAttribute('clickable')).toEqual('true');
-    expect(elem.getAttribute('dismissible')).toEqual('true');
-    expect(elem.getAttribute('disabled')).toEqual('true');
-  });
-
-  it('should be able to set attributes after append', async () => {
-    const elem: any = new IdsTag();
-    document.body.appendChild(elem);
-    elem.color = 'red';
-    elem.clickable = true;
-    elem.dismissible = true;
-    elem.disabled = true;
-
-    expect(elem.getAttribute('color')).toEqual('red');
-    expect(elem.getAttribute('clickable')).toEqual('true');
-    expect(elem.getAttribute('dismissible')).toEqual('true');
-    expect(elem.getAttribute('disabled')).toEqual('true');
-  });
-```
-
-Then recheck coverage and tests the rest of the functionality. Like events and methods and all settings (getters and setters). See other tests for details. As a tip if trying to finish the coverage on a component you cant run `npx jest --coverage -- component-name` to run just the tests quickly for a component and then target the coverage that way for that one component.
-
-Keep in mind that you can cover with both an e2e or functional test. The coverage is combined. Jest tests are preferred for API tests. e2e tests should be done for in browser tests or things that JSDOM/Jest cannot support.
-
-You may need to add ignores for some situations because jest runs in JSDOM which is virtual it cant do somethings. Some of these cases are MutationObserver, ResizeObserver, IntersectionObserver ect. You can cover this with an e2e test instead.
-
-You also might need to debug tests. More information on that [can be found here.](https://github.com/infor-design/enterprise-wc/blob/main/doc/TESTING.md#debugging-functional-tests)
-
-#### Code the e2e tests
-
-We add a basic e2e test that loads the page and does any testing that cannot be done with jest/JSDOM. Keep in mind e2e tests aren't covered in coverage. Some of the things we do in e2e tests. Run the e2e tests only with `npm run test:ui` or `npx jest -- component-name-e2e`.
+We add a basic playwright test that loads the page and does any testing.
 
 Add basic loading test.
 
 ```js
-it('should not have errors', async () => {
-  await expect(page.title()).resolves.toMatch('IDS Scroll View Component');
+test.skip('should not have errors', async ({ page, browserName }) => {
+    if (browserName === 'firefox') return;
+    let exceptions = null;
+    await page.on('pageerror', (error) => {
+    exceptions = error;
+    });
+
+    await page.goto(url);
+    await page.waitForLoadState();
+    await expect(exceptions).toBeNull();
 });
 ```
 
 Add axe test.
 
 ```js
-  import { AxePuppeteer } from '@axe-core/puppeteer';
-  ...
-  it('should pass Axe accessibility tests', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    const results = await new AxePuppeteer(page).analyze();
-    expect(results.violations.length).toBe(0);
+test.describe('accessibility tests', () => {
+  test('should pass an Axe scan', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      const accessibilityScanResults = await new AxeBuilder({ page } as any)
+      .analyze();
+      expect(accessibilityScanResults.violations).toEqual([]);
   });
+});
 ```
 
 Note that you can ignore some rules if they do not make sense. For example some designs might not be accessible for color contrast.
 
 ```js
-await new AxePuppeteer(page).disableRules(['color-contrast', 'region']).analyze();
-```
-
-You should also test that you can use createElement on the component.
-
-```js
-  it('should be able to createElement', async () => {
-    let hasError = false;
-    try {
-      await page.evaluate(() => {
-        document.createElement('ids-tag');
-      });
-    } catch (err) {
-      hasError = true;
-    }
-    await expect(hasError).toEqual(false);
-  });
+const accessibilityScanResults = await new AxeBuilder({ page } as any)
+  .exclude('[disabled]') // Disabled elements do not have to pass
+  .analyze();
 ```
 
 In the future we will add many more e2e tests, including tests for BDD (test steps for QA).

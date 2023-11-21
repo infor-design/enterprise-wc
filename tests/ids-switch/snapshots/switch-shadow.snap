@@ -1,0 +1,9 @@
+
+      <div class="ids-switch">
+        <label>
+          <input type="checkbox" part="checkbox" class="checkbox" checked="true" value="" aria-label="Allow notifications" label="Allow notifications">
+          <span class="slider checked" part="slider"></span>
+          <ids-text class="label-text" part="label">Allow notifications</ids-text>
+        </label>
+      </div>
+    

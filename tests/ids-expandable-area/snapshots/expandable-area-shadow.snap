@@ -1,0 +1,24 @@
+
+      <div class="ids-expandable-area" part="container">
+        
+      <div class="ids-expandable-area-header" part="header">
+        <slot name="header"></slot>
+      </div>
+    
+        
+      <div class="ids-expandable-area-pane" part="pane">
+        <div class="expandable-pane-content" part="pane-content">
+          <slot name="pane"></slot>
+        </div>
+      </div>
+    
+        
+      <div class="ids-expandable-area-footer" part="footer">
+        <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false" data-expander="link">
+          <slot name="expander-default"></slot>
+          <slot name="expander-expanded" hidden=""></slot>
+        </a>
+      </div>
+    
+      </div>
+    

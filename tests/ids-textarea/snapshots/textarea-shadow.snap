@@ -1,0 +1,13 @@
+
+      <div class="ids-textarea">
+        <span class="textarea-print"></span>
+        <slot class="hidden"></slot>
+        <label for="ids-textarea-id" class="ids-label-text">
+          <ids-text part="label" label="true" color-unset="">Basic</ids-text>
+        </label>
+        <div class="field-container md">
+          <textarea part="textarea" id="ids-textarea-id" class="ids-textarea-field left" value="" aria-label="Basic" label="Basic"></textarea>
+        </div>
+        
+      </div>
+    
