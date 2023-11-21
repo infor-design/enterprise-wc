@@ -11,8 +11,6 @@ import IdsElement from '../../core/ids-element';
 
 import styles from './ids-text.scss';
 
-import type IdsTooltip from '../ids-tooltip/ids-tooltip';
-
 const fontWeightClasses = ['bold', 'semi-bold', 'lighter'] as const;
 type FontWeightClasses = typeof fontWeightClasses[number];
 
