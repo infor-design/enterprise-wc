@@ -1,12 +1,13 @@
 import { attributes } from '../../core/ids-attributes';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
-import { getClosest, checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import '../../components/ids-tooltip/ids-tooltip';
 import type IdsTooltip from '../../components/ids-tooltip/ids-tooltip';
 
 interface TooltipMixinInterface {
+  canTooltipShow?(tooltipEl: IdsTooltip | null, tooltipContent: string): boolean;
   onTooltipTargetDetection?(tooltipEl: IdsTooltip | null): HTMLElement | SVGElement;
 }
 
@@ -46,7 +47,7 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
     this.onEvent('hoverend.tooltipmixin', this, (e: CustomEvent) => {
       e.stopPropagation();
       this.showTooltip();
-    });
+    }, { delay: 500, bubbles: true });
   }
 
   /**
@@ -87,8 +88,8 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
    */
   showTooltip() {
     // For ellipsis tooltip check if overflowing and only show if it is
-    if (this.nodeName === 'IDS-TEXT' && this.tooltip === 'true' && this.container) {
-      if (!checkOverflow(this.container) && !checkOverflow(this.parentElement)) return;
+    if (typeof this.canTooltipShow === 'function') {
+      if (!this.canTooltipShow(this.tooltipEl, this.tooltip)) return;
     }
 
     // Locate the tooltip's container

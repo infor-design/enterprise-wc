@@ -1,6 +1,10 @@
+import IdsElement from '../../core/ids-element';
+
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool, escapeRegExp } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosestContainerNode, checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
+
 import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
@@ -9,7 +13,6 @@ import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsDirtyTrackerMixin from '../../mixins/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
-import IdsElement from '../../core/ids-element';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsLabelStateParentMixin from '../../mixins/ids-label-state-mixin/ids-label-state-parent-mixin';
 import IdsLoadingIndicatorMixin from '../../mixins/ids-loading-indicator-mixin/ids-loading-indicator-mixin';
@@ -22,17 +25,18 @@ import './ids-dropdown-list';
 import '../ids-list-box/ids-list-box';
 import '../ids-text/ids-text';
 import '../ids-icon/ids-icon';
+import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 
-import styles from './ids-dropdown.scss';
 import type IdsDropdownList from './ids-dropdown-list';
 import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
-import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
-import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+
+import styles from './ids-dropdown.scss';
 import {
   IdsDropdownColorVariants,
   IdsDropdownOption,
@@ -529,8 +533,11 @@ export default class IdsDropdown extends Base {
     const tooltip = option?.getAttribute('tooltip');
     if (tooltip) {
       this.tooltip = tooltip;
-      if (this.tooltipEl) this.tooltipEl.target = option;
+    } else {
+      this.tooltip = option.textContent?.trim() || '';
     }
+
+    if (this.tooltipEl) this.tooltipEl.target = option;
   }
 
   /**
@@ -695,6 +702,8 @@ export default class IdsDropdown extends Base {
     }
 
     this.container?.classList.remove('is-open');
+
+    this.selectTooltip(this.selectedOption);
 
     this.triggerCloseEvent(noFocus);
   }
@@ -1408,9 +1417,6 @@ export default class IdsDropdown extends Base {
 
   onShowListItemIcon(val: boolean) {
     if (!val) this.dropdownIconEl?.remove();
-    else {
-      // make it work
-    }
   }
 
   onTooltipTargetDetection(): HTMLElement | SVGElement {
@@ -1418,5 +1424,16 @@ export default class IdsDropdown extends Base {
       return this.dropdownList?.lastHovered || this;
     }
     return this.input?.fieldContainer || this;
+  }
+
+  canTooltipShow(tooltipEl: IdsTooltip, tooltipContent: string) {
+    if (this.dropdownList?.visible) {
+      return this.dropdownList?.canTooltipShow(tooltipEl, tooltipContent);
+    }
+    if (tooltipContent) {
+      if (tooltipContent !== this.input?.value?.trim()) return true;
+      return checkOverflow(this.input?.input) || false;
+    }
+    return false;
   }
 }

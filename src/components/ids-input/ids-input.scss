@@ -317,6 +317,7 @@ $input-size-full: 100%;
     height: fit-content;
     resize: none;
     text-align: left;
+    text-overflow: ellipsis;
 
     &.text-ellipsis {
       text-overflow: ellipsis;
