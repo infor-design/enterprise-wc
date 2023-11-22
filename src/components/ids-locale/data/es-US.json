@@ -1,0 +1,51 @@
+{
+  "language": "es",
+  "englishName": "Spanish (United States)",
+  "nativeName": "Español (Estados Unidos)",
+  "direction": "left-to-right",
+  "calendars": [{
+    "name": "gregorian",
+    "dateFormat": {
+      "separator": "/",
+      "timeSeparator": ":",
+      "short": "M/d/yyyy",
+      "medium": "MMM d, yyyy",
+      "long": "d de MMMM de yyyy",
+      "full": "EEEE, d de MMMM de yyyy",
+      "month": "MMMM d",
+      "year": "MMMM de yyyy",
+      "dayOfWeek": "EEE d",
+      "timestamp": "h:mm:ss a",
+      "timestampMillis": "h:mm:ss.SSS a",
+      "hour": "h:mm a",
+      "datetime": "M/d/yyyy h:mm a",
+      "datetimeMillis": "M/d/yyyy h:mm:ss.SSS a",
+      "timezone": "M/d/yyyy h:mm a zz",
+      "timezoneLong": "M/d/yyyy h:mm a zzzz"
+    },
+    "days": {
+      "wide": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+      "abbreviated": ["Dom.", "Lun.", "Mar.", "Mié.", "Jue.", "Vie.", "Sáb."],
+      "narrow": ["D", "L", "M", "X", "J", "V", "S"]
+    },
+    "months": {
+      "wide": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      "abbreviated": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sept", "Oct", "Nov", "Dic"]
+    },
+    "timeFormat": "h:mm a",
+    "dayPeriods": ["AM", "PM"],
+    "firstDayofWeek": 0
+  }],
+  "currencySign": "$",
+  "currencyFormat": "¤###",
+  "numbers": {
+    "percentSign": "%",
+    "percentFormat": "### %",
+    "percentSuffix": " %",
+    "percentPrefix": "",
+    "minusSign": "-",
+    "decimal": ".",
+    "group": ",",
+    "groupSizes": [3, 0]
+  }
+}

@@ -4,7 +4,7 @@
 import IdsRadio from '../../src/components/ids-radio/ids-radio';
 import IdsRadioGroup from '../../src/components/ids-radio/ids-radio-group';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import deMessages from '../../src/components/ids-locale/data/de-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 jest.useFakeTimers();

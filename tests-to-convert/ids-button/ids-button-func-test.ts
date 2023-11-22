@@ -7,7 +7,7 @@ import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavi
 import processAnimFrame from '../helpers/process-anim-frame';
 import '../../src/components/ids-icon/ids-icon';
 import type IdsIcon from '../../src/components/ids-icon/ids-icon';
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 import IdsLocale from '../../src/components/ids-locale/ids-locale';
 

@@ -124,9 +124,9 @@ export default class IdsThemeSwitcher extends Base {
               <ids-text translate-text="true">Ukrainian</ids-text>
               <ids-text>(uk-UA)</ids-text>
             </ids-menu-item>
-            <ids-menu-item value="bg-BG">
-              <ids-text translate-text="true">Bulgarian</ids-text>
-              <ids-text>(bg-BG)</ids-text>
+            <ids-menu-item value="es-ES">
+              <ids-text translate-text="true">Spanish</ids-text>
+              <ids-text>(es-ES)</ids-text>
             </ids-menu-item>
             <ids-menu-item value="he-IL">
               <ids-text translate-text="true">Hebrew</ids-text>

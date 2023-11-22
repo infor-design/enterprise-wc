@@ -39,7 +39,7 @@ A square box with padding and unrounded corners
 ## Class Hierarchy
 
 - IdsBox
-    - IdsElement
+  - IdsElement
 
 ## Settings (Attributes)
 

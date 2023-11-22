@@ -112,6 +112,6 @@ labeling for the step chart is handled through the `label` component attribute a
 
 Keep in mind that individual steps are not focusable elements as they are purely visual. It is important to keep both primary and secondary labels up to date for screen reader users.
 
-#### Regional Considerations
+## Regional Considerations
 
 Add info on what behaviors or considerations the developer needs to know regarding when running in different languages.

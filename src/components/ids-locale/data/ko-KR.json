@@ -1,0 +1,49 @@
+{
+  "language": "ko",
+  "englishName": "Korean (Korea)",
+  "nativeName": "한국어 (대한민국)",
+  "direction": "left-to-right",
+  "calendars": [{
+    "name": "gregorian",
+    "dateFormat": {
+      "separator": ". ",
+      "timeSeparator": ":",
+      "short": "yyyy-MM-dd",
+      "medium": "yyyy-MM-dd",
+      "long": "yyyy년 M월 d일",
+      "full": "yyyy년 M월 d일 EEEE",
+      "month": "M월 d일",
+      "year": "yyyy년 M월",
+      "dayOfWeek": "d일 EEE",
+      "timestamp": "a h:mm:ss",
+      "hour": "a h:mm",
+      "datetime": "yyyy-MM-dd a h:mm",
+      "timezone": "yyyy-MM-dd a h:mm zz",
+      "timezoneLong": "yyyy-MM-dd a h:mm zzzz"
+    },
+    "days": {
+      "wide": ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
+      "abbreviated": ["일", "월", "화", "수", "목", "금", "토"],
+      "narrow": ["일", "월", "화", "수", "목", "금", "토"]
+    },
+    "months": {
+      "wide": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+      "abbreviated": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+    },
+    "timeFormat": "a h:mm",
+    "dayPeriods": ["오전", "오후"],
+    "firstDayofWeek": 0
+  }],
+  "currencySign": "₩",
+  "currencyFormat": "¤###",
+  "numbers": {
+    "percentSign": "%",
+    "percentFormat": "### %",
+    "percentSuffix": " %",
+    "percentPrefix": "",
+    "minusSign": "-",
+    "decimal": ".",
+    "group": ",",
+    "groupSizes": [3, 3]
+  }
+}

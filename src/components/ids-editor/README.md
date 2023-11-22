@@ -4,7 +4,6 @@
 
 Editor component let you can control the appearance of your HTML text using the rich text formats. The editor toolbar provides various buttons for editing and formatting your content. You may use the editor component to displayed multiple styles, colors, alignments, or include images and hyperlinks as well.
 
-
 ## Use Cases
 
 - Editor component use to rich text formats.

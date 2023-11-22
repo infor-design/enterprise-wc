@@ -3,7 +3,7 @@
  */
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsText from '../../src/components/ids-text/ids-text';
-import { messages as fiMessages } from '../../src/components/ids-locale/data/fi-messages';
+import fiMessages from '../../src/components/ids-locale/data/fi-messages.json';
 import processAnimFrame from '../helpers/process-anim-frame';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 

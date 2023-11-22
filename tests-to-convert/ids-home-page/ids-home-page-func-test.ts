@@ -7,7 +7,7 @@ import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsHomePage from '../../src/components/ids-home-page/ids-home-page';
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsHomePage Component', () => {

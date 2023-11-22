@@ -3,7 +3,7 @@
  */
 import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import { messages as arMessages } from '../../src/components/ids-locale/data/ar-messages';
+import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsCheckbox Component', () => {

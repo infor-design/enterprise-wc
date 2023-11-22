@@ -10,7 +10,6 @@ The rating component displays a scale of selectable values in ascending order. A
 
 ## Code Examples
 
-
 The rating component can be used as an interactive or read only element. Users may select any whole value out of the total as a rating. When functioning as a read-only element, ratings may use .5 decimals to more accurately display the average rating of an object.
 
 A basic rating with 5 stars by default and none checked.
@@ -55,7 +54,7 @@ A rating rating with 4.5/5 which is also readonly. If using half stars the ratin
 
 - Rating is now a custom element `<ids-rating></ids-rating>`
 
-### Version - 4.x:
+### Version - 4.x
 
 ```html
   <div class="rating">
@@ -101,7 +100,7 @@ A rating rating with 4.5/5 which is also readonly. If using half stars the ratin
   </div>
 ```
 
-### Version - 5.x:
+### Version - 5.x
 
 ```html
   <ids-rating></ids-rating>

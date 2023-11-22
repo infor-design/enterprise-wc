@@ -274,7 +274,6 @@ treeDemo?.data = dataset;
 - `getNode(selector: string): object` Get a tree node by given CSS selector
 - `addNodes(nodeData: Array<IdsTreeData>, location?: 'bottom' | 'top' | 'before' | 'after' | 'child', node?: HTMLElement): void` Loops through an array with one or more nodes and adds them to the tree. Location can be 'bottom', 'top', 'before' or 'after' or as a 'child'. Before / after / child are used with a node reference. May use getNode() to find the node you want to add next to. In order to add child nodes specify the parent option in the dataset
 
-
 ## Methods (Tree Node)
 
 - `setFocus()` Set focus to node container

@@ -28,6 +28,15 @@ The Locale API handles the following
 - When you need to format hours
 - Displaying Timezones on Dates
 
+## Sources
+
+All source for the data are from the Unicode Common Locale Data Repository (CLDR).
+
+- [Github Repo](https://github.com/unicode-org/cldr-json)
+- [Old JSON Source](http://www.unicode.org/Public/cldr/25/)
+- [Currency Symbols](http://www.currencysymbols.in))
+- [Bulgarian Time](https://blazingbulgaria.wordpress.com/2012/06/15/time-in-bulgarian/)
+
 ## Terminology
 
 - **Umm al-Qura**: A type of calendar used the Arabian Peninsula that centers around the moon
@@ -75,8 +84,8 @@ import IdsGlobal from 'mode_modules/ids-enterprise-wc/components/ids-global/ids-
 ```js
 const locale = await IdsGlobal.getLocale().setLocale('it-lT');
 const myStrings = {
-    Thanks: { id: 'Thanks', value: 'Grazie', comment: '' },
-    YourWelcome: { id: 'YourWelcome', value: 'Prego', comment: '' }
+  "Thanks": { "id": "Thanks", "value": "Grazie", "comment": "" },
+  "YourWelcome": { "id": "YourWelcome", "value": "Prego", "comment": "" }
 };
 
 locale.extendTranslations(localeAPI.currentLanguage.name, myStrings);
@@ -295,7 +304,6 @@ localeAPI.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm', lo
 
 - `isIslamic(locale)` - Returns true if the current or provided locale uses the islamic calendar as the primary calendar
 - `isTRL(locale)` - Returns true if the current or provided locale is a right-to-left language
-
 
 ## Converting from Previous Versions (Breaking Changes)
 

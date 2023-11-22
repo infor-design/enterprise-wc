@@ -12,7 +12,7 @@ import '../../src/components/ids-list-box/ids-list-box-option';
 import '../../src/components/ids-trigger-field/ids-trigger-field';
 import states from '../../src/assets/data/states.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import deMessages from '../../src/components/ids-locale/data/de-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsDropdown Component', () => {

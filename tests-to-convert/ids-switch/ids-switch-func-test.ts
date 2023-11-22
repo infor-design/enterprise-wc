@@ -4,7 +4,7 @@
 import IdsSwitch from '../../src/components/ids-switch/ids-switch';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import processAnimFrame from '../helpers/process-anim-frame';
-import { messages as deMessages } from '../../src/components/ids-locale/data/de-messages';
+import deMessages from '../../src/components/ids-locale/data/de-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 describe('IdsSwitch Component', () => {
