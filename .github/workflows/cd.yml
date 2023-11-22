@@ -46,7 +46,7 @@ jobs:
       run: npm ci
 
     - name: Build and Compile
-      run: npm run build
+      run: npm run build:coverage
 
     - name: Install Browsers
       run: npx playwright install --with-deps
