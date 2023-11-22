@@ -922,6 +922,10 @@ export default class IdsDataGrid extends Base {
     if (!nextCell && rows && direction === IdsDirection.Next) {
       for (let index = this.activeCell.row + 1; index < rows.length; index++) {
         const row = rows[index];
+        if ((row.firstChild as Element).classList?.contains('is-editable')) {
+          nextCell = row.firstChild as IdsDataGridCell;
+          break;
+        }
         nextCell = next(row.firstChild, '.is-editable') as IdsDataGridCell;
         if (nextCell) break;
       }
