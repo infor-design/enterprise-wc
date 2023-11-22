@@ -34,25 +34,6 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
   const url: any = booksJSON;
   const columns: IdsDataGridColumn[] = [];
 
-  // Set up columns
-  columns.push({
-    id: 'selectionCheckbox',
-    name: 'selection',
-    sortable: false,
-    resizable: false,
-    formatter: dataGrid.formatters.selectionCheckbox,
-    align: 'center'
-  });
-  columns.push({
-    id: 'rowNumber',
-    name: '#',
-    formatter: dataGrid.formatters.rowNumber,
-    sortable: false,
-    resizable: true,
-    reorderable: true,
-    readonly: true,
-    width: 65
-  });
   columns.push({
     id: 'description',
     name: 'Description',
@@ -76,7 +57,7 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
     field: 'ledger',
     resizable: true,
     reorderable: true,
-    formatter: dataGrid.formatters.text
+    formatter: dataGrid.formatters.text,
   });
   columns.push({
     id: 'publishDate',
