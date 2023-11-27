@@ -19,7 +19,7 @@ Include:
 -->
 
 **Included in this Pull Request**:
-- [ ] A documentation for the feature.
+- [ ] Some documentation for the feature.
 - [ ] A test for the bug or feature.
 - [ ] A note to the change log.
 
