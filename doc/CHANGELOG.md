@@ -42,6 +42,7 @@
 - `[Text]` Fixed wrong status warning color. ([#1619](https://github.com/infor-design/enterprise-wc/issues/1619))
 - `[Textarea]` Made sure strings are translated and fixed `character-count`` setting. ([#1598](https://github.com/infor-design/enterprise-wc/issues/1598))
 - `[Tooltip]` Adds a check on the `tooltip` attribute to fix event handling in Angular environments. ([#1625](https://github.com/infor-design/enterprise-wc/issues/1625))
+- `[Trigger Field]` Fixed side by side example. ([#1586](https://github.com/infor-design/enterprise-wc/issues/1586))
 
 ## 1.0.0-beta.16
 
