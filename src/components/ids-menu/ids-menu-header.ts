@@ -23,6 +23,7 @@ export default class IdsMenuHeader extends IdsEventsMixin(IdsElement) {
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute(htmlAttributes.ROLE, 'none');
+    this.#attachEventHandlers();
     if (this.menu) this.decorateForIcon((this.menu as any).hasIcons);
   }
 
@@ -38,6 +39,14 @@ export default class IdsMenuHeader extends IdsEventsMixin(IdsElement) {
    */
   get menu() {
     return this.parentElement;
+  }
+
+  #attachEventHandlers() {
+    const slot = this.container!.querySelector('slot');
+    this.offEvent('slotchange', slot);
+    this.onEvent('slotchange', slot, () => {
+      this.decorateForIcon((this.menu as any).hasIcons);
+    });
   }
 
   template() {
