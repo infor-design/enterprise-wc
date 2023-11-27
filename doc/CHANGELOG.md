@@ -11,7 +11,7 @@
 - `[General]` Added an initial migration guide. ([#1561](https://github.com/infor-design/enterprise-wc/issues/1561))
 - `[Locale]` Added `localeDataPath` to retrieve locale data from an alternate location to the default. ([#1622](https://github.com/infor-design/enterprise-wc/issues/1622))
 - `[Tree]` Added `addNodes` method to dynamically add tree nodes. ([#1517](https://github.com/infor-design/enterprise-wc/issues/1517))
-- `[Tree]` Added `async` loading pattern to dynamically add tree children. ([#1516](https://github.com/infor-design/enterprise-wc/issues/1516))
+- `[Tree]` Added `beforeExpanded` async loading pattern to dynamically add tree children. ([#1516](https://github.com/infor-design/enterprise-wc/issues/1516))
 - `[Tree]` Renamed `useToggleTarget` to `expandTarget`, now available as a setting to toggle tree nodes only when clicking the icon. ([#1528](https://github.com/infor-design/enterprise-wc/issues/1528))
 - `[Tests]` Changed test framework to playwright. ([#1225](https://github.com/infor-design/enterprise-wc/issues/1225))
 
