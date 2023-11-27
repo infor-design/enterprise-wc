@@ -215,10 +215,6 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
   width: 100%;
   height: 100%;
 
-  ids-list-box {
-    max-width: $event-form-input-width - 2;
-  }
-
   ids-list-box-option {
     text-align: left;
   }
