@@ -234,6 +234,7 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
   box-sizing: border-box;
   padding: 12px 20px;
   position: relative;
+  contain: content;
 }
 
 #event-form-actions {
