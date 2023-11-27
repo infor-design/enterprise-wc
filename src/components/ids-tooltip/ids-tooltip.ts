@@ -47,6 +47,7 @@ export default class IdsTooltip extends Base {
   connectedCallback(): void {
     super.connectedCallback();
     this.#updateAria();
+    this.#attachEventHandlers();
   }
 
   /**
