@@ -60,10 +60,11 @@ $image-sizes: (
   position: relative;
 }
 
+:host-context(.disabled),
+:host-context([disabled]),
+:host(.disabled),
 :host([disabled]) {
-  .ids-image {
-    opacity: 0.5;
-  }
+  opacity: var(--ids-list-view-item-opacity-disabled);
 }
 
 .ids-image {

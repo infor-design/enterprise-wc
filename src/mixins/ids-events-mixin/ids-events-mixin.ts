@@ -598,7 +598,7 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
    */
   #attachKeyboardShortcuts() {
     this.onEvent('keyup.shortcuts', this, (event: KeyboardEvent) => {
-      const keyCode = (event.code === ' ') ? 'Space' : event.code;
+      const keyCode = event.code || 'Space';
 
       const shortcuts = {
         ArrowDown: 'down.shortcut',

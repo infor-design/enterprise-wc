@@ -104,9 +104,65 @@ export default class IdsListViewItem extends Base {
   disconnectedCallback() {
     if (this.parentListView?.isConnected) {
       super.disconnectedCallback();
+      this.#detachEventListeners();
       this.removeAttribute?.('slot');
       (this.parentListView as any)?.disconnectedCallback?.();
     }
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
+    if (oldValue === newValue) return;
+    if (name === attributes.ACTIVE) this.#active(stringToBool(newValue));
+    if (name === attributes.CHECKED) this.#checked(stringToBool(newValue));
+    if (name === attributes.DISABLED) this.#disabled(stringToBool(newValue));
+    if (name === attributes.SELECTED) this.#selected(stringToBool(newValue));
+    if (name === attributes.ROW_INDEX) this.#rowIndex(newValue);
+  }
+
+  #active(newValue: boolean) {
+    this.listView?.itemsActive?.forEach((item) => {
+      // deactivate all other list-view-items
+      if (item !== this) item.active = false;
+    });
+
+    if (newValue) this.#onTab();
+  }
+
+  #checked(newValue: boolean) {
+    if (this.selectable && this.selectable !== 'mixed') {
+      this.selected = !!newValue;
+    }
+  }
+
+  #disabled(newValue: boolean) {
+    const disabled = stringToBool(newValue);
+    if (disabled) {
+      this.#detachEventListeners();
+    } else {
+      this.#attachEventListeners();
+    }
+  }
+
+  #selected(newValue: boolean) {
+    if (['single', 'multiple'].includes(this.selectable)) {
+      const checkbox = this.checkbox;
+      if (checkbox) checkbox.checked = newValue;
+    }
+
+    if (this.selectable === 'single') {
+      // deselect all other list-view-items
+      this.listView?.itemsSelected?.forEach((item) => {
+        if (item !== this) item.selected = false;
+      });
+    }
+
+    if (newValue) this.triggerEvent('itemSelect', this.listView, { detail: this.rowData });
+  }
+
+  #rowIndex(newValue: string | number) {
+    const rowIndex = Number(newValue) >= 0 ? Number(newValue) : -1;
+    this.setAttribute('aria-posinset', String(rowIndex + 1));
+    this.setAttribute('index', String(rowIndex));
   }
 
   get checkbox(): IdsCheckbox | undefined {
@@ -200,14 +256,10 @@ export default class IdsListViewItem extends Base {
    * @param {boolean} value true/false
    */
   set active(value: boolean) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.ACTIVE, 'true');
-      this.setAttribute('activated', 'true');
-      this.#onTab();
-    } else {
-      this.removeAttribute(attributes.ACTIVE);
-      this.removeAttribute('activated');
-    }
+    const active = stringToBool(value);
+    this.toggleAttribute(attributes.ACTIVE, active);
+    this.toggleAttribute('activated', active);
+    // if (active) this.#onTab();
   }
 
   /**
@@ -221,13 +273,9 @@ export default class IdsListViewItem extends Base {
    * @param {boolean} value true/false
    */
   set disabled(value: boolean) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.DISABLED, '');
-      this.checkbox?.setAttribute(attributes.DISABLED, 'true');
-    } else {
-      this.removeAttribute(attributes.DISABLED);
-      this.checkbox?.removeAttribute(attributes.DISABLED);
-    }
+    const disabled = stringToBool(value);
+    this.toggleAttribute(attributes.DISABLED, disabled);
+    this.checkbox?.toggleAttribute(attributes.DISABLED, disabled);
   }
 
   /**
@@ -252,13 +300,7 @@ export default class IdsListViewItem extends Base {
    * Set the list-item checked state.
    * @param {boolean} value true/false
    */
-  set checked(value: boolean) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.CHECKED, '');
-    } else {
-      this.removeAttribute(attributes.CHECKED);
-    }
-  }
+  set checked(value: boolean) { this.toggleAttribute(attributes.CHECKED, stringToBool(value)); }
 
   /**
    * Get the list-item selected state.
@@ -271,15 +313,10 @@ export default class IdsListViewItem extends Base {
    * @param {boolean} value true/false
    */
   set selected(value: boolean) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.SELECTED, '');
-      this.setAttribute('aria-selected', '');
-      if (this.selectable === 'mixed') this.setAttribute('hide-selected-color', '');
-    } else {
-      this.removeAttribute(attributes.SELECTED);
-      this.removeAttribute('aria-selected');
-      this.removeAttribute('hide-selected-color');
-    }
+    const selected = stringToBool(value);
+    this.toggleAttribute(attributes.SELECTED, selected);
+    this.toggleAttribute('aria-selected', selected);
+    this.toggleAttribute('hide-selected-color', selected && this.selectable === 'mixed');
   }
 
   #onClick(e?: Event) {
@@ -291,50 +328,52 @@ export default class IdsListViewItem extends Base {
       return;
     }
 
-    this.listView?.itemsActive?.forEach((item) => { item.active = false; });
+    // this.listView?.itemsActive?.forEach((item) => { item.active = false; });
     this.active = true;
 
-    if (!this.selectable) return;
+    if (this.selectable) {
+      if (['single', 'multiple'].includes(this.selectable)) {
+        e?.preventDefault();
+      }
 
-    if (['single', 'multiple'].includes(this.selectable)) {
-      e?.preventDefault();
+      this.selected = !this.selected;
     }
 
-    if (this.selected) {
-      this.#onDeselect();
-    } else {
-      this.#onSelect();
-    }
+    // if (this.selected) {
+    //   this.#onDeselect();
+    // } else {
+    //   this.#onSelect();
+    // }
   }
 
-  #onCheckbox() {
-    this.checked = Boolean(this.checkbox?.checked);
-    if (this.selectable !== 'mixed') {
-      this.selected = this.checked;
-    }
-  }
+  // #onCheckbox() {
+  //   this.checked = Boolean(this.checkbox?.checked);
+  //   if (this.selectable !== 'mixed') {
+  //     this.selected = this.checked;
+  //   }
+  // }
 
-  #onDeselect() {
-    console.log('onDeselect()');
-    this.selected = false;
+  // #onDeselect() {
+  //   console.log('onDeselect()');
+  //   this.selected = false;
 
-    if (['single', 'multiple'].includes(this.selectable)) {
-      const checkbox = this.checkbox;
-      if (checkbox) checkbox.checked = false;
-    }
-  }
+  //   if (['single', 'multiple'].includes(this.selectable)) {
+  //     const checkbox = this.checkbox;
+  //     if (checkbox) checkbox.checked = false;
+  //   }
+  // }
 
-  #onSelect() {
-    console.log('onSelect()');
-    this.selected = true;
+  // #onSelect() {
+  //   console.log('onSelect()');
+  //   this.selected = true;
 
-    if (['single', 'multiple'].includes(this.selectable)) {
-      const checkbox = this.checkbox;
-      if (checkbox) checkbox.checked = true;
-    }
+  //   if (['single', 'multiple'].includes(this.selectable)) {
+  //     const checkbox = this.checkbox;
+  //     if (checkbox) checkbox.checked = true;
+  //   }
 
-    this.triggerEvent('itemSelect', this.listView, { detail: this.rowData });
-  }
+  //   this.triggerEvent('itemSelect', this.listView, { detail: this.rowData });
+  // }
 
   #onTab() {
     console.log('onTab()');
@@ -350,20 +389,27 @@ export default class IdsListViewItem extends Base {
   }
 
   #attachEventListeners() {
-    this.offEvent('blur.listview-item', this);
+    this.#detachEventListeners();
+
     this.onEvent('blur.listview-item', this, () => { this.active = false; });
 
-    this.offEvent('click.listview-item', this);
     this.onEvent('click.listview-item', this, (e) => this.#onClick(e));
 
+    this.onEvent('change.listview-item', this.checkbox, () => {
+      this.checked = Boolean(this.checkbox?.checked);
+    });
+  }
+
+  #detachEventListeners() {
+    this.offEvent('blur.listview-item', this);
+    this.offEvent('click.listview-item', this);
     this.offEvent('change.listview-item', this.checkbox);
-    this.onEvent('change.listview-item', this.checkbox, (e) => this.#onCheckbox(e));
   }
 
   #setAttributes() {
     const listView = this.listView;
     const rowData = this.rowData;
-    const rowIndex = this.rowIndex;
+    // const rowIndex = this.rowIndex;
 
     if (listView.sortable) {
       this.classList.add('sortable');
@@ -381,7 +427,7 @@ export default class IdsListViewItem extends Base {
     const size = listView?.data?.length || listView?.itemsFiltered?.length;
     this.setAttribute('role', 'option');
     this.setAttribute('aria-setsize', String(size));
-    this.setAttribute('aria-posinset', String(rowIndex + 1));
-    this.setAttribute('index', String(rowIndex));
+    // this.setAttribute('aria-posinset', String(rowIndex + 1));
+    // this.setAttribute('index', String(rowIndex));
   }
 }
