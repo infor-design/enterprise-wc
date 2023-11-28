@@ -1,12 +1,18 @@
 import { attributes } from '../../core/ids-attributes';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
-import { getClosest, checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { IdsInputInterface } from '../../components/ids-input/ids-input-attributes';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+
 import '../../components/ids-tooltip/ids-tooltip';
 import type IdsTooltip from '../../components/ids-tooltip/ids-tooltip';
 
-type Constraints = IdsConstructor<EventsMixinInterface>;
+interface TooltipMixinInterface {
+  canTooltipShow?(tooltipEl: IdsTooltip | null, tooltipContent: string): boolean;
+  onTooltipTargetDetection?(tooltipEl: IdsTooltip | null): HTMLElement | SVGElement;
+}
+
+type Constraints = IdsConstructor<EventsMixinInterface & TooltipMixinInterface>;
+
 /**
 /**
  * A mixin that adds tooltip functionality to components
@@ -38,30 +44,43 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
     this.offEvent('hoverend.tooltipmixin');
     if (!this.tooltip) return;
 
-    this.onEvent('hoverend.tooltipmixin', this, () => {
+    this.onEvent('hoverend.tooltipmixin', this, (e: CustomEvent) => {
+      e.stopPropagation();
       this.showTooltip();
-    });
+    }, { delay: 500, bubbles: true });
+  }
+
+  /**
+   * @returns {IdsTooltip | null} reference to an established IdsTooltip
+   */
+  get tooltipEl(): IdsTooltip | null {
+    return this.getTooltipContainer()?.querySelector<IdsTooltip>('#mixin-tooltip');
   }
 
   /**
    * Return the correct target element
    * @private
-   * @returns {HTMLElement} The correct target element
+   * @returns {HTMLElement | SVGElement} The correct target element
    */
-  get toolTipTarget(): any {
-    const fieldContainerElem = (this as IdsInputInterface).fieldContainer;
+  get toolTipTarget() {
+    let target: HTMLElement | SVGElement = this;
 
-    // `this.fieldContainer` targets any IDS Component that extends IdsInput
-    if (fieldContainerElem instanceof HTMLElement || fieldContainerElem instanceof SVGElement) {
-      return fieldContainerElem;
+    if (typeof this.onTooltipTargetDetection === 'function') {
+      target = this.onTooltipTargetDetection(this.tooltipEl);
     }
 
-    const triggerField = this.shadowRoot?.querySelector<any>('ids-trigger-field');
-    if (triggerField?.fieldContainer instanceof HTMLElement || triggerField?.fieldContainer instanceof SVGElement) {
-      return triggerField.fieldContainer;
-    }
+    return target;
+  }
 
-    return this;
+  /**
+   * @returns {HTMLElement} reference to the correct container element in which to find the mixin tooltip.
+   */
+  getTooltipContainer() {
+    let container = document.querySelector('ids-container');
+    if (!container) {
+      container = document.body;
+    }
+    return container;
   }
 
   /**
@@ -69,35 +88,40 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
    */
   showTooltip() {
     // For ellipsis tooltip check if overflowing and only show if it is
-    if (this.nodeName === 'IDS-TEXT' && this.tooltip === 'true' && this.container) {
-      if (!checkOverflow(this.container) && !checkOverflow(this.parentElement)) return;
+    if (typeof this.canTooltipShow === 'function') {
+      if (!this.canTooltipShow(this.tooltipEl, this.tooltip)) return;
     }
-    // Append an IDS Tooltip and show it
-    const tooltip: IdsTooltip = document.createElement('ids-tooltip') as IdsTooltip;
-    let container = document.querySelector('ids-container');
-    if (!container) {
-      container = document.body;
+
+    // Locate the tooltip's container
+    const container = this.getTooltipContainer();
+
+    // Generate a tooltip if needed, or query an existing one
+    let tooltip = container.querySelector<IdsTooltip>('#mixin-tooltip');
+    if (!tooltip) {
+      tooltip = document.createElement('ids-tooltip') as IdsTooltip;
+      tooltip.id = 'mixin-tooltip';
+      container?.appendChild(tooltip);
     }
-    container?.appendChild(tooltip);
 
     if (!tooltip.state) {
       tooltip.state = {};
     }
-    tooltip.state.noAria = true;
     tooltip.target = this.toolTipTarget;
+    tooltip.state.noAria = true;
 
     // Handle Ellipsis Text if tooltip="true"
     tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;
 
     // Show it
     tooltip.visible = true;
+    tooltip.popup?.place();
 
     if (getClosest(this, 'ids-container')?.getAttribute('dir') === 'rtl') tooltip.popup?.setAttribute('dir', 'rtl');
     if (this.beforeTooltipShow) this.beforeTooltipShow(tooltip);
 
     // Remove it when closed
     tooltip.onEvent('hide.tooltipmixin', tooltip, () => {
-      tooltip.remove();
+      document.querySelector('#mixin-tooltip')?.remove();
     });
   }
 

@@ -1,5 +1,6 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
+import { checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
@@ -463,5 +464,12 @@ export default class IdsText extends Base {
     }
 
     this.textContent = this.localeAPI.translate(translationKey);
+  }
+
+  canTooltipShow() {
+    if (this.tooltip === 'true' && this.container) {
+      return ((checkOverflow(this.container) || checkOverflow(this.parentElement))) || false;
+    }
+    return false;
   }
 }

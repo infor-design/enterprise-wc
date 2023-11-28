@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsPickerPopup from '../ids-picker-popup/ids-picker-popup';
@@ -10,8 +11,10 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
 import { IdsDropdownColorVariants } from './ids-dropdown-common';
 
+import type IdsDropdown from './ids-dropdown';
 import type IdsListBox from '../ids-list-box/ids-list-box';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
+import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 
 import styles from './ids-dropdown-list.scss';
 
@@ -40,6 +43,8 @@ export default class IdsDropdownList extends Base {
   isMultiSelect?: boolean;
 
   listBox?: IdsListBox | null;
+
+  lastHovered: IdsListBoxOption | null = null;
 
   constructor() {
     super();
@@ -80,10 +85,25 @@ export default class IdsDropdownList extends Base {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.listBox = null;
+    this.lastHovered = null;
+  }
+
+  /**
+   * @returns {IdsDropdown} reference to the IdsDropdown element this list should be attached to
+   */
+  get dropdownEl(): IdsDropdown {
+    let target: IdsDropdown;
+    if (this.target?.tagName === 'IDS-DROPDOWN') {
+      target = (this.target as IdsDropdown);
+    } else {
+      target = ((this.parentElement!.parentNode! as ShadowRoot).host! as IdsDropdown);
+    }
+    return target;
   }
 
   onHide() {
     this.setAriaOnMenuClose();
+    this.lastHovered = null;
   }
 
   onShow() {
@@ -116,6 +136,22 @@ export default class IdsDropdownList extends Base {
         this.triggerSelectedEvent();
       }
     });
+
+    if (this.dropdownEl?.tooltip) {
+      this.offEvent('mouseover.dropdown-list-box');
+      this.onEvent('mouseover.dropdown-list-box', this.listBox, (e: any) => {
+        let target: HTMLElement | null = (e.target as HTMLElement);
+
+        if (target && target.nodeName !== 'IDS-LIST-BOX-OPTION') {
+          target = target.closest('ids-list-box-option');
+        }
+
+        if (target) {
+          this.lastHovered = (target as IdsListBoxOption);
+          this.dropdownEl?.selectTooltip(this.lastHovered);
+        }
+      });
+    }
   }
 
   /**
@@ -533,5 +569,12 @@ export default class IdsDropdownList extends Base {
     const value = this.selected?.getAttribute(attributes.VALUE) || '';
     this.value = value;
     this.triggerSelectedEvent();
+  }
+
+  canTooltipShow(tooltipEl: IdsTooltip, tooltipContent: string) {
+    if (tooltipContent && this.lastHovered) {
+      return checkOverflow(this.lastHovered) || false;
+    }
+    return false;
   }
 }
