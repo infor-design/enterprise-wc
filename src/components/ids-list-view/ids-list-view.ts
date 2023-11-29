@@ -677,7 +677,7 @@ export default class IdsListView extends Base {
     const selected = data.itemSelected ? ' selected' : '';
     const sortable = this.sortable ? ' class="sortable"' : '';
 
-    const wrappedInnerHTML = `<div part="list-item" ${disabled}${sortable}>${innerHTML}</div>`;
+    const wrappedInnerHTML = `<div ${disabled}${sortable}>${innerHTML}</div>`;
     // const wrappedInnerHTML = `<div part="list-item" ${activated}${disabled}${selected}${sortable}>${innerHTML}</div>`;
 
     if (!sortable) return wrappedInnerHTML;

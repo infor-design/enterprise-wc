@@ -120,12 +120,12 @@ export default class IdsListViewItem extends Base {
   }
 
   #active(newValue: boolean) {
-    this.listView?.itemsActive?.forEach((item) => {
-      // deactivate all other list-view-items
-      if (item !== this) item.active = false;
-    });
-
-    if (newValue) this.#onTab();
+    if (newValue) {
+      this.listView?.itemsActive?.forEach((item) => {
+        if (item !== this) item.active = false; // deactivate all other list-view-items
+      });
+      this.#onTab();
+    }
   }
 
   #checked(newValue: boolean) {
@@ -338,42 +338,7 @@ export default class IdsListViewItem extends Base {
 
       this.selected = !this.selected;
     }
-
-    // if (this.selected) {
-    //   this.#onDeselect();
-    // } else {
-    //   this.#onSelect();
-    // }
   }
-
-  // #onCheckbox() {
-  //   this.checked = Boolean(this.checkbox?.checked);
-  //   if (this.selectable !== 'mixed') {
-  //     this.selected = this.checked;
-  //   }
-  // }
-
-  // #onDeselect() {
-  //   console.log('onDeselect()');
-  //   this.selected = false;
-
-  //   if (['single', 'multiple'].includes(this.selectable)) {
-  //     const checkbox = this.checkbox;
-  //     if (checkbox) checkbox.checked = false;
-  //   }
-  // }
-
-  // #onSelect() {
-  //   console.log('onSelect()');
-  //   this.selected = true;
-
-  //   if (['single', 'multiple'].includes(this.selectable)) {
-  //     const checkbox = this.checkbox;
-  //     if (checkbox) checkbox.checked = true;
-  //   }
-
-  //   this.triggerEvent('itemSelect', this.listView, { detail: this.rowData });
-  // }
 
   #onTab() {
     console.log('onTab()');

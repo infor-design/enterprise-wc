@@ -4,6 +4,7 @@
   cursor: var(--ids-swappable-item-cursor-default);
   display: block;
   transition: height 0.4s ease, padding 0.4s ease;
+  overflow: hidden;
 }
 
 :host(:hover) {
@@ -17,6 +18,13 @@
     transform: translate(5px, -47%);
     font-size: var(--ids-swappable-item-font-size-hover);
     content: var(--ids-swappable-item-content-hover);
+
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    height: 70%;
+    width: 99%;
+    overflow: hidden;
   }
 }
 
@@ -76,3 +84,18 @@
 :host(.slotted-ids-tab:not(.orientation-vertical)) {
   margin-inline-start: var(--ids-space-30);
 }
+
+
+// :host-context(ids-list-view)
+// :host-context(.ids-list-view) {
+//   :focus,
+//   :focus-within,
+//   :focus-visible,
+//   :hover {
+//     display: block;
+//     border-color: var(--ids-list-view-item-color-border-focus);
+//     box-shadow: var(--ids-list-view-item-shadow-focus);
+//     outline: var(--ids-list-view-item-outline-focus);
+//     overflow: visible;
+//   }
+// }
