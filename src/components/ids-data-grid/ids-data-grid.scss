@@ -375,5 +375,6 @@ table.ids-data-grid {
 
   .ids-data-grid {
     min-height: var(--ids-data-grid-height-min);
+    height: unset !important;
   }
 }

@@ -112,7 +112,6 @@ export function showEmptyMessage(this: IdsDataGrid): void {
   // Virtual scroll
   if (this.virtualScroll) {
     vs?.setAttribute('hidden', '');
-    this.container?.style.setProperty('height', '');
   }
 
   this.wrapper?.classList.add('has-empty-message');
