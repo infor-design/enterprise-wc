@@ -9,7 +9,6 @@ import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin
 import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
 import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
-import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
 import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
@@ -30,15 +29,13 @@ type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | '
 const VALID_POSITIONS = ['left', 'right'];
 
 const Base = IdsXssMixin(
-  IdsLocaleMixin(
-    IdsBreakpointMixin(
-      IdsFocusCaptureMixin(
-        IdsKeyboardMixin(
-          IdsPopupInteractionsMixin(
-            IdsPopupOpenEventsMixin(
-              IdsEventsMixin(
-                IdsElement
-              )
+  IdsBreakpointMixin(
+    IdsFocusCaptureMixin(
+      IdsKeyboardMixin(
+        IdsPopupInteractionsMixin(
+          IdsPopupOpenEventsMixin(
+            IdsEventsMixin(
+              IdsElement
             )
           )
         )
@@ -56,7 +53,6 @@ const Base = IdsXssMixin(
  * @mixes IdsKeyboardMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsPopupOpenEventsMixin
- * @mixes IdsLocaleMixin
  * @mixes IdsXssMixin
  * @part popup - the popup outer element
  * @part overlay - the inner overlay element
