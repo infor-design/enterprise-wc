@@ -1,0 +1,9 @@
+<ids-hidden id="hidden-1" hide-up="md" hidden="">
+      <ids-card>
+        <div slot="card-header">
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card Title One</ids-text>
+        </div>
+        <div slot="card-content">
+        </div>
+      </ids-card>
+    </ids-hidden>

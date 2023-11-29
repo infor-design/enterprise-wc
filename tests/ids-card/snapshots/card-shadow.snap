@@ -1,0 +1,18 @@
+
+      <div class="ids-card hide-focus" part="card">
+        <div class="ids-card-body">
+          <div class="ids-card-header" part="header">
+            <slot name="card-header"></slot>
+          </div>
+          <div class="ids-card-content  " part="content">
+            <slot name="card-content"></slot>
+          </div>
+          <div class="ids-card-checkbox hidden">
+            <ids-checkbox></ids-checkbox>
+          </div>
+          <div class="ids-card-footer" part="footer">
+            <slot name="card-footer"></slot>
+          </div>
+        </div>
+      </div>
+    

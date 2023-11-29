@@ -1,0 +1,5 @@
+<ids-draggable id="no-axis" aria-valuenow="0">
+        <div class="ids-draggable-demo-box">
+          <ids-text>no axis</ids-text>
+        </div>
+      </ids-draggable>

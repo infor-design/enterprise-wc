@@ -21,4 +21,4 @@
 - [x] Enable/Disable standard HTML colorpicker independently of other colorpicker parts using a boolean attribute
 - [ ] Click the swatch to select / option for the "advanced" picker
 - [ ] Add side by side example
-- [x] Add keyboard/jest tests
+- [x] Add tests

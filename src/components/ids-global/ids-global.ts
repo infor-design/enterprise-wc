@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /**
  * IDS Global Functions / Instances / And Utils Exposed to the end user.
  */

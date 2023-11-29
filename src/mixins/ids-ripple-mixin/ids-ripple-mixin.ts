@@ -97,22 +97,22 @@ const IdsRippleMixin = <T extends Constraints>(superclass: T) => class IdsRipple
     let y;
     let preceededByTouchstart = false;
 
-    this.onEvent('click.ripple', this.rippleTarget, (e: MouseEvent) => {
+    this.onEvent('click.ripple', this.rippleTarget, async (e: MouseEvent) => {
       if (preceededByTouchstart) {
         preceededByTouchstart = false;
         return;
       }
       x = e.clientX !== 0 ? e.clientX : undefined;
       y = e.clientY !== 0 ? e.clientY : undefined;
-      this.createRipple(x, y);
+      await this.createRipple(x, y);
     });
 
-    this.onEvent('touchstart.ripple', this.rippleTarget, (e: TouchEvent) => {
+    this.onEvent('touchstart.ripple', this.rippleTarget, async (e: TouchEvent) => {
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
         x = touch.clientX !== 0 ? touch.clientX : undefined;
         y = touch.clientY !== 0 ? touch.clientY : undefined;
-        this.createRipple(x, y);
+        await this.createRipple(x, y);
         preceededByTouchstart = true;
       }
     }, { passive: true });

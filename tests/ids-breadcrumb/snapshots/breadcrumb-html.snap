@@ -1,0 +1,6 @@
+<ids-breadcrumb role="list">
+        <ids-hyperlink font-size="14" text-decoration="hover" href="#" role="link" color-variant="breadcrumb">First Item</ids-hyperlink>
+        <ids-hyperlink font-size="14" text-decoration="hover" href="#" role="link" color-variant="breadcrumb">Second Item</ids-hyperlink>
+        <ids-hyperlink font-size="14" text-decoration="hover" disabled="" role="link" color-variant="breadcrumb">Disabled Item</ids-hyperlink>
+        <ids-hyperlink font-size="14" text-decoration="hover" role="link" color-variant="breadcrumb" font-weight="bold">Current Item</ids-hyperlink>
+      </ids-breadcrumb>

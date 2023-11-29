@@ -1,0 +1,6 @@
+<ids-tabs role="tablist" value="contracts" orientation="horizontal">
+        <ids-tab value="contracts" role="tab" aria-selected="true" tabindex="0" aria-label="Contracts" selected="">Contracts</ids-tab>
+        <ids-tab value="opportunities" role="tab" aria-selected="false" tabindex="-1" aria-label="Opportunities">Opportunities</ids-tab>
+        <ids-tab value="attachments" disabled="" role="tab" aria-selected="false" tabindex="-1" aria-label="Attachments">Attachments</ids-tab>
+        <ids-tab value="notes" role="tab" aria-selected="false" tabindex="-1" aria-label="Notes">Notes</ids-tab>
+      </ids-tabs>

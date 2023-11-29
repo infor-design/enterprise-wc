@@ -1,0 +1,1 @@
+<ids-toggle-button id="test-toggle-button" icon-on="star-filled" icon-off="star-outlined" text-off="Toggle Button (Off)" text-on="Toggle Button (On)" icon="star-outlined"><ids-icon icon="star-outlined" class="ids-icon"></ids-icon><span>Toggle Button (Off)</span></ids-toggle-button>

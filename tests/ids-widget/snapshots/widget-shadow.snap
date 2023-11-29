@@ -1,0 +1,18 @@
+
+      <div class="ids-widget" part="widget">
+        <div class="ids-widget-body">
+          <div class="ids-widget-header" part="header">
+            <slot name="widget-header"></slot>
+          </div>
+          <div class="ids-widget-search" part="search">
+            <slot name="widget-search"></slot>
+          </div>
+          <div class="ids-widget-content " part="content">
+            <slot name="widget-content"></slot>
+          </div>
+          <div class="ids-widget-footer" part="footer">
+            <slot name="widget-footer"></slot>
+          </div>
+        </div>
+      </div>
+    

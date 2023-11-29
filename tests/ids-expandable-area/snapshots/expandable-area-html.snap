@@ -1,0 +1,11 @@
+<ids-expandable-area>
+          <ids-text slot="header">Procurement</ids-text>
+          <ids-text slot="pane">
+            Ubiquitous out-of-the-box, scalable; communities disintermediate beta-test, enable utilize markets dynamic
+            infomediaries virtual data-driven synergistic aggregate infrastructures, "cross-platform, feeds
+            bleeding-edge tagclouds." Platforms extend interactive B2C benchmark proactive, embrace e-markets,
+            transition generate peer-to-peer.
+          </ids-text>
+          <ids-hyperlink slot="expander-default" hitbox="true" role="link">Show More</ids-hyperlink>
+          <ids-hyperlink slot="expander-expanded" hitbox="true" role="link">Show Less</ids-hyperlink>
+        </ids-expandable-area>

@@ -116,15 +116,6 @@ sam logs -n WCDemosLambdaFunction --stack-name sam-app --tail
 
 You can find more information and examples about filtering Lambda function logs in the [AWS SAM CLI documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
 
-## Unit tests
-
-Tests are defined in the `__tests__` folder in this project. Use `npm` to install the [Jest test framework](https://jestjs.io/) and run unit tests.
-
-```bash
-npm install
-npm run test
-```
-
 ## Cleanup
 
 To delete the application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:

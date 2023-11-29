@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`IdsActionSheet Component renders correctly 1`] = `"<ids-action-sheet cancel-btn-text="Cancel"></ids-action-sheet>"`;
