@@ -380,13 +380,8 @@ export default class IdsListViewItem extends Base {
   #setAttributes() {
     const listView = this.listView;
     const rowData = this.rowData;
-    // const rowIndex = this.rowIndex;
 
-    if (listView.sortable) {
-      this.classList.add('sortable');
-    } else {
-      this.classList.remove('sortable');
-    }
+    this.classList.toggle('sortable', listView.sortable);
 
     this.active = !!rowData.itemActivated;
     this.disabled = !!rowData.disabled;
@@ -398,7 +393,5 @@ export default class IdsListViewItem extends Base {
     const size = listView?.data?.length || listView?.itemsFiltered?.length;
     this.setAttribute('role', 'option');
     this.setAttribute('aria-setsize', String(size));
-    // this.setAttribute('aria-posinset', String(rowIndex + 1));
-    // this.setAttribute('index', String(rowIndex));
   }
 }
