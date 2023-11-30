@@ -364,7 +364,7 @@ export default class IdsListViewItem extends Base {
 
     this.onEvent('blur.listview-item', this, () => { this.active = false; });
 
-    this.onEvent('mouseup.listview-item', this, (e) => this.#onClick(e));
+    this.onEvent('click.listview-item', this, (e) => this.#onClick(e));
 
     this.onEvent('change.listview-item', this.checkbox, () => {
       this.checked = Boolean(this.checkbox?.checked);
