@@ -11,6 +11,13 @@
   }
 }
 
+:host([searchable]),
+.has-searchfield {
+  .ids-list-view-body:first-child {
+    margin-block-start: 8px;
+  }
+}
+
 .ids-list-view {
   height: var(--ids-list-view-height);
   overflow: auto;
@@ -32,17 +39,6 @@
       border-top-color: var(--ids-list-view-item-color-border-top);
       contain: content;
       list-style-type: none;
-    }
-  }
-
-  &.has-searchfield .ids-list-view-body {
-    li,
-    ids-list-view-item,
-    ::slotted(li),
-    ::slotted(ids-list-view-item) {
-      &:first-child {
-        margin-block-start: 8px;
-      }
     }
   }
 
