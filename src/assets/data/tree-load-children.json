@@ -1,0 +1,24 @@
+[
+  {
+    "id": "home",
+    "text": "Home"
+  },
+  {
+    "id": "pone",
+    "text": "Parent one",
+    "children": [],
+    "expanded": "false"
+  },
+  {
+    "id": "ptwo",
+    "text": "Parent two",
+    "children": [],
+    "expanded": "false"
+  },
+  {
+    "id": "pthree",
+    "text": "Parent three",
+    "children": [],
+    "expanded": "false"
+  }
+]

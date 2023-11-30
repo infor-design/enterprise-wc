@@ -63,4 +63,21 @@ test.describe('IdsTree tests', () => {
       await percySnapshot(page, 'ids-tree-light');
     });
   });
+
+  test.describe('tree functionality tests', () => {
+    test('should be able to expand/collapse tree nodes', async ({ page }) => {
+      expect(await page.locator('ids-tree-node[expanded="false"]').count()).toBe(2);
+      await page.getByText('Icons').click();
+      expect(await page.locator('ids-tree-node[expanded="false"]').count()).toBe(1);
+    });
+  });
+
+  test.describe('event tests', () => {
+    test('should be able to load children', async ({ page }) => {
+      await page.goto('/ids-tree/load-children.html');
+
+      await page.getByText('Parent one').click();
+      await expect(page.getByText('New dynamic node')).toBeVisible();
+    });
+  });
 });
