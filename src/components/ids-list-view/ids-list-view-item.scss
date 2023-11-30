@@ -11,19 +11,6 @@ li,
   cursor: var(--ids-cursor-pointer);
 }
 
-li:focus,
-li:focus-visible,
-li:focus-within,
-:host(:focus),
-:host(:focus-visible),
-:host(:focus-within) {
-  display: block;
-  border-color: var(--ids-list-view-item-color-border-focus);
-  box-shadow: var(--ids-list-view-item-shadow-focus);
-  outline: var(--ids-list-view-item-outline-focus);
-  background: transparent !important;
-}
-
 li,
 :host {
   margin: 0;
@@ -74,6 +61,18 @@ li:hover,
   background-color: var(--ids-list-view-color-background-selected);
 }
 
+li:focus,
+li:focus-visible,
+li:focus-within,
+:host(:focus),
+:host(:focus-visible),
+:host(:focus-within) {
+  display: block;
+  border-color: var(--ids-list-view-item-color-border-focus);
+  box-shadow: var(--ids-list-view-item-shadow-focus);
+  outline: var(--ids-list-view-item-outline-focus);
+}
+
 li.disabled,
 li[disabled],
 .disabled,
@@ -109,20 +108,4 @@ li[disabled],
 :host-context(ids-swappable-item) {
   cursor: inherit;
   display: block;
-}
-
-.sortable,
-[sortable],
-.sortable li.active,
-[sortable] li[active],
-.sortable :host(.active),
-[sortable] :host(.active),
-.sortable :host(:hover),
-[sortable] :host(:hover),
-:host-context(.sortable),
-:host-context([sortable]),
-:host-context(ids-list-view[sortable]),
-:host-context(ids-swappable),
-:host-context(ids-swappable-item) {
-  background: transparent;
 }

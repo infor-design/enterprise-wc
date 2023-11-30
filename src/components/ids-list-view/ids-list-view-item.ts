@@ -93,7 +93,7 @@ export default class IdsListViewItem extends Base {
     super.connectedCallback();
     this.#parentListView = this.parentElement;
 
-    this.onEvent('enter.shortcut', this, () => { console.log('pressed enter'); });
+    // this.onEvent('enter.shortcut', this, () => { console.log('pressed enter'); });
     this.#attachEventListeners();
     this.#setAttributes();
   }
@@ -294,7 +294,7 @@ export default class IdsListViewItem extends Base {
    * Is this list-item sortable
    * @returns {string} either single, multiple, mixed or empty-string
    */
-  get sortable(): string { return String(this.listView?.sortable ?? ''); }
+  get sortable(): boolean { return stringToBool(this.listView?.sortable ?? ''); }
 
   /**
    * Get the list-item checked state.
@@ -326,7 +326,6 @@ export default class IdsListViewItem extends Base {
   }
 
   #onClick(e?: Event) {
-    console.log('onClick()');
     if (this.disabled) {
       e?.preventDefault();
       e?.stopPropagation();
@@ -349,7 +348,6 @@ export default class IdsListViewItem extends Base {
   }
 
   #onTab() {
-    console.log('onTab()');
     this.listView?.itemsTabbable?.forEach((item) => {
       item.tabIndex = -1;
       item.setAttribute('tabindex', '-1');
