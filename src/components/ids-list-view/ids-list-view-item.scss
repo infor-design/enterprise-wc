@@ -21,6 +21,7 @@ li:focus-within,
   border-color: var(--ids-list-view-item-color-border-focus);
   box-shadow: var(--ids-list-view-item-shadow-focus);
   outline: var(--ids-list-view-item-outline-focus);
+  background: transparent !important;
 }
 
 li,
@@ -95,45 +96,33 @@ li[disabled],
   }
 }
 
-li.sortable,
-li[sortable],
+.sortable li,
+[sortable] li,
 .sortable,
 [sortable],
-:host(.sortable),
-:host([sortable]),
+.sortable :host,
+[sortable] :host,
 :host-context(.sortable),
 :host-context([sortable]),
 :host-context(ids-list-view[sortable]),
 :host-context(ids-swappable),
 :host-context(ids-swappable-item) {
-  --ids-list-view-color-background-selected: transparent;
-  background: transparent;
   cursor: inherit;
   display: block;
-  
-  // border: 1px solid transparent;
-  // overflow: hidden;
 }
 
-
-// ids-swappable-item {
-//   // --ids-list-view-color-background-selected: transparent;
-//   // background: transparent;
-//   // display: block;
-
-//   &:focus,
-//   &:focus-within,
-//   &:focus-visible,
-//   &:hover {
-//     display: block;
-//     border-color: var(--ids-list-view-item-color-border-focus);
-//     box-shadow: var(--ids-list-view-item-shadow-focus);
-//     outline: var(--ids-list-view-item-outline-focus);
-//     overflow: visible;
-//   }
-  
-//   // border: none;
-//   // cursor: inherit;
-//   // overflow: hidden;
-
-// }
+.sortable,
+[sortable],
+.sortable li.active,
+[sortable] li[active],
+.sortable :host(.active),
+[sortable] :host(.active),
+.sortable :host(:hover),
+[sortable] :host(:hover),
+:host-context(.sortable),
+:host-context([sortable]),
+:host-context(ids-list-view[sortable]),
+:host-context(ids-swappable),
+:host-context(ids-swappable-item) {
+  background: transparent;
+}

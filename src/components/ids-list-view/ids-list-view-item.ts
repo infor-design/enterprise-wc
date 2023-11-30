@@ -291,6 +291,12 @@ export default class IdsListViewItem extends Base {
   get selectable(): string { return String(this.listView?.selectable ?? ''); }
 
   /**
+   * Is this list-item sortable
+   * @returns {string} either single, multiple, mixed or empty-string
+   */
+  get sortable(): string { return String(this.listView?.sortable ?? ''); }
+
+  /**
    * Get the list-item checked state.
    * @returns {boolean} true/false
    */
@@ -331,12 +337,14 @@ export default class IdsListViewItem extends Base {
     // this.listView?.itemsActive?.forEach((item) => { item.active = false; });
     this.active = true;
 
-    if (this.selectable) {
-      if (['single', 'multiple'].includes(this.selectable)) {
+    const selectable = this.selectable;
+
+    if (selectable) {
+      if (['single', 'multiple'].includes(selectable)) {
         e?.preventDefault();
       }
 
-      this.selected = !this.selected;
+      this.selected = this.sortable ? true : !this.selected;
     }
   }
 
@@ -358,7 +366,7 @@ export default class IdsListViewItem extends Base {
 
     this.onEvent('blur.listview-item', this, () => { this.active = false; });
 
-    this.onEvent('click.listview-item', this, (e) => this.#onClick(e));
+    this.onEvent('mouseup.listview-item', this, (e) => this.#onClick(e));
 
     this.onEvent('change.listview-item', this.checkbox, () => {
       this.checked = Boolean(this.checkbox?.checked);
