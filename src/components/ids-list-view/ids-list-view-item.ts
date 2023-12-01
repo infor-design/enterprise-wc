@@ -10,8 +10,6 @@ import styles from './ids-list-view-item.scss';
 import type IdsListView from './ids-list-view';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
-type IdsListViewVetoEvents = 'beforeitemactivated' | 'beforeitemdeactivated' | 'beforeselected' | 'beforedeselected';
-
 const Base = IdsEventsMixin(
   IdsElement
 );
@@ -43,6 +41,7 @@ export default class IdsListViewItem extends Base {
     return this.data[this.rowIndex] ?? {
       disabled: this.disabled,
       itemActivated: this.itemActivated,
+      itemChecked: this.itemChecked,
       itemSelected: this.itemSelected,
     };
   }
@@ -122,6 +121,8 @@ export default class IdsListViewItem extends Base {
   }
 
   #active(newValue: boolean) {
+    this.rowData.itemActivated = newValue;
+
     if (newValue) {
       this.listView?.itemsActive?.forEach((item) => {
         if (item !== this) item.active = false; // deactivate all other list-view-items
@@ -131,6 +132,8 @@ export default class IdsListViewItem extends Base {
   }
 
   #checked(newValue: boolean) {
+    this.rowData.itemChecked = newValue;
+
     const checkbox = this.checkbox;
     if (checkbox) checkbox.checked = newValue;
 
@@ -140,7 +143,7 @@ export default class IdsListViewItem extends Base {
   }
 
   #disabled(newValue: boolean) {
-    this.rowData.itemActivated = newValue;
+    this.rowData.disabled = newValue;
 
     if (newValue) {
       this.#detachEventListeners();
@@ -150,6 +153,8 @@ export default class IdsListViewItem extends Base {
   }
 
   #selected(newValue: boolean) {
+    this.rowData.itemSelected = newValue;
+
     if (['single', 'multiple'].includes(this.selectable)) {
       const checkbox = this.checkbox;
       if (checkbox) checkbox.checked = newValue;
@@ -161,6 +166,8 @@ export default class IdsListViewItem extends Base {
         if (item !== this) item.selected = false;
       });
     }
+
+    this.#trigger(newValue ? 'selected' : 'deselected');
 
     if (newValue) this.triggerEvent('itemSelect', this.listView, { detail: this.rowData });
 
@@ -277,6 +284,7 @@ export default class IdsListViewItem extends Base {
     const newValue = stringToBool(value);
     const oldValue = stringToBool(this.active);
     if (this.disabled || newValue === oldValue) return;
+    if (newValue === false && this.listView?.suppressDeactivation) return;
 
     const allowed = this.#veto(newValue ? 'beforeitemactivated' : 'beforeitemdeactivated');
     const active = allowed && newValue;
@@ -323,6 +331,12 @@ export default class IdsListViewItem extends Base {
   get sortable(): boolean { return stringToBool(this.listView?.sortable ?? ''); }
 
   /**
+   * Wrapper function that adds interface to match dataset interface.
+   * @returns {boolean} true/false
+   */
+  get itemChecked(): boolean { return this.checked; }
+
+  /**
    * Get the list-item checked state.
    * @returns {boolean} true/false
    */
@@ -336,6 +350,7 @@ export default class IdsListViewItem extends Base {
     const newValue = stringToBool(value);
     const oldValue = stringToBool(this.checked);
     if (this.disabled || newValue === oldValue) return;
+    if (newValue === false && this.listView?.suppressDeselection) return;
 
     const allowed = this.#veto(newValue ? 'beforeselected' : 'beforedeselected');
     this.toggleAttribute(attributes.CHECKED, allowed && newValue);
@@ -355,6 +370,7 @@ export default class IdsListViewItem extends Base {
     const newValue = stringToBool(value);
     const oldValue = stringToBool(this.selected);
     if (this.disabled || newValue === oldValue) return;
+    if (newValue === false && this.listView?.suppressDeselection) return;
 
     const allowed = this.#veto(newValue ? 'beforeselected' : 'beforedeselected');
     const selected = allowed && newValue;
@@ -404,6 +420,17 @@ export default class IdsListViewItem extends Base {
 
     this.onEvent('click.listview-item', this, (e) => this.#onClick(e));
 
+    this.onEvent('keyup.listview-selection', this, (e: KeyboardEvent) => {
+      const keyCode = e.code || 'Space';
+      if (/^(Space|Enter)$/g.test(keyCode)) {
+        if (this.selectable === 'mixed') {
+          this.checked = !this.checked;
+        } else {
+          this.#onClick(e);
+        }
+      }
+    });
+
     this.onEvent('click.listview-checkbox-veto', this.checkbox, (evt) => {
       const allowed = this.#veto(this.checkbox?.checked ? 'beforedeselected' : 'beforeselected');
 
@@ -421,6 +448,7 @@ export default class IdsListViewItem extends Base {
   #detachEventListeners() {
     this.offEvent('blur.listview-item');
     this.offEvent('click.listview-item');
+    this.offEvent('keyup.listview-selection');
     this.offEvent('click.listview-checkbox-veto');
     this.offEvent('change.listview-checkbox');
   }
@@ -443,7 +471,12 @@ export default class IdsListViewItem extends Base {
     this.setAttribute('aria-setsize', String(size));
   }
 
-  #veto(eventName: IdsListViewVetoEvents) {
+  #trigger(eventName: 'selected' | 'deselected') {
+    const detail = { elem: this, data: this.rowData, index: this.rowIndex };
+    this.triggerEvent(eventName, this.listView, { bubbles: true, detail });
+  }
+
+  #veto(eventName: 'beforeitemactivated' | 'beforeitemdeactivated' | 'beforeselected' | 'beforedeselected') {
     return this.listView?.triggerVetoableEvent?.(eventName, {
       index: this.rowIndex,
       item: this,

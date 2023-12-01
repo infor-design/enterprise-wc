@@ -374,13 +374,17 @@ export default class IdsListView extends Base {
       e.preventDefault();
       e.stopPropagation();
       const focusedLi = this.getFocusedLi();
+      if (!focusedLi) return;
       // Mixed selectable, should do selection instead of activation if use keyboard
       if (this.selectable === 'mixed') {
-        const cb: any = focusedLi?.querySelector('.list-item-checkbox');
-        if (cb) cb.checked = !cb.checked;
-        this.#isTargetCheckbox = true;
+        // const cb: any = focusedLi?.querySelector('.list-item-checkbox');
+        // if (cb) cb.checked = !cb.checked;
+        // this.#isTargetCheckbox = true;
+        focusedLi.checked = true;
+      } else {
+        focusedLi.selected = true;
       }
-      this.#setSelection(this.#itemInfo(focusedLi));
+      // this.#setSelection(this.#itemInfo(focusedLi));
     }
   }
 
@@ -441,7 +445,7 @@ export default class IdsListView extends Base {
       this.onEvent('keydown.listview-selection', this, (e: any) => this.#handleOnKeydown(e));
 
       this.offEvent('keyup.listview-selection', this.container);
-      this.onEvent('keyup.listview-selection', this.container, (e: any) => this.#handleOnKeyup(e));
+      // this.onEvent('keyup.listview-selection', this.container, (e: any) => this.#handleOnKeyup(e));
 
       this.offEvent('aftervirtualscroll.listview', this.virtualScrollContainer);
       this.onEvent('aftervirtualscroll.listview', this.virtualScrollContainer, (e: CustomEvent) => this.#handleOnAfterVirtualScroll(e));
@@ -1162,7 +1166,7 @@ export default class IdsListView extends Base {
    * Set the selection mode of the listview
    * @param {string} value The value
    */
-  set selectable(value: string | null) {
+  set selectable(value: 'single' | 'mixed' | 'multiple' | '' | null) {
     this.container?.classList.remove(...this.selectableClass(true));
 
     if (LIST_VIEW_DEFAULTS.selectableOptions.includes(String(value))) {
@@ -1173,7 +1177,7 @@ export default class IdsListView extends Base {
     }
   }
 
-  get selectable(): string | null {
+  get selectable(): '' | 'single' | 'mixed' | 'multiple' | null {
     return this.getAttribute(attributes.SELECTABLE);
   }
 
@@ -1242,7 +1246,8 @@ export default class IdsListView extends Base {
   }
 
   get suppressDeactivation(): boolean {
-    return this.boolVal(attributes.SUPPRESS_DEACTIVATION, LIST_VIEW_DEFAULTS.suppressDeactivation);
+    return this.selectable === 'mixed' && stringToBool(this.getAttribute(attributes.SUPPRESS_DEACTIVATION));
+    // return this.boolVal(attributes.SUPPRESS_DEACTIVATION, LIST_VIEW_DEFAULTS.suppressDeactivation);
   }
 
   /**
@@ -1259,7 +1264,7 @@ export default class IdsListView extends Base {
   }
 
   get suppressDeselection(): boolean {
-    return this.boolVal(attributes.SUPPRESS_DESELECTION, LIST_VIEW_DEFAULTS.suppressDeselection);
+    return this.selectable === 'single' && stringToBool(this.getAttribute(attributes.SUPPRESS_DESELECTION));
   }
 
   /**
