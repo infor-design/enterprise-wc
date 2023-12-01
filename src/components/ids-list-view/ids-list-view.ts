@@ -264,7 +264,9 @@ export default class IdsListView extends Base {
     const item = el?.getAttribute('role') === 'option'
       ? el : el?.closest('[role="option"]');
     const index = stringToNumber(item?.getAttribute('index'));
-    return Number.isNaN(index) ? null : { item, index, data: this.data[index] };
+    const output = Number.isNaN(index) ? null : { item, index, data: this.data[index] };
+    console.log('#itemInfo', output);
+    return output;
   }
 
   /**
@@ -1231,11 +1233,12 @@ export default class IdsListView extends Base {
    * @param {boolean|string} value The value.
    */
   set suppressDeactivation(value: boolean | string) {
-    if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.SUPPRESS_DEACTIVATION, String(value));
-    } else {
-      this.removeAttribute(attributes.SUPPRESS_DEACTIVATION);
-    }
+    // if (/boolean|string/g.test(typeof value)) {
+    //   this.setAttribute(attributes.SUPPRESS_DEACTIVATION, String(value));
+    // } else {
+    //   this.removeAttribute(attributes.SUPPRESS_DEACTIVATION);
+    // }
+    this.toggleAttribute(attributes.SUPPRESS_DEACTIVATION, stringToBool(value));
   }
 
   get suppressDeactivation(): boolean {
@@ -1247,11 +1250,12 @@ export default class IdsListView extends Base {
    * @param {boolean|string} value The value.
    */
   set suppressDeselection(value: boolean | string) {
-    if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.SUPPRESS_DESELECTION, String(value));
-    } else {
-      this.removeAttribute(attributes.SUPPRESS_DESELECTION);
-    }
+    this.toggleAttribute(attributes.SUPPRESS_DESELECTION, stringToBool(value));
+    // if (/boolean|string/g.test(typeof value)) {
+    //   this.setAttribute(attributes.SUPPRESS_DESELECTION, String(value));
+    // } else {
+    //   this.removeAttribute(attributes.SUPPRESS_DESELECTION);
+    // }
   }
 
   get suppressDeselection(): boolean {
@@ -1263,11 +1267,12 @@ export default class IdsListView extends Base {
    * @param {boolean|string} value The value.
    */
   set hideCheckboxes(value: boolean | string) {
-    if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.HIDE_CHECKBOXES, String(value));
-    } else {
-      this.removeAttribute(attributes.HIDE_CHECKBOXES);
-    }
+    // if (/boolean|string/g.test(typeof value)) {
+    //   this.setAttribute(attributes.HIDE_CHECKBOXES, String(value));
+    // } else {
+    //   this.removeAttribute(attributes.HIDE_CHECKBOXES);
+    // }
+    this.toggleAttribute(attributes.HIDE_CHECKBOXES, stringToBool(value));
     this.#toggleCheckboxes();
   }
 
@@ -1466,6 +1471,7 @@ export default class IdsListView extends Base {
    * @returns {boolean} Is veto.
    */
   #selectInPage(index: number): boolean {
+    // return;
     if (this.data?.[index]?.disabled) return true;
 
     const dataIndex = this.dataIndex(index);
