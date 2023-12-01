@@ -1115,11 +1115,9 @@ export default class IdsListView extends Base {
    */
   set hideCheckboxes(value: boolean | string) {
     this.toggleAttribute(attributes.HIDE_CHECKBOXES, stringToBool(value));
-    if (this.selectable === 'multiple') {
-      this.items.forEach((item) => {
-        item.checkbox?.toggleAttribute('hide', stringToBool(value));
-      });
-    }
+    this.items.forEach((item) => {
+      item.checkbox?.toggleAttribute('hide', stringToBool(value));
+    });
   }
 
   get hideCheckboxes(): boolean {
