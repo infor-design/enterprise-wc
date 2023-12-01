@@ -170,18 +170,6 @@ export default class IdsListViewItem extends Base {
     this.#trigger(newValue ? 'selected' : 'deselected');
 
     if (newValue) this.triggerEvent('itemSelect', this.listView, { detail: this.rowData });
-
-    // if (!this.triggerVetoableEvent('beforeselected', { ...args, [key]: this.selected })) {
-    //   this.#setCheckbox(item, false);
-    //   return false;
-    // }
-    // this.data[index].itemSelected = true;
-
-    // if (cb) cb.checked = true;
-    // item?.setAttribute('selected', '');
-    // if (this.selectable === 'mixed') item?.setAttribute('hide-selected-color', '');
-    // this.#triggerEvent('selected', { ...args, [key]: this.selected });
-    // this.focusLi(item);
   }
 
   #rowIndex(newValue: string | number) {

@@ -324,22 +324,6 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Handle on click
-   * @private
-   * @param {any} e The event.
-   * @returns {void}
-   */
-  #handleOnClick(e: any): void {
-    console.log('handleOnClick', e);
-    // const itemInfo = this.#itemInfo(e.target);
-    // if (itemInfo) {
-    //   this.#isTargetCheckbox = e.target?.classList.contains('list-item-checkbox');
-    //   if (this.#isTargetCheckbox) e.preventDefault();
-    //   this.#setSelection(itemInfo);
-    // }
-  }
-
-  /**
    * Handle on keydown
    * @private
    * @param {KeyboardEvent} e The event.
@@ -360,31 +344,6 @@ export default class IdsListView extends Base {
         break;
       default:
         break;
-    }
-  }
-
-  /**
-   * Handle on keyup
-   * @private
-   * @param {KeyboardEvent} e The event.
-   * @returns {void}
-   */
-  #handleOnKeyup(e: KeyboardEvent): void {
-    if (/^(Space|Enter)$/g.test(e.code)) {
-      e.preventDefault();
-      e.stopPropagation();
-      const focusedLi = this.getFocusedLi();
-      if (!focusedLi) return;
-      // Mixed selectable, should do selection instead of activation if use keyboard
-      if (this.selectable === 'mixed') {
-        // const cb: any = focusedLi?.querySelector('.list-item-checkbox');
-        // if (cb) cb.checked = !cb.checked;
-        // this.#isTargetCheckbox = true;
-        focusedLi.checked = true;
-      } else {
-        focusedLi.selected = true;
-      }
-      // this.#setSelection(this.#itemInfo(focusedLi));
     }
   }
 
@@ -437,15 +396,8 @@ export default class IdsListView extends Base {
 
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
     if (!this.sortable) {
-      // Set selection/activation by ckick
-      // this.offEvent('click.listview-selection', this);
-      // this.onEvent('click.listview-selection', this, (e: any) => this.#handleOnClick(e));
-
       this.offEvent('keydown.listview-selection', this);
       this.onEvent('keydown.listview-selection', this, (e: any) => this.#handleOnKeydown(e));
-
-      this.offEvent('keyup.listview-selection', this.container);
-      // this.onEvent('keyup.listview-selection', this.container, (e: any) => this.#handleOnKeyup(e));
 
       this.offEvent('aftervirtualscroll.listview', this.virtualScrollContainer);
       this.onEvent('aftervirtualscroll.listview', this.virtualScrollContainer, (e: CustomEvent) => this.#handleOnAfterVirtualScroll(e));
@@ -484,55 +436,6 @@ export default class IdsListView extends Base {
     }
 
     super.resetSearch();
-  }
-
-  /**
-   * Set the selection for given item
-   * @private
-   * @param {any} itemInfo The item and index.
-   * @returns {void}
-   */
-  #setSelection(itemInfo: IdsListViewItemInfo | null): void {
-    if (!itemInfo) return;
-
-    const { item, index } = itemInfo;
-    const dataIndex = this.dataIndex(index);
-    let isVeto = true;
-
-    if (this.selectable) {
-      const selected: any = this.selected;
-
-      // Single
-      if (this.selectable === 'single') {
-        isVeto = this.#selectInPage(index);
-      }
-
-      // Multiple
-      if (this.selectable === 'multiple') {
-        if (selected.some((d: any) => d.index === dataIndex)) {
-          isVeto = this.#deselectInPage(index);
-        } else {
-          isVeto = this.#selectInPage(index);
-        }
-      }
-
-      // Mixed
-      if (this.selectable === 'mixed') {
-        if (this.#isTargetCheckbox) {
-          // Selection
-          if (selected.some((d: any) => d.index === dataIndex)) {
-            isVeto = this.#deselectInPage(index);
-          } else {
-            isVeto = this.#selectInPage(index);
-          }
-        } else {
-          // Activation
-          this.#activateItemInPage(index);
-        }
-      }
-    }
-
-    if (isVeto) this.focusLi(item);
   }
 
   /**
@@ -678,13 +581,12 @@ export default class IdsListView extends Base {
   templateListItemWrapper(innerHTML: string, index = -1): string {
     const item = this.itemByIndex(index);
     const data = this.data[index] ?? item?.rowData ?? {};
-    const activated = data.itemActivated ? ' activated' : '';
+    // const activated = data.itemActivated ? ' activated' : '';
     const disabled = data.disabled ? ' disabled' : '';
-    const selected = data.itemSelected ? ' selected' : '';
+    // const selected = data.itemSelected ? ' selected' : '';
     const sortable = this.sortable ? ' class="sortable"' : '';
 
     const wrappedInnerHTML = `<div ${disabled}${sortable}>${innerHTML}</div>`;
-    // const wrappedInnerHTML = `<div part="list-item" ${activated}${disabled}${selected}${sortable}>${innerHTML}</div>`;
 
     if (!sortable) return wrappedInnerHTML;
 
@@ -797,39 +699,6 @@ export default class IdsListView extends Base {
       item?.setAttribute('aria-posinset', i + 1);
       item?.setAttribute('aria-setsize', len);
     });
-  }
-
-  /**
-   * Toggle checkboxes
-   * @private
-   * @returns {void}
-   */
-  #toggleCheckboxes(): void {
-    if (this.selectable === 'multiple') {
-      const val = this.hideCheckboxes;
-      const isCheckbox = !!(this.body?.querySelector('.list-item-checkbox'));
-      if (val && isCheckbox) {
-        // remove
-        this.body?.querySelectorAll('.list-item-checkbox').forEach((cb: any) => cb?.remove());
-      } else if (!val && !isCheckbox) {
-        // add
-        this.getAllLi()?.forEach((item: any) => {
-          if (!item) return;
-          const index = item.getAttribute('index');
-          const isSelected = item.hasAttribute('selected');
-          const isDisabled = item.hasAttribute('disabled');
-          const checked = isSelected ? ' checked' : '';
-          const disabled = isDisabled ? ' disabled' : '';
-          const itemArea = item.querySelector('.list-item-area');
-          itemArea?.insertAdjacentHTML('afterbegin', `
-            <ids-checkbox
-             class="list-item-checkbox"
-             label="cb-item-${index}"
-             label-state="hidden"${checked}${disabled}></ids-checkbox>
-          `);
-        });
-      }
-    }
   }
 
   /**
@@ -1028,18 +897,6 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Get boolean property value for given attribute.
-   * @param {string} attributeName The attribute name.
-   * @param {boolean} defaultValue The default value.
-   * @returns {boolean} The property value
-   */
-  boolVal(attributeName: string, defaultValue: boolean): boolean {
-    return this.hasAttribute(attributeName)
-      ? stringToBool(this.getAttribute(attributeName))
-      : defaultValue;
-  }
-
-  /**
    * Get the list of all data from dataset
    * @returns {Array} value The array to use
    */
@@ -1127,7 +984,7 @@ export default class IdsListView extends Base {
   }
 
   get virtualScroll(): boolean {
-    return this.boolVal(attributes.VIRTUAL_SCROLL, LIST_VIEW_DEFAULTS.virtualScroll);
+    return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL));
   }
 
   /**
@@ -1177,8 +1034,8 @@ export default class IdsListView extends Base {
     }
   }
 
-  get selectable(): '' | 'single' | 'mixed' | 'multiple' | null {
-    return this.getAttribute(attributes.SELECTABLE);
+  get selectable(): string {
+    return this.getAttribute(attributes.SELECTABLE) ?? '';
   }
 
   /**
@@ -1221,15 +1078,11 @@ export default class IdsListView extends Base {
    * @param {boolean|string} value The sortable parameter.
    */
   set sortable(value: boolean | string | null) {
-    if (/boolean|string/g.test(typeof value)) {
-      this.setAttribute(attributes.SORTABLE, String(value));
-    } else {
-      this.removeAttribute(attributes.SORTABLE);
-    }
+    this.toggleAttribute(attributes.SORTABLE, stringToBool(value));
   }
 
   get sortable(): boolean {
-    return this.boolVal(attributes.SORTABLE, LIST_VIEW_DEFAULTS.sortable);
+    return stringToBool(this.getAttribute(attributes.SORTABLE));
   }
 
   /**
@@ -1237,17 +1090,11 @@ export default class IdsListView extends Base {
    * @param {boolean|string} value The value.
    */
   set suppressDeactivation(value: boolean | string) {
-    // if (/boolean|string/g.test(typeof value)) {
-    //   this.setAttribute(attributes.SUPPRESS_DEACTIVATION, String(value));
-    // } else {
-    //   this.removeAttribute(attributes.SUPPRESS_DEACTIVATION);
-    // }
     this.toggleAttribute(attributes.SUPPRESS_DEACTIVATION, stringToBool(value));
   }
 
   get suppressDeactivation(): boolean {
     return this.selectable === 'mixed' && stringToBool(this.getAttribute(attributes.SUPPRESS_DEACTIVATION));
-    // return this.boolVal(attributes.SUPPRESS_DEACTIVATION, LIST_VIEW_DEFAULTS.suppressDeactivation);
   }
 
   /**
@@ -1256,11 +1103,6 @@ export default class IdsListView extends Base {
    */
   set suppressDeselection(value: boolean | string) {
     this.toggleAttribute(attributes.SUPPRESS_DESELECTION, stringToBool(value));
-    // if (/boolean|string/g.test(typeof value)) {
-    //   this.setAttribute(attributes.SUPPRESS_DESELECTION, String(value));
-    // } else {
-    //   this.removeAttribute(attributes.SUPPRESS_DESELECTION);
-    // }
   }
 
   get suppressDeselection(): boolean {
@@ -1272,17 +1114,16 @@ export default class IdsListView extends Base {
    * @param {boolean|string} value The value.
    */
   set hideCheckboxes(value: boolean | string) {
-    // if (/boolean|string/g.test(typeof value)) {
-    //   this.setAttribute(attributes.HIDE_CHECKBOXES, String(value));
-    // } else {
-    //   this.removeAttribute(attributes.HIDE_CHECKBOXES);
-    // }
     this.toggleAttribute(attributes.HIDE_CHECKBOXES, stringToBool(value));
-    this.#toggleCheckboxes();
+    if (this.selectable === 'multiple') {
+      this.items.forEach((item) => {
+        item.checkbox?.toggleAttribute('hide', stringToBool(value));
+      });
+    }
   }
 
   get hideCheckboxes(): boolean {
-    return this.boolVal(attributes.HIDE_CHECKBOXES, LIST_VIEW_DEFAULTS.hideCheckboxes);
+    return stringToBool(this.getAttribute(attributes.HIDE_CHECKBOXES));
   }
 
   /**
@@ -1303,18 +1144,6 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Set checkbox state in given listview item.
-   * @private
-   * @param {HTMLElement} item The listview item.
-   * @param {boolean} isChecked The value to be set.
-   * @returns {void}
-   */
-  #setCheckbox(item: any, isChecked = false): void {
-    const cb = item?.querySelector('.list-item-checkbox');
-    if (cb) cb.checked = isChecked;
-  }
-
-  /**
    * Trigger the given event.
    * @private
    * @param {string} eventtName The event name to be trigger.
@@ -1326,344 +1155,39 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Set a list item to be activated, in current page and data.
-   * @param {number} index the zero based index.
-   * @returns {boolean} Is veto.
-   */
-  #activateItemInPage(index: number): boolean {
-    if (this.data?.[index]?.disabled) return true;
-
-    const dataIndex = this.dataIndex(index) as number;
-
-    if (this.#activatedIndex !== -1) {
-      const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
-      this.#isApply = true;
-      if (activatedIndex === dataIndex) {
-        if (!this.suppressDeactivation) return true;
-        if (this.isInPage(activatedIndex)) {
-          return this.#deactivateItemInPage(this.pageIndex(activatedIndex) as number);
-        }
-        return this.deactivateItem(activatedIndex);
-      }
-      if (this.isInPage(activatedIndex)) {
-        if (!this.#deactivateItemInPage(this.pageIndex(activatedIndex) as number)) {
-          return false;
-        }
-      } else if (!this.deactivateItem(activatedIndex)) return false;
-    }
-
-    const item = this.#itemByIndex(index);
-    const args = () => ({ item, index, dataIndex, data: this.data[index] }); // eslint-disable-line
-    if (!this.triggerVetoableEvent('beforeitemactivated', { ...args() })) {
-      return false;
-    }
-    item?.setAttribute('activated', '');
-    this.#activatedIndex = dataIndex;
-    this.data[index].itemActivated = true;
-    this.#triggerEvent('itemactivated', { ...args() });
-
-    this.focusLi(item, true);
-    return true;
-  }
-
-  /**
-   * Set a list item to be deactivated, in current page and data.
-   * @param {number} index the zero based index
-   * @returns {boolean} Is veto.
-   */
-  #deactivateItemInPage(index: number): boolean {
-    if (this.data?.[index]?.disabled) return true;
-    if (this.#activatedIndex === -1) return true;
-
-    const dataIndex = this.dataIndex(index);
-
-    if (this.#isApply) this.#isApply = false;
-    else {
-      const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
-      if (activatedIndex === dataIndex && !this.suppressDeactivation) return false;
-    }
-
-    const item = this.#itemByIndex(index);
-    const args = () => ({ item, index, dataIndex, data: this.data[index] }); // eslint-disable-line
-    if (!this.triggerVetoableEvent('beforeitemdeactivated', { ...args() })) {
-      return false;
-    }
-    delete this.data[index].itemActivated;
-    item?.removeAttribute('activated');
-    this.#activatedIndex = -1;
-    this.#triggerEvent('itemdeactivated', { ...args() });
-    this.focusLi(item);
-    return true;
-  }
-
-  /**
-   * Set a list item to be activated, in dataset.
-   * @param {number} dataIndex the zero based dataIndex
-   * @returns {boolean} Is veto.
-   */
-  activateItem(dataIndex: number): boolean {
-    if (this.ds?.[dataIndex]?.disabled || dataIndex === -1) return true;
-
-    if (this.isInPage(dataIndex)) {
-      return this.#activateItemInPage(this.pageIndex(dataIndex) as number);
-    }
-
-    if (this.#activatedIndex !== -1) {
-      const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
-      this.#isApply = true;
-      if (activatedIndex === dataIndex) {
-        if (!this.suppressDeactivation) return true;
-        if (this.isInPage(activatedIndex)) {
-          return this.#deactivateItemInPage(this.pageIndex(activatedIndex) as number);
-        }
-        return this.deactivateItem(activatedIndex);
-      }
-      if (this.isInPage(activatedIndex)) {
-        if (!this.#deactivateItemInPage(this.pageIndex(activatedIndex) as number)) {
-          return false;
-        }
-      } else if (!this.deactivateItem(activatedIndex)) return false;
-    }
-
-    const args = () => ({ dataIndex, data: this.ds[dataIndex] });
-    if (!this.triggerVetoableEvent('beforeitemactivated', { ...args() })) {
-      return false;
-    }
-
-    this.#activatedIndex = dataIndex;
-    this.ds[dataIndex].itemActivated = true;
-    this.#triggerEvent('itemactivated', { ...args() });
-
-    return true;
-  }
-
-  /**
-   * Set a list item to be deactivated, in dataset
-   * @param {number} dataIndex the zero based dataIndex
-   * @returns {boolean} False, if veto.
-   */
-  deactivateItem(dataIndex: number): boolean {
-    if (this.ds?.[dataIndex]?.disabled) return true;
-    if (this.#activatedIndex === -1) return true;
-
-    if (this.isInPage(dataIndex)) {
-      return this.#deactivateItemInPage(this.pageIndex(dataIndex) as number);
-    }
-
-    if (this.#isApply) this.#isApply = false;
-    else {
-      const activatedIndex = this.ds.findIndex((d: any) => d.itemActivated);
-      if (activatedIndex === dataIndex && !this.suppressDeactivation) return false;
-    }
-
-    const args = () => ({ dataIndex, data: this.ds[dataIndex] });
-    if (!this.triggerVetoableEvent('beforeitemdeactivated', { ...args() })) {
-      return false;
-    }
-    if (this.ds[dataIndex]?.itemActivated) {
-      delete this.ds[dataIndex].itemActivated;
-    }
-    this.#activatedIndex = -1;
-    this.#triggerEvent('itemdeactivated', { ...args() });
-
-    return true;
-  }
-
-  /**
-   * Set a list item to be selected, in current page and data.
-   * @private
-   * @param {number} index the zero based index.
-   * @returns {boolean} Is veto.
-   */
-  #selectInPage(index: number): boolean {
-    // return;
-    if (this.data?.[index]?.disabled) return true;
-
-    const dataIndex = this.dataIndex(index);
-    const selected: any = this.selected;
-
-    if (this.selectable === 'single' && selected) {
-      const isSame = selected.index === dataIndex;
-      if (isSame && !this.suppressDeselection) return true;
-      this.#isApply = true;
-      if (this.isInPage(selected.index)) {
-        if (!this.#deselectInPage(this.pageIndex(selected.index) as number)) {
-          return false;
-        }
-      } else if (!this.deselect(selected.index)) return false;
-      if (isSame) return true;
-    }
-    const item = this.#itemByIndex(index);
-    const cb: any = item?.querySelector('.list-item-checkbox');
-    const key = this.selectable === 'single' ? 'selectedItem' : 'selectedItems';
-    const args = { item, index, dataIndex, data: this.data[index] };// eslint-disable-line
-    this.#isTargetCheckbox = false;
-    if (!this.triggerVetoableEvent('beforeselected', { ...args, [key]: this.selected })) {
-      this.#setCheckbox(item, false);
-      return false;
-    }
-    this.data[index].itemSelected = true;
-
-    if (cb) cb.checked = true;
-    item?.setAttribute('selected', '');
-    if (this.selectable === 'mixed') item?.setAttribute('hide-selected-color', '');
-    this.#triggerEvent('selected', { ...args, [key]: this.selected });
-    this.focusLi(item);
-
-    return true;
-  }
-
-  /**
-   * Set a list item to be deselected, in current page and data.
-   * @private
-   * @param {number} index the zero based index.
-   * @returns {boolean} Is veto.
-   */
-  #deselectInPage(index: number): boolean {
-    if (this.data?.[index]?.disabled) return true;
-
-    const selected: any = this.selected;
-    if (!selected || (/^(multiple|mixed)$/g.test(String(this.selectable)) && !selected.length)) return true;
-
-    if (this.selectable === 'single') {
-      if (this.#isApply) this.#isApply = false;
-      else if (this.dataIndex(index) === selected.index && !this.suppressDeselection) return false;
-    }
-    const item = this.#itemByIndex(index);
-    const dataIndex = this.dataIndex(index);
-    const cb: any = item?.querySelector('.list-item-checkbox');
-    const key = this.selectable === 'single' ? 'selectedItem' : 'selectedItems';
-    const args = { item, index, dataIndex, data: this.data[index] };// eslint-disable-line
-    this.#isTargetCheckbox = false;
-    if (!this.triggerVetoableEvent('beforedeselected', { ...args, [key]: this.selected })) {
-      this.#setCheckbox(item, true);
-      return false;
-    }
-    delete this.data[index].itemSelected;
-
-    if (cb) cb.checked = false;
-    item?.removeAttribute('selected');
-    item?.removeAttribute('hide-selected-color');
-    this.#triggerEvent('deselected', { ...args, [key]: this.selected });
-    this.focusLi(item);
-
-    return true;
-  }
-
-  /**
-   * Set a list item to be selected, in dataset.
-   * @param {number} dataIndex the zero based dataIndex.
-   * @returns {boolean} Is veto.
-   */
-  select(dataIndex: number): boolean {
-    if (this.ds?.[dataIndex]?.disabled) return true;
-
-    if (this.isInPage(dataIndex)) {
-      return this.#selectInPage(this.pageIndex(dataIndex) as number);
-    }
-
-    const selected: any = this.selected;
-
-    if (this.selectable === 'single' && selected) {
-      const isSame = selected.index === dataIndex;
-      if (isSame && !this.suppressDeselection) return true;
-      this.#isApply = true;
-      if (this.isInPage(selected.index)) {
-        if (!this.#deselectInPage(this.pageIndex(selected.index) as number)) {
-          return false;
-        }
-      } else if (!this.deselect(selected.index)) return false;
-      if (isSame) return true;
-    }
-
-    const key = this.selectable === 'single' ? 'selectedItem' : 'selectedItems';
-    const args = { dataIndex, data: this.ds[dataIndex] };
-    if (!this.triggerVetoableEvent('beforeselected', { ...args, [key]: this.selected })) {
-      return false;
-    }
-    this.ds[dataIndex].itemSelected = true;
-    this.#triggerEvent('selected', { ...args, [key]: this.selected });
-
-    return true;
-  }
-
-  /**
-   * Set a list item to be deselected, in dataset.
-   * @param {number} dataIndex the zero based dataIndex.
-   * @returns {boolean} False, if veto.
-   */
-  deselect(dataIndex: number): boolean {
-    if (this.ds?.[dataIndex]?.disabled) return true;
-
-    const selected: any = this.selected;
-    if (!selected || (/^(multiple|mixed)$/g.test(String(this.selectable)) && !selected.length)) return true;
-
-    if (this.isInPage(dataIndex)) {
-      return this.#deselectInPage(this.pageIndex(dataIndex) as any);
-    }
-
-    if (this.selectable === 'single') {
-      if (this.#isApply) this.#isApply = false;
-      else if (dataIndex === selected.index && !this.suppressDeselection) return false;
-    }
-    const key = this.selectable === 'single' ? 'selectedItem' : 'selectedItems';
-    const args = { dataIndex, data: this.ds[dataIndex] };
-    if (!this.triggerVetoableEvent('beforedeselected', { ...args, [key]: this.selected })) {
-      return false;
-    }
-    delete this.ds[dataIndex].itemSelected;
-    this.#triggerEvent('deselected', { ...args, [key]: this.selected });
-
-    return true;
-  }
-
-  /**
-   * Set a all list items to be selected.
+   * Helper to select all list items.
    * @returns {void}
    */
   selectAll(): void {
-    this.toggleAll();
+    const selectable = this.selectable;
+    if (!selectable) return;
+
+    const items = this.items;
+    const firstItem = this.items[0];
+
+    if (selectable === 'single' && firstItem) {
+      firstItem.selected = true;
+    } else if (['multiple', 'mixed'].includes(selectable)) {
+      items.forEach((item) => {
+        item.selected = true;
+      });
+    }
+
+    this.#triggerEvent('selectionchanged', { selected: this.selected });
   }
 
   /**
-   * Set a all list items to be deselected.
+   * Helper to deselect all list items.
    * @returns {void}
    */
   deselectAll(): void {
-    this.toggleAll(true);
-  }
-
-  /**
-   * Set all list items to be selected or deselected.
-   * @param {boolean} isDeselect If true will deselect all items, otherwise select all.
-   * @returns {void}
-   */
-  toggleAll(isDeselect?: boolean): void {
-    const action = isDeselect ? 'deselect' : 'select';
     if (this.selectable) {
-      const selected: any = this.selected;
-      let key: any;
-      let len = 0;
-
-      // Single
-      if (this.selectable === 'single') {
-        key = 'selectedItem';
-        len = selected ? 1 : 0;
-        if (isDeselect && len) this[action](selected.index);
-        if (!isDeselect && !len) this[action](0);
-      }
-
-      // Multiple or Mixed
-      if (/multiple|mixed/g.test(this.selectable)) {
-        key = 'selectedItems';
-        len = selected.length;
-        this.ds?.forEach((d: any, i: number) => this[action](i));
-      }
-
-      if ((this.selected as any)?.length !== len) {
-        this.#triggerEvent('selectionchanged', { [key]: this.selected });
-      }
+      this.itemsSelected.forEach((item) => {
+        item.selected = false;
+      });
     }
+
+    this.#triggerEvent('selectionchanged', { selected: this.selected });
   }
 
   /**
