@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.18
+
+### 1.0.0-beta.18 Fixes
+
+- `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
+
 ## 1.0.0-beta.17
 
 ### 1.0.0-beta.17 Breaking Changes
