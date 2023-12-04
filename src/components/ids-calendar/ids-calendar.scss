@@ -230,7 +230,6 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
   box-sizing: border-box;
   padding: 12px 20px;
   position: relative;
-  contain: content;
 }
 
 #event-form-actions {
@@ -291,12 +290,16 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
   }
 
   #event-form-content {
+    height: 100%;
+    overflow-y: auto;
+
     ids-date-picker,
     ids-time-picker {
       max-width: unset;
     }
 
     .inline-container {
+      position: relative;
       display: block;
     }
   }
