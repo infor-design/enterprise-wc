@@ -40,7 +40,6 @@ export default class IdsRadio extends Base {
     return [
       ...super.attributes,
       attributes.CHECKED,
-      attributes.COLOR,
       attributes.DISABLED,
       attributes.GROUP_DISABLED,
       attributes.HORIZONTAL,
@@ -85,7 +84,6 @@ export default class IdsRadio extends Base {
     const isDisabled = stringToBool(this.groupDisabled) || stringToBool(this.disabled);
     const disabled = isDisabled ? ' disabled' : '';
     const disabledAria = isDisabled ? ' aria-disabled="true"' : '';
-    const color = this.color ? ` color="${this.color}"` : '';
     const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
     const checked = stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-radio${disabled}${horizontal}"`;
@@ -93,7 +91,7 @@ export default class IdsRadio extends Base {
     const value = ` value="${this.value ?? ''}"`;
 
     return `
-      <div${rootClass}${color}>
+      <div${rootClass}>
         <label>
           <input type="radio" part="radio" tabindex="-1"${radioClass}${value}${disabled}${checked}>
           <span class="circle${checked}" part="circle"></span>
@@ -193,22 +191,6 @@ export default class IdsRadio extends Base {
   }
 
   get checked(): boolean { return stringToBool(this.getAttribute(attributes.CHECKED)); }
-
-  /**
-   * Set `color` attribute
-   * @param {string | null} value If true will set `color` attribute
-   */
-  set color(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.COLOR, value.toString());
-      this.rootEl?.setAttribute(attributes.COLOR, value.toString());
-    } else {
-      this.removeAttribute(attributes.COLOR);
-      this.rootEl?.removeAttribute(attributes.COLOR);
-    }
-  }
-
-  get color(): string | null { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Set `disabled` attribute
