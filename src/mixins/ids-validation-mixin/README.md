@@ -88,6 +88,7 @@ Set a validation message thru html markup.
   validation-icon="mail"
 ></ids-input>
 ```
+
 ### Set Thru JavaScript
 
 Add/Remove a single message.
@@ -178,6 +179,12 @@ There are built in validation rules can be use with the mixin as list below.
 <ids-input label="Required Validation" validate="required"></ids-input>
 <ids-input label="Email Validation" validate="email"></ids-input>
 <ids-input label="Email and Required Validation" validate="email required"></ids-input>
+```
+
+If you only want the required indicator and custom or no validation you can use.
+
+```html
+<ids-input label="Required Validation" required></ids-input>
 ```
 
 ## Custom Rules

@@ -52,7 +52,13 @@ Set the Dirty Tracking to Text Input this way. You can also call `resetDirtyTrac
 <ids-input label="Dirty Tracking" dirty-tracker="true"></ids-input>
 ```
 
-Set validation `required` to Text Input this way:
+To set the visible validation `required` indicator you can use the required attribute:
+
+```html
+<ids-input label="Last Name" required></ids-input>
+```
+
+Set validation to `required` and the indicator you can use:
 
 ```html
 <ids-input label="Last Name" validate="required"></ids-input>
@@ -146,7 +152,8 @@ setData();
 - `readonly` {boolean} sets the input's readonly state.
 - `text-align` {string} sets the text alignment (default is `left`).
 - `type` {string} set the input type, (default is `text`)
-- `validate` {string} sets the input validation rules, use `space` to add multiple validation rules.
+- `type` {string} set the input type, (default is `text`)
+- `required` {string} sets visible required indicator no matter what the validate is set to
 - `format` {string} if the validation rules include date/time, use the setting to set custom date/time format
 - `validationEvents` {string} set the input validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
 - `value` {string} sets the input value.
