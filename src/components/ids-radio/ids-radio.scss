@@ -82,9 +82,8 @@
     }
   }
 
-  // stylelint-disable-next-line
-  &:focus input[type='radio'] ~ .circle {
-    @include radio-focus();
+  &:not(.hide-focus) input[type='radio']:focus ~ .circle {
+    @include radio-colored-circle-focus(var(--ids-color-primary));
   }
 
   // Colored

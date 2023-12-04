@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -11,8 +12,10 @@ import './ids-radio-group';
 import styles from './ids-radio.scss';
 
 const Base = IdsLocaleMixin(
-  IdsEventsMixin(
-    IdsElement
+  IdsHideFocusMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
