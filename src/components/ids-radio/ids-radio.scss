@@ -53,6 +53,7 @@
       }
     }
 
+    // Default focus state (hide-focus behavior is enabled)
     &:focus ~ .circle {
       @include radio-focus();
     }
@@ -82,12 +83,10 @@
     }
   }
 
+  // Focus state will display a "border" if "hide-focus" behavior is not present
   &:not(.hide-focus) input[type='radio']:focus ~ .circle {
-    @include radio-colored-circle-focus(var(--ids-color-primary));
+    @include radio-focus-not-hide-focus();
   }
-
-  // Colored
-  @include radio-colored();
 }
 
 // Negate some rules for RTL

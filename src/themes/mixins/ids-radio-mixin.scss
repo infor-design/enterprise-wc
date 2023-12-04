@@ -80,7 +80,11 @@
 
 // Focus
 @mixin radio-focus {
-  box-shadow: var(--ids-shadow-20)
+  box-shadow: var(--ids-radio-shadow);
+}
+
+@mixin radio-focus-not-hide-focus {
+  box-shadow: var(--ids-radio-shadow-with-border);
 }
 
 // Colored

@@ -49,6 +49,7 @@
   --ids-cursor-resize-y: ns-resize;
 
   // Elevations (Box Shadows)
+  --ids-shadow-color: rgb(54 138 192 / 0.3);
   --ids-shadow-none: 0 0 3px 2px rgba(54 138 192 / 0);
   --ids-shadow-error: 0 0 3px 2px rgb(218 18 23 / 0.30);
   --ids-box-shadow-inverse: 0 0 3px 1px rgba(255 255 255 / 0.3);
@@ -1142,6 +1143,10 @@
   --ids-process-indicator-border-started: 2px solid var(--ids-process-indicator-color-active);
 
   // Radio
+  --ids-radio-shadow: var(--ids-shadow-20);
+  --ids-radio-shadow-with-border: 0 0 0 1px var(--ids-input-color-background-readonly),
+    0 0 0 2px var(--ids-color-primary),
+    0 0 4px 5px var(--ids-shadow-color);
   --ids-radio-button-color-background: var(--ids-input-color-background-default);
   --ids-radio-button-color-border-default: var(--ids-input-color-border-default);
   --ids-radio-button-color-background-selected: var(--ids-color-primary);
