@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.18
+
+### 1.0.0-beta.18 Fixes
+
+- `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
+
 ## 1.0.0-beta.17
 
 ### 1.0.0-beta.17 Breaking Changes
@@ -26,7 +32,6 @@
 - `[DataGrid]` Make hyperlink cells clickable when `rowNavigation` is enabled. ([#1523](https://github.com/infor-design/enterprise-wc/issues/1523))
 - `[DataGrid]` Fix virtual scrolling for tree grids. ([#1573](https://github.com/infor-design/enterprise-wc/issues/1573))/([#1587](https://github.com/infor-design/enterprise-wc/issues/1587))
 - `[DataGrid]` Add `filterAlign` setting to columns for independently aligning filter row contents. ([#1575](https://github.com/infor-design/enterprise-wc/issues/1575))
-- `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
 - `[DataGrid]` Fix an issue where inline-editable cells in the first column were not considered when navigating the grid in edit mode with the Tab key. ([#1616](https://github.com/infor-design/enterprise-wc/issues/1616))
 - `[DatePicker]` Set trigger field's value with today's date when today button is clicked. ([#1614](https://github.com/infor-design/enterprise-wc/issues/1614))
 - `[DatePicker]` Fixed time picker value change is not reflected dynamically in date time picker trigger field. ([#1576](https://github.com/infor-design/enterprise-wc/issues/1576))
