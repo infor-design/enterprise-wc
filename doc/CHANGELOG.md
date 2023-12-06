@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.18
+
+### 1.0.0-beta.18 Fixes
+
+- `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
+
 ## 1.0.0-beta.17
 
 ### 1.0.0-beta.17 Breaking Changes
@@ -14,6 +20,7 @@
 - `[Tree]` Added `beforeExpanded` async loading pattern to dynamically add tree children. ([#1516](https://github.com/infor-design/enterprise-wc/issues/1516))
 - `[Tree]` Renamed `useToggleTarget` to `expandTarget`, now available as a setting to toggle tree nodes only when clicking the icon. ([#1528](https://github.com/infor-design/enterprise-wc/issues/1528))
 - `[Tests]` Changed test framework to playwright. ([#1225](https://github.com/infor-design/enterprise-wc/issues/1225))
+- `[ValidationMixin]` Added a `required` attribute that can be used separately from `validate="required"` simply to display a required indicator. ([#1553](https://github.com/infor-design/enterprise-wc/issues/1553))
 
 ### 1.0.0-beta.17 Fixes
 
@@ -37,8 +44,10 @@
 - `[Modal]` Add `showCloseButton` setting to modal. ([#1527](https://github.com/infor-design/enterprise-wc/issues/1527))
 - `[Modal]` Fix `fullsize` setting on init. ([#1525](https://github.com/infor-design/enterprise-wc/issues/1525))
 - `[Modal]` Fix problems with slotting scrollable components and resize behavior. ([#1529](https://github.com/infor-design/enterprise-wc/issues/1529)/[#1530](https://github.com/infor-design/enterprise-wc/issues/1530))
+- `[Modal]` Fix `showCloseButton` setting to default to top-right corner. ([#1647](https://github.com/infor-design/enterprise-wc/issues/1647))
 - `[Module Nav]` Small improvements to better enable usage in an Angular codebase. ([#1597](https://github.com/infor-design/enterprise-wc/issues/1597))
 - `[Multiselect]` Fix `rerender` logic so that state is maintained while using `ngFor` directive in Angular. ([#1411](https://github.com/infor-design/enterprise-wc/issues/1411))
+- `[Pager]` Fix datagrid standalone pager html override. ([#1615](https://github.com/infor-design/enterprise-wc/issues/1615))
 - `[PopupMenu]` Fix arrow icon direction in RTL. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
 - `[Tabs]` Sync component with Figma design changes related to Alabaster default theme. ([#1050](https://github.com/infor-design/enterprise-wc/issues/1050))
 - `[PopupMenu]` Fix arrow icon direction in RTL. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))

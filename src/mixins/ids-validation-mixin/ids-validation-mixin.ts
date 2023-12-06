@@ -4,6 +4,7 @@ import { IdsConstructor } from '../../core/ids-element';
 import { isObjectAndNotEmpty } from '../../utils/ids-object-utils/ids-object-utils';
 import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 export type IdsValidationErrorMessage = {
   /** The unique id in the check messages */
@@ -60,7 +61,8 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       attributes.VALIDATION_ICON,
       attributes.VALIDATION_ID,
       attributes.VALIDATION_MESSAGE,
-      attributes.VALIDATION_TYPE
+      attributes.VALIDATION_TYPE,
+      attributes.REQUIRED
     ];
   }
 
@@ -91,27 +93,19 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     const canRadio = ((!isRadioGroup) || (!!(isRadioGroup && this.querySelector('ids-radio'))));
 
     if (thisAsInput.labelEl && typeof this.validate === 'string' && canRadio) {
-      // const isCheckbox = thisAsInput.input?.getAttribute('type') === 'checkbox';
-      // const defaultEvents = (isCheckbox || isRadioGroup) ? 'change.validationmixin' : 'blur.validationmixin';
-      // const defaultEvents = 'change.validationmixin';
       const events = (this.validationEvents && typeof this.validationEvents === 'string')
         ? this.validationEvents : 'change.validationmixin blur.validationmixin';
       this.validationEventsList = [...new Set(events.split(' '))];
       const getRule = (id: string) => ({ id, rule: this.rules[id] });
+
       let isRulesAdded = false;
+      let hasRequired = this.required;
 
       this.validate.split(' ').forEach((strRule) => {
         if (!getRule(strRule).rule) return;
 
         if (strRule === 'required') {
-          thisAsInput.labelEl?.classList.add('required');
-          thisAsInput.input?.setAttribute('aria-required', true);
-
-          if (isRadioGroup) {
-            const radios = [...this.querySelectorAll('ids-radio')];
-            radios.forEach((radio: any) => radio.input?.setAttribute('required', 'required'));
-          }
-          (this as any).validationElems?.editor?.setAttribute('aria-required', true);
+          hasRequired = true;
         }
 
         /**
@@ -140,6 +134,8 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         this.handleValidationEvents();
       }
 
+      if (hasRequired) this.renderRequired();
+
       // Update to remove unused rule/s
       const arrayValidate: string[] = this.validate?.split(' ');
       let rules = this.useRules.get(thisAsInput.input);
@@ -158,6 +154,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       }
     } else {
       this.destroyValidation();
+      if (this.required) this.renderRequired();
     }
   }
 
@@ -525,10 +522,9 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         this.handleValidationEvents('remove');
         this.useRules.delete(input);
       }
-      if (!(/\brequired\b/gi.test(this.validate as string))) {
-        (this as IdsInputInterface).labelEl?.classList.remove('required');
-        input.removeAttribute('aria-required');
-        (this as any).validationElems?.editor?.removeAttribute('aria-required');
+
+      if (!this.hasRequiredValidation() && !this.required) {
+        this.removeRequired();
       }
       this.removeAllValidationMessages();
     };
@@ -751,6 +747,55 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
    */
   get validationMessagesCount(): number {
     return this.shadowRoot?.querySelectorAll('.validation-message')?.length || 0;
+  }
+
+  /**
+   * @param {string | boolean} val true if the required indicator should be forced to display
+   */
+  set required(val: boolean) {
+    this.toggleAttribute(attributes.REQUIRED, stringToBool(val));
+    if (val) {
+      this.renderRequired();
+    } else if (!this.hasRequiredValidation()) {
+      this.removeRequired();
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the required indicator should be forced to display
+   */
+  get required(): boolean {
+    return this.hasAttribute(attributes.REQUIRED);
+  }
+
+  hasRequiredValidation() {
+    return this.validate && this.validate.includes('required');
+  }
+
+  /**
+   * Draws the required indicator
+   */
+  renderRequired() {
+    const thisAsInput = this as IdsInputInterface;
+    const isRadioGroup = thisAsInput.input?.classList.contains('ids-radio-group');
+
+    thisAsInput.labelEl?.classList.add('required');
+    thisAsInput.input?.setAttribute('aria-required', true);
+
+    if (isRadioGroup) {
+      const radios = [...this.querySelectorAll('ids-radio')];
+      radios.forEach((radio: any) => radio.input?.setAttribute('required', 'required'));
+    }
+    (this as any).validationElems?.editor?.setAttribute('aria-required', true);
+  }
+
+  /**
+   * Removes the required indicator
+   */
+  removeRequired() {
+    (this as IdsInputInterface).labelEl?.classList.remove('required');
+    (this as IdsInputInterface).input?.removeAttribute('aria-required');
+    (this as any).validationElems?.editor?.removeAttribute('aria-required');
   }
 };
 
