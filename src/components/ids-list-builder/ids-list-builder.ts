@@ -613,8 +613,7 @@ export default class IdsListBuilder extends IdsListView {
 
     const text = itemFocused.querySelector('ids-text');
     this.onEvent('keyup.listbuilder-editor', input, (evt) => {
-      evt.preventDefault();
-      evt.stopPropagation();
+      evt.stopImmediatePropagation();
       if (text) text.innerHTML = input.value ?? '';
     });
 
@@ -625,8 +624,7 @@ export default class IdsListBuilder extends IdsListView {
       itemFocused.focus();
     });
 
-    this.listen('Backspace', input, (evt: KeyboardEvent) => evt.stopImmediatePropagation());
-    this.listen('Delete', input, (evt: KeyboardEvent) => evt.stopImmediatePropagation());
+    this.listen(['Backspace', 'Delete'], input, (evt: KeyboardEvent) => evt.stopImmediatePropagation());
     this.listen('Enter', input, () => input.blur());
   }
 
