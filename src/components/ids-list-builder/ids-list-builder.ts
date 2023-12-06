@@ -594,7 +594,6 @@ export default class IdsListBuilder extends IdsListView {
   #edit(): void {
     const itemFocused = this.itemFocused;
     if (!itemFocused) return;
-    console.log('#edit itemFocused', itemFocused);
 
     if (itemFocused.swappableParent) itemFocused.swappableParent.selected = true;
 
@@ -608,27 +607,27 @@ export default class IdsListBuilder extends IdsListView {
     input.noMargins = 'true';
     input.colorVariant = 'list-builder';
 
-    const text = itemFocused.querySelector('ids-text');
-    itemFocused?.prepend(input); // insert into DOM
-
-    console.log('#edit #edit #edit', text, input);
-    // text?.before(input); // insert into DOM
-    input.focus();
     itemFocused?.classList.add('is-editing');
+    itemFocused?.prepend(input); // insert into DOM
+    input.focus();
 
+    const text = itemFocused.querySelector('ids-text');
     this.onEvent('keyup.listbuilder-editor', input, (evt) => {
       evt.preventDefault();
       evt.stopPropagation();
       if (text) text.innerHTML = input.value ?? '';
-      console.log('keyup.listbuilder-editor', text, input);
     });
 
     this.onEvent('blur.listbuilder-editor', input, () => {
       if (text) text.innerHTML = input.value ?? '';
       input.remove();
       itemFocused?.classList.remove('is-editing');
-      console.log('blur.listbuilder-editor', text, input);
+      itemFocused.focus();
     });
+
+    this.listen('Backspace', input, (evt: KeyboardEvent) => evt.stopImmediatePropagation());
+    this.listen('Delete', input, (evt: KeyboardEvent) => evt.stopImmediatePropagation());
+    this.listen('Enter', input, () => input.blur());
   }
 
   /**
