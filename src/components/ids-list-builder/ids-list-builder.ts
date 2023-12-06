@@ -632,9 +632,19 @@ export default class IdsListBuilder extends IdsListView {
    * Delete selected item(s)
    */
   #delete() {
-    this.itemsSelected.forEach((item) => {
+    const itemsSelected = this.itemsSelected;
+    const lastSelected = itemsSelected.at(-1);
+    const nextEnabled = lastSelected?.nextEnabled;
+
+    itemsSelected.forEach((item) => {
+      const isLastSelected = item === lastSelected;
+      const deletedData = item.rowData;
+
+      this.triggerEvent('itemDelete', this, { detail: deletedData });
       item.swappableParent?.remove();
-      this.triggerEvent('itemDelete', this, { detail: item.rowData });
+      item?.remove();
+
+      if (isLastSelected) nextEnabled?.focus(); // TODO: after deleteing, I cannot arrowUp past this focused item;
     });
 
     // this.resetIndices();
@@ -751,11 +761,13 @@ export default class IdsListBuilder extends IdsListView {
         case 'Tab':
         case 'ArrowUp':
         case 'ArrowDown':
+          console.log('listbuilder.attachKeyboardListeners', keyCode);
           // this.#unfocusAnySelectedLiEditor();
           // this.updateDataFromDOM();
           break;
         case 'Backspace':
         case 'Delete':
+          console.log('listbuilder.attachKeyboardListeners', keyCode);
           this.#delete();
           // this.#removeAllSelectedLi();
           break;

@@ -51,12 +51,14 @@ export default class IdsListViewItem extends Base {
   }
 
   get rowData() {
-    return this.data[this.rowIndex] ?? {
+    const rowData = this.data[this.rowIndex] ?? {
       disabled: this.disabled,
       itemActivated: this.itemActivated,
       itemChecked: this.itemChecked,
       itemSelected: this.itemSelected,
     };
+
+    return { rowIndex: this.rowIndex, ...rowData };
   }
 
   set rowData(value) {
