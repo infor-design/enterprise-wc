@@ -193,33 +193,33 @@ export default class IdsListBuilder extends IdsListView {
     this.#attachKeyboardListeners();
   }
 
-  /**
-   * Removes and unfocuses any active list item editor after updating the list item's value
-   * @private
-   * @returns {void}
-   */
-  #unfocusAnySelectedLiEditor(): void {
-    if (this.#selectedLiEditor) {
-      // this.#removeSelectedLiEditor();
-      this.offEvent('keyup', this.#selectedLiEditor);
-      this.#selectedLiEditor.parentElement?.classList.remove('is-editing');
-      this.#selectedLiEditor.remove();
-      this.#selectedLiEditor = null;
+  // /**
+  //  * Removes and unfocuses any active list item editor after updating the list item's value
+  //  * @private
+  //  * @returns {void}
+  //  */
+  // #unfocusAnySelectedLiEditor(): void {
+  //   if (this.#selectedLiEditor) {
+  //     // this.#removeSelectedLiEditor();
+  //     this.offEvent('keyup', this.#selectedLiEditor);
+  //     this.#selectedLiEditor.parentElement?.classList.remove('is-editing');
+  //     this.#selectedLiEditor.remove();
+  //     this.#selectedLiEditor = null;
 
-      this.updateDataFromDOM();
-    }
-  }
+  //     this.updateDataFromDOM();
+  //   }
+  // }
 
-  /**
-   * Helper function to update the list item inner text with the editor's input value
-   * @private
-   * @returns {void}
-   */
-  #updateSelectedLiWithEditorValue(): void {
-    const selectedItem = this.itemsSelected[0];
-    const textElem = selectedItem?.querySelector('ids-text');
-    if (textElem) textElem.innerHTML = this.#selectedLiEditor?.value ?? '';
-  }
+  // /**
+  //  * Helper function to update the list item inner text with the editor's input value
+  //  * @private
+  //  * @returns {void}
+  //  */
+  // #updateSelectedLiWithEditorValue(): void {
+  //   const selectedItem = this.itemsSelected[0];
+  //   const textElem = selectedItem?.querySelector('ids-text');
+  //   if (textElem) textElem.innerHTML = this.#selectedLiEditor?.value ?? '';
+  // }
 
   // /**
   //  * Helper function to remove the editor element from the DOM
@@ -235,50 +235,50 @@ export default class IdsListBuilder extends IdsListView {
   //   this.#selectedLiEditor = null;
   // }
 
-  /**
-   * Helper function to insert an editor into the DOM and hide the inner text of the list item
-   * @param {boolean | null} newEntry whether or not this is an editor for a new or pre-existing list item
-   * @private
-   * @returns {void}
-   */
-  #insertSelectedLiWithEditor(newEntry: boolean | null = false): void {
-    const itemFocused = this.itemFocused;
-    if (itemFocused) {
-      this.triggerEvent('itemChange', this, {
-        detail: itemFocused.rowData
-      });
+  // /**
+  //  * Helper function to insert an editor into the DOM and hide the inner text of the list item
+  //  * @param {boolean | null} newEntry whether or not this is an editor for a new or pre-existing list item
+  //  * @private
+  //  * @returns {void}
+  //  */
+  // #insertSelectedLiWithEditor(newEntry: boolean | null = false): void {
+  //   const itemFocused = this.itemFocused;
+  //   if (itemFocused) {
+  //     this.triggerEvent('itemChange', this, {
+  //       detail: itemFocused.rowData
+  //     });
 
-      if (!this.#selectedLiEditor) {
-        const input = new IdsInput();
-        // const selectorStr = this.selectable === 'single' ? 'div[part="list-item"]' : '.list-item-content';
-        // const listItem = this.selectedLi.querySelector(selectorStr);
+  //     if (!this.#selectedLiEditor) {
+  //       const input = new IdsInput();
+  //       // const selectorStr = this.selectable === 'single' ? 'div[part="list-item"]' : '.list-item-content';
+  //       // const listItem = this.selectedLi.querySelector(selectorStr);
 
-        // insert into DOM
-        itemFocused?.insertBefore(input, itemFocused.querySelector('ids-text'));
+  //       // insert into DOM
+  //       itemFocused?.insertBefore(input, itemFocused.querySelector('ids-text'));
 
-        // hide inner text
-        itemFocused?.classList.add('is-editing');
+  //       // hide inner text
+  //       itemFocused?.classList.add('is-editing');
 
-        // set the value of input
-        this.#selectedLiEditor = input;
-        input.value = newEntry ? 'New Value' : (itemFocused?.textContent ?? '').trim();
-        // input.value = newEntry ? 'New Value' : itemFocused?.querySelector('ids-text')?.innerHTML;
-        input.autoselect = 'true';
-        input.noMargins = 'true';
-        input.colorVariant = 'list-builder';
-        input.focus();
+  //       // set the value of input
+  //       this.#selectedLiEditor = input;
+  //       input.value = newEntry ? 'New Value' : (itemFocused?.textContent ?? '').trim();
+  //       // input.value = newEntry ? 'New Value' : itemFocused?.querySelector('ids-text')?.innerHTML;
+  //       input.autoselect = 'true';
+  //       input.noMargins = 'true';
+  //       input.colorVariant = 'list-builder';
+  //       input.focus();
 
-        // update inner text on keyup
-        // this.onEvent('keyup', input, () => this.#updateSelectedLiWithEditorValue());
-        this.onEvent('keyup', input, () => {
-          itemFocused.innerHTML = input.value ?? '';
-          // itemFocused.innerHTML = this.#selectedLiEditor?.value ?? '';
-        });
-      } else {
-        this.#selectedLiEditor.focus();
-      }
-    }
-  }
+  //       // update inner text on keyup
+  //       // this.onEvent('keyup', input, () => this.#updateSelectedLiWithEditorValue());
+  //       this.onEvent('keyup', input, () => {
+  //         itemFocused.innerHTML = input.value ?? '';
+  //         // itemFocused.innerHTML = this.#selectedLiEditor?.value ?? '';
+  //       });
+  //     } else {
+  //       this.#selectedLiEditor.focus();
+  //     }
+  //   }
+  // }
 
   // get selectedLi(): IdsSwappableItem | undefined {
   //   return this.itemsSelected.at(0)?.swappableParent;
@@ -300,61 +300,61 @@ export default class IdsListBuilder extends IdsListView {
   //   this.focusLi(item);
   // }
 
-  /**
-   * Toggles the selected list item
-   * @param {any} item the selected list item to toggle
-   */
-  toggleSelectedLi(item: any) {
-    const swappableItem = item?.swappableParent;
-    if (!this.selectable || !swappableItem) return;
-    if (this.selectable === 'single') {
-      const prevSelectedLi = this.itemsSelected[0]?.swappableParent;
-      if (swappableItem !== prevSelectedLi && prevSelectedLi) {
-        // this.toggleSelectedAttribute(prevSelectedLi);
-        if (this.selectable) {
-          prevSelectedLi.selected = prevSelectedLi.hasAttribute('selected');
-          prevSelectedLi.focus();
-          // this.focusLi(item);
-        }
-      }
-    }
-    if (this.selectable) {
-      // this.toggleSelectedAttribute(swappableItem);
-      swappableItem.selected = swappableItem.hasAttribute('selected');
-      swappableItem.focus();
-      // this.focusLi(item);
-    }
-  }
+  // /**
+  //  * Toggles the selected list item
+  //  * @param {any} item the selected list item to toggle
+  //  */
+  // toggleSelectedLi(item: any) {
+  //   const swappableItem = item?.swappableParent;
+  //   if (!this.selectable || !swappableItem) return;
+  //   if (this.selectable === 'single') {
+  //     const prevSelectedLi = this.itemsSelected[0]?.swappableParent;
+  //     if (swappableItem !== prevSelectedLi && prevSelectedLi) {
+  //       // this.toggleSelectedAttribute(prevSelectedLi);
+  //       if (this.selectable) {
+  //         prevSelectedLi.selected = prevSelectedLi.hasAttribute('selected');
+  //         prevSelectedLi.focus();
+  //         // this.focusLi(item);
+  //       }
+  //     }
+  //   }
+  //   if (this.selectable) {
+  //     // this.toggleSelectedAttribute(swappableItem);
+  //     swappableItem.selected = swappableItem.hasAttribute('selected');
+  //     swappableItem.focus();
+  //     // this.focusLi(item);
+  //   }
+  // }
 
-  /**
-   * Remove selected list item
-   * @private
-   * @returns {void}
-   */
-  #removeAllSelectedLi(): void {
-    const indexOfItems: number[] = [];
+  // /**
+  //  * Remove selected list item
+  //  * @private
+  //  * @returns {void}
+  //  */
+  // #removeAllSelectedLi(): void {
+  //   const indexOfItems: number[] = [];
 
-    for (const item of this.itemsSelected) {
-      indexOfItems.push(item.rowIndex);
-      this.triggerEvent('itemDelete', this, {
-        detail: item.rowData
-      });
+  //   for (const item of this.itemsSelected) {
+  //     indexOfItems.push(item.rowIndex);
+  //     this.triggerEvent('itemDelete', this, {
+  //       detail: item.rowData
+  //     });
 
-      item.swappableParent?.remove?.();
-      if (this.#selectedLiEditor) this.#selectedLiEditor = null;
-    }
+  //     item.swappableParent?.remove?.();
+  //     if (this.#selectedLiEditor) this.#selectedLiEditor = null;
+  //   }
 
-    this.resetIndices();
-    this.updateDataFromDOM();
+  //   this.resetIndices();
+  //   this.updateDataFromDOM();
 
-    for (const index of indexOfItems) {
-      const liItem = this.itemByIndex(index);
+  //   for (const index of indexOfItems) {
+  //     const liItem = this.itemByIndex(index);
 
-      if (liItem) {
-        this.toggleSelectedLi(liItem);
-      }
-    }
-  }
+  //     if (liItem) {
+  //       this.toggleSelectedLi(liItem);
+  //     }
+  //   }
+  // }
 
   // /**
   //  * Helper function for swapping nodes in the list item -- used when dragging list items or clicking the up/down arrows
@@ -426,13 +426,13 @@ export default class IdsListBuilder extends IdsListView {
   //   this.triggerEvent('itemAdd', this, { detail: newSwappableItem.rowData });
   // }
 
-  /**
-   * Delete selected
-   * @returns {void}
-   */
-  delete(): void {
-    this.#removeAllSelectedLi();
-  }
+  // /**
+  //  * Delete selected
+  //  * @returns {void}
+  //  */
+  // delete(): void {
+  //   this.#removeAllSelectedLi();
+  // }
 
   // /**
   //  * Edit selected item
@@ -580,7 +580,7 @@ export default class IdsListBuilder extends IdsListView {
     // newItem.rowData = newData;
     // newItem.disabled = false;
 
-    console.log('newItem', newItem);
+    // console.log('newItem', newItem);
 
     this.triggerEvent('itemAdd', this, { detail: newItem.rowData });
     // this.#insertSelectedLiWithEditor(true);
@@ -700,23 +700,23 @@ export default class IdsListBuilder extends IdsListView {
     // });
   }
 
-  /**
-   * Add/remove the editor in one function,
-   * used when `Enter` key is hit on a selected list item
-   * @private
-   * @returns {void}
-   */
-  #toggleEditor(): void {
-    const selectedItem = this.itemsSelected[0];
-    if (selectedItem) {
-      if (!this.#selectedLiEditor) {
-        this.#insertSelectedLiWithEditor();
-      } else {
-        this.#unfocusAnySelectedLiEditor();
-      }
-      this.focusLi(selectedItem.swappableParent);
-    }
-  }
+  // /**
+  //  * Add/remove the editor in one function,
+  //  * used when `Enter` key is hit on a selected list item
+  //  * @private
+  //  * @returns {void}
+  //  */
+  // #toggleEditor(): void {
+  //   const selectedItem = this.itemsSelected[0];
+  //   if (selectedItem) {
+  //     if (!this.#selectedLiEditor) {
+  //       this.#insertSelectedLiWithEditor();
+  //     } else {
+  //       this.#unfocusAnySelectedLiEditor();
+  //     }
+  //     this.focusLi(selectedItem.swappableParent);
+  //   }
+  // }
 
   #attachKeyboardListeners(): void {
     // this.itemsSwappable.forEach((li: any) => {
@@ -733,7 +733,7 @@ export default class IdsListBuilder extends IdsListView {
       const keyCode = String(event.key).trim() || 'Space';
       switch (keyCode) {
         case 'Enter': // edits the list item
-          console.log('idsListBuilder#attachKeyboardListeners');
+          // console.log('idsListBuilder#attachKeyboardListeners');
           break;
         //   event.preventDefault();
         //   // if (!(this.getAllSelectedLiIndex().includes(this.getFocusedLiIndex()))) {
@@ -751,7 +751,8 @@ export default class IdsListBuilder extends IdsListView {
         case 'Tab':
         case 'ArrowUp':
         case 'ArrowDown':
-          this.#unfocusAnySelectedLiEditor();
+          // this.#unfocusAnySelectedLiEditor();
+          // this.updateDataFromDOM();
           break;
         case 'Backspace':
         case 'Delete':
