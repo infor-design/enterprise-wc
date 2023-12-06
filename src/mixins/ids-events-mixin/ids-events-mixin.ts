@@ -77,11 +77,6 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     ];
   }
 
-  connectedCallback(): void {
-    super.connectedCallback?.();
-    this.#attachKeyboardShortcuts();
-  }
-
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.detachAllEvents();
@@ -217,7 +212,6 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     this.#removeHoverEndListener();
     this.#removeSlopedMouseLeaveListener();
     this.#removeKeyDownEndListener();
-    this.#removeKeyboardShortcuts();
     this.#removeSwipeListener();
   }
 
@@ -590,58 +584,6 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     this.keyDownEndOn = false;
     this.clearTimer();
     this.detachEventsByName('keydown.eventsmixin');
-  }
-
-  /**
-   * Attach all keyup.shortcuts events
-   * @private
-   */
-  #attachKeyboardShortcuts() {
-    this.onEvent('keyup.shortcuts', this, (event: KeyboardEvent) => {
-      const keyCode = event.code || 'Space';
-
-      const shortcuts = {
-        ArrowDown: 'down.shortcut',
-        ArrowLeft: 'left.shortcut',
-        ArrowRight: 'right.shortcut',
-        ArrowUp: 'up.shortcut',
-        Enter: ['enter.shortcut', 'return.shortcut'],
-        Space: ['space.shortcut', 'spacebar.shortcut'],
-        Tab: 'tab.shortcut',
-      }[keyCode];
-
-      if (shortcuts) this.#triggerKeyboardShortcuts(event, shortcuts);
-    });
-  }
-
-  /**
-   * Detach all keyup.shortcuts events
-   * @private
-   */
-  #removeKeyboardShortcuts() {
-    this.detachEventsByName('keyup.shortcuts');
-  }
-
-  /**
-   * Helper to trigger custom "keyboard" events (i.e. shortcuts) when a "keyboard" event is fired
-   * @param {KeyboardEvent} event - the native keyboard event
-   * @param {string[]|string} shortcuts - list of short cuts to create
-   */
-  #triggerKeyboardShortcuts(event: KeyboardEvent, shortcuts: string[] | string): void {
-    // @see https://javascript.info/bubbling-and-capturing#capturing
-    const options = {
-      bubbles: false, // no need to bubble this up to children
-      capture: true, // catching keyboard event as quickly as possible
-      composed: false, // no need to bubble beyond web-component boundary
-      detail: {
-        nativeEvent: event
-      }
-    };
-
-    shortcuts = Array.isArray(shortcuts) ? shortcuts : [shortcuts];
-    shortcuts.forEach((shortcut) => {
-      this.triggerEvent(shortcut, this, { ...options });
-    });
   }
 };
 

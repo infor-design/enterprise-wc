@@ -25,8 +25,9 @@ import styles from './ids-list-view.scss';
 
 import type IdsListViewItem from './ids-list-view-item';
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
-import type IdsText from '../ids-text/ids-text';
 import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+
+// type IdsListItemType = IdsListViewItem | IdsSwappableItem;
 
 const Base = IdsLocaleMixin(
   IdsPagerMixin(
@@ -104,15 +105,6 @@ export default class IdsListView extends Base {
   /** The currently focused list item */
   #focusedLiIndex: any = 0;
 
-  /** The currently activated list item */
-  #activatedIndex = -1;
-
-  /** The currently target while selecting */
-  #isTargetCheckbox = false;
-
-  /** The currently apply state while single selecting */
-  #isApply = false;
-
   /** The currently list size */
   #size = 0;
 
@@ -121,9 +113,6 @@ export default class IdsListView extends Base {
 
   defaultTemplate = '';
 
-  /**
-   * @returns {Array<string>} Drawer vetoable events
-   */
   vetoableEventTypes = [
     'beforeitemactivated',
     'beforeitemdeactivated',
@@ -142,15 +131,15 @@ export default class IdsListView extends Base {
     this.#attachSearchFilterCallback();
   }
 
-  /**
-   * Invoked each time the custom element is removed from a document-connected element.
-   */
-  disconnectedCallback() {
-    if (this.isConnected) {
-      // only redraw on disconnect if list-view is still in DOM
-      this.redrawLazy();
-    }
-  }
+  // /**
+  //  * Invoked each time the custom element is removed from a document-connected element.
+  //  */
+  // disconnectedCallback() {
+  //   if (this.isConnected) {
+  //     // only redraw on disconnect if list-view is still in DOM
+  //     this.redrawLazy();
+  //   }
+  // }
 
   /**
    * Return the attributes we handle as getters/setters
@@ -172,88 +161,65 @@ export default class IdsListView extends Base {
     ];
   }
 
+  itemsSelector<T extends HTMLElement>(cssSelector: string): T[] {
+    return [
+      ...this.querySelectorAll<T>(cssSelector),
+      ...(this.shadowRoot?.querySelectorAll<T>(cssSelector) ?? []),
+    ];
+  }
+
+  get itemCount(): number { return this.data?.length || this.items?.length || 0; }
+
   /**
    * Get the list item DOM element.
    * @param {number} rowIndex The value of row-index.
    * @returns {IdsListViewItem|undefined} The DOM element, or undefined if item not found.
    */
   itemByIndex(rowIndex: number): IdsListViewItem | undefined {
-    const rowSelector = `ids-list-view-item[row-index="${rowIndex}"]`;
-    return [
-      ...this.querySelectorAll<IdsListViewItem>(rowSelector),
-      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>(rowSelector) ?? []),
-    ][0] ?? undefined;
+    return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[row-index="${rowIndex}"]`)[0] ?? undefined;
   }
 
-  get items(): IdsListViewItem[] {
-    return [
-      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item'),
-      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item') ?? []),
-    ];
+  get itemFocused() {
+    const rowIndex = Number(this.getAttribute('aria-activedescendant')) || 0;
+    return this.itemByIndex(rowIndex);
+    // return this.itemsTabbable?.at(0) ?? this.itemByIndex(0);
   }
 
-  get itemsActive(): IdsListViewItem[] {
-    return [
-      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[active]'),
-      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item[active]') ?? []),
-    ];
-  }
+  get items(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item`); }
 
-  get itemsDisabled(): IdsListViewItem[] {
-    return [
-      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[disabled]'),
-      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item[disabled]') ?? []),
-    ];
-  }
+  get itemsActive(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[active]`); }
 
-  get itemsFiltered(): IdsListViewItem[] {
-    const filteredSelector = `ids-list-view-item:not(.${SEARCH_FILTER_CLASS})`;
-    return [
-      ...this.querySelectorAll<IdsListViewItem>(filteredSelector),
-      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>(filteredSelector) ?? []),
-    ];
-  }
+  get itemsDisabled(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[disabled]`); }
 
-  get itemsChecked(): IdsListViewItem[] {
-    return [
-      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[checked]'),
-      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item[checked]') ?? []),
-    ];
-  }
+  get itemsFiltered(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item:not(.${SEARCH_FILTER_CLASS})`); }
 
-  get itemsSelected(): IdsListViewItem[] {
-    return [
-      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[selected]'),
-      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item[selected]') ?? []),
-    ];
-  }
+  get itemsChecked(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[checked]`); }
 
-  get itemsTabbable(): IdsListViewItem[] {
-    return [
-      ...this.querySelectorAll<IdsListViewItem>('ids-list-view-item[tabindex="0"]'),
-      ...(this.shadowRoot?.querySelectorAll<IdsListViewItem>('ids-list-view-item[tabindex="0"]') ?? []),
-    ];
-  }
+  get itemsSelected(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[selected]`); }
+
+  get itemsSwappable(): IdsSwappableItem[] { return this.itemsSelector<IdsSwappableItem>(`ids-swappable-item`); }
+
+  get itemsTabbable(): IdsListViewItem[] { return this.itemsSelector(`ids-list-view-item[tabindex="0"]`); }
 
   #extractTemplateLiteralsFromHTML(string: string) {
     return Array.from(string?.matchAll(/\${(.*)}/g), ([, token]) => token);
   }
 
-  /**
-   * Get list of all elements
-   * @returns {NodeListOf<HTMLElement>} List of all list item elements
-   */
-  getAllLi(): NodeListOf<HTMLElement> | undefined {
-    return this.container?.querySelectorAll<HTMLElement>('[part="list-item"]');
-  }
+  // /**
+  //  * Get list of all elements
+  //  * @returns {NodeListOf<HTMLElement>} List of all list item elements
+  //  */
+  // getAllLi(): NodeListOf<HTMLElement> | undefined {
+  //   return this.container?.querySelectorAll<HTMLElement>('[part="list-item"]');
+  // }
 
-  /**
-   * Return all swappable items
-   * @returns {NodeListOf<IdsSwappableItem>} List of all swappable items
-   */
-  getAllSwappableItems(): NodeListOf<IdsSwappableItem> | undefined {
-    return this.container?.querySelectorAll<IdsSwappableItem>('ids-swappable-item');
-  }
+  // /**
+  //  * Return all swappable items
+  //  * @returns {NodeListOf<IdsSwappableItem>} List of all swappable items
+  //  */
+  // getAllSwappableItems(): NodeListOf<IdsSwappableItem> | undefined {
+  //   return this.container?.querySelectorAll<IdsSwappableItem>('ids-swappable-item');
+  // }
 
   /**
    * Get the item info for given element.
@@ -265,19 +231,18 @@ export default class IdsListView extends Base {
       ? el : el?.closest('[role="option"]');
     const index = stringToNumber(item?.getAttribute('index'));
     const output = Number.isNaN(index) ? null : { item, index, data: this.data[index] };
-    console.log('#itemInfo', output);
     return output;
   }
 
-  /**
-   * Get the list item DOM element.
-   * @param {number} index The value of data index.
-   * @returns {HTMLElement|null} The DOM element, or null if item not found.
-   */
-  #itemByIndex(index: number): HTMLElement | null {
-    return Number.isNaN(index) || !this.container ? null
-      : this.container.querySelector(`[part="list-item"][index="${index}"]`);
-  }
+  // /**
+  //  * Get the list item DOM element.
+  //  * @param {number} index The value of data index.
+  //  * @returns {HTMLElement|null} The DOM element, or null if item not found.
+  //  */
+  // #itemByIndex(index: number): HTMLElement | null {
+  //   return Number.isNaN(index) || !this.container ? null
+  //     : this.container.querySelector(`[part="list-item"][index="${index}"]`);
+  // }
 
   /**
    * Get data index for given page index.
@@ -292,56 +257,31 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Get page index for given data index.
-   * @param {number} dataIndex The data index value.
-   * @returns {number|null} The paga index.
-   */
-  pageIndex(dataIndex: number): number | null {
-    let idx = stringToNumber(dataIndex);
-    if (Number.isNaN(idx)) return null;
-    idx -= (this.pageNumber - 1) * this.#size;
-    return (idx >= 0 && idx < this.#size) ? idx : null;
-  }
-
-  /**
-   * Check if given data index in current page.
-   * @param {number} dataIndex The data index value.
-   * @returns {boolean} True, if data index in current page
-   */
-  isInPage(dataIndex: number): boolean {
-    const idx = stringToNumber(dataIndex);
-    if (Number.isNaN(idx)) return false;
-
-    let end = this.pageNumber * this.#size;
-    let start = end - this.#size;
-
-    if (this.virtualScroll) {
-      end = this.virtualScrollContainer?.lastEnd as number;
-      start = this.virtualScrollContainer?.lastStart as number;
-    }
-
-    return dataIndex >= start && dataIndex < end;
-  }
-
-  /**
    * Handle on keydown
    * @private
-   * @param {KeyboardEvent} e The event.
+   * @param {KeyboardEvent} evt The event.
    * @returns {void}
    */
-  #handleOnKeydown(e: KeyboardEvent): void {
-    switch (e.code) {
+  #handleOnKeydown(evt: KeyboardEvent): void {
+    const keyCode = evt.code || 'Space';
+    switch (keyCode) {
       case 'ArrowUp':
-        e.preventDefault();
-        this.focusLi(this.getPreviousLi());
+        evt.preventDefault();
+        this.itemFocused?.prevEnabled?.focus();
         break;
       case 'ArrowDown':
-        e.preventDefault();
-        this.focusLi(this.getNextLi());
+        evt.preventDefault();
+        this.itemFocused?.nextEnabled?.focus();
         break;
-      case 'Space':
-        e.preventDefault();
+      case 'Enter':
+      //   evt.preventDefault();
+      //   if (this.itemFocused) this.itemFocused.selected = !this.itemFocused.selected;
+        console.log('idsListView#handleOnKeydown');
         break;
+      // case 'Space':
+      //   evt.preventDefault();
+      //   this.itemFocused?.focus();
+      //   break;
       default:
         break;
     }
@@ -358,15 +298,12 @@ export default class IdsListView extends Base {
     this.#adjustVirtualScrollIndexes(startIndex);
     for (let i = startIndex; i < endIndex; i++) {
       if (this.data?.[i]?.itemSelected) {
-        const item = this.#itemByIndex(i);
-        const cb: any = item?.querySelector('.list-item-checkbox');
-        if (cb) cb.checked = true;
-        item?.setAttribute('selected', '');
-        item?.setAttribute('aria-selected', 'true');
-        if (this.selectable === 'mixed') item?.setAttribute('hide-selected-color', '');
+        const item = this.itemByIndex(i);
+        if (item) item.selected = true;
       }
       if (this.data?.[i]?.itemActivated) {
-        this.#itemByIndex(i)?.setAttribute('activated', '');
+        const item = this.itemByIndex(i);
+        if (item) item.active = true;
       }
     }
   }
@@ -395,10 +332,10 @@ export default class IdsListView extends Base {
     });
 
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
-    if (!this.sortable) {
-      this.offEvent('keydown.listview-selection', this);
-      this.onEvent('keydown.listview-selection', this, (e: any) => this.#handleOnKeydown(e));
+    this.offEvent('keydown.listview-selection', this);
+    this.onEvent('keydown.listview-selection', this, (e: any) => this.#handleOnKeydown(e));
 
+    if (this.virtualScroll && !this.sortable) {
       this.offEvent('aftervirtualscroll.listview', this.virtualScrollContainer);
       this.onEvent('aftervirtualscroll.listview', this.virtualScrollContainer, (e: CustomEvent) => this.#handleOnAfterVirtualScroll(e));
     }
@@ -445,65 +382,34 @@ export default class IdsListView extends Base {
    * @returns {void}
    */
   focusLi(li?: HTMLElement | null, noFocus = false): void {
-    if (li) {
-      const prevFocus = this.getFocusedLi();
-      // remove tabindex from previous focus
-      if (li !== prevFocus) {
-        prevFocus?.setAttribute('tabindex', '-1');
-        this.#focusedLiIndex = li.getAttribute('index');
-      }
+    li?.focus({ preventScroll: false });
+    // if (li) {
+    //   const prevFocus = this.itemFocused;
+    //   // remove tabindex from previous focus
+    //   if (li !== prevFocus) {
+    //     prevFocus?.setAttribute('tabindex', '-1');
+    //     this.#focusedLiIndex = li.getAttribute('index');
+    //   }
 
-      // Set accessbility
-      const container = this.container?.querySelector('.ids-list-view-body');
-      container?.setAttribute('aria-activedescendant', String(li.getAttribute('id')));
+    //   // Set accessbility
+    //   const container = this.container?.querySelector('.ids-list-view-body');
+    //   container?.setAttribute('aria-activedescendant', String(li.getAttribute('id')));
 
-      // init new focus
-      li.setAttribute('tabindex', '0'); // this clears after every render
-      if (!noFocus) li.focus();
-    }
+    //   // init new focus
+    //   li.setAttribute('tabindex', '0'); // this clears after every render
+    //   if (!noFocus) li.focus();
+    // }
   }
 
-  /**
-   * Get currently focused list item.
-   * @returns {Element|undefined} The focused list item.
-   */
-  getFocusedLi(): IdsListViewItem | undefined {
-    return this.itemsTabbable?.at(0) ?? this.itemByIndex(0);
-  }
-
-  /**
-   * Get previous list item for a given list item.
-   * @param {IdsListViewItem} listItem The list item.
-   * @returns {IdsListViewItem|undefined} The previous list item
-   */
-  getPreviousLi(listItem?: IdsListViewItem): HTMLElement | undefined {
-    const focusedItem = listItem ?? this.getFocusedLi();
-
-    let rowIndex = focusedItem?.rowIndex ?? 0;
-    let previousItem = this.itemByIndex(--rowIndex);
-    while (previousItem && previousItem?.disabled) {
-      previousItem = this.itemByIndex(--rowIndex);
-    }
-
-    return previousItem;
-  }
-
-  /**
-   * Get next list item for a given list item.
-   * @param {IdsListViewItem} listItem The list item.
-   * @returns {IdsListViewItem|undefined} The next list item
-   */
-  getNextLi(listItem?: any): IdsListViewItem | undefined {
-    const focusedItem = listItem ?? this.getFocusedLi();
-
-    let rowIndex = focusedItem.rowIndex ?? 0;
-    let nextItem = this.itemByIndex(++rowIndex);
-    while (nextItem && nextItem?.disabled) {
-      nextItem = this.itemByIndex(++rowIndex);
-    }
-
-    return nextItem;
-  }
+  // /**
+  //  * Get currently focused list item.
+  //  * @returns {Element|undefined} The focused list item.
+  //  */
+  // getFocusedLi(): IdsListViewItem | undefined {
+  //   const rowIndex = Number(this.getAttribute('aria-activedescendant') ?? -1);
+  //   return this.itemByIndex(rowIndex);
+  //   // return this.itemsTabbable?.at(0) ?? this.itemByIndex(0);
+  // }
 
   /**
    * Check if the element is a valid is <ids-list-view-item>
@@ -581,10 +487,10 @@ export default class IdsListView extends Base {
   templateListItemWrapper(innerHTML: string, index = -1): string {
     const item = this.itemByIndex(index);
     const data = this.data[index] ?? item?.rowData ?? {};
-    // const activated = data.itemActivated ? ' activated' : '';
     const disabled = data.disabled ? ' disabled' : '';
-    // const selected = data.itemSelected ? ' selected' : '';
     const sortable = this.sortable ? ' class="sortable"' : '';
+    // const activated = data.itemActivated ? ' activated' : '';
+    // const selected = data.itemSelected ? ' selected' : '';
 
     const wrappedInnerHTML = `<div ${disabled}${sortable}>${innerHTML}</div>`;
 
@@ -690,93 +596,14 @@ export default class IdsListView extends Base {
    * @returns {void}
    */
   #adjustVirtualScrollIndexes(startIndex: number): void {
-    const items = this.getAllLi();
-    const len = items?.length;
+    const items = this.items;
 
-    if (startIndex === 0) items?.item(0)?.setAttribute('tabindex', '0');
+    if (startIndex === 0) items?.at(0)?.setAttribute('tabindex', '0');
     items?.forEach((item: any, i: number) => {
       item?.setAttribute('index', i + startIndex);
       item?.setAttribute('aria-posinset', i + 1);
-      item?.setAttribute('aria-setsize', len);
+      item?.setAttribute('aria-setsize', items?.length);
     });
-  }
-
-  /**
-   * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
-   * @param {Element} item the item to add/remove the selected attribute
-   * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
-   */
-  toggleSelectedAttribute(item: HTMLLIElement, switchValue?: boolean) {
-    if (!this.selectable || item?.tagName !== 'IDS-SWAPPABLE-ITEM') return;
-
-    const unselect = () => {
-      item.removeAttribute('selected');
-      item.removeAttribute('aria-selected');
-      this.#activatedIndex = -1;
-    };
-
-    const select = () => {
-      item.setAttribute('selected', 'selected');
-      item.setAttribute('aria-selected', 'true');
-      this.#activatedIndex = parseInt(item.getAttribute('index') || '-1');
-
-      this.triggerEvent('itemSelect', this, {
-        detail: this.getListItemData(item)
-      });
-    };
-
-    if (switchValue === true) {
-      select();
-    } else if (switchValue === false) {
-      unselect();
-    } else {
-      // otherwise toggle it depending on whether or not it has the attribute already
-      const hasSelectedAttribute = item.hasAttribute('selected');
-      if (hasSelectedAttribute) {
-        unselect();
-      } else {
-        select();
-      }
-
-      this.focusLi(item);
-    }
-  }
-
-  /**
-   * Toggles the selected list item
-   * @param {any} item the selected list item to toggle
-   */
-  toggleSelectedLi(item: any) {
-    if (!this.selectable || !item) return;
-    if (item.tagName === 'IDS-SWAPPABLE-ITEM') {
-      if (this.selectable === 'single') {
-        const prevSelectedLi: HTMLLIElement = (this as any).selectedLi;
-        if (item !== prevSelectedLi && prevSelectedLi) {
-          this.toggleSelectedAttribute(prevSelectedLi);
-        }
-      }
-      this.toggleSelectedAttribute(item);
-    }
-  }
-
-  /**
-   * Update data from DOM
-   * @returns {void}
-   */
-  updateDataFromDOM(): void {
-    const newData: any = [];
-    this.container?.querySelectorAll<HTMLElement>('[part="list-item"]').forEach((x) => {
-      const objItem: any = {};
-      x.querySelectorAll<IdsText>('ids-text').forEach((value, i) => {
-        objItem[this.dataKeys[i]] = value.innerHTML;
-      });
-
-      newData.push(objItem);
-    });
-
-    if (this.datasource) {
-      this.datasource.data = newData;
-    }
   }
 
   /** Used in IdsListView.redrawLazy() */
@@ -796,7 +623,7 @@ export default class IdsListView extends Base {
   redraw() {
     if (!this.data || !this.loaded) {
       if (!this.#childElements().length) {
-        if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
+        if (!this.data?.length) this.items?.forEach((li: any) => li?.remove());
         return;
       }
     }
@@ -1052,28 +879,6 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Get the activated item
-   * @returns {IdsListViewActivatedItem|null} The activated item
-   */
-  get activatedItem(): IdsListViewActivatedItem | Array<IdsListViewActivatedItem> | null {
-    if (!this.ds || this.selectable !== 'mixed') return null;
-    const singleArgs = (index: number) => (index > -1 ? { index, data: this.ds[index] } : null);
-    return singleArgs(this.ds.findIndex((d: any) => d.itemActivated));
-  }
-
-  /**
-   * Get the selected item/s
-   * @returns {IdsListViewSelectedItem|Array<IdsListViewSelectedItem>|null} single item, or List of all selected items
-   */
-  get selected(): IdsListViewSelectedItem | Array<IdsListViewSelectedItem> | null {
-    if (!this.ds || !this.selectable) return null;
-    const singleArgs = (index: number) => (index > -1 ? { index, data: this.ds[index] } : null);
-    return this.selectable === 'single'
-      ? singleArgs(this.ds.findIndex((d: any) => d.itemSelected))
-      : this.ds.map((data: any, index: number) => ({ index, data })).filter((d: any) => d.data.itemSelected);
-  }
-
-  /**
    * Handles the sortable property and reflects it on the DOM.
    * @param {boolean|string} value The sortable parameter.
    */
@@ -1142,17 +947,6 @@ export default class IdsListView extends Base {
   }
 
   /**
-   * Trigger the given event.
-   * @private
-   * @param {string} eventtName The event name to be trigger.
-   * @param {object} args Extra data.
-   * @returns {void}
-   */
-  #triggerEvent(eventtName: string, args: object = {}): void {
-    this.triggerEvent(eventtName, this, { bubbles: true, detail: { elem: this, ...args } });
-  }
-
-  /**
    * Helper to select all list items.
    * @returns {void}
    */
@@ -1171,7 +965,7 @@ export default class IdsListView extends Base {
       });
     }
 
-    this.#triggerEvent('selectionchanged', { selected: this.selected });
+    this.#triggerEvent('selectionchanged', { selected: this.itemsSelected });
   }
 
   /**
@@ -1185,38 +979,17 @@ export default class IdsListView extends Base {
       });
     }
 
-    this.#triggerEvent('selectionchanged', { selected: this.selected });
+    this.#triggerEvent('selectionchanged', { selected: this.itemsSelected });
   }
 
   /**
-   * Get data for list item
-   * @param {Element} item list item
-   * @returns {any} data object
+   * Trigger the given event.
+   * @private
+   * @param {string} eventtName The event name to be trigger.
+   * @param {object} args Extra data.
+   * @returns {void}
    */
-  getListItemData(item?: Element | null) {
-    const dataIdx = item?.getAttribute('index');
-    return dataIdx ? this.data[dataIdx] : {};
-  }
-
-  /**
-   * Return #focusedLiIndex
-   * @returns {any} focusedLiIndex
-   */
-  getFocusedLiIndex(): any {
-    return this.getFocusedLi()?.rowIndex ?? 0;
-  }
-
-  /**
-   * Return all selected Li indexes
-   * @returns {any} List of selected li index
-   */
-  getAllSelectedLiIndex(): number[] {
-    const listOfIndex: number[] = [];
-    this.container?.querySelectorAll<IdsSwappableItem>('ids-swappable-item[selected]')
-      .forEach((item) => {
-        listOfIndex.push(+(item.getAttribute('index') ?? -1));
-      });
-
-    return listOfIndex;
+  #triggerEvent(eventtName: string, args: object = {}): void {
+    this.triggerEvent(eventtName, this, { bubbles: true, detail: { elem: this, ...args } });
   }
 }

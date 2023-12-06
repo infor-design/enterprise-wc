@@ -11,6 +11,7 @@ import IdsElement from '../../core/ids-element';
 
 import styles from './ids-swappable-item.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+// import IdsSwappable from './ids-swappable';
 
 type IdsSwappableDragMode = 'select' | 'always';
 
@@ -60,6 +61,18 @@ export default class IdsSwappableItem extends Base {
   template(): string {
     return `<slot></slot>`;
   }
+
+  // get data() {
+  //   return (this.parentElement as IdsSwappable)?.data ?? [];
+  // }
+
+  get rowIndex() {
+    return Number(this.getAttribute('index') ?? -1);
+  }
+
+  // get rowData() {
+  //   return this.data[this.rowIndex] ?? {};
+  // }
 
   set dragMode(value: IdsSwappableDragMode | null) {
     if (value === 'select') {
@@ -234,6 +247,7 @@ export default class IdsSwappableItem extends Base {
    * ids-swappable is not set to selection
    */
   #toggleSelect() {
+    console.log('ids-swappable-item#toggleSelect()');
     const clearSelection = () => {
       this.removeAttribute(attributes.SELECTED);
       this.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED);
@@ -338,6 +352,11 @@ export default class IdsSwappableItem extends Base {
     this.#handleClickEvents();
     this.#handleKeyEvents();
     this.#handleDragEvents();
+
+    // this.onEvent('focus.swappable-item', this, () => {
+    //   console.log('focus.swappable-item', this.rowIndex);
+    //   this.parentElement?.setAttribute('aria-activedescendant', String(this.rowIndex));
+    // });
   }
 
   /**
