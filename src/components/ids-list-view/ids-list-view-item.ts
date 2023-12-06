@@ -95,7 +95,7 @@ export default class IdsListViewItem extends Base {
     if (this.rowIndex < 0) {
       this.rowIndex = this.listView?.itemCount || 0;
       this.rowData = this.data?.at(-1) ?? {};
-      const html = this.listView?.templateCustomHTML(this.rowData);
+      const html = this.listView?.templateCustomHTML?.(this.rowData);
       if (html) this.innerHTML = html;
       // console.log(this.rowIndex, this.rowData);
     }
