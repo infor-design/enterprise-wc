@@ -204,22 +204,6 @@ export default class IdsListView extends Base {
     return Array.from(string?.matchAll(/\${(.*)}/g), ([, token]) => token);
   }
 
-  // /**
-  //  * Get list of all elements
-  //  * @returns {NodeListOf<HTMLElement>} List of all list item elements
-  //  */
-  // getAllLi(): NodeListOf<HTMLElement> | undefined {
-  //   return this.container?.querySelectorAll<HTMLElement>('[part="list-item"]');
-  // }
-
-  // /**
-  //  * Return all swappable items
-  //  * @returns {NodeListOf<IdsSwappableItem>} List of all swappable items
-  //  */
-  // getAllSwappableItems(): NodeListOf<IdsSwappableItem> | undefined {
-  //   return this.container?.querySelectorAll<IdsSwappableItem>('ids-swappable-item');
-  // }
-
   /**
    * Get the item info for given element.
    * @param {HTMLElement} el The element.
@@ -232,16 +216,6 @@ export default class IdsListView extends Base {
     const output = Number.isNaN(index) ? null : { item, index, data: this.data[index] };
     return output;
   }
-
-  // /**
-  //  * Get the list item DOM element.
-  //  * @param {number} index The value of data index.
-  //  * @returns {HTMLElement|null} The DOM element, or null if item not found.
-  //  */
-  // #itemByIndex(index: number): HTMLElement | null {
-  //   return Number.isNaN(index) || !this.container ? null
-  //     : this.container.querySelector(`[part="list-item"][index="${index}"]`);
-  // }
 
   /**
    * Get data index for given page index.
@@ -381,42 +355,6 @@ export default class IdsListView extends Base {
 
     super.resetSearch();
   }
-
-  // /**
-  //  * Set the focus for given list item.
-  //  * @param {any} li The list item.
-  //  * @param {boolean} noFocus do not actually focus
-  //  * @returns {void}
-  //  */
-  // focusLi(li?: HTMLElement | null, noFocus = false): void {
-  //   li?.focus({ preventScroll: false });
-  //   // if (li) {
-  //   //   const prevFocus = this.itemFocused;
-  //   //   // remove tabindex from previous focus
-  //   //   if (li !== prevFocus) {
-  //   //     prevFocus?.setAttribute('tabindex', '-1');
-  //   //     this.#focusedLiIndex = li.getAttribute('index');
-  //   //   }
-
-  //   //   // Set accessbility
-  //   //   const container = this.container?.querySelector('.ids-list-view-body');
-  //   //   container?.setAttribute('aria-activedescendant', String(li.getAttribute('id')));
-
-  //   //   // init new focus
-  //   //   li.setAttribute('tabindex', '0'); // this clears after every render
-  //   //   if (!noFocus) li.focus();
-  //   // }
-  // }
-
-  // /**
-  //  * Get currently focused list item.
-  //  * @returns {Element|undefined} The focused list item.
-  //  */
-  // getFocusedLi(): IdsListViewItem | undefined {
-  //   const rowIndex = Number(this.getAttribute('aria-activedescendant') ?? -1);
-  //   return this.itemByIndex(rowIndex);
-  //   // return this.itemsTabbable?.at(0) ?? this.itemByIndex(0);
-  // }
 
   /**
    * Check if the element is a valid is <ids-list-view-item>
