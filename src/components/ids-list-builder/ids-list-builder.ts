@@ -289,7 +289,6 @@ export default class IdsListBuilder extends IdsListView {
     });
 
     // this.resetIndices();
-    // this.updateDataFromDOM();
   }
 
   /**
@@ -305,7 +304,6 @@ export default class IdsListBuilder extends IdsListView {
       this.triggerEvent('itemMoveUp', this, { detail: { dataSet: this.data } });
 
       // this.resetIndices();
-      // this.updateDataFromDOM();
     }
   }
 
@@ -322,7 +320,6 @@ export default class IdsListBuilder extends IdsListView {
       this.triggerEvent('itemMoveDown', this, { detail: { dataSet: this.data } });
 
       // this.resetIndices();
-      // this.updateDataFromDOM();
     }
   }
 
@@ -378,7 +375,6 @@ export default class IdsListBuilder extends IdsListView {
         case 'ArrowDown':
           console.log('listbuilder.attachKeyboardListeners', keyCode);
           // this.#unfocusAnySelectedLiEditor();
-          // this.updateDataFromDOM();
           break;
         case 'Backspace':
         case 'Delete':
@@ -391,26 +387,6 @@ export default class IdsListBuilder extends IdsListView {
       }
     });
   }
-
-  // /**
-  //  * Update data from DOM
-  //  * @returns {void}
-  //  */
-  // updateDataFromDOM(): void {
-  //   const newData: any = [];
-  //   this.items.forEach((item) => {
-  //     const objItem: any = {};
-  //     item.querySelectorAll<IdsText>('ids-text').forEach((value, i) => {
-  //       objItem[this.dataKeys[i]] = value.innerHTML;
-  //     });
-
-  //     newData.push(objItem);
-  //   });
-
-  //   if (this.datasource) {
-  //     this.datasource.data = newData;
-  //   }
-  // }
 
   set virtualScroll(value: string | boolean) {
     // Do nothing
