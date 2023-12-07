@@ -288,9 +288,8 @@ export default class IdsListView extends Base {
     const defaultSlot = this.container?.querySelector<HTMLSlotElement>('slot:not([name])') ?? undefined;
     this.offEvent('slotchange.listview', defaultSlot);
     this.onEvent('slotchange.listview', defaultSlot, () => {
-      if (this.#childElements()?.length) {
-        this.redrawLazy();
-      }
+      const hasKids = [...this.children].some((item) => item.matches('ids-list-view-item'));
+      if (hasKids) this.redrawLazy();
     });
 
     // Fire click
@@ -323,9 +322,9 @@ export default class IdsListView extends Base {
   }
 
   #attachSearchFilterCallback() {
-    if (this.#childElements()?.length) {
+    if (this.items?.length) {
       this.searchFilterCallback = (term: string) => {
-        this.#childElements()?.forEach((item: any) => {
+        this.items?.forEach((item: any) => {
           // NOTE: using textContent because innerText was causing older jest tests to fail
           // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
           const haystack = String(item?.textContent ?? '').toLowerCase();
@@ -344,8 +343,8 @@ export default class IdsListView extends Base {
   }
 
   resetSearch() {
-    const kids = this.#childElements();
-    if (kids.length) {
+    const kids = this.items;
+    if (kids?.length) {
       this.datasource.filtered = true;
       kids.forEach((item) => {
         item.classList.remove(SEARCH_FILTER_CLASS);
@@ -354,26 +353,6 @@ export default class IdsListView extends Base {
     }
 
     super.resetSearch();
-  }
-
-  /**
-   * Check if the element is a valid is <ids-list-view-item>
-   * @param {any} element - an HTML element
-   * @returns {boolean} True if element is a valid <ds-list-view-item>
-   */
-  #childValidListViewItem(element: any): boolean {
-    return String(element?.tagName).toLowerCase() === 'ids-list-view-item';
-  }
-
-  /**
-   * Get all valid <ids-list-view-item> child elements inside this <ids-list-view>
-   * @param {boolean} filtered - if true, show only items that match search filter
-   * @returns {Element[]} All <ids-list-view-item> child elements
-   */
-  #childElements(filtered = false): Element[] {
-    return filtered
-      ? [...this.querySelectorAll(`ids-list-view-item:not(.${SEARCH_FILTER_CLASS})`)]
-      : [...this.querySelectorAll(`ids-list-view-item`)];
   }
 
   /**
@@ -429,7 +408,7 @@ export default class IdsListView extends Base {
    * @param {number} index - the index in this.data
    * @returns {string} html
    */
-  templateListItemWrapper(innerHTML: string, index = -1): string {
+  templateListItemWrapper(innerHTML: string, index: number = -1): string {
     const item = this.itemByIndex(index);
     const data = this.data[index] ?? item?.rowData ?? {};
     const disabled = data.disabled ? ' disabled' : '';
@@ -517,7 +496,7 @@ export default class IdsListView extends Base {
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): string {
-    return this.#childValidListViewItem(item)
+    return item?.matches?.('ids-list-view-item')
       ? `<slot name="${item?.getAttribute?.('slot')}"></slot>`
       : injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item);
   }
@@ -567,7 +546,7 @@ export default class IdsListView extends Base {
    */
   redraw() {
     if (!this.data || !this.loaded) {
-      if (!this.#childElements().length) {
+      if (!this.items.length) {
         if (!this.data?.length) this.items?.forEach((li: any) => li?.remove());
         return;
       }
