@@ -226,9 +226,7 @@ export default class IdsListBuilder extends IdsListView {
 
     if (itemFocused.swappableParent) itemFocused.swappableParent.selected = true;
 
-    this.triggerEvent('itemChange', this, {
-      detail: itemFocused.rowData
-    });
+    this.triggerEvent('itemChange', this, { detail: itemFocused.rowData });
 
     const input = new IdsInput();
     input.value = itemFocused?.textContent?.trim() ?? 'New Entry';

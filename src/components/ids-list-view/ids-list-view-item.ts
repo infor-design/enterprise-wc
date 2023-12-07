@@ -46,6 +46,19 @@ export default class IdsListViewItem extends Base {
     return this.listView?.itemByIndex(currentIndex);
   }
 
+  get templateElements() {
+    // const rowData = this.rowData;
+    // const selectors = Object.keys(rowData).map((fieldName) => `[${fieldName}]`);
+    // return [...this.querySelectorAll(selectors.join(', '))];
+
+    const elements = {};
+    Object.keys(this.rowData).map((fieldName) => {
+      const element = this.querySelector(`[${fieldName}]`);
+      if (element) elements[fieldName] = element;
+    });
+    return elements;
+  }
+
   get data() {
     return this.listView?.data ?? [];
   }
