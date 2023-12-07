@@ -441,13 +441,15 @@ export default class IdsListViewItem extends Base {
 
     this.onEvent('keyup.listview-selection', this, (e: KeyboardEvent) => {
       const keyCode = String(e.code).trim() || 'Space';
-      if (/^(Space|Enter)$/g.test(keyCode)) {
-        if (this.selectable === 'mixed') {
-          this.checked = !this.checked;
-        } else {
-          console.log('keyup.listview-selection');
-          this.#onClick(e);
-        }
+      if (['Space', 'Enter'].includes(keyCode)) {
+        console.log('keyup.listview-selection');
+        this.#onClick(e);
+        // if (this.selectable === 'mixed') {
+        //   this.checked = !this.checked;
+        // } else {
+        //   console.log('keyup.listview-selection');
+        //   this.#onClick(e);
+        // }
       }
     });
 

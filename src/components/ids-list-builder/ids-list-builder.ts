@@ -612,16 +612,22 @@ export default class IdsListBuilder extends IdsListView {
     input.focus();
 
     const text = itemFocused.querySelector('ids-text');
+    const originalValue = text?.innerHTML ?? '';
+
     this.onEvent('keyup.listbuilder-editor', input, (evt) => {
       evt.stopImmediatePropagation();
       if (text) text.innerHTML = input.value ?? '';
     });
 
     this.onEvent('blur.listbuilder-editor', input, () => {
-      if (text) text.innerHTML = input.value ?? '';
       input.remove();
       itemFocused?.classList.remove('is-editing');
       itemFocused.focus();
+    });
+
+    this.listen('Escape', input, () => {
+      if (text) text.innerHTML = originalValue;
+      input.blur();
     });
 
     this.listen(['Backspace', 'Delete'], input, (evt: KeyboardEvent) => evt.stopImmediatePropagation());
@@ -644,7 +650,8 @@ export default class IdsListBuilder extends IdsListView {
       item.swappableParent?.remove();
       item?.remove();
 
-      if (isLastSelected) nextEnabled?.focus(); // TODO: after deleteing, I cannot arrowUp past this focused item;
+      // TODO: after deleteing, I cannot arrowUp past this focused item @see item.prevEnabled/item.nextEnabled
+      if (isLastSelected) nextEnabled?.focus();
     });
 
     // this.resetIndices();
@@ -878,19 +885,19 @@ export default class IdsListBuilder extends IdsListView {
   //   return listOfIndex;
   // }
 
-  /**
-   * Reset indices
-   * @returns {void}
-   */
-  resetIndices(): void {
-    const listItems = this.itemsSwappable;
-    this.itemsSwappable?.forEach((item, index) => {
-      item.setAttribute('index', index.toString());
-      item.setAttribute('id', `id_item_${index + 1}`);
-      item.setAttribute('aria-posinset', `${index + 1}`);
-      item.setAttribute('aria-setsize', listItems.length.toString());
-    });
-  }
+  // /**
+  //  * Reset indices
+  //  * @returns {void}
+  //  */
+  // resetIndices(): void {
+  //   const listItems = this.itemsSwappable;
+  //   this.itemsSwappable?.forEach((item, index) => {
+  //     item.setAttribute('index', index.toString());
+  //     item.setAttribute('id', `id_item_${index + 1}`);
+  //     item.setAttribute('aria-posinset', `${index + 1}`);
+  //     item.setAttribute('aria-setsize', listItems.length.toString());
+  //   });
+  // }
 
   /**
    * Update data from DOM

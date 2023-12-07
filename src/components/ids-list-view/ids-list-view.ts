@@ -182,7 +182,6 @@ export default class IdsListView extends Base {
   get itemFocused() {
     const rowIndex = Number(this.getAttribute('aria-activedescendant')) || 0;
     return this.itemByIndex(rowIndex);
-    // return this.itemsTabbable?.at(0) ?? this.itemByIndex(0);
   }
 
   get items(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item`); }
@@ -267,6 +266,9 @@ export default class IdsListView extends Base {
     switch (keyCode) {
       case 'ArrowUp':
         evt.preventDefault();
+        console.log('listview.handleOnKeydown', keyCode);
+        console.log('this.itemFocused', this.itemFocused);
+        console.log('this.itemFocused?.prevEnabled', this.itemFocused?.prevEnabled);
         this.itemFocused?.prevEnabled?.focus();
         break;
       case 'ArrowDown':
@@ -331,6 +333,11 @@ export default class IdsListView extends Base {
       if (itemInfo) this.#triggerEvent('dblclick', { ...itemInfo, originalEvent: e });
     });
 
+    this.offEvent('focus.listview', this);
+    this.onEvent('focus.listview', this, () => {
+      (this.itemFocused ?? this.items.at(0))?.focus();
+    });
+
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
     this.offEvent('keydown.listview-selection', this);
     this.onEvent('keydown.listview-selection', this, (e: any) => this.#handleOnKeydown(e));
@@ -375,31 +382,31 @@ export default class IdsListView extends Base {
     super.resetSearch();
   }
 
-  /**
-   * Set the focus for given list item.
-   * @param {any} li The list item.
-   * @param {boolean} noFocus do not actually focus
-   * @returns {void}
-   */
-  focusLi(li?: HTMLElement | null, noFocus = false): void {
-    li?.focus({ preventScroll: false });
-    // if (li) {
-    //   const prevFocus = this.itemFocused;
-    //   // remove tabindex from previous focus
-    //   if (li !== prevFocus) {
-    //     prevFocus?.setAttribute('tabindex', '-1');
-    //     this.#focusedLiIndex = li.getAttribute('index');
-    //   }
+  // /**
+  //  * Set the focus for given list item.
+  //  * @param {any} li The list item.
+  //  * @param {boolean} noFocus do not actually focus
+  //  * @returns {void}
+  //  */
+  // focusLi(li?: HTMLElement | null, noFocus = false): void {
+  //   li?.focus({ preventScroll: false });
+  //   // if (li) {
+  //   //   const prevFocus = this.itemFocused;
+  //   //   // remove tabindex from previous focus
+  //   //   if (li !== prevFocus) {
+  //   //     prevFocus?.setAttribute('tabindex', '-1');
+  //   //     this.#focusedLiIndex = li.getAttribute('index');
+  //   //   }
 
-    //   // Set accessbility
-    //   const container = this.container?.querySelector('.ids-list-view-body');
-    //   container?.setAttribute('aria-activedescendant', String(li.getAttribute('id')));
+  //   //   // Set accessbility
+  //   //   const container = this.container?.querySelector('.ids-list-view-body');
+  //   //   container?.setAttribute('aria-activedescendant', String(li.getAttribute('id')));
 
-    //   // init new focus
-    //   li.setAttribute('tabindex', '0'); // this clears after every render
-    //   if (!noFocus) li.focus();
-    // }
-  }
+  //   //   // init new focus
+  //   //   li.setAttribute('tabindex', '0'); // this clears after every render
+  //   //   if (!noFocus) li.focus();
+  //   // }
+  // }
 
   // /**
   //  * Get currently focused list item.
