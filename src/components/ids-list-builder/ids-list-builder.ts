@@ -202,10 +202,10 @@ export default class IdsListBuilder extends IdsListView {
     const lastItem = this.itemsSelected.at(-1) ?? this.items.at(-1);
     const newItem = document.createElement('ids-list-view-item') as IdsListViewItem;
 
-    const swappableParent = lastItem?.swappableParent ?? this.shadowRoot?.querySelector('ids-swappable');
     const swappable = document.createElement('ids-swappable-item') as IdsSwappableItem;
-
     swappable.append(newItem);
+
+    const swappableParent = lastItem?.swappableParent ?? this.shadowRoot?.querySelector('ids-swappable');
     swappableParent?.after(swappable);
 
     newItem.active = true;
@@ -228,8 +228,14 @@ export default class IdsListBuilder extends IdsListView {
 
     this.triggerEvent('itemChange', this, { detail: itemFocused.rowData });
 
+    const editableElements = itemFocused.templateElements;
+    const fieldName = Object.keys(editableElements)[0];
+    const editableField = editableElements[fieldName];
+    const originalValue = (editableField?.textContent ?? '').trim() || 'New Value';
+
     const input = new IdsInput();
-    input.value = itemFocused?.textContent?.trim() ?? 'New Entry';
+    input.name = fieldName;
+    input.value = originalValue;
     input.autoselect = 'true';
     input.noMargins = 'true';
     input.colorVariant = 'list-builder';
@@ -238,22 +244,22 @@ export default class IdsListBuilder extends IdsListView {
     itemFocused?.prepend(input); // insert into DOM
     input.focus();
 
-    const text = itemFocused.querySelector('ids-text');
-    const originalValue = text?.innerHTML ?? '';
-
     this.onEvent('keyup.listbuilder-editor', input, (evt) => {
       evt.stopImmediatePropagation();
-      if (text) text.innerHTML = input.value ?? '';
+      editableField.innerHTML = input.value ?? '';
     });
 
     this.onEvent('blur.listbuilder-editor', input, () => {
+      editableField.innerHTML = input.value ?? '';
+      itemFocused.rowData = { [fieldName]: editableField.innerHTML };
+
       input.remove();
       itemFocused?.classList.remove('is-editing');
       itemFocused.focus();
     });
 
     this.listen('Escape', input, () => {
-      if (text) text.innerHTML = originalValue;
+      editableField.innerHTML = originalValue;
       input.blur();
     });
 
@@ -272,6 +278,7 @@ export default class IdsListBuilder extends IdsListView {
     itemsSelected.forEach((item) => {
       const isLastSelected = item === lastSelected;
       const deletedData = item.rowData;
+      // this.data[item.rowIndex] = null;
 
       this.triggerEvent('itemDelete', this, { detail: deletedData });
       item.swappableParent?.remove();
@@ -385,25 +392,25 @@ export default class IdsListBuilder extends IdsListView {
     });
   }
 
-  /**
-   * Update data from DOM
-   * @returns {void}
-   */
-  updateDataFromDOM(): void {
-    const newData: any = [];
-    this.items.forEach((item) => {
-      const objItem: any = {};
-      item.querySelectorAll<IdsText>('ids-text').forEach((value, i) => {
-        objItem[this.dataKeys[i]] = value.innerHTML;
-      });
+  // /**
+  //  * Update data from DOM
+  //  * @returns {void}
+  //  */
+  // updateDataFromDOM(): void {
+  //   const newData: any = [];
+  //   this.items.forEach((item) => {
+  //     const objItem: any = {};
+  //     item.querySelectorAll<IdsText>('ids-text').forEach((value, i) => {
+  //       objItem[this.dataKeys[i]] = value.innerHTML;
+  //     });
 
-      newData.push(objItem);
-    });
+  //     newData.push(objItem);
+  //   });
 
-    if (this.datasource) {
-      this.datasource.data = newData;
-    }
-  }
+  //   if (this.datasource) {
+  //     this.datasource.data = newData;
+  //   }
+  // }
 
   set virtualScroll(value: string | boolean) {
     // Do nothing

@@ -47,12 +47,10 @@ export default class IdsListViewItem extends Base {
   }
 
   get templateElements() {
-    // const rowData = this.rowData;
-    // const selectors = Object.keys(rowData).map((fieldName) => `[${fieldName}]`);
-    // return [...this.querySelectorAll(selectors.join(', '))];
-
     const elements = {};
-    Object.keys(this.rowData).map((fieldName) => {
+    const fieldNames = this.listView?.dataKeys ?? Object.keys(this.rowData);
+
+    fieldNames.map((fieldName: string) => {
       const element = this.querySelector(`[${fieldName}]`);
       if (element) elements[fieldName] = element;
     });
@@ -109,13 +107,10 @@ export default class IdsListViewItem extends Base {
 
     if (this.rowIndex < 0) {
       this.rowIndex = this.listView?.itemCount || 0;
-      this.rowData = this.data?.at(-1) ?? {};
       const html = this.listView?.templateCustomHTML?.(this.rowData);
       if (html) this.innerHTML = html;
-      // console.log(this.rowIndex, this.rowData);
     }
 
-    // this.onEvent('enter.shortcut', this, () => { console.log('pressed enter'); });
     this.#attachEventListeners();
     this.#setAttributes();
   }
@@ -124,6 +119,7 @@ export default class IdsListViewItem extends Base {
    * Invoked each time the custom element is removed from a document-connected element.
    */
   disconnectedCallback() {
+    this.data[this.rowIndex] = null;
     this.#detachEventListeners();
     // if (this.listView?.isConnected) {
     //   super.disconnectedCallback();
