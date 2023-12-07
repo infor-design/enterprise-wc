@@ -338,9 +338,9 @@ export default class IdsListViewItem extends Base {
 
   /**
    * Is this list-item sortable
-   * @returns {string} either single, multiple, mixed or empty-string
+   * @returns {boolean} true if it is sortable
    */
-  get sortable(): boolean { return stringToBool(this.listView?.sortable ?? ''); }
+  get sortable(): boolean { return stringToBool(this.listView?.sortable); }
 
   /**
    * Wrapper function that adds interface to match dataset interface.
@@ -489,7 +489,7 @@ export default class IdsListViewItem extends Base {
     const listView = this.listView;
     const rowData = this.rowData;
 
-    this.classList.toggle('sortable', listView.sortable);
+    this.classList.toggle('sortable', !!listView.sortable);
 
     this.active = !!rowData.itemActivated;
     this.disabled = !!rowData.disabled;
