@@ -6,11 +6,9 @@ import IdsListView from '../ids-list-view/ids-list-view';
 import styles from './ids-list-builder.scss';
 import IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 
-import type IdsText from '../ids-text/ids-text';
 import type IdsToolbar from '../ids-toolbar/ids-toolbar';
 import type IdsSwappable from '../ids-swappable/ids-swappable';
 import type IdsListViewItem from '../ids-list-view/ids-list-view-item';
-// import IdsListViewItem from '../ids-list-view/ids-list-view-item';
 
 /**
  * IDS ListBuilder Component
@@ -229,12 +227,13 @@ export default class IdsListBuilder extends IdsListView {
     this.triggerEvent('itemChange', this, { detail: itemFocused.rowData });
 
     const editableElements = itemFocused.templateElements;
-    const fieldName = Object.keys(editableElements)[0];
-    const editableField = editableElements[fieldName];
-    const originalValue = (editableField?.textContent ?? '').trim() || 'New Value';
+    const firstFieldName = Object.keys(editableElements)[0];
+    const firstEditableField = editableElements[firstFieldName] ?? itemFocused;
+    const originalValue = (firstEditableField?.textContent ?? '').trim() || 'New Value';
+    firstEditableField.innerHTML = originalValue;
 
     const input = new IdsInput();
-    input.name = fieldName;
+    input.name = firstFieldName;
     input.value = originalValue;
     input.autoselect = 'true';
     input.noMargins = 'true';
@@ -246,12 +245,11 @@ export default class IdsListBuilder extends IdsListView {
 
     this.onEvent('keyup.listbuilder-editor', input, (evt) => {
       evt.stopImmediatePropagation();
-      editableField.innerHTML = input.value ?? '';
+      firstEditableField.innerHTML = input.value ?? '';
     });
 
     this.onEvent('blur.listbuilder-editor', input, () => {
-      editableField.innerHTML = input.value ?? '';
-      itemFocused.rowData = { [fieldName]: editableField.innerHTML };
+      itemFocused.rowData = { [firstFieldName]: firstEditableField.textContent };
 
       input.remove();
       itemFocused?.classList.remove('is-editing');
@@ -259,7 +257,8 @@ export default class IdsListBuilder extends IdsListView {
     });
 
     this.listen('Escape', input, () => {
-      editableField.innerHTML = originalValue;
+      input.value = originalValue;
+      firstEditableField.innerHTML = originalValue;
       input.blur();
     });
 
@@ -295,7 +294,6 @@ export default class IdsListBuilder extends IdsListView {
    * Move up selected item(s)
    */
   #moveUp() {
-    // console.log('#moveUp()');
     const selected = this.itemsSelected;
     const firstSelected = selected[0];
     if (firstSelected) {
@@ -311,7 +309,6 @@ export default class IdsListBuilder extends IdsListView {
    * Move down selected item(s)
    */
   #moveDown() {
-    // console.log('#moveDown()');
     const selected = this.itemsSelected;
     const lastSelected = selected.at(-1);
     if (lastSelected) {
@@ -365,22 +362,17 @@ export default class IdsListBuilder extends IdsListView {
         //   this.#toggleEditor();
         //   break;
         // case 'Space': // selects the list item
-        //   if (!this.#selectedLiEditor) {
-        //     event.preventDefault(); // prevent container from scrolling
-        //     this.toggleSelectedLi(li);
-        //   }
+        //   event.preventDefault(); // prevent container from scrolling
+        //   event.stopImmediatePropagation();
+        //   if (this.itemFocused) this.itemFocused.selected = !this.itemFocused.selected;
         //   break;
         case 'Tab':
         case 'ArrowUp':
         case 'ArrowDown':
-          console.log('listbuilder.attachKeyboardListeners', keyCode);
-          // this.#unfocusAnySelectedLiEditor();
           break;
         case 'Backspace':
         case 'Delete':
-          console.log('listbuilder.attachKeyboardListeners', keyCode);
           this.#delete();
-          // this.#removeAllSelectedLi();
           break;
         default:
           break;
