@@ -277,7 +277,7 @@ export default class IdsListBuilder extends IdsListView {
     itemsSelected.forEach((item) => {
       const isLastSelected = item === lastSelected;
       const deletedData = item.rowData;
-      // this.data[item.rowIndex] = null;
+      if (this.data[item.rowIndex]) this.data[item.rowIndex] = null;
 
       this.triggerEvent('itemDelete', this, { detail: deletedData });
       item.swappableParent?.remove();

@@ -120,7 +120,6 @@ export default class IdsListViewItem extends Base {
    * Invoked each time the custom element is removed from a document-connected element.
    */
   disconnectedCallback() {
-    if (this.data[this.rowIndex]) this.data[this.rowIndex] = null;
     this.#detachEventListeners();
     // if (this.listView?.isConnected) {
     //   super.disconnectedCallback();
@@ -194,7 +193,7 @@ export default class IdsListViewItem extends Base {
     const rowIndex = Number(newValue) >= 0 ? Number(newValue) : -1;
     this.setAttribute('index', String(rowIndex));
     this.setAttribute('aria-posinset', String(rowIndex + 1));
-    this.setAttribute('aria-setsize', String(this.listView?.itemCount || 0));
+    this.setAttribute('aria-setsize', String(this.listView?.itemCount || -1));
   }
 
   get checkbox(): IdsCheckbox | undefined {
