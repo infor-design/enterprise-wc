@@ -30,37 +30,6 @@
         max-width: 98%;
       }
     }
-
-    // ids-list-view-item {
-    //   border: var(--ids-list-builder-item-border);
-    //   padding: var(--ids-list-builder-item-padding);
-    //   min-height: var(--ids-list-builder-item-height-min);
-    //   height: var(--ids-list-builder-item-height);
-    //   list-style-type: none;
-    //   box-sizing: border-box;
-    //   cursor: pointer;
-    //   position: relative;
-    //   width: 100%;
-
-    //   &:hover span::after {
-    //     position: absolute;
-    //     left: 0;
-    //     transform: translate(100%, -8%);
-    //     font-size: var(--ids-list-builder-item-font-size-drag);
-    //     content: var(--ids-list-builder-drag-content);
-    //     cursor: var(--ids-list-builder-item-cursor-drag);
-    //   }
-
-    //   ids-text::part(text) {
-    //     display: inline;
-    //     user-select: none;
-    //   }
-
-    //   &.placeholder {
-    //     background-color: var(--ids-list-builder-item-color-background-placeholder);
-    //     opacity: var(--ids-list-builder-item-placeholder-opacity);
-    //   }
-    // }
   }
 }
 
