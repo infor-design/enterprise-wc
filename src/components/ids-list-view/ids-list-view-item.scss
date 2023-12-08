@@ -75,15 +75,7 @@ li:focus-within,
   outline: var(--ids-list-view-item-outline-focus);
 }
 
-li.disabled,
-li[disabled],
-.disabled,
-[disabled],
-:host(:hover[disabled]),
-:host([disabled]:hover),
-:host([disabled]),
-:host-context([disabled]),
-:host-context(.disabled) {
+@mixin list-view-item-disabled() {
   background-color: var(--ids-list-view-item-color-background-default);
   color: var(--ids-list-view-item-color-text-disabled);
   cursor: var(--ids-cursor-default);
@@ -97,17 +89,42 @@ li[disabled],
   }
 }
 
+li.disabled,
+li[disabled],
+.disabled,
+[disabled],
+:host(:hover[disabled]),
+:host([disabled]:hover),
+:host([disabled]),
+:host(.disabled) {
+  @include list-view-item-disabled();
+}
+
+// SAFARI will not apply styles if :host-context() is the list of selector
+:host-context([disabled]),
+:host-context(.disabled) {
+  @include list-view-item-disabled();
+}
+
+@mixin list-view-item-sortable() {
+  cursor: inherit;
+  display: block;
+}
+
 .sortable li,
 [sortable] li,
 .sortable,
 [sortable],
 .sortable :host,
-[sortable] :host,
+[sortable] :host {
+  @include list-view-item-sortable();
+}
+
+// SAFARI will not apply styles if :host-context() is the list of selector
 :host-context(.sortable),
 :host-context([sortable]),
 :host-context(ids-list-view[sortable]),
 :host-context(ids-swappable),
 :host-context(ids-swappable-item) {
-  cursor: inherit;
-  display: block;
+  @include list-view-item-sortable();
 }
