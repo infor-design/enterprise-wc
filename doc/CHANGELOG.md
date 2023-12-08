@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.18 Fixes
 
+- `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
 - `[DataGrid]` Fix an issue where empty message permanently removes the datagrid container height. ([#1664](https://github.com/infor-design/enterprise-wc/issues/1664))
 
 ## 1.0.0-beta.17
@@ -17,8 +18,10 @@
 - `[General]` Added an initial migration guide. ([#1561](https://github.com/infor-design/enterprise-wc/issues/1561))
 - `[Locale]` Added `localeDataPath` to retrieve locale data from an alternate location to the default. ([#1622](https://github.com/infor-design/enterprise-wc/issues/1622))
 - `[Tree]` Added `addNodes` method to dynamically add tree nodes. ([#1517](https://github.com/infor-design/enterprise-wc/issues/1517))
+- `[Tree]` Added `beforeExpanded` async loading pattern to dynamically add tree children. ([#1516](https://github.com/infor-design/enterprise-wc/issues/1516))
 - `[Tree]` Renamed `useToggleTarget` to `expandTarget`, now available as a setting to toggle tree nodes only when clicking the icon. ([#1528](https://github.com/infor-design/enterprise-wc/issues/1528))
 - `[Tests]` Changed test framework to playwright. ([#1225](https://github.com/infor-design/enterprise-wc/issues/1225))
+- `[ValidationMixin]` Added a `required` attribute that can be used separately from `validate="required"` simply to display a required indicator. ([#1553](https://github.com/infor-design/enterprise-wc/issues/1553))
 
 ### 1.0.0-beta.17 Fixes
 
@@ -38,11 +41,14 @@
 - `[Input]` Fixed input allowing to enter not number characters when mask is number. ([#1608](https://github.com/infor-design/enterprise-wc/issues/1608))
 - `[Inputs]` Fixed removing `readonly` and `disabled` not working after form additions. ([#1570](https://github.com/infor-design/enterprise-wc/issues/1570))
 - `[Inputs]` Fixed label setting for `ellipsis` which was not working. ([#1554](https://github.com/infor-design/enterprise-wc/issues/1554))
+- `[Menu]` Add menu fixes for angular dynamic examples. ([#1641](https://github.com/infor-design/enterprise-wc/issues/1641))
 - `[Modal]` Add `showCloseButton` setting to modal. ([#1527](https://github.com/infor-design/enterprise-wc/issues/1527))
 - `[Modal]` Fix `fullsize` setting on init. ([#1525](https://github.com/infor-design/enterprise-wc/issues/1525))
 - `[Modal]` Fix problems with slotting scrollable components and resize behavior. ([#1529](https://github.com/infor-design/enterprise-wc/issues/1529)/[#1530](https://github.com/infor-design/enterprise-wc/issues/1530))
+- `[Modal]` Fix `showCloseButton` setting to default to top-right corner. ([#1647](https://github.com/infor-design/enterprise-wc/issues/1647))
 - `[Module Nav]` Small improvements to better enable usage in an Angular codebase. ([#1597](https://github.com/infor-design/enterprise-wc/issues/1597))
 - `[Multiselect]` Fix `rerender` logic so that state is maintained while using `ngFor` directive in Angular. ([#1411](https://github.com/infor-design/enterprise-wc/issues/1411))
+- `[Pager]` Fix datagrid standalone pager html override. ([#1615](https://github.com/infor-design/enterprise-wc/issues/1615))
 - `[PopupMenu]` Fix arrow icon direction in RTL. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
 - `[Tabs]` Sync component with Figma design changes related to Alabaster default theme. ([#1050](https://github.com/infor-design/enterprise-wc/issues/1050))
 - `[PopupMenu]` Fix arrow icon direction in RTL. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))

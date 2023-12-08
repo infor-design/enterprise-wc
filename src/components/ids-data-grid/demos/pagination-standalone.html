@@ -21,7 +21,12 @@
           page-number="1"
           page-size="10">
         </ids-data-grid>
-        <ids-pager />
+        <ids-pager>
+          <ids-pager-button previous></ids-pager-button>
+          <ids-pager-input></ids-pager-input>
+          <ids-pager-button next></ids-pager-button>
+          <ids-pager-dropdown slot="end" label="Sample Text"></ids-pager-dropdown> 
+        </ids-pager>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

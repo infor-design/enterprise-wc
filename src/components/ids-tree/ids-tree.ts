@@ -67,6 +67,10 @@ const Base = IdsLocaleMixin(
 export default class IdsTree extends Base {
   constructor() {
     super();
+
+    // Setup initial internal states
+    this.state = {
+    };
   }
 
   /**
@@ -986,7 +990,7 @@ export default class IdsTree extends Base {
    * @param {object} node The target node element
    * @returns {void}
    */
-  #toggle(node: any) {
+  async #toggle(node: any) {
     if (node && node.elem?.isGroup) {
       const events = node.elem.expanded
         ? { before: IdsTreeShared.EVENTS.beforecollapsed, after: IdsTreeShared.EVENTS.collapsed }
@@ -996,14 +1000,49 @@ export default class IdsTree extends Base {
         canProceed = !!veto;
       };
       this.triggerEvent(events.before, this, { detail: { elem: this, response, node } });
+
+      // Trigger an async callback for children
+      const isExpanded = node.elem.expanded;
+      if (!isExpanded && this.state.beforeExpanded) {
+        const data = await this.state.beforeExpanded({ elem: this, node });
+        if (!node.data.children || node.data.children.length === 0) {
+          if (!data) return;
+          this.addNodes(data, 'child', node.elem);
+        }
+      }
+
       if (!canProceed) {
         return;
       }
 
       node.elem.expanded = !node.elem.expanded;
       this.triggerEvent(events.after, this, { detail: { elem: this, node } });
+
+      if (!isExpanded && this.state.afterExpanded) {
+        await this.state.afterExpanded({ elem: this, node });
+      }
     }
   }
+
+  /**
+   * An async function that fires as the node is expanding
+   * @param {Function} func The async function
+   */
+  set beforeExpanded(func: (params: any) => Promise<Array<IdsTreeNodeData>>) {
+    this.state.beforeExpanded = func;
+  }
+
+  get beforeExpanded(): () => Promise<Array<IdsTreeNodeData>> { return this.state.beforeExpanded; }
+
+  /**
+   * An async function that fires after the node was expanded
+   * @param {Function} func The async function
+   */
+  set afterExpanded(func: () => Promise<void>) {
+    this.state.afterExpanded = func;
+  }
+
+  get afterExpanded(): () => Promise<void> { return this.state.afterExpanded; }
 
   /**
    * Set toggle icon

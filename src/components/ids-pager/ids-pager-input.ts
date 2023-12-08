@@ -50,6 +50,7 @@ export default class IdsPagerInput extends Base {
         label="Input for page number"
         label-state="hidden"
         text-align="center"
+        mask="number"
         size="xs"
         ${this.disabled ? 'disabled' : ''}
       ></ids-input>
@@ -295,7 +296,8 @@ export default class IdsPagerInput extends Base {
       const pageNumber = this.pageNumber;
       const inputVal = stringToNumber(this.input.value);
       const val = Math.max(1, Math.min(inputVal, pageCount));
-      if (val !== inputVal) this.input.value = `${val}`;
+
+      if (val && val !== inputVal) this.input.value = `${val}`;
 
       if (val !== pageNumber) {
         if (!Number.isNaN(val)) {

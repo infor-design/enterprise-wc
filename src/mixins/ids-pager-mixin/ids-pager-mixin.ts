@@ -50,7 +50,7 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
     const pageSize = Math.max(this.pageSize || 0, 1);
 
     this.datasource.pageSize = pageSize;
-    this.pager.innerHTML = this.pagerTemplate();
+    if (this.pagination !== PAGINATION_TYPES.STANDALONE) this.pager.innerHTML = this.pagerTemplate();
     this.pager.total = this.datasource.total;
     this.pager.pageNumber = pageNumber;
     this.pager.pageSize = pageSize;

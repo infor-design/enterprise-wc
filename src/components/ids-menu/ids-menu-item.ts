@@ -554,7 +554,7 @@ export default class IdsMenuItem extends Base {
     const beforeEventName = `before${duringEventName}`;
 
     // Trigger a veto-able event for the specified selection type
-    if (!this.triggerVetoableEvent(beforeEventName)) {
+    if (!this.triggerVetoableEvent(beforeEventName, { value: this.value })) {
       return;
     }
 
