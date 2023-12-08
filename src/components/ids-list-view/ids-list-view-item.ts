@@ -111,6 +111,7 @@ export default class IdsListViewItem extends Base {
       if (html) this.innerHTML = html;
     }
 
+    // this.removeAttribute('slot');
     this.#attachEventListeners();
     this.#setAttributes();
   }
@@ -119,7 +120,7 @@ export default class IdsListViewItem extends Base {
    * Invoked each time the custom element is removed from a document-connected element.
    */
   disconnectedCallback() {
-    this.data[this.rowIndex] = null;
+    if (this.data[this.rowIndex]) this.data[this.rowIndex] = null;
     this.#detachEventListeners();
     // if (this.listView?.isConnected) {
     //   super.disconnectedCallback();
@@ -191,8 +192,9 @@ export default class IdsListViewItem extends Base {
 
   #rowIndex(newValue: string | number) {
     const rowIndex = Number(newValue) >= 0 ? Number(newValue) : -1;
-    this.setAttribute('aria-posinset', String(rowIndex + 1));
     this.setAttribute('index', String(rowIndex));
+    this.setAttribute('aria-posinset', String(rowIndex + 1));
+    this.setAttribute('aria-setsize', String(this.listView?.itemCount || 0));
   }
 
   get checkbox(): IdsCheckbox | undefined {
@@ -498,9 +500,8 @@ export default class IdsListViewItem extends Base {
     this.tabIndex = -1;
     this.setAttribute('tabindex', '-1');
 
-    const size = listView?.data?.length || listView?.itemsFiltered?.length;
     this.setAttribute('role', 'option');
-    this.setAttribute('aria-setsize', String(size));
+    this.setAttribute('aria-setsize', String(this.listView?.itemCount || -1));
   }
 
   #trigger(eventName: 'selected' | 'deselected' | 'itemSelect') {
