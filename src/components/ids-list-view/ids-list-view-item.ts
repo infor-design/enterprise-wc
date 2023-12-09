@@ -181,10 +181,10 @@ export default class IdsListViewItem extends Base {
 
     if (['single', 'multiple'].includes(this.selectable)) {
       const checkbox = this.checkbox;
-      if (checkbox) checkbox.checked = newValue;
+      if (checkbox && !checkbox.hasAttribute('hide')) checkbox.checked = newValue;
     }
 
-    if (this.selectable === 'single') {
+    if (this.selectable === 'single' && newValue) {
       this.listView?.itemsSelected?.forEach((item) => {
         if (item !== this) item.selected = false;
       });
@@ -192,7 +192,6 @@ export default class IdsListViewItem extends Base {
 
     this.#trigger(newValue ? 'selected' : 'deselected');
     if (newValue) this.#trigger('itemSelect');
-    // if (newValue) this.triggerEvent('itemSelect', this.listView, { detail: this.rowData });
   }
 
   #rowIndex(newValue: string | number) {
@@ -415,7 +414,6 @@ export default class IdsListViewItem extends Base {
       return;
     }
 
-    // this.listView?.itemsActive?.forEach((item) => { item.active = false; });
     this.active = true;
 
     const selectable = this.selectable;
