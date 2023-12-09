@@ -127,19 +127,10 @@ export default class IdsListView extends Base {
     super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
+    this.setAttribute('aria-activedescendant', '0');
     this.#attachEventListeners();
     this.#attachSearchFilterCallback();
   }
-
-  // /**
-  //  * Invoked each time the custom element is removed from a document-connected element.
-  //  */
-  // disconnectedCallback() {
-  //   if (this.isConnected) {
-  //     // only redraw on disconnect if list-view is still in DOM
-  //     this.redrawLazy();
-  //   }
-  // }
 
   /**
    * Return the attributes we handle as getters/setters

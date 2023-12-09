@@ -117,7 +117,6 @@ export default class IdsListViewItem extends Base {
       if (html) this.innerHTML = html;
     }
 
-    // this.removeAttribute('slot');
     this.#attachEventListeners();
     this.#setAttributes();
   }
@@ -127,12 +126,6 @@ export default class IdsListViewItem extends Base {
    */
   disconnectedCallback() {
     this.#detachEventListeners();
-    // if (this.listView?.isConnected) {
-    //   super.disconnectedCallback();
-    //   this.#detachEventListeners();
-    //   this.removeAttribute?.('slot');
-    //   this.listView?.disconnectedCallback?.();
-    // }
   }
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
@@ -312,7 +305,6 @@ export default class IdsListViewItem extends Base {
 
     this.toggleAttribute(attributes.ACTIVE, active);
     this.toggleAttribute('activated', active);
-    // if (active) this.#onTab();
   }
 
   /**
