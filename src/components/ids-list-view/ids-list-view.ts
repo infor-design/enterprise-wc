@@ -666,18 +666,17 @@ export default class IdsListView extends Base {
 
     if (oldValue === newValue) return;
 
-    const shouldRedraw = [
-      attributes.LOADED,
-      attributes.SELECTABLE,
-      attributes.VIRTUAL_SCROLL,
-      attributes.PAGE_NUMBER,
-      attributes.PAGE_SIZE,
-      attributes.PAGE_TOTAL,
-    ].includes(name);
+    if (name === attributes.LOADED) this.redraw();
+    if (name === attributes.SELECTABLE) this.#selectable();
+    if (name === attributes.VIRTUAL_SCROLL) this.redraw();
+    if (name === attributes.PAGE_NUMBER) this.redraw();
+    if (name === attributes.PAGE_SIZE) this.redraw();
+    if (name === attributes.PAGE_TOTAL) this.redraw();
+  }
 
-    if (shouldRedraw) {
-      this.redraw();
-    }
+  #selectable() {
+    this.redraw();
+    this.itemsSlotted.forEach((item) => item.checkbox?.toggleAttribute('hide', !!item?.checkboxHidden));
   }
 
   /**

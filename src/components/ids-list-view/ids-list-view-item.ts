@@ -232,6 +232,16 @@ export default class IdsListViewItem extends Base {
     `;
   }
 
+  get checkboxHidden() {
+    const listView = this.listView;
+    const showCheckbox = listView?.selectable === 'multiple' || listView?.selectable === 'mixed';
+    const hideCheckbox = listView?.selectable === 'multiple' && listView?.hideCheckboxes;
+
+    let chekcboxHidden = showCheckbox ? '' : 'hide';
+    if (hideCheckbox) chekcboxHidden = 'hide';
+    return !!chekcboxHidden;
+  }
+
   /**
    * Helper method to render the list-view-item template
    * @returns {string} html
@@ -243,25 +253,19 @@ export default class IdsListViewItem extends Base {
     const rowData = this.rowData;
     const rowIndex = this.rowIndex;
 
-    if (listView.selectable === 'multiple' || listView.selectable === 'mixed') {
-      const checked = rowData.itemSelected ? ' checked' : '';
-      const disabled = rowData.disabled ? ' disabled' : '';
-      let checkbox = `
-        <ids-checkbox
-          class="list-item-checkbox"
-          label="cb-item-${rowIndex}"
-          label-state="hidden"
-          ${checked}
-          ${disabled}>
-        </ids-checkbox>
-      `;
+    const hideCheckbox = this.checkboxHidden ? 'hide' : '';
+    const checked = rowData.itemSelected ? ' checked' : '';
+    const disabled = rowData.disabled ? ' disabled' : '';
 
-      if (listView.selectable === 'multiple' && listView.hideCheckboxes) checkbox = '';
-
-      return checkbox;
-    }
-
-    return '';
+    return `
+      <ids-checkbox ${hideCheckbox}
+        class="list-item-checkbox"
+        label="cb-item-${rowIndex}"
+        label-state="hidden"
+        ${checked}
+        ${disabled}>
+      </ids-checkbox>
+    `;
   }
 
   /**
