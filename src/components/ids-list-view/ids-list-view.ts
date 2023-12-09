@@ -66,7 +66,7 @@ export interface IdsListViewItemInfo {
   data: any;
 }
 
-const SEARCH_FILTER_CLASS = 'search-mismatch';
+const SEARCH_MISMATCH_CLASS = 'search-mismatch';
 
 // Default settings
 const LIST_VIEW_DEFAULTS = {
@@ -190,11 +190,13 @@ export default class IdsListView extends Base {
 
   get itemsDisabled(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[disabled]`); }
 
-  get itemsFiltered(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item:not(.${SEARCH_FILTER_CLASS})`); }
+  get itemsFiltered(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item:not(.${SEARCH_MISMATCH_CLASS})`); }
 
   get itemsChecked(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[checked]`); }
 
   get itemsSelected(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[selected]`); }
+
+  get itemsSlotted(): IdsListViewItem[] { return [...this.querySelectorAll<IdsListViewItem>(`ids-list-view-item`)]; }
 
   get itemsSwappable(): IdsSwappableItem[] { return this.itemsSelector<IdsSwappableItem>(`ids-swappable-item`); }
 
@@ -288,8 +290,7 @@ export default class IdsListView extends Base {
     const defaultSlot = this.container?.querySelector<HTMLSlotElement>('slot:not([name])') ?? undefined;
     this.offEvent('slotchange.listview', defaultSlot);
     this.onEvent('slotchange.listview', defaultSlot, () => {
-      const hasKids = [...this.children].some((item) => item.matches('ids-list-view-item'));
-      if (hasKids) this.redrawLazy();
+      if (this.itemsSlotted.length) this.redrawLazy();
     });
 
     // Fire click
@@ -322,18 +323,18 @@ export default class IdsListView extends Base {
   }
 
   #attachSearchFilterCallback() {
-    if (this.items?.length) {
+    if (this.itemsSlotted?.length) {
       this.searchFilterCallback = (term: string) => {
-        this.items?.forEach((item: any) => {
+        this.itemsSlotted?.forEach((item: any) => {
           // NOTE: using textContent because innerText was causing older jest tests to fail
           // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
           const haystack = String(item?.textContent ?? '').toLowerCase();
           const needle = String(term).toLowerCase();
           if (!term || haystack.includes(needle)) {
-            item.classList.remove(SEARCH_FILTER_CLASS);
+            item.classList.remove(SEARCH_MISMATCH_CLASS);
           } else {
-            item.classList.add(SEARCH_FILTER_CLASS);
-            item.setAttribute('slot', SEARCH_FILTER_CLASS);
+            item.classList.add(SEARCH_MISMATCH_CLASS);
+            item.setAttribute('slot', SEARCH_MISMATCH_CLASS);
           }
         });
 
@@ -343,11 +344,11 @@ export default class IdsListView extends Base {
   }
 
   resetSearch() {
-    const kids = this.items;
+    const kids = this.itemsSlotted;
     if (kids?.length) {
       this.datasource.filtered = true;
       kids.forEach((item) => {
-        item.classList.remove(SEARCH_FILTER_CLASS);
+        item.classList.remove(SEARCH_MISMATCH_CLASS);
         item.removeAttribute('slot');
       });
     }
