@@ -216,9 +216,8 @@ export default class IdsListBuilder extends IdsListView {
 
   /**
    * Edit selected item
-   * @returns {void}
    */
-  #edit(): void {
+  #edit() {
     const itemFocused = this.itemFocused;
     if (!itemFocused) return;
 
@@ -227,8 +226,9 @@ export default class IdsListBuilder extends IdsListView {
     this.triggerEvent('itemChange', this, { detail: itemFocused.rowData });
 
     const editableElements = itemFocused.templateElements;
-    const firstFieldName = Object.keys(editableElements)[0];
-    const firstEditableField = editableElements[firstFieldName] ?? itemFocused;
+    const firstFieldName = Object.keys(editableElements)[0] ?? 'unknownField';
+    const firstEditableField = editableElements[firstFieldName] ?? itemFocused?.querySelector('ids-text') ?? itemFocused;
+
     const originalValue = (firstEditableField?.textContent ?? '').trim() || 'New Value';
     firstEditableField.innerHTML = originalValue;
 

@@ -54,6 +54,7 @@ export default class IdsListViewItem extends Base {
       const element = this.querySelector(`[${fieldName}]`);
       if (element) elements[fieldName] = element;
     });
+
     return elements;
   }
 
