@@ -353,6 +353,14 @@ export default class IdsListView extends Base {
    * @returns {string} The html for the <ids-list-view-item> template.
    */
   #generateListItemFromCustomHTML(index: number): string {
+    let rowIndex = index;
+    const pagination = this.pagination;
+    if (pagination && pagination !== 'none') {
+      const pageNumber = this.pageNumber || 0;
+      const pageSize = this.pageSize || 0;
+      rowIndex = (pageNumber * pageSize) - (pageSize - rowIndex);
+    }
+
     const data = this.data[index] ?? {};
     // const item = this.itemByIndex(index);
     // const data = this.data[index] ?? item?.rowData ?? {};
@@ -361,7 +369,7 @@ export default class IdsListView extends Base {
     const selected = data.itemSelected ? ' selected' : '';
     const sortable = this.sortable ? ' class="sortable"' : '';
     return this.templateListItemWrapper(
-      `<ids-list-view-item row-index="${index}" ${activated}${disabled}${selected}${sortable}>
+      `<ids-list-view-item row-index="${rowIndex}" ${activated}${disabled}${selected}${sortable}>
         ${this.templateCustomHTML(data)}
       </ids-list-view-item>`,
       index

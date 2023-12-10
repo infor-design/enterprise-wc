@@ -58,7 +58,8 @@ export default class IdsListViewItem extends Base {
   }
 
   get data() {
-    return this.listView?.data ?? [];
+    // return this.listView?.data ?? [];
+    return this.listView?.datasource?.currentData ?? this.listView?.data ?? [];
   }
 
   get rowData() {
@@ -72,7 +73,7 @@ export default class IdsListViewItem extends Base {
     return { rowIndex: this.rowIndex, ...rowData };
   }
 
-  set rowData(value) {
+  set rowData(value: Record<string, unknown>) {
     // NOTE: this blocks creating new data for list-views that don't need data
     // NOTE: if this line is removed, then http://localhost:4300/ids-list-view/list-view-items-search.html
     // NOTE: will show broken lines when items are clicked... due to #active, #check etc setting this.rowData
