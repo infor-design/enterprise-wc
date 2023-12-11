@@ -124,7 +124,6 @@ export default class IdsIcon extends Base {
     IdsGlobal.customIconData = json;
     querySelectorAllShadowRoot('ids-icon').forEach((elem: any) => {
       if (elem.custom) {
-        // eslint-disable-next-line no-self-assign
         elem.icon = elem.icon;
         elem.custom = false;
       }

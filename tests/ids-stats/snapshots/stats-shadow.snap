@@ -1,4 +1,4 @@
-<ids-box padding-x="0" padding-y="0" shadowed="true" selected="true">
+<ids-box padding-x="0" padding-y="0" shadowed="true" actionable="" selected="true">
       <div class="ids-stats" part="stats">
         <ids-layout-flex direction="column">
           <ids-layout-flex justify-content="space-between" align-items="center">

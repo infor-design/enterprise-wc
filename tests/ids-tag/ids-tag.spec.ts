@@ -18,6 +18,17 @@ test.describe('IdsTag tests', () => {
     });
   });
 
+  test.describe('page append tests', () => {
+    test('should be able to createElement', async ({ page }) => {
+      await page.evaluate(() => {
+        const elem = document.createElement('ids-tag');
+        elem.id = 'test-tag';
+        document.body.appendChild(elem);
+      });
+      await expect(await page.locator('#test-tag')).toHaveAttribute('id');
+    });
+  });
+
   test.describe('accessibility tests', () => {
     test('should pass an Axe scan', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;

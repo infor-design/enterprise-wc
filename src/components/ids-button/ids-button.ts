@@ -91,7 +91,6 @@ export default class IdsButton extends Base {
     this.#setInitialState();
     this.shouldUpdate = true;
     if (this.getAttribute('width')) this.width = this.getAttribute('width');
-    // eslint-disable-next-line no-self-assign
     this.cssClass = this.cssClass;
   }
 
@@ -173,7 +172,7 @@ export default class IdsButton extends Base {
     if (this.state?.tabIndex) {
       tabIndex = `tabindex="${this.state.tabIndex}"`;
     }
-    if (this.state && this.state?.appearance !== 'default') {
+    if (this.state && this.state?.appearance !== 'default' && this.state.appearance !== undefined) {
       appearance = ` btn-${this.state.appearance}`;
     }
 
@@ -717,6 +716,7 @@ export default class IdsButton extends Base {
           this.button?.classList.remove(appClassName);
         }
       });
+      this.button?.classList.remove('btn-undefined');
     }
   }
 

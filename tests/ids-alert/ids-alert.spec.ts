@@ -30,6 +30,17 @@ test.describe('IdsAlert tests', () => {
     });
   });
 
+  test.describe('page append tests', () => {
+    test('should be able to createElement', async ({ page }) => {
+      await page.evaluate(() => {
+        const elem = document.createElement('ids-alert');
+        elem.id = 'test-alert';
+        document.body.appendChild(elem);
+      });
+      await expect(await page.locator('#test-alert')).toHaveAttribute('id');
+    });
+  });
+
   test.describe('accessibility tests', () => {
     test('should pass an Axe scan', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;

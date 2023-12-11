@@ -578,11 +578,12 @@ export default class IdsPopupMenu extends Base {
             // accounts for top/bottom padding + border thickness
             const extra = 10;
 
+            if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
             // adjusts for nested `relative` positioned offsets, and scrolled containers
             const xAdjust = (parentPopup.offsetLeft || 0)
-              - this.container.scrollParentElem!.scrollLeft;
+              - this.container!.scrollParentElem!.scrollLeft;
             const yAdjust = (parentPopup.offsetTop || 0)
-              - this.container.scrollParentElem!.scrollTop + extra;
+              - this.container!.scrollParentElem!.scrollTop + extra;
 
             popupRect.x -= xAdjust;
             popupRect.y -= yAdjust;

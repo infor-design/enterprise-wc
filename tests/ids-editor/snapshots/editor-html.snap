@@ -1,4 +1,4 @@
-<ids-editor id="editor-demo" label="Ids Editor" value="/src/assets/images/placeholder-154x120.png">
+<ids-editor id="editor-demo" label="Ids Editor">
   <ids-toolbar slot="toolbar" type="formatter" role="toolbar">
     <ids-toolbar-section type="buttonset" toolbar-type="formatter">
       <ids-menu-button editor-action="formatblock" id="btn-formatblock-1" role="button" menu="menu-formatblock-1" tooltip="Choose Font Style" formatter-width="125px" dropdown-icon="dropdown" no-padding="true" trigger-type="click" color-variant="alternate-formatter" aria-controls="menu-formatblock-1" aria-haspopup="menu">

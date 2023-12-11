@@ -80,7 +80,7 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
     const isPositive = !isNegative && this.trendLabel !== '';
     const isBorderless = !!this.closest('ids-widget')?.hasAttribute('borderless');
 
-    const markup = `<ids-box padding-x="0" padding-y="0"${isBorderless ? ` shadowed` : ` borderless`}>
+    const markup = `<ids-box padding-x="0" padding-y="0"${isBorderless ? ` shadowed` : ` borderless`}${this.actionable ? ` actionable` : ``}>
       <div class="ids-stats" part="stats">
         <ids-layout-flex direction="column">
           <ids-layout-flex justify-content="space-between" align-items="center">
@@ -128,14 +128,20 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
 
     if (currentValue !== isValueTruthy) {
       this.closest('ids-widget')?.querySelectorAll('ids-stats').forEach((elem) => {
-        if (!elem.isSameNode(this)) (elem as IdsStats).removeAttribute(attributes.SELECTED);
+        if (!elem.isSameNode(this)) {
+          (elem as IdsStats).removeAttribute(attributes.SELECTED);
+          ((elem as IdsStats).container?.parentElement as IdsBox)?.removeAttribute(attributes.SELECTED);
+          ((elem as IdsStats).container?.parentElement as IdsBox).container?.classList.remove('is-selected');
+        }
       });
       if (isValueTruthy) {
         this.setAttribute(attributes.SELECTED, `${value}`);
         (this.container?.parentElement as IdsBox)?.setAttribute(attributes.SELECTED, 'true');
+        (this.container?.parentElement as IdsBox).container?.classList.add('is-selected');
       } else {
         this.removeAttribute(attributes.SELECTED);
         (this.container?.parentElement as IdsBox)?.removeAttribute(attributes.SELECTED);
+        (this.container?.parentElement as IdsBox).container?.classList.remove('is-selected');
       }
     }
   }
