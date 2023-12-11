@@ -1143,10 +1143,9 @@
   --ids-process-indicator-border-started: 2px solid var(--ids-process-indicator-color-active);
 
   // Radio
-  --ids-radio-shadow: var(--ids-shadow-20);
+  --ids-radio-shadow: none;
   --ids-radio-shadow-with-border: 0 0 0 1px var(--ids-input-color-background-readonly),
-    0 0 0 2px var(--ids-color-primary),
-    0 0 4px 5px var(--ids-shadow-color);
+    0 0 0 2px var(--ids-color-primary);
   --ids-radio-button-color-background: var(--ids-input-color-background-default);
   --ids-radio-button-color-border-default: var(--ids-input-color-border-default);
   --ids-radio-button-color-background-selected: var(--ids-color-primary);

@@ -53,11 +53,6 @@
       }
     }
 
-    // Default focus state (hide-focus behavior is enabled)
-    &:focus ~ .circle {
-      @include radio-focus();
-    }
-
     &:disabled {
       ~ .circle {
         @include radio-disabled-unchecked();
@@ -83,9 +78,16 @@
     }
   }
 
-  // Focus state will display a "border" if "hide-focus" behavior is not present
-  &:not(.hide-focus) input[type='radio']:focus ~ .circle {
-    @include radio-focus-not-hide-focus();
+  &.is-focused {
+    // Default focus state (hide-focus behavior is enabled)
+    &.hide-focus .circle {
+      @include radio-focus();
+    }
+
+    // Focus state will display a "border" if "hide-focus" behavior is not present
+    &:not(.hide-focus) .circle {
+      @include radio-focus-not-hide-focus();
+    }
   }
 }
 
