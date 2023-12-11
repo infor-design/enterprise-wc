@@ -1,0 +1,78 @@
+<div class="ids-chart-container" part="container" style="width: 800px;">
+      <svg class="ids-axis-chart" part="chart" width="800" height="500" xmlns="http://www.w3.org/2000/svg"><title>A line chart showing component usage</title>
+      <defs>
+        
+      </defs>
+      <g class="grid vertical-lines">
+        <line x1="35.5703125" x2="35.5703125" y1="16" y2="450.83637152777777"></line><line x1="186.05625" x2="186.05625" y1="16" y2="450.83637152777777"></line><line x1="336.5421875" x2="336.5421875" y1="16" y2="450.83637152777777"></line><line x1="487.02812500000005" x2="487.02812500000005" y1="16" y2="450.83637152777777"></line><line x1="637.5140625" x2="637.5140625" y1="16" y2="450.83637152777777"></line><line x1="788" x2="788" y1="16" y2="450.83637152777777"></line>
+      </g>
+      <g class="grid horizontal-lines">
+        <line x1="27.5703125" x2="796" y1="16" y2="16"></line><line x1="27.5703125" x2="796" y1="70.35454644097223" y2="70.35454644097223"></line><line x1="27.5703125" x2="796" y1="124.70909288194446" y2="124.70909288194446"></line><line x1="27.5703125" x2="796" y1="179.06363932291669" y2="179.06363932291669"></line><line x1="27.5703125" x2="796" y1="233.4181857638889" y2="233.4181857638889"></line><line x1="27.5703125" x2="796" y1="287.77273220486114" y2="287.77273220486114"></line><line x1="27.5703125" x2="796" y1="342.12727864583337" y2="342.12727864583337"></line><line x1="27.5703125" x2="796" y1="396.4818250868056" y2="396.4818250868056"></line><line x1="27.5703125" x2="796" y1="450.8363715277778" y2="450.8363715277778"></line>
+      </g>
+      <g class="marker-lines">
+      <polyline part="line" class="data-line color-1" points="35.5703125,445.40091688368057 186.05625,281.7393775499132 336.5421875,265.43301361762155 487.02812500000005,423.6590983072917 637.5140625,265.43301361762155 788,97.53181966145831 " stroke="var(var(--ids-chart-color-accent-01)" group-index="0">
+      <animate attributeName="points" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="35.5703125,450.83637152777777 186.05625,450.83637152777777 336.5421875,450.83637152777777 487.02812500000005,450.83637152777777 637.5140625,450.83637152777777 788,450.83637152777777 " to="35.5703125,445.40091688368057 186.05625,281.7393775499132 336.5421875,265.43301361762155 487.02812500000005,423.6590983072917 637.5140625,265.43301361762155 788,97.53181966145831 "></animate>
+      </polyline><polyline part="line" class="data-line color-2" points="35.5703125,330.6584693467882 186.05625,336.0939239908854 336.5421875,319.7875600585937 487.02812500000005,341.5293786349826 637.5140625,319.7875600585937 788,298.04574148220485 " stroke="var(var(--ids-chart-color-accent-02)" group-index="1">
+      <animate attributeName="points" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="35.5703125,450.83637152777777 186.05625,450.83637152777777 336.5421875,450.83637152777777 487.02812500000005,450.83637152777777 637.5140625,450.83637152777777 788,450.83637152777777 " to="35.5703125,330.6584693467882 186.05625,336.0939239908854 336.5421875,319.7875600585937 487.02812500000005,341.5293786349826 637.5140625,319.7875600585937 788,298.04574148220485 "></animate>
+      </polyline><polyline part="line" class="data-line color-3" points="35.5703125,385.0130157877604 186.05625,390.44847043185763 336.5421875,374.14210649956595 487.02812500000005,395.88392507595483 637.5140625,16 788,450.83637152777777 " stroke="var(var(--ids-chart-color-accent-03)" group-index="2">
+      <animate attributeName="points" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="35.5703125,450.83637152777777 186.05625,450.83637152777777 336.5421875,450.83637152777777 487.02812500000005,450.83637152777777 637.5140625,450.83637152777777 788,450.83637152777777 " to="35.5703125,385.0130157877604 186.05625,390.44847043185763 336.5421875,374.14210649956595 487.02812500000005,395.88392507595483 637.5140625,16 788,450.83637152777777 "></animate>
+      </polyline>
+    </g>
+    <g class="markers">
+      <g class="marker-set"><circle part="marker" group-index="0" index="0" class="color-1" cx="35.5703125" cy="445.40091688368057" data-value="100" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="445.40091688368057"></animate>
+        </circle><circle part="marker" group-index="0" index="1" class="color-1" cx="186.05625" cy="281.7393775499132" data-value="3111" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="281.7393775499132"></animate>
+        </circle><circle part="marker" group-index="0" index="2" class="color-1" cx="336.5421875" cy="265.43301361762155" data-value="3411" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="265.43301361762155"></animate>
+        </circle><circle part="marker" group-index="0" index="3" class="color-1" cx="487.02812500000005" cy="423.6590983072917" data-value="500" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="423.6590983072917"></animate>
+        </circle><circle part="marker" group-index="0" index="4" class="color-1" cx="637.5140625" cy="265.43301361762155" data-value="3411" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="265.43301361762155"></animate>
+        </circle><circle part="marker" group-index="0" index="5" class="color-1" cx="788" cy="97.53181966145831" data-value="6500" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="97.53181966145831"></animate>
+        </circle></g><g class="marker-set"><circle part="marker" group-index="1" index="0" class="color-2" cx="35.5703125" cy="330.6584693467882" data-value="2211" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="330.6584693467882"></animate>
+        </circle><circle part="marker" group-index="1" index="1" class="color-2" cx="186.05625" cy="336.0939239908854" data-value="2111" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="336.0939239908854"></animate>
+        </circle><circle part="marker" group-index="1" index="2" class="color-2" cx="336.5421875" cy="319.7875600585937" data-value="2411" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="319.7875600585937"></animate>
+        </circle><circle part="marker" group-index="1" index="3" class="color-2" cx="487.02812500000005" cy="341.5293786349826" data-value="2011" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="341.5293786349826"></animate>
+        </circle><circle part="marker" group-index="1" index="4" class="color-2" cx="637.5140625" cy="319.7875600585937" data-value="2411" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="319.7875600585937"></animate>
+        </circle><circle part="marker" group-index="1" index="5" class="color-2" cx="788" cy="298.04574148220485" data-value="2811" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="298.04574148220485"></animate>
+        </circle></g><g class="marker-set"><circle part="marker" group-index="2" index="0" class="color-3" cx="35.5703125" cy="385.0130157877604" data-value="1211" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="385.0130157877604"></animate>
+        </circle><circle part="marker" group-index="2" index="1" class="color-3" cx="186.05625" cy="390.44847043185763" data-value="1111" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="390.44847043185763"></animate>
+        </circle><circle part="marker" group-index="2" index="2" class="color-3" cx="336.5421875" cy="374.14210649956595" data-value="1411" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="374.14210649956595"></animate>
+        </circle><circle part="marker" group-index="2" index="3" class="color-3" cx="487.02812500000005" cy="395.88392507595483" data-value="1011" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="395.88392507595483"></animate>
+        </circle><circle part="marker" group-index="2" index="4" class="color-3" cx="637.5140625" cy="16" data-value="8000" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="16"></animate>
+        </circle><circle part="marker" group-index="2" index="5" class="color-3" cx="788" cy="450.83637152777777" data-value="0" r="5">
+        <animate attributeName="cy" calcMode="spline" keyTimes="0; 1" keySplines="0.17, 0.04, 0.03, 0.94" begin="0s" dur="0.8s" from="450.83637152777777" to="450.83637152777777"></animate>
+        </circle></g>
+    </g>
+      <g class="labels x-labels">
+        <text x="35.5703125" y="470.83637152777777" aria-hidden="true" transform="rotate(-65, 35.5703125, 470.83637152777777)" text-anchor="end">Jan</text><text x="186.05625" y="470.83637152777777" aria-hidden="true" transform="rotate(-65, 186.05625, 470.83637152777777)" text-anchor="end">Feb</text><text x="336.5421875" y="470.83637152777777" aria-hidden="true" transform="rotate(-65, 336.5421875, 470.83637152777777)" text-anchor="end">Mar</text><text x="487.02812500000005" y="470.83637152777777" aria-hidden="true" transform="rotate(-65, 487.02812500000005, 470.83637152777777)" text-anchor="end">Apr</text><text x="637.5140625" y="470.83637152777777" aria-hidden="true" transform="rotate(-65, 637.5140625, 470.83637152777777)" text-anchor="end">May</text><text x="788" y="470.83637152777777" aria-hidden="true" transform="rotate(-65, 788, 470.83637152777777)" text-anchor="end">Jun</text>
+      </g>
+      <g class="labels y-labels">
+        <text x="19.5703125" y="19" aria-hidden="true">8K</text><text x="19.5703125" y="73.35454644097223" aria-hidden="true">7K</text><text x="19.5703125" y="127.70909288194446" aria-hidden="true">6K</text><text x="19.5703125" y="182.06363932291669" aria-hidden="true">5K</text><text x="19.5703125" y="236.4181857638889" aria-hidden="true">4K</text><text x="19.5703125" y="290.77273220486114" aria-hidden="true">3K</text><text x="19.5703125" y="345.12727864583337" aria-hidden="true">2K</text><text x="19.5703125" y="399.4818250868056" aria-hidden="true">1K</text><text x="19.5703125" y="453.8363715277778" aria-hidden="true">0</text>
+      </g>
+      <g class="labels axis-labels">
+        
+      </g></svg>
+      <slot name="legend"><div class="chart-legend" style=""><a data-index="0" class="chart-legend-item" aria-hidden="true"><div class="swatch color-1"></div>Component A</a><a data-index="1" class="chart-legend-item" aria-hidden="true"><div class="swatch color-2"></div>Component B</a><a data-index="2" class="chart-legend-item" aria-hidden="true"><div class="swatch color-3"></div>Component C</a></div></slot>
+      <slot name="empty-message">
+        <ids-empty-message icon="empty-no-data" style="" hidden="">
+          <ids-text type="h2" font-size="20" label="true" slot="label">No data available</ids-text>
+        </ids-empty-message>
+      </slot>
+      <slot name="tooltip">
+        <ids-tooltip id="tooltip"></ids-tooltip>
+      </slot>
+    </div>

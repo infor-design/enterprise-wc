@@ -1,0 +1,51 @@
+{
+  "language": "tl",
+  "englishName": "Tagalog (Philippines)",
+  "nativeName": "Tagalog (Philippines)",
+  "direction": "left-to-right",
+  "calendars": [{
+    "name": "gregorian",
+    "dateFormat": {
+      "separator": "/",
+      "timeSeparator": ":",
+      "short": "dd/MM/yyyy",
+      "medium": "dd MMM yyyy",
+      "long": "dd MMMM yyyy",
+      "full": "dd MMMM yyyy EEEE",
+      "month": "dd MMMM",
+      "year": "MMMM yyyy",
+      "dayOfWeek": "dd EEE",
+      "timestamp": "h:mm:ss a",
+      "timestampMillis": "h:mm:ss:SSS a",
+      "hour": "h:mm a",
+      "datetime": "dd/MM/yyyy h:mm a",
+      "datetimeMillis": "dd/MM/yyyy h:mm:ss:SSS a",
+      "timezone": "dd/MM/yyyy h:mm a zz",
+      "timezoneLong": "dd/MM/yyyy h:mm a zzzz"
+    },
+    "days": {
+      "wide": ["Linggo", "Lunes", "Martes", "Miyerkules", "Huwebes", "Biyernes", "Sabado"],
+      "abbreviated": ["Lin", "Lun", "Mar", "Miy", "Huw", "Biy", "Sab"],
+      "narrow": ["L", "L", "M", "M", "H", "B", "S"]
+    },
+    "months": {
+      "wide": ["Enero", "Pebrero", "Marso", "Abril", "Mayo", "Hunyo", "Hulyo", "Agosto", "Setyembre", "Oktubre", "Nobyembre", "Disyembre"],
+      "abbreviated": ["Ene", "Peb", "Mar", "Abr", "May", "Hun", "Hul", "Ago", "Set", "Okt", "Nob", "Dis"]
+    },
+    "timeFormat": "h:mm a",
+    "dayPeriods": ["AM", "PM"],
+    "firstDayofWeek": 0
+  }],
+  "currencySign": "₱",
+  "currencyFormat": "¤ ###",
+  "numbers": {
+    "percentSign": "%",
+    "percentFormat": "%###",
+    "percentSuffix": "",
+    "percentPrefix": "%",
+    "minusSign": "-",
+    "decimal": ".",
+    "group": ",",
+    "groupSizes": [3, 3]
+  }
+}

@@ -1,0 +1,5 @@
+
+      <div class="ids-accordion" part="accordion">
+        <slot></slot>
+      </div>
+    

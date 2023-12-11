@@ -1,0 +1,5 @@
+<div class="ids-swipe-container">
+       <div class="ids-swipe-action-left"><slot name="action-left"></slot></div>
+       <div class="ids-swipe-element"><slot name="contents"></slot></div>
+       <div class="ids-swipe-action-right"><slot name="action-right"></slot></div>
+    </div>

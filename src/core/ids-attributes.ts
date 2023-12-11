@@ -390,6 +390,7 @@ export const attributes = {
   SAVE_ROW_HEIGHT: 'save-row-height',
   SAVE_SORT_ORDER: 'save-sort-order',
   SAVE_USER_SETTINGS: 'save-user-settings',
+  SCROLL_MAX_ROWS: 'scroll-max-rows',
   SCROLL_TOP: 'scroll-top',
   SCROLLABLE: 'scrollable',
   SEARCH_FIELD: 'search-field',
@@ -560,7 +561,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.16';
+export const version = '1.0.0-beta.17';
 
 export enum IdsDirection {
   Up = 'up',

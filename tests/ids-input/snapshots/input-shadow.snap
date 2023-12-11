@@ -1,0 +1,14 @@
+<div class="ids-input md field-height-md" part="container">
+      <label class="ids-label-text" for="test-input-input" part="label">
+      <slot name="label-pre"></slot>
+      <ids-text part="label" label="true" color-unset="">First Name</ids-text>
+      <slot name="label-post"></slot>
+    </label>
+      <div class="field-container" part="field-container">
+        <input part="input" id="test-input" type="text" class="ids-input-field start readonly-background" placeholder="Normal text Field" aria-label="First Name" label="First Name">
+        
+        
+        <slot name="loading-indicator"></slot>
+      </div>
+      
+    </div>

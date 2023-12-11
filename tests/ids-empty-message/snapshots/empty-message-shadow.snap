@@ -1,0 +1,13 @@
+<div class="ids-empty-message" part="container">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" aria-hidden="true"><path d="M1.46 71.251L36.496 5.125c1.502-2.833 5.505-2.833 7.006 0L78.54 71.251C79.925 73.865 78.013 77 75.034 77H4.966c-2.979 0-4.891-3.135-3.507-5.749z" fill="#C5C5C9" opacity=".5" stroke="none"></path><path d="M2.448 68.985l34.14-63.446c1.462-2.719 5.362-2.719 6.825 0l34.14 63.446c1.349 2.507-.515 5.515-3.417 5.515H5.864c-2.902 0-4.766-3.008-3.417-5.515h0z" fill="#FCC888" stroke="#6F6F76" stroke-miterlimit="10" vector-effect="non-scaling-stroke"></path><path d="M9.224 67.192L38.326 12.02a1.887 1.887 0 013.352 0l29.098 55.172C71.447 68.465 70.53 70 69.1 70H10.9c-1.431 0-2.347-1.535-1.676-2.808z" fill="#FEF2E5" stroke="none"></path><path fill="#6F6F76" d="M37 59h6v6h-6zM37 54l-.996-25h7.991L43 54h-6z" stroke="none"></path></svg>
+        <div class="label">
+          <slot name="label"></slot>
+        </div>
+        <div class="description">
+          <slot name="description"></slot>
+        </div>
+        <div class="button">
+          <slot name="button"></slot>
+        </div>
+      </div>
+    

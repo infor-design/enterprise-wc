@@ -172,7 +172,7 @@ export default class IdsWidget extends Base {
 
   /**
    * Set how the container overflows, can be hidden or auto (default)
-   * @param {string | null} [value=null] css property for overflow
+   * @param {string | null} [value] css property for overflow
    */
   set overflow(value) {
     if (value === 'hidden') {

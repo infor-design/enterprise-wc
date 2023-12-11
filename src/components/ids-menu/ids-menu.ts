@@ -145,6 +145,12 @@ export default class IdsMenu extends Base {
         }
       }
     });
+
+    const slot = this.container!.querySelector('slot');
+    this.offEvent('slotchange', slot);
+    this.onEvent('slotchange', slot, () => {
+      this.detectIcons();
+    });
   }
 
   /**

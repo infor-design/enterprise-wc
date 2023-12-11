@@ -1,0 +1,147 @@
+
+      <div class="ids-calendar show-details show-legend">
+        <div class="calendar-legend-pane"><slot name="legend"></slot></div>
+        <div class="calendar-contents">
+          <div class="calendar-toolbar-pane">
+      <ids-toolbar slot="toolbar" id="calendar-toolbar" class="calendar-toolbar" tabbable="true" role="toolbar">
+        <ids-toolbar-section type="buttonset" class="toolbar-buttonset">
+          <ids-button class="btn-previous">
+      <ids-text audible="true" translate-text="true" translation-key="PreviousMonth">Previous month</ids-text>
+      <ids-icon icon="chevron-left"></ids-icon>
+    </ids-button>
+    <ids-button class="btn-next">
+      <ids-text audible="true" translate-text="true" translation-key="NextMonth">Next month</ids-text>
+      <ids-icon icon="chevron-right"></ids-icon>
+    </ids-button>
+          <ids-button class="btn-picker" id="btn-picker" css-class="no-padding" aria-controls="">
+      <ids-text font-size="20">October 2019</ids-text>
+      <ids-icon icon="calendar"></ids-icon>
+    </ids-button>
+    <ids-date-picker-popup show-today="true" target="#btn-picker" trigger-elem="#btn-picker" trigger-type="click" first-day-of-week="0" day="22" month="9" year="2019">
+    </ids-date-picker-popup>
+          <ids-button css-class="no-padding" class="btn-today">
+      <ids-text class="btn-today-text" font-size="16" translate-text="true" font-weight="semi-bold" translation-key="Today">Today</ids-text>
+    </ids-button>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="buttonset" align="end">
+          
+      <ids-menu-button id="view-picker-btn" menu="view-picker" value="month" dropdown-icon="dropdown" display-selected-text="" aria-controls="view-picker" aria-haspopup="menu">
+        <span><ids-text translate-text="true" font-weight="semi-bold" translation-key="Month">Month</ids-text></span>
+      </ids-menu-button>
+      <ids-popup-menu id="view-picker" trigger-type="click" target="#view-picker-btn" role="none" hidden="">
+        <ids-menu-group select="single" role="group" aria-label="Menu group containing 3 item(s)">
+          <ids-menu-item value="month" selected="">
+            <ids-text translate-text="true" translation-key="Month">Month</ids-text>
+          </ids-menu-item>
+          <ids-menu-item value="week">
+            <ids-text translate-text="true" translation-key="Week">Week</ids-text>
+          </ids-menu-item>
+          <ids-menu-item value="day">
+            <ids-text translate-text="true" translation-key="Day">Day</ids-text>
+          </ids-menu-item>
+        </ids-menu-group>
+      </ids-popup-menu>
+    
+        </ids-toolbar-section>
+      </ids-toolbar>
+    </div>
+          <div class="calendar-view-pane">
+      <ids-month-view month="9" day="22" year="2019">
+        <slot name="MonthViewCalendarEventTemplate" slot="customCalendarEvent"></slot>
+      </ids-month-view>
+    </div>
+        </div>
+        <div class="calendar-details-pane"><ids-accordion allow-one-pane="true">
+      <ids-accordion-panel expanded="false">
+        <ids-accordion-header color="azure" slot="header" aria-expanded="false">
+          <ids-text font-weight="semi-bold" overflow="ellipsis">Conference</ids-text>
+        </ids-accordion-header>
+        <div slot="content" class="panel-content">
+          
+          <ids-data-label label="Date">October 21, 2019 at 12:00 AM - October 23, 2019 at 11:59 PM</ids-data-label><hr>
+          <ids-data-label label="Event Type">dto</ids-data-label><hr>
+          <ids-data-label label="Duration">3 Days </ids-data-label>
+          
+        </div>
+      </ids-accordion-panel>
+    
+      <ids-accordion-panel expanded="false">
+        <ids-accordion-header color="azure" slot="header" aria-expanded="false">
+          <ids-text font-weight="semi-bold" overflow="ellipsis">Test Event F</ids-text>
+        </ids-accordion-header>
+        <div slot="content" class="panel-content">
+          <ids-data-label label="Status">Recurring</ids-data-label><hr>
+          <ids-data-label label="Date">October 22, 2019 at 7:00 AM - October 22, 2019 at 7:30 AM</ids-data-label><hr>
+          <ids-data-label label="Event Type">dto</ids-data-label><hr>
+          <ids-data-label label="Duration">1 Hour</ids-data-label>
+          <hr><ids-data-label label="Comments">Weekly standup call</ids-data-label>
+        </div>
+      </ids-accordion-panel>
+    
+      <ids-accordion-panel expanded="false">
+        <ids-accordion-header color="emerald" slot="header" aria-expanded="false">
+          <ids-text font-weight="semi-bold" overflow="ellipsis">Test Event G</ids-text>
+        </ids-accordion-header>
+        <div slot="content" class="panel-content">
+          <ids-data-label label="Status">Recurring</ids-data-label><hr>
+          <ids-data-label label="Date">October 22, 2019 at 8:30 AM - October 22, 2019 at 9:00 AM</ids-data-label><hr>
+          <ids-data-label label="Event Type">team</ids-data-label><hr>
+          <ids-data-label label="Duration">1 Hour</ids-data-label>
+          <hr><ids-data-label label="Comments">Weekly standup call</ids-data-label>
+        </div>
+      </ids-accordion-panel>
+    
+      <ids-accordion-panel expanded="false">
+        <ids-accordion-header color="azure" slot="header" aria-expanded="false">
+          <ids-text font-weight="semi-bold" overflow="ellipsis">Test Event H</ids-text>
+        </ids-accordion-header>
+        <div slot="content" class="panel-content">
+          <ids-data-label label="Status">Recurring</ids-data-label><hr>
+          <ids-data-label label="Date">October 22, 2019 at 10:00 AM - October 22, 2019 at 11:00 AM</ids-data-label><hr>
+          <ids-data-label label="Event Type">dto</ids-data-label><hr>
+          <ids-data-label label="Duration">1 Hour</ids-data-label>
+          <hr><ids-data-label label="Comments">Weekly standup call</ids-data-label>
+        </div>
+      </ids-accordion-panel>
+    
+      <ids-accordion-panel expanded="false">
+        <ids-accordion-header color="emerald" slot="header" aria-expanded="false">
+          <ids-text font-weight="semi-bold" overflow="ellipsis">Test Event I</ids-text>
+        </ids-accordion-header>
+        <div slot="content" class="panel-content">
+          <ids-data-label label="Status">Recurring</ids-data-label><hr>
+          <ids-data-label label="Date">October 22, 2019 at 11:30 AM - October 22, 2019 at 12:30 PM</ids-data-label><hr>
+          <ids-data-label label="Event Type">team</ids-data-label><hr>
+          <ids-data-label label="Duration">1 Hour</ids-data-label>
+          <hr><ids-data-label label="Comments">Weekly standup call</ids-data-label>
+        </div>
+      </ids-accordion-panel>
+    
+      <ids-accordion-panel expanded="false">
+        <ids-accordion-header color="azure" slot="header" aria-expanded="false">
+          <ids-text font-weight="semi-bold" overflow="ellipsis">Test Event J</ids-text>
+        </ids-accordion-header>
+        <div slot="content" class="panel-content">
+          <ids-data-label label="Status">Recurring</ids-data-label><hr>
+          <ids-data-label label="Date">October 22, 2019 at 1:30 PM - October 22, 2019 at 4:30 PM</ids-data-label><hr>
+          <ids-data-label label="Event Type">dto</ids-data-label><hr>
+          <ids-data-label label="Duration">3 Hours</ids-data-label>
+          <hr><ids-data-label label="Comments">Weekly standup call</ids-data-label>
+        </div>
+      </ids-accordion-panel>
+    
+      <ids-accordion-panel expanded="false">
+        <ids-accordion-header color="emerald" slot="header" aria-expanded="false">
+          <ids-text font-weight="semi-bold" overflow="ellipsis">Test Event K</ids-text>
+        </ids-accordion-header>
+        <div slot="content" class="panel-content">
+          <ids-data-label label="Status">Recurring</ids-data-label><hr>
+          <ids-data-label label="Date">October 22, 2019 at 5:00 PM - October 22, 2019 at 8:30 PM</ids-data-label><hr>
+          <ids-data-label label="Event Type">team</ids-data-label><hr>
+          <ids-data-label label="Duration">4 Hours</ids-data-label>
+          <hr><ids-data-label label="Comments">Weekly standup call</ids-data-label>
+        </div>
+      </ids-accordion-panel>
+    </ids-accordion></div>
+      </div>
+    

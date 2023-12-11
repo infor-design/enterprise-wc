@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`IdsButton Component renders correctly 1`] = `"<ids-button css-class="test-class" disabled="" icon="add"><ids-icon icon="add" class="ids-icon"></ids-icon><span>test</span></ids-button>"`;
-
-exports[`IdsButton Component renders icons on the opposite side correctly 1`] = `"<ids-button id="test-button" icon="settings"><span>Settings</span><ids-icon icon="settings" class="ids-icon"></ids-icon></ids-button>"`;

@@ -8,6 +8,7 @@ const handleUpload = require('./scripts/handle-upload');
 const htmlExamples = require('./scripts/webpack-html-templates');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
+const isCoverageMode = process.argv[process.argv.indexOf('--env') + 1] === 'coverage';
 
 module.exports = {
   entry: demoEntry(),
@@ -52,6 +53,19 @@ module.exports = {
   devtool: 'eval-source-map', // cheap-module-source-map -> original eval-cheap-module-source-map -> works but has csp errors
   module: {
     rules: [
+      (!isCoverageMode ? {} : {
+        test: /(src).*\.ts$/, // TO Exclude enterprise-wc.ts
+        exclude: [
+          '/src/enterprise-wc.ts',
+          '/src/**/demos/*.ts',
+          /node_modules/
+        ],
+        use: [
+          {
+            loader: '@jsdevtools/coverage-istanbul-loader'
+          }
+        ]
+      }),
       {
         test: /\.ts?$/,
         use: [
@@ -68,7 +82,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg|json|css|pdf|csv|xml)$/i,
-        exclude: [/node_modules/],
+        exclude: [/node_modules/, /locale/, /ids-locale/, /locale-data/],
         type: 'asset/resource',
       },
       {
@@ -118,14 +132,13 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: './src/components/ids-locale/data/*.ts',
+          from: './src/components/ids-locale/data/*.json',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
             let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
             filePath = filePath
-              .replace('ids-locale/data/', 'locale-data/')
-              .replace('ts', 'js');
+              .replace('ids-locale/data/', 'locale-data/');
             return filePath;
           }
         },

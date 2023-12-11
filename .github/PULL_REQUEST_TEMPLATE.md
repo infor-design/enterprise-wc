@@ -19,7 +19,8 @@ Include:
 -->
 
 **Included in this Pull Request**:
-- [ ] An e2e or functional test for the bug or feature.
+- [ ] Some documentation for the feature.
+- [ ] A test for the bug or feature.
 - [ ] A note to the change log.
 
 <!-- After submitting your PR, please check back to make sure checks on the PR -->

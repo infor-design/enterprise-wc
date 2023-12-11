@@ -1,38 +1,60 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.18
+
+### 1.0.0-beta.18 Fixes
+
+- `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
+
 ## 1.0.0-beta.17
+
+### 1.0.0-beta.17 Breaking Changes
+
+- `[Locale]` All locale data is now `json` not `js`, this may require you to re-copy the locale data if you made a copy of it. This removed the .js files from the bundles so they are truly dynamic now. ([#1596](https://github.com/infor-design/enterprise-wc/issues/1596))
 
 ### 1.0.0-beta.17 Features
 
 - `[General]` Added an initial migration guide. ([#1561](https://github.com/infor-design/enterprise-wc/issues/1561))
 - `[Locale]` Added `localeDataPath` to retrieve locale data from an alternate location to the default. ([#1622](https://github.com/infor-design/enterprise-wc/issues/1622))
 - `[Tree]` Added `addNodes` method to dynamically add tree nodes. ([#1517](https://github.com/infor-design/enterprise-wc/issues/1517))
+- `[Tree]` Added `beforeExpanded` async loading pattern to dynamically add tree children. ([#1516](https://github.com/infor-design/enterprise-wc/issues/1516))
 - `[Tree]` Renamed `useToggleTarget` to `expandTarget`, now available as a setting to toggle tree nodes only when clicking the icon. ([#1528](https://github.com/infor-design/enterprise-wc/issues/1528))
+- `[Tests]` Changed test framework to playwright. ([#1225](https://github.com/infor-design/enterprise-wc/issues/1225))
+- `[ValidationMixin]` Added a `required` attribute that can be used separately from `validate="required"` simply to display a required indicator. ([#1553](https://github.com/infor-design/enterprise-wc/issues/1553))
 
 ### 1.0.0-beta.17 Fixes
 
+- `[AxisChart]` Improved sizing behavior in a widget and improved responsive example. ([#1555](https://github.com/infor-design/enterprise-wc/issues/1555))
 - `[Calendar]` Fix multiple `beforerendermonth` events. ([#1464](https://github.com/infor-design/enterprise-wc/issues/1464))
 - `[Calendar]` Add `afterrendermonth` event to calendar and month view. ([#1465](https://github.com/infor-design/enterprise-wc/issues/1465))
 - `[Calendar]` Add `disableSettings` property to calendar. ([#1471](https://github.com/infor-design/enterprise-wc/issues/1471))
 - `[DataGrid]` Added `lookup` type to `IdsDataGridEditor` so that ids-lookup field can be used as editable datagrid cell. ([#1478](https://github.com/infor-design/enterprise-wc/issues/1478))
 - `[DataGrid]` Fix setting `rtl` direction on component init. ([#1501](https://github.com/infor-design/enterprise-wc/issues/1501))
 - `[DataGrid]` Make hyperlink cells clickable when `rowNavigation` is enabled. ([#1523](https://github.com/infor-design/enterprise-wc/issues/1523))
+- `[DataGrid]` Fix virtual scrolling for tree grids. ([#1573](https://github.com/infor-design/enterprise-wc/issues/1573))/([#1587](https://github.com/infor-design/enterprise-wc/issues/1587))
 - `[DataGrid]` Add `filterAlign` setting to columns for independently aligning filter row contents. ([#1575](https://github.com/infor-design/enterprise-wc/issues/1575))
+- `[DataGrid]` Fix an issue where inline-editable cells in the first column were not considered when navigating the grid in edit mode with the Tab key. ([#1616](https://github.com/infor-design/enterprise-wc/issues/1616))
 - `[DatePicker]` Set trigger field's value with today's date when today button is clicked. ([#1614](https://github.com/infor-design/enterprise-wc/issues/1614))
 - `[DatePicker]` Fixed time picker value change is not reflected dynamically in date time picker trigger field. ([#1576](https://github.com/infor-design/enterprise-wc/issues/1576))
 - `[FlexLayout]` Added a flex example using IdsButtons and IdsInputs. ([#1395](https://github.com/infor-design/enterprise-wc/issues/1395))
 - `[Input]` Fixed input allowing to enter not number characters when mask is number. ([#1608](https://github.com/infor-design/enterprise-wc/issues/1608))
 - `[Inputs]` Fixed removing `readonly` and `disabled` not working after form additions. ([#1570](https://github.com/infor-design/enterprise-wc/issues/1570))
+- `[Inputs]` Fixed label setting for `ellipsis` which was not working. ([#1554](https://github.com/infor-design/enterprise-wc/issues/1554))
+- `[Menu]` Add menu fixes for angular dynamic examples. ([#1641](https://github.com/infor-design/enterprise-wc/issues/1641))
 - `[Modal]` Add `showCloseButton` setting to modal. ([#1527](https://github.com/infor-design/enterprise-wc/issues/1527))
 - `[Modal]` Fix `fullsize` setting on init. ([#1525](https://github.com/infor-design/enterprise-wc/issues/1525))
 - `[Modal]` Fix problems with slotting scrollable components and resize behavior. ([#1529](https://github.com/infor-design/enterprise-wc/issues/1529)/[#1530](https://github.com/infor-design/enterprise-wc/issues/1530))
+- `[Modal]` Fix `showCloseButton` setting to default to top-right corner. ([#1647](https://github.com/infor-design/enterprise-wc/issues/1647))
 - `[Module Nav]` Small improvements to better enable usage in an Angular codebase. ([#1597](https://github.com/infor-design/enterprise-wc/issues/1597))
-- `[Multiselect]` Fix rerender logic so that state is maintained while using ngFor directive in Angular. ([#1411](https://github.com/infor-design/enterprise-wc/issues/1411))
-- `[PopupMenu]` Fix arrow icon direction in rtl. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
+- `[Multiselect]` Fix `rerender` logic so that state is maintained while using `ngFor` directive in Angular. ([#1411](https://github.com/infor-design/enterprise-wc/issues/1411))
+- `[Pager]` Fix datagrid standalone pager html override. ([#1615](https://github.com/infor-design/enterprise-wc/issues/1615))
+- `[PopupMenu]` Fix arrow icon direction in RTL. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
 - `[Tabs]` Sync component with Figma design changes related to Alabaster default theme. ([#1050](https://github.com/infor-design/enterprise-wc/issues/1050))
-- `[PopupMenu]` Fix arrow icon direction in `rtl`. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
+- `[PopupMenu]` Fix arrow icon direction in RTL. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
 - `[Text]` Fixed wrong status warning color. ([#1619](https://github.com/infor-design/enterprise-wc/issues/1619))
 - `[Textarea]` Made sure strings are translated and fixed `character-count`` setting. ([#1598](https://github.com/infor-design/enterprise-wc/issues/1598))
+- `[Tooltip]` Adds a check on the `tooltip` attribute to fix event handling in Angular environments. ([#1625](https://github.com/infor-design/enterprise-wc/issues/1625))
+- `[Trigger Field]` Fixed side by side example. ([#1586](https://github.com/infor-design/enterprise-wc/issues/1586))
 
 ## 1.0.0-beta.16
 

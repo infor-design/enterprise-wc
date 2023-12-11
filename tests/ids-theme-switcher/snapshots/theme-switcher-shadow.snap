@@ -1,0 +1,62 @@
+<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu" icon="more" aria-controls="ids-theme-menu" aria-haspopup="menu"><ids-icon icon="more" class="ids-icon"></ids-icon>
+      <span class="audible">Theme Switcher</span>
+    </ids-menu-button>
+    <ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger-type="click" role="none" hidden="">
+      <ids-menu-group role="group" aria-label="Menu group containing 2 item(s)">
+    <ids-menu-item>
+      <ids-text translate-text="true" translation-key="Mode">Mode</ids-text>
+        <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+          <ids-menu-group select="single" role="group" aria-label="Menu group containing 3 item(s)">
+            <ids-menu-item selected="" value="light">
+              <ids-text translate-text="true" translation-key="Light">Light</ids-text>
+              </ids-menu-item>
+            <ids-menu-item value="dark">
+              <ids-text translate-text="true" translation-key="Dark">Dark</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="contrast">
+              <ids-text translate-text="true" translation-key="Contrast">Contrast</ids-text>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+      </ids-menu-item>
+      <ids-menu-item>
+        <ids-text translate-text="true" translation-key="Locale">Locale</ids-text>
+        <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+          <ids-menu-group select="single" id="locale-menu" role="group" aria-label="Menu group containing 8 item(s)">
+            <ids-menu-item selected="" value="en-US">
+              <ids-text translate-text="true" translation-key="English">English (United States)</ids-text>
+              <ids-text>(en-US)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="de-DE">
+              <ids-text translate-text="true" translation-key="German">German</ids-text>
+              <ids-text>(de-DE)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="uk-UA">
+              <ids-text translate-text="true" translation-key="Ukrainian">Ukrainian</ids-text>
+              <ids-text>(uk-UA)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="es-ES">
+              <ids-text translate-text="true" translation-key="Spanish">Spanish</ids-text>
+              <ids-text>(es-ES)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="he-IL">
+              <ids-text translate-text="true" translation-key="Hebrew">Hebrew</ids-text>
+              <ids-text>(he-IL)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="ar-EG">
+              <ids-text translate-text="true" translation-key="Arabic">Arabic</ids-text>
+              <ids-text>(ar-EG)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="th-TH">
+              <ids-text translate-text="true" translation-key="Thai">Thai</ids-text>
+              <ids-text>(th-TH)</ids-text>
+            </ids-menu-item>
+            <ids-menu-item value="zh-Hans">
+              <ids-text translate-text="true" translation-key="Chinese">Chinese</ids-text>
+              <ids-text>(zh-Hans)</ids-text>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+      </ids-menu-item>
+    </ids-menu-group>
+    </ids-popup-menu>

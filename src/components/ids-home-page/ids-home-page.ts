@@ -57,7 +57,10 @@ export default class IdsHomePage extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#init();
-    (this.closest('ids-container') as IdsContainer)?.container?.style.setProperty('background-color', 'var(--ids-homepage-color-background-default)');
+
+    requestAnimationFrame(() => {
+      (this.closest('ids-container') as IdsContainer)?.container?.style.setProperty('background-color', 'var(--ids-homepage-color-background-default)');
+    });
   }
 
   /**

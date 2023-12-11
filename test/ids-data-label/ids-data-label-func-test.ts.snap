@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`IdsDataLabel Component renders correctly 1`] = `"<ids-data-label label="Address">Los Angeles, California 90001 USA</ids-data-label>"`;

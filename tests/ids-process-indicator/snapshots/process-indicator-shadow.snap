@@ -1,0 +1,11 @@
+
+    <div class="ids-process-indicator">
+      <span class="step-container">
+        <div class="xs-header">
+          <ids-text>Current: </ids-text>
+          <ids-text class="label" font-weight="semi-bold">3rd Level - Multiple Approvers</ids-text>
+        </div>
+        <slot></slot>
+      </span>
+    </div>
+    

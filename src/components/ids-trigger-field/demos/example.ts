@@ -10,5 +10,5 @@ if (autocomplete) {
     autocomplete.data = data;
   };
 
-  setData();
+  await setData();
 }

@@ -21,7 +21,7 @@ build-stats.json
 report.*.json
 
 # AWS
-.aws-sam/
+.aws-sam
 
 # generated docs
 apidocs
@@ -29,3 +29,13 @@ docs
 docs.zip
 custom-elements.json
 vscode.html-custom-data.json
+test-results
+playwright-report
+playwright
+playwright/.cache
+results
+/test-results/
+/playwright-report/
+/playwright/
+/blob-report/
+/playwright/.cache/

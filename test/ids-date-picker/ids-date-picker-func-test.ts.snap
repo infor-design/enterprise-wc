@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`IdsDatePicker Component Tests Using properties should render 1`] = `"<ids-date-picker tabbable="false" show-today="false" first-day-of-week="1" id="ids-date-picker" label="ids-date-picker" value="2021-10-18" size="lg" format="yyyy-MM-dd" month="9" year="2021" day="18" show-clear="true" show-cancel="true" show-picklist-year="false" show-picklist-month="false" show-picklist-week="true" minute-interval="5" second-interval="5"></ids-date-picker>"`;

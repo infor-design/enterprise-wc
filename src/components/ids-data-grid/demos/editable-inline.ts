@@ -87,6 +87,7 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
     formatter: dataGrid.formatters.date,
     editor: {
       type: 'input',
+      inline: true,
       editorSettings: {
         autoselect: true,
         dirtyTracker: false,
@@ -108,6 +109,7 @@ rowHeightMenu?.addEventListener('deselected', (e: Event) => {
     },
     editor: {
       type: 'input',
+      inline: true,
       editorSettings: {
         autoselect: true,
         dirtyTracker: false,

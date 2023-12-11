@@ -1,0 +1,5 @@
+<ids-swaplist id="swaplist-1">
+          <template>
+            <ids-text>${text}</ids-text>
+          </template>
+        </ids-swaplist>

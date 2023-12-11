@@ -1,0 +1,45 @@
+<ids-dropdown id="dropdown-1" label="Normal Dropdown with Dirty Tracker" value="ca" dirty-tracker="true" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-dropdown-1" tooltip="California">
+          <ids-list-box role="listbox" size="md" id="ids-list-box-dropdown-1" aria-label="Listbox">
+            <ids-list-box-option id="ca" value="ca" role="option" tabindex="-1" row-index="0">California</ids-list-box-option>
+            <ids-list-box-option id="hi" value="hi" role="option" tabindex="-1" row-index="1">Hawaii</ids-list-box-option>
+            <ids-list-box-option id="id" value="id" role="option" tabindex="-1" row-index="2">Idaho</ids-list-box-option>
+            <ids-list-box-option id="il" value="il" role="option" tabindex="-1" row-index="3">Illinois</ids-list-box-option>
+            <ids-list-box-option id="in" value="in" role="option" tabindex="-1" row-index="4">Indiana</ids-list-box-option>
+            <ids-list-box-option id="ia" value="ia" role="option" tabindex="-1" row-index="5">Iowa</ids-list-box-option>
+            <ids-list-box-option id="ks" value="ks" role="option" tabindex="-1" row-index="6">Kansas</ids-list-box-option>
+            <ids-list-box-option id="ky" value="ky" role="option" tabindex="-1" row-index="7">Kentucky</ids-list-box-option>
+            <ids-list-box-option id="la" value="la" role="option" tabindex="-1" row-index="8">Louisiana</ids-list-box-option>
+            <ids-list-box-option id="me" value="me" role="option" tabindex="-1" row-index="9">Maine</ids-list-box-option>
+            <ids-list-box-option id="md" value="md" role="option" tabindex="-1" row-index="10">Maryland</ids-list-box-option>
+            <ids-list-box-option id="ma" value="ma" role="option" tabindex="-1" row-index="11">Massachusetts</ids-list-box-option>
+            <ids-list-box-option id="mi" value="mi" role="option" tabindex="-1" row-index="12">Michigan</ids-list-box-option>
+            <ids-list-box-option id="mn" value="mn" role="option" tabindex="-1" row-index="13">Minnesota</ids-list-box-option>
+            <ids-list-box-option id="ms" value="ms" role="option" tabindex="-1" row-index="14">Mississippi</ids-list-box-option>
+            <ids-list-box-option id="mo" value="mo" role="option" tabindex="-1" row-index="15">Missouri</ids-list-box-option>
+            <ids-list-box-option id="mt" value="mt" role="option" tabindex="-1" row-index="16">Montana</ids-list-box-option>
+            <ids-list-box-option id="ne" value="ne" role="option" tabindex="-1" row-index="17">Nebraska</ids-list-box-option>
+            <ids-list-box-option id="nv" value="nv" role="option" tabindex="-1" row-index="18">Nevada</ids-list-box-option>
+            <ids-list-box-option id="nh" value="nh" role="option" tabindex="-1" row-index="19">New Hampshire</ids-list-box-option>
+            <ids-list-box-option id="nj" value="nj" role="option" tabindex="-1" row-index="20">New Jersey</ids-list-box-option>
+            <ids-list-box-option id="nm" value="nm" role="option" tabindex="-1" row-index="21">New Mexico</ids-list-box-option>
+            <ids-list-box-option id="ny" value="ny" role="option" tabindex="-1" row-index="22">New York</ids-list-box-option>
+            <ids-list-box-option id="nc" value="nc" role="option" tabindex="-1" row-index="23">North Carolina</ids-list-box-option>
+            <ids-list-box-option id="nd" value="nd" role="option" tabindex="-1" row-index="24">North Dakota</ids-list-box-option>
+            <ids-list-box-option id="oh" value="oh" role="option" tabindex="-1" row-index="25">Ohio</ids-list-box-option>
+            <ids-list-box-option id="ok" value="ok" role="option" tabindex="-1" row-index="26">Oklahoma</ids-list-box-option>
+            <ids-list-box-option id="or" value="or" role="option" tabindex="-1" row-index="27">Oregon</ids-list-box-option>
+            <ids-list-box-option id="pa" value="pa" role="option" tabindex="-1" row-index="28">Pennsylvania</ids-list-box-option>
+            <ids-list-box-option id="ri" value="ri" role="option" tabindex="-1" row-index="29">Rhode Island</ids-list-box-option>
+            <ids-list-box-option id="sc" value="sc" role="option" tabindex="-1" row-index="30">South Carolina</ids-list-box-option>
+            <ids-list-box-option id="sd" value="sd" role="option" tabindex="-1" row-index="31">South Dakota</ids-list-box-option>
+            <ids-list-box-option id="tn" value="tn" role="option" tabindex="-1" row-index="32">Tennessee</ids-list-box-option>
+            <ids-list-box-option id="tx" value="tx" role="option" tabindex="-1" row-index="33">Texas</ids-list-box-option>
+            <ids-list-box-option id="ut" value="ut" role="option" tabindex="-1" row-index="34">Utah</ids-list-box-option>
+            <ids-list-box-option id="vt" value="vt" role="option" tabindex="-1" row-index="35">Vermont</ids-list-box-option>
+            <ids-list-box-option id="va" value="va" role="option" tabindex="-1" row-index="36">Virginia</ids-list-box-option>
+            <ids-list-box-option id="wa" value="wa" role="option" tabindex="-1" row-index="37">Washington</ids-list-box-option>
+            <ids-list-box-option id="wv" value="wv" role="option" tabindex="-1" row-index="38">West Virginia</ids-list-box-option>
+            <ids-list-box-option id="wi" value="wi" role="option" tabindex="-1" row-index="39">Wisconsin</ids-list-box-option>
+            <ids-list-box-option id="wy" value="wy" role="option" tabindex="-1" row-index="40">Wyoming</ids-list-box-option>
+          </ids-list-box>
+        </ids-dropdown>

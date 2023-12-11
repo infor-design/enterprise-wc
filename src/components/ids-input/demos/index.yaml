@@ -20,6 +20,9 @@
   - link: validation-date-time.html
     type: Example
     description: Shows date/time validation and masks
+  - link: validation-required.html
+    type: Test
+    description: Shows required indicator display under different conditions
   - link: label-state.html
     type: Test
     description: Showing an example with hidden labels

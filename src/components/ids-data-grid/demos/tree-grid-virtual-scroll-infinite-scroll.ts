@@ -1,30 +1,36 @@
 import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
-import treeLargeJSON from '../../../assets/data/tree-large.json';
+import treeLargeJSON from '../../../assets/data/tree-large-children.json';
 import '../../ids-layout-flex/ids-layout-flex';
-
-let expandAll = false;
+import '../../ids-input/ids-input';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#tree-grid-virtual-scroll')!;
 const btnExpandAll = document.querySelector('#btn-expand-all');
 const btnCollapseAll = document.querySelector('#btn-collapse-all');
+const scrollToInput = document.querySelector('#scroll-to-input');
+
+let isExpanded = false;
 
 btnExpandAll?.addEventListener('click', () => {
   dataGrid?.expandAll();
-  expandAll = true;
+  isExpanded = true;
 });
 
 btnCollapseAll?.addEventListener('click', () => {
   dataGrid?.collapseAll();
-  expandAll = false;
+  isExpanded = false;
 });
+
+scrollToInput?.addEventListener('change', ((evt: CustomEvent) => {
+  const rowIndex = Number(evt.detail.value);
+  if (!Number.isNaN(rowIndex)) dataGrid.scrollRowIntoView(rowIndex);
+}) as EventListener);
 
 // Do an ajax request
 const url: any = treeLargeJSON;
 const columns: IdsDataGridColumn[] = [];
-let currentId = 1000;
 
 // Set up columns
 columns.push({
@@ -36,6 +42,16 @@ columns.push({
   align: 'center',
   frozen: 'left'
 });
+
+columns.push({
+  id: 'rowNumber',
+  name: 'Row #',
+  formatter: dataGrid.formatters.rowNumber,
+  sortable: false,
+  readonly: true,
+  width: 66
+});
+
 columns.push({
   id: 'name',
   name: 'Name',
@@ -49,50 +65,59 @@ columns.push({
   width: 220,
   frozen: 'left'
 });
+
 columns.push({
-  id: 'rowNumber',
-  name: '#',
-  formatter: dataGrid.formatters.rowNumber,
-  sortable: false,
-  readonly: true,
-  width: 66
-});
-columns.push({
-  id: 'id',
-  name: 'Id',
-  field: 'id',
+  id: 'email',
+  name: 'Email',
+  field: 'email',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
 });
+
 columns.push({
-  id: 'location',
-  name: 'Location',
-  field: 'location',
+  id: 'company',
+  name: 'Company',
+  field: 'company',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.text
+  width: 200,
+  formatter: dataGrid.formatters.text,
+  editor: {
+    type: 'input',
+    inline: true,
+    editorSettings: {
+      autoselect: true,
+      dirtyTracker: true,
+      validate: 'required'
+    }
+  },
 });
+
 columns.push({
-  id: 'capacity',
-  name: 'Capacity',
-  field: 'capacity',
+  id: 'age',
+  name: 'Age',
+  field: 'age',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.integer
+  width: 100,
+  formatter: dataGrid.formatters.text,
 });
+
 columns.push({
-  id: 'available',
-  name: 'Available',
-  field: 'available',
+  id: 'phone',
+  name: 'Phone',
+  field: 'phone',
   sortable: true,
   resizable: true,
-  formatter: dataGrid.formatters.date
+  width: 200,
+  formatter: dataGrid.formatters.text,
 });
+
 columns.push({
-  id: 'comments',
-  name: 'Comments',
-  field: 'comments',
+  id: 'address',
+  name: 'Address',
+  field: 'address',
   sortable: true,
   resizable: true,
   formatter: dataGrid.formatters.text
@@ -100,50 +125,41 @@ columns.push({
 
 dataGrid.columns = columns;
 
-const setData = async () => {
+const fetchData = async () => {
   const res = await fetch(url);
   const data = await res.json();
-  dataGrid.data = data.splice(0, 120);
+
+  return data;
 };
 
+const setData = async () => {
+  const data = await fetchData();
+  dataGrid.data = data.slice(0, 50);
+};
 setData();
 
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);
 });
 
-dataGrid.addEventListener('scrollend', (e: Event) => {
+dataGrid.addEventListener('scrollend', async (e: any) => {
   console.info(`scrollend`, (<CustomEvent>e).detail);
+  const lastRowLoaded = e.detail.value;
+  const data = await fetchData();
+  const rowsToAdd = data
+    .slice(lastRowLoaded + 1, lastRowLoaded + 10)
+    .map((row: any) => {
+      row.rowExpanded = isExpanded;
+      return row;
+    });
 
-  const newDataArray : any[] = [];
-  for (let counter = 0; counter < 10; counter++) {
-    currentId++;
-    const newData = {
-      id: currentId,
-      name: `Crawler-${currentId}`,
-      location: 'St. Louis',
-      capacity: 44,
-      available: '2022-05-08T01:57:17Z',
-      comments: 'integer pede justo lacinia eget tincidunt eget tempus vel pede morbi porttitor lorem id ligula suspendisse ornare consequat lectus',
-      time: '22:14:42',
-      rowExpanded: expandAll,
-      children: [
-        {
-          id: currentId + 0.1,
-          name: 'Battery',
-          location: 'Lower',
-          capacity: 2,
-          available: '2022-01-14T02:43:11Z',
-          time: '7:20:19',
-          rowHidden: !expandAll
-        }
-      ]
-    };
-    newDataArray.push(newData);
+  if (rowsToAdd.length) {
+    // simulate fetch delay
+    setTimeout(() => {
+      dataGrid.appendData(rowsToAdd);
+      console.info('Appending Rows:', rowsToAdd.length);
+    }, 100);
+  } else {
+    console.info('---END OF DATA---');
   }
-
-  setTimeout(() => {
-    console.info(`appendData`, newDataArray);
-    dataGrid.appendData(newDataArray);
-  }, 1000);
 });

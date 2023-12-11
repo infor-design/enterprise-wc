@@ -196,7 +196,7 @@ const IdsMaskMixin = <T extends Constraints>(superclass: T) => class extends sup
    * Uses an input value and pattern options to process a masked string.
    * @param {string} rawValue the value to be checked for masking.
    * @param {IdsMaskOptions} opts various options that can be passed to the masking process.
-   * @param {boolean} [doSetValue=false] if true, attempts to set input state when masking completes
+   * @param {boolean} [doSetValue] if true, attempts to set input state when masking completes
    * @returns {string|boolean} the result of the mask.  If no masking was performed, return `false`
    */
   processMask = (rawValue: string, opts: IdsMaskOptions = {}, doSetValue = false) => {

@@ -1,0 +1,42 @@
+
+      <div class="ids-upload-advanced">
+        
+      <div class="hidden">
+        <slot name="text-btn-cancel">Cancel uploading this file</slot>
+        <slot name="text-btn-cancel-all">Cancel all</slot>
+        <slot name="text-btn-close-error">Dismiss this error</slot>
+        <slot name="text-btn-remove">Remove this file</slot>
+        <slot name="text-btn-start-all">Start uploading this file</slot>
+        <slot name="text-droparea">Drag and drop here to upload files</slot>
+        <slot name="text-droparea-with-browse">Drag and drop here or {browseLink}</slot>
+        <slot name="text-droparea-with-browse-link">upload files</slot>
+        <slot name="text-progress-label">{file-name} uploaded {loaded} out of {size} ({percent}%)</slot>
+        <slot name="error-accept-file-type"><em>Error</em> File type is not allowed</slot>
+        <slot name="error-max-files"><em>Error</em> Cannot upload more than the maximum number of files ({maxFiles})</slot>
+        <slot name="error-max-files-in-process"><em>Error</em> Exceeded maximum files allowed</slot>
+        <slot name="error-max-file-size"><em>Error</em> Exceeded file size limit</slot>
+        <slot name="error-url"><em>Error</em> Url not found</slot>
+        <slot name="error-xhr-headers"><em>Error</em> Request Headers must be a valid JSON string</slot>
+        <slot name="xhr-headers"></slot>
+      </div>
+        <div class="droparea" part="container">
+          <ids-icon icon="upload" class="icon"></ids-icon>
+          
+      <div class="content">
+        <div class="no-browse-link hidden">
+          <span class="droparea-label"><ids-text class="inline">Drag and drop here to upload files</ids-text></span>
+        </div>
+        <div class="has-browse-link">
+          <label>
+            <input type="file" class="file-input" "="" multiple="">
+            <span class="droparea-label" part="label">
+          <ids-text class="inline">Drag and drop here or </ids-text>
+          <ids-hyperlink part="link" class="inline hyperlink" role="link">upload files</ids-hyperlink>
+          <ids-text class="inline"></ids-text></span>
+          </label>
+        </div>
+      </div>
+        </div>
+        <div class="errorarea" part="errorarea"></div>
+        <div class="filesarea" part="filesarea"></div>
+      </div>

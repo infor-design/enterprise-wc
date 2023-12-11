@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Custom Build Script Using Es Build
 // usage:
 //  node scripts/esbuild-prod.mjs -- mode=production
@@ -6,9 +5,7 @@
 //  node scripts/esbuild-prod.mjs
 import * as fs from 'fs';
 import * as path from 'path';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as esbuild from 'esbuild';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { sassPlugin } from 'esbuild-sass-plugin';
 // eslint-disable-next-line import/extensions
 import fsFiles from './node-fs-files.mjs';
@@ -70,12 +67,12 @@ const result = await esbuild
   .catch(() => process.exit(1));
 
 // Copy Locales
-const locales = fsFiles('./src/components/ids-locale/data', 'ts');
+const locales = fsFiles('./src/components/ids-locale/data', 'json');
 const localeDir = `${outDir}/locale-data/`;
 fs.mkdirSync(localeDir, { recursive: true }, () => {});
 
 locales.forEach((locale) => {
-  fs.copyFileSync(locale, `${localeDir}${path.basename(locale)}`.replace('.ts', '.js'));
+  fs.copyFileSync(locale, `${localeDir}${path.basename(locale)}`);
 });
 
 // Copy Types
@@ -100,23 +97,28 @@ fs.copyFileSync('./README.md', `${outDir}/README.md`);
 fs.copyFileSync('./custom-elements.json', `${outDir}/custom-elements.json`);
 fs.copyFileSync('./vscode.html-custom-data.json', `${outDir}/vscode.html-custom-data.json`);
 
-// Minify locale data
+// Copy and Minify (gzip?) json data
 if (mode === 'production') {
-  fs.rmSync(`${outDir}/locale-data`, { recursive: true, force: true });
-
-  const localesOnly = fsFiles('./src/components/ids-locale/data', 'ts');
-  await esbuild
-    .build({
-      entryPoints: localesOnly,
-      outdir: `${outDir}/locale-data`,
-      minify: true,
-    })
-    .catch(() => process.exit(1));
+  const jsons = fsFiles(`${outDir}/locale-data`, 'json');
+  jsons.forEach((filePath) => {
+    const contents = fs.readFileSync(filePath, { encoding: 'utf-8' });
+    // Remove comments field
+    let newFile = contents.replaceAll(/[,]{1}[\s]*?"comment"[ ]*?[:][ ]*?".*"[^,]|"comment"[ ]*?[:][ ]*?".*"[,]{0,1}/g, '');
+    // Remove white space not in fields
+    newFile = JSON.stringify(JSON.parse(newFile));
+    // Rewrite file
+    fs.writeFileSync(filePath, newFile);
+  });
 }
-
-fs.rmSync(`${outDir}/themes/default`, { recursive: true, force: true });
 
 // Create Stats File
 // Can view this file at https://esbuild.github.io/analyze/
 fs.writeFileSync('build-stats.json', JSON.stringify(result.metafile));
+
+// Remove Extra/Dup Files
+if (fs.existsSync(`${outDir}/components/enterprise-wc.js`)) fs.rmSync(`${outDir}/components/enterprise-wc.js`);
+if (fs.existsSync(`${outDir}/components/enterprise-wc.map`)) fs.rmSync(`${outDir}/components/enterprise-wc.js.map`);
+if (fs.existsSync(`${outDir}/components/enterprise-wc.d.ts`)) fs.rmSync(`${outDir}/components/enterprise-wc.d.ts`);
+
+// eslint-disable-next-line no-console
 console.info(`⚡ Build complete ⚡`);

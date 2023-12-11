@@ -1,0 +1,37 @@
+<ids-block-grid align="center" style="text-align: center;">
+          <ids-block-grid-item>
+            <img alt="Placeholder 200x200" src="/src/assets/images/placeholder-200x200.png">
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img alt="Placeholder 200x200" src="/src/assets/images/placeholder-200x200.png">
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img alt="Placeholder 200x200" src="/src/assets/images/placeholder-200x200.png">
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img alt="Placeholder 200x200" src="/src/assets/images/placeholder-200x200.png">
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img alt="Placeholder 200x200" src="/src/assets/images/placeholder-200x200.png">
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img alt="Placeholder 200x200" src="/src/assets/images/placeholder-200x200.png">
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+          <ids-block-grid-item>
+            <img alt="Placeholder 200x200" src="/src/assets/images/placeholder-200x200.png">
+            <ids-text type="p">consectetur adipisicing elit. Praesentium error, ea earum quod eligendi nobis dolorem,
+              cupiditate sint optio quos quae quisquam necessitatibus incidunt.</ids-text>
+          </ids-block-grid-item>
+        </ids-block-grid>

@@ -1,0 +1,6 @@
+
+      <div class="ids-home-page" part="home-page" style="height: 760px;">
+        <div class="widgets" part="widgets" style="margin-left: -556px;">
+          <slot name="widget"></slot>
+        </div>
+      </div>

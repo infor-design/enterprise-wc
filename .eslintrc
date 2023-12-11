@@ -13,8 +13,6 @@
     "page": true,
     "browser": true,
     "context": true,
-    "jestPuppeteer": true,
-    "jest": true,
     "it": true,
     "describe": true,
     "beforeAll": true,
@@ -47,7 +45,7 @@
     // Allow single line JSDoc comments
     "jsdoc/no-multi-asterisks": 0,
     // Allow a few custom jsdoc tags
-    "jsdoc/check-tag-names": ["error", { "definedTags": ["jest-environment", "inherits", "part"] }],
+    "jsdoc/check-tag-names": ["error", { "definedTags": ["inherits", "part"] }],
     // require trailing commas in multiline object literals
     "comma-dangle": ["off", {
       "arrays": "never",
@@ -93,6 +91,8 @@
      "@typescript-eslint/no-var-requires": "off",
       // Allow any
       "@typescript-eslint/no-explicit-any": "off",
+      // Avoid mising async
+      "@typescript-eslint/no-floating-promises": ["off", { "ignoreVoid": true, "ignoreIIFE": true}],
       // Allow empty constructors
       "no-useless-constructor": "off",
       "@typescript-eslint/no-useless-constructor": ["off"],
@@ -154,7 +154,10 @@
       "no-bitwise": 0,
       // Allows non-null assertions using the ! postfix operator.
       "no-non-null-assertion": "off",
-      "@typescript-eslint/no-non-null-assertion": ["off"]
+      // Turns off non unll assertion
+      "@typescript-eslint/no-non-null-assertion": ["off"],
+      // used in some componnets to re set the property
+      "no-self-assign": "off"
     }
   }]
 }

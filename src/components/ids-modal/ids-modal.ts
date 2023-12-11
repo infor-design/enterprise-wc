@@ -189,7 +189,9 @@ export default class IdsModal extends Base {
    * @returns {string} concatenating the status and title together.
    */
   get ariaLabelContent(): string {
-    return this.messageTitle;
+    let ariaLabel = this.messageTitle;
+    if (!ariaLabel) ariaLabel = this.querySelector('ids-toolbar [type="title"]')?.textContent?.trim() || '';
+    return ariaLabel;
   }
 
   /**
@@ -269,10 +271,9 @@ export default class IdsModal extends Base {
     }
   }
 
-  set showCloseButton(position: string | null) {
-    if (typeof position === 'string') {
-      position = VALID_POSITIONS.includes(position) ? position : 'right';
-      this.setAttribute(attributes.SHOW_CLOSE_BUTTON, position);
+  set showCloseButton(val: boolean) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.SHOW_CLOSE_BUTTON, '');
       this.#attachCloseButton();
     } else {
       this.removeAttribute(attributes.SHOW_CLOSE_BUTTON);
@@ -742,10 +743,9 @@ export default class IdsModal extends Base {
    */
   #attachCloseButton() {
     this.#removeCloseButton();
-    const position = this.showCloseButton || 'right';
 
     const element = `<ids-modal-button
-      class="modal-control-close ${position}"
+      class="modal-control-close"
       slot="buttons"
       appearance="tertiary"
       css-class="ids-icon-button ids-modal-icon-button"

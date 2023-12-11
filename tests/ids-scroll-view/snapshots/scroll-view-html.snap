@@ -1,0 +1,8 @@
+<ids-scroll-view>
+          <img class="camera-1" slot="scroll-view-item" alt="Slide 1, Sony Camera, Front" src="/src/assets/images/camera-1.png">
+          <img class="camera-2" slot="scroll-view-item" alt="Slide 2, Sony Camera, Back Display" src="/src/assets/images/camera-2.png">
+          <img class="camera-3" slot="scroll-view-item" alt="Slide 3, Sony Camera, From Top" src="/src/assets/images/camera-3.png">
+          <img class="camera-4" slot="scroll-view-item" alt="Slide 4, Olympus Camera, Front" src="/src/assets/images/camera-4.png">
+          <img class="camera-5" slot="scroll-view-item" alt="Slide 5, Olympus Camera, Exposed to water" src="/src/assets/images/camera-5.png">
+          <img class="camera-6" slot="scroll-view-item" alt="Slide 6, Sony E-mount Camera, Front" src="/src/assets/images/camera-6.png">
+        </ids-scroll-view>

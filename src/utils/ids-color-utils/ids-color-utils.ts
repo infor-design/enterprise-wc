@@ -63,7 +63,7 @@ export function contrastColor(bgColor: string, lightColor: string, darkColor: st
  * Converts the provided "built in" human-readable color to an RGB(A?) value
  * @private
  * @param {string} colorName any valid CSS color value, including "built-in".
- * @param {number} [opacity=1] optional opacity value. If included, causes the return value to be RGBA.
+ * @param {number} [opacity] optional opacity value. If included, causes the return value to be RGBA.
  *  If omitted, causes the return value to be RGB.
  * @returns {string} converted rgb(a)
  */
