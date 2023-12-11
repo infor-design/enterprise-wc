@@ -53,10 +53,6 @@
       }
     }
 
-    &:focus ~ .circle {
-      @include radio-focus();
-    }
-
     &:disabled {
       ~ .circle {
         @include radio-disabled-unchecked();
@@ -82,13 +78,17 @@
     }
   }
 
-  // stylelint-disable-next-line
-  &:focus input[type='radio'] ~ .circle {
-    @include radio-focus();
-  }
+  &.is-focused {
+    // Default focus state (hide-focus behavior is enabled)
+    &.hide-focus .circle {
+      @include radio-focus();
+    }
 
-  // Colored
-  @include radio-colored();
+    // Focus state will display a "border" if "hide-focus" behavior is not present
+    &:not(.hide-focus) .circle {
+      @include radio-focus-not-hide-focus();
+    }
+  }
 }
 
 // Negate some rules for RTL

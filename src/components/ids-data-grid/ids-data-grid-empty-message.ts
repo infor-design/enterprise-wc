@@ -12,6 +12,10 @@ export interface IdsDataGridEmptyMessageElements {
   em?: IdsEmptyMessage;
   /* Description element for empty message */
   emDesc?: IdsText;
+  /* Description element container */
+  emDescContainer?: HTMLElement;
+  /* Button element container */
+  emBtnContainer?: HTMLElement;
   /* Is this use slotted element for empty message */
   emIsSlotted?: boolean;
   /* Label element for empty message */
@@ -74,6 +78,8 @@ export function setEmptyMessageElements(this: IdsDataGrid): void {
   this.emptyMessageElements = {
     em,
     emDesc: em?.querySelector('[slot="description"]') as IdsText,
+    emDescContainer: em?.container?.querySelector('.description') as HTMLElement,
+    emBtnContainer: em?.container?.querySelector('.button') as HTMLElement,
     emIsSlotted: !!slotted,
     emLabel: em?.querySelector('[slot="label"]') as IdsText,
     vs: this.shadowRoot?.querySelector('ids-virtual-scroll') as IdsVirtualScroll
@@ -99,20 +105,29 @@ export function showEmptyMessage(this: IdsDataGrid): void {
 
   // Set elements
   if (this.initialized && !this.emptyMessageElements) setEmptyMessageElements.apply(this);
-  const { em, emDesc, vs } = this.emptyMessageElements || {};
+  const {
+    em,
+    emDesc,
+    emDescContainer,
+    emBtnContainer,
+    vs
+  } = this.emptyMessageElements || {};
 
   // Empty message
   em?.removeAttribute('hidden');
 
   // Filtered (show/hide description element)
   const isFiltered = (this.datasource as any).filtered;
-  if (isFiltered) emDesc?.removeAttribute('hidden');
-  else emDesc?.setAttribute('hidden', '');
+  emDescContainer?.toggleAttribute('hidden', !isFiltered);
+  emDesc?.toggleAttribute('hidden', !isFiltered);
+
+  // Hide button is one isn't provided
+  const slottedBtn = emBtnContainer?.querySelector<HTMLSlotElement>('slot[name="button"]')?.assignedElements();
+  emBtnContainer?.toggleAttribute('hidden', !slottedBtn?.length);
 
   // Virtual scroll
   if (this.virtualScroll) {
     vs?.setAttribute('hidden', '');
-    this.container?.style.setProperty('height', '');
   }
 
   this.wrapper?.classList.add('has-empty-message');
