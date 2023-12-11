@@ -79,7 +79,7 @@
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.4",
     "htmlhint": "^1.1.4",
-    "ids-identity": "4.16.0",
+    "ids-identity": "4.15.5",
     "loglevel": "^1.8.1",
     "mini-css-extract-plugin": "^2.7.6",
     "mutationobserver-shim": "^0.3.7",
