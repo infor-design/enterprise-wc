@@ -522,7 +522,7 @@ $input-size-full: 100%;
         padding-inline: var(--ids-space-20);
       }
 
-      slot[name=trigger-end]  {
+      slot[name="trigger-end"]  {
         padding-inline-end: 0;
       }
     }
@@ -533,7 +533,7 @@ $input-size-full: 100%;
         padding-inline: var(--ids-space-10);
       }
 
-      slot[name=trigger-end]  {
+      slot[name="trigger-end"]  {
         padding-inline-end: 0;
       }
     }

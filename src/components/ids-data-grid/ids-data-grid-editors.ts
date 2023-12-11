@@ -17,7 +17,6 @@ import type IdsTimePickerPopup from '../ids-time-picker/ids-time-picker-popup';
 import '../ids-time-picker/ids-time-picker';
 import '../ids-date-picker/ids-date-picker';
 import '../ids-lookup/ids-lookup';
-import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
