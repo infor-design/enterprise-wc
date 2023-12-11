@@ -2618,7 +2618,7 @@ export default class IdsDataGrid extends Base {
     this.removeAttribute(attributes.AUTO_FIT);
   }
 
-  get autoFit(): boolean | string | null {
+  get autoFit(): boolean {
     return stringToBool(this.getAttribute(attributes.AUTO_FIT));
   }
 
