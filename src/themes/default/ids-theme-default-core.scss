@@ -239,11 +239,11 @@
   --ids-badge-margin-inline-end: var(--ids-space-30);
   --ids-badge-width-min: var(--ids-size-10);
   --ids-badge-padding-inline: 10px;
-  --ids-badge-color-background-success: var(--ids-color-success-80);
-  --ids-badge-color-border-success: var(--ids-color-success-80);
+  --ids-badge-color-background-success: var(--ids-color-success-default);
+  --ids-badge-color-border-success: var(--ids-color-success-default);
   --ids-badge-color-success: var(--ids-color-text-on-success);
-  --ids-badge-color-background-warning: var(--ids-color-warning-80);
-  --ids-badge-color-border-warning: var(--ids-color-warning-80);
+  --ids-badge-color-background-warning: var(--ids-color-warning-default);
+  --ids-badge-color-border-warning: var(--ids-color-warning-default);
   --ids-badge-color-warning: var(--ids-color-text-on-warning);
   --ids-badge-disabled-background-color: var(--ids-input-color-background-readonly);
   --ids-badge-disabled-border-color: var(--ids-input-color-background-readonly);
