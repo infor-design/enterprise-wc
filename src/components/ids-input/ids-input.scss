@@ -498,26 +498,44 @@ $input-size-full: 100%;
       box-shadow: none;
     }
 
-    &.ids-input.field-height-lg .ids-input-field {
-      padding-inline: calc(var(--ids-space-60) - 2px);
+    &.ids-input.field-height-lg {
+      .ids-input-field {
+        padding-inline: calc(var(--ids-space-60) - 2px);
+      }
     }
 
-    &.ids-input.field-height-md .ids-input-field {
-      padding-inline: calc(var(--ids-space-50) - 2px);
+    &.ids-input.field-height-md {
+      .ids-input-field {
+        padding-inline: calc(var(--ids-space-50) - 2px);
+      }
     }
 
-    &.ids-input.field-height-sm .ids-input-field {
-      padding-inline: calc(var(--ids-space-40) - 2px);
+    &.ids-input.field-height-sm {
+      .ids-input-field {
+        padding-inline: calc(var(--ids-space-40) - 2px);
+      }
     }
 
-    &.ids-input.field-height-xs .ids-input-field {
-      font-size: var(--ids-data-grid-font-size-sm);
-      padding-inline: var(--ids-space-20);
+    &.ids-input.field-height-xs {
+      .ids-input-field {
+        font-size: var(--ids-data-grid-font-size-sm);
+        padding-inline: var(--ids-space-20);
+      }
+
+      slot[name=trigger-end]  {
+        padding-inline-end: 0;
+      }
     }
 
-    &.ids-input.field-height-xxs .ids-input-field {
-      font-size: var(--ids-data-grid-font-size-sm);
-      padding-inline: var(--ids-space-10);
+    &.ids-input.field-height-xxs {
+      .ids-input-field {
+        font-size: var(--ids-data-grid-font-size-sm);
+        padding-inline: var(--ids-space-10);
+      }
+
+      slot[name=trigger-end]  {
+        padding-inline-end: 0;
+      }
     }
   }
 

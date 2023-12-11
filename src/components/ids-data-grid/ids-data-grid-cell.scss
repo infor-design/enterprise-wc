@@ -91,7 +91,8 @@
 
   // Focus State
   &:focus,
-  &.is-editing:not(.is-inline):focus-within {
+  &.is-editing:not(.is-inline):focus-within,
+  &.is-focused {
     box-shadow: var(--ids-shadow-20);
     outline: 1px solid var(--ids-color-border-focus);
     outline-offset: -1px;
@@ -143,7 +144,7 @@
     }
 
     .editor-cell-icon {
-      margin-inline-end: 12px;
+      margin-inline-end: 14px;
       margin-block-start: 2px;
       display: none;
     }
@@ -183,7 +184,6 @@
   }
 
   // Editing with popups
-  &.is-editing.is-dropdown,
   &.is-editing.is-lookup,
   &.is-editing.is-datepicker,
   &.is-editing.is-timepicker {
@@ -197,28 +197,12 @@
     }
   }
 
-  // Dropdown Editing
-  &.is-editing.is-dropdown {
-    &.is-dirty::before {
-      margin-inline: 3px;
-    }
-  }
-
-  // Dropdown Editing Borderless
-  &.is-editing.is-dropdown:not(.is-inline) {
-    border-left-width: 0;
-  }
-
   // Dropdown Editing Inline
   &.is-editing.is-dropdown.is-inline {
     box-shadow: none;
 
     ids-dropdown {
       padding: 0 4px;
-    }
-
-    &.is-dirty::before {
-      margin-inline: 6px;
     }
   }
 
