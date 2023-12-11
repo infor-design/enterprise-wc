@@ -360,16 +360,17 @@ table.ids-data-grid {
 // Empty Message
 .ids-data-grid-wrapper.has-empty-message {
   position: relative;
-  display: grid;
 
   ids-empty-message:not([hidden]),
   ::slotted(ids-empty-message:not([hidden])) {
-    position: absolute;
     display: flex;
-    align-self: center;
-    justify-self: center;
-    top: 80px;
-    bottom: 20px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    pointer-events: none;
   }
 
   .ids-data-grid {
