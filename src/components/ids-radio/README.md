@@ -42,12 +42,6 @@ Add an checked and disabled radio:
 <ids-radio value="opt1" label="Option one" checked="true" disabled="true"></ids-radio>
 ```
 
-Add an colored radio - use this option only in special use cases
-
-```html
-<ids-radio checked="true" color="emerald07" value="emerald07" label="Emerald 07"></ids-radio>
-```
-
 A standard Radio Group unchecked element:
 
 ```html
@@ -144,7 +138,6 @@ Set Radio Group as Horizontal:
 ## Settings (Attributes) (for Radios)
 
 - `checked` {boolean} set checked state.
-- `color` {string} set the color for radio.
 - `disabled` {boolean} set disabled state.
 - `group-disabled` {boolean} set disabled state, if group disabled.
 - `horizontal` {boolean} set radio layout inline as horizontal.

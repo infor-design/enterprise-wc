@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -11,8 +12,10 @@ import './ids-radio-group';
 import styles from './ids-radio.scss';
 
 const Base = IdsLocaleMixin(
-  IdsEventsMixin(
-    IdsElement
+  IdsHideFocusMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
@@ -37,7 +40,6 @@ export default class IdsRadio extends Base {
     return [
       ...super.attributes,
       attributes.CHECKED,
-      attributes.COLOR,
       attributes.DISABLED,
       attributes.GROUP_DISABLED,
       attributes.HORIZONTAL,
@@ -82,7 +84,6 @@ export default class IdsRadio extends Base {
     const isDisabled = stringToBool(this.groupDisabled) || stringToBool(this.disabled);
     const disabled = isDisabled ? ' disabled' : '';
     const disabledAria = isDisabled ? ' aria-disabled="true"' : '';
-    const color = this.color ? ` color="${this.color}"` : '';
     const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
     const checked = stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-radio${disabled}${horizontal}"`;
@@ -90,7 +91,7 @@ export default class IdsRadio extends Base {
     const value = ` value="${this.value ?? ''}"`;
 
     return `
-      <div${rootClass}${color}>
+      <div${rootClass}>
         <label>
           <input type="radio" part="radio" tabindex="-1"${radioClass}${value}${disabled}${checked}>
           <span class="circle${checked}" part="circle"></span>
@@ -190,22 +191,6 @@ export default class IdsRadio extends Base {
   }
 
   get checked(): boolean { return stringToBool(this.getAttribute(attributes.CHECKED)); }
-
-  /**
-   * Set `color` attribute
-   * @param {string | null} value If true will set `color` attribute
-   */
-  set color(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.COLOR, value.toString());
-      this.rootEl?.setAttribute(attributes.COLOR, value.toString());
-    } else {
-      this.removeAttribute(attributes.COLOR);
-      this.rootEl?.removeAttribute(attributes.COLOR);
-    }
-  }
-
-  get color(): string | null { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Set `disabled` attribute
