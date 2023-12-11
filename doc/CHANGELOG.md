@@ -5,6 +5,7 @@
 ### 1.0.0-beta.18 Fixes
 
 - `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
+- `[DataGrid]` Fix dirty indicator cell data after column reorder. ([#1601](https://github.com/infor-design/enterprise-wc/issues/1601))
 
 ## 1.0.0-beta.17
 
