@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.18 Fixes
 
+- `[AxisChart]` Re-added a responsive example. ([#1676](https://github.com/infor-design/enterprise-wc/issues/1676))
 - `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
 - `[DataGrid]` Fix an issue where empty message permanently removes the datagrid container height. ([#1664](https://github.com/infor-design/enterprise-wc/issues/1664))
 
