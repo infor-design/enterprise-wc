@@ -497,6 +497,9 @@
   --ids-process-indicator-canceled-step-color-icon: var(--ids-color-neutral-00);
 
   // Radio
+  --ids-radio-shadow: none;
+  --ids-radio-shadow-with-border: 0 0 0 1px var(--ids-color-background-default),
+    0 0 0 2px var(--ids-color-primary-60);
   --ids-radio-button-color-background-selected: var(--ids-color-primary-60);
   --ids-radio-button-color-border-selected: var(--ids-color-primary-60);
   --ids-radio-button-inner-color-background-selected: var(--ids-color-neutral-00);
