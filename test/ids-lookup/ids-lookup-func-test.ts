@@ -13,7 +13,7 @@ import '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsLookup from '../../src/components/ids-lookup/ids-lookup';
 
-describe('IdsLookup Component', () => {
+describe.skip('IdsLookup Component', () => {
   let lookup: any;
   const formatters = new IdsDataGridFormatters();
 

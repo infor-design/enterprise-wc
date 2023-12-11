@@ -94,7 +94,7 @@ export default class IdsTabs extends Base {
   #ro = new ResizeObserver((entries) => {
     for (const entry of entries) {
       if (entry.target.classList.contains('ids-tabs-container')) {
-        this.#resize();
+        this.resize();
       }
     }
   });
@@ -102,8 +102,8 @@ export default class IdsTabs extends Base {
   /**
    * Runs whenever the Tab List's size is altered
    */
-  #resize(): void {
-    this.#refreshOverflowedTabs();
+  resize(): void {
+    this.refreshOverflowedTabs();
   }
 
   /**
@@ -316,7 +316,7 @@ export default class IdsTabs extends Base {
     // Refreshes the tab list on change
     this.onEvent('slotchange', this.container, () => {
       this.#connectMoreTabs();
-      this.#refreshOverflowedTabs();
+      this.refreshOverflowedTabs();
       this.#correctSelectedTab();
     });
   }
@@ -421,7 +421,7 @@ export default class IdsTabs extends Base {
   /**
    * Attempts to refresh state of the Tab List related to overflowed tabs, if applicable
    */
-  #refreshOverflowedTabs(): void {
+  refreshOverflowedTabs(): void {
     const moreTab = this.querySelector<IdsTabMore>('ids-tab-more');
     if (moreTab) {
       moreTab.renderOverflowedItems();
@@ -450,6 +450,6 @@ export default class IdsTabs extends Base {
     tabs.forEach((tab) => {
       tab.orientation = this.orientation;
     });
-    this.#resize();
+    this.resize();
   }
 }

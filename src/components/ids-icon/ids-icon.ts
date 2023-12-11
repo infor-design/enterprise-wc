@@ -111,19 +111,23 @@ export default class IdsIcon extends Base {
   iconData(): string {
     const icon = this.icon;
     const data = emptyIconPathData[icon] || pathData[icon] || (IdsGlobal.customIconData ? (IdsGlobal.customIconData as any)[icon] : '') || '';
-    if (data === '') this.setAttribute('custom', '');
+    if (data === '') this.custom = true;
     return data;
   }
+
+  custom?: boolean;
 
   /**
    * Set the static custom icon instance
    */
   static set customIconData(json: object | undefined) {
     IdsGlobal.customIconData = json;
-    querySelectorAllShadowRoot('ids-icon[custom]').forEach((elem: any) => {
-      // eslint-disable-next-line no-self-assign
-      elem.icon = elem.icon;
-      elem.removeAttribute('custom');
+    querySelectorAllShadowRoot('ids-icon').forEach((elem: any) => {
+      if (elem.custom) {
+        // eslint-disable-next-line no-self-assign
+        elem.icon = elem.icon;
+        elem.custom = false;
+      }
     });
   }
 

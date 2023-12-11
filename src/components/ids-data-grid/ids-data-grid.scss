@@ -9,7 +9,6 @@
 @import '../../themes/mixins/ids-checkbox-mixin';
 @import '../../themes/mixins/ids-radio-mixin';
 
-
 :host {
   --ids-data-grid-column-widths: repeat(1, minmax(110px, 1fr));
 

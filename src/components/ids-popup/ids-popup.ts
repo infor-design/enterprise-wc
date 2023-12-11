@@ -68,7 +68,7 @@ export default class IdsPopup extends Base {
     this.#alignY = ALIGNMENTS_Y[0];
     this.#alignEdge = ALIGNMENT_EDGES[0];
     this.#alignTarget = null;
-    this.#animated = false;
+    this.animated = false;
     this.#animationStyle = ANIMATION_STYLES[0];
     this.#arrow = ARROW_TYPES[0];
     this.#arrowTarget = null;
@@ -643,32 +643,24 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @property {boolean} animated true if animation should occur on this component
-   */
-  #animated: boolean;
-
-  /**
    * Whether or not the component should animate its movement
    * @param {boolean} val true if animation should occur on the Popup
    */
   set animated(val: boolean) {
     const trueVal = stringToBool(val);
-    if (this.#animated !== trueVal) {
-      this.#animated = trueVal;
-      if (trueVal) {
-        this.setAttribute(attributes.ANIMATED, '');
-      } else {
-        this.removeAttribute(attributes.ANIMATED);
-      }
-      this.#refreshAnimated();
+    if (trueVal) {
+      this.setAttribute(attributes.ANIMATED, '');
+    } else {
+      this.removeAttribute(attributes.ANIMATED);
     }
+    this.#refreshAnimated();
   }
 
   /**
    * @returns {boolean} true if animation will occur on the Popup
    */
   get animated(): boolean {
-    return this.#animated;
+    return stringToBool(this.getAttribute(attributes.ANIMATED)) || false;
   }
 
   /**

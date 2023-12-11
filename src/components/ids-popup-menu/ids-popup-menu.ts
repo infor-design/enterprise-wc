@@ -81,6 +81,7 @@ export default class IdsPopupMenu extends Base {
       this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
 
+    if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
     this.configureSubmenuAlignment();
     this.setOnPlace(!!this.parentMenuItem);
   }
@@ -266,7 +267,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {string} a comma-delimited set of alignment types `direction1, direction2`
    */
   get align() {
-    return this.popup?.align || `top, ${this.popup?.localeAPI.isRTL() ? 'right' : 'left'}`;
+    return this.popup?.align || `top, ${this.popup?.localeAPI?.isRTL() ? 'right' : 'left'}`;
   }
 
   /**
@@ -617,7 +618,7 @@ export default class IdsPopupMenu extends Base {
    * align the menu against the parent menu item.
    */
   private configureSubmenuAlignment() {
-    const isRTL = this.popup?.localeAPI.isRTL() || false;
+    const isRTL = this.popup?.localeAPI?.isRTL() || false;
     if (this.parentMenuItem) {
       this.popupDelay = 200;
       this.target = this.parentMenuItem;

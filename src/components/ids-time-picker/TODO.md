@@ -15,7 +15,6 @@ Keep this file in sync with #636
 - [x] Separate out the "picker contents" to a separate, embeddable form element (could potentially be shared by this component and the Date Picker's "Date/Time" view)
 - [x] Allow reset of the Time Picker's value ([#623](https://github.com/infor-design/enterprise-wc/issues/623))
 - [x] `useCurrentTime` setting/attribute and functionality
-- [x] Day periods AM/PM from locace calendar
 
 ## Minor
 
@@ -25,6 +24,5 @@ Keep this file in sync with #636
 - [x] Add custom id's/automation id's that can be used for scripting
 - [x] Add "Themeable Parts" for `label`, `input`, and `popup`
 - [x] Make private `this.is24Hours`, `this.is12Hours`, `this.hasSeconds` and `this.hasPeriod` (i.e. `this.#is24Hours`)
-- [x] Make private `this.dropdowns` (i.e. `this.#dropdowns()`). See [Ed's comment](https://github.com/infor-design/enterprise-wc/pull/432#discussion_r756209961).
 - [x] Align center hours/minutes/seconds dropdown label
 - [x] Add `:` separator between hours/minutes/seconds dropdowns

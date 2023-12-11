@@ -156,8 +156,8 @@ export default class IdsDataGrid extends Base {
     if (this.initialized) this.restoreAllSettings?.();
 
     super.connectedCallback();
-    this.redrawBody();
-    setContextmenu.apply(this);
+    this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
     this.#attachScrollEvents();
   }
 
@@ -167,7 +167,7 @@ export default class IdsDataGrid extends Base {
   }
 
   /** Reference to datasource API */
-  readonly datasource: IdsDataSource = new IdsDataSource();
+  datasource: IdsDataSource = new IdsDataSource();
 
   /** Filters instance attached to component  */
   readonly filters = new IdsDataGridFilters(this);
@@ -235,20 +235,21 @@ export default class IdsDataGrid extends Base {
    * @private
    */
   template() {
-    if (this?.data.length === 0 && this?.columns.length === 0) {
-      return ``;
-    }
-
     let cssClasses = `${this.alternateRowShading ? ' alt-row-shading' : ''}`;
     cssClasses += `${this.listStyle ? ' is-list-style' : ''}`;
     cssClasses += ' waiting-load';
+
     const emptyMesageTemplate = emptyMessageTemplate.apply(this);
+
+    const innerTemplate = (!this.data?.length || !this.columns?.length)
+      || (this?.data?.length === 0 && this?.columns?.length === 0)
+      ? ''
+      : `${IdsDataGridHeader.template(this)}${this.bodyTemplate()}`;
 
     const html = `<div class="ids-data-grid-wrapper">
         <span class="ids-data-grid-sort-arrows"></span>
         <div class="ids-data-grid${cssClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
-          ${IdsDataGridHeader.template(this)}
-          ${this.bodyTemplate()}
+        ${innerTemplate}
         </div>
         ${emptyMesageTemplate}
         <slot name="menu-container"></slot>
@@ -376,6 +377,7 @@ export default class IdsDataGrid extends Base {
     this.#attachKeyboardListeners();
     this.#attachScrollEvents();
     this.setupTooltip();
+    setContextmenu.apply(this);
 
     // Attach post filters setting
     this.filters.attachFilterSettings();
@@ -1260,6 +1262,7 @@ export default class IdsDataGrid extends Base {
   set data(value: Array<Record<string, any>>) {
     if (value) {
       hideEmptyMessage.apply(this);
+      if (!this.datasource) this.datasource = new IdsDataSource();
       this.datasource.flatten = this.treeGrid;
       this.datasource.data = value;
       this.initialized = true;

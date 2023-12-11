@@ -6,10 +6,6 @@ import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 
 import styles from './ids-spinbox.scss';
 
-/**
- * used for assigning ids
- */
-let instanceCounter = 0;
 const MOUSE_LEFT = 0b001;
 
 /**
@@ -49,7 +45,6 @@ export default class IdsSpinbox extends IdsTriggerField {
    * @returns {string} the template to render
    */
   template() {
-    this.templateHostAttributes();
     const {
       ariaLabel,
       containerClass,
@@ -77,12 +72,6 @@ export default class IdsSpinbox extends IdsTriggerField {
         </div>
       </div>`
     );
-  }
-
-  templateHostAttributes() {
-    if (!this.id) {
-      this.setAttribute(attributes.ID, `ids-spinbox-${++instanceCounter}`);
-    }
   }
 
   #appendTriggerButtons() {

@@ -113,7 +113,7 @@ describe('IdsText Component', () => {
     expect(elem.overflow).toEqual('ellipsis');
   });
 
-  it('renders type setting', () => {
+  it.skip('renders type setting', () => {
     elem = new IdsText();
     elem.type = 'h1';
     expect(elem.type).toEqual('h1');

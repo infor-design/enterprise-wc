@@ -380,7 +380,7 @@ export default class IdsLookup extends Base {
     }
 
     // Select the rows, if not selected already for given value split with delimiter
-    const findIndex = (d: any, v: string) => (d.findIndex((r: any) => r[this.field] === v));
+    const findIndex = (d: any, v: string) => (d?.findIndex((r: any) => r[this.field] === v));
     const values = value?.split(this.delimiter) || [];
     let notFound: number[] = [];
     values.forEach((v: string, i: number) => {

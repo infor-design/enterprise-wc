@@ -91,6 +91,7 @@ export default class IdsButton extends Base {
     this.#setInitialState();
     this.shouldUpdate = true;
     if (this.getAttribute('width')) this.width = this.getAttribute('width');
+    // eslint-disable-next-line no-self-assign
     this.cssClass = this.cssClass;
   }
 

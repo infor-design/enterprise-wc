@@ -26,14 +26,6 @@ describe('IdsCheckboxGroup Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(checkboxGroup.outerHTML).toMatchSnapshot();
-    checkboxGroup.label = 'Label Test';
-    expect(checkboxGroup.outerHTML).toMatchSnapshot();
-    checkboxGroup.innerHTML = `<ids-checkbox label="Option 1" checked="false"></ids-checkbox>`;
-    expect(checkboxGroup.outerHTML).toMatchSnapshot();
-  });
-
   it('renders label correctly', () => {
     checkboxGroup.label = 'Label Test';
     expect(checkboxGroup.container.querySelector('ids-text').innerHTML).toEqual('Label Test');

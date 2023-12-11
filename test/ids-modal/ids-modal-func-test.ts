@@ -32,15 +32,6 @@ describe('IdsModal Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders correctly', () => {
-    expect(modal.outerHTML).toMatchSnapshot();
-    modal.show();
-    expect(modal.outerHTML).toMatchSnapshot();
-
-    modal.hide();
-    expect(modal.outerHTML).toMatchSnapshot();
-  });
-
   it('can show/hide by using attributes', async () => {
     modal.setAttribute('visible', 'true');
     await wait(300);

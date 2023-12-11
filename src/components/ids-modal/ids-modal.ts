@@ -228,7 +228,7 @@ export default class IdsModal extends Base {
       this.popup.classList[doFullsize ? 'add' : 'remove'](attributes.FULLSIZE);
       this.popup.width = doFullsize ? '100%' : '';
       this.popup.height = doFullsize ? '100%' : '';
-      this.popup.place();
+      if (this.popup.place) this.popup.place();
       if (this.popup.open) {
         this.setScrollable();
         this.popup.correct3dMatrix();

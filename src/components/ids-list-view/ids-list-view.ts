@@ -355,7 +355,7 @@ export default class IdsListView extends Base {
     const childSlot = this.#childSlot();
     this.offEvent('slotchange.listview', childSlot);
     this.onEvent('slotchange.listview', childSlot, () => {
-      if (this.#childElements()?.length) {
+      if (this.childElements()?.length) {
         this.redrawLazy();
       }
     });
@@ -394,9 +394,9 @@ export default class IdsListView extends Base {
   }
 
   #attachSearchFilterCallback() {
-    if (this.#childElements()?.length) {
+    if (this.childElements()?.length) {
       this.searchFilterCallback = (term: string) => {
-        this.#childElements()?.forEach((item: any) => {
+        this.childElements()?.forEach((item: any) => {
           // NOTE: using textContent because innerText was causing jest to fail
           // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
           const haystack = String(item?.textContent ?? '').toLowerCase();
@@ -415,7 +415,7 @@ export default class IdsListView extends Base {
   }
 
   resetSearch() {
-    const kids = this.#childElements();
+    const kids = this.childElements();
     if (kids.length) {
       this.datasource.filtered = true;
       kids.forEach((item) => {
@@ -570,7 +570,7 @@ export default class IdsListView extends Base {
    * @param {any} element - an HTML element
    * @returns {boolean} True if element is a valid <ds-list-view-item>
    */
-  #childValidListViewItem(element: any): boolean {
+  childValidListViewItem(element: any): boolean {
     return String(element?.tagName).toLowerCase() === 'ids-list-view-item';
   }
 
@@ -579,7 +579,7 @@ export default class IdsListView extends Base {
    * @param {boolean} filtered - if true, show only items that match search filter
    * @returns {Element[]} All <ids-list-view-item> child elements
    */
-  #childElements(filtered = false): Element[] {
+  childElements(filtered = false): Element[] {
     return filtered
       ? [...this.querySelectorAll(`ids-list-view-item:not(.${SEARCH_FILTER_CLASS})`)]
       : [...this.querySelectorAll(`ids-list-view-item`)];
@@ -607,7 +607,7 @@ export default class IdsListView extends Base {
       return this.itemTemplate(item);
     };
 
-    const kids = this.#childElements(true);
+    const kids = this.childElements(true);
     const func = (item: any, index: number) => {
       if (item?.setAttribute) {
         item?.setAttribute('slot', `slot-child-${index}`);
@@ -658,7 +658,7 @@ export default class IdsListView extends Base {
    */
   staticScrollTemplate(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
-    const listItems = this.data?.length ? this.data : this.#childElements(true);
+    const listItems = this.data?.length ? this.data : this.childElements(true);
     return `
       <div class="ids-list-view${selectable}">
         <div class="ids-list-view-body" role="listbox" aria-label="${this.label}">
@@ -708,7 +708,7 @@ export default class IdsListView extends Base {
    * @returns {string} The html for this item
    */
   itemTemplate(item: any): string {
-    return this.#childValidListViewItem(item)
+    return this.childValidListViewItem(item)
       ? `<slot name="${item?.getAttribute?.('slot')}"></slot>`
       : injectTemplate(this.defaultTemplate, this.searchHighlight?.(item) ?? item);
   }
@@ -870,7 +870,7 @@ export default class IdsListView extends Base {
    */
   redraw() {
     if (!this.data || !this.loaded) {
-      if (!this.#childElements().length) {
+      if (!this.childElements().length) {
         if (!this.data?.length) this.getAllLi()?.forEach((li: HTMLElement) => li?.remove());
         return;
       }

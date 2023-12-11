@@ -254,7 +254,7 @@ export default class IdsTimePicker extends Base {
           picker?.toggleVisibility();
         };
 
-        picker.refreshTriggerEvents();
+        if (picker.refreshTriggerEvents) picker.refreshTriggerEvents();
       }
     }
   }
@@ -370,7 +370,7 @@ export default class IdsTimePicker extends Base {
       this.hours = hours24 >= 0 ? hours24 : null;
     }
 
-    if (this.#is12Hours() && hours12 !== this.hours) {
+    if (this.is12Hours() && hours12 !== this.hours) {
       this.hours = hours12 >= 0 ? hours12 : null;
     }
 
@@ -382,7 +382,7 @@ export default class IdsTimePicker extends Base {
       this.seconds = seconds >= 0 ? seconds : null;
     }
 
-    if (this.#hasPeriod() && period !== this.period) {
+    if (this.hasPeriod() && period !== this.period) {
       this.period = period;
     }
   }
@@ -390,14 +390,14 @@ export default class IdsTimePicker extends Base {
   /**
    * @returns {boolean} returns true if the timepicker format includes a day period ("a")
    */
-  #hasPeriod(): boolean {
-    return this.#is12Hours() && (this.format.toLowerCase().indexOf(' a') > -1 || this.format.toLowerCase().indexOf('a') === 0);
+  hasPeriod(): boolean {
+    return this.is12Hours() && (this.format.toLowerCase().indexOf(' a') > -1 || this.format.toLowerCase().indexOf('a') === 0);
   }
 
   /**
    * @returns {boolean} returns true if the timepicker is using a 12-Hour format ("hh")
    */
-  #is12Hours(): boolean {
+  is12Hours(): boolean {
     return this.format.includes('h');
   }
 
@@ -405,16 +405,16 @@ export default class IdsTimePicker extends Base {
    * @returns {boolean} returns true if the timepicker is using a 24-Hour format ("HH")
    */
   #is24Hours(): boolean {
-    return this.format.includes('H') || !this.#hasPeriod();
+    return this.format.includes('H') || !this.hasPeriod();
   }
 
   /**
    * Get options list for hours dropdown
    * @returns {Array<number>} options
    */
-  #getHourOptions(): Array<number> {
-    if (!this.#hasHourRange()) {
-      return range(this.#is12Hours() ? 1 : 0, this.#is12Hours() ? 12 : 23);
+  getHourOptions(): Array<number> {
+    if (!this.hasHourRange()) {
+      return range(this.is12Hours() ? 1 : 0, this.is12Hours() ? 12 : 23);
     }
 
     if (this.#is24Hours()) {
@@ -436,7 +436,7 @@ export default class IdsTimePicker extends Base {
   /**
    * @returns {boolean} true if range is set
    */
-  #hasHourRange(): boolean {
+  hasHourRange(): boolean {
     return this.startHour > 0 || this.endHour < 24;
   }
 
@@ -477,10 +477,10 @@ export default class IdsTimePicker extends Base {
   /**
    * @returns {Array<string>} list of available day periods
    */
-  #getDayPeriodsWithRange(): Array<string> {
+  dayPeriodsWithRange(): Array<string> {
     const dayPeriods: Array<string> = this.localeAPI?.calendar().dayPeriods || [];
 
-    if (!this.#hasHourRange()) {
+    if (!this.hasHourRange()) {
       return dayPeriods;
     }
 
@@ -549,7 +549,7 @@ export default class IdsTimePicker extends Base {
    * @param {number} interval for value to be rounded to
    * @returns {number} rounded value
    */
-  #roundToInterval(value: number, interval: number): number {
+  roundToInterval(value: number, interval: number): number {
     return Math.round(value / interval) * interval;
   }
 
@@ -963,14 +963,14 @@ export default class IdsTimePicker extends Base {
       return numberVal;
     }
 
-    if (this.#hasHourRange()) {
-      return this.#getHourOptions()[0];
+    if (this.hasHourRange()) {
+      return this.getHourOptions()[0];
     }
 
     if (this.useCurrentTime && Number.isNaN(numberVal)) {
       const hours24Now = new Date().getHours();
 
-      if (this.#is12Hours()) {
+      if (this.is12Hours()) {
         return hoursTo12(hours24Now);
       }
 
@@ -1019,13 +1019,13 @@ export default class IdsTimePicker extends Base {
     const numberVal = stringToNumber(this.getAttribute(attributes.MINUTES));
 
     if (!Number.isNaN(numberVal)) {
-      return this.#roundToInterval(numberVal, this.minuteInterval);
+      return this.roundToInterval(numberVal, this.minuteInterval);
     }
 
     if (this.useCurrentTime && Number.isNaN(numberVal)) {
       const minutesNow = new Date().getMinutes();
 
-      return this.#roundToInterval(minutesNow, this.minuteInterval);
+      return this.roundToInterval(minutesNow, this.minuteInterval);
     }
 
     // Default
@@ -1057,13 +1057,13 @@ export default class IdsTimePicker extends Base {
     const numberVal = stringToNumber(this.getAttribute(attributes.SECONDS));
 
     if (!Number.isNaN(numberVal)) {
-      return this.#roundToInterval(numberVal, this.secondInterval);
+      return this.roundToInterval(numberVal, this.secondInterval);
     }
 
     if (this.useCurrentTime && Number.isNaN(numberVal)) {
       const secondsNow = new Date().getSeconds();
 
-      return this.#roundToInterval(secondsNow, this.secondInterval);
+      return this.roundToInterval(secondsNow, this.secondInterval);
     }
 
     // Default
@@ -1083,8 +1083,8 @@ export default class IdsTimePicker extends Base {
 
     // Updating hours dropdown with AM/PM range
     if (this.picker) {
-      if (this.#hasHourRange()) {
-        this.picker.hours = String(this.#getHourOptions()[0]);
+      if (this.hasHourRange()) {
+        this.picker.hours = String(this.getHourOptions()[0]);
       } else {
         this.picker.period = value;
       }
@@ -1100,11 +1100,11 @@ export default class IdsTimePicker extends Base {
     if (this.picker) return this.picker.period;
 
     const attrVal = this.getAttribute(attributes.PERIOD);
-    const dayPeriods: Array<string> = this.#getDayPeriodsWithRange();
+    const dayPeriods: Array<string> = this.dayPeriodsWithRange();
     const dayPeriodExists: boolean = dayPeriods.map((item: string) => item.toLowerCase())
       .includes(attrVal?.toString().toLowerCase() as string);
 
-    if (!this.#hasPeriod()) return '';
+    if (!this.hasPeriod()) return '';
 
     if (attrVal && dayPeriodExists) {
       return attrVal;

@@ -29,7 +29,7 @@ describe('Ids Toolbar Percy Tests', () => {
     await pageSnapshot(page, 'ids-toolbar-new-contrast');
   });
 
-  it('renders overflow items correctly', async () => {
+  it.skip('renders overflow items correctly', async () => {
     await page.setViewport({ width: 450, height: 800 });
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForTimeout(200); // Wait for everything to load

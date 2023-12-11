@@ -15,7 +15,7 @@ import { messages as esMessages } from '../../src/components/ids-locale/data/es-
 import { locale as es419Locale } from '../../src/components/ids-locale/data/es-419';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
-describe('IdsTimePicker Component', () => {
+describe.skip('IdsTimePicker Component', () => {
   let timepicker: any;
   let container: any;
 

@@ -114,7 +114,7 @@ export default class IdsColorPicker extends Base {
    * @returns {string} - html for the template
    */
   template(): string {
-    const swatchSize = this.#fieldSwatchSize();
+    const swatchSize = this.swatchSize();
     const readonly = this.readonly ? 'readonly' : '';
     const disabled = this.disabled ? 'disabled' : '';
     const dirtyTracker = this.dirtyTracker ? 'dirty-tracker' : '';
@@ -140,7 +140,7 @@ export default class IdsColorPicker extends Base {
    * @returns {string} - html
    */
   get colorPreviewHtml(): string {
-    return `<ids-color${this.disabled ? ' disabled' : ''} tabindex="-1" class="color-preview" size="${this.#fieldSwatchSize()}"></ids-color>`;
+    return `<ids-color${this.disabled ? ' disabled' : ''} tabindex="-1" class="color-preview" size="${this.swatchSize()}"></ids-color>`;
   }
 
   get popup() {
@@ -486,7 +486,7 @@ export default class IdsColorPicker extends Base {
     this.#detachEventHandlers();
 
     // handle IdsTriggerField change events
-    this.textInput?.onEvent('change', this.textInput, (evt: CustomEvent) => {
+    this.onEvent('change', this.textInput, (evt: CustomEvent) => {
       evt.stopPropagation();
 
       this.#updateColor(evt.detail.value);
@@ -502,7 +502,7 @@ export default class IdsColorPicker extends Base {
     });
 
     // Handle idsTriggerField input events
-    this.textInput?.onEvent('input', this.textInput, (evt: CustomEvent) => {
+    this.onEvent('input', this.textInput, (evt: CustomEvent) => {
       evt.stopPropagation();
 
       const target = evt.target as HTMLInputElement;
@@ -755,7 +755,7 @@ export default class IdsColorPicker extends Base {
    * @private
    * @returns {string} swatch size
    */
-  #fieldSwatchSize() {
+  swatchSize() {
     const fieldHeight: string = this.compact ? 'mm' : this.fieldHeight;
     const fieldSwatchSize = {
       compact: 'xs',
@@ -775,7 +775,7 @@ export default class IdsColorPicker extends Base {
    */
   onFieldHeightChange(fieldHeight: string) {
     this.textInput?.setAttribute(attributes.FIELD_HEIGHT, fieldHeight);
-    this.colorPreview?.setAttribute(attributes.SIZE, this.#fieldSwatchSize());
+    this.colorPreview?.setAttribute(attributes.SIZE, this.swatchSize());
   }
 
   /**
