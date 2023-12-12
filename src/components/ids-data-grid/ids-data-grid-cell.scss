@@ -507,8 +507,11 @@ td.ids-data-grid-cell {
       border-inline-end-width: 0;
     }
 
-    &.is-dirty::before {
-      border-color: var(--ids-input-dirty-indicator-color-background-dirty)  var(--ids-input-dirty-indicator-color-background-dirty) transparent  transparent;
+    &.is-dirty {
+      .ids-data-grid-tree-field-container::before,
+      &::before {
+        border-color: var(--ids-input-dirty-indicator-color-background-dirty)  var(--ids-input-dirty-indicator-color-background-dirty) transparent  transparent;
+      }
     }
   }
 }
