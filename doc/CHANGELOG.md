@@ -5,6 +5,7 @@
 ### 1.0.0-beta.18 Fixes
 
 - `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
+- `[DataGrid]` Fix an issue where empty message permanently removes the datagrid container height. ([#1664](https://github.com/infor-design/enterprise-wc/issues/1664))
 - `[ListView|ListBulider]` improve `IdsListView` and `IdsListBuilder` integration with new `IdsListViewItem` child-component. ([#1400](https://github.com/infor-design/enterprise-wc/issues/1400))
 
 ## 1.0.0-beta.17
@@ -50,8 +51,8 @@
 - `[Multiselect]` Fix `rerender` logic so that state is maintained while using `ngFor` directive in Angular. ([#1411](https://github.com/infor-design/enterprise-wc/issues/1411))
 - `[Pager]` Fix datagrid standalone pager html override. ([#1615](https://github.com/infor-design/enterprise-wc/issues/1615))
 - `[PopupMenu]` Fix arrow icon direction in RTL. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
+- `[Radio]` Fix incorrect focus state, remove colored radio buttons. ([#1568](https://github.com/infor-design/enterprise-wc/issues/1568))
 - `[Tabs]` Sync component with Figma design changes related to Alabaster default theme. ([#1050](https://github.com/infor-design/enterprise-wc/issues/1050))
-- `[PopupMenu]` Fix arrow icon direction in RTL. ([#1545](https://github.com/infor-design/enterprise-wc/issues/1545))
 - `[Text]` Fixed wrong status warning color. ([#1619](https://github.com/infor-design/enterprise-wc/issues/1619))
 - `[Textarea]` Made sure strings are translated and fixed `character-count`` setting. ([#1598](https://github.com/infor-design/enterprise-wc/issues/1598))
 - `[Tooltip]` Adds a check on the `tooltip` attribute to fix event handling in Angular environments. ([#1625](https://github.com/infor-design/enterprise-wc/issues/1625))

@@ -107,22 +107,6 @@ describe('IdsRadio Component', () => {
     expect(label.textContent.trim()).toBe('test2');
   });
 
-  it('should renders colored', () => {
-    const color = 'emerald07';
-    let rootEl = rb.shadowRoot.querySelector('.ids-radio');
-    expect(rootEl.getAttribute('color')).toEqual(null);
-    expect(rb.getAttribute('color')).toEqual(null);
-    rb.color = color;
-    rootEl = rb.shadowRoot.querySelector('.ids-radio');
-    expect(rootEl.getAttribute('color')).toEqual(color);
-    expect(rb.getAttribute('color')).toEqual(color);
-    rb.color = false;
-    rootEl = rb.shadowRoot.querySelector('.ids-radio');
-    expect(rootEl.getAttribute('color')).toEqual(null);
-    expect(rb.getAttribute('color')).toEqual(null);
-    expect(rb.color).toEqual(null);
-  });
-
   it('should renders value', () => {
     const value = 'test';
     expect(rb.getAttribute('value')).toEqual(null);
@@ -174,7 +158,7 @@ describe('IdsRadio Component', () => {
 
   it('should render template', () => {
     document.body.innerHTML = '';
-    const html = '<ids-radio label="test" value="test-val" disabled="true" horizontal="true" checked="true" color="emerald07"></ids-radio>';
+    const html = '<ids-radio label="test" value="test-val" disabled="true" horizontal="true" checked="true"></ids-radio>';
     document.body.innerHTML = html;
     rb = document.querySelector('ids-radio');
     rb.template();
