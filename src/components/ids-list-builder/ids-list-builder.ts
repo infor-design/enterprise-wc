@@ -247,9 +247,9 @@ export default class IdsListBuilder extends IdsListView {
 
     this.onEvent('blur.listbuilder-editor', input, () => {
       itemFocused.rowData = { [firstFieldName]: firstEditableField.textContent };
+      itemFocused?.classList.remove('is-editing');
 
       input.remove();
-      itemFocused?.classList.remove('is-editing');
       itemFocused.focus();
     });
 
@@ -259,8 +259,13 @@ export default class IdsListBuilder extends IdsListView {
       input.blur();
     });
 
-    this.listen(['Backspace', 'Delete'], input, (evt: KeyboardEvent) => evt.stopImmediatePropagation());
-    this.listen('Enter', input, () => input.blur());
+    input.addEventListener('keydown', (evt: KeyboardEvent) => {
+      const keyCode = evt.code || 'Space';
+      if (['Backspace', 'Delete', 'Enter'].includes(keyCode)) {
+        evt.stopImmediatePropagation();
+      }
+      if (evt.code === 'Enter') input.blur();
+    });
   }
 
   /**
@@ -349,20 +354,11 @@ export default class IdsListBuilder extends IdsListView {
       const keyCode = String(event.key).trim() || 'Space';
       switch (keyCode) {
         case 'Enter': // edits the list item
-          // console.log('idsListBuilder#attachKeyboardListeners');
+          event.stopImmediatePropagation();
+          if (!this.itemFocused?.classList.contains('is-editing')) this.edit();
           break;
-        //   event.preventDefault();
-        //   // if (!(this.getAllSelectedLiIndex().includes(this.getFocusedLiIndex()))) {
-        //   // if (!(this.itemsSelected.includes(this.itemFocused!))) {
-        //   //   this.toggleSelectedLi(li);
-        //   // }
-        //   this.#toggleEditor();
-        //   break;
-        // case 'Space': // selects the list item
-        //   event.preventDefault(); // prevent container from scrolling
-        //   event.stopImmediatePropagation();
-        //   if (this.itemFocused) this.itemFocused.selected = !this.itemFocused.selected;
-        //   break;
+        case 'Space': // selects the list item
+          break;
         case 'Tab':
         case 'ArrowUp':
         case 'ArrowDown':

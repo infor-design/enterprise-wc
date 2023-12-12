@@ -419,8 +419,8 @@ export default class IdsListViewItem extends Base {
 
       // TODO: some click-handler is preventing this from being reached.
       // meanwhile this.active is set in the focus-handler
-      this.selected = this.sortable ? true : !this.selected;
-      // this.selected = !this.selected;
+      // this.selected = this.sortable ? true : !this.selected;
+      this.selected = !this.selected;
     }
   }
 
@@ -445,7 +445,6 @@ export default class IdsListViewItem extends Base {
     this.onEvent('blur.listview-item', this, () => { this.active = false; });
 
     this.onEvent('focus.listview-item', this, () => {
-      // this.listView?.setAttribute('aria-activedescendant', String(this.rowIndex));
       this.active = true;
     });
 
@@ -454,14 +453,9 @@ export default class IdsListViewItem extends Base {
     this.onEvent('keyup.listview-selection', this, (e: KeyboardEvent) => {
       const keyCode = String(e.code).trim() || 'Space';
       if (['Space', 'Enter'].includes(keyCode)) {
-        console.log('keyup.listview-selection');
+        e.preventDefault();
+        e.stopImmediatePropagation();
         this.#onClick(e);
-        // if (this.selectable === 'mixed') {
-        //   this.checked = !this.checked;
-        // } else {
-        //   console.log('keyup.listview-selection');
-        //   this.#onClick(e);
-        // }
       }
     });
 

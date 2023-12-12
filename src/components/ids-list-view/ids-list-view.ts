@@ -230,9 +230,6 @@ export default class IdsListView extends Base {
     switch (keyCode) {
       case 'ArrowUp':
         evt.preventDefault();
-        console.log('listview.handleOnKeydown', keyCode);
-        console.log('this.itemFocused', this.itemFocused);
-        console.log('this.itemFocused?.prevEnabled', this.itemFocused?.prevEnabled);
         this.itemFocused?.prevEnabled?.focus();
         break;
       case 'ArrowDown':
@@ -240,14 +237,11 @@ export default class IdsListView extends Base {
         this.itemFocused?.nextEnabled?.focus();
         break;
       case 'Enter':
-      //   evt.preventDefault();
-      //   if (this.itemFocused) this.itemFocused.selected = !this.itemFocused.selected;
-        console.log('idsListView#handleOnKeydown');
         break;
-      // case 'Space':
-      //   evt.preventDefault();
-      //   this.itemFocused?.focus();
-      //   break;
+      case 'Space':
+        evt.preventDefault(); // prevent container from scrolling
+        if (this.itemFocused) this.itemFocused.active = true;
+        break;
       default:
         break;
     }
