@@ -26,9 +26,6 @@ export default class IdsListBuilder extends IdsListView {
     super();
   }
 
-  /** Active editor of the selected list item */
-  #selectedLiEditor: IdsInput | null = null;
-
   /**
    * A clone of the list item being dragged,
    * it appears during drag to help visualize where the dragged item's position
@@ -337,7 +334,7 @@ export default class IdsListBuilder extends IdsListView {
     this.offEvent('afterdragend.listbuilder', this.container);
     this.onEvent('afterdragend.listbuilder', this.container, (e) => {
       const editableItem = e.detail?.elem?.querySelector('.is-editing');
-      if (editableItem) this.#selectedLiEditor?.focus();
+      if (editableItem) editableItem?.querySelector('ids-input')?.focus();
     });
   }
 
