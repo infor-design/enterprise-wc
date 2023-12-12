@@ -186,17 +186,17 @@ export default class IdsListBuilder extends IdsListView {
    * @returns {void}
    */
   #handleAction(action: string): void {
-    if (action === this.actions.ADD) this.#add();
-    if (action === this.actions.EDIT) this.#edit();
-    if (action === this.actions.DELETE) this.#delete();
-    if (action === this.actions.MOVE_UP) this.#moveUp();
-    if (action === this.actions.MOVE_DOWN) this.#moveDown();
+    if (action === this.actions.ADD) this.add();
+    if (action === this.actions.EDIT) this.edit();
+    if (action === this.actions.DELETE) this.delete();
+    if (action === this.actions.MOVE_UP) this.moveUp();
+    if (action === this.actions.MOVE_DOWN) this.moveDown();
   }
 
   /**
    * Add new item after selected item(s) or at the very end of list
    */
-  #add() {
+  add() {
     const lastItem = this.itemsSelected.at(-1) ?? this.items.at(-1);
     const newItem = document.createElement('ids-list-view-item') as IdsListViewItem;
 
@@ -211,13 +211,13 @@ export default class IdsListBuilder extends IdsListView {
     swappable.selected = true;
 
     this.triggerEvent('itemAdd', this, { detail: newItem.rowData });
-    this.#edit();
+    this.edit();
   }
 
   /**
    * Edit selected item
    */
-  #edit() {
+  edit() {
     const itemFocused = this.itemFocused;
     if (!itemFocused) return;
 
@@ -269,7 +269,7 @@ export default class IdsListBuilder extends IdsListView {
   /**
    * Delete selected item(s)
    */
-  #delete() {
+  delete() {
     const itemsSelected = this.itemsSelected;
     const lastSelected = itemsSelected.at(-1);
     const nextEnabled = lastSelected?.nextEnabled;
@@ -293,7 +293,7 @@ export default class IdsListBuilder extends IdsListView {
   /**
    * Move up selected item(s)
    */
-  #moveUp() {
+  moveUp() {
     const selected = this.itemsSelected;
     const firstSelected = selected[0];
     if (firstSelected) {
@@ -308,7 +308,7 @@ export default class IdsListBuilder extends IdsListView {
   /**
    * Move down selected item(s)
    */
-  #moveDown() {
+  moveDown() {
     const selected = this.itemsSelected;
     const lastSelected = selected.at(-1);
     if (lastSelected) {
@@ -372,7 +372,7 @@ export default class IdsListBuilder extends IdsListView {
           break;
         case 'Backspace':
         case 'Delete':
-          this.#delete();
+          this.delete();
           break;
         default:
           break;
