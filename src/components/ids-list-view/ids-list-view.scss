@@ -1,3 +1,9 @@
+:host {
+  slot {
+    display: block;
+  }
+}
+
 :host([no-margins]) {
   .ids-list-view .ids-list-view-body {
     li,
