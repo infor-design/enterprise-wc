@@ -102,9 +102,6 @@ export default class IdsListView extends Base {
   /** Is the component initialized */
   initialized = false;
 
-  /** The currently focused list item */
-  #focusedLiIndex: any = 0;
-
   /** The currently list size */
   #size = 0;
 
@@ -171,7 +168,7 @@ export default class IdsListView extends Base {
   }
 
   get itemFocused() {
-    const rowIndex = Number(this.getAttribute('aria-activedescendant')) || 0;
+    const rowIndex = Number(this.getAttribute('aria-activedescendant') ?? -1);
     return this.itemByIndex(rowIndex);
   }
 
