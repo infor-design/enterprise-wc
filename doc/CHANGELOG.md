@@ -5,6 +5,7 @@
 ### 1.0.0-beta.18 Fixes
 
 - `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
+- `[ListView|ListBulider]` improve `IdsListView` and `IdsListBuilder` integration with new `IdsListViewItem` child-component. ([#1400](https://github.com/infor-design/enterprise-wc/issues/1400))
 
 ## 1.0.0-beta.17
 
