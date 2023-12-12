@@ -16,6 +16,7 @@ The scroll view component allows swipe and scroll in between a number of slides/
 
 ## Settings and Attributes
 
+- `hide-on-one` {boolean} configures the circle buttons to hide if only one page is present
 - `loop` {boolean} sets the loop, true will loop back after next/previous reached to end
 - `show-tooltip` {boolean} sets the tooltip for circle buttons
 - `suppress-controls` {boolean} sets suppress controls for circle buttons
