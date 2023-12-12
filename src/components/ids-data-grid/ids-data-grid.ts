@@ -699,18 +699,19 @@ export default class IdsDataGrid extends Base {
     this.columns.splice(correctFromIndex, 1);
     this.columns.splice(correctToIndex, 0, element);
 
-    // Move the dirty data
-    this.dirtyCells.forEach((dirtyRow: Record<string, any>) => {
-      if (dirtyRow.cell === fromIndex) {
-        const row: any = this.data[dirtyRow?.row];
-        const cellIndex = row.dirtyCells.findIndex((item: any) => item.cell === fromIndex);
-        row.dirtyCells[cellIndex].cell = toIndex;
-      }
-      if (dirtyRow.cell === toIndex) {
-        const row: any = this.data[dirtyRow?.row];
-        const cellIndex = row.dirtyCells.findIndex((item: any) => item.cell === toIndex);
-        row.dirtyCells[cellIndex].cell = fromIndex;
-      }
+    // Map column id to new column index
+    const colIdToCellIndex = this.columns.reduce((obj, curr, idx) => {
+      obj[curr.id] = idx;
+      return obj;
+    }, {} as Record<string, number>);
+
+    // Move the dirty cell data
+    this.dirtyCells.forEach((dirtyCell: Record<string, any>) => {
+      const dirtyCellId = dirtyCell.columnId;
+      const row: any = this.data[dirtyCell?.row];
+      const cellIndex = row.dirtyCells.findIndex((item: any) => item.columnId === dirtyCellId);
+      const newCellIndex = colIdToCellIndex[dirtyCellId];
+      row.dirtyCells[cellIndex].cell = newCellIndex;
     });
 
     // Move the validation data
