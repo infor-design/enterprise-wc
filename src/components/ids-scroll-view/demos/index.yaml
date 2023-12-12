@@ -11,6 +11,3 @@
   - link: sandbox.html
     type: Example
     description: Showing various scroll view states
-  - link: layout-grid.html
-    type: Test
-    description: Showing various scroll view states using IdsLayoutGrid
