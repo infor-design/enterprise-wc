@@ -455,6 +455,7 @@ export const attributes = {
   SUPPRESS_DEACTIVATION: 'suppress-deactivation',
   SUPPRESS_DESELECTION: 'suppress-deselection',
   SUPPRESS_EMPTY_MESSAGE: 'suppress-empty-message',
+  SUPPRESS_FORM: 'suppress-form',
   SUPPRESS_HIGHLIGHT: 'suppress-highlight',
   SUPPRESS_LABELS: 'suppress-labels',
   SUPPRESS_ROW_CLICK_SELECTION: 'suppress-row-click-selection',
