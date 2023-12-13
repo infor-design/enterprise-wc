@@ -1,6 +1,11 @@
 /* Ids Overlay Component */
 :host {
   display: block;
+  pointer-events: none;
+}
+
+:host([background-color="page"]) {
+  z-index: -1;
 }
 
 .ids-overlay {
@@ -11,13 +16,15 @@
   display: none;
   outline: 0;
   position: fixed;
+  pointer-events: none;
 
   // Animation
-  background-color: rgba(0 0 0 / 0);
+  background-color: rgba(var(--ids-overlay-background-color) / 0);
   transition: background-color 0.2s;
 
   &.visible {
     display: block;
-    background-color: rgba(0 0 0 / 0.3);
+    background-color: rgba(var(--ids-overlay-background-color) / 0.3);
+    pointer-events: auto;
   }
 }

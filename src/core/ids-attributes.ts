@@ -314,6 +314,7 @@ export const attributes = {
   OVER: 'over',
   OVERFLOW: 'overflow',
   OVERFLOWED: 'overflowed',
+  OVERLAY: 'overlay',
   PADDING: 'padding',
   PADDING_X: 'padding-x',
   PADDING_Y: 'padding-y',
@@ -534,6 +535,7 @@ export const attributes = {
   Y_AXIS_MIN: 'y-axis-min',
   Y_OFFSET: 'y-offset',
   YEAR: 'year',
+  Z_INDEX: 'z-index'
 };
 
 // Standard HTMLElement attribute names

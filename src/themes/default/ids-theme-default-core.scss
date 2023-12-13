@@ -1068,6 +1068,10 @@
   --ids-notification-banner-info-color-background: var(--ids-color-info-10);
   --ids-notification-banner-error-color-background: var(--ids-color-error-10);
 
+  // Overlay
+  --ids-overlay-background-color: 0 0 0;
+  --ids-overlay-page-background-color: 255 255 255;
+
   // Pie chart
   --ids-chart-pie-font-family: var(--ids-font-family-default);
   --ids-chart-pie-font-size: var(--ids-font-size-10);

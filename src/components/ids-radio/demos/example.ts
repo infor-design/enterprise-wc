@@ -13,4 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   btnClear?.addEventListener('click', () => {
     radio?.clear();
   });
+
+  // Change Event
+  document.querySelector('#test-radio')?.addEventListener('change', () => {
+    console.info('Radio Changed');
+  });
 });

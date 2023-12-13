@@ -17,6 +17,19 @@
   height: 11px;
 }
 
+// Center alignment
+:host(ids-loading-indicator[align='center']:not([linear]):not([sticky]):not([inline])) {
+  position: fixed;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  margin-block-start: -25px;
+}
+
+// Paused/Stopped
+:host(ids-loading-indicator[stopped]:not([linear]):not([sticky]):not([inline])) {
+  display: none;
+}
+
 :host(ids-loading-indicator[linear]),
 :host(ids-loading-indicator[sticky]) {
   position: relative;
