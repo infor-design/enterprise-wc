@@ -117,8 +117,13 @@ export default class IdsCalendarEvent extends Base {
    * Attach calendar-event event handlers
    */
   #attachEventHandlers(): void {
-    const triggerFn = (clickType: 'click' | 'dblclick') => {
-      this.triggerEvent(`${clickType}-calendar-event`, this, {
+    const triggerFn = (evt: MouseEvent) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+
+      if (this.disabled) return;
+
+      this.triggerEvent(`${evt.type}calendarevent`, this, {
         detail: { elem: this },
         bubbles: true,
         cancelable: true,
@@ -126,12 +131,8 @@ export default class IdsCalendarEvent extends Base {
       });
     };
 
-    this.onEvent('click', this.container, (evt: MouseEvent) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-      if (this.disabled) return;
-      triggerFn('click');
-    });
+    this.onEvent('click', this.container, (evt: MouseEvent) => { triggerFn(evt); });
+    this.onEvent('dblclick', this.container, (evt: MouseEvent) => { triggerFn(evt); });
   }
 
   /** Respond to language changes */
