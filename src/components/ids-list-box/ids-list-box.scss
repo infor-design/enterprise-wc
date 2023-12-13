@@ -18,7 +18,6 @@ $border-input-field-height-lg: calc(var(--ids-input-height-40) - 2px);
   max-height: var(--ids-input-width-40);
   scroll-behavior: smooth;
   min-width: $border-input-size-xs;
-  max-width: $border-input-size-md;
   width: var(--ids-input-width-full);
 }
 

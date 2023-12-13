@@ -239,6 +239,7 @@ export default class IdsDropdown extends Base {
         ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}
       >
         <ids-trigger-button
+          class="ids-trigger-field-slot-trigger-end"
           id="triggerBtn-${this.id ? this.id : ''}"
           slot="trigger-end"
           part="trigger-button"
@@ -648,7 +649,7 @@ export default class IdsDropdown extends Base {
   loadDataSet(dataset: IdsDropdownOptions) {
     let html = '';
 
-    const listbox = this.querySelector('ids-list-box');
+    const listbox = this.dropdownList?.querySelector('ids-list-box') || this.querySelector('ids-list-box');
     if (listbox) listbox.innerHTML = '';
 
     dataset.forEach((option: IdsDropdownOption) => {
@@ -1097,7 +1098,7 @@ export default class IdsDropdown extends Base {
   #templatelistBoxOption(option: IdsDropdownOption): string {
     return `<ids-list-box-option
       ${option.id ? `id=${option.id}` : ''}
-      ${option.value ? `value="${option.value}"` : 'value=""'}
+      ${option.value ? `value="${option.value}"` : /* 'value=""' */ ''}
       ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.label || ''}</ids-list-box-option>`;
   }
 
