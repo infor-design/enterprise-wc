@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.18 Fixes
 
+- `[DataGrid]` Fix dropdown cells to no longer open their lists inside cells (attach to grid instead). ([#1600](https://github.com/infor-design/enterprise-wc/issues/1600))
 - `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
 - `[DataGrid]` Fix dirty indicator alignment for xxs row height. ([#1602](https://github.com/infor-design/enterprise-wc/issues/1602))
 - `[DataGrid]` Fix an issue where empty message permanently removes the datagrid container height. ([#1664](https://github.com/infor-design/enterprise-wc/issues/1664))
