@@ -1237,7 +1237,6 @@ export default class IdsPopup extends Base {
 
     // Correct RTL
     popupRect = this.#correctRTL(popupRect);
-
     this.#renderPlacementInPixels(popupRect);
   }
 
