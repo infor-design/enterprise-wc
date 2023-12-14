@@ -13,6 +13,7 @@
 - `[DataGrid]` Fix dirty indicator alignment for xxs row height. ([#1602](https://github.com/infor-design/enterprise-wc/issues/1602))
 - `[DataGrid]` Fix an issue where empty message permanently removes the datagrid container height. ([#1664](https://github.com/infor-design/enterprise-wc/issues/1664))
 - `[DataGrid]` Fix dirty indicator cell data after column reorder. ([#1601](https://github.com/infor-design/enterprise-wc/issues/1601))
+- `[ScrollView]` Fix circle button display/placement when re-rendering with a new dataset.  ([#1577](https://github.com/infor-design/enterprise-wc/issues/1577))
 
 ## 1.0.0-beta.17
 
