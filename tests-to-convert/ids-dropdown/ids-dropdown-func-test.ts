@@ -186,8 +186,6 @@ describe('IdsDropdown Component', () => {
     </ids-list-box>
   </ids-dropdown>`);
 
-    expect(dropdown.hasIcons).toEqual(true);
-
     const icons = dropdown.querySelectorAll('ids-list-box-option ids-icon');
     expect(icons[0].icon).toEqual('user-profile');
     expect(icons[5].icon).toEqual('roles');

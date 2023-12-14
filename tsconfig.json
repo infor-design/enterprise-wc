@@ -24,7 +24,6 @@
     "skipLibCheck": true,
   },
   "include": [
-    "test/**/*.ts",
     "tests/**/*.ts",
     "tests/*.ts",
     "src/**/**/*.ts",
@@ -33,6 +32,7 @@
     "*.ts"
   ],
   "exclude": [
+    "test/**/*.ts",
     "src/**/*.d.ts",
     "scripts/*.mjs",
     "node_modules",

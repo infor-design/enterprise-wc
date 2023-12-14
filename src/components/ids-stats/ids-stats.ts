@@ -3,8 +3,10 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes } from '../../core/ids-attributes';
 
 import '../ids-box/ids-box';
+import '../ids-icon/ids-icon';
 import '../ids-layout-flex/ids-layout-flex';
 import type IdsBox from '../ids-box/ids-box';
+import type IdsIcon from '../ids-icon/ids-icon';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
@@ -78,7 +80,7 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
     const isPositive = !isNegative && this.trendLabel !== '';
     const isBorderless = !!this.closest('ids-widget')?.hasAttribute('borderless');
 
-    return `<ids-box padding-x="0" padding-y="0"${isBorderless ? ` shadowed` : `borderless`}>
+    const markup = `<ids-box padding-x="0" padding-y="0"${isBorderless ? ` shadowed` : ` borderless`}${this.actionable ? ` actionable` : ``}>
       <div class="ids-stats" part="stats">
         <ids-layout-flex direction="column">
           <ids-layout-flex justify-content="space-between" align-items="center">
@@ -86,7 +88,7 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
               <div class="trend-label${isPositive ? ' is-positive' : ''}${isNegative ? ' is-negative' : ''}"></div>
             </ids-layout-flex-item>
             <ids-layout-flex-item>
-              <div class="main-icon"><ids-icon icon="${this.icon}" status-color=${this.statusColor}></ids-icon></div>
+              <div class="main-icon"><ids-icon icon="${this.icon}" status-color="${this.statusColor}"></ids-icon></div>
             </ids-layout-flex-item>
           </ids-layout-flex>
           <ids-layout-flex-item>
@@ -101,6 +103,7 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
         </ids-layout-flex>
       </div>
     </ids-box>`;
+    return markup;
   }
 
   trendingUpIcon = `<svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -125,14 +128,20 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
 
     if (currentValue !== isValueTruthy) {
       this.closest('ids-widget')?.querySelectorAll('ids-stats').forEach((elem) => {
-        if (!elem.isSameNode(this)) (elem as IdsStats).removeAttribute(attributes.SELECTED);
+        if (!elem.isSameNode(this)) {
+          (elem as IdsStats).removeAttribute(attributes.SELECTED);
+          ((elem as IdsStats).container?.parentElement as IdsBox)?.removeAttribute(attributes.SELECTED);
+          ((elem as IdsStats).container?.parentElement as IdsBox).container?.classList.remove('is-selected');
+        }
       });
       if (isValueTruthy) {
         this.setAttribute(attributes.SELECTED, `${value}`);
         (this.container?.parentElement as IdsBox)?.setAttribute(attributes.SELECTED, 'true');
+        (this.container?.parentElement as IdsBox).container?.classList.add('is-selected');
       } else {
         this.removeAttribute(attributes.SELECTED);
         (this.container?.parentElement as IdsBox)?.removeAttribute(attributes.SELECTED);
+        (this.container?.parentElement as IdsBox).container?.classList.remove('is-selected');
       }
     }
   }
@@ -182,10 +191,10 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
    * @param {string} value Trend label text
    */
   set icon(value: string | null) {
-    const elem = this.container?.querySelector('.main-icon');
+    const elem = this.container?.querySelector<IdsIcon>('.main-icon ids-icon');
     if (stringToBool(value) && elem && value) {
       this.setAttribute(attributes.ICON, value);
-      elem.textContent = value;
+      elem.icon = value;
     } else if (elem) {
       elem.setAttribute('hidden', 'true');
     }

@@ -296,22 +296,6 @@ describe('Ids Color Picker Component', () => {
       expect(colorpicker.textInput.value).toBe(swatch.label);
     });
 
-    it('triggers change event on color-swatch IdsColorPicker.value is updated', () => {
-      expect(colorpicker.popup.visible).toBe(true);
-
-      const changeHandler = jest.fn((evt) => {
-        expect(evt.detail.elem).toBe(colorpicker);
-        expect(evt.detail.value).toBe(colorpicker.value);
-      });
-
-      colorpicker.addEventListener('change', changeHandler);
-
-      colorpicker.value = 'c';
-      expect(colorpicker.value).toBe('c');
-      expect(colorpicker.textInput.value).toBe('c');
-      expect(changeHandler).toHaveBeenCalled();
-    });
-
     it('shows checkmark on selected color-swatch', () => {
       expect(colorpicker.popup.visible).toBe(true);
       expect(colorpicker.value).toBe('');

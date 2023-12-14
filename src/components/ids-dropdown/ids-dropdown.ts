@@ -1098,7 +1098,7 @@ export default class IdsDropdown extends Base {
   #templatelistBoxOption(option: IdsDropdownOption): string {
     return `<ids-list-box-option
       ${option.id ? `id=${option.id}` : ''}
-      ${option.value ? `value="${option.value}"` : /* 'value=""' */ ''}
+      ${option.value ? `value="${option.value}"` : ''}
       ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.label || ''}</ids-list-box-option>`;
   }
 

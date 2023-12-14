@@ -12,7 +12,7 @@ export default class IdsElement extends HTMLElement {
   name?: string;
 
   /** State object for current states */
-  state: Record<string, any> = {};
+  state: Record<string, any> | any = {};
 
   /** Nonce used for scripts, links */
   cachedNonce = '';
@@ -29,12 +29,21 @@ export default class IdsElement extends HTMLElement {
     if (!args?.noShadowRoot) {
       this.#addBaseName();
       this.#appendHostCss();
+      // Run the template when a component is constructed
+      this.render();
     }
   }
 
-  /** Run the template when a component Is inserted */
+  /** Base connected call back */
   connectedCallback() {
-    if (!this.args?.noShadowRoot) this.render();
+    // Nothing right now
+    requestAnimationFrame(() => {
+      this.mountedCallback();
+    });
+  }
+
+  /** Lifecycle event for after loaded */
+  mountedCallback() {
   }
 
   /**

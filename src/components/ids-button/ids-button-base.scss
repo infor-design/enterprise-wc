@@ -367,6 +367,10 @@
     &.ids-menu-button.compact {
       padding: var(--ids-space-30);
       padding-inline: var(--ids-space-30);
+
+      &.square {
+        border-radius: var(--ids-border-radius-02);
+      }
     }
   }
 

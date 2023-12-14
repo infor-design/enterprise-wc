@@ -23,7 +23,6 @@
   // Layout
   display: inline-flex;
   contain: content;
-  transition: var(--ids-motion-duration) var(--ids-motion-ease);
 
   &.borderless {
     background-color: transparent;
