@@ -200,6 +200,7 @@ export const attributes = {
   HIDE_CHECKBOXES: 'hide-checkboxes',
   HIDE_DOWN: 'hide-down',
   HIDE_FOCUS: 'hide-focus',
+  HIDE_ON_ONE: 'hide-on-one',
   HIDE_UP: 'hide-up',
   HIGHLIGHTED: 'highlighted',
   HITBOX: 'hitbox',
