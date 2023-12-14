@@ -34,9 +34,11 @@
 .ids-scroll-view-controls {
   display: flex;
   justify-content: center;
+  min-height: var(--ids-scroll-view-controls-min-height);
 
   &.suppress-controls {
-    display: none;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   // The circle buttons and states

@@ -42,6 +42,7 @@ export default class IdsScrollView extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.HIDE_ON_ONE,
       attributes.LOOP,
       attributes.SHOW_TOOLTIP,
       attributes.SUPPRESS_CONTROLS
@@ -114,6 +115,18 @@ export default class IdsScrollView extends Base {
    */
   get controls(): HTMLElement | null | undefined {
     return this.shadowRoot?.querySelector('.ids-scroll-view-controls');
+  }
+
+  /**
+   * Configures the circle pager to hide if only one page is present
+   * @param {boolean} value true if the circle pager should hide under this condition
+   */
+  set hideOnOne(value: boolean) {
+    this.toggleAttribute(attributes.HIDE_ON_ONE, stringToBool(value));
+  }
+
+  get hideOnOne() {
+    return this.hasAttribute(attributes.HIDE_ON_ONE);
   }
 
   /**
@@ -296,7 +309,10 @@ export default class IdsScrollView extends Base {
   #renderCircleButtons(): void {
     if (this.controls) this.controls.innerHTML = '';
 
-    this.querySelectorAll('[slot]').forEach((item, i) => {
+    const items = this.querySelectorAll('[slot]');
+    if (this.hideOnOne && items.length <= 1) return;
+
+    items.forEach((item, i) => {
       const cssClass = ` class="circle-button${i === 0 ? ' selected' : ''}"`;
       const ariaSelected = i === 0 ? ' aria-selected="true"' : '';
       const label = item.getAttribute('label') || item.getAttribute('alt') || '';
@@ -369,7 +385,7 @@ export default class IdsScrollView extends Base {
 
     const itemSlot = this.container?.querySelector(`slot[name="scroll-view-item"]`);
     this.offEvent('click.scrollview', itemSlot);
-    this.onEvent('slotchange', itemSlot, () => this.#renderCircleButtons());
+    this.onEvent('slotchange', itemSlot, () => this.#handleSlotChange());
 
     // Handle scroll-end, after snap scrolling event is complete
     // https://stackoverflow.com/a/66029649
@@ -381,5 +397,10 @@ export default class IdsScrollView extends Base {
         this.#isClickOrKey = false;
       }
     });
+  }
+
+  #handleSlotChange() {
+    this.first();
+    this.#renderCircleButtons();
   }
 }
