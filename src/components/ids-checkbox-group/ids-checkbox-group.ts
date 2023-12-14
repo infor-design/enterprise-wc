@@ -5,6 +5,7 @@ import IdsElement from '../../core/ids-element';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 import styles from './ids-checkbox-group.scss';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * IDS Checkbox Group Component
@@ -79,5 +80,22 @@ export default class IdsCheckboxGroup extends IdsEventsMixin(IdsElement) {
    */
   get checkboxesSelected(): IdsCheckbox[] {
     return [...this.querySelectorAll<IdsCheckbox>('ids-checkbox[checked]')];
+  }
+
+  get value(): boolean[] {
+    return this.checkboxes.map((checkbox) => stringToBool(checkbox.value));
+  }
+
+  /**
+   * Set value for group
+   * @private
+   * @returns {void}
+   */
+  set value(value: boolean | boolean[]) {
+    const values = Array.isArray(value) ? value : [value];
+    const lastValue = values.at(-1) || false;
+    this.checkboxes.forEach((checkbox, idx) => {
+      checkbox.value = stringToBool(values[idx] ?? lastValue);
+    });
   }
 }
