@@ -373,9 +373,10 @@
   --ids-list-view-color-background-selected: var(--ids-color-primary-100);
 
   // Loading Indicator
-  --ids-loading-indicator-circle-color: var(--ids-color-neutral-80);
+  --ids-loading-indicator-circle-color: var(--ids-color-neutral-60);
   --ids-loading-indicator-primary-progress-color-border: var(--ids-color-neutral-80);
   --ids-loading-indicator-primary-color-border: var(--ids-color-neutral-50);
+  --ids-loading-indicator-progress-color: var(--ids-color-primary-60);
   --ids-loading-indicator-primary-destructive-overall-color-border: var(--ids-color-error-20);
   --ids-loading-indicator-destructive-progress-color-border: var(--ids-color-error-70);
   --ids-loading-indicator-tertiary-destructive-color-border: var(--ids-color-error-30);
@@ -415,7 +416,7 @@
   --ids-module-nav-item-text-color: var(--ids-color-slate-10);
   --ids-module-nav-item-hover-bg-color: var(--ids-color-slate-80);
   --ids-module-nav-item-hover-text-color: var(--ids-color-slate-10);
-  --ids-module-nav-item-selected-bg-color: var(--ids-color-azure-60);
+  --ids-module-nav-item-selected-bg-color: var(--ids-color-primary-60);
   --ids-module-nav-item-selected-text-color: var(--ids-color-slate-10);
 
   // Module Nav Switcher (Role Dropdown + Button)
@@ -473,6 +474,10 @@
   --ids-calendar-month-view-color-text-compact: var(--ids-color-neutral-50);
   --ids-calendar-month-view-weekday-color-text-compact-hover: var(--ids-color-neutral-00);
   --ids-calendar-month-view-range-color-background-compact-selected: var(--ids-color-primary-60);
+
+  // Overlay
+  --ids-overlay-background-color: 0 0 0;
+  --ids-overlay-page-background-color: 0 0 0;
 
   // Pie chart
   --ids-chart-pie-color-text: var(--ids-color-neutral-30);

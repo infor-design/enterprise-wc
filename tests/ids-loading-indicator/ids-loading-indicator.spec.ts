@@ -62,5 +62,123 @@ test.describe('IdsLoadingIndicator tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-loading-indicator-light');
     });
+
+    test('should match the visual snapshot in percy on full page', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-loading-indicator/full-page.html');
+      await percySnapshot(page, 'ids-loading-indicator-full-page-light');
+    });
+  });
+
+  test.describe('setting/attribute tests', () => {
+    test('should set progress', async ({ page }) => {
+      const locator = await page.locator('ids-loading-indicator').first();
+      const handle = await page.$('ids-loading-indicator');
+      await expect(await locator.getAttribute('progress')).toEqual(null);
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.progress = 90;
+      });
+      await expect(await locator.getAttribute('progress')).toEqual('90');
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.progress = null;
+      });
+      await expect(await locator.getAttribute('progress')).toEqual(null);
+    });
+
+    test('should set overlay', async ({ page }) => {
+      const locator = await page.locator('ids-loading-indicator').first();
+      const handle = await page.$('ids-loading-indicator');
+      await expect(await locator.getAttribute('overlay')).toEqual(null);
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.overlay = true;
+      });
+      await expect(await locator.getAttribute('overlay')).toEqual('');
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.overlay = false;
+      });
+      await expect(await locator.getAttribute('overlay')).toEqual(null);
+    });
+
+    test('should set sticky by attribute', async ({ page }) => {
+      const locator = await page.locator('ids-loading-indicator').first();
+      const handle = await page.$('ids-loading-indicator');
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.setAttribute('sticky', 'true');
+      });
+      await expect(await locator.getAttribute('sticky')).toEqual('true');
+    });
+
+    test('should set linear by attribute', async ({ page }) => {
+      const locator = await page.locator('ids-loading-indicator').first();
+      const handle = await page.$('ids-loading-indicator');
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.setAttribute('linear', 'true');
+      });
+      await expect(await locator.getAttribute('linear')).toEqual('true');
+    });
+
+    test('calls type getter reliably based on flags set', async ({ page }) => {
+      const locator = await page.locator('ids-loading-indicator').first();
+      const handle = await page.$('ids-loading-indicator');
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.setAttribute('linear', 'true');
+      });
+
+      let type = await handle?.evaluate((el: IdsLoadingIndicator) => el.type);
+      expect(type).toEqual('linear');
+      await expect(await locator.getAttribute('sticky')).toEqual(null);
+
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.setAttribute('sticky', 'true');
+      });
+
+      type = await handle?.evaluate((el: IdsLoadingIndicator) => el.type);
+      expect(type).toEqual('sticky');
+      await expect(await locator.getAttribute('sticky')).toEqual('true');
+
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.removeAttribute('sticky');
+      });
+      type = await handle?.evaluate((el: IdsLoadingIndicator) => el.type);
+      expect(type).toEqual('circular');
+    });
+
+    test('should set inline', async ({ page }) => {
+      const locator = await page.locator('ids-loading-indicator').first();
+      const handle = await page.$('ids-loading-indicator');
+      await expect(await locator.getAttribute('inline')).toEqual(null);
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.inline = true;
+      });
+      await expect(await locator.getAttribute('inline')).toEqual('');
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.inline = false;
+      });
+      await expect(await locator.getAttribute('inline')).toEqual(null);
+    });
+
+    test('should set align', async ({ page }) => {
+      const locator = await page.locator('ids-loading-indicator').first();
+      const handle = await page.$('ids-loading-indicator');
+      await expect(await locator.getAttribute('aline')).toEqual(null);
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.align = 'center';
+      });
+      await expect(await locator.getAttribute('align')).toEqual('center');
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.align = '';
+      });
+      await expect(await locator.getAttribute('align')).toEqual(null);
+    });
+
+    test('should set percentage-visible', async ({ page }) => {
+      const locator = await page.locator('ids-loading-indicator').first();
+      const handle = await page.$('ids-loading-indicator');
+      await expect(await locator.getAttribute('inline')).toEqual(null);
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.setAttribute('percentage-visible', 'true');
+      });
+      await expect(await locator.getAttribute('percentage-visible')).toEqual('true');
+    });
   });
 });
