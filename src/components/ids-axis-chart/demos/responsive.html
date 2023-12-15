@@ -5,62 +5,25 @@
   <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
+
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Axis Chart (responsive)</ids-text>
     </ids-layout-grid>
 
-    <ids-home-page>
-      <ids-widget slot="widget" padding-y="4">
-        <div slot="widget-header">
-          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Axis Chart</ids-text>
-        </div>
-        <div slot="widget-content">
-          <ids-axis-chart
-            slot="card-content"
-            title="A line chart showing component usage"
-            width="340"
-            height="265"
-            show-tooltip="false"
-            id="index-example">
-          </ids-axis-chart>
-        </div>
-      </ids-widget>
-      <ids-widget slot="widget" padding-y="4">
-        <div slot="widget-header">
-          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Bar Chart</ids-text>
-        </div>
-        <div slot="widget-content">
-          <ids-bar-chart
-            slot="card-content"
-            id="bar-chart-example"
-            title="Bar Chart horizontal rotate name labels"
-            width="340"
-            height="265"
-            animated="false"
-            show-tooltip="false"
-            horizontal>
-          </ids-bar-chart>
-        </div>
-      </ids-widget>
-      <ids-widget slot="widget" padding-y="4">
-        <div slot="widget-header">
-          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Line Chart</ids-text>
-        </div>
-        <div slot="widget-content">
-          <ids-line-chart
-            slot="card-content"
-            title="A line chart showing component usage"
-            width="340"
-            height="265"
-            id="line-chart-example"
-            show-vertical-grid-lines="true"
-            show-tooltip="false">
-          </ids-line-chart>
-        </div>
-      </ids-widget>
-    </ids-home-page>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <div class="parent-container">
+        <ids-axis-chart
+          slot="card-content"
+          title="A line chart showing component usage"
+          width="inherit"
+          height="inherit"
+          show-tooltip="false"
+          id="index-example">
+        </ids-axis-chart>
+      </div>
+    </ids-layout-grid>
   </ids-container>
 </body>
 </html>

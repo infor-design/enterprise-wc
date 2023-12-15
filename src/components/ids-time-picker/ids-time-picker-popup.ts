@@ -43,7 +43,7 @@ class IdsTimePickerPopup extends Base {
 
   constructor() {
     super();
-    this.#value = '';
+    this.internalValue = '';
     this.isRendering = true;
   }
 
@@ -57,7 +57,7 @@ class IdsTimePickerPopup extends Base {
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
     this.removeEventListeners();
-    this.#value = null;
+    this.internalValue = null;
   }
 
   static get attributes(): Array<string> {
@@ -73,7 +73,7 @@ class IdsTimePickerPopup extends Base {
    * @returns {string} The template
    */
   template(): string {
-    const dropdownHTML = `<div class="dropdowns" part="dropdowns">${this.#dropdowns()}</div>`;
+    const dropdownHTML = `<div class="dropdowns" part="dropdowns">${this.dropdownTemplate()}</div>`;
 
     if (this.embeddable) {
       return `<div class="ids-time-picker-popup embedded" part="container"><section slot="content">${dropdownHTML}</section></div>`;
@@ -93,7 +93,7 @@ class IdsTimePickerPopup extends Base {
    * Creates the HTML the timepicker's dropdown fields
    * @returns {string} an array of HTML for the timepicker's dropdowns
    */
-  #dropdowns(): string {
+  dropdownTemplate(): string {
     const dropdown: any = ({
       id,
       label,
@@ -115,7 +115,7 @@ class IdsTimePickerPopup extends Base {
     const hours = dropdown({
       id: 'hours',
       label: this.localeAPI?.translate('Hours') || 'Hours',
-      options: this.#getHourOptions(),
+      options: this.getHourOptions(),
       value: this.hours,
       padStart: this.format.includes('HH') || this.format.includes('hh')
     });
@@ -126,15 +126,15 @@ class IdsTimePickerPopup extends Base {
       value: this.minutes,
       padStart: this.format.includes('mm')
     });
-    const seconds = this.#hasSeconds() && dropdown({
+    const seconds = this.hasSeconds() && dropdown({
       id: 'seconds',
       label: this.localeAPI?.translate('Seconds') || 'Seconds',
       options: range(0, 59, this.secondInterval),
       value: this.seconds,
       padStart: true
     });
-    const dayPeriods = this.#getDayPeriodsWithRange();
-    const period = this.#hasPeriod() && dayPeriods && dropdown({
+    const dayPeriods = this.dayPeriodsWithRange();
+    const period = this.hasPeriod() && dayPeriods && dropdown({
       id: 'period',
       label: this.localeAPI?.translate('Period') || 'Period',
       options: dayPeriods,
@@ -156,7 +156,7 @@ class IdsTimePickerPopup extends Base {
     this.isRendering = true;
 
     const el = this.dropdownContainerEl;
-    if (el) el.innerHTML = this.#dropdowns();
+    if (el) el.innerHTML = this.dropdownTemplate();
 
     // Refresh values stored in mixin properties
     this.refreshFocusableElements();
@@ -168,9 +168,9 @@ class IdsTimePickerPopup extends Base {
    */
   private updateValue() {
     const newValue = this.getFormattedTime();
-    if (this.#value !== newValue) {
-      this.#value = newValue;
-      if (this.#value !== null) this.setAttribute(attributes.VALUE, newValue);
+    if (this.internalValue !== newValue) {
+      this.internalValue = newValue;
+      if (this.internalValue !== null) this.setAttribute(attributes.VALUE, newValue);
     }
   }
 
@@ -214,9 +214,9 @@ class IdsTimePickerPopup extends Base {
    * Get options list for hours dropdown
    * @returns {Array<number>} options
    */
-  #getHourOptions(): Array<number> {
-    if (!this.#hasHourRange()) {
-      return range(this.#is12Hours() ? 1 : 0, this.#is12Hours() ? 12 : 23);
+  getHourOptions(): Array<number> {
+    if (!this.hasHourRange()) {
+      return range(this.is12Hours() ? 1 : 0, this.is12Hours() ? 12 : 23);
     }
 
     if (this.#is24Hours()) {
@@ -238,28 +238,28 @@ class IdsTimePickerPopup extends Base {
   /**
    * @returns {boolean} true if range is set
    */
-  #hasHourRange(): boolean {
+  hasHourRange(): boolean {
     return this.startHour > 0 || this.endHour < 24;
   }
 
   /**
    * @returns {boolean} returns true if the timepicker format includes seconds ("ss")
    */
-  #hasSeconds(): boolean {
+  hasSeconds(): boolean {
     return this.format.toLowerCase().includes('ss');
   }
 
   /**
    * @returns {boolean} returns true if the timepicker format includes a day period ("a")
    */
-  #hasPeriod(): boolean {
-    return this.#is12Hours() && (this.format.toLowerCase().indexOf(' a') > -1 || this.format.toLowerCase().indexOf('a') === 0);
+  hasPeriod(): boolean {
+    return this.is12Hours() && (this.format.toLowerCase().indexOf(' a') > -1 || this.format.toLowerCase().indexOf('a') === 0);
   }
 
   /**
    * @returns {boolean} returns true if the timepicker is using a 12-Hour format ("hh")
    */
-  #is12Hours(): boolean {
+  is12Hours(): boolean {
     return this.format.includes('h');
   }
 
@@ -267,7 +267,7 @@ class IdsTimePickerPopup extends Base {
    * @returns {boolean} returns true if the timepicker is using a 24-Hour format ("HH")
    */
   #is24Hours(): boolean {
-    return this.format.includes('H') || !this.#hasPeriod();
+    return this.format.includes('H') || !this.hasPeriod();
   }
 
   /**
@@ -307,10 +307,10 @@ class IdsTimePickerPopup extends Base {
   /**
    * @returns {Array<string>} list of available day periods
    */
-  #getDayPeriodsWithRange(): Array<string> {
+  dayPeriodsWithRange(): Array<string> {
     const dayPeriods: Array<string> = this.localeAPI?.calendar().dayPeriods || [];
 
-    if (!this.#hasHourRange()) {
+    if (!this.hasHourRange()) {
       return dayPeriods;
     }
 
@@ -347,7 +347,7 @@ class IdsTimePickerPopup extends Base {
    * @param {number} interval for value to be rounded to
    * @returns {number} rounded value
    */
-  #roundToInterval(value: number, interval: number): number {
+  roundToInterval(value: number, interval: number): number {
     return Math.round(value / interval) * interval;
   }
 
@@ -370,7 +370,7 @@ class IdsTimePickerPopup extends Base {
       this.hours = hours24;
     }
 
-    if (this.#is12Hours() && hours12 !== this.hours) {
+    if (this.is12Hours() && hours12 !== this.hours) {
       this.hours = hours12;
     }
 
@@ -382,7 +382,7 @@ class IdsTimePickerPopup extends Base {
       this.seconds = seconds;
     }
 
-    if (this.#hasPeriod()) {
+    if (this.hasPeriod()) {
       this.period = period;
     }
   }
@@ -515,14 +515,14 @@ class IdsTimePickerPopup extends Base {
       return numberVal;
     }
 
-    if (this.#hasHourRange()) {
-      return this.#getHourOptions()[0];
+    if (this.hasHourRange()) {
+      return this.getHourOptions()[0];
     }
 
     if (this.useCurrentTime && Number.isNaN(numberVal)) {
       const hours24Now = new Date().getHours();
 
-      if (this.#is12Hours()) {
+      if (this.is12Hours()) {
         return hoursTo12(hours24Now);
       }
 
@@ -555,13 +555,13 @@ class IdsTimePickerPopup extends Base {
     const numberVal = stringToNumber(this.getAttribute(attributes.MINUTES));
 
     if (!Number.isNaN(numberVal)) {
-      return this.#roundToInterval(numberVal, this.minuteInterval);
+      return this.roundToInterval(numberVal, this.minuteInterval);
     }
 
     if (this.useCurrentTime && Number.isNaN(numberVal)) {
       const minutesNow = new Date().getMinutes();
 
-      return this.#roundToInterval(minutesNow, this.minuteInterval);
+      return this.roundToInterval(minutesNow, this.minuteInterval);
     }
 
     // Default
@@ -622,13 +622,13 @@ class IdsTimePickerPopup extends Base {
     const numberVal = stringToNumber(this.getAttribute(attributes.SECONDS));
 
     if (!Number.isNaN(numberVal)) {
-      return this.#roundToInterval(numberVal, this.secondInterval);
+      return this.roundToInterval(numberVal, this.secondInterval);
     }
 
     if (this.useCurrentTime && Number.isNaN(numberVal)) {
       const secondsNow = new Date().getSeconds();
 
-      return this.#roundToInterval(secondsNow, this.secondInterval);
+      return this.roundToInterval(secondsNow, this.secondInterval);
     }
 
     // Default
@@ -680,9 +680,9 @@ class IdsTimePickerPopup extends Base {
     // Updating hours dropdown with AM/PM range
     this.updateValue();
     if (value) {
-      if (this.#hasHourRange()) {
+      if (this.hasHourRange()) {
         this.renderDropdowns();
-        this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.#getHourOptions()[0]));
+        this.container?.querySelector('ids-dropdown#hours')?.setAttribute(attributes.VALUE, String(this.getHourOptions()[0]));
       } else {
         this.container?.querySelector('ids-dropdown#period')?.setAttribute(attributes.VALUE, value.toString().toUpperCase());
       }
@@ -695,11 +695,11 @@ class IdsTimePickerPopup extends Base {
    */
   get period(): string {
     const attrVal = this.getAttribute(attributes.PERIOD);
-    const dayPeriods: Array<string> = this.#getDayPeriodsWithRange();
+    const dayPeriods: Array<string> = this.dayPeriodsWithRange();
     const dayPeriodExists: boolean = dayPeriods.map((item: string) => item.toLowerCase())
       .includes(attrVal?.toString().toLowerCase() as string);
 
-    if (!this.#hasPeriod()) return '';
+    if (!this.hasPeriod()) return '';
 
     if (attrVal && dayPeriodExists) {
       return attrVal;
@@ -805,16 +805,16 @@ class IdsTimePickerPopup extends Base {
    * Stored timestring-value of the timepickers input-field
    * @private
    */
-  #value: string | null;
+  internalValue: string | null;
 
   /**
    * Sets a current timestring-value of the timepickers input-field
    * @param {string} value - a timestring value for the input-field
    */
   set value(value: string) {
-    const currentValue = this.#value;
+    const currentValue = this.internalValue;
     if (value !== currentValue) {
-      this.#value = value;
+      this.internalValue = value;
       if (value) {
         this.setAttribute(attributes.VALUE, value);
       } else {
@@ -829,7 +829,7 @@ class IdsTimePickerPopup extends Base {
    * Gets a timestring that matches the format specified by this.format()
    * @returns {string} the current timestring value of the timepicker
    */
-  get value(): string { return this.#value || ''; }
+  get value(): string { return this.internalValue || ''; }
 
   /**
    * Focuses the first available dropdown element
@@ -845,7 +845,7 @@ class IdsTimePickerPopup extends Base {
    */
   getFormattedTime() {
     const date: Date = new Date();
-    const periods: string[] = this.#getDayPeriodsWithRange();
+    const periods: string[] = this.dayPeriodsWithRange();
     const dayPeriodIndex: number = periods.map((item: string) => item.toLowerCase())
       .indexOf(this.period?.toLowerCase());
 

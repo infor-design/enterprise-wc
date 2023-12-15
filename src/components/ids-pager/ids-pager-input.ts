@@ -149,7 +149,7 @@ export default class IdsPagerInput extends Base {
 
   /** @param {string|number} value The number of items to show per page */
   set pageSize(value: string | number) {
-    const val = this.#validPageSize(value);
+    const val = this.isValidPageSize(value);
     this.setAttribute(attributes.PAGE_SIZE, String(val));
     this.#updatePageCountShown();
   }
@@ -157,7 +157,7 @@ export default class IdsPagerInput extends Base {
   /** @returns {number} The number of items shown per page */
   get pageSize(): number {
     return this.pager?.pageSize
-      ?? this.#validPageSize(this.getAttribute(attributes.PAGE_SIZE));
+      ?? this.isValidPageSize(this.getAttribute(attributes.PAGE_SIZE));
   }
 
   /**
@@ -166,7 +166,7 @@ export default class IdsPagerInput extends Base {
    * @param {number | string | null} value The value
    * @returns {number} Given value or default
    */
-  #validPageSize(value?: number | string | null): number {
+  isValidPageSize(value?: number | string | null): number {
     const val = stringToNumber(value);
     return !Number.isNaN(val) && val > 0 ? val : this.DEFAULT_PAGE_SIZE;
   }

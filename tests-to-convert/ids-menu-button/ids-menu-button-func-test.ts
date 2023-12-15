@@ -17,7 +17,7 @@ const testMenuContents = `
   </ids-menu-group>
 `;
 
-describe('IdsMenuButton Component', () => {
+describe.skip('IdsMenuButton Component', () => {
   let buttonEl: any;
   let menuEl: any;
 

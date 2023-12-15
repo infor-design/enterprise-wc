@@ -1,4 +1,5 @@
 import '../ids-date-picker';
+import '../ids-date-picker-popup';
 
 // Example for populating the legend
 const datePickerLegend: any = document.querySelector('#e2e-datepicker-legend');

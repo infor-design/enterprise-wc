@@ -24,6 +24,7 @@ export default class IdsErrorPage extends IdsModal {
   connectedCallback(): void {
     super.connectedCallback();
     this.#attachEventHandlers();
+    this.overlay.visible = true;
   }
 
   static get attributes(): Array<string> {

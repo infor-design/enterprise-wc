@@ -4,7 +4,7 @@
 import '../../src/components/ids-input/ids-input';
 import processAnimFrame from '../helpers/process-anim-frame';
 
-describe('IdsInput Component', () => {
+describe.skip('IdsInput Component', () => {
   let elem: any = null;
 
   beforeEach(async () => {

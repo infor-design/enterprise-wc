@@ -4,11 +4,8 @@ import '../../ids-card/ids-card';
 import '../../ids-bar-chart/ids-bar-chart';
 import '../../ids-line-chart/ids-line-chart';
 import '../../ids-home-page/ids-home-page';
-import type IdsAxisChart from '../ids-axis-chart';
-import css from '../../../assets/css/ids-data-grid/auto-fit.css';
 
-const cssLink = `<link href="${css}" rel="stylesheet">`;
-document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
+import type IdsAxisChart from '../ids-axis-chart';
 
 const setData = async () => {
   const res = await fetch(componentsJSON as any);

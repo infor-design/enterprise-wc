@@ -234,8 +234,12 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.list.popupOpenEventsTarget = document.body;
     if (this.list.popup) {
       this.list.popup.alignTarget = this.input;
+      this.list.popup.type = 'dropdown';
+      this.list.popup.container?.classList.add('dropdown');
       this.list.popup.onPlace = (popupRect: DOMRect) => {
         popupRect.x -= 1;
+        const margin = cell?.dataGrid?.rowHeight === 'xxs' ? 3 : 0;
+        popupRect.y = (this.input?.getBoundingClientRect().bottom || 0) - margin;
         return popupRect;
       };
     }
@@ -248,7 +252,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
 
     this.#attchEventListeners();
-    this.input.open();
+    this.input?.open();
   }
 
   /**

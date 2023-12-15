@@ -26,6 +26,9 @@
   - link: responsive.html
     type: Example
     description: Shows responsive example
+  - link: in-widget.html
+    type: Example
+    description: Shows charts in widgets
   - link: ticks.html
     type: Example
     description: Shows controling the ticks with a setting

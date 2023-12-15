@@ -28,9 +28,8 @@ const IdsClearableMixin = <T extends Constraints>(superclass: T) => class extend
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
-    this.render();
     this.handleClearable();
+    super.connectedCallback?.();
   }
 
   /**

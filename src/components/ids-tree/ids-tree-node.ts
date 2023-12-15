@@ -47,8 +47,6 @@ export default class IdsTreeNode extends Base {
 
   tree?: IdsTree | null = null;
 
-  isGroup = false;
-
   constructor() {
     super();
   }
@@ -83,6 +81,11 @@ export default class IdsTreeNode extends Base {
     ];
   }
 
+  get isGroup() {
+    const isNodeEl = (el: HTMLElement) => /^ids-tree-node$/i.test(el.nodeName);
+    return [...this.childNodes].some((el) => isNodeEl(el as HTMLElement));
+  }
+
   /**
    * Create the Template for the contents
    * @returns {string} The template
@@ -93,7 +96,6 @@ export default class IdsTreeNode extends Base {
 
     // Set the type is group or node
     const isNodeEl = (el: HTMLElement) => /^ids-tree-node$/i.test(el.nodeName);
-    this.isGroup = [...this.childNodes].some((el) => isNodeEl(el as HTMLElement));
 
     // Set group template
     if (this.isGroup) {

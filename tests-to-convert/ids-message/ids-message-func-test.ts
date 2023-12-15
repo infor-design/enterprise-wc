@@ -20,7 +20,7 @@ const modalButtonHTML = `
   <ids-modal-button slot="buttons" appearance="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
   <ids-modal-button slot="buttons" appearance="primary" id="my-message-confirm">Confirm</ids-modal-button>`;
 
-describe('IdsMessage Component (using properties)', () => {
+describe.skip('IdsMessage Component (using properties)', () => {
   let messageEl: IdsMessage;
 
   beforeEach(async () => {

@@ -1,7 +1,7 @@
 
   <div class="ids-editor" part="editor">
     <slot class="hidden"></slot>
-    <ids-text id="editor-label" label="true" class="editor-label" part="editor-label">Ids Editor</ids-text>
+    <ids-text id="editor-label" label="true" class="editor-label empty" part="editor-label">Ids Editor</ids-text>
     <div class="main-container" part="main-container">
       <div class="toolbar-container" part="toolbar-container">
         <slot name="toolbar"></slot>
