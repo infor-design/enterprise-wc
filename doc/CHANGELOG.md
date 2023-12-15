@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.18
 
+### 1.0.0-beta.18 Features
+
+- `[LoadingIndicator]` Added new settings and example to show a full page loading indicator with page blocking. ([#1520](https://github.com/infor-design/enterprise-wc/issues/1520))
+
 ### 1.0.0-beta.18 Fixes
 
 - `[AxisChart]` Re-added a responsive example. ([#1676](https://github.com/infor-design/enterprise-wc/issues/1676))
