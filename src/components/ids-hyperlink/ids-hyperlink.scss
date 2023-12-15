@@ -31,6 +31,10 @@
     font-weight: var(--ids-font-weight-bold);
   }
 
+  &.semibold {
+    font-weight: var(--ids-font-weight-semibold);
+  }
+
   &.hitbox::after {
     content: '';
     display: block;
@@ -110,8 +114,8 @@
       box-shadow: var(--ids-shadow-focus);
     }
 
-    &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled),
-    &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled) {
+    &:hover:not([disabled]):not(.ids-text-decoration-hover):not(.disabled):not(.color-variant-breadcrumb),
+    &:active:not([disabled]):not(.ids-text-decoration-hover):not(.disabled):not(.color-variant-breadcrumb) {
       color: var(--ids-hyperlink-color-text-hover);
     }
 
@@ -146,7 +150,7 @@
   text-decoration: none;
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 
