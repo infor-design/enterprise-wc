@@ -18,3 +18,4 @@ if (autocomplete) {
 // Configures some PopupMenu properties
 const popupMenu8 = document.querySelector<IdsPopupMenu>('#icon-menu')!;
 popupMenu8.popup!.arrow = 'left';
+popupMenu8.popup!.y = 8;
