@@ -17,6 +17,14 @@ import type IdsModuleNavBar from './ids-module-nav-bar';
 import type IdsModuleNavContent from './ids-module-nav-content';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 
+import './ids-module-nav-bar';
+import './ids-module-nav-button';
+import './ids-module-nav-content';
+import './ids-module-nav-item';
+import './ids-module-nav-settings';
+import './ids-module-nav-switcher';
+import '../ids-search-field/ids-search-field';
+
 const Base = IdsModuleNavDisplayModeMixin(
   IdsBreakpointMixin(
     IdsEventsMixin(
@@ -179,7 +187,6 @@ export default class IdsModuleNav extends Base {
    * Switches the Module Nav into its desktop behavior mode
    */
   private handleBelowBreakpoint() {
-    console.info('Mobile module nav activated');
     if (this.displayMode === 'expanded') {
       this.content?.showOverlay();
     } else {
