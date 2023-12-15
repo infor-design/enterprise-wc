@@ -343,7 +343,7 @@ export default class IdsListView extends Base {
    * @param {number} index - the index from this.data
    * @returns {string} The html for the <ids-list-view-item> template.
    */
-  #generateListItemFromCustomHTML(index: number): string {
+  protected generateListItemFromCustomHTML(index: number): string {
     let rowIndex = index;
     const pagination = this.pagination;
     if (pagination && pagination !== 'none') {
@@ -372,7 +372,7 @@ export default class IdsListView extends Base {
    * @param {number} index - the index from this.data
    * @returns {string} The html for the <slot>.
    */
-  #generateListItemSlot(index: number): string {
+  protected generateListItemSlot(index: number): string {
     const item = this.itemsFiltered.at(index);
     if (!item) return ``;
 
@@ -437,10 +437,10 @@ export default class IdsListView extends Base {
    */
   templateListItems(): string {
     if (this.data?.length) {
-      return this.data.map((item: any, idx: number) => this.#generateListItemFromCustomHTML(idx)).join('');
+      return this.data.map((item: any, idx: number) => this.generateListItemFromCustomHTML(idx)).join('');
     }
 
-    return this.itemsFiltered.map((item: any, idx: number) => this.#generateListItemSlot(idx)).join('');
+    return this.itemsFiltered.map((item: any, idx: number) => this.generateListItemSlot(idx)).join('');
   }
 
   /**
@@ -578,7 +578,7 @@ export default class IdsListView extends Base {
 
         if (this.virtualScrollContainer) {
           this.virtualScrollContainer.itemHeight = itemHeight;
-          this.virtualScrollContainer.itemTemplate = (item: any, idx: number) => this.#generateListItemFromCustomHTML(idx);
+          this.virtualScrollContainer.itemTemplate = (item: any, idx: number) => this.generateListItemFromCustomHTML(idx);
           this.virtualScrollContainer.data = this.data;
         }
       }

@@ -23,15 +23,15 @@ const Base = IdsEventsMixin(
 @customElement('ids-list-view-item')
 @scss(styles)
 export default class IdsListViewItem extends Base {
-  #rootNode?: IdsListView;
+  protected rootNode?: IdsListView;
 
   /**
    * Reference to the ids-list-view parent element
    * @returns {IdsListView} the ids-list-view parent
    */
   get listView() {
-    if (!this.#rootNode) this.#rootNode = (this.getRootNode() as any)?.host ?? this.closest('ids-list-view, ids-list-builder');
-    return this.#rootNode as IdsListView;
+    if (!this.rootNode) this.rootNode = (this.getRootNode() as any)?.host ?? this.closest('ids-list-view, ids-list-builder');
+    return this.rootNode as IdsListView;
   }
 
   get nextEnabled() {
