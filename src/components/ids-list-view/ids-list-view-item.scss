@@ -1,12 +1,5 @@
 [hide] { display: none; }
 
-li,
-:host {
-  --ids-badge-disabled-background-color: var(--ids-list-view-item-color-background-disabled);
-  --ids-badge-disabled-border-color: var(--ids-list-view-item-color-border-disabled);
-  --ids-badge-disabled-text-color: var(--ids-list-view-item-badge-color-text-disabled);
-}
-
 .selectable,
 :host-context([selectable]),
 :host-context(.selectable) {
@@ -15,21 +8,22 @@ li,
 
 li,
 :host {
-  margin: 0;
-  padding: var(--ids-list-view-item-padding);
+  --ids-badge-disabled-background-color: var(--ids-list-view-item-color-background-disabled);
+  --ids-badge-disabled-border-color: var(--ids-list-view-item-color-border-disabled);
+  --ids-badge-disabled-text-color: var(--ids-list-view-item-badge-color-text-disabled);
 
   display: block;
-  // background-color: var(--ids-list-view-item-color-background-default);
   background: transparent;
   border: var(--ids-list-view-item-border);
   border-top-color: var(--ids-list-view-item-color-border-top);
   contain: content;
   list-style-type: none;
+  margin: 0;
+  padding: var(--ids-list-view-item-padding);
 
   .list-item-area {
     display: flex;
     align-items: center;
-    // padding: var(--ids-list-view-item-padding);
 
     .list-item-content {
       width: 100%;

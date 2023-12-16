@@ -29,7 +29,7 @@ export default class IdsListViewItem extends Base {
    * Reference to the ids-list-view parent element
    * @returns {IdsListView} the ids-list-view parent
    */
-  get listView() {
+  get listView(): IdsListView {
     if (!this.rootNode) this.rootNode = (this.getRootNode() as any)?.host ?? this.closest('ids-list-view, ids-list-builder');
     return this.rootNode as IdsListView;
   }
