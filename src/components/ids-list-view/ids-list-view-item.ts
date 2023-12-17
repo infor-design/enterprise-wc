@@ -46,18 +46,6 @@ export default class IdsListViewItem extends Base {
     return this.listView?.itemByIndex(currentIndex);
   }
 
-  get templateElements() {
-    const elements = {};
-    const fieldNames = this.listView?.dataKeys ?? Object.keys(this.rowData);
-
-    fieldNames.map((fieldName: string) => {
-      const element = this.querySelector(`[${fieldName}]`);
-      if (element) elements[fieldName] = element;
-    });
-
-    return elements;
-  }
-
   get data() {
     // return this.listView?.data ?? [];
     return this.listView?.datasource?.currentData ?? this.listView?.data ?? [];
@@ -224,6 +212,18 @@ export default class IdsListViewItem extends Base {
         </div>
       </div>
     `;
+  }
+
+  templateElements() {
+    const elements: { [key: string]: HTMLElement } = {};
+    const fieldNames = this.listView?.dataKeys ?? Object.keys(this.rowData);
+
+    fieldNames.map((fieldName: string) => {
+      const element = this.querySelector<HTMLElement>(`[data-field="${fieldName}"]`);
+      if (element) elements[fieldName] = element;
+    });
+
+    return elements;
   }
 
   get checkboxHidden() {
