@@ -167,7 +167,7 @@ export default class IdsListViewItem extends Base {
       if (checkbox && !checkbox.hasAttribute('hide')) checkbox.checked = newValue;
     }
 
-    if (this.selectable === 'single' && newValue) {
+    if (['single', 'mixed'].includes(this.selectable) && newValue) {
       this.listView?.itemsSelected?.forEach((item) => {
         if (item !== this) item.selected = false;
       });
