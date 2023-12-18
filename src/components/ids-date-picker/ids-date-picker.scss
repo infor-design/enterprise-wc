@@ -14,6 +14,7 @@
 .ids-date-picker {
   display: inline-block;
   max-width: 100%;
+  position: relative;
 
   // Fixes input doesn't stretch to lg size and up
   ids-trigger-field,

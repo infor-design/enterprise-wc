@@ -537,7 +537,7 @@ export default class IdsCalendar extends Base {
       daySelectTimer = setTimeout(() => {
         updateCalendar();
         daySelectCount = 0;
-      }, 200);
+      }, 250);
 
       if (daySelectCount === 2 && evt.detail.date.getTime() === daySelectedDate?.getTime()) {
         clearTimeout(daySelectTimer);

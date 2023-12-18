@@ -17,7 +17,7 @@ export type CalendarEventData = {
   starts: string;
   ends: string;
   type: string;
-  isAllDay: string;
+  isAllDay: string | boolean;
 };
 
 export type CalendarEventTypeData = {
