@@ -28,6 +28,10 @@ User can switch between month, week, and day views using menu button inside the 
 - `clickcalendarevent` - Fires when a calendar event is clicked. Detail contains IdsCalendarEvent element.
 - `dblclickcalendarevent` - Fires when a calendar event is double clicked. Detail contains IdsCalendarEvent element.
 
+## Methods
+- `addEvent(eventData: CalendarEventData)` - Add an event to the calendar.
+- `updateEvent(eventData: CalendarEventData)` - Update an existing calendar event.
+
 ## Features (With Code Examples)
 
 With no settings. Calendar shows month view set to current date without legend or detail panes.
