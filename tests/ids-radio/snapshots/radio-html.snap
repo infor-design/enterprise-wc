@@ -1,1 +1,1 @@
-<ids-radio value="opt1" label="Option one"></ids-radio>
+<ids-radio value="opt1" label="Option one" id="test-radio"></ids-radio>

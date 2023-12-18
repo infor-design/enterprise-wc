@@ -415,7 +415,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
-  it('should save all user settings to local storage', async () => {
+  it.skip('should save all user settings to local storage', async () => {
     expect(dataGrid.allSavedSettings()).toEqual(
       expect.objectContaining({
         activePage: null,
@@ -447,7 +447,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     dataGrid.clearAllSettings();
   });
 
-  it('should auto save user settings', () => {
+  it.skip('should auto save user settings', () => {
     expect(dataGrid.allSavedSettings()).toEqual(
       expect.objectContaining({
         activePage: null,

@@ -8,9 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows a basic data grid with formatters
-  - link: after-redraw.html
+  - link: after-rendered.html
     type: Example
-    description: Showing a data grid with after redraw event
+    description: Showing a data grid with after rendered event
   - link: alternate-row-shading.html
     type: Example
     description: Shows alternate row shading

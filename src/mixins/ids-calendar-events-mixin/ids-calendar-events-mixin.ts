@@ -13,13 +13,20 @@ export interface CalendarEventsHandler {
 }
 
 type Constraints = IdsConstructor<EventsMixinInterface & CalendarEventsHandler>;
+type InternalState = {
+  eventTypesData: CalendarEventTypeData[],
+  eventsData: CalendarEventData[],
+  beforeEventsRender?: (startDate: Date, endDate: Date) => Promise<CalendarEventData[]>
+};
 
 type IdsCalendarViewType = 'month' | 'year' | 'day';
 
 const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class extends superclass {
-  #eventsData: CalendarEventData[] = [];
-
-  #eventTypesData: CalendarEventTypeData[] = [];
+  state: InternalState = {
+    eventTypesData: [] as CalendarEventTypeData[],
+    eventsData: [] as CalendarEventData[],
+    beforeEventsRender: undefined
+  };
 
   constructor(...args: any[]) {
     super(...args);
@@ -38,9 +45,9 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
    * @param {CalendarEventData[]} data array of events
    */
   set eventsData(data: CalendarEventData[]) {
-    this.#eventsData = this.sortEventsByDate(data);
+    this.state.eventsData = this.sortEventsByDate(data);
     this.renderEventsData?.(true);
-    this.onEventsChange?.(this.#eventsData);
+    this.onEventsChange?.(this.state.eventsData);
   }
 
   /**
@@ -48,7 +55,7 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
    * @returns {CalendarEventData[]} array of events
    */
   get eventsData(): CalendarEventData[] {
-    return this.#eventsData;
+    return this.state.eventsData;
   }
 
   /**
@@ -56,7 +63,7 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
    * @param {CalendarEventTypeData[]} data array of event types
    */
   set eventTypesData(data: CalendarEventTypeData[]) {
-    this.#eventTypesData = data;
+    this.state.eventTypesData = data;
     this.renderEventsData?.(true);
     this.onEventTypesChange?.(data);
   }
@@ -66,7 +73,7 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
    * @returns {CalendarEventTypeData[]} array of event types
    */
   get eventTypesData(): CalendarEventTypeData[] {
-    return this.#eventTypesData;
+    return this.state.eventTypesData;
   }
 
   /**
@@ -74,7 +81,7 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
    * Passes startDate and endDate as callback arguments
    * @param {Function} fn Async function
    */
-  set beforeEventsRender(fn: ((startDate: Date, endDate: Date) => Promise<CalendarEventData[]>) | null) {
+  set beforeEventsRender(fn: ((startDate: Date, endDate: Date) => Promise<CalendarEventData[]>) | undefined) {
     this.state.beforeEventsRender = fn;
     this.renderEventsData?.();
   }
@@ -249,7 +256,7 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
    * @returns {CalendarEventData} event data
    */
   getEventById(id: string): CalendarEventData | undefined {
-    return this.#eventsData.find((item: CalendarEventData) => item.id === id);
+    return this.state.eventsData.find((item: CalendarEventData) => item.id === id);
   }
 
   /**
@@ -267,7 +274,7 @@ const IdsCalendarEventsMixin = <T extends Constraints>(superclass: T) => class e
    * @returns {CalendarEventTypeData} calendar event type
    */
   getEventTypeById(id: string | null): CalendarEventTypeData | undefined {
-    return this.#eventTypesData.find((item: CalendarEventTypeData) => id === item.id);
+    return this.state.eventTypesData.find((item: CalendarEventTypeData) => id === item.id);
   }
 
   /**

@@ -298,7 +298,6 @@ export default class IdsTree extends Base {
         const sourceData = (nodeDatum?.data as any)?.dataRef;
         sourceData.children.push(...data);
       }
-      (node as any).isGroup = true;
       node.shadowRoot?.querySelector('li')?.insertAdjacentHTML('beforeend', `<ul class="group-nodes" role="group">${html}</ul>`);
     }
     this.#setNodes();

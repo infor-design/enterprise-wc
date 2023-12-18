@@ -7,6 +7,7 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-loading-indicator.scss';
+import IdsOverlay from '../ids-modal/ids-overlay';
 
 const Base = IdsEventsMixin(
   IdsElement
@@ -26,9 +27,6 @@ const Base = IdsEventsMixin(
 @customElement('ids-loading-indicator')
 @scss(styles)
 export default class IdsLoadingIndicator extends Base {
-  /**
-   * Call the constructor and then initialize
-   */
   constructor() {
     super();
   }
@@ -38,7 +36,7 @@ export default class IdsLoadingIndicator extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.#setProgress();
+    this.#updateProgress();
   }
 
   /**
@@ -47,11 +45,14 @@ export default class IdsLoadingIndicator extends Base {
    */
   static get attributes(): Array<string> {
     return [
+      attributes.ALIGN,
+      attributes.INLINE,
       attributes.LINEAR,
+      attributes.OVERLAY,
       attributes.PERCENTAGE_VISIBLE,
       attributes.PROGRESS,
       attributes.STICKY,
-      attributes.TYPE
+      attributes.TYPE,
     ];
   }
 
@@ -95,11 +96,11 @@ export default class IdsLoadingIndicator extends Base {
   set inline(value: string | boolean) {
     const isTruthy = stringToBool(value);
 
-    if (isTruthy && !this.hasAttribute(attributes.INLINE)) {
+    if (isTruthy) {
       this.setAttribute(attributes.INLINE, '');
     }
 
-    if (!isTruthy && this.hasAttribute(attributes.INLINE)) {
+    if (!isTruthy) {
       this.removeAttribute(attributes.INLINE);
     }
   }
@@ -128,17 +129,21 @@ export default class IdsLoadingIndicator extends Base {
       this.removeAttribute(attributes.PROGRESS);
     }
 
-    this.#setProgress();
+    this.#updateProgress();
   }
 
-  #setProgress() {
+  /**
+   * Update current animation progress
+   * @private
+   */
+  #updateProgress() {
     if (this.progress !== undefined && !Number.isNaN(this.progress)) {
       this.shadowRoot?.querySelector('svg')?.style.setProperty('--progress', this.type === 'circular' ? `${this.progress}px` : this.progress);
     } else {
       this.shadowRoot?.querySelector('svg')?.style.removeProperty('--progress');
     }
 
-    this.updatePercentageVisible();
+    this.#updatePercentageVisible();
   }
 
   /**
@@ -174,7 +179,7 @@ export default class IdsLoadingIndicator extends Base {
       this.removeAttribute(attributes.PERCENTAGE_VISIBLE);
     }
 
-    this.updatePercentageVisible();
+    this.#updatePercentageVisible();
   }
 
   /**
@@ -185,7 +190,10 @@ export default class IdsLoadingIndicator extends Base {
     return this.hasAttribute(attributes.PERCENTAGE_VISIBLE);
   }
 
-  updatePercentageVisible(): void {
+  /**
+   * Set the amount visible
+   */
+  #updatePercentageVisible(): void {
     const percentageEl = this.shadowRoot?.querySelector('[part="percentage-text"]');
 
     if (percentageEl) {
@@ -197,6 +205,52 @@ export default class IdsLoadingIndicator extends Base {
       template.innerHTML = getPercentageTextHtml({ type: this.type, progress: this.progress });
       this.shadowRoot?.appendChild(template.content.cloneNode(true));
     }
+  }
+
+  /**
+   * Get the current overlay setting
+   * @returns {boolean} true if an overlay is used
+   */
+  get overlay(): boolean {
+    return stringToBool(this.getAttribute(attributes.OVERLAY));
+  }
+
+  /**
+   * Set the overlay state between visible and not visible
+   * @param {boolean} val can be set to true to show the overlay
+   */
+  set overlay(val) {
+    const booleanValue = stringToBool(val);
+    if (booleanValue) this.setAttribute(attributes.OVERLAY, '');
+    else this.removeAttribute(attributes.OVERLAY);
+    this.#refreshOverlay(booleanValue);
+  }
+
+  /**
+   * Set the overlay state between visible and not visible
+   * @param {boolean} visible can be set to true to show the overlay
+   */
+  #refreshOverlay(visible: boolean) {
+    const overlay = this.shadowRoot?.querySelector<IdsOverlay>('ids-overlay');
+    if (visible) {
+      overlay?.setAttribute('visible', 'true');
+    } else {
+      overlay?.removeAttribute('visible');
+    }
+  }
+
+  /**
+   * Stop and hide the loading indicator
+   */
+  stop(): void {
+    this.setAttribute('stopped', '');
+  }
+
+  /**
+   * Re start the loading indicator
+   */
+  start(): void {
+    this.removeAttribute('stopped');
   }
 
   /**
@@ -217,6 +271,22 @@ export default class IdsLoadingIndicator extends Base {
    */
   get linear() {
     return this.hasAttribute(attributes.LINEAR);
+  }
+
+  /**
+   * Set the alignment between normal and center
+   * @param {string} value can be center to center to center align the loader
+   */
+  set align(value: string) {
+    if (value === 'center') {
+      this.setAttribute(attributes.ALIGN, 'center');
+    } else {
+      this.removeAttribute(attributes.ALIGN);
+    }
+  }
+
+  get align() {
+    return this.getAttribute(attributes.ALIGN) || 'normal';
   }
 
   /**

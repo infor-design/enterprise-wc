@@ -41,7 +41,7 @@ export default class IdsCalendarEvent extends Base {
   // Property used to position overlapping events in month view
   #order = 0;
 
-  #cssClass: string[] = [];
+  cssClasses: string[] = [];
 
   #dateKey = '';
 
@@ -84,10 +84,8 @@ export default class IdsCalendarEvent extends Base {
    * @returns {string} html
    */
   template(): string {
-    const cssClass = this.#cssClass.join(' ');
-
     return `
-      <a class="ids-calendar-event ${cssClass}" href="#" color="${this.color}">
+      <a class="ids-calendar-event" href="#" color="${this.color}">
         ${this.contentTemplate()}
       </a>
     `;
@@ -331,7 +329,7 @@ export default class IdsCalendarEvent extends Base {
    * @param {Array<string>} value array of css classes
    */
   set cssClass(value: string[]) {
-    this.#cssClass = this.#cssClass.concat(value);
+    this.cssClasses = this.cssClasses.concat(value);
     this.container?.classList.add(...value);
   }
 

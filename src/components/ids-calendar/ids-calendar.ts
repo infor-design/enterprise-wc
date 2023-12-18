@@ -86,7 +86,6 @@ export default class IdsCalendar extends Base {
 
   constructor() {
     super();
-    this.state ??= {};
   }
 
   static get attributes() {
@@ -183,7 +182,7 @@ export default class IdsCalendar extends Base {
   #updateTodayBtn(val: boolean) {
     const el = this.container?.querySelector('ids-toolbar-section');
     if (val) {
-      el?.insertAdjacentHTML('beforeend', this.#todayBtnTemplate());
+      el?.insertAdjacentHTML('beforeend', this.todayBtnTemplate());
     } else {
       this.container?.querySelector('.btn-today')?.remove();
     }
@@ -298,7 +297,7 @@ export default class IdsCalendar extends Base {
       <div class="ids-calendar">
         <div class="calendar-legend-pane"><slot name="legend"></slot></div>
         <div class="calendar-contents">
-          <div class="calendar-toolbar-pane">${this.#createToolbarTemplate()}</div>
+          <div class="calendar-toolbar-pane">${this.toolbarTemplate()}</div>
           <div class="calendar-view-pane"></div>
         </div>
         <div class="calendar-details-pane"></div>
@@ -354,7 +353,7 @@ export default class IdsCalendar extends Base {
   /**
    * @returns {string} containing the template for the Calendar Toolbar's "Today" Button
    */
-  #todayBtnTemplate() {
+  todayBtnTemplate() {
     return this.showToday ? `<ids-button css-class="no-padding" class="btn-today">
       <ids-text class="btn-today-text" font-size="16" translate-text="true" font-weight="semi-bold">Today</ids-text>
     </ids-button>` : '';
@@ -364,7 +363,7 @@ export default class IdsCalendar extends Base {
    * Renders an IdsToolbar component with calendar controls
    * @returns {string} Calendar's IdsToolbar template
    */
-  #createToolbarTemplate() {
+  toolbarTemplate() {
     const navBtns = `<ids-button class="btn-previous">
       <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
       <ids-icon icon="chevron-left"></ids-icon>
@@ -386,7 +385,7 @@ export default class IdsCalendar extends Base {
       first-day-of-week="${this.firstDayOfWeek || 0}">
     </ids-date-picker-popup>`;
 
-    const todayBtn = this.#todayBtnTemplate();
+    const todayBtn = this.todayBtnTemplate();
 
     return `
       <ids-toolbar slot="toolbar" id="calendar-toolbar" class="calendar-toolbar" tabbable="true">
@@ -1228,7 +1227,7 @@ export default class IdsCalendar extends Base {
    */
   clearEvents(): void {
     this.eventsData = [];
-    this.beforeEventsRender = null;
+    this.beforeEventsRender = undefined;
   }
 
   /**

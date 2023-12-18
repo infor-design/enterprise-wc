@@ -206,6 +206,11 @@ $input-size-full: 100%;
 @mixin input-extra-small-height($h: $border-input-field-height-xs) {
   margin-block-end: var(--ids-font-size-20);
 
+  .icon-dirty {
+    left: -1px;
+    top: -1px;
+  }
+
   .ids-label-text {
     font-size: var(--ids-input-label-font-size);
   }

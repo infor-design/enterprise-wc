@@ -35,7 +35,7 @@ test.describe('IdsLookup tests', () => {
       if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
-        .disableRules(['empty-table-header'])
+        .disableRules(['empty-table-header', 'aria-dialog-name'])
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });

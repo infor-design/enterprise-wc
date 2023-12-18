@@ -1,7 +1,7 @@
 <div class="ids-progress-chart" part="chart">
       <div class="labels">
         <ids-text class="label-main">dark</ids-text>
-        <ids-icon class="icon" size="normal" custom="" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon>
+        <ids-icon class="icon" size="normal" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon>
         <ids-text class="label-progress">90%</ids-text>
         <div class="label-end">
           <ids-text class="label-total"></ids-text>

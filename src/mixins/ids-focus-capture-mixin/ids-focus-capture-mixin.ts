@@ -154,7 +154,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
     }
   }
 
-  #focusableSelectors = [
+  focusableSelectorList = [
     'button',
     'ids-button',
     'ids-dropdown',
@@ -174,12 +174,12 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
   ];
 
   get focusableSelectors() {
-    return this.#focusableSelectors;
+    return this.focusableSelectorList;
   }
 
   set focusableSelectors(val) {
     if (Array.isArray(val)) {
-      this.#focusableSelectors = val;
+      this.focusableSelectorList = val;
     }
   }
 

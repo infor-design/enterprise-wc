@@ -194,13 +194,8 @@ export default class IdsCheckbox extends Base {
 
     if (this.checked === val && this.input?.checked === val) return;
 
-    if (val) {
-      this.setAttribute(attributes.CHECKED, String(val));
-      checkmark?.classList.add(attributes.CHECKED);
-    } else {
-      this.removeAttribute(attributes.CHECKED);
-      checkmark?.classList.remove(attributes.CHECKED);
-    }
+    this.toggleAttribute(attributes.CHECKED, val);
+    checkmark?.classList.toggle(attributes.CHECKED, val);
 
     if (this.input) this.input.checked = val;
 
@@ -298,16 +293,13 @@ export default class IdsCheckbox extends Base {
    * @param {string | boolean} val the value property
    */
   set value(val: string | boolean | null) {
-    if (val) {
-      this.setAttribute(attributes.VALUE, String(val));
-      this.input?.setAttribute(attributes.VALUE, String(val));
-    } else {
-      this.removeAttribute(attributes.VALUE);
-      this.input?.removeAttribute(attributes.VALUE);
-    }
+    const value = stringToBool(val);
+    this.toggleAttribute(attributes.VALUE, value);
+    this.input?.toggleAttribute(attributes.VALUE, value);
+    this.checked = value;
   }
 
-  get value() { return this.getAttribute(attributes.VALUE); }
+  get value() { return stringToBool(this.input?.checked); }
 
   /**
    * Disable the check animation

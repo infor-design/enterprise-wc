@@ -25,12 +25,6 @@ const Base = IdsKeyboardMixin(
 @customElement('ids-wizard')
 @scss(styles)
 export default class IdsWizard extends Base {
-  private markerTemplate = `
-    <svg viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="12" />
-    </svg>
-  `;
-
   constructor() {
     super();
   }
@@ -158,6 +152,10 @@ export default class IdsWizard extends Base {
     }
   }
 
+  get markerTemplate() {
+    return `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" /></svg>`;
+  }
+
   /**
    * Create the Template for the contents
    * @returns {string} the template to render
@@ -207,8 +205,7 @@ export default class IdsWizard extends Base {
         class="${stepClassName}"
         part="step"
         step-number="${i + 1}"
-        tabindex="${isClickable ? '0' : '-1'}"'
-      >
+        tabindex="${isClickable ? '0' : '-1'}">
         <div class="step-marker">
           ${this.markerTemplate}
           ${!isCurrentStep ? '' : this.markerTemplate}
@@ -271,6 +268,9 @@ export default class IdsWizard extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+  }
+
+  mountedCallback(): void {
     this.stepObserver.disconnect();
     this.#attachEventHandlers();
 
