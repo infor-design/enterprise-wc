@@ -24,7 +24,7 @@ User can switch between month, week, and day views using menu button inside the 
 - `eventupdated` - Fires when existing event is updated. Detail contains updated event and calendar element.
 - `beforeeventrendered` Fires for each event rendered (full day or in day) before the element is added to the DOM. This event can fire frequently or more than expected as the component does re-rendering.
 - `aftereventrendered` Fires for each event rendered (full day or in day) after the element is added to the DOM. This event can fire frequently or more than expected as the component does re-rendering.
-- `daydblclick` - Fires when a day cell in month view is double clicked. Detail contains IdsCalendarEvent element.
+- `daydblclick` - Fires when a day cell in month view is double clicked.
 - `clickcalendarevent` - Fires when a calendar event is clicked. Detail contains IdsCalendarEvent element.
 - `dblclickcalendarevent` - Fires when a calendar event is double clicked. Detail contains IdsCalendarEvent element.
 
