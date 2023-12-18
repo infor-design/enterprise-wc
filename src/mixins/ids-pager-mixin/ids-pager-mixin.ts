@@ -17,7 +17,11 @@ const PAGINATION_TYPES = {
 
 type PaginationTypes = typeof PAGINATION_TYPES[keyof typeof PAGINATION_TYPES];
 
-type Constraints = IdsConstructor<EventsMixinInterface>;
+interface PaginationHandler {
+  onPagingReload?(reloadEventType: string): void;
+}
+
+type Constraints = IdsConstructor<EventsMixinInterface & PaginationHandler>;
 
 /**
 /**
@@ -102,8 +106,8 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
       attributes.PAGINATION,
     ].includes(name);
 
-    if (shouldReload) {
-      this.connectedCallback();
+    if (shouldReload && typeof this.onPagingReload === 'function') {
+      this.onPagingReload(name);
     }
   }
 

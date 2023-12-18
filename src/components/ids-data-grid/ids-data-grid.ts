@@ -3091,4 +3091,14 @@ export default class IdsDataGrid extends Base {
     }
     return true;
   }
+
+  /**
+   * Inherited from `ids-pager-mixin`.
+   * Fires when the pager requires a data reload
+   */
+  onPagingReload() {
+    if (this.pagination !== 'server-side') {
+      this.redrawBody();
+    }
+  }
 }
