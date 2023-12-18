@@ -404,8 +404,6 @@ export default class IdsListView extends Base {
     const data = this.data[index] ?? item?.rowData ?? {};
     const disabled = data.disabled ? ' disabled' : '';
     const sortable = this.sortable ? ' class="sortable"' : '';
-    // const activated = data.itemActivated ? ' activated' : '';
-    // const selected = data.itemSelected ? ' selected' : '';
 
     const wrappedInnerHTML = `<div ${disabled}${sortable}>${innerHTML}</div>`;
 
@@ -450,7 +448,7 @@ export default class IdsListView extends Base {
   templateStatic(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
     return `
-      <div class="ids-list-view${selectable}">
+      <div class="ids-list-view${selectable}" tabindex="0">
         <div class="ids-list-view-body" role="listbox" aria-label="${this.label}" part="contents">
           ${this.sortable ? `<ids-swappable selection=${this.selectable}>` : ''}
             ${this.templateListItems()}
