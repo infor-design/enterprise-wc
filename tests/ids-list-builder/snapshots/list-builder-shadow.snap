@@ -6,7 +6,7 @@
         
       <div class="ids-list-view-search" part="search"><slot name="search"></slot></div>
       
-      <div class="ids-list-view selectable-single" style="height: 310px;">
+      <div class="ids-list-view selectable-single" tabindex="0" style="height: 310px;">
         <div class="ids-list-view-body" role="listbox" aria-label="Ids list view" part="contents">
           <ids-swappable selection="single" dropzone="move">
             
