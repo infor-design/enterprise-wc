@@ -124,7 +124,7 @@ export default class IdsListView extends Base {
     super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
-    this.setAttribute('aria-activedescendant', '0');
+    this.body?.setAttribute('aria-activedescendant', '0');
     this.#attachEventListeners();
     this.#attachSearchFilterCallback();
   }
@@ -168,7 +168,7 @@ export default class IdsListView extends Base {
   }
 
   get itemFocused() {
-    const rowIndex = Number(this.getAttribute('aria-activedescendant') ?? -1);
+    const rowIndex = Number(this.body?.getAttribute('aria-activedescendant') ?? -1);
     return this.itemByIndex(rowIndex);
   }
 

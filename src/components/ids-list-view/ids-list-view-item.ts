@@ -434,7 +434,7 @@ export default class IdsListViewItem extends Base {
       this.tabIndex = 0;
       this.setAttribute('tabindex', '0');
 
-      this.listView?.setAttribute('aria-activedescendant', String(this.rowIndex));
+      this.listView?.body?.setAttribute('aria-activedescendant', String(this.rowIndex));
       this.focus();
     }
   }
