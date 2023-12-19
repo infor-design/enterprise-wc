@@ -12,6 +12,14 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-paging-server-s
 
   // Set up columns
   columns.push({
+    id: 'selectionCheckbox',
+    name: 'selection',
+    sortable: false,
+    resizable: false,
+    formatter: dataGrid.formatters.selectionCheckbox,
+    align: 'center'
+  });
+  columns.push({
     id: 'id',
     name: 'ID',
     field: 'id',
