@@ -328,6 +328,20 @@ class IdsDataSource {
   }
 
   /**
+   * Updates records in the current dataset to reflect new state
+   * @param {Array<Record<string, unknown>>} items incoming records to update
+   */
+  update(items: Array<Record<string, unknown>> = []) {
+    items.forEach((updatedRecord) => {
+      const targetRecordIndex = this.#currentData.findIndex((currentRecord) => currentRecord.id === updatedRecord.id);
+      if (targetRecordIndex > -1) {
+        this.#originalData[targetRecordIndex] = updatedRecord;
+        this.#currentData[targetRecordIndex] = updatedRecord;
+      }
+    });
+  }
+
+  /**
    * Executes a provided function once for each array element in the current data
    * @param {Function} fn An optional function to iterate the array
    */
