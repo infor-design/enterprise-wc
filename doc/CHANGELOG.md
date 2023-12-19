@@ -17,6 +17,7 @@
 - `[DataGrid]` Fix dirty indicator cell data after column reorder. ([#1601](https://github.com/infor-design/enterprise-wc/issues/1601))
 - `[General]` Fix an issue where some properties did not work in safari. To do this changed the order of where styles and templates are appended in the lifecycle. ([#1599](https://github.com/infor-design/enterprise-wc/issues/1599))
 - `[ScrollView]` Fix circle button display/placement when re-rendering with a new dataset.  ([#1577](https://github.com/infor-design/enterprise-wc/issues/1577))
+- `[Tree]` Fix maximum callstack error when dynamically adding nodes to tree. ([#1649](https://github.com/infor-design/enterprise-wc/issues/1649))
 
 ## 1.0.0-beta.17
 
