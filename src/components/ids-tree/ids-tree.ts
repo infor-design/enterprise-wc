@@ -9,6 +9,7 @@ import IdsDataSource from '../../core/ids-data-source';
 import IdsTreeShared from './ids-tree-shared';
 import '../ids-text/ids-text';
 import './ids-tree-node';
+import '../ids-icon/ids-icon';
 import type IdsTreeNode from './ids-tree-node';
 
 import { unescapeHTML, escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
