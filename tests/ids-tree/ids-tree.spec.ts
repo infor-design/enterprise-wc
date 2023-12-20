@@ -62,6 +62,12 @@ test.describe('IdsTree tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-tree-light');
     });
+
+    test('should match the visual snapshot in percy (sandbox)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-tree/sandbox.html');
+      await percySnapshot(page, 'ids-tree-sandbox-light');
+    });
   });
 
   test.describe('tree functionality tests', () => {
@@ -69,6 +75,36 @@ test.describe('IdsTree tests', () => {
       expect(await page.locator('ids-tree-node[expanded="false"]').count()).toBe(2);
       await page.getByText('Icons').click();
       expect(await page.locator('ids-tree-node[expanded="false"]').count()).toBe(1);
+    });
+
+    test('should renders characters and symbols', async ({ page }) => {
+      await page.evaluate(() => {
+        const tree = document.querySelector<IdsTree>('ids-tree');
+        const data = [{
+          id: 'cs-1',
+          text: '<online onload="alert()">'
+        }, {
+          id: 'cs-2',
+          text: `& "
+              &#33; &#34; &#35; &#36; &#37; &#38; &#39;
+              &#40; &#41; &#42; &#43; &#44; &#45; &#46; &#47;
+              &#161;, &#162;, &#163;, &#164;, &#165;, &#166;, &#167;, &#169;`
+        }];
+        tree!.data = data;
+      });
+
+      const nodeText = await page.evaluate(() => {
+        const tree = document.querySelector<IdsTree>('ids-tree');
+        return tree!.getNode('#cs-1').elem.textContent;
+      });
+      expect(nodeText).toContain('onload="alert()">');
+
+      const nodeText2 = await page.evaluate(() => {
+        const tree = document.querySelector<IdsTree>('ids-tree');
+        return tree!.getNode('#cs-2').elem.textContent;
+      });
+      expect(nodeText2).toContain('# $ % &');
+      expect(nodeText2).toContain('¡, ¢, £, ¤, ¥, ¦, §, ©');
     });
   });
 

@@ -129,8 +129,8 @@ export default class IdsPagerDropdown extends IdsEventsMixin(IdsElement) {
    * @returns {number} - the current page-size
    */
   get pageSize(): number {
-    return this.pager?.pageSize
-      ?? this.isValidPageSize(this.getAttribute(attributes.PAGE_SIZE));
+    const size = this.getAttribute(attributes.PAGE_SIZE) || this.pager.getAttribute(attributes.PAGE_SIZE) || 25;
+    return this.isValidPageSize(size);
   }
 
   /**

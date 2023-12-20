@@ -461,7 +461,7 @@ export default class IdsTreeNode extends Base {
     }
 
     const textElem = this.shadowRoot?.querySelector('.text');
-    if (this.isGroup && textElem) {
+    if (textElem) {
       textElem.textContent = `${value}`;
     }
   }

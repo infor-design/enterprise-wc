@@ -14,7 +14,7 @@
 - `[Checkbox]` Fix checkbox and checkbox-group so that values are properly reflected in Angular when using `ngDefaultControl`. ([#1693](https://github.com/infor-design/enterprise-wc/issues/1693))
 - `[DataGrid]` Fix dropdown cells to no longer open their lists inside cells (attach to grid instead). ([#1600](https://github.com/infor-design/enterprise-wc/issues/1600))
 - `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
-- `[DataGrid]` Fix dirty indicator alignment for xxs row height. ([#1602](https://github.com/infor-design/enterprise-wc/issues/1602))
+- `[DataGrid]` Fix dirty indicator alignment for `xxs` row height. ([#1602](https://github.com/infor-design/enterprise-wc/issues/1602))
 - `[DataGrid]` Fix an issue where empty message permanently removes the datagrid container height. ([#1664](https://github.com/infor-design/enterprise-wc/issues/1664))
 - `[DataGrid]` Fix dirty indicator cell data after column reorder. ([#1601](https://github.com/infor-design/enterprise-wc/issues/1601))
 - `[General]` Fix an issue where some properties did not work in safari. To do this changed the order of where styles and templates are appended in the lifecycle. ([#1599](https://github.com/infor-design/enterprise-wc/issues/1599))
@@ -23,6 +23,7 @@
 - `[Spinbox]` Allow steps to be created out of step range.  ([#695](https://github.com/infor-design/enterprise-wc/issues/695))
 - `[Spinbox]` Now corrects values when type over the min and max range.  ([#1678](https://github.com/infor-design/enterprise-wc/issues/1678))
 - `[Spinbox]` Now masks input to make sure its a number.  ([#1578](https://github.com/infor-design/enterprise-wc/issues/1578))
+- `[Tree]` Fixed a bug where the tree `label` did not work on parent folder nodes.  ([#1683](https://github.com/infor-design/enterprise-wc/issues/1683))
 - `[Tree]` Fix maximum callstack error when dynamically adding nodes to tree. ([#1649](https://github.com/infor-design/enterprise-wc/issues/1649))
 - `[Toolbar]` Fixed right aligned toolbar sections bug in firefox.  ([#1698](https://github.com/infor-design/enterprise-wc/issues/1698))
 
