@@ -1,7 +1,124 @@
+[hide] { display: none; }
+
+.selectable,
+:host-context([selectable]),
+:host-context(.selectable) {
+  cursor: var(--ids-cursor-pointer);
+}
+
+li,
 :host {
-  .ids-list-view-item {
-    border: none;
-    margin: 0;
-    padding: 0;
+  --ids-badge-disabled-background-color: var(--ids-list-view-item-color-background-disabled);
+  --ids-badge-disabled-border-color: var(--ids-list-view-item-color-border-disabled);
+  --ids-badge-disabled-text-color: var(--ids-list-view-item-badge-color-text-disabled);
+
+  display: block;
+  background: transparent;
+  border: var(--ids-list-view-item-border);
+  border-top-color: var(--ids-list-view-item-color-border-top);
+  contain: content;
+  list-style-type: none;
+  margin: 0;
+  padding: var(--ids-list-view-item-padding);
+
+  .list-item-area {
+    display: flex;
+    align-items: center;
+
+    .list-item-content {
+      width: 100%;
+    }
+  
+    .list-item-checkbox {
+      padding-inline-end: var(--ids-space-70);
+      flex-grow: 0;
+      flex-shrink: 0;
+      max-height: var(--ids-space-60);
+      max-width: var(--ids-space-60);
+    }
+  
+    .list-item-checkbox[disabled]::part(checkmark) {
+      background-color: transparent;
+    }
   }
+}
+
+li.active,
+li[active],
+li.selected,
+li[selected],
+li:hover,
+:host(:hover),
+:host(.active),
+:host([active]),
+:host(.selected),
+:host([selected]) {
+  display: block;
+  background-color: var(--ids-list-view-color-background-selected);
+}
+
+li:focus,
+li:focus-visible,
+li:focus-within,
+:host(:focus),
+:host(:focus-visible),
+:host(:focus-within) {
+  display: block;
+  border-color: var(--ids-list-view-item-color-border-focus);
+  box-shadow: var(--ids-list-view-item-shadow-focus);
+  outline: var(--ids-list-view-item-outline-focus);
+}
+
+@mixin list-view-item-disabled() {
+  background-color: var(--ids-list-view-item-color-background-default);
+  color: var(--ids-list-view-item-color-text-disabled);
+  cursor: var(--ids-cursor-default);
+  pointer-events: none;
+  user-select: none;
+
+  &:focus {
+    border-color: var(--ids-list-view-item-color-border-disabled-focus);
+    border-top-color: var(--ids-list-view-item-top-color-border-disabled-focus);
+    box-shadow: var(--ids-list-view-item-shadow-disabled-focus);
+  }
+}
+
+li.disabled,
+li[disabled],
+.disabled,
+[disabled],
+:host(:hover[disabled]),
+:host([disabled]:hover),
+:host([disabled]),
+:host(.disabled) {
+  @include list-view-item-disabled();
+}
+
+// SAFARI will not apply styles if :host-context() is the list of selector
+:host-context([disabled]),
+:host-context(.disabled) {
+  @include list-view-item-disabled();
+}
+
+@mixin list-view-item-sortable() {
+  cursor: inherit;
+  display: block;
+}
+
+.sortable li,
+[sortable] li,
+.sortable,
+[sortable],
+.sortable :host,
+[sortable] :host {
+  @include list-view-item-sortable();
+}
+
+// SAFARI will not apply styles if :host-context() is the list of selector
+:host-context(.sortable),
+:host-context([sortable]),
+:host-context(ids-list-view[sortable]),
+:host-context(ids-swappable),
+:host-context(ids-swappable-item) {
+  @include list-view-item-sortable();
 }

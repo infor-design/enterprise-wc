@@ -64,4 +64,19 @@ test.describe('IdsCalendar tests', () => {
       await percySnapshot(page, 'ids-calendar-light');
     });
   });
+
+  test.describe('setting/attribute tests', () => {
+    test('should set color', async ({ page }) => {
+      const locator = await page.locator('ids-calendar').first();
+      const handle = await page.$('ids-calendar');
+      await handle?.evaluate((el: IdsCalendar) => {
+        el.suppressForm = true;
+      });
+      await expect(await locator.getAttribute('suppress-form')).toEqual('');
+      await handle?.evaluate((el: IdsCalendar) => {
+        el.suppressForm = false;
+      });
+      await expect(await locator.getAttribute('suppress-form')).toEqual(null);
+    });
+  });
 });

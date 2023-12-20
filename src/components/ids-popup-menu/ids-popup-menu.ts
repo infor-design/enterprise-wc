@@ -51,8 +51,11 @@ export default class IdsPopupMenu extends Base {
     return [
       ...super.attributes,
       attributes.ALIGN,
+      attributes.ARROW,
       attributes.MAX_HEIGHT,
-      attributes.WIDTH
+      attributes.WIDTH,
+      attributes.X,
+      attributes.Y
     ];
   }
 
@@ -448,6 +451,43 @@ export default class IdsPopupMenu extends Base {
   get width(): string | null {
     const width = this.container?.style.width;
     return (width?.length ? width : null);
+  }
+
+  /**
+   * Sets the Y (top) coordinate of the Popup
+   * @param {number} val the coordinate's value
+   */
+  set y(val: number) {
+    if (this.popup) this.popup.y = val;
+  }
+
+  get y(): number {
+    return this.popup?.y || 0;
+  }
+
+  /**
+   * Sets the X (top) coordinate of the Popup
+   * @param {number} val the coordinate's value
+   */
+  set x(val: number) {
+    if (this.popup) this.popup.x = val;
+  }
+
+  get x(): number {
+    return this.popup?.x || 0;
+  }
+
+  /**
+   * Specifies whether to show the Popup Arrow, and in which direction.
+   * The direction is in relation to the alignment setting. So for example of you align: top you want arrow: top as well.
+   * @param {string|null} val the arrow direction.  Defaults to `none`
+   */
+  set arrow(val: string | null) {
+    if (this.popup) this.popup.arrow = val;
+  }
+
+  get arrow(): string | null {
+    return this.popup?.arrow || 'none';
   }
 
   #setMenuWidth(targetWidth: string | null): void {
