@@ -20,6 +20,7 @@
 - `[Spinbox]` Allow steps to be created out of step range.  ([#695](https://github.com/infor-design/enterprise-wc/issues/695))
 - `[Spinbox]` Now corrects values when type over the min and max range.  ([#1678](https://github.com/infor-design/enterprise-wc/issues/1678))
 - `[Spinbox]` Now masks input to make sure its a number.  ([#1578](https://github.com/infor-design/enterprise-wc/issues/1578))
+- `[Toolbar]` Fixed right aligned toolbar sections bug in firefox.  ([#1698](https://github.com/infor-design/enterprise-wc/issues/1698))
 
 ## 1.0.0-beta.17
 
