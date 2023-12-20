@@ -292,7 +292,7 @@ export default class IdsTree extends Base {
     if (location === 'child' && node) {
       const nodeDatum = this.getNodeData(node);
       const idx = nodeDatum.idx;
-      if (this.nodesData && idx !== undefined) {
+      if (this.nodesData && idx !== undefined && this.nodesData[idx]) {
         if (!this.nodesData[idx].children) this.nodesData[idx].children = [];
         this.nodesData[idx].children = data;
         const sourceData = (nodeDatum?.data as any)?.dataRef;
