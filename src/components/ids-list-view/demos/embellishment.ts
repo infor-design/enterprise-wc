@@ -2,7 +2,7 @@ import '../ids-list-view';
 import productsJSON from '../../../assets/data/products-100.json';
 
 // Supporting components
-import '../../ids-badge/ids-badge';
+import '../../ids-tag/ids-tag';
 import '../../ids-card/ids-card';
 import '../../ids-hyperlink/ids-hyperlink';
 import '../../ids-image/ids-image';
