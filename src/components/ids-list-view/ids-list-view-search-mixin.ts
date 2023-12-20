@@ -212,8 +212,8 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
     }
 
     const isSearchfield = !!getSlotted();
-    this.container?.classList[isSearchfield ? 'add' : 'remove']('has-searchfield');
-    this.searchContainer?.classList[isSearchfield ? 'add' : 'remove']('has-searchfield');
+    this.container?.classList.toggle('has-searchfield', isSearchfield);
+    this.searchContainer?.classList.toggle('has-searchfield', isSearchfield);
     this.#attachSearchField();
   }
 

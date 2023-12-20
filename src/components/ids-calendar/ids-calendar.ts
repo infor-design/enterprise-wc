@@ -94,8 +94,17 @@ export default class IdsCalendar extends Base {
       attributes.DATE,
       attributes.FIRST_DAY_OF_WEEK,
       attributes.SHOW_DETAILS,
-      attributes.SHOW_LEGEND
+      attributes.SHOW_LEGEND,
+      attributes.SUPPRESS_FORM
     ];
+  }
+
+  set suppressForm(val: string | boolean | null) {
+    this.toggleAttribute(attributes.SUPPRESS_FORM, stringToBool(val));
+  }
+
+  get suppressForm(): boolean {
+    return this.hasAttribute(attributes.SUPPRESS_FORM);
   }
 
   /**
@@ -515,20 +524,26 @@ export default class IdsCalendar extends Base {
       };
 
       const createNewEvent = () => {
+        if (this.suppressForm) return;
         const id: string = Date.now().toString() + Math.floor(Math.random() * 100);
         this.createNewEvent(id, true);
+      };
+
+      const triggerDayDblClick = () => {
+        this.triggerEvent('daydblclick.calendar', this, { detail: { ...evt.detail } });
       };
 
       daySelectTimer = setTimeout(() => {
         updateCalendar();
         daySelectCount = 0;
-      }, 200);
+      }, 250);
 
       if (daySelectCount === 2 && evt.detail.date.getTime() === daySelectedDate?.getTime()) {
         clearTimeout(daySelectTimer);
         updateCalendar();
         createNewEvent();
         daySelectCount = 0;
+        triggerDayDblClick();
       }
 
       daySelectedDate = evt.detail.date;
@@ -583,8 +598,8 @@ export default class IdsCalendar extends Base {
       }
     });
 
-    this.offEvent('click-calendar-event', this);
-    this.onEvent('click-calendar-event', this, (evt: CustomEvent) => {
+    this.offEvent('clickcalendarevent', this);
+    this.onEvent('clickcalendarevent', this, (evt: CustomEvent) => {
       const elem = evt.detail.elem;
       this.#selectedEventId = elem.eventData.id;
       this.#removePopup();
@@ -768,6 +783,7 @@ export default class IdsCalendar extends Base {
    * @param {CalendarEventData} eventData calendar event component
    */
   #insertFormPopup(target: HTMLElement, eventData: CalendarEventData): void {
+    if (this.suppressForm) return;
     const popup = this.#getEventFormPopup();
     if (popup) {
       popup.innerHTML = `${this.#eventFormTemplate(eventData)}`;
