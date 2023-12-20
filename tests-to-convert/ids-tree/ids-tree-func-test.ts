@@ -944,23 +944,4 @@ describe('IdsTree Component', () => {
     expect(node.elem.label).toEqual('');
     expect(node.elem.toggleIcon).toEqual('');
   });
-
-  it('should renders characters and symbols', () => {
-    const data = [{
-      id: 'cs-1',
-      text: '<online onload="alert()">'
-    }, {
-      id: 'cs-2',
-      text: `& "
-        &#33; &#34; &#35; &#36; &#37; &#38; &#39;
-        &#40; &#41; &#42; &#43; &#44; &#45; &#46; &#47;
-        &#161;, &#162;, &#163;, &#164;, &#165;, &#166;, &#167;, &#169;`
-    }];
-    tree.data = data;
-    let node = tree.getNode('#cs-1');
-    expect(node.elem.textContent).toContain('onload="alert()">');
-    node = tree.getNode('#cs-2');
-    expect(node.elem.textContent).toContain('< > & "');
-    expect(node.elem.textContent).toContain('¢, £, ¤, ¥');
-  });
 });

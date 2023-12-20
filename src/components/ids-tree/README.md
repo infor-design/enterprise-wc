@@ -253,7 +253,7 @@ treeDemo!.beforeExpanded = async function beforeShow() {
 - `expandIcon` {string} Sets the tree group expand icon
 - `expanded` {boolean} Sets the tree to be expanded
 - `icon` {string} Sets the tree node icon
-- `label` {string} Set the tree aria label text
+- `label` {string} Set the overall tree aria label text
 - `selectable` {string} Sets the tree node to be selectable
 - `toggleCollapseIcon` {string} Sets the tree group toggle collapse icon
 - `toggleExpandIcon` {string} Sets the tree group toggle expand icon
@@ -267,7 +267,7 @@ treeDemo!.beforeExpanded = async function beforeShow() {
 - `expandIcon` {string} Sets the tree group expand icon
 - `expanded` {boolean} Sets the tree group to be expanded
 - `icon` {string} Sets the tree node icon
-- `label` {string} Set the node label text
+- `label` {string} Set the node label text, this can also be done via the innerText but this is more tricky with parent nodes so a label is provided.
 - `selectable` {string} Sets the tree node to be selectable
 - `selected` {boolean} Sets the tree node to be selected
 - `tabbable` {boolean} Set if the node is tabbable
