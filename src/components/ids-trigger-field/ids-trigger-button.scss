@@ -107,6 +107,10 @@
 
   &.inline-start {
     border-inline-end: 1px solid;
+
+    &:not(.btn-secondary):not(.no-margins) {
+      margin: 0;
+    }
   }
 
   &.color-variant-alternate-formatter {
