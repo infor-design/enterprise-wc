@@ -12,6 +12,37 @@
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
+        <ids-toolbar>
+          <ids-toolbar-section align="end" favor>
+            <ids-button id="add-row">
+              <span class="audible">Add Row</span>
+              <ids-icon icon="add"></ids-icon>
+            </ids-button>
+            <ids-button id="delete-row">
+              <span class="audible">Delete Row</span>
+              <ids-icon icon="delete"></ids-icon>
+            </ids-button>
+            <ids-button id="clear-row">
+              <span class="audible">Clear Row</span>
+              <ids-icon icon="clear-formatting"></ids-icon>
+            </ids-button>
+            <ids-menu-button id="menu-button" menu="row-height-menu">
+              <ids-icon icon="more"></ids-icon>
+              <span class="audible">Settings Menu Button</span>
+            </ids-menu-button>
+            <ids-popup-menu id="row-height-menu" target="menu-button" trigger-type="click">
+              <ids-menu-group select="single">
+                <ids-menu-header><ids-text font-weight="semi-bold">Row Height</ids-text></ids-menu-header>
+                <ids-menu-item value="xxs">Extra Extra Small</ids-menu-item>
+                <ids-menu-item value="xs">Extra Small</ids-menu-item>
+                <ids-menu-item value="sm">Small</ids-menu-item>
+                <ids-menu-item value="md">Medium</ids-menu-item>
+                <ids-menu-item value="lg" selected="true">Large</ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+          </ids-toolbar-section>
+        </ids-toolbar>
+
         <ids-data-grid
           id="data-grid-paging-client-side"
           row-selection="multiple"
