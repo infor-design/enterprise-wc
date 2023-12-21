@@ -2253,8 +2253,6 @@ export default class IdsDataGrid extends Base {
     }
     // Non tree - update original data
     this.datasource.update([data], !!isClear);
-    // if (isClear) this.datasource.originalData[row] = data;
-    // else this.datasource.originalData[row] = { ...this.datasource.originalData[row], ...data };
   }
 
   /**
@@ -2361,10 +2359,20 @@ export default class IdsDataGrid extends Base {
    * @param {number} index the row index to remove
    */
   removeRow(index: number) {
-    this.datasource.originalData.splice(index, 1);
-    this.datasource.data = this.datasource.originalData;
+    // Update data
+    const data = this.data[index];
+    if (!data[this.idColumn]) {
+      data[this.idColumn] = this.data[index][this.idColumn];
+    }
+    this.datasource.delete([data]);
+    this.datasource.refreshPreviousState();
+
+    // Update grid state
     this.redrawBody();
     this.#updateRowCount();
+    if (this.pager && this.pageNumber !== this.datasource.pageNumber) {
+      this.pageNumber = this.datasource.pageNumber;
+    }
   }
 
   /**

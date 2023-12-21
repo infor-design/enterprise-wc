@@ -282,7 +282,12 @@ class IdsDataSource {
    * Prevent running more than once with pagination
    * @private
    */
-  #prevState: any = { pageNumber: -1, pageSize: -1, data: null };
+  #prevState: any = {
+    pageNumber: -1,
+    pageSize: -1,
+    data: null,
+    doUpdate: false
+  };
 
   /**
    * Set the name of the data property to use as a primary key
@@ -313,8 +318,8 @@ class IdsDataSource {
    * @returns {boolean} True, if previous state
    */
   #isPrevState(num: number | string, size: number | string): boolean {
-    const { pageNumber, pageSize } = this.#prevState;
-    return pageNumber === Number(num) && pageSize === Number(size);
+    const { pageNumber, pageSize, doUpdate } = this.#prevState;
+    return !doUpdate && pageNumber === Number(num) && pageSize === Number(size);
   }
 
   /**
@@ -341,8 +346,16 @@ class IdsDataSource {
       data = this.#currentData.slice(start, start + pageSize);
     }
     this.#prevState.data = data;
+    this.#prevState.doUpdate = false;
 
     return data;
+  }
+
+  /**
+   * Marks the previous state cache to be updated on the next access
+   */
+  refreshPreviousState() {
+    this.#prevState.doUpdate = true;
   }
 
   /**
@@ -359,6 +372,33 @@ class IdsDataSource {
         this.#currentData[i] = newRecord;
       }
     });
+  }
+
+  /**
+   * @param {Array<Record<string, unknown>>} items incoming records to delete
+   */
+  delete(items: Array<Record<string, unknown>> = []) {
+    if (!items.length) return;
+
+    // Store current last page
+    const currentLastPage = Math.ceil(this.#total / this.#pageSize);
+
+    // Delete records
+    items.forEach((updatedRecord) => {
+      const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+      if (i > -1) {
+        this.originalData.splice(i, 1);
+        this.currentData.splice(i, 1);
+      }
+    });
+
+    // Update totals/stored data state/page size, if applicable
+    this.#total = this.#currentData.length;
+    this.#prevState.data = this.paginate(this.pageNumber, this.pageSize);
+
+    // If last page is further than total records, reset last page
+    const newLastPage = Math.ceil(this.#total / this.#pageSize);
+    if (newLastPage < currentLastPage) this.pageNumber -= 1;
   }
 
   /**
