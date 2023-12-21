@@ -2222,6 +2222,11 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} isClear do not keep current data
    */
   updateDataset(row: number, data: Record<string, unknown>, isClear?: boolean) {
+    // Ensure the incoming record contains a proper ID (or use `idColumn`)
+    if (!data[this.idColumn]) {
+      data[this.idColumn] = this.data[row][this.idColumn];
+    }
+
     // Update the current data
     if (isClear) this.data[row] = data;
     else this.data[row] = { ...this.data[row], ...data };
@@ -2247,8 +2252,9 @@ export default class IdsDataGrid extends Base {
       return;
     }
     // Non tree - update original data
-    if (isClear) this.datasource.originalData[row] = data;
-    else this.datasource.originalData[row] = { ...this.datasource.originalData[row], ...data };
+    this.datasource.update([data], !!isClear);
+    // if (isClear) this.datasource.originalData[row] = data;
+    // else this.datasource.originalData[row] = { ...this.datasource.originalData[row], ...data };
   }
 
   /**

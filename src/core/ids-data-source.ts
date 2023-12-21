@@ -47,6 +47,12 @@ class IdsDataSource {
   #pageSize: any;
 
   /**
+   * Name of the primary key to use for dataset operations
+   * @private
+   */
+  #primaryKey = 'id';
+
+  /**
    * An override for the total number of items in data
    * @private
    */
@@ -279,6 +285,18 @@ class IdsDataSource {
   #prevState: any = { pageNumber: -1, pageSize: -1, data: null };
 
   /**
+   * Set the name of the data property to use as a primary key
+   * @param {string} value primary key name
+   */
+  set primaryKey(value: string) { this.#primaryKey = value; }
+
+  /**
+   * Get the current name of the data property used as a primary key
+   * @returns {string} primary key name
+   */
+  get primaryKey() { return this.#primaryKey; }
+
+  /**
    * Reset previous state
    * @private
    * @returns {void}
@@ -330,13 +348,15 @@ class IdsDataSource {
   /**
    * Updates records in the current dataset to reflect new state
    * @param {Array<Record<string, unknown>>} items incoming records to update
+   * @param {boolean} overwrite true if the record should be completely overwritten as opposed to augmented
    */
-  update(items: Array<Record<string, unknown>> = []) {
+  update(items: Array<Record<string, unknown>> = [], overwrite: boolean = false) {
     items.forEach((updatedRecord) => {
-      const targetRecordIndex = this.#currentData.findIndex((currentRecord) => currentRecord.id === updatedRecord.id);
-      if (targetRecordIndex > -1) {
-        this.#originalData[targetRecordIndex] = updatedRecord;
-        this.#currentData[targetRecordIndex] = updatedRecord;
+      const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+      if (i > -1) {
+        const newRecord = overwrite ? updatedRecord : { ...this.#currentData[i], ...updatedRecord };
+        this.#originalData[i] = newRecord;
+        this.#currentData[i] = newRecord;
       }
     });
   }
