@@ -43,7 +43,7 @@ class IdsMultiselect extends IdsDropdown {
     });
   }
 
-  #selectedList: Array<string> = [];
+  internalSelectedList: Array<string> = [];
 
   /**
    * Return the attributes we handle as getters and setters
@@ -144,7 +144,7 @@ class IdsMultiselect extends IdsDropdown {
     if (!matched) {
       return;
     }
-    this.#selectedList = value;
+    this.internalSelectedList = value;
 
     (this.container as HTMLInputElement).value = '';
     this.#updateDisplay();
@@ -160,7 +160,7 @@ class IdsMultiselect extends IdsDropdown {
         }
       });
     }
-    this.#selectedList = value;
+    this.internalSelectedList = value;
 
     this.container?.classList.toggle('has-value', value.length > 0);
   }
@@ -169,7 +169,7 @@ class IdsMultiselect extends IdsDropdown {
    * returns an array of the values that have been selected
    * @returns {Array} the array of values
    */
-  get value() { return this.#selectedList; }
+  get value() { return this.internalSelectedList; }
 
   /**
    * Rewriting dropdown click events
@@ -247,7 +247,7 @@ class IdsMultiselect extends IdsDropdown {
       this.input?.focus();
     }
 
-    this.value = this.#selectedList;
+    this.value = this.internalSelectedList;
 
     this.container?.classList.remove('is-open');
   }
@@ -257,7 +257,7 @@ class IdsMultiselect extends IdsDropdown {
    * @param {MouseEvent} e click event
    */
   #handleTagRemove(e:any) {
-    this.value = this.#selectedList.filter((value: string) => value !== e.target?.dataset.value);
+    this.value = this.internalSelectedList.filter((value: string) => value !== e.target?.dataset.value);
     this.popup?.place();
   }
 
@@ -269,14 +269,14 @@ class IdsMultiselect extends IdsDropdown {
     if (!option || option?.hasAttribute(attributes.GROUP_LABEL)) return;
 
     const value = option.getAttribute('value');
-    const isSelected = this.#selectedList.some((item) => value === item);
+    const isSelected = this.internalSelectedList.some((item) => value === item);
     const checkbox = option.querySelector('ids-checkbox');
     const canSelect = this.max !== this.value.length;
 
     if (isSelected || canSelect) {
-      this.#selectedList = isSelected
-        ? this.#selectedList.filter((item) => item !== value)
-        : [...this.#selectedList, value];
+      this.internalSelectedList = isSelected
+        ? this.internalSelectedList.filter((item) => item !== value)
+        : [...this.internalSelectedList, value];
 
       if (checkbox) {
         checkbox.checked = !isSelected;
@@ -285,7 +285,7 @@ class IdsMultiselect extends IdsDropdown {
       if (this.tags) {
         this.#updateDisplay();
         this.popup?.place();
-        this.container?.classList.toggle('has-value', this.#selectedList.length > 0);
+        this.container?.classList.toggle('has-value', this.internalSelectedList.length > 0);
       }
     }
 
@@ -298,7 +298,7 @@ class IdsMultiselect extends IdsDropdown {
    */
   #updateDisplay() {
     const options = this.dropdownList?.listBox?.options ?? [];
-    const selected = options.filter((item: IdsListBoxOption) => this.#selectedList.includes(item.value));
+    const selected = options.filter((item: IdsListBoxOption) => this.internalSelectedList.includes(item.value));
     const newValue = selected.map((item: IdsListBoxOption) => item.label).join(', ');
 
     // Clear tags/text before rerender
@@ -353,11 +353,10 @@ class IdsMultiselect extends IdsDropdown {
       .forEach((option: IdsListBoxOption) => {
         option.classList.remove('last-selected');
         option.hidden = false;
-        if (this.#selectedList.includes(option.value)) {
+        if (this.internalSelectedList.includes(option.value)) {
           option.selected = true;
           selectedOptions.push(option);
         } else {
-          option.selected = false;
           unselectedOptions.push(option);
         }
       });
@@ -370,13 +369,13 @@ class IdsMultiselect extends IdsDropdown {
    * Update options list on the component mount with classes/attributes
    */
   #populateSelected() {
-    this.#selectedList = [];
+    this.internalSelectedList = [];
 
     this.options.forEach((item: any) => {
       const checkbox = item.querySelector('ids-checkbox');
 
       if (item.hasAttribute('selected')) {
-        this.#selectedList.push(item.getAttribute('value'));
+        this.internalSelectedList.push(item.getAttribute('value'));
         if (checkbox) {
           checkbox.checked = true;
         }
@@ -386,7 +385,7 @@ class IdsMultiselect extends IdsDropdown {
       item.classList.add('multiselect-option');
     });
 
-    this.value = this.#selectedList;
+    this.value = this.internalSelectedList;
   }
 }
 

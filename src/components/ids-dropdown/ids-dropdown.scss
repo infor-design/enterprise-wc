@@ -74,11 +74,16 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
 // Dropdown Editor Borderless
 .ids-dropdown.color-variant-borderless {
   ids-trigger-field::part(container) {
-    margin: 0;
+    margin: -1px;
   }
 
   ids-trigger-field::part(field-container) {
     box-shadow: none !important;
+  }
+
+  .ids-trigger-field-slot-trigger-end,
+  ::slotted(*[slot='trigger-end']:last-of-type:not([inline]):not([compact]):not([field-height='xs'])) {
+    margin-inline-end: 0;
   }
 
   &.field-height-lg {

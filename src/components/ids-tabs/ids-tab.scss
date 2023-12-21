@@ -30,7 +30,7 @@ $ids-tab-vertical-height: 42px;
   &::after,
   & .selection-underline {
     position: absolute;
-    height: 2px;
+    height: 3px;
     inset-block-end: -1px;
     inset-inline: 0;
     z-index: 1;

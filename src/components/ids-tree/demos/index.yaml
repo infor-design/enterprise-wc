@@ -14,6 +14,9 @@
   - link: add-node.html
     type: Example
     description: Shows the add node function
+  - link: load-children.html
+    type: Example
+    description: Shows loading children with ajax
   - link: sandbox.html
     type: Sandbox
     description: Shows other tree scenarios

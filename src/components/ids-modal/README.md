@@ -21,7 +21,7 @@ The IDS Modal Component builds on top of the [Ids Popup](../ids-popup/README.md)
 - `buttons` (readonly) contains a list of references to any Modal Buttons present
 - `messageTitle` The text present at the very top of the Modal to indicate its purpose
 - `scrollable` If true, allows the "modal-content" element inside the modal to scroll its contents
-- `showCloseButton` used to show and position close button in modal. Can be set to values `left` or `right`.
+- `showCloseButton` used to show the close button in modal
 
 ## Themeable Parts
 

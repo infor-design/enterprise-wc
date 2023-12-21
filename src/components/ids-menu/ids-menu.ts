@@ -145,6 +145,13 @@ export default class IdsMenu extends Base {
         }
       }
     });
+
+    if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
+    const slot = this.container!.querySelector('slot');
+    this.offEvent('slotchange', slot);
+    this.onEvent('slotchange', slot, () => {
+      this.detectIcons();
+    });
   }
 
   /**

@@ -143,6 +143,18 @@
 
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h2">Markup Nested (alt)</ids-text><br>
+        <ids-tree label="Tree with Markup only">
+          <ids-tree-node id="parent-id" label="Parent">
+            <ids-tree-node id="child-id" label="Child"></ids-tree-node>
+            <ids-tree-node id="another-child-id" disabled="true">Another Child</ids-tree-node>
+          </ids-tree-node>
+        </ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
         <ids-text font-size="12" type="h2">Characters and symbols</ids-text><br>
         <ids-tree id="tree-characters-and-symbols" label="Tree Characters and Symbols"></ids-tree>
       </ids-layout-grid-cell>

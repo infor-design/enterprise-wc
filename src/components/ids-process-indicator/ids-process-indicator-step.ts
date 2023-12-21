@@ -77,7 +77,7 @@ export default class IdsProcessStep extends Base {
           ${this.label}
         </ids-text>
         <span class="step">
-          ${this.#getStatusIcon(this.status)}
+          ${this.statusIcon(this.status)}
         </span>
         <div class="details">
           <slot name="detail"></slot>
@@ -125,7 +125,7 @@ export default class IdsProcessStep extends Base {
    * @returns {void}
    */
   #updateLabelVisibility(): void {
-    const labelEl = this.#getLabelElement();
+    const labelEl = this.labelElement();
 
     if (!labelEl) return;
 
@@ -141,7 +141,7 @@ export default class IdsProcessStep extends Base {
    * @returns {HTMLElement} the element
    * @private
    */
-  #getLabelElement(): HTMLElement | undefined | null {
+  labelElement(): HTMLElement | undefined | null {
     return this.container?.querySelector('.label');
   }
 
@@ -150,7 +150,7 @@ export default class IdsProcessStep extends Base {
    * @param {string} status step status
    * @returns {string} icon template
    */
-  #getStatusIcon(status: string): string {
+  statusIcon(status: string): string {
     if (status === 'cancelled') {
       return `<ids-icon icon="close" size="xsmall"></ids-icon>`;
     }
@@ -164,7 +164,7 @@ export default class IdsProcessStep extends Base {
    */
   set label(value: string) {
     const val = value || DEFAULT_LABEL;
-    const labelElem = this.#getLabelElement();
+    const labelElem = this.labelElement();
 
     this.#setString(attributes.LABEL, val);
     if (labelElem) labelElem.innerHTML = val;
@@ -189,7 +189,7 @@ export default class IdsProcessStep extends Base {
         ?.querySelectorAll('ids-icon')
         ?.forEach((icon: Element) => icon.remove());
 
-      const statusIcon = this.#getStatusIcon(val);
+      const statusIcon = this.statusIcon(val);
       if (statusIcon) {
         this.container
           ?.querySelector('.step')

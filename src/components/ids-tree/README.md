@@ -209,6 +209,42 @@ const treeDemo = document.querySelector('#tree-demo');
 treeDemo?.data = dataset;
 ```
 
+Loading child data dynamically
+
+```html
+<ids-tree id="tree-demo" label="Demo Tree"></ids-tree>
+```
+
+```javascript
+const dataset = [{
+  "id": "home",
+  "text": "Home",
+  "badge": {
+    "text": "5",
+    "shape": "round"
+  }
+}, {
+  "id": "public-folders",
+  "text": "Public Folders",
+  "children": []
+}];
+const treeDemo = document.querySelector('#tree-demo');
+treeDemo?.data = dataset;
+
+treeDemo!.beforeExpanded = async function beforeShow() {
+  const url = treeJSON;
+  const res2 = await fetch(url);
+  const data2 = await res2.json();
+
+  // Reuse the same API but change the data
+  data2[0].text = `New Dynamic Node`;
+  delete data2[0].children;
+
+  // Takes an array
+  return [data2[0]];
+};
+```
+
 ## Settings and Attributes (Tree)
 
 - `collapseIcon` {string} Sets the tree group collapse icon
@@ -217,7 +253,7 @@ treeDemo?.data = dataset;
 - `expandIcon` {string} Sets the tree group expand icon
 - `expanded` {boolean} Sets the tree to be expanded
 - `icon` {string} Sets the tree node icon
-- `label` {string} Set the tree aria label text
+- `label` {string} Set the overall tree aria label text
 - `selectable` {string} Sets the tree node to be selectable
 - `toggleCollapseIcon` {string} Sets the tree group toggle collapse icon
 - `toggleExpandIcon` {string} Sets the tree group toggle expand icon
@@ -231,17 +267,17 @@ treeDemo?.data = dataset;
 - `expandIcon` {string} Sets the tree group expand icon
 - `expanded` {boolean} Sets the tree group to be expanded
 - `icon` {string} Sets the tree node icon
-- `label` {string} Set the node label text
+- `label` {string} Set the node label text, this can also be done via the innerText but this is more tricky with parent nodes so a label is provided.
 - `selectable` {string} Sets the tree node to be selectable
 - `selected` {boolean} Sets the tree node to be selected
 - `tabbable` {boolean} Set if the node is tabbable
 - `expandTarget` {'node' | 'icon'} Sets the trees expand target between `node` (the whole tree item) and just the `icon`
 
-## Theme-able Parts (Tree)
+## Themeable Parts (Tree)
 
 - `tree` allows you to further style the tree element
 
-## Theme-able Parts (Tree Node)
+## Themeable Parts (Tree Node)
 
 - `group-node` allows you to further style the group node element
 - `node` allows you to further style the node element
@@ -278,6 +314,11 @@ treeDemo?.data = dataset;
 
 - `setFocus()` Set focus to node container
 - `getNode(selector: string)` Get a node given a css selector
+
+## Callbacks (functions)
+
+- `beforeExpanded = () =>` Fires a callback function before expanding a node with children, this function will wait synchronously for a result. If the result is to be vetoed return false. Otherwise can either use the callback as an event or return an array of tree node data items that will be loaded in as children of the node you expanded. `addNodes` will only be called the first time, if the children are empty. Otherwise just the callback will fire and any return data will be ignored.
+- `afterExpanded = () =>` Fires a callback function after expanding a node with children.
 
 ## States and Variations (With Code Examples)
 

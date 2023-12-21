@@ -13,6 +13,7 @@
   font-family: var(--ids-font-family-default);
   font-size: var(--ids-tag-font-size-default);
   color: var(--ids-tag-color-text-default);
+  white-space: nowrap;
 
   // Layout
   box-sizing: border-box;
@@ -86,6 +87,9 @@
   }
 }
 
+:host-context(.disabled),
+:host-context([disabled]),
+:host(.disabled),
 :host([disabled]) {
   ::slotted(ids-icon) {
     cursor: var(--ids-cursor-default);
@@ -93,9 +97,21 @@
   }
 
   .ids-tag {
-    background-color: var(--ids-input-color-background-readonly);
-    border-color: var(--ids-input-color-background-readonly);
-    color: var(--ids-tag-color-text-disabled);
+    &,
+    &.info,
+    &.success,
+    &.warning,
+    &.caution,
+    &.error {
+      background-color: var(--ids-input-color-background-readonly);
+      border-color: var(--ids-input-color-background-readonly);
+      color: var(--ids-tag-color-text-disabled);
+
+      ::slotted(ids-icon) {
+        cursor: var(--ids-cursor-default);
+        color: var(--ids-tag-color-text-disabled);
+      }
+    }
 
     &.secondary {
       background-color: var(--ids-input-color-background-default);

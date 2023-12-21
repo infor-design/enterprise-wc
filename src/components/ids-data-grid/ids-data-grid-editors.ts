@@ -3,6 +3,7 @@ import { isValidDate } from '../../utils/ids-date-utils/ids-date-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
+import IdsDropdownList from '../ids-dropdown/ids-dropdown-list';
 import IdsInput from '../ids-input/ids-input';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsButton from '../ids-button/ids-button';
@@ -182,6 +183,12 @@ export class DropdownEditor implements IdsDataGridEditor {
   /** Holds the Editor */
   input?: IdsDropdown;
 
+  /** Holds the separate Dropdown List */
+  list?: IdsDropdownList;
+
+  /** Cache cell reference */
+  #cell?: IdsDataGridCell;
+
   /** Cache dropdown value */
   #value?: string | null;
 
@@ -198,8 +205,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     const dataset = <any[]>settings?.options ?? [];
 
     this.input = <IdsDropdown>document.createElement('ids-dropdown');
-    this.input.insertAdjacentHTML('beforeend', '<ids-list-box></ids-list-box>');
-    this.input.loadDataSet(dataset);
+    this.list = <IdsDropdownList>document.createElement('ids-dropdown-list');
 
     // apply user settings
     delete settings.options;
@@ -208,6 +214,35 @@ export class DropdownEditor implements IdsDataGridEditor {
 
     cell!.innerHTML = '';
     cell!.appendChild(this.input);
+    cell!.appendChild(this.list);
+    cell!.classList.add('is-focused');
+    this.#cell = cell!;
+
+    this.list.insertAdjacentHTML('beforeend', '<ids-list-box></ids-list-box>');
+    this.list.setAttribute('trigger-type', 'custom');
+    this.input.setAttribute('id', 'ids-dropdown-active-cell');
+    this.list.setAttribute('id', 'ids-dropdown-list-active-cell');
+    this.input.setAttribute('list', '#ids-dropdown-list-active-cell');
+
+    this.input.loadDataSet(dataset);
+
+    this.list.configurePopup();
+    this.list.setAttribute('slot', 'menu-container');
+    this.list.setAttribute('size', 'full');
+    this.list.setAttribute('attachment', '.ids-data-grid-wrapper');
+    this.list.appendToTargetParent();
+    this.list.popupOpenEventsTarget = document.body;
+    if (this.list.popup) {
+      this.list.popup.alignTarget = this.input;
+      this.list.popup.type = 'dropdown';
+      this.list.popup.container?.classList.add('dropdown');
+      this.list.popup.onPlace = (popupRect: DOMRect) => {
+        popupRect.x -= 1;
+        const margin = cell?.dataGrid?.rowHeight === 'xxs' ? 3 : 0;
+        popupRect.y = (this.input?.getBoundingClientRect().bottom || 0) - margin;
+        return popupRect;
+      };
+    }
 
     this.input.value = this.#value;
     this.input.size = 'full';
@@ -215,8 +250,9 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
     this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
+
     this.#attchEventListeners();
-    this.input.open();
+    this.input?.open();
   }
 
   /**
@@ -238,20 +274,66 @@ export class DropdownEditor implements IdsDataGridEditor {
   #attchEventListeners() {
     this.input?.onEvent('change', this.input, (evt) => { this.#value = evt.detail.value; });
     this.input?.onEvent('focusout', this.input, this.#stopPropagationCb);
+    this.input?.onEvent('click', this.input, () => {
+      const popup = this.list?.popup;
+      if (popup) {
+        if (!popup.visible) this.input?.open();
+        else this.input?.close();
+      }
+    });
+    if (this.list) {
+      this.list.onOutsideClick = (e: MouseEvent) => {
+        if (!e.composedPath().includes(this.list!)) {
+          this.input?.close();
+        }
+      };
+      this.list.refreshTriggerEvents();
+
+      // Captures selected contents from menu/dropdown list items.
+      this.input?.onEvent(`selected`, this.input, async (e: any) => {
+        const elem = e.detail?.elem;
+        if (!elem) return;
+
+        const cell = this.#cell;
+        e.target.value = e.detail.value;
+        this.#value = e.detail.value;
+        if (cell) {
+          cell?.endCellEdit();
+          cell.dataGrid.openMenu = null;
+          cell.focus();
+        }
+      });
+    }
+
+    this.list?.onEvent('keydown', this.list, (e) => {
+      const key = e.key;
+      if (key === 'Enter') {
+        e.stopPropagation();
+      }
+    });
   }
 
   /* Save selected dropdown value */
   save() {
-    return { value: this.#value, dirtyCheckValue: this.input?.input?.value };
+    return {
+      value: this.#value,
+      dirtyCheckValue: this.input?.input?.value
+    };
   }
 
   /**
    * Destroy dropdown editor
    */
   destroy(): void {
+    this.input?.offEvent('click');
     this.input?.offEvent('change');
     this.input?.offEvent('focusout', this.input, this.#stopPropagationCb);
+    this.list?.offEvent('keydown');
+    this.list?.remove();
     this.#value = undefined;
+
+    this.#cell!.classList.remove('is-focused');
+    this.#cell = undefined;
   }
 
   value() {

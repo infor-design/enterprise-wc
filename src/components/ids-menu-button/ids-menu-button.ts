@@ -269,7 +269,7 @@ export default class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   resizeMenu() {
-    if (!this.menuEl || !this.menuEl.popup) {
+    if (!this.menuEl || !this.menuEl.popup || !this.menuEl.popup.container) {
       return;
     }
     this.menuEl.popup.container.style.minWidth = `${this.button?.clientWidth}px`;

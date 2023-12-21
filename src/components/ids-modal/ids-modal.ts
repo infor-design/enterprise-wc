@@ -230,7 +230,7 @@ export default class IdsModal extends Base {
       this.popup.classList[doFullsize ? 'add' : 'remove'](attributes.FULLSIZE);
       this.popup.width = doFullsize ? '100%' : '';
       this.popup.height = doFullsize ? '100%' : '';
-      this.popup.place();
+      if (this.popup.place) this.popup.place();
       if (this.popup.open) {
         this.setScrollable();
         this.popup.correct3dMatrix();
@@ -271,10 +271,9 @@ export default class IdsModal extends Base {
     }
   }
 
-  set showCloseButton(position: string | null) {
-    if (typeof position === 'string') {
-      position = VALID_POSITIONS.includes(position) ? position : 'right';
-      this.setAttribute(attributes.SHOW_CLOSE_BUTTON, position);
+  set showCloseButton(val: boolean) {
+    if (stringToBool(val)) {
+      this.setAttribute(attributes.SHOW_CLOSE_BUTTON, '');
       this.#attachCloseButton();
     } else {
       this.removeAttribute(attributes.SHOW_CLOSE_BUTTON);
@@ -744,10 +743,9 @@ export default class IdsModal extends Base {
    */
   #attachCloseButton() {
     this.#removeCloseButton();
-    const position = this.showCloseButton || 'right';
 
     const element = `<ids-modal-button
-      class="modal-control-close ${position}"
+      class="modal-control-close"
       slot="buttons"
       appearance="tertiary"
       css-class="ids-icon-button ids-modal-icon-button"

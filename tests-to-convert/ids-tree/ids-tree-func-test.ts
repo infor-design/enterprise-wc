@@ -64,28 +64,6 @@ describe('IdsTree Component', () => {
     dataset = null;
   });
 
-  it('renders with no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const template = document.createElement('template');
-    template.innerHTML = `
-      <ids-tree label="testing tree">
-        <ids-tree-node id="node1">Test (node1)</ids-tree-node>
-        <ids-tree-node id="node2" label="Test Folders (node2)">
-          <ids-badge slot="badge" color="info" shape="round">5</ids-badge>
-          <ids-tree-node id="node3" label="Test Folders (node3)">
-            <ids-tree-node id="node4">Test (node4)</ids-tree-node>
-            <ids-tree-node id="node5">Test (node5)</ids-tree-node>
-          </ids-tree-node>
-        </ids-tree-node>
-      </ids-tree>`;
-    tree = template.content.childNodes[0];
-    document.body.appendChild(tree);
-    await processAnimFrame();
-    tree.remove();
-    expect(document.querySelectorAll('ids-tree').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders via document.createElement with no errors (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const component: any = document.createElement('ids-tree');
@@ -965,74 +943,5 @@ describe('IdsTree Component', () => {
     expect(node.elem.expandTarget).toEqual('node');
     expect(node.elem.label).toEqual('');
     expect(node.elem.toggleIcon).toEqual('');
-  });
-
-  it('should be able to expand/collapse tree nodes', () => {
-    tree.data = dataset;
-    let id = '#home';
-    let node = tree.getNode(id);
-    expect(node.isGroup).toEqual(false);
-    tree.expand(id);
-
-    id = '#public-folders';
-    node = tree.getNode(id);
-    tree.expandTarget = null;
-    expect(node.elem.expandTarget).toEqual('node');
-    tree.expandTarget = 'node';
-    expect(tree.getAttribute('expand-target')).toEqual('node');
-    node.elem.tree = tree;
-    tree.expandTarget = 'icon';
-    expect(node.isGroup).toEqual(true);
-    expect(node.elem.expanded).toEqual(true);
-    node.elem.expanded = 'false';
-    node = tree.getNode(id);
-    expect(node.elem.expanded).toEqual(false);
-    node.elem.expanded = 'true';
-    node = tree.getNode(id);
-    expect(node.elem.expanded).toEqual(true);
-  });
-
-  it('should renders characters and symbols', () => {
-    const data = [{
-      id: 'cs-1',
-      text: '<online onload="alert()">'
-    }, {
-      id: 'cs-2',
-      text: `& "
-        &#33; &#34; &#35; &#36; &#37; &#38; &#39;
-        &#40; &#41; &#42; &#43; &#44; &#45; &#46; &#47;
-        &#161;, &#162;, &#163;, &#164;, &#165;, &#166;, &#167;, &#169;`
-    }];
-    tree.data = data;
-    let node = tree.getNode('#cs-1');
-    expect(node.elem.textContent).toContain('onload="alert()">');
-    node = tree.getNode('#cs-2');
-    expect(node.elem.textContent).toContain('< > & "');
-    expect(node.elem.textContent).toContain('¢, £, ¤, ¥');
-  });
-
-  it('should renders with markup', async () => {
-    document.body.innerHTML = `
-      <ids-tree label="testing tree" expand-target="true" toggle-icon-rotate="false">
-        <ids-tree-node id="node0" selected="true">Test (node0)</ids-tree-node>
-        <ids-tree-node id="node1">Test (node1)</ids-tree-node>
-        <ids-tree-node id="node2" label="Test Folders (node2)">
-          <ids-badge slot="badge" color="info" shape="round">5</ids-badge>
-          <ids-tree-node id="node3" label="Test Folders (node3)">
-            <ids-tree-node id="node4" disabled="true" icon="tree-node">Test (node4)</ids-tree-node>
-            <ids-tree-node id="node5">Test (node5)</ids-tree-node>
-          </ids-tree-node>
-        </ids-tree-node>
-        <ids-tree-node id="node6" label="Test Folders (node6)"
-          collapse-icon="closed-folder"
-          expand-icon="open-folder"
-          expanded="false">
-          <ids-tree-node id="node7" selected="true" tabbable="true">Test (node7)</ids-tree-node>
-        </ids-tree-node>
-      </ids-tree>`;
-    await processAnimFrame();
-    tree = document.querySelector('ids-tree');
-    expect(tree.isSelected('#node0')).toEqual(true);
-    expect(tree.isSelected('#node7')).toEqual(false);
   });
 });

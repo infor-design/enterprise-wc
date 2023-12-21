@@ -200,6 +200,7 @@ export const attributes = {
   HIDE_CHECKBOXES: 'hide-checkboxes',
   HIDE_DOWN: 'hide-down',
   HIDE_FOCUS: 'hide-focus',
+  HIDE_ON_ONE: 'hide-on-one',
   HIDE_UP: 'hide-up',
   HIGHLIGHTED: 'highlighted',
   HITBOX: 'hitbox',
@@ -314,6 +315,7 @@ export const attributes = {
   OVER: 'over',
   OVERFLOW: 'overflow',
   OVERFLOWED: 'overflowed',
+  OVERLAY: 'overlay',
   PADDING: 'padding',
   PADDING_X: 'padding-x',
   PADDING_Y: 'padding-y',
@@ -455,6 +457,7 @@ export const attributes = {
   SUPPRESS_DEACTIVATION: 'suppress-deactivation',
   SUPPRESS_DESELECTION: 'suppress-deselection',
   SUPPRESS_EMPTY_MESSAGE: 'suppress-empty-message',
+  SUPPRESS_FORM: 'suppress-form',
   SUPPRESS_HIGHLIGHT: 'suppress-highlight',
   SUPPRESS_LABELS: 'suppress-labels',
   SUPPRESS_ROW_CLICK_SELECTION: 'suppress-row-click-selection',
@@ -534,6 +537,7 @@ export const attributes = {
   Y_AXIS_MIN: 'y-axis-min',
   Y_OFFSET: 'y-offset',
   YEAR: 'year',
+  Z_INDEX: 'z-index'
 };
 
 // Standard HTMLElement attribute names
@@ -561,7 +565,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.16';
+export const version = '1.0.0-beta.17';
 
 export enum IdsDirection {
   Up = 'up',

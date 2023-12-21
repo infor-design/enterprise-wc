@@ -1,4 +1,4 @@
-<ids-list-builder height="310px" selectable="single" id="list-builder-1" sortable="true" loaded="true">
+<ids-list-builder height="310px" selectable="single" id="list-builder-1" sortable="" loaded="true">
       <ids-toolbar slot="toolbar" type="formatter" tabbable="true" role="toolbar">
         <ids-toolbar-section type="buttonset" toolbar-type="formatter">
           

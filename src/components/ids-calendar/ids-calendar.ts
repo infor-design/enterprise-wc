@@ -86,7 +86,6 @@ export default class IdsCalendar extends Base {
 
   constructor() {
     super();
-    this.state ??= {};
   }
 
   static get attributes() {
@@ -95,8 +94,17 @@ export default class IdsCalendar extends Base {
       attributes.DATE,
       attributes.FIRST_DAY_OF_WEEK,
       attributes.SHOW_DETAILS,
-      attributes.SHOW_LEGEND
+      attributes.SHOW_LEGEND,
+      attributes.SUPPRESS_FORM
     ];
+  }
+
+  set suppressForm(val: string | boolean | null) {
+    this.toggleAttribute(attributes.SUPPRESS_FORM, stringToBool(val));
+  }
+
+  get suppressForm(): boolean {
+    return this.hasAttribute(attributes.SUPPRESS_FORM);
   }
 
   /**
@@ -174,7 +182,7 @@ export default class IdsCalendar extends Base {
   #updateTodayBtn(val: boolean) {
     const el = this.container?.querySelector('ids-toolbar-section');
     if (val) {
-      el?.insertAdjacentHTML('beforeend', this.#todayBtnTemplate());
+      el?.insertAdjacentHTML('beforeend', this.todayBtnTemplate());
     } else {
       this.container?.querySelector('.btn-today')?.remove();
     }
@@ -289,7 +297,7 @@ export default class IdsCalendar extends Base {
       <div class="ids-calendar">
         <div class="calendar-legend-pane"><slot name="legend"></slot></div>
         <div class="calendar-contents">
-          <div class="calendar-toolbar-pane">${this.#createToolbarTemplate()}</div>
+          <div class="calendar-toolbar-pane">${this.toolbarTemplate()}</div>
           <div class="calendar-view-pane"></div>
         </div>
         <div class="calendar-details-pane"></div>
@@ -345,7 +353,7 @@ export default class IdsCalendar extends Base {
   /**
    * @returns {string} containing the template for the Calendar Toolbar's "Today" Button
    */
-  #todayBtnTemplate() {
+  todayBtnTemplate() {
     return this.showToday ? `<ids-button css-class="no-padding" class="btn-today">
       <ids-text class="btn-today-text" font-size="16" translate-text="true" font-weight="semi-bold">Today</ids-text>
     </ids-button>` : '';
@@ -355,7 +363,7 @@ export default class IdsCalendar extends Base {
    * Renders an IdsToolbar component with calendar controls
    * @returns {string} Calendar's IdsToolbar template
    */
-  #createToolbarTemplate() {
+  toolbarTemplate() {
     const navBtns = `<ids-button class="btn-previous">
       <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
       <ids-icon icon="chevron-left"></ids-icon>
@@ -377,7 +385,7 @@ export default class IdsCalendar extends Base {
       first-day-of-week="${this.firstDayOfWeek || 0}">
     </ids-date-picker-popup>`;
 
-    const todayBtn = this.#todayBtnTemplate();
+    const todayBtn = this.todayBtnTemplate();
 
     return `
       <ids-toolbar slot="toolbar" id="calendar-toolbar" class="calendar-toolbar" tabbable="true">
@@ -516,20 +524,26 @@ export default class IdsCalendar extends Base {
       };
 
       const createNewEvent = () => {
+        if (this.suppressForm) return;
         const id: string = Date.now().toString() + Math.floor(Math.random() * 100);
         this.createNewEvent(id, true);
+      };
+
+      const triggerDayDblClick = () => {
+        this.triggerEvent('daydblclick.calendar', this, { detail: { ...evt.detail } });
       };
 
       daySelectTimer = setTimeout(() => {
         updateCalendar();
         daySelectCount = 0;
-      }, 200);
+      }, 250);
 
       if (daySelectCount === 2 && evt.detail.date.getTime() === daySelectedDate?.getTime()) {
         clearTimeout(daySelectTimer);
         updateCalendar();
         createNewEvent();
         daySelectCount = 0;
+        triggerDayDblClick();
       }
 
       daySelectedDate = evt.detail.date;
@@ -584,8 +598,8 @@ export default class IdsCalendar extends Base {
       }
     });
 
-    this.offEvent('click-calendar-event', this);
-    this.onEvent('click-calendar-event', this, (evt: CustomEvent) => {
+    this.offEvent('clickcalendarevent', this);
+    this.onEvent('clickcalendarevent', this, (evt: CustomEvent) => {
       const elem = evt.detail.elem;
       this.#selectedEventId = elem.eventData.id;
       this.#removePopup();
@@ -769,6 +783,7 @@ export default class IdsCalendar extends Base {
    * @param {CalendarEventData} eventData calendar event component
    */
   #insertFormPopup(target: HTMLElement, eventData: CalendarEventData): void {
+    if (this.suppressForm) return;
     const popup = this.#getEventFormPopup();
     if (popup) {
       popup.innerHTML = `${this.#eventFormTemplate(eventData)}`;
@@ -1219,7 +1234,7 @@ export default class IdsCalendar extends Base {
    */
   clearEvents(): void {
     this.eventsData = [];
-    this.beforeEventsRender = null;
+    this.beforeEventsRender = undefined;
   }
 
   /**

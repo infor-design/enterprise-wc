@@ -3,6 +3,9 @@
   position: sticky;
   top: 0;
   z-index: 4; // Higher than frozen columns
+
+  // Filter button height
+  --ids-button-formatter-size: 28px;
 }
 
 // Header Checkbox

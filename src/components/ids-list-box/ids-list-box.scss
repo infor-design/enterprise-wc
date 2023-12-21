@@ -18,7 +18,6 @@ $border-input-field-height-lg: calc(var(--ids-input-height-40) - 2px);
   max-height: var(--ids-input-width-40);
   scroll-behavior: smooth;
   min-width: $border-input-size-xs;
-  max-width: $border-input-size-md;
   width: var(--ids-input-width-full);
 }
 
@@ -66,12 +65,19 @@ $border-input-field-height-lg: calc(var(--ids-input-height-40) - 2px);
 }
 
 // Height Sizes
+:host([field-height='xxs']) {
+  ::slotted(ids-list-box-option) {
+    text-indent: 2px;
+  }
+}
+
 :host([compact]),
 :host([field-height='xs']) {
   ::slotted(ids-list-box-option) {
     font-size: var(--ids-dropdown-font-size);
     min-height: $border-input-field-height-xs;
     line-height: $border-input-field-height-xs;
+    text-indent: 4px;
   }
 }
 

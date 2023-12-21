@@ -144,7 +144,7 @@ export default class IdsBox extends IdsElement {
   }
 
   /**
-   * Set a height in pixels or perct
+   * Set a height in pixels or percent
    * @param {string} value The height in pixels or as a percent
    */
   set height(value: string) {

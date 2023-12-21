@@ -5,7 +5,7 @@
             <ids-icon icon="icon-app-ac" height="32" width="32" viewbox="0 0 32 32" stroke="none" style="--ids-icon-width-default: 32px; --ids-icon-height-default: 32px;"></ids-icon>
             <ids-text audible="">Admin Console</ids-text>
           </ids-module-nav-button>
-          <ids-dropdown id="module-nav-role-dropdown" dropdown-icon="expand-all" color-variant="module-nav" label="Role Selector" value="admin-console" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-module-nav-role-dropdown" label-state="collapsed" size="full">
+          <ids-dropdown id="module-nav-role-dropdown" dropdown-icon="expand-all" color-variant="module-nav" label="Role Selector" value="admin-console" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-module-nav-role-dropdown" tooltip="Admin Console" label-state="collapsed" size="full">
             <ids-list-box role="listbox" size="full" id="ids-list-box-module-nav-role-dropdown" aria-label="Listbox" class="module-nav">
               <ids-list-box-option value="admin-console" id="admin-console" role="option" tabindex="-1" row-index="0" class="module-nav">
                 <ids-icon icon="icon-app-ac" height="32" width="32" viewbox="0 0 32 32" stroke="none" style="--ids-icon-width-default: 32px; --ids-icon-height-default: 32px;"></ids-icon>

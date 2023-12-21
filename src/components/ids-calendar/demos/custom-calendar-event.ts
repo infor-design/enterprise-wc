@@ -9,7 +9,7 @@ interface CustomCalendarEventTypeData extends CalendarEventTypeData {
 @customElement('ids-custom-calendar-event')
 @scss(styles)
 export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
-  #cssClass: string[] = [];
+  cssClasses: string[] = [];
 
   eventTypesJson: CustomCalendarEventTypeData[] | any = [];
 
@@ -34,10 +34,8 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
   }
 
   template(): string {
-    // Customized Layout
-    const cssClass = this.#cssClass.join(' ');
     return `
-      <a class='ids-calendar-event ${cssClass}' href='#' color='${this.color}'>
+      <a class='ids-calendar-event' href='#' color='${this.color}'>
           ${this.contentTemplate()}
       </a>
     `;
@@ -100,7 +98,7 @@ export default class IdsCustomCalendarEvent extends IdsCalendarEvent {
    * @param {Array<string>} value array of css classes
    */
   set cssClass(value: string[]) {
-    this.#cssClass = this.#cssClass.concat(value);
+    this.cssClasses = this.cssClasses.concat(value);
     this.container?.classList.add(...value);
   }
 

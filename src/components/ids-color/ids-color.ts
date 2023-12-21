@@ -78,8 +78,7 @@ export default class IdsColor extends Base {
    * @returns {string} - html for the template
    */
   template(): string {
-    return `
-      ${this.tooltip ? `<ids-tooltip>${this.tooltip} ${this.hex}</ids-tooltip>` : ''}
+    return `<ids-tooltip>${this.tooltip} ${this.hex}</ids-tooltip>
       <div class="ids-color ${this.size} no-color" tabindex="0" part="color">
         ${this.clickable ? `<ids-icon class="color-check" icon="check" size="small" part="hex"></ids-icon>` : ''}
         ${this.showLabel ? `<ids-text font-size="14" type="span" align="center">${this.label}</ids-text>` : ''}

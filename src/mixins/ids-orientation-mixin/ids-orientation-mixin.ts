@@ -13,18 +13,11 @@ type Constraints = IdsConstructor<OrientationHandler>;
  * @returns {any} The extended object
  */
 const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class extends superclass {
-  #orientation: string | null = 'horizontal';
+  currentOrientation: string | null = 'horizontal';
 
   constructor(...args: any[]) {
     super(...args);
-
-    // Overrides the IdsElement `render` method to also include an update
-    // to color variant styling after it runs, keeping the visual state in-sync.
-    this.render = () => {
-      super.render();
-      this.#refreshOrientation('horizontal', this.orientation);
-      return this;
-    };
+    this.#refreshOrientation('horizontal', this.orientation);
   }
 
   connectedCallback() {
@@ -47,7 +40,7 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
    * @returns {string | null} the name of the orientation currently applied
    */
   get orientation(): string | null {
-    return this.#orientation;
+    return this.currentOrientation;
   }
 
   /**
@@ -56,7 +49,7 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
   set orientation(val: string | null) {
     val ??= 'horizontal';
     const safeValue = String(stripTags(val, ''));
-    const currentValue = this.#orientation;
+    const currentValue = this.currentOrientation;
 
     if (currentValue !== safeValue) {
       if (this.orientations.includes(safeValue)) {
@@ -65,7 +58,7 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
         this.removeAttribute(attributes.ORIENTATION);
       }
 
-      this.#orientation = safeValue;
+      this.currentOrientation = safeValue;
       this.#refreshOrientation(currentValue, safeValue);
     }
   }
@@ -83,6 +76,7 @@ const IdsOrientationMixin = <T extends Constraints>(superclass: T) => class exte
 
     if (oldVariantName) cl.remove(`orientation-${oldVariantName}`);
     if (newVariantName) cl.add(`orientation-${newVariantName}`);
+    cl.remove(`orientation-undefined`);
 
     // Fire optional callback
     if (typeof this.onOrientationRefresh === 'function') {

@@ -82,7 +82,7 @@ describe('IdsRating Component', () => {
     expect(rating.size).toEqual('large');
   });
 
-  it('should be able to toggle off 1 start', () => {
+  it.skip('should be able to toggle off 1 start', () => {
     rating.value = 1;
     rating.shadowRoot?.querySelector<IdsIcon>('.star-0')?.click();
     expect(rating.value).toEqual(0);

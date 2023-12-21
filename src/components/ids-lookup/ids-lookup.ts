@@ -72,16 +72,14 @@ export default class IdsLookup extends Base {
 
   listBox?: any;
 
+  state = {
+    clearable: true,
+    dataGridSettings: { rowSelection: 'multiple' },
+    value: ''
+  };
+
   constructor() {
     super();
-
-    // Setup some defaults
-    this.state = {
-      ...this.state,
-      clearable: true,
-      dataGridSettings: { rowSelection: 'multiple' },
-      value: ''
-    };
 
     // Override global html title
     Object.defineProperty(this, 'title', {
@@ -126,7 +124,6 @@ export default class IdsLookup extends Base {
     this.modal = undefined;
     this.triggerField = undefined;
     this.triggerButton = undefined;
-    this.state = {};
   }
 
   /**
@@ -157,7 +154,7 @@ export default class IdsLookup extends Base {
     <ids-trigger-field
       label="${this.label}"
       part="trigger-field"
-      value="${this.value}"
+      value="${this.value === undefined ? '' : this.value}"
       ${this.autocomplete ? ` autocomplete search-field="${this.field}"` : ''}
       ${this.clearable ? ' clearable="true"' : ''}
       ${this.disabled ? ' disabled="true"' : ''}
@@ -380,7 +377,7 @@ export default class IdsLookup extends Base {
     }
 
     // Select the rows, if not selected already for given value split with delimiter
-    const findIndex = (d: any, v: string) => (d.findIndex((r: any) => r[this.field] === v));
+    const findIndex = (d: any, v: string) => (d?.findIndex((r: any) => r[this.field] === v));
     const values = value?.split(this.delimiter) || [];
     let notFound: number[] = [];
     values.forEach((v: string, i: number) => {
@@ -534,7 +531,7 @@ export default class IdsLookup extends Base {
     }
   }
 
-  get clearable(): boolean { return this.state.clearable; }
+  get clearable(): boolean { return this.state.clearable || true; }
 
   /**
    * Push field-height/compact to the container element

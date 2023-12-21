@@ -19,6 +19,18 @@
   }
 }
 
+:host([field-height='xs']) {
+  .ids-trigger-button.ids-icon-button {
+    margin-inline-end: -1px;
+  }
+}
+
+:host([field-height='sm']) {
+  .ids-trigger-button.ids-icon-button {
+    margin-inline-end: -4px;
+  }
+}
+
 .ids-trigger-button {
   align-items: center;
   background-color: transparent;
@@ -35,7 +47,6 @@
 
     &[readonly] {
       &:hover {
-        color: var(--ids-trigger-field-icon-color);
         cursor: var(--ids-cursor-default);
         background-color: transparent;
       }
@@ -96,6 +107,10 @@
 
   &.inline-start {
     border-inline-end: 1px solid;
+
+    &:not(.btn-secondary):not(.no-margins) {
+      margin: 0;
+    }
   }
 
   &.color-variant-alternate-formatter {

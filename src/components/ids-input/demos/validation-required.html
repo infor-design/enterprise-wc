@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell col-span="4" col-span-md="12">
+        <ids-text font-size="12" type="h1">Input - Required Validation</ids-text><br />
+        <ids-text type="p">The fields below demonstrate how to apply a "required" validation indicator in different ways.  The last field shows how to apply custom validation with a required indicator.  Remove text from the fields to see how error messages are applied.</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-input label="No validation" id="input-validation-none" value="Some text"></ids-input>
+        <ids-input label="No validation + required indicator" id="input-validation-indicator" value="Some text" required></ids-input>
+        <ids-input label="Required validation" id="input-validation-required" value="Some text" validate="required"></ids-input>
+        <ids-input label="Custom validation + required indicator" id="input-validation-custom" value="Some text" validate="custom" required></ids-input>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

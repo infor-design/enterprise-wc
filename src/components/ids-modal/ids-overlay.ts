@@ -8,6 +8,7 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-overlay.scss';
+import type IdsModuleNavBar from '../ids-module-nav/ids-module-nav-bar';
 
 /**
  * IDS Overlay Component
@@ -23,6 +24,7 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
 
     this.state = {
       opacity: 0.5,
+      backgroundColor: '',
       visible: false,
     };
   }
@@ -30,8 +32,10 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
   static get attributes(): Array<string> {
     return [
       ...super.attributes,
-      attributes.VISIBLE,
-      attributes.OPACITY
+      attributes.BACKGROUND_COLOR,
+      attributes.COLOR,
+      attributes.OPACITY,
+      attributes.VISIBLE
     ];
   }
 
@@ -40,7 +44,7 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
    * @returns {string} The template
    */
   template(): string {
-    return `<div class="ids-overlay" part="overlay"><slot></slot></div>`;
+    return `<div class="ids-overlay${this.visible ? ' visible' : ''}" part="overlay"><slot></slot></div>`;
   }
 
   /**
@@ -58,6 +62,37 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
 
     this.state.visible = trueVal;
     this.#smoothlyAnimateVisibility(trueVal);
+
+    // set module nav zindex if found
+    document.querySelector<IdsModuleNavBar>('ids-module-nav-bar')?.style.setProperty('--ids-module-nav-bar-z-index', trueVal ? '0' : '');
+  }
+
+  /**
+   * @returns {string} css variable for background color
+   */
+  get backgroundColor(): string {
+    return this.state.backgroundColor;
+  }
+
+  /**
+   * @param {string} val css variable for background color
+   */
+  set backgroundColor(val: string) {
+    this.state.backgroundColor = val;
+  }
+
+  /**
+   * @returns {string} value for zindex
+   */
+  get zIndex(): string {
+    return this.state.zIndex;
+  }
+
+  /**
+   * @param {boolean} val value for zindex
+   */
+  set zIndex(val: string) {
+    this.state.zIndex = val;
   }
 
   /**
@@ -94,7 +129,7 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
    * @returns {Promise} fulfilled after a CSS transition completes.
    */
   async #changeOpacity(val: any): Promise<any> {
-    return transitionToPromise(this.container, 'background-color', `rgba(0 0 0 / ${val})`);
+    return transitionToPromise(this.container, 'background-color', `rgba(${this.backgroundColor === 'page' ? 'var(--ids-overlay-page-background-color)' : 'var(--ids-overlay-background-color)'} / ${val})`);
   }
 
   /**

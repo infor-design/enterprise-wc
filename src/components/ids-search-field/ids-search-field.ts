@@ -27,6 +27,10 @@ export default class IdsSearchField extends IdsTriggerField {
     super();
   }
 
+  state: any = {
+    categories: []
+  };
+
   isFormComponent = true;
 
   /**
@@ -94,7 +98,7 @@ export default class IdsSearchField extends IdsTriggerField {
       ${labelHtml}
       <div class="fieldset">
         <div class="field-container" part="field-container">
-          ${this.categories.length ? '' : searchIcon}
+          ${this.categories?.length ? '' : searchIcon}
           <slot name="trigger-start"></slot>
           ${this.templateCategoriesMenu()}
           <input
@@ -131,7 +135,7 @@ export default class IdsSearchField extends IdsTriggerField {
   }
 
   templateCategoriesMenu(): string {
-    if (!this.categories.length) return ``;
+    if (!this.categories?.length) return ``;
 
     const menuButtonText = this.category
       ? `<span>${this.category}</span>`
@@ -186,18 +190,16 @@ export default class IdsSearchField extends IdsTriggerField {
     return this.shadowRoot?.querySelector('ids-button#category-action-button');
   }
 
-  #categories: string[] = [];
-
   /**
    * @returns {string[]} returns an array of all the categories that appear in the category dropdown
    */
-  get categories(): string[] { return this.#categories; }
+  get categories(): string[] { return this.state.categories; }
 
   /**
    * @param {string[]} value = sets a list of categories that should appear in the category dropdown
    */
   set categories(value: string[]) {
-    this.#categories = value;
+    this.state.categories = value;
     this.#rerender();
   }
 

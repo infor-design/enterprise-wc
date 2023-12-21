@@ -51,8 +51,11 @@ export default class IdsPopupMenu extends Base {
     return [
       ...super.attributes,
       attributes.ALIGN,
+      attributes.ARROW,
       attributes.MAX_HEIGHT,
-      attributes.WIDTH
+      attributes.WIDTH,
+      attributes.X,
+      attributes.Y
     ];
   }
 
@@ -81,6 +84,7 @@ export default class IdsPopupMenu extends Base {
       this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
 
+    if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
     this.configureSubmenuAlignment();
     this.setOnPlace(!!this.parentMenuItem);
   }
@@ -266,7 +270,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {string} a comma-delimited set of alignment types `direction1, direction2`
    */
   get align() {
-    return this.popup?.align || `top, ${this.popup?.localeAPI.isRTL() ? 'right' : 'left'}`;
+    return this.popup?.align || `top, ${this.popup?.localeAPI?.isRTL() ? 'right' : 'left'}`;
   }
 
   /**
@@ -449,6 +453,43 @@ export default class IdsPopupMenu extends Base {
     return (width?.length ? width : null);
   }
 
+  /**
+   * Sets the Y (top) coordinate of the Popup
+   * @param {number} val the coordinate's value
+   */
+  set y(val: number) {
+    if (this.popup) this.popup.y = val;
+  }
+
+  get y(): number {
+    return this.popup?.y || 0;
+  }
+
+  /**
+   * Sets the X (top) coordinate of the Popup
+   * @param {number} val the coordinate's value
+   */
+  set x(val: number) {
+    if (this.popup) this.popup.x = val;
+  }
+
+  get x(): number {
+    return this.popup?.x || 0;
+  }
+
+  /**
+   * Specifies whether to show the Popup Arrow, and in which direction.
+   * The direction is in relation to the alignment setting. So for example of you align: top you want arrow: top as well.
+   * @param {string|null} val the arrow direction.  Defaults to `none`
+   */
+  set arrow(val: string | null) {
+    if (this.popup) this.popup.arrow = val;
+  }
+
+  get arrow(): string | null {
+    return this.popup?.arrow || 'none';
+  }
+
   #setMenuWidth(targetWidth: string | null): void {
     if (targetWidth === null) targetWidth = '';
     if (this.container) {
@@ -577,11 +618,12 @@ export default class IdsPopupMenu extends Base {
             // accounts for top/bottom padding + border thickness
             const extra = 10;
 
+            if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
             // adjusts for nested `relative` positioned offsets, and scrolled containers
             const xAdjust = (parentPopup.offsetLeft || 0)
-              - this.container.scrollParentElem!.scrollLeft;
+              - this.container!.scrollParentElem!.scrollLeft;
             const yAdjust = (parentPopup.offsetTop || 0)
-              - this.container.scrollParentElem!.scrollTop + extra;
+              - this.container!.scrollParentElem!.scrollTop + extra;
 
             popupRect.x -= xAdjust;
             popupRect.y -= yAdjust;
@@ -617,7 +659,7 @@ export default class IdsPopupMenu extends Base {
    * align the menu against the parent menu item.
    */
   private configureSubmenuAlignment() {
-    const isRTL = this.popup?.localeAPI.isRTL() || false;
+    const isRTL = this.popup?.localeAPI?.isRTL() || false;
     if (this.parentMenuItem) {
       this.popupDelay = 200;
       this.target = this.parentMenuItem;

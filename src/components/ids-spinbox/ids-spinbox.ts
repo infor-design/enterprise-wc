@@ -6,10 +6,6 @@ import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 
 import styles from './ids-spinbox.scss';
 
-/**
- * used for assigning ids
- */
-let instanceCounter = 0;
 const MOUSE_LEFT = 0b001;
 
 /**
@@ -38,6 +34,7 @@ export default class IdsSpinbox extends IdsTriggerField {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.MASK,
       attributes.MAX,
       attributes.MIN,
       attributes.STEP,
@@ -49,7 +46,6 @@ export default class IdsSpinbox extends IdsTriggerField {
    * @returns {string} the template to render
    */
   template() {
-    this.templateHostAttributes();
     const {
       ariaLabel,
       containerClass,
@@ -72,6 +68,7 @@ export default class IdsSpinbox extends IdsTriggerField {
             ${type}${inputClass}${placeholder}${inputState}
             ${ariaLabel}
             ${value}
+            mask="number"
             ></input>
           <slot name="trigger-end"></slot>
         </div>
@@ -79,17 +76,11 @@ export default class IdsSpinbox extends IdsTriggerField {
     );
   }
 
-  templateHostAttributes() {
-    if (!this.id) {
-      this.setAttribute(attributes.ID, `ids-spinbox-${++instanceCounter}`);
-    }
-  }
-
   #appendTriggerButtons() {
     const startBtn = this.querySelector('[slot="trigger-start"]');
     if (!startBtn) {
       this.insertAdjacentHTML('afterbegin', `<ids-trigger-button
-        id="${this.id}-decrement-btn"
+        id="decrement-btn"
         inline
         no-padding
         square
@@ -101,7 +92,7 @@ export default class IdsSpinbox extends IdsTriggerField {
     const endBtn = this.querySelector('[slot="trigger-end"]');
     if (!endBtn) {
       this.insertAdjacentHTML('beforeend', `<ids-trigger-button
-        id="${this.id}-increment-btn"
+        id="increment-btn"
         inline
         no-padding
         square
@@ -110,6 +101,8 @@ export default class IdsSpinbox extends IdsTriggerField {
         part="button"> + </ids-trigger-button>`);
     }
   }
+
+  triggerField: IdsTriggerField | undefined | null;
 
   connectedCallback() {
     super.connectedCallback();
@@ -144,7 +137,7 @@ export default class IdsSpinbox extends IdsTriggerField {
       this.textAlign = 'center';
     }
 
-    this.#configureMask();
+    this.#applyMask();
     this.#attachEventHandlers();
     this.#updateDisabledButtonStates();
   }
@@ -158,6 +151,19 @@ export default class IdsSpinbox extends IdsTriggerField {
       if (this.input && this.input.value !== this.value) {
         this.value = this.input.value;
         this.#onStepButtonUnpressed();
+      }
+    });
+
+    this.input?.addEventListener('blur', () => {
+      if (this.input && this.input.value === '-') {
+        this.value = '';
+      }
+      if (this.max && this.input && parseInt(this.input.value) > this.max) {
+        this.value = this.max.toString();
+        return;
+      }
+      if (this.min && this.input && parseInt(this.input.value) < this.min) {
+        this.value = this.min.toString();
       }
     });
 
@@ -233,7 +239,7 @@ export default class IdsSpinbox extends IdsTriggerField {
         this.setAttribute(attributes.MAX, `${numberValue}`);
         this.setAttribute(htmlAttributes.ARIA_VALUEMAX, `${numberValue}`);
       }
-      this.#configureMask();
+      this.#applyMask();
       this.#updateDisabledButtonStates();
     }
   }
@@ -317,11 +323,11 @@ export default class IdsSpinbox extends IdsTriggerField {
   }
 
   /**
-   * @param {number | string} value spinbox' input value
+   * @param {string} value spinbox' input value
    */
   set value(value) {
-    if (this.input && `${value}`.trim() === '-') {
-      this.input.value = '';
+    if (this.input && (`${value}`.trim() === '-' || value === '')) {
+      this.input.value = `${value}`.trim();
       return;
     }
 
@@ -339,7 +345,7 @@ export default class IdsSpinbox extends IdsTriggerField {
   }
 
   /**
-   * @returns {number | string} spinbox' current input value
+   * @returns {string} spinbox' current input value
    */
   get value() {
     return super.value;
@@ -354,13 +360,6 @@ export default class IdsSpinbox extends IdsTriggerField {
   #setValueWithinLimits(value: number | string) {
     let nextValue: any = parseInt(value as any);
     if (!Number.isNaN(nextValue)) {
-      // corrections on value if not in-step
-      const step = parseInt(this.step as any);
-      const hasValidStep = !Number.isNaN(step);
-      if (hasValidStep && (nextValue % step !== 0)) {
-        nextValue = Math.round(nextValue / step) * step;
-      }
-
       // corrections on value if not in-range
       const min: any = this.min;
       const max: any = this.max;
@@ -444,6 +443,14 @@ export default class IdsSpinbox extends IdsTriggerField {
 
     if (direction === 'down') {
       step *= -1;
+    }
+
+    if (direction === 'down' && parseInt(this.value) === this.min) {
+      return;
+    }
+
+    if (direction === 'up' && parseInt(this.value) === this.max) {
+      return;
     }
 
     const hasValidValue = !Number.isNaN(parseInt(this.value));
@@ -548,10 +555,13 @@ export default class IdsSpinbox extends IdsTriggerField {
   /**
    * Configure the IdsMask settings
    */
-  #configureMask() {
+  #applyMask() {
+    const canBeNegative = this.min === null || (this.min < 0);
     const maskOpts = {
       allowDecimal: false,
-      allowNegative: true
+      allowNegative: canBeNegative,
+      integerLimit: (this.min === null || this.max == null)
+        ? null : Math.max(Math.abs(this.min).toString().length, Math.abs(this.min).toString().length)
     };
     this.mask = 'number';
     this.maskOptions = maskOpts;

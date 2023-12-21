@@ -700,7 +700,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.data = null;
       dataGrid.columns = columns();
 
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-body').length).toEqual(1);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-body').length).toEqual(0);
     });
 
     it('can hide / show column with setColumnVisible', () => {

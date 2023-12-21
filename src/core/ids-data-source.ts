@@ -105,7 +105,7 @@ class IdsDataSource {
     return this.#currentData;
   }
 
-  get currentData() {
+  get currentData(): Record<string, unknown> {
     return this.#unFlattenData(this.#currentData);
   }
 

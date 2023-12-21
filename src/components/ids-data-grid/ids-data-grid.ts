@@ -164,8 +164,8 @@ export default class IdsDataGrid extends Base {
     if (this.initialized) this.restoreAllSettings?.();
 
     super.connectedCallback();
-    this.redrawBody();
-    setContextmenu.apply(this);
+    this.#attachEventHandlers();
+    this.#attachKeyboardListeners();
     this.#attachScrollEvents();
   }
 
@@ -175,7 +175,7 @@ export default class IdsDataGrid extends Base {
   }
 
   /** Reference to datasource API */
-  readonly datasource: IdsDataSource = new IdsDataSource();
+  datasource: IdsDataSource = new IdsDataSource();
 
   /** Filters instance attached to component  */
   readonly filters = new IdsDataGridFilters(this);
@@ -244,20 +244,21 @@ export default class IdsDataGrid extends Base {
    * @private
    */
   template() {
-    if (this?.data.length === 0 && this?.columns.length === 0) {
-      return ``;
-    }
-
     let cssClasses = `${this.alternateRowShading ? ' alt-row-shading' : ''}`;
     cssClasses += `${this.listStyle ? ' is-list-style' : ''}`;
     cssClasses += ' waiting-load';
+
     const emptyMesageTemplate = emptyMessageTemplate.apply(this);
+
+    const innerTemplate = (!this.data?.length || !this.columns?.length)
+      || (this?.data?.length === 0 && this?.columns?.length === 0)
+      ? ''
+      : `${IdsDataGridHeader.template(this)}${this.bodyTemplate()}`;
 
     const html = `<div class="ids-data-grid-wrapper">
         <span class="ids-data-grid-sort-arrows"></span>
         <div class="ids-data-grid${cssClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
-          ${IdsDataGridHeader.template(this)}
-          ${this.bodyTemplate()}
+        ${innerTemplate}
         </div>
         ${emptyMesageTemplate}
         <slot name="menu-container"></slot>
@@ -386,6 +387,7 @@ export default class IdsDataGrid extends Base {
     this.#attachKeyboardListeners();
     this.#attachScrollEvents();
     this.setupTooltip();
+    setContextmenu.apply(this);
 
     // Set initial padding-bottom for virtual scroll
     if (this.virtualScroll) {
@@ -697,18 +699,19 @@ export default class IdsDataGrid extends Base {
     this.columns.splice(correctFromIndex, 1);
     this.columns.splice(correctToIndex, 0, element);
 
-    // Move the dirty data
-    this.dirtyCells.forEach((dirtyRow: Record<string, any>) => {
-      if (dirtyRow.cell === fromIndex) {
-        const row: any = this.data[dirtyRow?.row];
-        const cellIndex = row.dirtyCells.findIndex((item: any) => item.cell === fromIndex);
-        row.dirtyCells[cellIndex].cell = toIndex;
-      }
-      if (dirtyRow.cell === toIndex) {
-        const row: any = this.data[dirtyRow?.row];
-        const cellIndex = row.dirtyCells.findIndex((item: any) => item.cell === toIndex);
-        row.dirtyCells[cellIndex].cell = fromIndex;
-      }
+    // Map column id to new column index
+    const colIdToCellIndex = this.columns.reduce((obj, curr, idx) => {
+      obj[curr.id] = idx;
+      return obj;
+    }, {} as Record<string, number>);
+
+    // Move the dirty cell data
+    this.dirtyCells.forEach((dirtyCell: Record<string, any>) => {
+      const dirtyCellId = dirtyCell.columnId;
+      const row: any = this.data[dirtyCell?.row];
+      const cellIndex = row.dirtyCells.findIndex((item: any) => item.columnId === dirtyCellId);
+      const newCellIndex = colIdToCellIndex[dirtyCellId];
+      row.dirtyCells[cellIndex].cell = newCellIndex;
     });
 
     // Move the validation data
@@ -922,6 +925,10 @@ export default class IdsDataGrid extends Base {
     if (!nextCell && rows && direction === IdsDirection.Next) {
       for (let index = this.activeCell.row + 1; index < rows.length; index++) {
         const row = rows[index];
+        if ((row.firstChild as Element).classList?.contains('is-editable')) {
+          nextCell = row.firstChild as IdsDataGridCell;
+          break;
+        }
         nextCell = next(row.firstChild, '.is-editable') as IdsDataGridCell;
         if (nextCell) break;
       }
@@ -1302,6 +1309,7 @@ export default class IdsDataGrid extends Base {
   set data(value: Array<Record<string, any>>) {
     if (value) {
       hideEmptyMessage.apply(this);
+      if (!this.datasource) this.datasource = new IdsDataSource();
       this.datasource.flatten = this.treeGrid;
       this.datasource.data = value;
       this.initialized = true;
@@ -2614,7 +2622,7 @@ export default class IdsDataGrid extends Base {
     this.removeAttribute(attributes.AUTO_FIT);
   }
 
-  get autoFit(): boolean | string | null {
+  get autoFit(): boolean {
     return stringToBool(this.getAttribute(attributes.AUTO_FIT));
   }
 
