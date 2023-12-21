@@ -292,6 +292,7 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
   #event-form-content {
     height: 100%;
     overflow-y: auto;
+    padding-bottom: 50px;
 
     ids-date-picker,
     ids-time-picker {
@@ -302,5 +303,12 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
       position: relative;
       display: block;
     }
+  }
+
+  #event-form-actions {
+    background-color: var(--ids-popup-menu-color-background-default);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
   }
 }
