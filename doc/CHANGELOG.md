@@ -15,6 +15,7 @@
 - `[DataGrid]` Fix dirty indicator alignment for xxs row height. ([#1602](https://github.com/infor-design/enterprise-wc/issues/1602))
 - `[DataGrid]` Fix an issue where empty message permanently removes the datagrid container height. ([#1664](https://github.com/infor-design/enterprise-wc/issues/1664))
 - `[DataGrid]` Fix dirty indicator cell data after column reorder. ([#1601](https://github.com/infor-design/enterprise-wc/issues/1601))
+- `[DataGrid]` Fix empty space issue when filtering with virtual scroll enabled. ([#1711](https://github.com/infor-design/enterprise-wc/issues/1711))
 - `[General]` Fix an issue where some properties did not work in safari. To do this changed the order of where styles and templates are appended in the lifecycle. ([#1599](https://github.com/infor-design/enterprise-wc/issues/1599))
 - `[ScrollView]` Fix circle button display/placement when re-rendering with a new dataset.  ([#1577](https://github.com/infor-design/enterprise-wc/issues/1577))
 - `[Toolbar]` Fixed right aligned toolbar sections bug in firefox.  ([#1698](https://github.com/infor-design/enterprise-wc/issues/1698))
