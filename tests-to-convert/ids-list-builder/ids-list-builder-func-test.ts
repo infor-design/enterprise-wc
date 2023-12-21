@@ -288,7 +288,7 @@ describe('IdsListBuilder Component', () => {
     expect(listItems[1].getAttribute('tabindex')).toBe('-1');
 
     listItems[2].dispatchEvent(createKeyboardEvent(' '));
-    expect(idsListBuilder.selectedLi.getAttribute('index')).toBe('2');
+    expect(idsListBuilder.itemFocused.rowIndex).toBe(2);
 
     // arrow up
     listItems[2].dispatchEvent(createKeyboardEvent('ArrowUp'));
@@ -296,7 +296,7 @@ describe('IdsListBuilder Component', () => {
     expect(listItems[1].getAttribute('tabindex')).toBe('0');
 
     listItems[1].dispatchEvent(createKeyboardEvent(' '));
-    expect(idsListBuilder.selectedLi.getAttribute('index')).toBe('1');
+    expect(idsListBuilder.itemFocused.rowIndex).toBe(1);
 
     // for item level keyboard
     const keys = ['ArrowDown', 'ArrowUp', 'Tab'];

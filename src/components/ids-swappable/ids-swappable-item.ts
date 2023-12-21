@@ -61,6 +61,18 @@ export default class IdsSwappableItem extends Base {
     return `<slot></slot>`;
   }
 
+  get rowIndex() {
+    return Number(this.getAttribute('index') ?? -1);
+  }
+
+  get listViewItem() {
+    const item = this.querySelector<HTMLElement | HTMLSlotElement>('slot, ids-list-view-item');
+    if (item?.matches('slot')) {
+      return (item as HTMLSlotElement)?.assignedElements?.().find((element) => element.matches('ids-list-view-item'));
+    }
+    return item;
+  }
+
   set dragMode(value: IdsSwappableDragMode | null) {
     if (value === 'select') {
       this.setAttribute(attributes.DRAGGABLE, 'false');
@@ -236,7 +248,7 @@ export default class IdsSwappableItem extends Base {
   #toggleSelect() {
     const clearSelection = () => {
       this.removeAttribute(attributes.SELECTED);
-      this.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED);
+      this.listViewItem?.removeAttribute(attributes.SELECTED);
     };
 
     if (this.dragMode === 'select') {
@@ -245,10 +257,10 @@ export default class IdsSwappableItem extends Base {
       } else {
         this.allItems?.forEach((item) => {
           item.removeAttribute(attributes.SELECTED);
-          item.querySelector('div[part="list-item"]')?.removeAttribute(attributes.SELECTED);
+          item.listViewItem?.removeAttribute(attributes.SELECTED);
         });
         this.setAttribute(attributes.SELECTED, '');
-        this.querySelector('div[part="list-item"]')?.setAttribute(attributes.SELECTED, 'selected');
+        this.listViewItem?.setAttribute(attributes.SELECTED, 'selected');
       }
     } else {
       clearSelection();

@@ -18,7 +18,7 @@
 
     <ids-layout-grid
       cols="1"
-      cols-md="3"
+      cols-md="4"
       padding-x="md"
     >
       <ids-layout-grid-cell>
@@ -80,14 +80,36 @@
           size="md"
           label="Autocomplete Trigger Field"
           autocomplete
-          search-field="label"
-        >
+          search-field="label">
           <ids-trigger-button slot="trigger-end">
             <ids-text audible="true">Autocomplete Trigger Field</ids-text>
             <ids-icon icon="camera"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-      </ids-layout-grid-cell>
+
+        <ids-trigger-field
+        id="ids-trigger-field-8"
+        size="md"
+        label="Menu Trigger Field">
+        <ids-trigger-button id="ids-trigger-button-8" slot="trigger-end">
+          <ids-text audible="true">Menu Trigger Field</ids-text>
+          <ids-icon icon="camera"></ids-icon>
+        </ids-trigger-button>
+      </ids-trigger-field>
+      <ids-popup-menu
+        id="icon-menu"
+        target="#ids-trigger-button-8"
+        align="bottom, right"
+        trigger-type="click"
+        arrow= "left"
+        y="8">
+        <ids-menu-group>
+          <ids-menu-item value="1">Option One</ids-menu-item>
+          <ids-menu-item value="2">Option Two</ids-menu-item>
+          <ids-menu-item value="3">Option Three</ids-menu-item>
+        </ids-menu-group>
+      </ids-popup-menu>
+
     </ids-layout-grid>
 
   </ids-container>

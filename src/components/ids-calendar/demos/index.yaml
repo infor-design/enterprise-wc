@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Default Calendar View
+  - link: custom-event-form.html
+    type: Example
+    description: Custom Calendar event form
   - link: example-custom.html
     type: Example
     description: Custom Calendar View

@@ -202,3 +202,15 @@
   margin-inline-end: 8px;
   top: 4px;
 }
+
+:host(.disabled),
+:host([disabled]),
+:host-context(.disabled),
+:host-context([disabled]) {
+  .ids-hyperlink {
+    color: var(--ids-hyperlink-color-text-disabled);
+    cursor: var(--ids-cursor-default);
+    pointer-events: none;
+    user-select: none;
+  }
+}
