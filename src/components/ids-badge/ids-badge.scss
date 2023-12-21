@@ -7,7 +7,10 @@
   text-align: center;
 }
 
-:host([disabled]) {
+:host(.disabled),
+:host([disabled]),
+:host-context(.disabled),
+:host-context([disabled]) {
   .ids-badge {
     background-color: var(--ids-badge-disabled-background-color);
     border-color: var(--ids-badge-disabled-border-color);
@@ -27,6 +30,7 @@
   // Fonts
   font-family: var(--ids-font-family-default);
   font-size: var(--ids-font-size-30);
+  white-space: nowrap;
 
   // Dimensional
   line-height: var(--ids-badge-font-line-height);

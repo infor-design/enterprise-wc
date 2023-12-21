@@ -47,12 +47,12 @@
                       </ids-layout-flex-item>
                       <ids-hidden value="${inStock}" condition="true">
                         <ids-layout-flex-item>
-                          <ids-badge color="error">Out of stock</ids-badge>
+                          <ids-tag color="error">Out of stock</ids-tag>
                         </ids-layout-flex-item>
                       </ids-hidden>
                     </ids-layout-flex>
                     <ids-hidden value="${disabled}" condition="false">
-                      <ids-hyperlink href="https://www.example.com/${productId}" target="_blank" disabled>${productId}</ids-hyperlink>
+                      <ids-hyperlink href="https://www.example.com/${productId}" target="_blank">${productId}</ids-hyperlink>
                     </ids-hidden>
                     <ids-hidden value="${disabled}" condition="true">
                       <ids-hyperlink href="https://www.example.com/${productId}" target="_blank">${productId}</ids-hyperlink>

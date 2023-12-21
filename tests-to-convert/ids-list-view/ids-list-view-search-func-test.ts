@@ -155,20 +155,20 @@ describe('IdsListView Search', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
 
     listView.searchable = true;
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
     expect(listView.searchField).toBeTruthy();
     expect(listView.searchField?.value).toBe('');
 
     (listView.searchField as any).value = 'Discretionary';
     expect(listView.searchField?.value).toBe('Discretionary');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(2);
+    expect(listView.items.length).toEqual(2);
 
     (listView.searchField as any).value = '';
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
   });
 
   it('should show searched list without searchable text callback', () => {
@@ -176,175 +176,175 @@ describe('IdsListView Search', () => {
 
     listView.searchableTextCallback = null;
     expect(listView.searchField).toBeFalsy();
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
 
     listView.searchable = true;
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
     expect(listView.searchField).toBeTruthy();
     expect(listView.searchField?.value).toBe('');
 
     (listView.searchField as any).value = 'd';
     expect(listView.searchField?.value).toBe('d');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(72);
+    expect(listView.items.length).toEqual(72);
 
     (listView.searchField as any).value = 'disc';
     expect(listView.searchField?.value).toBe('disc');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(3);
+    expect(listView.items.length).toEqual(3);
 
     (listView.searchField as any).value = '';
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
   });
 
   it('should suppress highlight trem searched list', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
 
     listView.searchable = true;
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
     expect(listView.searchField).toBeTruthy();
     expect(listView.searchField?.value).toBe('');
 
     expect(listView.suppressHighlight).toEqual(false);
     (listView.searchField as any).value = 'Disc';
     expect(listView.searchField?.value).toBe('Disc');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(2);
-    expect(listView.shadowRoot?.querySelector('div[part="list-item"] ids-text .highlight')).toBeTruthy();
+    expect(listView.items.length).toEqual(2);
+    expect(listView.shadowRoot?.querySelector('ids-list-view-item ids-text .highlight')).toBeTruthy();
 
     (listView.searchField as any).value = '';
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
 
     listView.suppressHighlight = true;
     (listView.searchField as any).value = 'Disc';
     expect(listView.searchField?.value).toBe('Disc');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(2);
-    expect(listView.shadowRoot?.querySelector('div[part="list-item"] ids-text .highlight')).toBeFalsy();
+    expect(listView.items.length).toEqual(2);
+    expect(listView.shadowRoot?.querySelector('ids-list-view-item ids-text .highlight')).toBeFalsy();
   });
 
   it('should show searched list by case sensitive', () => {
     listView.data = deepClone(caseSensitiveData);
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(6);
+    expect(listView.items.length).toEqual(6);
 
     listView.searchable = true;
     expect(listView.searchField).toBeTruthy();
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(6);
+    expect(listView.items.length).toEqual(6);
 
     (listView.searchField as any).value = 'calif';
     expect(listView.searchField?.value).toBe('calif');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(3);
+    expect(listView.items.length).toEqual(3);
 
     (listView.searchField as any).value = '';
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(6);
+    expect(listView.items.length).toEqual(6);
 
     listView.searchTermCaseSensitive = true;
     (listView.searchField as any).value = 'calif';
     expect(listView.searchField?.value).toBe('calif');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(1);
+    expect(listView.items.length).toEqual(1);
   });
 
   it('should show searched list by matching the start of an entire phrase', () => {
     listView.data = deepClone(phraseData);
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(5);
+    expect(listView.items.length).toEqual(5);
 
     listView.searchable = true;
     expect(listView.searchField).toBeTruthy();
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(5);
+    expect(listView.items.length).toEqual(5);
 
     (listView.searchField as any).value = 'eat';
     expect(listView.searchField?.value).toBe('eat');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(4);
+    expect(listView.items.length).toEqual(4);
 
     (listView.searchField as any).value = '';
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(5);
+    expect(listView.items.length).toEqual(5);
 
     listView.searchFilterMode = listView.searchFilterModes.PHRASE_STARTS_WITH;
     (listView.searchField as any).value = 'eat';
     expect(listView.searchField?.value).toBe('eat');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(1);
+    expect(listView.items.length).toEqual(1);
   });
 
   it('should show searched list by matching the start of words in any place in a string', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
 
     listView.searchable = true;
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
     expect(listView.searchField).toBeTruthy();
     expect(listView.searchField?.value).toBe('');
 
     (listView.searchField as any).value = 'day';
     expect(listView.searchField?.value).toBe('day');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(10);
+    expect(listView.items.length).toEqual(10);
 
     (listView.searchField as any).value = '';
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
 
     listView.searchFilterMode = listView.searchFilterModes.WORD_STARTS_WITH;
     (listView.searchField as any).value = 'day';
     expect(listView.searchField?.value).toBe('day');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(9);
+    expect(listView.items.length).toEqual(9);
   });
 
   it('should show searched list by checking for multiple keywords in each result', () => {
     listView.data = deepClone(keywordData);
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(7);
+    expect(listView.items.length).toEqual(7);
 
     listView.searchable = true;
     expect(listView.searchField).toBeTruthy();
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(7);
+    expect(listView.items.length).toEqual(7);
 
     (listView.searchField as any).value = 'apple orange';
     expect(listView.searchField?.value).toBe('apple orange');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(0);
+    expect(listView.items.length).toEqual(0);
 
     (listView.searchField as any).value = '';
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(7);
+    expect(listView.items.length).toEqual(7);
 
     listView.searchFilterMode = listView.searchFilterModes.KEYWORD;
     (listView.searchField as any).value = 'apple orange';
     expect(listView.searchField?.value).toBe('apple orange');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(4);
+    expect(listView.items.length).toEqual(4);
   });
 
   it('should show searched list by search term min size', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
 
     listView.searchable = true;
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
     expect(listView.searchField).toBeTruthy();
     expect(listView.searchField?.value).toBe('');
 
     (listView.searchField as any).value = 'd';
     expect(listView.searchField?.value).toBe('d');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(24);
+    expect(listView.items.length).toEqual(24);
 
     listView.searchTermMinSize = 3;
     (listView.searchField as any).value = 'd';
     expect(listView.searchField?.value).toBe('d');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
 
     (listView.searchField as any).value = 'disc';
     expect(listView.searchField?.value).toBe('disc');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(2);
+    expect(listView.items.length).toEqual(2);
 
     (listView.searchField as any).value = '';
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
   });
 
   it('should show searched list with custom filter', () => {
@@ -361,34 +361,34 @@ describe('IdsListView Search', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
 
     listView.searchable = true;
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
     expect(listView.searchField).toBeTruthy();
     expect(listView.searchField?.value).toBe('');
 
     (listView.searchField as any).value = 'd';
     expect(listView.searchField?.value).toBe('d');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(25);
+    expect(listView.items.length).toEqual(25);
 
     (listView.searchField as any).value = 'disc';
     expect(listView.searchField?.value).toBe('disc');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(1);
+    expect(listView.items.length).toEqual(1);
 
     (listView.searchField as any).value = '';
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
   });
 
   it('fires filtered event when apply or clear search', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
 
     listView.searchable = true;
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
     expect(listView.searchField).toBeTruthy();
     expect(listView.searchField?.value).toBe('');
 
@@ -401,21 +401,21 @@ describe('IdsListView Search', () => {
 
     (listView.searchField as any).value = 'day';
     expect(listView.searchField?.value).toBe('day');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(10);
+    expect(listView.items.length).toEqual(10);
     expect(mockCallback.mock.calls.length).toBe(1);
 
     (listView.searchField as any).value = '';
     expect(listView.searchField?.value).toBe('');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
     expect(mockCallback.mock.calls.length).toBe(2);
 
     (listView.searchField as any).value = 'd';
     expect(listView.searchField?.value).toBe('d');
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(24);
+    expect(listView.items.length).toEqual(24);
     expect(mockCallback.mock.calls.length).toBe(3);
 
     listView.searchField?.dispatchEvent(new Event('cleared'));
-    expect(listView.shadowRoot?.querySelectorAll('div[part="list-item"]').length).toEqual(itemCountAll);
+    expect(listView.items.length).toEqual(itemCountAll);
     expect(mockCallback.mock.calls.length).toBe(4);
   });
 });

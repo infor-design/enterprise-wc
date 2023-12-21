@@ -26,6 +26,12 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 - `page-number` {number} 1-based page index. Should reflect what page number is currently being displayed.
 - `total` {number} number of items the pager tracks
 - `disabled` {boolean} whether or not to disable this pager and all navigation buttons nested inside of it
+- `page-sizes` {Array<string>} A list of page sizes to show in the pager dropdown. Note that adding a new array you may need to set the page size or it will be automatically added to the list.
+
+```js
+document.querySelector('ids-pager').pageSize = 100
+document.querySelector('ids-pager').pageSizes = [100, 200]
+```
 
 ## Settings (ids-pager-number-list)
 

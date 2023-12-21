@@ -11,23 +11,21 @@
       <ids-text font-size="12" type="h1">List View - Pagination</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="2" gap="xl" padding-x="md">
+    <ids-layout-grid col-span-sm="1" col-span-lg="2" x-padding="xs">
       <ids-layout-grid-cell col-span="1">
-        <div class="parent-container">
-            <ids-list-view
-              id="demo-lv-pagination"
-              item-height="76"
-              selectable="multiple"
-              pagination="client-side"
-              page-size="5"
-            >
-              <template>
-                <ids-text font-size="16" type="h2">${productName}</ids-text>
-                <ids-text font-size="12" type="span">Count: ${units}</ids-text>
-                <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
-              </template>
-            </ids-list-view>
-        </div>
+        <ids-list-view
+          id="demo-lv-pagination"
+          item-height="76"
+          selectable="multiple"
+          pagination="client-side"
+          page-size="5"
+        >
+          <template>
+            <ids-text font-size="16" type="h2">${productName}</ids-text>
+            <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+            <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+          </template>
+        </ids-list-view>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
