@@ -2842,8 +2842,10 @@ export default class IdsDataGrid extends Base {
   set idColumn(value) {
     if (value) {
       this.setAttribute(attributes.ID_COLUMN, value.toString());
+      this.datasource.primaryKey = value;
     } else {
       this.removeAttribute(attributes.ID_COLUMN);
+      this.datasource.primaryKey = this.idColumn;
     }
   }
 
