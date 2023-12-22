@@ -2342,9 +2342,7 @@ export default class IdsDataGrid extends Base {
     // Update grid state
     this.redrawBody();
     this.#updateRowCount();
-    if (this.pager && this.pageNumber !== this.datasource.pageNumber) {
-      this.pageNumber = this.datasource.pageNumber;
-    }
+    this.syncPagerAfterDatasetChange();
   }
 
   /**
@@ -2361,9 +2359,7 @@ export default class IdsDataGrid extends Base {
     // Update grid state
     this.redrawBody();
     this.#updateRowCount();
-    if (this.pager && this.pageNumber !== this.datasource.pageNumber) {
-      this.pageNumber = this.datasource.pageNumber;
-    }
+    this.syncPagerAfterDatasetChange();
   }
 
   /**
@@ -2382,9 +2378,7 @@ export default class IdsDataGrid extends Base {
     // Update grid state
     this.redrawBody();
     this.#updateRowCount();
-    if (this.pager && this.pageNumber !== this.datasource.pageNumber) {
-      this.pageNumber = this.datasource.pageNumber;
-    }
+    this.syncPagerAfterDatasetChange();
   }
 
   /**
@@ -2394,6 +2388,16 @@ export default class IdsDataGrid extends Base {
   clearRow(index: number) {
     this.updateDataset(index, {}, true);
     this.redrawBody();
+  }
+
+  /**
+   * Corrects pager-related attributes after a change to the dataset
+   */
+  private syncPagerAfterDatasetChange() {
+    if (this.pager) {
+      this.pageTotal = this.datasource.total;
+      if (this.pageNumber !== this.datasource.pageNumber) this.pageNumber = this.datasource.pageNumber;
+    }
   }
 
   /**

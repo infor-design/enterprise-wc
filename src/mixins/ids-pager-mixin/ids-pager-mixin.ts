@@ -240,6 +240,12 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
     this.offEvent('pagesizechange', this.pager);
     this.onEvent('pagesizechange', this.pager, (event: CustomEvent) => {
       this.pageSize = Number(event.detail.value);
+
+      // Prevent display of pages that don't exist
+      const totalPages = Math.ceil(this.pageTotal / this.pageSize);
+      if (totalPages < this.pageNumber) {
+        this.pageNumber = totalPages;
+      }
     });
   }
 };
