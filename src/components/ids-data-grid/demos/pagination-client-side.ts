@@ -98,8 +98,20 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
   // Example Buttons
   document.querySelector('#add-row')?.addEventListener('click', () => {
-    const newRow = { description: 'New Row', ledgder: 'CORE' };
+    const newRow = {
+      id: dataGrid.datasource.currentData.length + 1,
+      description: 'New Row',
+      ledger: 'CORE'
+    };
+
+    // Don't add the same ID number twice
+    while (dataGrid.datasource.currentData.findIndex((item) => item.id === newRow.id) > -1) {
+      newRow.id += 1;
+    }
     dataGrid.addRow(newRow);
+
+    // Set to last page and focus first cell of last record
+    dataGrid.pageNumber = Math.ceil(dataGrid.datasource.currentData.length / dataGrid.pageSize);
     dataGrid.setActiveCell(0, dataGrid.data.length - 1);
     dataGrid.editFirstCell();
   });

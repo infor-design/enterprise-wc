@@ -359,6 +359,25 @@ class IdsDataSource {
   }
 
   /**
+   * Creates new records in the current dataset to reflect new state
+   * @param {Array<Record<string, unknown>>} items incoming records to update
+   * @param {number} index the index at which to create the value
+   */
+  create(items: Array<Record<string, unknown>> = [], index: number = 0) {
+    if (!items.length) return;
+
+    let currentIndex = index;
+    items.forEach((newRecord) => {
+      this.originalData.splice(currentIndex, 0, newRecord);
+      this.currentData.splice(currentIndex, 0, newRecord);
+      currentIndex++;
+    });
+
+    // Update totals/stored data state/page size
+    this.#total = this.#currentData.length;
+  }
+
+  /**
    * Updates records in the current dataset to reflect new state
    * @param {Array<Record<string, unknown>>} items incoming records to update
    * @param {boolean} overwrite true if the record should be completely overwritten as opposed to augmented
@@ -375,6 +394,7 @@ class IdsDataSource {
   }
 
   /**
+   * Deletes records from the current dataset to reflect new state
    * @param {Array<Record<string, unknown>>} items incoming records to delete
    */
   delete(items: Array<Record<string, unknown>> = []) {
@@ -392,7 +412,7 @@ class IdsDataSource {
       }
     });
 
-    // Update totals/stored data state/page size, if applicable
+    // Update totals/stored data state/page size
     this.#total = this.#currentData.length;
     this.#prevState.data = this.paginate(this.pageNumber, this.pageSize);
 

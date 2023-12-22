@@ -2334,11 +2334,17 @@ export default class IdsDataGrid extends Base {
    * @param {number} index insert position for new row
    */
   addRow(data: Record<string, unknown>, index?: number) {
+    // Update data
     const insertIdx = index ?? this.datasource.originalData.length;
-    this.datasource.originalData.splice(insertIdx, 0, data);
-    this.datasource.data = this.datasource.originalData;
+    this.datasource.create([data], insertIdx);
+    this.datasource.refreshPreviousState();
+
+    // Update grid state
     this.redrawBody();
     this.#updateRowCount();
+    if (this.pager && this.pageNumber !== this.datasource.pageNumber) {
+      this.pageNumber = this.datasource.pageNumber;
+    }
   }
 
   /**
@@ -2347,11 +2353,17 @@ export default class IdsDataGrid extends Base {
    * @param {number} index insert position for new rows
    */
   addRows(data: Array<Record<string, unknown>> = [], index?: number) {
+    // Update data
     const insertIdx = index ?? this.datasource.originalData.length;
-    this.datasource.originalData.splice(insertIdx, 0, ...data);
-    this.datasource.data = this.datasource.originalData;
+    this.datasource.create(data, insertIdx);
+    this.datasource.refreshPreviousState();
+
+    // Update grid state
     this.redrawBody();
     this.#updateRowCount();
+    if (this.pager && this.pageNumber !== this.datasource.pageNumber) {
+      this.pageNumber = this.datasource.pageNumber;
+    }
   }
 
   /**
