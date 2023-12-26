@@ -88,3 +88,8 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
 
   @include ids-toolbar-section-inner-size-styles();
 }
+
+::slotted(ids-breadcrumb) {
+  position: relative;
+  top: 3px;
+}

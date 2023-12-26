@@ -49,7 +49,7 @@ export default class IdsBreadcrumb extends Base {
       this.#enableTruncation();
     }
     this.onColorVariantRefresh();
-    this.setActiveBreadcrumb();
+    this.#setActiveBreadcrumb();
   }
 
   /**
@@ -85,6 +85,14 @@ export default class IdsBreadcrumb extends Base {
     this.onEvent('click', this, (e: any) => {
       if (e.target.tagName === 'IDS-HYPERLINK' && typeof this.onBreadcrumbActivate === 'function' && this.current) {
         this.onBreadcrumbActivate(e.target, this.current);
+      }
+    });
+
+    this.onEvent('slotchange', this.container, () => {
+      this.#setActiveBreadcrumb();
+      if (this.truncate) {
+        this.#enableTruncation();
+        this.#refreshOverflow();
       }
     });
 
@@ -153,7 +161,7 @@ export default class IdsBreadcrumb extends Base {
    * @returns {object} This API object for chaining
    */
   #resize(): any {
-    this.refreshBreadcrumbMenu();
+    this.#refreshOverflow();
     return this;
   }
 
@@ -182,59 +190,10 @@ export default class IdsBreadcrumb extends Base {
   }
 
   /**
-   * Adds an individual breadcrumb to the end of the bread crumb list
-   * @param {Element} breadcrumb The HTML element to add
-   */
-  add(breadcrumb: any): void {
-    breadcrumb.setAttribute('role', 'listitem');
-    breadcrumb.setAttribute('text-decoration', 'hover');
-    breadcrumb.setAttribute('color-variant', this.closest('ids-header') ? 'alternate' : 'breadcrumb');
-    breadcrumb.setAttribute('hitbox', 'true');
-    if (!(breadcrumb.getAttribute('font-size'))) {
-      breadcrumb.setAttribute('font-size', 14);
-    }
-    const lastBreadcrumb = this.lastElementChild;
-    this.appendChild(breadcrumb);
-    this.setActiveBreadcrumb(breadcrumb, lastBreadcrumb);
-    if (this.truncate) {
-      this.popupMenuGroupEl?.insertAdjacentHTML('beforeend', this.#buildOverflowMenuItem(breadcrumb));
-      const lastElement: any = this.popupMenuGroupEl?.lastElementChild;
-      if (lastElement) {
-        lastElement.overflowTarget = breadcrumb;
-      }
-    }
-
-    // Refresh overflow state if needed
-    this.refreshBreadcrumbMenu();
-  }
-
-  /**
-   * Removes the last breadcrumb from the bread crumb list
-   * @returns {Element | null} The removed element
-   */
-  delete(): Element | null {
-    if (this.lastElementChild) {
-      const breadcrumb = this.removeChild(this.lastElementChild);
-      if (this.truncate && this.popupMenuGroupEl?.lastElementChild) {
-        this.popupMenuGroupEl?.removeChild(this.popupMenuGroupEl?.lastElementChild);
-      }
-      if (this.lastElementChild) {
-        this.setActiveBreadcrumb();
-      }
-
-      // Refresh overflow state if needed
-      this.refreshBreadcrumbMenu();
-
-      return breadcrumb;
-    }
-    return null;
-  }
-
-  /**
    * Refreshes the state of the Breadcrumb's overflow menu based on whether its items are overflowed
    * @returns {void}
    */
-  refreshBreadcrumbMenu(): void {
+  #refreshOverflow(): void {
     this.refreshOverflowedItems();
     if (this.hasVisibleActions()) {
       this.#showBreadCrumbMenu();
@@ -271,7 +230,7 @@ export default class IdsBreadcrumb extends Base {
    * @returns {HTMLElement} the current breadcrumb
    */
   get current(): HTMLElement | null {
-    return this.querySelector('[font-weight="semi-bold"]');
+    return this.querySelector('[font-weight="semibold"]');
   }
 
   /**
@@ -442,16 +401,22 @@ export default class IdsBreadcrumb extends Base {
    * @param {HTMLElement} el the target breadcrumb link
    * @param {HTMLElement} [previousActiveBreadcrumbEl] a previously-activated Breadcrumb, if applicable
    */
-  setActiveBreadcrumb(el?: any, previousActiveBreadcrumbEl?: any) {
+  #setActiveBreadcrumb(el?: any, previousActiveBreadcrumbEl?: any) {
     let targetEl = el;
     if (!this.contains(targetEl)) {
       targetEl = this.lastElementChild;
     }
+    if (!previousActiveBreadcrumbEl) {
+      previousActiveBreadcrumbEl = this.querySelector('[font-weight="semibold"]');
+    }
     if (previousActiveBreadcrumbEl) {
       previousActiveBreadcrumbEl.fontWeight = null;
+      previousActiveBreadcrumbEl.textDecoration = null;
     }
     if (targetEl) {
-      targetEl.fontWeight = 'bold';
+      targetEl.disabled = false;
+      targetEl.fontWeight = 'semibold';
+      targetEl.textDecoration = 'none';
     }
   }
 
