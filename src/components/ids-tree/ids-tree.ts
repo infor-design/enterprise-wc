@@ -9,6 +9,7 @@ import IdsDataSource from '../../core/ids-data-source';
 import IdsTreeShared from './ids-tree-shared';
 import '../ids-text/ids-text';
 import './ids-tree-node';
+import '../ids-icon/ids-icon';
 import type IdsTreeNode from './ids-tree-node';
 
 import { unescapeHTML, escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
@@ -292,7 +293,7 @@ export default class IdsTree extends Base {
     if (location === 'child' && node) {
       const nodeDatum = this.getNodeData(node);
       const idx = nodeDatum.idx;
-      if (this.nodesData && idx !== undefined) {
+      if (this.nodesData && idx !== undefined && this.nodesData[idx]) {
         if (!this.nodesData[idx].children) this.nodesData[idx].children = [];
         this.nodesData[idx].children = data;
         const sourceData = (nodeDatum?.data as any)?.dataRef;

@@ -81,9 +81,10 @@ export default class IdsTreeNode extends Base {
     ];
   }
 
-  get isGroup() {
+  get isGroup(): boolean {
     const isNodeEl = (el: HTMLElement) => /^ids-tree-node$/i.test(el.nodeName);
-    return [...this.childNodes].some((el) => isNodeEl(el as HTMLElement));
+    return [...this.childNodes].some((el) => isNodeEl(el as HTMLElement))
+      || !!this.container?.querySelector('.group-nodes');
   }
 
   /**
@@ -460,7 +461,7 @@ export default class IdsTreeNode extends Base {
     }
 
     const textElem = this.shadowRoot?.querySelector('.text');
-    if (this.isGroup && textElem) {
+    if (textElem) {
       textElem.textContent = `${value}`;
     }
   }

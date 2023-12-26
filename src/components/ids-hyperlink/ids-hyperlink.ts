@@ -130,6 +130,7 @@ export default class IdsHyperlink extends Base {
    * is shown.
    */
   set textDecoration(value: string | null) {
+    this.container?.classList.remove('ids-text-decoration-none', 'ids-text-decoration-hover');
     if (value?.toLowerCase() === 'none') {
       this.setAttribute(attributes.TEXT_DECORATION, value);
       this.container?.classList.add('ids-text-decoration-none');
@@ -141,7 +142,6 @@ export default class IdsHyperlink extends Base {
       return;
     }
     this.removeAttribute(attributes.TEXT_DECORATION);
-    this.container?.classList.remove('ids-text-decoration-none', 'ids-text-decoration-hover');
   }
 
   get textDecoration(): string | null {
@@ -215,9 +215,9 @@ export default class IdsHyperlink extends Base {
    * @param {string | null} value (if bold)
    */
   set fontWeight(value: string | null) {
-    this.container?.classList.remove('bold', 'lighter');
+    this.container?.classList.remove('bold', 'lighter', 'semibold');
 
-    if (value === 'bold' || value === 'lighter') {
+    if (value === 'semibold' || value === 'bold' || value === 'lighter') {
       this.setAttribute(attributes.FONT_WEIGHT, value);
       this.container?.classList.add(value);
       return;

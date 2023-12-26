@@ -15,28 +15,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }());
   }
 
-  const newSingleNode: Array<IdsTreeData> = [{
-    id: 'newa',
-    text: 'New node',
-    // disabled: true,
-    // selected: true
-  }];
-  const newMultiNode: Array<IdsTreeData> = [
-    {
-      id: 'newb',
-      text: 'New node 1'
-    },
-    {
-      id: 'newc',
-      text: 'New node 2',
-      expanded: false,
-      children: [{ id: 'newd', text: 'New node 2.1' }, { id: 'newe', text: 'New node 2.1' }]
-    },
-    {
-      id: 'newf',
-      text: 'New node 3',
-      icon: 'building'
-    }];
+  const newSingleNode = (): Array<IdsTreeData> => {
+    const singleNode = [
+      {
+        id: 'newa',
+        text: 'New node'
+      }
+    ];
+
+    return singleNode;
+  };
+
+  const newMultiNode = (): Array<IdsTreeData> => {
+    const multiNode = [
+      {
+        id: 'newb',
+        text: 'New node 1'
+      },
+      {
+        id: 'newc',
+        text: 'New node 2',
+        expanded: false,
+        children: [
+          {
+            id: 'newd',
+            text: 'New node 2.1'
+          },
+          {
+            id: 'newe',
+            text: 'New node 2.1'
+          }
+        ]
+      },
+      {
+        id: 'newf',
+        text: 'New node 3',
+        icon: 'building'
+      }
+    ];
+
+    return multiNode;
+  };
 
   const menuBtnEl: any = document.querySelector('ids-menu-button');
   let toggle = true;
@@ -44,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const target = e.detail.elem;
     if (target !== null) {
       const value = target.value;
-      const nodes = toggle ? newSingleNode : newMultiNode;
+      const nodes = toggle ? newSingleNode() : newMultiNode();
       toggle = !toggle;
       if (value === 'top') {
         treeElem!.addNodes(nodes, 'top');
