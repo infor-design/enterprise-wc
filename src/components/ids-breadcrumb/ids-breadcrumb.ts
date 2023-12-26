@@ -408,7 +408,7 @@ export default class IdsBreadcrumb extends Base {
     this.querySelectorAll('ids-hyperlink').forEach((el) => {
       const link = el as IdsHyperlink;
       link.fontSize = '14';
-      link.textDecoration = 'hover';
+      link.textDecoration = link.textDecoration === 'none' ? 'none' : 'hover';
       link.colorVariant = 'breadcrumb';
     });
   }
