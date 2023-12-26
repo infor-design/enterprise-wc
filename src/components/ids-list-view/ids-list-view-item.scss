@@ -24,6 +24,7 @@ li,
   .list-item-area {
     display: flex;
     align-items: center;
+    line-height: var(--ids-list-builder-item-line-height);
 
     .list-item-content {
       width: 100%;

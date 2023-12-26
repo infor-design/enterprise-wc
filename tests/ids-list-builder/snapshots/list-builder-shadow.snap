@@ -6,12 +6,12 @@
         
       <div class="ids-list-view-search" part="search"><slot name="search"></slot></div>
       
-      <div class="ids-list-view selectable-single" tabindex="0" style="height: 310px;">
-        <div class="ids-list-view-body" role="listbox" aria-label="Ids list view" part="contents">
+      <div class="ids-list-view selectable-single" style="height: 310px;">
+        <div class="ids-list-view-body" role="listbox" aria-label="Ids list view" part="contents" aria-activedescendant="id-1">
           <ids-swappable selection="single" dropzone="move">
             
       <ids-swappable-item role="listitem" tabindex="0" tabbable="true" index="0" id="id_item_1" aria-posinset="1" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="0" class="sortable" index="0" aria-posinset="1" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="0" class="sortable" index="0" aria-posinset="1" id="id-1" aria-setsize="20" tabindex="0" role="option">
         
             <ids-text font-size="16" type="span">Jamis Bicycles</ids-text>
           
@@ -19,7 +19,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="1" id="id_item_2" aria-posinset="2" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="1" class="sortable" index="1" aria-posinset="2" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="1" class="sortable" index="1" aria-posinset="2" id="id-2" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Trek Bicycle Corporation</ids-text>
           
@@ -27,7 +27,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="2" id="id_item_3" aria-posinset="3" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="2" class="sortable" index="2" aria-posinset="3" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="2" class="sortable" index="2" aria-posinset="3" id="id-3" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Santa Cruz</ids-text>
           
@@ -35,7 +35,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="3" id="id_item_4" aria-posinset="4" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="3" class="sortable" index="3" aria-posinset="4" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="3" class="sortable" index="3" aria-posinset="4" id="id-4" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Tomac</ids-text>
           
@@ -43,7 +43,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="4" id="id_item_5" aria-posinset="5" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="4" class="sortable" index="4" aria-posinset="5" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="4" class="sortable" index="4" aria-posinset="5" id="id-5" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Gary Fisher</ids-text>
           
@@ -51,7 +51,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="5" id="id_item_6" aria-posinset="6" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="5" class="sortable" index="5" aria-posinset="6" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="5" class="sortable" index="5" aria-posinset="6" id="id-6" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Turner Bikes</ids-text>
           
@@ -59,7 +59,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="6" id="id_item_7" aria-posinset="7" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="6" class="sortable" index="6" aria-posinset="7" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="6" class="sortable" index="6" aria-posinset="7" id="id-7" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Giant Manufacturing</ids-text>
           
@@ -67,7 +67,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="7" id="id_item_8" aria-posinset="8" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="7" class="sortable" index="7" aria-posinset="8" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="7" class="sortable" index="7" aria-posinset="8" id="id-8" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Ventana</ids-text>
           
@@ -75,7 +75,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="8" id="id_item_9" aria-posinset="9" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="8" class="sortable" index="8" aria-posinset="9" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="8" class="sortable" index="8" aria-posinset="9" id="id-9" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Kona</ids-text>
           
@@ -83,7 +83,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="9" id="id_item_10" aria-posinset="10" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="9" class="sortable" index="9" aria-posinset="10" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="9" class="sortable" index="9" aria-posinset="10" id="id-10" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Bianchi</ids-text>
           
@@ -91,7 +91,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="10" id="id_item_11" aria-posinset="11" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="10" class="sortable" index="10" aria-posinset="11" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="10" class="sortable" index="10" aria-posinset="11" id="id-11" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Ibis</ids-text>
           
@@ -99,7 +99,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="11" id="id_item_12" aria-posinset="12" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="11" class="sortable" index="11" aria-posinset="12" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="11" class="sortable" index="11" aria-posinset="12" id="id-12" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">KHS</ids-text>
           
@@ -107,7 +107,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="12" id="id_item_13" aria-posinset="13" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="12" class="sortable" index="12" aria-posinset="13" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="12" class="sortable" index="12" aria-posinset="13" id="id-13" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Pivot</ids-text>
           
@@ -115,7 +115,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="13" id="id_item_14" aria-posinset="14" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="13" class="sortable" index="13" aria-posinset="14" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="13" class="sortable" index="13" aria-posinset="14" id="id-14" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Norco</ids-text>
           
@@ -123,7 +123,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="14" id="id_item_15" aria-posinset="15" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="14" class="sortable" index="14" aria-posinset="15" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="14" class="sortable" index="14" aria-posinset="15" id="id-15" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Releigh</ids-text>
           
@@ -131,7 +131,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="15" id="id_item_16" aria-posinset="16" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="15" class="sortable" index="15" aria-posinset="16" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="15" class="sortable" index="15" aria-posinset="16" id="id-16" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Santana Cycles</ids-text>
           
@@ -139,7 +139,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="16" id="id_item_17" aria-posinset="17" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="16" class="sortable" index="16" aria-posinset="17" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="16" class="sortable" index="16" aria-posinset="17" id="id-17" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Transition</ids-text>
           
@@ -147,7 +147,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="17" id="id_item_18" aria-posinset="18" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="17" class="sortable" index="17" aria-posinset="18" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="17" class="sortable" index="17" aria-posinset="18" id="id-18" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Specialized</ids-text>
           
@@ -155,7 +155,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="18" id="id_item_19" aria-posinset="19" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="18" class="sortable" index="18" aria-posinset="19" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="18" class="sortable" index="18" aria-posinset="19" id="id-19" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Yeti Cycles</ids-text>
           
@@ -163,7 +163,7 @@
       </ids-swappable-item>
     
       <ids-swappable-item role="listitem" tabindex="-1" tabbable="true" index="19" id="id_item_20" aria-posinset="20" aria-setsize="20" drag-mode="select" draggable="false">
-        <div class="sortable"><ids-list-view-item row-index="19" class="sortable" index="19" aria-posinset="20" aria-setsize="20" tabindex="-1" role="option">
+        <div class="sortable"><ids-list-view-item row-index="19" class="sortable" index="19" aria-posinset="20" id="id-20" aria-setsize="20" tabindex="-1" role="option">
         
             <ids-text font-size="16" type="span">Vitus</ids-text>
           

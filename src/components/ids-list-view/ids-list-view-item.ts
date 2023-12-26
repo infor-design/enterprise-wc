@@ -429,9 +429,6 @@ export default class IdsListViewItem extends Base {
     if (this.selectable === 'multiple' && !selected) {
       this.removeAttribute('activated');
     }
-    if (this.selectable === 'mixed' && this.shadowRoot?.querySelector<IdsCheckbox>('ids-checkbox')) {
-      this.shadowRoot!.querySelector<IdsCheckbox>('ids-checkbox')!.checked = selected;
-    }
   }
 
   /**

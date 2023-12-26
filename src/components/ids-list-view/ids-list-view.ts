@@ -238,11 +238,24 @@ export default class IdsListView extends Base {
         break;
       case 'Enter':
         if (this.itemFocused) this.itemFocused.activated = true;
+        if (this.itemFocused && (this.selectable === 'single' || this.selectable === 'multiple')) {
+          this.itemFocused.selected = true;
+          this.itemFocused.activated = this.selectable === 'multiple' ? !this.itemFocused.selected : true;
+        }
         break;
       case 'Space':
         evt.preventDefault(); // prevent container from scrolling
-        if (this.itemFocused && this.selectable === 'mixed') this.itemFocused.selected = true;
+        if (this.itemFocused && this.selectable === 'mixed') {
+          const value = !this.itemFocused.selected;
+          this.itemFocused.selected = value;
+          this.itemFocused.checked = value;
+        }
         if (this.itemFocused && this.selectable && this.selectable !== 'mixed') this.itemFocused.activated = true;
+        if (this.itemFocused && (this.selectable === 'single' || this.selectable === 'multiple')) {
+          this.itemFocused.activated = true;
+          this.itemFocused.selected = this.selectable === 'multiple' ? !this.itemFocused.selected : true;
+        }
+
         break;
       default:
         break;
@@ -891,6 +904,7 @@ export default class IdsListView extends Base {
     } else if (['multiple', 'mixed'].includes(selectable)) {
       items.forEach((item) => {
         item.selected = true;
+        if (item.checkbox) item.checkbox.checked = true;
       });
     }
 
@@ -905,6 +919,7 @@ export default class IdsListView extends Base {
     if (this.selectable) {
       this.itemsSelected.forEach((item) => {
         item.selected = false;
+        if (item.checkbox) item.checkbox.checked = false;
       });
     }
 
