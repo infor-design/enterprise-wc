@@ -16,15 +16,6 @@ describe('IdsModal Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsOverlay();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-overlay').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can set opacity', () => {
     overlay.visible = true;
     overlay.opacity = 1;

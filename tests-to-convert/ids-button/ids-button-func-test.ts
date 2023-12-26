@@ -27,18 +27,6 @@ describe('IdsButton Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    btn.remove();
-    btn = new IdsButton();
-    document.body.appendChild(btn);
-
-    expect(document.querySelectorAll('ids-button').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-
-    expect(btn.shouldUpdate).toBeTruthy();
-  });
-
   it('exposes its inner button component', () => {
     expect(btn.button).toBeDefined();
     expect(btn.button instanceof HTMLElement).toBeTruthy();

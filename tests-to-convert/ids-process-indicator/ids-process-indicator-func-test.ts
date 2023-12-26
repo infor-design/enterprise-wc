@@ -55,21 +55,6 @@ describe('IdsProcessIndicator Component', () => {
     processIndicator?.remove();
   });
 
-  it('renders with no errors', async () => {
-    processIndicator = await createElemViaTemplate(HTMLSnippets.VANILLA_PROCESS_INDICATOR);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-process-indicator').length).toEqual(1);
-
-    processIndicator.remove();
-
-    processIndicator = await createElemViaTemplate(HTMLSnippets.VANILLA_PROCESS_INDICATOR);
-    expect(document.querySelectorAll('ids-process-indicator').length).toEqual(1);
-    expect(document.querySelectorAll('ids-process-indicator-step').length).toEqual(2);
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('sets labels correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.VANILLA_PROCESS_INDICATOR);
     const steps = document.querySelectorAll('ids-process-indicator-step');

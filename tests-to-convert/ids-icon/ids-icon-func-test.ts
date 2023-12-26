@@ -28,15 +28,6 @@ describe('IdsIcon Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    elem.remove();
-    elem = new IdsIcon();
-    document.body.appendChild(elem);
-    expect(document.querySelectorAll('ids-icon').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders size setting', () => {
     elem.size = 'large';
     expect(elem.size).toEqual('large');

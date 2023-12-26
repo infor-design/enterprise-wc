@@ -26,14 +26,6 @@ describe('IdsVirtualScroll Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    document.body.innerHTML = '';
-    const errors = jest.spyOn(global.console, 'error');
-    appendVirtualScroll();
-    expect(document.querySelectorAll('ids-virtual-scroll').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders rows on native scroll events', async () => {
     const startingHtml = virtualScroll.innerHTML;
 

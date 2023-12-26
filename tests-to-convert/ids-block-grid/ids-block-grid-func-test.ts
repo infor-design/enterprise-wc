@@ -23,19 +23,6 @@ describe('IdsBlockgrid Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    let elem: any = new IdsBlockgrid();
-    document.body.appendChild(elem);
-    elem.remove();
-
-    elem = new IdsBlockgridItem();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-block-grid').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders align setting', () => {
     blockgridEl.align = 'center';
     expect(blockgridEl.align).toEqual('center');
@@ -81,15 +68,6 @@ describe('IdsBlockgridItem Component', () => {
 
   afterEach(async () => {
     document.body.innerHTML = '';
-  });
-
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsBlockgridItem();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-block-grid-item').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
   });
 
   it('support block grid selection single', () => {

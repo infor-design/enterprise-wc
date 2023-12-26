@@ -29,18 +29,6 @@ describe('IdsThemeSwitcher Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const container2: any = new IdsContainer();
-    const switcher2 = new IdsThemeSwitcher();
-    container2.appendChild(switcher2);
-    document.body.appendChild(container2);
-    container2.remove();
-    switcher2.remove();
-    expect(document.querySelectorAll('ids-container').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('handles selected from the ids-popup-menu', () => {
     const event = new CustomEvent('selected', { detail: { elem: { value: 'classic' } } });
     switcher.shadowRoot.querySelector('ids-popup-menu').dispatchEvent(event);

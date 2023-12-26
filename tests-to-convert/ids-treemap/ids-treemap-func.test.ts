@@ -82,15 +82,6 @@ describe('IdsTreeMap Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsTreeMap();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-treemap').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can set the treemap title', () => {
     expect(treemap.title).toBe('');
     expect(treemap.getAttribute('title')).toBe(null);

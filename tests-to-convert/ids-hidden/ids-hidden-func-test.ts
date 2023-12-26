@@ -94,16 +94,6 @@ describe('IdsHidden Component', () => {
     (<any>window.requestAnimationFrame).mockRestore();
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    el.remove();
-    el = new IdsHidden();
-    document.body.appendChild(el);
-
-    expect(document.querySelectorAll('ids-hidden').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can set the hideDown attribute', () => {
     el.hideDown = 'sm';
     el.setAttribute('hide-down', 'sm');

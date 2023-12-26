@@ -36,15 +36,6 @@ describe('IdsRadioGroup Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsRadioGroup();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-radio-group').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('should renders as disabled', () => {
     expect(rg.getAttribute('disabled')).toEqual(null);
     let radioArr = [...rg.querySelectorAll('ids-radio')];

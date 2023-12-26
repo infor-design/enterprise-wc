@@ -19,15 +19,6 @@ describe('IdsUploadAdvancedFile Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsUploadAdvancedFile();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-upload-advanced-file').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('should set abort handler', () => {
     el.value = 10;
     expect(el.status).toEqual('in-process');

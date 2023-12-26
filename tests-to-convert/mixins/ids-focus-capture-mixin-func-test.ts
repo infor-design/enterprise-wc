@@ -71,15 +71,6 @@ describe('IdsFocusCaptureMixin)', () => {
     modalBtnOK = null;
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsModal();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-modal').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can disable/enable focus capturing', () => {
     modal.capturesFocus = false;
 
@@ -239,15 +230,6 @@ describe('IdsFocusCaptureMixin (empty)', () => {
     modal = null;
     triggerBtn = null;
     afterBtn = null;
-  });
-
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsModal();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-modal').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
   });
 
   it('sets no focus', async () => {

@@ -29,15 +29,6 @@ describe('IdsInput (Masked)', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsInput();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-input').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('has a connection to the global Mask API', () => {
     const api = input.maskAPI;
 

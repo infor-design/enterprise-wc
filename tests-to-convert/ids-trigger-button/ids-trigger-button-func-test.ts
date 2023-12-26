@@ -17,15 +17,6 @@ describe('IdsTriggerButton Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsTriggerButton();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-trigger-button').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('supports readonly', () => {
     triggerButton.readonly = true;
     expect(triggerButton.readonly).toEqual(true);

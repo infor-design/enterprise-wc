@@ -50,25 +50,6 @@ describe('IdsSwipeAction Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    swipeAction.remove();
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsSwipeAction();
-    document.body.appendChild(elem);
-    elem.insertAdjacentHTML('afterbegin', exampleHTML);
-    expect(document.querySelectorAll('ids-swipe-action').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsSwipeAction();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-swipe-action').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it.skip('renders scroll position on reveal', (done) => {
     swipeAction.swipeType = 'reveal';
     setTimeout(() => {

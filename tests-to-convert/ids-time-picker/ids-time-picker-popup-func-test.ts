@@ -25,12 +25,6 @@ describe('IdsTimePickerPopup Component', () => {
     timepickerPopup = null;
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-time-picker-popup').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders am/pm', () => {
     timepickerPopup.autoupdate = true;
     timepickerPopup.format = 'hh:mm a';

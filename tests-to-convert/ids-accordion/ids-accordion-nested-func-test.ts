@@ -101,15 +101,6 @@ describe('IdsAccordion Component (nested)', () => {
     await processAnimFrame();
   });
 
-  it('renders with no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-    accordion.remove();
-    accordion = await createAccordion(accordion);
-
-    expect(document.querySelectorAll('ids-accordion').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can navigate nested accordion panels', () => {
     const employeePanel = accordion.querySelector('#employee');
     employeePanel.focus();

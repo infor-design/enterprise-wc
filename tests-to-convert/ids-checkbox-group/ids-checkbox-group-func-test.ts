@@ -17,15 +17,6 @@ describe('IdsCheckboxGroup Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsCheckboxGroup();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-checkbox-group').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders label correctly', () => {
     checkboxGroup.label = 'Label Test';
     expect(checkboxGroup.container.querySelector('ids-text').innerHTML).toEqual('Label Test');

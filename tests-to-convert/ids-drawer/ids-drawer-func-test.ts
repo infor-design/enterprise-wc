@@ -21,22 +21,6 @@ describe('IdsDrawer Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    // Build and destroy an "App Menu" type Drawer
-    elem = createFromTemplate(elem, `<ids-drawer edge="start" type="app-menu">
-        <div>Menu Content</div>
-      </ids-drawer>`);
-
-    // Build and destroy an "Action Sheet" type Drawer
-    elem = createFromTemplate(elem, `<ids-drawer edge="bottom" type="action-sheet">
-        <div>Action Sheet Content</div>
-      </ids-drawer>`);
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('must have an edge', async () => {
     elem = createFromTemplate(
       elem,

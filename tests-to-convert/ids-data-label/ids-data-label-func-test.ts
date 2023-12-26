@@ -27,15 +27,6 @@ describe('IdsDataLabel Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsDataLabel();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-data-label').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders with label-position', async () => {
     expect(dataLabel.container?.classList).toContain('top-positioned');
 

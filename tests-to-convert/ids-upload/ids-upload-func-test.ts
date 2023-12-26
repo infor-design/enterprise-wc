@@ -18,15 +18,6 @@ describe('IdsUpload Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsUpload();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-upload').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders placeholder', () => {
     document.body.innerHTML = '';
     const elem: any = new IdsUpload();

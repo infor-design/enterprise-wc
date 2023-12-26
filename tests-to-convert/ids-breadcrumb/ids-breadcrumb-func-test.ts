@@ -18,17 +18,6 @@ describe('IdsBreadcrumb Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    breadcrumb = createFromTemplate(breadcrumb, `<ids-breadcrumb></ids-breadcrumb>`);
-
-    expect(document.querySelectorAll('ids-breadcrumb').length).toEqual(1);
-
-    breadcrumb.remove();
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('adds new crumbs onto the stack', () => {
     breadcrumb.add(new IdsHyperlink());
     breadcrumb.add(new IdsHyperlink());

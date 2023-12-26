@@ -297,10 +297,10 @@ List view using search field with custom search filter.
 - `selected` Fires after selected an item
 - `beforedeselected` Fires before deselected an item, you can return false in the response to veto
 - `deselected` Fires after deselected an item
-- `beforeitemactivated` Fires before activated an item, you can return false in the response to veto
-- `itemactivated` Fires after activated an item
-- `beforeitemdeactivated` Fires before deactivated an item, you can return false in the response to veto
-- `itemdeactivated` Fires after deactivated an item
+- `beforeactivated` Fires before activated an item, you can return false in the response to veto
+- `activated` Fires after activated an item
+- `beforedeactivated` Fires before deactivated an item, you can return false in the response to veto
+- `deactivated` Fires after deactivated an item
 - `selectionchanged` Fires after selection changed, when use with selectAll(), deselectAll() or toggleAll()
 - `filtered` Fires after search term changed have detail type: 'apply' | 'clear'
 

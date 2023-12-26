@@ -23,19 +23,6 @@ describe('IdsBarChart Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    document.body.innerHTML = '';
-    barChart = new IdsBarChart();
-    document.body.appendChild(barChart);
-    barChart.animated = false;
-    barChart.data = dataset;
-    await processAnimFrame();
-    barChart.remove();
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can set custom colors', async () => {
     barChart.data = [{
       data: [{

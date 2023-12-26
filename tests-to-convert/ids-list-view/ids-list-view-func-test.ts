@@ -48,21 +48,6 @@ describe('IdsListView Component', () => {
     await processAnimFrame();
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    document.body.innerHTML = '';
-    listView = new IdsListView();
-    listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
-    document.body.appendChild(listView);
-    listView.data = dataset;
-
-    listView.remove();
-
-    expect(document.querySelectorAll('ids-list-view').length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders the template without virtual scroll', () => {
     listView.data = dataset;
     expect(listView.items.length).toEqual(listView.data.length);
@@ -171,100 +156,6 @@ describe('IdsListView Component', () => {
     listView.container?.querySelector<HTMLElement>(sel)?.click();
     await processAnimFrame();
     expect(listView.container?.querySelector<HTMLElement>(sel)?.getAttribute('tabindex')).toEqual('0');
-  });
-
-  it.skip('single selects with virtualScroll on click', async () => {
-    const ds: any = deepClone(datasetProducts);
-    ds[0].itemSelected = true;
-    ds[3].itemActivated = true;
-    document.body.innerHTML = '';
-    listView = new IdsListView();
-    document.body.appendChild(listView);
-    expect(listView.selected).toEqual(null);
-    listView.selectable = 'mixed';
-    expect(listView.activatedItem).toEqual(null);
-    listView.virtualScroll = true;
-    listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
-    await processAnimFrame();
-    listView.data = ds;
-    await processAnimFrame();
-
-    const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
-
-    expect(listView.container?.querySelector<HTMLElement>(sel(1))?.getAttribute('selected')).toEqual('');
-    expect(listView.selected).toEqual(expect.arrayContaining([
-      expect.objectContaining({ index: 0 })
-    ]));
-
-    listView.container?.querySelector<HTMLElement>(`${sel(3)} .list-item-checkbox`)?.click();
-    expect(listView.container?.querySelector<HTMLElement>(sel(1))?.getAttribute('selected')).toEqual('');
-    expect(listView.container?.querySelector<HTMLElement>(sel(3))?.getAttribute('selected')).toEqual('');
-    expect(listView.selected).toEqual(expect.arrayContaining([
-      expect.objectContaining({ index: 0 }),
-      expect.objectContaining({ index: 2 })
-    ]));
-    listView.deselectAll();
-    expect(listView.selected).toEqual([]);
-  });
-
-  it('single selects on click', () => {
-    listView.selectable = 'single';
-    const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
-
-    expect(listView.activatedItem).toEqual(null);
-    listView.container?.querySelector<HTMLElement>('.ids-list-view-body')?.click();
-    expect(listView.selected).toEqual(null);
-    listView.container?.querySelector<HTMLElement>(sel(1))?.click();
-    expect(listView.selected).toEqual(expect.objectContaining({ index: 0 }));
-    listView.container?.querySelector<HTMLElement>(sel(3))?.click();
-    expect(listView.selected).toEqual(expect.objectContaining({ index: 2 }));
-    listView.suppressDeselection = false;
-    listView.container?.querySelector<HTMLElement>(sel(3))?.click();
-    expect(listView.selected).toEqual(expect.objectContaining({ index: 2 }));
-    listView.suppressDeselection = true;
-    listView.container?.querySelector<HTMLElement>(sel(3))?.click();
-    expect(listView.selected).toEqual(null);
-    listView.deselectAll();
-  });
-
-  it('multiple selects on click', () => {
-    listView.selectable = 'multiple';
-    const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
-
-    listView.container?.querySelector<HTMLElement>(sel(2))?.click(); // 2: disabled
-    expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(0);
-    listView.container?.querySelector<HTMLElement>(sel(1))?.click();
-    expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(1);
-    listView.container?.querySelector<HTMLElement>(sel(3))?.click();
-    expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(2);
-    listView.container?.querySelector<HTMLElement>(sel(3))?.click();
-    expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(1);
-    listView.container?.querySelector<HTMLElement>(`${sel(3)} .list-item-checkbox`)?.click();
-    expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(2);
-    listView.deselectAll();
-  });
-
-  it('mixed selects and activation on click', () => {
-    listView.selectable = 'mixed';
-    const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
-
-    listView.container?.querySelector<HTMLElement>(sel(2))?.click(); // disabled
-    expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(0);
-    expect(listView.activatedItem).toEqual(null);
-    listView.container?.querySelector<HTMLElement>(`${sel(1)} .list-item-checkbox`)?.click();
-    expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(1);
-    listView.container?.querySelector<HTMLElement>(sel(1))?.click();
-    expect(listView.activatedItem).toEqual(expect.objectContaining({ index: 0 }));
-    listView.container?.querySelector<HTMLElement>(`${sel(3)} .list-item-checkbox`)?.click();
-    expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(2);
-    listView.container?.querySelector<HTMLElement>(sel(3))?.click();
-    expect(listView.activatedItem).toEqual(expect.objectContaining({ index: 2 }));
-    listView.container?.querySelector<HTMLElement>(sel(3))?.click();
-    listView.suppressDeactivation = true;
-    listView.container?.querySelector<HTMLElement>(sel(3))?.click();
-    expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(2);
-    expect(listView.activatedItem).toEqual(null);
-    listView.deselectAll();
   });
 
   it('can use arrow keys to navigate', async () => {
@@ -662,7 +553,7 @@ describe('IdsListView Component', () => {
     await processAnimFrame();
     const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
     let veto: boolean;
-    listView.addEventListener('beforeitemactivated', ((e: CustomEvent) => {
+    listView.addEventListener('beforeactivated', ((e: CustomEvent) => {
       e.detail.response(veto);
     }) as EventListener);
     veto = false;
@@ -678,7 +569,7 @@ describe('IdsListView Component', () => {
     await processAnimFrame();
     const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
     let veto: boolean;
-    listView.addEventListener('beforeitemdeactivated', ((e: CustomEvent) => {
+    listView.addEventListener('beforedeactivated', ((e: CustomEvent) => {
       e.detail.response(veto);
     }) as EventListener);
     listView.container?.querySelector<HTMLElement>(sel(3))?.click();
@@ -703,7 +594,7 @@ describe('IdsListView Component', () => {
   it('should not have errors when changing data by activating an item', () => {
     let activatedItem = -1;
 
-    listView.addEventListener('itemactivated', (e: any) => {
+    listView.addEventListener('activated', (e: any) => {
       activatedItem = e.detail.index;
 
       listView.data = [

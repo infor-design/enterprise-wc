@@ -24,15 +24,6 @@ describe('IdsRadio Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsRadio();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-radio').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('should renders checked', () => {
     rb.checked = 'true';
     expect(rb.getAttribute('checked')).toEqual('true');

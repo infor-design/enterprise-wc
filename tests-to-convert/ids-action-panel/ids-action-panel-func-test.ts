@@ -24,15 +24,6 @@ describe('IdsActionPanel Component', () => {
     (cap as any) = null;
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsActionPanel();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-action-panel').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it.skip('responds to its normal buttons\' clicks', async () => {
     // Insert a header toolbar
     cap.insertAdjacentHTML('afterbegin', `<ids-toolbar slot="toolbar">

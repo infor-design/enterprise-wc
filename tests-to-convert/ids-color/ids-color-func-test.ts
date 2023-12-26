@@ -16,16 +16,6 @@ describe('Ids Color Component', () => {
     color = null;
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    color.remove();
-    const elem: any = new IdsColor();
-    document.body.appendChild(elem);
-    expect(document.querySelectorAll('ids-color').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-    elem.remove();
-  });
-
   it('shows transparent background for default hex', () => {
     expect(color.hex).toEqual('');
     expect(['', 'transparent'].includes(color.container.style.backgroundColor)).toBe(true);

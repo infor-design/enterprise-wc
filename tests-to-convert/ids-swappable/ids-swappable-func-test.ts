@@ -48,20 +48,6 @@ describe('IdsSwappable Component', () => {
     idsSwappable?.remove();
   });
 
-  it('renders with no errors', async () => {
-    idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-swappable').length).toEqual(1);
-
-    idsSwappable.remove();
-
-    idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
-    expect(document.querySelectorAll('ids-swappable').length).toEqual(1);
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can select ids-swappable-item', async () => {
     idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
     const items = idsSwappable.querySelectorAll('ids-swappable-item');

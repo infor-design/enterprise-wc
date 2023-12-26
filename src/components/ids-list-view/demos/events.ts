@@ -21,7 +21,7 @@ if (listView) {
    * EVENTS
    */
   const radioBeforeSelected: any = document.querySelector('#radio-lv-beforeselected');
-  const radioBeforeItemActivated: any = document.querySelector('#radio-lv-beforeitemactivated');
+  const radioBeforeItemActivated: any = document.querySelector('#radio-lv-beforeactivated');
 
   // display console logs
   const show = (type: string, detail: string, veto?: boolean) => {
@@ -48,21 +48,21 @@ if (listView) {
     show('deselected', e.detail);
   });
   // before item activated
-  listView.addEventListener('beforeitemactivated', (e: any) => {
+  listView.addEventListener('beforeactivated', (e: any) => {
     const veto = radioBeforeItemActivated.value;
-    show('beforeitemactivated', e.detail, veto);
+    show('beforeactivated', e.detail, veto);
     e.detail.response(veto);
   });
   // after item activated
-  listView.addEventListener('itemactivated', (e: any) => {
-    show('itemactivated', e.detail);
+  listView.addEventListener('activated', (e: any) => {
+    show('activated', e.detail);
   });
   // before item deactivated
-  listView.addEventListener('beforeitemdeactivated', (e: any) => {
-    show('beforeitemdeactivated', e.detail);
+  listView.addEventListener('beforedeactivated', (e: any) => {
+    show('beforedeactivated', e.detail);
   });
   // after item deactivated
-  listView.addEventListener('itemdeactivated', (e: any) => {
-    show('itemdeactivated', e.detail);
+  listView.addEventListener('deactivated', (e: any) => {
+    show('deactivated', e.detail);
   });
 }

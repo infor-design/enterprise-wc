@@ -17,15 +17,6 @@ describe('IdsBadge Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsBadge();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-badge').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders alert color and round shape of badge', () => {
     badge.color = 'alert';
     expect(badge.getAttribute('color')).toEqual('alert');

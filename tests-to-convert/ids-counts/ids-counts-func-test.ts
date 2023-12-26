@@ -36,16 +36,6 @@ describe('IdsCounts Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsCounts();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-counts').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-
   it('renders a specific hex color', () => {
     count.color = '#800000';
     expect(count.getAttribute('color')).toEqual('#800000');

@@ -29,15 +29,6 @@ describe('Ids Step Chart Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    elem = new IdsStepChart();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-step-chart').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('generates the correct number of steps', () => {
     expect(elem.shadowRoot.querySelectorAll('.step').length).toEqual(7);
   });

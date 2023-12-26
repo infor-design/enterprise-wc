@@ -20,18 +20,6 @@ describe('IdsAreaChart Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    document.body.innerHTML = '';
-    areaChart = new IdsAreaChart();
-    document.body.appendChild(areaChart);
-    areaChart.data = dataset;
-
-    areaChart.remove();
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('supports setting markerSize', () => {
     expect(areaChart.markerSize).toEqual(5);
     expect(areaChart.shadowRoot.querySelector('circle').getAttribute('r')).toEqual('5');

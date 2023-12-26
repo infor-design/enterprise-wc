@@ -203,7 +203,7 @@ export default class IdsListBuilder extends IdsListView {
     const swappableParent = lastItem?.swappableParent ?? this.shadowRoot?.querySelector('ids-swappable');
     swappableParent?.after(swappable);
 
-    newItem.active = true;
+    newItem.activated = true;
     newItem.selected = true;
     swappable.selected = true;
 
@@ -288,8 +288,6 @@ export default class IdsListBuilder extends IdsListView {
       // TODO: after deleteing, I cannot arrowUp past this focused item @see item.prevEnabled/item.nextEnabled
       if (isLastSelected) nextEnabled?.focus();
     });
-
-    // this.resetIndices();
   }
 
   /**
@@ -317,8 +315,6 @@ export default class IdsListBuilder extends IdsListView {
       const parents = selected.map((item) => item.swappableParent!);
       lastSelected.swappableParent?.nextElementSibling?.after(...parents);
       this.triggerEvent('itemMoveDown', this, { detail: { dataSet: this.data } });
-
-      // this.resetIndices();
     }
   }
 

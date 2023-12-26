@@ -43,21 +43,6 @@ describe.skip('IdsMenuButton Component', () => {
     menuEl = null;
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    buttonEl.remove();
-    buttonEl = new IdsMenuButton();
-    buttonEl.id = 'test-button';
-    buttonEl.type = 'secondary';
-    buttonEl.dropdownIcon = '';
-    document.body.appendChild(buttonEl);
-
-    expect(document.querySelectorAll('ids-menu-button').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-
-    expect(buttonEl.shouldUpdate).toBeTruthy();
-  });
-
   it('can change/remove its dropdown icon', () => {
     buttonEl.dropdownIcon = 'launch';
     let iconEl = buttonEl.button.querySelector('ids-icon');

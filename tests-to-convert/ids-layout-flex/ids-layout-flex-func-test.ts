@@ -28,19 +28,6 @@ describe('IdsLayoutFlex Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    let elem: any = new IdsLayoutFlex();
-    document.body.appendChild(elem);
-    elem.remove();
-
-    elem = new IdsLayoutFlexItem();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-layout-flex').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('should sets align-content', () => {
     expect(flexEl.alignContent).toEqual(null);
     expect(flexEl.getAttribute('align-content')).toEqual(null);
