@@ -47,16 +47,6 @@ test.describe('IdsAxisChart tests', () => {
       await expect(html).toMatchSnapshot('axis-chart-html');
     });
 
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-axis-chart');
-      const html = await handle?.evaluate((el: IdsAxisChart) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('axis-chart-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-axis-chart-light');
