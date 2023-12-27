@@ -834,6 +834,13 @@ export default class IdsCalendar extends Base {
       popup.place();
       popup.visible = true;
     }
+
+    // set pickers to hidden by default
+    popup?.querySelectorAll<any>('ids-time-picker')
+      .forEach((elem) => { elem.picker!.hidden = true; });
+
+    popup?.querySelectorAll<any>('ids-date-picker')
+      .forEach((elem) => { elem.popup!.hidden = true; });
   }
 
   /**
