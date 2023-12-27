@@ -86,4 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
   menuBtnEl.menuEl.addEventListener('selected', (e: any) => {
     menuItemResponse(e);
   });
+
+  treeElem?.addEventListener('selected', (e: any) => {
+    console.info(e.detail.node.data);
+  });
 });
