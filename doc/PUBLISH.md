@@ -13,6 +13,8 @@
 - Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents if needed and make a pre-release if needed
 - Update the change log and add a new section
 - Commit and push (direct to repo or PR)
+- Update the stackblitz and post in announcements using starting link `https://stackblitz.com/edit/ids-enterprise-wc-beta18`
+- Run the docs generator (TBD)
 
 ## Publishing a test package your local NPM repo
 

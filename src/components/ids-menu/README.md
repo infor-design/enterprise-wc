@@ -83,6 +83,7 @@ A more complicated menu can be formed using combinations of  `ids-menu` with a `
   </ids-menu-group>
 </ids-menu>
 ```
+
 ### Selection Event Handling
 
 When an `<ids-menu-item>` element is selected from a menu, it has the potential to fire up to two different events.  The events fired depend on how the menu is configured.  Consider this menu:
@@ -117,6 +118,16 @@ You can also have `toggleable` menu items where the menu item check can be turne
 <ids-menu>
   <ids-menu-group select="single">
     <ids-menu-item icon="mail" toggable value="mail">Keep Active</ids-menu-item>
+  </ids-menu-group>
+</ids-menu>
+```
+
+You can also align the icon on the right side.
+
+```html
+<ids-menu>
+  <ids-menu-group>
+    <ids-menu-item icon="mail" icon-align="end">Keep Active</ids-menu-item>
   </ids-menu-group>
 </ids-menu>
 ```

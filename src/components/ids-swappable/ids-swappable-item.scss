@@ -8,7 +8,6 @@
 }
 
 :host(:hover) {
-  background-color: var(--ids-swappable-item-color-background-hover);
   position: relative;
 
   &::before {
@@ -19,12 +18,6 @@
     font-size: var(--ids-swappable-item-font-size-hover);
     content: var(--ids-swappable-item-content-hover);
     z-index: 999999;
-
-    // display: flex;
-    // align-items: center;
-    // height: 70%;
-    // width: 99%;
-    // overflow: hidden;
   }
 }
 

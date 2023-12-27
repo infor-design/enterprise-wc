@@ -34,31 +34,31 @@ A vertical tabs component.
 ```
 
 Using a tab context to show the active tab content in `ids-tab-content`.
+
 ```html
 <ids-tabs-context>
-    <!-- ^ context has no outward styling or content, but width/height or display can be set -->
+    <!-- tabs context has no outward styling or content, but width/height or display can be set -->
     <ids-tabs value="one">
         <ids-tab value="one">Section 1</ids-tab>
         <ids-tab value="two">Section 2</ids-tab>
         <ids-tab value="three">Section 3</ids-tab>
     </ids-tabs>
-    <div class="tab-content">
-        <ids-tab-content value="one">
-            This will be initially visible
-        </ids-tab-content>
-        <ids-tab-content value="two">
-            If ids-tabs value="two" is selected, or ids-tab with value "two"
-            is set as selected, then this will be visible and one will be hidden
-        </ids-tab-content>
-        <ids-tab-content value="three">
-            And this will show if the ids-tabs value or selection becomes "three",
-            similar to the previous content entry. Only one will be shown at once.
-        </ids-tab-content>
-    </div>
+    <ids-tab-content value="one">
+        This will be initially visible
+    </ids-tab-content>
+    <ids-tab-content value="two">
+        If ids-tabs value="two" is selected, or ids-tab with value "two"
+        is set as selected, then this will be visible and one will be hidden
+    </ids-tab-content>
+    <ids-tab-content value="three">
+        And this will show if the ids-tabs value or selection becomes "three",
+        similar to the previous content entry. Only one will be shown at once.
+    </ids-tab-content>
 </ids-tabs-context>
 ```
 
 It's also possible to create Module Tabs for top-level navigation in your application
+
 ```html
 <ids-tabs value="one" color-variant="module">
     <ids-tab value="one">Example One</ids-tab>
@@ -112,19 +112,21 @@ Tabs can be configured to display an optional [IdsTriggerButton](../ids-trigger-
 ## Settings and Attributes
 
 ### Tab Container Settings (`ids-tabs`)
+
 - `disabled` {boolean} disables all tabs.
 - `value` {string} set which tab is currently selected. If tab children do not have a value, will fall back to being a 0-based index. Otherwise, it can also be any string as long as there are relevant matches for the values.
 - `orientation` {'horizontal' | 'vertical'} defaults to horizontal; controls the direction/axis tabs are flowed on.
 - `color-variant` {'alternate'|'module'} (optional) sets the Tabs color variant.  The `alternate` variant is used on header components and set automatically when placed inside of an `ids-header` component.  The `module` variant displays Module Tabs, which are generally used as top-level navigation only.
 
 ### Individual Tabs Settings (`ids-tab`)
+
 - `actionable` {boolean} labels a tab as having a corresponding action, such as "Add", "Reset", "Activate Application Menu", etc.  Tabs that use this setting should also have an `onAction` callback applied, which will be triggered upon selecting the tab.  Tabs that are `actionable` will not cause content in tab panels to be displayed.
 - `disabled` {boolean} allows you to disable a tab among a set of tabs.
 - `selected` {boolean} allows for a tab to display its selected state.  In some cases, tabs with this value set to true will also automatically display their corresponding Tab Panel's content.  Tabs that have an `actionable` attribute applied are not able to be "selected" -- selecting those tabs will focus them.
 - `value` {string | number} the value which when the parent `ids-tabs` also has an equivalent for, selects this tab.
 
 ## Themeable Parts
-### IdsTabs
+
 - `container` allows you to style the container of the tab
 
 ## States and Variations (With Code Examples)
@@ -157,10 +159,6 @@ When placed inside of an `IdsHeader` component, the `ids-tabs` component automat
 - Content within the tabs are specified as `<ids-tab value=${selection-value}>`Tab Label/Content`</ids-tab>`
 - Tabs and their panels are now wrapped with a context element `<ids-tabs-context></ids-tabs-context>` for controlling which tab is displayed
 - Tabs can optionally display overflow by inserting an `<ids-tab-more overflow></ids-tab-more>` component into the `<ids-tabs></ids-tabs>` component
-
-## Accessibility Guidelines
-
-TODO
 
 ## Regional Considerations
 

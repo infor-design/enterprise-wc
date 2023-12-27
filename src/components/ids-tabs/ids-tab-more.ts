@@ -208,7 +208,7 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
     // Sanitize text from Tabs to fit menu items
     text = `<span class="ids-tab-more-menu-item-text">${removeNewLines(text)?.trim()}</span>`;
 
-    return `<ids-menu-item${disabled}${hidden || overflowed}${value}>
+    return `<ids-menu-item icon-align="end" ${disabled}${hidden || overflowed}${value}>
       ${text}
       ${icon}
       ${submenu}

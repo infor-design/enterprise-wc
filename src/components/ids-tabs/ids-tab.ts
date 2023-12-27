@@ -243,25 +243,22 @@ export default class IdsTab extends Base {
    * @param {boolean} isSelected Whether or not this tab is selected.
    */
   set selected(isSelected: boolean) {
-    const currentValue = this.selected;
     const newValue = stringToBool(isSelected);
-    if (currentValue !== newValue) {
-      if (!newValue) {
-        this.removeAttribute(attributes.SELECTED);
-        this.container?.classList.remove(attributes.SELECTED);
-        this.container?.children?.[0]?.removeAttribute?.(attributes.FONT_WEIGHT);
-        this.setAttribute(htmlAttributes.TABINDEX, '-1');
-        this.container?.setAttribute(htmlAttributes.TABINDEX, '-1');
-      } else {
-        this.setAttribute(attributes.SELECTED, '');
-        this.container?.children?.[0]?.setAttribute?.(attributes.FONT_WEIGHT, 'semi-bold');
-        this.container?.classList.add(attributes.SELECTED);
-        this.setAttribute(htmlAttributes.TABINDEX, '0');
-        this.container?.setAttribute(htmlAttributes.TABINDEX, '0');
-        this.#select(newValue);
-      }
-      this.setAttribute(htmlAttributes.ARIA_SELECTED, `${newValue}`);
+    if (!newValue) {
+      this.removeAttribute(attributes.SELECTED);
+      this.container?.classList.remove(attributes.SELECTED);
+      this.container?.children?.[0]?.removeAttribute?.(attributes.FONT_WEIGHT);
+      this.setAttribute(htmlAttributes.TABINDEX, '-1');
+      this.container?.setAttribute(htmlAttributes.TABINDEX, '-1');
+    } else {
+      this.setAttribute(attributes.SELECTED, '');
+      this.container?.children?.[0]?.setAttribute?.(attributes.FONT_WEIGHT, 'semi-bold');
+      this.container?.classList.add(attributes.SELECTED);
+      this.setAttribute(htmlAttributes.TABINDEX, '0');
+      this.container?.setAttribute(htmlAttributes.TABINDEX, '0');
+      this.#select(newValue);
     }
+    this.setAttribute(htmlAttributes.ARIA_SELECTED, `${newValue}`);
   }
 
   /**

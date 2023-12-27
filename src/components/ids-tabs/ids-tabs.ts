@@ -12,6 +12,9 @@ import IdsHeader from '../ids-header/ids-header';
 import './ids-tab';
 import './ids-tab-more';
 import './ids-tab-divider';
+import './ids-tab-content';
+import './ids-tabs-context';
+
 import type IdsTab from './ids-tab';
 import type IdsTabMore from './ids-tab-more';
 

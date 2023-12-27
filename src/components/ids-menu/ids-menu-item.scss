@@ -292,6 +292,21 @@
     }
   }
 
+  &.has-icon.has-checkmark.align-icon-end,
+  &.has-icon.has-multi-checkmark.align-icon-end {
+    a {
+      grid-template-columns: 30px calc(100% - 55px) 25px;
+
+      .ids-menu-item-text {
+        grid-column-start: 2;
+      }
+
+      .ids-menu-item-icon {
+        grid-column-start: 3;
+      }
+    }
+  }
+
   &.has-shortcuts.has-icon.has-checkmark,
   &.has-shortcuts.has-icon.has-mutlt-checkmark {
     a {

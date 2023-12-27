@@ -1,9 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-// eslint-disable-next-line
-import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
-import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
 import '../helpers/resize-observer-mock';
 import '../../src/components/ids-tabs/ids-tabs';
 import '../../src/components/ids-tabs/ids-tab';
@@ -13,13 +10,6 @@ import '../../src/components/ids-tabs/ids-tab-content';
 import IdsHeader from '../../src/components/ids-header/ids-header';
 import '../../src/components/ids-swappable/ids-swappable';
 import '../../src/components/ids-text/ids-text';
-import createFromTemplate from '../helpers/create-from-template';
-
-const processAnimFrame = () => new Promise((resolve) => {
-  window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(resolve);
-  });
-});
 
 const DEFAULT_TABS_HTML = (
   `<ids-tabs>
@@ -99,122 +89,6 @@ describe('IdsTabs Tests', () => {
     elem?.remove();
   });
 
-  it('renders from HTML Template with no errors', async () => {
-    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-tabs').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('Does not show errors when created with no tabs', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-    elem = await createFromTemplate(elem, '<ids-tabs></ids-tabs>');
-
-    expect(document.querySelectorAll('ids-tabs').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('renders a vertical set of tabs with no errors', async () => {
-    elem = await createFromTemplate(
-      elem,
-      `<ids-tabs value="hello" orientation="vertical">
-        <ids-tab value="hello">Hello</ids-tab>
-        <ids-tab value="world">World</ids-tab>
-        <ids-tab value="can">Can</ids-tab>
-        <ids-tab value="uhearme">You Hear Me?</ids-tab>
-      </ids-tabs>`
-    );
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-tabs').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('renders a set of swappable tabs with no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-    elem = await createFromTemplate(elem, TAB_SWAPPABLE_HTML);
-
-    const tab1 = elem.querySelector('ids-tab');
-    const swapItem1 = elem.querySelector('ids-swappable-item');
-
-    expect(swapItem1.getAttribute('drag-mode')).toBe('always');
-    expect(tab1.container.classList.contains('swappable')).toBeTruthy();
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('creates tabs with vertical orientation, then sets them horizontal', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-    elem = await createFromTemplate(
-      elem,
-      `<ids-tabs value="hello" orientation="vertical">
-        <ids-tab value="hello">Hello</ids-tab>
-        <ids-tab value="world">World</ids-tab>
-        <ids-tab value="can">Can</ids-tab>
-        <ids-tab value="uhearme">You Hear Me?</ids-tab>
-      </ids-tabs>`
-    );
-
-    // wait for ids element to fire #updateAttributes() rAF
-    await processAnimFrame();
-
-    elem.orientation = 'horizontal';
-    await processAnimFrame();
-
-    expect(elem.getAttribute('orientation')).toEqual('horizontal');
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('renders with counts, and has no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    elem = await createFromTemplate(
-      elem,
-      `<ids-tabs>
-        <ids-tab count="20">Pizzas</ids-tab>
-        <ids-tab count="18">Diet Cokes</ids-tab>
-        <ids-tab count="12">Ginger Ales</ids-tab>
-      </ids-tabs>`
-    );
-    await processAnimFrame();
-    expect(elem.outerHTML).toMatchSnapshot();
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('renders tab dividers on counts, and has no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    elem = await createFromTemplate(
-      elem,
-      `<ids-tabs>
-        <ids-tab count="20">Pizzas</ids-tab>
-        <ids-tab count="18">Diet Cokes</ids-tab>
-        <ids-tab-divider></ids-tab-divider>
-       <ids-tab count="12">Ginger Ales</ids-tab>
-      </ids-tabs>`
-    );
-    await processAnimFrame();
-
-    expect(elem.outerHTML).toMatchSnapshot();
-    expect(errors).not.toHaveBeenCalled();
-    expect(elem.querySelector('ids-tab-divider').getAttribute('role')).toEqual('separator');
-  });
-
-  it('renders with partial counts set, and triggers no error', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    await createFromTemplate(
-      elem,
-      `<ids-tabs>
-        <ids-tab count="20">Pizzas</ids-tab>
-        <ids-tab count="18">Diet Cokes</ids-tab>
-        <ids-tab>Ginger Ales</ids-tab>
-      </ids-tabs>`
-    );
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('removes a tab after rendering and does not break', async () => {
     const errors = jest.spyOn(global.console, 'error');
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
@@ -276,20 +150,6 @@ describe('IdsTabs Tests', () => {
     await processAnimFrame();
 
     elem.value = 'world';
-  });
-
-  it('assigns an invalid count to a tab with counts, and triggers an error', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    await expect(createFromTemplate(
-      elem,
-      `<ids-tabs value="eggs">
-        <ids-tab count="z20" value="eggs">Eggs In a Basket</ids-tab>
-        <ids-tab count="5" value="peas">Peas in a Pod</ids-tab>
-      </ids-tabs>`
-    ));
-
-    expect(errors).not.toHaveBeenCalled();
   });
 
   it('sets count attribute on the ids-tab component predictably', async () => {
@@ -386,13 +246,6 @@ describe('IdsTabs Tests', () => {
   });
 
   it('sets the aria-label', async () => {
-    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
-    expect(elem.querySelector('ids-tab').getAttribute('aria-label')).toEqual('Hello');
-    elem = await createFromTemplate(elem, `<ids-tabs></ids-tabs>`);
-    expect(elem.querySelector('ids-tab')).toBeFalsy();
-  });
-
-  it('should be able to focus', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     expect(elem.querySelector('ids-tab').getAttribute('aria-label')).toEqual('Hello');
     elem = await createFromTemplate(elem, `<ids-tabs></ids-tabs>`);
