@@ -41,29 +41,6 @@ describe('IdsAxisChart Component', () => {
     document.body.appendChild(container);
   });
 
-  afterEach(async () => {
-    document.body.innerHTML = '';
-  });
-
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    document.body.innerHTML = '';
-    axisChart = new IdsAxisChart();
-    document.body.appendChild(axisChart);
-    axisChart.data = dataset;
-
-    axisChart.remove();
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('supports setting title', () => {
-    expect(axisChart.title).toEqual('');
-    axisChart.title = 'Test Title';
-    expect(axisChart.title).toEqual('Test Title');
-    expect(axisChart.shadowRoot.querySelector('title').textContent).toEqual('Test Title');
-  });
-
   it('supports setting height inline', () => {
     document.body.innerHTML = '';
     axisChart = new IdsAxisChart();
