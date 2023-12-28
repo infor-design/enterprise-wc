@@ -10,6 +10,7 @@
 ### 1.0.0-beta.18 Fixes
 
 - `[AxisChart]` Re-added a responsive example. ([#1676](https://github.com/infor-design/enterprise-wc/issues/1676))
+- `[Breadcrumb]` Fixed toolbar alignment, removed `add` and `remove` instead made the breadcrumb update correctly on `slotchange`. Also added more Angular examples. ([#1640](https://github.com/infor-design/enterprise-wc/issues/1640))
 - `[Calendar]` Add `suppress-form` setting to allow custom user UI for calendar event forms. ([#1474](https://github.com/infor-design/enterprise-wc/issues/1474))
 - `[Checkbox]` Fix checkbox and checkbox-group so that values are properly reflected in Angular when using `ngDefaultControl`. ([#1693](https://github.com/infor-design/enterprise-wc/issues/1693))
 - `[DataGrid]` Fix dropdown cells to no longer open their lists inside cells (attach to grid instead). ([#1600](https://github.com/infor-design/enterprise-wc/issues/1600))
@@ -25,7 +26,7 @@
 - `[Spinbox]` Now corrects values when type over the min and max range.  ([#1678](https://github.com/infor-design/enterprise-wc/issues/1678))
 - `[Spinbox]` Now masks input to make sure its a number.  ([#1578](https://github.com/infor-design/enterprise-wc/issues/1578))
 - `[Tree]` Fixed a bug where the tree `label` did not work on parent folder nodes.  ([#1683](https://github.com/infor-design/enterprise-wc/issues/1683))
-- `[Tree]` Fix maximum callstack error when dynamically adding nodes to tree. ([#1649](https://github.com/infor-design/enterprise-wc/issues/1649))
+- `[Tree]` Fix maximum call stack error when dynamically adding nodes to tree. ([#1649](https://github.com/infor-design/enterprise-wc/issues/1649))
 - `[Toolbar]` Fixed right aligned toolbar sections bug in firefox.  ([#1698](https://github.com/infor-design/enterprise-wc/issues/1698))
 
 ## 1.0.0-beta.17
