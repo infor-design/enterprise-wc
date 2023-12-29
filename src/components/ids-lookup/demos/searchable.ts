@@ -1,0 +1,143 @@
+// Supporting components
+import '../ids-lookup';
+import '../../ids-data-grid/ids-data-grid';
+
+import productsJSON from '../../../assets/data/products.json';
+import IdsGlobal from '../../ids-global/ids-global';
+
+// Example for populating the DataGrid
+const lookup: Element | any = document.querySelector('#lookup-1');
+
+(async function init() {
+  // Set a Locale and wait for it to load
+  await IdsGlobal.getLocale().setLocale('en-US');
+
+  // Do an ajax request
+  const url: any = productsJSON;
+  const columns = [];
+
+  // Set up columns
+  columns.push({
+    id: 'selectionCheckbox',
+    name: 'selection',
+    sortable: false,
+    resizable: false,
+    formatter: lookup.dataGrid.formatters.selectionCheckbox,
+    align: 'center'
+  });
+  columns.push({
+    id: 'id',
+    name: 'ID',
+    field: 'id',
+    width: 80,
+    resizable: true,
+    sortable: true,
+    formatter: lookup.dataGrid.formatters.text,
+  });
+  columns.push({
+    id: 'color',
+    name: 'Color',
+    field: 'color',
+    sortable: true,
+    resizable: true,
+    formatter: lookup.dataGrid.formatters.text,
+    filterType: lookup.dataGrid.filters.text
+  });
+  columns.push({
+    id: 'productId',
+    name: 'Product Id',
+    field: 'productId',
+    sortable: true,
+    resizable: true,
+    filterType: lookup.dataGrid.filters.integer,
+    formatter: lookup.dataGrid.formatters.integer
+  });
+  columns.push({
+    id: 'productName',
+    name: 'Product Name',
+    field: 'productName',
+    sortable: true,
+    resizable: true,
+    formatter: lookup.dataGrid.formatters.text,
+    filterType: lookup.dataGrid.filters.text,
+    filterConditions: [{
+      value: 'contains',
+      label: 'Contains',
+      icon: 'filter-contains'
+    },
+    {
+      value: 'equals',
+      label: 'Equals',
+      icon: 'filter-equals',
+      selected: true
+    }]
+  });
+  columns.push({
+    id: 'inStock',
+    name: 'In Stock',
+    field: 'inStock',
+    sortable: false,
+    resizable: true,
+    align: 'center',
+    formatter: lookup.dataGrid.formatters.text,
+    filterType: lookup.dataGrid.filters.checkbox
+  });
+  columns.push({
+    id: 'unitPrice',
+    name: 'Unit Price',
+    field: 'unitPrice',
+    sortable: true,
+    resizable: true,
+    formatter: lookup.dataGrid.formatters.integer,
+    filterType: lookup.dataGrid.filters.integer
+  });
+  columns.push({
+    id: 'units',
+    name: 'Units',
+    field: 'units',
+    sortable: true,
+    resizable: true,
+    align: 'right',
+    filterAlign: 'left',
+    formatter: lookup.dataGrid.formatters.text,
+    filterType: lookup.dataGrid.filters.text
+  });
+
+  lookup.columns = columns;
+
+  const addEventListeners = () => {
+    lookup.addEventListener('change', () => {
+      console.info(`Value Changed`, lookup.dataGrid.selectedRows, lookup.value);
+    });
+
+    lookup.addEventListener('rowselected', (e: CustomEvent) => {
+      console.info(`Row Selected`, e.detail);
+    });
+
+    lookup.addEventListener('rowdeselected', (e: CustomEvent) => {
+      console.info(`Row DeSelected`, e.detail);
+    });
+
+    lookup.addEventListener('selectionchanged', (e: CustomEvent) => {
+      console.info(`Selection Changed`, e.detail);
+    });
+  };
+
+  lookup.dataGridSettings = {
+    rowSelection: 'multiple'
+  };
+
+  const setData = async () => {
+    const res = await fetch(url);
+    const data = await res.json();
+    lookup.dataGridSettings = {
+      rowSelection: 'multiple'
+    };
+    lookup.data = data;
+
+    // Fake server side filtering (TODO)
+  };
+
+  setData();
+  addEventListeners();
+}());

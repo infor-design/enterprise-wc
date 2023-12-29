@@ -401,6 +401,7 @@ export const attributes = {
   SEARCH_TERM_CASE_SENSITIVE: 'search-term-case-sensitive',
   SEARCH_TERM_MIN_SIZE: 'search-term-min-size',
   SEARCHABLE: 'searchable',
+  SEARCHFIELD_PLACEHOLDER: 'searchfield-placeholder',
   SECOND_INTERVAL: 'second-interval',
   SECONDS: 'seconds',
   SELECT: 'select',

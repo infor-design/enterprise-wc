@@ -107,6 +107,7 @@ export default class IdsSearchField extends IdsTriggerField {
             ${type}${inputClass}${placeholder}${inputState}
             ${ariaLabel}
             ${value}
+            autocomplete="off"
             ></input>
           <slot name="trigger-end"></slot>
         </div>
