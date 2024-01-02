@@ -105,31 +105,6 @@ const lookup = document.querySelector<IdsLookup>('#lookup-1')!;
   });
 
   lookup.columns = columns;
-
-  const addEventListeners = () => {
-    let searchTerm = '';
-    const checkRow = (row: Record<string, unknown>) => !(row.color as string)?.includes(searchTerm);
-
-    (lookup as any).addEventListener('search', async (e: CustomEvent) => {
-      const res = await fetch(url);
-      const data = await res.json();
-      lookup.data = data;
-      searchTerm = e.detail.searchTerm;
-      lookup.dataGrid?.datasource.filter(checkRow);
-      lookup.dataGrid?.redrawBody();
-      lookup.recordCount = String(lookup.dataGrid?.datasource.data.length);
-      console.info(`Search term changed`, e.detail);
-    });
-
-    (lookup as any).addEventListener('cleared', async (e: CustomEvent) => {
-      const res = await fetch(url);
-      const data = await res.json();
-      lookup.data = data;
-      lookup.recordCount = data.length;
-      console.info(`Search term cleared`, e.detail);
-    });
-  };
-
   lookup.dataGridSettings = {
     rowSelection: 'multiple'
   };
@@ -142,10 +117,30 @@ const lookup = document.querySelector<IdsLookup>('#lookup-1')!;
     };
     lookup.recordCount = data.length;
     lookup.data = data;
-
-    // Fake server side filtering (TODO)
   };
 
   setData();
-  addEventListeners();
+
+  // Fake filtering logic
+  let searchTerm = '';
+  const checkRow = (row: Record<string, unknown>) => !(row.color as string)?.includes(searchTerm);
+
+  lookup.addEventListener('search', async (e: Event) => {
+    const res = await fetch(url);
+    const data = await res.json();
+    lookup.data = data;
+    searchTerm = (e as CustomEvent).detail.searchTerm;
+    lookup.dataGrid?.datasource.filter(checkRow);
+    lookup.dataGrid?.redrawBody();
+    lookup.recordCount = String(lookup.dataGrid?.datasource.data.length);
+    console.info(`Search term changed`);
+  });
+
+  lookup.addEventListener('cleared', async () => {
+    const res = await fetch(url);
+    const data = await res.json();
+    lookup.data = data;
+    lookup.recordCount = data.length;
+    console.info(`Search term cleared`);
+  });
 }());
