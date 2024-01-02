@@ -145,6 +145,7 @@ export default class IdsLookup extends Base {
       attributes.READONLY,
       attributes.SEARCHABLE,
       attributes.SEARCHFIELD_PLACEHOLDER,
+      attributes.RECORD_COUNT,
       attributes.SIZE,
       attributes.TABBABLE,
       attributes.TITLE,
@@ -473,9 +474,8 @@ export default class IdsLookup extends Base {
   set #title(value: string) {
     if (value) {
       this.setAttribute(attributes.TITLE, ''); // avoids a browser tooltip
-      const titleElem = this.modal?.querySelector<IdsText>('[slot="title"]');
-      if (titleElem) titleElem.innerText = value;
       this.state.title = value;
+      this.#setTitleAndCount();
     }
   }
 
@@ -520,6 +520,29 @@ export default class IdsLookup extends Base {
   }
 
   get searchfieldPlaceholder(): string { return this.getAttribute(attributes.SEARCHFIELD_PLACEHOLDER) || ''; }
+
+  /**
+   * Set the record count on the title area
+   * @param {string} value placeholder contents
+   */
+  set recordCount(value: string) {
+    if (value) {
+      this.setAttribute(attributes.RECORD_COUNT, value);
+      this.#setTitleAndCount();
+    } else {
+      this.removeAttribute(attributes.RECORD_COUNT);
+    }
+  }
+
+  get recordCount(): string { return this.getAttribute(attributes.RECORD_COUNT) || ''; }
+
+  /**
+   * Set the record count with the title when updated
+   */
+  #setTitleAndCount() {
+    const titleElem = this.modal?.querySelector<IdsText>('[slot="title"]');
+    if (titleElem) titleElem.innerHTML = `${this.title}${!this.recordCount ? '' : `<span class="result-count">${this.localeAPI.translate('Results').replace('{0}', this.recordCount)}</span>`}`;
+  }
 
   /**
    * Set the dropdown size
@@ -634,13 +657,14 @@ export default class IdsLookup extends Base {
       if (isSynced) this.#syncSelectedRows(tfValue);
     });
 
-    this.onEvent('change.searchfield', this.searchField?.parentElement, (e: CustomEvent) => {
-      debugger;
-      if (e.detail.elem.nodeName === 'IDS-SEARCH-FIELD') {
-        console.log('xx');
-        e.stopImmediatePropagation();
-        e.stopPropagation();
+    this.onEvent('keydown.searchfield', this.searchField, (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        this.triggerEvent('search', this, { detail: { searchTerm: (e.target as HTMLInputElement).value, method: 'enter' } });
       }
+    });
+
+    this.onEvent('cleared.searchfield', this.searchField, () => {
+      this.triggerEvent('cleared', this, { detail: { searchTerm: '', method: 'clear' } });
     });
 
     this.modal?.addEventListener('beforeshow', ((e: CustomEvent) => {

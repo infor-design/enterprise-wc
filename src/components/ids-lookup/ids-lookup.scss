@@ -43,3 +43,9 @@ ids-trigger-field::part(clearable-button) {
 @include ids-lookup-padding-inline(sm);
 @include ids-lookup-padding-inline(md);
 @include ids-lookup-padding-inline(lg);
+
+.result-count {
+  font-size: var(--ids-lookup-result-count-font-size);
+  margin: var(--ids-lookup-result-count-margin);
+  vertical-align: middle;
+}

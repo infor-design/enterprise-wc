@@ -350,6 +350,7 @@ export const attributes = {
   RANGE_SETTINGS: 'range-settings',
   READONLY: 'readonly',
   READONLY_BACKGROUND: 'readonly-background',
+  RECORD_COUNT: 'record-count',
   RELATIVE_BOUNDS: 'relative-bounds',
   REQUIRED: 'required',
   RESET: 'reset',

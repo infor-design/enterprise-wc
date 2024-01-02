@@ -4,9 +4,10 @@ import '../../ids-data-grid/ids-data-grid';
 
 import productsJSON from '../../../assets/data/products.json';
 import IdsGlobal from '../../ids-global/ids-global';
+import type IdsLookup from '../ids-lookup';
 
 // Example for populating the DataGrid
-const lookup: Element | any = document.querySelector('#lookup-1');
+const lookup = document.querySelector<IdsLookup>('#lookup-1')!;
 
 (async function init() {
   // Set a Locale and wait for it to load
@@ -22,7 +23,7 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     name: 'selection',
     sortable: false,
     resizable: false,
-    formatter: lookup.dataGrid.formatters.selectionCheckbox,
+    formatter: lookup.dataGrid?.formatters.selectionCheckbox,
     align: 'center'
   });
   columns.push({
@@ -32,7 +33,7 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     width: 80,
     resizable: true,
     sortable: true,
-    formatter: lookup.dataGrid.formatters.text,
+    formatter: lookup.dataGrid?.formatters.text,
   });
   columns.push({
     id: 'color',
@@ -40,8 +41,8 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     field: 'color',
     sortable: true,
     resizable: true,
-    formatter: lookup.dataGrid.formatters.text,
-    filterType: lookup.dataGrid.filters.text
+    formatter: lookup.dataGrid?.formatters.text,
+    filterType: lookup.dataGrid?.filters.text
   });
   columns.push({
     id: 'productId',
@@ -49,8 +50,8 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     field: 'productId',
     sortable: true,
     resizable: true,
-    filterType: lookup.dataGrid.filters.integer,
-    formatter: lookup.dataGrid.formatters.integer
+    filterType: lookup.dataGrid?.filters.integer,
+    formatter: lookup.dataGrid?.formatters.integer
   });
   columns.push({
     id: 'productName',
@@ -58,8 +59,8 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     field: 'productName',
     sortable: true,
     resizable: true,
-    formatter: lookup.dataGrid.formatters.text,
-    filterType: lookup.dataGrid.filters.text,
+    formatter: lookup.dataGrid?.formatters.text,
+    filterType: lookup.dataGrid?.filters.text,
     filterConditions: [{
       value: 'contains',
       label: 'Contains',
@@ -79,8 +80,8 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     sortable: false,
     resizable: true,
     align: 'center',
-    formatter: lookup.dataGrid.formatters.text,
-    filterType: lookup.dataGrid.filters.checkbox
+    formatter: lookup.dataGrid?.formatters.text,
+    filterType: lookup.dataGrid?.filters.checkbox
   });
   columns.push({
     id: 'unitPrice',
@@ -88,8 +89,8 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     field: 'unitPrice',
     sortable: true,
     resizable: true,
-    formatter: lookup.dataGrid.formatters.integer,
-    filterType: lookup.dataGrid.filters.integer
+    formatter: lookup.dataGrid?.formatters.integer,
+    filterType: lookup.dataGrid?.filters.integer
   });
   columns.push({
     id: 'units',
@@ -99,27 +100,33 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     resizable: true,
     align: 'right',
     filterAlign: 'left',
-    formatter: lookup.dataGrid.formatters.text,
-    filterType: lookup.dataGrid.filters.text
+    formatter: lookup.dataGrid?.formatters.text,
+    filterType: lookup.dataGrid?.filters.text
   });
 
   lookup.columns = columns;
 
   const addEventListeners = () => {
-    lookup.addEventListener('change', () => {
-      console.info(`Value Changed`, lookup.dataGrid.selectedRows, lookup.value);
+    let searchTerm = '';
+    const checkRow = (row: Record<string, unknown>) => !(row.color as string)?.includes(searchTerm);
+
+    (lookup as any).addEventListener('search', async (e: CustomEvent) => {
+      const res = await fetch(url);
+      const data = await res.json();
+      lookup.data = data;
+      searchTerm = e.detail.searchTerm;
+      lookup.dataGrid?.datasource.filter(checkRow);
+      lookup.dataGrid?.redrawBody();
+      lookup.recordCount = String(lookup.dataGrid?.datasource.data.length);
+      console.info(`Search term changed`, e.detail);
     });
 
-    lookup.addEventListener('rowselected', (e: CustomEvent) => {
-      console.info(`Row Selected`, e.detail);
-    });
-
-    lookup.addEventListener('rowdeselected', (e: CustomEvent) => {
-      console.info(`Row DeSelected`, e.detail);
-    });
-
-    lookup.addEventListener('selectionchanged', (e: CustomEvent) => {
-      console.info(`Selection Changed`, e.detail);
+    (lookup as any).addEventListener('cleared', async (e: CustomEvent) => {
+      const res = await fetch(url);
+      const data = await res.json();
+      lookup.data = data;
+      lookup.recordCount = data.length;
+      console.info(`Search term cleared`, e.detail);
     });
   };
 
@@ -133,6 +140,7 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     lookup.dataGridSettings = {
       rowSelection: 'multiple'
     };
+    lookup.recordCount = data.length;
     lookup.data = data;
 
     // Fake server side filtering (TODO)
