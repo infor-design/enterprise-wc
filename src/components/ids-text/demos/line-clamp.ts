@@ -1,9 +1,14 @@
+import IdsText from '../ids-text';
+
 document.addEventListener('DOMContentLoaded', () => {
   const story = document.querySelector('#example-story')?.textContent || '';
   const containerElem = document.querySelector('#line-clamp-dynamic');
 
   if (containerElem) {
-    const textTemplate = `<ids-text font-size="20" line-clamp="4">${story}</ids-text>`;
-    containerElem.insertAdjacentHTML('beforeend', textTemplate);
+    const textElem = document.createElement('ids-text') as IdsText;
+    textElem.textContent = story;
+    textElem.lineClamp = 4;
+    textElem.fontSize = 20;
+    containerElem.insertAdjacentElement('beforeend', textElem);
   }
 });

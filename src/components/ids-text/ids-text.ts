@@ -336,12 +336,12 @@ export default class IdsText extends Base {
 
   /**
    * Truncates text at a specific number of lines.
-   * @param {string | null} value The number of lines
+   * @param {string | number | null} value The number of lines
    */
-  set lineClamp(value: string | null) {
+  set lineClamp(value: string | number | null) {
     if (value) {
-      this.setAttribute(attributes.LINE_CLAMP, value);
-      this.container?.style.setProperty('-webkit-line-clamp', value);
+      this.setAttribute(attributes.LINE_CLAMP, `${value}`);
+      this.container?.style.setProperty('-webkit-line-clamp', `${value}`);
       this.container?.classList.add('has-line-clamp');
     } else {
       this.removeAttribute(attributes.LINE_CLAMP);
