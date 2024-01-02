@@ -141,12 +141,12 @@ export default class IdsText extends Base {
 
   /**
    * Set the font size of the text with a class.
-   * @param {string | null} value The font size in the font scheme
+   * @param {string | number | null} value The font size in the font scheme
    * i.e. 10, 12, 16 ect increasing by increments of 4
    */
-  set fontSize(value: string | null) {
+  set fontSize(value: string | number | null) {
     if (value) {
-      this.setAttribute(attributes.FONT_SIZE, value);
+      this.setAttribute(attributes.FONT_SIZE, `${value}`);
     } else {
       this.removeAttribute(attributes.FONT_SIZE);
     }
@@ -193,7 +193,7 @@ export default class IdsText extends Base {
       this.removeAttribute(attributes.TYPE);
     }
 
-    this.render();
+    this.render(true);
     this.#setTypeClass(value ?? '');
   }
 
@@ -262,11 +262,7 @@ export default class IdsText extends Base {
    * @param {boolean} value True if disabled
    */
   set disabled(value: boolean) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.DISABLED, value.toString());
-      return;
-    }
-    this.removeAttribute(attributes.DISABLED);
+    this.toggleAttribute(attributes.DISABLED, stringToBool(value));
   }
 
   get disabled(): boolean { return stringToBool(this.getAttribute(attributes.DISABLED)); }
