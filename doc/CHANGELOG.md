@@ -28,6 +28,7 @@
 - `[Spinbox]` Now masks input to make sure its a number.  ([#1578](https://github.com/infor-design/enterprise-wc/issues/1578))
 - `[Tree]` Fixed a bug where the tree `label` did not work on parent folder nodes.  ([#1683](https://github.com/infor-design/enterprise-wc/issues/1683))
 - `[Tree]` Fix maximum call stack error when dynamically adding nodes to tree. ([#1649](https://github.com/infor-design/enterprise-wc/issues/1649))
+- `[Tree]` Fixed an issue that events are missing data on `addNodes` from a root node element. ([#1721](https://github.com/infor-design/enterprise-wc/issues/1721))
 - `[Toolbar]` Fixed right aligned toolbar sections bug in firefox.  ([#1698](https://github.com/infor-design/enterprise-wc/issues/1698))
 
 ## 1.0.0-beta.17
