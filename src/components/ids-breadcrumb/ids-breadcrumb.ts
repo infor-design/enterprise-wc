@@ -15,6 +15,7 @@ import '../ids-popup-menu/ids-popup-menu';
 import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsMenuGroup from '../ids-menu/ids-menu-group';
+import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
 const Base = IdsColorVariantMixin(
   IdsEventsMixin(
@@ -42,7 +43,8 @@ export default class IdsBreadcrumb extends Base {
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.setAttribute('role', 'list');
+    this.setAttribute('role', 'navigation');
+    this.setAttribute('aria-label', 'Breadcrumb');
     this.#attachEventHandlers();
 
     if (this.truncate) {
@@ -50,6 +52,7 @@ export default class IdsBreadcrumb extends Base {
     }
     this.onColorVariantRefresh();
     this.#setActiveBreadcrumb();
+    this.#setBreadcrumbStates();
   }
 
   /**
@@ -90,6 +93,7 @@ export default class IdsBreadcrumb extends Base {
 
     this.onEvent('slotchange', this.container, () => {
       this.#setActiveBreadcrumb();
+      this.#setBreadcrumbStates();
       if (this.truncate) {
         this.#enableTruncation();
         this.#refreshOverflow();
@@ -398,6 +402,18 @@ export default class IdsBreadcrumb extends Base {
   }
 
   /**
+   * Set internal states on breadcrumbs
+   */
+  #setBreadcrumbStates() {
+    this.querySelectorAll('ids-hyperlink').forEach((el) => {
+      const link = el as IdsHyperlink;
+      link.fontSize = '14';
+      link.textDecoration = link.textDecoration === 'none' ? 'none' : 'hover';
+      link.colorVariant = 'breadcrumb';
+    });
+  }
+
+  /**
    * @param {HTMLElement} el the target breadcrumb link
    * @param {HTMLElement} [previousActiveBreadcrumbEl] a previously-activated Breadcrumb, if applicable
    */
@@ -416,6 +432,7 @@ export default class IdsBreadcrumb extends Base {
     if (targetEl) {
       targetEl.disabled = false;
       targetEl.fontWeight = 'semibold';
+      targetEl.fontSize = 14;
       targetEl.textDecoration = 'none';
     }
   }
