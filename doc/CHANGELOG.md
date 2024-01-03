@@ -27,6 +27,7 @@
 - `[Spinbox]` Allow steps to be created out of step range.  ([#695](https://github.com/infor-design/enterprise-wc/issues/695))
 - `[Spinbox]` Now corrects values when type over the min and max range.  ([#1678](https://github.com/infor-design/enterprise-wc/issues/1678))
 - `[Spinbox]` Now masks input to make sure its a number.  ([#1578](https://github.com/infor-design/enterprise-wc/issues/1578))
+- `[Text]` Added text example with line-clamp setting. ([#1585](https://github.com/infor-design/enterprise-wc/issues/1585))
 - `[Tree]` Fixed a bug where the tree `label` did not work on parent folder nodes.  ([#1683](https://github.com/infor-design/enterprise-wc/issues/1683))
 - `[Tree]` Fix maximum call stack error when dynamically adding nodes to tree. ([#1649](https://github.com/infor-design/enterprise-wc/issues/1649))
 - `[Tree]` Fixed an issue that events are missing data on `addNodes` from a root node element. ([#1721](https://github.com/infor-design/enterprise-wc/issues/1721))
