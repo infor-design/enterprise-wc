@@ -329,7 +329,7 @@ export default class IdsBarChart extends IdsAxisChart {
         }
 
         const bottom = this.markerData.gridBottom;
-        const height = bottom - point.top;
+        let height = bottom - point.top;
         const pattern = this.data[groupIndex]?.pattern ? ` fill="url(#${this.data[groupIndex]?.pattern})"` : '';
         const label = (this.data as any)[0]?.data[index]?.name;
         let top = point.top;
@@ -338,6 +338,9 @@ export default class IdsBarChart extends IdsAxisChart {
           top = groupIndex > 0 ? top - runningHeight[index] : top;
           runningHeight[index] = (runningHeight[index] || 0) + height;
         }
+
+        if (height < 0) height = 0;
+        if (barWidth < 0) barWidth = 0;
 
         barHTML += `<g role="listitem">
           <text class="audible" x="${left}" y="${this.markerData.gridBottom}">${label} ${point.value}</text>

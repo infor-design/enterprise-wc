@@ -14,6 +14,7 @@
 ### 1.0.0-beta.18 Fixes
 
 - `[AxisChart]` Re-added a responsive example. ([#1676](https://github.com/infor-design/enterprise-wc/issues/1676))
+- `[AxisChart]` Will now hide the legend item if the `name` field is left off. ([#1720](https://github.com/infor-design/enterprise-wc/issues/1720))
 - `[Breadcrumb]` Fixed toolbar alignment, removed `add` and `remove` instead made the breadcrumb update correctly on `slotchange`. Also added more Angular examples. ([#1640](https://github.com/infor-design/enterprise-wc/issues/1640))
 - `[Breadcrumb]` Fixed an issue where appended breadcrumbs did not get the correct styles. ([#1717](https://github.com/infor-design/enterprise-wc/issues/1717))
 - `[Calendar]` Add `suppress-form` setting to allow custom user UI for calendar event forms. ([#1474](https://github.com/infor-design/enterprise-wc/issues/1474))

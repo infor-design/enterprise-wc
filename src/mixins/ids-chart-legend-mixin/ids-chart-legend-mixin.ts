@@ -62,7 +62,8 @@ const IdsChartLegendMixin = <T extends Constraints>(superclass: T) => class exte
         <rect width="12" height="12" fill="url(#${group.pattern})"></rect>
       </svg>` : '';
       const colorClass = group.pattern ? '' : `color-${index + 1}`;
-      legend += `<a href="#legend-${kebabCase(text)}" data-index="${index}" class="chart-legend-item"><div class="swatch ${colorClass}">${patternSvg}</div>${text}</a>`;
+
+      if (text) legend += `<a href="#legend-${kebabCase(text)}" data-index="${index}" class="chart-legend-item"><div class="swatch ${colorClass}">${patternSvg}</div>${text}</a>`;
     });
     legend += `</div>`;
     return legend;
