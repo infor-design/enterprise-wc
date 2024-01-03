@@ -15,6 +15,7 @@
 
 - `[AxisChart]` Re-added a responsive example. ([#1676](https://github.com/infor-design/enterprise-wc/issues/1676))
 - `[Breadcrumb]` Fixed toolbar alignment, removed `add` and `remove` instead made the breadcrumb update correctly on `slotchange`. Also added more Angular examples. ([#1640](https://github.com/infor-design/enterprise-wc/issues/1640))
+- `[Breadcrumb]` Fixed an issue where appended breadcrumbs did not get the correct styles. ([#1717](https://github.com/infor-design/enterprise-wc/issues/1717))
 - `[Calendar]` Add `suppress-form` setting to allow custom user UI for calendar event forms. ([#1474](https://github.com/infor-design/enterprise-wc/issues/1474))
 - `[Checkbox]` Fixed checkbox and checkbox-group so that values are properly reflected in Angular when using `ngDefaultControl`. ([#1693](https://github.com/infor-design/enterprise-wc/issues/1693))
 - `[DataGrid]` Fixed dropdown cells to no longer open their lists inside cells (attach to grid instead). ([#1600](https://github.com/infor-design/enterprise-wc/issues/1600))
@@ -55,6 +56,7 @@
 - `[Calendar]` Fix multiple `beforerendermonth` events. ([#1464](https://github.com/infor-design/enterprise-wc/issues/1464))
 - `[Calendar]` Add `afterrendermonth` event to calendar and month view. ([#1465](https://github.com/infor-design/enterprise-wc/issues/1465))
 - `[Calendar]` Add `disableSettings` property to calendar. ([#1471](https://github.com/infor-design/enterprise-wc/issues/1471))
+- `[Calendar]` Fix cut off border for calendar event popup on small screens. ([#1544](https://github.com/infor-design/enterprise-wc/issues/1544))
 - `[DataGrid]` Added `lookup` type to `IdsDataGridEditor` so that ids-lookup field can be used as editable datagrid cell. ([#1478](https://github.com/infor-design/enterprise-wc/issues/1478))
 - `[DataGrid]` Fix setting `rtl` direction on component init. ([#1501](https://github.com/infor-design/enterprise-wc/issues/1501))
 - `[DataGrid]` Make hyperlink cells clickable when `rowNavigation` is enabled. ([#1523](https://github.com/infor-design/enterprise-wc/issues/1523))
