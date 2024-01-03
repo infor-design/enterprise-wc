@@ -96,6 +96,8 @@ export default class IdsDataGrid extends Base {
 
   openMenu: null | IdsPopupMenu = null;
 
+  serverSideSelections: Array<Record<string, unknown>> = [];
+
   /**
    * Types for contextmenu.
    */
@@ -172,6 +174,7 @@ export default class IdsDataGrid extends Base {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.openMenu = null;
+    this.serverSideSelections = [];
   }
 
   /** Reference to datasource API */
@@ -519,6 +522,12 @@ export default class IdsDataGrid extends Base {
    * @returns {boolean} True, if row is selected
    */
   rowIsSelected(index: number): boolean {
+    if (this.pagination === 'server-side') {
+      const record = this.data[index];
+      const storedIndex = this.serverSideSelections.findIndex((item) => item[this.idColumn] === record[this.idColumn]);
+      return storedIndex > -1;
+    }
+
     return !!this.data[index].rowSelected;
   }
 
@@ -1319,6 +1328,7 @@ export default class IdsDataGrid extends Base {
       this.datasource.flatten = this.treeGrid;
       this.datasource.data = value;
       this.initialized = true;
+      if (this.pagination === 'server-side') this.syncServerSelections();
       this.redraw();
     } else {
       this.datasource.data = [];
@@ -2453,6 +2463,7 @@ export default class IdsDataGrid extends Base {
     }
 
     this.updateDataset(index, { rowSelected: true });
+    this.selectServerSide(index);
     row.selected = true;
 
     if ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row) {
@@ -2469,6 +2480,35 @@ export default class IdsDataGrid extends Base {
 
     if (this.groupSelectsChildren) row?.toggleChildRowSelection(true);
     this.header?.setHeaderCheckbox();
+  }
+
+  /**
+   * Stores a record in server-side selections
+   * @param {number} index the row number to select
+   * @returns {void}
+   */
+  selectServerSide(index: number) {
+    if (this.pagination !== 'server-side') return;
+
+    const record = this.data[index];
+    const storedIndex = this.serverSideSelections.findIndex((item) => item[this.idColumn] === record[this.idColumn]);
+    if (storedIndex === -1) {
+      this.serverSideSelections.push(record);
+    }
+  }
+
+  /**
+   * When using server-side paging, syncs records coming from IdsDataSource
+   * that should be "selected" according to previously-selected rows.
+   * @returns {void}
+   */
+  syncServerSelections() {
+    this.data.forEach((record, i) => {
+      const serverSelected = this.serverSideSelections.findIndex((item) => item[this.idColumn] === record[this.idColumn]);
+      if (serverSelected > -1) {
+        this.data[i].rowSelected = true;
+      }
+    });
   }
 
   /**
@@ -2521,6 +2561,7 @@ export default class IdsDataGrid extends Base {
     }
 
     this.updateDataset(index, { rowSelected: false });
+    this.deselectServerSide(index);
 
     if (triggerEvent) {
       this.triggerEvent('rowdeselected', this, {
@@ -2533,6 +2574,21 @@ export default class IdsDataGrid extends Base {
     row.updateCells(index);
     if (this.groupSelectsChildren) row.toggleChildRowSelection(false);
     this.header?.setHeaderCheckbox();
+  }
+
+  /**
+   * Removes a record from server-side selections
+   * @param {number} index the row number to select
+   * @returns {void}
+   */
+  deselectServerSide(index: number) {
+    if (this.pagination !== 'server-side') return;
+
+    const record = this.data[index];
+    const storedIndex = this.serverSideSelections.findIndex((item) => item[this.idColumn] === record[this.idColumn]);
+    if (storedIndex > -1) {
+      this.serverSideSelections.splice(storedIndex, 1);
+    }
   }
 
   /**
