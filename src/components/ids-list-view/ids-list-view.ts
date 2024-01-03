@@ -239,8 +239,8 @@ export default class IdsListView extends Base {
       case 'Enter':
         if (this.itemFocused) this.itemFocused.activated = true;
         if (this.itemFocused && (this.selectable === 'single' || this.selectable === 'multiple')) {
-          this.itemFocused.selected = true;
-          this.itemFocused.activated = this.selectable === 'multiple' ? !this.itemFocused.selected : true;
+          this.itemFocused.selected = this.selectable === 'multiple' ? !this.itemFocused.selected : true;
+          this.itemFocused.activated = this.selectable === 'multiple' ? this.itemFocused.selected : true;
         }
         break;
       case 'Space':
