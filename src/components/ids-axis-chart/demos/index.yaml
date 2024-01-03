@@ -23,6 +23,9 @@
   - link: horizontal.html
     type: Example
     description: Shows as horizontal usage
+  - link: hide-legend.html
+    type: Example
+    description: Shows no legend
   - link: responsive.html
     type: Example
     description: Shows responsive example

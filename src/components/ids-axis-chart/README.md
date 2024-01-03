@@ -151,7 +151,7 @@ Showing component as horizontal orientation.
 The following data attributes can be used on the data passed to a chart.
 
 - `data` {object} A data group with one or more `name` and `value` pairs.
-- `name` {string} The name for the legend text and tooltip representing the slice.
+- `name` {string} The name for the legend text and tooltip representing the slice. If the name is left null or undefined the legend item will not be shown.
 - `shortName` {string} The short name of the legend text.
 - `abbrName` {string} A very short name of the legend text (one or two characters).
 - `color` {string} The color of this axis group. This can be either a hex value for example `#FF0000` or a color name like `red` or an ids variable like `var(--ids-color-azure-20)`.

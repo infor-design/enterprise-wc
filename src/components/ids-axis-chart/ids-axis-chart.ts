@@ -551,7 +551,6 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       let left: number = this.textWidths.left + this.margins.left + (this.margins.leftInner * 2);
       const points: Array<IdsChartPointData> = [];
       for (let index = 0; index < this.markerData.markerCount; index++) {
-        // y = (value - min) / (max - min)
         const value = dataPoints.data?.[index]?.value || 0;
         const cyPerc = ((value - (this.markerData.scale.niceMin || 0))
           / (this.markerData.scale.niceMax - this.markerData.scale.niceMin));
