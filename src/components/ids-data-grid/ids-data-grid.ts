@@ -2244,23 +2244,22 @@ export default class IdsDataGrid extends Base {
     // Update the tree element in the original data
     if (this.treeGrid) {
       if (this.data[row].ariaLevel === 1) {
-        this.datasource.originalData[this.data[row].originalElement] = {
-          ...this.datasource.originalData[this.data[row].originalElement],
-          ...data
-        };
+        this.datasource.update([data], !!isClear);
         return;
       }
 
       // Update the child element
       const parentRow = this.#findParentRow(this.datasource.originalData, this.data[row].parentElement ?? '');
       if (parentRow) {
-        parentRow.children[this.data[row].ariaPosinset - 1] = {
-          ...parentRow.children[this.data[row].ariaPosinset - 1],
+        const updatedChildData = {
+          ...parentRow.children[this.data[row][this.idColumn]],
           ...data
         };
+        this.datasource.update([updatedChildData], !!isClear);
       }
       return;
     }
+
     // Non tree - update original data
     this.datasource.update([data], !!isClear);
   }
@@ -2285,10 +2284,13 @@ export default class IdsDataGrid extends Base {
   #findParentRow(data: Array<Record<string, any>>, parentIds: string): any {
     let childRow: any;
     parentIds.split(' ').forEach((r: string, index: number) => {
-      // eslint-disable-next-line eqeqeq
-      if (index === 0) childRow = data.find((row: Record<string, any>) => row[this.idColumn] == r);
-      // eslint-disable-next-line eqeqeq
-      else childRow = childRow?.children.find((cRow: Record<string, any>) => cRow.id == r);
+      if (index === 0) {
+        // eslint-disable-next-line eqeqeq
+        childRow = data.find((row: Record<string, any>) => row[this.idColumn] == r);
+      } else {
+        // eslint-disable-next-line eqeqeq
+        childRow = childRow?.children.find((cRow: Record<string, any>) => cRow[this.idColumn] == r);
+      }
     });
     return childRow;
   }
