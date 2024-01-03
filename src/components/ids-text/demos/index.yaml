@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows all ids-text sizes
+  - link: line-clamp.html
+    type: Line Clamp Example
+    description: Shows text with line clamp setting
   - link: typography.html
     type: Example
     description: Showing all typography styles

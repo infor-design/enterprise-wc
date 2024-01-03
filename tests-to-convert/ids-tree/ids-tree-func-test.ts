@@ -59,19 +59,6 @@ describe('IdsTree Component', () => {
     }];
   });
 
-  afterEach(async () => {
-    document.body.innerHTML = '';
-    dataset = null;
-  });
-
-  it('renders via document.createElement with no errors (append late)', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const component: any = document.createElement('ids-tree');
-    component.data = dataset;
-    document.body.appendChild(component);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('should sets the tree group collapse icon', () => {
     const icon = 'user-folder-closed';
     expect(tree.getAttribute('collapse-icon')).toEqual(null);
@@ -134,18 +121,6 @@ describe('IdsTree Component', () => {
     tree.icon = null;
     expect(tree.getAttribute('icon')).toEqual(null);
     expect(tree.icon).toEqual(IdsTreeShared.DEFAULTS.icon);
-  });
-
-  it('should sets the tree aria label text', () => {
-    const label = 'testing tree';
-    expect(tree.getAttribute('label')).toEqual(null);
-    expect(tree.container.getAttribute('aria-label')).toEqual(IdsTreeShared.TREE_ARIA_LABEL);
-    tree.label = label;
-    expect(tree.getAttribute('label')).toEqual(label);
-    expect(tree.container.getAttribute('aria-label')).toEqual(label);
-    tree.label = null;
-    expect(tree.getAttribute('label')).toEqual(null);
-    expect(tree.container.getAttribute('aria-label')).toEqual(IdsTreeShared.TREE_ARIA_LABEL);
   });
 
   it('should sets the tree selectable', () => {
@@ -788,12 +763,6 @@ describe('IdsTree Component', () => {
     tabbable(nodes[2]);
   });
 
-  it('should update with container language change', async () => {
-    tree.data = dataset;
-    await IdsGlobal.getLocale().setLanguage('ar');
-    expect(tree.getAttribute('dir')).toEqual('rtl');
-  });
-
   it('should veto before collapse response', () => {
     tree.data = dataset;
     tree.addEventListener(IdsTreeShared.EVENTS.beforecollapsed, (e: any) => {
@@ -903,45 +872,5 @@ describe('IdsTree Component', () => {
     tree.unselect(id);
     expect(tree.isSelected(id)).toEqual(false);
     expect(mockCallback.mock.calls.length).toBe(1);
-  });
-
-  it('should call tree template', () => {
-    tree.disabled = true;
-    tree.template();
-    dataset[0].badge = {};
-    dataset[0].label = 'Home';
-    dataset[1].label = 'Public Folders';
-    dataset[1].selected = true;
-    dataset[1].children[0].text = null;
-    tree.data = dataset;
-    expect(tree.isSelected('#home')).toEqual(true);
-    expect(tree.isSelected('#public-folders')).toEqual(false);
-  });
-
-  it('should set node selectable', () => {
-    tree.data = dataset;
-    const id = '#home';
-    expect(tree.getNode(id).elem.selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
-    expect(tree.isSelected(id)).toEqual(true);
-    tree.getNode(id).elem.selectable = 'false';
-    expect(tree.getNode(id).elem.selectable).toEqual(false);
-    expect(tree.isSelected(id)).toEqual(false);
-    tree.getNode(id).elem.selectable = 'test';
-    expect(tree.getNode(id).elem.selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
-  });
-
-  it('should set node null attributes', () => {
-    tree.data = dataset;
-    const node = tree.getNode('#home');
-    node.elem.label = null;
-    node.elem.icon = null;
-    node.elem.expanded = null;
-    node.elem.expandIcon = null;
-    node.elem.disabled = null;
-    node.elem.collapseIcon = null;
-    node.elem.expandTarget = null;
-    expect(node.elem.expandTarget).toEqual('node');
-    expect(node.elem.label).toEqual('');
-    expect(node.elem.toggleIcon).toEqual('');
   });
 });

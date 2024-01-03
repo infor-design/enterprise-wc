@@ -64,4 +64,32 @@ test.describe('IdsBreadcrumb tests', () => {
       await percySnapshot(page, 'ids-breadcrumb-light');
     });
   });
+
+  test.describe('add/remove breadcrumb tests', () => {
+    test('can add new crumbs and the attributes are set', async ({ page }) => {
+      await page.evaluate(() => {
+        const first = document.querySelector('ids-breadcrumb ids-hyperlink') as HTMLElement;
+        first.insertAdjacentHTML('afterend', '<ids-hyperlink href="#">New Crumb</ids-hyperlink>');
+      });
+      const locator = await page.locator('ids-breadcrumb ids-hyperlink:nth-child(2)');
+      expect(await locator?.innerHTML()).toBe('New Crumb');
+      expect(await locator?.getAttribute('text-decoration')).toBe('hover');
+      expect(await locator?.getAttribute('font-size')).toBe('14');
+      expect(await locator?.getAttribute('color-variant')).toBe('breadcrumb');
+    });
+
+    test('can add new crumbs and force overflow', async ({ page }) => {
+      let locator = await page.locator('ids-breadcrumb ids-menu-button');
+      expect(await locator?.isVisible()).toBe(false);
+      await page.evaluate(() => {
+        document.querySelector('ids-breadcrumb')?.setAttribute('truncate', 'true');
+        const first = document.querySelector('ids-breadcrumb ids-hyperlink') as HTMLElement;
+        for (let i = 0; i < 40; i++) {
+          first.insertAdjacentHTML('afterend', '<ids-hyperlink href="#">New Crumb</ids-hyperlink>');
+        }
+      });
+      locator = await page.locator('ids-breadcrumb ids-menu-button');
+      expect(await locator?.isVisible()).toBe(true);
+    });
+  });
 });
