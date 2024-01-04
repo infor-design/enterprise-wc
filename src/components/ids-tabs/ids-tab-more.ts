@@ -367,7 +367,7 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
       this.menu.popup.arrowTarget = this.dropdownIcon || this;
       this.menu.popup.align = 'bottom, right';
       this.menu.popup.y = 4;
-    } else {
+    } else if (this.menu?.popup) {
       this.menu.popup.align = 'bottom, left';
       this.menu.width = '100%';
       this.menu.popup.y = -10;

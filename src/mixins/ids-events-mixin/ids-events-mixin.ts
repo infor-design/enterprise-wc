@@ -112,6 +112,7 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     if (eventName.indexOf('swipe') === 0) {
       this.#addSwipeListener(eventName, target, options);
     }
+    if (!target.addEventListener) return;
     target.addEventListener(getEventBaseName(eventName), callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
