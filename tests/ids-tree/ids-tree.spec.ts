@@ -2,7 +2,6 @@ import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
-
 import IdsTree from '../../src/components/ids-tree/ids-tree';
 
 test.describe('IdsTree tests', () => {
@@ -70,15 +69,15 @@ test.describe('IdsTree tests', () => {
     });
   });
 
-  test.describe('tree functionality tests', () => {
+  test.describe('functionality tests', () => {
     test('should be able to expand/collapse tree nodes', async ({ page }) => {
       expect(await page.locator('ids-tree-node[expanded="false"]').count()).toBe(2);
       await page.getByText('Icons').click();
       expect(await page.locator('ids-tree-node[expanded="false"]').count()).toBe(1);
     });
 
-    test('should renders characters and symbols', async ({ page }) => {
-      await page.evaluate(() => {
+    test('should render characters and symbols', async ({ page }) => {
+      const nodeData = await page.evaluate(() => {
         const tree = document.querySelector<IdsTree>('ids-tree');
         const data = [{
           id: 'cs-1',
@@ -91,20 +90,44 @@ test.describe('IdsTree tests', () => {
               &#161;, &#162;, &#163;, &#164;, &#165;, &#166;, &#167;, &#169;`
         }];
         tree!.data = data;
+        return [tree!.getNode('#cs-1')?.elem.textContent, tree!.getNode('#cs-2')?.elem.textContent];
       });
 
-      const nodeText = await page.evaluate(() => {
-        const tree = document.querySelector<IdsTree>('ids-tree');
-        return tree!.getNode('#cs-1').elem.textContent;
-      });
-      expect(nodeText).toContain('onload="alert()">');
+      expect(nodeData[0]).toContain('onload="alert()">');
+      expect(nodeData[1]).toContain('# $ % &');
+      expect(nodeData[1]).toContain('¡, ¢, £, ¤, ¥, ¦, §, ©');
+    });
 
-      const nodeText2 = await page.evaluate(() => {
+    test('can set node to selectable', async ({ page }) => {
+      const handle = await page.$('ids-tree');
+      let selectable = await handle?.evaluate((tree: IdsTree) => tree!.getNode('#home')?.elem.selectable);
+      expect(selectable).toEqual('single');
+
+      selectable = await page.evaluate(() => {
         const tree = document.querySelector<IdsTree>('ids-tree');
-        return tree!.getNode('#cs-2').elem.textContent;
+        tree!.getNode('#home').elem.selectable = false;
+        return tree!.getNode('#home')?.elem.selectable;
       });
-      expect(nodeText2).toContain('# $ % &');
-      expect(nodeText2).toContain('¡, ¢, £, ¤, ¥, ¦, §, ©');
+
+      expect(selectable).toEqual(false);
+
+      selectable = await page.evaluate(() => {
+        const tree = document.querySelector<IdsTree>('ids-tree');
+        tree!.getNode('#home').elem.selectable = 'test';
+        return tree!.getNode('#home')?.elem.selectable;
+      });
+      expect(selectable).toEqual('single');
+    });
+
+    test('should update with container language change', async ({ page }) => {
+      await page.evaluate(async () => {
+        const tree = document.querySelector<IdsTree>('ids-tree');
+        await window?.IdsGlobal?.locale?.setLanguage('ar');
+        tree!.getNode('#home').elem.selectable = false;
+        return tree!.getNode('#home')?.elem.selectable;
+      });
+
+      expect(await page.locator('ids-tree').getAttribute('dir')).toEqual('rtl');
     });
   });
 
