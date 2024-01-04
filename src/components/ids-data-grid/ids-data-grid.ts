@@ -1586,7 +1586,7 @@ export default class IdsDataGrid extends Base {
     const hasChildren = treeNode.childrenVRefIds?.length > 0;
     const isExpanded = treeNode.rowExpanded;
 
-    this.updateDataset(treeNode.vsRedId, { rowHidden: !show });
+    this.updateDataset(treeNode.vsRefId, { rowHidden: !show });
     treeNode.rowHidden = !show;
 
     if (hasChildren) {
