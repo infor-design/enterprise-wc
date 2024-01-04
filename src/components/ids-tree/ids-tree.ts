@@ -297,7 +297,9 @@ export default class IdsTree extends Base {
         if (!this.nodesData[idx].children) this.nodesData[idx].children = [];
         this.nodesData[idx].children = data;
         const sourceData = (nodeDatum?.data as any)?.dataRef;
+        if (!sourceData.children) sourceData.children = [];
         sourceData.children.push(...data);
+        this.nodesData = this.#htmlAndData(this.data).data;
       }
       node.shadowRoot?.querySelector('li')?.insertAdjacentHTML('beforeend', `<ul class="group-nodes" role="group">${html}</ul>`);
     }
@@ -344,6 +346,7 @@ export default class IdsTree extends Base {
     const validatedText = (s: any) => escapeHTML(processed(s));
     let html = '';
     const data: any = [];
+
     const nodesHtml = (nodesData: any, parent?: any) => {
       nodesData.forEach((n: any) => {
         const hasKey = (key: any, node = n) => typeof node[key] !== 'undefined';

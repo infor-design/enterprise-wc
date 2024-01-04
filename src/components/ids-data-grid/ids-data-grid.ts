@@ -347,7 +347,13 @@ export default class IdsDataGrid extends Base {
   redrawBody() {
     this.#redrawBodyTemplate();
     this.pager?.sync?.apply(this);
-    this.#handleVirtualScroll(this.virtualScrollSettings.ROW_HEIGHT);
+
+    if (this.virtualScroll) {
+      this.#detachScrollEvents();
+      this.body?.style.setProperty('transform', `translateY(0px)`);
+      this.#handleVirtualScroll(this.virtualScrollSettings.ROW_HEIGHT);
+      requestAnimationFrame(() => this.#attachScrollEvents());
+    }
   }
 
   /**
@@ -1552,6 +1558,13 @@ export default class IdsDataGrid extends Base {
     this.onEvent('rowcollapsed.data-grid.virtual-scroll', this, (evt: CustomEvent) => {
       this.#handleTreeRowExpandCollapse(false, evt.detail);
     });
+  }
+
+  /* Detach scroll events handlers */
+  #detachScrollEvents() {
+    this.offEvent('scroll.data-grid');
+    this.offEvent('scroll.data-grid.virtual-scroll');
+    this.offEvent('scrollend.data-grid.virtual-scroll');
   }
 
   /**

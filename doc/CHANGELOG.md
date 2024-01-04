@@ -10,6 +10,7 @@
 ### 1.0.0-beta.18 Fixes
 
 - `[AxisChart]` Re-added a responsive example. ([#1676](https://github.com/infor-design/enterprise-wc/issues/1676))
+- `[AxisChart]` Will now hide the legend item if the `name` field is left off. ([#1720](https://github.com/infor-design/enterprise-wc/issues/1720))
 - `[Breadcrumb]` Fixed toolbar alignment, removed `add` and `remove` instead made the breadcrumb update correctly on `slotchange`. Also added more Angular examples. ([#1640](https://github.com/infor-design/enterprise-wc/issues/1640))
 - `[Breadcrumb]` Fixed an issue where appended breadcrumbs did not get the correct styles. ([#1717](https://github.com/infor-design/enterprise-wc/issues/1717))
 - `[Calendar]` Add `suppress-form` setting to allow custom user UI for calendar event forms. ([#1474](https://github.com/infor-design/enterprise-wc/issues/1474))
@@ -19,14 +20,17 @@
 - `[DataGrid]` Fix dirty indicator alignment for `xxs` row height. ([#1602](https://github.com/infor-design/enterprise-wc/issues/1602))
 - `[DataGrid]` Fix an issue where empty message permanently removes the datagrid container height. ([#1664](https://github.com/infor-design/enterprise-wc/issues/1664))
 - `[DataGrid]` Fix dirty indicator cell data after column reorder. ([#1601](https://github.com/infor-design/enterprise-wc/issues/1601))
+- `[DataGrid]` Fix empty space issue when filtering with virtual scroll enabled. ([#1711](https://github.com/infor-design/enterprise-wc/issues/1711))
 - `[General]` Fix an issue where some properties did not work in safari. To do this changed the order of where styles and templates are appended in the lifecycle. ([#1599](https://github.com/infor-design/enterprise-wc/issues/1599))
 - `[ListView|ListBulider]` improve `IdsListView` and `IdsListBuilder` integration with new `IdsListViewItem` child-component. ([#1400](https://github.com/infor-design/enterprise-wc/issues/1400))
 - `[ScrollView]` Fix circle button display/placement when re-rendering with a new dataset.  ([#1577](https://github.com/infor-design/enterprise-wc/issues/1577))
 - `[Spinbox]` Allow steps to be created out of step range.  ([#695](https://github.com/infor-design/enterprise-wc/issues/695))
 - `[Spinbox]` Now corrects values when type over the min and max range.  ([#1678](https://github.com/infor-design/enterprise-wc/issues/1678))
 - `[Spinbox]` Now masks input to make sure its a number.  ([#1578](https://github.com/infor-design/enterprise-wc/issues/1578))
+- `[Text]` Added text example with line-clamp setting. ([#1585](https://github.com/infor-design/enterprise-wc/issues/1585))
 - `[Tree]` Fixed a bug where the tree `label` did not work on parent folder nodes.  ([#1683](https://github.com/infor-design/enterprise-wc/issues/1683))
 - `[Tree]` Fix maximum call stack error when dynamically adding nodes to tree. ([#1649](https://github.com/infor-design/enterprise-wc/issues/1649))
+- `[Tree]` Fixed an issue that events are missing data on `addNodes` from a root node element. ([#1721](https://github.com/infor-design/enterprise-wc/issues/1721))
 - `[Toolbar]` Fixed right aligned toolbar sections bug in firefox.  ([#1698](https://github.com/infor-design/enterprise-wc/issues/1698))
 
 ## 1.0.0-beta.17
