@@ -96,7 +96,7 @@ export default class IdsDataGrid extends Base {
 
   openMenu: null | IdsPopupMenu = null;
 
-  serverSideSelections: Array<Record<string, unknown>> = [];
+  serverSideSelections: Array<{ index: number, data: Record<string, unknown> }> = [];
 
   /**
    * Types for contextmenu.
@@ -524,7 +524,7 @@ export default class IdsDataGrid extends Base {
   rowIsSelected(index: number): boolean {
     if (this.pagination === 'server-side') {
       const record = this.data[index];
-      const storedIndex = this.serverSideSelections.findIndex((item) => item[this.idColumn] === record[this.idColumn]);
+      const storedIndex = this.serverSideSelections.findIndex((item) => item.data[this.idColumn] === record[this.idColumn]);
       return storedIndex > -1;
     }
 
@@ -2215,6 +2215,20 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Get the selected rows across all pages, if a paged dataset is present
+   * @returns {Array<object>} An array of all currently selected rows
+   */
+  get selectedRowsAcrossPages(): Array<{ index: number, data: Record<string, unknown> }> {
+    if (!this.pager) return this.selectedRows;
+    if (this.pagination === 'server-side') return this.serverSideSelections;
+
+    return this.datasource.currentData.flatMap((row: Record<string, unknown>, index: number) => {
+      if (row.rowSelected) return { index: Number(index), data: row };
+      return [];
+    });
+  }
+
+  /**
    * Get the activated row
    * @returns {any} The index of the selected row
    */
@@ -2493,9 +2507,16 @@ export default class IdsDataGrid extends Base {
     if (this.pagination !== 'server-side') return;
 
     const record = this.data[index];
-    const storedIndex = this.serverSideSelections.findIndex((item) => item[this.idColumn] === record[this.idColumn]);
+    // eslint-disable-next-line arrow-body-style
+    const storedIndex = this.serverSideSelections.findIndex((item) => {
+      return item.data[this.idColumn] === record[this.idColumn];
+    });
+
     if (storedIndex === -1) {
-      this.serverSideSelections.push(record);
+      this.serverSideSelections.push({
+        index,
+        data: record
+      });
     }
   }
 
@@ -2506,7 +2527,10 @@ export default class IdsDataGrid extends Base {
    */
   syncServerSelections() {
     this.data.forEach((record, i) => {
-      const serverSelected = this.serverSideSelections.findIndex((item) => item[this.idColumn] === record[this.idColumn]);
+      // eslint-disable-next-line arrow-body-style
+      const serverSelected = this.serverSideSelections.findIndex((item) => {
+        return item.data[this.idColumn] === record[this.idColumn];
+      });
       if (serverSelected > -1) {
         this.data[i].rowSelected = true;
       }
@@ -2587,7 +2611,10 @@ export default class IdsDataGrid extends Base {
     if (this.pagination !== 'server-side') return;
 
     const record = this.data[index];
-    const storedIndex = this.serverSideSelections.findIndex((item) => item[this.idColumn] === record[this.idColumn]);
+    // eslint-disable-next-line arrow-body-style
+    const storedIndex = this.serverSideSelections.findIndex((item) => {
+      return item.data[this.idColumn] === record[this.idColumn];
+    });
     if (storedIndex > -1) {
       this.serverSideSelections.splice(storedIndex, 1);
     }

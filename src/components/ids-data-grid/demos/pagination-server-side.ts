@@ -1,11 +1,15 @@
-import type IdsDataGrid from '../ids-data-grid';
-import '../ids-data-grid';
-import type { IdsDataGridColumn } from '../ids-data-grid-column';
-import '../../ids-container/ids-container';
 import productsJSON from '../../../assets/data/products.json';
+
+import '../ids-data-grid';
+import '../../ids-container/ids-container';
+
+import type IdsDataGrid from '../ids-data-grid';
+import type { IdsDataGridColumn } from '../ids-data-grid-column';
+import type IdsText from '../../ids-text/ids-text';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-paging-server-side')!;
+const toolbarTitleText = document.querySelector<IdsText>('#title-text')!;
 
 (async function init() {
   const columns: IdsDataGridColumn[] = [];
@@ -112,6 +116,14 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-paging-server-s
     const pageNumber = dataGrid.pageNumber;
     populatePaginatedDatagrid(pageNumber, pageSize);
   });
+
+  // Updates the toolbar title with number of currently-selected items
+  const updateTitleText = () => {
+    const selectedRows = dataGrid.selectedRowsAcrossPages;
+    toolbarTitleText.textContent = selectedRows.length ? `${selectedRows.length} Row${selectedRows.length > 1 ? 's' : ''} Selected` : '';
+  };
+  dataGrid.addEventListener('rowselected', updateTitleText);
+  dataGrid.addEventListener('rowdeselected', updateTitleText);
 
   console.info('Loading Time:', window.performance.now());
   console.info('Page Memory:', (window.performance as any).memory);

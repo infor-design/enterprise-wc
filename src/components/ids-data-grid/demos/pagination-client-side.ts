@@ -1,13 +1,17 @@
 import productsJSON from '../../../assets/data/products.json';
+
+import '../ids-data-grid';
+
 import type IdsDataGrid from '../ids-data-grid';
 import type IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
 import type IdsMenuItem from '../../ids-menu/ids-menu-item';
-import '../ids-data-grid';
+import type IdsText from '../../ids-text/ids-text';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-paging-client-side')!;
 const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
+const toolbarTitleText = document.querySelector<IdsText>('#title-text')!;
 
 // Change row height with popup menu
 rowHeightMenu?.addEventListener('selected', (e: Event) => {
@@ -93,6 +97,14 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   dataGrid.pager.addEventListener('pagesizechange', (e: Event) => {
     console.info(`client-side page-size # ${(<CustomEvent>e).detail.value}`);
   });
+
+  // Updates the toolbar title with number of currently-selected items
+  const updateTitleText = () => {
+    const selectedRows = dataGrid.selectedRowsAcrossPages;
+    toolbarTitleText.textContent = selectedRows.length ? `${selectedRows.length} Row${selectedRows.length > 1 ? 's' : ''} Selected` : '';
+  };
+  dataGrid.addEventListener('rowselected', updateTitleText);
+  dataGrid.addEventListener('rowdeselected', updateTitleText);
 
   console.info('Loading Time:', window.performance.now());
 
