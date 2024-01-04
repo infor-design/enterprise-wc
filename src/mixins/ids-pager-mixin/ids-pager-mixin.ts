@@ -1,21 +1,14 @@
 import { attributes } from '../../core/ids-attributes';
-import IdsDataSource from '../../core/ids-data-source';
+import IdsDataSource, { PAGINATION_TYPES } from '../../core/ids-data-source';
 
 import '../../components/ids-pager/ids-pager';
 import '../../components/ids-button/ids-button';
 import '../../components/ids-menu-button/ids-menu-button';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
+
 import type IdsPager from '../../components/ids-pager/ids-pager';
-
-const PAGINATION_TYPES = {
-  NONE: 'none',
-  CLIENT_SIDE: 'client-side',
-  SERVER_SIDE: 'server-side',
-  STANDALONE: 'standalone',
-} as const;
-
-type PaginationTypes = typeof PAGINATION_TYPES[keyof typeof PAGINATION_TYPES];
+import type { PaginationTypes } from '../../core/ids-data-source';
 
 interface PaginationHandler {
   onPagingReload?(reloadEventType: string): void;
@@ -146,7 +139,10 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
    * Sets the pagination attribute
    * @param {string} value - none|client-side|standalone
    */
-  set pagination(value: PaginationTypes) { this.setAttribute(attributes.PAGINATION, value); }
+  set pagination(value: PaginationTypes) {
+    this.setAttribute(attributes.PAGINATION, value);
+    this.datasource.pagination = value;
+  }
 
   /**
    * Gets the pagination attribute

@@ -1,5 +1,14 @@
 import { deepClone } from '../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
+export const PAGINATION_TYPES = {
+  NONE: 'none',
+  CLIENT_SIDE: 'client-side',
+  SERVER_SIDE: 'server-side',
+  STANDALONE: 'standalone',
+} as const;
+
+export type PaginationTypes = typeof PAGINATION_TYPES[keyof typeof PAGINATION_TYPES];
+
 /**
  * Handle Attaching Array / Object Data to Components
  * Features (now and future):
@@ -33,6 +42,12 @@ class IdsDataSource {
    * @private
    */
   #currentFilterData: any = null;
+
+  /**
+   * Holds the type of pagination being used
+   * @private
+   */
+  #pagination: PaginationTypes = PAGINATION_TYPES.NONE;
 
   /**
    * Page-number used for pagination
@@ -279,6 +294,18 @@ class IdsDataSource {
   get pageSize() { return this.#pageSize; }
 
   /**
+   * Set the current pagination type
+   * @param {PaginationTypes} value - new pagination type
+   */
+  set pagination(value: PaginationTypes) { this.#pagination = value; }
+
+  /**
+   * Get the current pagination type
+   * @returns {PaginationTypes} - the current pagination type
+   */
+  get pagination() { return this.#pagination; }
+
+  /**
    * Prevent running more than once with pagination
    * @private
    */
@@ -335,15 +362,22 @@ class IdsDataSource {
     pageNumber = Math.max(pageNumber || 1, 1);
     pageSize = pageSize || 1;
 
-    const last = pageNumber * pageSize;
-    const start = last - pageSize;
-    let data;
+    let last = pageNumber * pageSize;
+    let start = last - pageSize;
 
+    // For server-side paging, only use page size
+    // (server-side paging assumes dataset is already sliced)
+    if (this.pagination === 'server-side') {
+      last = pageSize;
+      start = 0;
+    }
+
+    let data;
     if (this.flatten) {
       const unFlattenData = this.#unFlattenData(deepClone(this.#currentData));
-      data = this.#flattenData(unFlattenData.slice(start, start + pageSize));
+      data = this.#flattenData(unFlattenData.slice(start, last));
     } else {
-      data = this.#currentData.slice(start, start + pageSize);
+      data = this.#currentData.slice(start, last);
     }
     this.#prevState.data = data;
     this.#prevState.doUpdate = false;
