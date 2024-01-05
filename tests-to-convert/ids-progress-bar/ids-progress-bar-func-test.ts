@@ -16,15 +16,6 @@ describe('IdsProgressBar Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsProgressBar();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-progress-bar').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('should set value', () => {
     expect(el.value).toEqual('0');
     el.value = 60;

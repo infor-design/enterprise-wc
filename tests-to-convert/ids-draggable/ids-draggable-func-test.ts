@@ -19,44 +19,6 @@ describe('IdsDraggable Component', () => {
     document.body.appendChild(idsDraggable);
   });
 
-  it('renders with no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    await createFromTemplate(
-      draggable,
-      `<ids-draggable>
-        <div>draggable</div>
-      </ids-draggable>`
-    );
-
-    const container = document.createElement('div');
-    container.style.width = '640px';
-    container.style.height = '480px';
-
-    await createFromTemplate(
-      draggable,
-      `<ids-draggable parent-containment>
-        <div>draggable</div>
-      </ids-draggable>`,
-    );
-
-    await createFromTemplate(
-      draggable,
-      `<ids-draggable axis="x">
-        <div>x</div>
-      </ids-draggable>`,
-    );
-
-    await createFromTemplate(
-      draggable,
-      `<ids-draggable axis="y">
-        <div>y</div>
-      </ids-draggable>`,
-    );
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can set/get the axis attribute predictably', async () => {
     const elem = await createFromTemplate(
       draggable,

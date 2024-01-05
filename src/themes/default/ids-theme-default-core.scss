@@ -846,7 +846,8 @@
   --ids-list-builder-item-border: 1px solid transparent;
   --ids-list-builder-item-padding: var(--ids-space-50) var(--ids-space-70);
   --ids-list-builder-item-height: var(--ids-size-50);
-  --ids-list-builder-item-height-min: var(--ids-size-40); // 44px -> 38px
+  --ids-list-builder-item-line-height: 23px;
+  --ids-list-builder-item-height-min: var(--ids-size-40);
   --ids-list-builder-drag-content: '\205e';
   --ids-list-builder-item-cursor-drag: move;
   --ids-list-builder-item-font-size-drag: var(--ids-font-size-60);
@@ -1320,6 +1321,7 @@
   --ids-swaplist-item-padding: var(--ids-space-40);
   --ids-swaplist-item-padding-inline-start: var(--ids-space-70);
   --ids-swaplist-item-margin-block-end: var(--ids-space-10);
+  --ids-swaplist-item-line-height: 23px;
   --ids-swaplist-item-over-border: 1px dashed var(--ids-color-text-label);
 
   // Swipe Action

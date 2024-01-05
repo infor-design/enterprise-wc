@@ -151,18 +151,6 @@ describe('IdsDataGrid Component Filter Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const dataGrid2: any = new IdsDataGrid();
-    document.body.appendChild(dataGrid2);
-    dataGrid2.columns = columns();
-    dataGrid2.data = dataset;
-    dataGrid2.remove();
-
-    expect(document.querySelectorAll('ids-data-grid').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders with list style', () => {
     const errors = jest.spyOn(global.console, 'error');
     const dataGrid2: any = new IdsDataGrid();

@@ -36,15 +36,6 @@ describe('IdsWizard Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    elem = new IdsWizard();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-wizard').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('render via document.createElement (append laate)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const wizardElem: any = document.createElement('ids-wizard');

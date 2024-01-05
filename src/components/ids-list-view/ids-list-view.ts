@@ -111,8 +111,8 @@ export default class IdsListView extends Base {
   defaultTemplate = '';
 
   vetoableEventTypes = [
-    'beforeitemactivated',
-    'beforeitemdeactivated',
+    'beforeactivated',
+    'beforedeactivated',
     'beforeselected',
     'beforedeselected'
   ];
@@ -124,7 +124,6 @@ export default class IdsListView extends Base {
     super.connectedCallback();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.dataKeys = this.#extractTemplateLiteralsFromHTML(this.defaultTemplate);
-    this.body?.setAttribute('aria-activedescendant', '0');
     this.#attachEventListeners();
     this.#attachSearchFilterCallback();
   }
@@ -168,13 +167,14 @@ export default class IdsListView extends Base {
   }
 
   get itemFocused() {
-    const rowIndex = Number(this.body?.getAttribute('aria-activedescendant') ?? -1);
+    const activeId = this.body?.getAttribute('aria-activedescendant');
+    const rowIndex = Number((this.body?.querySelector(`#${activeId}`) as any)?.rowIndex ?? -1);
     return this.itemByIndex(rowIndex);
   }
 
   get items(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item`); }
 
-  get itemsActive(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[active]`); }
+  get itemsActivated(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[activated]`); }
 
   get itemsDisabled(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[disabled]`); }
 
@@ -237,10 +237,25 @@ export default class IdsListView extends Base {
         this.itemFocused?.nextEnabled?.focus();
         break;
       case 'Enter':
+        if (this.itemFocused) this.itemFocused.activated = true;
+        if (this.itemFocused && (this.selectable === 'single' || this.selectable === 'multiple')) {
+          this.itemFocused.selected = this.selectable === 'multiple' ? !this.itemFocused.selected : true;
+          this.itemFocused.activated = this.selectable === 'multiple' ? this.itemFocused.selected : true;
+        }
         break;
       case 'Space':
         evt.preventDefault(); // prevent container from scrolling
-        if (this.itemFocused) this.itemFocused.active = true;
+        if (this.itemFocused && this.selectable === 'mixed') {
+          const value = !this.itemFocused.selected;
+          this.itemFocused.selected = value;
+          this.itemFocused.checked = value;
+        }
+        if (this.itemFocused && this.selectable && this.selectable !== 'mixed') this.itemFocused.activated = true;
+        if (this.itemFocused && (this.selectable === 'single' || this.selectable === 'multiple')) {
+          this.itemFocused.activated = true;
+          this.itemFocused.selected = this.selectable === 'multiple' ? !this.itemFocused.selected : true;
+        }
+
         break;
       default:
         break;
@@ -263,11 +278,15 @@ export default class IdsListView extends Base {
       }
       if (this.data?.[i]?.itemActivated) {
         const item = this.itemByIndex(i);
-        if (item) item.active = true;
+        if (item) item.activated = true;
       }
     }
   }
 
+  /**
+   * Handle all events
+   * @private
+   */
   #attachEventListeners() {
     const defaultSlot = this.container?.querySelector<HTMLSlotElement>('slot:not([name])') ?? undefined;
     this.offEvent('slotchange.listview', defaultSlot);
@@ -277,7 +296,8 @@ export default class IdsListView extends Base {
 
     // Fire click
     this.offEvent('click.listview', this.container);
-    this.onEvent('click.listview', this.container, (e: any) => {
+    this.onEvent('click.listview', this.container, (e: CustomEvent) => {
+      e.stopPropagation();
       const args = this.#itemInfo(e.target);
       if (args) this.#triggerEvent('click', { ...args, originalEvent: e });
     });
@@ -287,11 +307,6 @@ export default class IdsListView extends Base {
     this.onEvent('dblclick.listview', this.container, (e: any) => {
       const itemInfo = this.#itemInfo(e.target);
       if (itemInfo) this.#triggerEvent('dblclick', { ...itemInfo, originalEvent: e });
-    });
-
-    this.offEvent('focus.listview', this);
-    this.onEvent('focus.listview', this, () => {
-      (this.itemFocused ?? this.items.at(0))?.focus();
     });
 
     // attaching both event listeners causes focus issues, so do it conditionally based on the sortable prop
@@ -304,6 +319,10 @@ export default class IdsListView extends Base {
     }
   }
 
+  /**
+   * Attach events for the search input
+   * @private
+   */
   #attachSearchFilterCallback() {
     if (this.itemsSlotted?.length) {
       this.searchFilterCallback = (term: string) => {
@@ -325,6 +344,9 @@ export default class IdsListView extends Base {
     }
   }
 
+  /**
+   * Reset/Clear the search input and search results
+   */
   resetSearch() {
     const kids = this.itemsSlotted;
     if (kids?.length) {
@@ -340,6 +362,7 @@ export default class IdsListView extends Base {
 
   /**
    * Get custom HTML for list item.
+   * @private
    * @param {number} index - the index from this.data
    * @returns {string} The html for the <ids-list-view-item> template.
    */
@@ -369,6 +392,7 @@ export default class IdsListView extends Base {
 
   /**
    * Get custom slot for user-provided list item.
+   * @private
    * @param {number} index - the index from this.data
    * @returns {string} The html for the <slot>.
    */
@@ -417,6 +441,7 @@ export default class IdsListView extends Base {
           index="${index}"
           id="id_item_${index + 1}"
           aria-posinset="${index + 1}"
+          id = "id-${index + 1}"
           aria-setsize="${this.data?.length || this.itemsFiltered.length}"
           ${disabled}
         >
@@ -448,7 +473,7 @@ export default class IdsListView extends Base {
   templateStatic(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
     return `
-      <div class="ids-list-view${selectable}" tabindex="0">
+      <div class="ids-list-view${selectable}">
         <div class="ids-list-view-body" role="listbox" aria-label="${this.label}" part="contents">
           ${this.sortable ? `<ids-swappable selection=${this.selectable}>` : ''}
             ${this.templateListItems()}
@@ -469,8 +494,7 @@ export default class IdsListView extends Base {
       <div class="ids-list-view${selectable}">
         <ids-virtual-scroll
           height="${this.height}"
-          item-height="${this.itemHeight}"
-        >
+          item-height="${this.itemHeight}">
           <div class="ids-list-view-body" role="listbox" aria-label="${this.label}" part="contents"></div>
         </ids-virtual-scroll>
       </div>
@@ -515,6 +539,7 @@ export default class IdsListView extends Base {
     items?.forEach((item: any, i: number) => {
       item?.setAttribute('index', i + startIndex);
       item?.setAttribute('aria-posinset', i + 1);
+      if (!item.id) item?.setAttribute('id', `id-${i + 1}`);
       item?.setAttribute('aria-setsize', items?.length);
     });
   }
@@ -600,6 +625,11 @@ export default class IdsListView extends Base {
     // Setup Scroll Effect
     this.scrollArea = this.shadowRoot?.querySelector('.ids-list-view');
     this.attachScrollEvents();
+
+    // Set aria-activedescendant
+    const firstItem = this.body?.querySelector('ids-list-view-item:not([disabled]');
+    firstItem?.setAttribute('tabindex', '0');
+    this.body?.setAttribute('aria-activedescendant', String(firstItem?.id));
   }
 
   get virtualScrollContainer(): IdsVirtualScroll | undefined | null {
@@ -874,6 +904,7 @@ export default class IdsListView extends Base {
     } else if (['multiple', 'mixed'].includes(selectable)) {
       items.forEach((item) => {
         item.selected = true;
+        if (item.checkbox) item.checkbox.checked = true;
       });
     }
 
@@ -888,6 +919,7 @@ export default class IdsListView extends Base {
     if (this.selectable) {
       this.itemsSelected.forEach((item) => {
         item.selected = false;
+        if (item.checkbox) item.checkbox.checked = false;
       });
     }
 
@@ -897,11 +929,11 @@ export default class IdsListView extends Base {
   /**
    * Trigger the given event.
    * @private
-   * @param {string} eventtName The event name to be trigger.
+   * @param {string} eventName The event name to be trigger.
    * @param {object} args Extra data.
    * @returns {void}
    */
-  #triggerEvent(eventtName: string, args: object = {}): void {
-    this.triggerEvent(eventtName, this, { bubbles: true, detail: { elem: this, ...args } });
+  #triggerEvent(eventName: string, args: object = {}): void {
+    this.triggerEvent(eventName, this, { bubbles: true, detail: { elem: this, ...args } });
   }
 }

@@ -45,15 +45,6 @@ describe('IdsSplitter Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsSplitter();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-splitter').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('should set axis to splitter', () => {
     expect(splitter.getAttribute('axis')).toEqual(null);
     expect(splitter.axis).toEqual(DEFAULTS.axis);

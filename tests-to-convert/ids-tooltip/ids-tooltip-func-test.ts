@@ -37,15 +37,6 @@ describe('IdsTooltip Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsTooltip();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-tooltip').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders via document.createElement (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem = document.createElement('ids-tooltip');

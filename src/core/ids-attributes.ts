@@ -4,6 +4,7 @@ export const attributes = {
   ACTION: 'action',
   ACTIONABLE: 'actionable',
   ACTIVE: 'active',
+  ACTIVATED: 'activated',
   ADD_NEW_AT_END: 'add-new-at-end',
   ADVANCED: 'advanced',
   ALIGN: 'align',

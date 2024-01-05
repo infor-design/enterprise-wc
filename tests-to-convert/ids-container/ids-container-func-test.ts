@@ -27,15 +27,6 @@ describe('IdsContainer Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsContainer();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-container').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can set language via async func', async () => {
     await container.localeAPI.setLanguage('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');

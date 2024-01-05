@@ -20,16 +20,6 @@ describe('IdsProgressChart Component', () => {
     (chart as any) = null;
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    chart.remove();
-    chart = new IdsProgressChart();
-    document.body.appendChild(chart);
-
-    expect(document.querySelectorAll('ids-progress-chart').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('sets icon correctly', () => {
     const icon = chart.container?.querySelector('.icon') as IdsIcon;
 

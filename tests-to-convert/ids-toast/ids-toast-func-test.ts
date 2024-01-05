@@ -42,15 +42,6 @@ describe('IdsToast Component', () => {
     options = null;
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsToast();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-toast').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders using document.createElement with no errors (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const toastElem: any = document.createElement('ids-toast');

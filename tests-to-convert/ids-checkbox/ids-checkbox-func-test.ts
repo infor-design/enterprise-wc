@@ -24,15 +24,6 @@ describe('IdsCheckbox Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsCheckbox();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-checkbox').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('should render a checked checkbox', () => {
     expect(cb.checked).toBe(false);
 

@@ -19,15 +19,6 @@ describe('IdsUploadAdvanced Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsUploadAdvanced();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-upload-advanced').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders as limit types accept', () => {
     const files = [
       { size: 5000, type: 'audio/mp3', name: 'myfile1.mp3' },

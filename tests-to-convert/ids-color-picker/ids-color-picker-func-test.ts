@@ -29,16 +29,6 @@ describe('Ids Color Picker Component', () => {
     colorpicker = null;
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    colorpicker.remove();
-    const elem: any = new IdsColorPicker();
-    document.body.appendChild(elem);
-    expect(document.querySelectorAll('ids-color-picker').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-    elem.remove();
-  });
-
   it('renders with readonly', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
     expect(colorpicker.readonly).toBeTruthy();

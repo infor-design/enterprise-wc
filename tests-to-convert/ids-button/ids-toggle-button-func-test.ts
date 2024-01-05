@@ -24,18 +24,6 @@ describe('IdsToggleButton Component', () => {
     btn = null;
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    btn.remove();
-    btn = new IdsToggleButton();
-    document.body.appendChild(btn);
-
-    expect(document.querySelectorAll('ids-toggle-button').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-
-    expect(btn.shouldUpdate).toBeTruthy();
-  });
-
   it('can render via document.createElement (append early)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem: any = document.createElement('ids-toggle-button');

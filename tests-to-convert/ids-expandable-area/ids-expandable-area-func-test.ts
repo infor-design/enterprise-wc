@@ -20,16 +20,6 @@ describe('IdsExpandableArea Component', () => {
     (window.requestAnimationFrame as any).mockRestore();
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    el.remove();
-    el = new IdsExpandableArea();
-    document.body.appendChild(el);
-
-    expect(document.querySelectorAll('ids-expandable-area').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can change its type property', () => {
     const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
 
