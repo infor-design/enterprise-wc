@@ -10,11 +10,11 @@
 - Run command `npm run publish:npm` or `publish:debug` (we may want to publish debuggable code for a period of time of stability)
 - If not installed, install GitHub cli so you get the [`gh`](https://cli.github.com/manual/gh_release_create) command with `brew install gh`
 - Run command `gh release create 1.0.0-beta.18 --title "1.0.0-beta.18" --notes-file "doc/CHANGELOG.md"`
-- Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents if needed and make a pre-release if needed
-- Update the change log and add a new section
+- Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents to just the current release and if needed and make it pre-release
 - Commit and push (direct to repo or PR)
-- Update the stackblitz and post in announcements using starting link `https://stackblitz.com/edit/ids-enterprise-wc-beta18`
-- Run the docs generator (TBD) for `https://design.infor.com/web-components/`
+- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-beta-18`
+- Post in announcements section following other similar link
+- (TBD) Run the docs generator (TBD) for `https://design.infor.com/web-components/`
 
 ## Publishing a test package your local NPM repo
 
