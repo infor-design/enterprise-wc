@@ -101,7 +101,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   // Updates the toolbar title with number of currently-selected items
   const updateTitleText = () => {
     const selectedRows = dataGrid.selectedRowsAcrossPages;
-    toolbarTitleText.textContent = selectedRows.length ? `${selectedRows.length} Row${selectedRows.length > 1 ? 's' : ''} Selected` : '';
+    toolbarTitleText.textContent = selectedRows.length ? `${selectedRows.length} Result${selectedRows.length > 1 ? 's' : ''}` : '';
   };
   dataGrid.addEventListener('rowselected', updateTitleText);
   dataGrid.addEventListener('rowdeselected', updateTitleText);
