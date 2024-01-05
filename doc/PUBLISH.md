@@ -14,7 +14,7 @@
 - Update the change log and add a new section
 - Commit and push (direct to repo or PR)
 - Update the stackblitz and post in announcements using starting link `https://stackblitz.com/edit/ids-enterprise-wc-beta18`
-- Run the docs generator (TBD)
+- Run the docs generator (TBD) for `https://design.infor.com/web-components/`
 
 ## Publishing a test package your local NPM repo
 

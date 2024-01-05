@@ -119,6 +119,7 @@ fs.writeFileSync('build-stats.json', JSON.stringify(result.metafile));
 if (fs.existsSync(`${outDir}/components/enterprise-wc.js`)) fs.rmSync(`${outDir}/components/enterprise-wc.js`);
 if (fs.existsSync(`${outDir}/components/enterprise-wc.map`)) fs.rmSync(`${outDir}/components/enterprise-wc.js.map`);
 if (fs.existsSync(`${outDir}/components/enterprise-wc.d.ts`)) fs.rmSync(`${outDir}/components/enterprise-wc.d.ts`);
+if (fs.existsSync(`${outDir}/themes/default`)) fs.rm(`${outDir}/themes/default`, { recursive: true, force: true }, () => { });
 
 // eslint-disable-next-line no-console
 console.info(`⚡ Build complete ⚡`);
