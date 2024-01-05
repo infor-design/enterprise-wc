@@ -22,7 +22,10 @@
     description: Shows header tabs
   - link: module.html
     type: Example
-    description: Shows Module Tabs example
+    description: Shows a module tabs example
+  - link: selected.html
+    type: Example
+    description: Shows changing the selected tab
   - link: vertical.html
     type: Example
     description: Shows vertical tabs

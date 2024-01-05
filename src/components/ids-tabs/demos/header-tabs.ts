@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }));
 
   const tabList: any = document.querySelector('ids-tabs');
-  const tabContentContainer: any = document.querySelector('div.ids-tabs-content');
+  const tabContentContainer: any = document.querySelector('ids-tabs-context');
   let newTabCount = 0;
 
   // If an "Add Tab" button is present, configures it to add a tab and panel

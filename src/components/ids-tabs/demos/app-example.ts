@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   avatarImg.src = avatarPlaceholder;
 
   const tabList: any = document.querySelector('ids-tabs');
-  const tabContentContainer: any = document.querySelector('div.ids-tabs-content');
+  const tabContentContainer: any = document.querySelector('ids-tabs-context');
   let newTabCount = 0;
 
   const addTab: any = document.querySelector('ids-tab[value="add"]');

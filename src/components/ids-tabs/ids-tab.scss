@@ -31,7 +31,7 @@ $ids-tab-vertical-height: 42px;
   & .selection-underline {
     position: absolute;
     height: 3px;
-    inset-block-end: -1px;
+    inset-block-end: 0;
     inset-inline: 0;
     z-index: 1;
     pointer-events: none;
@@ -212,6 +212,7 @@ $ids-tab-vertical-height: 42px;
   // Tabs combined with IdsSwappable create "swappable" tabs
   &.swappable {
     padding-inline-start: 8px;
+    padding-inline-end: 6px;
   }
 }
 
