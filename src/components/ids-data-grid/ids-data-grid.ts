@@ -2299,11 +2299,19 @@ export default class IdsDataGrid extends Base {
     let childRow: any;
     parentIds.split(' ').forEach((r: string, index: number) => {
       if (index === 0) {
-        // eslint-disable-next-line eqeqeq
-        childRow = data.find((row: Record<string, any>) => row[this.idColumn] == r);
+        // eslint-disable-next-line arrow-body-style
+        childRow = data.find((row: Record<string, any>) => {
+          if (!row) return false;
+          // eslint-disable-next-line eqeqeq
+          return row[this.idColumn] == r;
+        });
       } else {
-        // eslint-disable-next-line eqeqeq
-        childRow = childRow?.children.find((cRow: Record<string, any>) => cRow[this.idColumn] == r);
+        // eslint-disable-next-line arrow-body-style
+        childRow = childRow?.children.find((cRow: Record<string, any>) => {
+          if (!cRow) return false;
+          // eslint-disable-next-line eqeqeq
+          return cRow[this.idColumn] == r;
+        });
       }
     });
     return childRow;
