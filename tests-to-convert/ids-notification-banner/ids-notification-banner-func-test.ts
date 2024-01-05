@@ -17,15 +17,6 @@ describe('IdsNotificationBanner Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsNotificationBanner();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-notification-banner').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can change its messageText', () => {
     notificationBanner.messageText = 'Lorem ipsum dolor set';
     expect(notificationBanner.getAttribute('message-text')).toBe('Lorem ipsum dolor set');

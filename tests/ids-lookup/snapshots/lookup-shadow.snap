@@ -1,5 +1,5 @@
 
-    <ids-trigger-field label="Normal Lookup (dirty-tracker)" part="trigger-field" value="102,103" clearable="true" dirty-tracker="true" size="md" field-height="md" class="field-height-md" title="Select an Item">
+    <ids-trigger-field label="Normal Lookup (dirty-tracker)" part="trigger-field" value="102,103" clearable="true" dirty-tracker="true" size="md" field-height="md" class="field-height-md">
       <ids-trigger-button slot="trigger-end" part="trigger-lookup" tabbable="" field-height="md">
         <ids-text audible="true">LookupTriggerButton</ids-text>
         <ids-icon icon="search-list" part="icon"></ids-icon>
@@ -8,10 +8,11 @@
     <slot name="lookup-modal">
       <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title" part="modal" message-title="Select an Item" aria-label="Select an Item" role="dialog" fullsize="sm" respond-down="sm">
         <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Select an Item</ids-text>
-        <ids-layout-grid class="data-grid-container ids-layout-grid" auto-fit="" gap="md" no-margins="true" min-col-width="600px" style="--min-col-width: 600px;">
-          <ids-layout-grid-cell class="ids-layout-grid-cell">
-            <ids-data-grid id="lookup-data-grid" label="Normal Lookup (dirty-tracker)" part="data-grid" list-style="true" row-selection="multiple">
-            </ids-data-grid>
+        
+        <ids-layout-grid class="data-grid-parent-container ids-layout-grid" auto-fit="" gap="md" no-margins="true" min-col-width="400px" style="--min-col-width: 400px;">
+          <ids-layout-grid-cell class="data-grid-container ids-layout-grid-cell">
+              <ids-data-grid id="lookup-data-grid" label="Normal Lookup (dirty-tracker)" part="data-grid" auto-fit="true" list-style="true" row-selection="multiple">
+              </ids-data-grid>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 

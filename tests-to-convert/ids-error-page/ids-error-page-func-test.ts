@@ -18,15 +18,6 @@ describe('Ids Error Page Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    errorPage = new IdsErrorPage();
-    document.body.appendChild(errorPage);
-    errorPage.remove();
-    expect(document.querySelectorAll('ids-error-page').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can set the error icon', () => {
     const iconId = 'empty-error-loading';
 

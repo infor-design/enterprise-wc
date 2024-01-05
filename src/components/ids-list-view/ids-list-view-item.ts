@@ -3,12 +3,11 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
-import '../ids-checkbox/ids-checkbox';
 import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
 import styles from './ids-list-view-item.scss';
 import type IdsListView from './ids-list-view';
-import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 
 const Base = IdsEventsMixin(
@@ -47,7 +46,6 @@ export default class IdsListViewItem extends Base {
   }
 
   get data() {
-    // return this.listView?.data ?? [];
     return this.listView?.datasource?.currentData ?? this.listView?.data ?? [];
   }
 
@@ -65,7 +63,7 @@ export default class IdsListViewItem extends Base {
   set rowData(value: Record<string, unknown>) {
     // NOTE: this blocks creating new data for list-views that don't need data
     // NOTE: if this line is removed, then http://localhost:4300/ids-list-view/list-view-items-search.html
-    // NOTE: will show broken lines when items are clicked... due to #active, #check etc setting this.rowData
+    // NOTE: will show broken lines when items are clicked... due to #activated, #check etc setting this.rowData
     // TODO: try to remove this line, and allow new data to be created without empty-rows side-effect
     if (!this.data.length) return;
 
@@ -75,9 +73,6 @@ export default class IdsListViewItem extends Base {
     };
 
     this.data[this.rowIndex] = newData;
-    // const html = this.listView?.templateCustomHTML(newData);
-    // console.log('html changing', this.rowIndex);
-    // if (html) this.innerHTML = html;
   }
 
   /**
@@ -87,7 +82,7 @@ export default class IdsListViewItem extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.ACTIVE,
+      attributes.ACTIVATED,
       attributes.CHECKED,
       attributes.DISABLED,
       attributes.SELECTED,
@@ -120,24 +115,36 @@ export default class IdsListViewItem extends Base {
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
     if (oldValue === newValue) return;
-    if (name === attributes.ACTIVE) this.#active(stringToBool(newValue));
+    if (name === attributes.ACTIVATED) this.#activated(stringToBool(newValue));
     if (name === attributes.CHECKED) this.#checked(stringToBool(newValue));
     if (name === attributes.DISABLED) this.#disabled(stringToBool(newValue));
     if (name === attributes.SELECTED) this.#selected(stringToBool(newValue));
     if (name === attributes.ROW_INDEX) this.#rowIndex(newValue);
   }
 
-  #active(newValue: boolean) {
+  /**
+   * Set the item to activated
+   * @private
+   * @param {boolean} newValue the new activated value
+   */
+  #activated(newValue: boolean) {
     this.rowData = { itemActivated: newValue };
 
     if (newValue) {
-      this.listView?.itemsActive?.forEach((item) => {
-        if (item !== this) item.active = false; // deactivate all other list-view-items
+      this.listView?.itemsActivated?.forEach((item) => {
+        if (item !== this) item.activated = false; // deactivate all other list-view-items
       });
       this.#onTab();
     }
+    this.removeAttribute('hide-selected-color');
+    this.parentElement?.querySelector('.hide-selected-color')?.removeAttribute('hide-selected-color');
   }
 
+  /**
+   * Set the item to checked
+   * @private
+   * @param {boolean} newValue the new checked value
+   */
   #checked(newValue: boolean) {
     this.rowData = { itemChecked: newValue };
 
@@ -149,6 +156,11 @@ export default class IdsListViewItem extends Base {
     }
   }
 
+  /**
+   * Set the item to disabled
+   * @private
+   * @param {boolean} newValue the new disabled value
+   */
   #disabled(newValue: boolean) {
     this.rowData = { disabled: newValue };
 
@@ -159,6 +171,11 @@ export default class IdsListViewItem extends Base {
     }
   }
 
+  /**
+   * Set the item to selected
+   * @private
+   * @param {boolean} newValue the new selected value
+   */
   #selected(newValue: boolean) {
     this.rowData = { itemSelected: newValue };
 
@@ -167,20 +184,30 @@ export default class IdsListViewItem extends Base {
       if (checkbox && !checkbox.hasAttribute('hide')) checkbox.checked = newValue;
     }
 
-    if (['single', 'mixed'].includes(this.selectable) && newValue) {
+    if (['single'].includes(this.selectable) && newValue) {
       this.listView?.itemsSelected?.forEach((item) => {
         if (item !== this) item.selected = false;
       });
+    }
+
+    if (['single', 'mixed'].includes(this.selectable) && !newValue) {
+      this.selected = false;
     }
 
     this.#trigger(newValue ? 'selected' : 'deselected');
     if (newValue) this.#trigger('itemSelect');
   }
 
+  /**
+   * Set the row index
+   * @private
+   * @param {boolean} newValue the new row index value
+   */
   #rowIndex(newValue: string | number) {
     const rowIndex = Number(newValue) >= 0 ? Number(newValue) : -1;
     this.setAttribute('index', String(rowIndex));
     this.setAttribute('aria-posinset', String(rowIndex + 1));
+    if (!this.id) this.setAttribute('id', `id-${String(rowIndex + 1)}`);
     this.setAttribute('aria-setsize', String(this.listView?.itemCount || -1));
   }
 
@@ -231,9 +258,9 @@ export default class IdsListViewItem extends Base {
     const showCheckbox = listView?.selectable === 'multiple' || listView?.selectable === 'mixed';
     const hideCheckbox = listView?.selectable === 'multiple' && listView?.hideCheckboxes;
 
-    let chekcboxHidden = showCheckbox ? '' : 'hide';
-    if (hideCheckbox) chekcboxHidden = 'hide';
-    return !!chekcboxHidden;
+    let checkboxHidden = showCheckbox ? '' : 'hide';
+    if (hideCheckbox) checkboxHidden = 'hide';
+    return !!checkboxHidden;
   }
 
   /**
@@ -284,29 +311,30 @@ export default class IdsListViewItem extends Base {
    * Wrapper function that adds interface to match dataset interface.
    * @returns {boolean} true/false
    */
-  get itemActivated(): boolean { return this.active; }
+  get itemActivated(): boolean { return this.activated; }
 
   /**
-   * Get the list-item active state.
+   * Get the list-item activated state.
    * @returns {boolean} true/false
    */
-  get active(): boolean { return this.hasAttribute(attributes.ACTIVE); }
+  get activated(): boolean { return this.hasAttribute(attributes.ACTIVATED); }
 
   /**
-   * Set the list-item active state.
+   * Set the list-item activated state.
    * @param {boolean} value true/false
    */
-  set active(value: boolean) {
+  set activated(value: boolean) {
     const newValue = stringToBool(value);
-    const oldValue = stringToBool(this.active);
+    const oldValue = stringToBool(this.activated);
     if (this.disabled || newValue === oldValue) return;
     if (newValue === false && this.listView?.suppressDeactivation) return;
 
-    const vetoed = this.#veto(newValue ? 'beforeitemactivated' : 'beforeitemdeactivated');
-    const active = !vetoed && newValue;
+    const vetoed = this.#veto(newValue ? 'beforeactivated' : 'beforedeactivated');
+    const activated = !vetoed && newValue;
 
-    this.toggleAttribute(attributes.ACTIVE, active);
-    this.toggleAttribute('activated', active);
+    this.toggleAttribute(attributes.ACTIVATED, activated);
+    this.#trigger(newValue ? 'activated' : 'deactivated');
+    this.#trigger(newValue ? 'afteractivated' : 'afterdeactivated');
   }
 
   /**
@@ -398,8 +426,15 @@ export default class IdsListViewItem extends Base {
     this.toggleAttribute(attributes.SELECTED, selected);
     this.toggleAttribute('aria-selected', selected);
     this.toggleAttribute('hide-selected-color', selected && this.selectable === 'mixed');
+    if (this.selectable === 'multiple' && !selected) {
+      this.removeAttribute('activated');
+    }
   }
 
+  /**
+   * Handle item selection
+   * @param {Event} e the event object
+   */
   #onClick(e?: Event) {
     if (this.disabled) {
       e?.preventDefault();
@@ -408,7 +443,15 @@ export default class IdsListViewItem extends Base {
       return;
     }
 
-    this.active = true;
+    const isCheckbox = (e?.composedPath()[0] as any)?.classList?.contains('checkmark') || false;
+
+    if (this.selectable === 'mixed' && !isCheckbox && !(e?.composedPath()[0] as any)?.classList?.contains('checkbox')) {
+      this.activated = !this.activated;
+    }
+
+    if (this.selectable !== 'mixed') {
+      this.activated = !this.activated;
+    }
 
     const selectable = this.selectable;
 
@@ -416,25 +459,31 @@ export default class IdsListViewItem extends Base {
       if (['single', 'multiple'].includes(selectable)) {
         e?.preventDefault();
       }
-
-      // TODO: some click-handler is preventing this from being reached.
-      // meanwhile this.active is set in the focus-handler
-      // this.selected = this.sortable ? true : !this.selected;
+      if (selectable === 'mixed' && !isCheckbox) return;
       this.selected = !this.selected;
+
+      if (selectable === 'mixed') {
+        e?.stopPropagation();
+        e?.stopImmediatePropagation();
+      }
     }
   }
 
+  /**
+   * Handle tab key press
+   * @private
+   */
   #onTab() {
     this.listView?.itemsTabbable?.forEach((item) => {
       item.tabIndex = -1;
       item.setAttribute('tabindex', '-1');
     });
 
-    if (this.active) {
+    if (this.activated) {
       this.tabIndex = 0;
       this.setAttribute('tabindex', '0');
 
-      this.listView?.body?.setAttribute('aria-activedescendant', String(this.rowIndex));
+      this.listView?.body?.setAttribute('aria-activedescendant', String(this.id));
       this.focus();
     }
   }
@@ -442,21 +491,16 @@ export default class IdsListViewItem extends Base {
   #attachEventListeners() {
     this.#detachEventListeners();
 
-    this.onEvent('blur.listview-item', this, () => { this.active = false; });
-
-    this.onEvent('focus.listview-item', this, () => {
-      this.active = true;
+    this.onEvent('click.listview-item', this, (e) => {
+      this.#onClick(e);
     });
 
-    this.onEvent('click.listview-item', this, (e) => this.#onClick(e));
-
-    this.onEvent('keyup.listview-selection', this, (e: KeyboardEvent) => {
-      const keyCode = String(e.code).trim() || 'Space';
-      if (['Space', 'Enter'].includes(keyCode)) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        this.#onClick(e);
-      }
+    this.onEvent('focus.listview', this, () => {
+      // Set aria-activedescendant
+      const body = this.closest('.ids-list-view-body');
+      body?.querySelector('ids-list-view-item:not([tabindex="0"]')?.removeAttribute('tabindex');
+      this?.setAttribute('tabindex', '0');
+      this.closest('.ids-list-view-body')?.setAttribute('aria-activedescendant', String(this?.id));
     });
 
     this.onEvent('click.listview-checkbox-veto', this.checkbox, (evt) => {
@@ -474,12 +518,10 @@ export default class IdsListViewItem extends Base {
   }
 
   #detachEventListeners() {
-    this.offEvent('blur.listview-item');
-    this.offEvent('focus.listview-item');
-    this.offEvent('click.listview-item');
-    this.offEvent('keyup.listview-selection');
-    this.offEvent('click.listview-checkbox-veto');
-    this.offEvent('change.listview-checkbox');
+    this.offEvent('click.listview-item', this);
+    this.offEvent('keyup.listview-selection', this);
+    this.offEvent('click.listview-checkbox-veto', this.checkbox);
+    this.offEvent('change.listview-checkbox', this.checkbox);
   }
 
   #setAttributes() {
@@ -488,9 +530,9 @@ export default class IdsListViewItem extends Base {
 
     this.classList.toggle('sortable', !!listView.sortable);
 
-    this.active = !!rowData.itemActivated;
-    this.disabled = !!rowData.disabled;
-    this.selected = !!rowData.itemSelected;
+    if (rowData.itemActivated !== undefined) this.activated = !!rowData.itemActivated;
+    if (rowData.rowData !== undefined) this.disabled = !!rowData.disabled;
+    if (rowData.itemSelected !== undefined) this.selected = !!rowData.itemSelected;
 
     this.tabIndex = -1;
     this.setAttribute('tabindex', '-1');
@@ -499,12 +541,12 @@ export default class IdsListViewItem extends Base {
     this.setAttribute('aria-setsize', String(this.listView?.itemCount || -1));
   }
 
-  #trigger(eventName: 'selected' | 'deselected' | 'itemSelect') {
+  #trigger(eventName: 'selected' | 'deselected' | 'itemSelect' | 'activated' | 'deactivated' | 'afteractivated' | 'afterdeactivated') {
     const detail = { elem: this, data: this.rowData, index: this.rowIndex };
     this.triggerEvent(eventName, this.listView ?? this, { bubbles: true, detail });
   }
 
-  #veto(eventName: 'beforeitemactivated' | 'beforeitemdeactivated' | 'beforeselected' | 'beforedeselected') {
+  #veto(eventName: 'beforeactivated' | 'beforedeactivated' | 'beforeselected' | 'beforedeselected') {
     const allowed = !this.listView ? true : this.listView.triggerVetoableEvent?.(eventName, {
       index: this.rowIndex,
       item: this,

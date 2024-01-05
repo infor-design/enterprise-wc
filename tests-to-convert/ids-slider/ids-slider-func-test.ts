@@ -46,20 +46,6 @@ describe('IdsSlider Component', () => {
     slider?.remove();
   });
 
-  it('renders with no errors', async () => {
-    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-slider').length).toEqual(1);
-
-    slider.remove();
-
-    slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
-    expect(document.querySelectorAll('ids-slider').length).toEqual(1);
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('sets color correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
 

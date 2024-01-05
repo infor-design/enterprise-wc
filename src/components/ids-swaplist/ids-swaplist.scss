@@ -24,6 +24,7 @@ ids-swappable-item {
   padding-inline-start: var(--ids-swaplist-item-padding-inline-start);
   position: relative;
   margin-block-end: var(--ids-swaplist-item-margin-block-end);
+  line-height: var(--ids-swaplist-item-line-height);
 
   &.is-hidden {
     height: 0;

@@ -57,4 +57,102 @@ test.describe('IdsListView tests', () => {
       await expect(html).toMatchSnapshot('list-view-shadow');
     });
   });
+
+  test.describe('event tests', () => {
+    test('should fire click event on single selection', async ({ page }) => {
+      await page.goto('/ids-list-view/selectable-single.html');
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const comp = document.querySelector<IdsListView>('ids-list-view');
+        comp?.addEventListener('click', () => { calls++; });
+
+        const event = new MouseEvent('click', { bubbles: true });
+        const item = document.querySelector<IdsListView>('ids-list-view')?.shadowRoot?.querySelector('ids-list-view-item[row-index="2"]');
+        item?.dispatchEvent(event);
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+
+    test('should fire selected event on single selection', async ({ page }) => {
+      await page.goto('/ids-list-view/selectable-single.html');
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const comp = document.querySelector<IdsListView>('ids-list-view');
+        comp?.addEventListener('selected', () => { calls++; });
+
+        const event = new MouseEvent('click', { bubbles: true });
+        const item = document.querySelector<IdsListView>('ids-list-view')?.shadowRoot?.querySelector('ids-list-view-item[row-index="2"]');
+        item?.dispatchEvent(event);
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+
+    test('should fire click event on multiple selection', async ({ page }) => {
+      await page.goto('/ids-list-view/selectable-multiple.html');
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const comp = document.querySelector<IdsListView>('ids-list-view');
+        comp?.addEventListener('click', () => { calls++; });
+
+        const event = new MouseEvent('click', { bubbles: true });
+        const item = document.querySelector<IdsListView>('ids-list-view')?.shadowRoot?.querySelector('ids-list-view-item[row-index="2"]');
+        item?.dispatchEvent(event);
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+
+    test('should fire selected/deselected event on multiple select', async ({ page }) => {
+      await page.goto('/ids-list-view/selectable-multiple.html');
+      const noOfCalls = await page.evaluate(() => {
+        const calls = [0, 0];
+        const comp = document.querySelector<IdsListView>('ids-list-view');
+        comp?.addEventListener('selected', () => { calls[0]++; });
+        comp?.addEventListener('deselected', () => { calls[1]++; });
+
+        const event = new MouseEvent('click', { bubbles: true });
+        const item = document.querySelector<IdsListView>('ids-list-view')?.shadowRoot?.querySelector('ids-list-view-item[row-index="2"]');
+        item?.dispatchEvent(event);
+        item?.dispatchEvent(event);
+        return calls;
+      });
+      expect(await noOfCalls[0]).toBe(1);
+      expect(await noOfCalls[1]).toBe(1);
+    });
+
+    test('should fire click event on mixed selection', async ({ page }) => {
+      await page.goto('/ids-list-view/selectable-mixed.html');
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const comp = document.querySelector<IdsListView>('ids-list-view');
+        comp?.addEventListener('click', () => { calls++; });
+
+        const event = new MouseEvent('click', { bubbles: true });
+        const item = document.querySelector<IdsListView>('ids-list-view')?.shadowRoot?.querySelector('ids-list-view-item[row-index="2"]');
+        item?.dispatchEvent(event);
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+
+    test('should fire activated/deactivated event on mixed selection', async ({ page }) => {
+      await page.goto('/ids-list-view/selectable-mixed.html');
+      const noOfCalls = await page.evaluate(() => {
+        const calls = [0, 0];
+        const comp = document.querySelector<IdsListView>('ids-list-view');
+        comp?.addEventListener('activated', () => { calls[0]++; });
+        comp?.addEventListener('deactivated', () => { calls[1]++; });
+
+        const event = new MouseEvent('click', { bubbles: true });
+        const item = document.querySelector<IdsListView>('ids-list-view')?.shadowRoot?.querySelector('ids-list-view-item[row-index="2"]');
+        item?.dispatchEvent(event);
+        item?.dispatchEvent(event);
+        return calls;
+      });
+      expect(await noOfCalls[0]).toBe(1);
+      expect(await noOfCalls[1]).toBe(1);
+    });
+  });
 });

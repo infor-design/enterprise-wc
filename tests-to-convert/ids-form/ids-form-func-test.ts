@@ -47,15 +47,6 @@ describe('IdsForm Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: IdsForm | HTMLElement | Node | any = new IdsForm();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-form').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders with compact', () => {
     expect(form.compact).toEqual(false);
     form.compact = true;

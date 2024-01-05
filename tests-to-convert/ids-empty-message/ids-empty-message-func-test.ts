@@ -32,15 +32,6 @@ describe('Ids Empty Message Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    elem = new IdsEmptyMessage();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-empty-message').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can update the icon', () => {
     expect(elem.getAttribute('icon')).toBe('empty-generic');
     elem.icon = 'empty-no-data';

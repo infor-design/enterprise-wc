@@ -22,8 +22,8 @@ if (listView) {
     listView.data = [...data].slice(numProducts);
   });
 
-  listView.addEventListener('itemactivated', (e: any) => {
-    console.info('itemactivated', <CustomEvent>e.detail);
+  listView.addEventListener('activated', (e: any) => {
+    console.info('activated', <CustomEvent>e.detail);
   });
 
   listView.addEventListener('selected', (e: any) => {

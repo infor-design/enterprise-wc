@@ -58,14 +58,6 @@ const createAppMenu = async (appMenu: any) => {
 
 describe('IdsAppMenu Component (rendering)', () => {
   let appMenuElem: IdsAppMenu;
-
-  it('renders with no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    // Build and destroy an App Menu
-    appMenuElem = await createAppMenu(appMenuElem);
-    expect(errors).not.toHaveBeenCalled();
-  });
 });
 
 describe('IdsAppMenu Component', () => {

@@ -15,5 +15,18 @@ if (listView) {
     listView.data = data;
   };
 
+  listView.addEventListener('selected', (e: any) => {
+    console.info('selected event called', e.detail);
+  });
+  listView.addEventListener('deselected', (e: any) => {
+    console.info('deselected event called', e.detail);
+  });
+  listView.addEventListener('click', (e: any) => {
+    console.info('clicked event called', e.detail);
+  });
+  listView.addEventListener('activated', (e: any) => {
+    console.info('activated event called', e.detail);
+  });
+
   setData();
 }

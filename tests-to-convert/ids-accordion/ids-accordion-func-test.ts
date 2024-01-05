@@ -62,15 +62,6 @@ describe('IdsAccordion Component', () => {
     (header2 as any) = null;
   });
 
-  it('renders with no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-    accordion.remove();
-    accordion = await createAccordion(accordion);
-
-    expect(document.querySelectorAll('ids-accordion').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can set the pane title attribute', () => {
     const panelTitle = 'Expander text';
     panel.pane?.setAttribute('title', panelTitle);

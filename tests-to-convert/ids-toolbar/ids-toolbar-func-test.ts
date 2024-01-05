@@ -105,15 +105,6 @@ describe('IdsToolbar Component', () => {
     }
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsToolbar();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-toolbar').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can render via document.createElement (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem = document.createElement('ids-toolbar');

@@ -1,10 +1,16 @@
 /* Ids Lookup Component */
 .data-grid-container {
+  overflow: hidden;
+  position: relative;
+  max-height: 400px; // should probably be a setting and work with percent
+}
+
+.data-grid-parent-container {
   overflow: auto;
 }
 
 ids-trigger-field::part(clearable-button) {
-  margin-inline-end: -4px;
+  margin-inline-end: -3px;
 }
 
 :host-context(ids-data-grid-cell) {
@@ -37,3 +43,9 @@ ids-trigger-field::part(clearable-button) {
 @include ids-lookup-padding-inline(sm);
 @include ids-lookup-padding-inline(md);
 @include ids-lookup-padding-inline(lg);
+
+.result-count {
+  font-size: var(--ids-lookup-result-count-font-size);
+  margin: var(--ids-lookup-result-count-margin);
+  vertical-align: middle;
+}

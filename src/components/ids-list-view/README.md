@@ -295,12 +295,14 @@ List view using search field with custom search filter.
 
 - `beforeselected` Fires before selected an item, you can return false in the response to veto
 - `selected` Fires after selected an item
+- `click` Fires after clicking an item (consider using activated or selected depending on use case)
+- `dblclick` Fires after double clicking an item (consider using activated or selected depending on use case). Also consider double clicking is not mobile friendly.
 - `beforedeselected` Fires before deselected an item, you can return false in the response to veto
 - `deselected` Fires after deselected an item
-- `beforeitemactivated` Fires before activated an item, you can return false in the response to veto
-- `itemactivated` Fires after activated an item
-- `beforeitemdeactivated` Fires before deactivated an item, you can return false in the response to veto
-- `itemdeactivated` Fires after deactivated an item
+- `beforeactivated` Fires before activated an item, you can return false in the response to veto
+- `activated` Fires after activated an item
+- `beforedeactivated` Fires before deactivated an item, you can return false in the response to veto
+- `deactivated` Fires after deactivated an item
 - `selectionchanged` Fires after selection changed, when use with selectAll(), deselectAll() or toggleAll()
 - `filtered` Fires after search term changed have detail type: 'apply' | 'clear'
 
@@ -321,6 +323,8 @@ List view using search field with custom search filter.
 - `deselect(dataIndex: number): boolean` Set a list item to be deselect, in dataset
 - `selectAll(): void` Set a all list items to be selected
 - `deselectAll(): void` Set a all list items to be deselected
+- `itemsSelected array<unknown>` Returns all presently selected items
+- `item.select = true/false: void` Set individual items selection state (depending on selectable option)
 - `searchFilterCallback(term: string): (((item: object) => boolean))` Set search filter callback, use for custom filter to match
 - `searchableTextCallback(item: object): string` Set searchable text callback
 
@@ -336,7 +340,8 @@ List view using search field with custom search filter.
 - <kbd>Tab</kbd> When a list is tabbed to, select the first item if nothing else is already selected. A second tab will take the user out of the widget to the next tab stop on the page.
 - <kbd>Up/down arrow</kbd> navigate up and down the list.
 - <kbd>Shift+F10</kbd> If the current item has an associated context menu, then this key combination will launch that menu.
-- <kbd>Space</kbd> toggles <a href="http://access.aol.com/dhtml-style-guide-working-group/#checkbox" target="_blank">checkboxes</a> in the case of multi select or a list item in case of normal select
+- <kbd>Space</kbd> In mixed mode toggles the selection state. In single and mixed selection mode toggles both the the selection and activates the item
+- <kbd>Enter</kbd> In mixed mode toggles the activation state. In single and mixed selection mode toggles both the selection and activates the item
 
 ## Responsive Guidelines
 

@@ -60,20 +60,6 @@ describe('IdsSearchField Component', () => {
     s?.remove();
   });
 
-  it('renders with no errors', async () => {
-    s = await createFromTemplate(s, HTMLSnippets.VANILLA_SEARCH_FIELD);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-search-field').length).toEqual(1);
-
-    s.remove();
-
-    s = await createFromTemplate(s, HTMLSnippets.VANILLA_SEARCH_FIELD);
-    document.body.appendChild(s);
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('sets the label correctly', () => {
     expect(s.label).toBe('Search');
 

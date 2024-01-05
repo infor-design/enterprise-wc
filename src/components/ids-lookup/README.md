@@ -48,21 +48,79 @@ lookup.dataGridSettings = {
 lookup.data = data;
 ```
 
+### Lookup search
+
+With a few settings, its possible to have the lookup modal add a search field that will provide events to facilitate searching for results. In the example we show a search field, when typing and hitting enter an event fires that lets you go to the server and get data or do whatever is required. When a `cleared` event fires you can reset the query. The developer is responsible for all the logic. We just provide an `ids-search-field` and events and a few settings.
+
+Add `searchable="true"` and an optional placeholder text in the search field.
+
+```html
+<ids-lookup
+    id="lookup-1"
+    label="Items"
+    title="Select an Item"
+    field="id"
+    value="4,5"
+    searchable="true"
+    searchfield-placeholder="Search for an item"
+></ids-lookup>
+```
+
+Then use the `search` and `cleared` events to implement search logic. The events will fire when typing and then hitting enter or hitting the clear X button. For the example we use the same pretend back end data, fetch it and run the filtering over the datagrid filter event. Only one column was implemented in this example (color).
+
+```js
+  let searchTerm = '';
+  const checkRow = (row: Record<string, unknown>) => !(row.color as string)?.includes(searchTerm);
+
+  lookup.addEventListener('search', async (e: Event) => {
+    const res = await fetch(url);
+    const data = await res.json();
+    lookup.data = data;
+    searchTerm = (e as CustomEvent).detail.searchTerm;
+    lookup.dataGrid?.datasource.filter(checkRow);
+    lookup.dataGrid?.redrawBody();
+    lookup.recordCount = String(lookup.dataGrid?.datasource.data.length);
+    console.info(`Search term changed`);
+  });
+
+  lookup.addEventListener('cleared', async () => {
+    const res = await fetch(url);
+    const data = await res.json();
+    lookup.data = data;
+    lookup.recordCount = data.length;
+    console.info(`Search term cleared`);
+  });
+```
+
 ## Settings and Attributes
 
-- `autocomplete` {boolean} Set the lookup to autocomplete, it will use the data for autocomplete / typeahead selection
-- `disabled` {boolean} Set the lookup to disabled state.
-- `readonly` {boolean} Set the lookup to readonly state.
-- `field` {string} Set the field to use in the data set when selecting.
-- `label` {string} Set the label on the input.
+- `autocomplete` {boolean} Sets the lookup to autocomplete, it will use the data for autocomplete / typeahead selection
+- `disabled` {boolean} Sets the lookup to disabled state.
+- `readonly` {boolean} Sets the lookup to readonly state.
+- `field` {string} Sets the field to use in the data set when selecting.
+- `label` {string} Sets the label on the input.
 - `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
 - `gridSettings` {object} An object containing name/value pairs for all the settings you want to pass to the data grid in the modal
-- `columns` {Array<object>} Set the data array of the data grid. This can be a JSON Array.
-- `data` {Array<object>} Set the columns array of the data grid. See column settings.
+- `columns` {Array<object>} Sets the data array of the data grid. This can be a JSON Array.
+- `data` {Array<object>} Sets the columns array of the data grid. See column settings.
 - `validate` {'required' | string} Sets the validation routine to use
 - `validationEvents` {'blur' | string} Sets the validation events to use
 - `value` {string} Sets the field value, use commas to delimit multiple values.
 - `title` {string} Sets the title on the lookup.
+- `searchable` {boolean} Sets the lookup to searchable, appending a search field at the top of the modal
+- `searchfield-placeholder` {string} Sets the placeholder text on the searchfield if searchable is true.
+- `record-count` {string} If set will append a record count to the modal title on the lookup
+
+## Events
+
+- `change` Fires when the lookup is changed either by typing, or selecting rows in the lookup modal
+- `search` Fires when enabling `searchable="true"` and then typing and hitting enter in the search field on the modal
+- `clear` Fires if `searchable="true"` and you clear the search field by hitting the `x` button
+- `beforerowselected` Fires before selecting a row and can be vetoed
+- `rowselected` Fires when a row is selected on the lookup modal
+- `beforerowdeselected` Fires before deselecting a row and can be vetoed
+- `rowdeselected` Fires when a row is deselected on the lookup modal
+- `selectionchanged` Fires when selection has changed (either a row was deselected or selected)
 
 ## Themeable Parts
 

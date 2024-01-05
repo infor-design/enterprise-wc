@@ -23,12 +23,6 @@ describe('IdsInput Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-input').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders default field type', () => {
     input.type = 'text';
     expect(input.getAttribute('type')).toEqual('text');

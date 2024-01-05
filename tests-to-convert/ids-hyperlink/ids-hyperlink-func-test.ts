@@ -16,15 +16,6 @@ describe('IdsHyperlink Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    elem.remove();
-    elem = new IdsHyperlink();
-    document.body.appendChild(elem);
-    expect(document.querySelectorAll('ids-hyperlink').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders href setting', () => {
     elem.href = 'test';
     expect(elem.href).toEqual('test');

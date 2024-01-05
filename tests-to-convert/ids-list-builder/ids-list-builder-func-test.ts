@@ -114,21 +114,6 @@ describe('IdsListBuilder Component', () => {
     elem.remove();
   });
 
-  it('renders with no errors', async () => {
-    document.body.innerHTML = '';
-    idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-list-builder').length).toEqual(1);
-
-    idsListBuilder.remove();
-
-    idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
-    expect(document.querySelectorAll('ids-list-builder').length).toEqual(1);
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('injects template correctly and sets data correctly', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
     idsListBuilder.data = [...sampleData];
