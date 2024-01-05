@@ -35,7 +35,7 @@
         <ids-checkbox id="hyperlink-modal-checkbox-clickable" label="Clickable in editor"></ids-checkbox>
         <ids-input id="hyperlink-modal-input-classes" label="Css Class" value="hyperlink"></ids-input>
         
-          <ids-dropdown id="hyperlink-modal-dropdown-targets" label="Target" value="" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-hyperlink-modal-dropdown-targets" tooltip="Same Window">
+          <ids-dropdown id="hyperlink-modal-dropdown-targets" label="Target" value="_blank" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-hyperlink-modal-dropdown-targets" tooltip="New Window">
             <ids-list-box size="md" id="ids-list-box-hyperlink-modal-dropdown-targets" aria-label="Listbox" role="listbox"><ids-list-box-option value="" role="option" tabindex="-1">Same Window</ids-list-box-option><ids-list-box-option value="_blank" role="option" tabindex="-1">New Window</ids-list-box-option></ids-list-box>
           </ids-dropdown>
         <div id="hyperlink-modal-checkbox-remove-container" class="hidden">

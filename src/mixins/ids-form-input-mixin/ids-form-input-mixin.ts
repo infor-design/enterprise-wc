@@ -71,7 +71,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
       this.formInput?.dispatchEvent?.(new CustomEvent('change', {
         bubbles: true,
-        composed: true,
+        composed: false,
         detail: {
           elem: this,
           value: processedValue,
@@ -115,7 +115,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
     this.triggerEvent(`change.${this.name ?? 'ids-form-input-mixin'}`, this, {
       bubbles: true,
-      composed: true,
+      composed: false,
       detail: {
         elem: this,
         value,
@@ -129,8 +129,8 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
     // If value is null, the element won't participate in form submission.
     this.#internals?.setFormValue?.(value);
+    const inputWrapper = ((e.target as HTMLElement)?.getRootNode() as ShadowRoot)?.host;
 
-    const inputWrapper = (this.getRootNode() as ShadowRoot)?.host;
     if (inputWrapper) {
       try {
         (inputWrapper as HTMLInputElement).value = value;
@@ -141,7 +141,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
     this.triggerEvent(`input.${this.name ?? 'ids-form-input-mixin'}`, this, {
       bubbles: true,
-      composed: true,
+      composed: false,
       detail: {
         elem: this,
         value,

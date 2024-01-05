@@ -2648,7 +2648,8 @@ export default class IdsDataGrid extends Base {
       return;
     }
     if (this.autoFit === true) {
-      this.container?.style.setProperty('height', '100%');
+      const height = this.pagination === 'none' ? '100%' : `calc(100% - 44px)`;
+      this.container?.style.setProperty('height', height);
       this.wrapper?.style.setProperty('height', '100%');
       this.autoFitSet = true;
     }
