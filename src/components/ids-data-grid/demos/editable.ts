@@ -212,6 +212,8 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   });
 
   dataGrid.columns = columns;
+  dataGrid.idColumn = 'book';
+
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
@@ -240,7 +242,12 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
   // Example Buttons
   document.querySelector('#add-row')?.addEventListener('click', () => {
-    const newRow = { description: 'New Row', ledgder: 'CORE' };
+    const newId = dataGrid.datasource.currentData.length + 1;
+    const newRow = {
+      book: newId,
+      description: `${newId}`,
+      ledger: 'CORE'
+    };
     dataGrid.addRow(newRow);
     dataGrid.setActiveCell(0, dataGrid.data.length - 1);
     dataGrid.editFirstCell();

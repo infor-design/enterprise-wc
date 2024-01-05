@@ -12,6 +12,18 @@
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
+        <ids-toolbar>
+          <ids-toolbar-section align="start">
+            <ids-text id="title-text" font-size="18"></ids-text>
+          </ids-toolbar-section>
+          <ids-toolbar-section align="end">
+            <ids-button id="menu-button" disabled>
+              <ids-icon icon="more"></ids-icon>
+              <span class="audible">Settings Menu Button</span>
+            </ids-button>
+          </ids-toolbar-section>
+        </ids-toolbar>
+
         <ids-data-grid
           id="data-grid-paging-server-side"
           row-selection="multiple"
