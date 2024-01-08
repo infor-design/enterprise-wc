@@ -1,5 +1,5 @@
 
-      <div class="ids-calendar show-details show-legend">
+      <div class="ids-calendar show-legend show-details">
         <div class="calendar-legend-pane"><slot name="legend"></slot></div>
         <div class="calendar-contents">
           <div class="calendar-toolbar-pane">
@@ -50,6 +50,9 @@
         <slot name="MonthViewCalendarEventTemplate" slot="customCalendarEvent"></slot>
       </ids-month-view>
     </div>
+          <div class="calendar-custom-legend">
+            <slot name="custom-legend"></slot>
+          </div>
         </div>
         <div class="calendar-details-pane"><ids-accordion allow-one-pane="true">
       <ids-accordion-panel expanded="false">

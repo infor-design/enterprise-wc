@@ -66,7 +66,7 @@ test.describe('IdsCalendar tests', () => {
   });
 
   test.describe('setting/attribute tests', () => {
-    test('should set color', async ({ page }) => {
+    test('should set suppress-form', async ({ page }) => {
       const locator = await page.locator('ids-calendar').first();
       const handle = await page.$('ids-calendar');
       await handle?.evaluate((el: IdsCalendar) => {
@@ -77,6 +77,65 @@ test.describe('IdsCalendar tests', () => {
         el.suppressForm = false;
       });
       await expect(await locator.getAttribute('suppress-form')).toEqual(null);
+    });
+
+    test('should set day, month, year', async ({ page }) => {
+      const handle = await page.$('ids-calendar');
+
+      const date = await handle?.evaluate((calendar: IdsCalendar) => {
+        const day = 5;
+        const month = 11;
+        const year = 2019;
+        calendar.date = `${month}/${day}/${year}`;
+        return calendar.date;
+      });
+
+      expect(date?.getDate()).toEqual(5);
+      expect(date?.getMonth()).toEqual(10);
+      expect(date?.getFullYear()).toEqual(2019);
+    });
+
+    test('should set visiblity of panes', async ({ page }) => {
+      const locator = await page.locator('ids-calendar').first();
+      const handle = await page.$('ids-calendar');
+
+      // set showing legend and details to true
+      await handle?.evaluate((calendar: IdsCalendar) => {
+        calendar.showLegend = true;
+        calendar.showDetails = true;
+      });
+      expect(await locator.getAttribute('show-legend')).toEqual('');
+      expect(await locator.getAttribute('show-details')).toEqual('');
+
+      // set showing legend and details to false
+      await handle?.evaluate((calendar: IdsCalendar) => {
+        calendar.showLegend = false;
+        calendar.showDetails = false;
+      });
+      expect(await locator.getAttribute('show-legend')).toEqual(null);
+      expect(await locator.getAttribute('show-details')).toEqual(null);
+    });
+  });
+
+  test.describe('methods/api', () => {
+    test('should change view with changeView()', async ({ page }) => {
+      const handle = await page.$('ids-calendar');
+      let view = '';
+
+      // set to week view
+      await handle?.evaluate((calendar: IdsCalendar) => calendar.changeView('week'));
+      view = await handle?.evaluate((calendar: IdsCalendar) => calendar.state.view);
+      expect(view).toEqual('week');
+
+      // set to day view
+      await handle?.evaluate((calendar: IdsCalendar) => calendar.changeView('day'));
+      view = await handle?.evaluate((calendar: IdsCalendar) => calendar.state.view);
+      expect(view).toEqual('day');
+
+      // set to month view
+      await handle?.evaluate((calendar: IdsCalendar) => calendar.changeView('month'));
+      view = await handle?.evaluate((calendar: IdsCalendar) => calendar.state.view);
+      expect(view).toEqual('month');
     });
   });
 });

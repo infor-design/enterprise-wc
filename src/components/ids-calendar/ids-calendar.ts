@@ -114,8 +114,11 @@ export default class IdsCalendar extends Base {
    * @param {boolean|string} val show/hides details
    */
   set showDetails(val: boolean | string) {
-    if (stringToBool(val)) {
-      this.setAttribute(attributes.SHOW_DETAILS, '');
+    const toShow = stringToBool(val);
+    this.toggleAttribute(attributes.SHOW_DETAILS, toShow);
+    this.container?.classList.toggle('show-details', toShow);
+
+    if (toShow) {
       this.updateEventDetails(this.state.selected);
       this.container?.classList.add('show-details');
     } else {
@@ -138,14 +141,14 @@ export default class IdsCalendar extends Base {
    * @param {boolean|string} val show/hides legend
    */
   set showLegend(val: boolean | string) {
-    if (stringToBool(val)) {
-      this.setAttribute(attributes.SHOW_LEGEND, '');
+    const toShow = stringToBool(val);
+    this.toggleAttribute(attributes.SHOW_LEGEND, toShow);
+    this.container?.classList.toggle('show-legend', toShow);
+
+    if (toShow) {
       this.renderLegend(this.eventTypesData);
-      this.container?.classList.add('show-legend');
     } else {
-      this.removeAttribute(attributes.SHOW_LEGEND);
       this.querySelector('#event-types-legend')?.remove();
-      this.container?.classList.remove('show-legend');
     }
   }
 
@@ -161,9 +164,7 @@ export default class IdsCalendar extends Base {
    * @returns {boolean} showToday param converted to boolean from attribute value
    */
   get showToday(): boolean {
-    const attrVal = this.getAttribute(attributes.SHOW_TODAY);
-
-    return stringToBool(attrVal);
+    return stringToBool(this.getAttribute(attributes.SHOW_TODAY));
   }
 
   /**
@@ -171,14 +172,9 @@ export default class IdsCalendar extends Base {
    * @param {string|boolean} val showToday param value
    */
   set showToday(val: string | boolean) {
-    const boolVal = stringToBool(val);
-
-    if (boolVal) {
-      this.setAttribute(attributes.SHOW_TODAY, 'true');
-    } else {
-      this.removeAttribute(attributes.SHOW_TODAY);
-    }
-    this.#updateTodayBtn(boolVal);
+    const toShow = stringToBool(val);
+    this.toggleAttribute(attributes.SHOW_TODAY, toShow);
+    this.#updateTodayBtn(toShow);
   }
 
   #updateTodayBtn(val: boolean) {
