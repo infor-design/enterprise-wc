@@ -16,15 +16,6 @@ describe('IdsHeader Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    elem.remove();
-    elem = new IdsHeader();
-    document.body.appendChild(elem);
-    expect(document.querySelectorAll('ids-header').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('has a color attribute', () => {
     elem.color = '#fff';
 

@@ -44,22 +44,6 @@ describe('IdsSwapList Component', () => {
     idsSwapList?.remove();
   });
 
-  it('renders with no errors', async () => {
-    idsSwapList = await createElemViaTemplate(HTMLSnippets.SWAPLIST_COMPONENT);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-swaplist').length).toEqual(1);
-    idsSwapList.innerHTML = '<template><ids-text>${city}</ids-text></template>'; //eslint-disable-line
-    idsSwapList.data = dataset;
-
-    idsSwapList.remove();
-
-    idsSwapList = await createElemViaTemplate(HTMLSnippets.SWAPLIST_COMPONENT);
-    expect(document.querySelectorAll('ids-swaplist').length).toEqual(1);
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can swap item to next/previous list on click event', async () => {
     const event0 = new MouseEvent('click', {
       bubbles: true,

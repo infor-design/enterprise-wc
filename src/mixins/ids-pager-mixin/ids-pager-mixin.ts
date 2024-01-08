@@ -1,23 +1,20 @@
 import { attributes } from '../../core/ids-attributes';
-import IdsDataSource from '../../core/ids-data-source';
+import IdsDataSource, { PAGINATION_TYPES } from '../../core/ids-data-source';
 
 import '../../components/ids-pager/ids-pager';
 import '../../components/ids-button/ids-button';
 import '../../components/ids-menu-button/ids-menu-button';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 import { IdsConstructor } from '../../core/ids-element';
+
 import type IdsPager from '../../components/ids-pager/ids-pager';
+import type { PaginationTypes } from '../../core/ids-data-source';
 
-const PAGINATION_TYPES = {
-  NONE: 'none',
-  CLIENT_SIDE: 'client-side',
-  SERVER_SIDE: 'server-side',
-  STANDALONE: 'standalone',
-} as const;
+interface PaginationHandler {
+  onPagingReload?(reloadEventType: string): void;
+}
 
-type PaginationTypes = typeof PAGINATION_TYPES[keyof typeof PAGINATION_TYPES];
-
-type Constraints = IdsConstructor<EventsMixinInterface>;
+type Constraints = IdsConstructor<EventsMixinInterface & PaginationHandler>;
 
 /**
 /**
@@ -102,8 +99,8 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
       attributes.PAGINATION,
     ].includes(name);
 
-    if (shouldReload) {
-      this.connectedCallback();
+    if (shouldReload && typeof this.onPagingReload === 'function') {
+      this.onPagingReload(name);
     }
   }
 
@@ -142,7 +139,10 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
    * Sets the pagination attribute
    * @param {string} value - none|client-side|standalone
    */
-  set pagination(value: PaginationTypes) { this.setAttribute(attributes.PAGINATION, value); }
+  set pagination(value: PaginationTypes) {
+    this.setAttribute(attributes.PAGINATION, value);
+    this.datasource.pagination = value;
+  }
 
   /**
    * Gets the pagination attribute
@@ -158,8 +158,10 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
    */
   set pageNumber(value: number) {
     this.setAttribute(attributes.PAGE_NUMBER, String(value));
-    this.pager.pageNumber = value;
-    this.datasource.pageNumber = value;
+    this.datasource.pageNumber = Number(value);
+    this.pager.pageNumber = Number(value);
+    this.datasource.refreshPreviousState();
+    this.datasource.update(this.datasource.data);
   }
 
   /**
@@ -174,8 +176,10 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
    */
   set pageSize(value: number) {
     this.setAttribute(attributes.PAGE_SIZE, String(value));
-    this.pager.pageSize = Number(value);
     this.datasource.pageSize = Number(value);
+    this.pager.pageSize = Number(value);
+    this.datasource.refreshPreviousState();
+    this.datasource.update(this.datasource.data);
   }
 
   /**
@@ -190,8 +194,10 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
    */
   set pageTotal(value) {
     this.setAttribute(attributes.PAGE_TOTAL, String(value));
-    this.pager.total = value;
-    this.datasource.total = value;
+    this.datasource.total = Number(value);
+    this.pager.total = Number(value);
+    this.datasource.refreshPreviousState();
+    this.datasource.update(this.datasource.data);
   }
 
   /**
@@ -233,6 +239,12 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
     this.offEvent('pagesizechange', this.pager);
     this.onEvent('pagesizechange', this.pager, (event: CustomEvent) => {
       this.pageSize = Number(event.detail.value);
+
+      // Prevent display of pages that don't exist
+      const totalPages = Math.ceil(this.pageTotal / this.pageSize);
+      if (totalPages < this.pageNumber) {
+        this.pageNumber = totalPages;
+      }
     });
   }
 };

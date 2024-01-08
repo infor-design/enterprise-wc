@@ -24,11 +24,12 @@ li,
   .list-item-area {
     display: flex;
     align-items: center;
+    line-height: var(--ids-list-builder-item-line-height);
 
     .list-item-content {
       width: 100%;
     }
-  
+
     .list-item-checkbox {
       padding-inline-end: var(--ids-space-70);
       flex-grow: 0;
@@ -36,25 +37,29 @@ li,
       max-height: var(--ids-space-60);
       max-width: var(--ids-space-60);
     }
-  
+
     .list-item-checkbox[disabled]::part(checkmark) {
       background-color: transparent;
     }
   }
 }
 
-li.active,
-li[active],
+li.activated,
+li[activated],
 li.selected,
 li[selected],
 li:hover,
 :host(:hover),
-:host(.active),
-:host([active]),
+:host(.activated),
+:host([activated]),
 :host(.selected),
 :host([selected]) {
   display: block;
   background-color: var(--ids-list-view-color-background-selected);
+}
+
+:host([hide-selected-color]) {
+  background-color: transparent;
 }
 
 li:focus,

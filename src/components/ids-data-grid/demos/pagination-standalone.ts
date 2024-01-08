@@ -13,6 +13,14 @@ const pager: any = document.querySelector('ids-pager');
 
   // Set up columns
   columns.push({
+    id: 'selectionCheckbox',
+    name: 'selection',
+    sortable: false,
+    resizable: false,
+    formatter: dataGrid.formatters.selectionCheckbox,
+    align: 'center'
+  });
+  columns.push({
     id: 'id',
     name: 'ID',
     field: 'id',

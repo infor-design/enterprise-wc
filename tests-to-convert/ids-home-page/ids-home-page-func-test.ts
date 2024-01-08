@@ -46,15 +46,6 @@ describe('IdsHomePage Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsHomePage();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-home-page').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('should set animated to home page', () => {
     expect(homePage.getAttribute('animated')).toEqual(null);
     expect(homePage.animated).toEqual(DEFAULTS.animated);

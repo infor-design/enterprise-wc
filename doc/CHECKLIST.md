@@ -62,7 +62,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Checkboxes (ids-checkbox)
  - [x] Circle Pager (ids-scroll-view)
  - [x] Color Picker (ids-color-picker)
- - [ ] Column (ids-column-chart or ids-bar with a orientation setting)
+ - [x] Column (ids-column-chart or ids-bar with a orientation setting)
  - [x] Completion Chart (ids-progress-chart)
  - [x] (Contextual) Action Panel (ids-action-panel)
  - [x] Datagrid (ids-data-grid)
@@ -105,7 +105,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Page Layouts (ids-page-layout or as individual separate examples)
  - [ ] Page Patterns (ids-page-pattern or as individual separate examples)
  - [x] Pager (ids-pager)
- - [ ] Personalize (ids-personalize or as a mixin on components thats support)
+ - [x] Personalize (ids-personalize or as a mixin on components thats support)
  - [x] Pie (ids-pie-chart)
  - [x] Popup (ids-popup)
  - [x] Popupmenu (ids-men

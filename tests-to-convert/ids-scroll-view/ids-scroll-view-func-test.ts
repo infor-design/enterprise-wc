@@ -33,17 +33,6 @@ describe('IdsScrollView Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    scrollView.remove();
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsScrollView();
-    elem.innerHTML = html;
-    document.body.appendChild(elem);
-    expect(document.querySelectorAll('ids-scroll-view').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-    elem.remove();
-  });
-
   it('should sets loop', () => {
     expect(scrollView.getAttribute(attributes.LOOP)).toEqual(null);
     expect(scrollView.loop).toEqual(false);

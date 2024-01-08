@@ -107,7 +107,7 @@ export function buildClassAttrib(...classes: any): string {
  */
 export function isPrintable(e: KeyboardEvent | any): boolean {
   const controlKeys = ['Alt', 'Shift', 'Control', 'Meta', 'CapsLock', 'Enter', 'Escape', 'Tab'];
-  if (controlKeys.indexOf(e.key) > -1 || e.key.indexOf('Arrow') > -1) {
+  if (controlKeys.indexOf(e.key) > -1 || e.key?.indexOf('Arrow') > -1) {
     return false;
   }
 

@@ -107,10 +107,13 @@ export default class IdsMenuItem extends Base {
     // Text
     const textSlot = `<span class="ids-menu-item-text" part="text"><slot></slot></span>`;
 
+    let innerContent = `${check}${iconSlot}${textSlot}${shortcutSlot}`;
+    if (this.iconAlign === 'end') innerContent = `${check}${textSlot}${iconSlot}${shortcutSlot}`;
+
     // Main
     return `<div role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${shortcutClass}${submenuClass}${textClass}">
       <a role="menuitem" ${tabindex} ${disabledAttr}>
-        ${check}${iconSlot}${textSlot}${shortcutSlot}
+        ${innerContent}
       </a>
       <slot name="submenu"></slot>
     </div>`;
@@ -144,6 +147,7 @@ export default class IdsMenuItem extends Base {
       attributes.HIDDEN,
       attributes.HIGHLIGHTED,
       attributes.ICON,
+      attributes.ICON_ALIGN,
       attributes.INHERIT_COLOR,
       attributes.SELECTED,
       attributes.SHORTCUT_KEYS,
@@ -535,6 +539,7 @@ export default class IdsMenuItem extends Base {
       this.a?.setAttribute(htmlAttributes.ROLE, this.hasSubmenu ? 'button' : 'menuitem');
       this.a?.removeAttribute(htmlAttributes.ARIA_CHECKED);
     }
+    if (this.iconAlign === 'end') this.container?.classList.add('align-icon-end');
   }
 
   /**
@@ -750,6 +755,27 @@ export default class IdsMenuItem extends Base {
    */
   get textAlign() {
     return this.getAttribute(attributes.TEXT_ALIGN);
+  }
+
+  /**
+   * Set the side the icon is on
+   * @param {string} val start / center / end
+   * @memberof IdsMenuItem
+   */
+  set iconAlign(val) {
+    if (val) {
+      this.setAttribute(attributes.ICON_ALIGN, val);
+    } else {
+      this.removeAttribute(attributes.ICON_ALIGN);
+    }
+  }
+
+  /**
+   * @readonly
+   * @returns {string} a menu item's textAlign attribute
+   */
+  get iconAlign() {
+    return this.getAttribute(attributes.ICON_ALIGN);
   }
 
   /**

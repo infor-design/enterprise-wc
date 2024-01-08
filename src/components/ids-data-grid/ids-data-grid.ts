@@ -96,6 +96,8 @@ export default class IdsDataGrid extends Base {
 
   openMenu: null | IdsPopupMenu = null;
 
+  serverSideSelections: Array<{ index: number, data: Record<string, unknown> }> = [];
+
   /**
    * Types for contextmenu.
    */
@@ -172,6 +174,7 @@ export default class IdsDataGrid extends Base {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.openMenu = null;
+    this.serverSideSelections = [];
   }
 
   /** Reference to datasource API */
@@ -519,6 +522,12 @@ export default class IdsDataGrid extends Base {
    * @returns {boolean} True, if row is selected
    */
   rowIsSelected(index: number): boolean {
+    if (this.pagination === 'server-side') {
+      const record = this.data[index];
+      const storedIndex = this.serverSideSelections.findIndex((item) => item.data[this.idColumn] === record[this.idColumn]);
+      return storedIndex > -1;
+    }
+
     return !!this.data[index].rowSelected;
   }
 
@@ -1319,6 +1328,7 @@ export default class IdsDataGrid extends Base {
       this.datasource.flatten = this.treeGrid;
       this.datasource.data = value;
       this.initialized = true;
+      if (this.pagination === 'server-side') this.syncServerSelections();
       this.redraw();
     } else {
       this.datasource.data = [];
@@ -1576,7 +1586,7 @@ export default class IdsDataGrid extends Base {
     const hasChildren = treeNode.childrenVRefIds?.length > 0;
     const isExpanded = treeNode.rowExpanded;
 
-    this.updateDataset(treeNode.vsRedId, { rowHidden: !show });
+    this.updateDataset(treeNode.vsRefId, { rowHidden: !show });
     treeNode.rowHidden = !show;
 
     if (hasChildren) {
@@ -2205,6 +2215,20 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Get the selected rows across all pages, if a paged dataset is present
+   * @returns {Array<object>} An array of all currently selected rows
+   */
+  get selectedRowsAcrossPages(): Array<{ index: number, data: Record<string, unknown> }> {
+    if (!this.pager) return this.selectedRows;
+    if (this.pagination === 'server-side') return this.serverSideSelections;
+
+    return this.datasource.currentData.flatMap((row: Record<string, unknown>, index: number) => {
+      if (row.rowSelected) return { index: Number(index), data: row };
+      return [];
+    });
+  }
+
+  /**
    * Get the activated row
    * @returns {any} The index of the selected row
    */
@@ -2222,6 +2246,11 @@ export default class IdsDataGrid extends Base {
    * @param {boolean} isClear do not keep current data
    */
   updateDataset(row: number, data: Record<string, unknown>, isClear?: boolean) {
+    // Ensure the incoming record contains a proper ID (or use `idColumn`)
+    if (!data[this.idColumn]) {
+      data[this.idColumn] = this.data[row][this.idColumn];
+    }
+
     // Update the current data
     if (isClear) this.data[row] = data;
     else this.data[row] = { ...this.data[row], ...data };
@@ -2229,26 +2258,24 @@ export default class IdsDataGrid extends Base {
     // Update the tree element in the original data
     if (this.treeGrid) {
       if (this.data[row].ariaLevel === 1) {
-        this.datasource.originalData[this.data[row].originalElement] = {
-          ...this.datasource.originalData[this.data[row].originalElement],
-          ...data
-        };
+        this.datasource.update([data], !!isClear);
         return;
       }
 
       // Update the child element
       const parentRow = this.#findParentRow(this.datasource.originalData, this.data[row].parentElement ?? '');
       if (parentRow) {
-        parentRow.children[this.data[row].ariaPosinset - 1] = {
-          ...parentRow.children[this.data[row].ariaPosinset - 1],
+        const updatedChildData = {
+          ...parentRow.children[this.data[row][this.idColumn]],
           ...data
         };
+        this.datasource.update([updatedChildData], !!isClear);
       }
       return;
     }
+
     // Non tree - update original data
-    if (isClear) this.datasource.originalData[row] = data;
-    else this.datasource.originalData[row] = { ...this.datasource.originalData[row], ...data };
+    this.datasource.update([data], !!isClear);
   }
 
   /**
@@ -2271,10 +2298,21 @@ export default class IdsDataGrid extends Base {
   #findParentRow(data: Array<Record<string, any>>, parentIds: string): any {
     let childRow: any;
     parentIds.split(' ').forEach((r: string, index: number) => {
-      // eslint-disable-next-line eqeqeq
-      if (index === 0) childRow = data.find((row: Record<string, any>) => row[this.idColumn] == r);
-      // eslint-disable-next-line eqeqeq
-      else childRow = childRow?.children.find((cRow: Record<string, any>) => cRow.id == r);
+      if (index === 0) {
+        // eslint-disable-next-line arrow-body-style
+        childRow = data.find((row: Record<string, any>) => {
+          if (!row) return false;
+          // eslint-disable-next-line eqeqeq
+          return row[this.idColumn] == r;
+        });
+      } else {
+        // eslint-disable-next-line arrow-body-style
+        childRow = childRow?.children.find((cRow: Record<string, any>) => {
+          if (!cRow) return false;
+          // eslint-disable-next-line eqeqeq
+          return cRow[this.idColumn] == r;
+        });
+      }
     });
     return childRow;
   }
@@ -2330,11 +2368,15 @@ export default class IdsDataGrid extends Base {
    * @param {number} index insert position for new row
    */
   addRow(data: Record<string, unknown>, index?: number) {
+    // Update data
     const insertIdx = index ?? this.datasource.originalData.length;
-    this.datasource.originalData.splice(insertIdx, 0, data);
-    this.datasource.data = this.datasource.originalData;
+    this.datasource.create([data], insertIdx);
+    this.datasource.refreshPreviousState();
+
+    // Update grid state
     this.redrawBody();
     this.#updateRowCount();
+    this.syncPagerAfterDatasetChange();
   }
 
   /**
@@ -2343,11 +2385,15 @@ export default class IdsDataGrid extends Base {
    * @param {number} index insert position for new rows
    */
   addRows(data: Array<Record<string, unknown>> = [], index?: number) {
+    // Update data
     const insertIdx = index ?? this.datasource.originalData.length;
-    this.datasource.originalData.splice(insertIdx, 0, ...data);
-    this.datasource.data = this.datasource.originalData;
+    this.datasource.create(data, insertIdx);
+    this.datasource.refreshPreviousState();
+
+    // Update grid state
     this.redrawBody();
     this.#updateRowCount();
+    this.syncPagerAfterDatasetChange();
   }
 
   /**
@@ -2355,10 +2401,18 @@ export default class IdsDataGrid extends Base {
    * @param {number} index the row index to remove
    */
   removeRow(index: number) {
-    this.datasource.originalData.splice(index, 1);
-    this.datasource.data = this.datasource.originalData;
+    // Update data
+    const data = this.data[index];
+    if (!data[this.idColumn]) {
+      data[this.idColumn] = this.data[index][this.idColumn];
+    }
+    this.datasource.delete([data]);
+    this.datasource.refreshPreviousState();
+
+    // Update grid state
     this.redrawBody();
     this.#updateRowCount();
+    this.syncPagerAfterDatasetChange();
   }
 
   /**
@@ -2368,6 +2422,16 @@ export default class IdsDataGrid extends Base {
   clearRow(index: number) {
     this.updateDataset(index, {}, true);
     this.redrawBody();
+  }
+
+  /**
+   * Corrects pager-related attributes after a change to the dataset
+   */
+  private syncPagerAfterDatasetChange() {
+    if (this.pager) {
+      this.pageTotal = this.datasource.total;
+      if (this.pageNumber !== this.datasource.pageNumber) this.pageNumber = this.datasource.pageNumber;
+    }
   }
 
   /**
@@ -2423,6 +2487,7 @@ export default class IdsDataGrid extends Base {
     }
 
     this.updateDataset(index, { rowSelected: true });
+    this.selectServerSide(index);
     row.selected = true;
 
     if ((this.rowSelection === 'single' || this.rowSelection === 'multiple') && row) {
@@ -2439,6 +2504,45 @@ export default class IdsDataGrid extends Base {
 
     if (this.groupSelectsChildren) row?.toggleChildRowSelection(true);
     this.header?.setHeaderCheckbox();
+  }
+
+  /**
+   * Stores a record in server-side selections
+   * @param {number} index the row number to select
+   * @returns {void}
+   */
+  selectServerSide(index: number) {
+    if (this.pagination !== 'server-side') return;
+
+    const record = this.data[index];
+    // eslint-disable-next-line arrow-body-style
+    const storedIndex = this.serverSideSelections.findIndex((item) => {
+      return item.data[this.idColumn] === record[this.idColumn];
+    });
+
+    if (storedIndex === -1) {
+      this.serverSideSelections.push({
+        index,
+        data: record
+      });
+    }
+  }
+
+  /**
+   * When using server-side paging, syncs records coming from IdsDataSource
+   * that should be "selected" according to previously-selected rows.
+   * @returns {void}
+   */
+  syncServerSelections() {
+    this.data.forEach((record, i) => {
+      // eslint-disable-next-line arrow-body-style
+      const serverSelected = this.serverSideSelections.findIndex((item) => {
+        return item.data[this.idColumn] === record[this.idColumn];
+      });
+      if (serverSelected > -1) {
+        this.data[i].rowSelected = true;
+      }
+    });
   }
 
   /**
@@ -2491,6 +2595,7 @@ export default class IdsDataGrid extends Base {
     }
 
     this.updateDataset(index, { rowSelected: false });
+    this.deselectServerSide(index);
 
     if (triggerEvent) {
       this.triggerEvent('rowdeselected', this, {
@@ -2503,6 +2608,24 @@ export default class IdsDataGrid extends Base {
     row.updateCells(index);
     if (this.groupSelectsChildren) row.toggleChildRowSelection(false);
     this.header?.setHeaderCheckbox();
+  }
+
+  /**
+   * Removes a record from server-side selections
+   * @param {number} index the row number to select
+   * @returns {void}
+   */
+  deselectServerSide(index: number) {
+    if (this.pagination !== 'server-side') return;
+
+    const record = this.data[index];
+    // eslint-disable-next-line arrow-body-style
+    const storedIndex = this.serverSideSelections.findIndex((item) => {
+      return item.data[this.idColumn] === record[this.idColumn];
+    });
+    if (storedIndex > -1) {
+      this.serverSideSelections.splice(storedIndex, 1);
+    }
   }
 
   /**
@@ -2648,7 +2771,8 @@ export default class IdsDataGrid extends Base {
       return;
     }
     if (this.autoFit === true) {
-      this.container?.style.setProperty('height', '100%');
+      const height = this.pagination === 'none' ? '100%' : `calc(100% - 44px)`;
+      this.container?.style.setProperty('height', height);
       this.wrapper?.style.setProperty('height', '100%');
       this.autoFitSet = true;
     }
@@ -2816,8 +2940,10 @@ export default class IdsDataGrid extends Base {
   set idColumn(value) {
     if (value) {
       this.setAttribute(attributes.ID_COLUMN, value.toString());
+      this.datasource.primaryKey = value;
     } else {
       this.removeAttribute(attributes.ID_COLUMN);
+      this.datasource.primaryKey = this.idColumn;
     }
   }
 
@@ -3090,5 +3216,15 @@ export default class IdsDataGrid extends Base {
       }
     }
     return true;
+  }
+
+  /**
+   * Inherited from `ids-pager-mixin`.
+   * Fires when the pager requires a data reload
+   */
+  onPagingReload() {
+    if (this.pagination !== 'server-side') {
+      this.redrawBody();
+    }
   }
 }

@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.18
 
+### 1.0.0-beta.18 Breaking Changes
+
+- `[Listview]` Add fixes to ensure all selection and activation events work properly. During the process renamed the `itemactivated` events to `activated`. ([#1543](https://github.com/infor-design/enterprise-wc/issues/1543))
+
 ### 1.0.0-beta.18 Features
 
 - `[LoadingIndicator]` Added new settings and example to show a full page loading indicator with page blocking. ([#1520](https://github.com/infor-design/enterprise-wc/issues/1520))
@@ -11,26 +15,37 @@
 ### 1.0.0-beta.18 Fixes
 
 - `[AxisChart]` Re-added a responsive example. ([#1676](https://github.com/infor-design/enterprise-wc/issues/1676))
-- `[AxisChart]` Will now hide the legend item if the `name` field is left off. ([#1720](https://github.com/infor-design/enterprise-wc/issues/1720))
+- `[AxisChart]` Now hides the legend item if the `name` field is left off. ([#1720](https://github.com/infor-design/enterprise-wc/issues/1720))
 - `[Breadcrumb]` Fixed toolbar alignment, removed `add` and `remove` instead made the breadcrumb update correctly on `slotchange`. Also added more Angular examples. ([#1640](https://github.com/infor-design/enterprise-wc/issues/1640))
 - `[Breadcrumb]` Fixed an issue where appended breadcrumbs did not get the correct styles. ([#1717](https://github.com/infor-design/enterprise-wc/issues/1717))
-- `[Calendar]` Add `suppress-form` setting to allow custom user UI for calendar event forms. ([#1474](https://github.com/infor-design/enterprise-wc/issues/1474))
-- `[Checkbox]` Fix checkbox and checkbox-group so that values are properly reflected in Angular when using `ngDefaultControl`. ([#1693](https://github.com/infor-design/enterprise-wc/issues/1693))
-- `[DataGrid]` Fix dropdown cells to no longer open their lists inside cells (attach to grid instead). ([#1600](https://github.com/infor-design/enterprise-wc/issues/1600))
-- `[DataGrid]` Add number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
-- `[DataGrid]` Fix dirty indicator alignment for `xxs` row height. ([#1602](https://github.com/infor-design/enterprise-wc/issues/1602))
-- `[DataGrid]` Fix an issue where empty message permanently removes the datagrid container height. ([#1664](https://github.com/infor-design/enterprise-wc/issues/1664))
-- `[DataGrid]` Fix dirty indicator cell data after column reorder. ([#1601](https://github.com/infor-design/enterprise-wc/issues/1601))
-- `[DataGrid]` Fix empty space issue when filtering with virtual scroll enabled. ([#1711](https://github.com/infor-design/enterprise-wc/issues/1711))
-- `[General]` Fix an issue where some properties did not work in safari. To do this changed the order of where styles and templates are appended in the lifecycle. ([#1599](https://github.com/infor-design/enterprise-wc/issues/1599))
-- `[ListView|ListBulider]` improve `IdsListView` and `IdsListBuilder` integration with new `IdsListViewItem` child-component. ([#1400](https://github.com/infor-design/enterprise-wc/issues/1400))
-- `[ScrollView]` Fix circle button display/placement when re-rendering with a new dataset.  ([#1577](https://github.com/infor-design/enterprise-wc/issues/1577))
-- `[Spinbox]` Allow steps to be created out of step range.  ([#695](https://github.com/infor-design/enterprise-wc/issues/695))
+- `[Calendar]` Added `suppress-form` setting to allow custom user UI for calendar event forms. ([#1474](https://github.com/infor-design/enterprise-wc/issues/1474))
+- `[Checkbox]` Fixed checkbox and checkbox-group so that values are properly reflected in Angular when using `ngDefaultControl`. ([#1693](https://github.com/infor-design/enterprise-wc/issues/1693))
+- `[DataGrid]` Enabled row selection across paged datasets in both server-side and client-side. ([#1565](https://github.com/infor-design/enterprise-wc/issues/1565))
+- `[DataGrid]` Fixed dropdown cells to no longer open their lists inside cells (attach to grid instead). ([#1600](https://github.com/infor-design/enterprise-wc/issues/1600))
+- `[Checkbox]` Fixed checkbox and checkbox-group so that values are properly reflected in Angular when using `ngDefaultControl`. ([#1693](https://github.com/infor-design/enterprise-wc/issues/1693))
+- `[DataGrid]` Fixed dropdown cells to no longer open their lists inside cells (attach to grid instead). ([#1600](https://github.com/infor-design/enterprise-wc/issues/1600))
+- `[DataGrid]` Added number mask to pager input. ([#1613](https://github.com/infor-design/enterprise-wc/issues/1613))
+- `[DataGrid]` Fixed dirty indicator alignment for `xxs` row height. ([#1602](https://github.com/infor-design/enterprise-wc/issues/1602))
+- `[DataGrid]` Fixed an issue where empty message permanently removes the datagrid container height. ([#1664](https://github.com/infor-design/enterprise-wc/issues/1664))
+- `[DataGrid]` Fixed an issue with the dirty indicator cell data after column reorder. ([#1601](https://github.com/infor-design/enterprise-wc/issues/1601))
+- `[DataGrid]` Fixed empty space issue when filtering with virtual scroll enabled. ([#1711](https://github.com/infor-design/enterprise-wc/issues/1711))
+- `[DataSource]` Implement create/update/delete operations and primary key setting. ([#1565](https://github.com/infor-design/enterprise-wc/issues/1565))
+- `[General]` Fixed an issue where some properties did not work in safari. To do this changed the order of where styles and templates are appended in the lifecycle. ([#1599](https://github.com/infor-design/enterprise-wc/issues/1599))
+- `[ListView|ListBulider]` Improved `IdsListView` and `IdsListBuilder` integration with new `IdsListViewItem` child-component. ([#1400](https://github.com/infor-design/enterprise-wc/issues/1400))
+- `[ScrollView]` Fixed circle button display/placement when re-rendering with a new dataset.  ([#1577](https://github.com/infor-design/enterprise-wc/issues/1577))
+- `[General]` Fixed an issue where some properties did not work in safari. To do this changed the order of where styles and templates are appended in the lifecycle. ([#1599](https://github.com/infor-design/enterprise-wc/issues/1599))
+- `[ListView/ListBulider]` Improved `IdsListView` and `IdsListBuilder` integration with new `IdsListViewItem` child-component. ([#1400](https://github.com/infor-design/enterprise-wc/issues/1400))
+- `[ListView/ListBulider]` Added tests for selection and activation events and fixed duplicate click events. ([#1543](https://github.com/infor-design/enterprise-wc/issues/1543))
+- `[ScrollView]` Fixed circle button display/placement when re-rendering with a new dataset.  ([#1577](https://github.com/infor-design/enterprise-wc/issues/1577))
+- `[Spinbox]` Now allows steps to be created out of step range.  ([#695](https://github.com/infor-design/enterprise-wc/issues/695))
 - `[Spinbox]` Now corrects values when type over the min and max range.  ([#1678](https://github.com/infor-design/enterprise-wc/issues/1678))
 - `[Spinbox]` Now masks input to make sure its a number.  ([#1578](https://github.com/infor-design/enterprise-wc/issues/1578))
 - `[Text]` Added text example with line-clamp setting. ([#1585](https://github.com/infor-design/enterprise-wc/issues/1585))
+- `[Tabs]` Fixed `x` button alignment in module tabs.  ([#1696](https://github.com/infor-design/enterprise-wc/issues/1696))
+- `[Tabs]` Fixed `selected` attribute occasionally not working.  ([#1705](https://github.com/infor-design/enterprise-wc/issues/1705))
+- `[Tabs]` Fixed missing tab imports in the bundle.  ([#1718](https://github.com/infor-design/enterprise-wc/issues/1718))
 - `[Tree]` Fixed a bug where the tree `label` did not work on parent folder nodes.  ([#1683](https://github.com/infor-design/enterprise-wc/issues/1683))
-- `[Tree]` Fix maximum call stack error when dynamically adding nodes to tree. ([#1649](https://github.com/infor-design/enterprise-wc/issues/1649))
+- `[Tree]` Fixed a maximum call stack error when dynamically adding nodes to tree. ([#1649](https://github.com/infor-design/enterprise-wc/issues/1649))
 - `[Tree]` Fixed an issue that events are missing data on `addNodes` from a root node element. ([#1721](https://github.com/infor-design/enterprise-wc/issues/1721))
 - `[Toolbar]` Fixed right aligned toolbar sections bug in firefox.  ([#1698](https://github.com/infor-design/enterprise-wc/issues/1698))
 

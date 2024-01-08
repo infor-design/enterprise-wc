@@ -14,8 +14,8 @@ import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import '../ids-modal/ids-modal';
+import '../ids-search-field/ids-search-field';
 import '../ids-trigger-field/ids-trigger-field';
-// import '../ids-data-grid/ids-data-grid';
 
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
@@ -24,6 +24,7 @@ import type { IdsDataGridColumn } from '../ids-data-grid/ids-data-grid-column';
 import type IdsModal from '../ids-modal/ids-modal';
 import type IdsText from '../ids-text/ids-text';
 import styles from './ids-lookup.scss';
+import type IdsSearchField from '../ids-search-field/ids-search-field';
 
 const Base = IdsDirtyTrackerMixin(
   IdsLabelStateParentMixin(
@@ -64,6 +65,8 @@ const Base = IdsDirtyTrackerMixin(
 export default class IdsLookup extends Base {
   triggerField?: IdsTriggerField | null;
 
+  searchField?: IdsSearchField | null;
+
   triggerButton?: IdsTriggerButton | null;
 
   dataGrid?: IdsDataGrid | null;
@@ -75,7 +78,8 @@ export default class IdsLookup extends Base {
   state = {
     clearable: true,
     dataGridSettings: { rowSelection: 'multiple' },
-    value: ''
+    value: '',
+    title: ''
   };
 
   constructor() {
@@ -100,6 +104,7 @@ export default class IdsLookup extends Base {
 
     this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
     this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button[part="trigger-lookup"]');
+    this.searchField = this.shadowRoot?.querySelector('ids-search-field');
 
     // Setup Attached Datagrid
     this.dataGrid = this.shadowRoot?.querySelector('ids-data-grid');
@@ -138,6 +143,9 @@ export default class IdsLookup extends Base {
       attributes.DISABLED,
       attributes.FIELD,
       attributes.READONLY,
+      attributes.SEARCHABLE,
+      attributes.SEARCHFIELD_PLACEHOLDER,
+      attributes.RECORD_COUNT,
       attributes.SIZE,
       attributes.TABBABLE,
       attributes.TITLE,
@@ -178,10 +186,11 @@ export default class IdsLookup extends Base {
     <slot name="lookup-modal">
       <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title" part="modal">
         <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">${this.title}</ids-text>
-        <ids-layout-grid class="data-grid-container" auto-fit="true" gap="md" no-margins="true" min-col-width="600px">
-          <ids-layout-grid-cell>
-            <ids-data-grid id="lookup-data-grid" label="${this.label}" part="data-grid">
-            </ids-data-grid>
+        ${this.searchable ? `<ids-search-field clearable label="Search Field with Hidden Label" label-state="collapsed" size="full" placeholder="${this.searchfieldPlaceholder}"></ids-search-field>` : ''}
+        <ids-layout-grid class="data-grid-parent-container" auto-fit="true" gap="md" no-margins="true" min-col-width="400px">
+          <ids-layout-grid-cell class="data-grid-container">
+              <ids-data-grid id="lookup-data-grid" label="${this.label}" part="data-grid" auto-fit="true">
+              </ids-data-grid>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
@@ -377,7 +386,8 @@ export default class IdsLookup extends Base {
     }
 
     // Select the rows, if not selected already for given value split with delimiter
-    const findIndex = (d: any, v: string) => (d?.findIndex((r: any) => r[this.field] === v));
+    // eslint-disable-next-line eqeqeq
+    const findIndex = (d: any, v: string) => (d?.findIndex((r: any) => r[this.field] == v));
     const values = value?.split(this.delimiter) || [];
     let notFound: number[] = [];
     values.forEach((v: string, i: number) => {
@@ -463,14 +473,13 @@ export default class IdsLookup extends Base {
    */
   set #title(value: string) {
     if (value) {
-      this.setAttribute(attributes.TITLE, value);
-      const titleElem = this.modal?.querySelector<IdsText>('[slot="title"]');
-      if (titleElem) titleElem.innerText = value;
-      this.triggerField?.setAttribute(attributes.TITLE, value);
+      this.setAttribute(attributes.TITLE, ''); // avoids a browser tooltip
+      this.state.title = value;
+      this.#setTitleAndCount();
     }
   }
 
-  get #title(): string { return this.getAttribute(attributes.TITLE) || `${this.label}`; }
+  get #title(): string { return this.state.title || `${this.label}`; }
 
   /**
    * Set the field to use when populating the input
@@ -483,6 +492,57 @@ export default class IdsLookup extends Base {
   }
 
   get field(): string { return this.getAttribute(attributes.FIELD) || 'id'; }
+
+  /**
+   * Add a searchfield to the modal to search
+   * @param {boolean} value set to true to make searchable
+   */
+  set searchable(value: boolean) {
+    if (value) {
+      this.setAttribute(attributes.SEARCHABLE, '');
+    } else {
+      this.removeAttribute(attributes.SEARCHABLE);
+    }
+  }
+
+  get searchable(): boolean { return this.hasAttribute(attributes.SEARCHABLE) || false; }
+
+  /**
+   * Set the searchfield placeholder text
+   * @param {string} value placeholder contents
+   */
+  set searchfieldPlaceholder(value: string) {
+    if (value) {
+      this.setAttribute(attributes.SEARCHFIELD_PLACEHOLDER, value);
+    } else {
+      this.removeAttribute(attributes.SEARCHFIELD_PLACEHOLDER);
+    }
+  }
+
+  get searchfieldPlaceholder(): string { return this.getAttribute(attributes.SEARCHFIELD_PLACEHOLDER) || ''; }
+
+  /**
+   * Set the record count on the title area
+   * @param {string} value placeholder contents
+   */
+  set recordCount(value: string) {
+    if (value) {
+      this.setAttribute(attributes.RECORD_COUNT, value);
+      this.#setTitleAndCount();
+    } else {
+      this.removeAttribute(attributes.RECORD_COUNT);
+    }
+  }
+
+  get recordCount(): string { return this.getAttribute(attributes.RECORD_COUNT) || ''; }
+
+  /**
+   * Set the record count with the title when updated
+   */
+  #setTitleAndCount() {
+    const titleElem = this.modal?.querySelector<IdsText>('[slot="title"]');
+    if (titleElem) titleElem.innerHTML = `${this.title}${!this.recordCount ? '' : `<span class="result-count">${this.localeAPI.translate('Results').replace('{0}', this.recordCount)}</span>`}`;
+  }
 
   /**
    * Set the dropdown size
@@ -595,6 +655,16 @@ export default class IdsLookup extends Base {
         }
       }
       if (isSynced) this.#syncSelectedRows(tfValue);
+    });
+
+    this.onEvent('keydown.searchfield', this.searchField, (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        this.triggerEvent('search', this, { detail: { searchTerm: (e.target as HTMLInputElement).value, method: 'enter' } });
+      }
+    });
+
+    this.onEvent('cleared.searchfield', this.searchField, () => {
+      this.triggerEvent('cleared', this, { detail: { searchTerm: '', method: 'clear' } });
     });
 
     this.modal?.addEventListener('beforeshow', ((e: CustomEvent) => {

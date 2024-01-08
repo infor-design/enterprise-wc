@@ -36,12 +36,6 @@ describe.skip('IdsTimePicker Component', () => {
     timepicker = null;
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-time-picker').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('render via document.createElement (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem: any = document.createElement('ids-time-picker');

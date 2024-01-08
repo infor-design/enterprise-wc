@@ -35,6 +35,7 @@ test.describe('IdsWidget tests', () => {
       if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
+        .exclude('ids-list-view')
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });

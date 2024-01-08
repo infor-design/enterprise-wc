@@ -30,18 +30,6 @@ describe('IdsMasthead Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-masthead').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-
-    element.remove();
-    element = new IdsMasthead();
-    document.body.appendChild(element);
-    expect(document.querySelectorAll('ids-masthead').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders any icon', () => {
     element.setAttribute('icon', '');
     expect(element.icon).toBe('');

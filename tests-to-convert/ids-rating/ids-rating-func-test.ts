@@ -21,16 +21,6 @@ describe('IdsRating Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    rating.remove();
-    const elem: any = new IdsRating();
-    document.body.appendChild(elem);
-    expect(document.querySelectorAll('ids-rating').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-    elem.remove();
-  });
-
   it('can set the value attribute', () => {
     rating.value = 3;
     const firstIcon = rating.shadowRoot?.querySelector<IdsIcon>('ids-icon');

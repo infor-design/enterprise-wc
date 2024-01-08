@@ -1,5 +1,14 @@
 import { deepClone } from '../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
+export const PAGINATION_TYPES = {
+  NONE: 'none',
+  CLIENT_SIDE: 'client-side',
+  SERVER_SIDE: 'server-side',
+  STANDALONE: 'standalone',
+} as const;
+
+export type PaginationTypes = typeof PAGINATION_TYPES[keyof typeof PAGINATION_TYPES];
+
 /**
  * Handle Attaching Array / Object Data to Components
  * Features (now and future):
@@ -35,6 +44,12 @@ class IdsDataSource {
   #currentFilterData: any = null;
 
   /**
+   * Holds the type of pagination being used
+   * @private
+   */
+  #pagination: PaginationTypes = PAGINATION_TYPES.NONE;
+
+  /**
    * Page-number used for pagination
    * @private
    */
@@ -45,6 +60,12 @@ class IdsDataSource {
    * @private
    */
   #pageSize: any;
+
+  /**
+   * Name of the primary key to use for dataset operations
+   * @private
+   */
+  #primaryKey = 'id';
 
   /**
    * An override for the total number of items in data
@@ -105,7 +126,7 @@ class IdsDataSource {
     return this.#currentData;
   }
 
-  get currentData(): Record<string, unknown> {
+  get currentData() {
     return this.#unFlattenData(this.#currentData);
   }
 
@@ -273,10 +294,39 @@ class IdsDataSource {
   get pageSize() { return this.#pageSize; }
 
   /**
+   * Set the current pagination type
+   * @param {PaginationTypes} value - new pagination type
+   */
+  set pagination(value: PaginationTypes) { this.#pagination = value; }
+
+  /**
+   * Get the current pagination type
+   * @returns {PaginationTypes} - the current pagination type
+   */
+  get pagination() { return this.#pagination; }
+
+  /**
    * Prevent running more than once with pagination
    * @private
    */
-  #prevState: any = { pageNumber: -1, pageSize: -1, data: null };
+  #prevState: any = {
+    pageNumber: -1,
+    pageSize: -1,
+    data: null,
+    doUpdate: false
+  };
+
+  /**
+   * Set the name of the data property to use as a primary key
+   * @param {string} value primary key name
+   */
+  set primaryKey(value: string) { this.#primaryKey = value; }
+
+  /**
+   * Get the current name of the data property used as a primary key
+   * @returns {string} primary key name
+   */
+  get primaryKey() { return this.#primaryKey; }
 
   /**
    * Reset previous state
@@ -295,8 +345,8 @@ class IdsDataSource {
    * @returns {boolean} True, if previous state
    */
   #isPrevState(num: number | string, size: number | string): boolean {
-    const { pageNumber, pageSize } = this.#prevState;
-    return pageNumber === Number(num) && pageSize === Number(size);
+    const { pageNumber, pageSize, doUpdate } = this.#prevState;
+    return !doUpdate && pageNumber === Number(num) && pageSize === Number(size);
   }
 
   /**
@@ -312,19 +362,97 @@ class IdsDataSource {
     pageNumber = Math.max(pageNumber || 1, 1);
     pageSize = pageSize || 1;
 
-    const last = pageNumber * pageSize;
-    const start = last - pageSize;
-    let data;
+    let last = pageNumber * pageSize;
+    let start = last - pageSize;
 
+    // For server-side paging, only use page size
+    // (server-side paging assumes dataset is already sliced)
+    if (this.pagination === 'server-side') {
+      last = pageSize;
+      start = 0;
+    }
+
+    let data;
     if (this.flatten) {
       const unFlattenData = this.#unFlattenData(deepClone(this.#currentData));
-      data = this.#flattenData(unFlattenData.slice(start, start + pageSize));
+      data = this.#flattenData(unFlattenData.slice(start, last));
     } else {
-      data = this.#currentData.slice(start, start + pageSize);
+      data = this.#currentData.slice(start, last);
     }
     this.#prevState.data = data;
+    this.#prevState.doUpdate = false;
 
     return data;
+  }
+
+  /**
+   * Marks the previous state cache to be updated on the next access
+   */
+  refreshPreviousState() {
+    this.#prevState.doUpdate = true;
+  }
+
+  /**
+   * Creates new records in the current dataset to reflect new state
+   * @param {Array<Record<string, unknown>>} items incoming records to update
+   * @param {number} index the index at which to create the value
+   */
+  create(items: Array<Record<string, unknown>> = [], index: number = 0) {
+    if (!items.length) return;
+
+    let currentIndex = index;
+    items.forEach((newRecord) => {
+      this.originalData.splice(currentIndex, 0, newRecord);
+      this.currentData.splice(currentIndex, 0, newRecord);
+      currentIndex++;
+    });
+
+    // Update totals/stored data state/page size
+    this.#total = this.#currentData.length;
+  }
+
+  /**
+   * Updates records in the current dataset to reflect new state
+   * @param {Array<Record<string, unknown>>} items incoming records to update
+   * @param {boolean} overwrite true if the record should be completely overwritten as opposed to augmented
+   */
+  update(items: Array<Record<string, unknown>> = [], overwrite: boolean = false) {
+    items.forEach((updatedRecord) => {
+      const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+      if (i > -1) {
+        const newRecord = overwrite ? updatedRecord : { ...this.#currentData[i], ...updatedRecord };
+        this.#originalData[i] = newRecord;
+        this.#currentData[i] = newRecord;
+      }
+    });
+  }
+
+  /**
+   * Deletes records from the current dataset to reflect new state
+   * @param {Array<Record<string, unknown>>} items incoming records to delete
+   */
+  delete(items: Array<Record<string, unknown>> = []) {
+    if (!items.length) return;
+
+    // Store current last page
+    const currentLastPage = Math.ceil(this.#total / this.#pageSize);
+
+    // Delete records
+    items.forEach((updatedRecord) => {
+      const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+      if (i > -1) {
+        this.originalData.splice(i, 1);
+        this.currentData.splice(i, 1);
+      }
+    });
+
+    // Update totals/stored data state/page size
+    this.#total = this.#currentData.length;
+    this.#prevState.data = this.paginate(this.pageNumber, this.pageSize);
+
+    // If last page is further than total records, reset last page
+    const newLastPage = Math.ceil(this.#total / this.#pageSize);
+    if (newLastPage < currentLastPage) this.pageNumber -= 1;
   }
 
   /**

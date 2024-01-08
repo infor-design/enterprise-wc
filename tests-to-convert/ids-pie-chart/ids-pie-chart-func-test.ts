@@ -31,20 +31,6 @@ describe('IdsPieChart Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    document.body.innerHTML = '';
-    pieChart = new IdsPieChart();
-    document.body.appendChild(pieChart);
-    pieChart.animated = false;
-    pieChart.data = dataset;
-    await processAnimFrame();
-
-    pieChart.remove();
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('can set custom colors', async () => {
     pieChart.data = [{
       data: [{

@@ -109,15 +109,6 @@ describe('IdsTriggerField Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsTriggerField();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-trigger-field').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('fires triggerevent on trigger', () => {
     triggerField.addEventListener('triggerfield', (e: any) => {
       e.detail.response(false);

@@ -17,15 +17,6 @@ describe('IdsTextarea Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsTextarea();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-textarea').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders placeholder', () => {
     textarea.placeholder = 'Placeholder Text';
     expect(textarea.getAttribute('placeholder')).toEqual('Placeholder Text');

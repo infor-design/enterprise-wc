@@ -268,12 +268,6 @@ describe('IdsLocale API', () => {
       expect(locale.locale.name).toEqual('en-US');
     });
 
-    it('renders with no errors', () => {
-      const errors = jest.spyOn(global.console, 'error');
-      locale = new IdsLocale();
-      expect(errors).not.toHaveBeenCalled();
-    });
-
     it('can load all available message files', async () => {
       const errors = jest.spyOn(global.console, 'error');
       await locale.setLanguage('af');

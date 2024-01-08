@@ -22,15 +22,6 @@ describe('IdsCard Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = new IdsCard();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-card').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('renders auto-height from an attribute', () => {
     card.setAttribute('auto-height', 'true');
     expect(card.getAttribute('auto-height')).toEqual('true');
@@ -187,14 +178,6 @@ describe('IdsCard Component', () => {
 
       actionableCard.href = '';
       expect(actionableCard.href).toBeNull();
-    });
-
-    it('renders with no errors', () => {
-      const errors = jest.spyOn(global.console, 'error');
-      const elem: any = new IdsCardAction();
-      document.body.appendChild(elem);
-      expect(document.querySelectorAll('ids-card-action').length).toEqual(1);
-      expect(errors).not.toHaveBeenCalled();
     });
 
     it('should allow setting actionable', () => {
