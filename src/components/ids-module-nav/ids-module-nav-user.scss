@@ -12,6 +12,14 @@
   display: none;
 }
 
+::slotted(ids-text) {
+  color: inherit;
+}
+
+::slotted(span) {
+  color: inherit;
+}
+
 .ids-module-nav-user {
   align-items: center;
   display: flex;

@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       display-mode="${menuState}"
       slot="user">
         <ids-icon slot="avatar" icon="icon-guest" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
-        <ids-text>Guest</ids-text>
-        <ids-hyperlink font-size="14" text-decoration="none">Create an account to save your settings.</ids-hyperlink>
+        <ids-text color="unset" ${menuState !== 'expanded' ? 'audible' : ''}>Guest</ids-text>
+        <ids-hyperlink font-size="14" type="span" color="unset" text-decoration="none">Create an account to save your settings.</ids-hyperlink>
       </ids-module-nav-user>`);
   };
 
