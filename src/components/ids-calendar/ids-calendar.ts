@@ -84,6 +84,8 @@ export default class IdsCalendar extends Base {
 
   #selectedEventId = '';
 
+  #hasCustomLegend = false;
+
   constructor() {
     super();
   }
@@ -257,7 +259,7 @@ export default class IdsCalendar extends Base {
    */
   onEventTypesChange(data: CalendarEventTypeData[]) {
     this.renderLegend(data);
-    this.#toggleMonthLegend(data, this.state.isMobile);
+    this.#toggleMonthLegend(data);
   }
 
   /**
@@ -299,6 +301,9 @@ export default class IdsCalendar extends Base {
         <div class="calendar-contents">
           <div class="calendar-toolbar-pane">${this.toolbarTemplate()}</div>
           <div class="calendar-view-pane"></div>
+          <div class="calendar-custom-legend">
+            <slot name="custom-legend"></slot>
+          </div>
         </div>
         <div class="calendar-details-pane"></div>
       </div>
@@ -632,6 +637,16 @@ export default class IdsCalendar extends Base {
       }
     });
 
+    const monthLegendSlot = this.container?.querySelector('slot[name="custom-legend"]');
+    this.offEvent('slotchange', monthLegendSlot);
+    this.onEvent('slotchange', monthLegendSlot, (evt: CustomEvent) => {
+      const elems = (evt.target as HTMLSlotElement)?.assignedElements();
+      if (elems?.length) {
+        this.#hasCustomLegend = true;
+        this.container?.querySelector('.calendar-custom-legend')?.classList.add('is-populated');
+      }
+    });
+
     if (this.viewPicker) this.attachViewPickerEvents('month');
 
     this.#attachToolbarEventHandlers();
@@ -920,6 +935,7 @@ export default class IdsCalendar extends Base {
 
     if (view === 'month' && this.disableSettings?.dates?.length) {
       (this.getView() as IdsMonthView).disableSettings = this.disableSettings;
+      this.#toggleMonthLegend(this.eventTypesData);
     }
   }
 
@@ -1285,16 +1301,15 @@ export default class IdsCalendar extends Base {
   /**
    * Toggle Month View Legend
    * @param {CalendarEventTypeData[]} eventTypes calendar event types data
-   * @param {boolean} show toggle legend
    */
-  #toggleMonthLegend(eventTypes: CalendarEventTypeData[], show: boolean): void {
+  #toggleMonthLegend(eventTypes: CalendarEventTypeData[]): void {
     const component = this.getView();
 
     if (!(component instanceof IdsMonthView)) return;
 
     let legendData: Array<any> | null = null;
 
-    if (show && this.showLegend && Array.isArray(eventTypes) && eventTypes.length) {
+    if ((this.state.isMobile && !this.#hasCustomLegend) && Array.isArray(eventTypes) && eventTypes.length) {
       legendData = eventTypes.map((item: CalendarEventTypeData) => ({
         name: item.label,
         color: `${item.color}-60`,
@@ -1321,7 +1336,7 @@ export default class IdsCalendar extends Base {
     if (this.state.isMobile !== isMobile) {
       this.state.isMobile = isMobile;
       this.updateEventDetails(this.state.selected);
-      this.#toggleMonthLegend(this.eventTypesData, isMobile);
+      this.#toggleMonthLegend(this.eventTypesData);
       this.positionFormPopup(this.getView()?.getEventElemById(this.#selectedEventId)?.container);
     }
   }

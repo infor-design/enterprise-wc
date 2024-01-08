@@ -11,6 +11,9 @@
   - link: custom-event-form.html
     type: Example
     description: Custom Calendar event form
+  - link: custom-legend.html
+    type: Example
+    description: Custom Calendar legend example
   - link: example-custom.html
     type: Example
     description: Custom Calendar View

@@ -409,13 +409,21 @@ export default class IdsWeekView extends Base {
 
     if (!this.state.hasRendered || !this.eventsData?.length) return;
 
+    const eventsInRange: CalendarEventData[] = [];
     this.eventsData.forEach((event: CalendarEventData) => {
       const eventStart = new Date(event.starts);
       const eventEnd = new Date(event.ends);
 
       if (this.startDate <= eventEnd && eventStart < this.endDate) {
+        eventsInRange.push(event);
         this.#renderEvent(event);
       }
+    });
+
+    this.triggerEvent('eventsrendered', this, {
+      detail: { eventsData: eventsInRange },
+      bubbles: true,
+      composed: true
     });
   }
 

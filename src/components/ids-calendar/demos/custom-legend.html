@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Calendar View (Custom Legend)</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-calendar date="10/22/2019" show-mobile-legend show-today view-picker>
+          <ids-layout-flex slot="custom-legend" id="custom-legend-container">
+            <ids-layout-flex-item grow="1">
+              <ids-text align="center">
+                Discretionary Time Off
+                <ids-badge id="badge-dto">0</ids-badge>
+              </ids-text>
+            </ids-layout-flex-item>
+            <ids-layout-flex-item grow="1">
+              <ids-text align="center">
+                Admin
+                <ids-badge id="badge-admin">0</ids-badge>
+              </ids-text>
+            </ids-layout-flex-item>
+            <ids-layout-flex-item grow="1">
+              <ids-text align="center">
+                Team Event
+                <ids-badge id="badge-team">0</ids-badge>
+              </ids-text>
+            </ids-layout-flex-item>
+            <ids-layout-flex-item grow="1">
+              <ids-text align="center">
+                Sick Time
+                <ids-badge id="badge-sick">0</ids-badge>
+              </ids-text>
+            </ids-layout-flex-item>
+            <ids-layout-flex-item grow="1">
+              <ids-text align="center">
+                Company Holiday
+                <ids-badge id="badge-holiday">0</ids-badge>
+              </ids-text>
+            </ids-layout-flex-item>
+          </ids-layout-flex>
+        </ids-calendar>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
