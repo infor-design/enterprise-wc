@@ -31,6 +31,7 @@ import type IdsModuleNavContent from './ids-module-nav-content';
 import type IdsModuleNavItem from './ids-module-nav-item';
 import type IdsModuleNavSettings from './ids-module-nav-settings';
 import type IdsModuleNavSwitcher from './ids-module-nav-switcher';
+import type IdsModuleNavUser from './ids-module-nav-user';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 
 const CONTAINER_OPEN_CLASS = 'module-nav-is-open';
@@ -45,7 +46,7 @@ const Base = IdsModuleNavDisplayModeMixin(
   )
 );
 
-type IdsModuleNavTooltipTarget = IdsModuleNavItem | IdsModuleNavButton | IdsModuleNavSettings;
+type IdsModuleNavTooltipTarget = IdsModuleNavItem | IdsModuleNavButton | IdsModuleNavSettings | IdsModuleNavUser;
 
 /**
  * IDS Module Nav Bar Component
@@ -136,6 +137,10 @@ export default class IdsModuleNavBar extends Base {
         <div class="ids-module-nav-settings-wrapper">
           <slot name="settings"></slot>
         </div>
+        <ids-separator class="ids-module-nav-user-separator" color-variant="module-nav" no-margins></ids-separator>
+        <div class="ids-module-nav-user-wrapper">
+          <slot name="user"></slot>
+        </div>
       </div>
       <div class="ids-module-nav-bar-detail">
         <slot name="detail"></slot>
@@ -211,6 +216,14 @@ export default class IdsModuleNavBar extends Base {
    */
   get switcherEl(): IdsModuleNavSwitcher | null {
     return this.querySelector('ids-module-nav-switcher');
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsModuleNavUser} reference to an optionally-slotted IdsModuleNavUser element
+   */
+  get userEl(): IdsModuleNavUser | null {
+    return this.querySelector<IdsModuleNavUser>('ids-module-nav-user');
   }
 
   /**
@@ -399,6 +412,8 @@ export default class IdsModuleNavBar extends Base {
 
     if (this.settingsEl) this.settingsEl.displayMode = this.displayMode;
 
+    if (this.userEl) this.userEl.displayMode = this.displayMode;
+
     this.setOutsideClick();
     this.setScrollable();
     this.setResize();
@@ -414,6 +429,7 @@ export default class IdsModuleNavBar extends Base {
       header.textDisplay = val;
     });
     if (this.settingsEl) this.settingsEl.textDisplay = val;
+    if (this.userEl) this.userEl.textDisplay = val;
   }
 
   /**
@@ -616,7 +632,8 @@ export default class IdsModuleNavBar extends Base {
     const allowedElems = [
       'IDS-MODULE-NAV-BUTTON',
       'IDS-MODULE-NAV-ITEM',
-      'IDS-MODULE-NAV-SETTINGS'
+      'IDS-MODULE-NAV-SETTINGS',
+      'IDS-MODULE-NAV-USER'
     ];
     if (allowedElems.includes(target.tagName)) {
       const id = target.getAttribute('id');

@@ -7,6 +7,7 @@ import '../../ids-checkbox/ids-checkbox';
 import '../../ids-dropdown/ids-dropdown';
 import '../../ids-dropdown/ids-dropdown-list';
 import '../../ids-header/ids-header';
+import '../../ids-hyperlink/ids-hyperlink';
 import '../../ids-list-box/ids-list-box';
 import '../../ids-list-box/ids-list-box-option';
 import '../../ids-search-field/ids-search-field';
@@ -15,6 +16,7 @@ import '../../ids-toolbar/ids-toolbar-section';
 
 import type { IdsModuleNavDisplayMode } from '../ids-module-nav-common';
 import type IdsModuleNavSwitcher from '../ids-module-nav-switcher';
+import type IdsModuleNavUser from '../ids-module-nav-user';
 
 let menuState: IdsModuleNavDisplayMode = 'collapsed';
 
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const roleSwitcherCheck: any = document.querySelector('#has-role-switcher');
   const pinSectionsCheck: any = document.querySelector('#pin-sections');
   const useOffsetCheck: any = document.querySelector('#use-offset-content');
+  const userAreaCheck: any = document.querySelector('#has-user');
 
   moduleNavDrawer.target = appMenuTriggerBtn;
 
@@ -91,6 +94,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         </ids-list-box>
       </ids-dropdown>
     </ids-module-nav-switcher>`);
+  };
+
+  const renderUser = () => {
+    moduleNavDrawer.insertAdjacentHTML('beforeend', `<ids-module-nav-user
+      display-mode="${menuState}"
+      slot="user">
+        <ids-icon slot="avatar" icon="icon-guest" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
+        <ids-text>Guest</ids-text>
+        <ids-hyperlink font-size="14" text-decoration="none">Create an account to save your settings.</ids-hyperlink>
+      </ids-module-nav-user>`);
   };
 
   // ============================
@@ -152,6 +165,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   useOffsetCheck.addEventListener('change', (e: CustomEvent) => {
     doOffsetContent = e.detail.checked;
     moduleNavContent.offsetContent = doOffsetContent;
+  });
+
+  userAreaCheck.addEventListener('change', (e: CustomEvent) => {
+    const displayUser = e.detail.checked;
+    const userEl = document.querySelector<IdsModuleNavUser>('ids-module-nav-user');
+
+    if (displayUser) {
+      if (!userEl) renderUser();
+    } else {
+      userEl?.remove();
+    }
   });
 
   moduleNav.addEventListener('displaymodechange', (e: CustomEvent) => {
