@@ -19,7 +19,7 @@ test.describe('IdsModuleNav tests', () => {
 
     test('should not have errors', async ({ page, browserName }) => {
       if (browserName === 'firefox') return;
-      let exceptions = null;
+      let exceptions: Error | null = null;
       await page.on('pageerror', (error) => {
         exceptions = error;
       });
@@ -61,6 +61,42 @@ test.describe('IdsModuleNav tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-module-nav-light');
+    });
+  });
+
+  test.describe('sandbox tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-module-nav/sandbox.html');
+    });
+
+    test('should not have errors', async ({ page, browserName }) => {
+      if (browserName === 'firefox') return;
+      let exceptions: Error | null = null;
+      await page.on('pageerror', (error) => {
+        exceptions = error;
+      });
+
+      await page.goto(url);
+      await page.waitForLoadState();
+      await expect(exceptions).toBeNull();
+    });
+
+    test('should render IdsModuleNavUser', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+
+      // Open the Module Nav (click trigger)
+      await (await page.locator('#module-nav-trigger')).click();
+
+      // Use Hyperlink
+      await (await page.locator('#guest-hyperlink')).click();
+
+      // Wait for next console message from link click
+      // (fires a few ticks after the click due to event delegation)
+      page.on('console', async (msg) => {
+        if (msg.type() === 'info') {
+          await expect(await msg.text()).toContain('Guest Hyperlink was clicked');
+        }
+      });
     });
   });
 });

@@ -35,6 +35,7 @@
 - `[General]` Fixed an issue where some properties did not work in safari. To do this changed the order of where styles and templates are appended in the lifecycle. ([#1599](https://github.com/infor-design/enterprise-wc/issues/1599))
 - `[ListView/ListBulider]` Improved `IdsListView` and `IdsListBuilder` integration with new `IdsListViewItem` child-component. ([#1400](https://github.com/infor-design/enterprise-wc/issues/1400))
 - `[ListView/ListBulider]` Added tests for selection and activation events and fixed duplicate click events. ([#1543](https://github.com/infor-design/enterprise-wc/issues/1543))
+- `[ModuleNav]` Add support for User area (IdsModuleNavUser). ([#1677](https://github.com/infor-design/enterprise-wc/issues/1677))
 - `[ScrollView]` Fixed circle button display/placement when re-rendering with a new dataset.  ([#1577](https://github.com/infor-design/enterprise-wc/issues/1577))
 - `[Spinbox]` Now allows steps to be created out of step range.  ([#695](https://github.com/infor-design/enterprise-wc/issues/695))
 - `[Spinbox]` Now corrects values when type over the min and max range.  ([#1678](https://github.com/infor-design/enterprise-wc/issues/1678))
