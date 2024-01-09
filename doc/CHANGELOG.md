@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.19
+
+### 1.0.0-beta.19 Fixes
+
+- `[Locale]` Changed all `zh` time formats to 24hr as suggested by native speakers. ([#8313](https://github.com/infor-design/enterprise-wc/issues/8313))
+
 ## 1.0.0-beta.18
 
 ### 1.0.0-beta.18 Breaking Changes
