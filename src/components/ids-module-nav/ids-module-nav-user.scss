@@ -8,6 +8,10 @@
   @include border-box;
 }
 
+::slotted(ids-hyperlink) {
+  color: var(--ids-module-nav-text-color);
+}
+
 ::slotted(ids-hyperlink[hidden]) {
   display: none;
 }
@@ -22,6 +26,7 @@
 
 .ids-module-nav-user {
   align-items: center;
+  color: var(--ids-module-nav-item-text-color);
   display: flex;
   flex-direction: row;
   padding-block: var(--ids-module-nav-user-padding-block);

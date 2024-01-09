@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       slot="user">
         <ids-icon slot="avatar" icon="icon-guest" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
         <ids-text color="unset" ${menuState !== 'expanded' ? 'audible' : ''}>Guest</ids-text>
-        <ids-hyperlink font-size="14" type="span" color="unset" text-decoration="none">Create an account to save your settings.</ids-hyperlink>
+        <ids-hyperlink id="guest-hyperlink" font-size="14" type="span" color="unset" text-decoration="none">Create an account to save your settings.</ids-hyperlink>
       </ids-module-nav-user>`);
   };
 
@@ -183,6 +183,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.info('Module Nav "displaymodechange" event handled: ', newMenuState);
     if (newMenuState !== menuState) {
       updateDisplayMode(newMenuState);
+    }
+  });
+
+  // In this example, some things that are clicked are sometimes
+  // removed from / added to the DOM, therefore this click handler
+  // captures higher up.
+  moduleNavDrawer.addEventListener('click', (e: CustomEvent) => {
+    // Click Guest Hyperlink
+    if ((e.target as HTMLElement)?.getAttribute('id') === 'guest-hyperlink') {
+      console.info('Guest Hyperlink was clicked', e);
     }
   });
 
