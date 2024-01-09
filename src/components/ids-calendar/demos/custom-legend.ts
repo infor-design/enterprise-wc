@@ -1,8 +1,11 @@
 import eventsJSON from '../../../assets/data/events.json';
 import eventTypesJSON from '../../../assets/data/event-types.json';
 import '../../ids-layout-flex/ids-layout-flex';
-import '../../ids-badge/ids-badge';
 import { CalendarEventData } from '../ids-calendar-event';
+import { appendStyleSheets } from '../../../../scripts/append-stylesheets';
+import calendarEventStyles from '../ids-calendar-event.scss';
+
+appendStyleSheets(calendarEventStyles);
 
 const eventsURL: any = eventsJSON;
 const eventTypesURL: any = eventTypesJSON;
@@ -52,7 +55,7 @@ function updateEventCounts(calendarEvents: CalendarEventData[]): void {
   if (legendContainer) {
     eventTypesCount.forEach((obj) => {
       const eventTypeBadge = legendContainer.querySelector(`#badge-${obj.eventType}`);
-      if (eventTypeBadge) eventTypeBadge.textContent = `${obj.count}`;
+      if (eventTypeBadge) eventTypeBadge.textContent = `(${obj.count})`;
     });
   }
 }

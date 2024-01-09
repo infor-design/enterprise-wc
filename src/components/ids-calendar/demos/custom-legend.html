@@ -13,36 +13,77 @@
       <ids-layout-grid-cell>
         <ids-calendar date="10/22/2019" show-mobile-legend show-today view-picker>
           <ids-layout-flex slot="custom-legend" id="custom-legend-container">
+
             <ids-layout-flex-item grow="1">
-              <ids-text align="center">
-                Discretionary Time Off
-                <ids-badge id="badge-dto">0</ids-badge>
-              </ids-text>
+              <ids-layout-grid padding-x="sm" auto-fit="true">
+                <ids-layout-grid-cell>
+                  <a class="ids-calendar-event standalone" href="#" color="azure">
+                    <div class="calendar-event-content">
+                      <ids-text class="calendar-event-title" inline font-size="12">
+                        Discretionary Time Off <b id="badge-dto">(0)</b>
+                      </ids-text>
+                    </div>
+                  </a>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
             </ids-layout-flex-item>
+
             <ids-layout-flex-item grow="1">
-              <ids-text align="center">
-                Admin
-                <ids-badge id="badge-admin">0</ids-badge>
-              </ids-text>
+              <ids-layout-grid padding-x="sm" auto-fit="true">
+                <ids-layout-grid-cell>
+                  <a class="ids-calendar-event standalone" href="#" color="amethyst">
+                    <div class="calendar-event-content">
+                      <ids-text class="calendar-event-title" inline font-size="12">
+                        Admin <b id="badge-admin">(0)</b>
+                      </ids-text>
+                    </div>
+                  </a>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
             </ids-layout-flex-item>
+
             <ids-layout-flex-item grow="1">
-              <ids-text align="center">
-                Team Event
-                <ids-badge id="badge-team">0</ids-badge>
-              </ids-text>
+              <ids-layout-grid padding-x="sm" auto-fit="true">
+                <ids-layout-grid-cell>
+                  <a class="ids-calendar-event standalone" href="#" color="emerald">
+                    <div class="calendar-event-content">
+                      <ids-text class="calendar-event-title" inline font-size="12">
+                        Team Event <b id="badge-team">(0)</b>
+                      </ids-text>
+                    </div>
+                  </a>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
             </ids-layout-flex-item>
+
             <ids-layout-flex-item grow="1">
-              <ids-text align="center">
-                Sick Time
-                <ids-badge id="badge-sick">0</ids-badge>
-              </ids-text>
+              <ids-layout-grid padding-x="sm" auto-fit="true">
+                <ids-layout-grid-cell>
+                  <a class="ids-calendar-event standalone" href="#" color="amber">
+                    <div class="calendar-event-content">
+                      <ids-text class="calendar-event-title" inline font-size="12">
+                        Sick Time <b id="badge-sick">(0)</b>
+                      </ids-text>
+                    </div>
+                  </a>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
             </ids-layout-flex-item>
+
             <ids-layout-flex-item grow="1">
-              <ids-text align="center">
-                Company Holiday
-                <ids-badge id="badge-holiday">0</ids-badge>
-              </ids-text>
+              <ids-layout-grid padding-x="sm" auto-fit="true">
+                <ids-layout-grid-cell>
+                  <a class="ids-calendar-event standalone" href="#" color="slate">
+                    <div class="calendar-event-content">
+                      <ids-text class="calendar-event-title" inline font-size="12">
+                        Company Holiday <b id="badge-holiday">(0)</b>
+                      </ids-text>
+                    </div>
+                  </a>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
             </ids-layout-flex-item>
+
           </ids-layout-flex>
         </ids-calendar>
       </ids-layout-grid-cell>
