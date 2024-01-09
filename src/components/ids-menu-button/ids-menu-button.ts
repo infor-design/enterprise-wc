@@ -287,7 +287,8 @@ export default class IdsMenuButton extends IdsButton {
     const popupMenuEl = document.querySelector(`#${this.menu}`);
     let arrow = 'bottom';
     this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
-    if (popupMenuEl && (popupMenuEl as IdsPopupMenu).arrow) {
+
+    if (popupMenuEl && (popupMenuEl as IdsPopupMenu).getAttribute('arrow')) {
       arrow = (popupMenuEl as IdsPopupMenu).arrow || '';
     }
     this.menuEl.popup.arrow = arrow;
