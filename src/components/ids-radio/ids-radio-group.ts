@@ -221,7 +221,7 @@ export default class IdsRadioGroup extends Base {
     this.checked = radio ?? false;
     if (radio) radio.setAttribute(attributes.CHECKED, 'true');
 
-    const args = { detail: { value, checked: radio ?? false } };
+    const args = { bubbles: true, detail: { value, checked: radio ?? false } };
     this.triggerEvent('change', this.input, args);
     this.triggerEvent('change', this, args);
   }
