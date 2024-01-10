@@ -100,6 +100,13 @@
     width: 100%;
     overflow-x: hidden;
   }
+
+  // If no legend class is available, hide the legend
+  &:not([class*="legend-"]) {
+    .chart-legend {
+      display: none;
+    }
+  }
 }
 
 // Center an Empty Message
