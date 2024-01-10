@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Calendar View (Custom Legend)</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-calendar date="10/22/2019" show-mobile-legend show-today view-picker>
+          <ids-layout-flex slot="custom-legend" id="custom-legend-container">
+
+            <ids-layout-flex-item grow="1">
+              <ids-layout-grid padding-x="sm" auto-fit="true">
+                <ids-layout-grid-cell>
+                  <a class="ids-calendar-event standalone" href="#" color="azure">
+                    <div class="calendar-event-content">
+                      <ids-text class="calendar-event-title" inline font-size="12">
+                        Discretionary Time Off <b id="badge-dto">(0)</b>
+                      </ids-text>
+                    </div>
+                  </a>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
+            </ids-layout-flex-item>
+
+            <ids-layout-flex-item grow="1">
+              <ids-layout-grid padding-x="sm" auto-fit="true">
+                <ids-layout-grid-cell>
+                  <a class="ids-calendar-event standalone" href="#" color="amethyst">
+                    <div class="calendar-event-content">
+                      <ids-text class="calendar-event-title" inline font-size="12">
+                        Admin <b id="badge-admin">(0)</b>
+                      </ids-text>
+                    </div>
+                  </a>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
+            </ids-layout-flex-item>
+
+            <ids-layout-flex-item grow="1">
+              <ids-layout-grid padding-x="sm" auto-fit="true">
+                <ids-layout-grid-cell>
+                  <a class="ids-calendar-event standalone" href="#" color="emerald">
+                    <div class="calendar-event-content">
+                      <ids-text class="calendar-event-title" inline font-size="12">
+                        Team Event <b id="badge-team">(0)</b>
+                      </ids-text>
+                    </div>
+                  </a>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
+            </ids-layout-flex-item>
+
+            <ids-layout-flex-item grow="1">
+              <ids-layout-grid padding-x="sm" auto-fit="true">
+                <ids-layout-grid-cell>
+                  <a class="ids-calendar-event standalone" href="#" color="amber">
+                    <div class="calendar-event-content">
+                      <ids-text class="calendar-event-title" inline font-size="12">
+                        Sick Time <b id="badge-sick">(0)</b>
+                      </ids-text>
+                    </div>
+                  </a>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
+            </ids-layout-flex-item>
+
+            <ids-layout-flex-item grow="1">
+              <ids-layout-grid padding-x="sm" auto-fit="true">
+                <ids-layout-grid-cell>
+                  <a class="ids-calendar-event standalone" href="#" color="slate">
+                    <div class="calendar-event-content">
+                      <ids-text class="calendar-event-title" inline font-size="12">
+                        Company Holiday <b id="badge-holiday">(0)</b>
+                      </ids-text>
+                    </div>
+                  </a>
+                </ids-layout-grid-cell>
+              </ids-layout-grid>
+            </ids-layout-flex-item>
+
+          </ids-layout-flex>
+        </ids-calendar>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

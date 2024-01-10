@@ -1537,6 +1537,12 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
         this.#renderDayEvents(dateKey, monthEvents[dateKey], customCalendarEvent);
       }
     }
+
+    this.triggerEvent('eventsrendered', this, {
+      detail: { eventsData: eventsInRange },
+      bubbles: true,
+      composed: true
+    });
   }
 
   /**

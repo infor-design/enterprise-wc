@@ -27,6 +27,7 @@ User can switch between month, week, and day views using menu button inside the 
 - `daydblclick` - Fires when a day cell in month view is double clicked.
 - `clickcalendarevent` - Fires when a calendar event is clicked. Detail contains IdsCalendarEvent element.
 - `dblclickcalendarevent` - Fires when a calendar event is double clicked. Detail contains IdsCalendarEvent element.
+- `eventsrendered` - Fires when calendar events are rendered in current view. Detail contains calendar events data.
 
 ## Methods
 - `addEvent(eventData: CalendarEventData)` - Add an event to the calendar.
