@@ -4,7 +4,7 @@
 
 ### 1.0.0-beta.19 Breaking Changes
 
-- `[ChartLegendMixin]` Added `none` as a legend placement setting and made it default. During the process changed all current IdsAxisChart and IdsPieChart examples to explicitly use `legend-placement` attribute where a legend is needed. ([#1672](https://github.com/infor-design/enterprise-wc/issues/1672))
+- `[ChartLegendMixin]` Added `none` as a legend placement setting and made it default, allowing the legend to be completely hidden. During the process, changed all current IdsAreaChart, IdsAxisChart, IdsBarChart, IdsLineChart, and IdsPieChart examples to explicitly use `legend-placement` attribute where a legend is needed. ([#1672](https://github.com/infor-design/enterprise-wc/issues/1672))
 
 ### 1.0.0-beta.19 Fixes
 
