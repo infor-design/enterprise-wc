@@ -111,9 +111,9 @@ export default class IdsModal extends Base {
     super.connectedCallback?.();
 
     if (this.popup) {
-      this.popup.type = 'modal';
-      this.popup.animated = true;
-      this.popup.animationStyle = 'scale-in';
+      this.popup.setAttribute(attributes.TYPE, 'modal');
+      this.popup.setAttribute(attributes.ANIMATED, 'true');
+      this.popup.setAttribute(attributes.ANIMATION_STYLE, 'scale-in');
     }
 
     // Update ARIA / Sets up the label
@@ -149,7 +149,12 @@ export default class IdsModal extends Base {
     const extraFooterClass = extraClass ? ` ${extraClass}-footer` : '';
     const footerHidden = this.buttons.length ? '' : ' hidden';
 
-    return `<ids-popup part="modal" class="ids-modal" type="modal" position-style="viewport">
+    return `<ids-popup part="modal"
+      class="ids-modal"
+      type="modal"
+      position-style="viewport"
+      animated="true"
+      animation-style="scale-in">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header${extraHeaderClass}">
           <slot name="title"></slot>
@@ -228,8 +233,8 @@ export default class IdsModal extends Base {
       if (!this.popup) return;
 
       this.popup.classList[doFullsize ? 'add' : 'remove'](attributes.FULLSIZE);
-      this.popup.width = doFullsize ? '100%' : '';
-      this.popup.height = doFullsize ? '100%' : '';
+      this.popup.setAttribute(attributes.WIDTH, doFullsize ? '100%' : '');
+      this.popup.setAttribute(attributes.HEIGHT, doFullsize ? '100%' : '');
       if (this.popup.place) this.popup.place();
       if (this.popup.open) {
         this.setScrollable();
@@ -519,7 +524,7 @@ export default class IdsModal extends Base {
     });
 
     if (this.popup) {
-      this.popup.animated = false;
+      this.popup.removeAttribute('animated');
     }
 
     this.respondToCurrentBreakpoint();
