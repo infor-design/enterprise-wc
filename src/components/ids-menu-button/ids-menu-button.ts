@@ -13,6 +13,7 @@ import '../ids-menu/ids-menu-item';
 import styles from '../ids-button/ids-button.scss';
 
 import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
 /**
  * IDS Menu Button Component
@@ -282,8 +283,15 @@ export default class IdsMenuButton extends IdsButton {
     if (!this.menuEl || !this.menuEl.popup) {
       return;
     }
+
+    const popupMenuEl = document.querySelector(`#${this.menu}`);
+    let arrow = 'bottom';
     this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
-    this.menuEl.popup.arrow = 'bottom';
+
+    if (popupMenuEl && (popupMenuEl as IdsPopupMenu).getAttribute('arrow')) {
+      arrow = (popupMenuEl as IdsPopupMenu).arrow || '';
+    }
+    this.menuEl.popup.arrow = arrow;
   }
 
   /**

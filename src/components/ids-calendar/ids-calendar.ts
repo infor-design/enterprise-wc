@@ -84,6 +84,8 @@ export default class IdsCalendar extends Base {
 
   #selectedEventId = '';
 
+  #hasCustomLegend = false;
+
   constructor() {
     super();
   }
@@ -112,8 +114,11 @@ export default class IdsCalendar extends Base {
    * @param {boolean|string} val show/hides details
    */
   set showDetails(val: boolean | string) {
-    if (stringToBool(val)) {
-      this.setAttribute(attributes.SHOW_DETAILS, '');
+    const toShow = stringToBool(val);
+    this.toggleAttribute(attributes.SHOW_DETAILS, toShow);
+    this.container?.classList.toggle('show-details', toShow);
+
+    if (toShow) {
       this.updateEventDetails(this.state.selected);
       this.container?.classList.add('show-details');
     } else {
@@ -136,14 +141,14 @@ export default class IdsCalendar extends Base {
    * @param {boolean|string} val show/hides legend
    */
   set showLegend(val: boolean | string) {
-    if (stringToBool(val)) {
-      this.setAttribute(attributes.SHOW_LEGEND, '');
+    const toShow = stringToBool(val);
+    this.toggleAttribute(attributes.SHOW_LEGEND, toShow);
+    this.container?.classList.toggle('show-legend', toShow);
+
+    if (toShow) {
       this.renderLegend(this.eventTypesData);
-      this.container?.classList.add('show-legend');
     } else {
-      this.removeAttribute(attributes.SHOW_LEGEND);
       this.querySelector('#event-types-legend')?.remove();
-      this.container?.classList.remove('show-legend');
     }
   }
 
@@ -159,9 +164,7 @@ export default class IdsCalendar extends Base {
    * @returns {boolean} showToday param converted to boolean from attribute value
    */
   get showToday(): boolean {
-    const attrVal = this.getAttribute(attributes.SHOW_TODAY);
-
-    return stringToBool(attrVal);
+    return stringToBool(this.getAttribute(attributes.SHOW_TODAY));
   }
 
   /**
@@ -169,14 +172,9 @@ export default class IdsCalendar extends Base {
    * @param {string|boolean} val showToday param value
    */
   set showToday(val: string | boolean) {
-    const boolVal = stringToBool(val);
-
-    if (boolVal) {
-      this.setAttribute(attributes.SHOW_TODAY, 'true');
-    } else {
-      this.removeAttribute(attributes.SHOW_TODAY);
-    }
-    this.#updateTodayBtn(boolVal);
+    const toShow = stringToBool(val);
+    this.toggleAttribute(attributes.SHOW_TODAY, toShow);
+    this.#updateTodayBtn(toShow);
   }
 
   #updateTodayBtn(val: boolean) {
@@ -257,7 +255,7 @@ export default class IdsCalendar extends Base {
    */
   onEventTypesChange(data: CalendarEventTypeData[]) {
     this.renderLegend(data);
-    this.#toggleMonthLegend(data, this.state.isMobile);
+    this.#toggleMonthLegend(data);
   }
 
   /**
@@ -299,6 +297,9 @@ export default class IdsCalendar extends Base {
         <div class="calendar-contents">
           <div class="calendar-toolbar-pane">${this.toolbarTemplate()}</div>
           <div class="calendar-view-pane"></div>
+          <div class="calendar-custom-legend">
+            <slot name="custom-legend"></slot>
+          </div>
         </div>
         <div class="calendar-details-pane"></div>
       </div>
@@ -632,6 +633,16 @@ export default class IdsCalendar extends Base {
       }
     });
 
+    const monthLegendSlot = this.container?.querySelector('slot[name="custom-legend"]');
+    this.offEvent('slotchange', monthLegendSlot);
+    this.onEvent('slotchange', monthLegendSlot, (evt: CustomEvent) => {
+      const elems = (evt.target as HTMLSlotElement)?.assignedElements();
+      if (elems?.length) {
+        this.#hasCustomLegend = true;
+        this.container?.querySelector('.calendar-custom-legend')?.classList.add('is-populated');
+      }
+    });
+
     if (this.viewPicker) this.attachViewPickerEvents('month');
 
     this.#attachToolbarEventHandlers();
@@ -920,6 +931,7 @@ export default class IdsCalendar extends Base {
 
     if (view === 'month' && this.disableSettings?.dates?.length) {
       (this.getView() as IdsMonthView).disableSettings = this.disableSettings;
+      this.#toggleMonthLegend(this.eventTypesData);
     }
   }
 
@@ -1285,16 +1297,15 @@ export default class IdsCalendar extends Base {
   /**
    * Toggle Month View Legend
    * @param {CalendarEventTypeData[]} eventTypes calendar event types data
-   * @param {boolean} show toggle legend
    */
-  #toggleMonthLegend(eventTypes: CalendarEventTypeData[], show: boolean): void {
+  #toggleMonthLegend(eventTypes: CalendarEventTypeData[]): void {
     const component = this.getView();
 
     if (!(component instanceof IdsMonthView)) return;
 
     let legendData: Array<any> | null = null;
 
-    if (show && this.showLegend && Array.isArray(eventTypes) && eventTypes.length) {
+    if ((this.state.isMobile && !this.#hasCustomLegend) && Array.isArray(eventTypes) && eventTypes.length) {
       legendData = eventTypes.map((item: CalendarEventTypeData) => ({
         name: item.label,
         color: `${item.color}-60`,
@@ -1321,7 +1332,7 @@ export default class IdsCalendar extends Base {
     if (this.state.isMobile !== isMobile) {
       this.state.isMobile = isMobile;
       this.updateEventDetails(this.state.selected);
-      this.#toggleMonthLegend(this.eventTypesData, isMobile);
+      this.#toggleMonthLegend(this.eventTypesData);
       this.positionFormPopup(this.getView()?.getEventElemById(this.#selectedEventId)?.container);
     }
   }

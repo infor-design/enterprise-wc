@@ -90,30 +90,6 @@ describe('IdsCalendar Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can set day, month, year', () => {
-    const day = 5;
-    const month = 11;
-    const year = 2019;
-
-    component.date = `${month}/${day}/${year}`;
-
-    expect(component.date.getDate()).toEqual(day);
-    expect(component.date.getMonth()).toEqual(month - 1);
-    expect(component.date.getFullYear()).toEqual(year);
-  });
-
-  it('has settings for visible panes', () => {
-    component.showLegend = true;
-    component.showDetails = true;
-    expect(component.showLegend).toBeTruthy();
-    expect(component.showDetails).toBeTruthy();
-
-    component.showLegend = false;
-    component.showDetails = false;
-    expect(component.showLegend).toBeFalsy();
-    expect(component.showDetails).toBeFalsy();
-  });
-
   it('shares calendar event data with active view component', () => {
     const day = 5;
     const month = 10;
@@ -134,28 +110,6 @@ describe('IdsCalendar Component', () => {
     component.clearEvents();
     expect(component.eventsData.length).toEqual(0);
     expect(view.eventsData.length).toEqual(0);
-  });
-
-  it('can change views', () => {
-    // mock view changes to save memory
-    const insertTemplateSpy = jest.spyOn(component, 'insertViewTemplate').mockImplementation();
-
-    // week view
-    component.changeView('week');
-    expect(insertTemplateSpy).toHaveBeenCalled();
-    expect(component.state.view).toEqual('week');
-
-    // day view
-    component.changeView('day');
-    expect(insertTemplateSpy).toHaveBeenCalled();
-    expect(component.state.view).toEqual('day');
-
-    // month view
-    component.changeView('month');
-    expect(insertTemplateSpy).toHaveBeenCalled();
-    expect(component.state.view).toEqual('month');
-
-    insertTemplateSpy.mockClear();
   });
 
   it('can format duration strings', () => {
