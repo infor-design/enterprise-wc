@@ -1,5 +1,15 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.19
+
+### 1.0.0-beta.19 Features
+
+- `[PopupMenu]` Added ability to set `arrow` on the IdsPopupMenu so that it filters down to IdsPopup underneath, can now disable or change arrow direction. ([#1290](https://github.com/infor-design/enterprise-wc/issues/1290))
+
+### 1.0.0-beta.19 Fixes
+
+- `[Locale]` Changed all `zh` time formats to 24hr as suggested by native speakers. ([#8313](https://github.com/infor-design/enterprise-wc/issues/8313))
+
 ## 1.0.0-beta.18
 
 ### 1.0.0-beta.18 Breaking Changes
@@ -8,6 +18,7 @@
 
 ### 1.0.0-beta.18 Features
 
+- `[Calendar]` Add `eventsrendered` event and slot `custom-legend` for custom legends. ([#1564](https://github.com/infor-design/enterprise-wc/issues/1564))
 - `[LoadingIndicator]` Added new settings and example to show a full page loading indicator with page blocking. ([#1520](https://github.com/infor-design/enterprise-wc/issues/1520))
 - `[TriggerField]` Added an example showing a menu on trigger button click. ([#1697](https://github.com/infor-design/enterprise-wc/issues/1697))
 
@@ -35,6 +46,7 @@
 - `[General]` Fixed an issue where some properties did not work in safari. To do this changed the order of where styles and templates are appended in the lifecycle. ([#1599](https://github.com/infor-design/enterprise-wc/issues/1599))
 - `[ListView/ListBulider]` Improved `IdsListView` and `IdsListBuilder` integration with new `IdsListViewItem` child-component. ([#1400](https://github.com/infor-design/enterprise-wc/issues/1400))
 - `[ListView/ListBulider]` Added tests for selection and activation events and fixed duplicate click events. ([#1543](https://github.com/infor-design/enterprise-wc/issues/1543))
+- `[Modal]` Fix rendering issues in Angular environments. ([#1744](https://github.com/infor-design/enterprise-wc/issues/1744))
 - `[ModuleNav]` Add support for User area (IdsModuleNavUser). ([#1677](https://github.com/infor-design/enterprise-wc/issues/1677))
 - `[ScrollView]` Fixed circle button display/placement when re-rendering with a new dataset.  ([#1577](https://github.com/infor-design/enterprise-wc/issues/1577))
 - `[Spinbox]` Now allows steps to be created out of step range.  ([#695](https://github.com/infor-design/enterprise-wc/issues/695))

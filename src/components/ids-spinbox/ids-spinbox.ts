@@ -561,7 +561,7 @@ export default class IdsSpinbox extends IdsTriggerField {
       allowDecimal: false,
       allowNegative: canBeNegative,
       integerLimit: (this.min === null || this.max == null)
-        ? null : Math.max(Math.abs(this.min).toString().length, Math.abs(this.min).toString().length)
+        ? null : Math.max(Math.abs(this.min).toString().length, Math.abs(this.max).toString().length)
     };
     this.mask = 'number';
     this.maskOptions = maskOpts;

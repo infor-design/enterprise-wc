@@ -77,6 +77,12 @@
   overflow: hidden;
   text-decoration: none;
 
+  &.standalone {
+    display: block;
+    position: relative;
+    height: unset;
+  }
+
   .calendar-event-content {
     box-sizing: border-box;
     height: 100%;
