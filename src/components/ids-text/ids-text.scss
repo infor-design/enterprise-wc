@@ -171,6 +171,11 @@
   font-weight: var(--ids-font-weight-bold);
 }
 
+::slotted(ids-icon) {
+  margin: var(--ids-text-icon-margin);
+  vertical-align: text-bottom;
+}
+
 /* Ids Typography System */
 .ids-text-10 {
   font-size: var(--ids-font-size-10);

@@ -21,6 +21,7 @@
 - `[Calendar]` Add `eventsrendered` event and slot `custom-legend` for custom legends. ([#1564](https://github.com/infor-design/enterprise-wc/issues/1564))
 - `[LoadingIndicator]` Added new settings and example to show a full page loading indicator with page blocking. ([#1520](https://github.com/infor-design/enterprise-wc/issues/1520))
 - `[TriggerField]` Added an example showing a menu on trigger button click. ([#1697](https://github.com/infor-design/enterprise-wc/issues/1697))
+- `[Text]` Added code to line up an icon with text in the IdsText component. ([#1759](https://github.com/infor-design/enterprise-wc/issues/1759))
 
 ### 1.0.0-beta.18 Fixes
 
