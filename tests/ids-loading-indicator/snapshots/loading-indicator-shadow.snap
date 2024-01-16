@@ -1,5 +1,5 @@
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="circular-indicator indeterminate" part="container">
-        <circle cx="50" cy="50" r="45" stroke-width="4" class="circle" part="circle"></circle>
-        <circle cx="50" cy="50" r="45" stroke-width="7" class="progress" part="progress"></circle>
+        <circle cx="50" cy="50" r="45" stroke-width="6" class="circle" part="circle"></circle>
+        <circle cx="50" cy="50" r="45" stroke-width="6" class="progress" part="progress"></circle>
       </svg>
       <ids-overlay opacity="0.7" background-color="page"></ids-overlay>

@@ -79,11 +79,11 @@ svg.linear-indicator {
   display: flex;
   align-items: center;
   width: 100%;
-  height: 6px;
+  height: var(--ids-loading-indicator-height);
   overflow: hidden;
 
   &.sticky {
-    height: 8px;
+    height: var(--ids-loading-indicator-height);
   }
 
   .progress {

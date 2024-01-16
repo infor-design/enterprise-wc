@@ -32,7 +32,7 @@ const getInnerIndicatorHtml = ({
       >
         <rect
           width="100%"
-          height="75%"
+          height="100%"
           ${overallYOffset}
           class="circle"
           part="circle"
@@ -64,8 +64,8 @@ const getInnerIndicatorHtml = ({
         part="container"
         class="ids-loading-indicator"
       >
-        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 4}" class="circle" part="circle" />
-        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 7}" class="progress" part="progress" />
+        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 6}" class="circle" part="circle" />
+        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 6}" class="progress" part="progress" />
       </svg>
       ${!percentageVisible ? '' : getPercentageTextHtml({ progress })}<ids-overlay opacity="0.7" background-color="page"></ids-overlay>`
       );
