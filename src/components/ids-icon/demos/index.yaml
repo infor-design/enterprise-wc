@@ -17,6 +17,9 @@
   - link: notification-badge.html
     type: Example
     description: Example of notifications badges on icons
+  - link: align-icon.html
+    type: Example
+    description: Icon lined up within text
   - link: variant-alternate.html
     type: Test
     description: Test showing the alternate variant color

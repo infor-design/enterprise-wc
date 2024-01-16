@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Ids Icon (Aligned With Text)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md" min-col-width="100px">
+        <ids-text>Example Text <ids-icon icon="info"></ids-icon></ids-text>
+        <ids-text>
+          More Example Text
+          <ids-icon icon="info"></ids-icon>
+        </ids-text>
+        <ids-text>
+          <span>Example Text in a span</span>
+          <ids-icon icon="info"></ids-icon>
+        </ids-text>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
