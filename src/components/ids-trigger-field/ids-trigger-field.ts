@@ -78,7 +78,6 @@ export default class IdsTriggerField extends IdsInput {
    * @returns {string} containing the template
    */
   template() {
-    this.templateHostAttributes();
     const {
       ariaLabel,
       containerClass,

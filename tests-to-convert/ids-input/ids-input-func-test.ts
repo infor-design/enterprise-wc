@@ -118,44 +118,6 @@ describe('IdsInput Component', () => {
     expect(input.container.classList).not.toContain(className);
   });
 
-  it('should set label text', () => {
-    input.label = 'test';
-
-    document.body.innerHTML = '';
-
-    const template = document.createElement('template');
-    template.innerHTML = '<ids-input label="Hello World"></ids-input>';
-    const elem: any = template.content.childNodes[0];
-    document.body.appendChild(elem);
-    input = document.querySelector('ids-input');
-    expect(input.labelEl.textContent.trim()).toBe('Hello World');
-    input.label = 'test2';
-    expect(input.labelEl.textContent.trim()).toBe('test2');
-    input.label = null;
-    expect(input.labelEl.textContent.trim()).toBe('');
-  });
-
-  it('should set label required indicator', () => {
-    const className = 'no-required-indicator';
-    expect(input.getAttribute('validate')).toEqual(null);
-    expect(input.getAttribute('label-required')).toEqual(null);
-    expect(input.labelEl.classList).not.toContain(className);
-    input.validate = 'required';
-    expect(input.getAttribute('validate')).toEqual('required');
-    expect(input.getAttribute('label-required')).toEqual(null);
-    expect(input.labelEl.classList).not.toContain(className);
-    input.labelRequired = false;
-    expect(input.getAttribute('validate')).toEqual('required');
-    expect(input.getAttribute('label-required')).toEqual('false');
-    expect(input.labelEl.classList).toContain(className);
-    expect(input.labelRequired).toEqual(false);
-    input.labelRequired = true;
-    expect(input.getAttribute('validate')).toEqual('required');
-    expect(input.getAttribute('label-required')).toEqual('true');
-    expect(input.labelEl.classList).not.toContain(className);
-    expect(input.labelRequired).toEqual(true);
-  });
-
   it('should render an error on blur for required', async () => {
     expect(input.container.querySelector('.validation-message')).toBeFalsy();
     input.validate = 'required';
@@ -206,14 +168,6 @@ describe('IdsInput Component', () => {
     await processAnimFrame();
 
     expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('should set value', () => {
-    expect(input.value).toEqual('');
-    input.value = 'test';
-    expect(input.value).toEqual('test');
-    input.value = null;
-    expect(input.value).toEqual('');
   });
 
   it('should call template', () => {

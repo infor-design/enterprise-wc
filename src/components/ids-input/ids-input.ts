@@ -36,8 +36,6 @@ import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsButton from '../ids-button/ids-button';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-let instanceCounter = 0;
-
 const Base = IdsTooltipMixin(
   IdsLabelStateMixin(
     IdsLoadingIndicatorMixin(
@@ -115,20 +113,10 @@ type IdsInputTemplateVariables = {
 @customElement('ids-input')
 @scss(styles)
 export default class IdsInput extends Base {
-  generatedId = '';
-
   triggeredByChange = false;
 
   constructor() {
     super();
-
-    // Override HTMLElement id property
-    Object.defineProperty(this, 'id', {
-      get: () => this.#id,
-      set: (value) => { this.#id = value; },
-      configurable: true,
-      enumerable: true
-    });
   }
 
   isFormComponent = true;
@@ -215,7 +203,6 @@ export default class IdsInput extends Base {
    * @returns {string} The template
    */
   template(): string {
-    this.templateHostAttributes();
     const {
       ariaLabel,
       capsLock,
@@ -234,7 +221,7 @@ export default class IdsInput extends Base {
       <div class="field-container" part="field-container">
         <input
           part="input"
-          id="${this.id}-input"
+          id="input-id"
           ${type}${inputClass}${placeholder}${inputState}
           ${ariaLabel}
           ${value}
@@ -253,16 +240,6 @@ export default class IdsInput extends Base {
           <ids-list-box slot="content" size="${this.size}"></ids-list-box>
         </ids-popup>` : ''}
     </div>`;
-  }
-
-  /**
-   * Uses current IdsInput state to set some attributes on its host element
-   * @returns {void}
-   */
-  templateHostAttributes(): void {
-    if (!this.id) {
-      this.generatedId = `ids-input-${instanceCounter++}`;
-    }
   }
 
   /**
@@ -302,7 +279,7 @@ export default class IdsInput extends Base {
     const requiredLabelCss = !this.labelRequired ? ' no-required-indicator' : '';
     const labelHtml = `<label
       class="ids-label-text${requiredLabelCss}${hiddenLabelCss}"
-      for="${this.id}-input"
+      for="input-id"
       part="label"
       ${attrs.readonly}
       ${attrs.disabled}
@@ -397,7 +374,7 @@ export default class IdsInput extends Base {
    * @returns {HTMLLabelElement} the inner `label` element
    */
   get labelEl(): HTMLLabelElement | undefined | null {
-    return this.#labelEl || this.shadowRoot?.querySelector<HTMLLabelElement>(`[for="${this.id}-input"]`);
+    return this.#labelEl || this.shadowRoot?.querySelector<HTMLLabelElement>('label');
   }
 
   /**
@@ -514,7 +491,7 @@ export default class IdsInput extends Base {
    * @returns {void}
    */
   setLabelText(value: string): void {
-    return super.setLabelText(value, `[for="${this.id}-input"]`);
+    return super.setLabelText(value, `label`);
   }
 
   /**
@@ -904,14 +881,14 @@ export default class IdsInput extends Base {
    * Set the `value` attribute of input
    * @param {string} val the value property
    */
-  set value(val: string | undefined) {
+  set value(val: string | undefined | null) {
     let v = ['string', 'number'].includes(typeof val) ? String(val) : String(val || '');
     const currentValue = this.value;
 
     // If a mask is enabled, use the conformed value.
     // If no masking occurs, simply use the provided value.
     if (this.mask) {
-      v = this.processMaskFromProperty(val) || v;
+      v = this.processMaskFromProperty(val || '') || v;
       if (this.input) {
         this.input.value = v;
       }
@@ -924,22 +901,6 @@ export default class IdsInput extends Base {
 
   get value(): string {
     return this.input?.value ?? '';
-  }
-
-  /**
-   * set the id of the input, which will also determine the
-   * input id for labels at #${id}-input
-   * @param {string} value id
-   */
-  set #id(value: string) {
-    if (value !== '') {
-      this.setAttribute(attributes.ID, value);
-      this.input?.setAttribute(attributes.ID, `${value}-input`);
-    }
-  }
-
-  get #id(): string {
-    return this.getAttribute(attributes.ID) || this.generatedId;
   }
 
   /**
