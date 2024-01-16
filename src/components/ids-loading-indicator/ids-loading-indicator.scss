@@ -60,7 +60,7 @@
   align-items: center;
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 49%;
   transform: translate(-50%, -50%);
   color: var(--ids-loading-indicator-color-text);
 }
@@ -218,8 +218,8 @@ svg.linear-indicator.indeterminate .progress {
 :host([size='xs']:not([linear]):not([sticky]):not([inline])) {
   &,
   &::part(container) {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
   }
 
   &::part(circle) {
