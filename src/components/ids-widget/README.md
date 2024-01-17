@@ -73,6 +73,7 @@ To use system buttons in your widget, add the system-button attribute on the but
 
 ## Themeable Parts
 
+- `body` allows you to further style the widget body element
 - `widget` allows you to further style the whole widget input element
 - `header` allows you to further style the widget header element
 - `search` allows you to further style the widget search element in the header
