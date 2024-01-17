@@ -9,6 +9,7 @@
 ### 1.0.0-beta.19 Fixes
 
 - `[Locale]` Changed all `zh` time formats to 24hr as suggested by native speakers. ([#8313](https://github.com/infor-design/enterprise-wc/issues/8313))
+- `[Tabs]` Fixed `selected` attribute occasionally not working.  ([#1705](https://github.com/infor-design/enterprise-wc/issues/1705))
 
 ## 1.0.0-beta.18
 
