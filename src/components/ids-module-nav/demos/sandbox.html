@@ -8,6 +8,7 @@
   <ids-container role="main" padding="0" hidden>
     <ids-module-nav id="module-nav" responsive>
       <ids-module-nav-bar>
+        <!-- Role Switcher -->
         <ids-module-nav-switcher
           slot="role-switcher">
           <ids-module-nav-button id="module-nav-button">
@@ -247,6 +248,16 @@
           </ids-menu-group>
         </ids-popup-menu>
 
+        <ids-module-nav-user
+          slot="user">
+          <ids-icon slot="avatar" icon="icon-guest" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
+          <ids-text audible type="span" color="unset">Guest</ids-text>
+          <ids-hyperlink
+            id="guest-hyperlink"
+            font-size="14"
+            text-decoration="none"
+            color="unset">Create an account to save your settings.</ids-hyperlink>
+        </ids-module-nav-user>
       </ids-module-nav-bar>
 
       <ids-module-nav-content offset-content>
@@ -274,8 +285,10 @@
         <ids-layout-grid gap="md" padding-x="md">
           <ids-layout-grid-cell>
             <ids-checkbox id="one-accordion-pane" label="Expand one IdsAccordionPanel at a time"></ids-checkbox>
+            <ids-checkbox id="has-role-switcher" label="Enable Role Switcher" checked></ids-checkbox>
             <ids-checkbox id="is-filterable" label="Enable Filtering" checked></ids-checkbox>
             <ids-checkbox id="pin-sections" label="Pin Favorites to the bottom"></ids-checkbox>
+            <ids-checkbox id="has-user" label="Enable User Information Area" checked></ids-checkbox>
           </ids-layout-grid-cell>
         </ids-layout-grid>
 

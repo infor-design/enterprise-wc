@@ -50,6 +50,11 @@
   height: 48px;
 }
 
+:host(ids-loading-indicator[overlay]) {
+  // Should match IdsModuleNavBar z-index
+  z-index: var(--ids-z-index-top-level-container);
+}
+
 .progress {
   transition: stroke-dashoffset 0.275s ease-in, transform 0.275s ease-in;
   z-index: 1;
