@@ -399,7 +399,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
         label.setAttribute('transform', `rotate(${this.rotateNameLabels}, ${newX[i]}, ${label.getAttribute('y')})`);
       }
       label.setAttribute('x', newX[i]);
-      label.setAttribute('text-anchor', 'start');
+      // label.setAttribute('text-anchor', 'start');
       if (this.alignXLabels === 'middle') label.setAttribute('transform-origin', '0 -4px');
     });
 

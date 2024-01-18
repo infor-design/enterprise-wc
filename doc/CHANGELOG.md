@@ -8,6 +8,7 @@
 
 ### 1.0.0-beta.19 Fixes
 
+- `[AxisChart]` Fixed position of labels in RTL mode. ([#1716](https://github.com/infor-design/enterprise-wc/issues/1716))
 - `[Locale]` Changed all `zh` time formats to 24hr as suggested by native speakers. ([#8313](https://github.com/infor-design/enterprise-wc/issues/8313))
 
 ## 1.0.0-beta.18
