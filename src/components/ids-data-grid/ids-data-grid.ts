@@ -843,13 +843,14 @@ export default class IdsDataGrid extends Base {
     // Follow links with keyboard and start editing
     this.listen(['Enter'], this, (e: KeyboardEvent) => {
       if (this.openMenu) return;
-      if (!this.activeCell?.node || findInPath(eventPath(e), '.ids-data-grid-header-cell')) return;
+      const cellNode = this.activeCell?.node;
+      if (!cellNode || findInPath(eventPath(e), '.ids-data-grid-header-cell')) return;
+
       if (!this.activeCellCanClose()) return;
 
       const row = this.rowByIndex(this.activeCell.row)!;
       if (!row || row.disabled) return;
 
-      const cellNode = this.activeCell.node;
       const hyperlink = cellNode.querySelector('ids-hyperlink');
       const button = cellNode.querySelector('ids-button');
       const customLink = cellNode.querySelector('a');
@@ -3207,14 +3208,11 @@ export default class IdsDataGrid extends Base {
    * Checks on the active cell editor to see if its current state allows it to be closed.
    * @returns {boolean} true if the cell editor is able to "close"
    */
-  private activeCellCanClose() {
-    if (this.activeCellEditor && this.activeCellEditor.editor) {
-      if (this.activeCellEditor.editor.popup) {
-        if (this.activeCellEditor.editor.popup.visible) {
-          return false;
-        }
-      }
-    }
+  private activeCellCanClose(): boolean {
+    if (this.activeCellEditor?.isEditing) return false;
+    if (this.activeCellEditor?.editor?.popup?.visible) return false;
+    if (this.activeCellEditor?.column?.editor?.inline) return false;
+
     return true;
   }
 
