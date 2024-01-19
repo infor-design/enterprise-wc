@@ -8,7 +8,6 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-overlay.scss';
-import type IdsModuleNavBar from '../ids-module-nav/ids-module-nav-bar';
 
 /**
  * IDS Overlay Component
@@ -62,9 +61,6 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
 
     this.state.visible = trueVal;
     this.#smoothlyAnimateVisibility(trueVal);
-
-    // set module nav zindex if found
-    document.querySelector<IdsModuleNavBar>('ids-module-nav-bar')?.style.setProperty('--ids-module-nav-bar-z-index', trueVal ? '0' : '');
   }
 
   /**

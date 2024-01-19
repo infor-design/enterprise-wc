@@ -46,6 +46,12 @@ IdsModuleNavSwitcher defines the role-switching capability of the Module Nav.  I
 - IdsModuleNavSettings inherits all settings from [IdsMenuButton](../ids-menu-button/README.md).
 - IdsModuleNavSettings requires an adjacent [IdsPopupMenu](../ids-popup-menu) configured with the IdsModuleNavSettings element as its target and trigger element.
 
+### IdsModuleNavUser
+
+IdsModuleNavUser creates a composable area that will be fixed to the very bottom of the IdsModuleNavBar, that can be a place for defining the current user and role.  It's contents are simply whatever is slotted in the default content area, but a separate area for the user avatar can be added using `slot="avatar"`.
+
+- `display-mode` {false|'collapsed'|'expanded'} Chooses IdsModuleNavContent's display type.  This setting is controlled automatically when setting the same property on the IdsModuleNav container element.
+
 ## Features (With Code Examples)
 
 ```html
@@ -208,6 +214,18 @@ IdsModuleNavSwitcher defines the role-switching capability of the Module Nav.  I
             <ids-menu-item icon="help" value="help">Help</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
+
+        <!-- User element -->
+        <ids-module-nav-user
+          slot="user">
+          <ids-icon slot="avatar" icon="icon-guest" height="32" width="32" viewBox="0 0 32 32" stroke="none"></ids-icon>
+          <ids-text audible type="span" color="unset">Guest</ids-text>
+          <ids-hyperlink
+            id="guest-hyperlink"
+            font-size="14"
+            text-decoration="none"
+            color="unset">Create an account to save your settings.</ids-hyperlink>
+        </ids-module-nav-user>
       </ids-module-nav-bar>
 
       <ids-module-nav-content>
