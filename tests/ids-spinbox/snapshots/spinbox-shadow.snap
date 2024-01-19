@@ -1,5 +1,5 @@
 <div id="ids-spinbox" class="ids-spinbox ids-trigger-field ids-input field-height-md sm" part="container">
-        <label class="ids-label-text" for="-input" part="label">
+        <label class="ids-label-text" for="input-id" part="label">
       <slot name="label-pre"></slot>
       <ids-text part="label" label="true" color-unset="">Basic Spinbox</ids-text>
       <slot name="label-post"></slot>

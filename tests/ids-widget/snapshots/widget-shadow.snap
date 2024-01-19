@@ -1,6 +1,6 @@
 
       <div class="ids-widget" part="widget">
-        <div class="ids-widget-body">
+        <div class="ids-widget-body" part="body">
           <div class="ids-widget-header" part="header">
             <slot name="widget-header"></slot>
           </div>

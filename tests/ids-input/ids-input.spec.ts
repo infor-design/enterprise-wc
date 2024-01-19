@@ -40,6 +40,76 @@ test.describe('IdsInput tests', () => {
     });
   });
 
+  test.describe('functionality tests', () => {
+    test('should be able to set value', async ({ page }) => {
+      await expect(await page.locator('#test-input').first().getAttribute('value')).toEqual(null);
+
+      await page.evaluate(() => {
+        const elem = document.querySelector('#test-input') as IdsInput;
+        elem.value = 'test';
+      });
+
+      await expect(await page.locator('#test-input').first().getAttribute('value')).toEqual('test');
+      await page.evaluate(() => {
+        const elem = document.querySelector('#test-input') as IdsInput;
+        elem.value = null;
+      });
+
+      await expect(await page.locator('#test-input').first().getAttribute('value')).toEqual('');
+    });
+
+    test('should be able to set label text', async ({ page }) => {
+      await expect(await page.locator('#test-input').first().getAttribute('label')).toEqual('First Name');
+
+      await page.evaluate(() => {
+        const elem = document.querySelector('#test-input') as IdsInput;
+        elem.label = 'test';
+      });
+
+      await expect(await page.locator('#test-input').first().getAttribute('label')).toEqual('test');
+
+      await page.evaluate(() => {
+        document.body.insertAdjacentHTML('beforeend', '<ids-input label="Hello World" id="test-id"></ids-input>');
+      });
+
+      await expect(await page.locator('#test-id').first().getAttribute('label')).toEqual('Hello World');
+
+      await page.evaluate(() => {
+        const elem = document.querySelector('#test-input') as IdsInput;
+        elem.label = '';
+      });
+
+      await expect(await page.locator('#test-input').first().getAttribute('label')).toEqual(null);
+    });
+
+    test('should be able to set label required indicator', async ({ page }) => {
+      await expect(await page.locator('#test-input').first().getAttribute('validate')).toEqual(null);
+      await expect(await page.locator('#test-input').first().getAttribute('label-required')).toEqual(null);
+
+      await page.evaluate(() => {
+        const elem = document.querySelector('#test-input') as IdsInput;
+        elem.validate = 'required';
+      });
+
+      await expect(await page.locator('#test-input').first().getAttribute('validate')).toEqual('required');
+      await expect(await page.locator('#test-input').first().getAttribute('label-required')).toEqual(null);
+
+      await page.evaluate(() => {
+        const elem = document.querySelector('#test-input') as IdsInput;
+        elem.labelRequired = false;
+      });
+      await expect(await page.locator('#test-input').first().getAttribute('validate')).toEqual('required');
+      await expect(await page.locator('#test-input').first().getAttribute('label-required')).toEqual('false');
+
+      await page.evaluate(() => {
+        const elem = document.querySelector('#test-input') as IdsInput;
+        elem.labelRequired = true;
+      });
+      await expect(await page.locator('#test-input').first().getAttribute('validate')).toEqual('required');
+      await expect(await page.locator('#test-input').first().getAttribute('label-required')).toEqual('true');
+    });
+  });
+
   test.describe('snapshot tests', () => {
     test('should match innerHTML snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
@@ -61,6 +131,12 @@ test.describe('IdsInput tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-input-light');
+    });
+
+    test('should match the visual snapshot in percy for sizes', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-input/test-sizes.html');
+      await percySnapshot(page, 'ids-input-sizes-light');
     });
   });
 });
