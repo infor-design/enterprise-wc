@@ -75,7 +75,8 @@ export default class IdsLoadingIndicator extends Base {
       progress: this.progress,
       percentageVisible: this.percentageVisible,
       inline: this.inline,
-      type
+      type,
+      slotted: this.classList.contains('slot-loading-indicator'),
     });
   }
 

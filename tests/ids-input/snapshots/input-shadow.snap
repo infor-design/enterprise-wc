@@ -1,5 +1,5 @@
 <div class="ids-input md field-height-md" part="container">
-      <label class="ids-label-text" for="test-input-input" part="label">
+      <label class="ids-label-text" for="input-id" part="label">
       <slot name="label-pre"></slot>
       <ids-text part="label" label="true" color-unset="">First Name</ids-text>
       <slot name="label-post"></slot>
