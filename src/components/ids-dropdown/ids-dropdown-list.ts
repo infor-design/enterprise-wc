@@ -281,6 +281,10 @@ export default class IdsDropdownList extends Base {
     }
 
     if (this.popup) {
+      if (!this.target) {
+        this.popup.alignTarget = this;
+      }
+
       this.popup.type = 'dropdown';
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'none';
@@ -310,6 +314,10 @@ export default class IdsDropdownList extends Base {
     if (this.listBox) {
       if (this.compact && !this.listBox?.hasAttribute(attributes.COMPACT)) {
         this.listBox.setAttribute(attributes.COMPACT, 'true');
+      }
+
+      if (this.listBox.maxHeight && this.popup) {
+        this.popup.maxHeight = this.listBox.maxHeight;
       }
     }
   }
