@@ -1,5 +1,5 @@
 <div id="ids-search-field" class="ids-search-field ids-trigger-field ids-input md has-clearable field-height-md" part="container">
-      <label class="ids-label-text required" for="-input" part="label" required="">
+      <label class="ids-label-text required" for="input-id" part="label" required="">
       <slot name="label-pre"></slot>
       <ids-text part="label" label="true" color-unset="">Products</ids-text>
       <slot name="label-post"></slot>
