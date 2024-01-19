@@ -80,7 +80,6 @@ export default class IdsSearchField extends IdsTriggerField {
   }
 
   template(): string {
-    this.templateHostAttributes();
     const {
       ariaLabel,
       containerClass,

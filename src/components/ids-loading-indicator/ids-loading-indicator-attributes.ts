@@ -8,8 +8,8 @@ const getPercentageTextHtml = ({ progress, type = 'circular' }:{ progress:any, t
 );
 
 const getInnerIndicatorHtml = ({
-  progress, type, percentageVisible, inline
-}:{ progress:any, type:string, percentageVisible:boolean | string, inline:boolean | string }) => {
+  progress, type, percentageVisible, inline, slotted
+}:{ progress:any, type:string, percentageVisible:boolean | string, inline:boolean | string, slotted:boolean | string }) => {
   const isDeterminate = !Number.isNaN(parseInt(progress));
 
   switch (type) {
@@ -32,7 +32,7 @@ const getInnerIndicatorHtml = ({
       >
         <rect
           width="100%"
-          height="75%"
+          height="100%"
           ${overallYOffset}
           class="circle"
           part="circle"
@@ -55,6 +55,8 @@ const getInnerIndicatorHtml = ({
         `${!isDeterminate ? 'in' : ''}determinate`,
         inline && 'inline'
       );
+      const inner = slotted ? 1.5 : 3;
+      const outer = slotted ? 3 : 6;
 
       return (
         `<svg
@@ -64,8 +66,8 @@ const getInnerIndicatorHtml = ({
         part="container"
         class="ids-loading-indicator"
       >
-        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 4}" class="circle" part="circle" />
-        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 7}" class="progress" part="progress" />
+        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : inner}" class="circle" part="circle" />
+        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : outer}" class="progress" part="progress" />
       </svg>
       ${!percentageVisible ? '' : getPercentageTextHtml({ progress })}<ids-overlay opacity="0.7" background-color="page"></ids-overlay>`
       );
