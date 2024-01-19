@@ -606,7 +606,6 @@ export default class IdsDropdown extends Base {
 
     this.dropdownList.setAttribute(attributes.TARGET, `#${targetElemId}`);
     this.dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${triggerElemId}`);
-    console.log('dropdown this.input', this.input);
     this.dropdownList.popup.alignTarget = this.input?.fieldContainer || this.dropdownList || this;
 
     this.dropdownList.popupOpenEventsTarget = document.body;
