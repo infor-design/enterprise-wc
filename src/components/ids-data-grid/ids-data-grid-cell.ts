@@ -31,6 +31,38 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   /**
+   * Get the cell above this cell
+   * @returns {IdsDataGridCell | null} the cell above this cell
+   */
+  get cellAbove(): IdsDataGridCell | null {
+    return this.dataGrid?.rowByIndex(this.rowIndex - 1)?.cellByIndex(this.columnIndex) ?? null;
+  }
+
+  /**
+   * Get the cell below this cell
+   * @returns {IdsDataGridCell | null} the cell below this cell
+   */
+  get cellBelow(): IdsDataGridCell | null {
+    return this.dataGrid?.rowByIndex(this.rowIndex + 1)?.cellByIndex(this.columnIndex) ?? null;
+  }
+
+  /**
+   * Get the cell to the left of this cell
+   * @returns {IdsDataGridCell | null} the cell to the left of this cell
+   */
+  get cellLeft(): IdsDataGridCell | null {
+    return this.dataGrid?.rowByIndex(this.rowIndex)?.cellByIndex(this.columnIndex - 1) ?? null;
+  }
+
+  /**
+   * Get the cell to the right of this cell
+   * @returns {IdsDataGridCell | null} the cell to the right of this cell
+   */
+  get cellRight(): IdsDataGridCell | null {
+    return this.dataGrid?.rowByIndex(this.rowIndex)?.cellByIndex(this.columnIndex + 1) ?? null;
+  }
+
+  /**
    * Update this cell's dataset and refresh
    * @param {string} value the new data for the cell
    * @param {boolean} refresh if true, rerender the cell
