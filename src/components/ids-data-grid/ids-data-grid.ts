@@ -762,36 +762,29 @@ export default class IdsDataGrid extends Base {
       if (this.openMenu) return;
 
       const cellNode = this.activeCell.node;
-      const cellNumber = Number(this.activeCell?.cell);
-      const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
-      const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
-      const nextRow = Number(next(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
-      const prevRow = Number(previous(cellNode.parentElement, `:not([hidden])`)?.getAttribute('row-index'));
-      const rowIndex = key === 'ArrowDown' ? nextRow : prevRow;
-
-      const movingHorizontal = key === 'ArrowLeft' || key === 'ArrowRight';
-      const reachedHorizontalBounds = cellNumber < 0 || cellNumber >= this.visibleColumns.length;
-      if (movingHorizontal && reachedHorizontalBounds) return;
-
-      const movingVertical = key === 'ArrowDown' || key === 'ArrowUp';
-      const reachedVerticalBounds = nextRow >= this.data.length || prevRow < 0;
-      if (movingVertical && reachedVerticalBounds) return;
 
       if (this.activeCellEditor) {
         if (!this.activeCellCanClose()) return;
-        cellNode.endCellEdit();
+        cellNode?.endCellEdit();
       }
 
-      const activateCellNumber = cellNumber + cellDiff;
-      const activateRowIndex = rowDiff === 0 ? Number(this.activeCell?.row) : rowIndex;
-      this.setActiveCell(activateCellNumber, activateRowIndex);
+      let activeCell = cellNode as IdsDataGridCell;
+      if (key === 'ArrowUp') activeCell = cellNode?.cellAbove;
+      else if (key === 'ArrowDown') activeCell = cellNode?.cellBelow;
+      else if (key === 'ArrowLeft') activeCell = cellNode?.cellLeft;
+      else if (key === 'ArrowRight') activeCell = cellNode?.cellRight;
+
+      const activeCellIndex = activeCell.columnIndex;
+      const activeRowIndex = activeCell.rowIndex;
+      if (activeCell) this.setActiveCell(activeCellIndex, activeRowIndex);
 
       // Handle row selection
+      const movingVertical = key === 'ArrowDown' || key === 'ArrowUp';
       if ((this.rowSelection === 'mixed' || this.rowSelection === 'multiple') && movingVertical && e.shiftKey) {
-        const previousActiveRow = Number(cellNode.parentElement.getAttribute('row-index'));
+        const previousActiveRow = Number(cellNode.rowIndex);
         this.#lastShiftedRow ??= previousActiveRow;
-        const shiftSelectFrom = Math.min(activateRowIndex, this.#lastShiftedRow);
-        const shiftSelectTo = Math.max(activateRowIndex, this.#lastShiftedRow);
+        const shiftSelectFrom = Math.min(activeRowIndex, this.#lastShiftedRow);
+        const shiftSelectTo = Math.max(activeRowIndex, this.#lastShiftedRow);
 
         if (Number.isNaN(shiftSelectFrom) || Number.isNaN(shiftSelectTo)) return;
 
