@@ -13,12 +13,47 @@ export default class IdsDataGridCell extends IdsElement {
 
   isInValid = false;
 
+  /** The editor element */
+  editor?: IdsDataGridEditor;
+
   constructor() {
     super({ noShadowRoot: true });
   }
 
   connectedCallback(): void {
     super.connectedCallback();
+    this.#attachEventHandlers();
+  }
+
+  get isEditable() {
+    if (this.classList.contains('is-readonly') || this.classList.contains('is-disabled')) return false;
+
+    const column = this.column;
+    if (!column.editor) return false;
+    const columnEditor = this.dataGrid.editors.find((editor) => editor.type === column?.editor?.type);
+    return !!columnEditor?.editor;
+  }
+
+  #attachEventHandlers() {
+    this.tabIndex = -1;
+    this.setAttribute('tabindex', '-1');
+
+    this.dataGrid?.offEvent('focusin.ids-cell', this);
+    this.dataGrid?.onEvent('focusin.ids-cell', this, () => {
+      this.tabIndex = 0;
+      this.setAttribute('tabindex', '0');
+
+      this.dataGrid?.setAttribute('active-cell', `${this.rowIndex}:${this.columnIndex}`);
+      // this.startCellEdit();
+    });
+
+    this.dataGrid?.offEvent('focusout.ids-cell', this);
+    this.dataGrid?.onEvent('focusout.ids-cell', this, () => {
+      this.tabIndex = -1;
+      this.setAttribute('tabindex', '-1');
+
+      // this.endCellEdit();
+    });
   }
 
   /**
@@ -51,7 +86,10 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {IdsDataGridCell | null} the cell to the left of this cell
    */
   get cellLeft(): IdsDataGridCell | null {
-    return this.dataGrid?.rowByIndex(this.rowIndex)?.cellByIndex(this.columnIndex - 1) ?? null;
+    const cellLeft = this.dataGrid?.rowByIndex(this.rowIndex)?.cellByIndex(this.columnIndex - 1);
+    if (cellLeft && cellLeft !== this) return cellLeft;
+
+    return this.dataGrid?.rowByIndex(this.rowIndex - 1)?.cellByIndex(this.dataGrid?.columns.length ?? 0) ?? null;
   }
 
   /**
@@ -59,7 +97,40 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {IdsDataGridCell | null} the cell to the right of this cell
    */
   get cellRight(): IdsDataGridCell | null {
-    return this.dataGrid?.rowByIndex(this.rowIndex)?.cellByIndex(this.columnIndex + 1) ?? null;
+    const cellRight = this.dataGrid?.rowByIndex(this.rowIndex)?.cellByIndex(this.columnIndex + 1) ?? null;
+    if (cellRight && cellRight !== this) return cellRight;
+
+    return this.dataGrid?.rowByIndex(this.rowIndex + 1)?.cellByIndex(0) ?? null;
+  }
+
+  /**
+   * Get the next editable cell to the left of this cell
+   * @returns {IdsDataGridCell | null} the next editabled cell to the left of this cell
+   */
+  get cellLeftEditable(): IdsDataGridCell | null {
+    if (!this.dataGrid?.isEditable) return null;
+
+    let nextCell = this.cellLeft;
+
+    while (nextCell && !nextCell.isEditable) {
+      nextCell = nextCell.cellLeft;
+    }
+    return nextCell;
+  }
+
+  /**
+   * Get the next editable cell to the right of this cell
+   * @returns {IdsDataGridCell | null} the next editabled cell to the right of this cell
+   */
+  get cellRightEditable(): IdsDataGridCell | null {
+    if (!this.dataGrid?.isEditable) return null;
+
+    let nextCell = this.cellRight;
+
+    while (nextCell && !nextCell.isEditable) {
+      nextCell = nextCell.cellRight;
+    }
+    return nextCell;
   }
 
   /**
@@ -160,9 +231,7 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {object} the current active cell
    */
   activate(nofocus: boolean) {
-    this.dataGrid.activeCell?.node?.removeAttribute('tabindex');
     this.dataGrid.activeCell.node = this;
-    this.setAttribute('tabindex', '0');
 
     if (!nofocus) {
       this.focus();
@@ -176,9 +245,6 @@ export default class IdsDataGridCell extends IdsElement {
 
   /** Previous Invalid state before reseting */
   previousInvalidState = '';
-
-  /** The editor element */
-  editor?: IdsDataGridEditor;
 
   /** If currently in edit mode */
   isEditing?:boolean;
@@ -275,6 +341,7 @@ export default class IdsDataGridCell extends IdsElement {
   endCellEdit() {
     const column = this.column;
     const input = this.editor?.input as any;
+
     const editorType = (this.editor?.type as string);
     input?.offEvent('focusout', input);
 
@@ -340,6 +407,7 @@ export default class IdsDataGridCell extends IdsElement {
       }
     });
     this.dataGrid.activeCellEditor = undefined;
+    this.dataGrid.openMenu = null;
   }
 
   /**

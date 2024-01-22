@@ -73,9 +73,11 @@ const applyEditorPopupFocus = (editor: IdsDataGridEditor) => {
 };
 
 const applyEditorEndCellEdit = (cell: IdsDataGridCell, e: KeyboardEvent) => {
-  if (e.code === 'Enter' || e.code === 'Escape') {
+  if (e.code === 'Escape') {
     e.stopImmediatePropagation();
-    cell?.endCellEdit();
+    e.stopPropagation();
+    e.preventDefault();
+    cell?.cancelCellEdit();
     cell?.focus();
   }
 };
@@ -157,6 +159,8 @@ export class CheckboxEditor implements IdsDataGridEditor {
     this.input.checked = this.clickEvent ? !value : value;
 
     cell?.appendChild(this.input as any);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
+
     this.input.focus();
     if (this.clickEvent) {
       requestAnimationFrame(() => {
@@ -224,6 +228,8 @@ export class DropdownEditor implements IdsDataGridEditor {
 
     cell!.innerHTML = '';
     cell!.appendChild(this.input);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
+
     cell!.appendChild(this.list);
     cell!.classList.add('is-focused');
     this.#cell = cell!;
@@ -610,20 +616,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
     return popup;
   }
 
-  #stopPropagation(evt: FocusEvent | CustomEvent) {
-    const target = (evt instanceof FocusEvent ? evt.relatedTarget : evt.target) as HTMLElement | null;
-    const isOpen = this.input?.container?.classList.contains('is-open');
-    if (target?.tagName === 'IDS-DATA-GRID-CELL' || isOpen) {
-      evt.stopImmediatePropagation();
-    }
-  }
-
   #attachEventListeners(cell?: IdsDataGridCell | undefined) {
-    const tabHandler = (evt: CustomEvent) => this.#stopPropagation(evt);
-    const focusOutHandler = (evt: FocusEvent) => this.#stopPropagation(evt);
-
-    this.input?.onEvent('focusout', this.input, focusOutHandler, { capture: true });
-    this.input?.listen(['Tab', 'Enter'], this.input, tabHandler);
     this.popup?.onEvent('hide', this.popup, () => {
       if (cell!.contains(cell!.dataGrid!.shadowRoot!.activeElement)) return;
       cell?.focus();
