@@ -1,0 +1,16 @@
+@import '../../themes/mixins/ids-validation-mixin';
+
+#group-validation-message{
+  color: var(--ids-color-text-warning);
+}
+
+.ids-input-group::part(validation-message) {
+  display: none;
+}
+
+::slotted(ids-input),
+::slotted(ids-date-picker),
+::slotted(ids-time-picker) {
+  display: inline-block;
+  vertical-align: top;
+}

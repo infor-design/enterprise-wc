@@ -323,6 +323,13 @@ export default class IdsTimePicker extends Base {
     this.offEvent('change.time-picker-input');
     this.onEvent('change.time-picker-input', this.input, (e: any) => {
       this.setAttribute(attributes.VALUE, e.detail.value);
+      this.triggerEvent('change', this, {
+        bubbles: true,
+        detail: {
+          ...e.detail,
+          elem: this
+        }
+      });
     });
 
     return this;
@@ -990,7 +997,7 @@ export default class IdsTimePicker extends Base {
       { dateFormat: this.format }
     ) as Date;
 
-    return inputDate.getHours();
+    return inputDate?.getHours() || 0;
   }
 
   /**
