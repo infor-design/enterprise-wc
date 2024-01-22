@@ -1,8 +1,7 @@
 // Utils
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes, IdsDirection } from '../../core/ids-attributes';
+import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { next, previous } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
 
