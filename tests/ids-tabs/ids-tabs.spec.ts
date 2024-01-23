@@ -128,5 +128,13 @@ test.describe('IdsTabs tests', () => {
       const locator = await page.locator('ids-tab').first();
       expect(await locator.getAttribute('aria-label')).toEqual('Contracts');
     });
+
+    test('should be able to select a tab', async ({ page }) => {
+      expect(await page.locator('ids-tab[selected]').getAttribute('aria-selected')).toEqual('true');
+      expect(await page.locator('ids-tab[selected]').getAttribute('value')).toEqual('contracts');
+      await page.goto('/ids-tabs/selected.html');
+      expect(await page.locator('ids-tab[selected]').getAttribute('aria-selected')).toEqual('true');
+      expect(await page.locator('ids-tab[selected]').getAttribute('value')).toEqual('opportunities');
+    });
   });
 });
