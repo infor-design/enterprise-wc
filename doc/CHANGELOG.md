@@ -8,7 +8,10 @@
 
 ### 1.0.0-beta.19 Fixes
 
+- `[Input]` Renamed internal labels and fixed routines that look for labels to fix an issue with missing labels. ([#1752](https://github.com/infor-design/enterprise-wc/issues/1752))
+- `[LoadingIndicator]` Fixed an issue where the inner bars within the loader where not the same size. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))
 - `[Locale]` Changed all `zh` time formats to 24hr as suggested by native speakers. ([#8313](https://github.com/infor-design/enterprise-wc/issues/8313))
+- `[Widget]` Added css part to the widget body element. ([#1771](https://github.com/infor-design/enterprise-wc/issues/1771))
 
 ## 1.0.0-beta.18
 
@@ -48,6 +51,7 @@
 - `[ListView/ListBulider]` Improved `IdsListView` and `IdsListBuilder` integration with new `IdsListViewItem` child-component. ([#1400](https://github.com/infor-design/enterprise-wc/issues/1400))
 - `[ListView/ListBulider]` Added tests for selection and activation events and fixed duplicate click events. ([#1543](https://github.com/infor-design/enterprise-wc/issues/1543))
 - `[Modal]` Fix rendering issues in Angular environments. ([#1744](https://github.com/infor-design/enterprise-wc/issues/1744))
+- `[ModuleNav]` Add support for User area (IdsModuleNavUser). ([#1677](https://github.com/infor-design/enterprise-wc/issues/1677))
 - `[ScrollView]` Fixed circle button display/placement when re-rendering with a new dataset.  ([#1577](https://github.com/infor-design/enterprise-wc/issues/1577))
 - `[Spinbox]` Now allows steps to be created out of step range.  ([#695](https://github.com/infor-design/enterprise-wc/issues/695))
 - `[Spinbox]` Now corrects values when type over the min and max range.  ([#1678](https://github.com/infor-design/enterprise-wc/issues/1678))

@@ -21,6 +21,7 @@ const Base = IdsScrollEffectMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsScrollEffectMixin
+ * @part body - the body element
  * @part widget - the widget element
  * @part header - the header element
  * @part search - the search header area element
@@ -102,7 +103,7 @@ export default class IdsWidget extends Base {
   widgetTemplate() {
     const html = `
       <div class="ids-widget" part="widget">
-        <div class="ids-widget-body">
+        <div class="ids-widget-body" part="body">
           <div class="ids-widget-header" part="header">
             <slot name="widget-header"></slot>
           </div>

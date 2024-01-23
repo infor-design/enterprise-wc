@@ -51,7 +51,8 @@
       display: none;
     }
 
-    .ids-module-nav-separator {
+    .ids-module-nav-separator,
+    .ids-module-nav-user-separator {
       visibility: hidden;
     }
   }
@@ -90,7 +91,8 @@
   &.display-mode-collapsed {
     border-inline-end: 1px solid var(--ids-module-nav-border-color);
 
-    .ids-module-nav-separator {
+    .ids-module-nav-separator,
+    .ids-module-nav-user-separator {
       visibility: hidden;
     }
 

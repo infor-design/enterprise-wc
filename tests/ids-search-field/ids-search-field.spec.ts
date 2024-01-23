@@ -35,6 +35,7 @@ test.describe('IdsSearchField tests', () => {
       if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .disableRules(['nested-interactive'])
+        .exclude('[disabled]') // Disabled elements do not have to pass
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });
