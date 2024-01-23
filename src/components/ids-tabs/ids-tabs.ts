@@ -53,7 +53,6 @@ export default class IdsTabs extends Base {
     this.#detectParentColorVariant();
     this.#attachEventHandlers();
     this.#ro.observe(this.container as any);
-
     const selected: any = this.querySelector('[selected]') || this.querySelector('[value]');
     this.#selectTab(selected);
     this.#attachAfterRenderEvents();
@@ -188,6 +187,15 @@ export default class IdsTabs extends Base {
    */
   hasTab(value: string): boolean {
     return this.querySelector(`ids-tab[value="${value}"]`) !== null;
+  }
+
+  /**
+   * Check if a tab is disable by value
+   * @param {string} value the tab value to scan
+   * @returns {boolean} true if this tab is disabled
+   */
+  isTabDisabled(value: string): boolean {
+    return this.querySelector(`ids-tab[value="${value}"]`)?.hasAttribute('disabled') || false;
   }
 
   /**
@@ -397,6 +405,8 @@ export default class IdsTabs extends Base {
           current.selected = false;
         }
       }
+    } else if (tab.selected) {
+      this.value = tab.value;
     }
   }
 
@@ -416,7 +426,7 @@ export default class IdsTabs extends Base {
    * Detects if a Tab no longer exists and selects an available one
    */
   #correctSelectedTab(): void {
-    if (!this.hasTab(this.value)) {
+    if (!this.hasTab(this.value) || this.isTabDisabled(this.value)) {
       this.#selectTab(this.lastNavigableTab || this.lastTab);
     }
   }
