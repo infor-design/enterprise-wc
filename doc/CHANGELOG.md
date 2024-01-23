@@ -11,6 +11,7 @@
 - `[Input]` Renamed internal labels and fixed routines that look for labels to fix an issue with missing labels. ([#1752](https://github.com/infor-design/enterprise-wc/issues/1752))
 - `[LoadingIndicator]` Fixed an issue where the inner bars within the loader where not the same size. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))
 - `[Locale]` Changed all `zh` time formats to 24hr as suggested by native speakers. ([#8313](https://github.com/infor-design/enterprise-wc/issues/8313))
+- `[Tooltip]` Added `placement` attribute to `IdsTooltipMixin` so any element inheriting from it can set tooltip's placement. ([#1639](https://github.com/infor-design/enterprise-wc/issues/1639))
 - `[Widget]` Added css part to the widget body element. ([#1771](https://github.com/infor-design/enterprise-wc/issues/1771))
 
 ## 1.0.0-beta.18
