@@ -3,7 +3,7 @@
         <ids-layout-flex direction="column">
           <ids-layout-flex justify-content="space-between" align-items="center">
             <ids-layout-flex-item>
-              <div class="trend-label is-positive">+28.62<svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <div class="trend-label is-positive">+99<svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M1.4 12L0 10.6L7.4 3.15L11.4 7.15L16.6 2H14V0H20V6H18V3.4L11.4 10L7.4 6L1.4 12Z" fill="#2AC371"></path>
   </svg></div>
             </ids-layout-flex-item>
@@ -12,7 +12,7 @@
             </ids-layout-flex-item>
           </ids-layout-flex>
           <ids-layout-flex-item>
-            <ids-text font-size="40" class="kpi-label" font-weight="semi-bold" overflow="ellipsis" tooltip="true">12</ids-text>
+            <ids-text font-size="40" class="kpi-label" font-weight="semi-bold" overflow="ellipsis" tooltip="true">12 Hrs</ids-text>
           </ids-layout-flex-item>
           <ids-layout-flex-item>
             <ids-text font-size="14" class="main-label" font-weight="semi-bold" overflow="ellipsis" tooltip="true">Main title</ids-text>
