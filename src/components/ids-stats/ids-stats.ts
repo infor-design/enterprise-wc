@@ -297,8 +297,8 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
   }
 
   formats: {
-    kpi?: Intl.NumberFormatOptions | undefined,
-    trend?: Intl.NumberFormatOptions | undefined
+    kpi?: Intl.NumberFormatOptions | undefined | string,
+    trend?: Intl.NumberFormatOptions | undefined | string
   } = {
       kpi: undefined,
       trend: { signDisplay: 'exceptZero' }
@@ -306,22 +306,22 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
 
   /**
    * Set the locale format for the kpi
-   * @param {Intl.NumberFormatOptions | undefined} value If 2 will span 2 columns, nothing else is valid
+   * @param {Intl.NumberFormatOptions | undefined | string} value If 2 will span 2 columns, nothing else is valid
    */
-  set kpiFormat(value: Intl.NumberFormatOptions | undefined) {
-    if (value !== null) {
+  set kpiFormat(value: Intl.NumberFormatOptions | undefined | string) {
+    if (value !== undefined && typeof value !== 'string') {
       this.formats.kpi = value;
     } else {
-      this.formats.kpi = undefined;
+      this.formats.kpi = typeof value === 'string' ? '' : undefined;
     }
     this.#applyKpiFormat();
   }
 
   /**
    * Get col-span attribute
-   * @returns {Intl.NumberFormatOptions | undefined} The number value for the columns to span in the grid
+   * @returns {Intl.NumberFormatOptions | undefined | string} The number value for the columns to span in the grid
    */
-  get kpiFormat(): Intl.NumberFormatOptions | undefined {
+  get kpiFormat(): Intl.NumberFormatOptions | undefined | string {
     return this.formats.kpi;
   }
 
@@ -330,7 +330,13 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
    */
   #applyKpiFormat() {
     const elem = this.container?.querySelector('.kpi-label');
-    if (elem) elem.textContent = new Intl.NumberFormat(this.locale || 'en', this.kpiFormat).format(Number(this.kpi));
+    if (elem && typeof this.kpiFormat === 'string') {
+      elem.textContent = this.kpi;
+      return;
+    }
+    if (elem && typeof this.kpiFormat !== 'string') {
+      elem.textContent = new Intl.NumberFormat(this.locale || 'en', this.kpiFormat).format(Number(this.kpi));
+    }
   }
 
   /**
@@ -338,19 +344,19 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
    * @param {Intl.NumberFormatOptions | undefined} value If 2 will span 2 columns, nothing else is valid
    */
   set trendFormat(value: Intl.NumberFormatOptions | undefined) {
-    if (value !== null) {
+    if (value !== undefined && typeof value !== 'string') {
       this.formats.trend = value;
     } else {
-      this.formats.trend = undefined;
+      this.formats.trend = typeof value === 'string' ? '' : undefined;
     }
     this.#applyTrendFormat();
   }
 
   /**
    * Get col-span attribute
-   * @returns {Intl.NumberFormatOptions | undefined} The number value for the columns to span in the grid
+   * @returns {Intl.NumberFormatOptions | undefined | string} The number value for the columns to span in the grid
    */
-  get trendFormat(): Intl.NumberFormatOptions | undefined {
+  get trendFormat(): Intl.NumberFormatOptions | undefined | string {
     return this.formats.trend;
   }
 
@@ -358,11 +364,17 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
    * Apply the format on the field
    */
   #applyTrendFormat() {
-    const formatted = new Intl.NumberFormat(this.locale || 'en', this.trendFormat).format(Number(this.trendLabel));
-    const isNegative = (formatted || '').indexOf('-') > -1;
-    const isPositive = !isNegative && formatted !== '';
-    const trendIcon = `${isPositive ? this.trendingUpIcon : ''}`;
     const elem = this.container?.querySelector('.trend-label');
-    if (elem && formatted !== '0') elem.innerHTML = `${formatted}${trendIcon}`;
+    if (elem && typeof this.trendFormat === 'string') {
+      elem.textContent = this.trendLabel;
+      return;
+    }
+    if (typeof this.trendFormat !== 'string') {
+      const formatted = new Intl.NumberFormat(this.locale || 'en', this.trendFormat).format(Number(this.trendLabel));
+      const isNegative = (formatted || '').indexOf('-') > -1;
+      const isPositive = !isNegative && formatted !== '';
+      const trendIcon = `${isPositive ? this.trendingUpIcon : ''}`;
+      if (elem && formatted !== '0') elem.innerHTML = `${formatted}${trendIcon}`;
+    }
   }
 }
