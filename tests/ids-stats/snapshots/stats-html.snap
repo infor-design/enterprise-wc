@@ -1,2 +1,2 @@
-<ids-stats actionable="true" trend-label="28.62" icon="rocket" status-color="success" kpi="12" main-label="Main title" subtitle="Sub title goes here">
+<ids-stats actionable="true" trend-label="99" icon="rocket" status-color="success" kpi="12 Hrs" main-label="Main title" subtitle="Sub title goes here" id="stat-ac-one">
                 </ids-stats>
