@@ -3,7 +3,7 @@ import IdsElement from '../../core/ids-element';
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool, escapeRegExp } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosestContainerNode, checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getClosestContainerNode, checkOverflow, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -125,6 +125,9 @@ export default class IdsDropdown extends Base {
 
     this.configureDropdownList();
     this.listBox = this.dropdownList?.querySelector('ids-list-box');
+    if (this.maxHeight && this.listBox) {
+      this.listBox.maxHeight = this.maxHeight;
+    }
 
     this
       .#addAria()
@@ -145,7 +148,8 @@ export default class IdsDropdown extends Base {
    */
   static get attributes() {
     return [
-      ...super.attributes
+      ...super.attributes,
+      attributes.MAX_HEIGHT,
     ];
   }
 
@@ -457,6 +461,28 @@ export default class IdsDropdown extends Base {
     return stringToBool(this.getAttribute(attributes.DISABLED)) || false;
   }
 
+  /**
+   * @returns {string | null} The max height value
+   */
+  get maxHeight(): string | null {
+    return this.getAttribute(attributes.MAX_HEIGHT);
+  }
+
+  /**
+   * Set the max height value
+   * @param {string | number | null} value The value
+   */
+  set maxHeight(value: string | number | null) {
+    const val = validMaxHeight(value);
+    if (val) {
+      this.setAttribute(attributes.MAX_HEIGHT, val);
+    } else {
+      this.removeAttribute(attributes.MAX_HEIGHT);
+    }
+
+    if (this.popup) this.popup.maxHeight = value;
+  }
+
   onAllowBlankChange(val: boolean) {
     if (this.dropdownList) this.dropdownList.allowBlank = val;
     if (!val && this.value === 'blank') this.removeAttribute(attributes.VALUE);
@@ -552,47 +578,47 @@ export default class IdsDropdown extends Base {
    * Configures the Dropdown component's attached IdsDropdownList/IdsPopup
    */
   configurePopup() {
-    if (this.dropdownList?.popup && this.trigger) {
-      this.dropdownList.removeTriggerEvents();
-      this.dropdownList.appendToTargetParent();
-      this.dropdownList.popupOpenEventsTarget = (this.list ? this : this.container as IdsPopupElementRef);
-      this.dropdownList.onOutsideClick = (e: Event) => {
-        if (this.dropdownList) {
-          if (!e.composedPath()?.includes(this.dropdownList)) {
-            this.close(true);
-          }
+    if (!this.dropdownList?.popup || !this.trigger) return;
+
+    this.dropdownList.removeTriggerEvents();
+    this.dropdownList.appendToTargetParent();
+    this.dropdownList.popupOpenEventsTarget = (this.list ? this : this.container as IdsPopupElementRef);
+    this.dropdownList.onOutsideClick = (e: Event) => {
+      if (this.dropdownList) {
+        if (!e.composedPath()?.includes(this.dropdownList)) {
+          this.close(true);
         }
-      };
-      this.dropdownList.onTriggerClick = () => {
-        if (this.labelClicked) {
-          this.labelClicked = false;
-          return;
-        }
-        if (!this.disabled && !this.readonly) {
-          this.toggle(this.typeahead);
-        }
-      };
-
-      // Associate the Dropdown List component with this Dropdown component's trigger button
-      const targetElemId = (this.list ? this : this.input?.input)?.getAttribute('id');
-      const triggerElemId = (this.list ? this : this.trigger)?.getAttribute('id');
-
-      this.dropdownList.setAttribute(attributes.TARGET, `#${targetElemId}`);
-      this.dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${triggerElemId}`);
-      this.dropdownList.popup.alignTarget = this.input?.fieldContainer || null;
-
-      this.dropdownList.popupOpenEventsTarget = document.body;
-
-      // Configure inner IdsPopup
-      const isRTL = this.localeAPI.isRTL();
-      if (this.locale && isRTL) {
-        this.dropdownList.popup?.setAttribute(attributes.ALIGN, `bottom, ${isRTL || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
       }
+    };
+    this.dropdownList.onTriggerClick = () => {
+      if (this.labelClicked) {
+        this.labelClicked = false;
+        return;
+      }
+      if (!this.disabled && !this.readonly) {
+        this.toggle(this.typeahead);
+      }
+    };
 
-      if (this.input) this.dropdownList.value = this.input.value;
+    // Associate the Dropdown List component with this Dropdown component's trigger button
+    const targetElemId = (this.list ? this : this.input?.input)?.getAttribute('id');
+    const triggerElemId = (this.list ? this : this.trigger)?.getAttribute('id');
 
-      if (this.#isMultiSelect) this.dropdownList.isMultiSelect = true;
+    this.dropdownList.setAttribute(attributes.TARGET, `#${targetElemId}`);
+    this.dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${triggerElemId}`);
+    this.dropdownList.popup.alignTarget = this.input?.fieldContainer || this.dropdownList || this;
+
+    this.dropdownList.popupOpenEventsTarget = document.body;
+
+    // Configure inner IdsPopup
+    const isRTL = this.localeAPI.isRTL();
+    if (this.locale && isRTL) {
+      this.dropdownList.popup?.setAttribute(attributes.ALIGN, `bottom, ${isRTL || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
     }
+
+    if (this.input) this.dropdownList.value = this.input.value;
+
+    if (this.#isMultiSelect) this.dropdownList.isMultiSelect = true;
   }
 
   /**
@@ -755,6 +781,12 @@ export default class IdsDropdown extends Base {
     this.offEvent('languagechange.dropdown-container');
     this.onEvent('languagechange.dropdown-container', this.closest('ids-container'), () => {
       this.#addAria();
+    });
+
+    const slot = this.container?.querySelector('slot');
+    this.offEvent('slotchange.dropdown', slot);
+    this.onEvent('slotchange.dropdown', slot, () => {
+      this.configureDropdownList();
     });
 
     this.attachKeyboardOpenEvent();
