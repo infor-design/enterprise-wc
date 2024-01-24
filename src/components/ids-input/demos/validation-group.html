@@ -13,6 +13,11 @@
 
     <ids-layout-grid auto-fit="true" gap="md" padding-x="md" padding-y="lg">
       <ids-layout-grid-cell>
+        <ids-text font-size="14">Inputs below uses custom validation input and group rules.</ids-text>
+        <ids-text font-size="14">- It validates if first & last name is provided.</ids-text>
+        <ids-text font-size="14">- It validates if the first letter is capitalized.</ids-text>
+        <ids-text font-size="14">- It shows a warning if the name is a common one (ex. John Smith, Jane Doe).</ids-text>
+        <br />
         <ids-input-group id="validation-group-name">
           <ids-input validate="required" name="firstname" label="First Name" type="text" size="sm"></ids-input>
           <ids-input name="middleinitial" label="MI" maxlength="1" type="text" size="xs"></ids-input>
@@ -23,6 +28,10 @@
 
     <ids-layout-grid auto-fit="true" gap="md" padding-x="md" padding-y="lg">
       <ids-layout-grid-cell>
+        <ids-text font-size="14">Inputs below use a custom validation group rule.</ids-text>
+        <ids-text font-size="14">- It validates if start & end time have values.</ids-text>
+        <ids-text font-size="14">- It shows a warning if the time range is more than 8 hours.</ids-text>
+        <br />
         <ids-input-group id="validation-group-time">
           <ids-time-picker label="Start Time" validate="required"></ids-time-picker>
           <ids-time-picker label="End Time" validate="required"></ids-time-picker>
