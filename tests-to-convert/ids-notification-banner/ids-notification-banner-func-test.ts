@@ -1,49 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-import IdsNotificationBanner from '../../src/components/ids-notification-banner/ids-notification-banner';
-import IdsHyperLink from '../../src/components/ids-hyperlink/ids-hyperlink';
-
-describe('IdsNotificationBanner Component', () => {
-  let notificationBanner: any;
-
-  beforeEach(async () => {
-    const elem: any = new IdsNotificationBanner();
-    document.body.appendChild(elem);
-    notificationBanner = document.querySelector('ids-notification-banner');
-  });
-
-  afterEach(async () => {
-    document.body.innerHTML = '';
-  });
-
-  it('can change its messageText', () => {
-    notificationBanner.messageText = 'Lorem ipsum dolor set';
-    expect(notificationBanner.getAttribute('message-text')).toBe('Lorem ipsum dolor set');
-    expect(notificationBanner.messageText).toBe('Lorem ipsum dolor set');
-  });
-
-  it('can change its link', () => {
-    notificationBanner.link = 'https://infor.com';
-    expect(notificationBanner.getAttribute('link')).toBe('https://infor.com');
-    expect(notificationBanner.link).toBe('https://infor.com');
-  });
-
-  it('can change its linkText', () => {
-    notificationBanner.linkText = 'Click to view';
-    expect(notificationBanner.getAttribute('link-text')).toBe('Click to view');
-    expect(notificationBanner.linkText).toBe('Click to view');
-  });
-
-  it('can change its icon', () => {
-    let alertIcon;
-    notificationBanner.type = 'success';
-    alertIcon = 'success';
-    expect(alertIcon).toBe('success');
-
-    alertIcon = 'alert';
-    expect(alertIcon).toBe('alert');
-  });
 
   it('dismisses on click', () => {
     notificationBanner.container.querySelector('ids-button').click();
@@ -179,4 +133,3 @@ describe('IdsNotificationBanner Component', () => {
     document.body.prepend(idsContainer);
     notification3.add(notificationObj3);
   });
-});
