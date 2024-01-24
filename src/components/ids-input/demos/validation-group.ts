@@ -35,10 +35,8 @@ const duplicateNameRule: IdsGroupValidationRule = {
 
 const isOvertime: IdsGroupValidationRule = {
   check: (inputs: any[]) => {
-    const startValue = Number(`${inputs[0].hours24}${inputs[0].minutes || '00'}`);
-    const endValue = Number(`${inputs[1].hours24}${inputs[1].minutes || '00'}`);
-
-    console.log(startValue, endValue, endValue - startValue);
+    const startValue = Number(`${inputs[0].hours24}${String(inputs[0].minutes).padStart(2, '0')}`);
+    const endValue = Number(`${inputs[1].hours24}${String(inputs[1].minutes).padStart(2, '0')}`);
 
     // overtime is greater than 8 hours
     return endValue - startValue <= 800;

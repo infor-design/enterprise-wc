@@ -1,16 +1,28 @@
 @import '../../themes/mixins/ids-validation-mixin';
 
-#group-validation-message{
-  color: var(--ids-color-text-warning);
+:host {
+  display: inline-block;
 }
 
-.ids-input-group::part(validation-message) {
-  display: none;
+.ids-input-group {
+  display: inline-block;
+  margin-block-end: var(--ids-space-60);
+
+  #group-message-container {
+    width: min-content;
+    min-width: 100%;
+  }
+
+  #group-validation-message {
+    color: var(--ids-color-text-warning);
+  }
 }
 
-::slotted(ids-input),
-::slotted(ids-date-picker),
-::slotted(ids-time-picker) {
+::slotted(*) {
   display: inline-block;
   vertical-align: top;
+
+  &::part(field-container) {
+    border-color: yellow;
+  }
 }

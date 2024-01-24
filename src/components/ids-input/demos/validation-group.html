@@ -8,15 +8,15 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto-fit="true" padding="md">
-      <ids-text font-size="12" type="h1">Input - Custom Validation</ids-text>
+      <ids-text font-size="12" type="h1">Input - Group Validation</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid auto-fit="true" gap="md" padding-x="md" padding-y="lg">
       <ids-layout-grid-cell>
         <ids-input-group id="validation-group-name">
-          <ids-input validate="required" name="firstname" label="First Name" type="text" display="inline-block"></ids-input>
-          <ids-input name="middleinitial" label="MI" maxlength="1" type="text" display="inline-block" size="xs"></ids-input>
-          <ids-input validate="required" name="lastname" label="Last Name" type="text" display="inline-block"></ids-input>
+          <ids-input validate="required" name="firstname" label="First Name" type="text" size="sm"></ids-input>
+          <ids-input name="middleinitial" label="MI" maxlength="1" type="text" size="xs"></ids-input>
+          <ids-input validate="required" name="lastname" label="Last Name" type="text" size="sm"></ids-input>
         </ids-input-group>
       </ids-layout-grid-cell>
     </ids-layout-grid>

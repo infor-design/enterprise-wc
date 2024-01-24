@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import { IdsValidationErrorMessage, ValidationMixinInterface } from '../../mixins/ids-validation-mixin/ids-validation-mixin';
+import { ValidationMixinInterface } from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 import { IdsInputInterface } from './ids-input-attributes';
 import styles from './ids-input-group.scss';
 
@@ -21,6 +21,10 @@ const Base = IdsEventsMixin(IdsElement);
 @scss(styles)
 export default class IdsInputGroup extends Base {
   #groupRule: IdsGroupValidationRule | null = null;
+
+  #slottedInputs: Array<IdsValidateInput> = [];
+
+  #rafTimeout = NaN;
 
   constructor() {
     super();
@@ -55,19 +59,24 @@ export default class IdsInputGroup extends Base {
 
   #attachEventHandlers(): void {
     this.onEvent('slotchange', this.container?.querySelector('slot'), () => {
-      this.slottedInputs.forEach((input) => { input.hideErrorMessage(true); });
+      this.#slottedInputs = this.slottedInputs;
+      this.#configureInputs();
     });
 
-    this.onEvent('change', this.container?.querySelector('#input-group-container'), () => {
-      requestAnimationFrame(() => {
-        console.log('change');
-        this.#renderGroupMessage();
-      });
+    const inputGroupContainer = this.container?.querySelector('#input-group-container');
+    this.onEvent('focusout', inputGroupContainer, () => this.#validate());
+    this.onEvent('change', inputGroupContainer, () => this.#validate());
+  }
+
+  #configureInputs() {
+    this.#slottedInputs.forEach((input) => {
+      input.hideErrorMessage(true);
+      input.setAttribute('no-margins', '');
     });
   }
 
   #validateGroup(): boolean {
-    const passFail = this.#groupRule?.check(this.slottedInputs);
+    const passFail = this.#groupRule?.check(this.#slottedInputs);
     return !!passFail;
   }
 
@@ -78,23 +87,27 @@ export default class IdsInputGroup extends Base {
     </ids-text>`;
   }
 
-  #renderGroupMessage() {
-    const inputErrors = this.#getInputErrorMessages();
-    const hasErrors = !!inputErrors.length;
+  #validate() {
+    cancelAnimationFrame(this.#rafTimeout);
 
-    if (hasErrors) {
-      const firstError = inputErrors[0] as Element;
-      firstError?.toggleAttribute('hidden', false);
-      this.messageContainer.replaceChildren(firstError as Node);
-    } else if (!this.#validateGroup()) {
-      this.messageContainer.innerHTML = this.#createGroupErrorMessage();
-    } else {
-      this.messageContainer.innerHTML = '';
-    }
+    this.#rafTimeout = requestAnimationFrame(() => {
+      const inputErrors = this.#getInputErrorMessages();
+      const hasErrors = !!inputErrors.length;
+
+      if (hasErrors) {
+        const firstError = inputErrors[0] as Element;
+        firstError?.toggleAttribute('hidden', false);
+        this.messageContainer.replaceChildren(firstError as Node);
+      } else if (!this.#validateGroup()) {
+        this.messageContainer.innerHTML = this.#createGroupErrorMessage();
+      } else {
+        this.messageContainer.innerHTML = '';
+      }
+    });
   }
 
   #getInputErrorMessages(): HTMLElement[] {
-    return this.slottedInputs
+    return this.#slottedInputs
       .map((input) => input.validationMessageElems || [])
       .flat()
       .map((elem) => elem.cloneNode(true) as HTMLElement);

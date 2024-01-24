@@ -125,18 +125,22 @@ export default class IdsDropdown extends Base {
 
     this.configureDropdownList();
     this.listBox = this.dropdownList?.querySelector('ids-list-box');
-
-    this
-      .#addAria()
-      .#attachEventHandlers()
-      .#attachKeyboardListeners();
-
     this.value = this.getAttribute('value');
+
     this.resetDirtyTracker();
     this.container?.classList.toggle('typeahead', this.typeahead);
     this.listBox?.setAttribute(attributes.SIZE, this.size);
     if (this.getAttribute('disabled')) this.disabled = stringToBool(this.getAttribute('disabled'));
     if (this.getAttribute('readonly')) this.readonly = stringToBool(this.getAttribute('readonly'));
+
+    this
+      .#addAria()
+      .#attachEventHandlers()
+      .#attachKeyboardListeners();
+  }
+
+  mountedCallback(): void {
+    this.#attachChangeHandler();
   }
 
   /**
@@ -822,13 +826,17 @@ export default class IdsDropdown extends Base {
         this.triggerSelectedEvent(e);
       });
     }
+  }
 
+  #attachChangeHandler() {
     // Close the list on change, if applicable
     this.offEvent('change.list');
-    this.onEvent('change.list', this, () => {
+    this.onEvent('change.list', this.input, (e: CustomEvent) => {
       if (this.dropdownList?.popup?.visible) {
         this.close();
       }
+
+      this.bubbleEvent(e);
     });
   }
 
