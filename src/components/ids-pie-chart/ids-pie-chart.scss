@@ -19,6 +19,14 @@
     height: 0;
     width: 0;
   }
+
+  // If no legend class is available, hide the legend
+  &:not([class*="legend-"]),
+  &.legend-none {
+    .chart-legend {
+      display: none;
+    }
+  }
 }
 
 // Responsive Pie

@@ -169,6 +169,11 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    */
   connectedCallback(): void {
     super.connectedCallback?.();
+
+    if (!this.hasAttribute(attributes.LEGEND_PLACEMENT)) {
+      this.setAttribute(attributes.LEGEND_PLACEMENT, 'bottom');
+    }
+
     this.svg = this.shadowRoot?.querySelector('svg');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot?.querySelector('ids-empty-message');
     this.legend = this.shadowRoot?.querySelector('[name="legend"]');

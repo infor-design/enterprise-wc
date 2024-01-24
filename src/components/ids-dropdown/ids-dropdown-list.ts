@@ -468,10 +468,6 @@ export default class IdsDropdownList extends Base {
     if (targetOption.id) {
       this.listBox?.setAttribute('aria-activedescendant', targetOption.id);
     }
-
-    if (typeof targetOption.scrollIntoView === 'function') {
-      targetOption.scrollIntoView({ block: 'center' });
-    }
   }
 
   /**
