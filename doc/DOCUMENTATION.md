@@ -52,7 +52,7 @@
 
 - [About](../src/components/ids-about/README.md) Displays info about a product with copyright and browser specs
 - [Empty Message](../src/components/ids-empty-message/README.md) Format for empty message alert
-- [Error Page](../src/components/ids-error-page/README.md) Displays error message
+- [Error Page](../src/components/ids-error-page/README.md) Displays an error message
 - [Icons](../src/components/ids-icon/README.md) SVG icons
 - [Message](../src/components/ids-message/README.md) Displays a Message Dialog
 - [Notification Banner](../src/components/ids-notification-banner/README.MD) Displays a Top Level Application Message
