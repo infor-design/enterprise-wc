@@ -240,6 +240,11 @@ export default class IdsListBuilder extends IdsListView {
     itemFocused?.prepend(input); // insert into DOM
     input.focus();
 
+    this.onEvent('keydown.listbuilder-editor', input, (evt) => {
+      const code = evt.code || 'Space';
+      if (code === 'Space') evt.stopImmediatePropagation(); // keep spacebar working
+    });
+
     this.onEvent('keyup.listbuilder-editor', input, (evt) => {
       evt.stopImmediatePropagation();
       firstEditableField.innerHTML = input.value ?? '';
