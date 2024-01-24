@@ -111,7 +111,11 @@ export default class IdsPieChart extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback?.();
-    this.legendPlacement = 'right';
+
+    if (!this.hasAttribute(attributes.LEGEND_PLACEMENT)) {
+      this.setAttribute(attributes.LEGEND_PLACEMENT, 'right');
+    }
+
     this.svg = this.shadowRoot?.querySelector('svg');
     this.svgContainer = this.shadowRoot?.querySelector('.ids-chart-svg-container');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot?.querySelector('ids-empty-message');
