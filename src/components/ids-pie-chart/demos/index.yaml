@@ -8,24 +8,27 @@
   - link: example.html
     type: Main Example
     description: Shows a basic pie chart
-  - link: donut.html
-    type: Main Example
-    description: Shows a basic donut chart
   - link: colors.html
     type: Example
     description: Shows configuring custom colors
+  - link: donut.html
+    type: Main Example
+    description: Shows a basic donut chart
   - link: empty-message.html
     type: Example
     description: Shows an empty message when no data
+  - link: legend-placement.html
+    type: Example
+    description: Shows a pie chart with a configurable legend location
+  - link: no-animation.html
+    type: Example
+    description: Shows pie with no animation
   - link: patterns.html
     type: Example
     description: Shows configuring custom patterns for accessibility
   - link: selectable.html
     type: Example
     description: Shows configuring selection
-  - link: no-animation.html
-    type: Example
-    description: Shows pie with no animation
   - link: side-by-side.html
     type: Side by Side
     description: Shows chart side by side with a 4.x chart

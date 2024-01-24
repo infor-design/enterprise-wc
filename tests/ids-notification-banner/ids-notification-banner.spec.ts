@@ -4,6 +4,7 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsNotificationBanner from '../../src/components/ids-notification-banner/ids-notification-banner';
+import type IdsAlert from '../../src/components/ids-alert/ids-alert';
 
 test.describe('IdsNotificationBanner tests', () => {
   const url = '/ids-notification-banner/example.html';
@@ -61,6 +62,54 @@ test.describe('IdsNotificationBanner tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-notification-banner-light');
+    });
+  });
+
+  test.describe('functionality tests', () => {
+    test('can change the messageText attribute', async ({ page }) => {
+      const locator = await page.locator('ids-notification-banner').first();
+      expect(await locator.getAttribute('message-text')).toBe('DTO accepted by your manager for Sept 30, 2023.');
+      await page.evaluate(() => {
+        (document.querySelector('ids-notification-banner') as IdsNotificationBanner)!.messageText = 'Lorem ipsum dolor set';
+      });
+      expect(await locator.getAttribute('message-text')).toBe('Lorem ipsum dolor set');
+      const attrValue = await page.evaluate(() => (document.querySelector('ids-notification-banner') as IdsNotificationBanner).messageText);
+      expect(attrValue).toBe('Lorem ipsum dolor set');
+    });
+
+    test('can change the link attribute', async ({ page }) => {
+      const locator = await page.locator('ids-notification-banner').first();
+      expect(await locator.getAttribute('link')).toBe('https://infor.com');
+      await page.evaluate(() => {
+        (document.querySelector('ids-notification-banner') as IdsNotificationBanner)!.link = 'https://www.example.com';
+      });
+      expect(await locator.getAttribute('link')).toBe('https://www.example.com');
+      const attrValue = await page.evaluate(() => (document.querySelector('ids-notification-banner') as IdsNotificationBanner).link);
+      expect(attrValue).toBe('https://www.example.com');
+    });
+
+    test('can change the linkText attribute', async ({ page }) => {
+      const locator = await page.locator('ids-notification-banner').first();
+      expect(await locator.getAttribute('link-text')).toBe(null);
+      await page.evaluate(() => {
+        (document.querySelector('ids-notification-banner') as IdsNotificationBanner)!.linkText = 'Test Text';
+      });
+      expect(await locator.getAttribute('link-text')).toBe('Test Text');
+      const attrValue = await page.evaluate(() => (document.querySelector('ids-notification-banner') as IdsNotificationBanner).linkText);
+      expect(attrValue).toBe('Test Text');
+    });
+
+    test('can change the icon/type attribute', async ({ page }) => {
+      const locator = await page.locator('ids-notification-banner').first();
+      expect(await locator.getAttribute('type')).toBe('success');
+      await page.evaluate(() => {
+        (document.querySelector('ids-notification-banner') as IdsNotificationBanner)!.type = 'error';
+      });
+      expect(await locator.getAttribute('type')).toBe('error');
+      const attrValue = await page.evaluate(() => (document.querySelector('ids-notification-banner') as IdsNotificationBanner).type);
+      expect(attrValue).toBe('error');
+      const iconAttrValue = await page.evaluate(() => (document.querySelector('ids-notification-banner')?.shadowRoot?.querySelector('ids-alert') as IdsAlert).icon);
+      expect(iconAttrValue).toBe('error');
     });
   });
 });

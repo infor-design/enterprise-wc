@@ -1,4 +1,4 @@
-<div class="ids-chart-container" part="container" style="width: 800px;">
+<div class="ids-chart-container legend-bottom" part="container" style="width: 800px;">
       <svg class="ids-axis-chart" part="chart" width="800" height="500" xmlns="http://www.w3.org/2000/svg"><title>A line chart showing component usage</title>
       <defs>
         

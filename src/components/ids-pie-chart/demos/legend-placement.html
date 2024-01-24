@@ -15,8 +15,18 @@
       <ids-layout-grid-cell>
         <ids-pie-chart
           title="A pie chart showing component usage"
-          animated="false"
-          id="no-animation-example"></ids-pie-chart>
+          id="index-example"
+          legend-placement="none"></ids-pie-chart>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell></ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-radio-group id="opts-legend-placement">
+          <ids-radio value="none" label="None" checked></ids-radio>
+          <ids-radio value="top" label="Top"></ids-radio>
+          <ids-radio value="right" label="Right"></ids-radio>
+          <ids-radio value="bottom" label="Bottom"></ids-radio>
+          <ids-radio value="left" label="Left"></ids-radio>
+        </ids-radio-group>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

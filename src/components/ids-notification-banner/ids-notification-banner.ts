@@ -85,9 +85,9 @@ export default class IdsNotificationBanner extends Base {
           <ids-text ${overflow}>${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
         </div>
 
-        ${this.link !== null ? `<div part="link">
+        <div class="ids-notification-banner-link" part="link"${!this.link ? ' hidden' : ''}>
           <ids-hyperlink font-size="16" href="${this.link}" target="_blank">${this.linkText === null ? 'Click to view' : this.linkText}</ids-hyperlink>
-        </div>` : ''}
+        </div>
 
         <div class="ids-notification-banner-button" part="button">
           <ids-button appearance="tertiary">
@@ -133,9 +133,12 @@ export default class IdsNotificationBanner extends Base {
       this.removeAttribute(attributes.TYPE);
       this.setAttribute(attributes.TYPE, TYPES.success.type);
       this.container?.setAttribute(attributes.TYPE, TYPES.success.type);
+      this.container?.querySelector<HTMLElement>('ids-alert')!.setAttribute('icon', 'success');
     } else {
       this.setAttribute(attributes.TYPE, value);
       this.container?.setAttribute(attributes.TYPE, value);
+      const alertIcon = value === 'warning' ? 'alert' : value;
+      this.container?.querySelector<HTMLElement>('ids-alert')!.setAttribute('icon', alertIcon || 'info');
     }
   }
 
@@ -146,10 +149,14 @@ export default class IdsNotificationBanner extends Base {
    * @param {string | null} value the link value
    */
   set link(value: string | null) {
+    const linkElem = this.container?.querySelector<HTMLElement>('.ids-notification-banner-link');
     if (value) {
       this.setAttribute(attributes.LINK, value);
+      linkElem!.removeAttribute('hidden');
+      (linkElem!.firstElementChild as HTMLElement)!.innerText = value;
     } else {
       this.removeAttribute(attributes.LINK);
+      linkElem!.setAttribute('hidden', '');
     }
   }
 
@@ -160,10 +167,13 @@ export default class IdsNotificationBanner extends Base {
    * @param {string | null} value the link-text value
    */
   set linkText(value: string | null) {
+    const linkElem = this.container?.querySelector<HTMLElement>('.ids-notification-banner-link ids-hyperlink');
     if (value) {
       this.setAttribute(attributes.LINK_TEXT, value);
+      (linkElem as HTMLElement)!.innerText = value;
     } else {
       this.removeAttribute(attributes.LINK_TEXT);
+      (linkElem as HTMLElement)!.innerText = '';
     }
   }
 
@@ -174,10 +184,13 @@ export default class IdsNotificationBanner extends Base {
    * @param {string | null} value the link-text value
    */
   set messageText(value: string | null) {
+    const textElem = this.container?.querySelector<HTMLElement>('.ids-notification-banner-message ids-text');
     if (value) {
       this.setAttribute(attributes.MESSAGE_TEXT, value);
+      if (textElem) textElem.innerText = value;
     } else {
       this.removeAttribute(attributes.MESSAGE_TEXT);
+      if (textElem) textElem.innerText = '';
     }
   }
 
