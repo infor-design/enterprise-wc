@@ -29,7 +29,7 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
     return [
       ...(superclass as any).attributes,
       attributes.TOOLTIP,
-      attributes.PLACEMENT,
+      attributes.TOOLTIP_PLACEMENT,
     ];
   }
 
@@ -114,8 +114,8 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
     // Handle Ellipsis Text if tooltip="true"
     tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;
 
-    if (this.hasAttribute(attributes.PLACEMENT)) {
-      tooltip.placement = this.getAttribute(attributes.PLACEMENT) as IdsTooltipPlacement;
+    if (this.hasAttribute(attributes.TOOLTIP_PLACEMENT)) {
+      tooltip.placement = this.getAttribute(attributes.TOOLTIP_PLACEMENT) as IdsTooltipPlacement;
     }
 
     // Show it
