@@ -12,7 +12,7 @@ Aim for both coverage and that the functionality is correctly tested.
 
 ## Debugging Tests
 
-You can either use the playwright debugger or visual code. For more info see this [quick video](https://www.youtube.com/watch?v=tJF7UhA59Gc).  This is also [well documented](https://playwright.dev/docs/getting-started-vscode).
+You can either use the playwright debugger or the [visual code plugin](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright). For more info see this [quick video](https://www.youtube.com/watch?v=tJF7UhA59Gc).  This is also [well documented](https://playwright.dev/docs/getting-started-vscode).
 
 Another tip is to run `npm run build && node server` and then open the browser to http://localhost:4444 and inspect the page that is in question for debugging.
 
