@@ -2277,6 +2277,8 @@ export default class IdsDataGrid extends Base {
    * @param {number} index insert position for new row
    */
   addRow(data: Record<string, unknown>, index?: number) {
+    if (data) hideEmptyMessage.apply(this);
+
     // Update data
     const insertIdx = index ?? this.datasource.originalData.length;
     this.datasource.create([data], insertIdx);

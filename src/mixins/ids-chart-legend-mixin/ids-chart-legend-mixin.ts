@@ -42,7 +42,7 @@ const IdsChartLegendMixin = <T extends Constraints>(superclass: T) => class exte
     const chartContainer = this.shadowRoot?.querySelector('.ids-chart-container');
 
     this.setAttribute(attributes.LEGEND_PLACEMENT, value);
-    chartContainer?.classList.remove('legend-top', 'legend-bottom', 'legend-left', 'legend-right');
+    chartContainer?.classList.remove('legend-none', 'legend-top', 'legend-bottom', 'legend-left', 'legend-right');
     chartContainer?.classList.add(`legend-${value}`);
   }
 
