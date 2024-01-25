@@ -49,12 +49,9 @@ class IdsTimePickerPopup extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.attachEventListeners();
     this.setAttribute(attributes.FOCUS_INLINE, 'true');
     this.isRendering = false;
-  }
-
-  mountedCallback(): void {
-    this.#attachEventListeners();
   }
 
   disconnectedCallback(): void {
@@ -180,31 +177,14 @@ class IdsTimePickerPopup extends Base {
   /**
    * Attaches event listeners for inner elements
    */
-  #attachEventListeners() {
-    const hoursDropdown = this.container?.querySelector('ids-dropdown#hours');
-    this.offEvent('selected.dropdown-hours', hoursDropdown);
-    this.onEvent('selected.dropdown-hours', hoursDropdown, (e: any) => {
+  private attachEventListeners() {
+    this.offEvent('change.time-picker-dropdowns');
+    this.onEvent('change.time-picker-dropdowns', this.dropdownContainerEl, (e: any) => {
       e.stopPropagation();
       if (!e.target?.matches?.('ids-dropdown')) return;
-      this.setAttribute('hours', e.detail.value);
-      if (this.autoupdate) this.triggerSelectedEvent();
-    });
+      const currentId = e.target?.id;
 
-    const minutesDropdown = this.container?.querySelector('ids-dropdown#minutes');
-    this.offEvent('selected.dropdown-minutes', minutesDropdown);
-    this.onEvent('selected.dropdown-minutes', minutesDropdown, (e: any) => {
-      e.stopPropagation();
-      if (!e.target?.matches?.('ids-dropdown')) return;
-      this.setAttribute('minutes', e.detail.value);
-      if (this.autoupdate) this.triggerSelectedEvent();
-    });
-
-    const periodDropdown = this.container?.querySelector('ids-dropdown#period');
-    this.offEvent('selected.dropdown-period', periodDropdown);
-    this.onEvent('selected.dropdown-period', periodDropdown, (e: any) => {
-      e.stopPropagation();
-      if (!e.target?.matches?.('ids-dropdown')) return;
-      this.setAttribute('period', e.detail.value);
+      this.setAttribute(currentId, e.detail.value);
       if (this.autoupdate) this.triggerSelectedEvent();
     });
 

@@ -353,7 +353,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     thisAsInput.input?.setAttribute('aria-describedby', messageId);
     thisAsInput.input?.setAttribute('aria-invalid', 'true');
 
-    const rootEl = this.shadowRoot?.querySelector('.ids-input, .ids-textarea, .ids-checkbox, .ids-input-group');
+    const rootEl = this.shadowRoot?.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
     const parent = rootEl || this.shadowRoot;
     parent?.appendChild(elem);
 

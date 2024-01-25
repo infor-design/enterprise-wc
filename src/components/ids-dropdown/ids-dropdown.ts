@@ -143,10 +143,6 @@ export default class IdsDropdown extends Base {
     if (this.getAttribute('readonly')) this.readonly = stringToBool(this.getAttribute('readonly'));
   }
 
-  mountedCallback(): void {
-    this.#attachChangeHandler();
-  }
-
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -859,16 +855,10 @@ export default class IdsDropdown extends Base {
         this.triggerSelectedEvent(e);
       });
     }
-  }
 
-  #attachChangeHandler() {
-    // Close the list on change, if applicable
-    this.offEvent('change.list');
+    this.offEvent('change.list', this.input);
     this.onEvent('change.list', this.input, (e: CustomEvent) => {
-      if (this.dropdownList?.popup?.visible) {
-        this.close();
-      }
-
+      if (this.dropdownList?.popup?.visible) this.close();
       this.bubbleEvent(e);
     });
   }
