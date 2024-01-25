@@ -4,6 +4,8 @@ import '../../ids-time-picker/ids-time-picker';
 import type IdsInput from '../../ids-input/ids-input';
 import IdsInputGroup, { IdsGroupValidationRule } from '../ids-input-group';
 
+const findInputByName = (formInputs: any[], name: string) => formInputs.find((input) => input.getAttribute('name') === name);
+
 // Custom Rule (uppercase)
 const uppercaseRule: IdsValidationRule = {
   check: (input: IdsInput) => {
@@ -18,24 +20,22 @@ const uppercaseRule: IdsValidationRule = {
 
 // Custom duplicate name rule
 const duplicateNameRule: IdsGroupValidationRule = {
-  check: (inputs: any[]) => {
+  check: (formInputs: any[]) => {
     const commonNames = ['john smith', 'jane doe'];
-    const getInputValue = (fieldName: string) => {
-      const input = inputs.find((elem: any) => elem.getAttribute('name') === fieldName);
-      return input.value;
-    };
-    const firstName = getInputValue('firstname').toLowerCase();
-    const lastName = getInputValue('lastname').toLowerCase();
+    const firstName = findInputByName(formInputs, 'firstname').value.toLowerCase();
+    const lastName = findInputByName(formInputs, 'lastname').value.toLowerCase();
 
     return commonNames.indexOf(`${firstName} ${lastName}`) === -1;
   },
-  message: 'Multiple employees share your name. Your company email address will be suffixed with a serial number. Ex john.smith7@infor.com'
+  message: 'Multiple employees share your name. Your company email address will be suffixed with a serial number'
 };
 
 const isOvertime: IdsGroupValidationRule = {
-  check: (inputs: any[]) => {
-    const startValue = Number(`${inputs[0].hours24}${String(inputs[0].minutes).padStart(2, '0')}`);
-    const endValue = Number(`${inputs[1].hours24}${String(inputs[1].minutes).padStart(2, '0')}`);
+  check: (formInputs: any[]) => {
+    const startPicker = findInputByName(formInputs, 'starttime');
+    const endPicker = findInputByName(formInputs, 'endtime');
+    const startValue = Number(`${startPicker.hours24}${String(startPicker.minutes).padStart(2, '0')}`);
+    const endValue = Number(`${endPicker.hours24}${String(endPicker.minutes).padStart(2, '0')}`);
 
     // overtime is greater than 8 hours
     return endValue - startValue <= 800;

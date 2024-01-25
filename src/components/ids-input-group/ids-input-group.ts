@@ -91,7 +91,7 @@ export default class IdsInputGroup extends IdsEventsMixin(IdsElement) {
       }
 
       if (!this.isGroupValid()) {
-        messageContainer.innerHTML = `<ids-text id="group-validation-message">
+        messageContainer.innerHTML = `<ids-text id="group-validation-message" font-size="14">
           <ids-icon icon="alert"></ids-icon>
           ${this.#groupRule?.message}
         </ids-text>`;
