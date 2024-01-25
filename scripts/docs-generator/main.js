@@ -7,7 +7,7 @@ const TypeDoc = require('typedoc');
 const marked = require('marked');
 const hljs = require('highlight.js');
 
-const serverUrl = `${process.env.SERVER_URL}/api/docs/wc/`;
+const serverUrl = `${process.env.DOCS_API_URL}/api/docs/wc/`;
 const apiDocsOutputDir = './docs/api';
 const docsOutputDir = './docs';
 const componentsZipName = './docs.zip';
