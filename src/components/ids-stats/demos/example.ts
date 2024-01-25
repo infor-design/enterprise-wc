@@ -3,6 +3,8 @@ import '../../ids-home-page/ids-home-page';
 import '../ids-stats';
 import IdsStats from '../ids-stats';
 
+document.querySelector<IdsStats>('#stat-ac-one')!.kpiFormat = '';
+
 document.querySelector<IdsStats>('#stat-ac-two')!.kpiFormat = {
   notation: 'compact',
   compactDisplay: 'short',

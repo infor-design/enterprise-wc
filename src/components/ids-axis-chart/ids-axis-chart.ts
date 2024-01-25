@@ -169,6 +169,11 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
    */
   connectedCallback(): void {
     super.connectedCallback?.();
+
+    if (!this.hasAttribute(attributes.LEGEND_PLACEMENT)) {
+      this.setAttribute(attributes.LEGEND_PLACEMENT, 'bottom');
+    }
+
     this.svg = this.shadowRoot?.querySelector('svg');
     this.emptyMessage = this.querySelector('ids-empty-message') || this.shadowRoot?.querySelector('ids-empty-message');
     this.legend = this.shadowRoot?.querySelector('[name="legend"]');
@@ -399,7 +404,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
         label.setAttribute('transform', `rotate(${this.rotateNameLabels}, ${newX[i]}, ${label.getAttribute('y')})`);
       }
       label.setAttribute('x', newX[i]);
-      label.setAttribute('text-anchor', 'start');
+      // label.setAttribute('text-anchor', 'start');
       if (this.alignXLabels === 'middle') label.setAttribute('transform-origin', '0 -4px');
     });
 

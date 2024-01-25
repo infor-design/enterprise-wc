@@ -2,15 +2,26 @@
 
 ## 1.0.0-beta.19
 
+### 1.0.0-beta.19 Breaking Changes
+
+- `[ChartLegendMixin]` Added `none` as a legend placement setting and made it default, allowing the legend to be completely hidden. During the process, changed all current IdsAreaChart, IdsAxisChart, IdsBarChart, IdsLineChart, and IdsPieChart examples to explicitly use `legend-placement` attribute where a legend is needed. ([#1672](https://github.com/infor-design/enterprise-wc/issues/1672))
+
 ### 1.0.0-beta.19 Features
 
 - `[PopupMenu]` Added ability to set `arrow` on the IdsPopupMenu so that it filters down to IdsPopup underneath, can now disable or change arrow direction. ([#1290](https://github.com/infor-design/enterprise-wc/issues/1290))
 
 ### 1.0.0-beta.19 Fixes
 
+- `[ListBuilder]` Fixed spacebar on IdsListBuilder so that input-field properly displays spaces. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))
+- `[AxisChart]` Fixed position of labels in RTL mode. ([#1716](https://github.com/infor-design/enterprise-wc/issues/1716))
+- `[Dropdown|Multiselect]` Broken Dropdown and Multiselect fixed in Angular. ([#1762](https://github.com/infor-design/enterprise-wc/issues/1762))
+- `[Dropdown]` Prevent dropdown from auto scrolling view when list box is opened. ([#1681](https://github.com/infor-design/enterprise-wc/issues/1681))
+- `[Datagrid]` Fix for empty-data text still showing after adding a grid row. ([#1580](https://github.com/infor-design/enterprise-wc/issues/1580))
 - `[Input]` Renamed internal labels and fixed routines that look for labels to fix an issue with missing labels. ([#1752](https://github.com/infor-design/enterprise-wc/issues/1752))
 - `[LoadingIndicator]` Fixed an issue where the inner bars within the loader where not the same size. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))
 - `[Locale]` Changed all `zh` time formats to 24hr as suggested by native speakers. ([#8313](https://github.com/infor-design/enterprise-wc/issues/8313))
+- `[NotificationBanner]` Made the message text updatable to fix rendering issues. ([#1782](https://github.com/infor-design/enterprise-wc/issues/1782))
+- `[Tabs]` Fixed `selected` attribute occasionally not working.  ([#1705](https://github.com/infor-design/enterprise-wc/issues/1705))
 - `[Widget]` Added css part to the widget body element. ([#1771](https://github.com/infor-design/enterprise-wc/issues/1771))
 
 ## 1.0.0-beta.18
