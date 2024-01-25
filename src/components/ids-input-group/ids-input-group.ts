@@ -1,30 +1,37 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import { ValidationMixinInterface } from '../../mixins/ids-validation-mixin/ids-validation-mixin';
-import { IdsInputInterface } from './ids-input-attributes';
+import { IdsInputInterface } from '../ids-input/ids-input-attributes';
 import styles from './ids-input-group.scss';
 
-type IdsValidateInput = IdsInputInterface & ValidationMixinInterface & HTMLElement;
+type IdsValidateInput = IdsInputInterface & HTMLElement & {
+  isFormComponent?: boolean;
+  hideErrorMessage(toHide: boolean): void;
+  validationMessageElems?: Array<HTMLElement>;
+};
 
 export type IdsGroupValidationRule = {
   /** The localized message text */
   message: string;
 
   /** The method to check validation logic, return true if is valid */
-  check: (input: any) => boolean;
+  check: (inputComponents: any[]) => boolean;
 };
 
-const Base = IdsEventsMixin(IdsElement);
-
+/**
+ * IDS Input Group Component
+ * @type {IdsInputGroup}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ */
 @customElement('ids-input-group')
 @scss(styles)
-export default class IdsInputGroup extends Base {
+export default class IdsInputGroup extends IdsEventsMixin(IdsElement) {
   #groupRule: IdsGroupValidationRule | null = null;
 
   #slottedInputs: Array<IdsValidateInput> = [];
 
-  #rafTimeout = NaN;
+  #validateTimeout = NaN;
 
   constructor() {
     super();
@@ -46,20 +53,11 @@ export default class IdsInputGroup extends Base {
     </div>`;
   }
 
-  get slottedInputs(): Array<IdsValidateInput> {
-    const slot = this.container?.querySelector('slot');
-    const slottedInputs = slot?.assignedElements() as Array<IdsValidateInput>;
-
-    return slottedInputs || [];
-  }
-
-  get messageContainer(): HTMLElement {
-    return this.container!.querySelector('#group-message-container');
-  }
-
   #attachEventHandlers(): void {
     this.onEvent('slotchange', this.container?.querySelector('slot'), () => {
-      this.#slottedInputs = this.slottedInputs;
+      const slot = this.container?.querySelector<HTMLSlotElement>('slot');
+      const slottedElements = (slot?.assignedElements() as IdsValidateInput[]) || [];
+      this.#slottedInputs = slottedElements.filter((elem) => elem.isFormComponent);
       this.#configureInputs();
     });
 
@@ -70,42 +68,44 @@ export default class IdsInputGroup extends Base {
 
   #configureInputs() {
     this.#slottedInputs.forEach((input) => {
+      // Hide individual input error messages
       input.hideErrorMessage(true);
+      // Margin is applied to group container instead
       input.setAttribute('no-margins', '');
     });
   }
 
-  #validateGroup(): boolean {
-    const passFail = this.#groupRule?.check(this.#slottedInputs);
-    return !!passFail;
-  }
-
-  #createGroupErrorMessage(): string {
-    return `<ids-text id="group-validation-message">
-      <ids-icon icon="alert"></ids-icon>
-      ${this.#groupRule?.message}
-    </ids-text>`;
-  }
-
   #validate() {
-    cancelAnimationFrame(this.#rafTimeout);
+    const messageContainer = this.container?.querySelector<HTMLElement>('#group-message-container');
+    if (!messageContainer || !this.#slottedInputs.length) return;
 
-    this.#rafTimeout = requestAnimationFrame(() => {
+    cancelAnimationFrame(this.#validateTimeout);
+    this.#validateTimeout = requestAnimationFrame(() => {
       const inputErrors = this.#getInputErrorMessages();
-      const hasErrors = !!inputErrors.length;
 
-      if (hasErrors) {
+      if (inputErrors.length) {
         const firstError = inputErrors[0] as Element;
         firstError?.toggleAttribute('hidden', false);
-        this.messageContainer.replaceChildren(firstError as Node);
-      } else if (!this.#validateGroup()) {
-        this.messageContainer.innerHTML = this.#createGroupErrorMessage();
-      } else {
-        this.messageContainer.innerHTML = '';
+        messageContainer?.replaceChildren(firstError as Node);
+        return;
       }
+
+      if (!this.isGroupValid()) {
+        messageContainer.innerHTML = `<ids-text id="group-validation-message">
+          <ids-icon icon="alert"></ids-icon>
+          ${this.#groupRule?.message}
+        </ids-text>`;
+        return;
+      }
+
+      messageContainer.innerHTML = '';
     });
   }
 
+  /**
+   * Queries any error message elems from each input component
+   * @returns {HTMLElement[]} error message elements
+   */
   #getInputErrorMessages(): HTMLElement[] {
     return this.#slottedInputs
       .map((input) => input.validationMessageElems || [])
@@ -114,11 +114,20 @@ export default class IdsInputGroup extends Base {
   }
 
   /**
-   * Add validation rule/s. Overrides IdsValidationMixin method().
-   * @param {IdsGroupValidationRule} rule incoming rule/s settings
-   * @returns {void}
+   * Set group validation rule
+   * @param {IdsGroupValidationRule} rule group rule
    */
   addGroupValidationRule(rule: IdsGroupValidationRule): void {
     this.#groupRule = rule;
+    this.#validate();
+  }
+
+  /**
+   * Checks group rule validation
+   * @returns {boolean} return true if group rule validates
+   */
+  isGroupValid(): boolean {
+    if (this.#groupRule === null) return true;
+    return !!this.#groupRule.check(this.#slottedInputs);
   }
 }

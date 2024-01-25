@@ -1,9 +1,8 @@
 import { IdsValidationRule } from '../../../mixins/ids-validation-mixin/ids-validation-mixin';
+import '../../ids-input/ids-input';
 import '../../ids-time-picker/ids-time-picker';
-import IdsInput from '../ids-input';
-import '../ids-input-group';
-import type { IdsGroupValidationRule } from '../ids-input-group';
-import IdsInputGroup from '../ids-input-group';
+import type IdsInput from '../../ids-input/ids-input';
+import IdsInputGroup, { IdsGroupValidationRule } from '../ids-input-group';
 
 // Custom Rule (uppercase)
 const uppercaseRule: IdsValidationRule = {

@@ -34,22 +34,6 @@ export type IdsValidationRule = {
   check: (input: any) => boolean;
 };
 
-export interface ValidationMixinInterface {
-  handleValidation(): void;
-  checkValidation(): void;
-  addValidationRule(rule: Array<IdsValidationRule> | IdsValidationRule): void;
-  removeValidationRule(ruleId: Array<string> | string): void;
-  addValidationMessage(message: Array<IdsValidationErrorMessage> | IdsValidationErrorMessage): void;
-  removeValidationMessage(message: Array<IdsValidationErrorMessage> | IdsValidationErrorMessage): void;
-  addMessage(settings: IdsValidationErrorMessage): void;
-  removeMessage(settings: IdsValidationErrorMessage): void;
-  removeAllValidationMessages(): void;
-  destroyValidation(): void;
-  validationMessages?: Array<IdsValidationErrorMessage>;
-  hideErrorMessage(toHide: boolean): void;
-  validationMessageElems?: Array<HTMLElement>;
-}
-
 type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
@@ -57,8 +41,7 @@ type Constraints = IdsConstructor<EventsMixinInterface>;
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsValidationMixin = <T extends Constraints>(superclass: T) => class extends superclass
-  implements ValidationMixinInterface {
+const IdsValidationMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   isTypeNotValid?: any;
 
   constructor(...args: any[]) {
