@@ -7,19 +7,19 @@ import IdsInputGroup, { IdsGroupValidationRule } from '../ids-input-group';
 const findInputByName = (formInputs: any[], name: string) => formInputs.find((input) => input.getAttribute('name') === name);
 
 // Custom Rule (uppercase)
-const uppercaseRule: IdsValidationRule = {
+const isNameCapitalized: IdsValidationRule = {
   check: (input: IdsInput) => {
     const val = input.value;
     const capitalized = val.charAt(0).toUpperCase() + val.substring(1);
     return val === capitalized;
   },
-  message: 'First letter of your name should be capitalized',
+  message: 'First letter of your name should be capitalized.',
   type: 'error',
-  id: 'my-custom-uppercase'
+  id: 'capitalized-name'
 };
 
 // Custom duplicate name rule
-const duplicateNameRule: IdsGroupValidationRule = {
+const noDuplicateNames: IdsGroupValidationRule = {
   check: (formInputs: any[]) => {
     const commonNames = ['john smith', 'jane doe'];
     const firstName = findInputByName(formInputs, 'firstname').value.toLowerCase();
@@ -27,7 +27,7 @@ const duplicateNameRule: IdsGroupValidationRule = {
 
     return commonNames.indexOf(`${firstName} ${lastName}`) === -1;
   },
-  message: 'Multiple employees share your name. Your company email address will be suffixed with a serial number'
+  message: 'Multiple employees share your name. Your company email address will be suffixed with a serial number.'
 };
 
 const isOvertime: IdsGroupValidationRule = {
@@ -40,7 +40,7 @@ const isOvertime: IdsGroupValidationRule = {
     // overtime is greater than 8 hours
     return endValue - startValue <= 800;
   },
-  message: 'Time selected range is overtime and will require manager approval'
+  message: 'Time selected range is overtime and will require manager approval.'
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -49,11 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const middleinitial = document.querySelector<IdsInput>('ids-input[name="middleinitial"]');
   const lastname = document.querySelector<IdsInput>('ids-input[name="lastname"]');
 
-  firstname?.addValidationRule(uppercaseRule);
-  middleinitial?.addValidationRule(uppercaseRule);
-  lastname?.addValidationRule(uppercaseRule);
-  nameInputGroup?.addGroupValidationRule(duplicateNameRule);
+  firstname?.addValidationRule(isNameCapitalized);
+  middleinitial?.addValidationRule(isNameCapitalized);
+  lastname?.addValidationRule(isNameCapitalized);
+  nameInputGroup?.setGroupValidationRule(noDuplicateNames);
 
   const timeInputGroup = document.querySelector<IdsInputGroup>('#validation-group-time');
-  timeInputGroup?.addGroupValidationRule(isOvertime);
+  timeInputGroup?.setGroupValidationRule(isOvertime);
 });

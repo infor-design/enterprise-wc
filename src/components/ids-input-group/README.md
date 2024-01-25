@@ -47,9 +47,10 @@ const noDuplicateNamesRule: IdsGroupValidationRule = {
 };
 
 const inputGroup = document.querySelector<IdsInputGroup>('ids-input-group');
-inputGroup.addGroupValidationRule(noDuplicateNamesRule);
+inputGroup.setGroupValidationRule(noDuplicateNamesRule);
 ```
 
 ## Methods
 
-- `addGroupValidationRule(groupRule: IdsGroupValidationRule)` Sets group validation rule
+- `setGroupValidationRule(groupRule: IdsGroupValidationRule)` Sets group validation rule
+- `removeGroupValidationRule()` Sets group validation rule

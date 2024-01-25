@@ -66,7 +66,7 @@ export default class IdsInputGroup extends IdsEventsMixin(IdsElement) {
     this.onEvent('change', inputGroupContainer, () => this.#validate());
   }
 
-  #configureInputs() {
+  #configureInputs(): void {
     this.#slottedInputs.forEach((input) => {
       // Hide individual input error messages
       input.hideErrorMessage(true);
@@ -75,18 +75,28 @@ export default class IdsInputGroup extends IdsEventsMixin(IdsElement) {
     });
   }
 
-  #validate() {
-    const messageContainer = this.container?.querySelector<HTMLElement>('#group-message-container');
-    if (!messageContainer || !this.#slottedInputs.length) return;
+  #toggleInputWarning(showWarning = false): void {
+    this.#slottedInputs.forEach((input: any) => {
+      const triggerFieldContainer = input?.container?.querySelector('ids-trigger-field')?.fieldContainer
+        || input?.container?.querySelector('.field-container');
+      triggerFieldContainer?.classList.toggle('warning', showWarning);
+    });
+  }
 
+  #validate(): void {
     cancelAnimationFrame(this.#validateTimeout);
+
+    const messageContainer = this.container?.querySelector<HTMLElement>('#group-message-container');
+    if (!messageContainer) return;
+
     this.#validateTimeout = requestAnimationFrame(() => {
       const inputErrors = this.#getInputErrorMessages();
+      this.#toggleInputWarning(false);
 
       if (inputErrors.length) {
-        const firstError = inputErrors[0] as Element;
-        firstError?.toggleAttribute('hidden', false);
-        messageContainer?.replaceChildren(firstError as Node);
+        const errorElem = inputErrors[0] as Element;
+        errorElem?.toggleAttribute('hidden', false);
+        messageContainer?.replaceChildren(errorElem as Node);
         return;
       }
 
@@ -95,6 +105,7 @@ export default class IdsInputGroup extends IdsEventsMixin(IdsElement) {
           <ids-icon icon="alert"></ids-icon>
           ${this.#groupRule?.message}
         </ids-text>`;
+        this.#toggleInputWarning(true);
         return;
       }
 
@@ -117,8 +128,16 @@ export default class IdsInputGroup extends IdsEventsMixin(IdsElement) {
    * Set group validation rule
    * @param {IdsGroupValidationRule} rule group rule
    */
-  addGroupValidationRule(rule: IdsGroupValidationRule): void {
+  setGroupValidationRule(rule: IdsGroupValidationRule): void {
     this.#groupRule = rule;
+    this.#validate();
+  }
+
+  /**
+   * Unsets group validation rule
+   */
+  removeGroupValidation(): void {
+    this.#groupRule = null;
     this.#validate();
   }
 
