@@ -86,6 +86,14 @@ module.exports = {
         type: 'asset/resource',
       },
       {
+        test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: './fonts/'
+        }
+      },
+      {
         test: /\.scss$/,
         exclude: [
           /node_modules/,
@@ -141,6 +149,13 @@ module.exports = {
               .replace('ids-locale/data/', 'locale-data/');
             return filePath;
           }
+        },
+        { // copy font over
+          from: './src/assets/fonts',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            return `fonts/${baseName}`;
+          },
         },
         {
           from: './src/themes/**/*.scss',

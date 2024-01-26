@@ -1,5 +1,13 @@
 @use './ids-theme-default-colors.scss';
 
+@font-face {
+  font-family: 'IDS-V5';
+  src: url('/fonts/ids-icons.woff') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
 // (namespace)-(style category / component / component part)-(css property)-(scenario)-(interaction state)
 // --ids-checkbox-color-border-focus
 :host,
@@ -726,7 +734,7 @@
   --ids-hyperlink-box-width-double: 323px;
 
   // Icons
-  --ids-icon-font-name: 'name-here'; // Future
+  --ids-icon-font-name: 'IDS-V5'; // Future
   --ids-icon-height-default: 18px;
   --ids-icon-width-default: 18px;
   --ids-icon-color-default: currentColor;

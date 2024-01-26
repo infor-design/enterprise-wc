@@ -1,4 +1,5 @@
-import pathImport from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
+// eslint-disable-next-line @typescript-eslint/semi, import/no-extraneous-dependencies
+import iconJSON from 'ids-foundation/icon-font/v5/icon-list.json'
 import emptyPathImport from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
 
 import { attributes } from '../../core/ids-attributes';
@@ -16,7 +17,7 @@ import styles from './ids-icon.scss';
 import IdsGlobal from '../ids-global/ids-global';
 
 const emptyIconPathData: any = emptyPathImport;
-const pathData: Record<string, string> = pathImport;
+const iconList: string[] = iconJSON.icons;
 
 const Base = IdsLocaleMixin(
   IdsColorVariantMixin(
@@ -36,7 +37,7 @@ const Base = IdsLocaleMixin(
 @customElement('ids-icon')
 @scss(styles)
 export default class IdsIcon extends Base {
-  pathData: Record<string, string> = pathData;
+  // pathData: Record<string, string> = pathData;
 
   constructor() {
     super();
@@ -88,16 +89,21 @@ export default class IdsIcon extends Base {
     } else {
       viewBox = '0 0 18 18';
     }
-    let template = `<svg
-      part="svg"
-      xmlns="http://www.w3.org/2000/svg"
-      ${this.isMirrored(this.icon) ? ` class="mirrored"` : ''}
-      stroke="currentColor"
-      fill="none"
-      viewBox="${viewBox}"
-      aria-hidden="true">
-      ${this.iconData()}
-    </svg>`;
+    let template = '';
+    if (iconList.includes(this.icon)) {
+      template += `<span class="icon-${this.icon}"></span>`;
+    } else {
+      template = `<svg
+        part="svg"
+        xmlns="http://www.w3.org/2000/svg"
+        ${this.isMirrored(this.icon) ? ` class="mirrored"` : ''}
+        stroke="currentColor"
+        fill="none"
+        viewBox="${viewBox}"
+        aria-hidden="true">
+        ${this.iconData()}
+      </svg>`;
+    }
     if (this.badgePosition && this.badgeColor) {
       template += `<span class="notification-badge ${this.badgePosition} ${this.badgeColor}"></span>`;
     }
@@ -110,7 +116,9 @@ export default class IdsIcon extends Base {
    */
   iconData(): string {
     const icon = this.icon;
-    const data = emptyIconPathData[icon] || pathData[icon] || (IdsGlobal.customIconData ? (IdsGlobal.customIconData as any)[icon] : '') || '';
+    // eslint-disable-next-line max-len
+    // const data = emptyIconPathData[icon] || pathData[icon] || (IdsGlobal.customIconData ? (IdsGlobal.customIconData as any)[icon] : '') || '';
+    const data = emptyIconPathData[icon] || (IdsGlobal.customIconData ? (IdsGlobal.customIconData as any)[icon] : '') || '';
     if (data === '') this.custom = true;
     return data;
   }
@@ -473,7 +481,9 @@ export default class IdsIcon extends Base {
     if (this.viewbox) {
       viewboxSize = this.viewbox;
     }
-    this.container?.setAttribute('viewBox', viewboxSize);
+    if (this.container?.nodeName === 'svg') {
+      this.container?.setAttribute('viewBox', viewboxSize);
+    }
   }
 
   /** @returns {boolean} Whether or not the icon is vertical */
