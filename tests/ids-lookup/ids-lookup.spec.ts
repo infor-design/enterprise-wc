@@ -63,6 +63,12 @@ test.describe('IdsLookup tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-lookup-light');
     });
+
+    test('should match the visual snapshot in percy (mobile mode)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      page.setViewportSize({ width: 600, height: 600 });
+      await percySnapshot(page, 'ids-lookup-mobile-light');
+    });
   });
 
   test.describe('functionality tests', () => {
