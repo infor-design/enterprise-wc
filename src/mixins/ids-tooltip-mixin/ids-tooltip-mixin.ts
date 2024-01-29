@@ -5,6 +5,7 @@ import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import '../../components/ids-tooltip/ids-tooltip';
 import type IdsTooltip from '../../components/ids-tooltip/ids-tooltip';
+import type { IdsTooltipPlacement } from '../../components/ids-tooltip/ids-tooltip';
 
 interface TooltipMixinInterface {
   canTooltipShow?(tooltipEl: IdsTooltip | null, tooltipContent: string): boolean;
@@ -27,7 +28,8 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
   static get attributes() {
     return [
       ...(superclass as any).attributes,
-      attributes.TOOLTIP
+      attributes.TOOLTIP,
+      attributes.TOOLTIP_PLACEMENT,
     ];
   }
 
@@ -111,6 +113,10 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
 
     // Handle Ellipsis Text if tooltip="true"
     tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;
+
+    if (this.hasAttribute(attributes.TOOLTIP_PLACEMENT)) {
+      tooltip.placement = this.getAttribute(attributes.TOOLTIP_PLACEMENT) as IdsTooltipPlacement;
+    }
 
     // Show it
     tooltip.visible = true;
