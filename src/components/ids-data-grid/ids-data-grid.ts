@@ -270,7 +270,7 @@ export default class IdsDataGrid extends Base {
 
     const html = `<div class="ids-data-grid-wrapper">
         <span class="ids-data-grid-sort-arrows"></span>
-        <div class="ids-data-grid${cssClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
+        <div tabindex="0" class="ids-data-grid${cssClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
         ${innerTemplate}
         </div>
         ${emptyMesageTemplate}
