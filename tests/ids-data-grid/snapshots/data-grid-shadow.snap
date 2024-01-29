@@ -1,6 +1,6 @@
 <div class="ids-data-grid-wrapper">
         <span class="ids-data-grid-sort-arrows"></span>
-        <div class="ids-data-grid" role="table" part="table" aria-label="Books" data-row-height="lg" aria-rowcount="9" style="--ids-data-grid-column-widths: 45px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr);"><ids-data-grid-header class="ids-data-grid-header" role="rowgroup" part="header">
+        <div tabindex="0" class="ids-data-grid" role="table" part="table" aria-label="Books" data-row-height="lg" aria-rowcount="9" style="--ids-data-grid-column-widths: 45px 65px minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr) minmax(110px, 1fr);"><ids-data-grid-header class="ids-data-grid-header" role="rowgroup" part="header">
       <ids-data-grid-row class="ids-data-grid-row" role="row">
         
       <span class="ids-data-grid-header-cell align-center" part="header-cell" aria-colindex="1" column-id="selectionCheckbox" role="columnheader">
