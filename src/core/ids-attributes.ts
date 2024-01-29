@@ -492,6 +492,7 @@ export const attributes = {
   TOGGLEABLE: 'toggleable',
   TOOLBAR_TYPE: 'toolbar-type',
   TOOLTIP: 'tooltip',
+  TOOLTIP_PLACEMENT: 'tooltip-placement',
   TOTAL: 'total',
   TRANSLATE_TEXT: 'translate-text',
   TREE_GRID: 'tree-grid',
