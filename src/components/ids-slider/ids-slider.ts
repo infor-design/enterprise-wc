@@ -699,21 +699,18 @@ export default class IdsSlider extends Base {
   set value(value: string | number | any) {
     if (this.readonly || this.disabled) return;
 
-    const currentValue = parseFloat(this.getAttribute(attributes.VALUE) ?? '') || this.min;
     const newValue = this.#sanitizeValue(value);
 
-    if (currentValue !== newValue) {
-      this.setAttribute(attributes.VALUE, `${newValue}`);
-      this.percent = ((newValue - this.min) / (this.max - this.min)) * 100;
-      this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_VALUENOW, `${newValue}`);
-      this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_VALUETEXT, `${newValue}`);
-      if (this.type === 'range') {
-        this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_VALUEMIN, `${newValue}`);
-      }
-      this.#updateTooltip(newValue, 'primary');
-      this.#moveThumb('primary');
-      this.#triggerChangeEvent(newValue, 'primary');
+    this.setAttribute(attributes.VALUE, `${newValue}`);
+    this.percent = ((newValue - this.min) / (this.max - this.min)) * 100;
+    this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_VALUENOW, `${newValue}`);
+    this.thumbDraggable?.setAttribute(htmlAttributes.ARIA_VALUETEXT, `${newValue}`);
+    if (this.type === 'range') {
+      this.thumbDraggableSecondary?.setAttribute(htmlAttributes.ARIA_VALUEMIN, `${newValue}`);
     }
+    this.#updateTooltip(newValue, 'primary');
+    this.#moveThumb('primary');
+    this.#triggerChangeEvent(newValue, 'primary');
   }
 
   /**
