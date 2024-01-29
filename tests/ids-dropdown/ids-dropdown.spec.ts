@@ -63,4 +63,18 @@ test.describe('IdsDropdown tests', () => {
       await percySnapshot(page, 'ids-dropdown-light');
     });
   });
+
+  test.describe('IdsDropdown events', () => {
+    test('should fire a change event', async ({ page }) => {
+      const eventFiredCount = await page.evaluate(() => {
+        let changeCount = 0;
+        const dropdown = document.querySelector('ids-dropdown') as IdsDropdown;
+        dropdown?.addEventListener('change', () => { changeCount++; });
+        dropdown.value = 'hi';
+        return changeCount;
+      });
+
+      expect(eventFiredCount).toEqual(1);
+    });
+  });
 });
