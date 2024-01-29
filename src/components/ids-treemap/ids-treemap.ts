@@ -174,6 +174,9 @@ export default class IdsTreeMap extends Base {
    */
   templateGroups(rect: TreemapDataSet): string {
     const textOffset = 8;
+    const isRTL = this.localeAPI?.isRTL();
+    const textX = isRTL ? rect.width + rect.x - textOffset * 2 : rect.x + textOffset * 2;
+
     return `
       <g
         fill=${rect?.data?.color || '#003876'}
@@ -188,7 +191,8 @@ export default class IdsTreeMap extends Base {
         </rect>
         <text
           fill="white"
-          x="${rect.x + textOffset * 2}"
+          text-anchor="start"
+          x="${textX}"
           y="${rect.y + textOffset * 3}"
           stroke-width="0"
         >
@@ -196,7 +200,8 @@ export default class IdsTreeMap extends Base {
         </text>
         <text
           fill="white"
-          x="${rect.x + textOffset * 2}"
+          text-anchor="start"
+          x="${textX}"
           y="${rect.y + textOffset * 6}"
           stroke-width="0"
         >
@@ -484,4 +489,11 @@ export default class IdsTreeMap extends Base {
 
     resizeObserver.observe(this);
   }
+
+  /**
+   * Handle Locale (and language) change
+   */
+  onLocaleChange = () => {
+    this.render(true);
+  };
 }
