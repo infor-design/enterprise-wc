@@ -29,8 +29,8 @@ Icons come in 6 sizes depending where it is used.
 <ids-icon icon="notes" size="xl"></ids-icon>
 <ids-icon icon="notes" size="large"></ids-icon>
 <ids-icon icon="notes" size="medium"></ids-icon>
-<ids-icon icon="notes" size="small"></ids-icon>
 <!-- Used only for extreme edge cases -->
+<ids-icon icon="notes" size="small"></ids-icon>
 <ids-icon icon="notes" size="xsmall"></ids-icon>
 ```
 

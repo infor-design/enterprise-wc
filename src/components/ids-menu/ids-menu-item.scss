@@ -270,7 +270,7 @@
 
   &.has-submenu {
     a {
-      grid-template-columns: 0 calc(100% - 25px) 25px;
+      grid-template-columns: 0 calc(100% - 24px) 29px;
     }
 
     // NOTE: Submenu items contain this element,

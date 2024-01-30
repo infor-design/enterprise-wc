@@ -1,5 +1,5 @@
 // Supporting components
-import pathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
+import pathData from 'ids-identity/dist/theme-new/icons/old/empty/path-data.json';
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.icon-examples');
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="card-content" slot="card-content">
         <ids-empty-message icon="${emptyIcons[i][0]}">
           <ids-text type="h2" font-size="20" label="true" slot="label">Alert Label</ids-text>
-          <ids-text label="true" slot="description">Description of empty message that explains why.</ids-text>
+          <ids-text label="true" slot="description">Description of empty message that explains why</ids-text>
           <ids-button class="action-button" slot="button" appearance="primary">Action</ids-button>
         </ids-empty-message>
       </div>

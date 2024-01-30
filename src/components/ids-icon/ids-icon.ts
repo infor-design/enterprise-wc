@@ -1,5 +1,6 @@
-import pathImport from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
-import emptyPathImport from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
+import pathImport from 'ids-identity/dist/theme-new/icons/default/path-data.json';
+// import pathImportOld from 'ids-identity/dist/theme-new/icons/old/standard/path-data.json'
+import emptyPathImport from 'ids-identity/dist/theme-new/icons/old/empty/path-data.json';
 
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
@@ -55,6 +56,7 @@ export default class IdsIcon extends Base {
       ...super.attributes,
       attributes.BADGE_COLOR,
       attributes.BADGE_POSITION,
+      attributes.COLOR,
       attributes.FILL,
       attributes.HEIGHT,
       attributes.ICON,
@@ -444,6 +446,23 @@ export default class IdsIcon extends Base {
 
   get statusColor(): string {
     return this.getAttribute(attributes.STATUS_COLOR) || '';
+  }
+
+  /**
+   * Color to use for icon fill (other than other settings).
+   * @param {string} value Any pallete color reference
+   */
+  set color(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.COLOR, value);
+      this.container?.style.setProperty('--ids-icon-color-default', value);
+    } else {
+      this.removeAttribute(attributes.COLOR);
+    }
+  }
+
+  get color(): string {
+    return this.getAttribute(attributes.COLOR) || '';
   }
 
   #adjustFill(): void {
