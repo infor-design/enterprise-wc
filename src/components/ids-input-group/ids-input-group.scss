@@ -1,0 +1,30 @@
+@import '../../themes/mixins/ids-validation-mixin';
+
+:host {
+  display: inline-block;
+}
+
+.ids-input-group {
+  display: inline-block;
+  margin-block-end: var(--ids-space-60);
+
+  #group-message-container {
+    padding-top: var(--ids-space-30);
+    width: min-content;
+    min-width: 100%;
+  }
+
+  #group-validation-message {
+    color: var(--ids-color-warning-80);
+  }
+}
+
+::slotted(*) {
+  display: inline-block;
+  vertical-align: top;
+  margin-inline-end: var(--ids-space-20);
+
+  &::part(field-container) {
+    border-color: yellow;
+  }
+}

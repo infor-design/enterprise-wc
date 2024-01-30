@@ -8,6 +8,7 @@
 
 ### 1.0.0-beta.19 Features
 
+- `[InputGroup]` Added `IdsInputGroup` component to handle group validation warnings. ([#1673](https://github.com/infor-design/enterprise-wc/issues/1673))
 - `[PopupMenu]` Added ability to set `arrow` on the IdsPopupMenu so that it filters down to IdsPopup underneath, can now disable or change arrow direction. ([#1290](https://github.com/infor-design/enterprise-wc/issues/1290))
 
 ### 1.0.0-beta.19 Fixes

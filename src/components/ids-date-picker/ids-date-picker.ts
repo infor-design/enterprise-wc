@@ -377,6 +377,7 @@ class IdsDatePicker extends Base {
     this.onEvent('change.date-picker-input', this.triggerField, (e: any) => {
       this.setAttribute(attributes.VALUE, e.detail.value);
       this.picker?.setAttribute(attributes.VALUE, e.detail.value);
+      this.bubbleEvent(e);
     });
 
     // Date Picker Popup's `dayselected` event causes the trigger field value to the change

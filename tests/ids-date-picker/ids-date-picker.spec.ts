@@ -63,4 +63,18 @@ test.describe('IdsDatePicker tests', () => {
       await percySnapshot(page, 'ids-date-picker-light');
     });
   });
+
+  test.describe('IdsDatePicker events', () => {
+    test('should fire change event', async ({ page }) => {
+      const eventFiredCount = await page.evaluate(() => {
+        let changeCount = 0;
+        const datePicker = document.querySelector('ids-date-picker') as IdsDatePicker;
+        datePicker.addEventListener('change', () => { changeCount++; });
+        datePicker.value = '3/20/2016';
+        return changeCount;
+      });
+
+      expect(eventFiredCount).toEqual(1);
+    });
+  });
 });

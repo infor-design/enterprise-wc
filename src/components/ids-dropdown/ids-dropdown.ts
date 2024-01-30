@@ -135,6 +135,7 @@ export default class IdsDropdown extends Base {
       .#attachKeyboardListeners();
 
     this.value = this.getAttribute('value');
+
     this.resetDirtyTracker();
     this.container?.classList.toggle('typeahead', this.typeahead);
     this.listBox?.setAttribute(attributes.SIZE, this.size);
@@ -855,12 +856,10 @@ export default class IdsDropdown extends Base {
       });
     }
 
-    // Close the list on change, if applicable
-    this.offEvent('change.list');
-    this.onEvent('change.list', this, () => {
-      if (this.dropdownList?.popup?.visible) {
-        this.close();
-      }
+    this.offEvent('change.list', this.input);
+    this.onEvent('change.list', this.input, (e: CustomEvent) => {
+      if (this.dropdownList?.popup?.visible) this.close();
+      this.bubbleEvent(e);
     });
   }
 
