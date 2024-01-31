@@ -15,6 +15,7 @@
 
 - `[ListBuilder]` Fixed spacebar on IdsListBuilder so that input-field properly displays spaces. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))
 - `[AxisChart]` Fixed position of labels in RTL mode. ([#1716](https://github.com/infor-design/enterprise-wc/issues/1716))
+- `[Datagrid]` Datagrid fix for left/right arrow-keys to work inside editable-cell. ([#1588](https://github.com/infor-design/enterprise-wc/issues/1588))
 - `[Dropdown|Multiselect]` Broken Dropdown and Multiselect fixed in Angular. ([#1762](https://github.com/infor-design/enterprise-wc/issues/1762))
 - `[Dropdown]` Prevent dropdown from auto scrolling view when list box is opened. ([#1681](https://github.com/infor-design/enterprise-wc/issues/1681))
 - `[Datagrid]` Fix for empty-data text still showing after adding a grid row. ([#1580](https://github.com/infor-design/enterprise-wc/issues/1580))
