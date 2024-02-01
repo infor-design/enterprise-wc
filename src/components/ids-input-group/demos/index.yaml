@@ -1,0 +1,10 @@
+---
+ component: Input Group
+ link: ids-input-group
+ description: Input group component and features
+ category: Form Inputs
+ keywords: input, text, form
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows example of input group

@@ -457,8 +457,7 @@ th.ids-data-grid-header-cell {
 :host([dir='rtl']) {
   // Negate right alignment
   .ids-data-grid-header-cell {
-    &.align-right .ids-data-grid-header-cell-content,
-    &.align-right .ids-data-grid-header-cell-filter-wrapper {
+    &.align-right .ids-data-grid-header-cell-content {
       direction: ltr;
     }
 

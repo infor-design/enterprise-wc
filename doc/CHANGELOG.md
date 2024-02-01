@@ -8,21 +8,27 @@
 
 ### 1.0.0-beta.19 Features
 
+- `[InputGroup]` Added `IdsInputGroup` component to handle group validation warnings. ([#1673](https://github.com/infor-design/enterprise-wc/issues/1673))
 - `[PopupMenu]` Added ability to set `arrow` on the IdsPopupMenu so that it filters down to IdsPopup underneath, can now disable or change arrow direction. ([#1290](https://github.com/infor-design/enterprise-wc/issues/1290))
 
 ### 1.0.0-beta.19 Fixes
 
 - `[ListBuilder]` Fixed spacebar on IdsListBuilder so that input-field properly displays spaces. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))
 - `[AxisChart]` Fixed position of labels in RTL mode. ([#1716](https://github.com/infor-design/enterprise-wc/issues/1716))
+- `[Datagrid]` Datagrid fix for left/right arrow-keys to work inside editable-cell. ([#1588](https://github.com/infor-design/enterprise-wc/issues/1588))
 - `[Dropdown|Multiselect]` Broken Dropdown and Multiselect fixed in Angular. ([#1762](https://github.com/infor-design/enterprise-wc/issues/1762))
 - `[Dropdown]` Prevent dropdown from auto scrolling view when list box is opened. ([#1681](https://github.com/infor-design/enterprise-wc/issues/1681))
 - `[Datagrid]` Fix for empty-data text still showing after adding a grid row. ([#1580](https://github.com/infor-design/enterprise-wc/issues/1580))
+- `[Datagrid]` Fix for rtl direction of datagrid filter header. ([#1669](https://github.com/infor-design/enterprise-wc/issues/1669))
 - `[Input]` Renamed internal labels and fixed routines that look for labels to fix an issue with missing labels. ([#1752](https://github.com/infor-design/enterprise-wc/issues/1752))
 - `[LoadingIndicator]` Fixed an issue where the inner bars within the loader where not the same size. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))
 - `[Locale]` Changed all `zh` time formats to 24hr as suggested by native speakers. ([#8313](https://github.com/infor-design/enterprise-wc/issues/8313))
 - `[Lookup]` Fixed the size of the datagrid on lookups in responsive and normal mode. ([#1736](https://github.com/infor-design/enterprise-wc/issues/1736))
 - `[NotificationBanner]` Made the message text updatable to fix rendering issues. ([#1782](https://github.com/infor-design/enterprise-wc/issues/1782))
+- `[Slider]` Fixed issue with setting value through attribute. ([#1667](https://github.com/infor-design/enterprise-wc/issues/1667))
 - `[Tabs]` Fixed `selected` attribute occasionally not working.  ([#1705](https://github.com/infor-design/enterprise-wc/issues/1705))
+- `[Treemap]` Fixed label and value position in RTL. ([#1731](https://github.com/infor-design/enterprise-wc/issues/1731))
+- `[Tooltip]` Added `tooltip-placement` attribute to `IdsTooltipMixin` so any element inheriting from it can set tooltip's placement. ([#1639](https://github.com/infor-design/enterprise-wc/issues/1639))
 - `[Widget]` Added css part to the widget body element. ([#1771](https://github.com/infor-design/enterprise-wc/issues/1771))
 
 ## 1.0.0-beta.18

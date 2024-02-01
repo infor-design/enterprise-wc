@@ -72,6 +72,16 @@ const applyEditorPopupFocus = (editor: IdsDataGridEditor) => {
   }
 };
 
+const applyEditorEndCellEdit = (cell: IdsDataGridCell, e: KeyboardEvent) => {
+  if (e.code === 'Escape') {
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+    e.preventDefault();
+    cell?.cancelCellEdit();
+    cell?.focus();
+  }
+};
+
 export class InputEditor implements IdsDataGridEditor {
   /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type = 'input';
@@ -95,6 +105,8 @@ export class InputEditor implements IdsDataGridEditor {
     const value = cell?.innerText;
     cell!.innerHTML = '';
     cell?.appendChild(this.input as any);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
+
     this.input.value = value;
 
     if (this.input instanceof IdsInput && cell) {
@@ -147,6 +159,8 @@ export class CheckboxEditor implements IdsDataGridEditor {
     this.input.checked = this.clickEvent ? !value : value;
 
     cell?.appendChild(this.input as any);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
+
     this.input.focus();
     if (this.clickEvent) {
       requestAnimationFrame(() => {
@@ -214,6 +228,8 @@ export class DropdownEditor implements IdsDataGridEditor {
 
     cell!.innerHTML = '';
     cell!.appendChild(this.input);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
+
     cell!.appendChild(this.list);
     cell!.classList.add('is-focused');
     this.#cell = cell!;
@@ -367,8 +383,9 @@ export class DatePickerEditor implements IdsDataGridEditor {
 
     // insert datepicker component and focus
     cell!.innerHTML = '';
-    cell!.appendChild(this.input);
     cell!.appendChild(this.popup);
+    cell!.appendChild(this.input);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
 
     this.input.value = this.#displayValue;
     this.popup?.syncDateAttributes(this.#value ?? new Date());
@@ -523,8 +540,9 @@ export class TimePickerEditor implements IdsDataGridEditor {
 
     // insert time picker and focus
     cell!.innerHTML = '';
-    cell!.appendChild(this.input);
     cell!.appendChild(this.popup);
+    cell!.appendChild(this.input);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
 
     this.input.autoselect = true;
 
@@ -598,20 +616,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
     return popup;
   }
 
-  #stopPropagation(evt: FocusEvent | CustomEvent) {
-    const target = (evt instanceof FocusEvent ? evt.relatedTarget : evt.target) as HTMLElement | null;
-    const isOpen = this.input?.container?.classList.contains('is-open');
-    if (target?.tagName === 'IDS-DATA-GRID-CELL' || isOpen) {
-      evt.stopImmediatePropagation();
-    }
-  }
-
   #attachEventListeners(cell?: IdsDataGridCell | undefined) {
-    const tabHandler = (evt: CustomEvent) => this.#stopPropagation(evt);
-    const focusOutHandler = (evt: FocusEvent) => this.#stopPropagation(evt);
-
-    this.input?.onEvent('focusout', this.input, focusOutHandler, { capture: true });
-    this.input?.listen(['Tab', 'Enter'], this.input, tabHandler);
     this.popup?.onEvent('hide', this.popup, () => {
       if (cell!.contains(cell!.dataGrid!.shadowRoot!.activeElement)) return;
       cell?.focus();
@@ -728,6 +733,8 @@ export class LookupEditor implements IdsDataGridEditor {
     const value = cell?.innerText ?? '';
     cell!.innerHTML = '';
     cell?.appendChild(this.input as any);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
+
     this.input.input.noMargins = true;
     this.input.value = value;
 

@@ -16,6 +16,10 @@ const IdsValidationInputMixin = <T extends IdsBaseConstructor>(superclass: T) =>
     super.connectedCallback?.();
   }
 
+  hideErrorMessage(toHide: boolean): void {
+    (this as IdsInputInterface).input.hideErrorMessage(toHide);
+  }
+
   /**
    * Return if the field is valid or not
    * @returns {boolean} true if invalid
@@ -36,6 +40,10 @@ const IdsValidationInputMixin = <T extends IdsBaseConstructor>(superclass: T) =>
       });
     });
     return msgs;
+  }
+
+  get validationMessageElems(): Array<HTMLElement> {
+    return [...(this as IdsInputInterface).input?.shadowRoot?.querySelectorAll('.validation-message') || []];
   }
 };
 

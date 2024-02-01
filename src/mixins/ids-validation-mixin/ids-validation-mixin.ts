@@ -31,7 +31,7 @@ export type IdsValidationRule = {
   message: string;
 
   /** The method to check validation logic, return true if is valid */
-  check: (input: HTMLElement) => boolean;
+  check: (input: any) => boolean;
 };
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
@@ -82,6 +82,8 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     info: 'info',
     success: 'success',
   };
+
+  #hideErrorMessage = false;
 
   /**
    * Handle the validation rules
@@ -156,6 +158,10 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       this.destroyValidation();
       if (this.required) this.renderRequired();
     }
+  }
+
+  hideErrorMessage(toHide: boolean): void {
+    this.#hideErrorMessage = toHide || false;
   }
 
   /**
@@ -339,6 +345,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     elem.setAttribute('id', messageId);
     elem.setAttribute('validation-id', id);
     elem.setAttribute('type', type as string);
+    elem.toggleAttribute('hidden', this.#hideErrorMessage);
     elem.className = cssClass;
     elem.innerHTML = `${iconHtml}<ids-text error="true" class="message-text">${audible}${message}</ids-text>`;
     (this as any).validationElems?.main?.classList.add(type);
@@ -739,6 +746,10 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       });
     });
     return msgs;
+  }
+
+  get validationMessageElems(): Array<HTMLElement> {
+    return [...this.shadowRoot?.querySelectorAll<HTMLElement>('.validation-message') || []];
   }
 
   /**
