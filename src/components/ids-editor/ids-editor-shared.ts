@@ -1,20 +1,50 @@
 import { attributes } from '../../core/ids-attributes';
 import { IdsLabelStateAttributes } from '../../mixins/ids-label-state-mixin/ids-label-state-common';
 
+export interface EditorAction {
+  action: string;
+  keyid?: string;
+  value?: string;
+}
+
 // List of view modes
 export const VIEWS = ['editor', 'source'];
 
 // List of paragraph separators
 export const PARAGRAPH_SEPARATORS = ['p', 'div', 'br'];
 
+// List of headers
+export const HEADERS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+
 // List of block elements
-export const BLOCK_ELEMENTS = ['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre'];
+export const BLOCK_ELEMENTS = [...HEADERS, 'p', 'div', 'blockquote', 'pre'];
 
 // List of font size
 export const FONT_SIZES = ['1', '2', '3', '4', '5', '6', '7'];
 
 // Css classes used most in editor
 export const CLASSES = { hidden: 'hidden', labelRequired: 'no-required-indicator' };
+
+// Collection of Text Format actions
+export const TEXT_FORMAT_ACTIONS = BLOCK_ELEMENTS.reduce((actions, blockAction: string) => {
+  actions[blockAction] = {
+    action: 'formatBlock',
+    value: blockAction,
+    keyid: HEADERS.includes(blockAction)
+      ? `Digit${blockAction.replace('h', '')}|alt`
+      : undefined
+  };
+  return actions;
+}, {} as Record<string, EditorAction>);
+
+// Collection of Font Size actions
+export const FONT_SIZE_ACTIONS = FONT_SIZES.reduce((actions, fontSize: string) => {
+  actions[fontSize] = {
+    action: 'fontSize',
+    value: fontSize
+  };
+  return actions;
+}, {} as Record<string, EditorAction>);
 
 // List of defaults
 export const EDITOR_DEFAULTS = {

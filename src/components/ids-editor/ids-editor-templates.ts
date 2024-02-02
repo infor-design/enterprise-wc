@@ -11,14 +11,15 @@ export function parseTemplate(str: string, ctx: any): string {
 // Editor template
 export const editorTemplate = `
   <div class="ids-editor" part="editor"{disabled}{readonly}>
-    <slot class="{hiddenClass}"></slot>
     <ids-text id="editor-label" label class="{labelClass}{hiddenLabelCss}{requiredLabelCss}" part="editor-label"{disabled}{readonly}>{labelText}</ids-text>
     <div class="main-container" part="main-container">
       <div class="toolbar-container" part="toolbar-container">
         <slot name="toolbar"></slot>
       </div>
       <div class="editor-content">
-        <div id="editor-container" class="editor-container" part="editor-container"{contenteditable} aria-multiline="true" role="textbox" aria-labelledby="editor-label"{placeholder}></div>
+        <div id="editor-container" class="editor-container" part="editor-container"{contenteditable} aria-multiline="true" role="textbox" aria-labelledby="editor-label"{placeholder}>
+          <slot></slot>
+        </div>
         <div class="source-container {hiddenClass}" part="source-container">
           <div class="source-wrapper">
             <ul class="line-numbers"></ul>

@@ -52,6 +52,7 @@ export function saveSelection(sel: Selection): Array<Range> | null {
     }
     return ranges;
   }
+
   return null;
 }
 
@@ -78,12 +79,15 @@ export function selectionParents(sel: Selection, elem: HTMLElement): object {
   const parents: any = {};
   if (sel?.containsNode(elem, true)) {
     let node = <HTMLElement>sel?.focusNode;
-    while (node?.id !== 'editor-container') {
+    while (node !== elem) {
       const tag = node?.tagName?.toLowerCase();
       if (tag) parents[tag] = { tag, node };
       node = <HTMLElement>node?.parentNode;
     }
   }
+
+  console.log('selectionParents', parents);
+
   return parents;
 }
 

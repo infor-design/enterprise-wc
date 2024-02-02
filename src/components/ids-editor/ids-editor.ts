@@ -28,13 +28,15 @@ import {
   VIEWS,
   PARAGRAPH_SEPARATORS,
   BLOCK_ELEMENTS,
-  FONT_SIZES,
+  EditorAction,
   CLASSES,
   EDITOR_DEFAULTS,
   EDITOR_ATTRIBUTES,
   qs,
   qsAll,
-  rgbToHex
+  rgbToHex,
+  FONT_SIZE_ACTIONS,
+  TEXT_FORMAT_ACTIONS
 } from './ids-editor-shared';
 
 import {
@@ -290,7 +292,7 @@ export default class IdsEditor extends Base {
    * Saved current selection ranges.
    * @private
    */
-  #savedSelection?: Array<Range>;
+  #savedSelection: Array<Range> | null = null;
 
   /**
    * Cache elements use most.
@@ -307,7 +309,7 @@ export default class IdsEditor extends Base {
    * extra actions get added in `#initContent()`
    * @private
    */
-  #actions: any = {
+  #actions: Record<string, EditorAction> = {
     // STYLES
     bold: { action: 'bold', keyid: 'KeyB' },
     italic: { action: 'italic', keyid: 'KeyI' },
@@ -318,11 +320,13 @@ export default class IdsEditor extends Base {
     superscript: { action: 'superscript', keyid: 'Equal|shift' },
     subscript: { action: 'subscript', keyid: 'Equal' },
 
-    // TEXT FORMAT
-    formatblock: { action: 'formatBlock', value: [...BLOCK_ELEMENTS] },
+    // TEXT FORMATS
+    formatblock: { action: 'formatBlock' },
+    ...TEXT_FORMAT_ACTIONS,
 
     // FONT SIZE
-    fontsize: { action: 'fontSize', value: [...FONT_SIZES] },
+    fontsize: { action: 'fontSize' },
+    ...FONT_SIZE_ACTIONS,
 
     // COLORS
     forecolor: { action: 'foreColor', keyid: 'KeyK|shift|alt' },
@@ -340,10 +344,10 @@ export default class IdsEditor extends Base {
     inserthorizontalrule: { action: 'insertHorizontalRule', keyid: 'KeyL|shift' },
 
     // ALIGNMENT
-    alignleft: { action: 'justifyLeft', keyid: 'KeyL' },
-    alignright: { action: 'justifyRight', keyid: 'KeyR' },
-    aligncenter: { action: 'justifyCenter', keyid: 'KeyE' },
-    alignjustify: { action: 'justifyFull', keyid: 'KeyJ' },
+    alignleft: { action: 'alignLeft', keyid: 'KeyL' },
+    alignright: { action: 'alignRight', keyid: 'KeyR' },
+    aligncenter: { action: 'alignCenter', keyid: 'KeyE' },
+    alignjustify: { action: 'alignJustify', keyid: 'KeyJ' },
 
     // CLEAR FORMATTING
     clearformatting: { action: 'removeFormat', keyid: 'Space|shift' },
@@ -417,10 +421,7 @@ export default class IdsEditor extends Base {
    * @returns {Selection|null} The selection
    */
   #getSelection(): Selection | null {
-    if (!(this.shadowRoot as any)?.getSelection) {
-      return document.getSelection();
-    }
-    return (this.shadowRoot as any)?.getSelection();
+    return document.getSelection();
   }
 
   /**
@@ -586,6 +587,7 @@ export default class IdsEditor extends Base {
   #contenteditable(): object {
     const value = !this.disabled && !this.readonly;
     this.#elems?.editor?.setAttribute('contenteditable', value);
+    this.setAttribute('contenteditable', `${value}`);
     return this;
   }
 
@@ -617,47 +619,11 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Set disabled state
-   * @private
-   * @returns {object} This API object for chaining
-   */
-  #setDisabled(): object {
-    if (this.disabled) {
-      this.container?.setAttribute(attributes.DISABLED, '');
-      this.#elems?.textarea?.setAttribute(attributes.DISABLED, '');
-      this.labelEl?.setAttribute(attributes.DISABLED, '');
-    } else {
-      this.container?.removeAttribute(attributes.DISABLED);
-      this.#elems?.textarea?.removeAttribute(attributes.DISABLED);
-      this.labelEl?.removeAttribute(attributes.DISABLED);
-    }
-    this.#contenteditable();
-    this.#disabledHyperlinks();
-    return this;
-  }
-
-  /**
    * Initialize the raw content
    * @private
    * @returns {object} This API object for chaining
    */
   #initContent(): object {
-    // Format block action
-    this.#actions.formatblock?.value.forEach((value: string) => {
-      this.#actions[value] = { value, action: 'formatBlock' };
-    });
-    ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].forEach((h) => {
-      // this.#actions[h] && (this.#actions[h].keyid = `Digit${h.replace('h', '')}|alt`);
-      if (this.#actions[h]) {
-        this.#actions[h].keyid = `Digit${h.replace('h', '')}|alt`;
-      }
-    });
-
-    // Font size action
-    this.#actions.fontsize?.value.forEach((value: string) => {
-      this.#actions[`fontsize${value}`] = { value, action: 'fontSize' };
-    });
-
     // set colorpicker
     const setColorpicker = (key: string) => {
       const btn = this.querySelector(`[editor-action="${key}"]`);
@@ -868,22 +834,30 @@ export default class IdsEditor extends Base {
     }
   }
 
+  #selectionParents() {
+
+  }
+
   /**
    * On selection change.
    * @private
    * @returns {void}
    */
   #onSelectionChange(): void {
-    const sel: any = this.#getSelection();
+    const sel = this.#getSelection();
+
+    // refactor this
+    if (!sel) return;
+
     const elems = this.#elems;
-    const parents: any = selectionParents(sel, elems.editor);
+    const parents: any = selectionParents(sel, this);
     const setActive = (btn: any) => {
       if (btn) btn.cssClass = ['is-active'];
     };
     const regxFormatblock = new RegExp(`^(${Object.keys(elems.formatblock.items).join('|')})$`, 'i');
-    const isEditor = elems?.editor === this.shadowRoot?.activeElement;
-    this.#unActiveToolbarButtons();
-    if (isEditor) {
+
+    if (this.contains(sel.focusNode)) {
+      this.#unActiveToolbarButtons();
       Object.entries(this.#actions).forEach(([k, v]) => {
         if (k.substring(0, 5) === 'align') return;
         if (k === 'forecolor' && parents.font?.node?.hasAttribute('color')) {
@@ -924,6 +898,9 @@ export default class IdsEditor extends Base {
     if (/^ids-button$/i.test(elem.nodeName)) target = elem;
 
     const action = target?.getAttribute('editor-action');
+
+    console.log('#onSelectedToolbar', e.detail, action);
+
     if (this.#actions[action]) {
       let value = null;
       if (action === 'formatblock') {
@@ -997,82 +974,101 @@ export default class IdsEditor extends Base {
     return true;
   }
 
+  #getBlockElements(sel: Selection): Array<HTMLElement> {
+    const slottedBlockElements = [...this.querySelectorAll<HTMLElement>(BLOCK_ELEMENTS.join(', '))];
+    return slottedBlockElements.filter((el) => sel.containsNode(el, true));
+  }
+
+  #formatBlock(selection: Selection, action: EditorAction): void {
+    if (!action) return;
+
+    if (action.value === 'blockquote' && blockElem(selection).tagName === 'blockquote') {
+      action = { ...this.#actions[this.#paragraphSeparator as any] };
+    }
+
+    this.#getBlockElements(selection).forEach((elem) => {
+      const regx = new RegExp(`<(/?)${elem.tagName}((?:[^>"']|"[^"]*"|'[^']*')*)>`, 'gi');
+      const html = elem.outerHTML.replace(regx, `<$1${action.value}$2>`);
+      elem.outerHTML = html;
+    });
+  }
+
+  #alignText(selection: Selection, action: EditorAction) {
+    const alignDoc = this.localeAPI?.isRTL() ? 'right' : 'left';
+    const align = action.action.replace('align', '').toLowerCase();
+    this.#getBlockElements(selection).forEach((elem) => {
+      if (align === alignDoc) elem?.removeAttribute('style');
+      else elem?.style.setProperty('text-align', align);
+    });
+  }
+
+  #setTextColor(selection: Selection, action: EditorAction) {
+    this.#savedSelection = saveSelection(selection);
+
+    if (this.#savedSelection && this.#elems[`${action}Input`]) {
+      const color = action.value === 'backcolor'
+        ? selection?.focusNode?.parentNode?.style?.getProperty?.('background-color')
+        : document.queryCommandValue(a.action);
+      this.#elems[`${action}Input`].value = /rgb/i.test(color) ? rgbToHex(color) : color;
+      this.#elems[`${action}Input`].click();
+    }
+  }
+
+  #createList(selection: Selection, action: EditorAction) {
+    let isAdd = true;
+
+    this.#getBlockElements(selection).forEach((elem) => {
+      const listTagType = action.action === 'insertOrderedList' ? '<ol>' : '<ul>';
+      if (elem.innerHTML.includes(listTagType)) isAdd = false;
+
+      elem.innerHTML = (elem.innerHTML as any)
+        .replaceAll('</ul>', '')
+        .replaceAll('</ol>', '')
+        .replaceAll('</li>', '')
+        .replaceAll('<ul>', '')
+        .replaceAll('<ol>', '')
+        .replaceAll('<li>', '');
+    });
+
+    if (isAdd) {
+      document.execCommand(action.action, false, action.value);
+    }
+  }
+
   /**
    * Handle given action.
    * @private
-   * @param {string} action The action
+   * @param {string} actionName Name of action
    * @param {string|undefined} val The value
    * @returns {void}
    */
-  #handleAction(action: string, val?: string): void {
-    let a = { ...this.#actions[action] };
+  #handleAction(actionName: string, val: string = ''): void {
+    const a: EditorAction = { ...this.#actions[actionName] };
     const sel: any = this.#getSelection();
 
-    // Set format block
+    // Set text format
     if (a.action === 'formatBlock') {
-      const blockAction = val ?? a.value;
-      a = { ...this.#actions[blockAction] };
-
-      if (a.value === 'blockquote' && blockElem(sel).tagName === 'blockquote') {
-        a = { ...this.#actions[this.#paragraphSeparator as any] };
-      }
-      selectionBlockElems(sel, this.#elems.editor).forEach((elem) => {
-        const regx = new RegExp(`<(/?)${elem.tagName}((?:[^>"']|"[^"]*"|'[^']*')*)>`, 'gi');
-        const html = elem.outerHTML.replace(regx, `<$1${a.value}$2>`);
-        elem.outerHTML = html;
-      });
-      return;
+      return this.#formatBlock(sel, this.#actions[val] ?? this.#actions[actionName]);
     }
 
     // Set text align
-    if (/^(alignleft|alignright|aligncenter|alignjustify)$/i.test(action)) {
-      const alignDoc = this.localeAPI?.isRTL() ? 'right' : 'left';
-      const align = action.replace('align', '');
-      selectionBlockElems(sel, this.#elems.editor).forEach((elem) => {
-        if (align === alignDoc) elem?.removeAttribute('style');
-        else elem?.style.setProperty('text-align', align);
-      });
-      return;
+    if (/^(alignleft|alignright|aligncenter|alignjustify)$/i.test(actionName)) {
+      return this.#alignText(sel, this.#actions[actionName]);
     }
 
     // Set forecolor, backcolor
-    if (/^(forecolor|backcolor)$/i.test(action)) {
-      this.#savedSelection = <any>saveSelection(sel);
-      if (this.#savedSelection && this.#elems[`${action}Input`]) {
-        const color = action === 'backcolor'
-          ? sel?.focusNode?.parentNode?.style?.getProperty?.('background-color')
-          : document.queryCommandValue(a.action);
-        this.#elems[`${action}Input`].value = /rgb/i.test(color) ? rgbToHex(color) : color;
-        this.#elems[`${action}Input`].click();
-      }
-      return;
+    if (/^(forecolor|backcolor)$/i.test(actionName)) {
+      return this.#setTextColor(sel, this.#actions[actionName]);
     }
 
     // Set ordered list, unordered list
-    if (/^(orderedlist|unorderedlist)$/i.test(action)) {
-      let isAdd = true;
-      selectionBlockElems(sel, this.#elems.editor).forEach((elem) => {
-        if (elem.innerHTML.includes(action === 'orderedlist' ? '<ol>' : '<ul>')) {
-          isAdd = false;
-        }
-        elem.innerHTML = (elem.innerHTML as any)
-          .replaceAll('</ul>', '')
-          .replaceAll('</ol>', '')
-          .replaceAll('</li>', '')
-          .replaceAll('<ul>', '')
-          .replaceAll('<ol>', '')
-          .replaceAll('<li>', '');
-      });
-
-      if (isAdd) {
-        document.execCommand(a.action, false, a.value);
-      }
-      return;
+    if (/^(orderedlist|unorderedlist)$/i.test(actionName)) {
+      return this.#createList(sel, this.#actions[actionName]);
     }
 
     // Switch editor/source mode
-    if (/^(editormode|sourcemode)$/i.test(action)) {
-      this.view = action.replace(/mode/i, '');
+    if (/^(editormode|sourcemode)$/i.test(actionName)) {
+      this.view = actionName.replace(/mode/i, '');
       return;
     }
 
@@ -1091,8 +1087,8 @@ export default class IdsEditor extends Base {
     if (typeof a === 'undefined') return;
 
     restoreSelection((this.#getSelection() as any), (this.#savedSelection as any));
-    const sel: any = this.#getSelection();
-    const range: any = sel.getRangeAt(0);
+    const sel = this.#getSelection();
+    const range = sel?.getRangeAt(0);
 
     // Insert image
     if (key === 'insertimage') {
@@ -1303,9 +1299,9 @@ export default class IdsEditor extends Base {
     this.onEvent('slotchange.editor-content', this.container, (e: Event) => {
       const slot: any = e.target;
       if (slot?.name === '') {
-        const html = slot.assignedElements().map((el: HTMLElement) => el.outerHTML).join('');
-        this.#setEditorContent(html);
-        if (!this.reqInitialize) this.#triggerEvent('input', this.#elems.editor);
+        // const html = slot.assignedElements().map((el: HTMLElement) => el.outerHTML).join('');
+        // this.#setEditorContent(html);
+        // if (!this.reqInitialize) this.#triggerEvent('input', this.#elems.editor);
       }
     });
     return this;
@@ -1366,12 +1362,13 @@ export default class IdsEditor extends Base {
    * @param {boolean|string} value If true will set disabled
    */
   set disabled(value: boolean | string) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.DISABLED, '');
-    } else {
-      this.removeAttribute(attributes.DISABLED);
-    }
-    this.#setDisabled?.();
+    const isDisabled = stringToBool(value);
+    this.toggleAttribute(attributes.DISABLED, isDisabled);
+    this.container?.toggleAttribute(attributes.DISABLED, isDisabled);
+    this.#elems?.textarea?.toggleAttribute(attributes.DISABLED, isDisabled);
+    this.labelEl?.toggleAttribute(attributes.DISABLED, isDisabled);
+    this.#contenteditable();
+    this.#disabledHyperlinks();
   }
 
   get disabled() {
@@ -1452,18 +1449,12 @@ export default class IdsEditor extends Base {
    * @param {boolean|string} value If true will set readonly
    */
   set readonly(value: boolean | string) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.READONLY, '');
-      this.container?.setAttribute(attributes.READONLY, '');
-      this.#elems?.textarea?.setAttribute(attributes.READONLY, '');
-      this.labelEl?.setAttribute(attributes.READONLY, '');
-    } else {
-      this.removeAttribute(attributes.READONLY);
-      this.container?.removeAttribute(attributes.READONLY);
-      this.#elems?.textarea?.removeAttribute(attributes.READONLY);
-      this.labelEl?.removeAttribute(attributes.READONLY);
-    }
-    this.#contenteditable?.();
+    const isReadOnly = stringToBool(value);
+    this.toggleAttribute(attributes.READONLY, isReadOnly);
+    this.container?.toggleAttribute(attributes.READONLY, isReadOnly);
+    this.#elems?.textarea?.toggleAttribute(attributes.READONLY, isReadOnly);
+    this.labelEl?.toggleAttribute(attributes.READONLY, isReadOnly);
+    this.#contenteditable();
   }
 
   get readonly() {
@@ -1476,11 +1467,7 @@ export default class IdsEditor extends Base {
    * @param {boolean|string} value The value
    */
   set sourceFormatter(value: boolean | string) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.SOURCE_FORMATTER, '');
-    } else {
-      this.removeAttribute(attributes.SOURCE_FORMATTER);
-    }
+    this.toggleAttribute(attributes.SOURCE_FORMATTER, stringToBool(value));
   }
 
   get sourceFormatter() {
@@ -1493,11 +1480,17 @@ export default class IdsEditor extends Base {
    * @param {string} value The value: 'editor', 'source'
    */
   set view(value: string) {
-    if (VIEWS.indexOf(value) > -1) {
+    if (VIEWS.includes(value)) {
       const attr = this.getAttribute(attributes.VIEW);
       let veto = null;
-      if (this.view !== value) veto = /source/i.test(value) ? this.#sourceMode() : this.#editorMode();
-      if (veto || (veto === null && attr !== value)) this.setAttribute(attributes.VIEW, value);
+      if (this.view !== value) {
+        veto = /source/i.test(value) ? this.#sourceMode() : this.#editorMode();
+      }
+
+      if (veto || (veto === null && attr !== value)) {
+        this.setAttribute(attributes.VIEW, value);
+      }
+
       if (veto) {
         this.#triggerEvent(`after${value}mode`);
         this.#triggerEvent('viewchange', this, { view: value });
