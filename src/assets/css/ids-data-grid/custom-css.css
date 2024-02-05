@@ -22,43 +22,43 @@ ids-data-grid::part(custom-cell-selected-2) {
 /**
  * Tooltip styles
  */
-ids-data-grid::part(custom-turquoise-tooltip-arrow-top)::after {
+ids-data-grid::part(custom-teal-tooltip-arrow-top)::after {
   border-top-color: #2f8d8e;
 }
 
-ids-data-grid::part(custom-turquoise-tooltip-popup) {
+ids-data-grid::part(custom-teal-tooltip-popup) {
   background-color: #2f8d8e;
 }
 
-ids-data-grid::part(azure-tooltip-arrow-top)::after {
+ids-data-grid::part(blue-tooltip-arrow-top)::after {
   border-top-color: #0066d4;
 }
 
-ids-data-grid::part(azure-tooltip-popup) {
+ids-data-grid::part(blue-tooltip-popup) {
   background-color: #0066d4;
 }
 
-ids-data-grid::part(ruby-tooltip-arrow-top)::after {
+ids-data-grid::part(red-tooltip-arrow-top)::after {
   border-top-color: #c31014;
 }
 
-ids-data-grid::part(ruby-tooltip-popup) {
+ids-data-grid::part(red-tooltip-popup) {
   background-color: #c31014;
 }
 
-ids-data-grid::part(emerald-tooltip-arrow-top)::after {
+ids-data-grid::part(green-tooltip-arrow-top)::after {
   border-top-color: #1c7f49;
 }
 
-ids-data-grid::part(emerald-tooltip-popup) {
+ids-data-grid::part(green-tooltip-popup) {
   background-color: #1c7f49;
 }
 
-ids-data-grid::part(amethyst-tooltip-arrow-top)::after {
+ids-data-grid::part(purple-tooltip-arrow-top)::after {
   border-top-color: #591da8;
 }
 
-ids-data-grid::part(amethyst-tooltip-popup) {
+ids-data-grid::part(purple-tooltip-popup) {
   background-color: #591da8;
 }
 

@@ -68,7 +68,7 @@ export default class IdsAlert extends IdsTooltipMixin(IdsEventsMixin(IdsElement)
 
   /**
    * Set the alert color
-   * @param {string|null} value The color to use between: error, success, info, alert, warning amber, amethyst
+   * @param {string|null} value The color to use between: error, success, info, alert, warning, orange, purple
    */
   set color(value: string | null) {
     if (value) {

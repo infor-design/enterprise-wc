@@ -1,5 +1,5 @@
 <ids-hierarchy>
-      <ids-hierarchy-item id="item-1" root-item="true" expanded="true" color="azure-80">
+      <ids-hierarchy-item id="item-1" root-item="true" expanded="true" color="blue-80">
         <img id="headshot" alt="item-1" slot="avatar" src="/src/assets/images/headshot-1.jpg">
         <ids-text slot="heading">Tony Cleveland</ids-text>
         <ids-text slot="subheading">Director</ids-text>
@@ -18,7 +18,7 @@
           </ids-popup-menu>
         </div>
 
-        <ids-hierarchy-item id="item-2" color="turquoise-20">
+        <ids-hierarchy-item id="item-2" color="teal-20">
           <ids-text slot="heading">Julie Dawes</ids-text>
           <ids-text slot="subheading">Records Clerk</ids-text>
           <ids-text slot="micro">PT</ids-text>
@@ -45,7 +45,7 @@
             </ids-popup-menu>
           </div>
         </ids-hierarchy-item>
-        <ids-hierarchy-item id="item-3" color="amethyst-60">
+        <ids-hierarchy-item id="item-3" color="purple-60">
           <ids-text slot="heading">Kaylee Edwards</ids-text>
           <ids-text slot="subheading">Records Manager</ids-text>
           <ids-text slot="micro">C</ids-text>
@@ -63,12 +63,12 @@
             </ids-popup-menu>
           </div>
 
-          <ids-hierarchy-item id="item-4" color="slate-60">
+          <ids-hierarchy-item id="item-4" color="neutral-60">
             <ids-text slot="heading">Julie Dawes</ids-text>
             <ids-text slot="subheading">Records Clerk</ids-text>
             <ids-text slot="micro">OP</ids-text>
 
-            <ids-hierarchy-item id="item-5" color="amethyst-60">
+            <ids-hierarchy-item id="item-5" color="purple-60">
               <ids-text slot="heading">Tony Cleveland</ids-text>
               <ids-text slot="subheading">Director</ids-text>
               <ids-text slot="micro">C</ids-text>

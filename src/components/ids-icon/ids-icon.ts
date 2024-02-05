@@ -6,6 +6,13 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { sizes } from './ids-icon-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import {
+  type IdsColorValue,
+  type IdsColorValueEmpty,
+  type IdsColorValueStatus,
+  type IdsColorValueColorNames,
+  applyColorValue
+} from '../../utils/ids-color-utils/ids-color-utils';
 import { querySelectorAllShadowRoot } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
@@ -420,8 +427,9 @@ export default class IdsIcon extends Base {
   }
 
   set size(value: string | null) {
+    debugger
     if (value && sizes[value]) {
-      const size = sizes[this.size];
+      const size = sizes[value];
       this.setAttribute(attributes.SIZE, value);
       this?.style.setProperty('--ids-icon-height-default', `${String(size)}px`);
       this?.style.setProperty('--ids-icon-width-default', `${String(size)}px`);
@@ -433,9 +441,9 @@ export default class IdsIcon extends Base {
 
   /**
    * Color that can be used for embellishment or to indicate status or bring attention
-   * @param {string} value Any pallete color reference
+   * @param {IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueColorNames} value Any pallete color reference
    */
-  set statusColor(value: string | null) {
+  set statusColor(value: IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueColorNames) {
     if (value) {
       this.setAttribute(attributes.STATUS_COLOR, value);
       this.container?.classList.add(`status-color-${value}`);
@@ -450,13 +458,14 @@ export default class IdsIcon extends Base {
 
   /**
    * Color to use for icon fill (other than other settings).
-   * @param {string} value Any pallete color reference
+   * @param {IdsColorValue} value Any pallete color reference
    */
-  set color(value: string | null) {
+  set color(value: IdsColorValue) {
     if (value) {
       this.setAttribute(attributes.COLOR, value);
-      this.container?.style.setProperty('--ids-icon-color-default', value);
+      applyColorValue(value, this.container as HTMLElement, '--ids-icon-color-default');
     } else {
+      applyColorValue('', this.container as HTMLElement, '--ids-icon-color-default');
       this.removeAttribute(attributes.COLOR);
     }
   }

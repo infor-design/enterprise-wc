@@ -1,7 +1,7 @@
 
       <div part="splitter" role="presentation" class="ids-splitter axis-undefined">
         <slot></slot>
-      
+
           <ids-draggable axis="x" id="split-1" aria-orientation="horizontal" role="separator" aria-label="Resize" tabindex="0" class="splitter-dragger" aria-valuenow="0" min-transform-x="0" max-transform-x="800" style="transform: translateX(400px);">
             <div class="split-bar" part="split-bar" role="presentation">
               <div class="splitter-drag-handle"></div>

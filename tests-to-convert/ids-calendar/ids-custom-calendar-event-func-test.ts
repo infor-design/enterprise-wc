@@ -23,7 +23,7 @@ const EVENT_TYPE = {
   id: 'dto',
   label: 'Discretionary Time Off',
   translationKey: 'DiscretionaryTimeOff',
-  color: 'azure',
+  color: 'blue',
   checked: true
 };
 

@@ -24,7 +24,7 @@ export type CalendarEventTypeData = {
   id: string;
   label: string;
   translationKey: string;
-  color: 'amber' | 'amethyst' | 'azure' | 'emerald' | 'ruby' | 'slate' | 'turquoise';
+  color: 'orange' | 'purple' | 'blue' | 'green' | 'red' | 'neutral' | 'teal';
   checked: boolean;
   disabled?: boolean
 };
@@ -418,7 +418,7 @@ export default class IdsCalendarEvent extends Base {
    * @returns {string} color
    */
   get color(): string {
-    return this.eventTypeData?.color || 'azure';
+    return this.eventTypeData?.color || 'blue';
   }
 
   /**

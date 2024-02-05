@@ -157,7 +157,7 @@ describe('IdsCheckbox Component', () => {
   });
 
   it('should renders colored', () => {
-    const color = 'emerald';
+    const color = 'green';
     let rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
     expect(rootEl.getAttribute('color')).toEqual(null);
     expect(cb.getAttribute('color')).toEqual(null);
@@ -266,7 +266,7 @@ describe('IdsCheckbox Component', () => {
     cb = new IdsCheckbox();
     // TODO fix that this errors by storing the state
     document.body.appendChild(cb);
-    cb.setAttribute('color', 'ruby');
+    cb.setAttribute('color', 'red');
     cb.setAttribute('disabled', 'true');
     cb.setAttribute('horizontal', 'true');
     // cb.setAttribute('checked', 'true');

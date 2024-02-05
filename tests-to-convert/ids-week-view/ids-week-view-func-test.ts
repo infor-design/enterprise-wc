@@ -47,14 +47,14 @@ const EVENT_TYPES = [
     id: 'dto',
     label: 'Discretionary Time Off',
     translationKey: 'DiscretionaryTimeOff',
-    color: 'azure',
+    color: 'blue',
     checked: true
   },
   {
     id: 'admin',
     label: 'Admin',
     translationKey: 'AdministrativeLeave',
-    color: 'amethyst',
+    color: 'purple',
     checked: true
   }
 ];

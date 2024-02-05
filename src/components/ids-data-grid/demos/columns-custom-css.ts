@@ -21,7 +21,7 @@ if (dataGrid) {
       const { type } = args;
       let cssPart = '';
       if (type === 'body-cell') {
-        const parts = ['azure', 'ruby', 'emerald', 'amethyst'];
+        const parts = ['blue', 'red', 'green', 'purple'];
         const randomIndex = Math.floor(Math.random() * parts.length);
         cssPart = parts[randomIndex];
       }
@@ -59,8 +59,8 @@ if (dataGrid) {
       name: 'Tooltip CssPart',
       field: 'location',
       formatter: dataGrid.formatters.text,
-      tooltipCssPart: 'custom-turquoise',
-      headerTooltipCssPart: 'custom-turquoise',
+      tooltipCssPart: 'custom-teal',
+      headerTooltipCssPart: 'custom-teal',
       width: 100
     });
     columns.push({

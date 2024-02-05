@@ -208,7 +208,7 @@ export default class IdsCheckbox extends Base {
   get checked(): boolean { return stringToBool(this.getAttribute(attributes.CHECKED)); }
 
   /**
-   *  Sets the checkbox color to one of the colors in our color palette for example emerald
+   * Sets the checkbox color to one of the colors in our color palette for example green
    * @param {boolean|string} value If true will set `color` attribute
    */
   set color(value: boolean | string | null) {

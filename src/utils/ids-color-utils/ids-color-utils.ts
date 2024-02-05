@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-mixed-operators */
+
 /**
  * Converts the provided hex to a rgba value
  * @param {string} hex to set.
@@ -167,4 +168,46 @@ export function statusToIDSColor(statusName: string) {
     cssVariable = `var(--ids-color-${statusName})`;
   }
   return cssVariable || statusName;
+}
+
+export type IdsColorValueHex = `#${string}`;
+export type IdsColorValueEmpty = null | '' | undefined;
+export type IdsColorValueStatus = 'error' | 'warning' | 'caution' | 'info' | 'success' | 'neutral';
+export type IdsColorValueColorNames = 'red' | 'yellow' | 'orange' | 'green' | 'blue' | 'teal' | 'purple' | 'neutral' | 'white' | 'black';
+export type IdsColorValueNumbers = '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90' | '100';
+export type IdsColorValue = IdsColorValueHex | IdsColorValueStatus | `red-${IdsColorValueNumbers}` | `yellow-${IdsColorValueNumbers}` | `orange-${IdsColorValueNumbers}` | `green-${IdsColorValueNumbers}` | `blue-${IdsColorValueNumbers}` | `teal-${IdsColorValueNumbers}` | `purple-${IdsColorValueNumbers}` | `neutral-${IdsColorValueNumbers}` | IdsColorValueColorNames | IdsColorValueEmpty;
+
+/**
+ * Helps ensure color settings all use the same colors, adds a type and keeps them consistent
+ * @param {IdsColorValue} color the status keyword provided
+ * @param {HTMLElement} elem the element that needs setting on
+ * @param {string} cssVar the status keyword provided
+ */
+export function applyColorValue(color: IdsColorValue, elem: HTMLElement, cssVar?: string) {
+  if (cssVar) elem?.style.removeProperty(cssVar);
+  elem.style.color = '';
+  if (!color || color === 'neutral') {
+    return;
+  }
+  if (color?.substring(0, 1) === '#') {
+    elem.style.color = color;
+    return;
+  }
+  if (['error', 'warning', 'caution', 'success', 'info'].includes(color) && cssVar) {
+    elem?.style.setProperty(cssVar, `var(--ids-color-${color}-default)`);
+    return;
+  }
+  if (['error', 'warning', 'caution', 'success', 'info'].includes(color) && cssVar) {
+    elem?.style.setProperty(cssVar, `var(--ids-color-${color}-default)`);
+    return;
+  }
+  if (['white', 'black'].includes(color) && cssVar) {
+    elem?.style.setProperty(cssVar, `var(--ids-color-${color})`);
+    return;
+  }
+  if (['red', 'yellow', 'orange', 'green', 'blue', 'teal', 'purple', 'neutral'].includes(color) && cssVar) {
+    elem?.style.setProperty(cssVar, `var(--ids-color-${color}-default)`);
+    return;
+  }
+  if (cssVar) elem?.style.setProperty(cssVar, `var(--ids-color-${color})`);
 }

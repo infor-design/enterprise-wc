@@ -64,8 +64,8 @@ describe('IdsSlider Component', () => {
     slider.color = '#606066';
     expect(slider.color).toBe('#606066');
 
-    slider.color = 'amethyst-50';
-    expect(slider.color).toBe('amethyst-50');
+    slider.color = 'purple-50';
+    expect(slider.color).toBe('purple-50');
   });
 
   it('sets labels correctly', async () => {

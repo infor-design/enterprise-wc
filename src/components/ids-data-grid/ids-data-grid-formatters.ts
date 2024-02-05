@@ -482,7 +482,7 @@ export default class IdsDataGridFormatters {
         step-number="${Math.min(max, 10)}"
         steps-in-progress="${showStepsInProgress ? stepsInProgress : 0}"
         value="${Math.floor(val)}"
-        progress-color="ruby02"
+        progress-color="red-20"
         ${color ? `color="${color}"` : ''}
         ${isDisabled ? 'disabled' : ''}
       >

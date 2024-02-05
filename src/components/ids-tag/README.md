@@ -66,7 +66,7 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 - `clickable` {boolean} Turns on the functionality to make the tag clickable like a link
 - `dismissible` {boolean} Turns on the functionality to add an (x) button to clear remove the tag
-- `color` {string} Sets the color to a internal color such as `azure` or may be a hex starting with a `#`
+- `color` {string} Sets the color to a internal color such as `blue` or may be a hex starting with a `#`
 
 ## Events
 

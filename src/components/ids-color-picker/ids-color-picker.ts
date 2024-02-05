@@ -182,12 +182,12 @@ export default class IdsColorPicker extends Base {
     });
 
     const paletteGroups = [
-      ...Object.values(['--ids-color-ruby-10', '--ids-color-ruby-20', '--ids-color-ruby-30', '--ids-color-ruby-40', '--ids-color-ruby-50', '--ids-color-ruby-60', '--ids-color-ruby-70', '--ids-color-ruby-80', '--ids-color-ruby-90', '--ids-color-ruby-100']),
-      ...Object.values(['--ids-color-amber-10', '--ids-color-amber-20', '--ids-color-amber-30', '--ids-color-amber-40', '--ids-color-amber-50', '--ids-color-amber-60', '--ids-color-amber-70', '--ids-color-amber-80', '--ids-color-amber-90', '--ids-color-amber-100']),
-      ...Object.values(['--ids-color-emerald-10', '--ids-color-emerald-20', '--ids-color-emerald-30', '--ids-color-emerald-40', '--ids-color-emerald-50', '--ids-color-emerald-60', '--ids-color-emerald-70', '--ids-color-emerald-80', '--ids-color-emerald-90', '--ids-color-emerald-100']),
-      ...Object.values(['--ids-color-azure-10', '--ids-color-azure-20', '--ids-color-azure-30', '--ids-color-azure-40', '--ids-color-azure-50', '--ids-color-azure-60', '--ids-color-azure-70', '--ids-color-azure-80', '--ids-color-azure-90', '--ids-color-azure-100']),
-      ...Object.values(['--ids-color-turquoise-10', '--ids-color-turquoise-20', '--ids-color-turquoise-30', '--ids-color-turquoise-40', '--ids-color-turquoise-50', '--ids-color-turquoise-60', '--ids-color-turquoise-70', '--ids-color-turquoise-80', '--ids-color-turquoise-90', '--ids-color-turquoise-100']),
-      ...Object.values(['--ids-color-amethyst-10', '--ids-color-amethyst-20', '--ids-color-amethyst-30', '--ids-color-amethyst-40', '--ids-color-amethyst-50', '--ids-color-amethyst-60', '--ids-color-amethyst-70', '--ids-color-amethyst-80', '--ids-color-amethyst-90', '--ids-color-amethyst-100']),
+      ...Object.values(['--ids-color-red-10', '--ids-color-red-20', '--ids-color-red-30', '--ids-color-red-40', '--ids-color-red-50', '--ids-color-red-60', '--ids-color-red-70', '--ids-color-red-80', '--ids-color-red-90', '--ids-color-red-100']),
+      ...Object.values(['--ids-color-orange-10', '--ids-color-orange-20', '--ids-color-orange-30', '--ids-color-orange-40', '--ids-color-orange-50', '--ids-color-orange-60', '--ids-color-orange-70', '--ids-color-orange-80', '--ids-color-orange-90', '--ids-color-orange-100']),
+      ...Object.values(['--ids-color-green-10', '--ids-color-green-20', '--ids-color-green-30', '--ids-color-green-40', '--ids-color-green-50', '--ids-color-green-60', '--ids-color-green-70', '--ids-color-green-80', '--ids-color-green-90', '--ids-color-green-100']),
+      ...Object.values(['--ids-color-blue-10', '--ids-color-blue-20', '--ids-color-blue-30', '--ids-color-blue-40', '--ids-color-blue-50', '--ids-color-blue-60', '--ids-color-blue-70', '--ids-color-blue-80', '--ids-color-blue-90', '--ids-color-blue-100']),
+      ...Object.values(['--ids-color-teal-10', '--ids-color-teal-20', '--ids-color-teal-30', '--ids-color-teal-40', '--ids-color-teal-50', '--ids-color-teal-60', '--ids-color-teal-70', '--ids-color-teal-80', '--ids-color-teal-90', '--ids-color-teal-100']),
+      ...Object.values(['--ids-color-purple-10', '--ids-color-purple-20', '--ids-color-purple-30', '--ids-color-purple-40', '--ids-color-purple-50', '--ids-color-purple-60', '--ids-color-purple-70', '--ids-color-purple-80', '--ids-color-purple-90', '--ids-color-purple-100']),
       ...Object.values(['--ids-color-neutral-10', '--ids-color-neutral-20', '--ids-color-neutral-30', '--ids-color-neutral-40', '--ids-color-neutral-50', '--ids-color-neutral-60', '--ids-color-neutral-70', '--ids-color-neutral-80', '--ids-color-neutral-90', '--ids-color-neutral-100']),
     ].map(createColor);
 

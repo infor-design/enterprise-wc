@@ -22,46 +22,46 @@
   background-color: var(--ids-calendar-event-color-background);
 }
 
-.ids-calendar-event[color='azure'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-azuret-azure));
+.ids-calendar-event[color='blue'] {
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-bluet-blue));
 
-  background-color: var(--ids-calendar-event-color-background-accent-azure);
+  background-color: var(--ids-calendar-event-color-background-accent-blue);
 }
 
-.ids-calendar-event[color='amber'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-amber));
+.ids-calendar-event[color='orange'] {
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-orange));
 
-  background-color: var(--ids-calendar-event-color-background-accent-amber);
+  background-color: var(--ids-calendar-event-color-background-accent-orange);
 }
 
-.ids-calendar-event[color='amethyst'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-amethyst));
+.ids-calendar-event[color='purple'] {
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-purple));
 
-  background-color: var(--ids-calendar-event-color-background-accent-amethyst);
+  background-color: var(--ids-calendar-event-color-background-accent-purple);
 }
 
-.ids-calendar-event[color='emerald'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-emerald));
+.ids-calendar-event[color='green'] {
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-green));
 
-  background-color: var(--ids-calendar-event-color-background-accent-emerald);
+  background-color: var(--ids-calendar-event-color-background-accent-green);
 }
 
-.ids-calendar-event[color='ruby'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-ruby));
+.ids-calendar-event[color='red'] {
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-red));
 
-  background-color: var(--ids-calendar-event-color-background-accent-ruby);
+  background-color: var(--ids-calendar-event-color-background-accent-red);
 }
 
-.ids-calendar-event[color='turquoise'] {
+.ids-calendar-event[color='teal'] {
   @include event-border-accent(var(--ids-calendar-event-color-border-accent-turqoise));
 
   background-color: var(--ids-calendar-event-color-background-accent-turqoise);
 }
 
-.ids-calendar-event[color='slate'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-slate));
+.ids-calendar-event[color='neutral'] {
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-neutral));
 
-  background-color: var(--ids-calendar-event-color-background-accent-slate);
+  background-color: var(--ids-calendar-event-color-background-accent-neutral);
 }
 
 .ids-calendar-event {

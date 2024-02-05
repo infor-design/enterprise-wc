@@ -72,3 +72,4 @@ Limitations:
 - Run `ncu` to see whats new if you do not have this check util install it `npm install -g npm-check-updates`
 - Run `npm i` to update the dependencies, if you get any errors like `overriding peer dependency` then revert the one change, it means something isn't quite in sync yet
 - Copy the icon.json from ids-identity into the icons folder (doing this while old icons are needed)
+- Search for `ids-enterprise@4.92.1` and update

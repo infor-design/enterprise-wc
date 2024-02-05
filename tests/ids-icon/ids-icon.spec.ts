@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
+import type IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 test.describe('IdsIcon tests', () => {
   const url = '/ids-icon/example.html';
@@ -23,6 +24,18 @@ test.describe('IdsIcon tests', () => {
       await page.goto(url);
       await page.waitForLoadState();
       await expect(exceptions).toBeNull();
+    });
+  });
+
+  test.describe('setting/attribute tests', () => {
+    test('should be able to set size setting', async ({ page }) => {
+      const size = await page.evaluate(() => {
+        const elem = document.querySelector<IdsIcon>('ids-icon')!;
+        elem.size = 'small';
+        return elem.size;
+      });
+      expect(await size).toBe('small');
+      expect(await page.locator('ids-icon').first().getAttribute('size')).toEqual('small');
     });
   });
 });

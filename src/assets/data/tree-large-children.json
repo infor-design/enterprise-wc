@@ -302,7 +302,7 @@
         "company": "QUIZKA",
         "email": "mccormickrichards@quizka.com",
         "phone": "+1 (829) 421-3809",
-        "address": "308 Amber Street, Frizzleburg, Utah, 9246",
+        "address": "308 St Pauli Street, Frizzleburg, Utah, 9246",
         "children": [
           {
             "id": "6557c94703774905a676a74f",
@@ -1852,9 +1852,9 @@
           {
             "id": "6557c947b06d1dc5541f0b69",
             "age": 25,
-            "name": "Chambers Cherry",
+            "name": "John Cherry",
             "company": "LOVEPAD",
-            "email": "chamberscherry@lovepad.com",
+            "email": "johncherry@lovepad.com",
             "phone": "+1 (992) 499-2138",
             "address": "429 Fair Street, Sanders, American Samoa, 159"
           }
@@ -3499,9 +3499,9 @@
           {
             "id": "6557c947038611b30d155b84",
             "age": 31,
-            "name": "Lambert Nielsen",
+            "name": "Larry Nielsen",
             "company": "ASSURITY",
-            "email": "lambertnielsen@assurity.com",
+            "email": "larrynielsen@assurity.com",
             "phone": "+1 (806) 598-3646",
             "address": "328 Ira Court, Deercroft, Maine, 2871"
           },
@@ -5939,7 +5939,7 @@
             "company": "AVENETRO",
             "email": "lilliestanley@avenetro.com",
             "phone": "+1 (828) 575-3147",
-            "address": "703 Jefferson Avenue, Chamberino, Kansas, 9059"
+            "address": "703 Jefferson Avenue, Springfield, Kansas, 9059"
           },
           {
             "id": "6557c9478b77af7f6c2d80cc",
@@ -6213,9 +6213,9 @@
     "id": "6557c94724c43e508d26ce9a",
     "rowExpanded": true,
     "age": 36,
-    "name": "Amber Benson",
+    "name": "Anna Benson",
     "company": "CENTURIA",
-    "email": "amberbenson@centuria.com",
+    "email": "annabenson@centuria.com",
     "phone": "+1 (923) 438-2580",
     "address": "659 Gilmore Court, Clayville, South Carolina, 6937",
     "children": [
@@ -7402,9 +7402,9 @@
           {
             "id": "6557c9473dcce6dff822846d",
             "age": 39,
-            "name": "Jenifer Chambers",
+            "name": "Jenifer Smith",
             "company": "UTARIAN",
-            "email": "jeniferchambers@utarian.com",
+            "email": "jenifersmith@utarian.com",
             "phone": "+1 (978) 465-2931",
             "address": "686 Ainslie Street, Montura, North Dakota, 8932"
           }
@@ -8173,9 +8173,9 @@
           {
             "id": "6557c947da87fffca37333bb",
             "age": 32,
-            "name": "Davenport Lambert",
+            "name": "Davenport Smith",
             "company": "JASPER",
-            "email": "davenportlambert@jasper.com",
+            "email": "davenportsmith@jasper.com",
             "phone": "+1 (819) 571-3781",
             "address": "182 Forrest Street, Maury, Guam, 8289"
           },
@@ -10150,7 +10150,7 @@
     "company": "APEX",
     "email": "taylorrichards@apex.com",
     "phone": "+1 (897) 453-2835",
-    "address": "726 Amber Street, Frizzleburg, Virginia, 4472",
+    "address": "726 7th Street, Frizzleburg, Virginia, 4472",
     "children": [
       {
         "id": "6557c94763ebe55c6fb4cc57",
@@ -15788,7 +15788,7 @@
         "company": "TUBALUM",
         "email": "joannestanley@tubalum.com",
         "phone": "+1 (855) 528-3667",
-        "address": "126 Jefferson Avenue, Chamberino, New York, 2657",
+        "address": "126 Jefferson Avenue, Springfield, New York, 2657",
         "children": [
           {
             "id": "6557c94701e8f5da19f2b3e7",
@@ -17251,9 +17251,9 @@
           {
             "id": "6557c94728ed723322e08b5b",
             "age": 35,
-            "name": "Alana Chambers",
+            "name": "Alana Paulson",
             "company": "ESCENTA",
-            "email": "alanachambers@escenta.com",
+            "email": "alanapaulson@escenta.com",
             "phone": "+1 (872) 469-3821",
             "address": "690 Ainslie Street, Montura, Arizona, 9304"
           },
@@ -18022,9 +18022,9 @@
         "id": "6557c947034e487f1ae9a9c4",
         "rowExpanded": true,
         "age": 25,
-        "name": "Elvia Lambert",
+        "name": "Elvia Nurse",
         "company": "EXOSTREAM",
-        "email": "elvialambert@exostream.com",
+        "email": "elvianurse@exostream.com",
         "phone": "+1 (949) 493-3324",
         "address": "115 Forrest Street, Maury, Utah, 6562",
         "children": [
@@ -19994,7 +19994,7 @@
             "company": "GEEKOL",
             "email": "velmarichards@geekol.com",
             "phone": "+1 (840) 441-2464",
-            "address": "404 Amber Street, Frizzleburg, Massachusetts, 8454"
+            "address": "404 2nd Street, Frizzleburg, Massachusetts, 8454"
           }
         ]
       },

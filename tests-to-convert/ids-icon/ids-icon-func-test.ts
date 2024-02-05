@@ -1,14 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-import IdsContainer from '../../src/components/ids-container/ids-container';
-import IdsIcon from '../../src/components/ids-icon/ids-icon';
-import processAnimFrame from '../helpers/process-anim-frame';
-import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
-import deMessages from '../../src/components/ids-locale/data/de-messages.json';
-import customIconJSON from '../../src/components/ids-icon/demos/custom-icon-data.json';
-import IdsGlobal from '../../src/components/ids-global/ids-global';
-
 describe('IdsIcon Component', () => {
   let elem: IdsIcon;
   let container: IdsContainer;
@@ -22,16 +11,6 @@ describe('IdsIcon Component', () => {
     elem.icon = 'close';
     container.appendChild(elem);
     document.body.appendChild(container);
-  });
-
-  afterEach(() => {
-    document.body.innerHTML = '';
-  });
-
-  it('renders size setting', () => {
-    elem.size = 'large';
-    expect(elem.size).toEqual('large');
-    expect(elem.getAttribute('size')).toEqual('large');
   });
 
   it('renders size setting then removes it', () => {
@@ -85,17 +64,6 @@ describe('IdsIcon Component', () => {
     await processAnimFrame();
     expect(icon.isMirrored('previous-page')).toBeTruthy();
     expect(icon.template()).toContain('class="mirrored"');
-  });
-
-  it('can change language from the container', async () => {
-    elem.icon = 'previous-page';
-    await container.localeAPI.setLanguage('de');
-    await processAnimFrame();
-    expect(elem.getAttribute('dir')).toBeFalsy();
-    expect(elem.container?.getAttribute('dir')).toBeFalsy();
-    await container.localeAPI.setLanguage('ar');
-    await processAnimFrame();
-    expect(elem.template()).toContain('class="mirrored"');
   });
 
   it('can be updated with notification badges', () => {

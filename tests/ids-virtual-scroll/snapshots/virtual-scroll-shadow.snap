@@ -1,9 +1,8 @@
 
       <div class="ids-virtual-scroll">
         <div class="ids-virtual-scroll-content" style="height: 20000px;">
-          <div class="offset" style="transform: translateY(0px);">
+          <div class="offset" style="transform: translate(0px);">
             <slot></slot>
           </div>
         </div>
       </div>
-    

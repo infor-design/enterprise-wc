@@ -94,18 +94,18 @@ To achieve this it is recommended to use the `color` setting and pick one of the
 [{
    "data": [],
    "name": "Component A",
-   "color": "var(--ids-color-azure-60)
+   "color": "var(--ids-color-blue-60)
  }, {
    "data": [],
    "name": "Component B",
    "shortName": "Comp B",
    "abbreviatedName": "B",
-   "color": "var(--ids-color-azure-40)"
+   "color": "var(--ids-color-blue-40)"
  }, {
    "data": [{
    ],
    "name": "Component C",
-   "color": "var(--ids-color-azure-20)"
+   "color": "var(--ids-color-blue-20)"
  }]
 ```
 
@@ -154,7 +154,7 @@ The following data attributes can be used on the data passed to a chart.
 - `name` {string} The name for the legend text and tooltip representing the slice. If the name is left null or undefined the legend item will not be shown.
 - `shortName` {string} The short name of the legend text.
 - `abbrName` {string} A very short name of the legend text (one or two characters).
-- `color` {string} The color of this axis group. This can be either a hex value for example `#FF0000` or a color name like `red` or an ids variable like `var(--ids-color-azure-20)`.
+- `color` {string} The color of this axis group. This can be either a hex value for example `#FF0000` or a color name like `red` or an ids variable like `var(--ids-color-blue-20)`.
 - `tooltip` {string} The custom tooltip string (as static text). See the tooltip section for more information.
 
 ## Settings

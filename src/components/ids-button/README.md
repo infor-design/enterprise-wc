@@ -57,12 +57,12 @@ If placing a button inside a container with a contrasting background color, some
   <span>My Button</span>
 </ids-button>
 
-<!-- Generates a Primary Button with a slightly more bright Azure --->
+<!-- Generates a Primary Button with a slightly more bright Blue --->
 <ids-button id="my-button-2" appearance="primary" color-variant="alternate">
   <span>My Button</span>
 </ids-button>
 
-<!-- Generates a Secondary Button with a slightly more bright Slate --->
+<!-- Generates a Secondary Button with a slightly more bright Neutral --->
 <ids-button id="my-button-3" appearance="primary" color-variant="alternate">
   <span>My Button</span>
 </ids-button>
