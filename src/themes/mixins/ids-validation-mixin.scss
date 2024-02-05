@@ -58,4 +58,8 @@
       color: var(--ids-color-success-30);
     }
   }
+
+  &[hidden] {
+    display: none;
+  }
 }
