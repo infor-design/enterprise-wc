@@ -422,9 +422,11 @@ export default class IdsColorPicker extends Base {
     if (stringToBool(value)) {
       this.setAttribute(attributes.COMPACT, '');
       this.textInput?.setAttribute(attributes.COMPACT, '');
+      this.textInput?.querySelector('ids-color')?.setAttribute('size', 'mm');
     } else {
       this.removeAttribute(attributes.COMPACT);
       this.textInput?.removeAttribute(attributes.COMPACT);
+      this.textInput?.querySelector('ids-color')?.setAttribute('size', 'md');
     }
   }
 

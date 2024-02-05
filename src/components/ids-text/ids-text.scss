@@ -83,7 +83,7 @@
     }
   }
 
-  &.status-base::before,
+  &.status-neutral::before,
   &.status-error::before,
   &.status-info::before,
   &.status-success::before,
@@ -96,7 +96,7 @@
     width: 8px;
   }
 
-  &.status-base {
+  &.status-neutral {
     color: var(--ids-color-text-label);
 
     &::before {

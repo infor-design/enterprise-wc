@@ -56,7 +56,7 @@ export default class IdsDataGridFormatters {
   }
 
   /** Used to get the color via the function or text */
-  #color(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | undefined {
+  #color(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | null | undefined {
     const color = col.color;
     return typeof color === 'function' ? color(row, value, col, item) : color;
   }

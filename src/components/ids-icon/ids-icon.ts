@@ -10,8 +10,8 @@ import {
   type IdsColorValue,
   type IdsColorValueEmpty,
   type IdsColorValueStatus,
-  type IdsColorValueColorNames,
-  applyColorValue
+  applyColorValue,
+  IdsColorValueCategories
 } from '../../utils/ids-color-utils/ids-color-utils';
 import { querySelectorAllShadowRoot } from '../../utils/ids-dom-utils/ids-dom-utils';
 
@@ -427,7 +427,6 @@ export default class IdsIcon extends Base {
   }
 
   set size(value: string | null) {
-    debugger
     if (value && sizes[value]) {
       const size = sizes[value];
       this.setAttribute(attributes.SIZE, value);
@@ -441,9 +440,9 @@ export default class IdsIcon extends Base {
 
   /**
    * Color that can be used for embellishment or to indicate status or bring attention
-   * @param {IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueColorNames} value Any pallete color reference
+   * @param {IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueCategories} value Any pallete color reference
    */
-  set statusColor(value: IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueColorNames) {
+  set statusColor(value: IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueCategories) {
     if (value) {
       this.setAttribute(attributes.STATUS_COLOR, value);
       this.container?.classList.add(`status-color-${value}`);

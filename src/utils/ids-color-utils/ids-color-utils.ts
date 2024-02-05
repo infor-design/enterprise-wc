@@ -173,9 +173,10 @@ export function statusToIDSColor(statusName: string) {
 export type IdsColorValueHex = `#${string}`;
 export type IdsColorValueEmpty = null | '' | undefined;
 export type IdsColorValueStatus = 'error' | 'warning' | 'caution' | 'info' | 'success' | 'neutral';
-export type IdsColorValueColorNames = 'red' | 'yellow' | 'orange' | 'green' | 'blue' | 'teal' | 'purple' | 'neutral' | 'white' | 'black';
+export type IdsColorValueCategories = 'red' | 'yellow' | 'orange' | 'green' | 'blue' | 'teal' | 'purple' | 'neutral' | 'white' | 'black';
+export type IdsColorValueNames = `red-${IdsColorValueNumbers}` | `yellow-${IdsColorValueNumbers}` | `orange-${IdsColorValueNumbers}` | `green-${IdsColorValueNumbers}` | `blue-${IdsColorValueNumbers}` | `teal-${IdsColorValueNumbers}` | `purple-${IdsColorValueNumbers}` | `neutral-${IdsColorValueNumbers}`;
 export type IdsColorValueNumbers = '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90' | '100';
-export type IdsColorValue = IdsColorValueHex | IdsColorValueStatus | `red-${IdsColorValueNumbers}` | `yellow-${IdsColorValueNumbers}` | `orange-${IdsColorValueNumbers}` | `green-${IdsColorValueNumbers}` | `blue-${IdsColorValueNumbers}` | `teal-${IdsColorValueNumbers}` | `purple-${IdsColorValueNumbers}` | `neutral-${IdsColorValueNumbers}` | IdsColorValueColorNames | IdsColorValueEmpty;
+export type IdsColorValue = IdsColorValueHex | IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueNames;
 
 /**
  * Helps ensure color settings all use the same colors, adds a type and keeps them consistent

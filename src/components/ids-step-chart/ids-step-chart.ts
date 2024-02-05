@@ -10,6 +10,7 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-step-chart.scss';
+import { applyColorValue, IdsColorValueNames, type IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
 
 /**
  * IDS Step Chart Component
@@ -54,22 +55,25 @@ export default class IdsStepChart extends IdsEventsMixin(IdsElement) {
   }
 
   /**
-   * @returns {string} returns the current ids color variable
+   * @returns {IdsColorValue} returns the current ids color variable
    * for completed steps
    */
-  get color(): string | null { return this.getAttribute(attributes.COLOR); }
+  get color(): IdsColorValue { return this.getAttribute(attributes.COLOR) as IdsColorValue; }
 
   /**
-   * @param {string} value sets the color variable that is used to fill
+   * @param {IdsColorValue} value sets the color variable that is used to fill
    * completed steps
    */
-  set color(value: string | null) {
-    if (value && this.getAttribute(attributes.COLOR) !== value) {
+  set color(value: IdsColorValue) {
+    if (value) {
       this.setAttribute('color', value);
-
       this.container?.querySelectorAll<HTMLElement>(`.complete`).forEach((completedStep) => {
         completedStep.setAttribute('color', value);
+        applyColorValue(value, completedStep, '--ids-step-chart-color-background-default');
+        applyColorValue(value, completedStep, '--ids-step-chart-color-background-complete');
       });
+    } else {
+      this.removeAttribute('color');
     }
   }
 
@@ -119,19 +123,20 @@ export default class IdsStepChart extends IdsEventsMixin(IdsElement) {
   }
 
   /**
-   * @returns {string} the ids color variable that
+   * @returns {IdsColorValueNames} the ids color variable that
    * in progress steps are currently set with
    */
-  get progressColor(): string | null { return this.getAttribute(attributes.PROGRESS_COLOR); }
+  get progressColor(): IdsColorValueNames { return this.getAttribute(attributes.PROGRESS_COLOR) as any; }
 
   /**
    * @param {string} value sets the ids color variable that in progress steps use
    */
-  set progressColor(value: string | null) {
+  set progressColor(value: IdsColorValueNames) {
     if (this.getAttribute(attributes.PROGRESS_COLOR) !== value) {
       this.setAttribute('progress-color', String(value));
       this.container?.querySelectorAll<HTMLElement>(`.in-progress`).forEach((element) => {
         element.setAttribute('color', String(value));
+        applyColorValue(value, element, '--ids-step-chart-color-background-complete');
       });
     }
   }

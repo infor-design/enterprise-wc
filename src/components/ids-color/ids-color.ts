@@ -8,6 +8,7 @@ import '../ids-text/ids-text';
 import styles from './ids-color.scss';
 import IdsTooltip from '../ids-tooltip/ids-tooltip';
 import IdsIcon from '../ids-icon/ids-icon';
+import { type IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
 
 const Base = IdsKeyboardMixin(
   IdsEventsMixin(
@@ -49,7 +50,7 @@ export default class IdsColor extends Base {
     this.popup = shadowRoot.querySelector('ids-tooltip');
 
     if (this.hex) this.hex = this.getAttribute(attributes.HEX) as string;
-    if (this.color) this.color = this.getAttribute(attributes.COLOR) as string;
+    if (this.color) this.color = this.getAttribute(attributes.COLOR) as IdsColorValue;
   }
 
   /** Invoked each time the custom element is removed from the DOM */
@@ -186,7 +187,7 @@ export default class IdsColor extends Base {
   }
 
   /** @param {string} value Use a css variable for the color */
-  set color(value: string) {
+  set color(value: IdsColorValue) {
     if (value) {
       this.container?.classList.remove('no-color');
       const addDefault = ['--ids-color-error', '--ids-color-warning', '--ids-color-caution', '--ids-color-success', '--ids-color-info'].includes(value);

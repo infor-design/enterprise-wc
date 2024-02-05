@@ -11,6 +11,7 @@ import IdsElement from '../../core/ids-element';
 
 import '../ids-text/ids-text';
 import styles from './ids-checkbox.scss';
+import { type IdsColorValueCategories } from '../../utils/ids-color-utils/ids-color-utils';
 
 const Base = IdsLabelStateMixin(
   IdsValidationMixin(
@@ -211,7 +212,7 @@ export default class IdsCheckbox extends Base {
    * Sets the checkbox color to one of the colors in our color palette for example green
    * @param {boolean|string} value If true will set `color` attribute
    */
-  set color(value: boolean | string | null) {
+  set color(value: boolean | IdsColorValueCategories) {
     const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     if (value) {
       this.setAttribute(attributes.COLOR, value.toString());

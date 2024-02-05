@@ -10,6 +10,7 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-text.scss';
+import { type IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
 
 const fontWeightClasses = ['bold', 'semi-bold', 'lighter'] as const;
 type FontWeightClasses = typeof fontWeightClasses[number];
@@ -68,7 +69,7 @@ export default class IdsText extends Base {
   connectedCallback() {
     super.connectedCallback();
     this.#attachEventHandlers();
-    if (this.color) this.color = this.getAttribute('color');
+    if (this.color) this.color = this.getAttribute('color') as IdsColorValue | 'unset' | 'muted';
   }
 
   /**
@@ -214,9 +215,9 @@ export default class IdsText extends Base {
   /**
    * If set to "unset", color can be controlled by parent container
    * If set to "muted" will apply as disabled color
-   * @param {string | null} value  "unset" or undefined/null
+   * @param {IdsColorValue} value  "unset" or undefined/null
    */
-  set color(value: string | null) {
+  set color(value: IdsColorValue | 'unset' | 'muted') {
     const unsetClass = 'ids-text-color-unset';
     const mutedClass = 'ids-text-color-muted';
     this.container?.classList.remove(unsetClass, mutedClass);
@@ -235,8 +236,8 @@ export default class IdsText extends Base {
     this.removeAttribute(attributes.COLOR);
   }
 
-  get color(): string | null {
-    return this.getAttribute(attributes.COLOR);
+  get color(): IdsColorValue | 'unset' | 'muted' {
+    return this.getAttribute(attributes.COLOR) as IdsColorValue;
   }
 
   /**

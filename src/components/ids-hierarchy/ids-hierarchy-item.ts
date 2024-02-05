@@ -8,6 +8,7 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-hierarchy-item.scss';
 import IdsButton from '../ids-button/ids-button';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+import { type IdsColorValueNames } from '../../utils/ids-color-utils/ids-color-utils';
 
 const Base = IdsColorVariantMixin(
   IdsEventsMixin(
@@ -22,7 +23,7 @@ export interface IdsHierarchyItemInfo {
   employmentType: string;
   parentItem: string;
   isLeaf: boolean;
-  color: string;
+  color: IdsColorValueNames;
   picture?: string;
 }
 
