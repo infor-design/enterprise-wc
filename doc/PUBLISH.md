@@ -14,7 +14,17 @@
 - Commit and push (direct to repo or PR)
 - Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-beta-18`
 - Post in announcements section following other similar link
-- (TBD) Run the docs generator (TBD) for `https://design.infor.com/web-components/`
+- (Run the docs generator (TBD) for `https://design.infor.com/web-components/` by running `scripts\docs-generator\main.js`
+
+```sh
+// Add the key to the .env file but dont commit
+// Export the .env file lines one by one
+cd scripts\docs-generator\
+npm i
+cd ..
+cd ..
+node scripts\docs-generator\main.js
+```
 
 ## Publishing a test package your local NPM repo
 

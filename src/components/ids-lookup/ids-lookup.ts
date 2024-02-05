@@ -188,7 +188,7 @@ export default class IdsLookup extends Base {
         <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">${this.title}</ids-text>
         ${this.searchable ? `<ids-search-field clearable label="Search Field with Hidden Label" label-state="collapsed" size="full" placeholder="${this.searchfieldPlaceholder}"></ids-search-field>` : ''}
         <ids-layout-grid class="data-grid-parent-container" auto-fit="true" gap="md" no-margins="true" min-col-width="400px">
-          <ids-layout-grid-cell class="data-grid-container">
+          <ids-layout-grid-cell class="data-grid-container${this.searchable ? ' has-search' : ''}" col-span="12">
               <ids-data-grid id="lookup-data-grid" label="${this.label}" part="data-grid" auto-fit="true">
               </ids-data-grid>
           </ids-layout-grid-cell>

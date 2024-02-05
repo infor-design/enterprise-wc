@@ -23,6 +23,7 @@
 - `[Input]` Renamed internal labels and fixed routines that look for labels to fix an issue with missing labels. ([#1752](https://github.com/infor-design/enterprise-wc/issues/1752))
 - `[LoadingIndicator]` Fixed an issue where the inner bars within the loader where not the same size. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))
 - `[Locale]` Changed all `zh` time formats to 24hr as suggested by native speakers. ([#8313](https://github.com/infor-design/enterprise-wc/issues/8313))
+- `[Lookup]` Fixed the size of the datagrid on lookups in responsive and normal mode. ([#1736](https://github.com/infor-design/enterprise-wc/issues/1736))
 - `[NotificationBanner]` Made the message text updatable to fix rendering issues. ([#1782](https://github.com/infor-design/enterprise-wc/issues/1782))
 - `[Slider]` Fixed issue with setting value through attribute. ([#1667](https://github.com/infor-design/enterprise-wc/issues/1667))
 - `[Tabs]` Fixed `selected` attribute occasionally not working.  ([#1705](https://github.com/infor-design/enterprise-wc/issues/1705))

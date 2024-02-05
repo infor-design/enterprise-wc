@@ -1,8 +1,30 @@
+@import '../../themes/mixins/ids-core-mixins';
+
 /* Ids Lookup Component */
 .data-grid-container {
   overflow: hidden;
   position: relative;
-  max-height: 400px; // should probably be a setting and work with percent
+  max-height: 400px;
+}
+
+@media (max-width: $breakpoint-sm) {
+  ids-layout-grid {
+    // Need important to override inline element styles
+    --min-col-width: 0 !important;
+  }
+
+  .data-grid-container.has-search {
+    max-height: calc(100vh - 184px);
+  }
+
+  .data-grid-container {
+    max-height: 100%;
+    height: 100%;
+  }
+
+  .data-grid-parent-container  {
+    height: 100%;
+  }
 }
 
 .data-grid-parent-container {
