@@ -110,55 +110,55 @@
     </ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
-    </ids-menu-item><ids-menu-item icon="bold" hidden=""><ids-icon slot="icon" icon="bold" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="bold" hidden=""><ids-icon slot="icon" icon="bold" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Bold
       
-    </ids-menu-item><ids-menu-item icon="italic" hidden=""><ids-icon slot="icon" icon="italic" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="italic" hidden=""><ids-icon slot="icon" icon="italic" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Italic
       
-    </ids-menu-item><ids-menu-item icon="underline" hidden=""><ids-icon slot="icon" icon="underline" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="underline" hidden=""><ids-icon slot="icon" icon="underline" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Underline
       
-    </ids-menu-item><ids-menu-item icon="strike-through" hidden=""><ids-icon slot="icon" icon="strike-through" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="strike-through" hidden=""><ids-icon slot="icon" icon="strike-through" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Strike through
       
-    </ids-menu-item><ids-menu-item icon="fore-color" hidden=""><ids-icon slot="icon" icon="fore-color" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="fore-color" hidden=""><ids-icon slot="icon" icon="fore-color" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Text color
       
-    </ids-menu-item><ids-menu-item icon="left-text-align" hidden=""><ids-icon slot="icon" icon="left-text-align" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="left-text-align" hidden=""><ids-icon slot="icon" icon="left-text-align" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Align left
       
-    </ids-menu-item><ids-menu-item icon="center-text" hidden=""><ids-icon slot="icon" icon="center-text" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="center-text" hidden=""><ids-icon slot="icon" icon="center-text" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Align center
       
-    </ids-menu-item><ids-menu-item icon="right-text-align" hidden=""><ids-icon slot="icon" icon="right-text-align" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="right-text-align" hidden=""><ids-icon slot="icon" icon="right-text-align" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Align right
       
-    </ids-menu-item><ids-menu-item icon="quote" hidden=""><ids-icon slot="icon" icon="quote" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="quote" hidden=""><ids-icon slot="icon" icon="quote" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Block quote
       
-    </ids-menu-item><ids-menu-item icon="number-list" hidden=""><ids-icon slot="icon" icon="number-list" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="number-list" hidden=""><ids-icon slot="icon" icon="number-list" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Ordered List
       
-    </ids-menu-item><ids-menu-item icon="bullet-list" hidden=""><ids-icon slot="icon" icon="bullet-list" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="bullet-list" hidden=""><ids-icon slot="icon" icon="bullet-list" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Unordered List
       
-    </ids-menu-item><ids-menu-item icon="link" hidden=""><ids-icon slot="icon" icon="link" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="link" hidden=""><ids-icon slot="icon" icon="link" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Insert Hyperlink
       
-    </ids-menu-item><ids-menu-item icon="insert-image" hidden=""><ids-icon slot="icon" icon="insert-image" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="insert-image" hidden=""><ids-icon slot="icon" icon="insert-image" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Insert Image
       
-    </ids-menu-item><ids-menu-item icon="clear-formatting" hidden=""><ids-icon slot="icon" icon="clear-formatting" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="clear-formatting" hidden=""><ids-icon slot="icon" icon="clear-formatting" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Clear Formatting
       
-    </ids-menu-item><ids-menu-item icon="html" viewbox="0 0 54 18" hidden=""><ids-icon slot="icon" icon="html" viewbox="0 0 54 18" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="html" viewbox="0 0 54 18" hidden=""><ids-icon slot="icon" icon="html" viewbox="0 0 54 18" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       View Source
       
-    </ids-menu-item><ids-menu-item icon="visual" viewbox="0 0 73 18" hidden=""><ids-icon slot="icon" icon="visual" viewbox="0 0 73 18" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="visual" viewbox="0 0 73 18" hidden=""><ids-icon slot="icon" icon="visual" viewbox="0 0 73 18" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       View Visual
       
-    </ids-menu-item><ids-menu-item icon="more" hidden=""><ids-icon slot="icon" icon="more" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="more" hidden=""><ids-icon slot="icon" icon="more" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       More Actions Button
       <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
           <ids-menu-group role="group" aria-label="Menu group containing 0 item(s)">

@@ -19,7 +19,7 @@
           Even More Actions
           <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
             <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
-              <ids-menu-item icon="settings"><ids-icon slot="icon" icon="settings" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+              <ids-menu-item icon="settings"><ids-icon slot="icon" icon="settings" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
                 Change Settings
                 <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
                   <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
@@ -30,8 +30,8 @@
                   </ids-menu-group>
                 </ids-popup-menu>
               </ids-menu-item>
-              <ids-menu-item icon="mail"><ids-icon slot="icon" icon="mail" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Send Mail</ids-menu-item>
-              <ids-menu-item icon="filter"><ids-icon slot="icon" icon="filter" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Filter Content</ids-menu-item>
+              <ids-menu-item icon="mail"><ids-icon slot="icon" icon="mail" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Send Mail</ids-menu-item>
+              <ids-menu-item icon="filter"><ids-icon slot="icon" icon="filter" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Filter Content</ids-menu-item>
             </ids-menu-group>
           </ids-popup-menu>
         </ids-menu-item>

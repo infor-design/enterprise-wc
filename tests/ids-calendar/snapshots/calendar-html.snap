@@ -7,16 +7,16 @@
           <div slot="content"><p>
       <ids-checkbox class="event-type-checkbox" checked="true" data-id="dto" label="Discretionary time off" color="blue">
       </ids-checkbox>
-
+    
       <ids-checkbox class="event-type-checkbox" checked="true" data-id="admin" label="Administrative leave" color="purple">
       </ids-checkbox>
-
+    
       <ids-checkbox class="event-type-checkbox" checked="true" data-id="team" label="Team event" color="green">
       </ids-checkbox>
-
+    
       <ids-checkbox class="event-type-checkbox" checked="true" data-id="sick" label="Sick time" color="orange">
       </ids-checkbox>
-
+    
       <ids-checkbox class="event-type-checkbox" checked="true" data-id="holiday" label="Company holiday" color="neutral" disabled="true">
       </ids-checkbox>
     </p></div>

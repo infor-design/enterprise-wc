@@ -194,19 +194,19 @@
         </ids-module-nav-settings>
         <ids-popup-menu id="module-nav-settings-menu" target="#module-nav-settings-btn" trigger-type="click" slot="settings" role="none" hidden="">
           <ids-menu-group role="group" aria-label="Menu group containing 11 item(s)">
-            <ids-menu-item icon="observation-precautions" value="jobs" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="observation-precautions" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Jobs</ids-menu-item>
-            <ids-menu-item icon="report" value="reports" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="report" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Reports</ids-menu-item>
-            <ids-menu-item icon="isolation" value="actions" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="isolation" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Actions</ids-menu-item>
-            <ids-menu-item icon="edit" value="personalization" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="edit" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Personalization</ids-menu-item>
+            <ids-menu-item icon="observation-precautions" value="jobs" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="observation-precautions" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Jobs</ids-menu-item>
+            <ids-menu-item icon="report" value="reports" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="report" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Reports</ids-menu-item>
+            <ids-menu-item icon="isolation" value="actions" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="isolation" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Actions</ids-menu-item>
+            <ids-menu-item icon="edit" value="personalization" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="edit" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Personalization</ids-menu-item>
             <ids-separator></ids-separator>
             <ids-menu-item value="create-report" inherit-color="" color-variant="module-nav">Create Report</ids-menu-item>
             <ids-menu-item value="proxy" inherit-color="" color-variant="module-nav">Proxy</ids-menu-item>
             <ids-menu-item value="set-as-of-date" inherit-color="" color-variant="module-nav">Set "As Of Date"</ids-menu-item>
             <ids-menu-item value="user-context" inherit-color="" color-variant="module-nav">User Context</ids-menu-item>
             <ids-separator></ids-separator>
-            <ids-menu-item icon="settings" value="settings" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="settings" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Settings</ids-menu-item>
-            <ids-menu-item icon="info" value="about" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="info" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>About</ids-menu-item>
-            <ids-menu-item icon="help" value="help" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="help" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Help</ids-menu-item>
+            <ids-menu-item icon="settings" value="settings" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="settings" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Settings</ids-menu-item>
+            <ids-menu-item icon="info" value="about" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="info" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>About</ids-menu-item>
+            <ids-menu-item icon="help" value="help" inherit-color="" color-variant="module-nav"><ids-icon slot="icon" icon="help" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Help</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
 
