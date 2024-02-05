@@ -46,11 +46,8 @@ import {
 
 import {
   blockElem,
-  selectionBlockElems,
   saveSelection,
-  restoreSelection,
-  selectionParents,
-  findElementInSelection
+  restoreSelection
 } from './ids-editor-selection-utils';
 
 import {
@@ -140,6 +137,16 @@ export default class IdsEditor extends Base {
 
   isFormComponent = true;
 
+  #currentSelection: Selection | null = null;
+
+  #resizeObserver = new ResizeObserver(() => this.#resize());
+
+  vetoableEventTypes = [
+    'beforesourcemode',
+    'beforeeditormode',
+    'beforepaste'
+  ];
+
   /**
    * Invoked each time the custom element is appended into a document-connected element.
    */
@@ -206,15 +213,6 @@ export default class IdsEditor extends Base {
       sourceTextareaLabel: this.sourceTextareaLabel()
     });
   }
-
-  /**
-   * @returns {Array<string>} Drawer vetoable events
-   */
-  vetoableEventTypes = [
-    'beforesourcemode',
-    'beforeeditormode',
-    'beforepaste'
-  ];
 
   /**
    * Set default value to each element in modals.
@@ -329,8 +327,8 @@ export default class IdsEditor extends Base {
     ...FONT_SIZE_ACTIONS,
 
     // COLORS
-    forecolor: { action: 'foreColor', keyid: 'KeyK|shift|alt' },
-    backcolor: { action: 'backColor' },
+    forecolor: { action: 'forecolor', keyid: 'KeyK|shift|alt' },
+    backcolor: { action: 'backcolor' },
 
     // LISTS
     orderedlist: { action: 'insertOrderedList', keyid: 'KeyO|shift' },
@@ -360,12 +358,6 @@ export default class IdsEditor extends Base {
     editormode: { action: 'editorMode', keyid: 'Backquote|shift' },
     sourcemode: { action: 'sourceMode', keyid: 'Backquote' }
   };
-
-  /**
-   * Attach the resize observer.
-   * @private
-   */
-  #resizeObserver = new ResizeObserver(() => this.#resize());
 
   /**
    * Trigger the given event with current value.
@@ -484,40 +476,33 @@ export default class IdsEditor extends Base {
 
   /**
    * Set editor content value
-   * @private
-   * @param {string} content The html
-   * @returns {object} This API object for chaining
    */
-  #setEditorContent(content?: string): object {
-    const { editor, textarea } = this.#elems;
-    let html = trimContent(content || textarea.value);
-    html = cleanHtml(html);
-    if (editor.innerHTML !== html) editor.innerHTML = html;
-    return this;
+  #setEditorContent() {
+    const { textarea, editorSlot } = this.#elems;
+    const html = cleanHtml(trimContent(textarea.value));
+
+    // clear slotted elements
+    editorSlot?.assignedElements().forEach((elem: Element) => elem.remove());
+
+    // insert html
+    this.insertAdjacentHTML('afterbegin', html);
   }
 
   /**
    * Set source content value
-   * @private
-   * @param {string} content The html
-   * @returns {object} This API object for chaining
    */
-  #setSourceContent(content?: string): object {
-    const { editor, textarea } = this.#elems;
-    if (editor.textContent.replace('\n', '') === '') editor.innerHTML = '';
-    let value = trimContent(content || editor.innerHTML);
-    value = this.sourceFormatter ? formatHtml(value) : value;
-    if (textarea.value !== value) textarea.value = value;
-    return this;
+  #setSourceContent(): void {
+    const { textarea, editorSlot } = this.#elems;
+    const contentHTML = editorSlot?.assignedElements().map((elem: Element) => elem.outerHTML).join('');
+    const value = trimContent(formatHtml(trimContent(contentHTML ?? '')));
+    textarea.value = value;
   }
 
   /**
    * Switch to editor mode
-   * @private
-   * @param {string} content The html
    * @returns {object|boolean} This API object for chaining, false if veto
    */
-  #editorMode(content?: string): object | boolean {
+  #editorMode(): object | boolean {
     this.#elems.reqviewchange = true;
 
     // Fire the vetoable event.
@@ -526,7 +511,7 @@ export default class IdsEditor extends Base {
       this.#triggerEvent('rejectviewchange');
       return false;
     }
-    this.#setEditorContent(content);
+    this.#setEditorContent();
     const elems = this.#elems;
     elems.btnSource.hidden = false;
     elems.btnEditor.hidden = true;
@@ -539,11 +524,9 @@ export default class IdsEditor extends Base {
 
   /**
    * Switch to source mode
-   * @private
-   * @param {string} content The html
    * @returns {object|boolean} This API object for chaining, false if veto
    */
-  #sourceMode(content?: string): object | boolean {
+  #sourceMode(): object | boolean {
     this.#elems.reqviewchange = true;
 
     // Fire the vetoable event.
@@ -552,7 +535,7 @@ export default class IdsEditor extends Base {
       this.#triggerEvent('rejectviewchange');
       return false;
     }
-    this.#setSourceContent(content);
+    this.#setSourceContent();
     this.#adjustSourceLineNumbers();
 
     const elems = this.#elems;
@@ -564,24 +547,19 @@ export default class IdsEditor extends Base {
     elems.btnEditor.disabled = false;
     elems.toolbar.querySelector('#more-actions').disabled = false;
     elems.textarea.focus();
+
     return this;
   }
 
   /**
-   * Resize
-   * @private
-   * @returns {object} This API object for chaining
+   * Handle resize events
    */
-  #resize(): object {
-    if (this.view === 'source') {
-      this.#adjustSourceLineNumbers();
-    }
-    return this;
+  #resize(): void {
+    if (this.view === 'source') this.#adjustSourceLineNumbers();
   }
 
   /**
    * Set contenteditable
-   * @private
    * @returns {object} This API object for chaining
    */
   #contenteditable(): object {
@@ -593,7 +571,6 @@ export default class IdsEditor extends Base {
 
   /**
    * Set disabled hyperlinks and keep tab order in sync
-   * @private
    * @returns {object} This API object for chaining
    */
   #disabledHyperlinks(): object {
@@ -620,7 +597,6 @@ export default class IdsEditor extends Base {
 
   /**
    * Initialize the raw content
-   * @private
    * @returns {object} This API object for chaining
    */
   #initContent(): object {
@@ -672,6 +648,7 @@ export default class IdsEditor extends Base {
     // Set to cache some elements
     this.#elems.main = qs('.main-container', this.shadowRoot);
     this.#elems.editor = qs('.editor-container', this.shadowRoot);
+    this.#elems.editorSlot = qs('slot#editor-slot', this.shadowRoot);
     this.#elems.source = qs('.source-container', this.shadowRoot);
     this.#elems.lineNumbers = qs('.line-numbers', this.shadowRoot);
     this.#elems.textarea = qs('#source-textarea', this.shadowRoot);
@@ -684,6 +661,7 @@ export default class IdsEditor extends Base {
     this.#elems.backcolorBtn = this.querySelector('[editor-action="backcolor"]');
     this.#elems.blockquoteBtn = this.querySelector('[editor-action="blockquote"]');
     this.#elems.hyperlinkBtn = this.querySelector('[editor-action="hyperlink"]');
+
     // Formatblock
     this.#elems.formatblock = { btn: this.querySelector('[editor-action="formatblock"]'), items: {} };
     this.#elems.formatblock.btn?.configureMenu();
@@ -834,61 +812,72 @@ export default class IdsEditor extends Base {
     }
   }
 
-  #selectionParents() {
+  /**
+   * Get all selection parents.
+   * @param {Selection} selection The selection.
+   * @returns {Record<string, { tag: string, node: HTMLElement }>} List of selection parents.
+   */
+  #selectionParents(selection: Selection): Record<string, { tag: string, node: HTMLElement }> {
+    const parents: Record<string, { tag: string, node: HTMLElement }> = {};
 
+    if (selection.focusNode && selection.containsNode(this, true)) {
+      let node = selection.focusNode;
+
+      while (node && node !== this) {
+        if (node instanceof HTMLElement) {
+          const tag = node.tagName.toLowerCase();
+          parents[tag] = { tag, node };
+        }
+
+        node = node.parentNode as HTMLElement;
+      }
+    }
+
+    return parents;
   }
 
   /**
    * On selection change.
+   * @param {Selection} selection Selection Object
    * @private
    * @returns {void}
    */
-  #onSelectionChange(): void {
-    const sel = this.#getSelection();
-
-    // refactor this
-    if (!sel) return;
-
+  #onSelectionChange(selection: Selection): void {
     const elems = this.#elems;
-    const parents: any = selectionParents(sel, this);
+    const parents: any = this.#selectionParents(selection);
     const setActive = (btn: any) => {
       if (btn) btn.cssClass = ['is-active'];
     };
     const regxFormatblock = new RegExp(`^(${Object.keys(elems.formatblock.items).join('|')})$`, 'i');
-
-    if (this.contains(sel.focusNode)) {
-      this.#unActiveToolbarButtons();
-      Object.entries(this.#actions).forEach(([k, v]) => {
-        if (k.substring(0, 5) === 'align') return;
-        if (k === 'forecolor' && parents.font?.node?.hasAttribute('color')) {
-          setActive(elems.forecolorBtn);
-        }
-        if (k === 'backcolor' && parents.span?.node?.style?.backgroundColor) {
-          setActive(elems.backcolorBtn);
-        }
-        if (k === 'blockquote' && !!parents.blockquote) {
-          setActive(elems.blockquoteBtn);
-        }
-        if (k === 'hyperlink' && !!parents.a) {
-          setActive(elems.hyperlinkBtn);
-        }
-        if (elems.formatblock?.btn && regxFormatblock.test(k) && !!parents[k]) {
-          elems.formatblock.btn.text = elems.formatblock.items[k].text;
-        }
-        if (document.queryCommandState((<any>v).action)) {
-          setActive(this.querySelector(`[editor-action="${k}"]`));
-        }
-      });
-    }
+    this.#unActiveToolbarButtons();
+    Object.entries(this.#actions).forEach(([k, v]) => {
+      if (k.substring(0, 5) === 'align') return;
+      if (k === 'forecolor' && parents.font?.node?.hasAttribute('color')) {
+        setActive(elems.forecolorBtn);
+      }
+      if (k === 'backcolor' && parents.span?.node?.style?.backgroundColor) {
+        setActive(elems.backcolorBtn);
+      }
+      if (k === 'blockquote' && !!parents.blockquote) {
+        setActive(elems.blockquoteBtn);
+      }
+      if (k === 'hyperlink' && !!parents.a) {
+        setActive(elems.hyperlinkBtn);
+      }
+      if (elems.formatblock?.btn && regxFormatblock.test(k) && !!parents[k]) {
+        elems.formatblock.btn.text = elems.formatblock.items[k].text;
+      }
+      if (document.queryCommandState((<any>v).action)) {
+        setActive(this.querySelector(`[editor-action="${k}"]`));
+      }
+    });
   }
 
   /**
    * On toolbar items selected.
-   * @private
    * @param {CustomEvent} e The event
-   * @returns {void}
    */
-  #onSelectedToolbar(e: CustomEvent) {
+  #onSelectedToolbar(e: CustomEvent): void {
     if (!e?.detail?.elem) return;
 
     const elem = e.detail.elem;
@@ -898,8 +887,6 @@ export default class IdsEditor extends Base {
     if (/^ids-button$/i.test(elem.nodeName)) target = elem;
 
     const action = target?.getAttribute('editor-action');
-
-    console.log('#onSelectedToolbar', e.detail, action);
 
     if (this.#actions[action]) {
       let value = null;
@@ -920,9 +907,7 @@ export default class IdsEditor extends Base {
 
   /**
    * On toolbar items input event.
-   * @private
    * @param {MouseEvent} e The event
-   * @returns {void}
    */
   #onInputToolbar(e: MouseEvent): void {
     if (!e) return;
@@ -936,7 +921,6 @@ export default class IdsEditor extends Base {
 
   /**
    * On modal before show.
-   * @private
    * @param {string} key The modal key
    * @returns {boolean} false if, should not proseed
    */
@@ -951,7 +935,8 @@ export default class IdsEditor extends Base {
     if (key === 'hyperlink') {
       const args = { ...this.#modals.defaults.hyperlink, hideRemoveContainer: true };
       const elems = { ...this.#modals.hyperlink.elems };
-      const currentLink = findElementInSelection(sel, this.#elems.editor, 'a');
+      const currentLink = this.#findElementInSelection(sel, 'a');
+
       if (currentLink) {
         args.currentLink = currentLink;
         args.hideRemoveContainer = false;
@@ -1005,12 +990,12 @@ export default class IdsEditor extends Base {
   #setTextColor(selection: Selection, action: EditorAction) {
     this.#savedSelection = saveSelection(selection);
 
-    if (this.#savedSelection && this.#elems[`${action}Input`]) {
+    if (this.#savedSelection && this.#elems[`${action.action}Input`]) {
       const color = action.value === 'backcolor'
-        ? selection?.focusNode?.parentNode?.style?.getProperty?.('background-color')
-        : document.queryCommandValue(a.action);
-      this.#elems[`${action}Input`].value = /rgb/i.test(color) ? rgbToHex(color) : color;
-      this.#elems[`${action}Input`].click();
+        ? (selection?.focusNode?.parentNode as HTMLElement)?.style.getPropertyValue?.('background-color')
+        : document.queryCommandValue(action.action);
+      this.#elems[`${action.action}Input`].value = /rgb/i.test(color) ? rgbToHex(color) : color;
+      this.#elems[`${action.action}Input`].click();
     }
   }
 
@@ -1044,7 +1029,15 @@ export default class IdsEditor extends Base {
    */
   #handleAction(actionName: string, val: string = ''): void {
     const a: EditorAction = { ...this.#actions[actionName] };
-    const sel: any = this.#getSelection();
+    const sel = this.#currentSelection;
+
+    // Switch editor/source mode
+    if (/^(editormode|sourcemode)$/i.test(actionName)) {
+      this.view = actionName.replace(/mode/i, '');
+      return;
+    }
+
+    if (!sel) return;
 
     // Set text format
     if (a.action === 'formatBlock') {
@@ -1066,12 +1059,8 @@ export default class IdsEditor extends Base {
       return this.#createList(sel, this.#actions[actionName]);
     }
 
-    // Switch editor/source mode
-    if (/^(editormode|sourcemode)$/i.test(actionName)) {
-      this.view = actionName.replace(/mode/i, '');
-      return;
-    }
-
+    // Exec command all other actions
+    // NOTE: execCommand() is deprecated
     a.value = a.value ?? val;
     document.execCommand(a.action, false, a.value);
   }
@@ -1094,10 +1083,10 @@ export default class IdsEditor extends Base {
     if (key === 'insertimage') {
       a.value = qs(`#${key}-modal-input-src`, this.shadowRoot)?.value ?? '';
       if (a.value !== '') {
-        if (sel.type === 'Caret') {
-          range.insertNode(document.createTextNode(' '));
-          sel.removeAllRanges();
-          sel.addRange(range);
+        if (sel?.type === 'Caret') {
+          range?.insertNode(document.createTextNode(' '));
+          sel?.removeAllRanges();
+          if (range) sel?.addRange(range);
         }
         const alt = qs(`#${key}-modal-input-alt`, this.shadowRoot).value ?? '';
         if (alt !== '') {
@@ -1120,7 +1109,7 @@ export default class IdsEditor extends Base {
         if (elems.url?.value) {
           a.value = 'EDITOR_CREATED_NEW_HYPERLINK';
           document.execCommand(a.action, false, a.value);
-          const aLink = qs(`a[href="${a.value}"`, this.shadowRoot);
+          const aLink = qs(`a[href="${a.value}"`, this);
           aLink.setAttribute('href', elems.url.value);
           aLink.innerHTML = aLink.innerHTML.replace(a.value, elems.url.value);
           if (elems.classes?.value !== '') {
@@ -1170,8 +1159,14 @@ export default class IdsEditor extends Base {
   #attachEventHandlers(): object {
     // Attach selection change
     this.onEvent('selectionchange.editor', document, debounce(() => {
-      this.#onSelectionChange();
-    }, 400));
+      const selection = document.getSelection();
+      this.#currentSelection = null;
+
+      if (selection?.focusNode && this.contains(selection.focusNode)) {
+        this.#currentSelection = selection;
+        this.#onSelectionChange(selection);
+      }
+    }, 200));
 
     // Attach toolbar events
     this.onEvent('selected.editor-toolbar', this.#elems.toolbar, (e: CustomEvent) => {
@@ -1210,7 +1205,6 @@ export default class IdsEditor extends Base {
     });
 
     // Other events
-    this.#attachSlotchangeEvent();
     this.#attachKeyboardEvents();
 
     // Set observer for resize
@@ -1288,23 +1282,6 @@ export default class IdsEditor extends Base {
         });
       });
     }
-  }
-
-  /**
-   * Attach slotchange events
-   * @private
-   * @returns {object} This API object for chaining
-   */
-  #attachSlotchangeEvent(): object {
-    this.onEvent('slotchange.editor-content', this.container, (e: Event) => {
-      const slot: any = e.target;
-      if (slot?.name === '') {
-        // const html = slot.assignedElements().map((el: HTMLElement) => el.outerHTML).join('');
-        // this.#setEditorContent(html);
-        // if (!this.reqInitialize) this.#triggerEvent('input', this.#elems.editor);
-      }
-    });
-    return this;
   }
 
   /**
@@ -1388,6 +1365,39 @@ export default class IdsEditor extends Base {
 
     if (labelEl) labelEl.innerHTML = shouldDisplayLabel ? value : '';
     if (sourceLabel) sourceLabel.innerHTML = shouldDisplayLabel ? this.sourceTextareaLabel() : '';
+  }
+
+  #findElementInSelection(selection: Selection, tagName: string): HTMLElement | null {
+    const range = selection.getRangeAt(0);
+
+    if (range && this.contains(selection.focusNode)) {
+      const selectionParent = range.commonAncestorContainer as HTMLElement;
+
+      // Look for an element *around* the selected range
+      for (let el = selectionParent; el && el !== this; el = el.parentElement as HTMLElement) {
+        if (el && el.tagName && el.tagName.toLowerCase() === tagName) {
+          return el;
+        }
+      }
+
+      // Look for an element *within* the selected range
+      if (!range.collapsed && selectionParent instanceof Element) {
+        const elemsInside = [...selectionParent.getElementsByTagName(tagName)] as HTMLElement[];
+        const elemRange = document.createRange();
+
+        // Determine if element is within the range
+        for (let i = 0; i < elemsInside.length; i++) {
+          const elem = elemsInside[i];
+          elemRange.selectNodeContents(elem);
+          if (range.compareBoundaryPoints(Range.END_TO_START, elemRange) < 0
+            && range.compareBoundaryPoints(Range.START_TO_END, elemRange) > 0) {
+            return elem;
+          }
+        }
+      }
+    }
+
+    return null;
   }
 
   /**

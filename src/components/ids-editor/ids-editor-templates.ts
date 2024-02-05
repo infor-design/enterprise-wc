@@ -18,7 +18,7 @@ export const editorTemplate = `
       </div>
       <div class="editor-content">
         <div id="editor-container" class="editor-container" part="editor-container"{contenteditable} aria-multiline="true" role="textbox" aria-labelledby="editor-label"{placeholder}>
-          <slot></slot>
+          <slot id="editor-slot"></slot>
         </div>
         <div class="source-container {hiddenClass}" part="source-container">
           <div class="source-wrapper">
