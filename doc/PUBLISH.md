@@ -12,18 +12,18 @@
 - Run command `gh release create 1.0.0-beta.19 --title "1.0.0-beta.19" --notes-file "doc/CHANGELOG.md"`
 - Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents to just the current release and if needed and make it pre-release
 - Commit and push (direct to repo or PR)
-- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-beta-18`
+- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-beta-19`
 - Post in announcements section following other similar link
-- (Run the docs generator (TBD) for `https://design.infor.com/web-components/` by running `scripts\docs-generator\main.js`
+- (Run the docs generator (TBD) for `https://design.infor.com/web-components/` by running `scripts/docs-generator/main.js`
 
 ```sh
 // Add the key to the .env file but dont commit
 // Export the .env file lines one by one
-cd scripts\docs-generator\
+cd scripts/docs-generator/
 npm i
 cd ..
 cd ..
-node scripts\docs-generator\main.js
+node scripts/docs-generator/main.js
 ```
 
 ## Publishing a test package your local NPM repo
