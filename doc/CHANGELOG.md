@@ -5,6 +5,9 @@
 ### 1.0.0-beta.19 Breaking Changes
 
 - `[ChartLegendMixin]` Added `none` as a legend placement setting and made it default, allowing the legend to be completely hidden. During the process, changed all current IdsAreaChart, IdsAxisChart, IdsBarChart, IdsLineChart, and IdsPieChart examples to explicitly use `legend-placement` attribute where a legend is needed. ([#1672](https://github.com/infor-design/enterprise-wc/issues/1672))
+- `[Colors]` Any settings that use status colors now all use the same values of `error / warning / caution / info / success`, the settings `alert, good, danger` no longer will work. ([#1801](https://github.com/infor-design/enterprise-wc/issues/1801))
+- `[Colors]` Any components that use colors as a setting now use a generic color names instead of previous color words. For example `azure=blue`, `ruby=red`, `amber=yellow` and all color numbers will use the 2x10 digit code (10-100). For example: `color="blue-60"` `color="yellow-60"`. For examples and color samples see the [color palette page](https://main.wc.design.infor.com/ids-color/palette.html). ([#1801](https://github.com/infor-design/enterprise-wc/issues/1801))
+- `[Icons]` Not really breaking but be aware that all icons are changed to the newly designed icons. ([#1801](https://github.com/infor-design/enterprise-wc/issues/1801))
 
 ### 1.0.0-beta.19 Features
 
@@ -19,7 +22,8 @@
 - `[Dropdown|Multiselect]` Broken Dropdown and Multiselect fixed in Angular. ([#1762](https://github.com/infor-design/enterprise-wc/issues/1762))
 - `[Dropdown]` Prevent dropdown from auto scrolling view when list box is opened. ([#1681](https://github.com/infor-design/enterprise-wc/issues/1681))
 - `[Datagrid]` Fix for empty-data text still showing after adding a grid row. ([#1580](https://github.com/infor-design/enterprise-wc/issues/1580))
-- `[Datagrid]` Fix for rtl direction of datagrid filter header. ([#1669](https://github.com/infor-design/enterprise-wc/issues/1669))
+- `[Datagrid]` Fix for RTL direction of datagrid filter header. ([#1669](https://github.com/infor-design/enterprise-wc/issues/1669))
+- `[Icon]` Fixed a bug where setting `color` did not work. ([#1790](https://github.com/infor-design/enterprise-wc/issues/1790))
 - `[Input]` Renamed internal labels and fixed routines that look for labels to fix an issue with missing labels. ([#1752](https://github.com/infor-design/enterprise-wc/issues/1752))
 - `[ListBuilder]` Fixed spacebar on IdsListBuilder so that input-field properly displays spaces. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))
 - `[LoadingIndicator]` Fixed an issue where the inner bars within the loader where not the same size. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))
@@ -156,7 +160,7 @@
 - `[Button]` Fixed an issue with padding when enterprise is loaded on the page. ([#1513](https://github.com/infor-design/enterprise-wc/issues/1513))
 - `[Calendar]` Fixed calendar `firstDayOfWeek` setting. ([#1467](https://github.com/infor-design/enterprise-wc/issues/1467))
 - `[Calendar]` Allow propagation of `dayselected` event from calendar. ([#1470](https://github.com/infor-design/enterprise-wc/issues/1470))
-- `[Colors]` Updated slate 01 to `#f5f5f5` to make it darker. ([#8067](https://github.com/infor-design/enterprise/pull/8067))
+- `[Colors]` Updated neutral-10 to `#f5f5f5` to make it darker. ([#8067](https://github.com/infor-design/enterprise/pull/8067))
 - `[DataGrid]` Added `wrap` attribute to `IdsMenuGroup` so large `contextmenu` menu-items can be wrapped into a column view. ([#1410](https://github.com/infor-design/enterprise-wc/issues/1410))
 - `[DataGrid]` Fixed `contextmenu` focused menu item in datagrid. ([#1453](https://github.com/infor-design/enterprise-wc/issues/1453))
 - `[DataGrid]` Add alignment rules and row-height specific padding to checkbox formatters. ([#1481](https://github.com/infor-design/enterprise-wc/issues/1481))
@@ -257,8 +261,8 @@
 
 - `[Build]` Added custom-elements schema data and visual code schema data for intellisense. ([#1010](https://github.com/infor-design/enterprise-wc/issues/1010))
 - `[Button]` Fixed a bug on static width buttons. ([#1334](https://github.com/infor-design/enterprise-wc/issues/1334))
-- `[Button]` Updated slate colors from the design team. ([#7624](https://github.com/infor-design/enterprise/issues/7624))
-- `[Colors]` Added new slate color palette with lower range colors. Some elements are updated. ([#7624](https://github.com/infor-design/enterprise/issues/7624))
+- `[Button]` Updated neutral colors from the design team. ([#7624](https://github.com/infor-design/enterprise/issues/7624))
+- `[Colors]` Added new neutral color palette with lower range colors. Some elements are updated. ([#7624](https://github.com/infor-design/enterprise/issues/7624))
 - `[DataGrid]` Fixed `scrollend` event firing. ([#1305](https://github.com/infor-design/enterprise-wc/issues/1305))
 - `[DataGrid]` Add ability to refresh row/cell after updating dataset. ([#1303](https://github.com/infor-design/enterprise-wc/issues/1303))
 - `[DataGrid]` Fixed keeping virtual scroll selected/deselected states. ([#1329](https://github.com/infor-design/enterprise-wc/issues/1329))

@@ -1,3 +1,4 @@
+import { type IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
 import type IdsDataGrid from './ids-data-grid';
 import { IdsDataGridEditor } from './ids-data-grid-editors';
 
@@ -129,7 +130,8 @@ export interface IdsDataGridColumn {
   /** Fires for clickable formatters (like button) */
   click?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, event: MouseEvent) => void;
   /** Get the color dynamically from a function or as text */
-  color?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
+  // eslint-disable-next-line max-len
+  color?: IdsColorValue | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
   /** Get the size dynamically from a function or as text */
   size?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
   /** Options to pass to the formatter */

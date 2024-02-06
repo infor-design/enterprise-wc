@@ -476,10 +476,10 @@ describe('Ids Month View e2e Tests', () => {
     const legend = [
       {
         name: 'Public Holiday',
-        color: 'emerald-60',
+        color: 'green-60',
         dates: ['11/15/2021', '11/16/2021', '11/17/2021'],
       },
-      { name: 'Weekends', color: 'amber-60', dayOfWeek: [0] },
+      { name: 'Weekends', color: 'orange-60', dayOfWeek: [0] },
       {
         name: 'Full Days',
         color: '#1677ee',
@@ -504,7 +504,7 @@ describe('Ids Month View e2e Tests', () => {
 
     expect(containerHasClass).toBeTruthy();
     expect(numberOfItems).toBe(legend.length);
-    expect(legendColorFirstItem).toEqual('--legend-color: var(--ids-color-emerald-60);');
+    expect(legendColorFirstItem).toEqual('--legend-color: var(--ids-color-green-60);');
     expect(legendTextFirstItem).toEqual('Public Holiday');
     expect(legendColorLastItem).toEqual('--legend-color: #1677ee;');
     expect(legendTextLastItem).toEqual('Full Days');
@@ -513,7 +513,7 @@ describe('Ids Month View e2e Tests', () => {
     const holidayByDate = await page.$eval(name, (el: any) => {
       const day = el.container?.querySelector('td[data-year="2021"][data-month="10"][data-day="15"]');
       const hasClass = day?.classList.contains('has-legend');
-      const hasStyle = day?.getAttribute('style') === '--legend-color: var(--ids-color-emerald-60);';
+      const hasStyle = day?.getAttribute('style') === '--legend-color: var(--ids-color-green-60);';
 
       return hasClass && hasStyle;
     });
@@ -534,7 +534,7 @@ describe('Ids Month View e2e Tests', () => {
       const days = el?.container.querySelectorAll('tr td:first-child');
 
       return Array.from(days)?.every((item: any) => item.classList.contains('has-legend')
-        && item.getAttribute('style') === '--legend-color: var(--ids-color-amber-60);');
+        && item.getAttribute('style') === '--legend-color: var(--ids-color-orange-60);');
     });
 
     expect(weekendByDay).toBeTruthy();

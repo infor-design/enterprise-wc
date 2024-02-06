@@ -1,9 +1,9 @@
 <ids-action-sheet cancel-btn-text="Cancel" hidden="">
           <ids-menu role="none">
             <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
-              <ids-menu-item icon="mail" text-align="center"><ids-icon slot="icon" icon="mail" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Option One</ids-menu-item>
-              <ids-menu-item icon="filter" text-align="center"><ids-icon slot="icon" icon="filter" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Option Two</ids-menu-item>
-              <ids-menu-item icon="profile" text-align="center"><ids-icon slot="icon" icon="profile" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>Option Three</ids-menu-item>
+              <ids-menu-item icon="mail" text-align="center"><ids-icon slot="icon" icon="mail" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Option One</ids-menu-item>
+              <ids-menu-item icon="filter" text-align="center"><ids-icon slot="icon" icon="filter" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Option Two</ids-menu-item>
+              <ids-menu-item icon="profile" text-align="center"><ids-icon slot="icon" icon="profile" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Option Three</ids-menu-item>
             </ids-menu-group>
           </ids-menu>
         </ids-action-sheet>

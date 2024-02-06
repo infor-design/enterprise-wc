@@ -24,13 +24,13 @@ Ids step chart is created by using the <ids-step-chart> element.
 For an implementation with only a primary label and completed uncompleted steps see the below example.
 
 ```html
-<ids-step-chart label="2 of 7 steps completed" color="azure06" step-number="7" value="2">
+<ids-step-chart label="2 of 7 steps completed" color="blue-60" step-number="7" value="2">
 </ids-step-chart>
 ```
 
 To set in progress steps you must pass an array of strings or numbers where each item in the array is the number of the step you want to update and set the `progress-color` attribute.
 ```html
-  <ids-step-chart label="2 of 7 steps completed" color="azure06" step-number="7" value="3" completed-label="5 days overdue" progress-color="ruby02">
+  <ids-step-chart label="2 of 7 steps completed" color="blue-60" step-number="7" value="3" completed-label="5 days overdue" progress-color="red-20">
 ```
 
 ```js
@@ -40,13 +40,13 @@ inProgressTwo.stepsInProgress = ['3'];
 to add a secondary label make use of the completed-label attribute
 
 ```html
-  <ids-step-chart label="2 of 7 steps completed" color="azure06" step-number="7" value="2" completed-label="5 days remaining">
+  <ids-step-chart label="2 of 7 steps completed" color="blue06" step-number="7" value="2" completed-label="5 days remaining">
   </ids-step-chart>
 ```
 IDS step chart also has an available slot `icon` that can be used to append content after the secondary label like so
 
 ```html
-  <ids-step-chart label="2 of 7 steps completed" color="azure06" step-number="7" value="3" completed-label="5 days overdue" progress-color="ruby02">
+  <ids-step-chart label="2 of 7 steps completed" color="blue-60" step-number="7" value="3" completed-label="5 days overdue" progress-color="red-20">
     <ids-icon id="alert" slot="icon" icon="warning"></ids-icon>
   </ids-step-chart>
 ```
@@ -104,7 +104,7 @@ element.stepsInProgress = ['3'];
 ```
 
 Color for `inProgress` steps is not set automatically and a color must be set using the `progress-color` attribute. to duplicate
-existing red in progress steps use `ruby02`.
+existing red in progress steps use `red-20`.
 
 labeling for the step chart is handled through the `label` component attribute and there are no special format requirements
 

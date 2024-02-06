@@ -73,23 +73,23 @@ When using color in type, make sure to follow the guidelines below:
 
 ### Common variations
 
-While most text will appear in Slate 08 and fall within the type styles defined above, text color may also take the following variations in certain circumstances:
+While most text will appear in neutral-80 and fall within the type styles defined above, text color may also take the following variations in certain circumstances:
 
 1. Descriptive Text
 
-This is the most frequently-used text color and serves as the default for short phrases and longer paragraphs. The color used for descriptive text is usually Slate 10.
+This is the most frequently-used text color and serves as the default for short phrases and longer paragraphs. The color used for descriptive text is usually neutral-10.
 
 2. Linked Text
 
-This is an interactive link to another page in Infor software or to external webpages. Please refer to the hyperlink documentation for further details. Text is underlined and is in Azure 06.
+This is an interactive link to another page in Infor software or to external webpages. Please refer to the hyperlink documentation for further details. Text is underlined and is in blue-60.
 
 3. Muted Text
 
-This shows disabled functions; this text cannot be edited when it shows in an input area. The color for muted or disabled text should appear in a Slate tone lighter than the descriptive text (usually 06 or lighter).
+This shows disabled functions; this text cannot be edited when it shows in an input area. The color for muted or disabled text should appear in a Neutral tone lighter than the descriptive text (usually 06 or lighter).
 
 4. Alert Text
 
-This serves as notification text that tells users of changes, errors, or updates. The color for this text is Status 01 (Ruby 06).
+This serves as notification text that tells users of changes, errors, or updates. The color for this text is Status 01 (red-60).
 
 5. Strong Text
 

@@ -1,5 +1,5 @@
 <ids-empty-message icon="empty-error-loading-new">
           <ids-text type="h2" font-size="20" label="true" slot="label">Alert Label</ids-text>
-          <ids-text label="true" slot="description">Description of empty message that explains why.</ids-text>
+          <ids-text label="true" slot="description">Description of empty message that explains why</ids-text>
           <ids-button class="action-button" slot="button" appearance="primary">Action</ids-button>
         </ids-empty-message>

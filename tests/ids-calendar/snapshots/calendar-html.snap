@@ -5,19 +5,19 @@
             <ids-text translate-text="true" translation-key="Legend">Legend</ids-text>
           </ids-accordion-header>
           <div slot="content"><p>
-      <ids-checkbox class="event-type-checkbox" checked="true" data-id="dto" label="Discretionary time off" color="azure">
+      <ids-checkbox class="event-type-checkbox" checked="true" data-id="dto" label="Discretionary time off" color="blue">
       </ids-checkbox>
     
-      <ids-checkbox class="event-type-checkbox" checked="true" data-id="admin" label="Administrative leave" color="amethyst">
+      <ids-checkbox class="event-type-checkbox" checked="true" data-id="admin" label="Administrative leave" color="purple">
       </ids-checkbox>
     
-      <ids-checkbox class="event-type-checkbox" checked="true" data-id="team" label="Team event" color="emerald">
+      <ids-checkbox class="event-type-checkbox" checked="true" data-id="team" label="Team event" color="green">
       </ids-checkbox>
     
-      <ids-checkbox class="event-type-checkbox" checked="true" data-id="sick" label="Sick time" color="amber">
+      <ids-checkbox class="event-type-checkbox" checked="true" data-id="sick" label="Sick time" color="orange">
       </ids-checkbox>
     
-      <ids-checkbox class="event-type-checkbox" checked="true" data-id="holiday" label="Company holiday" color="slate" disabled="true">
+      <ids-checkbox class="event-type-checkbox" checked="true" data-id="holiday" label="Company holiday" color="neutral" disabled="true">
       </ids-checkbox>
     </p></div>
         </ids-accordion-panel>

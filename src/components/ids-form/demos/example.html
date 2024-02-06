@@ -35,12 +35,16 @@
           <ids-upload label="Attachments" id="attachments" dirty-tracker validate="required" size="md"></ids-upload>
           <ids-textarea id="notes" label="Notes" dirty-tracker validate="required" size="md"></ids-textarea>
           <ids-checkbox id="freight" label="Freight" checked dirty-tracker validate="required" no-margin></ids-checkbox>
+          <br>
           <ids-button id="btn-submit" appearance="primary" type="submit">
             <span>Submit</span>
           </ids-button>
+          <ids-button id="btn-cancel" appearance="secondary" type="submit">
+            <span>Cancel</span>
+          </ids-button>
         </ids-layout-grid-cell>
         <ids-layout-grid-cell>
-          <ids-color-picker id="ship-color" label="Ship Color" value="ruby-80" clearable dirty-tracker validate="required" size="md"></ids-color-picker>
+          <ids-color-picker id="ship-color" label="Ship Color" value="red-80" clearable dirty-tracker validate="required" size="md"></ids-color-picker>
           <ids-date-picker id="ship-date" label="Ship Date" value="3/4/2023" mask dirty-tracker validate="required" size="md"></ids-date-picker>
           <ids-time-picker label="Ship Time" id="ship-time" mask="true" dirty-tracker validate="required" size="md"></ids-time-picker>
 

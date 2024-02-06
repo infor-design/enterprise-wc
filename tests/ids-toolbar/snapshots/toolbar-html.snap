@@ -55,7 +55,7 @@
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
       <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" role="none" hidden=""><ids-menu-group more-actions="" role="group" aria-label="Menu group containing 8 item(s)">
-      <ids-menu-item icon="menu" hidden=""><ids-icon slot="icon" icon="menu" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+      <ids-menu-item icon="menu" hidden=""><ids-icon slot="icon" icon="menu" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Application Menu Trigger
       
     </ids-menu-item><ids-menu-item hidden="">
@@ -99,13 +99,13 @@
     </ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
-    </ids-menu-item><ids-menu-item icon="settings" hidden=""><ids-icon slot="icon" icon="settings" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="settings" hidden=""><ids-icon slot="icon" icon="settings" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Settings
       
-    </ids-menu-item><ids-menu-item icon="delete" hidden=""><ids-icon slot="icon" icon="delete" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="delete" hidden=""><ids-icon slot="icon" icon="delete" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Trash
       
-    </ids-menu-item><ids-menu-item icon="more" hidden=""><ids-icon slot="icon" icon="more" size="small" part="icon" class="ids-icon ids-menu-item-display-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="more" hidden=""><ids-icon slot="icon" icon="more" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       More Actions Button
       <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
           <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">

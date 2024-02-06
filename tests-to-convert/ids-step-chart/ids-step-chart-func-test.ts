@@ -20,7 +20,7 @@ describe('Ids Step Chart Tests', () => {
 
   beforeEach(async () => {
     elem = await createElemViaTemplate(
-      `<ids-step-chart label="2 of 7 steps completed" color="azure08" step-number="7" value="3" completed-label="5 days overdue" progress-color="ruby03"></ids-step-chart>`
+      `<ids-step-chart label="2 of 7 steps completed" color="blue08" step-number="7" value="3" completed-label="5 days overdue" progress-color="red03"></ids-step-chart>`
     );
     elem.stepsInProgress = ['3'];
   });
@@ -46,13 +46,13 @@ describe('Ids Step Chart Tests', () => {
   });
 
   it('color is set correctly', () => {
-    expect(elem.shadowRoot.querySelector('.in-progress').getAttribute('color')).toBe('ruby03');
-    elem.progressColor = 'turquoise06';
-    expect(elem.shadowRoot.querySelector('.in-progress').getAttribute('color')).toBe('turquoise06');
+    expect(elem.shadowRoot.querySelector('.in-progress').getAttribute('color')).toBe('red03');
+    elem.progressColor = 'teal06';
+    expect(elem.shadowRoot.querySelector('.in-progress').getAttribute('color')).toBe('teal06');
 
-    expect(elem.shadowRoot.querySelector('.complete').getAttribute('color')).toBe('azure08');
-    elem.color = 'amethyst05';
-    expect(elem.shadowRoot.querySelector('.complete').getAttribute('color')).toBe('amethyst05');
+    expect(elem.shadowRoot.querySelector('.complete').getAttribute('color')).toBe('blue08');
+    elem.color = 'purple05';
+    expect(elem.shadowRoot.querySelector('.complete').getAttribute('color')).toBe('purple05');
   });
 
   it('can steps in progress be updated', () => {

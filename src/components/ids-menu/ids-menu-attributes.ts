@@ -47,9 +47,6 @@ const MENU_GROUP_SELECT_TYPES = [
   'multiple'
 ];
 
-// Size for menu item icons
-const MENU_ITEM_ICON_SIZE = 'small';
-
 // Default Button state values
 const MENU_DEFAULTS: any = {
   disabled: false,
@@ -114,5 +111,5 @@ function isUsableItem(item: any, idsMenu: any) {
 }
 
 export {
-  MENU_GROUP_SELECT_TYPES, MENU_ITEM_ICON_SIZE, MENU_DEFAULTS, safeForAttribute, isValidGroup, isUsableItem
+  MENU_GROUP_SELECT_TYPES, MENU_DEFAULTS, safeForAttribute, isValidGroup, isUsableItem
 };

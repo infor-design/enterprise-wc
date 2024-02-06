@@ -54,7 +54,7 @@ describe('IdsLineChart Component', () => {
         name: 'Feb',
         value: 300
       }],
-      color: 'var(--ids-color-azure-20)',
+      color: 'var(--ids-color-blue-20)',
       name: 'Series 2'
     }];
     lineChart.redraw();

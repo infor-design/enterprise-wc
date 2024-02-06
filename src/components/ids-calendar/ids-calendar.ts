@@ -473,7 +473,7 @@ export default class IdsCalendar extends Base {
 
     return `
       <form id="event-form" data-id="${data.id}" slot="content">
-        <div id="event-form-header" class="inline-container" color="${eventType?.color || 'azure'}">
+        <div id="event-form-header" class="inline-container" color="${eventType?.color || 'blue'}">
           <ids-text font-size="16" font-weight="semi-bold">${eventType?.label || ''}</ids-text>
           <ids-icon icon="close" data-action="close" aria-label="Close" role="button"></ids-icon>
         </div>
@@ -1168,7 +1168,7 @@ export default class IdsCalendar extends Base {
       dateRange: this.formatDateRange(startDate, endDate),
       duration: this.formatDuration(startDate, endDate),
       eventType: event.type,
-      color: eventType?.color || 'azure'
+      color: eventType?.color || 'blue'
     };
   }
 

@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import {
-  MENU_ITEM_ICON_SIZE, MENU_DEFAULTS, safeForAttribute
+  MENU_DEFAULTS, safeForAttribute
 } from './ids-menu-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
@@ -125,7 +125,7 @@ export default class IdsMenuItem extends Base {
 
   templateDisplayIcon(icon: string) {
     const viewbox = this.viewbox ? ` viewbox="${this.viewbox}"` : '';
-    return `<ids-icon slot="icon" icon="${icon}"${viewbox} size="${MENU_ITEM_ICON_SIZE}" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>`;
+    return `<ids-icon slot="icon" icon="${icon}"${viewbox} part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>`;
   }
 
   templateShortcutKeys(shortcutText: string) {
@@ -133,7 +133,7 @@ export default class IdsMenuItem extends Base {
   }
 
   templateSubmenuIcon() {
-    return `<ids-icon slot="icon" icon="dropdown" size="${MENU_ITEM_ICON_SIZE}" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`;
+    return `<ids-icon slot="icon" icon="dropdown" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`;
   }
 
   /**

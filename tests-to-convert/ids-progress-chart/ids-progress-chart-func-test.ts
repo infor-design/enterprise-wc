@@ -53,8 +53,8 @@ describe('IdsProgressChart Component', () => {
     chart.color = '#606066';
     expect(chart.color).toBe('#606066');
 
-    chart.color = 'amethyst-50';
-    expect(chart.color).toBe('amethyst-50');
+    chart.color = 'purple-50';
+    expect(chart.color).toBe('purple-50');
   });
 
   it('sets labels correctly', () => {

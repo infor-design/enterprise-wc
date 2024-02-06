@@ -1,3 +1,5 @@
+import { type IdsColorValueNames } from '../../utils/ids-color-utils/ids-color-utils';
+
 export const MIN_MONTH = 0;
 export const MAX_MONTH = 11;
 export const WEEK_LENGTH = 7;
@@ -30,7 +32,7 @@ export type IdsDisableSettings = {
 
 export type IdsLegend = {
   name: string,
-  color: string,
+  color?: IdsColorValueNames,
   dates?: Array<string>,
   dayOfWeek?: Array<number>
 };

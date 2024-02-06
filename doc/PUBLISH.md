@@ -2,28 +2,28 @@
 
 ## Publishing a package to NPM
 
-- Search for `1.0.0-beta.n` (current version) and replace with new version (currently `1.0.0-beta.18`)
+- Search for `1.0.0-beta.n` (current version) and replace with new version (currently `1.0.0-beta.19`)
 - It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js` and this file.
 - Commit and push
-- Make and push a tag with `git tag 1.0.0-beta.18 && git push origin --tags`
+- Make and push a tag with `git tag 1.0.0-beta.19 && git push origin --tags`
 - Run command `npm run publish:dry-run` to test first if you wish
 - Run command `npm run publish:npm` or `publish:debug` (we may want to publish debuggable code for a period of time of stability)
 - If not installed, install GitHub cli so you get the [`gh`](https://cli.github.com/manual/gh_release_create) command with `brew install gh`
-- Run command `gh release create 1.0.0-beta.18 --title "1.0.0-beta.18" --notes-file "doc/CHANGELOG.md"`
+- Run command `gh release create 1.0.0-beta.19 --title "1.0.0-beta.19" --notes-file "doc/CHANGELOG.md"`
 - Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents to just the current release and if needed and make it pre-release
 - Commit and push (direct to repo or PR)
-- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-beta-18`
+- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-beta-19`
 - Post in announcements section following other similar link
-- (Run the docs generator (TBD) for `https://design.infor.com/web-components/` by running `scripts\docs-generator\main.js`
+- (Run the docs generator (TBD) for `https://design.infor.com/web-components/` by running `scripts/docs-generator/main.js`
 
 ```sh
 // Add the key to the .env file but dont commit
 // Export the .env file lines one by one
-cd scripts\docs-generator\
+cd scripts/docs-generator/
 npm i
 cd ..
 cd ..
-node scripts\docs-generator\main.js
+node scripts/docs-generator/main.js
 ```
 
 ## Publishing a test package your local NPM repo
@@ -74,3 +74,12 @@ Limitations:
 
 - sub folders need the html extension for example `http://localhost:4300/ids-pager/sandbox.html` not `http://localhost:4300/ids-pager/sandbox`
 - The [File Upload Advanced demo](http://localhost:4300/ids-upload-advanced/) will just error uploading as `/upload` is disabled / not available for static sites..
+
+## Updating Dependencies
+
+- Make a clean branch and pull main
+- Run `nvm use` to get on the latest version. Check version against the [Node Js](https://nodejs.org/en/download) website. If it was changed put the new version in `.nvmrc` and run `nvm use` again
+- Run `ncu` to see whats new if you do not have this check util install it `npm install -g npm-check-updates`
+- Run `npm i` to update the dependencies, if you get any errors like `overriding peer dependency` then revert the one change, it means something isn't quite in sync yet
+- Copy the icon.json from ids-identity into the icons folder (doing this while old icons are needed)
+- Search for `ids-enterprise@4.92.1` and update

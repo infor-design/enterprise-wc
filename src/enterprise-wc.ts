@@ -19,6 +19,7 @@ import './components/ids-checkbox/ids-checkbox';
 import './components/ids-checkbox-group/ids-checkbox-group';
 import './components/ids-color/ids-color';
 import './components/ids-color-picker/ids-color-picker';
+import './utils/ids-color-utils/ids-color-utils';
 import './components/ids-container/ids-container';
 import './components/ids-counts/ids-counts';
 import './components/ids-data-grid/ids-data-grid';

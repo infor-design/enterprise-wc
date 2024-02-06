@@ -31,7 +31,7 @@ A colored badge is done by adding a `color` attribute and one of the following:
 alert, error, info, warning, and success.
 
 ```html
-<ids-badge color="alert">10</ids-badge>
+<ids-badge color="caution">10</ids-badge>
 <ids-badge color="error">1500</ids-badge>
 <ids-badge color="info">25k+</ids-badge>
 <ids-badge color="warning">16</ids-badge>
@@ -41,7 +41,7 @@ alert, error, info, warning, and success.
 A shape badge is done by adding a `shape` attribute and one of the following: normal, and round. When you don't set the shape, normal will be the default value.
 
 ```html
-<ids-badge color="alert" shape="round">10</ids-badge>
+<ids-badge color="caution" shape="round">10</ids-badge>
 ```
 
 Audible span can de configure by adding `<ids-text audible="true"></ids-text>` inside of the badge.

@@ -95,7 +95,7 @@ $image-sizes: (
     min-width: 50px;
     min-height: 50px;
     background-color: var(--ids-image-initials-color-background);
-    color: var(--ids-color-neutral-00);
+    color: var(--ids-color-white-100);
     text-transform: uppercase;
   }
 
@@ -133,7 +133,7 @@ $image-sizes: (
   &::before {
     position: absolute;
     border-radius: var(--ids-border-radius-circle);
-    background-color: var(--ids-color-neutral-00);
+    background-color: var(--ids-color-white-100);
     content: '';
     width: 12px;
     height: 12px;

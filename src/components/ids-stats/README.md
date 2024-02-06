@@ -50,7 +50,7 @@ A simple state component with all options.
 
 - `trendLabel` {string} Used to showcase price or amount trending up or down (Optional). If the data contains a + it is shown in success color with a trend icon. If the data is - it is shown in error color.
 - `icon` {string} Use to call attention to status of the KPI. Can be colored to bring attention (via statusColor. (Optional in larger KPI format).
-- `statusColor` {string} Sets the color of the icon. Can be error, info, success, warning or any palette color like azure, emerald, amber ect.
+- `statusColor` {string} Sets the color of the icon. Can be error, info, success, warning or any palette color like blue, green, orange ect.
 - `kpi` {string} Large center label. Show up to 6 characters in small size in the KPI area.
 - `mainLabel` {string} Main KPI Label. Will truncate if too big.
 - `subtitle` {string} Extra details on the KPI. Single line. Auto truncates.

@@ -11,7 +11,7 @@
 - [x] Add test for change event firing
 - [x] Add test for setting color / clearing color
 - [x] Change hide/show to open/close for consistency and make sure it fires events that are documented
-- [x] Ability to set custom labels for selections. Should be able to show color-name `azure06` or `color-hex` `#ffffff` inside the input. [See example](https://main-enterprise.demo.design.infor.com/components/colorpicker/example-custom-labels.html)
+- [x] Ability to set custom labels for selections. Should be able to show color-name `blue06` or `color-hex` `#ffffff` inside the input. [See example](https://main-enterprise.demo.design.infor.com/components/colorpicker/example-custom-labels.html)
 - [x] Show label instead of hex. [See example](https://main-enterprise.demo.design.infor.com/components/colorpicker/example-show-label.html)
 - [x] Add sizes widths and field heights. [See Ids Input](https://main.wc.design.infor.com/ids-input/)
 

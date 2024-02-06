@@ -5,6 +5,7 @@ import styles from './ids-calendar-event.scss';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes } from '../../core/ids-attributes';
+import { type IdsColorValueCategories } from '../../utils/ids-color-utils/ids-color-utils';
 
 export type CalendarEventData = {
   id: string;
@@ -24,7 +25,7 @@ export type CalendarEventTypeData = {
   id: string;
   label: string;
   translationKey: string;
-  color: 'amber' | 'amethyst' | 'azure' | 'emerald' | 'ruby' | 'slate' | 'turquoise';
+  color: IdsColorValueCategories;
   checked: boolean;
   disabled?: boolean
 };
@@ -418,7 +419,7 @@ export default class IdsCalendarEvent extends Base {
    * @returns {string} color
    */
   get color(): string {
-    return this.eventTypeData?.color || 'azure';
+    return this.eventTypeData?.color || 'blue';
   }
 
   /**

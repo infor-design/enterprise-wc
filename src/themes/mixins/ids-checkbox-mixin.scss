@@ -92,8 +92,8 @@
 }
 
 // Colored
-$color-names: 'emerald' 'amethyst' 'azure' 'amber' 'ruby';
-$color-vars: --ids-color-emerald-70 --ids-color-amethyst-70 --ids-color-azure-70 --ids-color-amber-70 --ids-color-ruby-70;
+$color-names: 'green' 'purple' 'blue' 'orange' 'red';
+$color-vars: --ids-color-green-70 --ids-color-purple-70 --ids-color-blue-70 --ids-color-orange-70 --ids-color-red-70;
 
 @mixin checkbox-colored() {
   @each $name in $color-names {

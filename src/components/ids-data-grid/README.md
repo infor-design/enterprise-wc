@@ -1087,18 +1087,18 @@ columns.push({
   id: 'text',
   name: 'Text',
   field: 'description',
-  tooltipCssPart: 'custom-turquoise',
-  headerTooltipCssPart: 'custom-turquoise',
-  headerIconTooltipCssPart: 'custom-turquoise',
-  filterButtonTooltipCssPart: 'custom-turquoise'
+  tooltipCssPart: 'custom-teal',
+  headerTooltipCssPart: 'custom-teal',
+  headerIconTooltipCssPart: 'custom-teal',
+  filterButtonTooltipCssPart: 'custom-teal'
 });
 ```
 ```css
-/* tooltip css part `custom-turquoise` */
-ids-data-grid::part(custom-turquoise-tooltip-arrow-top)::after {
+/* tooltip css part `custom-teal` */
+ids-data-grid::part(custom-teal-tooltip-arrow-top)::after {
   border-top-color: #2f8d8e;
 }
-ids-data-grid::part(custom-turquoise-tooltip-popup) {
+ids-data-grid::part(custom-teal-tooltip-popup) {
   background-color: #2f8d8e;
 }
 ```
@@ -1111,7 +1111,7 @@ const tooltipCssPartCallback = (args: { type: string }): string => {
   let cssPart = '';
   // Set random css part each time, for `body-cell` tooltips
   if (type === 'body-cell') {
-    const parts = ['azure', 'ruby'];
+    const parts = ['blue', 'red'];
     const randomIndex = Math.floor(Math.random() * parts.length);
     cssPart = parts[randomIndex];
   }
@@ -1126,19 +1126,19 @@ columns.push({
 });
 ```
 ```css
-/* tooltip css part `azure` */
-ids-data-grid::part(azure-tooltip-arrow-top)::after {
+/* tooltip css part `blue` */
+ids-data-grid::part(blue-tooltip-arrow-top)::after {
   border-top-color: #0066d4;
 }
-ids-data-grid::part(azure-tooltip-popup) {
+ids-data-grid::part(blue-tooltip-popup) {
   background-color: #0066d4;
 }
 
-/* tooltip css part `ruby` */
-ids-data-grid::part(ruby-tooltip-arrow-top)::after {
+/* tooltip css part `red` */
+ids-data-grid::part(red-tooltip-arrow-top)::after {
   border-top-color: #c31014;
 }
-ids-data-grid::part(ruby-tooltip-popup) {
+ids-data-grid::part(red-tooltip-popup) {
   background-color: #c31014;
 }
 ```
