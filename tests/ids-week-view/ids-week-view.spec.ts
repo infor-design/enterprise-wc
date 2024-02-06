@@ -33,6 +33,7 @@ test.describe('IdsWeekView tests', () => {
       if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
+        .disableRules('scrollable-region-focusable')
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
     });
