@@ -97,7 +97,7 @@
     &.field-height-sm.compact,
     &.field-height-md.compact,
     &.field-height-lg.compact {
-      height: var(--ids-input-height-10);
+      height: calc(var(--ids-input-height-10) - 2px);
     }
   }
 

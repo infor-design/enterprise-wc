@@ -225,7 +225,7 @@ describe('IdsDatePicker Component Tests', () => {
     it('should set/unset legend property', () => {
       expect(component.legend.length).toEqual(0);
 
-      const legend = [{ name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] }];
+      const legend = [{ name: 'Weekends', color: 'orange-60', dayOfWeek: [0, 6] }];
 
       component.legend = legend;
 

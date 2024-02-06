@@ -1,10 +1,17 @@
-import pathImport from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
-import emptyPathImport from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
+import pathImport from 'ids-identity/dist/theme-new/icons/default/path-data.json';
+// import pathImportOld from 'ids-identity/dist/theme-new/icons/old/standard/path-data.json'
+import emptyPathImport from 'ids-identity/dist/theme-new/icons/old/empty/path-data.json';
 
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { sizes } from './ids-icon-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import {
+  type IdsColorValue,
+  type IdsColorValueEmpty,
+  type IdsColorValueStatus,
+  applyColorValue,
+  IdsColorValueCategories
+} from '../../utils/ids-color-utils/ids-color-utils';
 import { querySelectorAllShadowRoot } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
@@ -55,13 +62,13 @@ export default class IdsIcon extends Base {
       ...super.attributes,
       attributes.BADGE_COLOR,
       attributes.BADGE_POSITION,
+      attributes.COLOR,
       attributes.FILL,
       attributes.HEIGHT,
       attributes.ICON,
       attributes.SIZE,
       attributes.STATUS_COLOR,
       attributes.STROKE,
-      attributes.VERTICAL,
       attributes.VIEWBOX,
       attributes.WIDTH
     ];
@@ -237,23 +244,20 @@ export default class IdsIcon extends Base {
   }
 
   /**
-   * @returns {string | null} the current color of the notification badge
+   * @param {IdsColorValueStatus | null} value sets the color of the notification badge
    */
-  get badgeColor(): string | null {
-    return this.getAttribute(attributes.BADGE_COLOR);
-  }
-
-  /**
-   * @param {string | null} value sets the color of the notification badge
-   */
-  set badgeColor(value: string | null) {
-    if (value && this.getAttribute(attributes.BADGE_COLOR) !== value) {
+  set badgeColor(value: IdsColorValueStatus | null) {
+    if (value) {
       this.setAttribute(attributes.BADGE_COLOR, value);
       this.#updateBadge();
     } else if (!value) {
       this.removeAttribute(attributes.BADGE_COLOR);
       this.#updateBadge();
     }
+  }
+
+  get badgeColor(): IdsColorValueStatus | null {
+    return this.getAttribute(attributes.BADGE_COLOR) as IdsColorValueStatus;
   }
 
   /**
@@ -419,7 +423,7 @@ export default class IdsIcon extends Base {
 
   set size(value: string | null) {
     if (value && sizes[value]) {
-      const size = sizes[this.size];
+      const size = sizes[value];
       this.setAttribute(attributes.SIZE, value);
       this?.style.setProperty('--ids-icon-height-default', `${String(size)}px`);
       this?.style.setProperty('--ids-icon-width-default', `${String(size)}px`);
@@ -431,9 +435,9 @@ export default class IdsIcon extends Base {
 
   /**
    * Color that can be used for embellishment or to indicate status or bring attention
-   * @param {string} value Any pallete color reference
+   * @param {IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueCategories} value Any pallete color reference
    */
-  set statusColor(value: string | null) {
+  set statusColor(value: IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueCategories) {
     if (value) {
       this.setAttribute(attributes.STATUS_COLOR, value);
       this.container?.classList.add(`status-color-${value}`);
@@ -444,6 +448,24 @@ export default class IdsIcon extends Base {
 
   get statusColor(): string {
     return this.getAttribute(attributes.STATUS_COLOR) || '';
+  }
+
+  /**
+   * Color to use for icon fill (other than other settings).
+   * @param {IdsColorValue} value Any pallete color reference
+   */
+  set color(value: IdsColorValue) {
+    if (value) {
+      this.setAttribute(attributes.COLOR, value);
+      applyColorValue(value, this.container as HTMLElement, '--ids-icon-color-default');
+    } else {
+      applyColorValue('', this.container as HTMLElement, '--ids-icon-color-default');
+      this.removeAttribute(attributes.COLOR);
+    }
+  }
+
+  get color(): string {
+    return this.getAttribute(attributes.COLOR) || '';
   }
 
   #adjustFill(): void {
@@ -474,22 +496,6 @@ export default class IdsIcon extends Base {
       viewboxSize = this.viewbox;
     }
     this.container?.setAttribute('viewBox', viewboxSize);
-  }
-
-  /** @returns {boolean} Whether or not the icon is vertical */
-  get vertical(): boolean {
-    return this.hasAttribute(attributes.VERTICAL);
-  }
-
-  /** @param {boolean | null} value Rotate the icon to vertical */
-  set vertical(value: boolean | null) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.VERTICAL, '');
-      this.container?.classList.add('vertical');
-    } else {
-      this.removeAttribute(attributes.VERTICAL);
-      this.container?.classList.remove('vertical');
-    }
   }
 
   #updateBadge(): void {

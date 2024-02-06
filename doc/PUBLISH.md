@@ -74,3 +74,12 @@ Limitations:
 
 - sub folders need the html extension for example `http://localhost:4300/ids-pager/sandbox.html` not `http://localhost:4300/ids-pager/sandbox`
 - The [File Upload Advanced demo](http://localhost:4300/ids-upload-advanced/) will just error uploading as `/upload` is disabled / not available for static sites..
+
+## Updating Dependencies
+
+- Make a clean branch and pull main
+- Run `nvm use` to get on the latest version. Check version against the [Node Js](https://nodejs.org/en/download) website. If it was changed put the new version in `.nvmrc` and run `nvm use` again
+- Run `ncu` to see whats new if you do not have this check util install it `npm install -g npm-check-updates`
+- Run `npm i` to update the dependencies, if you get any errors like `overriding peer dependency` then revert the one change, it means something isn't quite in sync yet
+- Copy the icon.json from ids-identity into the icons folder (doing this while old icons are needed)
+- Search for `ids-enterprise@4.92.1` and update

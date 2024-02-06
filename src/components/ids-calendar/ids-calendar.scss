@@ -2,31 +2,31 @@
 
 // Mixin for palettes
 @mixin palette-colors($prefix, $property, $suffix:null) {
-  #{$prefix}[color='azure']#{$suffix} {
-    #{$property}: var(--ids-color-azure-60);
+  #{$prefix}[color='blue']#{$suffix} {
+    #{$property}: var(--ids-color-blue-60);
   }
 
-  #{$prefix}[color='amber']#{$suffix} {
-    #{$property}: var(--ids-color-amber-60);
+  #{$prefix}[color='orange']#{$suffix} {
+    #{$property}: var(--ids-color-orange-60);
   }
 
-  #{$prefix}[color='amethyst']#{$suffix} {
-    #{$property}: var(--ids-color-amethyst-60);
+  #{$prefix}[color='purple']#{$suffix} {
+    #{$property}: var(--ids-color-purple-60);
   }
 
-  #{$prefix}[color='emerald']#{$suffix} {
-    #{$property}: var(--ids-color-emerald-60);
+  #{$prefix}[color='green']#{$suffix} {
+    #{$property}: var(--ids-color-green-60);
   }
 
-  #{$prefix}[color='ruby']#{$suffix} {
-    #{$property}: var(--ids-color-ruby-60);
+  #{$prefix}[color='red']#{$suffix} {
+    #{$property}: var(--ids-color-red-60);
   }
 
-  #{$prefix}[color='turquoise']#{$suffix} {
-    #{$property}: var(--ids-color-turquoise-60);
+  #{$prefix}[color='teal']#{$suffix} {
+    #{$property}: var(--ids-color-teal-60);
   }
 
-  #{$prefix}[color='slate']#{$suffix} {
+  #{$prefix}[color='neutral']#{$suffix} {
     #{$property}: var(--ids-color-neutral-60);
   }
 }
@@ -88,7 +88,7 @@ ids-toolbar-section::part(container),
   @include palette-colors('ids-accordion-header', background-color, '::part(header)');
 
   ids-accordion-header::part(header) {
-    color: var(--ids-color-neutral-00);
+    color: var(--ids-color-white-100);
   }
 
   ids-accordion-header ids-text::part(text) {
@@ -118,7 +118,7 @@ ids-accordion-panel::part(content) {
 }
 
 .btn-today-text {
-  color: var(--ids-color-azure-60); // token
+  color: var(--ids-color-blue-60); // token
 }
 
 .calendar-events-list {
@@ -268,10 +268,10 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
     margin-inline-start: -1px;
 
     &::part(button) {
-      color: var(--ids-color-azure-70);
+      color: var(--ids-color-blue-70);
 
       &:hover {
-        color: var(--ids-color-azure-80);
+        color: var(--ids-color-blue-80);
       }
     }
   }

@@ -61,9 +61,9 @@ Each of the components has a considerable number of customizable css variables y
 As an example for customizing the header color, and text colors you could do something like:
 
 ```css
---ids-color-primary: var(--ids-color-azure-70);
+--ids-color-primary: var(--ids-color-blue-70);
 --ids-color-text: var(--ids-color-neutral-100);
---ids-input-color-background-default: var(--ids-color-neutral-00);
+--ids-input-color-background-default: var(--ids-color-white-100);
 --ids-input-color-border-default: var(--ids-color-neutral-100);
 ```
 

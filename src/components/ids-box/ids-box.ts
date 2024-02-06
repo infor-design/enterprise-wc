@@ -3,6 +3,7 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { attributes } from '../../core/ids-attributes';
 import IdsElement from '../../core/ids-element';
 import styles from './ids-box.scss';
+import { IdsColorValue, applyColorValue } from '../../utils/ids-color-utils/ids-color-utils';
 
 /**
  * IDS Box Component
@@ -72,20 +73,20 @@ export default class IdsBox extends IdsElement {
 
   /**
    * Set the background color (as a css variable)
-   * @param {string|null} value css color variable is used
+   * @param {IdsColorValue} value css color variable is used
    */
-  set backgroundColor(value: string | null) {
+  set backgroundColor(value: IdsColorValue) {
     if (value) {
       this.setAttribute(attributes.BACKGROUND_COLOR, value);
-      this.container?.style.setProperty('background-color', `var(${value})`);
+      applyColorValue(value, this.container as HTMLElement, '--ids-box-color-background');
     } else {
       this.removeAttribute(attributes.BACKGROUND_COLOR);
-      this.container?.style.removeProperty('background-color');
+      applyColorValue('', this.container as HTMLElement, '--ids-box-color-background');
     }
   }
 
-  get backgroundColor(): string | null {
-    return this.getAttribute(attributes.BACKGROUND_COLOR);
+  get backgroundColor(): IdsColorValue {
+    return this.getAttribute(attributes.BACKGROUND_COLOR) as IdsColorValue;
   }
 
   /**

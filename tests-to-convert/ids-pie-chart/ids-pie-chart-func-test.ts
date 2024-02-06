@@ -43,7 +43,7 @@ describe('IdsPieChart Component', () => {
       }, {
         name: 'Item C',
         value: 200,
-        color: 'var(--ids-color-azure-20)',
+        color: 'var(--ids-color-blue-20)',
       }]
     }];
     await processAnimFrame();

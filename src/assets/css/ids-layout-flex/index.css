@@ -11,7 +11,7 @@
 
 .demo-ids-layout-flex .box,
 [mode='light'] .demo-ids-layout-flex .box {
-  background-color: var(--ids-color-neutral-00);
+  background-color: var(--ids-color-white-100);
   border: 1px solid var(--ids-color-neutral-30);
 }
 
@@ -31,6 +31,6 @@
 }
 
 [mode='contrast'] .demo-ids-layout-flex .box {
-  background-color: var(--ids-color-neutral-00);
+  background-color: var(--ids-color-white-100);
   border-color: var(--ids-color-neutral-60);
 }

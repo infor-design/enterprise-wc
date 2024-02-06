@@ -17,10 +17,6 @@ svg {
   display: none;
 }
 
-.vertical {
-  transform: rotate(90deg);
-}
-
 .mirrored {
   transform: scaleX(-1);
 }
@@ -122,45 +118,45 @@ svg {
 
 // Status Colors
 [class^="status-color"] {
-  background-color: var(--ids-icon-status-color-azure-color-background);
-  color: var(--ids-icon-status-color-azure-color-text);
+  background-color: var(--ids-icon-status-color-blue-color-background);
+  color: var(--ids-icon-status-color-blue-color-text);
   border-radius: var(--ids-icon-status-color-border-radius);
   padding: var(--ids-icon-status-color-padding);
 }
 
-.status-color-ruby {
-  background-color: var(--ids-icon-status-color-ruby-color-background);
-  color: var(--ids-icon-status-color-ruby-color-text);
+.status-color-red {
+  background-color: var(--ids-icon-status-color-red-color-background);
+  color: var(--ids-icon-status-color-red-color-text);
 }
 
-.status-color-amber {
-  background-color: var(--ids-icon-status-color-amber-color-background);
-  color: var(--ids-icon-status-color-amber-color-text);
+.status-color-orange {
+  background-color: var(--ids-icon-status-color-orange-color-background);
+  color: var(--ids-icon-status-color-orange-color-text);
 }
 
-.status-color-emerald {
-  background-color: var(--ids-icon-status-color-emerald-color-background);
-  color: var(--ids-icon-status-color-emerald-color-text);
+.status-color-green {
+  background-color: var(--ids-icon-status-color-green-color-background);
+  color: var(--ids-icon-status-color-green-color-text);
 }
 
-.status-color-azure {
-  background-color: var(--ids-icon-status-color-azure-color-background);
-  color: var(--ids-icon-status-color-azure-color-text);
+.status-color-blue {
+  background-color: var(--ids-icon-status-color-blue-color-background);
+  color: var(--ids-icon-status-color-blue-color-text);
 }
 
-.status-color-turquoise {
-  background-color: var(--ids-icon-status-color-turquoise-color-background);
-  color: var(--ids-icon-status-color-turquoise-color-text);
+.status-color-teal {
+  background-color: var(--ids-icon-status-color-teal-color-background);
+  color: var(--ids-icon-status-color-teal-color-text);
 }
 
-.status-color-amethyst {
-  background-color: var(--ids-icon-status-color-amethyst-color-background);
-  color: var(--ids-icon-status-color-amethyst-color-text);
+.status-color-purple {
+  background-color: var(--ids-icon-status-color-purple-color-background);
+  color: var(--ids-icon-status-color-purple-color-text);
 }
 
-.status-color-slate {
-  background-color: var(--ids-icon-status-color-slate-color-background);
-  color: var(--ids-icon-status-color-slate-color-text);
+.status-color-neutral {
+  background-color: var(--ids-icon-status-color-neutral-color-background);
+  color: var(--ids-icon-status-color-neutral-color-text);
 }
 
 .status-color-error {
@@ -173,11 +169,6 @@ svg {
   color: var(--ids-icon-status-color-warning-color-text);
 }
 
-.status-color-success {
-  background-color: var(--ids-icon-status-color-success-color-background);
-  color: var(--ids-icon-status-color-success-color-text);
-}
-
 .status-color-alert {
   background-color: var(--ids-icon-status-color-alert-color-background);
   color: var(--ids-icon-status-color-alert-color-text);
@@ -187,3 +178,9 @@ svg {
   background-color: var(--ids-icon-status-color-info-color-background);
   color: var(--ids-icon-status-color-info-color-text);
 }
+
+.status-color-success {
+  background-color: var(--ids-icon-status-color-success-color-background);
+  color: var(--ids-icon-status-color-success-color-text);
+}
+

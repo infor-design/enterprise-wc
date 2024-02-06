@@ -7,7 +7,7 @@
                   </ids-layout-grid-cell>
                   <ids-layout-grid-cell justify-content="end" class="ids-layout-grid-cell">
                     <ids-menu-button id="actions-reveal-one" menu="actions-reveal-one-menu" aria-controls="actions-reveal-one-menu" aria-haspopup="menu">
-                      <ids-icon icon="more" vertical=""></ids-icon>
+                      <ids-icon icon="vertical-ellipsis"></ids-icon>
                       <span class="audible">Actions</span>
                     </ids-menu-button>
                     <ids-popup-menu id="actions-reveal-one-menu" target="actions-reveal-one" trigger-type="click" role="none" hidden="">

@@ -399,7 +399,7 @@ describe('Ids Color Picker Component', () => {
       // check that swatch.disabled is false and tooltip is visible and popuplated
       const [swatch] = colorpicker.swatches;
       expect(swatch.disabled).toBe(false);
-      expect(swatch.tooltip).toBe('ruby-10');
+      expect(swatch.tooltip).toBe('red-10');
 
       colorpicker.suppressTooltips = true;
       expect(colorpicker.suppressTooltips).toBe(true);

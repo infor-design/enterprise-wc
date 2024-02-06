@@ -27,7 +27,7 @@ A basic use case of the color picker with a hex color option.
 A basic use case of the color picker to show a color palette item in larger size.
 
 ```html
-<ids-color size="full" color="--ids-color-ruby-10" clickable="false" label="--ids-color-ruby-10"></ids-color>
+<ids-color size="full" color="--ids-color-red-10" clickable="false" label="--ids-color-red-10"></ids-color>
 ```
 ## Theme Variables
 

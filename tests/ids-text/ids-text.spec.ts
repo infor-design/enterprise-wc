@@ -130,8 +130,8 @@ test.describe('IdsText tests', () => {
       const handle = await page.$('ids-text');
 
       // set to color palette
-      await handle?.evaluate((el: IdsText) => { el.color = 'slate-10'; });
-      await expect(await locator.getAttribute('color')).toEqual('slate-10');
+      await handle?.evaluate((el: IdsText) => { el.color = 'neutral-10'; });
+      await expect(await locator.getAttribute('color')).toEqual('neutral-10');
 
       // set to unset
       await handle?.evaluate((el: IdsText) => { el.color = 'unset'; });

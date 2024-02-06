@@ -9,4 +9,4 @@ Keep this file in sync with #696
 
 ## Minor
 
-- [ ] Make spinbox remember last "good" value when pressing increment or decrement if a user has cleared it
+- [ ] Make spinbox remember last "success" value when pressing increment or decrement if a user has cleared it

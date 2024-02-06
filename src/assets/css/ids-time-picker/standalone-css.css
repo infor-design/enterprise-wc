@@ -18,7 +18,7 @@
 .ids-button:not([mode]).popup-btn {
   height: 100%;
   padding: 0;
-  color: var(--ids-color-azure-70);
+  color: var(--ids-color-blue-70);
   padding-top: 12px;
   padding-bottom: 12px;
   align-items: center;

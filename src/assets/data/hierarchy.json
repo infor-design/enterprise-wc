@@ -5,7 +5,7 @@
     "position": "Director",
     "employmentType": "FT",
     "parentItem": null,
-    "color": "azure-80"
+    "color": "blue-80"
   },
   {
     "id": "item-2",
@@ -13,7 +13,7 @@
     "position": "Records Clerk",
     "employmentType": "PT",
     "parentItem": "item-1",
-    "color": "turquoise-20",
+    "color": "teal-20",
     "picture": "/src/assets/images/headshot-1.jpg"
   },
   {
@@ -22,7 +22,7 @@
     "position": "Records Manager",
     "employmentType": "C",
     "parentItem": "item-1",
-    "color": "amethyst-60"
+    "color": "purple-60"
   },
   {
     "id": "item-4",
@@ -30,7 +30,7 @@
     "position": "Records Clerk",
     "employmentType": "OP",
     "parentItem": "item-3",
-    "color": "slate-60"
+    "color": "neutral-60"
   },
   {
     "id": "item-5",
@@ -38,6 +38,6 @@
     "position": "Director",
     "employmentType": "C",
     "parentItem": "item-4",
-    "color": "amethyst-60"
+    "color": "purple-60"
   }
 ]

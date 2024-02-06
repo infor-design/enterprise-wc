@@ -1,6 +1,6 @@
 # Ids Color Variant Mixin
 
-This mixin injects an `color-variant` property into a component that can be used as a way to provide alternate styles to that component that may work better against contrasting background colors.  For example, in an application using Light Mode, an [IdsContainer Component](../ids-container/README.md) can be set to `alternate`, switching its background color to a dark Slate, and the foreground text color to white.  The white is propagated to children components such as [IdsIcon](../ids-icon/README.md) and [IdsText](../ids-text/README.md).
+This mixin injects an `color-variant` property into a component that can be used as a way to provide alternate styles to that component that may work better against contrasting background colors.  For example, in an application using Light Mode, an [IdsContainer Component](../ids-container/README.md) can be set to `alternate`, switching its background color to a dark neutral color, and the foreground text color to white.  The white is propagated to children components such as [IdsIcon](../ids-icon/README.md) and [IdsText](../ids-text/README.md).
 
 The style change is achieved by maintaining an array of alternate color variants on your component, as well as adding a `.color-variant-{name}` CSS property onto whichever element is picked up by [IdsElement](../ids-base/README.md)'s `container` property when the `color-variant` property is present.
 

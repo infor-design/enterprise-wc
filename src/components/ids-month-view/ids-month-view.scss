@@ -33,7 +33,7 @@
   }
 
   .trigger-icon {
-    color: var(--ids-color-azure-60);
+    color: var(--ids-color-blue-60);
   }
 
   // Legend mutual
@@ -367,8 +367,8 @@
     overflow: hidden;
     user-select: none;
 
-    &:not(.is-selected):not(.has-legend):hover,
-    &:not(.is-selected):not(.has-legend):active {
+    &:not(.is-selected):not(.has-legend):not(.is-disabled):hover,
+    &:not(.is-selected):not(.has-legend):not(.is-disabled):active {
       background-color: var(--ids-calendar-month-view-color-background-hover);
     }
 

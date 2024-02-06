@@ -414,7 +414,7 @@
     "inStock":true,
     "units":"965",
     "unitPrice":92,
-    "color":"Turquoise"
+    "color":"Teal"
   },
   {
     "id":47,
@@ -423,7 +423,7 @@
     "inStock":false,
     "units":"4",
     "unitPrice":89,
-    "color":"Turquoise"
+    "color":"Teal"
   },
   {
     "id":48,
@@ -747,7 +747,7 @@
     "inStock":false,
     "units":"241",
     "unitPrice":52,
-    "color":"Turquoise"
+    "color":"Teal"
   },
   {
     "id":84,
@@ -756,7 +756,7 @@
     "inStock":true,
     "units":"78173",
     "unitPrice":11,
-    "color":"Turquoise"
+    "color":"Teal"
   },
   {
     "id":85,
@@ -882,7 +882,7 @@
     "inStock":false,
     "units":"40",
     "unitPrice":99,
-    "color":"Turquoise"
+    "color":"Teal"
   },
   {
     "id":99,
@@ -900,6 +900,6 @@
     "inStock":false,
     "units":"1341",
     "unitPrice":46,
-    "color":"Turquoise"
+    "color":"Teal"
   }
 ]

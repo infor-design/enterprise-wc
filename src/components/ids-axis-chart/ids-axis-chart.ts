@@ -20,23 +20,24 @@ import type IdsText from '../ids-text/ids-text';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 import { IdsDeferred } from '../../utils/ids-deferred-utils/ids-deferred-utils';
 import IdsGlobal from '../ids-global/ids-global';
+import { type IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
 
 export type IdsChartData = {
   abbreviatedName?: string,
   name?: string,
   value?: number,
   shortName?: string,
-  color?: string,
+  color?: IdsColorValue,
   data?: Array<IdsChartData>,
   pattern?: string,
-  patternColor?: string
+  patternColor?: IdsColorValue
 };
 
 export type IdsChartPointData = {
   left: number,
   top: number,
   value: number,
-  color?: string
+  color?: IdsColorValue
 };
 
 export type IdsChartMarkerData = {

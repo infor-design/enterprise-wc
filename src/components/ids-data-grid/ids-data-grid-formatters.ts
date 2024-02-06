@@ -56,7 +56,7 @@ export default class IdsDataGridFormatters {
   }
 
   /** Used to get the color via the function or text */
-  #color(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | undefined {
+  #color(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | null | undefined {
     const color = col.color;
     return typeof color === 'function' ? color(row, value, col, item) : color;
   }
@@ -482,7 +482,7 @@ export default class IdsDataGridFormatters {
         step-number="${Math.min(max, 10)}"
         steps-in-progress="${showStepsInProgress ? stepsInProgress : 0}"
         value="${Math.floor(val)}"
-        progress-color="ruby02"
+        progress-color="red-20"
         ${color ? `color="${color}"` : ''}
         ${isDisabled ? 'disabled' : ''}
       >
