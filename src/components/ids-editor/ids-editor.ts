@@ -141,6 +141,91 @@ export default class IdsEditor extends Base {
 
   #resizeObserver = new ResizeObserver(() => this.#resize());
 
+  /**
+   * Modals attached to editor.
+   * @private
+   */
+  #modals: any = {};
+
+  /**
+   * Current paragraph separator.
+   * @private
+   */
+  #paragraphSeparator?: string;
+
+  /**
+   * Saved current selection ranges.
+   * @private
+   */
+  #savedSelection: Array<Range> | null = null;
+
+  /**
+   * Cache elements use most.
+   * @private
+   */
+  #elems: any = {};
+
+  input?: any;
+
+  labelEl?: IdsText | null;
+
+  /**
+   * List of actions can be execute with editor.
+   * extra actions get added in `#initContent()`
+   * @private
+   */
+  #actions: Record<string, EditorAction> = {
+    // STYLES
+    bold: { action: 'bold', keyid: 'KeyB' },
+    italic: { action: 'italic', keyid: 'KeyI' },
+    underline: { action: 'underline', keyid: 'KeyU' },
+    strikethrough: { action: 'strikeThrough', keyid: 'KeyS|shift' },
+
+    // SCRIPTS
+    superscript: { action: 'superscript', keyid: 'Equal|shift' },
+    subscript: { action: 'subscript', keyid: 'Equal' },
+
+    // TEXT FORMATS
+    formatblock: { action: 'formatBlock' },
+    ...TEXT_FORMAT_ACTIONS,
+
+    // FONT SIZE
+    fontsize: { action: 'fontSize' },
+    ...FONT_SIZE_ACTIONS,
+
+    // COLORS
+    forecolor: { action: 'forecolor', keyid: 'KeyK|shift|alt' },
+    backcolor: { action: 'backcolor' },
+
+    // LISTS
+    orderedlist: { action: 'insertOrderedList', keyid: 'KeyO|shift' },
+    unorderedlist: { action: 'insertUnorderedList', keyid: 'KeyU|shift' },
+
+    // INSERT
+    insertimage: { action: 'insertImage', keyid: 'KeyI|shift' },
+    hyperlink: { action: 'createLink', keyid: 'KeyK' },
+    unlink: { action: 'unlink', keyid: 'KeyK|shift' },
+    inserthtml: { action: 'insertHTML' },
+    inserthorizontalrule: { action: 'insertHorizontalRule', keyid: 'KeyL|shift' },
+
+    // ALIGNMENT
+    alignleft: { action: 'alignLeft', keyid: 'KeyL' },
+    alignright: { action: 'alignRight', keyid: 'KeyR' },
+    aligncenter: { action: 'alignCenter', keyid: 'KeyE' },
+    alignjustify: { action: 'alignJustify', keyid: 'KeyJ' },
+
+    // CLEAR FORMATTING
+    clearformatting: { action: 'removeFormat', keyid: 'Space|shift' },
+
+    // HISTORY
+    redo: { action: 'redo', keyid: 'KeyY' },
+    undo: { action: 'undo', keyid: 'KeyZ' },
+
+    // EXTRA
+    editormode: { action: 'editorMode', keyid: 'Backquote|shift' },
+    sourcemode: { action: 'sourceMode', keyid: 'Backquote' }
+  };
+
   vetoableEventTypes = [
     'beforesourcemode',
     'beforeeditormode',
@@ -152,6 +237,7 @@ export default class IdsEditor extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
+    this.#contenteditable();
     this.#initToolbar();
     this.#initContent();
     this.modalElementsValue();
@@ -273,91 +359,6 @@ export default class IdsEditor extends Base {
   sourceTextareaLabel(): string {
     return `${this.label} - HTML Source View`;
   }
-
-  /**
-   * Modals attached to editor.
-   * @private
-   */
-  #modals: any = {};
-
-  /**
-   * Current paragraph separator.
-   * @private
-   */
-  #paragraphSeparator?: string;
-
-  /**
-   * Saved current selection ranges.
-   * @private
-   */
-  #savedSelection: Array<Range> | null = null;
-
-  /**
-   * Cache elements use most.
-   * @private
-   */
-  #elems: any = {};
-
-  input?: any;
-
-  labelEl?: IdsText | null;
-
-  /**
-   * List of actions can be execute with editor.
-   * extra actions get added in `#initContent()`
-   * @private
-   */
-  #actions: Record<string, EditorAction> = {
-    // STYLES
-    bold: { action: 'bold', keyid: 'KeyB' },
-    italic: { action: 'italic', keyid: 'KeyI' },
-    underline: { action: 'underline', keyid: 'KeyU' },
-    strikethrough: { action: 'strikeThrough', keyid: 'KeyS|shift' },
-
-    // SCRIPTS
-    superscript: { action: 'superscript', keyid: 'Equal|shift' },
-    subscript: { action: 'subscript', keyid: 'Equal' },
-
-    // TEXT FORMATS
-    formatblock: { action: 'formatBlock' },
-    ...TEXT_FORMAT_ACTIONS,
-
-    // FONT SIZE
-    fontsize: { action: 'fontSize' },
-    ...FONT_SIZE_ACTIONS,
-
-    // COLORS
-    forecolor: { action: 'forecolor', keyid: 'KeyK|shift|alt' },
-    backcolor: { action: 'backcolor' },
-
-    // LISTS
-    orderedlist: { action: 'insertOrderedList', keyid: 'KeyO|shift' },
-    unorderedlist: { action: 'insertUnorderedList', keyid: 'KeyU|shift' },
-
-    // INSERT
-    insertimage: { action: 'insertImage', keyid: 'KeyI|shift' },
-    hyperlink: { action: 'createLink', keyid: 'KeyK' },
-    unlink: { action: 'unlink', keyid: 'KeyK|shift' },
-    inserthtml: { action: 'insertHTML' },
-    inserthorizontalrule: { action: 'insertHorizontalRule', keyid: 'KeyL|shift' },
-
-    // ALIGNMENT
-    alignleft: { action: 'alignLeft', keyid: 'KeyL' },
-    alignright: { action: 'alignRight', keyid: 'KeyR' },
-    aligncenter: { action: 'alignCenter', keyid: 'KeyE' },
-    alignjustify: { action: 'alignJustify', keyid: 'KeyJ' },
-
-    // CLEAR FORMATTING
-    clearformatting: { action: 'removeFormat', keyid: 'Space|shift' },
-
-    // HISTORY
-    redo: { action: 'redo', keyid: 'KeyY' },
-    undo: { action: 'undo', keyid: 'KeyZ' },
-
-    // EXTRA
-    editormode: { action: 'editorMode', keyid: 'Backquote|shift' },
-    sourcemode: { action: 'sourceMode', keyid: 'Backquote' }
-  };
 
   /**
    * Trigger the given event with current value.
@@ -564,7 +565,6 @@ export default class IdsEditor extends Base {
    */
   #contenteditable(): object {
     const value = !this.disabled && !this.readonly;
-    this.#elems?.editor?.setAttribute('contenteditable', value);
     this.setAttribute('contenteditable', `${value}`);
     return this;
   }
@@ -576,13 +576,13 @@ export default class IdsEditor extends Base {
   #disabledHyperlinks(): object {
     window.requestAnimationFrame(() => {
       if (this.disabled) {
-        this.#elems?.editor?.querySelectorAll('a').forEach((a: HTMLElement) => {
+        this.querySelectorAll('a').forEach((a: HTMLElement) => {
           const idx = a.getAttribute('tabindex');
           if (idx !== null) a.dataset.idsTabindex = idx;
           a.setAttribute('tabindex', '-1');
         });
       } else {
-        this.#elems?.editor?.querySelectorAll('a').forEach((a: HTMLElement) => {
+        this.querySelectorAll('a').forEach((a: HTMLElement) => {
           if (typeof a.dataset.idsTabindex === 'undefined') {
             a.removeAttribute('tabindex');
           } else {
@@ -602,19 +602,24 @@ export default class IdsEditor extends Base {
   #initContent(): object {
     // set colorpicker
     const setColorpicker = (key: string) => {
-      const btn = this.querySelector(`[editor-action="${key}"]`);
+      const btn = this.querySelector<IdsButton>(`[editor-action="${key}"]`);
       if (btn) {
         let input = this.querySelector<HTMLElement>(`.${key}-input`);
         if (!input) {
           const elem = document.createElement('input');
           elem.setAttribute('type', 'color');
+          elem.setAttribute('aria-label', 'Text Color');
           elem.classList.add(`${key}-input`);
-          btn.after(elem);
+          btn.append(elem);
           input = this.querySelector(`.${key}-input`);
         }
-        const cssText = 'border:0;padding:0;margin:0;height:0;width:0;visibility:hidden;';
+        const cssText = 'border:0;padding:0;margin:0;height:100%;width:100%;opacity:0;position:absolute;top:0;left:0;';
         if (input) input.style.cssText = cssText;
         this.#elems[`${key}Input`] = input;
+        btn.onEvent('click', btn, () => {
+          input?.focus();
+          input?.click();
+        });
       }
     };
     setColorpicker('forecolor');
@@ -837,6 +842,15 @@ export default class IdsEditor extends Base {
   }
 
   /**
+   * Check if slotted content contains current selection focus node
+   * @param {Node} focusNode Selection focus node
+   * @returns {boolean} true if focus node is within editor
+   */
+  #contentContainsFocusNode(focusNode: Node | null): boolean {
+    return !!this.#elems.editorSlot.assignedElements().find((elem: Element) => elem.contains(focusNode));
+  }
+
+  /**
    * On selection change.
    * @param {Selection} selection Selection Object
    * @private
@@ -849,7 +863,6 @@ export default class IdsEditor extends Base {
       if (btn) btn.cssClass = ['is-active'];
     };
     const regxFormatblock = new RegExp(`^(${Object.keys(elems.formatblock.items).join('|')})$`, 'i');
-    this.#unActiveToolbarButtons();
     Object.entries(this.#actions).forEach(([k, v]) => {
       if (k.substring(0, 5) === 'align') return;
       if (k === 'forecolor' && parents.font?.node?.hasAttribute('color')) {
@@ -867,7 +880,7 @@ export default class IdsEditor extends Base {
       if (elems.formatblock?.btn && regxFormatblock.test(k) && !!parents[k]) {
         elems.formatblock.btn.text = elems.formatblock.items[k].text;
       }
-      if (document.queryCommandState((<any>v).action)) {
+      if (document.queryCommandState((<any>v).action) && this.#contentContainsFocusNode(selection.focusNode)) {
         setActive(this.querySelector(`[editor-action="${k}"]`));
       }
     });
@@ -894,6 +907,12 @@ export default class IdsEditor extends Base {
         const menuBtn = elem.menu?.target;
         if (menuBtn) menuBtn.text = elem.text || elem.textContent?.trim();
         value = e.detail.value;
+
+        // format dropdown changes selection
+        // previous editor selection must be restored
+        if (this.#currentSelection) {
+          restoreSelection(this.#currentSelection, this.#savedSelection);
+        }
       }
 
       if (/^(hyperlink|insertimage)$/i.test(action)) {
@@ -995,7 +1014,6 @@ export default class IdsEditor extends Base {
         ? (selection?.focusNode?.parentNode as HTMLElement)?.style.getPropertyValue?.('background-color')
         : document.queryCommandValue(action.action);
       this.#elems[`${action.action}Input`].value = /rgb/i.test(color) ? rgbToHex(color) : color;
-      this.#elems[`${action.action}Input`].click();
     }
   }
 
@@ -1027,7 +1045,7 @@ export default class IdsEditor extends Base {
    * @param {string|undefined} val The value
    * @returns {void}
    */
-  #handleAction(actionName: string, val: string = ''): void {
+  #handleAction(actionName: string, val = ''): void {
     const a: EditorAction = { ...this.#actions[actionName] };
     const sel = this.#currentSelection;
 
@@ -1160,10 +1178,15 @@ export default class IdsEditor extends Base {
     // Attach selection change
     this.onEvent('selectionchange.editor', document, debounce(() => {
       const selection = document.getSelection();
+      const isSelectedInEditor = this.contains(selection?.focusNode ?? null);
       this.#currentSelection = null;
+      this.#savedSelection = null;
+      this.#unActiveToolbarButtons();
+      this.#elems.main.classList.toggle('focused', isSelectedInEditor);
 
-      if (selection?.focusNode && this.contains(selection.focusNode)) {
+      if (selection?.focusNode && isSelectedInEditor) {
         this.#currentSelection = selection;
+        this.#savedSelection = saveSelection(selection);
         this.#onSelectionChange(selection);
       }
     }, 200));
@@ -1180,16 +1203,16 @@ export default class IdsEditor extends Base {
     });
 
     // Editor container
-    this.onEvent('input.editor-editcontainer', this.#elems.editor, debounce(() => {
+    this.onEvent('input.editor-editcontainer', this, debounce(() => {
       if (!this.#elems.reqviewchange) {
         this.#setSourceContent();
         this.#triggerEvent('change', this.#elems.textarea);
       }
     }, 400));
-    this.onEvent('blur.editor-editcontainer', this.#elems.editor, () => {
+    this.onEvent('blur.editor-editcontainer', this, () => {
       this.#triggerEvent('blur', this.#elems.textarea);
     });
-    this.onEvent('paste.editor-editcontainer', this.#elems.editor, (e: ClipboardEvent) => {
+    this.onEvent('paste.editor-editcontainer', this, (e: ClipboardEvent) => {
       this.#onPasteEditorContainer(e);
     });
 
@@ -1231,6 +1254,22 @@ export default class IdsEditor extends Base {
     this.onEvent('initialize.editor-initialize', this, debounce(() => {
       delete this.reqInitialize;
     }, 410));
+
+    // Editor Slot change
+    this.onEvent('slotchange.editor-container', this.#elems.editorSlot, () => {
+      const hasContent = !!this.#elems.editorSlot.assignedElements()?.length;
+      this.#elems.editor.classList.toggle('empty', !hasContent);
+
+      // switch selection and focus to light dom
+      if (!hasContent) {
+        this.#elems.editor.addEventListener('focus', () => {
+          const p = document.createElement('p');
+          p.append(document.createElement('br'));
+          this.append(p);
+          document.getSelection()?.selectAllChildren(p);
+        }, { once: true });
+      }
+    });
 
     return this;
   }

@@ -5,6 +5,10 @@
 
 $editor-container-height: 285px;
 
+:host(:focus-visible) {
+  outline: none;
+}
+
 .ids-editor {
   .hidden {
     display: none;
@@ -65,15 +69,16 @@ $editor-container-height: 285px;
     border-style: var(--ids-editor-border-style-default);
     border-width: var(--ids-editor-border-width-default);
 
+    &:hover,
+    &:active {
+      border-color: var(--ids-editor-color-border-hover);
+    }
+
+    &.focused,
     &:focus-within {
       border-color: var(--ids-editor-color-border-focus);
       outline: var(--ids-editor-outline-focus);
       box-shadow: var(--ids-editor-shadow-border-focus);
-    }
-
-    &:hover:not(:focus-within),
-    &:active:not(:focus-within) {
-      border-color: var(--ids-editor-color-border-hover);
     }
 
     &.error,
@@ -145,7 +150,7 @@ $editor-container-height: 285px;
     .main-container,
     .main-container * {
       border-color: var(--ids-editor-color-border-disabled);
-      color: var(--ids-editor-color-text-disabled);
+      color: var(--ids-editor-color-text-disabled) !important;
       cursor: var(--ids-editor-cursor-disabled);
       pointer-events: none;
       user-select: none;
@@ -201,7 +206,7 @@ $editor-container-height: 285px;
       }
     }
 
-    &[placeholder]:empty {
+    &[placeholder].empty {
       &::before {
         content: attr(placeholder);
         display: inline-block;

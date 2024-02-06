@@ -1,4 +1,4 @@
-<ids-editor id="editor-demo" label="Ids Editor">
+<ids-editor id="editor-demo" label="Ids Editor" contenteditable="true">
   <ids-toolbar slot="toolbar" type="formatter" role="toolbar">
     <ids-toolbar-section type="buttonset" toolbar-type="formatter">
       <ids-menu-button editor-action="formatblock" id="btn-formatblock-1" role="button" menu="menu-formatblock-1" tooltip="Choose Font Style" formatter-width="125px" dropdown-icon="dropdown" no-padding="true" trigger-type="click" color-variant="alternate-formatter" aria-controls="menu-formatblock-1" aria-haspopup="menu">
@@ -33,7 +33,7 @@
       <ids-button editor-action="forecolor" tooltip="Text Color" color-variant="alternate-formatter">
         <span class="audible">Text color</span>
         <ids-icon icon="fore-color"></ids-icon>
-      </ids-button><input type="color" class="forecolor-input" style="border: 0px; padding: 0px; margin: 0px; height: 0px; width: 0px; visibility: hidden;">
+      <input type="color" aria-label="Text Color" class="forecolor-input" style="border: 0px; padding: 0px; margin: 0px; height: 100%; width: 100%; opacity: 0; position: absolute; top: 0px; left: 0px;"></ids-button>
       <ids-separator vertical=""></ids-separator>
       <ids-button editor-action="alignleft" tooltip="Align Left" color-variant="alternate-formatter">
         <span class="audible">Align left</span>
