@@ -5,7 +5,6 @@ import emptyPathImport from 'ids-identity/dist/theme-new/icons/old/empty/path-da
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { sizes } from './ids-icon-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import {
   type IdsColorValue,
   type IdsColorValueEmpty,
@@ -70,7 +69,6 @@ export default class IdsIcon extends Base {
       attributes.SIZE,
       attributes.STATUS_COLOR,
       attributes.STROKE,
-      attributes.VERTICAL,
       attributes.VIEWBOX,
       attributes.WIDTH
     ];
@@ -501,22 +499,6 @@ export default class IdsIcon extends Base {
       viewboxSize = this.viewbox;
     }
     this.container?.setAttribute('viewBox', viewboxSize);
-  }
-
-  /** @returns {boolean} Whether or not the icon is vertical */
-  get vertical(): boolean {
-    return this.hasAttribute(attributes.VERTICAL);
-  }
-
-  /** @param {boolean | null} value Rotate the icon to vertical */
-  set vertical(value: boolean | null) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.VERTICAL, '');
-      this.container?.classList.add('vertical');
-    } else {
-      this.removeAttribute(attributes.VERTICAL);
-      this.container?.classList.remove('vertical');
-    }
   }
 
   #updateBadge(): void {
