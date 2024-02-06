@@ -244,9 +244,9 @@ export default class IdsIcon extends Base {
   }
 
   /**
-   * @param {string | null} value sets the color of the notification badge
+   * @param {IdsColorValueStatus | null} value sets the color of the notification badge
    */
-  set badgeColor(value: IdsColorValueStatus) {
+  set badgeColor(value: IdsColorValueStatus | null) {
     if (value) {
       this.setAttribute(attributes.BADGE_COLOR, value);
       this.#updateBadge();
@@ -256,7 +256,7 @@ export default class IdsIcon extends Base {
     }
   }
 
-  get badgeColor(): IdsColorValueStatus {
+  get badgeColor(): IdsColorValueStatus | null {
     return this.getAttribute(attributes.BADGE_COLOR) as IdsColorValueStatus;
   }
 
