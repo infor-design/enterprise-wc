@@ -244,23 +244,20 @@ export default class IdsIcon extends Base {
   }
 
   /**
-   * @returns {string | null} the current color of the notification badge
-   */
-  get badgeColor(): string | null {
-    return this.getAttribute(attributes.BADGE_COLOR);
-  }
-
-  /**
    * @param {string | null} value sets the color of the notification badge
    */
-  set badgeColor(value: string | null) {
-    if (value && this.getAttribute(attributes.BADGE_COLOR) !== value) {
+  set badgeColor(value: IdsColorValueStatus) {
+    if (value) {
       this.setAttribute(attributes.BADGE_COLOR, value);
       this.#updateBadge();
     } else if (!value) {
       this.removeAttribute(attributes.BADGE_COLOR);
       this.#updateBadge();
     }
+  }
+
+  get badgeColor(): IdsColorValueStatus {
+    return this.getAttribute(attributes.BADGE_COLOR) as IdsColorValueStatus;
   }
 
   /**
