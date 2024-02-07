@@ -2184,6 +2184,7 @@ export default class IdsDataGrid extends Base {
     }
 
     // Non tree - update original data
+    if (!data.id) data.id = row;
     this.datasource.update([data], !!isClear);
   }
 

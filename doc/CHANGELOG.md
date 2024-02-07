@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.20
+
+### 1.0.0-beta.20 Breaking Changes
+
+- `[Lookup/Datagrid]` Fixed an issue where newer added primary key logic caused selection to select the first row in certain cases. ([#1751](https://github.com/infor-design/enterprise-wc/issues/1751))
+
 ## 1.0.0-beta.19
 
 ### 1.0.0-beta.19 Breaking Changes
