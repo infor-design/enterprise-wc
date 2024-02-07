@@ -174,7 +174,7 @@ if (dataGrid) {
       resizable: true,
       formatter: dataGrid.formatters.rating,
       width: 200,
-      color: 'azure06',
+      color: 'blue-60',
       max: 5,
     });
     columns.push({
@@ -185,7 +185,7 @@ if (dataGrid) {
       formatter: dataGrid.formatters.stepChart,
       width: 200,
       resizable: true,
-      color: 'azure06',
+      color: 'blue-60',
     });
     columns.push({
       id: 'inStock',

@@ -34,7 +34,7 @@ The default total is 100, so even if you leave that field blank, it will render 
 With the use of IDS tokens, the above is visually identical to the following:
 
 ```html
-<ids-progress-chart label="Amethyst-40" color="amethyst-40" progress="50"></ids-progress-chart>
+<ids-progress-chart label="Purple-40" color="purple-40" progress="50"></ids-progress-chart>
 ```
 
 ### Using Decimals

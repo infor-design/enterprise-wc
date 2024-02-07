@@ -1037,7 +1037,7 @@ describe('IdsDataGrid Component', () => {
         id: 'count-slider',
         name: 'Slider',
         field: 'count',
-        color: 'azure06',
+        color: 'blue06',
         formatter: formatters.slider,
       };
 
@@ -1107,7 +1107,7 @@ describe('IdsDataGrid Component', () => {
         id: 'count-step-chart',
         name: 'Step Chart',
         field: 'count',
-        color: 'azure06',
+        color: 'blue06',
         formatter: formatters.stepChart,
       };
 

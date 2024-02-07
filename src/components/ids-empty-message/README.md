@@ -24,7 +24,7 @@ A simple implementation of the empty-message component
 ```html
   <ids-empty-message icon="empty-no-tasks">
     <ids-text type="h2" font-size="20" label="true" slot="label">Document Management</ids-text>
-    <ids-text label="true" slot="description">Description of empty message that explains why.</ids-text>
+    <ids-text label="true" slot="description">Description of empty message that explains why</ids-text>
     <ids-button class="action-button" slot="button" appearance="primary">
       <span>BUTTON NAME</span>
     </ids-button>

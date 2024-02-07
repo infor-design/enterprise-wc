@@ -38,7 +38,7 @@ html {
 
 /* Styles from data-grid.css */
 .ids-data-grid {
-  background-color: var(--ids-color-neutral-00);
+  background-color: var(--ids-color-white-100);
   border-width: 1px;
   border-style: solid;
   border-radius: 2px;
@@ -88,7 +88,7 @@ html {
   padding-bottom: 8px;
   font-weight: 700;
   font-size: 14px;
-  color: var(--ids-color-neutral-00);
+  color: var(--ids-color-white-100);
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;

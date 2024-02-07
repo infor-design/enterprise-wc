@@ -23,15 +23,16 @@ import '../ids-empty-message/ids-empty-message';
 import styles from './ids-pie-chart.scss';
 import type IdsEmptyMessage from '../ids-empty-message/ids-empty-message';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
+import { type IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
 
 type IdsPieChartData = {
   name?: string,
   value?: number,
-  color?: string,
+  color?: IdsColorValue,
   data?: IdsPieChartData[],
   tooltip?: string,
   pattern?: string,
-  patternColor?: string,
+  patternColor?: IdsColorValue,
 };
 
 type IdsPieChartSelected = {

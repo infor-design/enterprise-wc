@@ -1,6 +1,5 @@
 /* Ids Step Chart Component */
 @use 'sass:list';
-@import '../../themes/mixins/ids-colorpalette-variables';
 
 :host {
   width: 100%;
@@ -50,28 +49,19 @@
     flex: 1 1 auto;
 
     .step {
+      background-color: var(--ids-step-chart-color-background-default);
       margin: calc(var(--ids-step-chart-inner-margin) - 3px);
-
-      @each $name in $color-names {
-        $i: list.index($color-names, $name);
-        $color: var(#{list.nth($color-vars, $i)});
-
-        &[color='#{$name}'] {
-          background-color: $color;
-        }
-      }
-
       height: var(--ids-step-chart-height);
       box-sizing: content-box;
       border: 1px;
       flex: 1 1 auto;
 
-      &.untouched {
-        background-color: var(--ids-step-chart-color-background-default);
+      &.complete {
+        background-color: var(--ids-step-chart-color-background-complete);
       }
 
-      &.completed {
-        background-color: var(--ids-step-chart-color-background-complete);
+      &.in-progress {
+        background-color: var(--ids-step-chart-color-background-progress);
       }
     }
   }

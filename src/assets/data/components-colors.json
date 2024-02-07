@@ -66,5 +66,5 @@
    "name": "Component C",
    "shortName": "Comp C",
    "abbreviatedName": "C",
-   "color": "--ids-color-azure-20"
+   "color": "blue-20"
  }]

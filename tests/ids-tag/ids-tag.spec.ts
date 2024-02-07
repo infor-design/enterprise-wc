@@ -64,7 +64,7 @@ test.describe('IdsTag tests', () => {
   });
 
   test.describe('setting/attribute tests', () => {
-    test('should set color', async ({ page }) => {
+    test('should be able set color', async ({ page }) => {
       const locator = await page.locator('ids-tag').first();
       const handle = await page.$('ids-tag');
       await handle?.evaluate((el: IdsTag) => {

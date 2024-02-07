@@ -4,12 +4,12 @@
     border-inline-start-color: $color;
 
     &:focus {
-      border-inline-start-color: var(--ids-color-azure-60);
+      border-inline-start-color: var(--ids-color-blue-60);
     }
   }
 
   &:focus {
-    border-color: var(--ids-color-azure-60);
+    border-color: var(--ids-color-blue-60);
     box-shadow: var(--ids-shadow-focus);
     outline: none;
   }
@@ -17,48 +17,48 @@
 
 // Calendar Event Type Themes
 .ids-calendar-event:not([color]),
-.ids-calendar-event[color='azure'] {
-  @include event-border-accent(var(--ids-color-azure-70));
+.ids-calendar-event[color='blue'] {
+  @include event-border-accent(var(--ids-color-blue-70));
 
-  background: var(--ids-color-azure-20);
+  background: var(--ids-color-blue-20);
 }
 
 .ids-calendar-event[mode='contrast']:not([color]),
-.ids-calendar-event[mode='contrast'][color='azure'] {
-  @include event-border-accent(var(--ids-color-azure-100));
+.ids-calendar-event[mode='contrast'][color='blue'] {
+  @include event-border-accent(var(--ids-color-blue-100));
 }
 
-.ids-calendar-event[color='amber'] {
-  @include event-border-accent(var(--ids-color-amber-70));
+.ids-calendar-event[color='orange'] {
+  @include event-border-accent(var(--ids-color-orange-70));
 
-  background: var(--ids-color-amber-30);
+  background: var(--ids-color-orange-30);
 }
 
-.ids-calendar-event[color='amethyst'] {
-  @include event-border-accent(var(--ids-color-amethyst-70));
+.ids-calendar-event[color='purple'] {
+  @include event-border-accent(var(--ids-color-purple-70));
 
-  background: var(--ids-color-amethyst-30);
+  background: var(--ids-color-purple-30);
 }
 
-.ids-calendar-event[color='emerald'] {
-  @include event-border-accent(var(--ids-color-emerald-70));
+.ids-calendar-event[color='green'] {
+  @include event-border-accent(var(--ids-color-green-70));
 
-  background: var(--ids-color-emerald-30);
+  background: var(--ids-color-green-30);
 }
 
-.ids-calendar-event[color='ruby'] {
-  @include event-border-accent(var(--ids-color-ruby-70));
+.ids-calendar-event[color='red'] {
+  @include event-border-accent(var(--ids-color-red-70));
 
-  background: var(--ids-color-ruby-30);
+  background: var(--ids-color-red-30);
 }
 
-.ids-calendar-event[color='turquoise'] {
-  @include event-border-accent(var(--ids-color-turquoise-70));
+.ids-calendar-event[color='teal'] {
+  @include event-border-accent(var(--ids-color-teal-70));
 
-  background: var(--ids-color-turquoise-30);
+  background: var(--ids-color-teal-30);
 }
 
-.ids-calendar-event[color='slate'] {
+.ids-calendar-event[color='neutral'] {
   @include event-border-accent(var(--ids-color-neutral-70));
 
   background: var(--ids-color-neutral-30);
@@ -69,7 +69,7 @@
   box-sizing: border-box;
   width: 100%;
   z-index: 1;
-  background: var(--ids-color-azure-20);
+  background: var(--ids-color-blue-20);
   border: 1px solid transparent;
   border-radius: 3px;
   color: var(--ids-color-neutral-100);
@@ -94,13 +94,13 @@
     vertical-align: bottom;
 
     &[icon='success-alert'] {
-      color: var(--ids-color-emerald-60);
+      color: var(--ids-color-green-60);
     }
 
     &[icon='alert-alert'],
     &[icon='clock'],
     &[icon='pending'] {
-      color: var(--ids-color-amber-60);
+      color: var(--ids-color-orange-60);
     }
   }
 

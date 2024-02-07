@@ -95,18 +95,18 @@ import '../ids-date-picker';
       dates: ['2/7/2018', '2/9/2018', '2/10/2018', '2/11/2018']
     };
     rangePickerLegend.legend = [
-      { name: 'Weekends', color: 'amber-60', dayOfWeek: [0, 6] },
+      { name: 'Weekends', color: 'orange-60', dayOfWeek: [0, 6] },
       {
         name: 'Other',
-        color: 'ruby-30',
+        color: 'red-30',
         dates: ['2/8/2018', '2/9/2018', '2/23/2018'],
       },
       {
         name: 'Half Days',
-        color: 'amethyst-60',
+        color: 'purple-60',
         dates: ['2/21/2018', '1/22/2018'],
       },
-      { name: 'Full Days', color: 'azure-30', dates: ['2/24/2018', '2/25/2018'] },
+      { name: 'Full Days', color: 'blue-30', dates: ['2/24/2018', '2/25/2018'] },
     ];
   }
 }());

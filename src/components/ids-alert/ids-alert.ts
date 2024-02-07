@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { sizes } from '../ids-icon/ids-icon-attributes';
+import { IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
@@ -68,9 +69,9 @@ export default class IdsAlert extends IdsTooltipMixin(IdsEventsMixin(IdsElement)
 
   /**
    * Set the alert color
-   * @param {string|null} value The color to use between: error, success, info, alert, warning amber, amethyst
+   * @param {IdsColorValue} value The color to use between: error, success, info, ect..
    */
-  set color(value: string | null) {
+  set color(value: IdsColorValue) {
     if (value) {
       this.setAttribute(attributes.COLOR, value);
       this.shadowRoot?.querySelector('ids-icon')?.setAttribute(attributes.COLOR, value);

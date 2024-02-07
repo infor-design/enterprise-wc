@@ -6,6 +6,7 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-progress-chart.scss';
 import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsText from '../ids-text/ids-text';
+import { type IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
 
 // Defaults
 const DEFAULT_PROGRESS = 0;
@@ -100,14 +101,14 @@ export default class IdsProgressChart extends Base {
 
   /**
    * Set the color of the bar
-   * @param {string} value The color value, this can be a hex code with the #
+   * @param {IdsColorValue | string} value The color value, this can be a hex code with the #
    */
-  set color(value: string | null) {
+  set color(value: IdsColorValue | string) {
     this.setAttribute(attributes.COLOR, String(value));
     this.#updateColor();
   }
 
-  get color(): string | null { return this.getAttribute(attributes.COLOR); }
+  get color(): IdsColorValue | string { return this.getAttribute(attributes.COLOR) as IdsColorValue; }
 
   /**
    * Updates the UI when color attribute is set

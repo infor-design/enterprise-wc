@@ -218,7 +218,7 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
   }
 
   get statusColor(): string {
-    return this.getAttribute(attributes.STATUS_COLOR) || 'azure';
+    return this.getAttribute(attributes.STATUS_COLOR) || 'blue';
   }
 
   /**

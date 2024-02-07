@@ -1,27 +1,27 @@
 const labels = [{
   value: 0,
   text: 'very bad',
-  color: 'var(--ids-color-ruby-100)'
+  color: 'var(--ids-color-red-100)'
 }, {
   value: 20,
   text: 'poor',
-  color: 'var(--ids-color-ruby-80)'
+  color: 'var(--ids-color-red-80)'
 }, {
   value: 40,
   text: 'average',
-  color: 'var(--ids-color-amber-80)'
+  color: 'var(--ids-color-orange-80)'
 }, {
   value: 60,
   text: 'good',
-  color: 'var(--ids-color-amber-40)'
+  color: 'var(--ids-color-orange-40)'
 }, {
   value: 80,
   text: 'very good',
-  color: 'var(--ids-color-emerald-60)'
+  color: 'var(--ids-color-green-60)'
 }, {
   value: 100,
   text: 'excellent',
-  color: 'var(--ids-color-emerald-90)'
+  color: 'var(--ids-color-green-90)'
 }];
 
 const getClosestLabelSettings = (targetValue: number) => labels.find((el) => targetValue <= el.value);

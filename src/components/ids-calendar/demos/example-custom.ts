@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       id: 'dto',
       label: 'Discretionary Time Off',
       translationKey: 'DiscretionaryTimeOff',
-      color: 'azure',
+      color: 'blue',
       checked: true,
       attrs: [
         'subject',
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       id: 'admin',
       label: 'Admin',
       translationKey: 'AdministrativeLeave',
-      color: 'amethyst',
+      color: 'purple',
       checked: true,
       attrs: [
         'subject',
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       id: 'team',
       label: 'Team Event',
       translationKey: 'TeamEvent',
-      color: 'emerald',
+      color: 'green',
       checked: true,
       attrs: [
         'subject',
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       id: 'sick',
       label: 'Sick Time',
       translationKey: 'SickTime',
-      color: 'amber',
+      color: 'orange',
       checked: true,
       attrs: [
         'subject',
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       id: 'holiday',
       label: 'Company Holiday',
       translationKey: 'CompanyHoliday',
-      color: 'slate',
+      color: 'neutral',
       checked: true,
       disabled: true,
       attrs: [
