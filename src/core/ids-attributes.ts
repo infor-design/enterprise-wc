@@ -34,6 +34,7 @@ export const attributes = {
   AUTO_FILL: 'auto-fill',
   AUTO_FIT: 'auto-fit',
   AUTO_FLOW: 'auto-flow',
+  AUTO_FOCUS: 'auto-focus',
   AUTO_HEIGHT: 'auto-height',
   AUTO_ROWS: 'auto-rows',
   AUTO_START: 'auto-start',
