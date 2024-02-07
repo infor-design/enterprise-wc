@@ -1,4 +1,4 @@
-import { BLOCK_ELEMENTS, qsAll } from './ids-editor-shared';
+import { BLOCK_ELEMENTS } from './ids-editor-shared';
 
 export interface IdsEditorBlockElem {
   /** The block element */
@@ -30,13 +30,7 @@ export function blockElem(sel: Selection): IdsEditorBlockElem {
  * @returns {Array<HTMLElement>} List of selection block elements
  */
 export function selectionBlockElems(sel: Selection, elem: HTMLElement): Array<HTMLElement> {
-  const blockElems: Array<HTMLElement> = [];
-  qsAll(BLOCK_ELEMENTS.join(', '), elem).forEach((el) => {
-    if (sel.containsNode(el, true)) {
-      blockElems.push(el);
-    }
-  });
-  return blockElems;
+  return [...elem.querySelectorAll<HTMLElement>(BLOCK_ELEMENTS.join(', '))].filter((el) => sel.containsNode(el, true));
 }
 
 /**
@@ -67,4 +61,70 @@ export function restoreSelection(sel: Selection, savedSel: Array<Range> | null) 
     sel.removeAllRanges();
     savedSel.forEach((s) => sel.addRange(s));
   }
+}
+
+/**
+ * Get all selection parents.
+ * @param {Selection} sel The selection.
+ * @param {HTMLElement} elem The element.
+ * @returns {object} List of selection parents.
+ */
+export function selectionParents(sel: Selection, elem: HTMLElement): object {
+  const parents: Record<string, { tag: string, node: HTMLElement }> = {};
+
+  if (sel.focusNode && sel.containsNode(elem, true)) {
+    let node = sel.focusNode;
+
+    while (node && node !== elem) {
+      if (node instanceof HTMLElement) {
+        const tag = node.tagName.toLowerCase();
+        parents[tag] = { tag, node };
+      }
+
+      node = node.parentNode as HTMLElement;
+    }
+  }
+
+  return parents;
+}
+
+/**
+ * Find element within the selection
+ * http://stackoverflow.com/questions/6052870/how-to-know-if-there-is-a-link-element-within-the-selection
+ * @param {Selection} sel The selection.
+ * @param {HTMLElement} container The editor host element
+ * @param {string} tagName The tagname to find.
+ * @returns {HTMLElement|null} The found element.
+ */
+export function findElementInSelection(sel: Selection, container: HTMLElement, tagName: string): HTMLElement | null {
+  const range = sel.getRangeAt(0);
+
+  if (range && container.contains(sel.focusNode)) {
+    const selectionParent = range.commonAncestorContainer as HTMLElement;
+
+    // Look for an element *around* the selected range
+    for (let el = selectionParent; el && el !== container; el = el.parentElement as HTMLElement) {
+      if (el && el.tagName && el.tagName.toLowerCase() === tagName) {
+        return el;
+      }
+    }
+
+    // Look for an element *within* the selected range
+    if (!range.collapsed && selectionParent instanceof Element) {
+      const elemsInside = [...selectionParent.getElementsByTagName(tagName)] as HTMLElement[];
+      const elemRange = document.createRange();
+
+      // Determine if element is within the range
+      for (let i = 0; i < elemsInside.length; i++) {
+        const elem = elemsInside[i];
+        elemRange.selectNodeContents(elem);
+        if (range.compareBoundaryPoints(Range.END_TO_START, elemRange) < 0
+          && range.compareBoundaryPoints(Range.START_TO_END, elemRange) > 0) {
+          return elem;
+        }
+      }
+    }
+  }
+
+  return null;
 }

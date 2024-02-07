@@ -27,7 +27,6 @@ import type IdsText from '../ids-text/ids-text';
 import {
   VIEWS,
   PARAGRAPH_SEPARATORS,
-  BLOCK_ELEMENTS,
   EditorAction,
   CLASSES,
   EDITOR_DEFAULTS,
@@ -47,7 +46,10 @@ import {
 import {
   blockElem,
   saveSelection,
-  restoreSelection
+  restoreSelection,
+  selectionBlockElems,
+  selectionParents,
+  findElementInSelection
 } from './ids-editor-selection-utils';
 
 import {
@@ -818,30 +820,6 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Get all selection parents.
-   * @param {Selection} selection The selection.
-   * @returns {Record<string, { tag: string, node: HTMLElement }>} List of selection parents.
-   */
-  #selectionParents(selection: Selection): Record<string, { tag: string, node: HTMLElement }> {
-    const parents: Record<string, { tag: string, node: HTMLElement }> = {};
-
-    if (selection.focusNode && selection.containsNode(this, true)) {
-      let node = selection.focusNode;
-
-      while (node && node !== this) {
-        if (node instanceof HTMLElement) {
-          const tag = node.tagName.toLowerCase();
-          parents[tag] = { tag, node };
-        }
-
-        node = node.parentNode as HTMLElement;
-      }
-    }
-
-    return parents;
-  }
-
-  /**
    * Check if slotted content contains current selection focus node
    * @param {Node} focusNode Selection focus node
    * @returns {boolean} true if focus node is within editor
@@ -858,7 +836,7 @@ export default class IdsEditor extends Base {
    */
   #onSelectionChange(selection: Selection): void {
     const elems = this.#elems;
-    const parents: any = this.#selectionParents(selection);
+    const parents: any = selectionParents(selection, this);
     const setActive = (btn: any) => {
       if (btn) btn.cssClass = ['is-active'];
     };
@@ -954,7 +932,7 @@ export default class IdsEditor extends Base {
     if (key === 'hyperlink') {
       const args = { ...this.#modals.defaults.hyperlink, hideRemoveContainer: true };
       const elems = { ...this.#modals.hyperlink.elems };
-      const currentLink = this.#findElementInSelection(sel, 'a');
+      const currentLink = findElementInSelection(sel, this, 'a');
 
       if (currentLink) {
         args.currentLink = currentLink;
@@ -978,11 +956,11 @@ export default class IdsEditor extends Base {
     return true;
   }
 
-  #getBlockElements(sel: Selection): Array<HTMLElement> {
-    const slottedBlockElements = [...this.querySelectorAll<HTMLElement>(BLOCK_ELEMENTS.join(', '))];
-    return slottedBlockElements.filter((el) => sel.containsNode(el, true));
-  }
-
+  /**
+   * Formats selected text to h1, h2, h3, or normal
+   * @param {Selection} selection Selection object
+   * @param {EditorAction} action action config
+   */
   #formatBlock(selection: Selection, action: EditorAction): void {
     if (!action) return;
 
@@ -990,23 +968,33 @@ export default class IdsEditor extends Base {
       action = { ...this.#actions[this.#paragraphSeparator as any] };
     }
 
-    this.#getBlockElements(selection).forEach((elem) => {
+    selectionBlockElems(selection, this).forEach((elem) => {
       const regx = new RegExp(`<(/?)${elem.tagName}((?:[^>"']|"[^"]*"|'[^']*')*)>`, 'gi');
       const html = elem.outerHTML.replace(regx, `<$1${action.value}$2>`);
       elem.outerHTML = html;
     });
   }
 
-  #alignText(selection: Selection, action: EditorAction) {
+  /**
+   * Sets text alignment to selection
+   * @param {Selection} selection Selection object
+   * @param {EditorAction} action action config
+   */
+  #alignText(selection: Selection, action: EditorAction): void {
     const alignDoc = this.localeAPI?.isRTL() ? 'right' : 'left';
     const align = action.action.replace('align', '').toLowerCase();
-    this.#getBlockElements(selection).forEach((elem) => {
+    selectionBlockElems(selection, this).forEach((elem) => {
       if (align === alignDoc) elem?.removeAttribute('style');
       else elem?.style.setProperty('text-align', align);
     });
   }
 
-  #setTextColor(selection: Selection, action: EditorAction) {
+  /**
+   * Sets text color to selection
+   * @param {Selection} selection Selection object
+   * @param {EditorAction} action action config
+   */
+  #setTextColor(selection: Selection, action: EditorAction): void {
     this.#savedSelection = saveSelection(selection);
 
     if (this.#savedSelection && this.#elems[`${action.action}Input`]) {
@@ -1017,10 +1005,15 @@ export default class IdsEditor extends Base {
     }
   }
 
-  #createList(selection: Selection, action: EditorAction) {
+  /**
+   * Formats selection into ordererd/unordered list
+   * @param {Selection} selection Selection object
+   * @param {EditorAction} action action config
+   */
+  #createList(selection: Selection, action: EditorAction): void {
     let isAdd = true;
 
-    this.#getBlockElements(selection).forEach((elem) => {
+    selectionBlockElems(selection, this).forEach((elem) => {
       const listTagType = action.action === 'insertOrderedList' ? '<ol>' : '<ul>';
       if (elem.innerHTML.includes(listTagType)) isAdd = false;
 
@@ -1039,10 +1032,86 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Handle given action.
-   * @private
+   * Create hyperlink at selection
+   * @param {Range} range Selection range
+   */
+  #createHyperlink(range: Range): void {
+    const elems = { ...this.#modals.hyperlink.elems };
+    const { currentLink, hideRemoveContainer } = this.#modals.beforeShowValues.hyperlink;
+    const urlValue = elems?.url?.value ?? '';
+    const classValue = elems?.classes?.value;
+    const targetValue = elems.targets?.value;
+    const clickableValue = elems.clickable?.checked ? 'false' : '';
+    const attr = (link: HTMLElement, name: string, value: string) => {
+      if (value) link.setAttribute(name, value);
+      else link.removeAttribute(name);
+    };
+
+    if (hideRemoveContainer) {
+      // Create new hyperlink
+      if (urlValue) {
+        const rangeString = range.toString();
+        const aLink = document.createElement('a');
+        attr(aLink, 'href', urlValue);
+        attr(aLink, 'class', classValue);
+        attr(aLink, 'target', targetValue);
+        attr(aLink, 'contenteditable', clickableValue);
+
+        if (rangeString) {
+          range.surroundContents(aLink);
+        } else {
+          aLink.textContent = urlValue;
+          range.insertNode(aLink);
+        }
+      }
+    } else if (elems.removeElem?.checked || urlValue === '') {
+      // Remove the current hyperlink, selection was on hyperlink
+      currentLink.outerHTML = currentLink.innerHTML;
+    } else {
+      // Update the current hyperlink, selection was on hyperlink
+      attr(currentLink, 'href', urlValue);
+      attr(currentLink, 'class', classValue);
+      attr(currentLink, 'target', targetValue);
+      attr(currentLink, 'contenteditable', clickableValue);
+    }
+
+    // Reset all hyperlink related elements in modal, for next time open
+    elems.removeElem.checked = false;
+    Object.entries(elems)
+      .filter(([k]) => (!(/^(removeElem|removeContainer)$/.test(k))))
+      .map((x) => x[1])
+      .forEach((elem: any) => {
+        if (elem) elem.disabled = false;
+      });
+  }
+
+  /**
+   * Create image at selection
+   * @param {Selection} selection Selection object
+   * @param {Range} range selection range
+   */
+  #createImage(selection: Selection, range: Range): void {
+    let action = { ...this.#actions.insertimage };
+    action.value = qs(`#insertimage-modal-input-src`, this.shadowRoot)?.value ?? '';
+
+    if (action.value !== '') {
+      if (selection.type === 'Caret') {
+        range?.insertNode(document.createTextNode(' '));
+        selection.removeAllRanges();
+        if (range) selection.addRange(range);
+      }
+      const alt = qs(`#insertimage-modal-input-alt`, this.shadowRoot).value ?? '';
+      if (alt !== '') {
+        action = { ...this.#actions.inserthtml, value: `<img src="${action.value}" alt="${alt}" />` };
+      }
+      document.execCommand(action.action, false, action.value);
+    }
+  }
+
+  /**
+   * Handle given action
    * @param {string} actionName Name of action
-   * @param {string|undefined} val The value
+   * @param {string} val The option value
    * @returns {void}
    */
   #handleAction(actionName: string, val = ''): void {
@@ -1090,82 +1159,19 @@ export default class IdsEditor extends Base {
    * @returns {void}
    */
   #handleModalAction(key: string): void {
-    let a = { ...this.#actions[key] };
-    if (typeof a === 'undefined') return;
-
-    restoreSelection((this.#getSelection() as any), (this.#savedSelection as any));
     const sel = this.#getSelection();
+    if (!sel || !this.#actions[key]) return;
+
+    restoreSelection(sel, this.#savedSelection);
     const range = sel?.getRangeAt(0);
 
     // Insert image
     if (key === 'insertimage') {
-      a.value = qs(`#${key}-modal-input-src`, this.shadowRoot)?.value ?? '';
-      if (a.value !== '') {
-        if (sel?.type === 'Caret') {
-          range?.insertNode(document.createTextNode(' '));
-          sel?.removeAllRanges();
-          if (range) sel?.addRange(range);
-        }
-        const alt = qs(`#${key}-modal-input-alt`, this.shadowRoot).value ?? '';
-        if (alt !== '') {
-          a = { ...this.#actions.inserthtml, value: `<img src="${a.value}" alt="${alt}" />` };
-        }
-        document.execCommand(a.action, false, a.value);
-      }
+      this.#createImage(sel, range);
     }
 
-    // Hyperlink
     if (key === 'hyperlink') {
-      const elems = { ...this.#modals.hyperlink.elems };
-      const {
-        currentLink,
-        hideRemoveContainer
-      } = this.#modals.beforeShowValues.hyperlink;
-
-      if (hideRemoveContainer) {
-        // Create new hyperlink
-        if (elems.url?.value) {
-          a.value = 'EDITOR_CREATED_NEW_HYPERLINK';
-          document.execCommand(a.action, false, a.value);
-          const aLink = qs(`a[href="${a.value}"`, this);
-          aLink.setAttribute('href', elems.url.value);
-          aLink.innerHTML = aLink.innerHTML.replace(a.value, elems.url.value);
-          if (elems.classes?.value !== '') {
-            aLink.setAttribute('class', elems.classes.value);
-          }
-          if (elems.targets?.value !== '') {
-            aLink.setAttribute('target', elems.targets.value);
-          }
-          if (elems.clickable?.checked) {
-            aLink.setAttribute('contenteditable', 'false');
-          }
-        }
-      } else if (elems.removeElem?.checked || elems.url?.value === '') {
-        // Remove the current hyperlink, selection was on hyperlink
-        currentLink.outerHTML = currentLink.innerHTML;
-      } else {
-        // Update the current hyperlink, selection was on hyperlink
-        const attr = (name: string, value: string) => {
-          if (value !== '') {
-            currentLink?.setAttribute(name, value);
-          } else {
-            currentLink?.removeAttribute(name);
-          }
-        };
-        attr('href', elems.url?.value);
-        attr('class', elems.classes?.value);
-        attr('target', elems.targets?.value);
-        attr('contenteditable', elems.clickable?.checked ? 'false' : '');
-      }
-
-      // Reset all hyperlink related elements in modal, for next time open
-      elems.removeElem.checked = false;
-      Object.entries(elems)
-        .filter(([k]) => (!(/^(removeElem|removeContainer)$/.test(k))))
-        .map((x) => x[1])
-        .forEach((elem: any) => {
-          if (elem) elem.disabled = false;
-        });
+      this.#createHyperlink(range);
     }
   }
 
@@ -1404,39 +1410,6 @@ export default class IdsEditor extends Base {
 
     if (labelEl) labelEl.innerHTML = shouldDisplayLabel ? value : '';
     if (sourceLabel) sourceLabel.innerHTML = shouldDisplayLabel ? this.sourceTextareaLabel() : '';
-  }
-
-  #findElementInSelection(selection: Selection, tagName: string): HTMLElement | null {
-    const range = selection.getRangeAt(0);
-
-    if (range && this.contains(selection.focusNode)) {
-      const selectionParent = range.commonAncestorContainer as HTMLElement;
-
-      // Look for an element *around* the selected range
-      for (let el = selectionParent; el && el !== this; el = el.parentElement as HTMLElement) {
-        if (el && el.tagName && el.tagName.toLowerCase() === tagName) {
-          return el;
-        }
-      }
-
-      // Look for an element *within* the selected range
-      if (!range.collapsed && selectionParent instanceof Element) {
-        const elemsInside = [...selectionParent.getElementsByTagName(tagName)] as HTMLElement[];
-        const elemRange = document.createRange();
-
-        // Determine if element is within the range
-        for (let i = 0; i < elemsInside.length; i++) {
-          const elem = elemsInside[i];
-          elemRange.selectNodeContents(elem);
-          if (range.compareBoundaryPoints(Range.END_TO_START, elemRange) < 0
-            && range.compareBoundaryPoints(Range.START_TO_END, elemRange) > 0) {
-            return elem;
-          }
-        }
-      }
-    }
-
-    return null;
   }
 
   /**
