@@ -1552,4 +1552,8 @@ export default class IdsEditor extends Base {
   get view(): string {
     return this.getAttribute(attributes.VIEW) || EDITOR_DEFAULTS.view;
   }
+
+  get editorSlot(): HTMLSlotElement {
+    return this.container!.querySelector('slot#editor-slot')!;
+  }
 }
