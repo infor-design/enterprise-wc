@@ -421,7 +421,7 @@ export function dateMask(rawValue = '', options: IdsMaskOptions = {}): IdsMaskGe
  */
 export function rangeDateMask(rawValue = '', options: IdsMaskOptions = {}): IdsMaskGeneratorResult {
   const parts: Array<string> = rawValue.split(options.delimiter);
-  const delimiterArr: Array<string> = options.delimiter.split('');
+  const delimiterArr: Array<string> = options.delimiter?.split('') || [];
   const firstDate: IdsMaskGeneratorResult = dateMask(parts[0], options);
   const secondDate: IdsMaskGeneratorResult = dateMask(parts[1], options);
 
