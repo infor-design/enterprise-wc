@@ -57,7 +57,7 @@ export const EDITOR_DEFAULTS = {
       url: 'http://www.example.com',
       classes: 'hyperlink',
       targets: [
-        { text: 'Same Window', value: '' },
+        { text: 'Same Window', value: '_self' },
         { text: 'New Window', value: '_blank', selected: true }
       ],
       // Clickable hyperlink in editor

@@ -139,8 +139,6 @@ export default class IdsEditor extends Base {
 
   isFormComponent = true;
 
-  #currentSelection: Selection | null = null;
-
   #resizeObserver = new ResizeObserver(() => this.#resize());
 
   /**
@@ -883,13 +881,14 @@ export default class IdsEditor extends Base {
       let value = null;
       if (action === 'formatblock') {
         const menuBtn = elem.menu?.target;
+        const sel = document.getSelection();
         if (menuBtn) menuBtn.text = elem.text || elem.textContent?.trim();
         value = e.detail.value;
 
         // format dropdown changes selection
         // previous editor selection must be restored
-        if (this.#currentSelection) {
-          restoreSelection(this.#currentSelection, this.#savedSelection);
+        if (sel) {
+          restoreSelection(sel, this.#savedSelection);
         }
       }
 
@@ -1116,7 +1115,7 @@ export default class IdsEditor extends Base {
    */
   #handleAction(actionName: string, val = ''): void {
     const a: EditorAction = { ...this.#actions[actionName] };
-    const sel = this.#currentSelection;
+    const sel = document.getSelection();
 
     // Switch editor/source mode
     if (/^(editormode|sourcemode)$/i.test(actionName)) {
@@ -1184,14 +1183,11 @@ export default class IdsEditor extends Base {
     // Attach selection change
     this.onEvent('selectionchange.editor', document, debounce(() => {
       const selection = document.getSelection();
-      const isSelectedInEditor = this.contains(selection?.focusNode ?? null);
-      this.#currentSelection = null;
-      this.#savedSelection = null;
+      const isSelectedInEditor = this.#contentContainsFocusNode(selection?.focusNode ?? null);
       this.#unActiveToolbarButtons();
       this.#elems.main.classList.toggle('focused', isSelectedInEditor);
 
       if (selection?.focusNode && isSelectedInEditor) {
-        this.#currentSelection = selection;
         this.#savedSelection = saveSelection(selection);
         this.#onSelectionChange(selection);
       }
@@ -1344,7 +1340,7 @@ export default class IdsEditor extends Base {
       mapped[key] = actions.filter((action) => getKey(action) === key);
     });
 
-    this.onEvent('keydown.editor-container', this.container, (e: KeyboardEvent) => {
+    this.onEvent('keydown.editor-container', this, (e: KeyboardEvent) => {
       if (this.disabled || this.readonly) {
         return;
       }
