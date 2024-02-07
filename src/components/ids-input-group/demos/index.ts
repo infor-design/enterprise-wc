@@ -1,0 +1,1 @@
+import '../ids-input-group';
