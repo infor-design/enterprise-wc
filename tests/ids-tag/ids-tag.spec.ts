@@ -66,22 +66,23 @@ test.describe('IdsTag tests', () => {
   test.describe('setting/attribute tests', () => {
     test('should be able set color', async ({ page }) => {
       const locator = await page.locator('ids-tag').first();
-      const handle = await page.$('ids-tag');
-      await handle?.evaluate((el: IdsTag) => {
-        el.color = 'success';
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsTag>('ids-tag')!;
+        elem.color = 'success';
       });
       await expect(await locator.getAttribute('color')).toEqual('success');
-      await handle?.evaluate((el: IdsTag) => {
-        el.color = '';
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsTag>('ids-tag')!;
+        elem.color = '';
       });
       await expect(await locator.getAttribute('color')).toEqual(null);
     });
 
     test('should set color by attribute', async ({ page }) => {
       const locator = await page.locator('ids-tag').first();
-      const handle = await page.$('ids-tag');
-      await handle?.evaluate((el: IdsTag) => {
-        el.setAttribute('color', 'error');
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsTag>('ids-tag')!;
+        elem.setAttribute('color', 'error');
       });
       await expect(await locator.getAttribute('color')).toEqual('error');
     });
@@ -89,8 +90,9 @@ test.describe('IdsTag tests', () => {
     test('should set color as hex', async ({ page }) => {
       const locator = await page.locator('ids-tag').first();
       const handle = await page.$('ids-tag');
-      await handle?.evaluate((el: IdsTag) => {
-        el.setAttribute('color', '#800000');
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsTag>('ids-tag')!;
+        elem.setAttribute('color', '#800000');
       });
       await expect(await locator.getAttribute('color')).toEqual('#800000');
       const setterValue = await handle?.evaluate((el: IdsTag) => el.color);
@@ -99,13 +101,13 @@ test.describe('IdsTag tests', () => {
 
     test('renders an extra border on secondary tag', async ({ page }) => {
       const locator = await page.locator('ids-tag').first();
-      const handle = await page.$('ids-tag');
-      await handle?.evaluate((el: IdsTag) => {
-        el.color = 'secondary';
+      const value = await page.evaluate(() => {
+        const elem = document.querySelector<IdsTag>('ids-tag')!;
+        elem.color = 'secondary';
+        return elem.color;
       });
       await expect(await locator.getAttribute('color')).toEqual('secondary');
-      const setterValue = await handle?.evaluate((el: IdsTag) => el.color);
-      await expect(setterValue).toEqual('secondary');
+      await expect(value).toEqual('secondary');
     });
 
     test('should set disabled', async ({ page }) => {

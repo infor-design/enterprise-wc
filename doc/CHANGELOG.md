@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.20
+
+### 1.0.0-beta.20 Fixes
+
+- `[Textarea]` Fixed an issue where could not type in textarea. ([#1827](https://github.com/infor-design/enterprise-wc/issues/1827))
+
 ## 1.0.0-beta.19
 
 ### 1.0.0-beta.19 Breaking Changes
