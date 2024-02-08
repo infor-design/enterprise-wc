@@ -1,4 +1,4 @@
-import type { IdsPopupXYSwitchResult } from '../ids-popup/ids-popup-attributes';
+import type { IdsPopupXYSwitchResult } from './ids-popup-attributes';
 
 const X_FIELD_ADJUSTMENT = 12;
 const TOP_FIELD_ADJUSTMENT = -8;

@@ -3,7 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import IdsPickerPopup from '../ids-picker-popup/ids-picker-popup';
+import IdsPickerPopup from '../ids-popup/ids-picker-popup';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';

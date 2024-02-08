@@ -66,7 +66,7 @@ import './components/ids-notification-banner/ids-notification-banner';
 import './components/ids-pager/ids-pager';
 import './components/ids-personalize/ids-personalize';
 import './components/ids-pie-chart/ids-pie-chart';
-import './components/ids-picker-popup/ids-picker-popup';
+import './components/ids-popup/ids-picker-popup';
 import './components/ids-popup/ids-popup';
 import './components/ids-popup-menu/ids-popup-menu';
 import './components/ids-process-indicator/ids-process-indicator';

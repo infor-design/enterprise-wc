@@ -7,7 +7,6 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsFocusCaptureMixin from '../../mixins/ids-focus-capture-mixin/ids-focus-capture-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
-import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -33,10 +32,8 @@ const Base = IdsXssMixin(
     IdsFocusCaptureMixin(
       IdsKeyboardMixin(
         IdsPopupInteractionsMixin(
-          IdsPopupOpenEventsMixin(
-            IdsEventsMixin(
-              IdsElement
-            )
+          IdsEventsMixin(
+            IdsElement
           )
         )
       )
@@ -52,7 +49,6 @@ const Base = IdsXssMixin(
  * @mixes IdsFocusCaptureMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsPopupInteractionsMixin
- * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsXssMixin
  * @part popup - the popup outer element
  * @part overlay - the inner overlay element
@@ -594,8 +590,6 @@ export default class IdsModal extends Base {
    * @private
    */
   addOpenEvents(): void {
-    super.addOpenEvents();
-
     // Adds a global event listener for the Keydown event on the body to capture close via Escape
     // (NOTE cannot use IdsEventsMixin here due to scoping)
     document.addEventListener('keydown', this.globalKeydownListener);
@@ -615,7 +609,6 @@ export default class IdsModal extends Base {
    * @private
    */
   removeOpenEvents(): void {
-    super.removeOpenEvents();
     document.removeEventListener('keydown', this.globalKeydownListener);
     this.unlisten('Escape');
     this.offEvent('click.buttons');
@@ -634,7 +627,6 @@ export default class IdsModal extends Base {
     if (!val) {
       overlay = new IdsOverlay();
       this.shadowRoot.prepend(overlay);
-      this.popupOpenEventsTarget = this.overlay;
     } else {
       overlay = this.shadowRoot.querySelector('ids-overlay');
       if (overlay) overlay.remove();

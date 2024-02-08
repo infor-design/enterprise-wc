@@ -131,6 +131,9 @@
   - link: filter.html
     type: Example
     description: Shows a filter row
+  - link: in-modal.html
+    type: Example
+    description: Shows a data grid in a modal
   - link: infinite-scroll.html
     type: Example
     description: Shows infinite-scrolling on a data grid

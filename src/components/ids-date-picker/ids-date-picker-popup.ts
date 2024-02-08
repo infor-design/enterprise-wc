@@ -3,7 +3,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import IdsMonthViewAttributeMixin from '../ids-month-view/ids-month-view-attribute-mixin';
 import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
-import IdsPickerPopup from '../ids-picker-popup/ids-picker-popup';
+import IdsPickerPopup from '../ids-popup/ids-picker-popup';
 
 import {
   subtractDate, isValidDate, hoursTo24, removeDateRange
