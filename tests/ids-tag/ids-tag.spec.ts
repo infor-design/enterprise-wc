@@ -243,5 +243,13 @@ test.describe('IdsTag tests', () => {
       });
       expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
     });
+
+    test('should cancel dismiss when disabled', async ({ page }) => {
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      await page.evaluate(() => {
+        document.querySelector<IdsTag>('#ids-clickable-tag')?.dismiss();
+      });
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+    });
   });
 });
