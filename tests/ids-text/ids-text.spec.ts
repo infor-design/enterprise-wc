@@ -4,6 +4,7 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsText from '../../src/components/ids-text/ids-text';
+import type IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
 
 test.describe('IdsText tests', () => {
   const url = '/ids-text/example.html';
@@ -265,6 +266,25 @@ test.describe('IdsText tests', () => {
       const handle = await page.$('#text-test');
       const content = await handle?.evaluate(async (el: IdsText) => el.textContent);
       expect(content).toEqual('Test Text');
+    });
+
+    test('should show tooltip', async ({ page }) => {
+      let tooltipVisible = await page.evaluate(() => {
+        const tooltip = document.querySelector<IdsTooltip>('ids-tooltip');
+        return tooltip?.visible;
+      });
+
+      expect(tooltipVisible).toBeFalsy();
+
+      tooltipVisible = await page.evaluate(() => {
+        const elem = document.querySelector<IdsText>('ids-text[max-width]')!;
+        elem.triggerEvent('hoverend', elem);
+
+        const tooltip = document.querySelector<IdsTooltip>('ids-tooltip');
+        return tooltip?.visible;
+      });
+
+      expect(tooltipVisible).toBeTruthy();
     });
 
     test.skip('should translate text', async ({ page }) => {
