@@ -1,4 +1,4 @@
-<ids-popup part="popup" id="tooltip-example-tooltip" exportparts="popup: tooltip-popup, arrow: tooltip-arrow, arrow-top: tooltip-arrow-top, arrow-right: tooltip-arrow-right, arrow-bottom: tooltip-arrow-bottom, arrow-left: tooltip-arrow-left" align="center" position-style="absolute">
+<ids-popup part="popup" id="tooltip-example-tooltip" exportparts="popup: tooltip-popup, arrow: tooltip-arrow, arrow-top: tooltip-arrow-top, arrow-right: tooltip-arrow-right, arrow-bottom: tooltip-arrow-bottom, arrow-left: tooltip-arrow-left" align="center" animation-style="fade" position-style="absolute">
         <div class="ids-tooltip" slot="content" part="tooltip">
           <slot></slot>
         </div>

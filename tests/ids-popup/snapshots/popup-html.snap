@@ -1,4 +1,4 @@
-<ids-popup x="15" y="0" align-target="#popup-trigger-btn" align="right" type="menu" id="popup-1" animated="" position-style="absolute" arrow="right">
+<ids-popup x="15" y="0" align-target="#popup-trigger-btn" align="right" type="menu" id="popup-1" animated="" animation-style="fade" position-style="absolute" arrow="right">
       <div slot="content">
         <div class="demo-popup">
           <ids-text font-size="12" type="span">Popup Content</ids-text>
