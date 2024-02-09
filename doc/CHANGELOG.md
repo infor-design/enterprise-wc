@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.20
+
+### 1.0.0-beta.20 Fixes
+
+- `[Popupmenu]` Fixed an issue where a popupmenu is in the wrong position on the filter row when in a modal. ([#1766](https://github.com/infor-design/enterprise-wc/issues/1766))
+
 ## 1.0.0-beta.19
 
 ### 1.0.0-beta.19 Breaking Changes
