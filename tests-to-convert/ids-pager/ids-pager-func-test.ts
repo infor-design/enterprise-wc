@@ -96,50 +96,6 @@ const HTMLSnippets = {
 describe('IdsPager Component', () => {
   let elem: any;
 
-  const createElemViaTemplate = async (innerHTML: any) => {
-    elem?.remove?.();
-    IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
-
-    const template = document.createElement('template');
-    template.innerHTML = innerHTML;
-    elem = template.content.childNodes[0];
-    document.body.appendChild(elem);
-
-    await processAnimFrame();
-
-    return elem;
-  };
-
-  afterEach(async () => {
-    elem?.remove();
-  });
-
-  // ---------------- //
-  // ids-pager tests //
-  // =============== //
-
-  it('renders from HTML Template with nav buttons with no errors', async () => {
-    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-pager').length).toEqual(1);
-
-    elem.remove();
-
-    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_WITHOUT_NESTING);
-    expect(document.querySelectorAll('ids-pager').length).toEqual(1);
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('renders from HTML Template with number list navigation with no errors', async () => {
-    elem = await createElemViaTemplate(HTMLSnippets.NUMBER_LIST_NAV);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-pager').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
   it('should set label text for button and number list', async () => {
     const el = await createElemViaTemplate(HTMLSnippets.NUMBER_LIST_NAV);
     const btn = el.querySelector('ids-pager-button');
@@ -211,27 +167,6 @@ describe('IdsPager Component', () => {
     tooltipElement = document.querySelector('ids-tooltip') as any as IdsTooltip;
     expect(tooltipElement?.visible).toEqual(true);
     expect(tooltipElement?.textContent).toEqual('First');
-  });
-
-  it('hides tooltip-popup when IdsPagerButton.tooltip is empty', async () => {
-    // const pager = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_WITH_TOOLTIPS);
-    // const [first, previous, next, last] = pager.querySelectorAll('ids-pager-button');
-    // expect(first.tooltip).toEqual('First');
-    // expect(previous.tooltip).toEqual('Previous');
-    // expect(next.tooltip).toEqual('Next');
-    // expect(last.tooltip).toEqual('Last');
-
-    // expect(first.getAttribute('tooltip')).toEqual('First');
-    // expect(previous.getAttribute('tooltip')).toEqual('Previous');
-    // expect(next.getAttribute('tooltip')).toEqual('Next');
-    // expect(last.getAttribute('tooltip')).toEqual('Last');
-
-    // const tooltip = first.querySelector('ids-tooltip');
-    // expect(tooltip.visible).toEqual(false);
-
-    // first.showTooltip();
-    // expect(tooltip.visible).toEqual(true);
-    // expect(tooltip.textContent).toEqual('First');
   });
 
   it('has slots: start, middle, end', async () => {
@@ -355,15 +290,6 @@ describe('IdsPager Component', () => {
   // ---------------- //
   // ids-pager-button //
   // =============== //
-
-  it('creates a pager and the "type" of each of its nav button when accessed is based on their flag attrib', async () => {
-    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
-    const navButtons = elem.querySelectorAll('ids-pager-button');
-    navButtons.forEach((idsPagerButton: any) => {
-      expect(idsPagerButton.type).not.toBeFalsy();
-      expect(idsPagerButton.hasAttribute(idsPagerButton.type)).not.toBeFalsy();
-    });
-  });
 
   it('creates a an ids-pager-button with "first" flag set and nav-disabled works reliably', async () => {
     elem = await createElemViaTemplate(

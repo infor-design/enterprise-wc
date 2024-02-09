@@ -396,7 +396,10 @@ export default class IdsPagerButton extends Base {
           this.removeAttribute(type);
         }
       }
-      this.button?.button?.setAttribute?.('aria-label', this.label || attribute);
+      this.shadowRoot?.querySelector('ids-icon')?.setAttribute('icon', `${attribute}-page`);
+      this.shadowRoot?.querySelector('ids-button')?.setAttribute('aria-label', this.label || attribute);
+      this.shadowRoot?.querySelector('ids-button')?.setAttribute(attribute, '');
+      this.shadowRoot?.querySelector('ids-button')?.removeAttribute('undefined');
     } else {
       this.removeAttribute(attribute);
     }

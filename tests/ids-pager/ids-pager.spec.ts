@@ -4,6 +4,7 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsPager from '../../src/components/ids-pager/ids-pager';
+import IdsPagerButton from '../../src/components/ids-pager/ids-pager-button';
 
 test.describe('IdsPager tests', () => {
   const url = '/ids-pager/example.html';
@@ -61,6 +62,26 @@ test.describe('IdsPager tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-pager-light');
+    });
+  });
+
+  test.describe('pager button tests', () => {
+    test('pager buttons have a type', async ({ page }) => {
+      const types = await page.evaluate(() => {
+        const elem = document.querySelectorAll<IdsPagerButton>('ids-pager-button');
+        return [elem[0].type, elem[1].type, elem[2].type, elem[2].type];
+      });
+      expect(types[0]).not.toBeFalsy();
+      expect(types[1]).not.toBeFalsy();
+      expect(types[2]).not.toBeFalsy();
+      expect(types[3]).not.toBeFalsy();
+    });
+
+    test('pager buttons have an icon type', async ({ page }) => {
+      expect(await page.locator('ids-pager-button ids-icon').nth(0).getAttribute('icon')).toBe('first-page');
+      expect(await page.locator('ids-pager-button ids-icon').nth(1).getAttribute('icon')).toBe('previous-page');
+      expect(await page.locator('ids-pager-button ids-icon').nth(2).getAttribute('icon')).toBe('next-page');
+      expect(await page.locator('ids-pager-button ids-icon').nth(3).getAttribute('icon')).toBe('last-page');
     });
   });
 });
