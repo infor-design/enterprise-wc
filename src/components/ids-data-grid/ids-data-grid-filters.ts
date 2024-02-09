@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { hasClass, getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { hasClass, getClosestContainerNode, getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 import IdsDataGridCell from './ids-data-grid-cell';
@@ -804,6 +804,12 @@ export default class IdsDataGridFilters {
         menu.keyboardEventTarget = this.root;
         menu.attachEventHandlers();
         menu.attachKeyboardListeners();
+        menu.popup.positionStyle = 'fixed';
+        menu.popup.onPlace = (popupRect: DOMRect) => {
+          const isInModal = getClosest(menu, 'ids-modal') !== undefined;
+          if (isInModal) popupRect.y += 58;
+          return popupRect;
+        };
       }
 
       btn?.setAttribute('data-filter-conditions-button', '');
