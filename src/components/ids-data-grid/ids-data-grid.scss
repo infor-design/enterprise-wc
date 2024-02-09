@@ -13,6 +13,7 @@
   --ids-data-grid-column-widths: repeat(1, minmax(110px, 1fr));
 
   contain: content;
+  position: relative;
 }
 
 .ids-data-grid {
