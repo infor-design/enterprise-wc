@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="0" hidden>
+    <ids-header>
+      <ids-toolbar>
+        <ids-toolbar-section type="button">
+          <ids-button id="app-menu-trigger" icon="menu">
+            <span class="audible">Open App Menu</span>
+          </ids-button>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20" type="h1">App Menu Example</ids-text>
+        </ids-toolbar-section>
+        <ids-toolbar-section align="end" type="button">
+          <ids-theme-switcher mode="light"></ids-theme-switcher>
+        </ids-toolbar-section>
+      </ids-toolbar>
+    </ids-header>
+
+    <ids-app-menu id="app-menu">
+      <!-- Main Content (Accordion Navigation) -->
+      <ids-accordion>
+        <ids-accordion-panel>
+          <ids-accordion-header slot="header" icon="user">
+            <ids-text font-size="16">Employee</ids-text>
+          </ids-accordion-header>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">My Profile</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Talent Profile</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">View Compensation</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">RAVE</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Request Time Off</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Benefits</ids-text>
+            </ids-accordion-header>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">My Benefits</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">Dependents and Beneficiaries</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">Life Events</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">Benefits Information</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">My Rewards</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Find a Coworker</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">My Growth</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+        </ids-accordion-panel>
+        <ids-accordion-panel>
+          <ids-accordion-header slot="header" icon="distribution">
+            <ids-text font-size="16">Manager</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel>
+          <ids-accordion-header slot="header" icon="roles">
+            <ids-text font-size="16">Recruiter</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+      </ids-accordion>
+    </ids-app-menu>
+  </ids-container>
+</body>
+</html>
