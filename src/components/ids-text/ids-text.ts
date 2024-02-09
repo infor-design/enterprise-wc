@@ -326,7 +326,7 @@ export default class IdsText extends Base {
   set maxWidth(value: string | null) {
     if (value) {
       this.setAttribute(attributes.MAX_WIDTH, value);
-      this.container?.style.setProperty('max-width', `${value}px`);
+      this.container?.style.setProperty('max-width', `${parseInt(value)}px`, 'important');
     } else {
       this.removeAttribute(attributes.MAX_WIDTH);
       this.container?.style.removeProperty('max-width');
@@ -464,7 +464,7 @@ export default class IdsText extends Base {
   }
 
   canTooltipShow() {
-    if (this.tooltip === 'true' && this.container) {
+    if (this.tooltip && this.tooltip !== 'false' && this.container) {
       return ((checkOverflow(this.container) || checkOverflow(this.parentElement))) || false;
     }
     return false;

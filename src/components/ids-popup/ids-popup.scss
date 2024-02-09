@@ -333,9 +333,12 @@
     cursor: var(--ids-cursor-pointer);
     color: var(--ids-tooltip-color-text);
     display: inline-block;
-    font-size: var(--ids-tooltip-font-size);
-    padding: var(--ids-tooltip-padding);
     font-family: var(--ids-font-family-default);
+    font-size: var(--ids-tooltip-font-size);
+    max-width: 75vw;
+    padding: var(--ids-tooltip-padding);
+    width: auto;
+    word-wrap: break-word;
     z-index: var(--ids-z-index-70);
 
     .arrow.bottom,

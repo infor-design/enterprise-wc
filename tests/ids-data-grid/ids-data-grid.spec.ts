@@ -5,6 +5,7 @@ import { test } from '../base-fixture';
 
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsPagerInput from '../../src/components/ids-pager/ids-pager-input';
+import IdsDataGridCell from '../../src/components/ids-data-grid/ids-data-grid-cell';
 
 test.describe('IdsDataGrid tests', () => {
   const url = '/ids-data-grid/example.html';
@@ -216,6 +217,128 @@ test.describe('IdsDataGrid tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-data-grid-light');
+    });
+
+    test('should match the visual snapshot in percy (notification)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-icon/notification-badge.html');
+      await percySnapshot(page, 'ids-icon-notification-light');
+    });
+
+    test('should match the visual snapshot in percy (standalone css)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/standalone-css.html');
+      await percySnapshot(page, 'ids-data-grid-standalone-light');
+    });
+
+    test('should match the visual snapshot in percy (list style)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/list-style.html');
+      await percySnapshot(page, 'ids-data-grid-list-style-light');
+    });
+
+    test('should match the visual snapshot in percy (auto fit)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/list-style.html');
+      await percySnapshot(page, 'ids-data-grid-auto-fit-light');
+    });
+
+    test('should not have visual regressions in percy (auto columns)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/columns-auto.html');
+      await percySnapshot(page, 'ids-data-grid-auto-columns-light');
+    });
+
+    test('should not have visual regressions in percy (fixed columns)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/columns-fixed.html');
+      await percySnapshot(page, 'ids-data-grid-columns-fixed-light');
+    });
+
+    test('should not have visual regressions in percy (percent columns)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/columns-percent.html');
+      await percySnapshot(page, 'ids-data-grid-columns-percent-light');
+    });
+
+    test('should not have visual regressions in percy (column formatters )', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/columns-formatters.html');
+      await percySnapshot(page, 'ids-data-grid-columns-formatters-light');
+    });
+
+    test('should not have visual regressions in percy (column alignment)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/columns-alignment.html');
+      await percySnapshot(page, 'ids-data-grid-columns-alignment-light');
+    });
+
+    test('should not have visual regressions in percy (column groups)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/columns-groups.html');
+      await percySnapshot(page, 'ids-data-grid-columns-groups-light');
+    });
+
+    test('should not have visual regressions in percy (stretch coluimn)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/columns-stretch.html');
+      await percySnapshot(page, 'ids-data-grid-columns-stretch-light');
+    });
+
+    test('should not have visual regressions in percy (frozen columns)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/columns-frozen.html');
+      await percySnapshot(page, 'ids-data-grid-columns-frozen-light');
+    });
+
+    test('should not have visual regressions in percy (alternate row shading)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/alternate-row-shading.html');
+      await percySnapshot(page, 'ids-data-grid-alternate-row-shading-light');
+    });
+
+    test('should not have visual regressions in percy (expandable-row)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/expandable-row.html');
+      await percySnapshot(page, 'ids-data-grid-expandable-row-light');
+    });
+
+    test('should not have visual regressions in percy (tree grid)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/tree-grid.html');
+      await percySnapshot(page, 'ids-data-grid-tree-grid-light');
+    });
+
+    test('should not have visual regressions in percy (editable inline)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/editable-inline.html');
+      await percySnapshot(page, 'ids-data-grid-editable-inline-light');
+    });
+  });
+
+  test.describe('cell functionality tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-data-grid/columns-formatters.html');
+    });
+
+    test('renders rowNumber cells', async ({ page }) => {
+      const cell = await page.locator('ids-data-grid ids-data-grid-cell:nth-child(3)').first();
+      expect(await cell.innerHTML()).toBe(`<span class="text-ellipsis">1</span>`);
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsDataGridCell>('ids-data-grid ids-data-grid-cell:nth-child(2)');
+        elem?.renderCell();
+      });
+      expect(await cell.innerHTML()).toBe(`<span class="text-ellipsis">1</span>`);
+    });
+
+    test('renders custom formatters cells', async ({ page }) => {
+      const cell = await page.locator('ids-data-grid ids-data-grid-cell:nth-child(24)').first();
+      expect(await cell.innerHTML()).toBe(`<span class="text-ellipsis">Custom: 12.99</span>`);
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsDataGridCell>('ids-data-grid ids-data-grid-cell:nth-child(24)');
+        elem?.renderCell();
+      });
+      expect(await cell.innerHTML()).toBe(`<span class="text-ellipsis">Custom: 12.99</span>`);
     });
   });
 });
