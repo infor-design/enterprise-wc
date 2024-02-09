@@ -64,4 +64,79 @@ test.describe('IdsModal tests', () => {
       await percySnapshot(page, 'ids-modal-light');
     });
   });
+
+  test.describe('modal button tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-modal/focus.html');
+    });
+
+    test('should have two buttons', async ({ page }) => {
+      await page.locator('#modal-trigger-btn').click();
+      expect(await page.locator('ids-modal-button').count()).toBe(2);
+    });
+
+    test('should have two visible buttons', async ({ page }) => {
+      await page.locator('#modal-trigger-btn').click();
+      expect(await page.locator('ids-modal-button').count()).toBe(2);
+    });
+
+    test('shows with buttons present', async ({ page }) => {
+      const isVisible = await page.evaluate(() => {
+        const modal = document.querySelector<IdsModal>('ids-modal');
+        modal?.show();
+        return modal?.visible;
+      });
+      expect(isVisible).toBeTruthy();
+    });
+
+    test('can set/change the cancel attribute', async ({ page }) => {
+      let attr = await page.evaluate(() => {
+        const modal = document.querySelector<IdsModal>('ids-modal')!;
+        modal.buttons[0].cancel = true;
+        return modal.buttons[0].getAttribute('cancel');
+      });
+      expect(await attr).toBeTruthy();
+      attr = await page.evaluate(() => {
+        const modal = document.querySelector<IdsModal>('ids-modal')!;
+        modal.buttons[0].cancel = false;
+        return modal.buttons[0].getAttribute('cancel');
+      });
+      expect(await attr).toBeFalsy();
+    });
+
+    test('responds to button clicks', async ({ page }) => {
+      const isVisible = await page.evaluate(() => {
+        const modal = document.querySelector<IdsModal>('ids-modal') as any;
+        // Setup a button click handler
+        modal.popup.animated = false;
+        modal.onButtonClick = () => { modal.hide(); };
+        const clickEvent = new MouseEvent('click', { bubbles: true });
+
+        // Show the Modal
+        modal.show();
+
+        // Click the first Modal button. The above handler should fire.
+        modal.buttons[1].dispatchEvent(clickEvent);
+      });
+
+      expect(isVisible).toBeFalsy();
+    });
+
+    test('responds to its cancel button clicks', async ({ page }) => {
+      const isVisible = await page.evaluate(() => {
+        const modal = document.querySelector<IdsModal>('ids-modal') as any;
+        // Setup a button click handler
+        modal.popup.animated = false;
+        const clickEvent = new MouseEvent('click', { bubbles: true });
+
+        // Show the Modal
+        modal.show();
+
+        // Click the first Modal button. The above handler should fire.
+        modal.buttons[0].dispatchEvent(clickEvent);
+      });
+
+      expect(isVisible).toBeFalsy();
+    });
+  });
 });
