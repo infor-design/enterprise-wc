@@ -104,6 +104,7 @@
 @mixin nested-accordion-panel-indentation() {
   ::slotted(ids-accordion-panel) {
     padding-inline-start: 24px;
+    padding-inline-end: 16px;
   }
 
   .ids-accordion-panel {

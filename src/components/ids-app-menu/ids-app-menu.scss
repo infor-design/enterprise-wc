@@ -19,8 +19,11 @@
   flex-grow: 1;
 }
 
-.ids-app-menu-user {
-  padding: var(--ids-space-80);
+// Setup padding to reclaim space
+.ids-app-menu-user > * {
+  padding: 0 var(--ids-space-80);
+  padding-bottom: 0;
+  display: block;
 }
 
 .ids-app-menu-search {
@@ -33,9 +36,17 @@
 }
 
 ::slotted(img[slot='avatar']) {
+  display: block;
+  margin-block-start: 24px;
   border-radius: var(--ids-border-radius-circle);
   height: 40px;
   width: 40px;
+}
+
+::slotted([slot='username']) {
+  display: block;
+  margin-block-start: 4px;
+  margin-block-end: 24px;
 }
 
 ::slotted(ids-toolbar) {
