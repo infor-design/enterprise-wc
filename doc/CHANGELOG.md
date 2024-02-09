@@ -16,6 +16,7 @@
 
 ### 1.0.0-beta.19 Fixes
 
+- `[ActionPanel]` Fixed slide from bottom animation style ([#1820](https://github.com/infor-design/enterprise-wc/issues/1820)) ([#1787](https://github.com/infor-design/enterprise-wc/issues/1787))
 - `[AxisChart]` Fixed position of labels in RTL mode. ([#1716](https://github.com/infor-design/enterprise-wc/issues/1716))
 - `[Datagrid]` Datagrid fix for left/right arrow-keys to work inside editable-cell. ([#1588](https://github.com/infor-design/enterprise-wc/issues/1588))
 - `[Dropdown|Multiselect]` Broken Dropdown and Multiselect fixed in Angular. ([#1762](https://github.com/infor-design/enterprise-wc/issues/1762))
