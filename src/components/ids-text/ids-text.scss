@@ -2,7 +2,7 @@
 @use '../../themes/mixins/ids-core-mixins' as mixins;
 
 :host([overflow='ellipsis']) {
-  max-width: 100%;
+  max-width: fit-content;
 }
 
 .ids-text {
