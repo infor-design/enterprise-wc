@@ -893,5 +893,5 @@ export default class IdsTextarea extends Base {
     this.setAutogrow();
   }
 
-  get value(): string { return this.getAttribute(attributes.VALUE) || ''; }
+  get value(): string { return this.input?.value || ''; }
 }
