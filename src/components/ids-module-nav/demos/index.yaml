@@ -17,3 +17,6 @@
   - link: sandbox.html
     type: Example
     description: Shows all possible Module Nav configurations
+  - link: no-header.html
+    type: Example
+    description: Shows Module Nav with no header area

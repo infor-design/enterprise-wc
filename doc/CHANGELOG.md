@@ -4,6 +4,8 @@
 
 ### 1.0.0-beta.20 Fixes
 
+- `[AppMenu]` Added an issue to reclaim space on app menu. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
+- `[ModuleNav]` Added an example with no header area to ensure it reclaims space. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
 - `[Textarea]` Fixed an issue where could not type in textarea. ([#1827](https://github.com/infor-design/enterprise-wc/issues/1827))
 
 ## 1.0.0-beta.19

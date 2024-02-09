@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Shows a basic app menu
-  - link: example-footer.html
+  - link: footer.html
     type: Example
-    description: Shows a basic app menu with the old footer design
+    description: Shows an app menu with the old footer design
+  - link: no-header.html
+    type: Example
+    description: Shows an app menu with no header area
