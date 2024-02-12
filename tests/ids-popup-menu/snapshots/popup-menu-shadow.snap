@@ -1,1 +1,1 @@
-<ids-popup class="ids-popup-menu" type="menu" align="top, left" position-style="absolute"><nav class="ids-menu" id="popupmenu" slot="content" part="menu" role="none"><slot></slot></nav></ids-popup>
+<ids-popup class="ids-popup-menu" type="menu" align="top, left" animation-style="fade" position-style="absolute"><nav class="ids-menu" id="popupmenu" slot="content" part="menu" role="none"><slot></slot></nav></ids-popup>

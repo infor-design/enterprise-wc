@@ -69,7 +69,6 @@ export default class IdsPopup extends Base {
     this.#alignEdge = ALIGNMENT_EDGES[0];
     this.#alignTarget = null;
     this.animated = false;
-    this.#animationStyle = ANIMATION_STYLES[0];
     this.#arrow = ARROW_TYPES[0];
     this.#arrowTarget = null;
     this.#bleed = false;
@@ -125,7 +124,7 @@ export default class IdsPopup extends Base {
    * @returns {string} The template
    */
   template(): string {
-    const animatedClass = this.animated ? ' animated' : '';
+    const animatedClass = this.animated ? ` animated animation-${this.animationStyle}` : '';
 
     return `<div class="ids-popup${animatedClass}" part="popup">
       <div class="arrow" part="arrow"></div>
@@ -672,22 +671,12 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @property {string} animationStyle the type of alignment to use on this component's
-   *  Y coordinate in relation to a parent element's Y coordinate
-   */
-  #animationStyle: string;
-
-  /**
    * @param {string} val the style of animation this popup uses to show/hide
    */
   set animationStyle(val: string) {
-    const currentVal = this.#animationStyle;
-    if (val !== currentVal && ANIMATION_STYLES.includes(val)) {
-      this.#animationStyle = val;
+    if (ANIMATION_STYLES.includes(val)) {
+      this.#refreshAnimationStyle(val);
       this.setAttribute(attributes.ANIMATION_STYLE, val);
-      this.#refreshAnimationStyle(currentVal, val);
-    } else {
-      this.#refreshAnimationStyle('', currentVal);
     }
   }
 
@@ -695,19 +684,25 @@ export default class IdsPopup extends Base {
    * @returns {string} the style of animation this popup uses to show/hide
    */
   get animationStyle(): string {
-    return this.#animationStyle;
+    const attrVal = this.getAttribute(attributes.ANIMATION_STYLE);
+
+    if (attrVal && ANIMATION_STYLES.includes(attrVal)) {
+      return attrVal;
+    }
+
+    return ANIMATION_STYLES[0];
   }
 
   /**
    * Changes the CSS class controlling the animation style of the Popup
-   * @param {string} currentStyle the type of animation
    * @param {string} newStyle the type of animation
    * @returns {void}
    */
-  #refreshAnimationStyle(currentStyle: string, newStyle: string) {
+  #refreshAnimationStyle(newStyle: string) {
     if (!this.container) return;
     const thisCl = this.container.classList;
-    if (currentStyle) thisCl.remove(`animation-${currentStyle}`);
+    const allStyles = ANIMATION_STYLES.map((item) => `animation-${item}`);
+    thisCl.remove(...allStyles);
     thisCl.add(`animation-${newStyle}`);
   }
 

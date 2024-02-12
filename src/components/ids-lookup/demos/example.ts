@@ -40,26 +40,30 @@ const autocomplete: Element | any = autocompleteLookup?.shadowRoot?.querySelecto
     name: 'Description',
     field: 'description',
     sortable: true,
-    formatter: lookup.dataGrid.formatters.text
+    formatter: lookup.dataGrid.formatters.text,
+    filterType: lookup.dataGrid.filters.text
   });
   columns.push({
     id: 'ledger',
     name: 'Ledger',
     field: 'ledger',
-    formatter: lookup.dataGrid.formatters.text
+    formatter: lookup.dataGrid.formatters.text,
+    filterType: lookup.dataGrid.filters.text
   });
   columns.push({
     id: 'price',
     name: 'Price',
     field: 'price',
     formatter: lookup.dataGrid.formatters.decimal,
-    formatOptions: { locale: 'en-US' } // Data Values are in en-US
+    formatOptions: { locale: 'en-US' },
+    filterType: lookup.dataGrid.filters.decimal
   });
   columns.push({
     id: 'bookCurrency',
     name: 'Currency',
     field: 'bookCurrency',
-    formatter: lookup.dataGrid.formatters.text
+    formatter: lookup.dataGrid.formatters.text,
+    filterType: lookup.dataGrid.filters.integer
   });
 
   lookup.columns = columns;

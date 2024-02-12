@@ -8,6 +8,9 @@
 - `[Dropdown/Datagrid]` Added style fixes to position the dropdown better next to the cell. ([#1770](https://github.com/infor-design/enterprise-wc/issues/1770))
 - `[Lookup/Datagrid]` Fixed an issue where newer added primary key logic caused selection to select the first row in certain cases. ([#1751](https://github.com/infor-design/enterprise-wc/issues/1751))
 - `[ModuleNav]` Added an example with no header area to ensure it reclaims space. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
+- `[Popupmenu]` Fixed an issue where a popupmenu is in the wrong position on the filter row when in a modal. ([#1766](https://github.com/infor-design/enterprise-wc/issues/1766))
+- `[Pager]` Fixed an issue in angular where the buttons were invisible. ([#1826](https://github.com/infor-design/enterprise-wc/issues/1826))
+- `[Textarea]` Fixed an issue where could not type in textarea. ([#1827](https://github.com/infor-design/enterprise-wc/issues/1827))
 
 ## 1.0.0-beta.19
 
@@ -17,6 +20,7 @@
 - `[Colors]` Any settings that use status colors now all use the same values of `error / warning / caution / info / success`, the settings `alert, good, danger` no longer will work. ([#1801](https://github.com/infor-design/enterprise-wc/issues/1801))
 - `[Colors]` Any components that use colors as a setting now use a generic color names instead of previous color words. For example `azure=blue`, `ruby=red`, `amber=yellow` and all color numbers will use the 2x10 digit code (10-100). For example: `color="blue-60"` `color="yellow-60"`. For examples and color samples see the [color palette page](https://main.wc.design.infor.com/ids-color/palette.html). ([#1801](https://github.com/infor-design/enterprise-wc/issues/1801))
 - `[Icons]` Not really breaking but be aware that all icons are changed to the newly designed icons. ([#1801](https://github.com/infor-design/enterprise-wc/issues/1801))
+- `[Text]` `IdsText` was not showing tooltip when tooltip attribute was set dynamically. ([#1638](https://github.com/infor-design/enterprise-wc/issues/1638))
 
 ### 1.0.0-beta.19 Features
 
@@ -25,6 +29,7 @@
 
 ### 1.0.0-beta.19 Fixes
 
+- `[ActionPanel]` Fixed slide from bottom animation style ([#1820](https://github.com/infor-design/enterprise-wc/issues/1820)) ([#1787](https://github.com/infor-design/enterprise-wc/issues/1787))
 - `[AxisChart]` Fixed position of labels in RTL mode. ([#1716](https://github.com/infor-design/enterprise-wc/issues/1716))
 - `[Datagrid]` Datagrid fix for left/right arrow-keys to work inside editable-cell. ([#1588](https://github.com/infor-design/enterprise-wc/issues/1588))
 - `[Dropdown|Multiselect]` Broken Dropdown and Multiselect fixed in Angular. ([#1762](https://github.com/infor-design/enterprise-wc/issues/1762))

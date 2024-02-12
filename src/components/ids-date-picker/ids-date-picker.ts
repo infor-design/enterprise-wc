@@ -13,7 +13,7 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsValidationInputMixin from '../../mixins/ids-validation-mixin/ids-validation-input-mixin';
 import IdsElement from '../../core/ids-element';
 
-import { onPickerPopupXYSwitch } from '../ids-picker-popup/ids-picker-popup-common';
+import { onPickerPopupXYSwitch } from '../ids-popup/ids-picker-popup-common';
 
 import {
   buildClassAttrib,

@@ -18,7 +18,9 @@ export default class IdsActionPanel extends IdsModal {
   connectedCallback() {
     super.connectedCallback();
     this.#refreshHeader();
-    if (this.popup) this.popup.animationStyle = 'slide-from-bottom';
+    if (this.popup) {
+      this.popup.animationStyle = 'slide-from-bottom';
+    }
   }
 
   get toolbar(): HTMLSlotElement | null {
@@ -30,7 +32,13 @@ export default class IdsActionPanel extends IdsModal {
    * @returns {string} The template
    */
   template(): string {
-    return `<ids-popup part="modal" class="ids-modal ids-action-panel" type="modal" position-style="viewport">
+    return `<ids-popup
+      part="modal"
+      class="ids-modal ids-action-panel"
+      type="modal"
+      position-style="viewport"
+      animated="true"
+      animation-style="slide-from-bottom">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header">
           <slot name="toolbar"></slot>
