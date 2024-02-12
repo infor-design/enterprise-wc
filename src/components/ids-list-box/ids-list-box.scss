@@ -67,6 +67,9 @@ $border-input-field-height-lg: calc(var(--ids-input-height-40) - 2px);
 // Height Sizes
 :host([field-height='xxs']) {
   ::slotted(ids-list-box-option) {
+    font-size: var(--ids-dropdown-font-size);
+    min-height: $border-input-field-height-xs;
+    line-height: $border-input-field-height-xs;
     text-indent: 2px;
   }
 }

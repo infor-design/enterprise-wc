@@ -232,13 +232,16 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
 
       const rect = cell.getBoundingClientRect();
       const curIndex = cell.getAttribute('aria-colindex');
-      const cellLeft = rect.left + (startIndex < curIndex ? rect.width + 1 : 1);
+      let cellLeft = rect.left + (startIndex < curIndex ? rect.width + 1 : 1);
       const cellRight = rect.left + (startIndex < curIndex ? 1 : rect.width + 1);
       let offsetLeft = 0;
       if (this.offsetParent) {
         offsetLeft = this.offsetParent.getBoundingClientRect().left
           - (this.offsetParent as HTMLElement).offsetLeft;
       }
+      cellLeft -= 32;
+      cellLeft = cellLeft < 3 ? 0 : cellLeft;
+      console.log(cellLeft)
       dragArrows?.style.setProperty('left', `${this.dataGrid?.localeAPI.isRTL() ? cellRight - offsetLeft : cellLeft - offsetLeft}px`);
       dragArrows?.style.setProperty('height', `${rect.height - 2}px`);
       dragArrows?.style.setProperty('display', 'block');
