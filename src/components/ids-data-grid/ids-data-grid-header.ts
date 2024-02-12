@@ -241,7 +241,6 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
       }
       cellLeft -= 32;
       cellLeft = cellLeft < 3 ? 0 : cellLeft;
-      console.log(cellLeft)
       dragArrows?.style.setProperty('left', `${this.dataGrid?.localeAPI.isRTL() ? cellRight - offsetLeft : cellLeft - offsetLeft}px`);
       dragArrows?.style.setProperty('height', `${rect.height - 2}px`);
       dragArrows?.style.setProperty('display', 'block');
