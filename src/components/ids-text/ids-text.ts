@@ -170,7 +170,6 @@ export default class IdsText extends Base {
    * @param {string | null} value (if bold)
    */
   set fontWeight(value: 'lighter' | 'bold' | 'semi-bold' | null) {
-    console.log('this fontWeight', value);
     this.container?.classList.remove(...fontWeightClasses);
 
     if (value && fontWeightClasses.includes(value)) {
@@ -190,7 +189,6 @@ export default class IdsText extends Base {
    * @param {string | null} value  The type of element
    */
   set type(value: string | null) {
-    console.log('set type', value);
     if (value) {
       this.setAttribute(attributes.TYPE, value);
     } else {
