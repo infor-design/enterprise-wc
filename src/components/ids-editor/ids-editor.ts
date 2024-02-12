@@ -169,6 +169,8 @@ export default class IdsEditor extends Base {
 
   labelEl?: IdsText | null;
 
+  #editorTextContainer: HTMLElement | null = null;
+
   /**
    * List of actions can be execute with editor.
    * extra actions get added in `#initContent()`
@@ -476,27 +478,33 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Set editor content value
+   * Copies content from textarea to editor
    */
   #setEditorContent() {
-    const { textarea, editorSlot } = this.#elems;
-    const html = cleanHtml(trimContent(textarea.value));
-
-    // clear slotted elements
-    editorSlot?.assignedElements().forEach((elem: Element) => elem.remove());
-
-    // insert html
-    this.insertAdjacentHTML('afterbegin', html);
+    const { textarea } = this.#elems;
+    let html = trimContent(textarea.value);
+    html = cleanHtml(html);
+    if (this.#editorTextContainer && this.#editorTextContainer.innerHTML !== html) {
+      this.#editorTextContainer.innerHTML = html;
+    }
   }
 
   /**
-   * Set source content value
+   * Copies editor content to textarea
    */
   #setSourceContent(): void {
-    const { textarea, editorSlot } = this.#elems;
-    const contentHTML = editorSlot?.assignedElements().map((elem: Element) => elem.outerHTML).join('');
-    const value = trimContent(formatHtml(trimContent(contentHTML ?? '')));
-    textarea.value = value;
+    const { textarea } = this.#elems;
+
+    // if empty
+    if (this.#editorTextContainer?.textContent?.replace('\n', '') === '') {
+      this.#editorTextContainer.innerHTML = '';
+    }
+
+    let htmlContent = trimContent(this.#editorTextContainer?.innerHTML ?? '');
+    htmlContent = this.sourceFormatter ? formatHtml(htmlContent) : htmlContent;
+    if (textarea.value !== htmlContent) {
+      textarea.value = htmlContent;
+    }
   }
 
   /**
@@ -513,6 +521,7 @@ export default class IdsEditor extends Base {
       return false;
     }
     this.#setEditorContent();
+    this.#toggleContentStyles(true);
     const elems = this.#elems;
     elems.btnSource.hidden = false;
     elems.btnEditor.hidden = true;
@@ -536,6 +545,8 @@ export default class IdsEditor extends Base {
       this.#triggerEvent('rejectviewchange');
       return false;
     }
+
+    this.#toggleContentStyles(false);
     this.#setSourceContent();
     this.#adjustSourceLineNumbers();
 
@@ -565,7 +576,7 @@ export default class IdsEditor extends Base {
    */
   #contenteditable(): object {
     const value = !this.disabled && !this.readonly;
-    this.setAttribute('contenteditable', `${value}`);
+    this.#editorTextContainer?.setAttribute('contenteditable', `${value}`);
     return this;
   }
 
@@ -600,6 +611,15 @@ export default class IdsEditor extends Base {
    * @returns {object} This API object for chaining
    */
   #initContent(): object {
+    if (!this.#editorTextContainer) {
+      this.#editorTextContainer = document.createElement('div');
+      this.#editorTextContainer.contentEditable = 'true';
+      this.#editorTextContainer.slot = 'editor-slot';
+      this.#editorTextContainer.id = 'editor-container';
+      this.#editorTextContainer.setAttribute('placeholder', this.placeholder ?? '');
+      this.append(this.#editorTextContainer);
+    }
+
     // set colorpicker
     const setColorpicker = (key: string) => {
       const btn = this.querySelector<IdsButton>(`[editor-action="${key}"]`);
@@ -823,7 +843,7 @@ export default class IdsEditor extends Base {
    * @returns {boolean} true if focus node is within editor
    */
   #contentContainsFocusNode(focusNode: Node | null): boolean {
-    return !!this.#elems.editorSlot.assignedElements().find((elem: Element) => elem.contains(focusNode));
+    return this.#editorTextContainer?.contains(focusNode) || false;
   }
 
   /**
@@ -834,7 +854,7 @@ export default class IdsEditor extends Base {
    */
   #onSelectionChange(selection: Selection): void {
     const elems = this.#elems;
-    const parents: any = selectionParents(selection, this);
+    const parents: any = selectionParents(selection, this.#editorTextContainer!);
     const setActive = (btn: any) => {
       if (btn) btn.cssClass = ['is-active'];
     };
@@ -898,6 +918,7 @@ export default class IdsEditor extends Base {
         this.#handleAction(action, value);
       }
       this.#triggerEvent('input', this.#elems.editor);
+      this.#toggleContentStyles(true);
     }
   }
 
@@ -967,11 +988,13 @@ export default class IdsEditor extends Base {
       action = { ...this.#actions[this.#paragraphSeparator as any] };
     }
 
-    selectionBlockElems(selection, this).forEach((elem) => {
+    selectionBlockElems(selection, this.#editorTextContainer!).forEach((elem) => {
       const regx = new RegExp(`<(/?)${elem.tagName}((?:[^>"']|"[^"]*"|'[^']*')*)>`, 'gi');
       const html = elem.outerHTML.replace(regx, `<$1${action.value}$2>`);
       elem.outerHTML = html;
     });
+
+    this.#toggleBlockFormatStyles(true);
   }
 
   /**
@@ -982,7 +1005,7 @@ export default class IdsEditor extends Base {
   #alignText(selection: Selection, action: EditorAction): void {
     const alignDoc = this.localeAPI?.isRTL() ? 'right' : 'left';
     const align = action.action.replace('align', '').toLowerCase();
-    selectionBlockElems(selection, this).forEach((elem) => {
+    selectionBlockElems(selection, this.#editorTextContainer!).forEach((elem) => {
       if (align === alignDoc) elem?.removeAttribute('style');
       else elem?.style.setProperty('text-align', align);
     });
@@ -1012,7 +1035,7 @@ export default class IdsEditor extends Base {
   #createList(selection: Selection, action: EditorAction): void {
     let isAdd = true;
 
-    selectionBlockElems(selection, this).forEach((elem) => {
+    selectionBlockElems(selection, this.#editorTextContainer!).forEach((elem) => {
       const listTagType = action.action === 'insertOrderedList' ? '<ol>' : '<ul>';
       if (elem.innerHTML.includes(listTagType)) isAdd = false;
 
@@ -1082,6 +1105,8 @@ export default class IdsEditor extends Base {
       .forEach((elem: any) => {
         if (elem) elem.disabled = false;
       });
+
+    this.#toggleHyperlinkStyles(true);
   }
 
   /**
@@ -1258,22 +1283,57 @@ export default class IdsEditor extends Base {
     }, 410));
 
     // Editor Slot change
-    this.onEvent('slotchange.editor-container', this.#elems.editorSlot, () => {
-      const hasContent = !!this.#elems.editorSlot.assignedElements()?.length;
-      this.#elems.editor.classList.toggle('empty', !hasContent);
+    this.offEvent('slotchange.hidden-slot', this.hiddenSlot);
+    this.onEvent('slotchange.hidden-slot', this.hiddenSlot, () => {
+      // move user provided elements to internally handled text container slot dev#editor-slot
+      this.#editorTextContainer?.append(...this.hiddenSlot.assignedElements());
+    });
 
-      // switch selection and focus to light dom
-      if (!hasContent) {
-        this.#elems.editor.addEventListener('focus', () => {
-          const p = document.createElement('p');
-          p.append(document.createElement('br'));
-          this.append(p);
-          document.getSelection()?.selectAllChildren(p);
-        }, { once: true });
-      }
+    this.offEvent('slotchange.editor-slot', this.editorSlot);
+    this.onEvent('slotchange.editor-slot', this.editorSlot, () => {
+      this.#toggleContentStyles(true);
     });
 
     return this;
+  }
+
+  #toggleBlockFormatStyles(applyStyles: boolean): void {
+    const blockQuoteElems = this.#editorTextContainer!.querySelectorAll<HTMLElement>('blockquote');
+    const firstParagraph = this.#editorTextContainer!.querySelector<HTMLParagraphElement>('p:first-of-type');
+
+    if (!applyStyles) {
+      firstParagraph?.removeAttribute('style');
+      blockQuoteElems.forEach((elem) => elem.removeAttribute('style'));
+      return;
+    }
+
+    // remove margin from first paragraph
+    firstParagraph?.style.setProperty('margin-block-start', '0');
+
+    // add border to blockquotes and set dimensions
+    blockQuoteElems.forEach((block) => {
+      block.style.setProperty('border-inline-start', 'var(--ids-editor-blockquote-border-inline-start)');
+      block.style.setProperty('margin-inline-start', 'var(--ids-editor-blockquote-margin-inline-start)');
+      block.style.setProperty('margin-inline-end', 'var(--ids-editor-blockquote-margin-inline-end)');
+      block.style.setProperty('padding-inline-start', 'var(--ids-editor-blockquote-padding-inline-start)');
+    });
+  }
+
+  #toggleHyperlinkStyles(applyStyles: boolean) {
+    const linkElems = this.#editorTextContainer!.querySelectorAll<HTMLAnchorElement>('a');
+
+    linkElems.forEach((link) => {
+      if (applyStyles) {
+        link.style.setProperty('color', 'var(--ids-editor-link-color-text-link)');
+      } else {
+        link.removeAttribute('style');
+      }
+    });
+  }
+
+  #toggleContentStyles(applyStyles: boolean) {
+    this.#toggleHyperlinkStyles(applyStyles);
+    this.#toggleBlockFormatStyles(applyStyles);
   }
 
   /**
@@ -1501,6 +1561,7 @@ export default class IdsEditor extends Base {
     if (VIEWS.includes(value)) {
       const attr = this.getAttribute(attributes.VIEW);
       let veto = null;
+
       if (this.view !== value) {
         veto = /source/i.test(value) ? this.#sourceMode() : this.#editorMode();
       }
@@ -1524,5 +1585,9 @@ export default class IdsEditor extends Base {
 
   get editorSlot(): HTMLSlotElement {
     return this.container!.querySelector('slot#editor-slot')!;
+  }
+
+  get hiddenSlot(): HTMLSlotElement {
+    return this.container!.querySelector('slot#hidden-slot')!;
   }
 }

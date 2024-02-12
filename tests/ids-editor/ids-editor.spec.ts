@@ -18,8 +18,8 @@ test.describe('IdsEditor tests', () => {
   // set selection range to 20 characters of the second paragraph in example.html
   const selectEditorText = async (page: Page) => {
     await page.evaluate(async () => {
-      const editor = document.querySelector<IdsEditor>('ids-editor')!;
-      const paragraph = editor.editorSlot.assignedElements()[1];
+      const editor = document.querySelector('ids-editor')!;
+      const paragraph = editor.querySelector('p:last-child')!;
       const selection = document.getSelection();
       const range = document.createRange();
 
@@ -159,8 +159,8 @@ test.describe('IdsEditor tests', () => {
     test('applying aligncenter action', async ({ page }) => {
       await clickActionButton(page, 'ids-button[editor-action="aligncenter"]');
       const textAlign = await page.evaluate(() => {
-        const editor = document.querySelector<IdsEditor>('ids-editor');
-        const secondParagraph = editor?.editorSlot.assignedElements()[1] as HTMLElement;
+        const editor = document.querySelector<IdsEditor>('ids-editor')!;
+        const secondParagraph = editor.querySelector<HTMLElement>('p:last-child')!;
         return secondParagraph.style.textAlign;
       });
       expect(textAlign).toEqual('center');
@@ -169,8 +169,8 @@ test.describe('IdsEditor tests', () => {
     test('applying alignright action', async ({ page }) => {
       await clickActionButton(page, 'ids-button[editor-action="alignright"]');
       const textAlign = await page.evaluate(() => {
-        const editor = document.querySelector<IdsEditor>('ids-editor');
-        const secondParagraph = editor?.editorSlot.assignedElements()[1] as HTMLElement;
+        const editor = document.querySelector<IdsEditor>('ids-editor')!;
+        const secondParagraph = editor.querySelector<HTMLElement>('p:last-child')!;
         return secondParagraph.style.textAlign;
       });
       expect(textAlign).toEqual('right');

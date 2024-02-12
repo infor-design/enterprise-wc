@@ -11,14 +11,15 @@ export function parseTemplate(str: string, ctx: any): string {
 // Editor template
 export const editorTemplate = `
   <div class="ids-editor" part="editor"{disabled}{readonly}>
+    <slot id="hidden-slot" class="{hiddenClass}"></slot>
     <ids-text id="editor-label" label class="{labelClass}{hiddenLabelCss}{requiredLabelCss}" part="editor-label"{disabled}{readonly}>{labelText}</ids-text>
     <div class="main-container" part="main-container">
       <div class="toolbar-container" part="toolbar-container">
         <slot name="toolbar"></slot>
       </div>
       <div class="editor-content">
-        <div id="editor-container" class="editor-container" part="editor-container"{contenteditable} aria-multiline="true" role="textbox" aria-labelledby="editor-label"{placeholder}>
-          <slot id="editor-slot"></slot>
+        <div id="editor-container" class="editor-container" part="editor-container" aria-multiline="true" role="textbox" aria-labelledby="editor-label"{placeholder}>
+          <slot name="editor-slot" id="editor-slot"></slot>
         </div>
         <div class="source-container {hiddenClass}" part="source-container">
           <div class="source-wrapper">
@@ -37,14 +38,14 @@ export const editorTemplate = `
 export const btnEditorModeTemplate = `
   <ids-button editor-action="editormode" tooltip="View Visual" color-variant="alternate-formatter">
     <span class="audible">View Visual</span>
-    <ids-icon icon="visual" width="50" viewbox="0 0 73 18"></ids-icon>
+    <ids-icon icon="visual" width="50" viewbox="0 0 43 18"></ids-icon>
   </ids-button>`;
 
 // Source mode button template
 export const btnSourceModeTemplate = `
   <ids-button editor-action="sourcemode" tooltip="View Source" color-variant="alternate-formatter">
     <span class="audible">View Source</span>
-    <ids-icon icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
+    <ids-icon icon="html" width="50" viewbox="0 0 35 18"></ids-icon>
   </ids-button>`;
 
 // Toolbar template
