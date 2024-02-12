@@ -1,13 +1,14 @@
 
   <div class="ids-editor" part="editor">
+    <slot id="hidden-slot" class="hidden"></slot>
     <ids-text id="editor-label" label="true" class="editor-label empty" part="editor-label">Ids Editor</ids-text>
     <div class="main-container" part="main-container">
       <div class="toolbar-container" part="toolbar-container">
         <slot name="toolbar"></slot>
       </div>
       <div class="editor-content">
-        <div id="editor-container" class="editor-container" part="editor-container" contenteditable="true" aria-multiline="true" role="textbox" aria-labelledby="editor-label">
-          <slot id="editor-slot"></slot>
+        <div id="editor-container" class="editor-container" part="editor-container" aria-multiline="true" role="textbox" aria-labelledby="editor-label">
+          <slot name="editor-slot" id="editor-slot"></slot>
         </div>
         <div class="source-container hidden" part="source-container">
           <div class="source-wrapper">

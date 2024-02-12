@@ -1,4 +1,4 @@
-<ids-editor id="editor-demo" label="Ids Editor" contenteditable="true">
+<ids-editor id="editor-demo" label="Ids Editor">
   <ids-toolbar slot="toolbar" type="formatter" role="toolbar">
     <ids-toolbar-section type="buttonset" toolbar-type="formatter">
       <ids-menu-button editor-action="formatblock" id="btn-formatblock-1" role="button" menu="menu-formatblock-1" tooltip="Choose Font Style" formatter-width="125px" dropdown-icon="dropdown" no-padding="true" trigger-type="click" color-variant="alternate-formatter" aria-controls="menu-formatblock-1" aria-haspopup="menu">
@@ -78,12 +78,12 @@
       
   <ids-button editor-action="sourcemode" tooltip="View Source" color-variant="alternate-formatter">
     <span class="audible">View Source</span>
-    <ids-icon icon="html" width="38" viewbox="0 0 54 18" style="--ids-icon-width-default: 38px;"></ids-icon>
+    <ids-icon icon="html" width="50" viewbox="0 0 35 18" style="--ids-icon-width-default: 50px;"></ids-icon>
   </ids-button>
       
   <ids-button editor-action="editormode" tooltip="View Visual" color-variant="alternate-formatter" hidden="">
     <span class="audible">View Visual</span>
-    <ids-icon icon="visual" width="50" viewbox="0 0 73 18" style="--ids-icon-width-default: 50px;"></ids-icon>
+    <ids-icon icon="visual" width="50" viewbox="0 0 43 18" style="--ids-icon-width-default: 50px;"></ids-icon>
   </ids-button>
     </ids-toolbar-section>
     <ids-toolbar-more-actions overflow="" color-variant="alternate-formatter" toolbar-type="formatter"><ids-menu-button tooltip="More" id="more-actions" menu="more-actions-menu" aria-controls="more-actions-menu" color-variant="alternate-formatter" aria-haspopup="menu" hidden="">
@@ -152,10 +152,10 @@
     </ids-menu-item><ids-menu-item icon="clear-formatting" hidden=""><ids-icon slot="icon" icon="clear-formatting" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Clear Formatting
       
-    </ids-menu-item><ids-menu-item icon="html" viewbox="0 0 54 18" hidden=""><ids-icon slot="icon" icon="html" viewbox="0 0 54 18" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="html" viewbox="0 0 35 18" hidden=""><ids-icon slot="icon" icon="html" viewbox="0 0 35 18" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       View Source
       
-    </ids-menu-item><ids-menu-item icon="visual" viewbox="0 0 73 18" hidden=""><ids-icon slot="icon" icon="visual" viewbox="0 0 73 18" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="visual" viewbox="0 0 43 18" hidden=""><ids-icon slot="icon" icon="visual" viewbox="0 0 43 18" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       View Visual
       
     </ids-menu-item><ids-menu-item icon="more" hidden=""><ids-icon slot="icon" icon="more" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
@@ -168,13 +168,13 @@
     </ids-menu-item>
     </ids-menu-group></ids-popup-menu></ids-toolbar-more-actions>
   </ids-toolbar>
-          <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+          
+          
+        <div contenteditable="true" slot="editor-slot" id="editor-container" placeholder=""><p style="margin-block-start: 0px;">Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink" style="color: var(--ids-editor-link-color-text-link);">e-commerce action-items</a>,
             reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
             rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
-            synergistic synergies.</p>
-          <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+            synergistic synergies.</p><p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
             extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
             Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
             infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage
-            morph.</p>
-        </ids-editor>
+            morph.</p></div></ids-editor>
