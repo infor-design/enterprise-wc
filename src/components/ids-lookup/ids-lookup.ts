@@ -380,7 +380,7 @@ export default class IdsLookup extends Base {
   #syncSelectedRows(value: string = this.value): void {
     // Deselect all rows, if given value is empty
     if (value === '') {
-      if (this.dataGrid?.selectedRows.length) this.dataGrid.deSelectAllRows();
+      if (this.dataGrid?.selectedRows?.length) this.dataGrid.deSelectAllRows();
       if (this.value !== value) this.value = value;
       return;
     }

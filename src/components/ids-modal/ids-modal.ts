@@ -110,6 +110,9 @@ export default class IdsModal extends Base {
       this.popup.setAttribute(attributes.TYPE, 'modal');
       this.popup.setAttribute(attributes.ANIMATED, 'true');
       this.popup.setAttribute(attributes.ANIMATION_STYLE, 'scale-in');
+      this.popup.onOutsideClick = this.onOutsideClick.bind(this);
+      this.popup.addOpenEvents = this.addOpenEvents.bind(this);
+      this.popup.removeOpenEvents = this.removeOpenEvents.bind(this);
     }
 
     // Update ARIA / Sets up the label

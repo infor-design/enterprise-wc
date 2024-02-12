@@ -326,15 +326,6 @@ class IdsDatePicker extends Base {
     this.picker = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
     if (this.picker && this.picker.isConnected) {
       this.picker.appendToTargetParent();
-      this.picker.popupOpenEventsTarget = document.body;
-      this.picker.onOutsideClick = (e: Event) => {
-        if (this.picker) {
-          if (!e.composedPath()?.includes(this.picker)) {
-            this.triggerEvent('outsideclick.datepicker', this);
-            this.#togglePopup(false);
-          }
-        }
-      };
       this.picker.onTriggerClick = () => {
         if (this.disabled || this.readonly) return;
         this.picker?.toggleVisibility();
@@ -353,6 +344,8 @@ class IdsDatePicker extends Base {
           this.picker.popup.setAttribute(attributes.ALIGN, `bottom, ${rtlAdjustedAlignValue}`);
         }
 
+        this.picker.popup.onOutsideClick = this.onOutsideClick.bind(this);
+
         // Detect switch of X/Y values due to alignment settings,
         // and account for extra width needed to be displayed outside of IdsDatePicker fields
         this.picker.popup.onXYSwitch = onPickerPopupXYSwitch;
@@ -363,6 +356,15 @@ class IdsDatePicker extends Base {
       if (this.triggerField) {
         this.picker.format = this.format;
         this.picker.value = this.triggerField.value;
+      }
+    }
+  }
+
+  onOutsideClick(e: Event) {
+    if (this.picker) {
+      if (!e.composedPath()?.includes(this.picker)) {
+        this.triggerEvent('outsideclick.datepicker', this);
+        this.#togglePopup(false);
       }
     }
   }
