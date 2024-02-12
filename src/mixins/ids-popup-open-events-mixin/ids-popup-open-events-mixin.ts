@@ -57,6 +57,7 @@ const IdsPopupOpenEventsMixin = <T extends Constraints>(superclass: T) => class 
     window.requestAnimationFrame(() => {
       // Attach a click handler to the window for detecting clicks outside the popup.
       // If these aren't captured by a popup, the menu will close.
+      this.offEvent('click.toplevel', this.popupOpenEventsTarget);
       this.onEvent('click.toplevel', this.popupOpenEventsTarget, (e: Event) => {
         this.onOutsideClick?.(e);
       });
