@@ -104,6 +104,7 @@ export default class IdsText extends Base {
    */
   template(): string {
     const tag = this.type || 'span';
+    const fontWeight = this.fontWeight;
 
     let classList = 'ids-text';
     classList += this.status ? ` ${this.statusClass()}` : '';
@@ -112,7 +113,7 @@ export default class IdsText extends Base {
     classList += (this.audible) ? ' audible' : '';
     classList += (this.label) ? ' label' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
-    classList += (this.fontWeight === 'bold' || this.fontWeight === 'lighter')
+    classList += (fontWeight === 'bold' || fontWeight === 'lighter' || fontWeight === 'semi-bold')
       ? ` ${this.fontWeight}` : '';
 
     return `<${tag}
@@ -169,6 +170,7 @@ export default class IdsText extends Base {
    * @param {string | null} value (if bold)
    */
   set fontWeight(value: 'lighter' | 'bold' | 'semi-bold' | null) {
+    console.log('this fontWeight', value);
     this.container?.classList.remove(...fontWeightClasses);
 
     if (value && fontWeightClasses.includes(value)) {
@@ -188,6 +190,7 @@ export default class IdsText extends Base {
    * @param {string | null} value  The type of element
    */
   set type(value: string | null) {
+    console.log('set type', value);
     if (value) {
       this.setAttribute(attributes.TYPE, value);
     } else {
