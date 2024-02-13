@@ -7,6 +7,7 @@
 - `[AppMenu]` Added an issue to reclaim space on app menu. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
 - `[Lookup/Datagrid]` Fixed an issue where newer added primary key logic caused selection to select the first row in certain cases. ([#1751](https://github.com/infor-design/enterprise-wc/issues/1751))
 - `[ModuleNav]` Added an example with no header area to ensure it reclaims space. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
+- `[Multiselect]` Fixed issue in `ids-multiselect` where deselection would cause options to lose their sort-order in Angular. ([#1709](https://github.com/infor-design/enterprise-wc/issues/1709))
 - `[Popupmenu]` Fixed an issue where a popupmenu is in the wrong position on the filter row when in a modal. ([#1766](https://github.com/infor-design/enterprise-wc/issues/1766))
 - `[Pager]` Fixed an issue in angular where the buttons were invisible. ([#1826](https://github.com/infor-design/enterprise-wc/issues/1826))
 - `[Textarea]` Fixed an issue where could not type in textarea. ([#1827](https://github.com/infor-design/enterprise-wc/issues/1827))
