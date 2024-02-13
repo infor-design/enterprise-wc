@@ -71,7 +71,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
       this.formInput?.dispatchEvent?.(new CustomEvent('change', {
         bubbles: true,
-        composed: false,
+        composed: true,
         detail: {
           elem: this,
           value: processedValue,
@@ -115,7 +115,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
     this.triggerEvent(`change.${this.name ?? 'ids-form-input-mixin'}`, this, {
       bubbles: true,
-      composed: false,
+      composed: true,
       detail: {
         elem: this,
         value,
@@ -141,7 +141,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
 
     this.triggerEvent(`input.${this.name ?? 'ids-form-input-mixin'}`, this, {
       bubbles: true,
-      composed: false,
+      composed: true,
       detail: {
         elem: this,
         value,

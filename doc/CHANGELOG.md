@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.21
+
+### 1.0.0-beta.21 Fixes
+
+- `[Dropdown]` Fixed incorrect form values in reactive forms. ([#1850](https://github.com/infor-design/enterprise-wc/issues/1850))
+
 ## 1.0.0-beta.20
 
 ### 1.0.0-beta.20 Breaking Changes
