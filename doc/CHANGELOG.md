@@ -11,6 +11,10 @@
 - `[Pager]` Fixed an issue in angular where the buttons were invisible. ([#1826](https://github.com/infor-design/enterprise-wc/issues/1826))
 - `[Textarea]` Fixed an issue where could not type in textarea. ([#1827](https://github.com/infor-design/enterprise-wc/issues/1827))
 
+### 1.0.0-beta.20 Features
+
+- `[FocusCaptureMixin]` Added `auto-focus` setting. ([#1675](https://github.com/infor-design/enterprise-wc/issues/1675))
+
 ## 1.0.0-beta.19
 
 ### 1.0.0-beta.19 Breaking Changes
