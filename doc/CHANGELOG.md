@@ -5,6 +5,7 @@
 ### 1.0.0-beta.20 Fixes
 
 - `[AppMenu]` Added an issue to reclaim space on app menu. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
+- `[Dropdown]` Fixed position and styling issue on some frameworks (standalone examples). ([#1834](https://github.com/infor-design/enterprise-wc/issues/1834))
 - `[Dropdown/Datagrid]` Added style fixes to position the dropdown better next to the cell. ([#1770](https://github.com/infor-design/enterprise-wc/issues/1770))
 - `[Input/Textarea]` Fix double input and change events. ([#1765](https://github.com/infor-design/enterprise-wc/issues/1765))
 - `[Lookup/Datagrid]` Fixed an issue where newer added primary key logic caused selection to select the first row in certain cases. ([#1751](https://github.com/infor-design/enterprise-wc/issues/1751))
