@@ -607,9 +607,8 @@ export default class IdsDropdown extends Base {
 
     // Configure inner IdsPopup
     const isRTL = this.localeAPI.isRTL();
-    if (this.locale && isRTL) {
-      this.dropdownList.popup?.setAttribute(attributes.ALIGN, `bottom, ${isRTL || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`);
-    }
+    this.dropdownList.popup.align = `bottom, ${isRTL || ['lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
+    this.dropdownList.popup.alignEdge = 'bottom';
 
     if (this.input) this.dropdownList.value = this.input.value;
 
@@ -647,6 +646,7 @@ export default class IdsDropdown extends Base {
     }
 
     // Open the Dropdown List
+    this.configurePopup();
     this.dropdownList.setAttribute(htmlAttributes.ARIA_EXPANDED, 'true');
     this.dropdownList.removeAttribute(attributes.TABINDEX);
     this.dropdownList.show();

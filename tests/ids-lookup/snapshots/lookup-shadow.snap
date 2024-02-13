@@ -16,10 +16,10 @@
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-modal-button slot="buttons" id="modal-cancel-btn" appearance="secondary">
+        <ids-modal-button slot="buttons" cancel="" id="modal-cancel-btn" appearance="secondary">
           <span>Cancel</span>
         </ids-modal-button>
-        <ids-modal-button slot="buttons" id="modal-apply-btn" appearance="primary">
+        <ids-modal-button slot="buttons" confirm="" id="modal-confirm-btn" appearance="primary">
           <span>Apply</span>
         </ids-modal-button>
       </ids-modal>

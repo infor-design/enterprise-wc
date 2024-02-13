@@ -67,7 +67,7 @@ export default class IdsDropdownList extends Base {
   colorVariants: Array<string> = IdsDropdownColorVariants;
 
   template() {
-    return `<ids-popup class="ids-dropdown-list" type="menu" part="dropdown-list" y="-1">
+    return `<ids-popup class="ids-dropdown-list" type="dropdown" part="dropdown-list" y="-1">
       <slot slot="content"></slot>
     </ids-popup>`;
   }
@@ -281,8 +281,8 @@ export default class IdsDropdownList extends Base {
       if (!this.target) {
         this.popup.alignTarget = this;
       }
-
       this.popup.type = 'dropdown';
+      this.popup.container?.classList.add('dropdown');
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'none';
 

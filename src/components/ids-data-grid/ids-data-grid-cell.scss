@@ -144,7 +144,7 @@
     }
 
     .editor-cell-icon {
-      margin-inline-end: 14px;
+      margin-inline-end: 11px;
       margin-block-start: 2px;
       display: none;
     }
@@ -336,6 +336,10 @@
   .ids-data-grid-cell {
     .ids-data-grid-checkbox-container:not(.is-selection-checkbox) {
       padding-inline: var(--ids-data-grid-padding-xxs);
+    }
+
+    &.is-editable.is-editable.is-invalid ids-alert {
+      margin-inline-end: var(--ids-space-10);
     }
   }
 }

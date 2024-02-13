@@ -23,13 +23,16 @@ A normal lookup used as a web component. To distinguish between single and multi
 <ids-lookup id="lookup-1" label="Normal Lookup"></ids-lookup>
 ```
 
-If necessary you can provide your own custom modal to the lookup. When doing this you control the modal contents and events entirely. The lookup will just open it for you.
+If necessary you can provide your own custom modal to the lookup. When doing this you control the modal contents and events entirely. The lookup will just open it for you. Add the `confirm` or the `cancel` attribute to your custom modal-button to set which action should take place.
 
 ```html
 <ids-lookup id="custom-lookup" label="Custom Lookup">
     <ids-modal slot="lookup-modal" id="custom-lookup-modal" aria-labelledby="custom-lookup-modal-title">
     <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Custom Lookup Modal</ids-text>
-    <ids-modal-button slot="buttons" id="modal-close-btn" appearance="primary">
+    <ids-modal-button slot="buttons" cancel id="modal-confirm-btn" appearance="primary">
+        <span>Cancel</span>
+    </ids-modal-button>
+    <ids-modal-button slot="buttons" confirm id="modal-close-btn" appearance="primary">
         <span>Apply</span>
     </ids-modal-button>
     </ids-modal>
