@@ -247,8 +247,8 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.list.setAttribute('size', 'full');
     this.list.setAttribute('attachment', '.ids-data-grid-wrapper');
     this.list.appendToTargetParent();
-    this.list.popupOpenEventsTarget = document.body;
     if (this.list.popup) {
+      this.list.popup.popupOpenEventsTarget = document.body;
       this.list.popup.alignTarget = this.input;
       this.list.popup.type = 'dropdown';
       this.list.popup.container?.classList.add('dropdown');
@@ -398,10 +398,12 @@ export class DatePickerEditor implements IdsDataGridEditor {
       this.popup.slot = 'menu-container';
 
       this.popup.appendToTargetParent();
-      this.popup.popupOpenEventsTarget = document.body;
-      this.popup.onOutsideClick = (e: MouseEvent) => {
-        if (!e.composedPath().includes(popup)) { popup.hide(); }
-      };
+      if (this.popup.popup) {
+        this.popup.popup.popupOpenEventsTarget = document.body;
+        this.popup.popup.onOutsideClick = (e: MouseEvent) => {
+          if (!e.composedPath().includes(popup)) { popup.hide(); }
+        };
+      }
 
       // apply popup required settings
       this.popup.id = `${cell!.column.field}-date-picker-popup`;
@@ -552,10 +554,12 @@ export class TimePickerEditor implements IdsDataGridEditor {
       this.popup.slot = 'menu-container';
 
       this.popup.appendToTargetParent();
-      this.popup.popupOpenEventsTarget = document.body;
-      this.popup.onOutsideClick = (e: MouseEvent) => {
-        if (!e.composedPath().includes(popup)) { popup.hide(); }
-      };
+      if (this.popup.popup) {
+        this.popup.popup.popupOpenEventsTarget = document.body;
+        this.popup.popup.onOutsideClick = (e: MouseEvent) => {
+          if (!e.composedPath().includes(popup)) { popup.hide(); }
+        };
+      }
 
       // apply popup required settings
       this.popup.id = `${cell!.column.field}-time-picker-popup`;
