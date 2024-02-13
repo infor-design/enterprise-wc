@@ -12,7 +12,7 @@ import IdsElement from '../../core/ids-element';
 
 import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { toggleScrollbar, waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { toggleScrollbar, waitForTransitionEnd, getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import '../ids-popup/ids-popup';
@@ -510,7 +510,7 @@ export default class IdsModal extends Base {
     // Focus the correct element
     this.capturesFocus = true;
     if (this.autoFocus) {
-      this.setFocus();
+      this.setFocus(this.#getFocusableElementIndex());
     }
 
     this.addOpenEvents();
@@ -663,7 +663,7 @@ export default class IdsModal extends Base {
   #setFocusIfVisible = async () => {
     this.visible = this.getAttribute('visible');
     if (this.visible && this.autoFocus) {
-      this.setFocus();
+      this.setFocus(this.#getFocusableElementIndex());
     }
   };
 
@@ -763,5 +763,12 @@ export default class IdsModal extends Base {
     const closeButton = this.closeButton;
     this.offEvent('click.modal-close', closeButton);
     closeButton?.remove();
+  }
+
+  /**
+   * @returns {number} the index of the first focusable element in the modal content skipping the toolbar
+   */
+  #getFocusableElementIndex(): number {
+    return this.focusableElements?.findIndex((item: HTMLElement) => !getClosest(item, 'ids-toolbar')) || 0;
   }
 }
