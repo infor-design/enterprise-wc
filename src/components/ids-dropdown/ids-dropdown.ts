@@ -680,7 +680,7 @@ export default class IdsDropdown extends Base {
     if (listbox) listbox.innerHTML = '';
 
     dataset.forEach((option: IdsDropdownOption) => {
-      html += this.#templatelistBoxOption(this.#sanitizeOption(option));
+      html += this.#templateListBoxOption(this.#sanitizeOption(option));
     });
     listbox?.insertAdjacentHTML('afterbegin', html);
     this.dropdownList?.configureBlank();
@@ -726,7 +726,7 @@ export default class IdsDropdown extends Base {
       if (this.input) this.input.value = initialValue || '';
       this.loadDataSet(this.#optionsData);
       (window.getSelection() as Selection).removeAllRanges();
-      this.#triggerIconChange(this.dropdownIcon || 'dropdown');
+      this.#replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
 
     this.container?.classList.remove('is-open');
@@ -858,7 +858,7 @@ export default class IdsDropdown extends Base {
 
     this.offEvent('change.list', this.input);
     this.onEvent('change.list', this.input, (e: CustomEvent) => {
-      if (this.dropdownList?.popup?.visible) this.close();
+      if (this.dropdownList?.popup?.visible && !this.typeahead) this.close();
       this.bubbleEvent(e);
     });
   }
@@ -1010,6 +1010,7 @@ export default class IdsDropdown extends Base {
     const excludeKeys = ['Backspace', 'Delete'];
 
     if (!this.dropdownList?.popup?.visible) {
+      // Open popup if user starts typing (but backspace/delete is not one of keys pressed by user)
       if (!excludeKeys.some((item) => text?.includes(item))) {
         if (this.input) this.input.value = text;
         this.open(false);
@@ -1024,10 +1025,10 @@ export default class IdsDropdown extends Base {
       const regex = new RegExp(inputValue, 'gi');
       const optionText = item.groupLabel ? item.label : item.label?.replace(
         regex,
-        `<span class="highlight">${inputValue?.toLowerCase()}</span>`
+        (matched) => `<span class="highlight">${matched}</span>`
       );
 
-      return this.#templatelistBoxOption({
+      return this.#templateListBoxOption({
         ...item,
         label: optionText
       });
@@ -1047,7 +1048,7 @@ export default class IdsDropdown extends Base {
       this.dropdownList.popup?.place();
     }
 
-    this.#triggerIconChange('search');
+    this.#replaceTriggerIcon('search');
 
     // Remove selected input icon when start typing
     this.input?.querySelector('.trigger-icon')?.remove();
@@ -1092,10 +1093,10 @@ export default class IdsDropdown extends Base {
   }
 
   /**
-   * Helper to replace trigger button icon
+   * Helper to replace icon on the trigger button
    * @param {string} icon ids-icon icon value
    */
-  #triggerIconChange(icon: string) {
+  #replaceTriggerIcon(icon: string) {
     const triggerIcon = this.container?.querySelector<IdsTriggerButton>('ids-trigger-button')?.querySelector<IdsIcon>('ids-icon');
 
     if (triggerIcon?.icon && triggerIcon.icon !== icon) {
@@ -1126,7 +1127,7 @@ export default class IdsDropdown extends Base {
    * @param {IdsDropdownOption} option data object
    * @returns {string} ids-list-box-option template
    */
-  #templatelistBoxOption(option: IdsDropdownOption): string {
+  #templateListBoxOption(option: IdsDropdownOption): string {
     return `<ids-list-box-option
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
@@ -1442,7 +1443,7 @@ export default class IdsDropdown extends Base {
 
   onDropdownIconChange(val: string | null) {
     if (typeof val === 'string' && val.length) {
-      this.#triggerIconChange(this.dropdownIcon || 'dropdown');
+      this.#replaceTriggerIcon(this.dropdownIcon || 'dropdown');
       if (this.dropdownList) this.dropdownList.dropdownIcon = this.dropdownIcon;
     }
   }
