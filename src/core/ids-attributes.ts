@@ -109,6 +109,7 @@ export const attributes = {
   COMPLETED_LABEL: 'completed-label',
   COMPONENT_NAME: 'component-name',
   CONDITION: 'condition',
+  CONFIRM: 'confirm',
   CONTENT_ALIGN: 'content-align',
   COPYRIGHT_YEAR: 'copyright-year',
   COUNT: 'count',

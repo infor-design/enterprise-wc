@@ -12,6 +12,7 @@ type Constraints = IdsConstructor<FieldHeightInterface>;
 // Setting defaults field-heights
 export const FIELD_HEIGHTS: any = {
   default: 'md',
+  xxs: 'xxs',
   xs: 'xs',
   sm: 'sm',
   md: 'md',
