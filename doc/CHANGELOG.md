@@ -1,5 +1,16 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.20
+
+### 1.0.0-beta.20 Fixes
+
+- `[AppMenu]` Added an issue to reclaim space on app menu. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
+- `[Lookup/Datagrid]` Fixed an issue where newer added primary key logic caused selection to select the first row in certain cases. ([#1751](https://github.com/infor-design/enterprise-wc/issues/1751))
+- `[ModuleNav]` Added an example with no header area to ensure it reclaims space. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
+- `[Popupmenu]` Fixed an issue where a popupmenu is in the wrong position on the filter row when in a modal. ([#1766](https://github.com/infor-design/enterprise-wc/issues/1766))
+- `[Pager]` Fixed an issue in angular where the buttons were invisible. ([#1826](https://github.com/infor-design/enterprise-wc/issues/1826))
+- `[Textarea]` Fixed an issue where could not type in textarea. ([#1827](https://github.com/infor-design/enterprise-wc/issues/1827))
+
 ## 1.0.0-beta.19
 
 ### 1.0.0-beta.19 Breaking Changes
@@ -8,6 +19,7 @@
 - `[Colors]` Any settings that use status colors now all use the same values of `error / warning / caution / info / success`, the settings `alert, good, danger` no longer will work. ([#1801](https://github.com/infor-design/enterprise-wc/issues/1801))
 - `[Colors]` Any components that use colors as a setting now use a generic color names instead of previous color words. For example `azure=blue`, `ruby=red`, `amber=yellow` and all color numbers will use the 2x10 digit code (10-100). For example: `color="blue-60"` `color="yellow-60"`. For examples and color samples see the [color palette page](https://main.wc.design.infor.com/ids-color/palette.html). ([#1801](https://github.com/infor-design/enterprise-wc/issues/1801))
 - `[Icons]` Not really breaking but be aware that all icons are changed to the newly designed icons. ([#1801](https://github.com/infor-design/enterprise-wc/issues/1801))
+- `[Text]` `IdsText` was not showing tooltip when tooltip attribute was set dynamically. ([#1638](https://github.com/infor-design/enterprise-wc/issues/1638))
 
 ### 1.0.0-beta.19 Features
 
@@ -16,12 +28,14 @@
 
 ### 1.0.0-beta.19 Fixes
 
+- `[ActionPanel]` Fixed slide from bottom animation style ([#1820](https://github.com/infor-design/enterprise-wc/issues/1820)) ([#1787](https://github.com/infor-design/enterprise-wc/issues/1787))
 - `[AxisChart]` Fixed position of labels in RTL mode. ([#1716](https://github.com/infor-design/enterprise-wc/issues/1716))
 - `[Datagrid]` Datagrid fix for left/right arrow-keys to work inside editable-cell. ([#1588](https://github.com/infor-design/enterprise-wc/issues/1588))
 - `[Dropdown|Multiselect]` Broken Dropdown and Multiselect fixed in Angular. ([#1762](https://github.com/infor-design/enterprise-wc/issues/1762))
 - `[Dropdown]` Prevent dropdown from auto scrolling view when list box is opened. ([#1681](https://github.com/infor-design/enterprise-wc/issues/1681))
 - `[Datagrid]` Fix for empty-data text still showing after adding a grid row. ([#1580](https://github.com/infor-design/enterprise-wc/issues/1580))
 - `[Datagrid]` Fix for RTL direction of datagrid filter header. ([#1669](https://github.com/infor-design/enterprise-wc/issues/1669))
+- `[Checkbox]` Adjust the label to be positioned in the center. ([#1738](https://github.com/infor-design/enterprise-wc/issues/1738))
 - `[Icon]` Fixed a bug where setting `color` did not work. ([#1790](https://github.com/infor-design/enterprise-wc/issues/1790))
 - `[Input]` Renamed internal labels and fixed routines that look for labels to fix an issue with missing labels. ([#1752](https://github.com/infor-design/enterprise-wc/issues/1752))
 - `[ListBuilder]` Fixed spacebar on IdsListBuilder so that input-field properly displays spaces. ([#1768](https://github.com/infor-design/enterprise-wc/issues/1768))

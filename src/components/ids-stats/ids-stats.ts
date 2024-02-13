@@ -63,8 +63,10 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
       attributes.COL_SPAN,
       attributes.ICON,
       attributes.KPI,
+      attributes.KPI_FORMAT,
       attributes.MAIN_LABEL,
       attributes.TREND_LABEL,
+      attributes.KPI_FORMAT,
       attributes.SELECTED,
       attributes.STATUS_COLOR,
       attributes.SUBTITLE

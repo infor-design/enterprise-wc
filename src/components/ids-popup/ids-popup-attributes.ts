@@ -19,7 +19,8 @@ const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== CENTER);
 // Possible animation styles for the Popup
 const ANIMATION_STYLES = [
   'fade',
-  'scale-in'
+  'scale-in',
+  'slide-from-bottom'
 ];
 
 // Arrow Directions (defaults to 'none')
