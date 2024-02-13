@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.20
 
+### 1.0.0-beta.20 Breaking Changes
+
+- `[Popup]` By default, the popup can be closed by clicking outside. ([#1816](https://github.com/infor-design/enterprise-wc/issues/1816))
+
 ### 1.0.0-beta.20 Fixes
 
 - `[AppMenu]` Added an issue to reclaim space on app menu. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))

@@ -159,8 +159,6 @@ export default class IdsDropdownList extends Base {
    * appending of some keyboard handlers
    */
   addOpenEvents() {
-    super.addOpenEvents();
-
     // Handles keyboard arrow navigation inside the list
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       e.stopPropagation();
@@ -218,7 +216,6 @@ export default class IdsDropdownList extends Base {
    * removal of some keyboard handlers
    */
   removeOpenEvents() {
-    super.removeOpenEvents();
     this.unlisten(' ');
     this.unlisten('Enter');
   }

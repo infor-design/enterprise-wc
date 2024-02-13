@@ -793,23 +793,25 @@ export default class IdsDataGridFilters {
           menu.setAttribute(attributes.ATTACHMENT, menuAttachment);
         }
         menu.setAttribute(attributes.TRIGGER_TYPE, 'click');
-        menu.onOutsideClick = () => {
-          menu.hide();
-        };
         menu.removeTriggerEvents();
 
         // Move/Rebind menu (order of these statements matters)
         menu.appendToTargetParent();
-        menu.popupOpenEventsTarget = document.body;
         menu.keyboardEventTarget = this.root;
         menu.attachEventHandlers();
         menu.attachKeyboardListeners();
-        menu.popup.positionStyle = 'fixed';
-        menu.popup.onPlace = (popupRect: DOMRect) => {
-          const isInModal = getClosest(menu, 'ids-modal') !== undefined;
-          if (isInModal) popupRect.y += 58;
-          return popupRect;
-        };
+        if (menu.popup) {
+          menu.popup.popupOpenEventsTarget = document.body;
+          menu.popup.positionStyle = 'fixed';
+          menu.popup.onPlace = (popupRect: DOMRect) => {
+            const isInModal = getClosest(menu, 'ids-modal') !== undefined;
+            if (isInModal) popupRect.y += 58;
+            return popupRect;
+          };
+          menu.popup.onOutsideClick = () => {
+            menu.hide();
+          };
+        }
       }
 
       btn?.setAttribute('data-filter-conditions-button', '');
@@ -817,10 +819,12 @@ export default class IdsDataGridFilters {
       const dateOrTimePopup = datePickerPopup || timePickerPopup;
       if (dateOrTimePopup) {
         dateOrTimePopup.appendToTargetParent();
-        dateOrTimePopup.popupOpenEventsTarget = document.body;
-        dateOrTimePopup.onOutsideClick = (e: MouseEvent) => {
-          if (!e.composedPath().includes(dateOrTimePopup)) { dateOrTimePopup.hide(); }
-        };
+        if (dateOrTimePopup.popup) {
+          dateOrTimePopup.popup.popupOpenEventsTarget = document.body;
+          dateOrTimePopup.popup.onOutsideClick = (e: MouseEvent) => {
+            if (!e.composedPath().includes(dateOrTimePopup)) { dateOrTimePopup.hide(); }
+          };
+        }
         dateOrTimePopup.setAttribute(attributes.TRIGGER_TYPE, 'click');
         dateOrTimePopup.setAttribute(attributes.TARGET, `#${triggerField.getAttribute('id')}`);
         dateOrTimePopup.setAttribute(attributes.TRIGGER_ELEM, `#${triggerBtn.getAttribute('id')}`);
@@ -851,7 +855,9 @@ export default class IdsDataGridFilters {
         dropdown.input.value = (dropdownList.selected || dropdownList.listBox?.children[0])?.textContent || '';
         dropdownList.setAttribute(attributes.ATTACHMENT, menuAttachment);
         dropdownList.appendToTargetParent();
-        dropdownList.popupOpenEventsTarget = document.body;
+        if (dropdownList.popup) {
+          dropdownList.popup.popupOpenEventsTarget = document.body;
+        }
         dropdownList.setAttribute(attributes.TRIGGER_TYPE, 'custom');
         dropdownList.setAttribute(attributes.TARGET, `#${dropdown.getAttribute('id')}`);
         dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${dropdown.getAttribute('id')}`);
