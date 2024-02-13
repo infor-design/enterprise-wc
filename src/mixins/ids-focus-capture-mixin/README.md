@@ -7,6 +7,7 @@ This mixin adds two observed attributes to a component:
 - `captures-focus`: if true, does not allow keyboard focus (using Tab/Shift+Tab keystrokes) to navigate away from the host component.
 - `cycles-focus`: if true, along with `captures-focus`, causes keyboard focus to "loop" or "cycle" around to the first/last available focusable item.
 - `focus-inline` if true, uses the component's Shadow Root instead of its slots to capture focused elements (captures focus internally vs externally)
+- `auto-focus` automatically focuses an element inside the component when set to true. Defaults to true
 
 Additionally, several convenience properties are added containing references to first/last/next/previously focusable items.
 

@@ -509,7 +509,9 @@ export default class IdsModal extends Base {
 
     // Focus the correct element
     this.capturesFocus = true;
-    this.setFocus('last');
+    if (this.autoFocus) {
+      this.setFocus();
+    }
 
     this.addOpenEvents();
     this.triggerEvent('show', this, {
@@ -660,8 +662,8 @@ export default class IdsModal extends Base {
    */
   #setFocusIfVisible = async () => {
     this.visible = this.getAttribute('visible');
-    if (this.visible) {
-      this.setFocus('last');
+    if (this.visible && this.autoFocus) {
+      this.setFocus();
     }
   };
 
