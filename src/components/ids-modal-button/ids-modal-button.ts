@@ -31,7 +31,8 @@ export default class IdsModalButton extends IdsButton {
   static get attributes(): Array<string> {
     return [
       ...super.attributes,
-      attributes.CANCEL
+      attributes.CONFIRM,
+      attributes.CANCEL,
     ];
   }
 
