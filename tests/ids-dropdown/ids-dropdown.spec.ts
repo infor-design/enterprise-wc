@@ -64,7 +64,7 @@ test.describe('IdsDropdown tests', () => {
     });
   });
 
-  test.describe('IdsDropdown events', () => {
+  test.describe('event tests', () => {
     test('should fire a change event', async ({ page }) => {
       const eventFiredCount = await page.evaluate(() => {
         let changeCount = 0;
@@ -75,6 +75,96 @@ test.describe('IdsDropdown tests', () => {
       });
 
       expect(eventFiredCount).toEqual(1);
+    });
+  });
+
+  test.describe('functionality tests', () => {
+    test('can set the readonly attribute', async ({ page }) => {
+      const isReadonly = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.readonly = true;
+        return dropdown?.readonly;
+      });
+      expect(isReadonly).toBeTruthy();
+      expect(await page.locator('ids-dropdown').first().getAttribute('readonly')).toBeTruthy();
+
+      const isReadonly2 = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.readonly = false;
+        return dropdown?.readonly;
+      });
+      expect(isReadonly2).toBeFalsy();
+      expect(await page.locator('ids-dropdown').first().getAttribute('readonly')).toBeFalsy();
+
+      const isReadonly3 = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.setAttribute('readonly', 'true');
+        return dropdown?.readonly;
+      });
+      expect(isReadonly3).toBeTruthy();
+      expect(await page.locator('ids-dropdown').first().getAttribute('readonly')).toBeTruthy();
+
+      const isReadonly4 = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.setAttribute('readonly', 'false');
+        return dropdown?.readonly;
+      });
+      expect(isReadonly4).toBeFalsy();
+      expect(await page.locator('ids-dropdown').first().getAttribute('readonly')).toBeFalsy();
+    });
+
+    test('can set the disabled attribute', async ({ page }) => {
+      const isDisabled = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.disabled = true;
+        return dropdown?.disabled;
+      });
+      expect(isDisabled).toBeTruthy();
+      expect(await page.locator('ids-dropdown').first().getAttribute('disabled')).toBeTruthy();
+
+      const isDisabled2 = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.disabled = false;
+        return dropdown?.disabled;
+      });
+      expect(isDisabled2).toBeFalsy();
+      expect(await page.locator('ids-dropdown').first().getAttribute('disabled')).toBeFalsy();
+
+      const isDisabled3 = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.setAttribute('disabled', 'true');
+        return dropdown?.disabled;
+      });
+      expect(isDisabled3).toBeTruthy();
+      expect(await page.locator('ids-dropdown').first().getAttribute('disabled')).toBeTruthy();
+
+      const isDisabled4 = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.setAttribute('disabled', 'false');
+        return dropdown?.disabled;
+      });
+      expect(isDisabled4).toBeFalsy();
+      expect(await page.locator('ids-dropdown').first().getAttribute('disabled')).toBeFalsy();
+    });
+
+    test('can set allow blank', async ({ page }) => {
+      const values = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.allowBlank = true;
+        dropdown.value = 'blank';
+        return [dropdown?.allowBlank, dropdown.value];
+      });
+
+      expect(values[0]).toBeTruthy();
+      expect(values[1]).toEqual('blank');
+
+      const values2 = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.allowBlank = false;
+        return [dropdown?.allowBlank, dropdown.value];
+      });
+      expect(values2[0]).toBeFalsy();
+      expect(values2[1]).toBeNull();
     });
   });
 });
