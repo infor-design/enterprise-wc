@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.21
+
+### 1.0.0-beta.21 Fixes
+
+- `[DataGrid]` Added dirty tracker to checkbox editor. ([#1747](https://github.com/infor-design/enterprise-wc/issues/1747))
+
 ## 1.0.0-beta.20
 
 ### 1.0.0-beta.20 Breaking Changes
