@@ -357,6 +357,7 @@ class IdsMultiselect extends IdsDropdown {
           option.selected = true;
           selectedOptions.push(option);
         } else {
+          option.selected = false;
           unselectedOptions.push(option);
         }
       });
