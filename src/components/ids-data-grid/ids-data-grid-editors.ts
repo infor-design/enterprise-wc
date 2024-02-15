@@ -247,15 +247,16 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.list.setAttribute('size', 'full');
     this.list.setAttribute('attachment', '.ids-data-grid-wrapper');
     this.list.appendToTargetParent();
-    this.list.popupOpenEventsTarget = document.body;
     if (this.list.popup) {
+      this.list.popup.popupOpenEventsTarget = document.body;
+      this.list.popup.positionStyle = 'fixed';
       this.list.popup.alignTarget = this.input;
       this.list.popup.type = 'dropdown';
       this.list.popup.container?.classList.add('dropdown');
       this.list.popup.onPlace = (popupRect: DOMRect) => {
-        popupRect.x -= 1;
-        const margin = cell?.dataGrid?.rowHeight === 'xxs' ? 3 : 0;
-        popupRect.y = (this.input?.getBoundingClientRect().bottom || 0) - margin;
+        const margin = cell?.dataGrid?.rowHeight === 'xxs' ? -3 : 0;
+        popupRect.y = (this.input?.getBoundingClientRect().bottom || 0) + margin;
+        popupRect.x = (this.input?.getBoundingClientRect().x || 0) - 1;
         return popupRect;
       };
     }
@@ -264,7 +265,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.size = 'full';
     this.input.labelState = 'collapsed';
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
-    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
+    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
 
     this.#attchEventListeners();
@@ -398,10 +399,12 @@ export class DatePickerEditor implements IdsDataGridEditor {
       this.popup.slot = 'menu-container';
 
       this.popup.appendToTargetParent();
-      this.popup.popupOpenEventsTarget = document.body;
-      this.popup.onOutsideClick = (e: MouseEvent) => {
-        if (!e.composedPath().includes(popup)) { popup.hide(); }
-      };
+      if (this.popup.popup) {
+        this.popup.popup.popupOpenEventsTarget = document.body;
+        this.popup.popup.onOutsideClick = (e: MouseEvent) => {
+          if (!e.composedPath().includes(popup)) { popup.hide(); }
+        };
+      }
 
       // apply popup required settings
       this.popup.id = `${cell!.column.field}-date-picker-popup`;
@@ -552,10 +555,12 @@ export class TimePickerEditor implements IdsDataGridEditor {
       this.popup.slot = 'menu-container';
 
       this.popup.appendToTargetParent();
-      this.popup.popupOpenEventsTarget = document.body;
-      this.popup.onOutsideClick = (e: MouseEvent) => {
-        if (!e.composedPath().includes(popup)) { popup.hide(); }
-      };
+      if (this.popup.popup) {
+        this.popup.popup.popupOpenEventsTarget = document.body;
+        this.popup.popup.onOutsideClick = (e: MouseEvent) => {
+          if (!e.composedPath().includes(popup)) { popup.hide(); }
+        };
+      }
 
       // apply popup required settings
       this.popup.id = `${cell!.column.field}-time-picker-popup`;

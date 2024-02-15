@@ -70,7 +70,6 @@ const Base = IdsMonthViewAttributeMixin(
 class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
   constructor() {
     super();
-    this.#value = '';
   }
 
   protected expandableArea: IdsExpandableArea | null | undefined;
@@ -608,14 +607,12 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
     }
   }
 
-  #value: string;
-
   /**
    * value attribute
    * @returns {string} value param
    */
   get value(): string {
-    return this.#value;
+    return this.getAttribute(attributes.VALUE) || '';
   }
 
   /**
@@ -624,7 +621,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
    */
   set value(val: string | null) {
     if (!val) {
-      this.#value = '';
       this.dateValue = null;
       this.removeAttribute(attributes.VALUE);
       return;
@@ -645,7 +641,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
     }
 
     this.setAttribute(attributes.VALUE, val);
-    this.#value = val;
     this.timepicker?.setAttribute(attributes.VALUE, val);
   }
 

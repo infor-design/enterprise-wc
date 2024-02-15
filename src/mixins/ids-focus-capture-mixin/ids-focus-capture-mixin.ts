@@ -25,6 +25,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
   static get attributes() {
     return [
       ...(superclass as any).attributes,
+      attributes.AUTO_FOCUS,
       attributes.CAPTURES_FOCUS,
       attributes.CYCLES_FOCUS,
       attributes.FOCUS_INLINE
@@ -286,7 +287,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
           break;
       }
       requestAnimationFrame(() => {
-        focusable[safeIndex].focus();
+        focusable[safeIndex]?.focus();
       });
     }
 
@@ -300,7 +301,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
    * @returns {void}
    */
   gainFocus(index = 0) {
-    if (!this.contains(this.#hostNode.activeElement)) {
+    if (!this.contains(this.#hostNode.activeElement) && this.autoFocus) {
       this.setFocus(index);
     }
   }
@@ -332,6 +333,28 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
    */
   get focusInline() {
     return this.hasAttribute(attributes.FOCUS_INLINE);
+  }
+
+  /**
+   * Whether or not to focus on the first focusable element when the component is shown
+   * @param {string | boolean | null} val value to be set as auto-focus attribute converted to boolean
+   */
+  set autoFocus(val: boolean | string | null) {
+    const boolVal = stringToBool(val);
+    this.setAttribute(attributes.AUTO_FOCUS, String(boolVal));
+  }
+
+  /**
+   * auto-focus attribute, default is true
+   * @returns {boolean} autoFocus param converted to boolean from attribute value
+   */
+  get autoFocus(): boolean {
+    const attrVal = this.getAttribute(attributes.AUTO_FOCUS);
+    if (attrVal) {
+      return stringToBool(attrVal);
+    }
+
+    return true;
   }
 };
 

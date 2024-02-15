@@ -2,15 +2,28 @@
 
 ## 1.0.0-beta.20
 
+### 1.0.0-beta.20 Breaking Changes
+
+- `[Popup]` By default, the popup can be closed by clicking outside. ([#1816](https://github.com/infor-design/enterprise-wc/issues/1816))
+
 ### 1.0.0-beta.20 Fixes
 
 - `[AppMenu]` Added an issue to reclaim space on app menu. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
+- `[Dropdown]` Fixed position and styling issue on some frameworks (standalone examples). ([#1834](https://github.com/infor-design/enterprise-wc/issues/1834))
+- `[Dropdown/Datagrid]` Added style fixes to position the dropdown better next to the cell. ([#1770](https://github.com/infor-design/enterprise-wc/issues/1770))
+- `[Input/Textarea]` Fix double input and change events. ([#1765](https://github.com/infor-design/enterprise-wc/issues/1765))
 - `[Lookup/Datagrid]` Fixed an issue where newer added primary key logic caused selection to select the first row in certain cases. ([#1751](https://github.com/infor-design/enterprise-wc/issues/1751))
+- `[Lookup]` Fix "Apply" button on `ids-lookup` so that it properly closes modal. ([#1670](https://github.com/infor-design/enterprise-wc/issues/1670))
 - `[ModuleNav]` Added an example with no header area to ensure it reclaims space. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
 - `[Multiselect]` Fixed issue in `ids-multiselect` where deselection would cause options to lose their sort-order in Angular. ([#1709](https://github.com/infor-design/enterprise-wc/issues/1709))
 - `[Popupmenu]` Fixed an issue where a popupmenu is in the wrong position on the filter row when in a modal. ([#1766](https://github.com/infor-design/enterprise-wc/issues/1766))
 - `[Pager]` Fixed an issue in angular where the buttons were invisible. ([#1826](https://github.com/infor-design/enterprise-wc/issues/1826))
+- `[Text]` Fix attribute order bug where a rerender ignores font weight. ([#1775](https://github.com/infor-design/enterprise-wc/issues/1775))
 - `[Textarea]` Fixed an issue where could not type in textarea. ([#1827](https://github.com/infor-design/enterprise-wc/issues/1827))
+
+### 1.0.0-beta.20 Features
+
+- `[FocusCaptureMixin]` Added `auto-focus` setting. ([#1675](https://github.com/infor-design/enterprise-wc/issues/1675))
 
 ## 1.0.0-beta.19
 

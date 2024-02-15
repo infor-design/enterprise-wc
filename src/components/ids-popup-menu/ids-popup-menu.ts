@@ -5,7 +5,6 @@ import { getElementAtMouseLocation, validMaxHeight } from '../../utils/ids-dom-u
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
-import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 
@@ -16,12 +15,10 @@ import IdsMenu from '../ids-menu/ids-menu';
 
 import styles from './ids-popup-menu.scss';
 
-const Base = IdsPopupOpenEventsMixin(
-  IdsPopupInteractionsMixin(
-    IdsLocaleMixin(
-      IdsAttachmentMixin(
-        IdsMenu
-      )
+const Base = IdsPopupInteractionsMixin(
+  IdsLocaleMixin(
+    IdsAttachmentMixin(
+      IdsMenu
     )
   )
 );
@@ -30,7 +27,6 @@ const Base = IdsPopupOpenEventsMixin(
  * IDS Popup Menu Component
  * @type {IdsPopupMenu}
  * @inherits IdsMenu
- * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsAttachmentMixin
@@ -87,6 +83,9 @@ export default class IdsPopupMenu extends Base {
     if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
     this.configureSubmenuAlignment();
     this.setOnPlace(!!this.parentMenuItem);
+    if (this.popup) {
+      this.popup.onOutsideClick = this.onOutsideClick.bind(this);
+    }
   }
 
   /**
@@ -94,7 +93,7 @@ export default class IdsPopupMenu extends Base {
    */
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
-    if (this.hasOpenEvents) {
+    if (this.popup?.hasOpenEvents) {
       this.hide();
     }
     this.#removeMutationObservers();
@@ -295,7 +294,7 @@ export default class IdsPopupMenu extends Base {
     // Hide the Ids Popup and all Submenus
     this.popup.visible = false;
     this.hideSubmenus();
-    this.removeOpenEvents();
+    this.popup?.removeOpenEvents();
     this.#removeMutationObservers();
     this.startHiddenTimer();
   }
@@ -342,7 +341,7 @@ export default class IdsPopupMenu extends Base {
       }
     });
 
-    this.addOpenEvents();
+    this.popup?.addOpenEvents();
   }
 
   #setVisibleARIA(): void {

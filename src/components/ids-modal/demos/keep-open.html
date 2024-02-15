@@ -13,12 +13,12 @@
     <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-modal id="my-modal" aria-labelledby="my-modal-title">
       <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
-      <ids-modal-button slot="buttons" id="modal-close-btn" appearance="primary">
-        <span>OK</span>
-      </ids-modal-button>
       <ids-text>The checkbox below controls whether or not a user can click in the overlay to close this Modal</ids-text>
       <br>
       <ids-checkbox label="Allow the modal to close by clicking outside" checked></ids-checkbox>
+      <ids-modal-button slot="buttons" id="modal-close-btn" appearance="primary">
+        <span>OK</span>
+      </ids-modal-button>
     </ids-modal>
 
     <ids-layout-grid auto-fit="true" padding="md">

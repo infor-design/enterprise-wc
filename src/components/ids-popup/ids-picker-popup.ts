@@ -2,17 +2,14 @@ import { customElement } from '../../core/ids-decorators';
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsFocusCaptureMixin from '../../mixins/ids-focus-capture-mixin/ids-focus-capture-mixin';
-import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsFocusCaptureMixin(
-  IdsPopupOpenEventsMixin(
-    IdsPopupInteractionsMixin(
-      IdsEventsMixin(
-        IdsAttachmentMixin(
-          IdsElement
-        )
+  IdsPopupInteractionsMixin(
+    IdsEventsMixin(
+      IdsAttachmentMixin(
+        IdsElement
       )
     )
   )
@@ -25,7 +22,6 @@ const Base = IdsFocusCaptureMixin(
  * @mixes IdsAttachmentMixin
  * @mixes IdsEventsMixin
  * @mixes IdsPopupInteractionsMixin
- * @mixes IdsPopupOpenEventsMixin
  */
 
 export interface IdsPickerPopupCallbacks {
@@ -41,6 +37,9 @@ class IdsPickerPopup extends Base implements IdsPickerPopupCallbacks {
 
   connectedCallback() {
     super.connectedCallback();
+    if (this.popup) {
+      this.popup.onOutsideClick = this.onOutsideClick.bind(this);
+    }
   }
 
   disconnectedCallback(): void {
@@ -84,13 +83,13 @@ class IdsPickerPopup extends Base implements IdsPickerPopupCallbacks {
   async hide(doFocus?: boolean): Promise<void> {
     if (!this.popup?.visible) return;
 
-    this.removeOpenEvents();
-
     // Hide the Ids Popup and all Submenus
     this.popup.visible = false;
     await this.popup.hide();
 
     if (typeof this.onHide === 'function') this.onHide();
+    this.popup?.removeOpenEvents();
+
     this.triggerEvent('hide', this, {
       bubbles: true,
       detail: {
@@ -122,14 +121,15 @@ class IdsPickerPopup extends Base implements IdsPickerPopupCallbacks {
     this.popup.show();
 
     if (typeof this.onShow === 'function') this.onShow();
+
+    this.popup?.addOpenEvents();
+
     this.triggerEvent('show', this, {
       bubbles: true,
       detail: {
         elem: this
       }
     });
-
-    this.addOpenEvents();
   }
 
   /**

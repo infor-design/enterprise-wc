@@ -67,7 +67,7 @@ export default class IdsDropdownList extends Base {
   colorVariants: Array<string> = IdsDropdownColorVariants;
 
   template() {
-    return `<ids-popup class="ids-dropdown-list" type="menu" part="dropdown-list" y="-1">
+    return `<ids-popup class="ids-dropdown-list" type="dropdown" part="dropdown-list" y="-1">
       <slot slot="content"></slot>
     </ids-popup>`;
   }
@@ -159,8 +159,6 @@ export default class IdsDropdownList extends Base {
    * appending of some keyboard handlers
    */
   addOpenEvents() {
-    super.addOpenEvents();
-
     // Handles keyboard arrow navigation inside the list
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       e.stopPropagation();
@@ -218,7 +216,6 @@ export default class IdsDropdownList extends Base {
    * removal of some keyboard handlers
    */
   removeOpenEvents() {
-    super.removeOpenEvents();
     this.unlisten(' ');
     this.unlisten('Enter');
   }
@@ -284,8 +281,8 @@ export default class IdsDropdownList extends Base {
       if (!this.target) {
         this.popup.alignTarget = this;
       }
-
       this.popup.type = 'dropdown';
+      this.popup.container?.classList.add('dropdown');
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'none';
 
