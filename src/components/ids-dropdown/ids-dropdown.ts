@@ -857,12 +857,6 @@ export default class IdsDropdown extends Base {
         this.triggerSelectedEvent(e);
       });
     }
-
-    this.offEvent('change.list', this.input);
-    this.onEvent('change.list', this.input, (e: CustomEvent) => {
-      if (this.dropdownList?.popup?.visible) this.close();
-      this.bubbleEvent(e);
-    });
   }
 
   /**

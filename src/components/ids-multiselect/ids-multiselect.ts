@@ -149,17 +149,6 @@ class IdsMultiselect extends IdsDropdown {
     (this.container as HTMLInputElement).value = '';
     this.#updateDisplay();
     this.#updateList();
-
-    // Send the change event
-    if (this.value === value) {
-      this.triggerEvent('change', this, {
-        bubbles: true,
-        detail: {
-          elem: this,
-          value: this.value
-        }
-      });
-    }
     this.internalSelectedList = value;
 
     this.container?.classList.toggle('has-value', value.length > 0);
@@ -279,7 +268,11 @@ class IdsMultiselect extends IdsDropdown {
         : [...this.internalSelectedList, value];
 
       if (checkbox) {
+        checkbox.onEvent('change', checkbox, (e: CustomEvent) => {
+          e.stopPropagation();
+        });
         checkbox.checked = !isSelected;
+        checkbox.offEvent('change', checkbox);
       }
 
       if (this.tags) {

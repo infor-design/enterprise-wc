@@ -802,9 +802,9 @@ export default class IdsDataGridFilters {
         menu.attachKeyboardListeners();
         if (menu.popup) {
           menu.popup.popupOpenEventsTarget = document.body;
-          menu.popup.positionStyle = 'fixed';
+          const isInModal = getClosest(menu, 'ids-modal') !== undefined;
+          menu.popup.positionStyle = isInModal ? 'fixed' : 'absolute';
           menu.popup.onPlace = (popupRect: DOMRect) => {
-            const isInModal = getClosest(menu, 'ids-modal') !== undefined;
             if (isInModal) popupRect.y += 58;
             return popupRect;
           };

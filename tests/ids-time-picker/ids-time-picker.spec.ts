@@ -46,12 +46,24 @@ test.describe('IdsTimePicker tests', () => {
     });
   });
 
-  test.describe('IdsTimePicker events', () => {
+  test.describe('event tests', () => {
     test('should fire change event', async ({ page }) => {
       const eventFiredCount = await page.evaluate(() => {
         let changeCount = 0;
         const timePicker = document.querySelector('ids-time-picker') as IdsTimePicker;
         timePicker.addEventListener('change', () => { changeCount++; });
+        timePicker.value = '3:15 PM';
+        return changeCount;
+      });
+
+      expect(eventFiredCount).toEqual(1);
+    });
+
+    test('should fire input event', async ({ page }) => {
+      const eventFiredCount = await page.evaluate(() => {
+        let changeCount = 0;
+        const timePicker = document.querySelector('ids-time-picker') as IdsTimePicker;
+        timePicker.addEventListener('input', () => { changeCount++; });
         timePicker.value = '3:15 PM';
         return changeCount;
       });

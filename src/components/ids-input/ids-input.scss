@@ -630,8 +630,7 @@ $input-size-full: 100%;
 
 
   &:not([class*='color-variant-']) {
-    /* stylelint-disable-next-line no-duplicate-selectors */
-    .field-container {
+    .field-container:not(:focus-within) {
       background-color: var(--ids-input-color-background-default);
       border-color: var(--ids-input-color-border-default);
       color: var(--ids-input-color-text);
@@ -683,11 +682,21 @@ $input-size-full: 100%;
       }
     }
 
-    &.is-active,
-    &:hover:not(.readonly):not(.disabled),
+
+    &:hover:not(.readonly):not(.disabled):not(:focus):not(:focus-within),
     &:hover.readonly.readonly-background {
       .field-container {
         border-color: var(--ids-input-color-border-hover);
+      }
+
+      // Include error styles
+      @include ids-input-message-styles();
+    }
+
+    &.is-active,
+    &.is-active:hover.readonly.readonly-background {
+      .field-container {
+        border-color: var(--ids-input-color-border-focus);
       }
 
       // Include error styles

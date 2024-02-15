@@ -76,6 +76,18 @@ test.describe('IdsDropdown tests', () => {
 
       expect(eventFiredCount).toEqual(1);
     });
+
+    test('should fire an input event', async ({ page }) => {
+      const eventFiredCount = await page.evaluate(() => {
+        let changeCount = 0;
+        const dropdown = document.querySelector('ids-dropdown') as IdsDropdown;
+        dropdown?.addEventListener('input', () => { changeCount++; });
+        dropdown.value = 'hi';
+        return changeCount;
+      });
+
+      expect(eventFiredCount).toEqual(1);
+    });
   });
 
   test.describe('functionality tests', () => {
