@@ -11,6 +11,7 @@ import '../../ids-spinbox/ids-spinbox';
 import '../../ids-switch/ids-switch';
 import '../../ids-time-picker/ids-time-picker';
 import '../../ids-upload/ids-upload';
+import '../../ids-multiselect/ids-multiselect';
 
 const form = (document.querySelector('#sample-form') as any);
 const toggleCompactBtn = (document.querySelector('#btn-toggle-compact') as any);
@@ -22,4 +23,11 @@ form.addEventListener('submit', (e: CustomEvent) => {
 
 toggleCompactBtn?.addEventListener('click', () => {
   form?.setAttribute('compact', !form?.compact);
+});
+
+document.querySelector('ids-multiselect')?.addEventListener('change', (e) => {
+  console.info(`Multiselect change event fired`, (e.target as any).value);
+});
+document.querySelector('ids-multiselect')?.addEventListener('input', (e) => {
+  console.info(`Multiselect input event fired`, (e.target as any).value);
 });

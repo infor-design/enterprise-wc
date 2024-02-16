@@ -105,11 +105,11 @@ export default class IdsListBoxOption extends Base {
     if (stringToBool(val)) {
       this.setAttribute(attributes.SELECTED, 'true');
       this.container?.classList.add('is-selected');
-      this.childCheckbox?.setAttribute('checked', 'true');
+      if (this.childCheckbox) this.childCheckbox.checked = true;
     } else {
       this.removeAttribute(attributes.SELECTED);
       this.container?.classList.remove('is-selected');
-      this.childCheckbox?.removeAttribute('checked');
+      if (this.childCheckbox) this.childCheckbox.checked = false;
     }
   }
 

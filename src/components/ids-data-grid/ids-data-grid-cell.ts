@@ -362,12 +362,13 @@ export default class IdsDataGridCell extends IdsElement {
     }
 
     const isDirty = column.editor?.editorSettings?.dirtyTracker && (input?.isDirty || input?.input.isDirty);
+    const isDirtyCheckbox = column.editor?.editorSettings?.dirtyTracker && editorType === 'checkbox';
     const isValid = column.editor?.editorSettings?.validate ? input?.isValid : true;
     const newValue = this.editor?.save(this);
     this.#saveCellValue(newValue?.value);
 
     // Save dirty and valid state on the row
-    if (isDirty) this.#saveDirtyState(newValue?.dirtyCheckValue ?? newValue?.value);
+    if (isDirty || isDirtyCheckbox) this.#saveDirtyState(newValue?.dirtyCheckValue ?? newValue?.value);
     if (!isValid) this.#saveValidState(input?.validationMessages);
     if (this.isInValid && isValid) this.#resetValidState();
 
@@ -449,10 +450,12 @@ export default class IdsDataGridCell extends IdsElement {
     this?.classList.add('is-dirty');
 
     if (previousCellInfo.length === 0) {
+      const originalValue = this?.editor?.type === 'checkbox' ? this.originalValue : (this?.editor?.input as any)?.dirty?.original;
+
       rowDirtyCells.push({
         cell: Number(this?.getAttribute('aria-colindex')) - 1,
         columnId: this.column.id,
-        originalValue: (this?.editor?.input as any)?.dirty?.original
+        originalValue,
       });
       this.dataGrid?.updateDataset(this.row, {
         dirtyCells: rowDirtyCells

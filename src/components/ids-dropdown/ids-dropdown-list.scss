@@ -19,7 +19,7 @@
 }
 
 :host([size='md']) ids-popup {
-  max-width: var(--ids-input-width-40);
+  max-width: calc(var(--ids-input-width-40) - 2px);
 }
 
 :host([size='lg']) ids-popup {

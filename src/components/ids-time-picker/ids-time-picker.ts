@@ -222,38 +222,36 @@ export default class IdsTimePicker extends Base {
     const fieldId = this.input?.getAttribute('id');
     const btn = this.triggerButton;
     const btnId = btn?.getAttribute('id');
-    const picker = this.picker;
 
-    if (picker) {
-      picker.format = this.format;
+    if (this.picker) {
+      this.picker.format = this.format;
 
       if (this.input) {
-        picker.value = this.input.value;
+        this.picker.value = this.input.value;
       }
 
       if (btn) {
-        picker.setAttribute(attributes.TARGET, `#${fieldId}`);
-        picker.setAttribute(attributes.TRIGGER_TYPE, 'click');
-        picker.setAttribute(attributes.TRIGGER_ELEM, `#${btnId}`);
+        this.picker.setAttribute(attributes.TARGET, `#${fieldId}`);
+        this.picker.setAttribute(attributes.TRIGGER_TYPE, 'click');
+        this.picker.setAttribute(attributes.TRIGGER_ELEM, `#${btnId}`);
 
-        if (picker.popup) {
-          picker.popup.x = 0;
-          picker.popup.setAttribute(attributes.ARROW_TARGET, `#${btnId}`);
-          picker.popup.onXYSwitch = onPickerPopupXYSwitch;
-          picker.popup.onOutsideClick = (e: any) => {
-            const path = e.composedPath && e.composedPath();
-            if (!path?.includes(picker) && !path?.includes(this.input)) {
-              picker.hide();
+        if (this.picker.popup) {
+          this.picker.popup.x = 0;
+          this.picker.popup.setAttribute(attributes.ARROW_TARGET, `#${btnId}`);
+          this.picker.popup.onXYSwitch = onPickerPopupXYSwitch;
+          this.picker.popup.onOutsideClick = (e: Event) => {
+            if (this.picker && !e.composedPath()?.includes(this.picker)) {
+              this.picker.hide();
             }
           };
         }
 
-        picker.onTriggerClick = () => {
+        this.picker.onTriggerClick = () => {
           if (this.disabled || this.readonly) return;
-          picker?.toggleVisibility();
+          this.picker?.toggleVisibility();
         };
 
-        if (picker.refreshTriggerEvents) picker.refreshTriggerEvents();
+        if (this.picker.refreshTriggerEvents) this.picker.refreshTriggerEvents();
       }
     }
   }
@@ -316,13 +314,6 @@ export default class IdsTimePicker extends Base {
           this.picker.show();
         }
       }
-    });
-
-    // Change component value on input value change
-    this.offEvent('change.time-picker-input');
-    this.onEvent('change.time-picker-input', this.input, (e: any) => {
-      this.setAttribute(attributes.VALUE, e.detail.value);
-      this.bubbleEvent(e);
     });
 
     return this;
