@@ -172,14 +172,14 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
    * @see ElementInternals.validity
    * @returns {ValidityState} - Returns the ValidityState object for internals's target element.
    */
-  get validity(): ValidityState { return this.#internals?.validity; }
+  get validity(): ValidityState { return this.#internals?.validity as any; }
 
   /**
    * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/validationMessage
    * @see ElementInternals.validationMessage
    * @returns {string} - error message that would be shown to the user
    */
-  get validationMessage(): string { return this.#internals?.validationMessage; }
+  get validationMessage(): string { return this.#internals?.validationMessage as any; }
 
   /**
    * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/willValidate
@@ -193,14 +193,14 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
    * @see ElementInternals.checkValidity()
    * @returns {boolean} - true if internals's target element has no validity problems
    */
-  checkValidity(): boolean { return this.#internals?.checkValidity?.(); }
+  checkValidity(): boolean { return this.#internals?.checkValidity?.() as any; }
 
   /**
    * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/reportValidity
    * @see ElementInternals.reportValidity()
    * @returns {boolean} - true if internals's target element has no validity problems
    */
-  reportValidity(): boolean { return this.#internals?.reportValidity?.(); }
+  reportValidity(): boolean { return this.#internals?.reportValidity?.() as any; }
 
   /**
    * Called when the associated form-element changes to the form param.

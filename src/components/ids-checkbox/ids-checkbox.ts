@@ -210,9 +210,9 @@ export default class IdsCheckbox extends Base {
 
   /**
    * Sets the checkbox color to one of the colors in our color palette for example green
-   * @param {boolean|string} value If true will set `color` attribute
+   * @param {IdsColorValueCategories} value If true will set `color` attribute
    */
-  set color(value: boolean | IdsColorValueCategories) {
+  set color(value: IdsColorValueCategories) {
     const rootEl = this.shadowRoot?.querySelector('.ids-checkbox');
     if (value) {
       this.setAttribute(attributes.COLOR, value.toString());
@@ -223,7 +223,7 @@ export default class IdsCheckbox extends Base {
     }
   }
 
-  get color(): string | null { return this.getAttribute(attributes.COLOR); }
+  get color(): IdsColorValueCategories { return this.getAttribute(attributes.COLOR) as IdsColorValueCategories; }
 
   /**
    * Sets input to disabled

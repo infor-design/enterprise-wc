@@ -285,14 +285,14 @@ export default class IdsModal extends Base {
     }
   }
 
-  get showCloseButton(): string | null {
+  get showCloseButton(): boolean {
     const attrValue = this.getAttribute(attributes.SHOW_CLOSE_BUTTON);
 
     if (typeof attrValue === 'string') {
-      return VALID_POSITIONS.includes(attrValue) ? attrValue : 'right';
+      return stringToBool(VALID_POSITIONS.includes(attrValue) ? attrValue : 'right');
     }
 
-    return null;
+    return stringToBool(null);
   }
 
   get closeButton(): HTMLElement | null {

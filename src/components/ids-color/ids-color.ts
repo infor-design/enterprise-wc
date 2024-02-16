@@ -186,7 +186,7 @@ export default class IdsColor extends Base {
     return stringToBool(this.getAttribute(attributes.CLICKABLE) || true);
   }
 
-  /** @param {string} value Use a css variable for the color */
+  /** @param {IdsColorValue} value Use a css variable for the color */
   set color(value: IdsColorValue) {
     if (value) {
       this.container?.classList.remove('no-color');
@@ -202,8 +202,8 @@ export default class IdsColor extends Base {
   }
 
   /** @returns {string} Use a css variable for the color */
-  get color(): string {
-    return this.getAttribute(attributes.COLOR) || '';
+  get color(): IdsColorValue {
+    return this.getAttribute(attributes.COLOR) as IdsColorValue;
   }
 
   /** Show this color swatch's tooltip */

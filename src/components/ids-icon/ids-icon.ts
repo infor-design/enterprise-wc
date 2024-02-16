@@ -446,8 +446,8 @@ export default class IdsIcon extends Base {
     }
   }
 
-  get statusColor(): string {
-    return this.getAttribute(attributes.STATUS_COLOR) || '';
+  get statusColor(): IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueCategories {
+    return this.getAttribute(attributes.STATUS_COLOR) || '' as any;
   }
 
   /**
@@ -464,8 +464,8 @@ export default class IdsIcon extends Base {
     }
   }
 
-  get color(): string {
-    return this.getAttribute(attributes.COLOR) || '';
+  get color(): IdsColorValue {
+    return this.getAttribute(attributes.COLOR) as IdsColorValue;
   }
 
   #adjustFill(): void {
