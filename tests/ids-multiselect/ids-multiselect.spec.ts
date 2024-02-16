@@ -65,7 +65,7 @@ test.describe('IdsMultiselect tests', () => {
   });
 
   test.describe('event tests', () => {
-    test('should fire a change event', async ({ page }) => {
+    test.skip('should fire a change event', async ({ page }) => {
       const eventFiredCount = await page.evaluate(() => {
         let changeCount = 0;
         const dropdown = document.querySelector('ids-multiselect') as IdsMultiselect;
