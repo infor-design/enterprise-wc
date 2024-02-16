@@ -52,6 +52,10 @@ class IdsTimePickerPopup extends Base {
     this.attachEventListeners();
     this.setAttribute(attributes.FOCUS_INLINE, 'true');
     this.isRendering = false;
+    this.onEvent('input', this, (e) => {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    });
   }
 
   disconnectedCallback(): void {

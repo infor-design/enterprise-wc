@@ -374,14 +374,6 @@ class IdsDatePicker extends Base {
    * @returns {object} The object for chaining
    */
   #attachEventHandlers(): object {
-    // Input value change triggers component value change
-    this.offEvent('change.date-picker-input');
-    this.onEvent('change.date-picker-input', this.triggerField, (e: any) => {
-      this.setAttribute(attributes.VALUE, e.detail.value);
-      this.picker?.setAttribute(attributes.VALUE, e.detail.value);
-      this.bubbleEvent(e);
-    });
-
     // Date Picker Popup's `dayselected` event causes the trigger field value to the change
     this.offEvent('dayselected.date-picker-popup');
     this.onEvent('dayselected.date-picker-popup', this.container, (e: IdsDayselectedEvent) => {

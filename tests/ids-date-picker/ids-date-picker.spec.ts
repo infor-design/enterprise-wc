@@ -64,12 +64,24 @@ test.describe('IdsDatePicker tests', () => {
     });
   });
 
-  test.describe('IdsDatePicker events', () => {
+  test.describe('event tests', () => {
     test('should fire change event', async ({ page }) => {
       const eventFiredCount = await page.evaluate(() => {
         let changeCount = 0;
         const datePicker = document.querySelector('ids-date-picker') as IdsDatePicker;
         datePicker.addEventListener('change', () => { changeCount++; });
+        datePicker.value = '3/20/2016';
+        return changeCount;
+      });
+
+      expect(eventFiredCount).toEqual(1);
+    });
+
+    test('should fire input event', async ({ page }) => {
+      const eventFiredCount = await page.evaluate(() => {
+        let changeCount = 0;
+        const datePicker = document.querySelector('ids-date-picker') as IdsDatePicker;
+        datePicker.addEventListener('input', () => { changeCount++; });
         datePicker.value = '3/20/2016';
         return changeCount;
       });

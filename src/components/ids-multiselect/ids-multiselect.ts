@@ -149,17 +149,6 @@ class IdsMultiselect extends IdsDropdown {
     (this.container as HTMLInputElement).value = '';
     this.#updateDisplay();
     this.#updateList();
-
-    // Send the change event
-    if (this.value === value) {
-      this.triggerEvent('change', this, {
-        bubbles: true,
-        detail: {
-          elem: this,
-          value: this.value
-        }
-      });
-    }
     this.internalSelectedList = value;
 
     this.container?.classList.toggle('has-value', value.length > 0);
@@ -279,7 +268,11 @@ class IdsMultiselect extends IdsDropdown {
         : [...this.internalSelectedList, value];
 
       if (checkbox) {
+        checkbox.onEvent('change', checkbox, (e: CustomEvent) => {
+          e.stopPropagation();
+        });
         checkbox.checked = !isSelected;
+        checkbox.offEvent('change', checkbox);
       }
 
       if (this.tags) {
@@ -297,8 +290,8 @@ class IdsMultiselect extends IdsDropdown {
    * Update value in the input visually
    */
   #updateDisplay() {
-    const options = this.dropdownList?.listBox?.options ?? [];
-    const selected = options.filter((item: IdsListBoxOption) => this.internalSelectedList.includes(item.value));
+    const optionsSorted = this.dropdownList?.listBox?.optionsSorted ?? [];
+    const selected = optionsSorted.filter((item: IdsListBoxOption) => this.internalSelectedList.includes(item.value));
     const newValue = selected.map((item: IdsListBoxOption) => item.label).join(', ');
 
     // Clear tags/text before rerender
@@ -357,6 +350,7 @@ class IdsMultiselect extends IdsDropdown {
           option.selected = true;
           selectedOptions.push(option);
         } else {
+          option.selected = false;
           unselectedOptions.push(option);
         }
       });
@@ -371,12 +365,14 @@ class IdsMultiselect extends IdsDropdown {
   #populateSelected() {
     this.internalSelectedList = [];
 
-    this.options.forEach((item: any) => {
+    const optionsSorted = this.dropdownList?.listBox?.optionsSorted ?? [];
+    optionsSorted?.forEach((item: any) => {
       const checkbox = item.querySelector('ids-checkbox');
+      if (checkbox?.checked) item.setAttribute('selected', '');
 
       if (item.hasAttribute('selected')) {
         this.internalSelectedList.push(item.getAttribute('value'));
-        if (checkbox) {
+        if (checkbox && !checkbox?.checked) {
           checkbox.checked = true;
         }
       }

@@ -607,6 +607,9 @@ export default class IdsInput extends Base {
    */
   #attachEventHandlers(): void {
     this.#attachNativeEvents();
+    this.onEvent('click', this.labelEl, () => {
+      this.focus();
+    });
   }
 
   /**
