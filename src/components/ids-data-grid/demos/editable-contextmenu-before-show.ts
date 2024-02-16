@@ -196,7 +196,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     editor: {
       type: 'checkbox',
       editorSettings: {
-        dirtyTracker: false,
+        dirtyTracker: true,
       }
     },
   });

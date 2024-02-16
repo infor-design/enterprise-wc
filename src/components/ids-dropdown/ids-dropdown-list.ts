@@ -148,7 +148,7 @@ export default class IdsDropdownList extends Base {
 
         if (target) {
           this.lastHovered = (target as IdsListBoxOption);
-          this.dropdownEl?.selectTooltip(this.lastHovered);
+          this.dropdownEl?.selectTooltip?.(this.lastHovered);
         }
       });
     }
