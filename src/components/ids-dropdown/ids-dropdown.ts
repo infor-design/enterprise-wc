@@ -133,7 +133,7 @@ export default class IdsDropdown extends Base {
       .#attachEventHandlers()
       .#attachKeyboardListeners();
 
-    this.value = this.getAttribute('value');
+    if (this.hasAttribute(attributes.VALUE)) this.value = this.getAttribute(attributes.VALUE);
 
     this.resetDirtyTracker();
     this.container?.classList.toggle('typeahead', this.typeahead);

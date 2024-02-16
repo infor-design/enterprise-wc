@@ -317,6 +317,13 @@ export default class IdsDropdownList extends Base {
         this.popup.maxHeight = this.listBox.maxHeight;
       }
     }
+
+    if (this.listBox?.options?.length) {
+      this.listBox.options.forEach((option: IdsListBoxOption, index) => {
+        if (option.rowIndex >= 0) return;
+        option.rowIndex = index; // row-index used to keep track of the sort-order of options
+      });
+    }
   }
 
   /**
