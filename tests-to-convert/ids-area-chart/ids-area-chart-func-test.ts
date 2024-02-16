@@ -20,21 +20,21 @@ describe('IdsAreaChart Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('supports setting markerSize', () => {
+  test('supports setting markerSize', () => {
     expect(areaChart.markerSize).toEqual(5);
     expect(areaChart.shadowRoot.querySelector('circle').getAttribute('r')).toEqual('5');
     areaChart.markerSize = 8;
     expect(areaChart.markerSize).toEqual(8);
   });
 
-  it('supports setting animated', () => {
+  test('supports setting animated', () => {
     expect(areaChart.shadowRoot.querySelectorAll('.animate').length).toEqual(3);
     areaChart.animated = false;
     areaChart.redraw();
     expect(areaChart.shadowRoot.querySelectorAll('.animate').length).toEqual(0);
   });
 
-  it('can set custom colors', async () => {
+  test('can set custom colors', async () => {
     areaChart.data = [{
       data: [{
         name: 'Jan',
@@ -69,11 +69,11 @@ describe('IdsAreaChart Component', () => {
     expect(areaChart.color(1)).toEqual('var(color-2)');
   });
 
-  it('should get svg chart template', () => {
+  test('should get svg chart template', () => {
     expect(areaChart.chartTemplate()).toContain('<g class="marker-lines">');
   });
 
-  it('should set selectable', () => {
+  test('should set selectable', () => {
     expect(areaChart.selectable).toEqual(false);
     expect(areaChart.getAttribute('selectable')).toEqual(null);
     areaChart.selectable = true;
@@ -84,7 +84,7 @@ describe('IdsAreaChart Component', () => {
     expect(areaChart.getAttribute('selectable')).toEqual(null);
   });
 
-  it('should select/deselect by click', () => {
+  test('should select/deselect by click', () => {
     expect(areaChart.selectionElements.length).toEqual(0);
     expect(areaChart.setSelection()).toEqual(false);
     const triggerClick = (el: any) => el.dispatchEvent(new Event('click', { bubbles: true }));
@@ -147,7 +147,7 @@ describe('IdsAreaChart Component', () => {
     expect(selectedClass.length).toEqual(0);
   });
 
-  it('should switch select to other elements', () => {
+  test('should switch select to other elements', () => {
     const triggerClick = (el: any) => el.dispatchEvent(new Event('click', { bubbles: true }));
     areaChart.selectable = true;
     let selected = areaChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
@@ -184,7 +184,7 @@ describe('IdsAreaChart Component', () => {
     expect(selectedClass.length).toEqual(8);
   });
 
-  it('should set pre selected group elements', () => {
+  test('should set pre selected group elements', () => {
     document.body.innerHTML = '';
     const ds = deepClone(dataset);
     (ds as any)[0].selected = true;
@@ -200,7 +200,7 @@ describe('IdsAreaChart Component', () => {
     expect(selectedClass.length).toEqual(8);
   });
 
-  it('should set pre selected group elements', () => {
+  test('should set pre selected group elements', () => {
     document.body.innerHTML = '';
     const ds = deepClone(dataset);
     (ds as any)[1].data[1].selected = true;
@@ -216,7 +216,7 @@ describe('IdsAreaChart Component', () => {
     expect(selectedClass.length).toEqual(8);
   });
 
-  it('should veto before selected', async () => {
+  test('should veto before selected', async () => {
     let veto: boolean;
     areaChart.addEventListener('beforeselected', (e: CustomEvent) => {
       e.detail.response(veto);
@@ -245,7 +245,7 @@ describe('IdsAreaChart Component', () => {
     expect(selectedClass.length).toEqual(8);
   });
 
-  it('should veto before deselected', async () => {
+  test('should veto before deselected', async () => {
     let veto: boolean;
     areaChart.addEventListener('beforedeselected', (e: CustomEvent) => {
       e.detail.response(veto);
@@ -287,7 +287,7 @@ describe('IdsAreaChart Component', () => {
     expect(selectedClass.length).toEqual(0);
   });
 
-  it('should get/set selected by api', async () => {
+  test('should get/set selected by api', async () => {
     areaChart.setSelected();
     let selected = areaChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
     let selectedClass = areaChart.selectionElements.filter((el: SVGElement) => el.classList.contains('selected'));

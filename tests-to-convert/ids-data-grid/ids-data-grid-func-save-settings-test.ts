@@ -7,7 +7,6 @@ import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../src/assets/data/books.json';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsDataGrid Component Save Settings Tests', () => {
   let dataGrid: any;
@@ -143,7 +142,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('should set to save active page', () => {
+  test('should set to save active page', () => {
     expect(dataGrid.getAttribute('save-active-page')).toEqual(null);
     expect(dataGrid.saveActivePage).toEqual(false);
     dataGrid.saveActivePage = true;
@@ -154,7 +153,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.saveActivePage).toEqual(false);
   });
 
-  it('should set to save columns', () => {
+  test('should set to save columns', () => {
     expect(dataGrid.getAttribute('save-columns')).toEqual(null);
     expect(dataGrid.saveColumns).toEqual(false);
     dataGrid.saveColumns = true;
@@ -165,7 +164,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.saveColumns).toEqual(false);
   });
 
-  it('should set to save filter', () => {
+  test('should set to save filter', () => {
     expect(dataGrid.getAttribute('save-filter')).toEqual(null);
     expect(dataGrid.saveFilter).toEqual(false);
     dataGrid.saveFilter = true;
@@ -176,7 +175,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.saveFilter).toEqual(false);
   });
 
-  it('should set to save page size', () => {
+  test('should set to save page size', () => {
     expect(dataGrid.getAttribute('save-page-size')).toEqual(null);
     expect(dataGrid.savePageSize).toEqual(false);
     dataGrid.savePageSize = true;
@@ -187,7 +186,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.savePageSize).toEqual(false);
   });
 
-  it('should set to save row height', () => {
+  test('should set to save row height', () => {
     expect(dataGrid.getAttribute('save-row-height')).toEqual(null);
     expect(dataGrid.saveRowHeight).toEqual(false);
     dataGrid.saveRowHeight = true;
@@ -198,7 +197,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.saveRowHeight).toEqual(false);
   });
 
-  it('should set to save sort order', () => {
+  test('should set to save sort order', () => {
     expect(dataGrid.getAttribute('save-sort-order')).toEqual(null);
     expect(dataGrid.saveSortOrder).toEqual(false);
     dataGrid.saveSortOrder = true;
@@ -209,7 +208,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.saveSortOrder).toEqual(false);
   });
 
-  it('should set to save user settings', () => {
+  test('should set to save user settings', () => {
     expect(dataGrid.getAttribute('save-user-settings')).toEqual(null);
     expect(dataGrid.saveUserSettings).toEqual(false);
     dataGrid.saveUserSettings = true;
@@ -220,7 +219,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.saveUserSettings).toEqual(false);
   });
 
-  it('should save/restore active page with local storage', () => {
+  test('should save/restore active page with local storage', () => {
     dataGrid.pageNumber = 1;
     const setting = 'active-page';
     expect(dataGrid.savedSetting(setting)).toEqual(null);
@@ -245,7 +244,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
-  it('should save/restore columns with local storage', () => {
+  test('should save/restore columns with local storage', () => {
     const setting = 'columns';
     expect(dataGrid.savedSetting(setting)).toEqual(null);
     dataGrid.saveColumns = true;
@@ -275,7 +274,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
-  it('should save/restore filter with local storage', () => {
+  test('should save/restore filter with local storage', () => {
     const setting = 'filter';
     expect(dataGrid.savedSetting(setting)).toEqual(null);
     dataGrid.saveFilter = true;
@@ -317,7 +316,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
-  it('should save/restore page size with local storage', () => {
+  test('should save/restore page size with local storage', () => {
     const setting = 'page-size';
     dataGrid.pageSize = 5;
     expect(dataGrid.savedSetting(setting)).toEqual(null);
@@ -342,7 +341,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
-  it('should save/restore row height with local storage', () => {
+  test('should save/restore row height with local storage', () => {
     const setting = 'row-height';
     expect(dataGrid.savedSetting(setting)).toEqual(null);
     dataGrid.saveRowHeight = true;
@@ -366,7 +365,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
     expect(dataGrid.savedSetting(setting)).toEqual(null);
   });
 
-  it('should save/restore sort order to local storage', () => {
+  test('should save/restore sort order to local storage', () => {
     const setting = 'sort-order';
     expect(dataGrid.savedSetting(setting)).toEqual(null);
     dataGrid.saveSortOrder = true;
@@ -415,9 +414,7 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
       })
     );
     dataGrid.saveUserSettings = true;
-    await processAnimFrame();
     dataGrid.saveAllSettings();
-    await processAnimFrame();
 
     expect(dataGrid.allSavedSettings()).toEqual(
       expect.objectContaining({
@@ -521,7 +518,6 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
   it.skip('should save on pager change', async () => {
     dataGrid.pagination = 'client-side';
     dataGrid.pageSize = 10;
-    await processAnimFrame();
 
     expect(await dataGrid.allSavedSettings()).toEqual(
       expect.objectContaining({
@@ -534,12 +530,9 @@ describe('IdsDataGrid Component Save Settings Tests', () => {
       })
     );
 
-    await processAnimFrame();
     dataGrid.pager.dispatchEvent(new CustomEvent('pagenumberchange', { detail: { value: 2 } }));
     dataGrid.saveUserSettings = true;
-    await processAnimFrame();
     dataGrid.pager.dispatchEvent(new CustomEvent('pagesizechange', { detail: { value: 5 } }));
-    await processAnimFrame();
 
     expect(await dataGrid.allSavedSettings()).toEqual(
       expect.objectContaining({

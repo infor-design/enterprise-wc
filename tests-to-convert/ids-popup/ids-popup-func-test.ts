@@ -3,7 +3,6 @@
  */
 import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
 import IdsContainer from '../../src/components/ids-container/ids-container';
@@ -54,14 +53,14 @@ describe('IdsPopup Component', () => {
     popup = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll('ids-popup').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can be removed from the DOM with no errors', () => {
+  test('can be removed from the DOM with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     popup.remove();
 
@@ -69,7 +68,7 @@ describe('IdsPopup Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('has default settings', () => {
+  test('has default settings', () => {
     const x = popup.x;
     const y = popup.y;
     const alignX = popup.alignX;
@@ -97,13 +96,13 @@ describe('IdsPopup Component', () => {
     expect(type).toEqual('none');
   });
 
-  it('gives access to the element that wraps the slotted content', () => {
+  test('gives access to the element that wraps the slotted content', () => {
     expect(popup.wrapper).toBeDefined();
     expect(popup.wrapper.classList.contains('content-wrapper')).toBeTruthy();
   });
 
   // NOTE: Needs to mock `getBoundingClientRect` on the `container`
-  it('can align based on coordinates', () => {
+  test('can align based on coordinates', () => {
     // const c = popup;
     const originalGetBoundingClientRect = popup.getBoundingClientRect;
     popup.bleed = true;
@@ -201,7 +200,7 @@ describe('IdsPopup Component', () => {
   });
 
   // NOTE: Needs to mock `getBoundingClientRect` on both the `container` and the `alignTarget`
-  it('can align relative to another element on the page', () => {
+  test('can align relative to another element on the page', () => {
     popup.visible = true;
     popup.bleed = true;
 
@@ -310,13 +309,13 @@ describe('IdsPopup Component', () => {
     expect(popup.style.top).toEqual('275px');
   });
 
-  it('rejects setting bad alignment values', () => {
+  test('rejects setting bad alignment values', () => {
     popup.align = 'junk, junk';
 
     expect(popup.align).toEqual('center');
   });
 
-  it('rejects setting bad individual alignment values', () => {
+  test('rejects setting bad individual alignment values', () => {
     popup.alignX = 'junk';
 
     expect(popup.align).toEqual('center');
@@ -338,7 +337,7 @@ describe('IdsPopup Component', () => {
     expect(popup.hasAttribute('alignY')).toBeFalsy();
   });
 
-  it('can set align attributes independently', () => {
+  test('can set align attributes independently', () => {
     popup.setAttribute('align-y', 'top');
 
     expect(popup.align).toEqual('top');
@@ -368,7 +367,7 @@ describe('IdsPopup Component', () => {
     expect(popup.align).toEqual('right');
   });
 
-  it('can set the alignment edge by itself (js)', () => {
+  test('can set the alignment edge by itself (js)', () => {
     // Top has become the primary edge. Center is the secondary "X" alignment, and goes unreported.
     popup.alignEdge = 'top';
 
@@ -391,7 +390,7 @@ describe('IdsPopup Component', () => {
     expect(popup.alignY).toEqual('center');
   });
 
-  it('can set the alignment edge by itself (attribute)', () => {
+  test('can set the alignment edge by itself (attribute)', () => {
     // Top has become the primary edge. Center is the secondary "X" alignment, and goes unreported.
     popup.setAttribute('align-edge', 'top');
 
@@ -414,7 +413,7 @@ describe('IdsPopup Component', () => {
     expect(popup.alignY).toEqual('center');
   });
 
-  it('rejects a bad alignment edge value', () => {
+  test('rejects a bad alignment edge value', () => {
     popup.alignEdge = 'junk';
 
     expect(popup.alignEdge).toEqual('center');
@@ -424,7 +423,7 @@ describe('IdsPopup Component', () => {
     expect(popup.alignEdge).toEqual('center');
   });
 
-  it('can remove an alignTarget and switch to coordinate placement', () => {
+  test('can remove an alignTarget and switch to coordinate placement', () => {
     // Create/Set the alignment target
     const alignTargetContainer = document.createElement('div');
     alignTargetContainer.style.position = 'relative';
@@ -448,13 +447,13 @@ describe('IdsPopup Component', () => {
     expect(popup.hasAttribute('align-target')).toBeFalsy();
   });
 
-  it('rejects a bad alignTarget', () => {
+  test('rejects a bad alignTarget', () => {
     popup.alignTarget = '#lol';
 
     expect(popup.alignTarget).toBe(null);
   });
 
-  it('will not set non-numeric values as x/y numbers', () => {
+  test('will not set non-numeric values as x/y numbers', () => {
     popup.x = 'tree';
 
     expect(popup.x).toEqual(0);
@@ -464,7 +463,7 @@ describe('IdsPopup Component', () => {
     expect(popup.y).toEqual(0);
   });
 
-  it('should autocorrect some alignment definitions to become their shorthand values', () => {
+  test('should autocorrect some alignment definitions to become their shorthand values', () => {
     const c = popup.container;
 
     // Create/Set the alignment target
@@ -540,7 +539,7 @@ describe('IdsPopup Component', () => {
     expect(popup.getAttribute('align')).toEqual('right');
   });
 
-  it('can set its type', () => {
+  test('can set its type', () => {
     popup.type = 'menu';
 
     expect(popup.container.classList.contains('none')).toBeFalsy();
@@ -568,7 +567,7 @@ describe('IdsPopup Component', () => {
     expect(popup.container.classList.contains('tooltip-alt')).toBeTruthy();
   });
 
-  it('can enable/disable animation', (done) => {
+  test('can enable/disable animation', (done) => {
     popup.animated = true;
 
     setTimeout(() => {
@@ -582,7 +581,7 @@ describe('IdsPopup Component', () => {
     }, 300);
   });
 
-  it('can set an animation style', () => {
+  test('can set an animation style', () => {
     popup.animationStyle = 'scale-in';
 
     expect(popup.container.classList.contains('animation-scale-in')).toBeTruthy();
@@ -599,7 +598,7 @@ describe('IdsPopup Component', () => {
     expect(popup.container.classList.contains('animation-fade')).toBeTruthy();
   });
 
-  it('can set a position style', () => {
+  test('can set a position style', () => {
     popup.positionStyle = 'absolute';
 
     expect(popup.positionStyle).toBe('absolute');
@@ -622,7 +621,7 @@ describe('IdsPopup Component', () => {
     expect(popup.container.classList.contains('position-viewport')).toBeTruthy();
   });
 
-  it('can enable/disable visibility', async () => {
+  test('can enable/disable visibility', async () => {
     popup.visible = true;
     popup.show();
     await wait(200);
@@ -636,7 +635,7 @@ describe('IdsPopup Component', () => {
     expect(popup.hasAttribute('visible')).toBeFalsy();
   });
 
-  it('can enable/disable container bleed', () => {
+  test('can enable/disable container bleed', () => {
     popup.bleed = true;
 
     expect(popup.hasAttribute('bleed')).toBeTruthy();
@@ -646,7 +645,7 @@ describe('IdsPopup Component', () => {
     expect(popup.hasAttribute('bleed')).toBeFalsy();
   });
 
-  it('can define a containing element', () => {
+  test('can define a containing element', () => {
     const containerDiv = document.createElement('div');
     containerDiv.style.width = '500px';
     containerDiv.style.height = '500px';
@@ -662,7 +661,7 @@ describe('IdsPopup Component', () => {
     expect(popup.containingElem.isEqualNode(containerDiv)).toBeTruthy();
   });
 
-  it('will not bleed beyond a container boundary', () => {
+  test('will not bleed beyond a container boundary', () => {
     const c = popup.container;
     const originalGetBoundingClientRect = c.getBoundingClientRect;
 
@@ -718,7 +717,7 @@ describe('IdsPopup Component', () => {
     c.getBoundingClientRect = originalGetBoundingClientRect;
   });
 
-  it('can have an arrow', () => {
+  test('can have an arrow', () => {
     // Create a target element for the arrow
     const targetDiv = document.createElement('div');
     targetDiv.style.width = '100px';
@@ -753,7 +752,7 @@ describe('IdsPopup Component', () => {
   // NOTE: In order to complete coverage, these tests need to be async
   // and wait slightly longer than the Popup's Animation Timeouts.
   // Top/Left/Right are all the same test with different directions.
-  it('can set the arrow in all directions (top)', (done) => {
+  test('can set the arrow in all directions (top)', (done) => {
     // Create a target element for the arrow
     const targetDiv = createTestDiv();
     popup.alignTarget = targetDiv;
@@ -770,7 +769,7 @@ describe('IdsPopup Component', () => {
     }, 80);
   });
 
-  it('can set the arrow in all directions (right)', (done) => {
+  test('can set the arrow in all directions (right)', (done) => {
     // Create a target element for the arrow
     const targetDiv = createTestDiv();
     popup.alignTarget = targetDiv;
@@ -787,7 +786,7 @@ describe('IdsPopup Component', () => {
     }, 80);
   });
 
-  it('can set the arrow in all directions (left)', (done) => {
+  test('can set the arrow in all directions (left)', (done) => {
     // Create a target element for the arrow
     const targetDiv = createTestDiv();
     popup.alignTarget = targetDiv;
@@ -805,7 +804,7 @@ describe('IdsPopup Component', () => {
   });
 
   // NOTE: This test covers the alternate right/bottom shifting of the arrow in `placeArrow()`
-  it('moves the arrow to the correct place if the menu\'s position changes', (done) => {
+  test('moves the arrow to the correct place if the menu\'s position changes', (done) => {
     const targetDiv = createTestDiv();
     popup.alignTarget = targetDiv;
     popup.arrowTarget = targetDiv;
@@ -831,7 +830,7 @@ describe('IdsPopup Component', () => {
     }, 80);
   });
 
-  it('can set the arrow target by CSS Selector', () => {
+  test('can set the arrow target by CSS Selector', () => {
     // Reference the `arrowTarget` with an id instead of a direct reference
     const anotherTargetDiv = document.createElement('div');
     anotherTargetDiv.style.width = '50px';
@@ -855,19 +854,18 @@ describe('IdsPopup Component', () => {
     expect(popup.arrowTarget).toBe(null);
   });
 
-  it('can change child languages', async () => {
+  test('can change child languages', async () => {
     await IdsGlobal.getLocale().setLanguage('ar');
-    await processAnimFrame();
     expect(popup.getAttribute('dir')).toEqual('rtl');
   });
 
   // Coverage
-  it('can use "setPosition" without changing coordinates', async () => {
+  test('can use "setPosition" without changing coordinates', async () => {
     await popup.setPosition(NaN, NaN, true, true);
     expect(popup.visible).toBeTruthy();
   });
 
-  it('will not "show()" unless visiblity is enabled', async () => {
+  test('will not "show()" unless visiblity is enabled', async () => {
     try {
       await popup.show();
     } catch (e) {
@@ -875,7 +873,7 @@ describe('IdsPopup Component', () => {
     }
   });
 
-  it('will not "hide() unless visibility is disabled', async () => {
+  test('will not "hide() unless visibility is disabled', async () => {
     popup.visible = true;
     popup.show();
     await wait(200);
@@ -887,7 +885,7 @@ describe('IdsPopup Component', () => {
     }
   });
 
-  it('can alter placement values using the onPlace callback', async () => {
+  test('can alter placement values using the onPlace callback', async () => {
     popup.onPlace = jest.fn(() => ({
       x: 300,
       y: 300,

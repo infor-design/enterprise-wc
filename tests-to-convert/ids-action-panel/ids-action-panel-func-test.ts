@@ -58,7 +58,7 @@ describe('IdsActionPanel Component', () => {
     expect(cap.visible).toBeFalsy();
   });
 
-  it('renders with toolbar and buttons', () => {
+  test('renders with toolbar and buttons', () => {
     cap = createFromTemplate(cap, `<ids-action-panel>
       <ids-toolbar slot="toolbar">
         <ids-toolbar-section type="title">
@@ -72,14 +72,14 @@ describe('IdsActionPanel Component', () => {
     expect(cap.template()).toContain('toolbar');
   });
 
-  it('renders with no toolbar and buttons', () => {
+  test('renders with no toolbar and buttons', () => {
     cap = createFromTemplate(cap, `<ids-action-panel id="cap-company-info"></ids-action-panel>`);
     cap.template();
     expect(cap.toolbar).toBeFalsy();
     expect(cap.buttons.length).toBe(0);
   });
 
-  it('can prevent being opened with the `beforeshow` event', async () => {
+  test('can prevent being opened with the `beforeshow` event', async () => {
     cap.addEventListener('beforeshow', (e: any) => {
       e.detail.response(false);
     });
@@ -88,7 +88,7 @@ describe('IdsActionPanel Component', () => {
     expect(cap.visible).toEqual(false);
   });
 
-  it('can prevent being closed with the `beforehide` event', async () => {
+  test('can prevent being closed with the `beforehide` event', async () => {
     cap.addEventListener('beforehide', (e: any) => {
       e.detail.response(false);
     });
@@ -100,7 +100,7 @@ describe('IdsActionPanel Component', () => {
     expect(cap.visible).toBeTruthy();
   });
 
-  it('should be able to set attributes before append', async () => {
+  test('should be able to set attributes before append', async () => {
     const elem: any = new IdsActionPanel();
     elem.id = 'test';
     document.body.appendChild(elem);
@@ -108,7 +108,7 @@ describe('IdsActionPanel Component', () => {
     expect(elem.getAttribute('id')).toEqual('test');
   });
 
-  it('should be able to set attributes after append', async () => {
+  test('should be able to set attributes after append', async () => {
     const elem: any = new IdsActionPanel();
     document.body.appendChild(elem);
     elem.id = 'test';

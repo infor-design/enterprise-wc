@@ -21,7 +21,7 @@ describe('IdsRating Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('can set the value attribute', () => {
+  test('can set the value attribute', () => {
     rating.value = 3;
     const firstIcon = rating.shadowRoot?.querySelector<IdsIcon>('ids-icon');
 
@@ -31,27 +31,27 @@ describe('IdsRating Component', () => {
     expect(rating.getAttribute('value')).toEqual('3');
   });
 
-  it('has a readonly attribute', () => {
+  test('has a readonly attribute', () => {
     rating.readonly = 'true';
     expect(rating.getAttribute('readonly')).toEqual('');
   });
 
-  it('has a size attribute', () => {
+  test('has a size attribute', () => {
     rating.size = 'large';
     expect(rating.getAttribute('size')).toEqual('large');
   });
 
-  it('has stars attribute', () => {
+  test('has stars attribute', () => {
     rating.stars = 4;
     expect(rating.getAttribute('stars')).toEqual('4');
   });
 
-  it('does not set stars if empty', () => {
+  test('does not set stars if empty', () => {
     rating.stars = null;
     expect(rating.getAttribute('stars')).toEqual(null);
   });
 
-  it('supports half stars', () => {
+  test('supports half stars', () => {
     const elem: any = new IdsRating();
     elem.readonly = true;
     elem.stars = 5;
@@ -60,13 +60,13 @@ describe('IdsRating Component', () => {
     expect((document as any).querySelector('ids-rating').shadowRoot.querySelectorAll('.star').length).toEqual(5);
   });
 
-  it('can click stars to select', () => {
+  test('can click stars to select', () => {
     expect(rating.value).toEqual(0);
     rating.shadowRoot?.querySelector<IdsIcon>('.star-2')?.click();
     expect(rating.value).toEqual(3);
   });
 
-  it('should ignore invalid size', () => {
+  test('should ignore invalid size', () => {
     expect(rating.size).toEqual('large');
     rating.size = null;
     expect(rating.size).toEqual('large');
@@ -78,7 +78,7 @@ describe('IdsRating Component', () => {
     expect(rating.value).toEqual(0);
   });
 
-  it('can hit enter on a star to select', () => {
+  test('can hit enter on a star to select', () => {
     expect(rating.value).toEqual(0);
     const star = rating.shadowRoot?.querySelector<IdsIcon>('.star-4');
     star?.focus();
@@ -92,7 +92,7 @@ describe('IdsRating Component', () => {
     expect(rating.value).toEqual(5);
   });
 
-  it('should be able to set disabled', async () => {
+  test('should be able to set disabled', async () => {
     expect(rating.getAttribute('disabled')).toEqual(null);
     expect(rating.disabled).toEqual(false);
     rating.disabled = true;

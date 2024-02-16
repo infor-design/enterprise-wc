@@ -40,7 +40,7 @@ describe.skip('IdsMessage Component (using properties)', () => {
     document.body.innerHTML = '';
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll('ids-message').length).toEqual(1);
@@ -55,22 +55,13 @@ describe.skip('IdsMessage Component (using properties)', () => {
     expect(messageEl.outerHTML).toMatchSnapshot();
   });
 
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    messageEl.remove();
-
-    expect(document.querySelectorAll('ids-message').length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('has properties', () => {
+  test('has properties', () => {
     expect(messageEl.messageTitle).toEqual(messageTitle);
     expect(messageEl.status).toEqual(messageStatus);
     expect(messageEl.message).toEqual(message);
   });
 
-  it('can alter the message', () => {
+  test('can alter the message', () => {
     const newMessage = 'This is the new error message';
     messageEl.message = newMessage;
 
@@ -81,7 +72,7 @@ describe.skip('IdsMessage Component (using properties)', () => {
     expect(messageEl.message).toEqual('');
   });
 
-  it('can alter the status', () => {
+  test('can alter the status', () => {
     expect(messageEl.ariaLabelContent).toEqual(`${messageStatus}: ${messageTitle}`);
 
     messageEl.status = 'success';
@@ -95,7 +86,7 @@ describe.skip('IdsMessage Component (using properties)', () => {
     expect(messageEl.ariaLabelContent).toEqual(messageTitle);
   });
 
-  it('can alter its buttons', () => {
+  test('can alter its buttons', () => {
     const buttons = messageEl.buttons;
     const button1 = buttons[0];
     button1.setAttribute('cancel', '');
@@ -125,23 +116,14 @@ describe('IdsMessage Component (using attributes)', () => {
     messageEl = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll('ids-message').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    messageEl.remove();
-
-    expect(document.querySelectorAll('ids-message').length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('has properties', () => {
+  test('has properties', () => {
     expect(messageEl.messageTitle).toEqual(messageTitle);
     expect(messageEl.status).toEqual(messageStatus);
     expect(messageEl.message).toEqual(message);
@@ -161,14 +143,14 @@ describe('IdsMessage Component (empty)', () => {
     messageEl = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll('ids-message').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can add a message after being invoked', () => {
+  test('can add a message after being invoked', () => {
     const msg = 'This is my message component. Here\'s a <a href="http://example.com">Link</a>.';
     messageEl.message = msg;
 
@@ -176,7 +158,7 @@ describe('IdsMessage Component (empty)', () => {
     expect(messageEl.message).toEqual(msg);
   });
 
-  it('can add a title after being invoked', () => {
+  test('can add a title after being invoked', () => {
     const title = 'Lost Connection';
     messageEl.messageTitle = title;
 

@@ -67,28 +67,28 @@ describe('IdsMenu Component', () => {
     item6 = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll('ids-menu').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can get a list of its groups', () => {
+  test('can get a list of its groups', () => {
     const groups = menu.groups;
 
     expect(groups).toBeDefined();
     expect(groups.length).toBe(2);
   });
 
-  it('can get a list of its items', () => {
+  test('can get a list of its items', () => {
     const items = menu.items;
 
     expect(items).toBeDefined();
     expect(items.length).toBe(6);
   });
 
-  it('can announce what is focused and navigate among its items', () => {
+  test('can announce what is focused and navigate among its items', () => {
     const items = menu.items;
 
     // Navigate forward (down) 2 items
@@ -108,14 +108,14 @@ describe('IdsMenu Component', () => {
     expect(menu.focused).toEqual(items[1]);
   });
 
-  it('navigates nowhere if no number of steps is provided', () => {
+  test('navigates nowhere if no number of steps is provided', () => {
     item1.focus();
     menu.navigate();
 
     expect(menu.focused).toEqual(item1);
   });
 
-  it('navigates from the last-hovered menu item, if applicable', () => {
+  test('navigates from the last-hovered menu item, if applicable', () => {
     item2.focus();
     menu.lastHovered = item2;
     menu.navigate(1, true);
@@ -123,7 +123,7 @@ describe('IdsMenu Component', () => {
     expect(menu.focused).toEqual(item3);
   });
 
-  it('loops around if `navigate()` tries to go too far', () => {
+  test('loops around if `navigate()` tries to go too far', () => {
     item6.focus();
     menu.navigate(1, true);
 
@@ -134,7 +134,7 @@ describe('IdsMenu Component', () => {
     expect(menu.focused).toEqual(item6);
   });
 
-  it('can navigate without focusing a target', () => {
+  test('can navigate without focusing a target', () => {
     item1.focus();
     menu.navigate(1);
 
@@ -142,7 +142,7 @@ describe('IdsMenu Component', () => {
     expect(menu.lastNavigated).toEqual(item2);
   });
 
-  it('skips disabled items while navigating', () => {
+  test('skips disabled items while navigating', () => {
     item1.focus();
     item2.disabled = true;
     menu.navigate(1, true);
@@ -150,7 +150,7 @@ describe('IdsMenu Component', () => {
     expect(menu.focused).toEqual(item3);
   });
 
-  it('can select items (default)', () => {
+  test('can select items (default)', () => {
     // Select Item 2
     menu.selectItem(item2);
     let selected = menu.getSelectedItems();
@@ -167,7 +167,7 @@ describe('IdsMenu Component', () => {
     expect(selected[0]).toEqual(item2);
   });
 
-  it('can select items (single)', () => {
+  test('can select items (single)', () => {
     group1.select = 'single';
 
     // Select Item 2
@@ -189,7 +189,7 @@ describe('IdsMenu Component', () => {
     expect(item3.selected).toBeTruthy();
   });
 
-  it('can select items (multiple)', () => {
+  test('can select items (multiple)', () => {
     group2.select = 'multiple';
 
     // Select Item 4
@@ -216,7 +216,7 @@ describe('IdsMenu Component', () => {
     expect(item5.selected).toBeFalsy();
   });
 
-  it('can get/clear selected values', () => {
+  test('can get/clear selected values', () => {
     group2.select = 'multiple';
     menu.selectItem(item4);
     menu.selectItem(item5);
@@ -234,7 +234,7 @@ describe('IdsMenu Component', () => {
     expect(item4.selected).toBeFalsy();
   });
 
-  it('can select items by value (single)', () => {
+  test('can select items by value (single)', () => {
     group1.select = 'single';
 
     // can set selected by passing value as string
@@ -251,7 +251,7 @@ describe('IdsMenu Component', () => {
     expect(item2.selected).toBeFalsy();
   });
 
-  it('can select items by value (multiple)', () => {
+  test('can select items by value (multiple)', () => {
     group2.select = 'multiple';
 
     const expected = ['4', '5'];
@@ -269,7 +269,7 @@ describe('IdsMenu Component', () => {
     expect(values).toEqual(expected);
   });
 
-  it('can get/clear selected items in a specific group', () => {
+  test('can get/clear selected items in a specific group', () => {
     group2.select = 'multiple';
     menu.selectItem(item1);
     menu.selectItem(item4);
@@ -288,7 +288,7 @@ describe('IdsMenu Component', () => {
     expect(items.includes(item4)).toBeFalsy();
   });
 
-  it('can set menu item textAlign', () => {
+  test('can set menu item textAlign', () => {
     expect(item1.textAlign).toEqual(null);
 
     item1.textAlign = 'start';
@@ -300,7 +300,7 @@ describe('IdsMenu Component', () => {
     expect(item1.textAlign).toEqual(null);
   });
 
-  it('navigates menu items using the keyboard', () => {
+  test('navigates menu items using the keyboard', () => {
     const navigateUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     const navigateDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
 
@@ -321,7 +321,7 @@ describe('IdsMenu Component', () => {
     expect(menu.focused).toEqual(item6);
   });
 
-  it('tab should not change navigation in the menu', () => {
+  test('tab should not change navigation in the menu', () => {
     const tabKeyEvent = new KeyboardEvent('keydown', { key: 'Tab' });
     const navigateUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     const navigateDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
@@ -368,7 +368,7 @@ describe('IdsMenu Component', () => {
     expect(item6.tabIndex).toEqual(0);
   });
 
-  it('highlights a menu item on click', () => {
+  test('highlights a menu item on click', () => {
     item2.select();
     item1.click();
 
@@ -376,7 +376,7 @@ describe('IdsMenu Component', () => {
     expect(menu.lastNavigated.isEqualNode(item1)).toBeTruthy();
   });
 
-  it('can get reference to highlighted items at the menu level', () => {
+  test('can get reference to highlighted items at the menu level', () => {
     item1.highlight();
     item2.highlight();
     const highlighted = menu.highlighted;
@@ -385,14 +385,14 @@ describe('IdsMenu Component', () => {
     expect(highlighted.includes(item1)).toBeTruthy();
   });
 
-  it('won\'t highlight items that are disabled', () => {
+  test('won\'t highlight items that are disabled', () => {
     item1.disabled = true;
     menu.highlightItem(item1);
 
     expect(item1.highlighted).toBeFalsy();
   });
 
-  it('listens for Enter key on a menu item and stores information', () => {
+  test('listens for Enter key on a menu item and stores information', () => {
     const enterKeyEvent = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
 
     item2.select();
@@ -402,7 +402,7 @@ describe('IdsMenu Component', () => {
     expect(menu.lastNavigated.isEqualNode(item1)).toBeTruthy();
   });
 
-  it('can explain which of its items should be focused', () => {
+  test('can explain which of its items should be focused', () => {
     // Default value is the first available menu item
     let focusTarget = menu.focusTarget;
 
@@ -421,7 +421,7 @@ describe('IdsMenu Component', () => {
     expect(focusTarget.isEqualNode(item4)).toBeTruthy();
   });
 
-  it('can get the first available item in the list', () => {
+  test('can get the first available item in the list', () => {
     expect(menu.getFirstAvailableItem().isEqualNode(item1)).toBeTruthy();
 
     item1.disabled = true;
@@ -430,14 +430,14 @@ describe('IdsMenu Component', () => {
     expect(menu.getFirstAvailableItem().isEqualNode(item3)).toBeTruthy();
   });
 
-  it('won\'t select an item at the menu level that is disabled', () => {
+  test('won\'t select an item at the menu level that is disabled', () => {
     item1.disabled = true;
     menu.selectItem(item1);
 
     expect(item1.selected).toBeFalsy();
   });
 
-  it('can be disabled/enabled', async () => {
+  test('can be disabled/enabled', async () => {
     menu.disabled = true;
 
     expect(menu.container.classList.contains('disabled')).toBeTruthy();
@@ -450,7 +450,7 @@ describe('IdsMenu Component', () => {
   });
 
   describe('IdsMenuItem', () => {
-    it('can render a new item correctly', () => {
+    test('can render a new item correctly', () => {
       const newItem = new IdsMenuItem();
       newItem.id = 'newitem';
       newItem.disabled = true;
@@ -466,7 +466,7 @@ describe('IdsMenu Component', () => {
       expect(newItem.outerHTML).toMatchSnapshot();
     });
 
-    it('can be disabled/enabled', () => {
+    test('can be disabled/enabled', () => {
       item1.disabled = true;
 
       expect(item1.disabled).toBeTruthy();
@@ -493,7 +493,7 @@ describe('IdsMenu Component', () => {
       expect(item1.container.classList.contains('disabled')).toBeFalsy();
     });
 
-    it('can be selected/deselected', () => {
+    test('can be selected/deselected', () => {
       item1.selected = true;
 
       expect(item1.selected).toBeTruthy();
@@ -515,7 +515,7 @@ describe('IdsMenu Component', () => {
       expect(item1.container.classList.contains('selected')).toBeFalsy();
     });
 
-    it('can be highlighted/unhighlighted programmatically', () => {
+    test('can be highlighted/unhighlighted programmatically', () => {
       item1.highlighted = true;
 
       expect(item1.highlighted).toBeTruthy();
@@ -527,7 +527,7 @@ describe('IdsMenu Component', () => {
       expect(item1.container.classList.contains('highlighted')).toBeFalsy();
     });
 
-    it('cannot be highlighted if it\'s disabled', () => {
+    test('cannot be highlighted if it\'s disabled', () => {
       item1.disabled = true;
       item1.highlighted = true;
 
@@ -535,7 +535,7 @@ describe('IdsMenu Component', () => {
       expect(item1.container.classList.contains('highlighted')).toBeFalsy();
     });
 
-    it('can have an icon set/removed', () => {
+    test('can have an icon set/removed', () => {
       item1.icon = 'settings';
 
       expect(item1.iconEl).toBeDefined();
@@ -547,7 +547,7 @@ describe('IdsMenu Component', () => {
       expect(item1.icon).toBe(undefined);
     });
 
-    it('can have an icon viewbox set/removed', () => {
+    test('can have an icon viewbox set/removed', () => {
       item1.icon = 'settings';
       item1.viewbox = '0 0 20 20';
 
@@ -559,7 +559,7 @@ describe('IdsMenu Component', () => {
       expect(item1.viewbox).toBe(null);
     });
 
-    it('can set tabindex', () => {
+    test('can set tabindex', () => {
       item1.tabIndex = '-1';
 
       expect(item1.a.tabIndex).toEqual(-1);
@@ -593,13 +593,13 @@ describe('IdsMenu Component', () => {
     });
 
     // Tests the single odd case in `tabIndex` that maps differently.
-    it('won\'t change a tabIndex that isn\'t different', () => {
+    test('won\'t change a tabIndex that isn\'t different', () => {
       item1.attributeChangedCallback('tabindex', '0', '0');
 
       expect(item1.a.tabIndex).toEqual(0);
     });
 
-    it('can get text content', () => {
+    test('can get text content', () => {
       item1.textContent = 'The First Item';
       expect(item1.text).toEqual('The First Item');
 
@@ -607,21 +607,21 @@ describe('IdsMenu Component', () => {
       expect(item1.text).toEqual('The First Item(ids-text)');
     });
 
-    it('can explain what menu it exists within', () => {
+    test('can explain what menu it exists within', () => {
       const thisMenu = item1.menu;
 
       expect(thisMenu).toEqual(menu);
       expect(thisMenu.id).toEqual('test-menu');
     });
 
-    it('can explain what group it exists within', () => {
+    test('can explain what group it exists within', () => {
       const thisGroup = item1.group;
 
       expect(thisGroup).toEqual(group1);
       expect(thisGroup.id).toEqual('primary');
     });
 
-    it('can get/set a value (property only)', () => {
+    test('can get/set a value (property only)', () => {
       // Attribute values are strings by default
       expect(item1.value).toEqual('1');
 
@@ -636,7 +636,7 @@ describe('IdsMenu Component', () => {
       expect(item1.value).toBeTruthy();
     });
 
-    it('can cancel selection with a vetoed `beforeselected` event handler', () => {
+    test('can cancel selection with a vetoed `beforeselected` event handler', () => {
       item1.addEventListener('beforeselected', (e: any) => {
         e.detail.response(false);
       });

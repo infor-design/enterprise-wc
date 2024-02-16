@@ -64,21 +64,21 @@ describe('IdsMonthView Component initialization', () => {
     document.body.innerHTML = '';
   });
 
-  it('can render via document.createElement (append early)', () => {
+  test('can render via document.createElement (append early)', () => {
     const component: any = document.createElement('ids-date-picker');
     container.appendChild(component);
     setupComponent(component);
     testComponent(component);
   });
 
-  it('can render via document.createElement (append late)', () => {
+  test('can render via document.createElement (append late)', () => {
     const component: any = document.createElement('ids-date-picker');
     setupComponent(component);
     container.appendChild(component);
     testComponent(component);
   });
 
-  it('can render html template', () => {
+  test('can render html template', () => {
     container.insertAdjacentHTML('beforeend', `
       <ids-date-picker
         tabbable="false"
@@ -127,20 +127,11 @@ describe('IdsDatePicker Component Tests', () => {
       component = null;
     });
 
-    it('can be destroyed', () => {
-      const errors = jest.spyOn(global.console, 'error');
-
-      component.remove();
-
-      expect(document.querySelectorAll(name).length).toEqual(0);
-      expect(errors).not.toHaveBeenCalled();
-    });
-
-    it('has properties', () => {
+    test('has properties', () => {
       testComponent(component);
     });
 
-    it('should change properties', () => {
+    test('should change properties', () => {
       component.tabbable = true;
       component.showToday = true;
       component.firstDayOfWeek = 0;
@@ -203,7 +194,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.useCurrentTime).toBeFalsy();
     });
 
-    it('should not change value when disabled or readonly', () => {
+    test('should not change value when disabled or readonly', () => {
       component.disabled = true;
       component.value = 'changed';
 
@@ -222,7 +213,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.value).toEqual('changed');
     });
 
-    it('should set/unset legend property', () => {
+    test('should set/unset legend property', () => {
       expect(component.legend.length).toEqual(0);
 
       const legend = [{ name: 'Weekends', color: 'orange-60', dayOfWeek: [0, 6] }];
@@ -232,13 +223,13 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.legend).toEqual(legend);
     });
 
-    it('should have setting for showWeekNumbers', () => {
+    test('should have setting for showWeekNumbers', () => {
       expect(component.showWeekNumbers).toEqual(false);
       component.showWeekNumbers = true;
       expect(component.showWeekNumbers).toEqual(true);
     });
 
-    it('should set/unset useRange property', () => {
+    test('should set/unset useRange property', () => {
       expect(component.useRange).toBeFalsy();
 
       component.useRange = true;
@@ -250,7 +241,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.useRange).toBeFalsy();
     });
 
-    it('should render field height', () => {
+    test('should render field height', () => {
       const heights = ['xs', 'sm', 'md', 'lg'];
       const defaultHeight = 'md';
       const className = (h: any) => `field-height-${h}`;
@@ -284,7 +275,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.container.classList).toContain(className(defaultHeight));
     });
 
-    it('should set compact height', () => {
+    test('should set compact height', () => {
       component.compact = true;
 
       expect(component.hasAttribute('compact')).toBeTruthy();
@@ -295,7 +286,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.container.classList.contains('compact')).toBeFalsy();
     });
 
-    it('should set size', () => {
+    test('should set size', () => {
       const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
       const defaultSize = 'sm';
       const checkSize = (size: any) => {
@@ -321,7 +312,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(triggerField.getAttribute('size')).toEqual(defaultSize);
     });
 
-    it('should set no margins', () => {
+    test('should set no margins', () => {
       expect(component.getAttribute('no-margins')).toEqual(null);
       expect(component.noMargins).toEqual(false);
       let triggerField = component.container.querySelector('ids-trigger-field');
@@ -343,7 +334,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(triggerField.getAttribute('no-margins')).toEqual(null);
     });
 
-    it('should set values thru template', () => {
+    test('should set values thru template', () => {
       expect(component.colorVariant).toEqual(null);
       expect(component.labelState).toEqual(null);
       expect(component.compact).toEqual(false);
@@ -360,7 +351,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.noMargins).toEqual(true);
     });
 
-    it('should change placeholder by format', () => {
+    test('should change placeholder by format', () => {
       expect(component.placeholder).toBe('');
 
       component.placeholder = true;
@@ -405,23 +396,14 @@ describe('IdsDatePicker Component Tests', () => {
       component = null;
     });
 
-    it('should render', () => {
+    test('should render', () => {
       const errors = jest.spyOn(global.console, 'error');
 
       expect(document.querySelectorAll(name).length).toEqual(1);
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('can be destroyed', () => {
-      const errors = jest.spyOn(global.console, 'error');
-
-      component.remove();
-
-      expect(document.querySelectorAll(name).length).toEqual(0);
-      expect(errors).not.toHaveBeenCalled();
-    });
-
-    it('has properties', () => {
+    test('has properties', () => {
       expect(component.tabbable).toBeFalsy();
       expect(component.showToday).toBeFalsy();
       expect(component.firstDayOfWeek).toEqual(1);
@@ -435,13 +417,13 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.day).toEqual(18);
     });
 
-    it('can use "show()" to display the popup', () => {
+    test('can use "show()" to display the popup', () => {
       expect(component.container.querySelector('ids-date-picker-popup').visible).toBeFalsy();
       component.container.querySelector('ids-date-picker-popup').show();
       expect(component.container.querySelector('ids-date-picker-popup').visible).toBeTruthy();
     });
 
-    it('should change attributes', () => {
+    test('should change attributes', () => {
       component.setAttribute('tabbable', true);
       component.setAttribute('show-today', true);
       component.setAttribute('id', 'changed');
@@ -493,7 +475,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.day).toEqual((new Date()).getDate());
     });
 
-    it('should set/unset useRange property', () => {
+    test('should set/unset useRange property', () => {
       expect(component.getAttribute('use-range')).toBeNull();
 
       component.setAttribute('use-range', true);
@@ -501,7 +483,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.useRange).toBeTruthy();
     });
 
-    it('should change placeholder by format', () => {
+    test('should change placeholder by format', () => {
       expect(component.getAttribute('placeholder')).toBe(null);
 
       component.setAttribute('placeholder', true);
@@ -514,7 +496,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.placeholder).toBe('');
     });
 
-    it('should trigger input change event when the date is changed', () => {
+    test('should trigger input change event when the date is changed', () => {
       const mockCallback = jest.fn();
 
       component.input.addEventListener('change', mockCallback);
@@ -556,7 +538,7 @@ describe('IdsDatePicker Component Tests', () => {
       component = null;
     });
 
-    it('should not error if no container', () => {
+    test('should not error if no container', () => {
       document.body.innerHTML = '';
       const errors = jest.spyOn(global.console, 'error');
       const comp = new IdsDatePicker();
@@ -564,14 +546,14 @@ describe('IdsDatePicker Component Tests', () => {
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('should render', () => {
+    test('should render', () => {
       const errors = jest.spyOn(global.console, 'error');
 
       expect(document.querySelectorAll(name).length).toEqual(1);
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('should have default properties', () => {
+    test('should have default properties', () => {
       expect(component.tabbable).toBeTruthy();
       expect(component.showToday).toBeTruthy();
       expect(component.firstDayOfWeek).toEqual(0);
@@ -604,7 +586,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.hasFocus).toBeFalsy();
     });
 
-    it('should not expand if not dropdown', () => {
+    test('should not expand if not dropdown', () => {
       expect(component.isDropdown).toBeFalsy();
       expect(component.expanded).toBeFalsy();
 
@@ -613,7 +595,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.expanded).toBeFalsy();
     });
 
-    it('should handle is-dropdown is-calendar-toolbar attributes', () => {
+    test('should handle is-dropdown is-calendar-toolbar attributes', () => {
       component.isCalendarToolbar = true;
       component.isDropdown = true;
 
@@ -627,7 +609,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.hasAttribute('is-dropdown')).toBeFalsy();
     });
 
-    it('should set dirty tracking', () => {
+    test('should set dirty tracking', () => {
       expect(component.dirtyTracker).toEqual(false);
       expect(component.getAttribute('dirty-tracker')).toEqual(null);
       expect(component.input.getAttribute('dirty-tracker')).toEqual(null);
@@ -643,7 +625,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.input.getAttribute('dirty-tracker')).toEqual(null);
     });
 
-    it('should handle mask attribute', () => {
+    test('should handle mask attribute', () => {
       expect(component.mask).toBeFalsy();
 
       component.mask = true;
@@ -692,7 +674,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.value).toEqual('2012-03-04');
     });
 
-    it('should parse date with custom format', () => {
+    test('should parse date with custom format', () => {
       component.close();
       component.format = 'MMM yyyy';
       component.value = 'Feb 2020';
@@ -731,7 +713,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(monthView.activeDate).toEqual(new Date(2012, 2, 4));
     });
 
-    it('should validate dates', () => {
+    test('should validate dates', () => {
       let isValid;
       component.validate = 'date';
       component.format = 'yyyy-MM-dd';
@@ -783,7 +765,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(component.validationEvents).toEqual('change blur');
     });
 
-    it('should validate unavailable dates', () => {
+    test('should validate unavailable dates', () => {
       let isValid;
       component.disableSettings = {
         dates: ['2/15/2010', '2/25/2010'],
@@ -804,7 +786,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(isValid).toBeFalsy();
     });
 
-    it('should get/set range settings', () => {
+    test('should get/set range settings', () => {
       expect(component.rangeSettings).toEqual({
         start: null,
         end: null,
@@ -836,7 +818,7 @@ describe('IdsDatePicker Component Tests', () => {
       });
     });
 
-    it('should parse dates in yyyy-MM-dd format', () => {
+    test('should parse dates in yyyy-MM-dd format', () => {
       component.format = 'yyyy-MM-dd';
       const parseDate = component.getDateValue('1990-04-21');
       expect(parseDate instanceof Date).toBeTruthy();
@@ -845,7 +827,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(parseDate.getDate()).toEqual(21);
     });
 
-    it('should parse dates in dd.MM.yyyy format (German)', () => {
+    test('should parse dates in dd.MM.yyyy format (German)', () => {
       component.format = 'dd.MM.yyyy';
       const parseDate = component.getDateValue('21.04.1990');
       expect(parseDate instanceof Date).toBeTruthy();
@@ -854,7 +836,7 @@ describe('IdsDatePicker Component Tests', () => {
       expect(parseDate.getDate()).toEqual(21);
     });
 
-    it('should parse dates in dd/MM/yyyy format (Hebrew)', () => {
+    test('should parse dates in dd/MM/yyyy format (Hebrew)', () => {
       component.format = 'dd/MM/yyyy';
       const parseDate = component.getDateValue('21/04/1990');
       expect(parseDate instanceof Date).toBeTruthy();

@@ -16,7 +16,7 @@ describe('IdsModal Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('can set opacity', () => {
+  test('can set opacity', () => {
     overlay.visible = true;
     overlay.opacity = 1;
 
@@ -39,7 +39,7 @@ describe('IdsModal Component', () => {
     expect(overlay.state.opacity).toBe(1);
   });
 
-  it('can set visibility', () => {
+  test('can set visibility', () => {
     overlay.visible = true;
 
     expect(overlay.visible).toBeTruthy();

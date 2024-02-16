@@ -22,12 +22,12 @@ describe('IdsCard Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders auto-height from an attribute', () => {
+  test('renders auto-height from an attribute', () => {
     card.setAttribute('auto-height', 'true');
     expect(card.getAttribute('auto-height')).toEqual('true');
   });
 
-  it('renders auto-fit from an attribute', () => {
+  test('renders auto-fit from an attribute', () => {
     card.setAttribute('auto-fit', 'true');
     expect(card.autoFit).toEqual(true);
     expect(card.getAttribute('auto-fit')).toEqual('true');
@@ -36,13 +36,13 @@ describe('IdsCard Component', () => {
     expect(card.getAttribute('auto-fit')).toEqual(null);
   });
 
-  it('renders success color from the api', () => {
+  test('renders success color from the api', () => {
     card.autoHeight = true;
     expect(card.getAttribute('auto-height')).toEqual('true');
     expect(card.autoHeight).toEqual('true');
   });
 
-  it('renders overflow setting from the api', () => {
+  test('renders overflow setting from the api', () => {
     card.overflow = 'hidden';
     expect(card.template().includes('overflow-hidden')).toBe(true);
     expect(card.container.querySelector('.ids-card-content').classList.contains('overflow-hidden')).toBe(true);
@@ -50,7 +50,7 @@ describe('IdsCard Component', () => {
     expect(card.container.querySelector('.ids-card-content').classList.contains('overflow-hidden')).toBe(false);
   });
 
-  it('removes the clickable attribute when reset', () => {
+  test('removes the clickable attribute when reset', () => {
     card.autoHeight = true;
     expect(card.getAttribute('auto-height')).toEqual('true');
 
@@ -59,7 +59,7 @@ describe('IdsCard Component', () => {
     expect(card.autoHeight).toEqual(null);
   });
 
-  it('removes the overflow attribute when reset', () => {
+  test('removes the overflow attribute when reset', () => {
     card.overflow = 'hidden';
     expect(card.getAttribute('overflow')).toEqual('hidden');
 
@@ -67,13 +67,13 @@ describe('IdsCard Component', () => {
     expect(card.getAttribute('overflow')).toEqual(null);
   });
 
-  it('add the overflow class when reset', () => {
+  test('add the overflow class when reset', () => {
     card.overflow = 'hidden';
     card.template();
     expect(card.container.querySelector('.ids-card-content').classList.contains('overflow-hidden')).toBeTruthy();
   });
 
-  it('support card selection single', () => {
+  test('support card selection single', () => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
     card.selection = 'single';
 
@@ -84,7 +84,7 @@ describe('IdsCard Component', () => {
     expect(card.selected).toBe(true);
   });
 
-  it('support card selection multiple', () => {
+  test('support card selection multiple', () => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
     card.selection = 'multiple';
     // Add event handler
@@ -110,7 +110,7 @@ describe('IdsCard Component', () => {
     expect(checkboxElem.checked).toBeFalsy();
   });
 
-  it('should fire selectionchanged event', async () => {
+  test('should fire selectionchanged event', async () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toEqual(card);
       expect(x.detail.selected).toEqual(true);
@@ -126,7 +126,7 @@ describe('IdsCard Component', () => {
     expect(mockCallback.mock.calls.length).toBe(1);
   });
 
-  it('should set no header setting', () => {
+  test('should set no header setting', () => {
     expect(card.getAttribute('no-header')).toEqual(null);
     expect(card.noHeader).toEqual(null);
     card.noHeader = true;
@@ -139,7 +139,7 @@ describe('IdsCard Component', () => {
     expect(card.noHeader).toEqual(null);
   });
 
-  it('should set css class for footer', () => {
+  test('should set css class for footer', () => {
     document.body.innerHTML = '';
     const elem: any = new IdsCard();
     elem.innerHTML = `
@@ -171,7 +171,7 @@ describe('IdsCard Component', () => {
       document.body.innerHTML = '';
     });
 
-    it('should allow setting href', () => {
+    test('should allow setting href', () => {
       const expectedHref = '#section';
       actionableCard.href = expectedHref;
       expect(actionableCard.href).toEqual(expectedHref);
@@ -180,14 +180,14 @@ describe('IdsCard Component', () => {
       expect(actionableCard.href).toBeNull();
     });
 
-    it('should allow setting actionable', () => {
+    test('should allow setting actionable', () => {
       card.actionable = true;
       expect(card.getAttribute('actionable')).toEqual('true');
       card.actionable = false;
       expect(card.getAttribute('actionable')).toBeFalsy();
     });
 
-    it('should allow setting href', () => {
+    test('should allow setting href', () => {
       const expectedHref = '#section';
       actionableCard.href = expectedHref;
       expect(actionableCard.href).toEqual(expectedHref);
@@ -196,7 +196,7 @@ describe('IdsCard Component', () => {
       expect(actionableCard.href).toBeNull();
     });
 
-    it('should allow setting target', () => {
+    test('should allow setting target', () => {
       const expectedTarget = '_blank';
       actionableCard.target = expectedTarget;
       expect(actionableCard.target).toEqual(expectedTarget);
@@ -205,7 +205,7 @@ describe('IdsCard Component', () => {
       expect(actionableCard.target).toBeNull();
     });
 
-    it('should allow setting height', () => {
+    test('should allow setting height', () => {
       card.actionable = true;
       actionableCard.height = '100';
       expect(actionableCard.height).toEqual('100');
@@ -214,7 +214,7 @@ describe('IdsCard Component', () => {
       expect(actionableCard.height).toBe('');
     });
 
-    it('should allow setting height with a link', () => {
+    test('should allow setting height with a link', () => {
       document.body.innerHTML = '';
       const html = `
         <ids-card actionable="true" href="https://www.example.com" target="_self">

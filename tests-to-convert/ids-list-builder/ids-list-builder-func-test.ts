@@ -95,7 +95,7 @@ describe('IdsListBuilder Component', () => {
     idsListBuilder?.remove();
   });
 
-  it('renders empty listbuilder with no errors', () => {
+  test('renders empty listbuilder with no errors', () => {
     document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
     const elem: any = new IdsListBuilder();
@@ -105,7 +105,7 @@ describe('IdsListBuilder Component', () => {
     elem.remove();
   });
 
-  it('renders virtual scroll and ignores it', () => {
+  test('renders virtual scroll and ignores it', () => {
     document.body.innerHTML = '';
     const elem: any = new IdsListBuilder();
     elem.virtualScroll = true;
@@ -114,19 +114,19 @@ describe('IdsListBuilder Component', () => {
     elem.remove();
   });
 
-  it('injects template correctly and sets data correctly', async () => {
+  test('injects template correctly and sets data correctly', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
     idsListBuilder.data = [...sampleData];
     expect(idsListBuilder.parentEl).toBeTruthy();
   });
 
-  it('renders the header', async () => {
+  test('renders the header', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     expect(idsListBuilder.toolbar).toBeTruthy();
     expect(idsListBuilder.querySelector('[list-builder-action="add"]')).toBeTruthy();
   });
 
-  it('add new list item to non-empty list', async () => {
+  test('add new list item to non-empty list', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
 
@@ -147,7 +147,7 @@ describe('IdsListBuilder Component', () => {
     expect(itemInputElem.value).toEqual('New Value');
   });
 
-  it('add new list item to empty-list', async () => {
+  test('add new list item to empty-list', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [];
 
@@ -162,7 +162,7 @@ describe('IdsListBuilder Component', () => {
     expect(itemInputElem.value).toEqual('New Value');
   });
 
-  it('edit list item', async () => {
+  test('edit list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
 
@@ -179,7 +179,7 @@ describe('IdsListBuilder Component', () => {
     expect(listItems[1].querySelector('ids-input').value).toEqual(sampleData1[1].manufacturerName);
   });
 
-  it('delete list item', async () => {
+  test('delete list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
 
@@ -205,7 +205,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[1].manufacturerName).toBe(sampleData1[2].manufacturerName);
   });
 
-  it('move up list item', async () => {
+  test('move up list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
 
@@ -225,7 +225,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[2].manufacturerName);
   });
 
-  it('move down list item', async () => {
+  test('move down list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
 
@@ -245,7 +245,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[1].manufacturerName);
   });
 
-  it('keyboard support for select/toggle/arrow up/arrow down/delete', async () => {
+  test('keyboard support for select/toggle/arrow up/arrow down/delete', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
     const clickEvent = new MouseEvent('click');
@@ -296,7 +296,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.shadowRoot.querySelectorAll('ids-swappable-item[role=listitem]')).toHaveLength(4);
   });
 
-  it('update list item editor value', async () => {
+  test('update list item editor value', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [];
 
@@ -316,7 +316,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[0].manufacturerName).toEqual('test value');
   });
 
-  it('delete multiple selection list items', async () => {
+  test('delete multiple selection list items', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.selectable = 'multiple';
     idsListBuilder.data = [...sampleData1];
@@ -348,7 +348,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[2].manufacturerName).toBe(sampleData1[4].manufacturerName);
   });
 
-  it('should deselect other selection before add new list items', async () => {
+  test('should deselect other selection before add new list items', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.selectable = 'multiple';
     idsListBuilder.data = [...sampleData1];
@@ -368,7 +368,7 @@ describe('IdsListBuilder Component', () => {
     expect(listItems.length).toEqual(sampleData1.length + 1);
   });
 
-  it('move up list item with multiple selection', async () => {
+  test('move up list item with multiple selection', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.selectable = 'multiple';
     idsListBuilder.data = [...sampleData1];
@@ -402,7 +402,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
   });
 
-  it('move up list item to first with multiple selection', async () => {
+  test('move up list item to first with multiple selection', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.selectable = 'multiple';
     idsListBuilder.data = [...sampleData1];
@@ -428,7 +428,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
   });
 
-  it('move down list item with multiple selection', async () => {
+  test('move down list item with multiple selection', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.selectable = 'multiple';
     idsListBuilder.data = [...sampleData1];
@@ -462,7 +462,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[3].manufacturerName);
   });
 
-  it('move down list item to last with multiple selection', async () => {
+  test('move down list item to last with multiple selection', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.selectable = 'multiple';
     idsListBuilder.data = [...sampleData1];
@@ -488,7 +488,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
   });
 
-  it('can add items with the button when empty', async () => {
+  test('can add items with the button when empty', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.querySelector('[list-builder-action="add"]').click();
 
@@ -496,7 +496,7 @@ describe('IdsListBuilder Component', () => {
     expect(listItems.length).toEqual(1);
   });
 
-  it('let api should add new list item', async () => {
+  test('let api should add new list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
 
@@ -509,7 +509,7 @@ describe('IdsListBuilder Component', () => {
     expect(listItems.length).toEqual(sampleData1.length + 1);
   });
 
-  it('let api should delete selected list item', async () => {
+  test('let api should delete selected list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
 
@@ -533,7 +533,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[3].manufacturerName).toBe(sampleData1[4].manufacturerName);
   });
 
-  it('let api should edit selected list item', async () => {
+  test('let api should edit selected list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
 
@@ -547,7 +547,7 @@ describe('IdsListBuilder Component', () => {
     expect(listItems[1].querySelector('ids-input').value).toEqual(sampleData1[1].manufacturerName);
   });
 
-  it('let api should move down selected list item', async () => {
+  test('let api should move down selected list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
 
@@ -569,7 +569,7 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.data[4].manufacturerName).toBe(sampleData1[4].manufacturerName);
   });
 
-  it('let api should move up selected list item', async () => {
+  test('let api should move up selected list item', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.FULL_COMPONENT);
     idsListBuilder.data = [...sampleData1];
 

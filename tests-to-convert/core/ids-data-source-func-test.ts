@@ -10,7 +10,7 @@ describe('IdsDataSource Tests', () => {
     datasource = new IdsDataSource();
   });
 
-  it('can set data as source', () => {
+  test('can set data as source', () => {
     const dataset: any = [{ prop1: 1, prop2: 2 }, { prop1: 1, prop2: 2 }];
 
     datasource.data = dataset;
@@ -19,7 +19,7 @@ describe('IdsDataSource Tests', () => {
     expect(datasource.data[0].prop1).toEqual(1);
   });
 
-  it('can iterate', () => {
+  test('can iterate', () => {
     const dataset = [{ prop1: 1, prop2: 2 }, { prop1: 1, prop2: 2 }];
 
     datasource.data = dataset;
@@ -30,7 +30,7 @@ describe('IdsDataSource Tests', () => {
     });
   });
 
-  it('can sort', () => {
+  test('can sort', () => {
     const dataset = [{ prop1: 1, prop2: 1 }, { prop1: 2, prop2: 2 }];
 
     datasource.data = dataset;
@@ -42,7 +42,7 @@ describe('IdsDataSource Tests', () => {
     expect(datasource.data[1].prop2).toEqual(1);
   });
 
-  it('can sort inverse', () => {
+  test('can sort inverse', () => {
     const dataset = [{ prop1: 1, prop2: 1 }, { prop1: 2, prop2: 2 }];
 
     datasource.data = dataset;
@@ -54,7 +54,7 @@ describe('IdsDataSource Tests', () => {
     expect(datasource.data[1].prop2).toEqual(2);
   });
 
-  it('can sort with a primer function', () => {
+  test('can sort with a primer function', () => {
     const dataset: any = [{ prop1: 1, prop2: 2 }, { prop1: 1, prop2: 2 }];
     const primer = (x: any) => x;
 
@@ -67,7 +67,7 @@ describe('IdsDataSource Tests', () => {
     expect(datasource.data[1].prop2).toEqual(2);
   });
 
-  it('can sort alpha', () => {
+  test('can sort alpha', () => {
     const dataset = [
       { prop1: 'a', prop2: 'a' },
       { prop1: 'b', prop2: 'b' },
@@ -89,7 +89,7 @@ describe('IdsDataSource Tests', () => {
     expect(datasource.data[5].prop1).toEqual('a');
   });
 
-  it('sorts numbers ahead of strings in ascending mode, opposite in descending mode', () => {
+  test('sorts numbers ahead of strings in ascending mode, opposite in descending mode', () => {
     const dataset = [
       { id: 0, prop1: '1' },
       { id: 4, prop1: '1a' },
@@ -131,7 +131,7 @@ describe('IdsDataSource Tests', () => {
     expect(datasource.data[9].prop1).toEqual('1');
   });
 
-  it('can sort numbers, strings, and empty space similar to Excel', () => {
+  test('can sort numbers, strings, and empty space similar to Excel', () => {
     const dataset = [
       { productId: 2445204, productName: '01AM', quantity: 3 },
       { productId: 2542205, productName: '01PT', quantity: 4 },

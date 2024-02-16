@@ -1,7 +1,7 @@
 import { IdsDeferred } from '../../src/utils/ids-deferred-utils/ids-deferred-utils';
 
 describe('IdsDeferred Util', () => {
-  it('can resolve a promise externally', (done) => {
+  test('can resolve a promise externally', (done) => {
     const dfrd = new IdsDeferred();
     const onResolve = jest.fn();
     const promise = dfrd.promise;
@@ -18,7 +18,7 @@ describe('IdsDeferred Util', () => {
     dfrd.resolve();
   });
 
-  it('can reject a promise externally', (done) => {
+  test('can reject a promise externally', (done) => {
     const dfrd = new IdsDeferred();
     const onReject = jest.fn();
     const promise = dfrd.promise;
@@ -35,7 +35,7 @@ describe('IdsDeferred Util', () => {
     dfrd.reject();
   });
 
-  it('can resolve promise with arguments', async () => {
+  test('can resolve promise with arguments', async () => {
     const dfrd = new IdsDeferred();
     const testValue = 'payload';
 

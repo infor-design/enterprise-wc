@@ -29,17 +29,17 @@ describe('Ids Color Picker Component', () => {
     colorpicker = null;
   });
 
-  it('renders with readonly', () => {
+  test('renders with readonly', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
     expect(colorpicker.readonly).toBeTruthy();
   });
 
-  it('renders with disabled', () => {
+  test('renders with disabled', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" disabled="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
     expect(colorpicker.disabled).toBeTruthy();
   });
 
-  it('renders with advanced', () => {
+  test('renders with advanced', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" advanced="true" value="#941e1e" label="Readonly Color Picker"></ids-color-picker>`);
     expect(colorpicker.advanced).toBe(true);
     expect(colorpicker.hasAttribute('advanced')).toBe(true);
@@ -62,12 +62,12 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.textInput.mask).toBeDefined();
   });
 
-  it('has a default value of blank', () => {
+  test('has a default value of blank', () => {
     expect(colorpicker.value).toEqual('');
     expect(colorpicker.getAttribute('value')).toBeFalsy();
   });
 
-  it('has a value attribute', () => {
+  test('has a value attribute', () => {
     colorpicker.value = '#000000';
     expect(colorpicker.value).toEqual('#000000');
     expect(colorpicker.getAttribute('value')).toEqual('#000000');
@@ -76,7 +76,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.getAttribute('value')).toBeNull();
   });
 
-  it('has a disabled attribute', () => {
+  test('has a disabled attribute', () => {
     expect(colorpicker.disabled).toBeDefined();
     expect(colorpicker.disabled).toEqual(false);
 
@@ -90,7 +90,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.getAttribute('disabled')).toEqual('');
   });
 
-  it('has a clearable attribute', () => {
+  test('has a clearable attribute', () => {
     expect(colorpicker.clearable).toBeDefined();
 
     expect(colorpicker.clearable).toBeFalsy();
@@ -104,7 +104,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.swatches.find((e: any) => !e.hex)).toBeDefined();
   });
 
-  it('has a readonly attribute', () => {
+  test('has a readonly attribute', () => {
     colorpicker.readonly = false;
     expect(colorpicker.readonly).toEqual(false);
     expect(colorpicker.hasAttribute('readonly')).toEqual(false);
@@ -115,12 +115,12 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.getAttribute('readonly')).toEqual('');
   });
 
-  it('has a label attribute', () => {
+  test('has a label attribute', () => {
     colorpicker.label = 'Ids Color Picker';
     expect(colorpicker.getAttribute('label')).toEqual('Ids Color Picker');
   });
 
-  it('has a labels attribute', () => {
+  test('has a labels attribute', () => {
     colorpicker.suppressLabels = false;
     expect(colorpicker.suppressLabels).toEqual(false);
     expect(colorpicker.hasAttribute('suppress-labels')).toEqual(false);
@@ -131,7 +131,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.getAttribute('suppress-labels')).toEqual('true');
   });
 
-  it('has a suppressTooltips attribute', () => {
+  test('has a suppressTooltips attribute', () => {
     colorpicker.suppressTooltips = false;
     expect(colorpicker.suppressTooltips).toEqual(false);
     expect(colorpicker.hasAttribute('suppress-tooltips')).toEqual(false);
@@ -142,7 +142,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.getAttribute('suppress-tooltips')).toEqual('true');
   });
 
-  it('suppresses labels and tooltips when IdsColorPicker.advanced is true', () => {
+  test('suppresses labels and tooltips when IdsColorPicker.advanced is true', () => {
     expect(colorpicker.advanced).toEqual(false);
     expect(colorpicker.suppressLabels).toEqual(false);
     expect(colorpicker.suppressTooltips).toEqual(false);
@@ -153,7 +153,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.suppressTooltips).toEqual(true);
   });
 
-  it('should close on outside click', () => {
+  test('should close on outside click', () => {
     expect(colorpicker.popup.visible).toEqual(false);
     colorpicker.triggerEvent('click', colorpicker.container);
     waitForTimeout(() => expect(colorpicker.popup.visible).toBeTruthy());
@@ -161,7 +161,7 @@ describe('Ids Color Picker Component', () => {
     waitForTimeout(() => expect(colorpicker.popup.visible).toBeFalsy());
   });
 
-  it('should not close on click outside if no onOutsideClick', () => {
+  test('should not close on click outside if no onOutsideClick', () => {
     expect(colorpicker.popup.visible).toEqual(false);
     colorpicker.triggerEvent('click', colorpicker.container);
     waitForTimeout(() => expect(colorpicker.popup.visible).toBeTruthy());
@@ -171,20 +171,20 @@ describe('Ids Color Picker Component', () => {
     waitForTimeout(() => expect(colorpicker.popup.visible).toBeTruthy());
   });
 
-  it('should not open if readonly', () => {
+  test('should not open if readonly', () => {
     colorpicker.readonly = true;
     expect(colorpicker.popup.visible).toEqual(false);
     colorpicker.triggerEvent('click', colorpicker.container);
     expect(colorpicker.popup.visible).toEqual(false);
   });
 
-  it('should be able to open with IdsColorPicker.open()', () => {
+  test('should be able to open with IdsColorPicker.open()', () => {
     colorpicker.open();
     expect(colorpicker.popup.visible).toEqual(true);
     expect(colorpicker.swatches).toBeTruthy();
   });
 
-  it('should select on enter', () => {
+  test('should select on enter', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"><ids-color hex="#383838"></ids-color></ids-color-picker>`);
     colorpicker.popup.visible = true;
     (document.querySelector('#color-picker-1 > ids-color[hex="#383838"]') as any).focus();
@@ -195,7 +195,7 @@ describe('Ids Color Picker Component', () => {
     expect(colorpicker.value).toEqual('#383838');
   });
 
-  it('should select on enter when checked', () => {
+  test('should select on enter when checked', () => {
     colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"><ids-color hex="#999999" checked="true"></ids-color></ids-color-picker>`);
     colorpicker.popup.visible = true;
     (document.querySelector('#color-picker-1 > ids-color[hex="#999999"]') as any).focus();
@@ -207,7 +207,7 @@ describe('Ids Color Picker Component', () => {
   });
 
   describe('When Popup is Closed', () => {
-    it('toggles popup open/close when trigger button clicked', () => {
+    test('toggles popup open/close when trigger button clicked', () => {
       expect(colorpicker.popup.visible).toBe(false);
       colorpicker.triggerBtn.click();
       expect(colorpicker.popup.visible).toBe(true);
@@ -215,14 +215,14 @@ describe('Ids Color Picker Component', () => {
       expect(colorpicker.popup.visible).toBe(false);
     });
 
-    it('opens popup on Enter', () => {
+    test('opens popup on Enter', () => {
       expect(colorpicker.popup.visible).toBe(false);
       const keydownEnter = new KeyboardEvent('keydown', { key: 'Enter' });
       colorpicker.dispatchEvent(keydownEnter);
       expect(colorpicker.popup.visible).toBe(true);
     });
 
-    it('opens popup on ArrowDown', () => {
+    test('opens popup on ArrowDown', () => {
       expect(colorpicker.popup.visible).toBe(false);
       const keydownArrowDown = new KeyboardEvent('keydown', { key: 'ArrowDown' });
       colorpicker.dispatchEvent(keydownArrowDown);
@@ -241,20 +241,20 @@ describe('Ids Color Picker Component', () => {
       expect(colorpicker.popup.visible).toBe(false);
     });
 
-    it('closes popup on Escape', () => {
+    test('closes popup on Escape', () => {
       expect(colorpicker.popup.visible).toBe(true);
       const keydownEscape = new KeyboardEvent('keydown', { key: 'Escape' });
       colorpicker.dispatchEvent(keydownEscape);
       expect(colorpicker.popup.visible).toBe(false);
     });
 
-    it('focuses first color-swatch on open', () => {
+    test('focuses first color-swatch on open', () => {
       expect(colorpicker.popup.visible).toBe(true);
       const [swatch] = colorpicker.swatches;
       expect(document.activeElement).toBe(swatch);
     });
 
-    it('selects focused color-swatch on Enter', () => {
+    test('selects focused color-swatch on Enter', () => {
       expect(colorpicker.popup.visible).toBe(true);
 
       colorpicker.value = '';
@@ -270,7 +270,7 @@ describe('Ids Color Picker Component', () => {
       expect(colorpicker.textInput.value).toBe(swatch.label);
     });
 
-    it('selects focused color-swatch on Spacebar', () => {
+    test('selects focused color-swatch on Spacebar', () => {
       expect(colorpicker.popup.visible).toBe(true);
 
       colorpicker.value = '';
@@ -286,7 +286,7 @@ describe('Ids Color Picker Component', () => {
       expect(colorpicker.textInput.value).toBe(swatch.label);
     });
 
-    it('shows checkmark on selected color-swatch', () => {
+    test('shows checkmark on selected color-swatch', () => {
       expect(colorpicker.popup.visible).toBe(true);
       expect(colorpicker.value).toBe('');
 
@@ -303,7 +303,7 @@ describe('Ids Color Picker Component', () => {
       expect(selectedColors[0].label).toBe(secondSwatch.label);
     });
 
-    it('clears color when no-color swatch selected', () => {
+    test('clears color when no-color swatch selected', () => {
       expect(colorpicker.popup.visible).toBe(true);
       expect(colorpicker.value).toBe('');
       expect(colorpicker.querySelectorAll('ids-color[checked]').length).toBe(0);
@@ -329,7 +329,7 @@ describe('Ids Color Picker Component', () => {
       expect(colorpicker.querySelector('ids-color[checked]')).toBe(noColorSwatch);
     });
 
-    it('color swatches have "outlined" class for hover', () => {
+    test('color swatches have "outlined" class for hover', () => {
       expect(colorpicker.popup.visible).toBe(true);
 
       const [first, second, third] = colorpicker.swatches;
@@ -338,7 +338,7 @@ describe('Ids Color Picker Component', () => {
       expect(third.classList.contains('outlined')).toBe(true);
     });
 
-    it('does not have "tabindex" when IdsColorPicker.popup is visible', () => {
+    test('does not have "tabindex" when IdsColorPicker.popup is visible', () => {
       expect(colorpicker.popup.visible).toBe(true);
 
       const [first, second, third] = colorpicker.swatches;
@@ -347,7 +347,7 @@ describe('Ids Color Picker Component', () => {
       expect(third.hasAttribute('tabindex')).toBe(false);
     });
 
-    it('has "tabindex" -1 when IdsColorPicker.popup is hidden to prevent tab interference', () => {
+    test('has "tabindex" -1 when IdsColorPicker.popup is hidden to prevent tab interference', () => {
       expect(colorpicker.popup.visible).toBe(true);
       colorpicker.close();
       expect(colorpicker.popup.visible).toBe(false);
@@ -358,7 +358,7 @@ describe('Ids Color Picker Component', () => {
       expect(third.getAttribute('tabindex')).toBe('-1');
     });
 
-    it('shows color-swatch labels when IdsColorPicker.labels is true', () => {
+    test('shows color-swatch labels when IdsColorPicker.labels is true', () => {
       colorpicker.innerHTML = '';
       let swatch = new IdsColor();
       swatch.hex = '#000000';
@@ -374,7 +374,7 @@ describe('Ids Color Picker Component', () => {
       expect(swatch.tooltip).toBe('');
     });
 
-    it('shows color-swatch hex when IdsColorPicker.labels is false', () => {
+    test('shows color-swatch hex when IdsColorPicker.labels is false', () => {
       colorpicker.innerHTML = '';
       let swatch = new IdsColor();
       swatch.hex = '#000000';
@@ -434,7 +434,7 @@ describe('Ids Color Picker Component', () => {
       expect(swatch.tooltip).toBe('');
     });
 
-    it('focuses next color-swatch on ArrowRight', () => {
+    test('focuses next color-swatch on ArrowRight', () => {
       expect(colorpicker.popup.visible).toBe(true);
 
       const [firstColor, secondColor, thirdColor] = colorpicker.swatches;
@@ -449,7 +449,7 @@ describe('Ids Color Picker Component', () => {
       expect(document.activeElement).toBe(thirdColor);
     });
 
-    it('focuses previous color-swatch on ArrowLeft', () => {
+    test('focuses previous color-swatch on ArrowLeft', () => {
       expect(colorpicker.popup.visible).toBe(true);
 
       const [firstColor, secondColor, thirdColor] = colorpicker.swatches;
@@ -466,7 +466,7 @@ describe('Ids Color Picker Component', () => {
 
     // TODO: add NUM_COLUMNS as configurable attribute to colorpicker
     const NUM_COLUMNS = 10;
-    it('focuses downward color-swatch on ArrowDown', () => {
+    test('focuses downward color-swatch on ArrowDown', () => {
       expect(colorpicker.popup.visible).toBe(true);
 
       const firstColor = colorpicker.swatches[0];
@@ -486,7 +486,7 @@ describe('Ids Color Picker Component', () => {
       expect(document.activeElement).toBe(lastColor);
     });
 
-    it('focuses upward color-swatch on ArrowUp', () => {
+    test('focuses upward color-swatch on ArrowUp', () => {
       expect(colorpicker.popup.visible).toBe(true);
 
       const activeColor = colorpicker.swatches[NUM_COLUMNS * 2];
@@ -504,7 +504,7 @@ describe('Ids Color Picker Component', () => {
       expect(document.activeElement).toBe(colorpicker.swatches[0]);
     });
 
-    it('focuses last color-swatch on ArrowLeft when first color-swatch active', () => {
+    test('focuses last color-swatch on ArrowLeft when first color-swatch active', () => {
       expect(colorpicker.popup.visible).toBe(true);
 
       const firstColor = colorpicker.swatches[0];
@@ -517,7 +517,7 @@ describe('Ids Color Picker Component', () => {
       expect(document.activeElement).toBe(lastColor);
     });
 
-    it('focuses first color-swatch on ArrowRight when last color-swatch active', () => {
+    test('focuses first color-swatch on ArrowRight when last color-swatch active', () => {
       expect(colorpicker.popup.visible).toBe(true);
 
       const firstColor = colorpicker.swatches[0];

@@ -4,7 +4,6 @@
 import IdsButton from '../../src/components/ids-button/ids-button';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
-import processAnimFrame from '../helpers/process-anim-frame';
 import '../../src/components/ids-icon/ids-icon';
 import type IdsIcon from '../../src/components/ids-icon/ids-icon';
 import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
@@ -27,18 +26,18 @@ describe('IdsButton Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('exposes its inner button component', () => {
+  test('exposes its inner button component', () => {
     expect(btn.button).toBeDefined();
     expect(btn.button instanceof HTMLElement).toBeTruthy();
   });
 
-  it('focuses the inner button component when told to focus', () => {
+  test('focuses the inner button component when told to focus', () => {
     btn.focus();
 
     expect(btn.shadowRoot?.activeElement?.isEqualNode(btn.button));
   });
 
-  it('can be disabled/enabled', () => {
+  test('can be disabled/enabled', () => {
     btn.disabled = true;
 
     expect(btn.hasAttribute('disabled')).toBeTruthy();
@@ -54,7 +53,7 @@ describe('IdsButton Component', () => {
     expect(btn.state.disabled).toBeFalsy();
   });
 
-  it('can disabled padding', () => {
+  test('can disabled padding', () => {
     btn.noPadding = true;
 
     expect(btn.container?.classList.contains('no-padding')).toBeTruthy();
@@ -66,7 +65,7 @@ describe('IdsButton Component', () => {
     expect(btn.getAttribute('no-padding')).toBeFalsy();
   });
 
-  it('can set rtl correctly', async () => {
+  test('can set rtl correctly', async () => {
     const container: any = new IdsContainer();
     btn = new IdsButton();
     btn.text = 'test';
@@ -75,11 +74,10 @@ describe('IdsButton Component', () => {
     expect(btn.container?.classList.contains('rtl')).toBeFalsy();
     locale.loadedLanguages.set('ar', arMessages);
     await IdsGlobal.getLocale().setLanguage('ar');
-    await processAnimFrame();
     expect(btn.localeAPI.isRTL()).toEqual(true);
   });
 
-  it('can be focusable or not', () => {
+  test('can be focusable or not', () => {
     btn.tabIndex = -1;
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
@@ -124,7 +122,7 @@ describe('IdsButton Component', () => {
     expect(btn.state.tabIndex).toEqual(0);
   });
 
-  it('can add extra CSS classes to the button', () => {
+  test('can add extra CSS classes to the button', () => {
     btn.cssClass = 'one two three';
 
     expect(btn.getAttribute('css-class')).toBe('one two three');
@@ -145,7 +143,7 @@ describe('IdsButton Component', () => {
     expect(btn.button?.classList.contains('four')).toBeFalsy();
   });
 
-  it('can change its appearance', () => {
+  test('can change its appearance', () => {
     btn.appearance = 'primary';
 
     expect(btn.getAttribute('appearance')).toBe('primary');
@@ -176,7 +174,7 @@ describe('IdsButton Component', () => {
     expect(btn.state.appearance).toBe('default');
   });
 
-  it('can change its text via attribute', () => {
+  test('can change its text via attribute', () => {
     expect(btn.text).toEqual('Test Button');
     expect(btn.state.text).toEqual('Test Button');
 
@@ -191,7 +189,7 @@ describe('IdsButton Component', () => {
     expect(btn.state.text).toEqual('');
   });
 
-  it('can add/remove its icon', async () => {
+  test('can add/remove its icon', async () => {
     btn.icon = 'settings';
 
     expect(btn.getAttribute('icon')).toBe('settings');
@@ -205,7 +203,7 @@ describe('IdsButton Component', () => {
     expect(btn.querySelector('ids-icon')).toBe(null);
   });
 
-  it('can align its icon differently', () => {
+  test('can align its icon differently', () => {
     btn.icon = 'settings';
     btn.iconAlign = 'end';
 
@@ -221,7 +219,7 @@ describe('IdsButton Component', () => {
     expect(btn.button?.classList.contains('align-icon-end')).toBeFalsy();
   });
 
-  it('can be an "icon-only" button', () => {
+  test('can be an "icon-only" button', () => {
     btn.icon = 'settings';
     btn.text = '';
 
@@ -232,7 +230,7 @@ describe('IdsButton Component', () => {
     expect(btn.button?.classList.contains('ids-button')).toBeFalsy();
   });
 
-  it('can reliably set the "square" attribute', () => {
+  test('can reliably set the "square" attribute', () => {
     btn.icon = 'settings';
     btn.square = true;
 
@@ -244,7 +242,7 @@ describe('IdsButton Component', () => {
     expect(btn.square).toEqual(false);
   });
 
-  it('can rerender', () => {
+  test('can rerender', () => {
     btn.text = 'New';
     btn.icon = 'check';
     btn.disabled = true;
@@ -256,7 +254,7 @@ describe('IdsButton Component', () => {
     expect(btn.text).toEqual('New');
   });
 
-  it('can set width', () => {
+  test('can set width', () => {
     // with pixels
     const pixelWidth = '200px';
     btn.width = pixelWidth;
@@ -276,7 +274,7 @@ describe('IdsButton Component', () => {
     expect(btn.button?.style.width).toEqual('');
   });
 
-  it('can set hidden', () => {
+  test('can set hidden', () => {
     expect(btn.hidden).toEqual(false);
     expect(btn.getAttribute('hidden')).toBeFalsy();
     btn.hidden = true;
@@ -287,7 +285,7 @@ describe('IdsButton Component', () => {
     expect(btn.hidden).toEqual(false);
   });
 
-  it('can set noMargins', () => {
+  test('can set noMargins', () => {
     expect(btn.noMargins).toBeFalsy();
     btn.noMargins = true;
     expect(btn.getAttribute('no-margins')).toEqual('');
@@ -297,12 +295,12 @@ describe('IdsButton Component', () => {
     expect(btn.noMargins).toEqual(false);
   });
 
-  it('can get the icon element', () => {
+  test('can get the icon element', () => {
     btn.icon = 'add';
     expect(btn.iconEl?.nodeName).toEqual('IDS-ICON');
   });
 
-  it('supports setting color variants', async () => {
+  test('supports setting color variants', async () => {
     await expectEnumAttributeBehavior({
       elem: btn,
       attribute: 'color-variant',
@@ -311,7 +309,7 @@ describe('IdsButton Component', () => {
     });
   });
 
-  it('can set a type attribute on its inner button', () => {
+  test('can set a type attribute on its inner button', () => {
     btn.type = 'submit';
     expect(btn.type).toBe('submit');
     expect(btn.getAttribute('type')).toBe('submit');

@@ -37,7 +37,7 @@ describe('IdsTooltip Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders via document.createElement (append late)', () => {
+  test('renders via document.createElement (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem = document.createElement('ids-tooltip');
 
@@ -51,7 +51,7 @@ describe('IdsTooltip Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('handles two or more elements can share a tooltip', (done) => {
+  test('handles two or more elements can share a tooltip', (done) => {
     const buttonElem: any = new IdsButton();
     buttonElem.id = 'button-2';
     buttonElem.text = 'Test Button 2';
@@ -77,7 +77,7 @@ describe('IdsTooltip Component', () => {
     }, 100);
   });
 
-  it('handles changing the target', (done) => {
+  test('handles changing the target', (done) => {
     const buttonElem: any = new IdsButton();
     buttonElem.id = 'button-2';
     buttonElem.text = 'Test Button 2';
@@ -96,7 +96,7 @@ describe('IdsTooltip Component', () => {
     }, 50);
   });
 
-  it('shows on mouseenter when disabled', (done) => {
+  test('shows on mouseenter when disabled', (done) => {
     const mouseenter = new MouseEvent('mouseenter');
     const click = new MouseEvent('click');
     button.disabled = true;
@@ -110,7 +110,7 @@ describe('IdsTooltip Component', () => {
     }, 50);
   });
 
-  it('shows on click and then hides on click', (done) => {
+  test('shows on click and then hides on click', (done) => {
     tooltip.trigger = 'click';
     button.click();
 
@@ -122,7 +122,7 @@ describe('IdsTooltip Component', () => {
     }, 50);
   });
 
-  it('shows on click and then hides on tooltip click', async () => {
+  test('shows on click and then hides on tooltip click', async () => {
     tooltip.trigger = 'click';
     button.click();
     waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
@@ -131,7 +131,7 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.visible).toEqual(false);
   });
 
-  it('hides on click when set to visible', async () => {
+  test('hides on click when set to visible', async () => {
     tooltip.trigger = 'click';
     tooltip.visible = true;
     button.click();
@@ -141,14 +141,14 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.visible).toEqual(true);
   });
 
-  it('shows on keyboard focusin', () => {
+  test('shows on keyboard focusin', () => {
     tooltip.trigger = 'click';
     button.dispatchEvent(new CustomEvent('keyboardfocus'));
     waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(true);
   });
 
-  it('shows on focusin and then hides on focusout', async () => {
+  test('shows on focusin and then hides on focusout', async () => {
     tooltip.trigger = 'focus';
     button.dispatchEvent(new Event('focusin'));
     waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
@@ -157,25 +157,25 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.visible).toEqual(false);
   });
 
-  it('hides on focusout', async () => {
+  test('hides on focusout', async () => {
     tooltip.visible = true;
     button.dispatchEvent(new Event('focusout'));
     expect(tooltip.visible).toEqual(false);
   });
 
-  it('shows on longpress', async () => {
+  test('shows on longpress', async () => {
     button.triggerEvent('longpress', button, { delay: 1 });
     waitForTimeout(() => expect(tooltip.visible).toBeTruthy());
     expect(tooltip.visible).toEqual(true);
   });
 
-  it('shows on an HTMLElement', () => {
+  test('shows on an HTMLElement', () => {
     tooltip.target = button;
     tooltip.visible = true;
     expect(tooltip.visible).toEqual(true);
   });
 
-  it('shows and hides on visible', () => {
+  test('shows and hides on visible', () => {
     tooltip.visible = true;
     expect(tooltip.visible).toEqual(true);
     expect(tooltip.getAttribute('visible')).toEqual('true');
@@ -190,7 +190,7 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.visible).toEqual(false);
   });
 
-  it('can set/reset the delay', () => {
+  test('can set/reset the delay', () => {
     tooltip.delay = 400;
     expect(tooltip.getAttribute('delay')).toEqual('400');
     expect(tooltip.delay).toEqual(400);
@@ -199,7 +199,7 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.delay).toEqual(500);
   });
 
-  it('can place on on top', () => {
+  test('can place on on top', () => {
     tooltip.placement = 'top';
     tooltip.visible = true;
 
@@ -208,7 +208,7 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.popup.align).toEqual('top');
   });
 
-  it('can place on on bottom', () => {
+  test('can place on on bottom', () => {
     tooltip.placement = 'bottom';
     tooltip.visible = true;
 
@@ -217,7 +217,7 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.popup.align).toEqual('bottom');
   });
 
-  it('can place on on right', () => {
+  test('can place on on right', () => {
     tooltip.placement = 'right';
     tooltip.visible = true;
 
@@ -227,7 +227,7 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.popup.align).toEqual('right');
   });
 
-  it('can place on on left', () => {
+  test('can place on on left', () => {
     tooltip.placement = 'left';
     tooltip.visible = true;
 
@@ -237,7 +237,7 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.popup.align).toEqual('left');
   });
 
-  it('can reset placement', () => {
+  test('can reset placement', () => {
     tooltip.placement = 'left';
     tooltip.visible = true;
     tooltip.visible = false;
@@ -246,14 +246,14 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.getAttribute('placement')).toEqual(null);
   });
 
-  it('can reset trigger', () => {
+  test('can reset trigger', () => {
     expect(tooltip.trigger).toEqual('hover');
     tooltip.trigger = 'click';
     tooltip.trigger = null;
     expect(tooltip.trigger).toEqual('hover');
   });
 
-  it('supports async beforeShow', (done) => {
+  test('supports async beforeShow', (done) => {
     const getContents = () => new Promise((resolve) => {
       setTimeout(() => {
         resolve('test content');
@@ -273,7 +273,7 @@ describe('IdsTooltip Component', () => {
     }, 2);
   });
 
-  it('fires beforeshow and can veto', () => {
+  test('fires beforeshow and can veto', () => {
     tooltip.addEventListener('beforeshow', (e: CustomEvent) => {
       e.detail.response(false);
     });
@@ -282,7 +282,7 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.visible).toEqual(false);
   });
 
-  it('shows works as a mixin on buttons', (done) => {
+  test('shows works as a mixin on buttons', (done) => {
     tooltip?.remove();
     const button2: any = new IdsButton();
     button2.id = 'button-1';
@@ -299,7 +299,7 @@ describe('IdsTooltip Component', () => {
     }, 1);
   });
 
-  it('shows works as a mixin on inputs', (done) => {
+  test('shows works as a mixin on inputs', (done) => {
     tooltip?.remove();
     const input: any = new IdsInput();
     input.tooltip = 'Additional Info';
@@ -314,7 +314,7 @@ describe('IdsTooltip Component', () => {
     }, 1);
   });
 
-  it('should not show when not overflown', () => {
+  test('should not show when not overflown', () => {
     tooltip.remove();
     const text: any = new IdsText();
     text.overflow = 'ellipsis';
@@ -328,7 +328,7 @@ describe('IdsTooltip Component', () => {
     expect(tooltipFromMixin).toBeFalsy();
   });
 
-  it('should work in a container', (done) => {
+  test('should work in a container', (done) => {
     const container: any = new IdsContainer();
 
     tooltip.remove();

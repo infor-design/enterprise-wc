@@ -8,11 +8,11 @@ describe('Ids Draggable e2e Tests', () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not have errors', async () => {
+  test('should not have errors', async () => {
     await expect(page.title()).resolves.toMatch('IDS Draggable Component');
   });
 
-  it('can drag with no axis', async () => {
+  test('can drag with no axis', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#no-axis');
     const startRects = await example.boundingBox();
@@ -27,7 +27,7 @@ describe('Ids Draggable e2e Tests', () => {
     expect(endRects.y).toBeLessThan(startRects.y);
   });
 
-  it('can drag on y axis', async () => {
+  test('can drag on y axis', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#axis-y');
     const startRects = await example.boundingBox();
@@ -42,7 +42,7 @@ describe('Ids Draggable e2e Tests', () => {
     expect(endRects.y).toBeLessThan(startRects.y);
   });
 
-  it('can drag on x axis', async () => {
+  test('can drag on x axis', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#axis-x');
     const startRects = await example.boundingBox();
@@ -57,7 +57,7 @@ describe('Ids Draggable e2e Tests', () => {
     expect(endRects.y).toEqual(startRects.y);
   });
 
-  it('can drag with limits', async () => {
+  test('can drag with limits', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#limits');
     const startRects = await example.boundingBox();
@@ -73,7 +73,7 @@ describe('Ids Draggable e2e Tests', () => {
     expect(endRects.y).toBeLessThan(startRects.y);
   });
 
-  it('can drag with containment', async () => {
+  test('can drag with containment', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#contained');
     const startRects = await example.boundingBox();
@@ -87,7 +87,7 @@ describe('Ids Draggable e2e Tests', () => {
     expect(endRects.x).toBeGreaterThanOrEqual(startRects.x);
   });
 
-  it('can drag with containment on axis x', async () => {
+  test('can drag with containment on axis x', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#contained-y');
     const startRects = await example.boundingBox();
@@ -103,7 +103,7 @@ describe('Ids Draggable e2e Tests', () => {
     expect(endRects.y).toEqual(startRects.y);
   });
 
-  it('can drag with containment on axis y', async () => {
+  test('can drag with containment on axis y', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#contained-x');
     const startRects = await example.boundingBox();
@@ -119,7 +119,7 @@ describe('Ids Draggable e2e Tests', () => {
     expect(endRects.y).toEqual(startRects.y);
   });
 
-  it('will not drag when disabled', async () => {
+  test('will not drag when disabled', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("#no-axis").disabled = true');
     const example = await page.$('#no-axis');
@@ -135,7 +135,7 @@ describe('Ids Draggable e2e Tests', () => {
     expect(endRects.y).toEqual(startRects.y);
   });
 
-  it('will not re-drag when isDragging is true', async () => {
+  test('will not re-drag when isDragging is true', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("#no-axis").isDragging = true');
     const example = await page.$('#no-axis');
@@ -151,7 +151,7 @@ describe('Ids Draggable e2e Tests', () => {
     expect(endRects.y).toBeLessThan(startRects.y);
   });
 
-  it('should pass Axe accessibility tests', async () => {
+  test('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).disableRules(['color-contrast', 'region']).analyze();
@@ -162,7 +162,7 @@ describe('Ids Draggable e2e Tests', () => {
 describe('Ids Draggable Sandbox e2e Tests', () => {
   const sandboxUrl = 'http://localhost:4444/ids-draggable/sandbox.html';
 
-  it('should pass Axe accessibility tests', async () => {
+  test('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(sandboxUrl, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).disableRules(['color-contrast', 'region']).analyze();

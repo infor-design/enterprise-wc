@@ -18,7 +18,7 @@ describe('IdsRippleMixin Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('should add ripple effect on click.ripple', async () => {
+  test('should add ripple effect on click.ripple', async () => {
     const args: any = {
       button: 1,
       pageX: 0,
@@ -31,7 +31,7 @@ describe('IdsRippleMixin Tests', () => {
     expect(idsButton.button.querySelector('.ripple-effect')).toBeDefined();
   });
 
-  it('should add ripple effect on touchstart.ripple', async () => {
+  test('should add ripple effect on touchstart.ripple', async () => {
     const args: any = {
       touches: [{
         identifier: '123',
@@ -49,7 +49,7 @@ describe('IdsRippleMixin Tests', () => {
     expect(idsButton.button.querySelector('.ripple-effect')).toBeDefined();
   });
 
-  it('should have setting for noRipple', async () => {
+  test('should have setting for noRipple', async () => {
     // ripple enabled by default
     expect(idsButton.noRipple).toBeFalsy();
 
@@ -62,7 +62,7 @@ describe('IdsRippleMixin Tests', () => {
     expect(idsButton.noRipple).toBeFalsy();
   });
 
-  it('should not ripple when noRipple is truthy', async () => {
+  test('should not ripple when noRipple is truthy', async () => {
     const args = {
       button: 1,
       pageX: 0,
@@ -77,14 +77,14 @@ describe('IdsRippleMixin Tests', () => {
     expect(idsButton.button.querySelector('.ripple-effect')).toBeNull();
   });
 
-  it('creates a ripple when clicked (keyboard)', () => {
+  test('creates a ripple when clicked (keyboard)', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     idsButton.button.dispatchEvent(event);
 
     expect(idsButton.button.querySelector('.ripple-effect')).toBeDefined();
   });
 
-  it('can get ripple offsets from its physical dimensions', () => {
+  test('can get ripple offsets from its physical dimensions', () => {
     const c = idsButton.button;
 
     // 150x40 are roughly the dimensions of a standard IDS Button with some text and an icon
@@ -112,7 +112,7 @@ describe('IdsRippleMixin Tests', () => {
     expect(rippleOffsets.y).toEqual(-49);
   });
 
-  it('removes the ripple effect HTML when it completes', (done) => {
+  test('removes the ripple effect HTML when it completes', (done) => {
     const args = {
       button: 1,
       pageX: 0,
@@ -133,21 +133,21 @@ describe('IdsRippleMixin Tests', () => {
     }, 2000);
   });
 
-  it('only creates one ripple at a time', () => {
+  test('only creates one ripple at a time', () => {
     idsButton.createRipple(0, 0);
     idsButton.createRipple(0, 0);
 
     expect(idsButton.button.querySelectorAll('.ripple-effect').length).toEqual(1);
   });
 
-  it('cannot create ripples when disabled', () => {
+  test('cannot create ripples when disabled', () => {
     idsButton.disabled = true;
     idsButton.createRipple(0, 0);
 
     expect(idsButton.button.querySelector('.ripple-effect')).toBe(null);
   });
 
-  it('can disable the ripple when added', () => {
+  test('can disable the ripple when added', () => {
     const elem: any = new IdsButton();
     elem.noRipple = true;
     elem.text = 'Test Button';
@@ -156,7 +156,7 @@ describe('IdsRippleMixin Tests', () => {
     expect(idsButton.button.querySelector('.ripple-effect')).toBe(null);
   });
 
-  it('only creates one ripple if a touch event is followed by a click event', () => {
+  test('only creates one ripple if a touch event is followed by a click event', () => {
     // Touch event will always occur first
     const args: any = {
       touches: [{
@@ -188,7 +188,7 @@ describe('IdsRippleMixin Tests', () => {
     expect(idsButton.button.querySelectorAll('.ripple-effect').length).toEqual(1);
   });
 
-  it('should use component container by default', () => {
+  test('should use component container by default', () => {
     // remove existing ripple setup
     idsButton.noRipple = true;
 
@@ -198,7 +198,7 @@ describe('IdsRippleMixin Tests', () => {
     expect(idsButton.rippleTarget).toEqual(idsButton.container);
   });
 
-  it('should use 50 as default ripple radius', () => {
+  test('should use 50 as default ripple radius', () => {
     // remove existing ripple setup
     idsButton.noRipple = true;
 

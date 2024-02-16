@@ -8,7 +8,7 @@ describe('Ids Line Chart e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not be responsive if not set', async () => {
+  test('should not be responsive if not set', async () => {
     await page.setViewport({
       width: 375,
       height: 1080
@@ -20,7 +20,7 @@ describe('Ids Line Chart e2e Tests', () => {
     expect(w).toBe(800);
   });
 
-  it('should be responsive', async () => {
+  test('should be responsive', async () => {
     await page.setViewport({
       width: 375,
       height: 1080
@@ -33,7 +33,7 @@ describe('Ids Line Chart e2e Tests', () => {
     expect(w).toBeLessThan(330);
   });
 
-  it('should be responsive even when the container is hidden', async () => {
+  test('should be responsive even when the container is hidden', async () => {
     await page.evaluate('document.querySelector("ids-container").hidden = true');
     await page.evaluate('document.querySelector("ids-line-chart").animate = false');
     await page.evaluate('document.querySelector("ids-line-chart").width = "inherit"');

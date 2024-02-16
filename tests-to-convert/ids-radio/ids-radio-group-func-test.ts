@@ -36,7 +36,7 @@ describe('IdsRadioGroup Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should renders as disabled', () => {
+  test('should renders as disabled', () => {
     expect(rg.getAttribute('disabled')).toEqual(null);
     let radioArr = [...rg.querySelectorAll('ids-radio')];
     radioArr.forEach((r: any) => {
@@ -65,7 +65,7 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.disabled).toEqual(false);
   });
 
-  it('should add/remove required error', () => {
+  test('should add/remove required error', () => {
     rg.validate = 'required';
     expect(rg.getAttribute('validate')).toEqual('required');
     expect(rg.validate).toEqual('required');
@@ -81,7 +81,7 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.shadowRoot.querySelector('.validation-message')).toBeFalsy();
   });
 
-  it('should set validation events', () => {
+  test('should set validation events', () => {
     expect(rg.getAttribute('validate')).toEqual(null);
     expect(rg.getAttribute('validation-events')).toEqual(null);
     rg.validate = 'required';
@@ -96,7 +96,7 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.getAttribute('validation-events')).toEqual(null);
   });
 
-  it('should set label required indicator', () => {
+  test('should set label required indicator', () => {
     const className = 'no-required-indicator';
     expect(rg.getAttribute('validate')).toEqual(null);
     expect(rg.getAttribute('label-required')).toEqual(null);
@@ -117,7 +117,7 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.labelRequired).toEqual('true');
   });
 
-  it('should set label text', () => {
+  test('should set label text', () => {
     document.body.innerHTML = '';
     const elem: any = new IdsRadioGroup();
     document.body.appendChild(elem);
@@ -133,7 +133,7 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.shadowRoot.querySelector('.group-label-text')).toBeFalsy();
   });
 
-  it('should renders value', () => {
+  test('should renders value', () => {
     const value = 'testRb1';
     let rb1: any = document.querySelector(`ids-radio[value="${value}"]`);
     expect(rb1.getAttribute('checked')).toEqual(null);
@@ -148,7 +148,7 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.getAttribute('value')).toEqual(null);
   });
 
-  it('should not renders wrong value', () => {
+  test('should not renders wrong value', () => {
     const value = 'testRb1';
     const wrongVal = 'some other value';
     let rb1: any = document.querySelector(`ids-radio[value="${value}"]`);
@@ -161,7 +161,7 @@ describe('IdsRadioGroup Component', () => {
     rg.value = null;
   });
 
-  it('should set value', () => {
+  test('should set value', () => {
     document.body.innerHTML = '';
     let elem = document.createElement('ids-radio-group');
     let rb1 = document.createElement('ids-radio');
@@ -220,7 +220,7 @@ describe('IdsRadioGroup Component', () => {
     expect(radioArr.length).toEqual(0);
   });
 
-  it('should clear', () => {
+  test('should clear', () => {
     document.body.innerHTML = '';
     const elem = document.createElement('ids-radio-group');
     const rb1 = document.createElement('ids-radio');
@@ -241,7 +241,7 @@ describe('IdsRadioGroup Component', () => {
     expect(radioArr[1].getAttribute('checked')).toEqual(null);
   });
 
-  it('should make checked', () => {
+  test('should make checked', () => {
     let radioArr: any[] = [...rg.querySelectorAll('ids-radio')];
     expect(radioArr[0].getAttribute('checked')).toEqual(null);
     expect(radioArr[1].getAttribute('checked')).toEqual(null);
@@ -259,7 +259,7 @@ describe('IdsRadioGroup Component', () => {
     expect(radioArr[1].getAttribute('checked')).toEqual(null);
   });
 
-  it('should rander display horizontal', () => {
+  test('should rander display horizontal', () => {
     let rootEl = rg.shadowRoot.querySelector('.ids-radio-group');
     expect(rootEl.classList).not.toContain('horizontal');
     expect(rg.getAttribute('horizontal')).toEqual(null);
@@ -274,7 +274,7 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.horizontal).toEqual(false);
   });
 
-  it('should trigger change event', () => {
+  test('should trigger change event', () => {
     const radio = rg.querySelector('ids-radio');
     const evt = 'change';
     let response = null;
@@ -286,7 +286,7 @@ describe('IdsRadioGroup Component', () => {
     expect(response).toEqual('triggered');
   });
 
-  it('should trigger key events', () => {
+  test('should trigger key events', () => {
     const radioArr = [...rg.querySelectorAll('ids-radio')];
     const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
     const keys = [...allow, 'DummyKey'];
@@ -305,7 +305,7 @@ describe('IdsRadioGroup Component', () => {
     });
   });
 
-  it('should render template', () => {
+  test('should render template', () => {
     document.body.innerHTML = '';
     const html = '<ids-radio-group label="test" value="test-val" disabled="true" horizontal="true"></ids-radio-group>';
     document.body.innerHTML = html;
@@ -318,7 +318,7 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.getAttribute('horizontal')).toEqual('true');
   });
 
-  it('can change language from the container', async () => {
+  test('can change language from the container', async () => {
     await IdsGlobal.getLocale().setLanguage('de');
     expect(rg.getAttribute('language')).toEqual('de');
   });

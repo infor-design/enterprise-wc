@@ -8,7 +8,7 @@ describe('Ids Editor e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should toggle blockquote', async () => {
+  test('should toggle blockquote', async () => {
     let html = await page.evaluate(() => {
       const doc = (document.querySelector('ids-editor') as any).shadowRoot;
       return doc.querySelector('#editor-container p:nth-child(2)').innerHTML;
@@ -44,7 +44,7 @@ describe('Ids Editor e2e Tests', () => {
     expect(html.includes('<p>Cross-platform')).toBeTruthy();
   });
 
-  it('should set text-align left and center', async () => {
+  test('should set text-align left and center', async () => {
     let elem = await page.evaluate(() => {
       const doc = (document.querySelector('ids-editor') as any).shadowRoot;
       return doc.querySelector('#editor-container p[style="text-align: center;"]');
@@ -78,7 +78,7 @@ describe('Ids Editor e2e Tests', () => {
     expect(elem).toBeFalsy();
   });
 
-  it('should set text-align left and right', async () => {
+  test('should set text-align left and right', async () => {
     let elem = await page.evaluate(() => {
       const doc = (document.querySelector('ids-editor') as any).shadowRoot;
       return doc.querySelector('#editor-container p[style="text-align: right;"]');
@@ -112,7 +112,7 @@ describe('Ids Editor e2e Tests', () => {
     expect(elem).toBeFalsy();
   });
 
-  it('should toggle ordered list', async () => {
+  test('should toggle ordered list', async () => {
     let elem = await page.evaluate(() => {
       const doc = (document.querySelector('ids-editor') as any).shadowRoot;
       return doc.querySelector('#editor-container p:nth-child(2) ol li');
@@ -146,7 +146,7 @@ describe('Ids Editor e2e Tests', () => {
     expect(elem).toBeFalsy();
   });
 
-  it('should toggle unordered list', async () => {
+  test('should toggle unordered list', async () => {
     let elem = await page.evaluate(() => {
       const doc = (document.querySelector('ids-editor') as any).shadowRoot;
       return doc.querySelector('#editor-container p:nth-child(2) ul li');
@@ -180,7 +180,7 @@ describe('Ids Editor e2e Tests', () => {
     expect(elem).toBeFalsy();
   });
 
-  it('should toggle header elements', async () => {
+  test('should toggle header elements', async () => {
     let elem = await page.evaluate(() => {
       const doc = (document.querySelector('ids-editor') as any).shadowRoot;
       return doc.querySelector('#editor-container h1');
@@ -244,7 +244,7 @@ describe('Ids Editor e2e Tests', () => {
     expect(elem).toBeTruthy();
   });
 
-  it('should toggle hyperlink', async () => {
+  test('should toggle hyperlink', async () => {
     let elem = await page.evaluate(() => {
       const doc = (document.querySelector('ids-editor') as any).shadowRoot;
       return doc.querySelector('#editor-container p:nth-child(2) a');
@@ -281,7 +281,7 @@ describe('Ids Editor e2e Tests', () => {
     expect(elem).toBeFalsy();
   });
 
-  it('should be able to activate buttons on selection change', async () => {
+  test('should be able to activate buttons on selection change', async () => {
     let cssClass = await page.evaluate(() => {
       const el = (document.querySelector('ids-editor [editor-action="hyperlink"]') as any);
       return el.cssClass;
@@ -304,7 +304,7 @@ describe('Ids Editor e2e Tests', () => {
     expect(cssClass).toBeTruthy();
   });
 
-  it('should be able to use source formatter', async () => {
+  test('should be able to use source formatter', async () => {
     const html = await page.evaluate(() => {
       const editor: any = document.querySelector('ids-editor');
       const doc = editor.shadowRoot;
@@ -318,7 +318,7 @@ describe('Ids Editor e2e Tests', () => {
     expect(html.includes('<p> Cross-platform')).toBeTruthy();
   });
 
-  it('should toggle fore color', async () => {
+  test('should toggle fore color', async () => {
     let elem = await page.evaluate(() => {
       const doc = (document.querySelector('ids-editor') as any).shadowRoot;
       return doc.querySelector('#editor-container p:nth-child(2) font[color]');
@@ -355,7 +355,7 @@ describe('Ids Editor e2e Tests', () => {
     expect(elem).toBeFalsy();
   });
 
-  it('should be able to insert image', async () => {
+  test('should be able to insert image', async () => {
     let elem = await page.evaluate(() => {
       const doc = (document.querySelector('ids-editor') as any).shadowRoot;
       return doc.querySelector('#editor-container img');

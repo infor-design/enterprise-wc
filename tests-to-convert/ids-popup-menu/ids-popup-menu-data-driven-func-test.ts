@@ -27,7 +27,7 @@ describe('IdsPopupMenu Component', () => {
     menu = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     // Three popupmenus (top level and 2 submenus)
@@ -35,7 +35,7 @@ describe('IdsPopupMenu Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('reverts to markup-driven if handed an empty dataset', () => {
+  test('reverts to markup-driven if handed an empty dataset', () => {
     menu.data = null;
 
     // both old data and markup should stay in-tact
@@ -53,7 +53,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menus.length).toEqual(2);
   });
 
-  it('accepts an array as a `contents` property', () => {
+  test('accepts an array as a `contents` property', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
@@ -67,7 +67,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.items.length).toEqual(3);
   });
 
-  it('renders with no errors when given an empty dataset', () => {
+  test('renders with no errors when given an empty dataset', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
@@ -79,7 +79,7 @@ describe('IdsPopupMenu Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('won\'t render contents if the data object has no items in its `contents` array', () => {
+  test('won\'t render contents if the data object has no items in its `contents` array', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
@@ -93,7 +93,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.groups.length).toEqual(0);
   });
 
-  it('propagates an `id` property on a data object as the Popupmenu\'s `id` attribute', () => {
+  test('propagates an `id` property on a data object as the Popupmenu\'s `id` attribute', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
@@ -108,7 +108,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.id).toBe('test-menu');
   });
 
-  it('won\'t render contents if the contents property is not valid', () => {
+  test('won\'t render contents if the contents property is not valid', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
@@ -122,7 +122,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.groups.length).toEqual(0);
   });
 
-  it('won\'t render a group if it has no `items` property', () => {
+  test('won\'t render a group if it has no `items` property', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
@@ -142,7 +142,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.groups.length).toEqual(0);
   });
 
-  it('won\'t render a group if its `items` property has no items present', () => {
+  test('won\'t render a group if its `items` property has no items present', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
@@ -163,7 +163,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.groups.length).toEqual(0);
   });
 
-  it('won\'t render an item\'s submenu if the submenu has no `contents` property', () => {
+  test('won\'t render an item\'s submenu if the submenu has no `contents` property', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
@@ -195,7 +195,7 @@ describe('IdsPopupMenu Component', () => {
     expect(item.hasSubmenu).toBeFalsy();
   });
 
-  it('won\'t render an item\'s submenu if the submenu\'s `contents` property is invalid', () => {
+  test('won\'t render an item\'s submenu if the submenu\'s `contents` property is invalid', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
@@ -228,7 +228,7 @@ describe('IdsPopupMenu Component', () => {
     expect(item.hasSubmenu).toBeFalsy();
   });
 
-  it('propagates `shortcutKeys` property onto menu items if provided', () => {
+  test('propagates `shortcutKeys` property onto menu items if provided', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';

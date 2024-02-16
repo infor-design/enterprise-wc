@@ -25,7 +25,7 @@ describe('IdsTimePickerPopup Component', () => {
     timepickerPopup = null;
   });
 
-  it('renders am/pm', () => {
+  test('renders am/pm', () => {
     timepickerPopup.autoupdate = true;
     timepickerPopup.format = 'hh:mm a';
 
@@ -48,7 +48,7 @@ describe('IdsTimePickerPopup Component', () => {
     expect(timepickerPopup.value).toBe('10:00 AM');
   });
 
-  it('renders minutes intervals', () => {
+  test('renders minutes intervals', () => {
     timepickerPopup.setAttribute(attributes.FORMAT, 'hh:mm');
 
     timepickerPopup.minuteInterval = null;
@@ -71,7 +71,7 @@ describe('IdsTimePickerPopup Component', () => {
     expect(getOptions('#minutes')).toStrictEqual(Array.from({ length: 60 }).map((_, index) => index));
   });
 
-  it('renders separators', () => {
+  test('renders separators', () => {
     timepickerPopup.format = 'hh:mm:ss a';
     timepickerPopup.replaceWith(timepickerPopup);
     expect(timepickerPopup.container?.querySelectorAll('.separator')).toHaveLength(3);
@@ -85,7 +85,7 @@ describe('IdsTimePickerPopup Component', () => {
     expect(timepickerPopup.container?.querySelectorAll('.separator')).toHaveLength(1);
   });
 
-  it('renders seconds intervals', () => {
+  test('renders seconds intervals', () => {
     timepickerPopup.setAttribute(attributes.FORMAT, 'hh:mm:ss');
 
     timepickerPopup.secondInterval = null;
@@ -107,7 +107,7 @@ describe('IdsTimePickerPopup Component', () => {
     expect(getOptions('#seconds')).toStrictEqual(Array.from({ length: 60 }).map((_, index) => index));
   });
 
-  it('should handle embeddable setting', () => {
+  test('should handle embeddable setting', () => {
     const containerEl = document.querySelector<IdsContainer>('ids-container')!;
     containerEl.insertAdjacentHTML('beforeend', `<ids-time-picker-popup id="embedded" embeddable="true"></ids-time-picker-popup>`);
 
@@ -122,7 +122,7 @@ describe('IdsTimePickerPopup Component', () => {
     expect(timepickerPopup.shadowRoot?.querySelector('.embedded')).toBeNull();
   });
 
-  it('can update the timestring value with the "Set Time" button', () => {
+  test('can update the timestring value with the "Set Time" button', () => {
     timepickerPopup.useCurrentTime = false;
     timepickerPopup.autoupdate = false;
     timepickerPopup.format = 'hh:mm';
@@ -138,7 +138,7 @@ describe('IdsTimePickerPopup Component', () => {
     expect(timepickerPopup.value).toBe('02:30');
   });
 
-  it('with autoupdate attribute, can hide the "Set Time" button', () => {
+  test('with autoupdate attribute, can hide the "Set Time" button', () => {
     expect(timepickerPopup.autoupdate).toBeFalsy();
     expect(timepickerPopup.getAttribute(attributes.AUTOUPDATE)).toBeFalsy();
     expect(timepickerPopup.applyButtonEl).toBeDefined();
@@ -154,7 +154,7 @@ describe('IdsTimePickerPopup Component', () => {
     expect(timepickerPopup.applyButtonEl?.hidden).toBeFalsy();
   });
 
-  it('should handle option to limit hours', () => {
+  test('should handle option to limit hours', () => {
     const getOptions = (id: string): Array<number> => Array.from(timepickerPopup.container.querySelector(id)?.options)
       .map((item: any) => +item.textContent);
 

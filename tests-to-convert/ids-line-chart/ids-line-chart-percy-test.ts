@@ -3,14 +3,14 @@ import pageSnapshot from '../helpers/page-snapshot';
 describe('Ids Line Chart Percy Tests', () => {
   const url = 'http://localhost:4444/ids-line-chart/no-animation.html';
 
-  it('should not have visual regressions with custom colors', async () => {
+  test('should not have visual regressions with custom colors', async () => {
     await page.goto('http://localhost:4444/ids-line-chart/colors.html', { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("ids-line-chart").animate = false');
     await page.waitForSelector('pierce/.chart-legend');
     await pageSnapshot(page, 'ids-line-chart-colors');
   });
 
-  it('should not have visual regressions when responsive short', async () => {
+  test('should not have visual regressions when responsive short', async () => {
     await page.setViewport({
       width: 375,
       height: 1080
@@ -21,7 +21,7 @@ describe('Ids Line Chart Percy Tests', () => {
     await pageSnapshot(page, 'ids-line-chart-responsive-short');
   });
 
-  it('should not have visual regressions when responsive abbreviated', async () => {
+  test('should not have visual regressions when responsive abbreviated', async () => {
     await page.setViewport({
       width: 270,
       height: 1080
