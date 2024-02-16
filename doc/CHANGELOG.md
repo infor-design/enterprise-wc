@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.21
+
+### 1.0.0-beta.21 Fixes
+
+- `[TimePicker/Calendar]` Fixed outside click when interacting with the popup. ([#1860](https://github.com/infor-design/enterprise-wc/issues/1860))
+
 ## 1.0.0-beta.20
 
 ### 1.0.0-beta.20 Breaking Changes

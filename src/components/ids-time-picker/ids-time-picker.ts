@@ -240,14 +240,13 @@ export default class IdsTimePicker extends Base {
           picker.popup.x = 0;
           picker.popup.setAttribute(attributes.ARROW_TARGET, `#${btnId}`);
           picker.popup.onXYSwitch = onPickerPopupXYSwitch;
+          picker.popup.onOutsideClick = (e: any) => {
+            const path = e.composedPath && e.composedPath();
+            if (!path?.includes(picker) && !path?.includes(this.input)) {
+              picker.hide();
+            }
+          };
         }
-
-        picker.onOutsideClick = (e: any) => {
-          const path = e.composedPath && e.composedPath();
-          if (!path?.includes(picker) && !path?.includes(this.input)) {
-            picker.hide();
-          }
-        };
 
         picker.onTriggerClick = () => {
           if (this.disabled || this.readonly) return;
@@ -599,6 +598,7 @@ export default class IdsTimePicker extends Base {
       if (this.picker.popup) {
         this.picker.popup.align = `bottom, ${this.localeAPI.isRTL() || ['md', 'lg', 'full'].includes(this.size) ? 'right' : 'left'}`;
         this.picker.popup.arrow = 'bottom';
+        this.configurePickerPopup();
       }
     }
 
