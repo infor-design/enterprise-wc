@@ -321,7 +321,7 @@ export default class IdsDropdown extends Base {
 
     let selector = `ids-list-box-option[value="${value}"]`;
     if (value === ' ' || !value) {
-      selector = `ids-list-box-option[value=""], ids-list-box-option:not([value])`;
+      selector = `ids-list-box-option[value=""]:not([group-label]), ids-list-box-option:not([value]):not([group-label])`;
     }
 
     const listBoxOption = [...this.dropdownList?.listBox?.querySelectorAll<IdsListBoxOption>(selector) ?? []].at(0);
