@@ -334,7 +334,7 @@ export default class IdsDropdown extends Base {
     this.selectOption(listBoxOption);
     this.selectIcon(listBoxOption);
     this.selectTooltip(listBoxOption);
-    if (this.input) this.input.value = listBoxOption.textContent?.trim();
+    if (this.input?.input) this.input.input.value = listBoxOption.textContent?.trim() ?? '';
     this.state.selectedIndex = [...((listBoxOption?.parentElement as any)?.children || [])].indexOf(listBoxOption);
   }
 
@@ -895,14 +895,20 @@ export default class IdsDropdown extends Base {
   attachKeyboardSelectionEvent() {
     if (!this.#isMultiSelect) {
       // Select or Open on space/enter
-      this.listen([' ', 'Enter'], this, () => {
+      this.listen(['Enter'], this, (e: Event) => {
         if (!this.dropdownList?.popup?.visible) return;
         if (this.openedByKeyboard) {
           this.openedByKeyboard = false;
           return;
         }
 
+        if (!this.selected) this.#selectFirstOption();
         const value = this.selected?.getAttribute(attributes.VALUE) || '';
+
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
         this.value = value;
         this.closedByKeyboard = true;
         this.close();
@@ -925,12 +931,20 @@ export default class IdsDropdown extends Base {
    * @returns {object} This API object for chaining
    */
   #attachKeyboardListeners() {
-    this.offEvent('keydownend.dropdown-typeahead');
-    this.onEvent('keydownend.dropdown-typeahead', this, (e: CustomEvent) => {
+    this.onEvent('keydown.dropdown-typeahead', this, (e: KeyboardEvent) => {
+      const key = e.key || 'Space';
+      if (['Backspace', 'Delete', 'Escape', 'Tab'].includes(key)) return;
+
+      if (!this.dropdownList?.popup?.visible) {
+        this.open(true);
+      }
+    });
+
+    this.onEvent('input.dropdown', this.input?.input, (e: any) => {
       if (this.typeahead) {
-        this.#typeAhead(e.detail.keys);
+        this.#typeAhead(e.target?.value);
       } else {
-        this.#selectMatch(e.detail.keys);
+        this.#selectMatch(e.target?.value);
       }
     });
 
@@ -1006,23 +1020,9 @@ export default class IdsDropdown extends Base {
    * @returns {void}
    */
   #typeAhead(text: string) {
-    // Accepts the keyboard input while closed
-    const excludeKeys = ['Backspace', 'Delete'];
-
-    if (!this.dropdownList?.popup?.visible) {
-      // Open popup if user starts typing (but backspace/delete is not one of keys pressed by user)
-      if (!excludeKeys.some((item) => text?.includes(item))) {
-        if (this.input) this.input.value = text;
-        this.open(false);
-      } else {
-        return;
-      }
-    }
-
-    const inputValue = this.input?.value ?? '';
-    const resultsArr = this.#findMatches(inputValue);
+    const resultsArr = this.#findMatches(text);
     const results = resultsArr.map((item: IdsDropdownOption) => {
-      const regex = new RegExp(inputValue, 'gi');
+      const regex = new RegExp(text, 'gi');
       const optionText = item.groupLabel ? item.label : item.label?.replace(
         regex,
         (matched) => `<span class="highlight">${matched}</span>`
@@ -1038,7 +1038,6 @@ export default class IdsDropdown extends Base {
       if (this.dropdownList.listBox) {
         if (results) {
           this.dropdownList.listBox.innerHTML = results;
-          this.#selectFirstOption();
         } else {
           this.dropdownList.listBox.innerHTML = `<ids-list-box-option>${this.localeAPI.translate('NoResults')}</ids-list-box-option>`;
         }
