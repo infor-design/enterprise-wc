@@ -55,7 +55,7 @@ describe('IdsProcessIndicator Component', () => {
     processIndicator?.remove();
   });
 
-  it('sets labels correctly', async () => {
+  test('sets labels correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.VANILLA_PROCESS_INDICATOR);
     const steps = document.querySelectorAll('ids-process-indicator-step');
     steps.forEach((s: any) => {
@@ -63,7 +63,7 @@ describe('IdsProcessIndicator Component', () => {
     });
   });
 
-  it('sets cancelled status correctly', async () => {
+  test('sets cancelled status correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.CANCELLED_PROCESS_INDICATOR);
     const steps = document.querySelectorAll('ids-process-indicator-step');
     steps.forEach((s: any, i) => {
@@ -74,7 +74,7 @@ describe('IdsProcessIndicator Component', () => {
     });
   });
 
-  it('sets empty attributes correctly', async () => {
+  test('sets empty attributes correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.EMPTY_ATTRIBUTES_PROCESS_INDICATOR);
     const steps = document.querySelectorAll('ids-process-indicator-step');
     steps.forEach((s: any) => {
@@ -83,7 +83,7 @@ describe('IdsProcessIndicator Component', () => {
     });
   });
 
-  it('handles icon changes/removal correctly', async () => {
+  test('handles icon changes/removal correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.CANCELLED_PROCESS_INDICATOR);
     const step: any = document.querySelector('ids-process-indicator-step[status="cancelled"]');
     expect(step.container.querySelector('ids-icon')).toBeTruthy();
@@ -91,12 +91,12 @@ describe('IdsProcessIndicator Component', () => {
     expect(step.container.querySelector('ids-icon')).toBe(null);
   });
 
-  it('handles no steps correctly', async () => {
+  test('handles no steps correctly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.NO_STEPS_PROCESS_INDICATOR);
     expect(processIndicator.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
-  it('sets the xl-label corrrectly', async () => {
+  test('sets the xl-label corrrectly', async () => {
     processIndicator = await createElemViaTemplate(HTMLSnippets.STARTED_PROCESS_INDICATOR);
     expect(processIndicator.container.querySelector('.xs-header .label').innerHTML).toEqual('None');
   });

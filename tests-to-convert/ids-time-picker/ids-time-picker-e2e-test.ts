@@ -18,7 +18,7 @@ describe('Ids Time Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-time-picker/example.html';
   const axeUrl = 'http://localhost:4444/ids-time-picker/open.html';
 
-  it('should pass Axe accessibility tests', async () => {
+  test('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(axeUrl, { waitUntil: ['networkidle2', 'load'] });
     await checkForAxeViolations(page, [
@@ -27,7 +27,7 @@ describe('Ids Time Picker e2e Tests', () => {
     ]);
   });
 
-  it('should change value on input value change', async () => {
+  test('should change value on input value change', async () => {
     // Set value to the input
     await page.$eval(
       '#e2e-timepicker-required',
@@ -145,7 +145,7 @@ describe('Ids Time Picker e2e Tests', () => {
     expect(thisDropdowns.period).toBeDefined();
   });
 
-  it('can select a time from the time picker dropdowns', async () => {
+  test('can select a time from the time picker dropdowns', async () => {
     // Open the timepicker popup
     await page.$eval('#e2e-timepicker-required', (el: any) => {
       el.format = 'h:mm a';

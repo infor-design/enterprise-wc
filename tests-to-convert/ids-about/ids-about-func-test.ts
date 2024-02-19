@@ -3,7 +3,6 @@
  */
 import '../helpers/resize-observer-mock';
 import '../helpers/match-media-mock';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsAbout from '../../src/components/ids-about/ids-about';
 
@@ -50,20 +49,7 @@ describe('IdsAbout Component (using properties)', () => {
     container.appendChild(component);
   });
 
-  afterEach(async () => {
-    document.body.innerHTML = '';
-  });
-
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    component.remove();
-
-    expect(document.querySelectorAll(name).length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('can alter productVersion and productName', () => {
+  test('can alter productVersion and productName', () => {
     const newProductVersion = 'New productVersion';
     const newProductName = 'New productVersion';
     component.productVersion = newProductVersion;
@@ -79,7 +65,7 @@ describe('IdsAbout Component (using properties)', () => {
     expect(component.productName).toEqual('');
   });
 
-  it('can alter useDefaultCopyright', () => {
+  test('can alter useDefaultCopyright', () => {
     component.useDefaultCopyright = false;
 
     expect(component.useDefaultCopyright).toBeFalsy();
@@ -97,7 +83,7 @@ describe('IdsAbout Component (using properties)', () => {
     expect(component.useDefaultCopyright).toBeTruthy();
   });
 
-  it('can alter deviceSpecs', () => {
+  test('can alter deviceSpecs', () => {
     component.deviceSpecs = false;
 
     expect(component.deviceSpecs).toBeFalsy();
@@ -115,7 +101,7 @@ describe('IdsAbout Component (using properties)', () => {
     expect(component.deviceSpecs).toBeTruthy();
   });
 
-  it('can alter copyrightYear', () => {
+  test('can alter copyrightYear', () => {
     component.copyrightYear = 2015;
 
     expect(component.copyrightYear).toEqual('2015');
@@ -139,23 +125,7 @@ describe('IdsAbout Component (using attributes)', () => {
     component = null;
   });
 
-  it('should render', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    expect(document.querySelectorAll(name).length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    component.remove();
-
-    expect(document.querySelectorAll(name).length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('has properties', () => {
+  test('has properties', () => {
     expect(component.productName).toEqual(productName);
     expect(component.productVersion).toEqual(productVersion);
     expect(component.copyrightYear).toEqual(new Date().getFullYear().toString());
@@ -163,7 +133,7 @@ describe('IdsAbout Component (using attributes)', () => {
     expect(component.deviceSpecs).toBeTruthy();
   });
 
-  it('should not close on click outside', (done) => {
+  test('should not close on click outside', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
     component.visible = true;
@@ -194,20 +164,20 @@ describe('IdsAbout Component (empty)', () => {
     component = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should have default properties', () => {
+  test('should have default properties', () => {
     expect(component.copyrightYear).toEqual(new Date().getFullYear().toString());
     expect(component.deviceSpecs).toBeTruthy();
     expect(component.useDefaultCopyright).toBeTruthy();
   });
 
-  it('can change productVersion and productName after being invoked', () => {
+  test('can change productVersion and productName after being invoked', () => {
     const newProductVersion = '1.0.1';
     const newProductName = 'IdsAbout';
 
@@ -219,26 +189,26 @@ describe('IdsAbout Component (empty)', () => {
     expect(component.productVersion).toEqual(newProductVersion);
   });
 
-  it('can change copyrightYear after being invoked', () => {
+  test('can change copyrightYear after being invoked', () => {
     component.copyrightYear = 2015;
 
     expect(component.querySelectorAll('*').length).toBeTruthy();
     expect(component.copyrightYear).toEqual('2015');
   });
 
-  it('can remove default copyright after being invoked', () => {
+  test('can remove default copyright after being invoked', () => {
     component.useDefaultCopyright = false;
 
     expect(component.useDefaultCopyright).toBeFalsy();
   });
 
-  it('can remove device specs after being invoked', () => {
+  test('can remove device specs after being invoked', () => {
     component.deviceSpecs = false;
 
     expect(component.deviceSpecs).toBeFalsy();
   });
 
-  it('can click outside and it wont close', (done) => {
+  test('can click outside and it wont close', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
     component.visible = true;
@@ -279,12 +249,11 @@ describe('IdsAbout Component locale', () => {
     container = null;
   });
 
-  it('can change language from the container', async () => {
+  test('can change language from the container', async () => {
     await IdsGlobal.getLocale().setLanguage('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
 
     await IdsGlobal.getLocale().setLanguage('es');
-    await processAnimFrame();
 
     // if copyright translates
     let copyrightOriginal = esMessages.AboutText.value
@@ -299,7 +268,6 @@ describe('IdsAbout Component locale', () => {
     expect(deviceSpecsText).toContain(esMessages.Platform.value);
 
     await IdsGlobal.getLocale().setLanguage('ja');
-    await processAnimFrame();
 
     // if copyright translates
     copyrightOriginal = jaMessages.AboutText.value

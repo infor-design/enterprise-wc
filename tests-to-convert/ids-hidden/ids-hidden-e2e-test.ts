@@ -4,7 +4,7 @@ import countObjects from '../helpers/count-objects';
 describe('Ids Hidden e2e Tests', () => {
   const url = 'http://localhost:4444/ids-hidden/example.html';
 
-  it('should show hidden-1 el when on medium screens and down', async () => {
+  test('should show hidden-1 el when on medium screens and down', async () => {
     const newPage = await browser.newPage();
     await newPage.setViewport({ width: 839, height: 9999, deviceScaleFactor: 1 });
     await newPage.goto('http://localhost:4444/ids-hidden/example.html');
@@ -14,7 +14,7 @@ describe('Ids Hidden e2e Tests', () => {
     expect(hidden2IsVisible).toEqual(null);
   });
 
-  it('should show hidden-2 el when on medium screens and up', async () => {
+  test('should show hidden-2 el when on medium screens and up', async () => {
     const newPage = await browser.newPage();
     await newPage.setViewport({ width: 841, height: 9999, deviceScaleFactor: 1 });
     await newPage.goto('http://localhost:4444/ids-hidden/example.html');

@@ -15,11 +15,11 @@ describe('IdsMaskAPI', () => {
     api = null;
   });
 
-  it('can be invoked', () => {
+  test('can be invoked', () => {
     expect(api).toBeDefined();
   });
 
-  it('should process patterns', () => {
+  test('should process patterns', () => {
     // Checks a basic "credit card" pattern mask
     const text = 'x0x1x2x3x4x5x6x7x8x9x0x1x2x3x4x5x6x';
     const opts = {
@@ -31,7 +31,7 @@ describe('IdsMaskAPI', () => {
     expect(result.conformedValue).toEqual('0123-4567-8901-2345');
   });
 
-  it('can identify caret traps', () => {
+  test('can identify caret traps', () => {
     const testMask = [/\d/, ',', /\d/, /\d/, /\d/, ',', /\d/, /\d/, /\d/, ',', /\d/, /\d/, /\d/, CARET_TRAP, '.', CARET_TRAP, /\d/, /\d/];
     const result = api.processCaretTraps(testMask);
 
@@ -42,7 +42,7 @@ describe('IdsMaskAPI', () => {
     expect(result.indexes).toEqual(expect.arrayContaining([13, 14]));
   });
 
-  it('should retain text caret location in simple mask results', () => {
+  test('should retain text caret location in simple mask results', () => {
     const opts = {
       pattern: [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
       selection: {
@@ -72,7 +72,7 @@ describe('IdsMaskAPI', () => {
     expect(caretPos).toEqual(1);
   });
 
-  it('should adjust text caret placement when adding character literals', () => {
+  test('should adjust text caret placement when adding character literals', () => {
     const text = '1234';
     const opts = {
       pattern: [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
@@ -102,7 +102,7 @@ describe('IdsMaskAPI', () => {
     expect(caretPos).toEqual(5);
   });
 
-  it('can safely select an input\'s value', () => {
+  test('can safely select an input\'s value', () => {
     expect(api.getSafeRawValue(300)).toEqual('300');
     expect(api.getSafeRawValue('straight up text')).toEqual('straight up text');
     expect(api.getSafeRawValue(`${300}4545`)).toEqual('3004545');
@@ -114,7 +114,7 @@ describe('IdsMaskAPI', () => {
   // Pass Coverage
   // ===============
 
-  it('cannot process non-strings', () => {
+  test('cannot process non-strings', () => {
     const opts = {
       pattern: [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
     };
@@ -126,9 +126,9 @@ describe('IdsMaskAPI', () => {
     }
   });
 
-  it('wraps a mask array returned by a mask function in an object with meta-data', () => {
+  test('wraps a mask array returned by a mask function in an object with meta-data', () => {
     // This is a mask function that simply returns the raw value split up
-    const testMask = (rawValue: string) => rawValue.split('');
+    const testMask = (rawValue: string) => rawValue.spltest('');
     const opts = {
       pattern: testMask
     };
@@ -137,7 +137,7 @@ describe('IdsMaskAPI', () => {
     expect(result.maskResult).toBeTruthy();
   });
 
-  it('doesn\'t process against mask functions that return `false`', () => {
+  test('doesn\'t process against mask functions that return `false`', () => {
     const testMask = () => false;
     const opts = {
       pattern: testMask
@@ -147,8 +147,8 @@ describe('IdsMaskAPI', () => {
     expect(result.maskResult).toBeFalsy();
   });
 
-  it('ignores modified values from a failed pipe function', () => {
-    const testMask = (rawValue: string) => rawValue.split('');
+  test('ignores modified values from a failed pipe function', () => {
+    const testMask = (rawValue: string) => rawValue.spltest('');
     const testPipe = () => { throw new Error(); };
     const opts = {
       pattern: testMask,
@@ -159,8 +159,8 @@ describe('IdsMaskAPI', () => {
     expect(result.pipeResult).toBeFalsy();
   });
 
-  it('handles string results from pipe functions', () => {
-    const testMask = (rawValue: string) => rawValue.split('');
+  test('handles string results from pipe functions', () => {
+    const testMask = (rawValue: string) => rawValue.spltest('');
     const testPipe = (maskResult: any) => maskResult.conformedValue;
     const opts = {
       pattern: testMask,

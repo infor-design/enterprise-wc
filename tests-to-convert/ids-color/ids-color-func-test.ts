@@ -16,12 +16,12 @@ describe('Ids Color Component', () => {
     color = null;
   });
 
-  it('shows transparent background for default hex', () => {
+  test('shows transparent background for default hex', () => {
     expect(color.hex).toEqual('');
     expect(['', 'transparent'].includes(color.container.style.backgroundColor)).toBe(true);
   });
 
-  it('hex attribute updates background-color', () => {
+  test('hex attribute updates background-color', () => {
     color.hex = '#000000';
     expect(color.getAttribute('hex')).toEqual('#000000');
     expect(color.hex).toEqual('#000000');
@@ -43,14 +43,14 @@ describe('Ids Color Component', () => {
     expect(color.container.style.backgroundColor).toBe('red');
   });
 
-  it('shows hex when IdsColor.label is falsey', () => {
+  test('shows hex when IdsColor.label is falsey', () => {
     color.hex = '#000000';
     color.label = '';
     expect(color.label).toEqual('');
     expect(color.getAttribute('label')).toEqual('');
   });
 
-  it('shows label when IdsColor.label is true', () => {
+  test('shows label when IdsColor.label is true', () => {
     color.hex = '#000000';
     color.label = 'Black';
     expect(color.label).toEqual('Black');

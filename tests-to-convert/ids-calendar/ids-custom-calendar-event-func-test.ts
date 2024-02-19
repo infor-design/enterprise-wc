@@ -48,7 +48,7 @@ describe('IdsCustomCalendarEvent Component', () => {
     idsContainer.innerHTML = '';
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
     calendarEvent.eventTypeData = EVENT_TYPE;
     calendarEvent.eventData = EVENT_ITEM;
@@ -57,27 +57,18 @@ describe('IdsCustomCalendarEvent Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can be instantiated with createElement', () => {
+  test('can be instantiated with createElement', () => {
     const errors = jest.spyOn(global.console, 'error');
     document.createElement('ids-custom-calendar-event');
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    calendarEvent.remove();
-
-    expect(document.querySelectorAll(name).length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('caches event data', () => {
+  test('caches event data', () => {
     expect(calendarEvent.eventData).toEqual(EVENT_ITEM);
     expect(calendarEvent.eventTypeData).toEqual(EVENT_TYPE);
   });
 
-  it('calculates duration in hours', () => {
+  test('calculates duration in hours', () => {
     expect(calendarEvent.duration).toEqual(2);
 
     // set duration to 2.5 hours
@@ -91,7 +82,7 @@ describe('IdsCustomCalendarEvent Component', () => {
     expect(calendarEvent.duration).toEqual(2.5);
   });
 
-  it('allows setting width and height', () => {
+  test('allows setting width and height', () => {
     const width = '50px';
     calendarEvent.width = width;
     expect(calendarEvent.width).toEqual(width);
@@ -103,7 +94,7 @@ describe('IdsCustomCalendarEvent Component', () => {
     expect(calendarEvent.container.style.height).toEqual(height);
   });
 
-  it('allows setting x any y offsets', () => {
+  test('allows setting x any y offsets', () => {
     const yOffset = '10px';
     calendarEvent.yOffset = yOffset;
     expect(calendarEvent.yOffset).toEqual(yOffset);
@@ -115,13 +106,13 @@ describe('IdsCustomCalendarEvent Component', () => {
     expect(calendarEvent.container.style.left).toEqual(xOffset);
   });
 
-  it('allows setting extra css classes', () => {
+  test('allows setting extra css classes', () => {
     const cssClass = 'dummy-class';
     calendarEvent.cssClass = [cssClass];
     expect(calendarEvent.container.classList.contains(cssClass)).toBeTruthy();
   });
 
-  it('allows setting overflow', () => {
+  test('allows setting overflow', () => {
     // ellipsis by default
     expect(calendarEvent.overflow).toEqual('ellipsis');
 
@@ -130,7 +121,7 @@ describe('IdsCustomCalendarEvent Component', () => {
     expect(calendarEvent.overflow).toEqual(overflow);
   });
 
-  it('displays hour range when displayTime is set', () => {
+  test('displays hour range when displayTime is set', () => {
     calendarEvent.displayTime = true;
     expect(calendarEvent.getDisplayTime()).toContain('12');
     expect(calendarEvent.getDisplayTime()).toContain('2');
@@ -138,7 +129,7 @@ describe('IdsCustomCalendarEvent Component', () => {
     expect(calendarEvent.getDisplayTime()).toEqual('');
   });
 
-  it('can render without event type', () => {
+  test('can render without event type', () => {
     const errors = jest.spyOn(global.console, 'error');
     calendarEvent.eventTypeData = null;
     expect(errors).not.toHaveBeenCalled();

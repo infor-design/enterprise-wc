@@ -9,14 +9,14 @@ describe('IdsElement Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('detaches an invalid event name without affecting existing events', () => {
+  test('detaches an invalid event name without affecting existing events', () => {
     const elem: any = new IdsTag();
     const prevHandledEventsSize = elem.handledEvents.size;
     elem.detachEventsByName(123);
     expect(elem.handledEvents.size).toEqual(prevHandledEventsSize);
   });
 
-  it('skips render if no template', () => {
+  test('skips render if no template', () => {
     const elem: any = new IdsTag();
     elem.template = null;
 
@@ -26,7 +26,7 @@ describe('IdsElement Tests', () => {
     expect(mockCallback.mock.calls.length).toBe(0);
   });
 
-  it('if no styles sets the container', () => {
+  test('if no styles sets the container', () => {
     const elem: any = new IdsTag();
     document.body.appendChild(elem);
     expect(elem.container.nodeName).toBe('SPAN');
@@ -37,7 +37,7 @@ describe('IdsElement Tests', () => {
     expect(elem.container.nodeName).toEqual('SPAN');
   });
 
-  it('can find the nonce', () => {
+  test('can find the nonce', () => {
     const elem = new IdsTag();
     expect(elem.nonce).toEqual('0a59a005');
     (document as any).nonce = '0a59a001';

@@ -16,7 +16,7 @@ describe('IdsHeader Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('has a color attribute', () => {
+  test('has a color attribute', () => {
     elem.color = '#fff';
 
     expect(elem.color).toBe('#fff');

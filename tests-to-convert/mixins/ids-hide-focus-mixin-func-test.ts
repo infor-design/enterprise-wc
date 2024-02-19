@@ -16,7 +16,7 @@ describe('IdsHideFocusMixin Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('should add/remove CSS class on property/attribute change', () => {
+  test('should add/remove CSS class on property/attribute change', () => {
     expect(button.hideFocus).toBeTruthy();
     expect(button.container.classList.contains('hide-focus')).toBeTruthy();
 
@@ -27,7 +27,7 @@ describe('IdsHideFocusMixin Tests', () => {
     expect(button.container.classList.contains('hide-focus')).toBeFalsy();
   });
 
-  it('should add/remove CSS class on click/focus', async () => {
+  test('should add/remove CSS class on click/focus', async () => {
     button.focus();
     expect(button.container.classList.contains('hide-focus')).toBeFalsy();
     button.dispatchEvent(new MouseEvent('mousedown'));

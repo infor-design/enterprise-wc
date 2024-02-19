@@ -90,7 +90,7 @@ describe('IdsToolbarMoreActions Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('can be rendered', async () => {
+  test('can be rendered', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
     // Build and destroy a barebones Toolbar
@@ -102,16 +102,16 @@ describe('IdsToolbarMoreActions Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('has a menu button', () => {
+  test('has a menu button', () => {
     expect(sectionMore.menu.tagName).toBe('IDS-POPUP-MENU');
     expect(sectionMore.button.tagName).toBe('IDS-MENU-BUTTON');
   });
 
-  it('can reference its predefined menu items', async () => {
+  test('can reference its predefined menu items', async () => {
     expect(sectionMore.predefinedMenuItems.length).toBe(4);
   });
 
-  it('can activate/deactivate display of overflowed menu items', async () => {
+  test('can activate/deactivate display of overflowed menu items', async () => {
     sectionMore.overflow = true;
 
     waitForTimeout(() => expect(sectionMore.querySelector('[more-actions]')).toBeDefined());
@@ -123,7 +123,7 @@ describe('IdsToolbarMoreActions Component', () => {
     waitForTimeout(() => expect(sectionMore.overflowItems.length).toBe(0));
   });
 
-  it('always returns a "more" type', () => {
+  test('always returns a "more" type', () => {
     expect(sectionMore.type).toBe('more');
 
     // It's not possible to change this to one of the other standard types
@@ -132,19 +132,19 @@ describe('IdsToolbarMoreActions Component', () => {
     expect(sectionMore.type).toBe('more');
   });
 
-  it('focuses the inner button component when told to focus', () => {
+  test('focuses the inner button component when told to focus', () => {
     sectionMore.focus();
     expect(document.activeElement!.isEqualNode(sectionMore.button));
   });
 
   // Tests code path in `ids-menu` that searches a slot for groups instead of using `querySelector`
-  it('gets slotted children when accessing its menu\'s `groups` property', () => {
+  test('gets slotted children when accessing its menu\'s `groups` property', () => {
     const groups = sectionMore.menu.groups;
 
     expect(groups.length).toBe(1);
   });
 
-  it('can programatically open/close its menu', async () => {
+  test('can programatically open/close its menu', async () => {
     sectionMore.visible = true;
 
     waitForTimeout(() => expect(sectionMore.hasAttribute('visible').toBeTruthy()));
@@ -175,7 +175,7 @@ describe('IdsToolbarMoreActions Component (initialized with overflow)', () => {
     }
   });
 
-  it('can programmatically trigger selected events using More Actions menu items', async () => {
+  test('can programmatically trigger selected events using More Actions menu items', async () => {
     selectedEventListener = jest.fn();
     document.body.addEventListener('selected', selectedEventListener);
 

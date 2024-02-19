@@ -8,7 +8,7 @@ describe('Ids Tooltip e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should open on focus', async () => {
+  test('should open on focus', async () => {
     await page.$eval('#tooltip-example', (e: any) => e.setAttribute('visible', 'true'));
     const element = await page.waitForSelector('#tooltip-example[visible]');
     const value = await element.evaluate((el: any) => el.textContent);
@@ -35,7 +35,7 @@ describe('Ids Tooltip e2e Tests', () => {
     await expect(isVisible).toEqual(null);
   });
 
-  it('should pass Axe accessibility tests', async () => {
+  test('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).analyze();

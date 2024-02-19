@@ -29,7 +29,7 @@ describe('IdsThemeSwitcher Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('handles selected from the ids-popup-menu', () => {
+  test('handles selected from the ids-popup-menu', () => {
     const event = new CustomEvent('selected', { detail: { elem: { value: 'classic' } } });
     switcher.shadowRoot.querySelector('ids-popup-menu').dispatchEvent(event);
 
@@ -39,14 +39,14 @@ describe('IdsThemeSwitcher Component', () => {
     expect(switcher.mode).toEqual('contrast');
   });
 
-  it('can set mode and then clear it to default', () => {
+  test('can set mode and then clear it to default', () => {
     switcher.mode = 'dark';
     switcher.mode = '';
     expect(switcher.mode).toEqual('light');
     expect(switcher.getAttribute('mode')).toBeFalsy();
   });
 
-  it('supports setting color variants', async () => {
+  test('supports setting color variants', async () => {
     await expectEnumAttributeBehavior({
       elem: switcher.container,
       attribute: 'color-variant',
@@ -55,13 +55,13 @@ describe('IdsThemeSwitcher Component', () => {
     });
   });
 
-  it('sync color variant with the container', async () => {
+  test('sync color variant with the container', async () => {
     switcher.colorVariant = 'alternate';
     switcher.onColorVariantRefresh();
     expect(switcher.container.colorVariant).toEqual('alternate');
   });
 
-  it('can change language', async () => {
+  test('can change language', async () => {
     await IdsGlobal.getLocale().setLanguage('ar');
     setTimeout(() => {
       expect(switcher.getAttribute('dir')).toEqual('rtl');

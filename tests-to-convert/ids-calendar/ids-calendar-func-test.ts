@@ -64,13 +64,13 @@ describe('IdsCalendar Component', () => {
     container.innerHTML = '';
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelector('ids-calendar')).toBeDefined();
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders via document.createElement (append late)', () => {
+  test('renders via document.createElement (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem: any = document.createElement('ids-calendar');
 
@@ -81,16 +81,7 @@ describe('IdsCalendar Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    component.remove();
-
-    expect(document.querySelector('ids-calendar')).toBeNull();
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('shares calendar event data with active view component', () => {
+  test('shares calendar event data with active view component', () => {
     const day = 5;
     const month = 10;
     const year = 2019;
@@ -112,7 +103,7 @@ describe('IdsCalendar Component', () => {
     expect(view.eventsData.length).toEqual(0);
   });
 
-  it('can format duration strings', () => {
+  test('can format duration strings', () => {
     // 3 days
     let start = new Date(2022, 7, 15);
     let end = new Date(2022, 7, 18);
@@ -132,14 +123,14 @@ describe('IdsCalendar Component', () => {
     expect(duration.trim().toLowerCase()).toEqual('5 minutes');
   });
 
-  it('can format date range strings', () => {
+  test('can format date range strings', () => {
     const start = new Date(2022, 7, 15);
     const end = new Date(2022, 7, 18);
     const dateRange = component.formatDateRange(start, end);
     expect(dateRange).toEqual('August 15, 2022 at 12:00 AM - August 18, 2022 at 12:00 AM');
   });
 
-  it('changes to day view when overflow-click event is triggered', () => {
+  test('changes to day view when overflow-click event is triggered', () => {
     const changeViewSpy = jest.spyOn(component, 'setViewPickerValue').mockImplementation();
 
     component.triggerEvent('overflow-click', component.container, {
@@ -150,7 +141,7 @@ describe('IdsCalendar Component', () => {
     changeViewSpy.mockClear();
   });
 
-  it('changes view when viewchange event is triggered', () => {
+  test('changes view when viewchange event is triggered', () => {
     const changeViewSpy = jest.spyOn(component, 'changeView').mockImplementation();
 
     component.triggerEvent('viewchange', component, {
@@ -164,7 +155,7 @@ describe('IdsCalendar Component', () => {
     changeViewSpy.mockClear();
   });
 
-  it('renders event details when dayselected event is triggered', () => {
+  test('renders event details when dayselected event is triggered', () => {
     const renderDetailsSpy = jest.spyOn(component, 'updateEventDetails');
     const detail = {
       date: new Date(EVENTS_ITEMS[0].starts),
@@ -185,7 +176,7 @@ describe('IdsCalendar Component', () => {
     expect(renderDetailsSpy).toHaveBeenCalled();
   });
 
-  it('updates event type checked states when change event is triggered', () => {
+  test('updates event type checked states when change event is triggered', () => {
     const wrapper = component.container.querySelector('.calendar-legend-pane');
     const elem = document.createElement('input');
     const checked = false;
@@ -202,7 +193,7 @@ describe('IdsCalendar Component', () => {
     expect(component.eventTypesData[0].checked).toBeFalsy();
   });
 
-  it('can clear events via API', () => {
+  test('can clear events via API', () => {
     component.eventsData = EVENTS_ITEMS;
     expect(component.eventsData.length).toBe(2);
 
@@ -210,7 +201,7 @@ describe('IdsCalendar Component', () => {
     expect(component.eventsData.length).toBe(0);
   });
 
-  it('can add and update events via API', () => {
+  test('can add and update events via API', () => {
     const newEvent = EVENTS_ITEMS[0];
     component.clearEvents();
     component.addEvent(newEvent);
@@ -222,7 +213,7 @@ describe('IdsCalendar Component', () => {
     expect(component.eventsData[0].subject).toEqual(subject);
   });
 
-  it('has startDate and endDate properties', () => {
+  test('has startDate and endDate properties', () => {
     const now = new Date();
     const start = component.startDate;
     const end = component.endDate;

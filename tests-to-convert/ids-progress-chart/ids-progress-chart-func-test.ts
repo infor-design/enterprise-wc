@@ -20,7 +20,7 @@ describe('IdsProgressChart Component', () => {
     (chart as any) = null;
   });
 
-  it('sets icon correctly', () => {
+  test('sets icon correctly', () => {
     const icon = chart.container?.querySelector('.icon') as IdsIcon;
 
     chart.icon = 'alert';
@@ -37,7 +37,7 @@ describe('IdsProgressChart Component', () => {
     expect(icon.style.display).toBe('none');
   });
 
-  it('sets color correctly', () => {
+  test('sets color correctly', () => {
     chart.color = '#25af65';
     expect(chart.color).toBe('#25af65');
 
@@ -57,7 +57,7 @@ describe('IdsProgressChart Component', () => {
     expect(chart.color).toBe('purple-50');
   });
 
-  it('sets labels correctly', () => {
+  test('sets labels correctly', () => {
     chart.label = 'test label';
     expect(chart.label).toBe('test label');
     expect(chart.container?.querySelector('.label-main')?.innerHTML).toBe('test label');
@@ -66,7 +66,7 @@ describe('IdsProgressChart Component', () => {
     expect(chart.label).toBe('');
   });
 
-  it('sets progress correctly', () => {
+  test('sets progress correctly', () => {
     chart.progress = '50';
     expect(chart.progress).toBe('50');
 
@@ -78,7 +78,7 @@ describe('IdsProgressChart Component', () => {
     expect(chart.progress).toBe('0');
   });
 
-  it('sets total correctly', () => {
+  test('sets total correctly', () => {
     chart.total = '70';
     expect(chart.total).toBe('70');
 
@@ -90,7 +90,7 @@ describe('IdsProgressChart Component', () => {
     expect(chart.total).toBe('100');
   });
 
-  it('calculates percentage correctly', () => {
+  test('calculates percentage correctly', () => {
     chart.progress = '0.7';
     chart.total = '1';
     expect(chart.percentage).toBe(70);
@@ -101,7 +101,7 @@ describe('IdsProgressChart Component', () => {
     expect(chart.percentage).toBe(100);
   });
 
-  it('sets progress label correctly', () => {
+  test('sets progress label correctly', () => {
     chart.progressLabel = '50 meters';
     expect(chart.progressLabel).toBe('50 meters');
     expect(chart.container?.querySelector('.label-progress')?.innerHTML).toBe('50 meters');
@@ -115,7 +115,7 @@ describe('IdsProgressChart Component', () => {
     expect(chart.container?.querySelector('.label-progress')?.innerHTML).toBe('');
   });
 
-  it('sets total label correctly', () => {
+  test('sets total label correctly', () => {
     chart.totalLabel = '100 meters';
     expect(chart.totalLabel).toBe('100 meters');
     expect(chart.container?.querySelector('.label-total')?.innerHTML).toBe('100 meters');
@@ -129,7 +129,7 @@ describe('IdsProgressChart Component', () => {
     expect(chart.container?.querySelector('.label-total')?.innerHTML).toBe('');
   });
 
-  it('sets size correctly', () => {
+  test('sets size correctly', () => {
     chart.size = 'small';
     expect(chart.size).toBe('small');
 

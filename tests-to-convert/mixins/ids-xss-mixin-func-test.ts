@@ -22,13 +22,13 @@ describe('IdsXssMixin tests (properties)', () => {
     messageEl = null;
   });
 
-  it('will remove tags that are not allowed', () => {
+  test('will remove tags that are not allowed', () => {
     messageEl.message = 'Hey Man, <script id="test-script">alert(sup);</script> nice shot!';
 
     expect(messageEl.message).toBe('Hey Man, alert(sup); nice shot!');
   });
 
-  it('can configure which tags are ignored', () => {
+  test('can configure which tags are ignored', () => {
     const testInput = 'There should be no link after this sentence. <a href="http://example.com">Link</a>';
     const testOutput = 'There should be no link after this sentence. Link';
 
@@ -59,7 +59,7 @@ describe('IdsXssMixin tests (attributes)', () => {
     messageEl = null;
   });
 
-  it('ignores tags when its `xss-ignored-tags` property is empty', () => {
+  test('ignores tags when its `xss-ignored-tags` property is empty', () => {
     const testInput = 'There should be no link after this sentence. <a href="http://example.com">Link</a>';
     const testOutput = 'There should be no link after this sentence. Link';
     messageEl.message = testInput;

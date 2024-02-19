@@ -15,14 +15,14 @@ describe('IdsEventsMixin Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('can dispatchEvents to addEventListener', () => {
+  test('can dispatchEvents to addEventListener', () => {
     const mockHandler = jest.fn();
     elem.addEventListener('customtest', mockHandler);
     elem.triggerEvent('customtest', elem);
     expect(mockHandler.mock.calls.length).toBe(1);
   });
 
-  it('can attach and remove events with a namespace', () => {
+  test('can attach and remove events with a namespace', () => {
     const mockHandlerNormal = jest.fn();
     const mockHandlerNS = jest.fn();
 
@@ -40,14 +40,14 @@ describe('IdsEventsMixin Tests', () => {
     expect(mockHandlerNS.mock.calls.length).toBe(1);
   });
 
-  it('should not error on null target', () => {
+  test('should not error on null target', () => {
     const errors = jest.spyOn(global.console, 'error');
     elem.onEvent('click', null, null);
     elem.onEvent('click.foo', undefined, undefined);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can attach longpress events', () => {
+  test('can attach longpress events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('longpress', elem, mockHandler);
     elem.triggerEvent('touchstart', elem);
@@ -59,7 +59,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.longPressOn).toBe(true);
   });
 
-  it('can detach longpress events', () => {
+  test('can detach longpress events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('longpress', elem, mockHandler);
     expect(elem.longPressOn).toBe(true);
@@ -71,7 +71,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.longPressOn).toBe(false);
   });
 
-  it('can attach keyboardfocus events', () => {
+  test('can attach keyboardfocus events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('keyboardfocus', elem, mockHandler);
     elem.triggerEvent('click', elem);
@@ -79,7 +79,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.keyboardFocusOn).toBe(true);
   });
 
-  it('can detach keyboardfocus events', () => {
+  test('can detach keyboardfocus events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('keyboardfocus', elem, mockHandler);
     expect(elem.keyboardFocusOn).toBe(true);
@@ -90,7 +90,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.keyboardFocusOn).toBe(false);
   });
 
-  it('can attach swipe events', () => {
+  test('can attach swipe events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('swipe', elem, mockHandler, { scrollContainer: elem });
     elem.triggerEvent('swipe', elem);
@@ -98,7 +98,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.swipeOn).toBe(true);
   });
 
-  it('can detach swipe events', () => {
+  test('can detach swipe events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('swipe', elem, mockHandler, { scrollContainer: elem });
     expect(elem.swipeOn).toBe(true);
@@ -109,14 +109,14 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.swipeOn).toBe(false);
   });
 
-  it('can attach hoverend events', () => {
+  test('can attach hoverend events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('hoverend', elem, mockHandler);
     elem.triggerEvent('mouseenter', elem);
     expect(elem.hoverEndOn).toBe(true);
   });
 
-  it('can cancel on hoverend events', () => {
+  test('can cancel on hoverend events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('hoverend', elem, mockHandler);
     elem.triggerEvent('mouseenter', elem);
@@ -128,7 +128,7 @@ describe('IdsEventsMixin Tests', () => {
     });
   });
 
-  it('can detach hoverend events', () => {
+  test('can detach hoverend events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('hoverend', elem, mockHandler);
     expect(elem.hoverEndOn).toBe(true);
@@ -140,7 +140,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.hoverEndOn).toBe(false);
   });
 
-  it('can attach keydownend events', () => {
+  test('can attach keydownend events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('keydownend', elem, mockHandler);
     const event = new KeyboardEvent('keydown', { key: 'a' });
@@ -151,7 +151,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.keyDownEndOn).toBe(true);
   });
 
-  it('can detach keydownend events', () => {
+  test('can detach keydownend events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('keydownend', elem, mockHandler);
     expect(elem.keyDownEndOn).toBe(true);
@@ -161,7 +161,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.keyDownEndOn).toBe(false);
   });
 
-  it('can trigger vetoable event', () => {
+  test('can trigger vetoable event', () => {
     const eventName = 'testevent';
 
     // vetoableEventTypes is undefined

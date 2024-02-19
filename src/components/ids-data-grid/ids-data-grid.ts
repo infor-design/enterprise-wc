@@ -1244,7 +1244,7 @@ export default class IdsDataGrid extends Base {
     }
   }
 
-  get data(): Array<Record<string, any>> { return this?.datasource?.data; }
+  get data(): Array<Record<string, any>> { return this?.datasource?.data || []; }
 
   /**
    * Set empty message description

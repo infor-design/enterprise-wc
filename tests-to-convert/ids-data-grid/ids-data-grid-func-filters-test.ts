@@ -151,7 +151,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with list style', () => {
+  test('renders with list style', () => {
     const errors = jest.spyOn(global.console, 'error');
     const dataGrid2: any = new IdsDataGrid();
     dataGrid2.listStyle = true;
@@ -165,7 +165,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should sets filterable', () => {
+  test('should sets filterable', () => {
     expect(dataGrid.getAttribute('filterable')).toEqual(null);
     expect(dataGrid.filterable).toEqual(d.filterable);
     let nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
@@ -190,7 +190,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     nodes.forEach((n: any) => expect(n.classList.contains('hidden')).toBeFalsy());
   });
 
-  it('should sets filter row as disabled state', () => {
+  test('should sets filter row as disabled state', () => {
     expect(dataGrid.getAttribute('filter-row-disabled')).toEqual(null);
     expect(dataGrid.filterRowDisabled).toEqual(d.filterRowDisabled);
     let nodes = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper');
@@ -223,7 +223,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     nodes.forEach((n: any) => expect(n.classList.contains('disabled')).toBeTruthy());
   });
 
-  it('should sets disable client filter', () => {
+  test('should sets disable client filter', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.getAttribute('disable-client-filter')).toEqual(null);
@@ -259,7 +259,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('renders as disable and readonly filter elements', () => {
+  test('renders as disable and readonly filter elements', () => {
     const disableFilterElemColumns = [{
       id: 'trackDeprecationHistory',
       name: 'Track Deprecation History',
@@ -291,7 +291,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should not filter on selected menu button', () => {
+  test('should not filter on selected menu button', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -301,7 +301,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should close filter button on outside click', () => {
+  test('should close filter button on outside click', () => {
     const filterWrapper = dataGrid.shadowRoot.querySelector('.ids-data-grid-header-cell[column-id="description"] .ids-data-grid-header-cell-filter-wrapper');
     const buttonEl = filterWrapper.querySelector('ids-menu-button');
     const menuEl = buttonEl?.menuEl;
@@ -316,7 +316,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(menuEl.visible).toBeFalsy();
   });
 
-  it('should sets filter with click on menu button', () => {
+  test('should sets filter with click on menu button', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -369,7 +369,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(0);
   });
 
-  it('should sets filter when typing', () => {
+  test('should sets filter when typing', () => {
     expect(dataGrid.getAttribute('filter-when-typing')).toEqual(null);
     expect(dataGrid.filterWhenTyping).toEqual(d.filterWhenTyping);
     let nodes = [...dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell-filter-wrapper')];
@@ -398,7 +398,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(nodes.some((n) => n.classList.contains('filter-when-typing'))).toBeTruthy();
   });
 
-  it('should get column data by column id', () => {
+  test('should get column data by column id', () => {
     const columnShouldContain = {
       id: 'description',
       name: 'Description',
@@ -410,7 +410,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(columnData).toEqual(expect.objectContaining(columnShouldContain));
   });
 
-  it('should get column data by column element', () => {
+  test('should get column data by column element', () => {
     const columnShouldContain = {
       id: 'description',
       name: 'Description',
@@ -423,7 +423,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(columnData).toEqual(expect.objectContaining(columnShouldContain));
   });
 
-  it('should filter rows as filter type text', () => {
+  test('should filter rows as filter type text', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -435,7 +435,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should filter rows as filter type integer', () => {
+  test('should filter rows as filter type integer', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -447,7 +447,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should filter rows as filter type decimal', () => {
+  test('should filter rows as filter type decimal', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -459,7 +459,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should filter rows as filter type contents', () => {
+  test('should filter rows as filter type contents', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -477,7 +477,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should filter rows as filter type dropdown', () => {
+  test('should filter rows as filter type dropdown', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -496,7 +496,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(2);
   });
 
-  it('should filter rows as filter type checkbox', () => {
+  test('should filter rows as filter type checkbox', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -556,7 +556,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should filter rows as filter other operators', () => {
+  test('should filter rows as filter other operators', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -611,7 +611,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     dataGrid.applyFilter([{ columnId: 'test', operator: 'in-range', value: 'test' }]);
   });
 
-  it('should filter contains', () => {
+  test('should filter contains', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -621,7 +621,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
   });
 
-  it('should keep filter with redraw', () => {
+  test('should keep filter with redraw', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -639,7 +639,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should not filter empty element', () => {
+  test('should not filter empty element', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
     const wrapper = dataGrid.filters.filterWrapperById('inStock');
     wrapper.innerHTML = '';
@@ -649,7 +649,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should renders filter with slot', () => {
+  test('should renders filter with slot', () => {
     dataGrid = createFromTemplate(dataGrid, `<ids-data-grid>
       <div slot="filter-trackDeprecationHistory" column-id="trackDeprecationHistory">
         <ids-dropdown label="Slotted dropdown" id="slotted-dropdown" value="not-filtered">
@@ -677,7 +677,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should renders filter with slot no operator', () => {
+  test('should renders filter with slot no operator', () => {
     dataGrid = createFromTemplate(dataGrid, `<ids-data-grid>
       <div slot="filter-description" column-id="description">
         <ids-input id="input-description" type="text" label="Slotted"></ids-input>
@@ -698,7 +698,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
   });
 
-  it('should use custom filter', () => {
+  test('should use custom filter', () => {
     const myCustomFilter = (opt: any) => {
       const { operator, columnId, value } = opt.condition;
       const val = {
@@ -752,7 +752,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should renders columns with filter options', () => {
+  test('should renders columns with filter options', () => {
     const cols = [];
     cols.push({
       id: 'description',
@@ -857,7 +857,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should renders columns without filterable', () => {
+  test('should renders columns without filterable', () => {
     const cols = [];
     cols.push({
       id: 'integer',
@@ -882,7 +882,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should renders columns without filter type', () => {
+  test('should renders columns without filter type', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
     const cols = [];
     cols.push({
@@ -906,7 +906,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
   });
 
-  it('should filter when typing', () => {
+  test('should filter when typing', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
@@ -918,7 +918,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(1);
   });
 
-  it('fires filtered event when apply or clear conditions', () => {
+  test('fires filtered event when apply or clear conditions', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
     const mockCallback = jest.fn((x) => {
       const TYPES = ['apply', 'clear'];
@@ -938,7 +938,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(mockCallback.mock.calls.length).toBe(2);
   });
 
-  it('should not fire filtered event when setting filter conditions', () => {
+  test('should not fire filtered event when setting filter conditions', () => {
     const mockCallback = jest.fn();
 
     dataGrid.addEventListener('filtered', mockCallback);
@@ -951,7 +951,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(mockCallback).not.toHaveBeenCalled();
   });
 
-  it('fires open/close filter row event', () => {
+  test('fires open/close filter row event', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
       expect(x.detail.filterable).toEqual(dataGrid.filterable);
@@ -978,7 +978,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(mockCallback.mock.calls.length).toBe(2);
   });
 
-  it('fires filtered event when disableClientFilter with empty values', () => {
+  test('fires filtered event when disableClientFilter with empty values', () => {
     const mockCallback = jest.fn();
 
     dataGrid.disableClientFilter = true;
@@ -989,7 +989,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(mockCallback).toHaveBeenCalled();
   });
 
-  it('fires filtered event one time when dayselected event on datepicker', () => {
+  test('fires filtered event one time when dayselected event on datepicker', () => {
     const mockCallback = jest.fn();
 
     dataGrid.disableClientFilter = true;
@@ -1006,7 +1006,7 @@ describe('IdsDataGrid Component Filter Tests', () => {
     expect(mockCallback).toHaveBeenCalledTimes(1);
   });
 
-  it('fires filtered event one time when timeselected event on timepicker', () => {
+  test('fires filtered event one time when timeselected event on timepicker', () => {
     const mockCallback = jest.fn();
 
     dataGrid.disableClientFilter = true;

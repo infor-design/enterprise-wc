@@ -7,7 +7,6 @@ import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavi
 import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
 import createFromTemplate from '../helpers/create-from-template';
-import processAnimFrame from '../helpers/process-anim-frame';
 import getElTranslatePoint from '../../src/components/ids-draggable/get-el-translate-point';
 
 describe('IdsDraggable Component', () => {
@@ -19,7 +18,7 @@ describe('IdsDraggable Component', () => {
     document.body.appendChild(idsDraggable);
   });
 
-  it('can set/get the axis attribute predictably', async () => {
+  test('can set/get the axis attribute predictably', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable>
@@ -38,7 +37,7 @@ describe('IdsDraggable Component', () => {
     });
   });
 
-  it('can set/get the handle attribute predictably', async () => {
+  test('can set/get the handle attribute predictably', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable handle=".handle">
@@ -56,7 +55,7 @@ describe('IdsDraggable Component', () => {
     expect(elem.getAttribute('handle')).toEqual('.handle');
   });
 
-  it('can set/get the is-dragging attribute predictably', async () => {
+  test('can set/get the is-dragging attribute predictably', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable>
@@ -67,7 +66,7 @@ describe('IdsDraggable Component', () => {
     expectFlagAttributeBehavior({ elem, attribute: 'is-dragging' });
   });
 
-  it('can set/get the disabled attribute predictably', async () => {
+  test('can set/get the disabled attribute predictably', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable>
@@ -78,7 +77,7 @@ describe('IdsDraggable Component', () => {
     expectFlagAttributeBehavior({ elem, attribute: 'disabled' });
   });
 
-  it('can set/get the parent-containment attribute predictably', async () => {
+  test('can set/get the parent-containment attribute predictably', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable>
@@ -89,7 +88,7 @@ describe('IdsDraggable Component', () => {
     expectFlagAttributeBehavior({ elem, attribute: 'parent-containment' });
   });
 
-  it('has mouse down then up on draggable, and then the is-dragging attribute reacts properly', async () => {
+  test('has mouse down then up on draggable, and then the is-dragging attribute reacts properly', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable>
@@ -114,7 +113,7 @@ describe('IdsDraggable Component', () => {
     expect(hasDraggingBeenSet).toBeTruthy();
   });
 
-  it('has mouse down then up on draggable, and then the is-dragging attribute reacts properly', async () => {
+  test('has mouse down then up on draggable, and then the is-dragging attribute reacts properly', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable>
@@ -139,7 +138,7 @@ describe('IdsDraggable Component', () => {
     expect(hasDraggingBeenSet).toBeTruthy();
   });
 
-  it('ignores mouse down due to is-dragging', async () => {
+  test('ignores mouse down due to is-dragging', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable>
@@ -160,7 +159,7 @@ describe('IdsDraggable Component', () => {
     expect(mockCallback2.mock.calls.length).toBe(0);
   });
 
-  it('begins drag and no errors are thrown', async () => {
+  test('begins drag and no errors are thrown', async () => {
     const container = document.createElement('div');
     container.style.width = '640px';
     container.style.height = '480px';
@@ -174,65 +173,57 @@ describe('IdsDraggable Component', () => {
 
     document.body.appendChild(elem);
 
-    await processAnimFrame();
     await simulateMouseDownEvents({ element: elem, mouseDownTime: 100 });
   });
 
-  it('sets max-transform-x value predictably', async () => {
+  test('sets max-transform-x value predictably', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable parent-containment max-transform-x='80'>
         <div>draggable</div>
       </ids-draggable>`
     );
-    await processAnimFrame();
     expect(elem.getAttribute('max-transform-x')).toEqual('80');
 
     elem.setAttribute('max-transform-x', 0);
-    await processAnimFrame();
     expect(elem.getAttribute('max-transform-x')).toEqual('0');
     expect(elem.maxTransformX).toEqual(0);
   });
 
-  it('sets min-transform-x value predictably', async () => {
+  test('sets min-transform-x value predictably', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable parent-containment min-transform-x='-20'>
         <div>draggable</div>
       </ids-draggable>`
     );
-    await processAnimFrame();
     expect(elem.getAttribute('min-transform-x')).toEqual('-20');
 
     elem.setAttribute('min-transform-x', 0);
-    await processAnimFrame();
     expect(elem.getAttribute('min-transform-x')).toEqual('0');
     expect(elem.minTransformX).toEqual(0);
   });
 
-  it('sets max-transform-y value predictably', async () => {
+  test('sets max-transform-y value predictably', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable parent-containment max-transform-y='-20'>
         <div>draggable</div>
       </ids-draggable>`
     );
-    await processAnimFrame();
     expect(elem.getAttribute('max-transform-y')).toEqual('-20');
     elem.setAttribute('max-transform-y', 0);
-    await processAnimFrame();
     expect(elem.getAttribute('max-transform-y')).toEqual('0');
     expect(elem.maxTransformY).toEqual(0);
   });
 
-  it('sets relative-bounds value predictably', async () => {
+  test('sets relative-bounds value predictably', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable parent-containment relative-bounds='left: -20; right: -20'>
         <div>draggable</div>
       </ids-draggable>`
     );
-    await processAnimFrame();
     expect(elem.getAttribute('relative-bounds')).toEqual('left: -20; right: -20');
     expect(elem.relativeBounds).toEqual('left: -20; right: -20');
 
@@ -247,23 +238,21 @@ describe('IdsDraggable Component', () => {
     expect(elem.relativeBounds).toEqual(null);
   });
 
-  it('sets min-transform-y value predictably', async () => {
+  test('sets min-transform-y value predictably', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable parent-containment min-transform-y='-20'>
         <div>draggable</div>
       </ids-draggable>`
     );
-    await processAnimFrame();
     expect(elem.getAttribute('min-transform-y')).toEqual('-20');
 
     elem.setAttribute('min-transform-y', '0');
-    await processAnimFrame();
     expect(elem.getAttribute('min-transform-y')).toEqual('0');
     expect(elem.minTransformY).toEqual(0);
   });
 
-  it('expects transform values to be predictable when not set', async () => {
+  test('expects transform values to be predictable when not set', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable parent-containment>
@@ -277,7 +266,7 @@ describe('IdsDraggable Component', () => {
     expect(elem.maxTransformY).toEqual(0);
   });
 
-  it('util getElTranslatePoint works correctly', async () => {
+  test('util getElTranslatePoint works correctly', async () => {
     const elem = document.createElement('p');
     expect(getElTranslatePoint(elem)).toEqual({ x: 0, y: 0, z: 0 });
     elem.style.transform = 'none';
@@ -294,7 +283,7 @@ describe('IdsDraggable Component', () => {
     expect(getElTranslatePoint(elem)).toEqual({ x: 0, y: 0, z: 0 });
   });
 
-  it('safely handles setting integer attributes', async () => {
+  test('safely handles setting integer attributes', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable parent-containment>
@@ -317,7 +306,7 @@ describe('IdsDraggable Component', () => {
     expect(elem.getAttribute('min-transform-x')).toEqual(null);
   });
 
-  it('safely handles setting handle', async () => {
+  test('safely handles setting handle', async () => {
     const elem = await createFromTemplate(
       draggable,
       `<ids-draggable parent-containment>

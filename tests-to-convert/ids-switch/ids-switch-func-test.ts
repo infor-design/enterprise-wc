@@ -3,7 +3,6 @@
  */
 import IdsSwitch from '../../src/components/ids-switch/ids-switch';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import processAnimFrame from '../helpers/process-anim-frame';
 import deMessages from '../../src/components/ids-locale/data/de-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
@@ -24,12 +23,12 @@ describe('IdsSwitch Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should renders checked', () => {
+  test('should renders checked', () => {
     el.checked = 'true';
     expect(el.getAttribute('checked')).toEqual('true');
   });
 
-  it('should renders as disabled', () => {
+  test('should renders as disabled', () => {
     expect(el.getAttribute('disabled')).toEqual(null);
     expect(el.input?.hasAttribute('disabled')).toBe(false);
     let rootEl = el.shadowRoot?.querySelector('.ids-switch');
@@ -46,7 +45,7 @@ describe('IdsSwitch Component', () => {
     expect(rootEl?.classList).not.toContain('disabled');
   });
 
-  it('should set label text', () => {
+  test('should set label text', () => {
     let label = el.labelEl?.querySelector('.label-text');
     label?.remove();
     el.label = 'test';
@@ -65,7 +64,7 @@ describe('IdsSwitch Component', () => {
     expect(label?.textContent?.trim()).toBe('');
   });
 
-  it('should renders value', () => {
+  test('should renders value', () => {
     const value = 'test';
     expect(el.getAttribute('value')).toEqual(null);
     el.value = value;
@@ -75,7 +74,7 @@ describe('IdsSwitch Component', () => {
     expect(el.getAttribute('value')).toEqual('');
   });
 
-  it('should dispatch native events', () => {
+  test('should dispatch native events', () => {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt: string) => {
       let response = null;
@@ -88,7 +87,7 @@ describe('IdsSwitch Component', () => {
     });
   });
 
-  it('should remove events', () => {
+  test('should remove events', () => {
     document.body.innerHTML = '';
     const elem: any = new IdsSwitch();
     document.body.appendChild(elem);
@@ -107,7 +106,7 @@ describe('IdsSwitch Component', () => {
     });
   });
 
-  it('should render template', async () => {
+  test('should render template', async () => {
     document.body.innerHTML = '';
     el = document.createElement('ids-switch') as IdsSwitch;
     el.setAttribute('disabled', 'true');
@@ -115,7 +114,6 @@ describe('IdsSwitch Component', () => {
     document.body.appendChild(el);
 
     // wait for ids element to fire #updateAttributes() rAF
-    await processAnimFrame();
 
     expect(el.getAttribute('disabled')).toEqual('true');
     expect(el.input?.hasAttribute('disabled')).toBe(true);
@@ -125,12 +123,12 @@ describe('IdsSwitch Component', () => {
     expect(el.checked).toEqual(true);
   });
 
-  it('can change language from the container', async () => {
+  test('can change language from the container', async () => {
     await container.localeAPI.setLanguage('de');
     expect(el.getAttribute('language')).toEqual('de');
   });
 
-  it('can focus its inner Input element', () => {
+  test('can focus its inner Input element', () => {
     el.focus();
     expect(document.activeElement).toEqual(el);
   });

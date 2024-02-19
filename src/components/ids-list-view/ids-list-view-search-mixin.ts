@@ -430,8 +430,9 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
         if (text === sHtml) cloneItem.innerText = replaceMatch(itmText);
       } else { // Object
         for (const [key, value] of Object.entries(cloneItem)) {
-          const val = this.searchTermCaseSensitive ? value : value?.toString().toLowerCase();
-          if (text === val) (cloneItem as any)[key] = replaceMatch(value as any);
+          const typedVal = value as any;
+          const val = this.searchTermCaseSensitive ? typedVal : typedVal?.toString().toLowerCase();
+          if (text === val) (cloneItem as any)[key] = replaceMatch(typedVal as any);
         }
       }
     }

@@ -5,7 +5,6 @@ import IdsListView from '../../src/components/ids-list-view/ids-list-view';
 import datasetEvents from '../../src/assets/data/events.json';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import createFromTemplate from '../helpers/create-from-template';
-import processAnimFrame from '../helpers/process-anim-frame';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import '../../src/components/ids-search-field/ids-search-field';
 
@@ -48,15 +47,13 @@ describe('IdsListView Search', () => {
     container.appendChild(listView);
     document.body.appendChild(container);
     listView.data = deepClone(datasetEvents);
-    await processAnimFrame();
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
-    await processAnimFrame();
   });
 
-  it('should set the searchable setting and renders search field', () => {
+  test('should set the searchable setting and renders search field', () => {
     expect(listView.getAttribute('searchable')).toEqual(null);
     expect(listView.searchable).toEqual(false);
     expect(listView.querySelector('ids-search-field[slot="search"]')).toBeFalsy();
@@ -73,34 +70,30 @@ describe('IdsListView Search', () => {
     expect(listView.searchField).toBeFalsy();
   });
 
-  it('should renders search field thru slot', async () => {
+  test('should renders search field thru slot', async () => {
     document.body.innerHTML = '';
     const html = '<ids-list-view><ids-search-field slot="search"></ids-search-field><template><ids-text type="h2">${subject}</ids-text></template></ids-list-view>'; //eslint-disable-line
 
     listView = await createFromTemplate(listView, html, container);
-    await processAnimFrame();
 
     expect(listView.querySelector('ids-search-field[slot="search"]')).toBeTruthy();
   });
 
-  it('should renders search field thru id', async () => {
+  test('should renders search field thru id', async () => {
     const id = 'lv-searchfield-1';
     const html = `<ids-search-field id="${id}"></ids-search-field>`;
     await createFromTemplate(null, html, container);
-    await processAnimFrame();
     listView.searchFieldId = id;
-    await processAnimFrame();
 
     expect(listView.closest('ids-container')?.querySelector(`#${listView.searchFieldId}`)).toBeTruthy();
     expect(listView.searchField).toBeTruthy();
     listView.searchFieldId = null;
-    await processAnimFrame();
 
     expect(listView.closest('ids-container')?.querySelector(`#${listView.searchFieldId}`)).toBeFalsy();
     expect(listView.searchField).toBeFalsy();
   });
 
-  it('should set the suppress highlight setting', () => {
+  test('should set the suppress highlight setting', () => {
     expect(listView.getAttribute('suppress-highlight')).toEqual(null);
     expect(listView.suppressHighlight).toEqual(false);
     listView.suppressHighlight = true;
@@ -111,7 +104,7 @@ describe('IdsListView Search', () => {
     expect(listView.suppressHighlight).toEqual(false);
   });
 
-  it('should set the search term case sensitive setting', () => {
+  test('should set the search term case sensitive setting', () => {
     expect(listView.getAttribute('search-term-case-sensitive')).toEqual(null);
     expect(listView.searchTermCaseSensitive).toEqual(false);
     listView.searchTermCaseSensitive = true;
@@ -122,7 +115,7 @@ describe('IdsListView Search', () => {
     expect(listView.searchTermCaseSensitive).toEqual(false);
   });
 
-  it('should set the search term min size setting', () => {
+  test('should set the search term min size setting', () => {
     const defaultVal = 1;
     expect(listView.getAttribute('search-term-min-size')).toEqual(null);
     expect(listView.searchTermMinSize).toEqual(defaultVal);
@@ -134,7 +127,7 @@ describe('IdsListView Search', () => {
     expect(listView.searchTermMinSize).toEqual(defaultVal);
   });
 
-  it('should set the search filter mode setting', () => {
+  test('should set the search filter mode setting', () => {
     const modes = ['contains', 'keyword', 'phrase-starts-with', 'word-starts-with'];
     const defaultMode = 'contains';
     expect(listView.getAttribute('search-filter-mode')).toEqual(null);
@@ -151,7 +144,7 @@ describe('IdsListView Search', () => {
     expect(listView.searchFilterMode).toEqual(defaultMode);
   });
 
-  it('should show searched list', () => {
+  test('should show searched list', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();
@@ -171,7 +164,7 @@ describe('IdsListView Search', () => {
     expect(listView.items.length).toEqual(itemCountAll);
   });
 
-  it('should show searched list without searchable text callback', () => {
+  test('should show searched list without searchable text callback', () => {
     const itemCountAll = 77;
 
     listView.searchableTextCallback = null;
@@ -196,7 +189,7 @@ describe('IdsListView Search', () => {
     expect(listView.items.length).toEqual(itemCountAll);
   });
 
-  it('should suppress highlight trem searched list', () => {
+  test('should suppress highlight trem searched list', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();
@@ -224,7 +217,7 @@ describe('IdsListView Search', () => {
     expect(listView.shadowRoot?.querySelector('ids-list-view-item ids-text .highlight')).toBeFalsy();
   });
 
-  it('should show searched list by case sensitive', () => {
+  test('should show searched list by case sensitive', () => {
     listView.data = deepClone(caseSensitiveData);
     expect(listView.items.length).toEqual(6);
 
@@ -247,7 +240,7 @@ describe('IdsListView Search', () => {
     expect(listView.items.length).toEqual(1);
   });
 
-  it('should show searched list by matching the start of an entire phrase', () => {
+  test('should show searched list by matching the start of an entire phrase', () => {
     listView.data = deepClone(phraseData);
     expect(listView.items.length).toEqual(5);
 
@@ -270,7 +263,7 @@ describe('IdsListView Search', () => {
     expect(listView.items.length).toEqual(1);
   });
 
-  it('should show searched list by matching the start of words in any place in a string', () => {
+  test('should show searched list by matching the start of words in any place in a string', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();
@@ -295,7 +288,7 @@ describe('IdsListView Search', () => {
     expect(listView.items.length).toEqual(9);
   });
 
-  it('should show searched list by checking for multiple keywords in each result', () => {
+  test('should show searched list by checking for multiple keywords in each result', () => {
     listView.data = deepClone(keywordData);
     expect(listView.items.length).toEqual(7);
 
@@ -318,7 +311,7 @@ describe('IdsListView Search', () => {
     expect(listView.items.length).toEqual(4);
   });
 
-  it('should show searched list by search term min size', () => {
+  test('should show searched list by search term min size', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();
@@ -347,7 +340,7 @@ describe('IdsListView Search', () => {
     expect(listView.items.length).toEqual(itemCountAll);
   });
 
-  it('should show searched list with custom filter', () => {
+  test('should show searched list with custom filter', () => {
     listView.searchFilterCallback = (term: string) => {
       const response = (item: any): boolean => {
         const lcTerm = (term || '').toLowerCase();
@@ -381,7 +374,7 @@ describe('IdsListView Search', () => {
     expect(listView.items.length).toEqual(itemCountAll);
   });
 
-  it('fires filtered event when apply or clear search', () => {
+  test('fires filtered event when apply or clear search', () => {
     const itemCountAll = 77;
 
     expect(listView.searchField).toBeFalsy();

@@ -6,7 +6,6 @@ import IdsTreeShared from '../../src/components/ids-tree/ids-tree-shared';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsTree Component', () => {
   let container: any;
@@ -59,7 +58,7 @@ describe('IdsTree Component', () => {
     }];
   });
 
-  it('should sets the tree group collapse icon', () => {
+  test('should sets the tree group collapse icon', () => {
     const icon = 'user-folder-closed';
     expect(tree.getAttribute('collapse-icon')).toEqual(null);
     expect(tree.collapseIcon).toEqual(IdsTreeShared.DEFAULTS.collapseIcon);
@@ -71,7 +70,7 @@ describe('IdsTree Component', () => {
     expect(tree.collapseIcon).toEqual(IdsTreeShared.DEFAULTS.collapseIcon);
   });
 
-  it('should sets the tree as disabled', () => {
+  test('should sets the tree as disabled', () => {
     expect(tree.getAttribute('disabled')).toEqual(null);
     expect(tree.container.getAttribute('disabled')).toEqual(null);
     expect(tree.disabled).toEqual(false);
@@ -85,7 +84,7 @@ describe('IdsTree Component', () => {
     expect(tree.disabled).toEqual(false);
   });
 
-  it('should sets the tree group expand icon', () => {
+  test('should sets the tree group expand icon', () => {
     const icon = 'user-folder-open';
     expect(tree.getAttribute('expand-icon')).toEqual(null);
     expect(tree.expandIcon).toEqual(IdsTreeShared.DEFAULTS.expandIcon);
@@ -97,7 +96,7 @@ describe('IdsTree Component', () => {
     expect(tree.expandIcon).toEqual(IdsTreeShared.DEFAULTS.expandIcon);
   });
 
-  it('should sets the tree as expanded', () => {
+  test('should sets the tree as expanded', () => {
     expect(tree.getAttribute('expanded')).toEqual(null);
     expect(tree.expanded).toEqual(IdsTreeShared.DEFAULTS.expanded);
     tree.expanded = true;
@@ -111,7 +110,7 @@ describe('IdsTree Component', () => {
     expect(tree.expanded).toEqual(IdsTreeShared.DEFAULTS.expanded);
   });
 
-  it('should sets the tree node icon', () => {
+  test('should sets the tree node icon', () => {
     const icon = 'tree-doc';
     expect(tree.getAttribute('icon')).toEqual(null);
     expect(tree.icon).toEqual(IdsTreeShared.DEFAULTS.icon);
@@ -123,7 +122,7 @@ describe('IdsTree Component', () => {
     expect(tree.icon).toEqual(IdsTreeShared.DEFAULTS.icon);
   });
 
-  it('should sets the tree selectable', () => {
+  test('should sets the tree selectable', () => {
     let selectable: any = 'single';
     expect(tree.getAttribute('selectable')).toEqual(null);
     expect(tree.selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
@@ -146,7 +145,7 @@ describe('IdsTree Component', () => {
     expect(tree.selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
   });
 
-  it('should update toggle collapse icon', () => {
+  test('should update toggle collapse icon', () => {
     tree.data = dataset;
     tree.expandTarget = 'icon';
     const icon = 'chevron-right';
@@ -157,7 +156,7 @@ describe('IdsTree Component', () => {
     expect(tree.toggleCollapseIcon).toEqual(icon);
   });
 
-  it('should sets the tree toggle collapse icon', () => {
+  test('should sets the tree toggle collapse icon', () => {
     const icon = 'chevron-right';
     tree.expandTarget = 'icon';
     expect(tree.getAttribute('toggle-collapse-icon')).toEqual(null);
@@ -170,7 +169,7 @@ describe('IdsTree Component', () => {
     expect(tree.toggleCollapseIcon).toEqual(IdsTreeShared.DEFAULTS.toggleCollapseIcon);
   });
 
-  it('should sets the tree toggle expand icon', () => {
+  test('should sets the tree toggle expand icon', () => {
     const icon = 'chevron-down';
     tree.expandTarget = 'icon';
     expect(tree.getAttribute('toggle-expand-icon')).toEqual(null);
@@ -183,7 +182,7 @@ describe('IdsTree Component', () => {
     expect(tree.toggleExpandIcon).toEqual(IdsTreeShared.DEFAULTS.toggleExpandIcon);
   });
 
-  it('should sets the tree toggle icon rotate', () => {
+  test('should sets the tree toggle icon rotate', () => {
     expect(tree.getAttribute('toggle-icon-rotate')).toEqual(null);
     expect(tree.toggleIconRotate).toEqual(IdsTreeShared.DEFAULTS.toggleIconRotate);
     tree.toggleIconRotate = true;
@@ -197,7 +196,7 @@ describe('IdsTree Component', () => {
     expect(tree.toggleIconRotate).toEqual(IdsTreeShared.DEFAULTS.toggleIconRotate);
   });
 
-  it('can use icon expand target', () => {
+  test('can use icon expand target', () => {
     expect(tree.getAttribute('expand-target')).toEqual(null);
     expect(tree.expandTarget).toEqual(IdsTreeShared.DEFAULTS.expandTarget);
     tree.expandTarget = 'icon';
@@ -211,7 +210,7 @@ describe('IdsTree Component', () => {
     expect(tree.expandTarget).toEqual(IdsTreeShared.DEFAULTS.expandTarget);
   });
 
-  it('should sets the tree to use dataset', () => {
+  test('should sets the tree to use dataset', () => {
     tree.data = 'test';
     expect(tree.data).toEqual(expect.arrayContaining([]));
     expect(tree.data.length).toEqual(0);
@@ -256,14 +255,14 @@ describe('IdsTree Component', () => {
     expect(tree.getNode('#audio').setsize).toEqual(1);
   });
 
-  it('should sets init icons', () => {
+  test('should sets init icons', () => {
     tree.icon = 'tree-node';
     tree.collapseIcon = 'closed-folder';
     tree.expandIcon = 'open-folder';
     tree.data = dataset;
   });
 
-  it('should sets the tree node single selection', () => {
+  test('should sets the tree node single selection', () => {
     tree.data = dataset;
     let id = '#home';
     expect(tree.isSelected(id)).toEqual(true);
@@ -290,7 +289,7 @@ describe('IdsTree Component', () => {
     }));
   });
 
-  it('should gets the tree node for selection multiple', () => {
+  test('should gets the tree node for selection multiple', () => {
     tree.data = dataset;
     const selectable = 'multiple';
     tree.selectable = selectable;
@@ -309,7 +308,7 @@ describe('IdsTree Component', () => {
     expect(tree.isSelected('#home')).toEqual(true);
   });
 
-  it('should gets the tree node for selection false', () => {
+  test('should gets the tree node for selection false', () => {
     tree.data = dataset;
     const selectable = 'false';
     tree.selectable = selectable;
@@ -318,7 +317,7 @@ describe('IdsTree Component', () => {
     expect(tree.selected).toEqual(null);
   });
 
-  it('should collapse all attached nodes', () => {
+  test('should collapse all attached nodes', () => {
     tree.data = dataset;
     let node1 = tree.getNode('#public-folders');
     let node2 = tree.getNode('#icons');
@@ -333,7 +332,7 @@ describe('IdsTree Component', () => {
     expect(node2.elem.expanded).toEqual(false);
   });
 
-  it('should expand all attached nodes', () => {
+  test('should expand all attached nodes', () => {
     tree.data = dataset;
     let node1 = tree.getNode('#public-folders');
     let node2 = tree.getNode('#icons');
@@ -348,7 +347,7 @@ describe('IdsTree Component', () => {
     expect(node2.elem.expanded).toEqual(true);
   });
 
-  it('should collapse node', () => {
+  test('should collapse node', () => {
     tree.data = dataset;
     let id = '#leadership';
     let node = tree.getNode(id);
@@ -363,7 +362,7 @@ describe('IdsTree Component', () => {
     expect(node.elem.expanded).toEqual(false);
   });
 
-  it('should call expand node', () => {
+  test('should call expand node', () => {
     tree.data = dataset;
     const id = '#icons';
     let node = tree.getNode(id);
@@ -374,7 +373,7 @@ describe('IdsTree Component', () => {
     expect(node.elem.expanded).toEqual(true);
   });
 
-  it('should toggle node', () => {
+  test('should toggle node', () => {
     tree.data = dataset;
     let id = '#leadership';
     let node = tree.getNode(id);
@@ -437,7 +436,7 @@ describe('IdsTree Component', () => {
     expect(tree.isSelected(id)).toEqual(true);
   });
 
-  it('should toggle node and select on click', () => {
+  test('should toggle node and select on click', () => {
     tree.data = dataset;
     const id = '#public-folders';
     let node = tree.getNode(id);
@@ -460,7 +459,6 @@ describe('IdsTree Component', () => {
     let event = new KeyboardEvent('keyup', { code: 'Enter' });
     tree.container.dispatchEvent(event);
 
-    await processAnimFrame();
     node = tree.getNode(id);
     expect(node.elem.expanded).toEqual(false);
     expect(tree.isSelected(id)).toEqual(true);
@@ -701,7 +699,7 @@ describe('IdsTree Component', () => {
     notTabbable(nodes[0]);
   });
 
-  it('should prevent keys', () => {
+  test('should prevent keys', () => {
     tree.data = dataset;
     const nodes: any = [];
     const keys = ['home', 'public-folders', 'leadership', 'history', 'careers-last', 'icons', 'audio'];
@@ -763,7 +761,7 @@ describe('IdsTree Component', () => {
     tabbable(nodes[2]);
   });
 
-  it('should veto before collapse response', () => {
+  test('should veto before collapse response', () => {
     tree.data = dataset;
     tree.addEventListener(IdsTreeShared.EVENTS.beforecollapsed, (e: any) => {
       e.detail.response(false); // veto
@@ -778,7 +776,7 @@ describe('IdsTree Component', () => {
     expect(node.elem.expanded).toEqual(true);
   });
 
-  it('should trigger collapsed event', () => {
+  test('should trigger collapsed event', () => {
     tree.data = dataset;
     const mockCallback = jest.fn(() => { });
     tree.addEventListener(IdsTreeShared.EVENTS.collapsed, mockCallback);
@@ -792,7 +790,7 @@ describe('IdsTree Component', () => {
     expect(mockCallback.mock.calls.length).toBe(1);
   });
 
-  it('should veto before expand response', () => {
+  test('should veto before expand response', () => {
     tree.data = dataset;
     tree.addEventListener(IdsTreeShared.EVENTS.beforeexpanded, (e: any) => {
       e.detail.response(false); // veto
@@ -807,7 +805,7 @@ describe('IdsTree Component', () => {
     expect(node.elem.expanded).toEqual(false);
   });
 
-  it('should trigger expanded event', () => {
+  test('should trigger expanded event', () => {
     tree.data = dataset;
     const mockCallback = jest.fn(() => { });
     tree.addEventListener(IdsTreeShared.EVENTS.expanded, mockCallback);
@@ -821,7 +819,7 @@ describe('IdsTree Component', () => {
     expect(mockCallback.mock.calls.length).toBe(1);
   });
 
-  it('should veto selection response', () => {
+  test('should veto selection response', () => {
     tree.data = dataset;
     tree.addEventListener(IdsTreeShared.EVENTS.beforeselected, (e: any) => {
       e.detail.response(false); // veto
@@ -833,7 +831,7 @@ describe('IdsTree Component', () => {
     expect(tree.isSelected(id)).toEqual(false);
   });
 
-  it('should trigger selected event', () => {
+  test('should trigger selected event', () => {
     tree.data = dataset;
     const mockCallback = jest.fn(() => { });
     tree.addEventListener(IdsTreeShared.EVENTS.selected, mockCallback);
@@ -844,7 +842,7 @@ describe('IdsTree Component', () => {
     expect(mockCallback.mock.calls.length).toBe(1);
   });
 
-  it('should veto unselection response', () => {
+  test('should veto unselection response', () => {
     tree.data = dataset;
     tree.addEventListener(IdsTreeShared.EVENTS.beforeunselected, (e: any) => {
       e.detail.response(false); // veto
@@ -860,7 +858,7 @@ describe('IdsTree Component', () => {
     expect(tree.isSelected(id)).toEqual(true);
   });
 
-  it('should trigger unselected event', () => {
+  test('should trigger unselected event', () => {
     tree.data = dataset;
     const mockCallback = jest.fn(() => { });
     tree.addEventListener(IdsTreeShared.EVENTS.unselected, mockCallback);

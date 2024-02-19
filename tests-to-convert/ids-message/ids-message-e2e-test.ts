@@ -4,7 +4,7 @@ import countObjects from '../helpers/count-objects';
 describe('Ids Message e2e Tests', () => {
   const url = 'http://localhost:4444/ids-message/example.html';
 
-  it('should open message on click', async () => {
+  test('should open message on click', async () => {
     await page.evaluate(() => {
       (document.querySelector('#message-example-error-trigger') as HTMLElement).click();
     });
@@ -15,7 +15,7 @@ describe('Ids Message e2e Tests', () => {
     await expect(textContent).toMatch('Lost connection');
   });
 
-  it('should be able to get/set message', async () => {
+  test('should be able to get/set message', async () => {
     await page.evaluate(() => {
       (document.querySelector('#message-example-error-trigger') as HTMLElement).click();
     });

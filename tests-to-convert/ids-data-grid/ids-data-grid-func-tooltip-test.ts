@@ -273,7 +273,7 @@ describe('IdsDataGrid Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should sets suppress tooltips', () => {
+  test('should sets suppress tooltips', () => {
     expect(dataGrid.getAttribute('suppress-tooltips')).toEqual(null);
     expect(dataGrid.suppressTooltips).toEqual(false);
     dataGrid.suppressTooltips = true;
@@ -286,22 +286,22 @@ describe('IdsDataGrid Component', () => {
     expect(dataGrid.suppressTooltips).toEqual(false);
   });
 
-  it('shows tooltip with text content for body cell', async () => {
+  test('shows tooltip with text content for body cell', async () => {
     sel = '.ids-data-grid-body [data-index="0"] [aria-colindex="6"]';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip, true);
   });
 
-  it('shows tooltip with text content for header title', async () => {
+  test('shows tooltip with text content for header title', async () => {
     sel = '.ids-data-grid-header-cell[aria-colindex="7"] .ids-data-grid-header-text';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip, true);
   });
 
-  it('shows tooltip with text content for header icon', async () => {
+  test('shows tooltip with text content for header icon', async () => {
     sel = '.ids-data-grid-header-cell[aria-colindex="7"] .ids-data-grid-header-icon';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip);
   });
 
-  it('shows tooltip with text content for filter button', async () => {
+  test('shows tooltip with text content for filter button', async () => {
     sel = '.ids-data-grid-header-cell[aria-colindex="7"] ids-menu-button';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip);
   });
@@ -311,12 +311,12 @@ describe('IdsDataGrid Component', () => {
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip);
   });
 
-  it('shows tooltip with custom content for header title', async () => {
+  test('shows tooltip with custom content for header title', async () => {
     sel = '.ids-data-grid-header-cell[aria-colindex="3"] .ids-data-grid-header-text';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip, true);
   });
 
-  it('shows tooltip with custom content for filter button', async () => {
+  test('shows tooltip with custom content for filter button', async () => {
     sel = '.ids-data-grid-header-cell[aria-colindex="3"] ids-menu-button';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip);
   });
@@ -326,12 +326,12 @@ describe('IdsDataGrid Component', () => {
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip);
   });
 
-  it('shows tooltip with callback content for header title', async () => {
+  test('shows tooltip with callback content for header title', async () => {
     sel = '.ids-data-grid-header-cell[aria-colindex="4"] .ids-data-grid-header-text';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip, true);
   });
 
-  it('shows tooltip with callback content for filter button', async () => {
+  test('shows tooltip with callback content for filter button', async () => {
     sel = '.ids-data-grid-header-cell[aria-colindex="4"] ids-menu-button';
     await checkTooltip(dataGrid.container.querySelector(sel), dataGrid, tooltip);
   });
