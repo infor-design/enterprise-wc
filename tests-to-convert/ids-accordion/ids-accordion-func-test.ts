@@ -62,13 +62,13 @@ describe('IdsAccordion Component', () => {
     (header2 as any) = null;
   });
 
-  it('can set the pane title attribute', () => {
+  test('can set the pane title attribute', () => {
     const panelTitle = 'Expander text';
     panel.pane?.setAttribute('title', panelTitle);
     expect(panel.pane?.getAttribute('title')).toBe(panelTitle);
   });
 
-  it('can change its expanded property', () => {
+  test('can change its expanded property', () => {
     const panelEl = accordion.querySelector('ids-accordion-panel');
 
     panelEl?.setAttribute('expanded', 'true');
@@ -82,12 +82,12 @@ describe('IdsAccordion Component', () => {
     expect(panel.expanded).toBeFalsy();
   });
 
-  it('can change set its aria-expanded attribute', () => {
+  test('can change set its aria-expanded attribute', () => {
     panel.expanded = true;
     expect(header.getAttribute('aria-expanded')).toBeTruthy();
   });
 
-  it('can be expanded/collapsed when clicked (mouse)', () => {
+  test('can be expanded/collapsed when clicked (mouse)', () => {
     const args: any = {
       target: panel.expander,
       bubbles: true,
@@ -105,7 +105,7 @@ describe('IdsAccordion Component', () => {
     expect(panel.expanded).toBeFalsy();
   });
 
-  it('can be expanded/collapsed when touched', () => {
+  test('can be expanded/collapsed when touched', () => {
     const args: any = {
       touches: [{
         pageX: 0,
@@ -129,7 +129,7 @@ describe('IdsAccordion Component', () => {
     expect(panel.expanded).toBeFalsy();
   });
 
-  it('can be expanded/collapsed when pressing Enter key', () => {
+  test('can be expanded/collapsed when pressing Enter key', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
 
     // Expand
@@ -141,7 +141,7 @@ describe('IdsAccordion Component', () => {
     expect(panel.expanded).toBeFalsy();
   });
 
-  it('can be expanded/collapsed when pressing Space key', () => {
+  test('can be expanded/collapsed when pressing Space key', () => {
     const event = new KeyboardEvent('keydown', { key: ' ' });
 
     // Expand
@@ -153,7 +153,7 @@ describe('IdsAccordion Component', () => {
     expect(panel.expanded).toBeFalsy();
   });
 
-  it('can be expanded/collapsed programmatically', async () => {
+  test('can be expanded/collapsed programmatically', async () => {
     // Expand
     header.expanded = true;
     await waitForTimeout(() => expect(panel.expanded).toEqual(true));
@@ -165,7 +165,7 @@ describe('IdsAccordion Component', () => {
     await waitForTimeout(() => expect(header.expanded).toEqual(panel.expanded));
   });
 
-  it('can select the next panel when pressing the ArrowDown key', () => {
+  test('can select the next panel when pressing the ArrowDown key', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     let nextPanel = panel.nextElementSibling;
 
@@ -178,7 +178,7 @@ describe('IdsAccordion Component', () => {
     expect(nextPanel).toBe(null);
   });
 
-  it('can select the prev panel when pressing the ArrowUp key', () => {
+  test('can select the prev panel when pressing the ArrowUp key', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     let prevPanel = panel2.previousElementSibling;
 
@@ -191,7 +191,7 @@ describe('IdsAccordion Component', () => {
     expect(prevPanel).toBe(null);
   });
 
-  it('supports setting allow one pane', () => {
+  test('supports setting allow one pane', () => {
     accordion.allowOnePane = true;
     expect(accordion.allowOnePane).toBeTruthy();
 
@@ -199,22 +199,22 @@ describe('IdsAccordion Component', () => {
     expect(accordion.allowOnePane).toBeFalsy();
   });
 
-  it('has a reference to its panels', () => {
+  test('has a reference to its panels', () => {
     expect(accordion.panels.length).toBe(3);
     expect(accordion.panels.includes(panel3));
   });
 
-  it('should have reference to accordion in accordion-panels', () => {
+  test('should have reference to accordion in accordion-panels', () => {
     expect(panel.accordion).toEqual(accordion);
   });
 
-  it('will not error if no pane', () => {
+  test('will not error if no pane', () => {
     panel.container?.querySelector('.ids-accordion-pane')?.remove();
     panel.collapsePane();
     expect(panel.pane).toBe(null);
   });
 
-  it('has a reference to its focused panel', () => {
+  test('has a reference to its focused panel', () => {
     panel2.focus();
 
     expect((document.activeElement as any).isEqualNode(header2)).toBeTruthy();
@@ -229,7 +229,7 @@ describe('IdsAccordion Component', () => {
     expect(accordion.focused).toBeFalsy();
   });
 
-  it('can navigate among its panels programatically', () => {
+  test('can navigate among its panels programatically', () => {
     panel.focus();
     const next = accordion.navigate(1);
     expect(next?.isEqualNode(panel2)).toBeTruthy();
@@ -249,7 +249,7 @@ describe('IdsAccordion Component', () => {
     expect(noArgs?.isEqualNode(panel)).toBeTruthy();
   });
 
-  it('can navigate among its panels using the keyboard', () => {
+  test('can navigate among its panels using the keyboard', () => {
     const navigateUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     const navigateDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
 
@@ -264,12 +264,12 @@ describe('IdsAccordion Component', () => {
     expect(accordion.focused).toEqual(panel);
   });
 
-  it('has headers that are aware of their expanded status', async () => {
+  test('has headers that are aware of their expanded status', async () => {
     panel.expanded = true;
     await waitForTimeout(() => expect(header.expanded).toBeTruthy());
   });
 
-  it('can select headers', () => {
+  test('can select headers', () => {
     header.selected = true;
 
     expect(header.container?.classList.contains('selected')).toBeTruthy();
@@ -280,14 +280,14 @@ describe('IdsAccordion Component', () => {
     expect(header2.container?.classList.contains('selected')).toBeTruthy();
   });
 
-  it('can change its headers expander type', async () => {
+  test('can change its headers expander type', async () => {
     await waitForTimeout(() => expect(header.expanderType).toBe('caret'));
 
     header.expanderType = 'plus-minus';
     await waitForTimeout(() => expect(header.expanderType).toBe('plus-minus'));
   });
 
-  it('can add/remove icons from accordion headers', () => {
+  test('can add/remove icons from accordion headers', () => {
     const icon = header.container?.querySelector('.ids-accordion-display-icon') as IdsIcon;
     header.icon = 'user';
 
@@ -300,14 +300,14 @@ describe('IdsAccordion Component', () => {
     expect(icon.icon).toBe('');
   });
 
-  it('toggle expander icon for header', async () => {
+  test('toggle expander icon for header', async () => {
     const icon = header.container?.querySelector('.ids-accordion-expander-icon') as IdsIcon;
     expect(icon.getAttribute('icon')).toBe('caret-down');
     header.toggleExpanderIcon(true);
     await waitForTimeout(() => expect(icon.getAttribute('icon')).toBe('caret-down'));
   });
 
-  it('should update with container language change', () => {
+  test('should update with container language change', () => {
     const container: any = new IdsContainer();
     document.body.appendChild(container);
     container.appendChild(accordion);
@@ -327,7 +327,7 @@ describe('IdsAccordion Component', () => {
     expect(mockCallback.mock.calls.length).toBe(1);
   });
 
-  it('should have only one pane expanded with allowOnePane setting', () => {
+  test('should have only one pane expanded with allowOnePane setting', () => {
     accordion.allowOnePane = true;
     panel.expanded = true;
     panel2.expanded = true;
@@ -337,7 +337,7 @@ describe('IdsAccordion Component', () => {
     expect(panel3.expanded).toBeFalsy();
   });
 
-  it('should add/remove alignment classes with panel\'s contentAlignment', () => {
+  test('should add/remove alignment classes with panel\'s contentAlignment', () => {
     panel.contentAlignment = '';
     expect(header.container?.classList.contains('has-icon')).toBeFalsy();
 
@@ -348,7 +348,7 @@ describe('IdsAccordion Component', () => {
     expect(header.container?.classList.contains('has-icon')).toBeFalsy();
   });
 
-  it('should not expand when panel is disabled', () => {
+  test('should not expand when panel is disabled', () => {
     panel.disabled = true;
     const event = new KeyboardEvent('keydown', { key: ' ' });
 
@@ -361,7 +361,7 @@ describe('IdsAccordion Component', () => {
     expect(panel.expanded).toBeTruthy();
   });
 
-  it('should not expand all panels when accordion disabled', () => {
+  test('should not expand all panels when accordion disabled', () => {
     accordion.disabled = true;
     const event = new KeyboardEvent('keydown', { key: ' ' });
 

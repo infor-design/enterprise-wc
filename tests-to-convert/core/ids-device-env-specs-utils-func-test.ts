@@ -14,11 +14,11 @@ describe('IdsDeviceEnvUtils Tests', () => {
     specs = null;
   });
 
-  it('should initialize without an errors', () => {
+  test('should initialize without an errors', () => {
     expect(specs).toBeDefined();
   });
 
-  it('should type check', () => {
+  test('should type check', () => {
     expect(typeof specs.browser).toBe('string');
     expect(typeof specs.browserVersion).toBe('string');
     expect(typeof specs.isMobile).toBe('boolean');
@@ -27,7 +27,7 @@ describe('IdsDeviceEnvUtils Tests', () => {
     expect(typeof specs.idsVersion).toBe('string');
   });
 
-  it('should check isMobile with matchMedia present', () => {
+  test('should check isMobile with matchMedia present', () => {
     expect(specs.isMobile).toBeFalsy();
 
     Object.defineProperty(window, 'matchMedia', {
@@ -40,7 +40,7 @@ describe('IdsDeviceEnvUtils Tests', () => {
     expect(specs.isMobile).toBeFalsy();
   });
 
-  it('should detect browser and device specs', () => {
+  test('should detect browser and device specs', () => {
     const userAgentGetter = jest.spyOn(window.navigator, 'userAgent', 'get');
     const platformGetter = jest.spyOn(window.navigator, 'platform', 'get');
     const appVersionGetter = jest.spyOn(window.navigator, 'appVersion', 'get');

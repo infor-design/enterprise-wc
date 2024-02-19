@@ -28,7 +28,7 @@ describe('IdsLayoutFlex Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should sets align-content', () => {
+  test('should sets align-content', () => {
     expect(flexEl.alignContent).toEqual(null);
     expect(flexEl.getAttribute('align-content')).toEqual(null);
     flexEl.alignContent = 'center';
@@ -38,7 +38,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('align-content')).toEqual(null);
   });
 
-  it('should sets align-items', () => {
+  test('should sets align-items', () => {
     expect(flexEl.alignItems).toEqual(null);
     expect(flexEl.getAttribute('align-items')).toEqual(null);
     flexEl.alignItems = 'center';
@@ -48,7 +48,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('align-items')).toEqual(null);
   });
 
-  it('should sets direction', () => {
+  test('should sets direction', () => {
     expect(flexEl.direction).toEqual(null);
     expect(flexEl.getAttribute('direction')).toEqual(null);
     flexEl.direction = 'column';
@@ -58,7 +58,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('direction')).toEqual(null);
   });
 
-  it('should sets display', () => {
+  test('should sets display', () => {
     expect(flexEl.display).toEqual(null);
     expect(flexEl.getAttribute('display')).toEqual(null);
     flexEl.display = 'inline-flex';
@@ -68,7 +68,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('display')).toEqual(null);
   });
 
-  it('should sets gap', () => {
+  test('should sets gap', () => {
     expect(flexEl.gap).toEqual(null);
     expect(flexEl.getAttribute('gap')).toEqual(null);
     flexEl.gap = '8';
@@ -78,7 +78,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('gap')).toEqual(null);
   });
 
-  it('should sets gap-x', () => {
+  test('should sets gap-x', () => {
     expect(flexEl.gapX).toEqual(null);
     expect(flexEl.getAttribute('gap-x')).toEqual(null);
     flexEl.gapX = '8';
@@ -88,7 +88,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('gap-x')).toEqual(null);
   });
 
-  it('should sets gap-y', () => {
+  test('should sets gap-y', () => {
     expect(flexEl.gapY).toEqual(null);
     expect(flexEl.getAttribute('gap-y')).toEqual(null);
     flexEl.gapY = '8';
@@ -98,7 +98,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('gap-y')).toEqual(null);
   });
 
-  it('should sets justify-content', () => {
+  test('should sets justify-content', () => {
     expect(flexEl.justifyContent).toEqual(null);
     expect(flexEl.getAttribute('justify-content')).toEqual(null);
     flexEl.justifyContent = 'center';
@@ -108,7 +108,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('justify-content')).toEqual(null);
   });
 
-  it('should sets wrap', () => {
+  test('should sets wrap', () => {
     expect(flexEl.wrap).toEqual(null);
     expect(flexEl.getAttribute('wrap')).toEqual(null);
     flexEl.wrap = 'wrap';
@@ -118,7 +118,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('wrap')).toEqual(null);
   });
 
-  it('should set full height', () => {
+  test('should set full height', () => {
     expect(flexEl.fullHeight).toEqual(false);
     expect(flexEl.getAttribute('full-height')).toEqual(null);
     flexEl.fullHeight = '';
@@ -126,7 +126,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexEl.getAttribute('full-height')).toEqual('');
   });
 
-  it('should set overflow on flex item', () => {
+  test('should set overflow on flex item', () => {
     expect(flexItemEl.overflow).toEqual(null);
     flexItemEl.overflow = 'hidden';
     expect(flexItemEl.overflow).toEqual('hidden');
@@ -134,7 +134,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexItemEl.overflow).toEqual(null);
   });
 
-  it('should sets align-self with item', () => {
+  test('should sets align-self with item', () => {
     expect(flexItemEl.alignSelf).toEqual(null);
     expect(flexItemEl.getAttribute('align-self')).toEqual(null);
     flexItemEl.alignSelf = 'center';
@@ -144,7 +144,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexItemEl.getAttribute('align-self')).toEqual(null);
   });
 
-  it('should sets grow with item', () => {
+  test('should sets grow with item', () => {
     expect(flexItemEl.grow).toEqual(null);
     expect(flexItemEl.getAttribute('grow')).toEqual(null);
     flexItemEl.grow = '1';
@@ -154,7 +154,7 @@ describe('IdsLayoutFlex Component', () => {
     expect(flexItemEl.getAttribute('grow')).toEqual(null);
   });
 
-  it('should sets shrink with item', () => {
+  test('should sets shrink with item', () => {
     expect(flexItemEl.shrink).toEqual(null);
     expect(flexItemEl.getAttribute('shrink')).toEqual(null);
     flexItemEl.shrink = '1';

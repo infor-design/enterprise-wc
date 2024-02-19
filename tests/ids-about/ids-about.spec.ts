@@ -30,7 +30,6 @@ test.describe('IdsAbout tests', () => {
   test.describe('accessibility tests', () => {
     test('should pass an Axe scan', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      if (browserName === 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
         .analyze();

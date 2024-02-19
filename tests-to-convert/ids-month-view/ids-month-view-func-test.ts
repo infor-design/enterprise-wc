@@ -41,14 +41,14 @@ describe('IdsMonthView Component initialization', () => {
     document.body.innerHTML = '';
   });
 
-  it('can render via document.createElement (append early)', () => {
+  test('can render via document.createElement (append early)', () => {
     const component: any = document.createElement('ids-month-view');
     container.appendChild(component);
     setupComponent(component);
     testComponent(component);
   });
 
-  it('can render via document.createElement (append late)', () => {
+  test('can render via document.createElement (append late)', () => {
     const component: any = document.createElement('ids-month-view');
     setupComponent(component);
     container.appendChild(component);
@@ -96,7 +96,7 @@ describe('IdsMonthView Component (using properties)', () => {
     component = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
@@ -106,22 +106,13 @@ describe('IdsMonthView Component (using properties)', () => {
     expect(component.outerHTML).toMatchSnapshot();
   });
 
-  it('can be instantiated with createElement', () => {
+  test('can be instantiated with createElement', () => {
     const errors = jest.spyOn(global.console, 'error');
     document.createElement('ids-month-view');
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    component.remove();
-
-    expect(document.querySelectorAll(name).length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('has properties', () => {
+  test('has properties', () => {
     expect(component.month).toEqual(0);
     expect(component.year).toEqual(2021);
     expect(component.day).toEqual(15);
@@ -132,7 +123,7 @@ describe('IdsMonthView Component (using properties)', () => {
     expect(component.showPicklistWeek).toBeTruthy();
   });
 
-  it('should change properties', () => {
+  test('should change properties', () => {
     component.month = 4;
     component.year = 2019;
     component.day = 22;
@@ -167,7 +158,7 @@ describe('IdsMonthView Component (using properties)', () => {
     expect(component.showPicklistWeek).toBeFalsy();
   });
 
-  it('should change legend property', () => {
+  test('should change legend property', () => {
     expect(component.legend.length).toEqual(0);
 
     const legend = [{ name: 'Weekends', color: 'orange-60', dayOfWeek: [0, 6] }];
@@ -177,7 +168,7 @@ describe('IdsMonthView Component (using properties)', () => {
     expect(component.legend).toEqual(legend);
   });
 
-  it('should change useRange', () => {
+  test('should change useRange', () => {
     expect(component.useRange).toBeFalsy();
 
     component.useRange = true;
@@ -189,7 +180,7 @@ describe('IdsMonthView Component (using properties)', () => {
     expect(component.useRange).toBeFalsy();
   });
 
-  it('can render calendar events', () => {
+  test('can render calendar events', () => {
     const beforeCallback = jest.fn();
     const afterCallback = jest.fn();
     component.addEventListener('beforeeventrendered', beforeCallback);
@@ -230,23 +221,14 @@ describe('IdsMonthView Component (using attributes)', () => {
     component = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    component.remove();
-
-    expect(document.querySelectorAll(name).length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('has properties', () => {
+  test('has properties', () => {
     expect(component.month).toEqual(0);
     expect(component.year).toEqual(2021);
     expect(component.day).toEqual(15);
@@ -302,7 +284,7 @@ describe('IdsMonthView Component (empty)', () => {
     component = null;
   });
 
-  it('should not error if no container', () => {
+  test('should not error if no container', () => {
     document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
     const comp: any = new IdsMonthView();
@@ -311,14 +293,14 @@ describe('IdsMonthView Component (empty)', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should have default properties', () => {
+  test('should have default properties', () => {
     const now = new Date();
 
     expect(component.year).toEqual(now.getFullYear());
@@ -349,7 +331,7 @@ describe('IdsMonthView Component (range of dates)', () => {
     component = null;
   });
 
-  it('should not error if no container', () => {
+  test('should not error if no container', () => {
     document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
     const comp: any = new IdsMonthView();
@@ -358,14 +340,14 @@ describe('IdsMonthView Component (range of dates)', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should have properties', () => {
+  test('should have properties', () => {
     expect(component.startDate.getFullYear()).toEqual(2021);
     expect(component.endDate.getFullYear()).toEqual(2022);
     expect(component.startDate.getDate()).toEqual(14);
@@ -375,7 +357,7 @@ describe('IdsMonthView Component (range of dates)', () => {
     expect(component.firstDayOfWeek).toEqual(0);
   });
 
-  it('should switch to one month if start/end dates removed', () => {
+  test('should switch to one month if start/end dates removed', () => {
     component.startDate = null;
     component.endDate = null;
 
@@ -386,7 +368,7 @@ describe('IdsMonthView Component (range of dates)', () => {
     expect(component.day).toEqual(now.getDate());
   });
 
-  it('should get/set range settings', () => {
+  test('should get/set range settings', () => {
     expect(component.rangeSettings).toEqual({
       start: null,
       end: null,
@@ -418,7 +400,7 @@ describe('IdsMonthView Component (range of dates)', () => {
     });
   });
 
-  it('should get/set disable settings', () => {
+  test('should get/set disable settings', () => {
     expect(component.disableSettings).toEqual({
       dates: [],
       years: [],
@@ -464,7 +446,7 @@ describe('IdsMonthView Component (compact and datepicker)', () => {
     component = null;
   });
 
-  it('should not error if no container', () => {
+  test('should not error if no container', () => {
     document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
     const comp: any = new IdsMonthView();
@@ -473,20 +455,20 @@ describe('IdsMonthView Component (compact and datepicker)', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should have setting for showWeekNumbers', () => {
+  test('should have setting for showWeekNumbers', () => {
     expect(component.showWeekNumbers).toEqual(false);
     component.showWeekNumbers = true;
     expect(component.showWeekNumbers).toEqual(true);
   });
 
-  it('should have compact/datepicker css class initially', () => {
+  test('should have compact/datepicker css class initially', () => {
     const isCompact = component.container.classList.contains('is-compact');
     const isDatePicker = component.container.classList.contains('is-date-picker');
 
@@ -494,7 +476,7 @@ describe('IdsMonthView Component (compact and datepicker)', () => {
     expect(isDatePicker).toBeTruthy();
   });
 
-  it('supports async onDayRender', () => {
+  test('supports async onDayRender', () => {
     const getDayCellTemplate = () => `<td><span class="day-container">
     <ids-text
       aria-hidden="true"
@@ -510,7 +492,7 @@ describe('IdsMonthView Component (compact and datepicker)', () => {
     expect(component.onDayRender).toBeTruthy();
   });
 
-  it('fires onDayRender', () => {
+  test('fires onDayRender', () => {
     component.addEventListener('beforerendermonth', (e: CustomEvent) => {
       e.detail.response(false);
     });

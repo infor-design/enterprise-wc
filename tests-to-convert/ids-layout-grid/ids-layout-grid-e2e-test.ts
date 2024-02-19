@@ -3,7 +3,7 @@ import { AxePuppeteer } from '@axe-core/puppeteer';
 describe('ids-layout-grid', () => {
   const url = 'http://localhost:4444/ids-layout-grid/example.html';
 
-  it('should render 8 column ids-layout-grid with child elements', async () => {
+  test('should render 8 column ids-layout-grid with child elements', async () => {
     // find the ids-layout-grid component
     const idsLayoutGrid = await page.$('#eight-column-grid');
 

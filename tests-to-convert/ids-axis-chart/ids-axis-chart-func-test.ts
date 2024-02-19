@@ -8,7 +8,6 @@ import '../../src/components/ids-text/ids-text';
 import '../helpers/canvas-mock';
 import '../helpers/resize-observer-mock';
 import dataset from '../../src/assets/data/components.json';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 import arMessages from '../../src/components/ids-locale/data/ar-messages.json';
 import deMessages from '../../src/components/ids-locale/data/de-messages.json';
@@ -45,14 +44,14 @@ describe('IdsAxisChart Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('supports setting title', () => {
+  test('supports setting title', () => {
     expect(axisChart.title).toEqual('');
     axisChart.title = 'Test Title';
     expect(axisChart.title).toEqual('Test Title');
     expect(axisChart.shadowRoot.querySelector('title').textContent).toEqual('Test Title');
   });
 
-  it('supports setting height inline', () => {
+  test('supports setting height inline', () => {
     document.body.innerHTML = '';
     axisChart = new IdsAxisChart();
     axisChart.setAttribute('width', 500);
@@ -64,38 +63,38 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.svg.getAttribute('width')).toEqual('500');
   });
 
-  it('supports setting animated', () => {
+  test('supports setting animated', () => {
     expect(axisChart.animated).toEqual(true);
     axisChart.animated = 'false';
     expect(axisChart.animated).toEqual(false);
     expect(axisChart.getAttribute('animated')).toEqual('false');
   });
 
-  it('supports setting width', () => {
+  test('supports setting width', () => {
     expect(axisChart.width).toEqual(700);
     axisChart.width = 400;
     expect(axisChart.width).toEqual(400);
     expect(axisChart.shadowRoot.querySelector('svg').getAttribute('width')).toEqual('400');
   });
 
-  it('supports setting width to inherit', () => {
+  test('supports setting width to inherit', () => {
     axisChart.width = 'inherit';
     expect(axisChart.getAttribute('width')).toEqual('inherit');
   });
 
-  it('skips resize when not initialized', () => {
+  test('skips resize when not initialized', () => {
     axisChart.width = 500;
     axisChart.initialized = false;
     axisChart.resize(300, 300);
     expect(axisChart.svg.getAttribute('width')).toEqual('500');
   });
 
-  it('supports setting height to inherit', () => {
+  test('supports setting height to inherit', () => {
     axisChart.height = 'inherit';
     expect(axisChart.getAttribute('height')).toEqual('inherit');
   });
 
-  it('supports setting height even when hidden', async () => {
+  test('supports setting height even when hidden', async () => {
     container.hidden = true;
     axisChart.height = 300;
     expect(axisChart.height).toEqual(300);
@@ -103,7 +102,7 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.svg.getAttribute('height')).toEqual('300');
   });
 
-  it('supports setting margins', () => {
+  test('supports setting margins', () => {
     expect(axisChart.margins.left).toEqual(axisChart.margins.left);
     expect(axisChart.margins.right).toEqual(4);
     const newMargins = {
@@ -121,7 +120,7 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.state.margins).toEqual(newMargins);
   });
 
-  it('supports setting textWidths', () => {
+  test('supports setting textWidths', () => {
     expect(axisChart.textWidths.left).toEqual(4);
     expect(axisChart.textWidths.right).toEqual(0);
     const newTextWidths = {
@@ -132,13 +131,13 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.state.textWidths).toEqual(newTextWidths);
   });
 
-  it('supports setting dataset to null', () => {
+  test('supports setting dataset to null', () => {
     expect(axisChart.shadowRoot.querySelector('.grid')).toBeTruthy();
     axisChart.data = null;
     expect(axisChart.data).toEqual([]);
   });
 
-  it('supports setting yAxisMin', () => {
+  test('supports setting yAxisMin', () => {
     expect(axisChart.yAxisMin).toEqual(0);
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8K');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0');
@@ -147,7 +146,7 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1K');
   });
 
-  it('supports setting showVerticalGridLines', () => {
+  test('supports setting showVerticalGridLines', () => {
     expect(axisChart.showVerticalGridLines).toEqual(false);
     expect(axisChart.shadowRoot.querySelector('.grid.vertical-lines.hidden')).toBeTruthy();
     axisChart.showVerticalGridLines = true;
@@ -156,7 +155,7 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelector('.grid.vertical-lines.hidden')).toBeTruthy();
   });
 
-  it('supports setting showHorizontalGridLines', () => {
+  test('supports setting showHorizontalGridLines', () => {
     expect(axisChart.showHorizontalGridLines).toEqual(true);
     expect(axisChart.shadowRoot.querySelector('.grid.horizontal-lines.hidden')).toBeFalsy();
     axisChart.showHorizontalGridLines = false;
@@ -165,7 +164,7 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelector('.grid.horizontal-lines.hidden')).toBeFalsy();
   });
 
-  it('renders zero when missing value', async () => {
+  test('renders zero when missing value', async () => {
     axisChart.data = [{
       data: [{
         name: 'Jan',
@@ -178,7 +177,7 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.markerData.points[0]['1'].value).toEqual(0);
   });
 
-  it('renders an empty message with empty data', async () => {
+  test('renders an empty message with empty data', async () => {
     expect(axisChart.emptyMessage.getAttribute('hidden')).toEqual('');
     axisChart.data = [];
     expect(axisChart.emptyMessage.getAttribute('hidden')).toBeFalsy();
@@ -196,22 +195,20 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.emptyMessage.getAttribute('hidden')).toBeFalsy();
   });
 
-  it('changes empty message text when changing locale', async () => {
+  test('changes empty message text when changing locale', async () => {
     axisChart.data = [];
     expect(axisChart.emptyMessage.querySelector('ids-text').textContent).toEqual('No data available');
     locale.setLocale('de-DE');
-    await processAnimFrame();
     expect(axisChart.emptyMessage.querySelector('ids-text').textContent).toEqual('Keine Daten verfügbar');
   });
 
-  it('can get colors and color range', async () => {
+  test('can get colors and color range', async () => {
     expect(axisChart.colors.length).toEqual(20);
     expect(axisChart.color(2)).toEqual('var(--ids-chart-color-accent-03)');
   });
 
-  it('renders when changing format/locale', async () => {
+  test('renders when changing format/locale', async () => {
     locale.setLocale('fr-FR');
-    await processAnimFrame();
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 k');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 k');
@@ -219,13 +216,12 @@ describe('IdsAxisChart Component', () => {
     locale.setLocale('en-US');
   });
 
-  it('renders decimal and groups when changing format/locale', async () => {
+  test('renders decimal and groups when changing format/locale', async () => {
     locale.setLocale('fr-FR');
     axisChart.yAxisFormatter = {
       style: 'currency',
       currency: 'EUR'
     };
-    await processAnimFrame();
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 000,00 €');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0,00 €');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8 000,00 €');
@@ -233,19 +229,18 @@ describe('IdsAxisChart Component', () => {
     locale.setLocale('en-US');
   });
 
-  it('can set the y axis formatter to Intl.NumberFormat', async () => {
+  test('can set the y axis formatter to Intl.NumberFormat', async () => {
     locale.setLocale('en-US');
     axisChart.yAxisFormatter = {
       maximumFractionDigits: 0
     };
-    await processAnimFrame();
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8,000');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8,000');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1,000');
   });
 
-  it('can set the y axis formatter to a function', async () => {
+  test('can set the y axis formatter to a function', async () => {
     axisChart.yAxisFormatter = (value: number) => `${value / 1000}$`;
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent).toEqual('8$');
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent).toEqual('0$');
@@ -253,7 +248,7 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent).toEqual('1$');
   });
 
-  it('can set the x axis formatter to a function', async () => {
+  test('can set the x axis formatter to a function', async () => {
     axisChart.xAxisFormatter = (value: string) => value.substring(0, 1);
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[0].textContent).toEqual('J');
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[1].textContent).toEqual('F');
@@ -263,13 +258,13 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[0].textContent).toEqual('');
   });
 
-  it('can set the y axis formatter to empty', async () => {
+  test('can set the y axis formatter to empty', async () => {
     axisChart.yAxisFormatter = null;
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[0].textContent).toEqual('Jan');
     expect(axisChart.shadowRoot.querySelectorAll('.x-labels text')[1].textContent).toEqual('Feb');
   });
 
-  it('can set the legend placement', async () => {
+  test('can set the legend placement', async () => {
     expect(axisChart.legendPlacement).toEqual('bottom');
     axisChart.legendPlacement = 'left';
     axisChart.redraw();
@@ -282,35 +277,35 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.container.parentNode.classList.contains('legend-bottom')).toBeTruthy();
   });
 
-  it('can set alignXLabels', () => {
+  test('can set alignXLabels', () => {
     expect(axisChart.alignXLabels).toEqual('start');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
     expect(axisChart.container.querySelector('.x-labels text').getAttribute('text-anchor')).toEqual('middle');
   });
 
-  it('can set animationSpeed', () => {
+  test('can set animationSpeed', () => {
     expect(axisChart.animationSpeed).toEqual(0.8);
     axisChart.animationSpeed = 1.5;
     axisChart.redraw();
     expect(axisChart.getAttribute('animation-speed')).toEqual('1.5');
   });
 
-  it('has no tooltip elements when only the base', () => {
+  test('has no tooltip elements when only the base', () => {
     expect(axisChart.tooltipElements()).toEqual([]);
   });
 
-  it('should get tooltip template', () => {
+  test('should get tooltip template', () => {
     const tmpl = '<b>${label}</b> ${value}'; // eslint-disable-line
     expect(axisChart.tooltipTemplate()).toEqual(tmpl);
   });
 
-  it('has no tooltip elements when only the base', () => {
+  test('has no tooltip elements when only the base', () => {
     const axisChart2 = new IdsAxisChart();
     expect(axisChart2.data).toEqual([]);
   });
 
-  it('can set custom colors', async () => {
+  test('can set custom colors', async () => {
     axisChart.data = [{
       data: [{
         name: 'Jan',
@@ -341,14 +336,13 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.color(1)).toEqual('var(color-2)');
   });
 
-  it('should adjust RTL', async () => {
+  test('should adjust RTL', async () => {
     await locale.setLanguage('ar');
-    await processAnimFrame();
 
     expect(axisChart.localeAPI.isRTL()).toBe(true);
   });
 
-  it('should set axis label', async () => {
+  test('should set axis label', async () => {
     expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(0);
     axisChart.axisLabelBottom = 'Bottom axis label';
     axisChart.axisLabelEnd = 'End axis label';
@@ -357,7 +351,6 @@ describe('IdsAxisChart Component', () => {
     axisChart.axisLabelMargin = 20;
     expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(4);
     await locale.setLanguage('ar');
-    await processAnimFrame();
     expect(axisChart.localeAPI.isRTL()).toBe(true);
 
     axisChart.axisLabelBottom = '';
@@ -369,7 +362,7 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length).toEqual(0);
   });
 
-  it('should set axis rotation', async () => {
+  test('should set axis rotation', async () => {
     axisChart.rotateNameLabels = '-60';
 
     const xLabels = axisChart.shadowRoot.querySelectorAll('.labels.x-labels text');
@@ -383,7 +376,6 @@ describe('IdsAxisChart Component', () => {
     await locale.setLanguage('ar');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
-    await processAnimFrame();
 
     expect(xLabels[0].getAttribute('transform')).toContain('rotate(-60');
     expect(xLabels[5].getAttribute('transform')).toContain('rotate(-60');
@@ -393,7 +385,7 @@ describe('IdsAxisChart Component', () => {
     expect(xLabels[0].getAttribute('transform')).toContain('rotate(-60');
   });
 
-  it('should set horizontal', () => {
+  test('should set horizontal', () => {
     expect(axisChart.horizontal).toEqual(false);
     expect(axisChart.getAttribute('horizontal')).toEqual(null);
     axisChart.horizontal = true;
@@ -404,7 +396,7 @@ describe('IdsAxisChart Component', () => {
     expect(axisChart.getAttribute('horizontal')).toEqual(null);
   });
 
-  it('should set horizontal axis rotation', async () => {
+  test('should set horizontal axis rotation', async () => {
     axisChart.rotateNameLabels = '-60';
     axisChart.horizontal = true;
 
@@ -419,7 +411,6 @@ describe('IdsAxisChart Component', () => {
     await locale.setLanguage('ar');
     axisChart.alignXLabels = 'middle';
     axisChart.redraw();
-    await processAnimFrame();
 
     expect(yLabels[0].getAttribute('transform')).toContain('rotate(-60');
     expect(yLabels[5].getAttribute('transform')).toContain('rotate(-60');

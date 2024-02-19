@@ -47,7 +47,7 @@ describe('IdsForm Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with compact', () => {
+  test('renders with compact', () => {
     expect(form.compact).toEqual(false);
     form.compact = true;
     expect(form.hasAttribute('compact')).toBeTruthy();
@@ -60,7 +60,7 @@ describe('IdsForm Component', () => {
     expect(field2.getAttribute('compact')).toBeFalsy();
   });
 
-  it('renders with fieldHeight', () => {
+  test('renders with fieldHeight', () => {
     form.fieldHeight = 'lg';
     expect(form.getAttribute('field-height')).toEqual('lg');
     expect(form.fieldHeight).toEqual('lg');
@@ -72,20 +72,20 @@ describe('IdsForm Component', () => {
     expect(field2.getAttribute('field-height')).toEqual('sm');
   });
 
-  it('renders with id', () => {
+  test('renders with id', () => {
     const idString = 'ids-form-id';
     form.id = idString;
     expect(form.getAttribute('id')).toEqual(idString);
   });
 
-  it('renders with a name', () => {
+  test('renders with a name', () => {
     form.name = 'ids-form-name';
     expect(form.template()).toContain('name');
     form.name = '';
     expect(form.template()).not.toContain('name');
   });
 
-  it('renders with submit-button', () => {
+  test('renders with submit-button', () => {
     form.submitButton = 'btn-submit1';
     expect(form.getAttribute('submit-button')).toEqual('btn-submit1');
     expect(form.submitButton).toEqual('btn-submit1');
@@ -96,7 +96,7 @@ describe('IdsForm Component', () => {
     expect(form.submitButton).toEqual('');
   });
 
-  it('fires submit on clicking submit-button', () => {
+  test('fires submit on clicking submit-button', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.components).toBeTruthy();
     });
@@ -106,7 +106,7 @@ describe('IdsForm Component', () => {
     expect(mockCallback.mock.calls.length).toBe(1);
   });
 
-  it('reset dirty tracker', () => {
+  test('reset dirty tracker', () => {
     field1.value = 'x';
     field2.value = 'y';
     expect(field1.isDirty).toBeTruthy();
@@ -120,7 +120,7 @@ describe('IdsForm Component', () => {
     expect(form.isDirty).toBeFalsy();
   });
 
-  it('can check for isValid', () => {
+  test('can check for isValid', () => {
     expect(form.isValid).toBe(true);
     field1.value = 'x';
     field1.value = '';
@@ -129,7 +129,7 @@ describe('IdsForm Component', () => {
     expect(form.isValid).toBe(false);
   });
 
-  it('can get form errors', () => {
+  test('can get form errors', () => {
     expect(form.errorFormComponents.length).toBe(0);
     field1.value = 'x';
     field1.value = '';
@@ -137,7 +137,7 @@ describe('IdsForm Component', () => {
     expect(form.errorFormComponents.length).toBe(1);
   });
 
-  it('can call checkValidation', () => {
+  test('can call checkValidation', () => {
     field1.input.checkValidation = jest.fn();
     expect(field1.isValid).toBeTruthy();
     expect(field2.isValid).toBeTruthy();

@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import '../../src/components/ids-input/ids-input';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 describe.skip('IdsInput Component', () => {
   let elem: any = null;
@@ -12,7 +11,6 @@ describe.skip('IdsInput Component', () => {
     template.innerHTML = '<ids-input label="testing input"></ids-input>';
     elem = template.content.childNodes[0];
     document.body.appendChild(elem);
-    await processAnimFrame();
   });
 
   afterEach(async () => {
@@ -20,10 +18,9 @@ describe.skip('IdsInput Component', () => {
     elem = null;
   });
 
-  it('should add/remove required error', async () => {
+  test('should add/remove required error', async () => {
     elem.validate = 'required';
     elem.template();
-    await processAnimFrame();
 
     expect(elem.getAttribute('validate')).toEqual('required');
     expect(elem.validate).toEqual('required');
@@ -48,7 +45,7 @@ describe.skip('IdsInput Component', () => {
     expect(elem.validationMessagesCount).toEqual(0);
   });
 
-  it('should add/remove required error on disabled', () => {
+  test('should add/remove required error on disabled', () => {
     elem.validate = 'required';
     elem.disabled = true;
     elem.template();
@@ -60,7 +57,7 @@ describe.skip('IdsInput Component', () => {
     expect(msgEl).toBeTruthy();
   });
 
-  it('should add/remove manually message', () => {
+  test('should add/remove manually message', () => {
     expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(0);
     elem.addValidationMessage({
       message: 'Something is wrong do not continue',
@@ -108,7 +105,7 @@ describe.skip('IdsInput Component', () => {
     expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(0);
   });
 
-  it('should add validation messages manually thru markup', async () => {
+  test('should add validation messages manually thru markup', async () => {
     document.body.innerHTML = '';
     elem = null;
 
@@ -123,7 +120,6 @@ describe.skip('IdsInput Component', () => {
     ></ids-input>`;
     elem = template.content.childNodes[0];
     document.body.appendChild(elem);
-    await processAnimFrame();
 
     expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(1);
     expect(elem.validationMessagesCount).toEqual(1);
@@ -133,7 +129,7 @@ describe.skip('IdsInput Component', () => {
     expect(elem.validationMessagesCount).toEqual(0);
   });
 
-  it('should skip if it already has an error', () => {
+  test('should skip if it already has an error', () => {
     elem.validate = 'required';
     elem.template();
     document.body.appendChild(elem);
@@ -146,7 +142,7 @@ describe.skip('IdsInput Component', () => {
     expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(1);
   });
 
-  it('should not error on invalid types', () => {
+  test('should not error on invalid types', () => {
     elem.validate = 'required';
     elem.template();
     document.body.appendChild(elem);
@@ -158,7 +154,7 @@ describe.skip('IdsInput Component', () => {
     expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(1);
   });
 
-  it('should set validation events', () => {
+  test('should set validation events', () => {
     expect(elem.getAttribute('validate')).toEqual(null);
     expect(elem.getAttribute('validation-events')).toEqual(null);
     elem.validate = 'required';
@@ -173,7 +169,7 @@ describe.skip('IdsInput Component', () => {
     expect(elem.getAttribute('validation-events')).toEqual(null);
   });
 
-  it('should add/remove email error', () => {
+  test('should add/remove email error', () => {
     elem.validate = 'email';
     elem.template();
     document.body.appendChild(elem);
@@ -196,7 +192,7 @@ describe.skip('IdsInput Component', () => {
     expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
   });
 
-  it('should add/remove required and email error', () => {
+  test('should add/remove required and email error', () => {
     elem.validate = 'required email';
     elem.template();
     document.body.appendChild(elem);
@@ -221,7 +217,7 @@ describe.skip('IdsInput Component', () => {
     expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
   });
 
-  it('should add input error message', () => {
+  test('should add input error message', () => {
     elem.addValidationMessage({});
     elem.addValidationMessage({ message: 'test', type: 'error', id: 'error' });
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
@@ -230,7 +226,7 @@ describe.skip('IdsInput Component', () => {
     expect(msgEl.textContent).toEqual('Error test');
   });
 
-  it('should add input alert message', () => {
+  test('should add input alert message', () => {
     elem.addValidationMessage({ message: 'test', type: 'alert', id: 'alert' });
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(msgEl).toBeTruthy();
@@ -238,7 +234,7 @@ describe.skip('IdsInput Component', () => {
     expect(msgEl.textContent).toEqual('Alert test');
   });
 
-  it('should add input success message', () => {
+  test('should add input success message', () => {
     elem.addValidationMessage({ message: 'test', type: 'success', id: 'success' });
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(msgEl).toBeTruthy();
@@ -246,7 +242,7 @@ describe.skip('IdsInput Component', () => {
     expect(msgEl.textContent).toEqual('Success test');
   });
 
-  it('should add input info message', () => {
+  test('should add input info message', () => {
     elem.addValidationMessage({ message: 'test', type: 'info', id: 'info' });
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(msgEl).toBeTruthy();
@@ -254,7 +250,7 @@ describe.skip('IdsInput Component', () => {
     expect(msgEl.textContent).toEqual('Info test');
   });
 
-  it('should add input default icon message', () => {
+  test('should add input default icon message', () => {
     elem.addValidationMessage({ message: 'test', type: 'icon', id: 'icon' });
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(msgEl).toBeTruthy();
@@ -262,7 +258,7 @@ describe.skip('IdsInput Component', () => {
     expect(msgEl.textContent).toEqual('test');
   });
 
-  it('should add input custom icon message', () => {
+  test('should add input custom icon message', () => {
     elem.addValidationMessage({ message: 'test', type: 'icon', id: 'icon-custom', icon: 'mail' });// eslint-disable-line
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(msgEl).toBeTruthy();
@@ -270,7 +266,7 @@ describe.skip('IdsInput Component', () => {
     expect(msgEl.textContent).toEqual('test');
   });
 
-  it('should remove disabled on message', () => {
+  test('should remove disabled on message', () => {
     elem.addValidationMessage({
       message: 'test',
       type: 'icon',
@@ -286,7 +282,7 @@ describe.skip('IdsInput Component', () => {
     expect(msgEl.classList.contains('disabled')).toEqual(false);
   });
 
-  it('should destroy validation', () => {
+  test('should destroy validation', () => {
     elem.validate = 'required';
     elem.template();
     document.body.appendChild(elem);
@@ -301,7 +297,7 @@ describe.skip('IdsInput Component', () => {
     expect(elem.labelEl.classList).not.toContain('required');
   });
 
-  it('should remove all the messages from input', () => {
+  test('should remove all the messages from input', () => {
     elem.validate = 'required';
     elem.template();
 
@@ -318,12 +314,12 @@ describe.skip('IdsInput Component', () => {
     expect(msgEl).toBeFalsy();
   });
 
-  it('should not error for input', () => {
+  test('should not error for input', () => {
     elem.input.remove();
     elem.checkValidation();
   });
 
-  it('should add/remove custom validation rules', () => {
+  test('should add/remove custom validation rules', () => {
     // Custom Rule (uppercase)
     const myCustomRule1 = {
       check: (input: any) => {

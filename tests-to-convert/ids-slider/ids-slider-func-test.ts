@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import processAnimFrame from '../helpers/process-anim-frame';
 import createFromTemplate from '../helpers/create-from-template';
 import '../helpers/resize-observer-mock';
 
@@ -46,7 +45,7 @@ describe('IdsSlider Component', () => {
     slider?.remove();
   });
 
-  it('sets color correctly', async () => {
+  test('sets color correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
 
     slider.color = '#25af65';
@@ -68,7 +67,7 @@ describe('IdsSlider Component', () => {
     expect(slider.color).toBe('purple-50');
   });
 
-  it('sets labels correctly', async () => {
+  test('sets labels correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
     processAnimFrame();
 
@@ -77,9 +76,8 @@ describe('IdsSlider Component', () => {
     expect(slider.container.querySelector('ids-text').innerHTML).toBe('0');
   });
 
-  it('sets vertical step labels correctly', async () => {
+  test('sets vertical step labels correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_STEP_SLIDER);
-    await processAnimFrame();
 
     expect(slider.stepNumber).toBe(5);
 
@@ -92,9 +90,8 @@ describe('IdsSlider Component', () => {
     }
   });
 
-  it('sets step labels correctly', async () => {
+  test('sets step labels correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.STEP_SLIDER);
-    await processAnimFrame();
 
     expect(slider.type).toBe('step');
     expect(slider.stepNumber).toBe(5);
@@ -115,7 +112,7 @@ describe('IdsSlider Component', () => {
     expect(slider.stepNumber).toBe(2);
   });
 
-  it('sets range slider correctly', async () => {
+  test('sets range slider correctly', async () => {
     const idsContainer = await createFromTemplate(slider, HTMLSnippets.RANGE_SLIDER);
     slider = idsContainer.querySelector('ids-slider');
     processAnimFrame();
@@ -146,7 +143,7 @@ describe('IdsSlider Component', () => {
     expect(slider.valueSecondary).toBe(20);
   });
 
-  it('sets min correctly', async () => {
+  test('sets min correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
 
     slider.min = '50';
@@ -162,7 +159,7 @@ describe('IdsSlider Component', () => {
     expect(slider.min).toBe(slider.DEFAULT_MIN);
   });
 
-  it('sets max correctly', async () => {
+  test('sets max correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
     slider.max = '150';
     expect(slider.max).toBe(150);
@@ -180,7 +177,7 @@ describe('IdsSlider Component', () => {
     expect(slider.max).toBe(slider.DEFAULT_MAX + slider.min);
   });
 
-  it('sets type correctly', async () => {
+  test('sets type correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
 
     slider.type = 'step';
@@ -199,7 +196,7 @@ describe('IdsSlider Component', () => {
     expect(slider.type).toBe(slider.DEFAULT_TYPE);
   });
 
-  it('sets vertical correctly', async () => {
+  test('sets vertical correctly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_RANGE_SLIDER);
     processAnimFrame();
 
@@ -229,7 +226,7 @@ describe('IdsSlider Component', () => {
     slider.color = 'green';
   });
 
-  it('sets rtl correctly, click outside of slider', async () => {
+  test('sets rtl correctly, click outside of slider', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.LANGUAGE_SLIDER);
     processAnimFrame();
 
@@ -246,10 +243,9 @@ describe('IdsSlider Component', () => {
     (document as any).querySelector('ids-container').click();
   });
 
-  it('drags correctly on range slider', async () => {
+  test('drags correctly on range slider', async () => {
     const idsContainer = await createFromTemplate(slider, HTMLSnippets.RANGE_SLIDER);
     slider = idsContainer.querySelector('ids-slider');
-    await processAnimFrame();
 
     const mockBounds = {
       LEFT: 0,
@@ -293,9 +289,8 @@ describe('IdsSlider Component', () => {
     );
   });
 
-  it('clicks correctly on vertical step slider', async () => {
+  test('clicks correctly on vertical step slider', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_STEP_SLIDER);
-    await processAnimFrame();
 
     const mockBounds = {
       LEFT: 0,
@@ -402,7 +397,7 @@ describe('IdsSlider Component', () => {
     );
   });
 
-  it('cannot change slider thumb values when disabled', async () => {
+  test('cannot change slider thumb values when disabled', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
     processAnimFrame();
 
@@ -428,7 +423,7 @@ describe('IdsSlider Component', () => {
     expect(slider.value).toBe(10);
   });
 
-  it('cannot change slider thumb values when made readonly', async () => {
+  test('cannot change slider thumb values when made readonly', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.SINGLE_SLIDER);
     processAnimFrame();
 
@@ -454,9 +449,8 @@ describe('IdsSlider Component', () => {
     expect(slider.value).toBe(10);
   });
 
-  it('has correct aria attributes on slider thumbs', async () => {
+  test('has correct aria attributes on slider thumbs', async () => {
     slider = await createFromTemplate(slider, HTMLSnippets.VERTICAL_RANGE_SLIDER);
-    await processAnimFrame();
 
     expect(slider.thumbDraggable.getAttribute('aria-label')).toEqual('Range Minimum');
     expect(slider.thumbDraggableSecondary.getAttribute('aria-label')).toEqual('Range Maximum');

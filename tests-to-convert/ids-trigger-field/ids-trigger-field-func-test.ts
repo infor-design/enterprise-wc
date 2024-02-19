@@ -5,7 +5,6 @@ import { attributes } from '../../src/core/ids-attributes';
 import createFromTemplate from '../helpers/create-from-template';
 import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 import '../../src/components/ids-trigger-field/ids-trigger-button';
-import processAnimFrame from '../helpers/process-anim-frame';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import type IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger-button';
 
@@ -82,14 +81,14 @@ describe('IdsTriggerField Component initialization', () => {
     document.body.innerHTML = '';
   });
 
-  it('can render via document.createElement (append early)', () => {
+  test('can render via document.createElement (append early)', () => {
     const component = document.createElement('ids-trigger-field');
     container.appendChild(component);
     setupComponent(component);
     checkProperties(component);
   });
 
-  it('can render via document.createElement (append late)', () => {
+  test('can render via document.createElement (append late)', () => {
     const component = document.createElement('ids-trigger-field');
     setupComponent(component);
     container.appendChild(component);
@@ -102,14 +101,13 @@ describe('IdsTriggerField Component', () => {
 
   beforeEach(async () => {
     triggerField = await createFromTemplate(triggerField, DEFAULT_TRIGGERFIELD_HTML);
-    await processAnimFrame();
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
   });
 
-  it('fires triggerevent on trigger', () => {
+  test('fires triggerevent on trigger', () => {
     triggerField.addEventListener('triggerfield', (e: any) => {
       e.detail.response(false);
     });
@@ -118,12 +116,12 @@ describe('IdsTriggerField Component', () => {
     expect(document.body.contains(triggerField)).toEqual(true);
   });
 
-  it('renders validation setting', async () => {
+  test('renders validation setting', async () => {
     triggerField = await createFromTemplate(triggerField, REQUIRED_TRIGGERFIELD_HTML);
     expect(triggerField.validate).toBe('required');
   });
 
-  it('should add/remove validation errors', async () => {
+  test('should add/remove validation errors', async () => {
     triggerField = await createFromTemplate(triggerField, DEFAULT_TRIGGERFIELD_HTML);
     triggerField.validate = 'required';
     triggerField.template();
@@ -146,7 +144,7 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.shadowRoot?.querySelector('.validation-message')).toBe(null);
   });
 
-  it('renders tabbable setting', () => {
+  test('renders tabbable setting', () => {
     triggerField.tabbable = true;
     expect(triggerField.hasAttribute(attributes.TABBABLE)).toBeTruthy();
     expect(triggerField.tabbable).toEqual(true);
@@ -158,7 +156,7 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.buttons[0].tabbable).toBeFalsy();
   });
 
-  it('has a readonly attribute', () => {
+  test('has a readonly attribute', () => {
     triggerField.readonly = false;
     expect(triggerField.buttons[0].readonly).toBeFalsy();
 
@@ -166,7 +164,7 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.buttons[0].readonly).toBeTruthy();
   });
 
-  it('has a disabled attribute', () => {
+  test('has a disabled attribute', () => {
     triggerField.disabled = false;
     expect(triggerField.buttons[0].disabled).toBeFalsy();
 
@@ -174,7 +172,7 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.buttons[0].disabled).toBeTruthy();
   });
 
-  it('has a readonly attribute', () => {
+  test('has a readonly attribute', () => {
     triggerField.readonly = true;
     expect(triggerField.readonly).toEqual(true);
     expect(triggerField.hasAttribute('readonly')).toBeTruthy();
@@ -184,7 +182,7 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.getAttribute('readonly')).toBeFalsy();
   });
 
-  it('fires triggerclicked event', () => {
+  test('fires triggerclicked event', () => {
     const handler = jest.fn();
     triggerField.addEventListener('triggerclicked', handler);
 
@@ -192,7 +190,7 @@ describe('IdsTriggerField Component', () => {
     expect(handler.mock.calls.length).toBe(1);
   });
 
-  it('can veto beforetriggerclicked event', () => {
+  test('can veto beforetriggerclicked event', () => {
     const beforeHandler = jest.fn((e) => {
       e.detail.response(false);
     });
@@ -205,15 +203,14 @@ describe('IdsTriggerField Component', () => {
     expect(handler.mock.calls.length).toBe(0);
   });
 
-  it('renders icon clock', async () => {
+  test('renders icon clock', async () => {
     const triggerButton = triggerField.querySelector('ids-trigger-button') as IdsTriggerButton;
     triggerButton.icon = 'clock';
-    await processAnimFrame();
 
     expect(triggerButton.querySelector('ids-icon')?.getAttribute('icon')).toEqual('clock');
   });
 
-  it('can set the noMargins attribute', () => {
+  test('can set the noMargins attribute', () => {
     triggerField.noMargins = true;
     expect(triggerField.hasAttribute('no-margins')).toBeTruthy();
     expect(triggerField.noMargins).toEqual(true);
@@ -223,9 +220,8 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.noMargins).toEqual(false);
   });
 
-  it('can have a trigger button on each side', async () => {
+  test('can have a trigger button on each side', async () => {
     triggerField = await createFromTemplate(triggerField, TWO_BUTTON_TRIGGERFIELD_HTML);
-    await processAnimFrame();
 
     expect(triggerField.buttons[0]).toBeDefined();
     expect(triggerField.buttons[1]).toBeDefined();

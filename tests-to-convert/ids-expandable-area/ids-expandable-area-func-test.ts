@@ -20,7 +20,7 @@ describe('IdsExpandableArea Component', () => {
     (window.requestAnimationFrame as any).mockRestore();
   });
 
-  it('can change its type property', () => {
+  test('can change its type property', () => {
     const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
 
     expect(rootEl.getAttribute('type')).toBe(null);
@@ -39,7 +39,7 @@ describe('IdsExpandableArea Component', () => {
     expect(el.getAttribute('type')).toBe('');
   });
 
-  it('can change its expanded property', () => {
+  test('can change its expanded property', () => {
     const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
 
     rootEl.setAttribute('expanded', true);
@@ -55,7 +55,7 @@ describe('IdsExpandableArea Component', () => {
     expect(el.getAttribute('expanded')).toBe('false');
   });
 
-  it('renders with IdsToggleButton as expander', () => {
+  test('renders with IdsToggleButton as expander', () => {
     let expander;
     el.type = 'toggle-btn';
     expander = new IdsToggleButton();
@@ -66,14 +66,14 @@ describe('IdsExpandableArea Component', () => {
     expect(expander.classList).toContain('ids-expandable-area-expander');
   });
 
-  it('can change set its aria-expanded attribute', () => {
+  test('can change set its aria-expanded attribute', () => {
     el.state.expanded = true;
     el.expander.setAttribute('aria-expanded', el.state.expanded);
 
     expect(el.expander.getAttribute('aria-expanded')).toBe('true');
   });
 
-  it('can be expanded/collapsed when clicked (mouse)', () => {
+  test('can be expanded/collapsed when clicked (mouse)', () => {
     el.type = null;
     const args: any = {
       target: el.expander,
@@ -117,7 +117,7 @@ describe('IdsExpandableArea Component', () => {
     expect(el.expanded).toBe('false');
   });
 
-  it('can be expanded/collapsed when touched', () => {
+  test('can be expanded/collapsed when touched', () => {
     const args: any = {
       touches: [{
         identifier: '123',
@@ -142,7 +142,7 @@ describe('IdsExpandableArea Component', () => {
     expect(el.expanded).toBe('false');
   });
 
-  it('allows vetoing beforeexpand/beforecollapse', () => {
+  test('allows vetoing beforeexpand/beforecollapse', () => {
     const click = new MouseEvent('click');
     const veto = (evt: CustomEvent) => evt.detail.response(false);
 
@@ -161,7 +161,7 @@ describe('IdsExpandableArea Component', () => {
     expect(el.expanded).toEqual('true');
   });
 
-  it('triggers expand/collapse events', () => {
+  test('triggers expand/collapse events', () => {
     const mockExpandFn = jest.fn();
     const mockCollapseFn = jest.fn();
     const click = new MouseEvent('click');
@@ -175,7 +175,7 @@ describe('IdsExpandableArea Component', () => {
     expect(mockCollapseFn.mock.calls.length).toBe(1);
   });
 
-  it('triggers afterexpand/aftercollapse events after transition', () => {
+  test('triggers afterexpand/aftercollapse events after transition', () => {
     const mockExpandFn = jest.fn();
     const mockCollapseFn = jest.fn();
 
@@ -193,7 +193,7 @@ describe('IdsExpandableArea Component', () => {
     expect(mockCollapseFn.mock.calls.length).toBe(1);
   });
 
-  it('can change the height of the pane', () => {
+  test('can change the height of the pane', () => {
     el.pane.style.height = `100px`;
 
     requestAnimationFrame(() => {
@@ -205,7 +205,7 @@ describe('IdsExpandableArea Component', () => {
     expect(el.pane.style.height).toEqual('0px');
   });
 
-  it('can render different templates', () => {
+  test('can render different templates', () => {
     const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
     const header = rootEl.querySelector('.ids-expandable-area-header');
 
@@ -220,7 +220,7 @@ describe('IdsExpandableArea Component', () => {
     expect(header.getAttribute('data-expander')).toBe('header');
   });
 
-  it('wont error caling api with no panel', () => {
+  test('wont error caling api with no panel', () => {
     el.pane = null;
     el.expanded = true;
     el.expanded = false;

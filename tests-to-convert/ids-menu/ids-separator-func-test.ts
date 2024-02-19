@@ -43,11 +43,11 @@ describe('IdsSeparator', () => {
     sep2 = null;
   });
 
-  it('container will be a div when invoked within a menu', () => {
+  test('container will be a div when invoked within a menu', () => {
     expect(sep1.container.tagName.toLowerCase()).toEqual('div');
   });
 
-  it('container will be a list item when invoked within a menu group', () => {
+  test('container will be a list item when invoked within a menu group', () => {
     expect(sep2.container.tagName.toLowerCase()).toEqual('li');
   });
 });

@@ -9,7 +9,6 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../src/assets/data/books.json';
 import productsDataset from '../../src/assets/data/products.json';
 import datasetTree from '../../src/assets/data/tree-buildings.json';
-import processAnimFrame from '../helpers/process-anim-frame';
 import IdsGlobal from '../../src/components/ids-global/ids-global';
 
 import createFromTemplate from '../helpers/create-from-template';
@@ -251,8 +250,6 @@ describe('IdsDataGrid Component', () => {
     dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     dataGrid.columns = columns();
     dataGrid.data = deepClone(dataset);
-    await processAnimFrame();
-    await processAnimFrame();
   });
 
   afterEach(async () => {
@@ -260,13 +257,13 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Setup / General Tests', () => {
-    it('can null dataset returns an array', () => {
+    test('can null dataset returns an array', () => {
       dataGrid.datasource.data = null;
       dataGrid.data = null;
       expect(dataGrid.data).toEqual([]);
     });
 
-    it('can set the label setting', () => {
+    test('can set the label setting', () => {
       dataGrid.label = 'Books';
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('aria-label')).toEqual('Books');
       expect(dataGrid.getAttribute('label')).toEqual('Books');
@@ -276,7 +273,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('label')).toEqual(null);
     });
 
-    it('renders column css with adoptedStyleSheets', () => {
+    test('renders column css with adoptedStyleSheets', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       document.body.appendChild(dataGrid);
@@ -287,7 +284,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
     });
 
-    it('renders column css with styleSheets', () => {
+    test('renders column css with styleSheets', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       document.body.appendChild(dataGrid);
@@ -298,13 +295,13 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
     });
 
-    it('can get the header element with a setter', () => {
+    test('can get the header element with a setter', () => {
       expect(dataGrid.header.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
       expect(dataGrid.header.rootNode).toBeTruthy();
       expect(dataGrid.header.headerCheckbox).toBeTruthy();
     });
 
-    it('skips render column no styleSheets in headless browsers', () => {
+    test('skips render column no styleSheets in headless browsers', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       document.body.appendChild(dataGrid);
@@ -315,7 +312,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
     });
 
-    it('renders one single column', () => {
+    test('renders one single column', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       document.body.appendChild(dataGrid);
@@ -329,7 +326,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
     });
 
-    it('should set user uniqueId', () => {
+    test('should set user uniqueId', () => {
       const uniqueId = 'some-uniqueid';
       expect(dataGrid.getAttribute('unique-id')).toEqual(null);
       expect(dataGrid.uniqueId).toEqual(null);
@@ -341,7 +338,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.uniqueId).toEqual(null);
     });
 
-    it('fires after rendered event after redraw the data grid', async () => {
+    test('fires after rendered event after redraw the data grid', async () => {
       document.body.innerHTML = '';
       const mockCallback = jest.fn(() => {});
       container = new IdsContainer();
@@ -359,12 +356,12 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Row Rendering Tests', () => {
-    it('renders row data', () => {
+    test('renders row data', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(dataGrid.columns.length * 9);
     });
 
-    it('skips hidden rows', async () => {
+    test('skips hidden rows', async () => {
       dataGrid.data[1].rowHidden = true;
 
       dataGrid.columns = [{
@@ -380,7 +377,7 @@ describe('IdsDataGrid Component', () => {
       expect(row2.getAttribute('hidden')).toBe('');
     });
 
-    it('render disabled rows', async () => {
+    test('render disabled rows', async () => {
       const newData = deepClone(dataset);
       newData[1].disabled = true;
       dataGrid.data = newData;
@@ -407,14 +404,14 @@ describe('IdsDataGrid Component', () => {
       });
     });
 
-    it('skips re-rerender if no data', () => {
+    test('skips re-rerender if no data', () => {
       dataGrid.columns = [];
       dataGrid.data = [];
       dataGrid.redrawBody();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     });
 
-    it('renders with no errors on empty data and columns', () => {
+    test('renders with no errors on empty data and columns', () => {
       const errors = jest.spyOn(global.console, 'error');
 
       document.body.innerHTML = '';
@@ -427,7 +424,7 @@ describe('IdsDataGrid Component', () => {
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('renders with alternateRowShading option', () => {
+    test('renders with alternateRowShading option', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       dataGrid.alternateRowShading = true;
@@ -440,7 +437,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('alternate-row-shading')).toEqual('true');
     });
 
-    it('can reset the alternateRowShading option', () => {
+    test('can reset the alternateRowShading option', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       dataGrid.alternateRowShading = true;
@@ -457,7 +454,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('alternate-row-shading')).toEqual('false');
     });
 
-    it('renders additional rows when IdsDataGrid.appendData() used', () => {
+    test('renders additional rows when IdsDataGrid.appendData() used', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       document.body.appendChild(dataGrid);
@@ -470,7 +467,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Virtual Scrolling Tests', () => {
-    it('renders with virtualScroll option', () => {
+    test('renders with virtualScroll option', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       dataGrid.virtualScroll = true;
@@ -483,7 +480,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('virtual-scroll')).toEqual(null);
     });
 
-    it('renders can sort with the virtualScroll option', async () => {
+    test('renders can sort with the virtualScroll option', async () => {
       dataGrid.virtualScroll = true;
       dataGrid.redraw();
       await processAnimFrame();
@@ -493,7 +490,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     });
 
-    it('can reset the virtualScroll option', async () => {
+    test('can reset the virtualScroll option', async () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       dataGrid.virtualScroll = true;
@@ -504,7 +501,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(0);
     });
 
-    it('has the right row height for each rowHeight value', () => {
+    test('has the right row height for each rowHeight value', () => {
       dataGrid.virtualScroll = true;
       expect(dataGrid.rowPixelHeight).toEqual(51);
 
@@ -580,7 +577,7 @@ describe('IdsDataGrid Component', () => {
       });
     });
 
-    it('attaches scroll event handler', async () => {
+    test('attaches scroll event handler', async () => {
       expect(dataGrid.virtualScroll).toBeFalsy();
 
       const listener = jest.spyOn(dataGrid.container, 'addEventListener');
@@ -592,7 +589,7 @@ describe('IdsDataGrid Component', () => {
       expect(listener).toBeCalledWith('scroll', expect.any(Function), { capture: true, passive: true });
     });
 
-    it('renders additional rows when IdsDataGrid.appendData() used', () => {
+    test('renders additional rows when IdsDataGrid.appendData() used', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       document.body.appendChild(dataGrid);
@@ -681,7 +678,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Column Rendering Tests', () => {
-    it('renders single column with empty data', () => {
+    test('renders single column with empty data', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       document.body.appendChild(dataGrid);
@@ -691,14 +688,14 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-body').length).toEqual(0);
     });
 
-    it('can hide / show column with setColumnVisible', () => {
+    test('can hide / show column with setColumnVisible', () => {
       dataGrid.setColumnVisible('description', false);
       expect(dataGrid.shadowRoot.querySelectorAll('[column-id="description"]').length).toEqual(0);
       dataGrid.setColumnVisible('description', true);
       expect(dataGrid.shadowRoot.querySelectorAll('[column-id="description"]').length).toEqual(1);
     });
 
-    it('renders column when set to empty', () => {
+    test('renders column when set to empty', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       document.body.appendChild(dataGrid);
@@ -709,7 +706,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(1);
     });
 
-    it('renders column with no all set widths', () => {
+    test('renders column with no all set widths', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
       document.body.appendChild(dataGrid);
@@ -720,7 +717,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(2);
     });
 
-    it('supports hidden columns', () => {
+    test('supports hidden columns', () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -763,7 +760,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(9);
     });
 
-    it('supports setting cssPart', () => {
+    test('supports setting cssPart', () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -785,7 +782,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell"]').length).toEqual(14);
     });
 
-    it('supports setting cellSelectedCssPart', () => {
+    test('supports setting cellSelectedCssPart', () => {
       dataGrid.rowSelection = 'multiple';
       dataGrid.columns = [{
         id: 'price',
@@ -811,7 +808,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('[part="custom-cell-selected"]').length).toEqual(14);
     });
 
-    it('supports setting frozen columns', () => {
+    test('supports setting frozen columns', () => {
       expect(dataGrid.hasFrozenColumns).toEqual(false);
       dataGrid.columns = [{
         id: 'price',
@@ -863,7 +860,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.hasFrozenColumns).toEqual(true);
     });
 
-    it('supports setting cell alignment', () => {
+    test('supports setting cell alignment', () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -888,7 +885,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row > .ids-data-grid-cell:nth-child(3)').classList.contains('align-left')).toBeTruthy();
     });
 
-    it('supports setting header alignment', () => {
+    test('supports setting header alignment', () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -919,7 +916,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(3)').classList.contains('align-center')).toBeTruthy();
     });
 
-    it('supports setting percent width', () => {
+    test('supports setting percent width', () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -937,7 +934,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.style.getPropertyValue('--ids-data-grid-column-widths')).toEqual('minmax(50%, 1fr) minmax(50%, 1fr) ');
     });
 
-    it('supports nested data', () => {
+    test('supports nested data', () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -962,7 +959,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row[aria-rowindex="2"] > .ids-data-grid-cell:nth-child(2) span').textContent).toBe('test2');
     });
 
-    it('supports setting custom width', () => {
+    test('supports setting custom width', () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -980,7 +977,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.style.getPropertyValue('--ids-data-grid-column-widths')).toEqual('minmax(130px, 2fr) minmax(50%, 1fr) ');
     });
 
-    it('supports setting uppercase', () => {
+    test('supports setting uppercase', () => {
       dataGrid.columns = [{
         id: 'description',
         name: 'Description',
@@ -992,7 +989,7 @@ describe('IdsDataGrid Component', () => {
       expect(cell.classList.contains('is-uppercase')).toBeTruthy();
     });
 
-    it('supports column groups', () => {
+    test('supports column groups', () => {
       dataGrid.columns[3].hidden = true;
 
       dataGrid.columnGroups = [
@@ -1029,7 +1026,7 @@ describe('IdsDataGrid Component', () => {
       expect(nodes[2].classList.contains('align-right')).toBeTruthy();
     });
 
-    it('supports column resize', async () => {
+    test('supports column resize', async () => {
       (window as any).getComputedStyle = () => ({ width: 200 });
 
       dataGrid.columns = [{
@@ -1072,7 +1069,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.columns[0].width).toBe(176);
     });
 
-    it('supports column resize on RTL', async () => {
+    test('supports column resize on RTL', async () => {
       (window as any).getComputedStyle = () => ({ width: 200 });
       await processAnimFrame();
 
@@ -1123,17 +1120,17 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.columns[0].width).toBe(224);
     });
 
-    it('supports getting columnIdxById', () => {
+    test('supports getting columnIdxById', () => {
       expect(dataGrid.columnIdxById('rowNumber')).toEqual(1);
       expect(dataGrid.columnIdxById('xxx')).toEqual(-1);
     });
 
-    it('supports setting column width', () => {
+    test('supports setting column width', () => {
       dataGrid.setColumnWidth('description', 101);
       expect(dataGrid.columns[2].width).toEqual(101);
     });
 
-    it('supports setting column width defaults', () => {
+    test('supports setting column width defaults', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionCheckbox';
       newColumns[0].formatter = formatters.selectionCheckbox;
@@ -1147,14 +1144,14 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.columns[0].width).toBe(101);
     });
 
-    it('supports not setting min column width (12)', () => {
+    test('supports not setting min column width (12)', () => {
       dataGrid.setColumnWidth('description', 1);
       expect(dataGrid.columns[2].width).toEqual(undefined);
     });
   });
 
   describe('Sorting Tests', () => {
-    it('fires sorted event on sort', () => {
+    test('fires sorted event on sort', () => {
       const mockCallback = jest.fn((x) => {
         expect(x.detail.elem).toBeTruthy();
         expect(x.detail.sortColumn.id).toEqual('description');
@@ -1167,7 +1164,7 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('fires sorted event on sort', () => {
+    test('fires sorted event on sort', () => {
       const mockCallback = jest.fn((x) => {
         expect(x.detail.elem).toBeTruthy();
         expect(x.detail.sortColumn.id).toEqual('description');
@@ -1180,7 +1177,7 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('fires defaults to ascending sort', () => {
+    test('fires defaults to ascending sort', () => {
       const mockCallback = jest.fn((x) => {
         expect(x.detail.elem).toBeTruthy();
         expect(x.detail.sortColumn.id).toEqual('description');
@@ -1193,7 +1190,7 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('can sort by field vs id', () => {
+    test('can sort by field vs id', () => {
       const mockCallback = jest.fn((x) => {
         expect(x.detail.elem).toBeTruthy();
         expect(x.detail.sortColumn.id).toEqual('publishTime');
@@ -1206,38 +1203,38 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('sets sort state via the API', () => {
+    test('sets sort state via the API', () => {
       dataGrid.setSortState('description');
       expect(dataGrid.shadowRoot.querySelectorAll('[column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
     });
 
-    it('sets sort state via the API with direction', () => {
+    test('sets sort state via the API with direction', () => {
       dataGrid.setSortState('description', false);
       expect(dataGrid.shadowRoot.querySelectorAll('[column-id]')[2].getAttribute('aria-sort')).toBe('descending');
       dataGrid.setSortState('description', true);
       expect(dataGrid.shadowRoot.querySelectorAll('[column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
     });
 
-    it('doesnt error when not sortable', () => {
+    test('doesnt error when not sortable', () => {
       const errors = jest.spyOn(global.console, 'error');
       dataGrid.columns = [{ id: 'description', field: 'description', name: 'description' }];
       dataGrid.setSortState('description');
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('wont error in columnDataByHeaderElem', () => {
+    test('wont error in columnDataByHeaderElem', () => {
       const badQuery = dataGrid.container.querySelector('.ids-data-grid-header-cell:nth-child(1000)');
       expect(dataGrid.columnDataByHeaderElem(badQuery)).toBe(undefined);
     });
 
-    it('handles wrong ID on sort', () => {
+    test('handles wrong ID on sort', () => {
       const errors = jest.spyOn(global.console, 'error');
       dataGrid.setSortColumn('bookx', false);
 
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('fires sorted event on click', () => {
+    test('fires sorted event on click', () => {
       const mockCallback = jest.fn((x) => {
         expect(x.detail.elem).toBeTruthy();
         expect(x.detail.sortColumn.id).toEqual('description');
@@ -1251,7 +1248,7 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('should not error clicking on a non sortable column', () => {
+    test('should not error clicking on a non sortable column', () => {
       const errors = jest.spyOn(global.console, 'error');
       const mockCallback = jest.fn();
 
@@ -1262,7 +1259,7 @@ describe('IdsDataGrid Component', () => {
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('skips sort on resize click ', () => {
+    test('skips sort on resize click ', () => {
       const mockCallback = jest.fn();
       dataGrid.isResizing = true;
       dataGrid.addEventListener('sort', mockCallback);
@@ -1274,7 +1271,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Reordering Tests', () => {
-    it('supports column reorder', async () => {
+    test('supports column reorder', async () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -1344,7 +1341,7 @@ describe('IdsDataGrid Component', () => {
       expect(cols[2].id).toBe('other');
     });
 
-    it('supports dragging right', async () => {
+    test('supports dragging right', async () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -1394,7 +1391,7 @@ describe('IdsDataGrid Component', () => {
       expect(cols[2].id).toBe('other');
     });
 
-    it('supports dragging when right to left', async () => {
+    test('supports dragging when right to left', async () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -1446,7 +1443,7 @@ describe('IdsDataGrid Component', () => {
       expect(cols[2].id).toBe('other');
     });
 
-    it('supports moveColumn', async () => {
+    test('supports moveColumn', async () => {
       dataGrid.columns = [{
         id: 'price',
         name: 'Price',
@@ -1494,7 +1491,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Container / Height Tests', () => {
-    it('supports auto fit', () => {
+    test('supports auto fit', () => {
       dataGrid.autoFit = true;
       dataGrid.redraw();
       expect(dataGrid.getAttribute('auto-fit')).toEqual('true');
@@ -1503,7 +1500,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('auto-fit')).toBeFalsy();
     });
 
-    it('supports auto fit bottom', () => {
+    test('supports auto fit bottom', () => {
       dataGrid.autoFit = 'bottom';
       dataGrid.redraw();
       expect(dataGrid.getAttribute('auto-fit')).toEqual('bottom');
@@ -1514,7 +1511,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Row Height Tests', () => {
-    it('can set the rowHeight setting', () => {
+    test('can set the rowHeight setting', () => {
       dataGrid.rowHeight = 'xs';
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('xs');
       expect(dataGrid.getAttribute('row-height')).toEqual('xs');
@@ -1536,7 +1533,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('row-height')).toEqual('lg');
     });
 
-    it('can set the rowHeight setting in virtualScroll mode', async () => {
+    test('can set the rowHeight setting in virtualScroll mode', async () => {
       await processAnimFrame();
       dataGrid.virtualScroll = true;
       dataGrid.rowHeight = 'xs';
@@ -1564,7 +1561,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Keyboard Tests', () => {
-    it('can handle ArrowRight key', () => {
+    test('can handle ArrowRight key', () => {
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(0);
       dataGrid.activeCell = null;
@@ -1613,7 +1610,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.cell).toEqual(17);
     });
 
-    it('can handle ArrowLeft key', () => {
+    test('can handle ArrowLeft key', () => {
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(0);
 
@@ -1630,7 +1627,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.cell).toEqual(0);
     });
 
-    it('can handle ArrowDown key', () => {
+    test('can handle ArrowDown key', () => {
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(0);
 
@@ -1656,7 +1653,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.row).toEqual(8);
     });
 
-    it('should set row navigation', () => {
+    test('should set row navigation', () => {
       expect(dataGrid.getAttribute('row-navigation')).toEqual(null);
       expect(dataGrid.container.classList.contains('row-navigation')).toBeFalsy();
       expect(dataGrid.rowNavigation).toEqual(false);
@@ -1670,7 +1667,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.rowNavigation).toEqual(false);
     });
 
-    it('can handle keyboard row navigation', () => {
+    test('can handle keyboard row navigation', () => {
       // focus on first grid cell
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(0);
@@ -1686,7 +1683,7 @@ describe('IdsDataGrid Component', () => {
       expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
     });
 
-    it('can handle keyboard with mixed row selection', () => {
+    test('can handle keyboard with mixed row selection', () => {
       dataGrid.rowSelection = 'mixed';
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(0);
@@ -1700,7 +1697,7 @@ describe('IdsDataGrid Component', () => {
       expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
     });
 
-    it('can handle keyboard mixed row selection with shift key', () => {
+    test('can handle keyboard mixed row selection with shift key', () => {
       dataGrid.rowSelection = 'mixed';
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(0);
@@ -1716,7 +1713,7 @@ describe('IdsDataGrid Component', () => {
       expect(nextRow.selected).toBeTruthy();
     });
 
-    it('can set the rowNavigation setting', () => {
+    test('can set the rowNavigation setting', () => {
       dataGrid.rowNavigation = true;
       expect(dataGrid.getAttribute('row-navigation')).toEqual('');
       expect(dataGrid.rowNavigation).toEqual(true);
@@ -1726,13 +1723,13 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.rowNavigation).toEqual(false);
     });
 
-    it('can handle errant click', () => {
+    test('can handle errant click', () => {
       const errors = jest.spyOn(global.console, 'error');
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body').dispatchEvent(new MouseEvent('click', { bubbles: true }));
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('can handle ArrowUp key', () => {
+    test('can handle ArrowUp key', () => {
       expect(dataGrid.activeCell.row).toEqual(0);
 
       let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
@@ -1751,7 +1748,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activeCell.row).toEqual(0);
     });
 
-    it('should follow cell links with keyboard', () => {
+    test('should follow cell links with keyboard', () => {
       const hyperlinkClickListener = jest.fn();
       const buttonClickListener = jest.fn();
       const customLinkClickListener = jest.fn();
@@ -1812,7 +1809,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Active Cell Tests', () => {
-    it('fires activecellchange event', () => {
+    test('fires activecellchange event', () => {
       const mockCallback = jest.fn((x) => {
         expect(x.detail.elem).toBeTruthy();
         expect(x.detail.activeCell.row).toEqual(1);
@@ -1827,7 +1824,7 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('fires activecellchange event on click', () => {
+    test('fires activecellchange event on click', () => {
       const mockCallback = jest.fn();
 
       dataGrid.addEventListener('activecellchanged', mockCallback);
@@ -1841,7 +1838,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Theme/Style Tests', () => {
-    it('renders with listStyle option', () => {
+    test('renders with listStyle option', () => {
       dataGrid.listStyle = true;
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeTruthy();
 
@@ -1849,7 +1846,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeFalsy();
     });
 
-    it('renders with listStyle  from template', () => {
+    test('renders with listStyle  from template', () => {
       dataGrid = createFromTemplate(dataGrid, `<ids-data-grid list-style="true"></ids-data-grid>`);
       dataGrid.columns = columns();
       dataGrid.data = dataset;
@@ -1858,12 +1855,12 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('RTL/Language Tests', () => {
-    it('supports readonly columns / RTL', () => {
+    test('supports readonly columns / RTL', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[1].classList.contains('is-readonly')).toBeTruthy();
     });
 
-    it('supports readonly RTL when set from the container', async () => {
+    test('supports readonly RTL when set from the container', async () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(5)').textContent.trim()).toEqual('2/23/2021');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(6)').textContent.trim().replace(' ', ' ')).toEqual('1:25 PM');
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent.trim()).toEqual('13.99');
@@ -1883,7 +1880,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Selection Tests', () => {
-    it('renders a radio for single select', () => {
+    test('renders a radio for single select', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionRadio';
       newColumns[0].formatter = formatters.selectionRadio;
@@ -1893,7 +1890,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-radio').length).toEqual(9);
     });
 
-    it('can disable the selectionRadio', () => {
+    test('can disable the selectionRadio', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionRadio';
       newColumns[0].formatter = formatters.selectionRadio;
@@ -1908,14 +1905,14 @@ describe('IdsDataGrid Component', () => {
       expect(radio2.classList.contains('disabled')).toBeFalsy();
     });
 
-    it('removes rowSelection on setting to false', () => {
+    test('removes rowSelection on setting to false', () => {
       dataGrid.rowSelection = 'single';
       expect(dataGrid.getAttribute('row-selection')).toEqual('single');
       dataGrid.rowSelection = false;
       expect(dataGrid.getAttribute('row-selection')).toBeFalsy();
     });
 
-    it('keeps selections on sort for single selection', async () => {
+    test('keeps selections on sort for single selection', async () => {
       dataGrid.deSelectAllRows();
       dataGrid.data = deepClone(dataset);
 
@@ -1944,7 +1941,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows[0].index).toBe(7);
     });
 
-    it('keeps selections on sort for mixed selection', async () => {
+    test('keeps selections on sort for mixed selection', async () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionCheckbox';
       newColumns[0].formatter = formatters.selectionCheckbox;
@@ -1968,7 +1965,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row.activated').getAttribute('aria-rowindex')).toBe('7');
     });
 
-    it('can click the header checkbox to select all and deselect all', () => {
+    test('can click the header checkbox to select all and deselect all', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionCheckbox';
       newColumns[0].formatter = formatters.selectionCheckbox;
@@ -1982,7 +1979,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(0);
     });
 
-    it('can shift click to select in between', () => {
+    test('can shift click to select in between', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionCheckbox';
       newColumns[0].formatter = formatters.selectionCheckbox;
@@ -2003,7 +2000,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(3);
     });
 
-    it('can select the row ui via the row element', () => {
+    test('can select the row ui via the row element', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionCheckbox';
       newColumns[0].formatter = formatters.selectionCheckbox;
@@ -2017,7 +2014,7 @@ describe('IdsDataGrid Component', () => {
       expect(row.getAttribute('aria-selected')).toBeFalsy();
     });
 
-    it('can disable the selectionCheckbox', () => {
+    test('can disable the selectionCheckbox', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionCheckbox';
       newColumns[0].formatter = formatters.selectionCheckbox;
@@ -2032,7 +2029,7 @@ describe('IdsDataGrid Component', () => {
       expect(link2.classList.contains('disabled')).toBeFalsy();
     });
 
-    it('can select a row with space key', () => {
+    test('can select a row with space key', () => {
       const newColumns = deepClone(columns());
       newColumns[0].id = 'selectionCheckbox';
       newColumns[0].formatter = formatters.selectionCheckbox;
@@ -2046,7 +2043,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(1);
     });
 
-    it('handles suppress row deselection', () => {
+    test('handles suppress row deselection', () => {
       dataGrid.rowSelection = 'single';
       dataGrid.suppressRowDeselection = false;
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(1)').click();
@@ -2067,7 +2064,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows[0].index).toBe(2);
     });
 
-    it('handles suppressing caching', () => {
+    test('handles suppressing caching', () => {
       expect(dataGrid.suppressCaching).toBe(false);
       dataGrid.suppressCaching = true;
       expect(dataGrid.suppressCaching).toBe(true);
@@ -2075,7 +2072,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.suppressCaching).toBe(false);
     });
 
-    it('handles a deSelectRow method', () => {
+    test('handles a deSelectRow method', () => {
       dataGrid.rowSelection = 'mixed';
       dataGrid.selectRow(1);
       dataGrid.deSelectRow(1);
@@ -2083,7 +2080,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.rowByIndex(1).classList.contains('mixed')).toBeFalsy();
     });
 
-    it('handles a deSelectRow method', () => {
+    test('handles a deSelectRow method', () => {
       dataGrid.rowNavigation = true;
       dataGrid.rowSelection = 'mixed';
       dataGrid.setActiveCell(0, 0);
@@ -2094,7 +2091,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activatedRow.index).toBe(0);
     });
 
-    it('has no error on invalid selectRow / deSelectRow calls', () => {
+    test('has no error on invalid selectRow / deSelectRow calls', () => {
       const errors = jest.spyOn(global.console, 'error');
       dataGrid.rowSelection = 'mixed';
       dataGrid.selectRow(100000);
@@ -2104,7 +2101,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Activation Tests', () => {
-    it('handles suppress row deactivation', () => {
+    test('handles suppress row deactivation', () => {
       dataGrid.rowSelection = 'mixed';
       dataGrid.suppressRowDeactivation = false;
       dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
@@ -2123,7 +2120,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.activatedRow.index).toBe(2);
     });
 
-    it('should fire the rowactivated event', () => {
+    test('should fire the rowactivated event', () => {
       const mockCallback = jest.fn((x) => {
         expect(x.detail.elem).toBeTruthy();
       });
@@ -2141,7 +2138,7 @@ describe('IdsDataGrid Component', () => {
       expect(mockCallback.mock.calls.length).toBe(1);
     });
 
-    it('handles a deactivateRow method', async () => {
+    test('handles a deactivateRow method', async () => {
       dataGrid.deactivateRow(1);
       expect(dataGrid.activatedRow).toEqual({});
 
@@ -2155,7 +2152,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Paging Tests', () => {
-    it('renders pager', () => {
+    test('renders pager', () => {
       const selector = '.ids-data-grid-body .ids-data-grid-row';
       dataGrid.pagination = 'client-side';
       dataGrid.pageSize = 10;
@@ -2167,7 +2164,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll(selector).length).toEqual(9);
     });
 
-    it('hides pager when pagination attribute is "none"', () => {
+    test('hides pager when pagination attribute is "none"', () => {
       dataGrid.pagination = 'client-side';
       expect(dataGrid.pagination).toBe('client-side');
       expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBeDefined();
@@ -2177,7 +2174,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBe(null);
     });
 
-    it('shows pager when pagination attribute is "standalone"', () => {
+    test('shows pager when pagination attribute is "standalone"', () => {
       expect(dataGrid.pagination).toBe('none');
       expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBe(null);
 
@@ -2186,7 +2183,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBeDefined();
     });
 
-    it('shows pager when pagination attribute is "client-side"', () => {
+    test('shows pager when pagination attribute is "client-side"', () => {
       expect(dataGrid.pagination).toBe('none');
       expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBe(null);
 
@@ -2196,7 +2193,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBeDefined();
     });
 
-    it('shows pager when pagination attribute is "server-side"', () => {
+    test('shows pager when pagination attribute is "server-side"', () => {
       expect(dataGrid.pagination).toBe('none');
       expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBe(null);
 
@@ -2205,7 +2202,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelector('ids-pager')).toBeDefined();
     });
 
-    it('has page-total attribute', () => {
+    test('has page-total attribute', () => {
       dataGrid.pagination = 'client-side';
       expect(dataGrid.pageTotal).toBeDefined();
       expect(dataGrid.pageTotal).toBe(9);
@@ -2213,7 +2210,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.pageTotal).toBe(2);
     });
 
-    it('has page-size attribute', () => {
+    test('has page-size attribute', () => {
       dataGrid.pagination = 'client-side';
       expect(dataGrid.pageSize).toBeDefined();
       expect(dataGrid.pageSize).toBe(10);
@@ -2225,7 +2222,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.pageSize).toBe(10);
     });
 
-    it('has page-number attribute', () => {
+    test('has page-number attribute', () => {
       dataGrid.pagination = 'client-side';
       expect(dataGrid.pageNumber).toBeDefined();
       expect(dataGrid.pageNumber).toBe(1);
@@ -2251,7 +2248,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.pager.querySelector('ids-pager-input').input.value).toBe('3');
     });
 
-    it('can paginate to next page', () => {
+    test('can paginate to next page', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageSize = 2;
       dataGrid.replaceWith(dataGrid);
@@ -2265,7 +2262,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.pageNumber).toBe(3);
     });
 
-    it('can paginate to last page', () => {
+    test('can paginate to last page', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageSize = 2;
       dataGrid.replaceWith(dataGrid);
@@ -2281,7 +2278,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.pageNumber).toBe(5);
     });
 
-    it('can paginate to previous page', () => {
+    test('can paginate to previous page', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageSize = 2;
       dataGrid.replaceWith(dataGrid);
@@ -2297,7 +2294,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.pageNumber).toBe(3);
     });
 
-    it('can paginate to first page', () => {
+    test('can paginate to first page', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageSize = 2;
       dataGrid.replaceWith(dataGrid);
@@ -2313,7 +2310,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.pageNumber).toBe(1);
     });
 
-    it('only fires pager events when pagination is "standalone"', () => {
+    test('only fires pager events when pagination is "standalone"', () => {
       const pager:any = new IdsPager();
       document.body.appendChild(pager);
       dataGrid.pagination = 'standalone';
@@ -2341,7 +2338,7 @@ describe('IdsDataGrid Component', () => {
       expect(pageNumberChangedListener).toHaveBeenCalledTimes(2);
     });
 
-    it('shows page-size popup-menu in the end-slot', () => {
+    test('shows page-size popup-menu in the end-slot', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageNumber = 1;
       dataGrid.pageSize = 3;
@@ -2358,7 +2355,7 @@ describe('IdsDataGrid Component', () => {
       expect(endSlotNodes[0].querySelector('ids-popup-menu')).toBeDefined();
     });
 
-    it('page-size popup-menu has options for: 10, 25, 50, 100', () => {
+    test('page-size popup-menu has options for: 10, 25, 50, 100', () => {
       dataGrid.pagination = 'client-side';
       dataGrid.pageNumber = 1;
       dataGrid.pageSize = 3;
@@ -2397,7 +2394,7 @@ describe('IdsDataGrid Component', () => {
 
   describe('Expandable Row Tests', () => {
     // Some is covered by test can render with the expander formatter
-    it('can render a template', async () => {
+    test('can render a template', async () => {
       // eslint-disable-next-line no-template-curly-in-string
       dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
       dataGrid.expandableRow = true;
@@ -2415,7 +2412,7 @@ describe('IdsDataGrid Component', () => {
       expect(area).toBe('<span>101</span>');
     });
 
-    it('can an empty template if invalid expandableRowTemplate', async () => {
+    test('can an empty template if invalid expandableRowTemplate', async () => {
       // eslint-disable-next-line no-template-curly-in-string
       dataGrid.expandableRow = true;
       dataGrid.expandableRowTemplate = `template-idxx`;
@@ -2432,7 +2429,7 @@ describe('IdsDataGrid Component', () => {
       expect(area).toBe('');
     });
 
-    it('can expand/collapse expandableRow', async () => {
+    test('can expand/collapse expandableRow', async () => {
       // eslint-disable-next-line no-template-curly-in-string
       dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
       dataGrid.expandableRow = true;
@@ -2462,7 +2459,7 @@ describe('IdsDataGrid Component', () => {
       expect(firstRow.querySelector('.ids-data-grid-expandable-row').hasAttribute('hidden')).toBeTruthy();
     });
 
-    it('can set the expandableRow setting', () => {
+    test('can set the expandableRow setting', () => {
       dataGrid.expandableRow = true;
       expect(dataGrid.getAttribute('expandable-row')).toEqual('true');
 
@@ -2470,7 +2467,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('expandable-row')).toBeFalsy();
     });
 
-    it('can set the expandableRowTemplate setting', () => {
+    test('can set the expandableRowTemplate setting', () => {
       dataGrid.expandableRowTemplate = 'myid';
       expect(dataGrid.getAttribute('expandable-row-template')).toEqual('myid');
       expect(dataGrid.expandableRowTemplate).toEqual('myid');
@@ -2509,7 +2506,7 @@ describe('IdsDataGrid Component', () => {
       formatter: formatters.text
     });
 
-    it('can render a tree', async () => {
+    test('can render a tree', async () => {
       dataGrid.treeGrid = true;
       dataGrid.columns = treeColumns;
       dataGrid.data = datasetTree;
@@ -2518,7 +2515,7 @@ describe('IdsDataGrid Component', () => {
       expect(rows.length).toBe(23);
     });
 
-    it('should be able to set show header expander', async () => {
+    test('should be able to set show header expander', async () => {
       expect(dataGrid.getAttribute('show-header-expander')).toEqual(null);
       expect(dataGrid.showHeaderExpander).toEqual(false);
       dataGrid.showHeaderExpander = true;
@@ -2529,7 +2526,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.showHeaderExpander).toEqual(false);
     });
 
-    it('can expand/collapse all tree rows', async () => {
+    test('can expand/collapse all tree rows', async () => {
       dataGrid.treeGrid = true;
       dataGrid.columns = deepClone(treeColumns);
       dataGrid.data = deepClone(datasetTree);
@@ -2560,7 +2557,7 @@ describe('IdsDataGrid Component', () => {
       expect(collapsedRows().length).toBe(0);
     });
 
-    it('can expand/collapse tree', async () => {
+    test('can expand/collapse tree', async () => {
       dataGrid.treeGrid = true;
       dataGrid.columns = treeColumns;
       dataGrid.data = datasetTree;
@@ -2601,7 +2598,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row:not([hidden])').length).toBe(9);
     });
 
-    it('handles selection without children', async () => {
+    test('handles selection without children', async () => {
       dataGrid.treeGrid = true;
       dataGrid.columns = treeColumns;
       dataGrid.data = datasetTree;
@@ -2617,7 +2614,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(0);
     });
 
-    it('handles selection including children', async () => {
+    test('handles selection including children', async () => {
       dataGrid.treeGrid = true;
       dataGrid.columns = treeColumns;
       dataGrid.data = datasetTree;
@@ -2634,7 +2631,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(0);
     });
 
-    it('handles suppressRowClickSelection including children', async () => {
+    test('handles suppressRowClickSelection including children', async () => {
       dataGrid.treeGrid = true;
       dataGrid.columns = treeColumns;
       dataGrid.data = datasetTree;
@@ -2651,7 +2648,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.selectedRows.length).toBe(1);
     });
 
-    it('can expand with the keyboard', async () => {
+    test('can expand with the keyboard', async () => {
       dataGrid.treeGrid = true;
       dataGrid.columns = treeColumns;
       dataGrid.data = datasetTree;
@@ -2668,7 +2665,7 @@ describe('IdsDataGrid Component', () => {
       expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
     });
 
-    it('can set the suppressRowClickSelection setting', () => {
+    test('can set the suppressRowClickSelection setting', () => {
       dataGrid.suppressRowClickSelection = true;
       expect(dataGrid.getAttribute('suppress-row-click-selection')).toEqual('true');
 
@@ -2676,7 +2673,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('suppress-row-click-selection')).toBeFalsy();
     });
 
-    it('can set the treeGrid setting', () => {
+    test('can set the treeGrid setting', () => {
       dataGrid.treeGrid = true;
       expect(dataGrid.getAttribute('tree-grid')).toEqual('true');
 
@@ -2684,7 +2681,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('tree-grid')).toBeFalsy();
     });
 
-    it('can set the idColumn setting', () => {
+    test('can set the idColumn setting', () => {
       dataGrid.idColumn = 'myid';
       expect(dataGrid.getAttribute('id-column')).toEqual('myid');
 
@@ -2694,7 +2691,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Events Tests', () => {
-    it('should fire rowclick event', () => {
+    test('should fire rowclick event', () => {
       const clickCallback = jest.fn((e) => {
         expect(e.detail.row?.getAttribute('data-index')).toEqual('0');
       });
@@ -2712,7 +2709,7 @@ describe('IdsDataGrid Component', () => {
       expect(clickCallback.mock.calls.length).toBe(1);
     });
 
-    it('should fire double click event', () => {
+    test('should fire double click event', () => {
       let elemType = '';
       const dblClickEvent = new MouseEvent('dblclick', { bubbles: true });
       const dblClickCallback = jest.fn((e) => {
@@ -2784,7 +2781,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Editing Tests', () => {
-    it('should be able to edit a cell and type a value', () => {
+    test('should be able to edit a cell and type a value', () => {
       dataGrid.editable = true;
       const clickEvent = new MouseEvent('click', { bubbles: true });
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
@@ -2798,7 +2795,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.textContent).toBe('test');
     });
 
-    it('should be able to edit a cell and validate a value', () => {
+    test('should be able to edit a cell and validate a value', () => {
       dataGrid.editable = true;
       const clickEvent = new MouseEvent('click', { bubbles: true });
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
@@ -2813,7 +2810,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.classList.contains('is-invalid')).toBeTruthy();
     });
 
-    it('should handle error situations', () => {
+    test('should handle error situations', () => {
       const errors = jest.spyOn(global.console, 'error');
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       editableCell.isEditing = true;
@@ -2821,7 +2818,7 @@ describe('IdsDataGrid Component', () => {
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('can veto edit on with readonly/disabled', () => {
+    test('can veto edit on with readonly/disabled', () => {
       const readonlyCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(1) > .ids-data-grid-cell:nth-child(3)');
       readonlyCell.startCellEdit();
       expect(readonlyCell.classList.contains('is-editing')).toBeFalsy();
@@ -2831,7 +2828,7 @@ describe('IdsDataGrid Component', () => {
       expect(readonlyCell.classList.contains('is-editing')).toBeFalsy();
     });
 
-    it('can veto edit on with beforeCellEdit', () => {
+    test('can veto edit on with beforeCellEdit', () => {
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       dataGrid.addEventListener('beforecelledit', (e: Event) => {
         (<CustomEvent>e).detail.response(false);
@@ -2841,34 +2838,34 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.classList.contains('is-editing')).toBeFalsy();
     });
 
-    it('clears invalid state on edit', () => {
+    test('clears invalid state on edit', () => {
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       editableCell.classList.add('is-invalid');
       editableCell.startCellEdit();
       expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
     });
 
-    it('add inline class', () => {
+    test('add inline class', () => {
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       editableCell.column.editor.inline = true;
       editableCell.startCellEdit();
       expect(editableCell.classList.contains('is-inline')).toBeTruthy();
     });
 
-    it('rendercell on rowNumber columns', () => {
+    test('rendercell on rowNumber columns', () => {
       const rowNumberCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(1) > .ids-data-grid-cell:nth-child(2)');
       rowNumberCell.renderCell();
       expect(rowNumberCell.textContent).toBe('1');
     });
 
-    it('endCellEdit on valid columns', () => {
+    test('endCellEdit on valid columns', () => {
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       editableCell.column.editor.editorSettings.validate = null;
       editableCell.endCellEdit();
       expect(editableCell.isInValid).toBe(false);
     });
 
-    it('should be able to edit a cell and reset validation state', () => {
+    test('should be able to edit a cell and reset validation state', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       editableCell.isInValid = true;
@@ -2880,7 +2877,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
     });
 
-    it('should be able to cancel a cell and reset validation state', () => {
+    test('should be able to cancel a cell and reset validation state', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       expect(editableCell.textContent).toBe('102');
@@ -2891,7 +2888,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.textContent).toBe('102');
     });
 
-    it('can edit date cells', () => {
+    test('can edit date cells', () => {
       dataGrid.editable = true;
       dataGrid.setActiveCell(2, 1);
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(5)');
@@ -2906,7 +2903,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.textContent).toBe('10/10/2023');
     });
 
-    it('show and revert dirty indicators on cells', () => {
+    test('show and revert dirty indicators on cells', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       dataGrid.setActiveCell(2, 1);
@@ -2925,7 +2922,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.classList.contains('is-dirty')).toBeFalsy();
     });
 
-    it('show and revert validation indicators on cells', () => {
+    test('show and revert validation indicators on cells', () => {
       dataGrid.editable = true;
       const clickEvent = new MouseEvent('click', { bubbles: true });
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
@@ -2946,7 +2943,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
     });
 
-    it('can edit as checkboxes', () => {
+    test('can edit as checkboxes', () => {
       dataGrid.editable = true;
       const clickEvent = new MouseEvent('click', { bubbles: true });
       const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
@@ -2958,7 +2955,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.querySelector('[aria-checked]').getAttribute('aria-checked')).toBe('true');
     });
 
-    it('covers the checkboxes editor', () => {
+    test('covers the checkboxes editor', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
       editableCell.startCellEdit();
@@ -2974,7 +2971,7 @@ describe('IdsDataGrid Component', () => {
       editableCell.endCellEdit();
     });
 
-    it('can reset dirty cells', () => {
+    test('can reset dirty cells', () => {
       dataGrid.editable = true;
       dataGrid.resetDirtyCells();
       expect(dataGrid.dirtyCells.length).toBe(0);
@@ -2985,7 +2982,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.dirtyCells.length).toBe(0);
     });
 
-    it('can set the editable setting', () => {
+    test('can set the editable setting', () => {
       dataGrid.editable = true;
       expect(dataGrid.getAttribute('editable')).toEqual('true');
       expect(dataGrid.editable).toEqual(true);
@@ -2995,7 +2992,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.editable).toEqual(false);
     });
 
-    it('can set the editNextOnEnterPress setting', () => {
+    test('can set the editNextOnEnterPress setting', () => {
       dataGrid.editNextOnEnterPress = true;
       expect(dataGrid.getAttribute('edit-next-on-enter-press')).toEqual('true');
       expect(dataGrid.editNextOnEnterPress).toEqual(true);
@@ -3005,7 +3002,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.editNextOnEnterPress).toEqual(false);
     });
 
-    it('can call commit commitCellEdit', () => {
+    test('can call commit commitCellEdit', () => {
       dataGrid.editable = true;
       const clickEvent = new MouseEvent('click', { bubbles: true });
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
@@ -3019,7 +3016,7 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.textContent).toBe('test');
     });
 
-    it('can call commit cancelCellEdit', () => {
+    test('can call commit cancelCellEdit', () => {
       dataGrid.editable = true;
       const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
 
@@ -3032,13 +3029,13 @@ describe('IdsDataGrid Component', () => {
       expect(editableCell.classList.contains('is-editing')).toBe(false);
     });
 
-    it('can call addRow', () => {
+    test('can call addRow', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       dataGrid.addRow({ description: 'test' });
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
     });
 
-    it('can add multiple rows at given index', () => {
+    test('can add multiple rows at given index', () => {
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       dataGrid.addRows([
         { description: 'test1' },
@@ -3052,7 +3049,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.data[4].description).toEqual('test3');
     });
 
-    it('can call removeRow', async () => {
+    test('can call removeRow', async () => {
       await processAnimFrame();
       expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
       dataGrid.addRow({ description: 'test' });
@@ -3062,7 +3059,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.getAttribute('aria-rowcount')).toEqual('9');
     });
 
-    it('can call clearRow', async () => {
+    test('can call clearRow', async () => {
       const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(8) > .ids-data-grid-cell:nth-child(3)');
 
       expect(descCell.textContent).toEqual('108');
@@ -3071,7 +3068,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.container.querySelector('.ids-data-grid-row:nth-child(8) > .ids-data-grid-cell:nth-child(3)').textContent).toEqual('');
     });
 
-    it('can call editFirstCell', () => {
+    test('can call editFirstCell', () => {
       const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
 
       expect(descCell.classList.contains('is-editing')).toBeFalsy();
@@ -3080,7 +3077,7 @@ describe('IdsDataGrid Component', () => {
       expect(descCell.classList.contains('is-editing')).toBeTruthy();
     });
 
-    it('can enter edit mode with enter and exit with arrows', () => {
+    test('can enter edit mode with enter and exit with arrows', () => {
       dataGrid.editable = true;
       const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       dataGrid.setActiveCell(2, 1);
@@ -3096,7 +3093,7 @@ describe('IdsDataGrid Component', () => {
       expect(descCell.classList.contains('is-editing')).toBeFalsy();
     });
 
-    it('can enter edit mode with enter and exit with f2', () => {
+    test('can enter edit mode with enter and exit with f2', () => {
       dataGrid.editable = true;
       const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       dataGrid.setActiveCell(2, 1);
@@ -3108,7 +3105,7 @@ describe('IdsDataGrid Component', () => {
       expect(descCell.classList.contains('is-editing')).toBeFalsy();
     });
 
-    it('can enter edit mode with enter and cancel with ESC', () => {
+    test('can enter edit mode with enter and cancel with ESC', () => {
       dataGrid.editable = true;
       const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       dataGrid.setActiveCell(2, 1);
@@ -3120,7 +3117,7 @@ describe('IdsDataGrid Component', () => {
       expect(descCell.classList.contains('is-editing')).toBeFalsy();
     });
 
-    it('can enter edit mode with enter by typing', () => {
+    test('can enter edit mode with enter by typing', () => {
       dataGrid.editable = true;
       const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
       dataGrid.setActiveCell(2, 1);
@@ -3130,7 +3127,7 @@ describe('IdsDataGrid Component', () => {
       expect(descCell.classList.contains('is-editing')).toBeTruthy();
     });
 
-    it('can enter edit mode and editNextOnEnterPress', () => {
+    test('can enter edit mode and editNextOnEnterPress', () => {
       dataGrid.editable = true;
       dataGrid.editNextOnEnterPress = true;
       const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
@@ -3199,7 +3196,7 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.rows.length).toBeGreaterThan(rowsLen);
     });
 
-    it('space toggles editable checkboxes', () => {
+    test('space toggles editable checkboxes', () => {
       dataGrid.editable = true;
       const checkCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
       dataGrid.setActiveCell(11, 1);
@@ -3219,7 +3216,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.dispatchEvent(enterKey);
     };
 
-    it('supports a dropdown editor', () => {
+    test('supports a dropdown editor', () => {
       const dropdownCell = cellQuery(8, 2);
       activateCell(7, 1);
       expect(dropdownCell.classList.contains('is-editing')).toBeTruthy();
@@ -3275,7 +3272,7 @@ describe('IdsDataGrid Component', () => {
       expect(gridCell.textContent).toEqual('3:45 AM');
     });
 
-    it('supports updating data set and refreshing row', () => {
+    test('supports updating data set and refreshing row', () => {
       const rowIndex = 0;
       const rowElem = dataGrid.rowByIndex(0);
       dataGrid.updateDatasetAndRefresh(rowIndex, { bookCurrency: 'eur' });

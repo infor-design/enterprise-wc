@@ -67,7 +67,7 @@ describe('IdsDataGrid Component', () => {
     dataGrid = null;
   });
 
-  it('can set the header menu id setting', () => {
+  test('can set the header menu id setting', () => {
     expect(dataGrid.getAttribute('header-menu-id')).toEqual(null);
     expect(dataGrid.headerMenuId).toEqual(null);
     dataGrid.headerMenuId = 'test';
@@ -78,7 +78,7 @@ describe('IdsDataGrid Component', () => {
     expect(dataGrid.headerMenuId).toEqual(null);
   });
 
-  it('can set the menu id setting', () => {
+  test('can set the menu id setting', () => {
     expect(dataGrid.getAttribute('menu-id')).toEqual(null);
     expect(dataGrid.menuId).toEqual(null);
     dataGrid.menuId = 'test';
@@ -89,7 +89,7 @@ describe('IdsDataGrid Component', () => {
     expect(dataGrid.menuId).toEqual(null);
   });
 
-  it('can set the header menu data setting', () => {
+  test('can set the header menu data setting', () => {
     expect(dataGrid.headerMenuData).toEqual(null);
     dataGrid.headerMenuData = headerMenuData;
     expect(dataGrid.headerMenuData).toEqual(headerMenuData);
@@ -97,7 +97,7 @@ describe('IdsDataGrid Component', () => {
     expect(dataGrid.headerMenuData).toEqual(null);
   });
 
-  it('can set the menu data setting', () => {
+  test('can set the menu data setting', () => {
     expect(dataGrid.menuData).toEqual(null);
     dataGrid.menuData = menuData;
     expect(dataGrid.menuData).toEqual(menuData);
@@ -105,7 +105,7 @@ describe('IdsDataGrid Component', () => {
     expect(dataGrid.menuData).toEqual(null);
   });
 
-  it('should contextmenu thru data', async () => {
+  test('should contextmenu thru data', async () => {
     dataGrid.menuData = deepClone(menuData);
     dataGrid.headerMenuData = deepClone(headerMenuData);
 
@@ -156,7 +156,7 @@ describe('IdsDataGrid Component', () => {
     expect(bodyMenu.visible).toBeFalsy();
   });
 
-  it('should show contextmenu thru a slot', async () => {
+  test('should show contextmenu thru a slot', async () => {
     document.body.innerHTML = '';
     container = null;
     dataGrid = null;
@@ -225,7 +225,7 @@ describe('IdsDataGrid Component', () => {
     bodyMenu.dispatchEvent(new MouseEvent('selected', { bubbles: true }));
   });
 
-  it('should show a contextmenu via id', async () => {
+  test('should show a contextmenu via id', async () => {
     document.body.innerHTML = '';
     container = null;
     dataGrid = null;
@@ -288,7 +288,7 @@ describe('IdsDataGrid Component', () => {
     expect(bodyMenu.visible).toBeFalsy();
   });
 
-  it('should veto before contextmenu show response', async () => {
+  test('should veto before contextmenu show response', async () => {
     dataGrid.menuData = deepClone(menuData);
     dataGrid.headerMenuData = deepClone(headerMenuData);
 

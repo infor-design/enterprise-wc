@@ -27,7 +27,7 @@ describe('IdsImage Component (using properties)', () => {
     (component as any) = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
@@ -37,22 +37,13 @@ describe('IdsImage Component (using properties)', () => {
     expect(component.outerHTML).toMatchSnapshot();
   });
 
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    component.remove();
-
-    expect(document.querySelectorAll(name).length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('has properties', () => {
+  test('has properties', () => {
     expect(component.src).toEqual(src);
     expect(component.alt).toEqual(alt);
     expect(component.size).toEqual(size);
   });
 
-  it('should set size auto as default', () => {
+  test('should set size auto as default', () => {
     component.size = null;
 
     expect(component.size).toEqual('auto');
@@ -82,30 +73,21 @@ describe('IdsImage Component (using attributes)', () => {
     component = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    component.remove();
-
-    expect(document.querySelectorAll(name).length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('has properties', () => {
+  test('has properties', () => {
     expect(component.src).toEqual(src);
     expect(component.alt).toEqual(alt);
     expect(component.size).toEqual(size);
     expect(component.fallback).toBeTruthy();
   });
 
-  it('should set size auto as default', () => {
+  test('should set size auto as default', () => {
     component.size = null;
     expect(component.size).toEqual('auto');
     component.size = 'md';
@@ -114,11 +96,11 @@ describe('IdsImage Component (using attributes)', () => {
     expect(component.size).toEqual('auto');
   });
 
-  it('img has src attributes', () => {
+  test('img has src attributes', () => {
     expect(component.shadowRoot.querySelector('img')?.getAttribute('src')).toEqual(src);
   });
 
-  it('can change src, alt and fallback attributes', () => {
+  test('can change src, alt and fallback attributes', () => {
     const newAlt = 'alt updated';
 
     component.src = newSrc;
@@ -149,22 +131,22 @@ describe('IdsImage Component (empty)', () => {
     component = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should have default properties', () => {
+  test('should have default properties', () => {
     expect(component.size).toEqual('auto');
   });
 
-  it('should render placeholder', () => {
+  test('should render placeholder', () => {
     expect(component.shadowRoot.querySelector('.placeholder')).toBeTruthy();
   });
 
-  it('should render image after src changed', () => {
+  test('should render image after src changed', () => {
     component.src = src;
 
     expect(component.shadowRoot.querySelector('.placeholder')).toBeFalsy();
@@ -188,14 +170,14 @@ describe('IdsImage Component (round and statuses)', () => {
     component = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should have attributes', () => {
+  test('should have attributes', () => {
     expect(component.round).toBeTruthy();
     expect(component.getAttribute('round')).toEqual('true');
 
@@ -203,7 +185,7 @@ describe('IdsImage Component (round and statuses)', () => {
     expect(component.getAttribute('user-status')).toEqual('available');
   });
 
-  it('should change attributes', () => {
+  test('should change attributes', () => {
     component.round = null;
     expect(component.getAttribute('round')).toBeNull();
 
@@ -217,7 +199,7 @@ describe('IdsImage Component (round and statuses)', () => {
     expect(component.getAttribute('user-status')).toEqual('away');
   });
 
-  it('should change to initials', () => {
+  test('should change to initials', () => {
     component.initials = 'mn';
 
     expect(component.getAttribute('initials')).toEqual('mn');
@@ -226,7 +208,7 @@ describe('IdsImage Component (round and statuses)', () => {
     expect(component.shadowRoot.querySelector('.initials')).toBeTruthy();
   });
 
-  it('should render initials and back to placeholder', () => {
+  test('should render initials and back to placeholder', () => {
     document.body.innerHTML = '';
     document.body.insertAdjacentHTML(
       'beforeend',

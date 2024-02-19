@@ -4,7 +4,7 @@ import countObjects from '../helpers/count-objects';
 describe('Ids Masthead e2e Tests', () => {
   const url = 'http://localhost:4444/ids-masthead/example.html';
 
-  it('should react to desktop, tablet and mobile breakpoints/viewports', async () => {
+  test('should react to desktop, tablet and mobile breakpoints/viewports', async () => {
     const assignedElementSelectors = {
       start: () => (<any>document.querySelector('ids-masthead')?.shadowRoot?.querySelector('#start slot')).assignedElements(),
       center: () => (<any>document.querySelector('ids-masthead')?.shadowRoot?.querySelector('#center slot')).assignedElements(),

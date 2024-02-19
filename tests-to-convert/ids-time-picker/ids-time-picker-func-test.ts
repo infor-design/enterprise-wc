@@ -36,7 +36,7 @@ describe.skip('IdsTimePicker Component', () => {
     timepicker = null;
   });
 
-  it('render via document.createElement (append late)', () => {
+  test('render via document.createElement (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem: any = document.createElement('ids-time-picker');
 
@@ -48,7 +48,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders placeholder', () => {
+  test('renders placeholder', () => {
     expect(timepicker.placeholder).toBe('');
 
     const text = 'Placeholder text here';
@@ -66,7 +66,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.input.placeholder).toBeNull();
   });
 
-  it('renders label', () => {
+  test('renders label', () => {
     expect(timepicker.label).toBe('');
     const text = 'Label text here';
     timepicker.setAttribute(attributes.LABEL, text);
@@ -83,7 +83,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.input.label).toBe('');
   });
 
-  it('renders 12 hours', () => {
+  test('renders 12 hours', () => {
     timepicker.format = 'hh:mm';
     timepicker.autoupdate = true;
     timepicker.hours = 12;
@@ -91,7 +91,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('12:00');
   });
 
-  it('renders 24 hours', () => {
+  test('renders 24 hours', () => {
     timepicker.format = 'HH:mm';
     timepicker.autoupdate = true;
     timepicker.hours = 23;
@@ -105,7 +105,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('11:30');
   });
 
-  it('renders minutes', () => {
+  test('renders minutes', () => {
     timepicker.autoupdate = true;
     timepicker.setAttribute(attributes.FORMAT, 'hh:mm');
 
@@ -120,7 +120,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('09:05');
   });
 
-  it('should handle locale time format', async () => {
+  test('should handle locale time format', async () => {
     timepicker.format = 'hh:mm';
 
     expect(timepicker.getAttribute(attributes.FORMAT)).toBe('hh:mm');
@@ -134,7 +134,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.format).toEqual('HH:mm');
   });
 
-  it('renders seconds', () => {
+  test('renders seconds', () => {
     timepicker.autoupdate = true;
     timepicker.setAttribute(attributes.FORMAT, 'hh:mm:ss');
 
@@ -151,7 +151,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('10:10:00');
   });
 
-  it('does not render seconds', () => {
+  test('does not render seconds', () => {
     timepicker.autoupdate = true;
     timepicker.format = 'hh:mm';
 
@@ -165,7 +165,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('10:10');
   });
 
-  it('should set 12 am/pm time', () => {
+  test('should set 12 am/pm time', () => {
     timepicker.useCurrentTime = false;
     timepicker.autoupdate = true;
 
@@ -189,7 +189,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('1:00 PM');
   });
 
-  it('should parse input value', () => {
+  test('should parse input value', () => {
     expect(timepicker.value).toBe('');
     timepicker.useCurrentTime = false;
     timepicker.minuteInterval = 1;
@@ -240,7 +240,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.seconds).toBe(0);
   });
 
-  it('should show current time', () => {
+  test('should show current time', () => {
     timepicker.format = 'HH:mm:ss';
     timepicker.minuteInterval = 1;
     timepicker.secondInterval = 1;
@@ -279,7 +279,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.period).toEqual('AM');
   });
 
-  it('does not render period (am/pm)', () => {
+  test('does not render period (am/pm)', () => {
     timepicker.autoupdate = true;
     timepicker.format = 'hh:mm';
 
@@ -293,7 +293,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('10:00');
   });
 
-  it('can show and hide popup', () => {
+  test('can show and hide popup', () => {
     expect(timepicker.picker.popup.visible).toBeFalsy();
 
     timepicker.open();
@@ -303,7 +303,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
-  it('with autoselect attribute, can auto show the popup', () => {
+  test('with autoselect attribute, can auto show the popup', () => {
     expect(timepicker.autoselect).toBeFalsy();
     expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeFalsy();
     expect(timepicker.picker.popup.visible).toBeFalsy();
@@ -324,7 +324,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
-  it('can show and hide popup on clicking the trigger-button', () => {
+  test('can show and hide popup on clicking the trigger-button', () => {
     expect(timepicker.picker.popup.visible).toBeFalsy();
     const triggerButton = timepicker.container.querySelector('ids-trigger-button');
     timepicker.triggerEvent('click', triggerButton);
@@ -334,14 +334,14 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
-  it('can show popup with keyboard ArrowDown', () => {
+  test('can show popup with keyboard ArrowDown', () => {
     expect(timepicker.picker.popup.visible).toBeFalsy();
 
     timepicker.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
     expect(timepicker.picker.popup.visible).toBeTruthy();
   });
 
-  it('can hide popup on keyboard Escape', () => {
+  test('can hide popup on keyboard Escape', () => {
     timepicker.open();
     expect(timepicker.picker.popup.visible).toBeTruthy();
 
@@ -349,7 +349,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
-  it('can hide popup on keyboard Backspace', () => {
+  test('can hide popup on keyboard Backspace', () => {
     timepicker.open();
     expect(timepicker.picker.popup.visible).toBeTruthy();
 
@@ -357,7 +357,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
-  it('should set ID', () => {
+  test('should set ID', () => {
     expect(timepicker.id).toEqual('');
 
     timepicker.id = 'example';
@@ -368,7 +368,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.id).toEqual('');
   });
 
-  it('can be disabled', () => {
+  test('can be disabled', () => {
     const morning = '01:00:00 AM';
     const evening = '06:30:00 PM';
 
@@ -390,7 +390,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe(evening);
   });
 
-  it('can be readonly', () => {
+  test('can be readonly', () => {
     const morning = '01:00:00 AM';
     const evening = '06:30:00 PM';
 
@@ -412,13 +412,13 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe(evening);
   });
 
-  it('will hide on outside click', () => {
+  test('will hide on outside click', () => {
     timepicker.open();
     timepicker.picker.onOutsideClick({ target: document.body });
     expect(timepicker.picker.popup.visible).toBeFalsy();
   });
 
-  it('should handle embeddable setting', () => {
+  test('should handle embeddable setting', () => {
     document.querySelector('ids-container')?.insertAdjacentHTML('afterbegin', `
       <ids-time-picker id="embeddable" embeddable="true"></ids-time-picker>
     `);
@@ -428,7 +428,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(embeddableTimePicker.picker).toBeNull();
   });
 
-  it('should handle tabbable setting', () => {
+  test('should handle tabbable setting', () => {
     expect(timepicker.tabbable).toBeTruthy();
 
     timepicker.tabbable = false;
@@ -436,7 +436,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.getAttribute(attributes.TABBABLE)).toBe('false');
   });
 
-  it('can validate/enforce required', () => {
+  test('can validate/enforce required', () => {
     let isValid;
     timepicker.value = '';
     timepicker.validate = 'required';
@@ -460,7 +460,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.getAttribute(attributes.VALIDATION_EVENTS)).toBe('blur');
   });
 
-  it('can validate time', () => {
+  test('can validate time', () => {
     let isValid;
     timepicker.value = '1:00 AM';
     timepicker.validate = 'time';
@@ -474,7 +474,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(isValid).toBeFalsy();
   });
 
-  it('should render field height', () => {
+  test('should render field height', () => {
     const heights = ['xs', 'sm', 'md', 'lg'];
     const defaultHeight = 'md';
     const className = (h: any) => `field-height-${h}`;
@@ -507,7 +507,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.container.classList).toContain(className(defaultHeight));
   });
 
-  it('should set compact height', () => {
+  test('should set compact height', () => {
     timepicker.compact = true;
 
     expect(timepicker.hasAttribute('compact')).toBeTruthy();
@@ -518,7 +518,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.container.classList.contains('compact')).toBeFalsy();
   });
 
-  it('should set size', () => {
+  test('should set size', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
     const defaultSize = 'sm';
     const checkSize = (size: any) => {
@@ -537,7 +537,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.input.getAttribute('size')).toEqual(defaultSize);
   });
 
-  it('should set no margins', () => {
+  test('should set no margins', () => {
     expect(timepicker.getAttribute('no-margins')).toEqual(null);
     expect(timepicker.noMargins).toEqual(false);
     expect(timepicker.input.getAttribute('no-margins')).toEqual(null);
@@ -553,7 +553,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.input.getAttribute('no-margins')).toEqual(null);
   });
 
-  it('should set values thru template', () => {
+  test('should set values thru template', () => {
     expect(timepicker.colorVariant).toEqual(null);
     expect(timepicker.labelState).toEqual(null);
     expect(timepicker.compact).toEqual(false);
@@ -570,7 +570,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.noMargins).toEqual(true);
   });
 
-  it('should set dirty tracking', () => {
+  test('should set dirty tracking', () => {
     expect(timepicker.dirtyTracker).toBeFalsy();
     expect(timepicker.getAttribute('dirty-tracker')).toEqual(null);
     expect(timepicker.input.getAttribute('dirty-tracker')).toEqual(null);
@@ -586,7 +586,7 @@ describe.skip('IdsTimePicker Component', () => {
     expect(timepicker.input.getAttribute('dirty-tracker')).toEqual(null);
   });
 
-  it('should set mask', () => {
+  test('should set mask', () => {
     expect(timepicker.mask).toBeFalsy();
 
     timepicker.mask = true;

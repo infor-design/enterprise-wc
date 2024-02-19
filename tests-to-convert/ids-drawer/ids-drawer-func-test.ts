@@ -21,7 +21,7 @@ describe('IdsDrawer Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('must have an edge', async () => {
+  test('must have an edge', async () => {
     elem = createFromTemplate(
       elem,
       `<ids-drawer>
@@ -43,7 +43,7 @@ describe('IdsDrawer Component', () => {
     expect(elem.container.classList.contains('edge-junk')).toBeFalsy();
   });
 
-  it('can have a type', async () => {
+  test('can have a type', async () => {
     elem = createFromTemplate(elem, `<ids-drawer>
         <div>Content</div>
       </ids-drawer>`);
@@ -55,7 +55,7 @@ describe('IdsDrawer Component', () => {
     });
   });
 
-  it('can have a target', async () => {
+  test('can have a target', async () => {
     // Build drawer/target and connect them
     elem = createFromTemplate(
       elem,
@@ -89,7 +89,7 @@ describe('IdsDrawer Component', () => {
     elem.target = null;
   });
 
-  it('can be prevented from being shown', async () => {
+  test('can be prevented from being shown', async () => {
     elem = createFromTemplate(
       elem,
       `<ids-drawer>
@@ -106,7 +106,7 @@ describe('IdsDrawer Component', () => {
     expect(elem.visible).toBeFalsy();
   });
 
-  it('can be prevented from being hidden', async () => {
+  test('can be prevented from being hidden', async () => {
     elem = createFromTemplate(
       elem,
       `<ids-drawer>
@@ -125,7 +125,7 @@ describe('IdsDrawer Component', () => {
     expect(elem.visible).toBeTruthy();
   });
 
-  it('should update with container language change', async () => {
+  test('should update with container language change', async () => {
     const elem2: any = new IdsDrawer();
     const container: any = new IdsContainer();
     document.body.appendChild(container);
@@ -136,7 +136,7 @@ describe('IdsDrawer Component', () => {
     waitForTimeout(() => expect(elem.getAttribute('dir')).toBe('rtl'));
   });
 
-  it('should call hide on outside click', async () => {
+  test('should call hide on outside click', async () => {
     elem = createFromTemplate(
       elem,
       `<ids-drawer>

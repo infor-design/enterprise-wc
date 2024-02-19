@@ -3,7 +3,6 @@
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
 import { LABEL_WRAPS } from '../../src/components/ids-input/ids-input-attributes';
-import processAnimFrame from '../helpers/process-anim-frame';
 import IdsDataSource from '../../src/core/ids-data-source';
 import dataset from '../../src/assets/data/states.json';
 import '../helpers/resize-observer-mock';
@@ -16,26 +15,25 @@ describe('IdsInput Component', () => {
     template.innerHTML = '<ids-input label="testing input"></ids-input>';
     input = template.content.childNodes[0];
     document.body.appendChild(input);
-    await processAnimFrame();
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
   });
 
-  it('renders default field type', () => {
+  test('renders default field type', () => {
     input.type = 'text';
     expect(input.getAttribute('type')).toEqual('text');
     expect(input.type).toEqual('text');
   });
 
-  it('removes type if reset', () => {
+  test('removes type if reset', () => {
     input.type = null;
     expect(input.getAttribute('type')).toEqual('text');
     expect(input.type).toEqual('text');
   });
 
-  it('renders placeholder', () => {
+  test('renders placeholder', () => {
     document.body.innerHTML = '';
     const elem: any = new IdsInput();
     input.placeholder = 'Placeholder Text';
@@ -47,32 +45,32 @@ describe('IdsInput Component', () => {
     expect(input.placeholder).toEqual('Placeholder Text');
   });
 
-  it('removes placeholder if reset', () => {
+  test('removes placeholder if reset', () => {
     input.placeholder = 'Placeholder Text';
     input.placeholder = null;
     expect(input.getAttribute('placeholder')).toEqual(null);
     expect(input.placeholder).toEqual(null);
   });
 
-  it('renders field type of text', () => {
+  test('renders field type of text', () => {
     input.type = 'text';
     expect(input.getAttribute('type')).toEqual('text');
     expect(input.type).toEqual('text');
   });
 
-  it('renders field type of email', () => {
+  test('renders field type of email', () => {
     input.type = 'email';
     expect(input.getAttribute('type')).toEqual('email');
     expect(input.type).toEqual('email');
   });
 
-  it('renders field type of password', () => {
+  test('renders field type of password', () => {
     input.type = 'password';
     expect(input.getAttribute('type')).toEqual('password');
     expect(input.type).toEqual('password');
   });
 
-  it('renders showable password', () => {
+  test('renders showable password', () => {
     input.type = 'password';
     input.revealablePassword = 'true';
     input.passwordVisible = 'true';
@@ -89,7 +87,7 @@ describe('IdsInput Component', () => {
     expect(showHideButton.text).toBe('SHOW');
   });
 
-  it('renders capslock indicator', () => {
+  test('renders capslock indicator', () => {
     input.type = 'password';
     input.capsLock = 'true';
     expect(input.getAttribute('caps-lock')).toBe('true');
@@ -98,13 +96,13 @@ describe('IdsInput Component', () => {
     expect(input.capsLockIcon).toBeDefined();
   });
 
-  it('renders field type of number', () => {
+  test('renders field type of number', () => {
     input.type = 'number';
     expect(input.getAttribute('type')).toEqual('number');
     expect(input.type).toEqual('number');
   });
 
-  it('should set compact mode', () => {
+  test('should set compact mode', () => {
     const className = 'compact';
     expect(input.hasAttribute('compact')).toBeFalsy();
     expect(input.container.classList).not.toContain(className);
@@ -118,17 +116,16 @@ describe('IdsInput Component', () => {
     expect(input.container.classList).not.toContain(className);
   });
 
-  it('should render an error on blur for required', async () => {
+  test('should render an error on blur for required', async () => {
     expect(input.container.querySelector('.validation-message')).toBeFalsy();
     input.validate = 'required';
     input.focus();
     input.value = '';
     input.blur();
-    await processAnimFrame();
     expect(input.container.querySelector('.validation-message')).toBeTruthy();
   });
 
-  it('should have an input with "aria-label" set when label-state="hidden" or "collapsed" '
+  test('should have an input with "aria-label" set when label-state="hidden" or "collapsed" '
     + 'is flagged and a label exists, then toggles this by unsetting it', async () => {
       input.labelState = 'hidden';
       expect(input.labelState).toBeTruthy();
@@ -149,7 +146,7 @@ describe('IdsInput Component', () => {
       expect(input.input.getAttribute('aria-label')?.length).toBeGreaterThan(0);
     });
 
-  it('renders label-state from a template with no issues', async () => {
+  test('renders label-state from a template with no issues', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
     const template = document.createElement('template');
@@ -157,7 +154,6 @@ describe('IdsInput Component', () => {
 
     input = template.content.childNodes[0];
     document.body.appendChild(input);
-    await processAnimFrame();
 
     expect(errors).not.toHaveBeenCalled();
 
@@ -165,12 +161,11 @@ describe('IdsInput Component', () => {
 
     input = template.content.childNodes[0];
     document.body.appendChild(input);
-    await processAnimFrame();
 
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should call template', () => {
+  test('should call template', () => {
     input.value = 'test';
     input.readonly = 'true';
     input.disabled = 'true';
@@ -182,7 +177,7 @@ describe('IdsInput Component', () => {
     expect(input.input.value).toEqual('test');
   });
 
-  it('renders field as disabled', () => {
+  test('renders field as disabled', () => {
     let rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('disabled')).toEqual(null);
     expect(input.input.getAttribute('disabled')).toBe(null);
@@ -194,7 +189,7 @@ describe('IdsInput Component', () => {
     expect(rootEl.classList).toContain('disabled');
   });
 
-  it('should disable and enable', () => {
+  test('should disable and enable', () => {
     let rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('disabled')).toEqual(null);
     expect(input.input.getAttribute('disabled')).toBe(null);
@@ -211,7 +206,7 @@ describe('IdsInput Component', () => {
     expect(rootEl.classList).not.toContain('disabled');
   });
 
-  it('renders field as readonly', () => {
+  test('renders field as readonly', () => {
     let rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('readonly')).toEqual(null);
     expect(input.input.getAttribute('readonly')).toBe(null);
@@ -228,7 +223,7 @@ describe('IdsInput Component', () => {
     expect(rootEl.classList).not.toContain('readonly');
   });
 
-  it('should skip invalid input state', () => {
+  test('should skip invalid input state', () => {
     let rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('test')).toEqual(null);
     expect(input.input.getAttribute('test')).toBe(null);
@@ -240,7 +235,7 @@ describe('IdsInput Component', () => {
     expect(rootEl.classList).not.toContain('test');
   });
 
-  it('renders field as bg-transparent', () => {
+  test('renders field as bg-transparent', () => {
     expect(input.getAttribute('bg-transparent')).toEqual(null);
     expect(input.input.classList).not.toContain('bg-transparent');
     input.bgTransparent = true;
@@ -251,7 +246,7 @@ describe('IdsInput Component', () => {
     expect(input.input.classList).not.toContain('bg-transparent');
   });
 
-  it('renders field as text-ellipsis', () => {
+  test('renders field as text-ellipsis', () => {
     expect(input.getAttribute('text-ellipsis')).toEqual(null);
     expect(input.input.classList).not.toContain('text-ellipsis');
     input.textEllipsis = true;
@@ -262,7 +257,7 @@ describe('IdsInput Component', () => {
     expect(input.input.classList).not.toContain('text-ellipsis');
   });
 
-  it('should setup dirty tracking', async () => {
+  test('should setup dirty tracking', async () => {
     input.dirtyTracker = true;
     input.input.remove();
     input.dirtyTrackerEvents();
@@ -280,7 +275,6 @@ describe('IdsInput Component', () => {
     template.innerHTML = '<ids-input label="testing input"></ids-input>';
     elem = template.content.childNodes[0];
     document.body.appendChild(elem);
-    await processAnimFrame();
 
     elem = new IdsInput();
     document.body.appendChild(elem);
@@ -298,7 +292,7 @@ describe('IdsInput Component', () => {
     expect(input.labelEl.querySelector('.msg-dirty')).toBeTruthy();
   });
 
-  it('should destroy dirty tracking', () => {
+  test('should destroy dirty tracking', () => {
     expect(input.getAttribute('dirty-tracker')).toEqual(null);
     expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
@@ -314,7 +308,7 @@ describe('IdsInput Component', () => {
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
   });
 
-  it('should handle dirty tracking', () => {
+  test('should handle dirty tracking', () => {
     expect(input.getAttribute('dirty-tracker')).toEqual(null);
     expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
@@ -348,12 +342,12 @@ describe('IdsInput Component', () => {
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
   });
 
-  it('should not error for input', () => {
+  test('should not error for input', () => {
     input.clearable = false;
     expect(input.shadowRoot.querySelector('.btn-clear')).toBeFalsy();
   });
 
-  it('should autoselect', (done) => {
+  test('should autoselect', (done) => {
     input.autoselect = true;
     input.value = 'test';
     expect(input.getAttribute('autoselect')).toEqual('true');
@@ -367,7 +361,7 @@ describe('IdsInput Component', () => {
     }, 2);
   });
 
-  it('should render clearable icon', () => {
+  test('should render clearable icon', () => {
     input.clearable = true;
     expect(input.getAttribute('clearable')).toEqual('true');
     expect(input.container.classList).toContain('has-clearable');
@@ -384,7 +378,7 @@ describe('IdsInput Component', () => {
     expect(input.container.classList).not.toContain('has-clearable');
   });
 
-  it('should render clearable-forced icon', () => {
+  test('should render clearable-forced icon', () => {
     expect(input.getAttribute('clearable-forced')).toEqual(null);
     expect(input.container.classList).not.toContain('has-clearable');
     input.clearableForced = true;
@@ -408,7 +402,7 @@ describe('IdsInput Component', () => {
     expect(input.container.classList).not.toContain('has-clearable');
   });
 
-  it('should clear on click', () => {
+  test('should clear on click', () => {
     input.clearable = true;
     input.value = 'test';
     expect(input.value).toEqual('test');
@@ -416,13 +410,13 @@ describe('IdsInput Component', () => {
     expect(input.value).toEqual('');
   });
 
-  it('should clearable edge case', () => {
+  test('should clearable edge case', () => {
     const errors = jest.spyOn(global.console, 'error');
     input.checkContents();
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should not error calling with no button', () => {
+  test('should not error calling with no button', () => {
     input.clearable = true;
     const xButton = document.createElement('ids-trigger-button');
     xButton.className = 'btn-clear';
@@ -433,7 +427,7 @@ describe('IdsInput Component', () => {
     expect(input.shadowRoot.querySelector('.btn-clear')).toBeFalsy();
   });
 
-  it('should clear field', () => {
+  test('should clear field', () => {
     input.clearable = true;
     input.value = 'test';
     expect(input.getAttribute('clearable')).toEqual('true');
@@ -442,7 +436,7 @@ describe('IdsInput Component', () => {
     expect(input.getAttribute('clearable')).toEqual(null);
   });
 
-  it('should not set wrong text-align', () => {
+  test('should not set wrong text-align', () => {
     input.input.remove();
     input.textAlign = 'test';
     document.body.innerHTML = '';
@@ -458,7 +452,7 @@ describe('IdsInput Component', () => {
     expect(input.input.classList).toContain(textAlign);
   });
 
-  it('should input text-align', () => {
+  test('should input text-align', () => {
     const textAligns = ['start', 'center', 'end'];
     const checkAlign = (textAlign: any) => {
       input.textAlign = textAlign;
@@ -473,7 +467,7 @@ describe('IdsInput Component', () => {
     textAligns.forEach((s) => checkAlign(s));
   });
 
-  it('should dispatch native events', () => {
+  test('should dispatch native events', () => {
     const events = ['focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick', 'blur'];
     events.forEach((evt) => {
       let response = null;
@@ -492,7 +486,7 @@ describe('IdsInput Component', () => {
     });
   });
 
-  it('should trigger a change event once when the input value is changed programmatically', () => {
+  test('should trigger a change event once when the input value is changed programmatically', () => {
     let callCount = 0;
     document.addEventListener('change', () => {
       callCount++;
@@ -504,7 +498,7 @@ describe('IdsInput Component', () => {
     expect(callCount).toEqual(1);
   });
 
-  it('should trigger a change event once when the internal HTMLInputElement\'s change event is fired', () => {
+  test('should trigger a change event once when the internal HTMLInputElement\'s change event is fired', () => {
     let callCount = 0;
     document.addEventListener('change', () => {
       callCount++;
@@ -519,7 +513,7 @@ describe('IdsInput Component', () => {
     expect(callCount).toEqual(1);
   });
 
-  it('should set label wrap', () => {
+  test('should set label wrap', () => {
     const attrName = 'label-wrap';
     const defaultVal = 'wrap';
     const check = (applyVal: string, propVal: string | null, attrVal: string | null) => {
@@ -534,7 +528,7 @@ describe('IdsInput Component', () => {
     check('test', defaultVal, null);
   });
 
-  it('should not set wrong size', () => {
+  test('should not set wrong size', () => {
     input.size = 'test';
     expect(input.getAttribute('size')).toEqual('md');
     expect(input.container.classList).not.toContain('test');
@@ -544,7 +538,7 @@ describe('IdsInput Component', () => {
     expect(input.container.classList).toContain(size);
   });
 
-  it('should render input sizes', () => {
+  test('should render input sizes', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
     const checkSize = (size: any) => {
       input.size = size;
@@ -559,7 +553,7 @@ describe('IdsInput Component', () => {
     sizes.forEach((s) => checkSize(s));
   });
 
-  it('should not set wrong input field height', () => {
+  test('should not set wrong input field height', () => {
     const className = (h: any) => `field-height-${h}`;
     input.fieldHeight = 'test';
     expect(input.getAttribute('field-height')).toEqual(null);
@@ -571,7 +565,7 @@ describe('IdsInput Component', () => {
     expect(input.container.classList).toContain(className(fieldHeight));
   });
 
-  it('should render input field height', () => {
+  test('should render input field height', () => {
     const heights = ['xs', 'sm', 'md', 'lg'];
     const defaultHeight = 'md';
     const className = (h: any) => `field-height-${h}`;
@@ -591,7 +585,7 @@ describe('IdsInput Component', () => {
     heights.forEach((h) => checkHeight(h));
   });
 
-  it('can set "compact" mode', () => {
+  test('can set "compact" mode', () => {
     input.compact = true;
 
     expect(input.hasAttribute('compact')).toBeTruthy();
@@ -603,7 +597,7 @@ describe('IdsInput Component', () => {
     expect(input.container.classList.contains('compact')).toBeFalsy();
   });
 
-  it('cannot have both a "compact" and "field-height" setting applied', () => {
+  test('cannot have both a "compact" and "field-height" setting applied', () => {
     input.compact = true;
 
     expect(input.hasAttribute('compact')).toBeTruthy();
@@ -624,13 +618,13 @@ describe('IdsInput Component', () => {
     expect(input.container.classList.contains('field-height-xs')).toBeFalsy();
   });
 
-  it('supports setting cursor', () => {
+  test('supports setting cursor', () => {
     input.cursor = 'pointer';
     expect(input.shadowRoot.querySelector('input').style.cursor).toEqual('pointer');
     expect(input.cursor).toEqual('pointer');
   });
 
-  it('supports setting noMargins', () => {
+  test('supports setting noMargins', () => {
     input.noMargins = true;
     expect(input.noMargins).toEqual(true);
     expect(input.container.classList.contains('no-margins')).toEqual(true);
@@ -641,7 +635,7 @@ describe('IdsInput Component', () => {
     expect(input.hasAttribute('no-margins')).toBeFalsy();
   });
 
-  it('supports setting padding', () => {
+  test('supports setting padding', () => {
     input.padding = '10';
     expect(input.padding).toEqual('10');
     expect(input.input.style.getPropertyValue('padding-inline-end')).toEqual('10px');
@@ -651,25 +645,23 @@ describe('IdsInput Component', () => {
     expect(input.input.style.getPropertyValue('padding-inline-end')).toEqual('');
   });
 
-  it('focuses its inner HTMLInputElement when the host element becomes focused', () => {
+  test('focuses its inner HTMLInputElement when the host element becomes focused', () => {
     input.focus();
     expect(document.activeElement).toEqual(input);
   });
 
-  it('focuses its inner HTMLInputElement when its label is clicked', async () => {
+  test('focuses its inner HTMLInputElement when its label is clicked', async () => {
     const labelEl = input.container.querySelector('label');
     labelEl.click();
-    await processAnimFrame();
 
     expect(input.input.isEqualNode(input.shadowRoot.activeElement));
   });
 
-  it('should set autocomplete', async () => {
+  test('should set autocomplete', async () => {
     const template = document.createElement('template');
     template.innerHTML = '<ids-input label="testing input" autocomplete></ids-input>';
     input = template.content.childNodes[0];
     document.body.appendChild(input);
-    await processAnimFrame();
 
     expect(input.autocomplete).toEqual(true);
     input.autocomplete = null;
@@ -687,36 +679,33 @@ describe('IdsInput Component', () => {
     expect(input.searchField).toEqual('label');
   });
 
-  it('should set readonly background', async () => {
+  test('should set readonly background', async () => {
     const template = document.createElement('template');
     template.innerHTML = '<ids-input label="testing input" readonly-background="true"></ids-input>';
     input = template.content.childNodes[0];
     document.body.appendChild(input);
-    await processAnimFrame();
 
     expect(input.container.classList).toContain('readonly-background');
     input.readonlyBackground = false;
     expect(input.container.classList).not.toContain('readonly-background');
   });
 
-  it('should set active', async () => {
+  test('should set active', async () => {
     const template = document.createElement('template');
     template.innerHTML = '<ids-input label="testing input" active="true"></ids-input>';
     input = template.content.childNodes[0];
     document.body.appendChild(input);
-    await processAnimFrame();
 
     expect(input.container.classList).toContain('is-active');
     input.active = false;
     expect(input.container.classList).not.toContain('is-active');
   });
 
-  it('should open popup on keydown if autocomplete is enabled', async () => {
+  test('should open popup on keydown if autocomplete is enabled', async () => {
     const template = document.createElement('template');
     template.innerHTML = '<ids-input label="testing input" autocomplete value="a"></ids-input>';
     input = template.content.childNodes[0];
     document.body.appendChild(input);
-    await processAnimFrame();
 
     input.datasource = new IdsDataSource();
     input.data = dataset;
@@ -751,7 +740,6 @@ describe('IdsInput Component', () => {
     template2.innerHTML = '<ids-input label="testing input" autocomplete readonly disabled value=""></ids-input>';
     input = template2.content.childNodes[0];
     document.body.appendChild(input);
-    await processAnimFrame();
 
     const keydownendEvent2 = new KeyboardEvent('keydownend', { key: 'a' });
     input.dispatchEvent(keydownendEvent2);

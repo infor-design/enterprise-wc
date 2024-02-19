@@ -24,13 +24,13 @@ describe('IdsRadio Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should renders checked', () => {
+  test('should renders checked', () => {
     rb.checked = 'true';
     expect(rb.getAttribute('checked')).toEqual('true');
     expect(rb.checked).toEqual(true);
   });
 
-  it('should renders as disabled', () => {
+  test('should renders as disabled', () => {
     expect(rb.getAttribute('disabled')).toEqual(null);
     expect(rb.input.hasAttribute('disabled')).toBe(false);
     let rootEl = rb.shadowRoot.querySelector('.ids-radio');
@@ -48,7 +48,7 @@ describe('IdsRadio Component', () => {
     expect(rootEl.classList).not.toContain('disabled');
   });
 
-  it('should renders as group disabled', () => {
+  test('should renders as group disabled', () => {
     expect(rb.getAttribute('group-disabled')).toEqual(null);
     expect(rb.input.hasAttribute('disabled')).toBe(false);
     let rootEl = rb.shadowRoot.querySelector('.ids-radio');
@@ -66,7 +66,7 @@ describe('IdsRadio Component', () => {
     expect(rootEl.classList).not.toContain('disabled');
   });
 
-  it('should renders as validation has-error', () => {
+  test('should renders as validation has-error', () => {
     expect(rb.getAttribute('validation-has-error')).toEqual(null);
     expect(rb.input.classList).not.toContain('error');
     expect(rb.validationHasError).toBe(false);
@@ -80,7 +80,7 @@ describe('IdsRadio Component', () => {
     expect(rb.validationHasError).toBe(false);
   });
 
-  it('should set label text', () => {
+  test('should set label text', () => {
     let label = rb.labelEl.querySelector('.label-text');
     label.remove();
     rb.label = 'test';
@@ -98,7 +98,7 @@ describe('IdsRadio Component', () => {
     expect(label.textContent.trim()).toBe('test2');
   });
 
-  it('should renders value', () => {
+  test('should renders value', () => {
     const value = 'test';
     expect(rb.getAttribute('value')).toEqual(null);
     rb.value = value;
@@ -108,7 +108,7 @@ describe('IdsRadio Component', () => {
     expect(rb.getAttribute('value')).toEqual(null);
   });
 
-  it('should rander display horizontal', () => {
+  test('should rander display horizontal', () => {
     let rootEl = rb.shadowRoot.querySelector('.ids-radio');
     expect(rootEl.classList).not.toContain('horizontal');
     expect(rb.getAttribute('horizontal')).toEqual(null);
@@ -123,7 +123,7 @@ describe('IdsRadio Component', () => {
     expect(rb.horizontal).toEqual(false);
   });
 
-  it('should trigger click', () => {
+  test('should trigger click', () => {
     const evt = 'click';
     let response = null;
     rb.addEventListener('focus', () => {
@@ -134,7 +134,7 @@ describe('IdsRadio Component', () => {
     expect(response).toEqual('triggered');
   });
 
-  it('should dispatch native events', () => {
+  test('should dispatch native events', () => {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
@@ -147,7 +147,7 @@ describe('IdsRadio Component', () => {
     });
   });
 
-  it('should render template', () => {
+  test('should render template', () => {
     document.body.innerHTML = '';
     const html = '<ids-radio label="test" value="test-val" disabled="true" horizontal="true" checked="true"></ids-radio>';
     document.body.innerHTML = html;
@@ -162,12 +162,12 @@ describe('IdsRadio Component', () => {
     expect(rb.checked).toEqual(true);
   });
 
-  it('can change language from the container', async () => {
+  test('can change language from the container', async () => {
     await IdsGlobal.getLocale().setLanguage('de');
     expect(rb.getAttribute('language')).toEqual('de');
   });
 
-  it('can focus its inner Input element', () => {
+  test('can focus its inner Input element', () => {
     rb.focus();
     expect(document.activeElement).toEqual(rb);
   });

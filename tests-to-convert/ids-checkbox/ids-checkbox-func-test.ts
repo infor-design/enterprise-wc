@@ -24,7 +24,7 @@ describe('IdsCheckbox Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should render a checked checkbox', () => {
+  test('should render a checked checkbox', () => {
     expect(cb.checked).toBe(false);
 
     cb.checked = true;
@@ -44,7 +44,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('checked')).toBe(null);
   });
 
-  it('should renders as disabled', () => {
+  test('should renders as disabled', () => {
     expect(cb.getAttribute('disabled')).toEqual(null);
     expect(cb.input.hasAttribute('disabled')).toBe(false);
     let rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
@@ -61,7 +61,7 @@ describe('IdsCheckbox Component', () => {
     expect(rootEl.classList).not.toContain('disabled');
   });
 
-  it('can render a checkbox without a visible label', () => {
+  test('can render a checkbox without a visible label', () => {
     const textEl = cb.shadowRoot.querySelector('ids-text');
     const innerCheckbox = cb.shadowRoot.querySelector('input[type="checkbox"]');
 
@@ -86,7 +86,7 @@ describe('IdsCheckbox Component', () => {
     expect(innerCheckbox.getAttribute('aria-label')).toBe('My Checkbox');
   });
 
-  it('should add/remove required error', () => {
+  test('should add/remove required error', () => {
     cb.validate = 'required';
     expect(cb.getAttribute('validate')).toEqual('required');
     expect(cb.validate).toEqual('required');
@@ -101,7 +101,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.shadowRoot.querySelector('.validation-message')).toBeFalsy();
   });
 
-  it('should set validation events', () => {
+  test('should set validation events', () => {
     expect(cb.getAttribute('validate')).toEqual(null);
     expect(cb.getAttribute('validation-events')).toEqual(null);
     cb.validate = 'required';
@@ -116,7 +116,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('validation-events')).toEqual(null);
   });
 
-  it('should set label required indicator', () => {
+  test('should set label required indicator', () => {
     const className = 'no-required-indicator';
     expect(cb.getAttribute('validate')).toEqual(null);
     expect(cb.getAttribute('label-required')).toEqual(null);
@@ -137,7 +137,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.labelRequired).toEqual(true);
   });
 
-  it('should set label text', () => {
+  test('should set label text', () => {
     let label = cb.labelEl.querySelector('.label-checkbox');
     label.remove();
     cb.label = 'test';
@@ -156,7 +156,7 @@ describe('IdsCheckbox Component', () => {
     expect(label.textContent.trim()).toBe('');
   });
 
-  it('should renders colored', () => {
+  test('should renders colored', () => {
     const color = 'green';
     let rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
     expect(rootEl.getAttribute('color')).toEqual(null);
@@ -172,7 +172,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.color).toEqual(null);
   });
 
-  it('should renders value', () => {
+  test('should renders value', () => {
     const value = 'test';
     expect(cb.getAttribute('value')).toEqual(null);
     cb.value = value;
@@ -182,7 +182,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('value')).toEqual(null);
   });
 
-  it('should set indeterminate', () => {
+  test('should set indeterminate', () => {
     expect(cb.getAttribute('indeterminate')).toEqual(null);
     expect(cb.input.classList).not.toContain('indeterminate');
     cb.indeterminate = true;
@@ -199,7 +199,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.input.classList).not.toContain('indeterminate');
   });
 
-  it('should set noAnimation', () => {
+  test('should set noAnimation', () => {
     expect(cb.getAttribute('no-animation')).toEqual(null);
     expect(cb.container.classList).not.toContain('no-animation');
     cb.noAnimation = true;
@@ -213,7 +213,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.container.classList).toContain('no-animation');
   });
 
-  it('should rander display horizontal', () => {
+  test('should rander display horizontal', () => {
     let rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
     expect(rootEl.classList).not.toContain('horizontal');
     expect(cb.getAttribute('horizontal')).toEqual(null);
@@ -228,7 +228,7 @@ describe('IdsCheckbox Component', () => {
     expect(cb.horizontal).toEqual(null);
   });
 
-  it('should dispatch native events', () => {
+  test('should dispatch native events', () => {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
@@ -241,7 +241,7 @@ describe('IdsCheckbox Component', () => {
     });
   });
 
-  it('should remove events', () => {
+  test('should remove events', () => {
     document.body.innerHTML = '';
     const elem: any = new IdsCheckbox();
     document.body.appendChild(elem);
@@ -261,7 +261,7 @@ describe('IdsCheckbox Component', () => {
     });
   });
 
-  it('should render template', () => {
+  test('should render template', () => {
     document.body.innerHTML = '';
     cb = new IdsCheckbox();
     // TODO fix that this errors by storing the state
@@ -281,17 +281,17 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('indeterminate')).toEqual('true');
   });
 
-  it('can change language to rtl from the container', async () => {
+  test('can change language to rtl from the container', async () => {
     await IdsGlobal.getLocale().setLanguage('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
 
-  it('can focus its inner Input element', () => {
+  test('can focus its inner Input element', () => {
     cb.focus();
     expect(document.activeElement).toEqual(cb);
   });
 
-  it('can set/remove the hitbox setting', () => {
+  test('can set/remove the hitbox setting', () => {
     cb.hitbox = true;
     expect(cb.container.classList.contains('hitbox')).toBeTruthy();
     expect(cb.hitbox).toEqual('true');

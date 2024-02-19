@@ -5,7 +5,6 @@ import IdsListView, { IdsListViewSelectedItem } from '../../src/components/ids-l
 import type IdsListViewItem from '../../src/components/ids-list-view/ids-list-view-item';
 import dataset from '../../src/assets/data/products-100.json';
 import datasetProducts from '../../src/assets/data/products.json';
-import processAnimFrame from '../helpers/process-anim-frame';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 import '../../src/components/ids-card/ids-card';
@@ -38,23 +37,20 @@ describe('IdsListView Component', () => {
     listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
     document.body.appendChild(listView);
     listView.data = deepClone(dataset);
-    await processAnimFrame();
   });
 
   afterEach(async () => {
     Object.defineProperty(HTMLElement.prototype, 'offsetHeight', originalOffsetHeight);
     Object.defineProperty(HTMLElement.prototype, 'offsetWidth', originalOffsetWidth);
     document.body.innerHTML = '';
-    await processAnimFrame();
   });
 
-  it('renders the template without virtual scroll', () => {
+  test('renders the template without virtual scroll', () => {
     listView.data = dataset;
     expect(listView.items.length).toEqual(listView.data.length);
   });
 
   it.skip('renders the template with virtual scroll', async () => {
-    await processAnimFrame();
     document.body.innerHTML = '';
     listView = new IdsListView();
     listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
@@ -63,12 +59,11 @@ describe('IdsListView Component', () => {
     document.body.appendChild(listView);
     listView.virtualScroll = true;
     listView.data = datasetProducts;
-    await processAnimFrame();
 
     expect(listView.items.length).toEqual(listView.shadowRoot?.querySelector<IdsVirtualScroll>('ids-virtual-scroll')?.visibleItemCount());
   });
 
-  it('renders without errors with no template', () => {
+  test('renders without errors with no template', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     document.body.innerHTML = '';
@@ -80,7 +75,7 @@ describe('IdsListView Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('rerenders without errors', () => {
+  test('rerenders without errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     listView.data = [{ productName: 'test' }, { productName: 'test2' }];
 
@@ -90,17 +85,15 @@ describe('IdsListView Component', () => {
 
   it.skip('removes the virtualScroll attribute when reset', async () => {
     listView.virtualScroll = true;
-    await processAnimFrame();
     expect(listView.getAttribute('virtual-scroll')).toEqual('true');
     expect(listView.items.length).toEqual(listView.shadowRoot?.querySelector<IdsVirtualScroll>('ids-virtual-scroll')?.visibleItemCount());
 
     listView.virtualScroll = null;
-    await processAnimFrame();
     expect(listView.getAttribute('virtual-scroll')).toEqual(null);
     expect(listView.items.length).toEqual(100);
   });
 
-  it('render with empty data', () => {
+  test('render with empty data', () => {
     listView.data = null;
     expect(listView.items.length).toEqual(0);
     listView.container?.setAttribute('dir', 'rtl');
@@ -110,21 +103,21 @@ describe('IdsListView Component', () => {
     expect(listView.items.length).toEqual(0);
   });
 
-  it('supports setting height', () => {
+  test('supports setting height', () => {
     listView.height = '600px';
     expect(listView.getAttribute('height')).toEqual('600px');
     listView.height = undefined;
     expect(listView.getAttribute('height')).toEqual('100%');
   });
 
-  it('supports setting itemHeight', () => {
+  test('supports setting itemHeight', () => {
     listView.itemHeight = '40px';
     expect(listView.getAttribute('item-height')).toEqual('40px');
     listView.itemHeight = undefined;
     expect(listView.getAttribute('item-height')).toBeFalsy();
   });
 
-  it('supports setting sortable', () => {
+  test('supports setting sortable', () => {
     listView.sortable = true;
     expect(listView.getAttribute('sortable')).toEqual('true');
     expect(listView.getAllSwappableItems()?.length).toEqual(0);
@@ -132,12 +125,12 @@ describe('IdsListView Component', () => {
     expect(listView.getAttribute('sortable')).toEqual(null);
   });
 
-  it('supports setting focus', () => {
+  test('supports setting focus', () => {
     listView.focus();
     expect((document.activeElement as any).tagName).toEqual('BODY');
   });
 
-  it('supports sorting', () => {
+  test('supports sorting', () => {
     document.body.innerHTML = '';
     listView = new IdsListView();
     listView.sortable = true;
@@ -150,44 +143,38 @@ describe('IdsListView Component', () => {
     listView.remove();
   });
 
-  it('focuses on click', async () => {
+  test('focuses on click', async () => {
     const sel = 'ids-list-view-item:nth-child(3)';
     expect(listView.container?.querySelector<HTMLElement>(sel)?.getAttribute('tabindex')).toEqual('-1');
     listView.container?.querySelector<HTMLElement>(sel)?.click();
-    await processAnimFrame();
     expect(listView.container?.querySelector<HTMLElement>(sel)?.getAttribute('tabindex')).toEqual('0');
   });
 
-  it('can use arrow keys to navigate', async () => {
+  test('can use arrow keys to navigate', async () => {
     listView.shadowRoot?.querySelector<HTMLElement>('ids-list-view-item')?.click();
-    await processAnimFrame();
     expect(listView.shadowRoot?.querySelector<HTMLElement>('ids-list-view-item[tabindex="0"] ids-text')?.innerHTML).toContain('Steampan Lid');
     listView.getPreviousLi('test');
     listView.getNextLi('test');
     listView.shadowRoot?.querySelector<HTMLElement>('ids-list-view-item')?.focus();
     let event = new KeyboardEvent('keydown', { code: 'ArrowDown' });
     listView.container?.dispatchEvent(event);
-    await processAnimFrame();
     expect(listView.shadowRoot?.querySelector<HTMLElement>('ids-list-view-item[tabindex="0"] ids-text')?.innerHTML).toContain('Onions - Red');
 
     event = new KeyboardEvent('keydown', { code: 'ArrowUp' });
     listView.container?.dispatchEvent(event);
-    await processAnimFrame();
     expect(listView.shadowRoot?.querySelector<HTMLElement>('ids-list-view-item[tabindex="0"] ids-text')?.innerHTML).toContain('Steampan Lid');
 
     // Does nothing just the bounds case
     event = new KeyboardEvent('keydown', { code: 'ArrowLeft' });
     listView.container?.dispatchEvent(event);
-    await processAnimFrame();
     expect(listView.shadowRoot?.querySelector<HTMLElement>('ids-list-view-item[tabindex="0"] ids-text')?.innerHTML).toContain('Steampan Lid');
 
     event = new KeyboardEvent('keydown', { code: 'Space' });
     listView.container?.dispatchEvent(event);
-    await processAnimFrame();
     expect(listView.shadowRoot?.querySelector<HTMLElement>('ids-list-view-item[tabindex="0"] ids-text')?.innerHTML).toContain('Steampan Lid');
   });
 
-  it('can single select with keyboard', async () => {
+  test('can single select with keyboard', async () => {
     listView.selectable = 'single';
     const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
 
@@ -199,7 +186,6 @@ describe('IdsListView Component', () => {
     listView.shadowRoot?.querySelector<HTMLElement>(sel(1))?.focus();
     event = new KeyboardEvent('keydown', { code: 'ArrowDown' });
     listView.container?.dispatchEvent(event);
-    await processAnimFrame();
     listView.shadowRoot?.querySelector<HTMLElement>(sel(3))?.focus();
     event = new KeyboardEvent('keyup', { code: 'Space' });
     listView.container?.dispatchEvent(event);
@@ -210,7 +196,7 @@ describe('IdsListView Component', () => {
     expect(listView.selected).toEqual(null);
   });
 
-  it('can mixed select with keyboard', async () => {
+  test('can mixed select with keyboard', async () => {
     listView.selectable = 'mixed';
     const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
 
@@ -225,20 +211,16 @@ describe('IdsListView Component', () => {
     document.body.innerHTML = `<ids-list-view id="lv-test" item-height="76" pagination="client-side" page-number="1" page-size="5">
       <template><ids-text>\${productName}</ids-text></template></ids-list-view>
     </ids-list-view>`;
-    await processAnimFrame();
     listView = document.querySelector('ids-list-view') as IdsListView;
     listView.data = deepClone(dataset);
-    await processAnimFrame();
     expect(listView).toBeTruthy();
     listView.selectable = 'single';
     expect(listView.selected).toEqual(null);
     listView.select(10);
     expect(listView.selected).toEqual(expect.objectContaining({ index: 10 }));
     listView.shadowRoot?.querySelector<IdsPagerNumberList>('ids-pager-number-list')?.shadowRoot?.querySelector<IdsButton>('ids-button[data-id="3"]')?.click();
-    await processAnimFrame();
     listView.select(3);
     listView.shadowRoot?.querySelector<IdsPagerNumberList>('ids-pager-number-list')?.shadowRoot?.querySelector<IdsButton>('ids-button[data-id="1"]')?.click();
-    await processAnimFrame();
     listView.suppressDeselection = false;
     listView.select(3);
     listView.suppressDeselection = true;
@@ -252,7 +234,7 @@ describe('IdsListView Component', () => {
     expect(listView.selected).toEqual(null);
   });
 
-  it('can select/deselect all thru api', () => {
+  test('can select/deselect all thru api', () => {
     const mockCallback = jest.fn();
     listView.addEventListener('selectionchanged', mockCallback);
     listView.selectable = 'single';
@@ -274,10 +256,8 @@ describe('IdsListView Component', () => {
     document.body.innerHTML = `<ids-list-view id="lv-test" item-height="76" pagination="client-side" page-number="1" page-size="5">
       <template><ids-text>\${productName}</ids-text></template></ids-list-view>
     </ids-list-view>`;
-    await processAnimFrame();
     listView = document.querySelector('ids-list-view') as IdsListView;
     listView.data = deepClone(dataset);
-    await processAnimFrame();
     expect(listView).toBeTruthy();
     listView.selectable = 'mixed';
     listView.activateItem(-1);
@@ -300,19 +280,17 @@ describe('IdsListView Component', () => {
     listView.deactivateItem(12);
     listView.suppressDeactivation = false;
     listView.shadowRoot?.querySelector<IdsPagerNumberList>('ids-pager-number-list')?.shadowRoot?.querySelector<IdsButton>('ids-button[data-id="3"]')?.click();
-    await processAnimFrame();
     listView.activateItem(8);
     listView.activateItem(8);
     expect(listView.activatedItem).toEqual(expect.objectContaining({ index: 8 }));
     listView.shadowRoot?.querySelector<IdsPagerNumberList>('ids-pager-number-list')?.shadowRoot?.querySelector<IdsButton>('ids-button[data-id="1"]')?.click();
-    await processAnimFrame();
     listView.suppressDeactivation = true;
     listView.activateItem(8);
     listView.deactivateItem(8);
     expect(listView.activatedItem).toEqual(null);
   });
 
-  it('can multiple select with keyboard', async () => {
+  test('can multiple select with keyboard', async () => {
     listView.selectable = 'multiple';
     const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
 
@@ -324,7 +302,6 @@ describe('IdsListView Component', () => {
     listView.shadowRoot?.querySelector<HTMLElement>(sel(1))?.focus();
     event = new KeyboardEvent('keydown', { code: 'ArrowDown' });
     listView.container?.dispatchEvent(event);
-    await processAnimFrame();
     listView.shadowRoot?.querySelector<HTMLElement>(sel(3))?.focus();
     event = new KeyboardEvent('keyup', { code: 'Space' });
     listView.container?.dispatchEvent(event);
@@ -354,17 +331,15 @@ describe('IdsListView Component', () => {
       <div slot="card-footer" id="lv-card-footer" no-padding>
       </div>
     </ids-card>`;
-    await processAnimFrame();
     listView = document.querySelector('#lv-card-example') as IdsListView;
     listView.data = dataset;
     listView.pageTotal = 100;
-    await processAnimFrame();
     expect(listView).toBeTruthy();
     expect(listView.items.length).toEqual(5);
     expect(document.querySelector('#lv-card-footer ids-pager')).toBeTruthy();
   });
 
-  it('should set the aria label text', async () => {
+  test('should set the aria label text', async () => {
     expect(listView.getAttribute('label')).toEqual(null);
     expect(listView.body?.getAttribute('aria-label')).toEqual(LIST_VIEW_DEFAULTS.label);
     expect(listView.label).toEqual(LIST_VIEW_DEFAULTS.label);
@@ -378,7 +353,7 @@ describe('IdsListView Component', () => {
     expect(listView.label).toEqual(LIST_VIEW_DEFAULTS.label);
   });
 
-  it('should set the selectable setting', async () => {
+  test('should set the selectable setting', async () => {
     expect(listView.getAttribute('selectable')).toEqual(null);
     listView.selectable = 'single';
     expect(listView.getAttribute('selectable')).toEqual('single');
@@ -390,7 +365,7 @@ describe('IdsListView Component', () => {
     expect(listView.getAttribute('selectable')).toEqual(null);
   });
 
-  it('should set the setting to allow deselect', async () => {
+  test('should set the setting to allow deselect', async () => {
     listView.selectable = 'single';
     expect(listView.getAttribute('suppress-deselection')).toEqual(null);
     expect(listView.suppressDeselection).toEqual(LIST_VIEW_DEFAULTS.suppressDeselection);
@@ -408,7 +383,7 @@ describe('IdsListView Component', () => {
     expect(listView.suppressDeselection).toEqual(LIST_VIEW_DEFAULTS.suppressDeselection);
   });
 
-  it('should set the setting to allow deactivate', async () => {
+  test('should set the setting to allow deactivate', async () => {
     listView.selectable = 'mixed';
     expect(listView.getAttribute('suppress-deactivation')).toEqual(null);
     expect(listView.suppressDeactivation).toEqual(LIST_VIEW_DEFAULTS.suppressDeactivation);
@@ -426,7 +401,7 @@ describe('IdsListView Component', () => {
     expect(listView.suppressDeactivation).toEqual(LIST_VIEW_DEFAULTS.suppressDeactivation);
   });
 
-  it('should set the setting to hide checkboxes', async () => {
+  test('should set the setting to hide checkboxes', async () => {
     listView.selectable = 'multiple';
     expect(listView.getAttribute('hide-checkboxes')).toEqual(null);
     expect(listView.hideCheckboxes).toEqual(LIST_VIEW_DEFAULTS.hideCheckboxes);
@@ -444,7 +419,7 @@ describe('IdsListView Component', () => {
     expect(listView.hideCheckboxes).toEqual(LIST_VIEW_DEFAULTS.hideCheckboxes);
   });
 
-  it('should set the setting to hide checkboxes with pre selected', async () => {
+  test('should set the setting to hide checkboxes with pre selected', async () => {
     const ds: any = deepClone(dataset);
     ds[0].itemSelected = true;
     document.body.innerHTML = '';
@@ -454,9 +429,7 @@ describe('IdsListView Component', () => {
     listView.selectable = 'multiple';
     listView.hideCheckboxes = true;
     listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
-    await processAnimFrame();
     listView.data = ds;
-    await processAnimFrame();
     expect(listView.getAttribute('hide-checkboxes')).toEqual('true');
     expect(listView.shadowRoot?.querySelectorAll('.list-item-checkbox').length).toEqual(0);
   });
@@ -470,7 +443,6 @@ describe('IdsListView Component', () => {
     listView.virtualScroll = true;
     listView.innerHTML = '<template><ids-text type="h2">${productName}</ids-text></template></ids-list-view>'; //eslint-disable-line
     listView.data = datasetProducts;
-    await processAnimFrame();
     expect(listView.isInPage(3)).toEqual(true);
   });
 
@@ -478,16 +450,13 @@ describe('IdsListView Component', () => {
     document.body.innerHTML = `<ids-list-view id="lv-test" item-height="76" pagination="client-side" page-number="1" page-size="5">
       <template><ids-text>\${productName}</ids-text></template></ids-list-view>
     </ids-list-view>`;
-    await processAnimFrame();
     listView = document.querySelector('ids-list-view') as IdsListView;
     listView.data = dataset;
-    await processAnimFrame();
     expect(listView).toBeTruthy();
     expect(listView.dataIndex('test' as any)).toEqual(null);
     expect(listView.dataIndex(3)).toEqual(3);
     expect(listView.dataIndex(7)).toEqual(null);
     listView.shadowRoot?.querySelector<IdsPagerNumberList>('ids-pager-number-list')?.shadowRoot?.querySelector<IdsButton>('ids-button[data-id="3"]')?.click();
-    await processAnimFrame();
     expect(listView.dataIndex(-1)).toEqual(null);
     expect(listView.dataIndex(2)).toEqual(12);
     expect(listView.dataIndex(7)).toEqual(null);
@@ -497,25 +466,21 @@ describe('IdsListView Component', () => {
     document.body.innerHTML = `<ids-list-view id="lv-test" item-height="76" pagination="client-side" page-number="1" page-size="5">
       <template><ids-text>\${productName}</ids-text></template></ids-list-view>
     </ids-list-view>`;
-    await processAnimFrame();
     listView = document.querySelector('ids-list-view') as IdsListView;
     listView.data = dataset;
-    await processAnimFrame();
     expect(listView).toBeTruthy();
     expect(listView.pageIndex('test' as any)).toEqual(null);
     expect(listView.pageIndex(3)).toEqual(3);
     expect(listView.pageIndex(7)).toEqual(null);
     expect(listView.pageIndex(-1)).toEqual(null);
     listView.shadowRoot?.querySelector<IdsPagerNumberList>('ids-pager-number-list')?.shadowRoot?.querySelector<IdsButton>('ids-button[data-id="3"]')?.click();
-    await processAnimFrame();
     expect(listView.pageIndex(3)).toEqual(null);
     expect(listView.pageIndex(12)).toEqual(2);
     expect(listView.pageIndex(15)).toEqual(null);
   });
 
-  it('should veto before selected', async () => {
+  test('should veto before selected', async () => {
     listView.selectable = 'multiple';
-    await processAnimFrame();
     const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
     let veto: boolean;
     listView.addEventListener('beforeselected', ((e: CustomEvent) => {
@@ -527,12 +492,10 @@ describe('IdsListView Component', () => {
     veto = true;
     listView.container?.querySelector<HTMLElement>(sel(3))?.click();
     expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(1);
-    await processAnimFrame();
   });
 
-  it('should veto before deselected', async () => {
+  test('should veto before deselected', async () => {
     listView.selectable = 'multiple';
-    await processAnimFrame();
     const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
     let veto: boolean;
     listView.addEventListener('beforedeselected', ((e: CustomEvent) => {
@@ -548,9 +511,8 @@ describe('IdsListView Component', () => {
     expect((listView.selected as IdsListViewSelectedItem[]).length).toEqual(0);
   });
 
-  it('should veto before item activated', async () => {
+  test('should veto before item activated', async () => {
     listView.selectable = 'mixed';
-    await processAnimFrame();
     const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
     let veto: boolean;
     listView.addEventListener('beforeactivated', ((e: CustomEvent) => {
@@ -564,9 +526,8 @@ describe('IdsListView Component', () => {
     expect(listView.activatedItem).toEqual(expect.objectContaining({ index: 2 }));
   });
 
-  it('should veto before item deactivated', async () => {
+  test('should veto before item deactivated', async () => {
     listView.selectable = 'mixed';
-    await processAnimFrame();
     const sel = (nth: number) => `ids-list-view-item:nth-child(${nth})`;
     let veto: boolean;
     listView.addEventListener('beforedeactivated', ((e: CustomEvent) => {
@@ -591,7 +552,7 @@ describe('IdsListView Component', () => {
     expect(listView.activatedItem).toEqual(null);
   });
 
-  it('should not have errors when changing data by activating an item', () => {
+  test('should not have errors when changing data by activating an item', () => {
     let activatedItem = -1;
 
     listView.addEventListener('activated', (e: any) => {

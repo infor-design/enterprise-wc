@@ -5,7 +5,7 @@ describe('Ids Month View e2e Tests', () => {
   const url = 'http://localhost:4444/ids-month-view/example.html';
 
 
-  it('should display correct number of days in a month', async () => {
+  test('should display correct number of days in a month', async () => {
     // Initial month
     let day = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected').dataset.day);
     let month = await page.$eval(name, (el: any) => el.shadowRoot.querySelector('td.is-selected').dataset.month);
@@ -58,7 +58,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(numberOfDays).toEqual(new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate());
   });
 
-  it('should be selectable', async () => {
+  test('should be selectable', async () => {
     await page.evaluate((el: any) => {
       const component = document.querySelector(el);
 
@@ -107,7 +107,7 @@ describe('Ids Month View e2e Tests', () => {
   });
 
 
-  it('should trigger compact view and today button', async () => {
+  test('should trigger compact view and today button', async () => {
     let hasFullSizeClass = await page.$eval(name, (el: any) => el.container.classList.contains('is-fullsize'));
 
     expect(hasFullSizeClass).toBeTruthy();
@@ -470,7 +470,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(hasError).toBeTruthy();
   });
 
-  it('should handle legend items', async () => {
+  test('should handle legend items', async () => {
     await page.reload({ waitUntil: 'networkidle0' });
     await page.setRequestInterception(false);
     const legend = [
@@ -690,7 +690,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(selected).toEqual(0);
   });
 
-  it('should show disabled dates visually', async () => {
+  test('should show disabled dates visually', async () => {
     await page.reload({ waitUntil: 'networkidle0' });
     await page.setRequestInterception(false);
 
@@ -836,7 +836,7 @@ describe('Ids Month View e2e Tests', () => {
     expect(isDisabled).toBeTruthy();
   });
 
-  it('should show today visually', async () => {
+  test('should show today visually', async () => {
     await page.reload({ waitUntil: 'networkidle0' });
     await page.setRequestInterception(false);
 

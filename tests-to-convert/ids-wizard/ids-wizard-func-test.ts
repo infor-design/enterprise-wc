@@ -36,7 +36,7 @@ describe('IdsWizard Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('render via document.createElement (append laate)', () => {
+  test('render via document.createElement (append laate)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const wizardElem: any = document.createElement('ids-wizard');
 
@@ -51,7 +51,7 @@ describe('IdsWizard Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('initializes without step number and it is set to -1', () => {
+  test('initializes without step number and it is set to -1', () => {
     elem = createFromTemplate(
       elem,
       `<ids-wizard>
@@ -64,24 +64,24 @@ describe('IdsWizard Tests', () => {
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
-  it('updates the step number', () => {
+  test('updates the step number', () => {
     elem.stepNumber = '3';
     expect(elem.stepNumber).toEqual(3);
   });
 
-  it('sets a random attribute with no visual differences', () => {
+  test('sets a random attribute with no visual differences', () => {
     const prevHTML = elem.innerHTML;
     elem.setAttribute('random-attribute', 'random-value');
     elem.randomAttr2 = true;
     expect(elem.innerHTML).toEqual(prevHTML);
   });
 
-  it('renders labels properly based on wizard step labels', () => {
+  test('renders labels properly based on wizard step labels', () => {
     const { lightDOMLabels, shadowDOMLabels } = getLabels(elem);
     expect(lightDOMLabels.join('_')).toEqual(shadowDOMLabels.join('_'));
   });
 
-  it('refreshes ShadowDOM properly after changing the step markup', async () => {
+  test('refreshes ShadowDOM properly after changing the step markup', async () => {
     elem.remove(elem.children[1]);
 
     await wait(100);
@@ -105,7 +105,7 @@ describe('IdsWizard Tests', () => {
       .toEqual(labels.shadowDOMLabels.join('_'));
   });
 
-  it('sets the step number to invalid values and sees associated errors', async () => {
+  test('sets the step number to invalid values and sees associated errors', async () => {
     expect(() => { elem.stepNumber = 'z'; })
       .toThrowErrorMatchingSnapshot();
 
@@ -116,7 +116,7 @@ describe('IdsWizard Tests', () => {
       .toThrowErrorMatchingSnapshot();
   });
 
-  it('on clickable wizard: clicks non-selected step, and the step number changes', async () => {
+  test('on clickable wizard: clicks non-selected step, and the step number changes', async () => {
     const stepNumber = 2;
     elem.clickable = true;
 
@@ -133,19 +133,19 @@ describe('IdsWizard Tests', () => {
     expect(elem.stepNumber).toEqual(2);
   });
 
-  it('can calculate rect collision', async () => {
+  test('can calculate rect collision', async () => {
     expect(elem.areRectsHColliding({ left: 10, width: 10 }, { left: 10, width: 10 })).toEqual(false);
     expect(elem.areRectsHColliding({ width: 10, right: 10 }, { right: 20 })).toEqual(false);
   });
 
-  it('can set step-width', async () => {
+  test('can set step-width', async () => {
     elem.stepNumber = 2;
     expect(elem.getAttribute('step-number')).toEqual('2');
     elem.stepNumber = 1;
     expect(elem.getAttribute('step-number')).toEqual('1');
   });
 
-  it('cancel resize if 1 step', () => {
+  test('cancel resize if 1 step', () => {
     elem = createFromTemplate(
       elem,
       `<ids-wizard step-number="1">

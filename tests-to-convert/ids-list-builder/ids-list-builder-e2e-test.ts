@@ -17,18 +17,18 @@ describe('Ids List Builder e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not have errors', async () => {
+  test('should not have errors', async () => {
     await expect(page.title()).resolves.toMatch('IDS List Builder Component');
   });
 
-  it('should pass Axe accessibility tests', async () => {
+  test('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     const results = await new AxePuppeteer(page).disableRules(['scrollable-region-focusable', 'aria-required-children', 'aria-required-parent']).analyze();
     expect(results.violations.length).toBe(0);
   });
 
-  it('can drag list items up and down', async () => {
+  test('can drag list items up and down', async () => {
     const jsPathListItemFirst = `document.querySelector("ids-list-builder").shadowRoot.querySelector(".ids-list-view-body").querySelector("ids-swappable-item:nth-child(1)")`;
     const jsPathListItemFourth = `document.querySelector("ids-list-builder").shadowRoot.querySelector(".ids-list-view-body").querySelector("ids-swappable-item:nth-child(4)")`;
     const firstLi = await (await page.evaluateHandle(jsPathListItemFirst)).asElement();
@@ -55,7 +55,7 @@ describe('Ids List Builder e2e Tests', () => {
     await page.keyboard.press('Enter'); // edit an existing value
   });
 
-  it('can click the toolbar buttons', async () => {
+  test('can click the toolbar buttons', async () => {
     const btn = (opt: string) => `document.querySelector('ids-list-builder').querySelector('[list-builder-action="${opt}"]')`;
 
     const editButton = await (await page.evaluateHandle(btn('edit'))).asElement();
@@ -74,7 +74,7 @@ describe('Ids List Builder e2e Tests', () => {
     await addButton.click();
   });
 
-  it('can edit, select, and delete through keyboard', async () => {
+  test('can edit, select, and delete through keyboard', async () => {
     await page.keyboard.press('Tab');
     await page.keyboard.press('Tab');
     await page.keyboard.press('Tab');

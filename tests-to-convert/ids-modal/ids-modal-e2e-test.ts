@@ -17,7 +17,7 @@ describe('Ids Modal e2e Tests', () => {
     expect(isEqualNode).toBeTruthy();
   });
 
-  it('will close when the user clicks its button', async () => {
+  test('will close when the user clicks its button', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
 
     const modalSelector = '#my-modal[visible]';

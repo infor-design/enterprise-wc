@@ -7,7 +7,6 @@ import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button';
 import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
 import waitForTimeout from '../helpers/wait-for-timeout';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 const testMenuContents = `
   <ids-menu-group select="multiple">
@@ -43,7 +42,7 @@ describe.skip('IdsMenuButton Component', () => {
     menuEl = null;
   });
 
-  it('can change/remove its dropdown icon', () => {
+  test('can change/remove its dropdown icon', () => {
     buttonEl.dropdownIcon = 'launch';
     let iconEl = buttonEl.button.querySelector('ids-icon');
 
@@ -65,11 +64,11 @@ describe.skip('IdsMenuButton Component', () => {
     expect(iconEl).toBe(null);
   });
 
-  it('points the menu\'s arrow at the button if there is no icon', () => {
+  test('points the menu\'s arrow at the button if there is no icon', () => {
     buttonEl.dropdownIcon = null;
   });
 
-  it('can set active state', () => {
+  test('can set active state', () => {
     buttonEl.setActiveState(true);
     expect(buttonEl.button.classList.contains('is-active')).toBeTruthy();
 
@@ -77,7 +76,7 @@ describe.skip('IdsMenuButton Component', () => {
     expect(buttonEl.button.classList.contains('is-active')).toBeFalsy();
   });
 
-  it('should have active state when menu is open', async () => {
+  test('should have active state when menu is open', async () => {
     const waitForOpts = { timeout: 2000 };
 
     menuEl.show();
@@ -87,7 +86,7 @@ describe.skip('IdsMenuButton Component', () => {
     await waitForTimeout(() => expect(buttonEl.button.classList.contains('is-active')).toBeFalsy(), waitForOpts);
   });
 
-  it('shows/hides the menu when the button is clicked', (done) => {
+  test('shows/hides the menu when the button is clicked', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
     buttonEl.dispatchEvent(clickEvent);
 
@@ -97,7 +96,7 @@ describe.skip('IdsMenuButton Component', () => {
     }, 20);
   });
 
-  it('not error if no menu', () => {
+  test('not error if no menu', () => {
     const noMenuButton: any = new IdsMenuButton();
     document.body.appendChild(noMenuButton);
 
@@ -107,7 +106,7 @@ describe.skip('IdsMenuButton Component', () => {
     }).not.toThrow();
   });
 
-  it('should render an icon button', () => {
+  test('should render an icon button', () => {
     document.body.innerHTML = '';
     buttonEl = new IdsMenuButton();
     buttonEl.id = 'icon-button';
@@ -127,7 +126,7 @@ describe.skip('IdsMenuButton Component', () => {
     expect(buttonEl.shadowRoot.querySelector('.ids-icon-button')).toBeTruthy();
   });
 
-  it('should select item via keyboard', async () => {
+  test('should select item via keyboard', async () => {
     menuEl.innerHTML = `<ids-menu-group id="primary" select="single">
       <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
     </ids-menu-group>`;
@@ -155,7 +154,7 @@ describe.skip('IdsMenuButton Component', () => {
     expect(menuEl.visible).toBeFalsy();
   });
 
-  it('focuses the button when the menu is closed with the `Escape` key', (done) => {
+  test('focuses the button when the menu is closed with the `Escape` key', (done) => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
     menuEl.show();
 
@@ -170,7 +169,7 @@ describe.skip('IdsMenuButton Component', () => {
     }, 20);
   });
 
-  it('can set formatter width', () => {
+  test('can set formatter width', () => {
     expect(buttonEl.getAttribute('formatter-width')).toEqual(null);
     buttonEl.formatterWidth = 150;
     expect(buttonEl.getAttribute('formatter-width')).toEqual('150');
@@ -194,11 +193,10 @@ describe.skip('IdsMenuButton Component', () => {
     expect(buttonEl.getAttribute('formatter-width')).toEqual(null);
   });
 
-  it('can set/get data of menu', async () => {
+  test('can set/get data of menu', async () => {
     menuEl.insertAdjacentHTML('afterbegin', testMenuContents);
 
     // wait for ids-element to #updateAttribute
-    await processAnimFrame();
 
     // check default values
     const initialExpected = ['3'];
@@ -218,7 +216,7 @@ describe.skip('IdsMenuButton Component', () => {
     expect(buttonValues).toEqual(menuValues);
   });
 
-  it('can be disabled/enabled', () => {
+  test('can be disabled/enabled', () => {
     menuEl.innerHTML = testMenuContents;
     buttonEl.disabled = true;
 

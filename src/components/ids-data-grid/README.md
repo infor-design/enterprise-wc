@@ -1260,7 +1260,7 @@ Set empty message thru slot (markup).
 <ids-data-grid id="data-grid-em-thru-slot" label="Books">
   <ids-empty-message hidden icon="empty-search-data-new" slot="empty-message">
     <ids-text type="h2" font-size="20" label="true" slot="label">No Data</ids-text>
-    <ids-text hidden label="true" slot="description">There is No data available.</ids-text>
+    <ids-text label="true" slot="description">There is No data available.</ids-text>
   </ids-empty-message>
 </ids-data-grid>
 ```

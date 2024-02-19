@@ -173,15 +173,13 @@ export default class IdsTag extends Base {
    * @private
    */
   #addDimissibleIcon() {
-    if (this.container) {
-      if (this.dismissible) {
-        this.container.classList.add(attributes.FOCUSABLE);
-        this.#appendIcon('close');
-        this.#attachKeyboardListeners();
-      } else {
-        this.#removeIcon('close');
-        this.container.classList.remove(attributes.FOCUSABLE);
-      }
+    if (this.dismissible) {
+      this.container?.classList.add(attributes.FOCUSABLE);
+      this.#appendIcon('close');
+      this.#attachKeyboardListeners();
+    } else {
+      this.#removeIcon('close');
+      this.container?.classList.remove(attributes.FOCUSABLE);
     }
   }
 
@@ -197,19 +195,15 @@ export default class IdsTag extends Base {
       this.removeAttribute(attributes.CLICKABLE);
     }
 
-    const clickableContainer = this.container || this;
-
-    if (clickableContainer) {
-      if (isClickable) {
-        this.#appendIcon('caret-right');
-        clickableContainer.classList.add(attributes.FOCUSABLE);
-        clickableContainer.setAttribute(attributes.TABINDEX, '0');
-        this.#attachKeyboardListeners();
-      } else {
-        this.#removeIcon('caret-right');
-        clickableContainer.removeAttribute(attributes.TABINDEX);
-        clickableContainer.classList.remove(attributes.FOCUSABLE);
-      }
+    if (isClickable) {
+      this.#appendIcon('caret-right');
+      this.container?.classList.add(attributes.FOCUSABLE);
+      this.container?.setAttribute(attributes.TABINDEX, '0');
+      this.#attachKeyboardListeners();
+    } else {
+      this.#removeIcon('caret-right');
+      this.container?.removeAttribute(attributes.TABINDEX);
+      this.container?.classList.remove(attributes.FOCUSABLE);
     }
   }
 

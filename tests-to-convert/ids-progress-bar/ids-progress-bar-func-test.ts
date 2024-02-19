@@ -16,7 +16,7 @@ describe('IdsProgressBar Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should set value', () => {
+  test('should set value', () => {
     expect(el.value).toEqual('0');
     el.value = 60;
     expect(el.value).toEqual('60');
@@ -26,7 +26,7 @@ describe('IdsProgressBar Component', () => {
     expect(el.value).toEqual('0');
   });
 
-  it('should renders as disabled', () => {
+  test('should renders as disabled', () => {
     expect(el.getAttribute('disabled')).toEqual(null);
     let rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(rootEl.classList).not.toContain('disabled');
@@ -40,7 +40,7 @@ describe('IdsProgressBar Component', () => {
     expect(rootEl.classList).not.toContain('disabled');
   });
 
-  it('should set label text', () => {
+  test('should set label text', () => {
     let labelText = el.shadowRoot.querySelector('.progress-label ids-text');
     expect(labelText.innerHTML.trim()).toBe('');
     el.label = 'test';
@@ -54,7 +54,7 @@ describe('IdsProgressBar Component', () => {
     expect(labelText.innerHTML.trim()).toBe('');
   });
 
-  it('should set label text as audible', () => {
+  test('should set label text as audible', () => {
     let labelText = el.shadowRoot.querySelector('.progress-label ids-text');
     let rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(el.getAttribute('label-audible')).toEqual(null);
@@ -74,7 +74,7 @@ describe('IdsProgressBar Component', () => {
     expect(rootEl.classList).not.toContain('label-audible');
   });
 
-  it('should set max value', () => {
+  test('should set max value', () => {
     expect(el.getAttribute('max')).toEqual(null);
     expect(el.max).toEqual('100');
     el.max = 60;
@@ -85,7 +85,7 @@ describe('IdsProgressBar Component', () => {
     expect(el.max).toEqual('100');
   });
 
-  it('should render template', () => {
+  test('should render template', () => {
     document.body.innerHTML = '';
     el = document.createElement('ids-progress-bar');
     el.setAttribute('disabled', 'true');

@@ -8,7 +8,7 @@ describe('Ids Treemap e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should resize the width when the viewport changes', async () => {
+  test('should resize the width when the viewport changes', async () => {
     await page.setViewport({ width: 589, height: 9999, deviceScaleFactor: 1 });
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForTimeout(400);

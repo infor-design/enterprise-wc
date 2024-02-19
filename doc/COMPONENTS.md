@@ -401,76 +401,7 @@ Add info on what behaviors or considerations the developer needs to know regardi
 
 ### Code the Tests
 
-#### What to test
-
-- Test the settings for all settings and test both setting the attribute and the js setting
-- Any api functions for input/result
-- Any external event handlers fire
-- Aim for 100% test coverage in the tests
-- Include Axe and Percy tests
-
-#### Code the playwright tests
-
-We add a basic playwright test that loads the page and does any testing.
-
-Add basic loading test.
-
-```js
-test('should not have errors', async ({ page, browserName }) => {
-    if (browserName === 'firefox') return;
-    let exceptions = null;
-    await page.on('pageerror', (error) => {
-    exceptions = error;
-    });
-
-    await page.goto(url);
-    await page.waitForLoadState();
-    await expect(exceptions).toBeNull();
-});
-```
-
-Add axe test.
-
-```js
-test.describe('accessibility tests', () => {
-  test('should pass an Axe scan', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const accessibilityScanResults = await new AxeBuilder({ page } as any)
-      .analyze();
-      expect(accessibilityScanResults.violations).toEqual([]);
-  });
-});
-```
-
-Note that you can ignore some rules if they do not make sense. For example some designs might not be accessible for color contrast.
-
-```js
-const accessibilityScanResults = await new AxeBuilder({ page } as any)
-  .exclude('[disabled]') // Disabled elements do not have to pass
-  .analyze();
-```
-
-In the future we will add many more e2e tests, including tests for BDD (test steps for QA).
-
-### Additional Steps
-
-See the [checklist](https://github.com/infor-design/enterprise-wc/blob/main/doc/CHECKLIST.md#general-component-checklist) for additional steps.
-
-#### Code the percy tests
-
-We use [percy](https://percy.io/) for visual regression tests. Its a simplified process for visual images regression testing. You should add one test per component per theme (new theme only). We have a limit of 100,000 screen shots. So be aware of this. Each time you push small updated it can effect the count once you PR. Add the `skip-ci-tests` label or close your PR and reopen it if its not ready for review and you keep adding fixes. For these tests the name of the file is `ids-component-name-percy-test.js`. These tests run on the CI when you do pull requests. Check the checks for results once you push.
-
-A percy tests sets the theme and takes a screen shot. Note the file name  and theme convention in the `percySnapshot` command and looks like this:
-
-```js
-it.skip('should not have visual regressions in new dark theme (percy)', async () => {
-  await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-  await page.evaluate(() => {
-    document.querySelector('ids-theme-switcher')?.setAttribute('mode', 'dark');
-  });
-  await percySnapshot(page, 'ids-scroll-view-new-dark');
-});
-```
+For info on testing see [testing.md](https://github.com/infor-design/enterprise-wc/blob/main/doc/TESTING.md)
 
 ## Component Standards
 

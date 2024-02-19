@@ -6,7 +6,6 @@ import '../../src/components/ids-icon/ids-icon';
 import '../../src/components/ids-text/ids-text';
 
 import createFromTemplate from '../helpers/create-from-template';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 const createAccordion = async (accordion: any, variant?: string) => {
   const variantProp = variant ? ` colorVariant="${variant}"` : '';
@@ -92,16 +91,14 @@ describe('IdsAccordion Component (nested)', () => {
   beforeEach(async () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
     accordion = await createAccordion(accordion);
-    await processAnimFrame();
   });
 
   afterEach(async () => {
     accordion.remove();
     accordion = null;
-    await processAnimFrame();
   });
 
-  it('can navigate nested accordion panels', () => {
+  test('can navigate nested accordion panels', () => {
     const employeePanel = accordion.querySelector('#employee');
     employeePanel.focus();
 
@@ -130,12 +127,12 @@ describe('IdsAccordion Component (nested)', () => {
     expect(prev.isEqualNode(employeePanel)).toBeTruthy();
   });
 
-  it('has panels that are aware of their parent panels', () => {
+  test('has panels that are aware of their parent panels', () => {
     const benefitsPanel = accordion.querySelector('#benefits');
     expect(benefitsPanel.hasParentPanel).toBeTruthy();
   });
 
-  it('can identify nested panels', () => {
+  test('can identify nested panels', () => {
     const benefitsInfoPanel = accordion.querySelector('#benefits-information');
     expect(benefitsInfoPanel.nested).toBeTruthy();
 
@@ -143,7 +140,7 @@ describe('IdsAccordion Component (nested)', () => {
     expect(employeePanel.nested).toBeFalsy();
   });
 
-  it('can describe if its parent panel is expanded', () => {
+  test('can describe if its parent panel is expanded', () => {
     const benefitsPanel = accordion.querySelector('#benefits');
     expect(benefitsPanel.parentExpanded).toBeFalsy();
 
@@ -153,7 +150,7 @@ describe('IdsAccordion Component (nested)', () => {
     expect(benefitsPanel.parentExpanded).toBeTruthy();
   });
 
-  it('can change its headers\' expander type', () => {
+  test('can change its headers\' expander type', () => {
     const benefitsPanel = accordion.querySelector('#benefits');
     const benefitsHeader = benefitsPanel.header;
 
@@ -170,7 +167,7 @@ describe('IdsAccordion Component (nested)', () => {
     expect(benefitsHeader.expanderType).toBe('plus-minus');
   });
 
-  it('can change alignment types', () => {
+  test('can change alignment types', () => {
     const benefitsPanel = accordion.querySelector('#benefits');
     benefitsPanel.contentAlignment = 'has-icon';
     expect(benefitsPanel.container.classList.contains('has-icon')).toBeTruthy();

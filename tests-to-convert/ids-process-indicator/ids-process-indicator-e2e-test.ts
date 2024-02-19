@@ -5,7 +5,7 @@ describe('Ids Process Indicator e2e Tests', () => {
   const exampleUrl = 'http://localhost:4444/ids-process-indicator/example.html';
   const emptyLabelExampleUrl = `http://localhost:4444/ids-process-indicator/empty-label.html`;
 
-  it('should show hide details on resize', async () => {
+  test('should show hide details on resize', async () => {
     await page.setViewport({
       width: 375,
       height: 1080
