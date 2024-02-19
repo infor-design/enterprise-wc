@@ -334,7 +334,11 @@ export default class IdsDropdown extends Base {
     this.selectOption(listBoxOption);
     this.selectIcon(listBoxOption);
     this.selectTooltip(listBoxOption);
-    if (this.input?.input) this.input.input.value = listBoxOption.textContent?.trim() ?? '';
+    if (this.input?.input) {
+      const textContent = listBoxOption.textContent?.trim() ?? '';
+      this.input.value = textContent;
+      this.input.input.value = textContent;
+    }
     this.state.selectedIndex = [...((listBoxOption?.parentElement as any)?.children || [])].indexOf(listBoxOption);
   }
 
