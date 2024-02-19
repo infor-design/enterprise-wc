@@ -151,7 +151,7 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
       overflowed = this.isOverflowed(item) ? '' : ' hidden';
     }
 
-    const iconTemplate = (iconDef: string) => `<ids-icon slot="icon" icon="${iconDef}" size="xsmall"></ids-icon>`;
+    const iconTemplate = (iconDef: string) => `<ids-icon slot="icon" icon="${iconDef}" size="small"></ids-icon>`;
 
     // Handles regular tabs
     const handleTab = (thisItem: any) => {

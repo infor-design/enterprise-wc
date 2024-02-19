@@ -119,7 +119,7 @@ export default class IdsTag extends Base {
     if (!icon) {
       this.insertAdjacentHTML(
         'beforeend',
-        `<ids-icon part="icon" icon="${iconName}" size="xsmall" class="ids-icon"></ids-icon>`
+        `<ids-icon part="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`
       );
       this.#attachEventHandlers();
     }
