@@ -312,6 +312,12 @@ test.describe('IdsDataGrid tests', () => {
       await page.goto('ids-data-grid/editable-inline.html');
       await percySnapshot(page, 'ids-data-grid-editable-inline-light');
     });
+
+    test('should not have visual regressions in percy (loading indicator)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-data-grid/loading-indicator.html');
+      await percySnapshot(page, 'ids-data-grid-loading-indicator-light');
+    });
   });
 
   test.describe('cell functionality tests', () => {
