@@ -3,7 +3,6 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import styles from './ids-color-picker.scss';
 import IdsColor from '../ids-color/ids-color';
-import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
@@ -18,15 +17,13 @@ import '../ids-trigger-field/ids-trigger-field';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import { IdsLabelStateMode } from '../../mixins/ids-label-state-mixin/ids-label-state-common';
 
-const Base = IdsPopupOpenEventsMixin(
-  IdsClearableMixin(
-    IdsFieldHeightMixin(
-      IdsDirtyTrackerMixin(
-        IdsLocaleMixin(
-          IdsLabelStateParentMixin(
-            IdsEventsMixin(
-              IdsElement
-            )
+const Base = IdsClearableMixin(
+  IdsFieldHeightMixin(
+    IdsDirtyTrackerMixin(
+      IdsLocaleMixin(
+        IdsLabelStateParentMixin(
+          IdsEventsMixin(
+            IdsElement
           )
         )
       )
@@ -38,7 +35,6 @@ const Base = IdsPopupOpenEventsMixin(
  * IDS Color Picker
  * @type {IdsColorPicker}
  * @inherits IdsElement
- * @mixes IdsPopupOpenEventsMixin
  */
 @customElement('ids-color-picker')
 @scss(styles)
@@ -78,6 +74,9 @@ export default class IdsColorPicker extends Base {
     this.#configureSwatches();
     this.#attachEventHandlers();
     this.initialized = true;
+    if (this.popup) {
+      this.popup.onOutsideClick = this.onOutsideClick.bind(this);
+    }
   }
 
   /** Invoked each time the custom element is removed from the DOM */
@@ -440,7 +439,7 @@ export default class IdsColorPicker extends Base {
    */
   close(): void {
     this.popup?.setAttribute(attributes.VISIBLE, 'false');
-    this.removeOpenEvents();
+    this.popup?.removeOpenEvents();
     this.#configureSwatches();
   }
 
@@ -470,7 +469,7 @@ export default class IdsColorPicker extends Base {
     this.popup.alignTarget = this.textInput as IdsPopupElementRef;
     this.popup.visible = true;
     this.popup.show();
-    this.addOpenEvents();
+    this.popup?.addOpenEvents();
     this.#configureSwatches();
   }
 

@@ -206,7 +206,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     editor: {
       type: 'checkbox',
       editorSettings: {
-        dirtyTracker: false,
+        dirtyTracker: true,
       }
     },
   });
@@ -246,7 +246,8 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     const newRow = {
       book: newId,
       description: `${newId}`,
-      ledger: 'CORE'
+      ledger: 'CORE',
+      postHistory: false,
     };
     dataGrid.addRow(newRow);
     dataGrid.setActiveCell(0, dataGrid.data.length - 1);

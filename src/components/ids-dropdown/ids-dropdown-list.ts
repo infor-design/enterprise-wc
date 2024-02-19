@@ -148,7 +148,7 @@ export default class IdsDropdownList extends Base {
 
         if (target) {
           this.lastHovered = (target as IdsListBoxOption);
-          this.dropdownEl?.selectTooltip(this.lastHovered);
+          this.dropdownEl?.selectTooltip?.(this.lastHovered);
         }
       });
     }
@@ -159,8 +159,6 @@ export default class IdsDropdownList extends Base {
    * appending of some keyboard handlers
    */
   addOpenEvents() {
-    super.addOpenEvents();
-
     // Handles keyboard arrow navigation inside the list
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       e.stopPropagation();
@@ -218,7 +216,6 @@ export default class IdsDropdownList extends Base {
    * removal of some keyboard handlers
    */
   removeOpenEvents() {
-    super.removeOpenEvents();
     this.unlisten(' ');
     this.unlisten('Enter');
   }
@@ -319,6 +316,13 @@ export default class IdsDropdownList extends Base {
       if (this.listBox.maxHeight && this.popup) {
         this.popup.maxHeight = this.listBox.maxHeight;
       }
+    }
+
+    if (this.listBox?.options?.length) {
+      this.listBox.options.forEach((option: IdsListBoxOption, index) => {
+        if (option.rowIndex >= 0) return;
+        option.rowIndex = index; // row-index used to keep track of the sort-order of options
+      });
     }
   }
 

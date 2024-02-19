@@ -7,7 +7,6 @@ import { IdsBaseConstructor } from '../../core/ids-element';
 export type EventOptions = { [key: string]: any } & AddEventListenerOptions;
 
 export interface EventsMixinInterface {
-  bubbleEvent(evt: any): void;
   onEvent(eventName: string, target?: any, callback?: (evt: any) => void, options?: EventOptions): void;
   offEvent(eventName: string, target?: any, options?: EventOptions): void;
   triggerEvent(eventName: string, target: any, options?: CustomEventInit): void;
@@ -163,14 +162,6 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
     if (handler?.callback && targetApplied?.removeEventListener) {
       targetApplied.removeEventListener(getEventBaseName(eventName), handler.callback, options || handler.options);
     }
-  }
-
-  /**
-   * Helper function used to relay events that don't bubble past shadowRoot
-   * @param {CustomEvent} evt event object
-   */
-  bubbleEvent(evt: CustomEvent) {
-    this.triggerEvent(evt.type, this, { bubbles: true, detail: { ...evt.detail } });
   }
 
   /**

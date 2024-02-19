@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const checkboxCapture: HTMLInputElement | null = document.querySelector('#setting-capture');
   const checkboxCycle: HTMLInputElement | null = document.querySelector('#setting-cycle');
+  const checkboxAutoFocus: HTMLInputElement | null = document.querySelector('#setting-auto-focus');
 
   // Links the Modal to its trigger button (sets up click/focus events)
   modal.target = triggerBtn;
@@ -47,5 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   checkboxCycle.addEventListener('change', (e: any) => {
     modal.cyclesFocus = e.target.checked;
+  });
+
+  checkboxAutoFocus?.addEventListener('change', (e: any) => {
+    modal.autoFocus = e.target.checked;
   });
 });

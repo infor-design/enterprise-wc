@@ -13,6 +13,7 @@ import {
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 import type { IdsPopupElementRef, IdsPopupXYSwitchResult } from './ids-popup-attributes';
@@ -35,9 +36,11 @@ import {
 
 import styles from './ids-popup.scss';
 
-const Base = IdsLocaleMixin(
-  IdsEventsMixin(
-    IdsElement
+const Base = IdsPopupOpenEventsMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
@@ -47,6 +50,7 @@ const Base = IdsLocaleMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsPopupOpenEventsMixin
  * @part popup - the popup outer element
  * @part arrow - the arrow element
  */
@@ -1128,6 +1132,8 @@ export default class IdsPopup extends Base {
     // Unblur if needed
     this.correct3dMatrix();
 
+    this.addOpenEvents();
+
     this.triggerEvent('show', this, {
       bubbles: true,
       detail: {
@@ -1154,6 +1160,8 @@ export default class IdsPopup extends Base {
       await waitForTransitionEnd(this.container, 'opacity');
     }
 
+    this.removeOpenEvents();
+
     // Always fire the 'hide' event
     this.triggerEvent('hide', this, {
       bubbles: true,
@@ -1163,6 +1171,20 @@ export default class IdsPopup extends Base {
     });
 
     this.setAttribute('aria-hidden', 'true');
+  }
+
+  /**
+   * Inherited from the Popup Open Events Mixin.
+   * Runs when a click event is propagated to the window.
+   * @param {MouseEvent} e the original click event
+   * @returns {void}
+   */
+  onOutsideClick(e: MouseEvent): void {
+    if (!e?.target || this.contains(e.target as HTMLElement)) {
+      return;
+    }
+    this.visible = false;
+    this.hide();
   }
 
   /**

@@ -25,7 +25,6 @@ import './ids-dropdown-list';
 import '../ids-list-box/ids-list-box';
 import '../ids-text/ids-text';
 import '../ids-icon/ids-icon';
-import { IdsPopupElementRef } from '../ids-popup/ids-popup-attributes';
 
 import type IdsDropdownList from './ids-dropdown-list';
 import type IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
@@ -134,7 +133,7 @@ export default class IdsDropdown extends Base {
       .#attachEventHandlers()
       .#attachKeyboardListeners();
 
-    this.value = this.getAttribute('value');
+    if (this.hasAttribute(attributes.VALUE)) this.value = this.getAttribute(attributes.VALUE);
 
     this.resetDirtyTracker();
     this.container?.classList.toggle('typeahead', this.typeahead);
@@ -587,14 +586,9 @@ export default class IdsDropdown extends Base {
 
     this.dropdownList.removeTriggerEvents();
     this.dropdownList.appendToTargetParent();
-    this.dropdownList.popupOpenEventsTarget = (this.list ? this : this.container as IdsPopupElementRef);
-    this.dropdownList.onOutsideClick = (e: Event) => {
-      if (this.dropdownList) {
-        if (!e.composedPath()?.includes(this.dropdownList)) {
-          this.close(true);
-        }
-      }
-    };
+    if (this.dropdownList?.popup) {
+      this.dropdownList.popup.onOutsideClick = this.onOutsideClick.bind(this);
+    }
     this.dropdownList.onTriggerClick = () => {
       if (this.labelClicked) {
         this.labelClicked = false;
@@ -611,9 +605,9 @@ export default class IdsDropdown extends Base {
 
     this.dropdownList.setAttribute(attributes.TARGET, `#${targetElemId}`);
     this.dropdownList.setAttribute(attributes.TRIGGER_ELEM, `#${triggerElemId}`);
-    this.dropdownList.popup.alignTarget = this.input?.fieldContainer || this.dropdownList || this;
-
-    this.dropdownList.popupOpenEventsTarget = document.body;
+    if (this.dropdownList?.popup) {
+      this.dropdownList.popup.alignTarget = this.input?.fieldContainer || this.dropdownList || this;
+    }
 
     // Configure inner IdsPopup
     const isRTL = this.localeAPI.isRTL();
@@ -623,6 +617,14 @@ export default class IdsDropdown extends Base {
     if (this.input) this.dropdownList.value = this.input.value;
 
     if (this.#isMultiSelect) this.dropdownList.isMultiSelect = true;
+  }
+
+  onOutsideClick(e: Event) {
+    if (this.dropdownList) {
+      if (!e.composedPath()?.includes(this.dropdownList)) {
+        this.close(true);
+      }
+    }
   }
 
   /**
@@ -861,9 +863,8 @@ export default class IdsDropdown extends Base {
     }
 
     this.offEvent('change.list', this.input);
-    this.onEvent('change.list', this.input, (e: CustomEvent) => {
+    this.onEvent('change.list', this.input, () => {
       if (this.dropdownList?.popup?.visible && !this.typeahead) this.close();
-      this.bubbleEvent(e);
     });
   }
 

@@ -27,7 +27,7 @@ import type IdsListViewItem from './ids-list-view-item';
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
-// type IdsListItemType = IdsListViewItem | IdsSwappableItem;
+type IdsListViewSelectableTypes = 'single' | 'mixed' | 'multiple' | '' | null;
 
 const Base = IdsLocaleMixin(
   IdsPagerMixin(
@@ -792,7 +792,7 @@ export default class IdsListView extends Base {
    * Set the selection mode of the listview
    * @param {string} value The value
    */
-  set selectable(value: 'single' | 'mixed' | 'multiple' | '' | null) {
+  set selectable(value: IdsListViewSelectableTypes) {
     this.container?.classList.remove(...this.selectableClass(true));
 
     if (LIST_VIEW_DEFAULTS.selectableOptions.includes(String(value))) {
@@ -803,8 +803,8 @@ export default class IdsListView extends Base {
     }
   }
 
-  get selectable(): string {
-    return this.getAttribute(attributes.SELECTABLE) ?? '';
+  get selectable(): IdsListViewSelectableTypes {
+    return this.getAttribute(attributes.SELECTABLE) as IdsListViewSelectableTypes;
   }
 
   /**

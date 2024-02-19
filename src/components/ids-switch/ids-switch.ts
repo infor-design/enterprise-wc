@@ -277,7 +277,7 @@ export default class IdsSwitch extends Base {
    */
   set value(value: string) {
     super.value = value || '';
-    this.checked = !!value;
+    this.checked = !this.checked;
   }
 
   /**

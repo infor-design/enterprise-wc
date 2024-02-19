@@ -80,8 +80,8 @@ export default class IdsAlert extends IdsTooltipMixin(IdsEventsMixin(IdsElement)
     }
   }
 
-  get color(): string | null {
-    return this.getAttribute(attributes.COLOR);
+  get color(): IdsColorValue {
+    return this.getAttribute(attributes.COLOR) as IdsColorValue;
   }
 
   /**
