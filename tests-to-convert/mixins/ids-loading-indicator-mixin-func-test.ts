@@ -21,7 +21,7 @@ describe('IdsLoadingIndicatorMixin Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('should change properties', () => {
+  test('should change properties', () => {
     expect(button.showLoadingIndicator).toBeFalsy();
     expect(button.loadingIndicatorOnly).toBeFalsy();
 
@@ -42,7 +42,7 @@ describe('IdsLoadingIndicatorMixin Tests', () => {
     expect(button.getAttribute('loading-indicator-only')).toBeNull();
   });
 
-  it('should toggle visibility with properties', () => {
+  test('should toggle visibility with properties', () => {
     const getElement = () => button.querySelector<IdsLoadingIndicator>('ids-loading-indicator');
     expect(getElement()).toBeNull();
 

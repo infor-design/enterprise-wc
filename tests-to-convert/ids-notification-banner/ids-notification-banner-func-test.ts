@@ -1,16 +1,16 @@
 
-  it('dismisses on click', () => {
+  test('dismisses on click', () => {
     notificationBanner.container.querySelector('ids-button').click();
     expect(document.querySelectorAll('ids-notification-banner').length).toEqual(0);
   });
 
-  it('dismisses on keydown (Enter)', () => {
+  test('dismisses on keydown (Enter)', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     notificationBanner.dispatchEvent(event);
     expect(document.querySelectorAll('ids-notification-banner').length).toEqual(0);
   });
 
-  it('can veto dismiss on beforeNotificationRemove', () => {
+  test('can veto dismiss on beforeNotificationRemove', () => {
     const mockCallback = jest.fn((x) => {
       x.detail.response(false);
       expect(x.detail.elem).toBeTruthy();
@@ -23,7 +23,7 @@
     expect(document.body.contains(notificationBanner)).toEqual(true);
   });
 
-  it('fires beforeNotificationRemove on dismiss', () => {
+  test('fires beforeNotificationRemove on dismiss', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
     });
@@ -35,7 +35,7 @@
     expect(document.body.contains(notificationBanner)).toEqual(false);
   });
 
-  it('fires notificationRemove on dismiss', () => {
+  test('fires notificationRemove on dismiss', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
     });
@@ -47,7 +47,7 @@
     expect(document.body.contains(notificationBanner)).toEqual(false);
   });
 
-  it('fires afterNotificationRemove on dismiss', () => {
+  test('fires afterNotificationRemove on dismiss', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
     });
@@ -59,7 +59,7 @@
     expect(document.body.contains(notificationBanner)).toEqual(false);
   });
 
-  it('can render different icons based on type', () => {
+  test('can render different icons based on type', () => {
     const alertIcon = notificationBanner.shadowRoot.querySelector('ids-alert');
     notificationBanner.type = 'success';
     notificationBanner.template();
@@ -71,7 +71,7 @@
     expect(alertIcon.icon).toEqual('alert');
   });
 
-  it('can render with or without a link', () => {
+  test('can render with or without a link', () => {
     let idsLink;
     notificationBanner.link = null;
     notificationBanner.template();
@@ -87,7 +87,7 @@
     expect(notificationBanner.linkText).toEqual('Click to view');
   });
 
-  it('can render default messageText', () => {
+  test('can render default messageText', () => {
     expect(notificationBanner.messageText).toEqual(null);
 
     notificationBanner.messageText = 'Lorem ipsum dolor set';
@@ -95,7 +95,7 @@
     expect(notificationBanner.messageText).toEqual('Lorem ipsum dolor set');
   });
 
-  it('can create notification dynamically with add()', () => {
+  test('can create notification dynamically with add()', () => {
     const notificationObj: any = {
       id: 'ids-notification-banner-5',
       type: 'alert',

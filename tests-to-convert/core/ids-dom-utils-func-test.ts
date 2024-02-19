@@ -3,7 +3,6 @@
  */
 import { parents } from '../../src/utils/ids-dom-utils/ids-dom-utils';
 
-import processAnimFrame from '../helpers/process-anim-frame';
 
 import '../../src/components/ids-container/ids-container';
 import '../../src/components/ids-layout-grid/ids-layout-grid';
@@ -16,7 +15,7 @@ describe('IdsDomUtils Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('can find parent nodes until matching the provided selector', async () => {
+  test('can find parent nodes until matching the provided selector', async () => {
     document.body.innerHTML = `
       <ids-container role="main" padding="8" hidden>
         <ids-layout-grid cols="2" gap="md">
@@ -37,7 +36,6 @@ describe('IdsDomUtils Tests', () => {
         </ids-layout-grid>
       </ids-container>`;
 
-    await processAnimFrame();
     const body = document.querySelector('body');
     const idsContainer = body?.querySelector('ids-container');
     const idsGrid = idsContainer?.querySelector('ids-layout-grid');
@@ -49,7 +47,6 @@ describe('IdsDomUtils Tests', () => {
 
     const dataset = [{ id: 1, productName: 'Steampan Lid' }, { id: 2, productName: 'Coconut' }];
     idsListView.data = dataset;
-    await processAnimFrame();
 
     const idsListViewShadowRoot = idsListView?.shadowRoot;
     const idsListViewContainer = idsListViewShadowRoot?.querySelector('.ids-list-view');

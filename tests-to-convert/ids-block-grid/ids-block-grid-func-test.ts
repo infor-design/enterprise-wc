@@ -23,13 +23,13 @@ describe('IdsBlockgrid Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders align setting', () => {
+  test('renders align setting', () => {
     blockgridEl.align = 'center';
     expect(blockgridEl.align).toEqual('center');
     expect(blockgridEl.getAttribute('align')).toEqual('center');
   });
 
-  it('renders blockgrid left correctly then removes it', () => {
+  test('renders blockgrid left correctly then removes it', () => {
     const elem: any = new IdsBlockgrid();
     document.body.appendChild(elem);
     elem.align = 'center';
@@ -70,7 +70,7 @@ describe('IdsBlockgridItem Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('support block grid selection single', () => {
+  test('support block grid selection single', () => {
     const clickEvent = new MouseEvent('click');
     blockgridItemEl.selection = 'single';
 
@@ -78,7 +78,7 @@ describe('IdsBlockgridItem Component', () => {
     expect(blockgridItemEl.selected).toBe(true);
   });
 
-  it('supports block grid multiple selection', () => {
+  test('supports block grid multiple selection', () => {
     const blockgridItemEl2 = new IdsBlockgridItem();
     blockgridEl.appendChild(blockgridItemEl2);
     blockgridItemEl2.selection = 'multiple';
@@ -98,7 +98,7 @@ describe('IdsBlockgridItem Component', () => {
     expect(checkboxEl2?.checked).toBeTruthy();
   });
 
-  it('support block grid selection multiple keyboard', () => {
+  test('support block grid selection multiple keyboard', () => {
     const blockgridItemEl2 = new IdsBlockgridItem();
     blockgridEl.appendChild(blockgridItemEl2);
     blockgridItemEl2.selection = 'multiple';
@@ -116,7 +116,7 @@ describe('IdsBlockgridItem Component', () => {
     expect(blockgridItemEl2.selected).toBe(true);
   });
 
-  it('support block grid selection mixed 1', async () => {
+  test('support block grid selection mixed 1', async () => {
     const blockgridItemEl2 = new IdsBlockgridItem({ selection: 'mixed' });
     blockgridItemEl2.selection = 'mixed';
     blockgridEl.appendChild(blockgridItemEl2);
@@ -128,7 +128,7 @@ describe('IdsBlockgridItem Component', () => {
     expect(blockgridItemEl2.selected).not.toBe('true');
   });
 
-  it('support block grid selection mixed 2', async () => {
+  test('support block grid selection mixed 2', async () => {
     const blockgridItemEl2 = new IdsBlockgridItem({ selection: 'mixed' });
     blockgridItemEl2.selection = 'mixed';
     blockgridEl.appendChild(blockgridItemEl2);
@@ -139,7 +139,7 @@ describe('IdsBlockgridItem Component', () => {
     expect(blockgridItemEl2.selected).toBe(true);
   });
 
-  it('should fire selectionchanged event', async () => {
+  test('should fire selectionchanged event', async () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toEqual(blockgridItemEl);
       expect(x.detail.selected).toEqual(true);
@@ -238,7 +238,7 @@ describe('IdsBlockgridItem Component', () => {
     expect(pager.total).toEqual(11);
   });
 
-  it('should not error if no data', async () => {
+  test('should not error if no data', async () => {
     expect(blockgridEl.data).toEqual([]);
     blockgridEl.data = null;
     expect(blockgridEl.data).toEqual([]);

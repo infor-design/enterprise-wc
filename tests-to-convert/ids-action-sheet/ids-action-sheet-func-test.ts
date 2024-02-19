@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import processAnimFrame from '../helpers/process-anim-frame';
 import IdsActionSheet from '../../src/components/ids-action-sheet/ids-action-sheet';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
@@ -59,12 +58,11 @@ describe('IdsActionSheet Component', () => {
     container.appendChild(el);
     document.body.appendChild(container);
 
-    await processAnimFrame();
 
     return el;
   };
 
-  it('renders from HTML Template with no errors', async () => {
+  test('renders from HTML Template with no errors', async () => {
     el = await createElemViaTemplate(DEFAULT_ACTIONSHEET_HTML);
 
     const errors = jest.spyOn(global.console, 'error');
@@ -72,7 +70,7 @@ describe('IdsActionSheet Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can set the visible attribute', () => {
+  test('can set the visible attribute', () => {
     expect(el.getAttribute('visible')).toBe(null);
 
     el.setAttribute('visible', 'true');
@@ -83,7 +81,7 @@ describe('IdsActionSheet Component', () => {
     expect(el.getAttribute('visible')).toBe(null);
   });
 
-  it('can set the cancelBtnText attribute', () => {
+  test('can set the cancelBtnText attribute', () => {
     expect(el.getAttribute('cancelBtnText')).toBe(null);
 
     el.cancelBtnText = 'Test';
@@ -95,13 +93,13 @@ describe('IdsActionSheet Component', () => {
     expect(el.getAttribute('cancelBtnText')).toBe(null);
   });
 
-  it('can be dismissed', () => {
+  test('can be dismissed', () => {
     el.dismiss();
     el.removeAttribute('visible');
     expect(el.getAttribute('visible')).toBe(null);
   });
 
-  it('can be dismissed on overlay click', () => {
+  test('can be dismissed on overlay click', () => {
     const args: any = {
       target: el.overlay,
       bubbles: true,
@@ -115,7 +113,7 @@ describe('IdsActionSheet Component', () => {
     expect(el.getAttribute('visible')).toBe(null);
   });
 
-  it('can be dismissed on cancelBtn click', () => {
+  test('can be dismissed on cancelBtn click', () => {
     const args = {
       target: el.cancelBtn,
       bubbles: true,
@@ -129,7 +127,7 @@ describe('IdsActionSheet Component', () => {
     expect(el.getAttribute('visible')).toBe(null);
   });
 
-  it('can be dismissed on overlay touchstart', () => {
+  test('can be dismissed on overlay touchstart', () => {
     const args: any = {
       identifier: '123',
       pageX: 0,
@@ -148,7 +146,7 @@ describe('IdsActionSheet Component', () => {
     expect(el.getAttribute('visible')).toBe(null);
   });
 
-  it('can be dismissed on overlay touchstart', () => {
+  test('can be dismissed on overlay touchstart', () => {
     const args: any = {
       identifier: '123',
       pageX: 0,
@@ -167,7 +165,7 @@ describe('IdsActionSheet Component', () => {
     expect(el.getAttribute('visible')).toBe(null);
   });
 
-  it('will hide on desktop', () => {
+  test('will hide on desktop', () => {
     const args: any = {
       identifier: '123',
       pageX: 0,

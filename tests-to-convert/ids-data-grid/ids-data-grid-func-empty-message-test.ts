@@ -1,15 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-import '../helpers/resize-observer-mock';
-import '../helpers/canvas-mock';
-import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
-import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
-import { showEmptyMessage } from '../../src/components/ids-data-grid/ids-data-grid-empty-message';
-import IdsContainer from '../../src/components/ids-container/ids-container';
-import dataset from '../../src/assets/data/books.json';
-import createFromTemplate from '../helpers/create-from-template';
-
 describe('IdsDataGrid Component Empty Message Tests', () => {
   let dataGrid: any;
   let container: any;
@@ -36,42 +24,7 @@ describe('IdsDataGrid Component Empty Message Tests', () => {
     return cols;
   };
 
-  beforeEach(async () => {
-    // Mock the CSSStyleSheet in adoptedStyleSheets
-    (window as any).CSSStyleSheet = function CSSStyleSheet() {
-      return { cssRules: [], replaceSync: () => '', insertRule: () => '' };
-    };
-    (window.StyleSheet as any).insertRule = () => '';
-
-    container = new IdsContainer();
-    dataGrid = new IdsDataGrid();
-    document.body.appendChild(container);
-    container.appendChild(dataGrid);
-    dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
-    dataGrid.columns = columns();
-    dataGrid.data = dataset;
-  });
-
-  afterEach(async () => {
-    document.body.innerHTML = '';
-  });
-
-  it('should set empty message description', () => {
-    const str = 'test';
-    expect(dataGrid.getAttribute('empty-message-description')).toEqual(null);
-    expect(dataGrid.emptyMessageDescription).toEqual(null);
-    dataGrid.emptyMessageDescription = str;
-    expect(dataGrid.getAttribute('empty-message-description')).toEqual(str);
-    expect(dataGrid.emptyMessageDescription).toEqual(str);
-    dataGrid.emptyMessageDescription = '';
-    expect(dataGrid.getAttribute('empty-message-description')).toEqual(null);
-    expect(dataGrid.emptyMessageDescription).toEqual(null);
-    dataGrid.emptyMessageDescription = true;
-    expect(dataGrid.getAttribute('empty-message-description')).toEqual(null);
-    expect(dataGrid.emptyMessageDescription).toEqual(null);
-  });
-
-  it('should set empty message icon', () => {
+  test('should set empty message icon', () => {
     const str = 'test';
     expect(dataGrid.getAttribute('empty-message-icon')).toEqual(null);
     expect(dataGrid.emptyMessageIcon).toEqual(null);
@@ -86,22 +39,7 @@ describe('IdsDataGrid Component Empty Message Tests', () => {
     expect(dataGrid.emptyMessageIcon).toEqual(null);
   });
 
-  it('should set empty message label', () => {
-    const str = 'test';
-    expect(dataGrid.getAttribute('empty-message-label')).toEqual(null);
-    expect(dataGrid.emptyMessageLabel).toEqual(null);
-    dataGrid.emptyMessageLabel = str;
-    expect(dataGrid.getAttribute('empty-message-label')).toEqual(str);
-    expect(dataGrid.emptyMessageLabel).toEqual(str);
-    dataGrid.emptyMessageLabel = '';
-    expect(dataGrid.getAttribute('empty-message-label')).toEqual(null);
-    expect(dataGrid.emptyMessageLabel).toEqual(null);
-    dataGrid.emptyMessageLabel = true;
-    expect(dataGrid.getAttribute('empty-message-label')).toEqual(null);
-    expect(dataGrid.emptyMessageLabel).toEqual(null);
-  });
-
-  it('should set suppress empty message', () => {
+  test('should set suppress empty message', () => {
     expect(dataGrid.getAttribute('suppress-empty-message')).toEqual(null);
     expect(dataGrid.suppressEmptyMessage).toEqual(false);
     dataGrid.suppressEmptyMessage = true;
@@ -112,7 +50,7 @@ describe('IdsDataGrid Component Empty Message Tests', () => {
     expect(dataGrid.suppressEmptyMessage).toEqual(false);
   });
 
-  it('can handle no initialize with empty message', () => {
+  test('can handle no initialize with empty message', () => {
     expect(dataGrid.emptyMessageElements.em.hidden).toEqual(true);
     dataGrid.initialized = false;
     dataGrid.emptyMessageElements = undefined;
@@ -129,7 +67,7 @@ describe('IdsDataGrid Component Empty Message Tests', () => {
     expect(dataGrid.emptyMessageElements.em.hidden).toEqual(false);
   });
 
-  it('should renders empty message with slot', () => {
+  test('should renders empty message with slot', () => {
     const em = {
       d: { // Defaults
         description: 'test description',
@@ -168,7 +106,7 @@ describe('IdsDataGrid Component Empty Message Tests', () => {
     expect(dataGrid.emptyMessageElements.emLabel.textContent.trim()).toEqual(em.new.label);
   });
 
-  it('should toggle empty message with filter', () => {
+  test('should toggle empty message with filter', () => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
 
     expect(dataGrid.emptyMessageElements.em.hidden).toEqual(true);
@@ -193,7 +131,7 @@ describe('IdsDataGrid Component Empty Message Tests', () => {
     expect(dataGrid.emptyMessageElements.em.hidden).toEqual(true);
   });
 
-  it('should toggle empty message with virtual scroll', () => {
+  test('should toggle empty message with virtual scroll', () => {
     dataGrid.suppressEmptyMessage = true;
 
     expect(dataGrid.bodyTemplate()).not.toContain('ids-empty-message');
@@ -214,7 +152,7 @@ describe('IdsDataGrid Component Empty Message Tests', () => {
     expect(dataGrid.emptyMessageElements.em.hidden).toEqual(false);
   });
 
-  it('can handle keyboard with empty message', () => {
+  test('can handle keyboard with empty message', () => {
     document.body.innerHTML = '';
     dataGrid = new IdsDataGrid();
     dataGrid.virtualScroll = true;

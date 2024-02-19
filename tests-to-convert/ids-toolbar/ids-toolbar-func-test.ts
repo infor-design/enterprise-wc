@@ -5,7 +5,6 @@ import '../helpers/resize-observer-mock';
 
 import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
 import waitForTimeout from '../helpers/wait-for-timeout';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 const exampleHTML = `
   <ids-toolbar-section id="appmenu-section">
@@ -105,7 +104,7 @@ describe('IdsToolbar Component', () => {
     }
   });
 
-  it('can render via document.createElement (append late)', () => {
+  test('can render via document.createElement (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem = document.createElement('ids-toolbar');
 
@@ -116,21 +115,21 @@ describe('IdsToolbar Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can get a list of its sections', () => {
+  test('can get a list of its sections', () => {
     const sections = toolbar.sections;
 
     expect(sections).toBeDefined();
     expect(sections.length).toBe(4);
   });
 
-  it('can get a list of its items', () => {
+  test('can get a list of its items', () => {
     const items = toolbar.items;
 
     expect(items).toBeDefined();
     expect(items.length).toBe(6);
   });
 
-  it('should render type formatter', () => {
+  test('should render type formatter', () => {
     const formatterHTML = `
       <ids-toolbar type="formatter">
         <ids-toolbar-section type="buttonset">
@@ -155,7 +154,7 @@ describe('IdsToolbar Component', () => {
     expect(toolbar.type).toEqual('formatter');
   });
 
-  it('can be set to type formatter', () => {
+  test('can be set to type formatter', () => {
     expect(toolbar.getAttribute('type')).toEqual(null);
     expect(toolbar.type).toEqual(null);
     toolbar.type = 'formatter';
@@ -166,7 +165,7 @@ describe('IdsToolbar Component', () => {
     expect(toolbar.type).toEqual(null);
   });
 
-  it('can set padding', () => {
+  test('can set padding', () => {
     expect(toolbar.getAttribute('padding')).toEqual(null);
     expect(toolbar.padding).toEqual(null);
     toolbar.padding = '5';
@@ -175,7 +174,7 @@ describe('IdsToolbar Component', () => {
     expect(toolbar.container.style.paddingBottom).toEqual('5px');
   });
 
-  it('can be disabled and enabled', () => {
+  test('can be disabled and enabled', () => {
     toolbar.disabled = true;
 
     expect(toolbar.disabled).toBeTruthy();
@@ -197,7 +196,7 @@ describe('IdsToolbar Component', () => {
     expect(toolbar.container.classList.contains('disabled')).toBeFalsy();
   });
 
-  it('can be configured to be navigated with Tab/Shift+Tab, or not, with the "tabbable" feature', () => {
+  test('can be configured to be navigated with Tab/Shift+Tab, or not, with the "tabbable" feature', () => {
     toolbar.tabbable = true;
 
     expect(toolbar.tabbable).toBeTruthy();
@@ -220,7 +219,7 @@ describe('IdsToolbar Component', () => {
     expect(currentTabbableElem).toBe(button2);
   });
 
-  it('can announce what is focused and navigate among its items', () => {
+  test('can announce what is focused and navigate among its items', () => {
     const items = toolbar.items;
 
     // Navigate forward (down) 2 items
@@ -240,14 +239,14 @@ describe('IdsToolbar Component', () => {
     expect(toolbar.focused).toEqual(items[1]);
   });
 
-  it('navigates nowhere if no number of steps is provided', () => {
+  test('navigates nowhere if no number of steps is provided', () => {
     button1.focus();
     toolbar.navigate();
 
     expect(toolbar.focused).toEqual(button1);
   });
 
-  it('loops around if `navigate()` tries to go too far', () => {
+  test('loops around if `navigate()` tries to go too far', () => {
     sectionMore.focus();
     toolbar.navigate(1, true);
 
@@ -258,7 +257,7 @@ describe('IdsToolbar Component', () => {
     expect(toolbar.focused).toEqual(sectionMore.button);
   });
 
-  it('skips disabled items while navigating', () => {
+  test('skips disabled items while navigating', () => {
     button3.setAttribute('disabled', 'true');
     button2.focus();
     toolbar.navigate(1, true);
@@ -267,7 +266,7 @@ describe('IdsToolbar Component', () => {
     expect(toolbar.focused).toEqual(button4);
   });
 
-  it('navigates menu items using the keyboard', () => {
+  test('navigates menu items using the keyboard', () => {
     const navigateLeftEvent = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
     const navigateRightEvent = new KeyboardEvent('keydown', { key: 'ArrowRight' });
 
@@ -288,7 +287,7 @@ describe('IdsToolbar Component', () => {
     expect(toolbar.focused).toEqual(buttonAppMenu);
   });
 
-  it('cannot navigate away from an open menu button', (done) => {
+  test('cannot navigate away from an open menu button', (done) => {
     const navigateLeftEvent = new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true });
     const navigateRightEvent = new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true });
 
@@ -310,8 +309,7 @@ describe('IdsToolbar Component', () => {
     }, 30);
   });
 
-  it('can programatically trigger selected events on its items', async () => {
-    await processAnimFrame();
+  test('can programatically trigger selected events on its items', async () => {
 
     selectedEventListener = jest.fn();
     document.body.addEventListener('selected', selectedEventListener);

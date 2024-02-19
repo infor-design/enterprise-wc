@@ -21,21 +21,21 @@ describe('IdsLineChart Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('supports setting markerSize', () => {
+  test('supports setting markerSize', () => {
     expect(lineChart.markerSize).toEqual(5);
     expect(lineChart.shadowRoot.querySelector('circle').getAttribute('r')).toEqual('5');
     lineChart.markerSize = 8;
     expect(lineChart.markerSize).toEqual(8);
   });
 
-  it('supports disabling animation', () => {
+  test('supports disabling animation', () => {
     expect(lineChart.shadowRoot.querySelectorAll('animate').length).toBe(21);
     lineChart.animated = false;
     lineChart.redraw();
     expect(lineChart.shadowRoot.querySelectorAll('animate').length).toEqual(0);
   });
 
-  it('can set custom colors', async () => {
+  test('can set custom colors', async () => {
     lineChart.data = [{
       data: [{
         name: 'Jan',
@@ -69,14 +69,14 @@ describe('IdsLineChart Component', () => {
     expect(lineChart.color(1)).toEqual('var(color-2)');
   });
 
-  it('supports short labels', () => {
+  test('supports short labels', () => {
     // Needs a real DOM to test properly
     lineChart.width = 300;
     lineChart.redraw();
     expect(lineChart.shadowRoot.querySelector('.chart-legend').innerHTML).toMatchSnapshot();
   });
 
-  it('should get/set selected by api', async () => {
+  test('should get/set selected by api', async () => {
     lineChart.setSelected();
     let selected = lineChart.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected'));
     let selectedClass = lineChart.selectionElements.filter((el: SVGElement) => el.classList.contains('selected'));
@@ -110,7 +110,7 @@ describe('IdsLineChart Component', () => {
     expect(lineChart.getSelected().index).toEqual('2');
   });
 
-  it('should not let set horizontal', () => {
+  test('should not let set horizontal', () => {
     expect(lineChart.horizontal).toEqual(false);
     expect(lineChart.getAttribute('horizontal')).toEqual(null);
     lineChart.horizontal = true;

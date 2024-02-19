@@ -7,7 +7,6 @@ import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridFormatters from '../../src/components/ids-data-grid/ids-data-grid-formatters';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../src/assets/data/books.json';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import '../../src/components/ids-checkbox/ids-checkbox';
@@ -232,8 +231,6 @@ describe('IdsDataGrid Component', () => {
     dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     dataGrid.columns = columns();
     dataGrid.data = deepClone(dataset);
-    await processAnimFrame();
-    await processAnimFrame();
   });
 
   afterEach(async () => {
@@ -241,7 +238,7 @@ describe('IdsDataGrid Component', () => {
   });
 
   describe('Formatter Tests', () => {
-    it('can render with the text formatter', () => {
+    test('can render with the text formatter', () => {
       // Renders undefined/null
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[3].querySelector('.text-ellipsis').innerHTML).toEqual('');
@@ -251,7 +248,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[3].querySelector('.text-ellipsis').innerHTML).toEqual('CORE');
     });
 
-    it('can render with the password formatter', () => {
+    test('can render with the password formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('••');
 
@@ -259,7 +256,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('••');
     });
 
-    it('can render with the rowNumber formatter', () => {
+    test('can render with the rowNumber formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[1].querySelector('.text-ellipsis').innerHTML).toEqual('1');
 
@@ -267,7 +264,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[1].querySelector('.text-ellipsis').innerHTML).toEqual('4');
     });
 
-    it('can render with the date formatter', () => {
+    test('can render with the date formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('4/23/2021');
 
@@ -275,7 +272,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('');
     });
 
-    it('can render with the time formatter', () => {
+    test('can render with the time formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML.replace(' ', ' '))
         .toEqual(new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric' }).format(new Date('2021-04-23T18:25:43.511Z')).replace(' ', ' '));
@@ -285,7 +282,7 @@ describe('IdsDataGrid Component', () => {
         .toEqual('');
     });
 
-    it('can render with the decimal formatter', () => {
+    test('can render with the decimal formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
 
@@ -293,7 +290,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('1.21');
     });
 
-    it('can render with the decimal formatter (with defaults)', () => {
+    test('can render with the decimal formatter (with defaults)', () => {
       delete dataGrid.columns[6].formatOptions;
       dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
@@ -303,7 +300,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('1.21');
     });
 
-    it('can render with the integer formatter', () => {
+    test('can render with the integer formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
 
@@ -311,7 +308,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('1');
     });
 
-    it('can render with the integer formatter (with defaults)', () => {
+    test('can render with the integer formatter (with defaults)', () => {
       delete dataGrid.columns[9].formatOptions;
       dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
@@ -321,7 +318,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('1');
     });
 
-    it('can render with the hyperlink formatter', () => {
+    test('can render with the hyperlink formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').innerHTML).toEqual('United States');
 
@@ -329,7 +326,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
     });
 
-    it('can render with the hyperlink formatter (with default href)', () => {
+    test('can render with the hyperlink formatter (with default href)', () => {
       delete dataGrid.columns[10].href;
       dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
@@ -339,7 +336,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
     });
 
-    it('can focus with the hyperlink when clicked instead of the cell', () => {
+    test('can focus with the hyperlink when clicked instead of the cell', () => {
       dataGrid.columns[10].href = '#';
       const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink');
       expect(link.innerHTML).toEqual('United States');
@@ -350,7 +347,7 @@ describe('IdsDataGrid Component', () => {
       expect(link.nodeName).toEqual('IDS-HYPERLINK');
     });
 
-    it('can render with the hyperlink formatter (with href function)', () => {
+    test('can render with the hyperlink formatter (with href function)', () => {
       dataGrid.columns[10].href = (row: any) => {
         if (row.book === 101) {
           return null;
@@ -365,7 +362,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
     });
 
-    it('can render disabled hyperlink', () => {
+    test('can render disabled hyperlink', () => {
       dataGrid.columns[10].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
       dataGrid.redraw();
       const link = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-cell ids-hyperlink');
@@ -374,7 +371,7 @@ describe('IdsDataGrid Component', () => {
       expect(link2.disabled).toBeFalsy();
     });
 
-    it('can render with the checkbox formatter', () => {
+    test('can render with the checkbox formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
         .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').getAttribute('aria-checked')).toEqual('true');
 
@@ -382,7 +379,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').getAttribute('aria-checked')).toEqual('false');
     });
 
-    it('can render with a custom formatter', () => {
+    test('can render with a custom formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
         .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 13.99');
 
@@ -390,7 +387,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[17].querySelector('span').textContent).toEqual('Custom: 1.21');
     });
 
-    it('can render disabled checkbox', () => {
+    test('can render disabled checkbox', () => {
       dataGrid.columns[12].disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
       dataGrid.redraw();
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
@@ -400,7 +397,7 @@ describe('IdsDataGrid Component', () => {
         .querySelectorAll('.ids-data-grid-cell')[12].querySelector('.ids-data-grid-checkbox-container span').classList.contains('.disabled')).toBeFalsy();
     });
 
-    it('can render with the button formatter (with click function)', () => {
+    test('can render with the button formatter (with click function)', () => {
       const clickListener = jest.fn();
       dataGrid.columns = [{
         id: 'button',
@@ -425,7 +422,7 @@ describe('IdsDataGrid Component', () => {
       expect(clickListener).toHaveBeenCalledTimes(1);
     });
 
-    it('can render with the button formatter defaults', async () => {
+    test('can render with the button formatter defaults', async () => {
       dataGrid.columns = [{
         id: 'button',
         name: 'button',
@@ -442,7 +439,7 @@ describe('IdsDataGrid Component', () => {
       expect(button.querySelector('ids-icon')).toBeFalsy();
     });
 
-    it('can render disabled buttons', async () => {
+    test('can render disabled buttons', async () => {
       dataGrid.columns = [{
         id: 'button',
         name: 'button',
@@ -461,7 +458,7 @@ describe('IdsDataGrid Component', () => {
       expect(button2.disabled).toBeFalsy();
     });
 
-    it('can disabled formatters edge cases', async () => {
+    test('can disabled formatters edge cases', async () => {
       dataGrid.columns = [{
         id: 'test',
         name: 'test',
@@ -496,7 +493,7 @@ describe('IdsDataGrid Component', () => {
       expect(button.disabled).toBeTruthy();
     });
 
-    it('can render with the badge formatter (with color function)', () => {
+    test('can render with the badge formatter (with color function)', () => {
       const colorListener = jest.fn(() => 'info');
       dataGrid.columns = [{
         id: 'badge',
@@ -520,7 +517,7 @@ describe('IdsDataGrid Component', () => {
       expect(colorListener).toHaveBeenCalledTimes(6);
     });
 
-    it('can render with the badge formatter with color class', () => {
+    test('can render with the badge formatter with color class', () => {
       dataGrid.columns = [{
         id: 'badge',
         name: 'badge',
@@ -539,7 +536,7 @@ describe('IdsDataGrid Component', () => {
       expect(badge.getAttribute('color')).toBe('error');
     });
 
-    it('can render with the badge formatter with no color class', () => {
+    test('can render with the badge formatter with no color class', () => {
       dataGrid.columns = [{
         id: 'badge',
         name: 'badge',
@@ -556,7 +553,7 @@ describe('IdsDataGrid Component', () => {
       expect(badge.getAttribute('color')).toBe(null);
     });
 
-    it('can render with the tree formatter', async () => {
+    test('can render with the tree formatter', async () => {
       dataGrid.treeGrid = true;
       const oldChildren = dataGrid.data[0];
       dataGrid.data[0].children = [{ description: 'test' }];
@@ -586,7 +583,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.data[0].rowExpanded = false;
     });
 
-    it('can render with the expander formatter', async () => {
+    test('can render with the expander formatter', async () => {
       // eslint-disable-next-line no-template-curly-in-string
       dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
       dataGrid.expandableRow = true;
@@ -633,7 +630,7 @@ describe('IdsDataGrid Component', () => {
       color: '#35d783',
     };
 
-    it('can render with the alert formatter', () => {
+    test('can render with the alert formatter', () => {
       const columnData = {
         id: 'category-alert',
         name: 'Alert',
@@ -646,7 +643,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.alert(rowData, columnData, 0)).toMatchSnapshot();
     });
 
-    it('can render with the alert formatter with icon', () => {
+    test('can render with the alert formatter with icon', () => {
       const columnData = {
         id: 'category-alert',
         name: 'Alert',
@@ -660,7 +657,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.alert(rowData, columnData, 0)).toMatchSnapshot();
     });
 
-    it('can render with the alert formatter without tooltip', () => {
+    test('can render with the alert formatter without tooltip', () => {
       const columnData = {
         id: 'category-alert',
         name: 'Alert',
@@ -673,7 +670,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.alert({ ...rowData, category: null }, columnData, 0)).toMatchSnapshot();
     });
 
-    it('can render with the color formatter', () => {
+    test('can render with the color formatter', () => {
       const columnData = {
         id: 'color',
         name: 'Color',
@@ -684,7 +681,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.color(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the color formatter with color-override', () => {
+    test('can render with the color formatter with color-override', () => {
       const columnData = {
         id: 'color',
         name: 'Color',
@@ -696,7 +693,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.color(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the color formatter without tooltip', () => {
+    test('can render with the color formatter without tooltip', () => {
       const columnData = {
         id: 'color',
         name: 'Color',
@@ -708,7 +705,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.color({ ...rowData, color: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the color formatter with blank color', () => {
+    test('can render with the color formatter with blank color', () => {
       const columnData = {
         id: 'color',
         name: 'Color',
@@ -719,7 +716,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.color({ ...rowData, color: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the icon formatter', () => {
+    test('can render with the icon formatter', () => {
       const columnData = {
         id: 'icon',
         name: 'Icon',
@@ -730,7 +727,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.icon(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the icon formatter as empty string', () => {
+    test('can render with the icon formatter as empty string', () => {
       const columnData = {
         id: 'icon',
         name: 'Icon',
@@ -741,7 +738,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.icon({ ...rowData, icon: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the icon formatter with icon-override', () => {
+    test('can render with the icon formatter with icon-override', () => {
       const columnData = {
         id: 'icon',
         name: 'Icon',
@@ -753,7 +750,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.icon(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the icon formatter with icon-override without value', () => {
+    test('can render with the icon formatter with icon-override without value', () => {
       const columnData = {
         id: 'icon',
         name: 'Icon',
@@ -765,7 +762,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.icon({ ...rowData, icon: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the icon formatter with color-override', () => {
+    test('can render with the icon formatter with color-override', () => {
       const columnData = {
         id: 'icon',
         name: 'Icon',
@@ -777,7 +774,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.icon(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the icon formatter with size-override', () => {
+    test('can render with the icon formatter with size-override', () => {
       const columnData = {
         id: 'icon',
         name: 'Icon',
@@ -789,7 +786,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.icon(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the icon formatter with invalid size-override', () => {
+    test('can render with the icon formatter with invalid size-override', () => {
       const columnData = {
         id: 'icon',
         name: 'Icon',
@@ -801,7 +798,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.icon(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the favorite formatter', () => {
+    test('can render with the favorite formatter', () => {
       const columnData = {
         id: 'inStock-favorite',
         name: 'Favorite',
@@ -812,7 +809,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.favorite(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the favorite formatter without value', () => {
+    test('can render with the favorite formatter without value', () => {
       const columnData = {
         id: 'inStock-favorite',
         name: 'Favorite',
@@ -823,7 +820,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.favorite({ ...rowData, inStock: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the favorite formatter with size-override', () => {
+    test('can render with the favorite formatter with size-override', () => {
       const columnData = {
         id: 'inStock-favorite',
         name: 'Favorite',
@@ -835,7 +832,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.favorite(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the tag formatter', () => {
+    test('can render with the tag formatter', () => {
       const columnData = {
         id: 'category-tag',
         name: 'Tag',
@@ -846,7 +843,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.tag(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the tag formatter with color-override', () => {
+    test('can render with the tag formatter with color-override', () => {
       const columnData = {
         id: 'category-tag',
         name: 'Tag',
@@ -858,7 +855,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.tag(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the tag formatter without value', () => {
+    test('can render with the tag formatter without value', () => {
       const columnData = {
         id: 'category-tag',
         name: 'Tag',
@@ -869,7 +866,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.tag({ ...rowData, category: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the progress formatter', () => {
+    test('can render with the progress formatter', () => {
       const columnData = {
         id: 'count-progress',
         name: 'Progress Bar',
@@ -880,7 +877,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.progress(rowData, columnData, 0)).toMatchSnapshot();
     });
 
-    it('can render with the progress formatter with max-override', () => {
+    test('can render with the progress formatter with max-override', () => {
       const columnData = {
         id: 'count-progress',
         name: 'Progress Bar',
@@ -892,7 +889,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.progress(rowData, columnData, 0)).toMatchSnapshot();
     });
 
-    it('can render with the progress formatter with text/label override', () => {
+    test('can render with the progress formatter with text/label override', () => {
       const columnData = {
         id: 'count-progress',
         name: 'Progress Bar',
@@ -904,7 +901,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.progress(rowData, columnData, 0)).toMatchSnapshot();
     });
 
-    it('can render with the progress formatter without value', () => {
+    test('can render with the progress formatter without value', () => {
       const columnData = {
         id: 'count-progress',
         name: 'Progress Bar',
@@ -915,7 +912,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.progress({ ...rowData, count: null }, columnData, 0)).toMatchSnapshot();
     });
 
-    it('can render with the rating formatter', () => {
+    test('can render with the rating formatter', () => {
       const columnData = {
         id: 'count-rating',
         name: 'Rating',
@@ -926,7 +923,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.rating(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the rating formatter as readonly=true', () => {
+    test('can render with the rating formatter as readonly=true', () => {
       const columnData = {
         id: 'count-rating',
         name: 'Rating',
@@ -938,7 +935,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.rating(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the rating formatter as readonly=false', () => {
+    test('can render with the rating formatter as readonly=false', () => {
       const columnData = {
         id: 'count-rating',
         name: 'Rating',
@@ -950,7 +947,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.rating(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the rating formatter with color-override', () => {
+    test('can render with the rating formatter with color-override', () => {
       const columnData = {
         id: 'count-rating',
         name: 'Rating',
@@ -962,7 +959,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.rating(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the rating formatter with max-override', () => {
+    test('can render with the rating formatter with max-override', () => {
       const columnData = {
         id: 'count-rating',
         name: 'Rating',
@@ -974,7 +971,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.rating(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the rating formatter with text/label override', () => {
+    test('can render with the rating formatter with text/label override', () => {
       const columnData = {
         id: 'count-rating',
         name: 'Rating',
@@ -986,7 +983,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.rating(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the rating formatter without value', () => {
+    test('can render with the rating formatter without value', () => {
       const columnData = {
         id: 'count-rating',
         name: 'Rating',
@@ -997,7 +994,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.rating({ ...rowData, count: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the slider formatter', () => {
+    test('can render with the slider formatter', () => {
       const columnData = {
         id: 'count-slider',
         name: 'Slider',
@@ -1008,7 +1005,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.slider(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the slider formatter as readonly=true', () => {
+    test('can render with the slider formatter as readonly=true', () => {
       const columnData = {
         id: 'count-slider',
         name: 'Slider',
@@ -1020,7 +1017,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.slider(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the slider formatter as readonly=false', () => {
+    test('can render with the slider formatter as readonly=false', () => {
       const columnData = {
         id: 'count-slider',
         name: 'Slider',
@@ -1032,7 +1029,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.slider(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the slider formatter with color-override', () => {
+    test('can render with the slider formatter with color-override', () => {
       const columnData = {
         id: 'count-slider',
         name: 'Slider',
@@ -1044,7 +1041,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.slider(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the slider formatter with max-override', () => {
+    test('can render with the slider formatter with max-override', () => {
       const columnData = {
         id: 'count-slider',
         name: 'Slider',
@@ -1056,7 +1053,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.slider(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the slider formatter with min-override', () => {
+    test('can render with the slider formatter with min-override', () => {
       const columnData = {
         id: 'count-slider',
         name: 'Slider',
@@ -1068,7 +1065,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.slider(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the slider formatter with text/label override', () => {
+    test('can render with the slider formatter with text/label override', () => {
       const columnData = {
         id: 'count-slider',
         name: 'Slider',
@@ -1080,7 +1077,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.slider(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the slider formatter without value', () => {
+    test('can render with the slider formatter without value', () => {
       const columnData = {
         id: 'count-slider',
         name: 'Slider',
@@ -1091,7 +1088,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.slider({ ...rowData, count: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the stepChart formatter', () => {
+    test('can render with the stepChart formatter', () => {
       const columnData = {
         id: 'count-step-chart',
         name: 'Step Chart',
@@ -1102,7 +1099,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.stepChart(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the stepChart formatter with color-override', () => {
+    test('can render with the stepChart formatter with color-override', () => {
       const columnData = {
         id: 'count-step-chart',
         name: 'Step Chart',
@@ -1114,7 +1111,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.stepChart(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the stepChart formatter with max-override', () => {
+    test('can render with the stepChart formatter with max-override', () => {
       const columnData = {
         id: 'count-step-chart',
         name: 'Step Chart',
@@ -1126,7 +1123,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.stepChart(rowData, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the stepChart formatter without value', () => {
+    test('can render with the stepChart formatter without value', () => {
       const columnData = {
         id: 'count-step-chart',
         name: 'Step Chart',
@@ -1137,7 +1134,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.stepChart({ ...rowData, count: null }, columnData, 1)).toMatchSnapshot();
     });
 
-    it('can render with the image formatter', () => {
+    test('can render with the image formatter', () => {
       const columnData = {
         id: 'image',
         name: 'Image',
@@ -1148,7 +1145,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.image(rowData, columnData, 0)).toMatchSnapshot();
     });
 
-    it('can render with the image formatter with alt/title text', () => {
+    test('can render with the image formatter with alt/title text', () => {
       const columnData = {
         id: 'image',
         name: 'Image',
@@ -1160,7 +1157,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.image(rowData, columnData, 0)).toMatchSnapshot();
     });
 
-    it('can render with the image formatter without value', () => {
+    test('can render with the image formatter without value', () => {
       const columnData = {
         id: 'image',
         name: 'Image',
@@ -1171,7 +1168,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.image({ ...rowData, image: null }, columnData, 0)).toMatchSnapshot();
     });
 
-    it('can render with the card formatter', () => {
+    test('can render with the card formatter', () => {
       const columnData = {
         id: 'card',
         name: 'Card',
@@ -1182,7 +1179,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.card(rowData, columnData)).toMatchSnapshot();
     });
 
-    it('can render with the card formatter without value', () => {
+    test('can render with the card formatter without value', () => {
       const columnData = {
         id: 'card',
         name: 'Card',
@@ -1193,7 +1190,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.card({ ...rowData, convention: null }, columnData)).toMatchSnapshot();
     });
 
-    it('can render with the lookup formatter without editor', () => {
+    test('can render with the lookup formatter without editor', () => {
       const columnData = {
         id: 'location-lookup',
         name: 'Location',
@@ -1204,7 +1201,7 @@ describe('IdsDataGrid Component', () => {
       expect(formatters.lookup(rowData, columnData)).toMatchSnapshot();
     });
 
-    it('can render with the lookup formatter with editor', () => {
+    test('can render with the lookup formatter with editor', () => {
       const columnData = {
         id: 'location-lookup',
         name: 'Location',

@@ -25,21 +25,21 @@ describe('IdsTreemap Component initialization', () => {
     document.body.innerHTML = '';
   });
 
-  it('can render via document.createElement (append early)', () => {
+  test('can render via document.createElement (append early)', () => {
     const component: any = document.createElement('ids-treemap');
     container.appendChild(component);
     setupComponent(component);
     checkProperties(component);
   });
 
-  it('can render via document.createElement (append late)', () => {
+  test('can render via document.createElement (append late)', () => {
     const component: any = document.createElement('ids-treemap');
     setupComponent(component);
     container.appendChild(component);
     checkProperties(component);
   });
 
-  it('can render html template', () => {
+  test('can render html template', () => {
     container.insertAdjacentHTML('beforeend', `<ids-treemap title="Storage Utilization (78 GB)"></ids-treemap>`);
     const component = document.querySelector('ids-treemap');
     checkProperties(component);
@@ -82,7 +82,7 @@ describe('IdsTreeMap Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('can set the treemap title', () => {
+  test('can set the treemap title', () => {
     expect(treemap.title).toBe('');
     expect(treemap.getAttribute('title')).toBe(null);
 
@@ -95,12 +95,12 @@ describe('IdsTreeMap Component', () => {
     expect(treemap.getAttribute('title')).toBe(null);
   });
 
-  it('can set the treemap height', () => {
+  test('can set the treemap height', () => {
     treemap.height = 300;
     expect(treemap.height).toBe(300);
   });
 
-  it('can set the treemap width', async () => {
+  test('can set the treemap width', async () => {
     treemap.title = 'Storage Utilization (78 GB)';
     treemap.width = treemap.container?.offsetWidth as number;
     expect(treemap.width).toBe(treemap.container?.offsetWidth);

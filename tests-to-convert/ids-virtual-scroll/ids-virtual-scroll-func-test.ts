@@ -26,7 +26,7 @@ describe('IdsVirtualScroll Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders rows on native scroll events', async () => {
+  test('renders rows on native scroll events', async () => {
     const startingHtml = virtualScroll.innerHTML;
 
     virtualScroll.container?.dispatchEvent(new Event('scroll'));
@@ -34,7 +34,7 @@ describe('IdsVirtualScroll Component', () => {
     expect(virtualScroll.innerHTML).toEqual(startingHtml);
   });
 
-  it('renders rows on scroll', async () => {
+  test('renders rows on scroll', async () => {
     requestAnimationFrame(async () => {
       const startingHtml = virtualScroll.innerHTML;
 
@@ -46,7 +46,7 @@ describe('IdsVirtualScroll Component', () => {
     });
   });
 
-  it('renders cancels multiple handleScroll', async () => {
+  test('renders cancels multiple handleScroll', async () => {
     requestAnimationFrame(async () => {
       const startingHtml = virtualScroll.innerHTML;
 
@@ -63,7 +63,7 @@ describe('IdsVirtualScroll Component', () => {
     });
   });
 
-  it('can set the bufferSize attribute', async () => {
+  test('can set the bufferSize attribute', async () => {
     requestAnimationFrame(() => {
       expect((virtualScroll.innerHTML.match(/<div part="list-item"/g) || []).length > 0).toBeTruthy();
       virtualScroll.bufferSize = 100;
@@ -75,34 +75,34 @@ describe('IdsVirtualScroll Component', () => {
     });
   });
 
-  it('removes the height attribute when reset', () => {
+  test('removes the height attribute when reset', () => {
     virtualScroll.height = null;
     expect(virtualScroll.getAttribute('height')).toEqual(null);
   });
 
-  it('removes the bufferSize attribute when reset', () => {
+  test('removes the bufferSize attribute when reset', () => {
     virtualScroll.bufferSize = null;
     expect(virtualScroll.getAttribute('buffer-size')).toEqual(null);
   });
 
-  it('removes the itemHeight attribute when reset', () => {
+  test('removes the itemHeight attribute when reset', () => {
     virtualScroll.itemHeight = null;
     expect(virtualScroll.getAttribute('item-height')).toEqual(null);
   });
 
-  it('removes the data value when reset', () => {
+  test('removes the data value when reset', () => {
     virtualScroll.data = null;
     expect(virtualScroll.datasource?.data).toEqual(null);
   });
 
-  it('has a simple default template', () => {
+  test('has a simple default template', () => {
     const elem = new IdsVirtualScroll();
     elem.stringTemplate = '<div class="ids-virtual-scroll-item">${productName}</div>'; //eslint-disable-line
     const template = elem.itemTemplate({ productName: 'test' }, 0);
     expect(template).toEqual('<div class="ids-virtual-scroll-item">test</div>');
   });
 
-  it('handles setting scrollTarget', () => {
+  test('handles setting scrollTarget', () => {
     const errors = jest.spyOn(global.console, 'error');
     virtualScroll.scrollTarget = virtualScroll.shadowRoot?.querySelector('.ids-virtual-scroll');
     expect(virtualScroll.scrollTarget).not.toBe(null);
@@ -111,14 +111,14 @@ describe('IdsVirtualScroll Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can scroll to an item', () => {
+  test('can scroll to an item', () => {
     expect(virtualScroll.scrollTop).toEqual(0);
     const index = 900;
     virtualScroll.scrollToIndex(index);
     expect(virtualScroll.scrollTop).toEqual((index * virtualScroll.itemHeight));
   });
 
-  it('can reset the scrollTop', () => {
+  test('can reset the scrollTop', () => {
     expect(virtualScroll.scrollTop).toEqual(0);
     virtualScroll.scrollTop = (null as any);
     virtualScroll.scrollTop = 100;
@@ -128,7 +128,7 @@ describe('IdsVirtualScroll Component', () => {
     expect(virtualScroll.getAttribute('scroll-top')).toEqual(null);
   });
 
-  it('can reset the data', () => {
+  test('can reset the data', () => {
     requestAnimationFrame(() => {
       let list = virtualScroll.querySelectorAll('.ids-virtual-scroll-item');
       let listSize = list.length;
@@ -142,7 +142,7 @@ describe('IdsVirtualScroll Component', () => {
     });
   });
 
-  it('can reset the data to zero', () => {
+  test('can reset the data to zero', () => {
     requestAnimationFrame(() => {
       let list = virtualScroll.querySelectorAll('div[part="list-item"]');
       let listSize = list.length;

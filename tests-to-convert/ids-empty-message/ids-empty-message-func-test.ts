@@ -32,13 +32,13 @@ describe('Ids Empty Message Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('can update the icon', () => {
+  test('can update the icon', () => {
     expect(elem.getAttribute('icon')).toBe('empty-generic');
     elem.icon = 'empty-no-data';
     expect(elem.getAttribute('icon')).toBe('empty-no-data');
   });
 
-  it('can remove the icon', () => {
+  test('can remove the icon', () => {
     expect(elem.getAttribute('icon')).toBe('empty-generic');
     elem.icon = '';
     expect(elem.getAttribute('icon')).toEqual(null);

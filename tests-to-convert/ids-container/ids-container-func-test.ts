@@ -27,28 +27,28 @@ describe('IdsContainer Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('can set language via async func', async () => {
+  test('can set language via async func', async () => {
     await container.localeAPI.setLanguage('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
 
-  it('can set locale via attribute', () => {
+  test('can set locale via attribute', () => {
     container.locale = 'de-DE';
     expect(container.locale).toEqual('de-DE');
   });
 
-  it('can set locale via async func', async () => {
+  test('can set locale via async func', async () => {
     await container.localeAPI.setLocale('ar-SA');
     expect(container.locale).toEqual('ar-SA');
     expect(container.getAttribute('dir')).toEqual('rtl');
   });
 
-  it('renders correctly for unscrollable', () => {
+  test('renders correctly for unscrollable', () => {
     container.scrollable = false;
     expect(container.template()).toEqual('<div class="ids-container" part="container"><slot></slot></div>');
   });
 
-  it('can set and reset scrollable', () => {
+  test('can set and reset scrollable', () => {
     expect(container.scrollable).toEqual('true');
     container.scrollable = true;
     expect(container.scrollable).toEqual('true');
@@ -62,7 +62,7 @@ describe('IdsContainer Component', () => {
     expect(container.getAttribute('scrollable')).toEqual('true');
   });
 
-  it('supports setting language', async () => {
+  test('supports setting language', async () => {
     await container.localeAPI.setLanguage('ar');
     expect(container.getAttribute('language')).toEqual('ar');
     expect(container.getAttribute('dir')).toEqual('rtl');
@@ -72,13 +72,13 @@ describe('IdsContainer Component', () => {
     expect(container.getAttribute('dir')).toEqual(null);
   });
 
-  it('has a padding attribute', () => {
+  test('has a padding attribute', () => {
     container.padding = '18';
     expect(container.getAttribute('padding')).toEqual('18');
     expect(container.padding).toEqual('18');
   });
 
-  it('has a reset attribute', () => {
+  test('has a reset attribute', () => {
     expect(container.reset).toBeTruthy();
     container.reset = false;
     expect(document.querySelector('body')?.style.margin).toEqual('');
@@ -87,7 +87,7 @@ describe('IdsContainer Component', () => {
     expect(document.querySelector('body')?.style.margin).toEqual('0px');
   });
 
-  it('should remove hidden on window elem', () => {
+  test('should remove hidden on window elem', () => {
     container.hidden = true;
     const event = new KeyboardEvent('load', {});
     window.dispatchEvent(event);

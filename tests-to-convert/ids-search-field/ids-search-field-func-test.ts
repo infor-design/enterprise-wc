@@ -60,7 +60,7 @@ describe('IdsSearchField Component', () => {
     s?.remove();
   });
 
-  it('sets the label correctly', () => {
+  test('sets the label correctly', () => {
     expect(s.label).toBe('Search');
 
     const customLabels = ['Grocery Items', 'Dog Breeds', 'Book Titles'];
@@ -71,7 +71,7 @@ describe('IdsSearchField Component', () => {
     });
   });
 
-  it('sets the value correctly', () => {
+  test('sets the value correctly', () => {
     expect(s.value).toBe('');
 
     const customValues = ['Apple', 'Labradoodle', 'Harry Potter'];
@@ -82,7 +82,7 @@ describe('IdsSearchField Component', () => {
     });
   });
 
-  it('sets the placeholder correctly', () => {
+  test('sets the placeholder correctly', () => {
     expect(s.placeholder).toBe('Type to search');
 
     const customPlaceholders = ['Enter a vegetable name', 'Try typing "poodle"', 'Looking for a book?'];
@@ -93,12 +93,12 @@ describe('IdsSearchField Component', () => {
     });
   });
 
-  it('inits readonly and disabled state correctly', async () => {
+  test('inits readonly and disabled state correctly', async () => {
     s = await createFromTemplate(s, HTMLSnippets.DISABLED_SEARCH_FIELD);
     s = await createFromTemplate(s, HTMLSnippets.READONLY_SEARCH_FIELD);
   });
 
-  it('sets the disabled state correctly', () => {
+  test('sets the disabled state correctly', () => {
     expect(s.disabled).toBeFalsy();
 
     s.disabled = '';
@@ -108,7 +108,7 @@ describe('IdsSearchField Component', () => {
     expect(s.disabled).toBeFalsy();
   });
 
-  it('sets the readonly correctly', () => {
+  test('sets the readonly correctly', () => {
     expect(s.readonly).toBeFalsy();
 
     s.readonly = '';
@@ -118,13 +118,13 @@ describe('IdsSearchField Component', () => {
     expect(s.readonly).toBeFalsy();
   });
 
-  it('listens for input events', () => {
+  test('listens for input events', () => {
     s.input.dispatchEvent(
       createEvent('input')
     );
   });
 
-  it('listens for keydown events', () => {
+  test('listens for keydown events', () => {
     s.input.dispatchEvent(
       createKeyboardEvent('Enter')
     );
@@ -134,7 +134,7 @@ describe('IdsSearchField Component', () => {
     );
   });
 
-  it('fires a user-defined `onSearch` method when the value changes', async () => {
+  test('fires a user-defined `onSearch` method when the value changes', async () => {
     const data = ['one', 'two', 'three', 'four', 'five'];
     s.onSearch = (val: any) => data.filter((item) => item.includes(val));
 
@@ -145,7 +145,7 @@ describe('IdsSearchField Component', () => {
     expect(results.length).toBe(2);
   });
 
-  it('readonly/disabled should be clearable with clearable-forced setting', async () => {
+  test('readonly/disabled should be clearable with clearable-forced setting', async () => {
     s = await createFromTemplate(s, HTMLSnippets.DISABLED_SEARCH_FIELD);
     s.clearable = true;
     expect(s.container.querySelector('.btn-clear')).toBeNull();
@@ -169,13 +169,13 @@ describe('IdsSearchField Component', () => {
     expect(s.container.outerHTML).toMatchSnapshot();
   });
 
-  it('shows action button when action prop set', async () => {
+  test('shows action button when action prop set', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_BUTTON);
     s.categories = CATEGORIES;
     expect(s.container.querySelector('#category-action-button')).not.toBeNull();
   });
 
-  it('shows full category dropdown when categories set', async () => {
+  test('shows full category dropdown when categories set', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
     s.categories = CATEGORIES;
 
@@ -183,7 +183,7 @@ describe('IdsSearchField Component', () => {
     expect(s.container.querySelector('ids-menu-button').textContent).toMatch('File Types');
   });
 
-  it('shows short category dropdown when categories set', async () => {
+  test('shows short category dropdown when categories set', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SHORT);
     s.categories = CATEGORIES;
 
@@ -191,7 +191,7 @@ describe('IdsSearchField Component', () => {
     expect(s.container.querySelector('ids-menu-button').textContent).toMatch('Select Search Category');
   });
 
-  it('triggers "change" event when input-value changed', async () => {
+  test('triggers "change" event when input-value changed', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SEARCH_TERM);
     s.categories = CATEGORIES;
 
@@ -205,7 +205,7 @@ describe('IdsSearchField Component', () => {
     expect(changeEventListener).toBeCalledTimes(1);
   });
 
-  it('triggers "search" event when action-button clicked', async () => {
+  test('triggers "search" event when action-button clicked', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SEARCH_TERM);
     s.categories = CATEGORIES;
 
@@ -220,7 +220,7 @@ describe('IdsSearchField Component', () => {
     expect(searchEventListener).toBeCalledTimes(1);
   });
 
-  it('triggers "search" event when Enter key pressed', async () => {
+  test('triggers "search" event when Enter key pressed', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_SEARCH_TERM);
     s.categories = CATEGORIES;
 
@@ -239,7 +239,7 @@ describe('IdsSearchField Component', () => {
     expect(searchEventListener).toBeCalledTimes(1);
   });
 
-  it('triggers "selected/deselcted" event when category-menu clicked', async () => {
+  test('triggers "selected/deselcted" event when category-menu clicked', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
     s.categories = CATEGORIES;
 
@@ -265,7 +265,7 @@ describe('IdsSearchField Component', () => {
     expect(deselectedEventListener).toBeCalledTimes(1);
   });
 
-  it('updates menu-button text to say # selected', async () => {
+  test('updates menu-button text to say # selected', async () => {
     s = await createFromTemplate(s, HTMLSnippets.CATEGORY_FULL);
     s.categories = CATEGORIES;
 

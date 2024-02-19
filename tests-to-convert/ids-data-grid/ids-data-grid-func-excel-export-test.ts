@@ -82,21 +82,21 @@ describe('IdsDataGrid Excel Export', () => {
     mockSaveAs.mockReset();
   });
 
-  it('can export to csv', () => {
+  test('can export to csv', () => {
     const spy = jest.spyOn(excelExporter, 'exportToCSV');
     dataGrid.exportToExcel('csv', 'test');
     expect(mockSaveAs).toHaveBeenCalled();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('can export to xlsx', () => {
+  test('can export to xlsx', () => {
     const spy = jest.spyOn(excelExporter, 'exportToXLSX');
     dataGrid.exportToExcel('xlsx', 'test');
     expect(mockSaveAs).toHaveBeenCalled();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('can create zip file', () => {
+  test('can create zip file', () => {
     const root = new IdsZip();
     root.file('test.txt', 'test data');
     const zipFile = root.zip('text/*');
@@ -104,7 +104,7 @@ describe('IdsDataGrid Excel Export', () => {
     expect(zipFile.type).toEqual('text/*');
   });
 
-  it('can generate xlsx worksheet with string types', () => {
+  test('can generate xlsx worksheet with string types', () => {
     const xlsxFormatter = new XLSXFormatter();
     const data = [{ name: 'Joe Shmo' }];
     const xlColumns: ExcelColumn[] = [{
@@ -118,7 +118,7 @@ describe('IdsDataGrid Excel Export', () => {
     expect(worksheet.indexOf(expectedCell) !== -1).toBeTruthy();
   });
 
-  it('can generate xlsx worksheet with number types', () => {
+  test('can generate xlsx worksheet with number types', () => {
     const xlsxFormatter = new XLSXFormatter();
     const data = [{ num: 12345.54321 }];
     const xlColumns: ExcelColumn[] = [{
@@ -132,7 +132,7 @@ describe('IdsDataGrid Excel Export', () => {
     expect(worksheet.indexOf(expectedCell) !== -1).toBeTruthy();
   });
 
-  it('can generate xlsx worksheet with date types', () => {
+  test('can generate xlsx worksheet with date types', () => {
     const xlsxFormatter = new XLSXFormatter();
     const date = new Date(1990, 3, 21);
     const data = [{ date: date.toISOString() }];
@@ -148,7 +148,7 @@ describe('IdsDataGrid Excel Export', () => {
     expect(worksheet.indexOf(expectedCell) !== -1).toBeTruthy();
   });
 
-  it('can generate xlsx worksheet with time types', () => {
+  test('can generate xlsx worksheet with time types', () => {
     const xlsxFormatter = new XLSXFormatter();
     const date = new Date(1990, 3, 21, 3, 25); // April 21 1990 3:25
     const data = [{ time: date.toISOString() }];

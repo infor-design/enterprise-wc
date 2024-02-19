@@ -228,7 +228,7 @@ describe('IdsLocale API', () => {
   });
 
   describe('General Setup', () => {
-    it('should be possible to set locale', async () => {
+    test('should be possible to set locale', async () => {
       await locale.setLocale('en-US');
       expect(locale.locale.name).toEqual('en-US');
       expect(locale.locale.options.englishName).toEqual('English (United States)');
@@ -246,7 +246,7 @@ describe('IdsLocale API', () => {
       expect(locale.locale.options.calendars[0].dateFormat.short).toEqual('dd.MM.yyyy');
     });
 
-    it('handles setting the locale with the setter', () => {
+    test('handles setting the locale with the setter', () => {
       locale = new IdsLocale();
 
       locale.loadedLanguages.set('de', deMessages);
@@ -258,7 +258,7 @@ describe('IdsLocale API', () => {
       expect(locale.locale.name).toEqual('de-DE');
     });
 
-    it('handles null/undefined locale in setLocale', async () => {
+    test('handles null/undefined locale in setLocale', async () => {
       await locale.setLocale('en-US');
       await locale.setLocale(null);
       expect(locale.locale.name).toEqual('en-US');
@@ -268,7 +268,7 @@ describe('IdsLocale API', () => {
       expect(locale.locale.name).toEqual('en-US');
     });
 
-    it('can load all available message files', async () => {
+    test('can load all available message files', async () => {
       const errors = jest.spyOn(global.console, 'error');
       await locale.setLanguage('af');
       await locale.setLanguage('ar');
@@ -320,7 +320,7 @@ describe('IdsLocale API', () => {
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('can load all available locale files', async () => {
+    test('can load all available locale files', async () => {
       const errors = jest.spyOn(global.console, 'error');
       await locale.setLocale('af-ZA');
       await locale.setLocale('ar-EG');
@@ -381,7 +381,7 @@ describe('IdsLocale API', () => {
       expect(errors).not.toHaveBeenCalled();
     });
 
-    it('should be possible to set the language to nb', async () => {
+    test('should be possible to set the language to nb', async () => {
       await locale.setLocale('en-US');
 
       expect(locale.translate('Actions')).toEqual('Actions');
@@ -392,7 +392,7 @@ describe('IdsLocale API', () => {
       expect(locale.language.name).toEqual('nb');
     });
 
-    it('should be possible to set the language to nn', async () => {
+    test('should be possible to set the language to nn', async () => {
       await locale.setLocale('en-US');
 
       expect(locale.translate('Actions')).toEqual('Actions');
@@ -403,24 +403,24 @@ describe('IdsLocale API', () => {
       expect(locale.language.name).toEqual('nn');
     });
 
-    it('should show in the current language when language is not loaded', async () => {
+    test('should show in the current language when language is not loaded', async () => {
       await locale.setLanguage('fi');
       expect(locale.translate('Actions')).toEqual('Toiminnot');
       expect(locale.translate('Actions', { language: 'de' })).toEqual('Aktionen');
     });
 
-    it('is set correctly', () => {
+    test('is set correctly', () => {
       expect(locale).toBeTruthy();
       expect(locale.translate).toBeTruthy();
     });
 
-    it('can set language with a setter', async () => {
+    test('can set language with a setter', async () => {
       locale.language = 'no';
 
       expect(locale.language.name).toEqual('no');
     });
 
-    it('should map in and iw', async () => {
+    test('should map in and iw', async () => {
       await locale.setLanguage('in-ID');
       expect(locale.language.name).toEqual('id');
 
@@ -428,7 +428,7 @@ describe('IdsLocale API', () => {
       expect(locale.language.name).toEqual('he');
     });
 
-    it('should map in and iw locales', async () => {
+    test('should map in and iw locales', async () => {
       await locale.setLocale('in-ID');
       expect(locale.locale.name).toEqual('id-ID');
 
@@ -436,7 +436,7 @@ describe('IdsLocale API', () => {
       expect(locale.locale.name).toEqual('he-IL');
     });
 
-    it('should contain time data', async () => {
+    test('should contain time data', async () => {
       await locale.setLocale('af-ZA');
       expect(locale.calendar().timeFormat).toEqual('HH:mm');
       expect(locale.calendar().dateFormat.timestamp).toEqual('HH:mm:ss');
@@ -488,7 +488,7 @@ describe('IdsLocale API', () => {
       expect(locale.calendar().dateFormat.datetime).toEqual('d. MM. yyyy HH:mm');
     });
 
-    it('should be able to get calendar by name', async () => {
+    test('should be able to get calendar by name', async () => {
       await locale.setLocale('ar-SA');
       await locale.setLocale('de-DE');
       await locale.setLocale('en-US');
@@ -501,7 +501,7 @@ describe('IdsLocale API', () => {
   });
 
   describe('Translations', () => {
-    it('should support translation', async () => {
+    test('should support translation', async () => {
       await locale.setLanguage('en');
       expect(locale.translate('Required')).toEqual('Required');
 
@@ -526,7 +526,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('XYZ')).toEqual('[XYZ]');
     });
 
-    it('should be able get translations in a non current locale  (fi-FI)', async () => {
+    test('should be able get translations in a non current locale  (fi-FI)', async () => {
       await locale.setLanguage('de');
       await locale.setLanguage('fi');
       await locale.setLanguage('sv');
@@ -536,7 +536,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('Required', { language: 'sv' })).toEqual('Obligatoriskt');
     });
 
-    it('should be able get translations in a non current locale (de-DE)', async () => {
+    test('should be able get translations in a non current locale (de-DE)', async () => {
       await locale.setLanguage('de');
       await locale.setLocale('en-US');
       await locale.setLanguage('en');
@@ -549,7 +549,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('Loading', { language: 'de' })).toEqual('Laden...');
     });
 
-    it('should translations as undefined if not found', async () => {
+    test('should translations as undefined if not found', async () => {
       await locale.setLocale('en-US');
 
       expect(locale.translate('XYZ', { showAsUndefined: true })).toEqual(undefined);
@@ -565,7 +565,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('XYZ', { showBrackets: false })).toEqual('XYZ');
     });
 
-    it('should show undefined keys with [] around them', async () => {
+    test('should show undefined keys with [] around them', async () => {
       await locale.setLanguage('en-US');
 
       expect(locale.translate('TestLocaleDefaults')).toEqual('Test locale defaults');
@@ -577,7 +577,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('XYZ')).toEqual('[XYZ]');
     });
 
-    it('should be able to set language to full code', async () => {
+    test('should be able to set language to full code', async () => {
       await locale.setLocale('en-US');
       await locale.setLanguage('fr-CA');
 
@@ -596,7 +596,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('UserProfile')).toEqual('Benutzerprofil');
     });
 
-    it('should provide a different fr-CA and fr-FR', async () => {
+    test('should provide a different fr-CA and fr-FR', async () => {
       await locale.setLocale('fr-FR');
       expect(locale.locale.name).toEqual('fr-FR');
       expect(locale.language.name).toEqual('fr-FR');
@@ -608,7 +608,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('From')).toEqual('De');
     });
 
-    it('should Get the Parent Locale', async () => {
+    test('should Get the Parent Locale', async () => {
       await locale.setLocale('es-MX');
       expect(locale.locale.name).toEqual('es-MX');
       expect(locale.language.name).toEqual('es');
@@ -630,7 +630,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('Required')).toEqual('Obligatorisk');
     });
 
-    it('should be possible to add translations', async () => {
+    test('should be possible to add translations', async () => {
       await locale.setLocale('en-US');
       locale.language.messages.CustomValue = { id: 'CustomValue', value: 'Added Custom Value' };
 
@@ -638,7 +638,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('CustomValue')).toEqual('Added Custom Value');
     });
 
-    it('should be able to set language to full code from a similar language', async () => {
+    test('should be able to set language to full code from a similar language', async () => {
       await locale.setLocale('fr-FR');
       await locale.setLanguage('fr-CA');
 
@@ -651,7 +651,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('UserProfile')).toEqual('Profil utilisateur');
     });
 
-    it('should treat no-NO and and nn-NO nb-NO as the same locale', async () => {
+    test('should treat no-NO and and nn-NO nb-NO as the same locale', async () => {
       await locale.setLanguage('no');
       expect(locale.translate('Loading')).toEqual('Laster');
 
@@ -662,7 +662,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('Loading')).toEqual('Laster');
     });
 
-    it('should be possible to add translations', async () => {
+    test('should be possible to add translations', async () => {
       await locale.setLanguage('it');
       const myStrings = {
         Thanks: { id: 'Thanks', value: 'Grazie', comment: '' },
@@ -675,7 +675,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('YourWelcome')).toEqual('Prego');
     });
 
-    it('should not be possible to add translations for a non existant language', async () => {
+    test('should not be possible to add translations for a non existant language', async () => {
       const myStrings = {
         Thanks: { id: 'Thanks', value: 'Grazie', comment: '' }
       };
@@ -684,11 +684,11 @@ describe('IdsLocale API', () => {
       expect(locale.translate('Thanks')).toEqual('[Thanks]');
     });
 
-    it('should not translate &nsbp;', () => {
+    test('should not translate &nsbp;', () => {
       expect(locale.translate('&nsbp;')).toEqual('');
     });
 
-    it('should be possible to set the language to nb', async () => {
+    test('should be possible to set the language to nb', async () => {
       await locale.setLanguage('en-US');
 
       expect(locale.translate('Actions')).toEqual('Actions');
@@ -699,16 +699,16 @@ describe('IdsLocale API', () => {
       expect(locale.language.name).toEqual('nb');
     });
 
-    it('should show brackets on undefined strings', async () => {
+    test('should show brackets on undefined strings', async () => {
       expect(locale.translate('SomeTextThatDoesntExist')).toEqual('[SomeTextThatDoesntExist]');
     });
 
-    it('should translations in [] if not found', () => {
+    test('should translations in [] if not found', () => {
       expect(locale.translate('XYZ', { showBrackets: true })).toEqual('[XYZ]');
       expect(locale.translate('XYZ', { showBrackets: false })).toEqual('XYZ');
     });
 
-    it('should translate in the root locale', async () => {
+    test('should translate in the root locale', async () => {
       await locale.setLanguage('es-MX');
 
       expect(locale.language.name).toEqual('es');
@@ -730,7 +730,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('Required')).toEqual('Obligatorisk');
     });
 
-    it('should correct missing languages to english', async () => {
+    test('should correct missing languages to english', async () => {
       const myStrings = {
         ExtraX: { id: 'ExtraX', value: 'ExtraX', comment: '' }
       };
@@ -739,7 +739,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('ExtraX')).toEqual('ExtraX');
     });
 
-    it('should correct placeholder missing translations', async () => {
+    test('should correct placeholder missing translations', async () => {
       await locale.setLanguage('th-TH');
 
       expect(locale.translate('Locale')).toEqual('ตำแหน่งที่ตั้ง');
@@ -763,7 +763,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('InsertAnchor')).toEqual('插入定位标记');
     });
 
-    it('should support fr-CA', async () => {
+    test('should support fr-CA', async () => {
       await locale.setLocale('en-US');
       await locale.setLanguage('fr-CA');
       expect(locale.translate('AddComments')).toEqual('Ajouter des commentaires');
@@ -778,13 +778,13 @@ describe('IdsLocale API', () => {
       expect(locale.translate('AddComments')).toEqual('Ajouter commentaires');
     });
 
-    it('should properly convert character cases in some specific Locales', async () => {
+    test('should properly convert character cases in some specific Locales', async () => {
       await locale.setLocale('tr-TR');
       expect('kodları'.toLocaleUpperCase()).toEqual('KODLARI');
       expect('İSTANBUL'.toLocaleLowerCase()).toEqual('i̇stanbul');
     });
 
-    it('should treat no-NO and nb-NO as the same locale', async () => {
+    test('should treat no-NO and nb-NO as the same locale', async () => {
       await locale.setLocale('no-NO');
       expect(locale.translate('Loading')).toEqual('Laster');
 
@@ -795,42 +795,42 @@ describe('IdsLocale API', () => {
   });
 
   describe('Number Formatting', () => {
-    it('should be able too get numbers easily', async () => {
+    test('should be able too get numbers easily', async () => {
       await locale.setLocale('en-US');
       expect(locale.numbers().decimal).toEqual('.');
       await locale.setLocale('de-DE');
       expect(locale.numbers('de-DE').decimal).toEqual(',');
     });
 
-    it('should convert arabic numbers', async () => {
+    test('should convert arabic numbers', async () => {
       expect(locale.convertNumberToEnglish('١٢٣٤٥٦٧٨٩٠')).toEqual(1234567890);
       expect(locale.convertNumberToEnglish('١٢٣')).toEqual(123);
       expect(locale.convertNumberToEnglish('١٢٣.٤٥')).toEqual(123.45);
       expect(locale.convertNumberToEnglish('١٬٢٣٤٬٥٦٧٬٨٩٠')).toEqual(1234567890);
     });
 
-    it('should convert hebrew numbers', async () => {
+    test('should convert hebrew numbers', async () => {
       expect(locale.convertNumberToEnglish('१२३४५६७८९०')).toEqual(1234567890);
       expect(locale.convertNumberToEnglish('१२३')).toEqual(123);
       expect(locale.convertNumberToEnglish('१२३.४५')).toEqual(123.45);
       expect(locale.convertNumberToEnglish('१,२३४,५६७,८९०')).toEqual(1234567890);
     });
 
-    it('should convert chinese financial traditional numbers', async () => {
+    test('should convert chinese financial traditional numbers', async () => {
       expect(locale.convertNumberToEnglish('壹貳叄肆伍陸柒捌玖零')).toEqual(1234567890);
       expect(locale.convertNumberToEnglish('貳零壹玖')).toEqual(2019);
       expect(locale.convertNumberToEnglish('壹貳叄.肆伍')).toEqual(123.45);
       expect(locale.convertNumberToEnglish('壹,貳叄肆,伍陸柒,捌玖零')).toEqual(1234567890);
     });
 
-    it('should convert chinese financial simplified numbers', async () => {
+    test('should convert chinese financial simplified numbers', async () => {
       expect(locale.convertNumberToEnglish('壹贰叁肆伍陆柒捌玖零')).toEqual(1234567890);
       expect(locale.convertNumberToEnglish('贰零壹玖')).toEqual(2019);
       expect(locale.convertNumberToEnglish('壹贰叁.肆伍')).toEqual(123.45);
       expect(locale.convertNumberToEnglish('壹,贰叁肆,伍陆柒,捌玖零')).toEqual(1234567890);
     });
 
-    it('should convert chinese normal numbers', async () => {
+    test('should convert chinese normal numbers', async () => {
       expect(locale.convertNumberToEnglish('一二三四五六七八九零')).toEqual(1234567890);
       expect(locale.convertNumberToEnglish('二零一九')).toEqual(2019);
       expect(locale.convertNumberToEnglish('二〇一九')).toEqual(2019);
@@ -838,16 +838,16 @@ describe('IdsLocale API', () => {
       expect(locale.convertNumberToEnglish('一,二三四,五六七,八九零')).toEqual(1234567890);
     });
 
-    it('supports unicode', async () => {
+    test('supports unicode', async () => {
       expect(locale.formatNumber(2019, { locale: 'ar-SA' })).toEqual('٢٬٠١٩٫٠٠');
       expect(locale.formatNumber(2019, { locale: 'zh-Hans-CN-u-nu-hanidec' })).toEqual('二,〇一九.〇〇');
     });
 
-    it('should format numbers and handle exceptions', () => {
+    test('should format numbers and handle exceptions', () => {
       expect(locale.formatNumber(undefined, { date: 'timestamp' })).toEqual('NaN');
     });
 
-    it('should format big numbers', async () => {
+    test('should format big numbers', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber('123456789012.123456', {
         style: 'decimal',
@@ -877,7 +877,7 @@ describe('IdsLocale API', () => {
       })).toEqual('12.345.678.901.222.121,123456');
     });
 
-    it('should format integer numbers', async () => {
+    test('should format integer numbers', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber('123456', {
         style: 'integer'
@@ -889,7 +889,7 @@ describe('IdsLocale API', () => {
       })).toEqual('123.456');
     });
 
-    it('should handle minimumFractionDigits', async () => {
+    test('should handle minimumFractionDigits', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber('12345', { minimumFractionDigits: 0, maximumFractionDigits: 2 })).toEqual('12,345');
       expect(locale.formatNumber('12345.1', { minimumFractionDigits: 0, maximumFractionDigits: 2 })).toEqual('12,345.1');
@@ -910,7 +910,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber('12345.1', { minimumFractionDigits: 5 })).toEqual('12,345.10000');
     });
 
-    it('should format negative numbers', async () => {
+    test('should format negative numbers', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber(-1000000, { style: 'currency', currency: 'USD' })).toEqual('-$1,000,000.00');
 
@@ -918,7 +918,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(-1000000, { style: 'currency', currency: 'EUR' })).toEqual('-1.000.000,00 €');
     });
 
-    it('should format big decimal numbers', async () => {
+    test('should format big decimal numbers', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber(123.54, { maximumFractionDigits: 15, minimumFractionDigits: 15 })).toEqual('123.540000000000000');
       expect(locale.formatNumber(123.54, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123.54000000000000000000');
@@ -930,7 +930,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(123, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123,00000000000000000000');
     });
 
-    it('should be able to format a number in a non current locale', async () => {
+    test('should be able to format a number in a non current locale', async () => {
       await locale.setLocale('nl-NL');
       await locale.setLocale('hi-IN');
       await locale.setLocale('en-US');
@@ -945,7 +945,7 @@ describe('IdsLocale API', () => {
       expect(locale.locale.name).toEqual('en-US');
     });
 
-    it('should format decimals', async () => {
+    test('should format decimals', async () => {
       await locale.setLocale('en-US');
 
       expect(locale.formatNumber(145000)).toEqual('145,000.00');
@@ -978,7 +978,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(12345.1)).toEqual('12 345,10');
     });
 
-    it('should round decimals', async () => {
+    test('should round decimals', async () => {
       await locale.setLocale('en-US');
 
       expect(locale.formatNumber(123456.123456, { style: 'decimal', maximumFractionDigits: 5 })).toEqual('123,456.12346');
@@ -990,7 +990,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(12345.6789, { style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3 })).toEqual('12,345.679');
     });
 
-    it('should format integers', async () => {
+    test('should format integers', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber(12345.123, { minimumFractionDigits: 0, maximumFractionDigits: 0 })).toEqual('12,345');
 
@@ -1000,7 +1000,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(12345.123, { minimumFractionDigits: 0, maximumFractionDigits: 0 })).toEqual('12.345');
     });
 
-    it('should handle locale group size', async () => {
+    test('should handle locale group size', async () => {
       await locale.setLocale('en-US'); // 3, 3
       expect(locale.formatNumber(1234567.1234)).toEqual('1,234,567.123');
       expect(locale.formatNumber(12345678.1234)).toEqual('12,345,678.123');
@@ -1014,7 +1014,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(12345678.1234)).toEqual('1,23,45,678.123');
     });
 
-    it('should format decimals', async () => {
+    test('should format decimals', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber(145000)).toEqual('145,000.00');
       expect(locale.formatNumber(283423)).toEqual('283,423.00');
@@ -1044,12 +1044,12 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(12345.1)).toEqual('12 345,10');
     });
 
-    it('should be able to parse string numbers into number type', async () => {
+    test('should be able to parse string numbers into number type', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber('12345', { minimumFractionDigits: 0 })).toEqual('12,345');
     });
 
-    it('should format currency', async () => {
+    test('should format currency', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber(12345.129, { style: 'currency', currency: 'USD' })).toEqual('$12,345.13');
 
@@ -1057,7 +1057,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(12345.123, { style: 'currency', currency: 'EUR' })).toEqual('12.345,12 €');
     });
 
-    it('should allow currency override', async () => {
+    test('should allow currency override', async () => {
       await locale.setLocale('es-ES');
       expect(locale.formatNumber(12345.12, { style: 'currency', currency: 'USD' })).toEqual('12.345,12 US$');
 
@@ -1065,7 +1065,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(12345.12, { style: 'currency', currency: 'USD' })).toEqual('12.345,12 $');
     });
 
-    it('should format percent', async () => {
+    test('should format percent', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatNumber(0.0500000, { style: 'percent', minimumFractionDigits: 0 })).toEqual('5%');
       expect(locale.formatNumber(0.050000, { style: 'percent', minimumFractionDigits: 0 })).toEqual('5%');
@@ -1095,7 +1095,7 @@ describe('IdsLocale API', () => {
   });
 
   describe('Number Parsing', () => {
-    it('should handle group size', async () => {
+    test('should handle group size', async () => {
       await locale.setLocale('en-US'); // 3, 3
 
       expect(locale.formatNumber(-2.53, { style: 'percent', minimumFractionDigits: 2 })).toEqual('-253.00%');
@@ -1145,32 +1145,32 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(100, { style: 'percent', minimumFractionDigits: 0 })).toEqual('10,000%');
     });
 
-    it('should handle numbers passed to parseNumber', async () => {
+    test('should handle numbers passed to parseNumber', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseNumber(4000)).toEqual(4000);
     });
 
-    it('should handle group when passed to parseNumber', async () => {
+    test('should handle group when passed to parseNumber', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseNumber('4.000', { group: '.' })).toEqual(4000);
     });
 
-    it('should handle percentSign when passed to parseNumber', async () => {
+    test('should handle percentSign when passed to parseNumber', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseNumber('%40', { percentSign: '%' })).toEqual(40);
     });
 
-    it('should handle currencySign when passed to parseNumber', async () => {
+    test('should handle currencySign when passed to parseNumber', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseNumber('€4,000', { currencySign: '€' })).toEqual(4000);
     });
 
-    it('handle big numbers ending in decimal', async () => {
+    test('handle big numbers ending in decimal', async () => {
       expect(locale.formatNumber('-1,482,409,800.81')).toEqual('-1,482,409,800.81');
       expect(locale.parseNumber('-1,482,409,800.81')).toEqual(-1482409800.81);
     });
 
-    it('handle other big numbers', async () => {
+    test('handle other big numbers', async () => {
       expect(locale.formatNumber('123456789012345671')).toEqual('123,456,789,012,345,671.00');
       expect(locale.parseNumber('123456789012345671')).toEqual('123456789012345671');
       expect(locale.formatNumber('123456789012345678')).toEqual('123,456,789,012,345,678.00');
@@ -1184,7 +1184,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber('9007199254740991')).toEqual(9007199254740991);
     });
 
-    it('more other big number tests', () => {
+    test('more other big number tests', () => {
       expect(locale.formatNumber('1234567890.11')).toEqual('1,234,567,890.11');
       expect(locale.parseNumber('1234567890.11')).toEqual(1234567890.11);
 
@@ -1201,7 +1201,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber('12345678912340.11')).toEqual(12345678912340.11);
     });
 
-    it('should parse numbers back', async () => {
+    test('should parse numbers back', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseNumber('$12,345.13')).toEqual(12345.13);
 
@@ -1209,7 +1209,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber('12.345,12 €')).toEqual(12345.12);
     });
 
-    it('should format numbers in current locale', async () => {
+    test('should format numbers in current locale', async () => {
       await locale.setLocale('nl-NL');
 
       expect(locale.parseNumber('100,00')).toEqual(100);
@@ -1219,7 +1219,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber('130300,00')).toEqual(130300.00);
     });
 
-    it('should return NaN for bad numbers', async () => {
+    test('should return NaN for bad numbers', async () => {
       await locale.setLocale('en-US');
       expect(NaN).toEqual(NaN);
       expect(locale.parseNumber()).toEqual(NaN);
@@ -1228,7 +1228,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber(undefined)).toEqual(NaN);
     });
 
-    it('should parse with decimal and group properties', async () => {
+    test('should parse with decimal and group properties', async () => {
       // group = space; decimal = comma
       await locale.setLocale('fr-FR');
       expect(locale.parseNumber('1 234 567 890,1234')).toEqual(1234567890.1234);
@@ -1246,12 +1246,12 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber('1,234,567,890.1234')).toEqual(1234567890.1234);
     });
 
-    it('should parse with multiple group separators', async () => {
+    test('should parse with multiple group separators', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseNumber('1,234,567,890.12346')).toEqual(1234567890.12346);
     });
 
-    it('should parse big numbers', async () => {
+    test('should parse big numbers', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseNumber('123456,789,012,345,678.123456')).toEqual('123456789012345678.123456');
       expect(locale.parseNumber('1123456789123456.57')).toEqual('1123456789123456.57');
@@ -1261,7 +1261,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber('123.456.789.012.345.678,123456')).toEqual('123456789012345678.123456');
     });
 
-    it('should parse group size', async () => {
+    test('should parse group size', async () => {
       await locale.setLocale('en-US'); // 3, 3
       expect(locale.parseNumber('-253.00 %')).toEqual(-253);
       expect(locale.parseNumber('1.123')).toEqual(1.123);
@@ -1310,7 +1310,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber('10,000 %')).toEqual((10000));
     });
 
-    it('should be able to parse a number in a a non current locale', async () => {
+    test('should be able to parse a number in a a non current locale', async () => {
       await locale.setLocale('nl-NL');
       await locale.setLocale('hi-IN');
       await locale.setLocale('en-US');
@@ -1328,7 +1328,7 @@ describe('IdsLocale API', () => {
   });
 
   describe('Right To Left', () => {
-    it('should set the html lang and dir attribute', async () => {
+    test('should set the html lang and dir attribute', async () => {
       const container: any = new IdsContainer();
       locale.loadedLanguages.set('de', deMessages);
       locale.loadedLanguages.set('ar', arMessages);
@@ -1354,16 +1354,16 @@ describe('IdsLocale API', () => {
   });
 
   describe('Date Formatting', () => {
-    it('should be able to parse ISO (Json) dates', async () => {
+    test('should be able to parse ISO (Json) dates', async () => {
       expect(locale.parseDate('2019-12-12T18:25:43.511Z').getTime()).toEqual(1576175143511);
     });
 
-    it('should be able to parse 2 and 3 digit years', async () => {
+    test('should be able to parse 2 and 3 digit years', async () => {
       expect(locale.parseDate('10/10/10', { dateFormat: 'M/d/yy' }).getFullYear()).toEqual(2010);
       expect(locale.parseDate('10/10/010', { dateFormat: 'M/d/yy' }).getFullYear()).toEqual(2010);
     });
 
-    it('should parse or format a string of four, six, or eight zeroes', async () => {
+    test('should parse or format a string of four, six, or eight zeroes', async () => {
       expect(locale.parseDate('0000')).toEqual(undefined);
       expect(locale.parseDate('000000')).toEqual(undefined);
       expect(locale.parseDate('00000000')).toEqual(undefined);
@@ -1372,13 +1372,13 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate('00000000')).toEqual('');
     });
 
-    it('should be able to format 2  digit years', async () => {
+    test('should be able to format 2  digit years', async () => {
       expect(locale.formatDate(new Date(2039, 6, 21), { pattern: 'dd/MM/yy' })).toEqual('21/07/39');
       expect(locale.formatDate(new Date(1940, 6, 21), { pattern: 'dd/MM/yy' })).toEqual('21/07/40');
       expect(locale.formatDate(new Date(2023, 11, 21), { pattern: 'dd/MM/yy' })).toEqual('21/12/23');
     });
 
-    it('should format a year and month locale', async () => {
+    test('should format a year and month locale', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatDate(new Date(2000, 10, 8, 13, 40), { month: 'long', day: 'numeric' })).toEqual('November 8');
       expect(locale.formatDate(new Date(2000, 10, 8, 13, 0), { month: 'long', year: 'numeric' })).toEqual('November 2000');
@@ -1392,14 +1392,14 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2000, 11, 1, 13, 5), { month: 'long', year: 'numeric' })).toEqual('december 2000');
     });
 
-    it('should correct two digit year', () => {
+    test('should correct two digit year', () => {
       expect(locale.twoToFourDigitYear('40')).toEqual(1940);
       expect(locale.twoToFourDigitYear('20')).toEqual(2020);
       expect(locale.twoToFourDigitYear('940')).toEqual(1940);
       expect(locale.twoToFourDigitYear('020')).toEqual(2020);
     });
 
-    it('should format datetimeMillis and timestampMillis', async () => {
+    test('should format datetimeMillis and timestampMillis', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatDate(new Date(2000, 10, 8, 13, 40, 30, 999), {
         year: 'numeric',
@@ -1418,7 +1418,7 @@ describe('IdsLocale API', () => {
       }).replace(' ', ' ')).toEqual('1:40:30.777 PM');
     });
 
-    it('should be able to return time format', async () => {
+    test('should be able to return time format', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatDate(new Date(2015, 0, 8, 13, 40, 45), { timeStyle: 'medium' }).replace(' ', ' ').replace(' ', ' ')).toEqual('1:40:45 PM');
 
@@ -1426,7 +1426,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2015, 0, 8, 13, 40, 45), { timeStyle: 'medium' })).toEqual('13:40:45');
     });
 
-    it('should format dates in Slovak', async () => {
+    test('should format dates in Slovak', async () => {
       await locale.setLocale('sk-SK');
       expect(locale.formatDate(new Date(2019, 7, 15), {
         month: 'long', weekday: 'long', day: 'numeric', year: 'numeric'
@@ -1436,7 +1436,7 @@ describe('IdsLocale API', () => {
       })).toEqual('štvrtok 15. augusta 2019');
     });
 
-    it('should format time', async () => {
+    test('should format time', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatDate(new Date(2000, 10, 8, 13, 40), { dateStyle: 'short', timeStyle: 'short' }).replace(' ', ' ').replace(' ', ' ')).toEqual('11/8/2000 1:40 PM');
       expect(locale.formatDate(new Date(2000, 10, 8, 13, 0), { dateStyle: 'short', timeStyle: 'short' }).replace(' ', ' ').replace(' ', ' ')).toEqual('11/8/2000 1:00 PM');
@@ -1462,7 +1462,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(date, opts).replace(' ', ' ')).toEqual('01.02.2017 17:27');
     });
 
-    it('should format other dates', async () => {
+    test('should format other dates', async () => {
       await locale.setLocale('de-DE');
       expect(locale.formatDate(new Date(2000, 10, 8))).toEqual('8.11.2000');
       expect(locale.formatDate(new Date(2000, 11, 1))).toEqual('1.12.2000');
@@ -1474,7 +1474,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2000, 11, 1))).toEqual('1.12.2000');
     });
 
-    it('should format millis', async () => {
+    test('should format millis', async () => {
       await locale.setLocale('en-US');
       const opts: any = {
         year: 'numeric',
@@ -1490,19 +1490,19 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2016, 2, 15, 12, 30, 36, 142), opts).replace(' ', ' ')).toEqual('3/15/2016 12:30:36.142');
     });
 
-    it('should format timestamp in English', async () => {
+    test('should format timestamp in English', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatDate(new Date(2015, 10, 5, 10, 20, 5), { timeStyle: 'medium' }).replace(' ', ' ').replace(' ', ' ')).toEqual('10:20:05 AM');
       expect(locale.formatDate(new Date(2015, 10, 5, 10, 20, 5), { timeStyle: 'short' }).replace(' ', ' ').replace(' ', ' ')).toEqual('10:20 AM');
     });
 
-    it('should format timestamp in Arabic', async () => {
+    test('should format timestamp in Arabic', async () => {
       await locale.setLocale('ar-SA');
       expect(locale.formatDate(new Date(2000, 12, 1), { month: 'long', day: 'numeric' })).toEqual('٦ شوال');
       expect(locale.formatDate(new Date(2017, 10, 8), { month: 'long', day: 'numeric' })).toEqual('١٩ صفر');
     });
 
-    it('should format en-US dates', async () => {
+    test('should format en-US dates', async () => {
       await locale.setLocale('en-US');
       // Note date is year, month, day
       expect(locale.formatDate(new Date(2000, 10, 8))).toEqual('11/8/2000');
@@ -1511,7 +1511,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2000, 10, 8), { dateStyle: 'long' })).toEqual('November 8, 2000');
     });
 
-    it('should be able to format a date in a a non current language', async () => {
+    test('should be able to format a date in a a non current language', async () => {
       await locale.setLocale('nl-NL');
       await locale.setLocale('hi-IN');
       await locale.setLocale('en-US');
@@ -1530,18 +1530,18 @@ describe('IdsLocale API', () => {
       })).toEqual('8 जून 2019');
     });
 
-    it('should format arabic month format', async () => {
+    test('should format arabic month format', async () => {
       await locale.setLocale('ar-SA');
       expect(locale.formatDate(new Date(2000, 12, 1), { month: 'long', day: 'numeric' })).toEqual('٦ شوال');
       expect(locale.formatDate(new Date(2017, 10, 8), { month: 'long', day: 'numeric' })).toEqual('١٩ صفر');
     });
 
-    it('should format year in da-DK', async () => {
+    test('should format year in da-DK', async () => {
       await locale.setLocale('da-DK');
       expect(locale.formatDate(new Date(2019, 3, 1), { month: 'long', year: 'numeric' })).toEqual('april 2019');
     });
 
-    it('should format hebrew dates', async () => {
+    test('should format hebrew dates', async () => {
       await locale.setLocale('he-IL');
 
       expect(locale.formatDate(new Date(2019, 12, 1), { dateStyle: 'short' })).toEqual('1.1.2020');
@@ -1549,19 +1549,19 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2019, 10, 8), { dateStyle: 'long' })).toEqual('8 בנובמבר 2019');
     });
 
-    it('should format zh-Hans dates', async () => {
+    test('should format zh-Hans dates', async () => {
       await locale.setLocale('zh-Hans');
       expect(locale.formatDate(new Date(2019, 12, 1), { dateStyle: 'short' })).toEqual('2020/1/1');
       expect(locale.formatDate(new Date(2019, 10, 8), { dateStyle: 'medium' })).toEqual('2019年11月8日');
       expect(locale.formatDate(new Date(2019, 10, 8), { dateStyle: 'long' })).toEqual('2019年11月8日');
     });
 
-    it('should format year in es-ES', async () => {
+    test('should format year in es-ES', async () => {
       await locale.setLocale('es-ES');
       expect(locale.formatDate(new Date(2018, 10, 10), { month: 'long', year: 'numeric' })).toEqual('noviembre de 2018');
     });
 
-    it('should format datetime in es-419', async () => {
+    test('should format datetime in es-419', async () => {
       await locale.setLocale('es-419');
       expect(locale.formatDate(new Date(2018, 10, 10))).toEqual('10/11/2018');
       expect(locale.formatDate(new Date(2018, 10, 10), { dateStyle: 'long' })).toEqual('10 de noviembre de 2018');
@@ -1596,7 +1596,7 @@ describe('IdsLocale API', () => {
         .toEqual(new Intl.DateTimeFormat('es-419', opts).format(date).replace(',', ''));
     });
 
-    it('should format long', async () => {
+    test('should format long', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { dateStyle: 'long' })).toEqual('January 8, 2015');
 
@@ -1613,7 +1613,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2015, 0, 1, 13, 40), { dateStyle: 'long' })).toEqual('1 tháng 1, 2015');
     });
 
-    it('should format fulll', async () => {
+    test('should format fulll', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { dateStyle: 'full' })).toEqual('Thursday, January 8, 2015');
       expect(locale.formatDate(new Date(2015, 2, 7, 13, 40), { dateStyle: 'full' })).toEqual('Saturday, March 7, 2015');
@@ -1622,7 +1622,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2015, 0, 1, 13, 40), { dateStyle: 'full' })).toEqual('Donnerstag, 1. Januar 2015');
     });
 
-    it('should format long days', async () => {
+    test('should format long days', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { dateStyle: 'long' }).replace(' ', ' ').replace(' ', ' ')).toEqual('January 8, 2015');
 
@@ -1638,7 +1638,7 @@ describe('IdsLocale API', () => {
   });
 
   describe('Date Formatting With Pattern', () => {
-    it('numeric patterns', async () => {
+    test('numeric patterns', async () => {
       await locale.setLocale('en-US');
 
       expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'yyyy' })).toEqual('2015');
@@ -1648,7 +1648,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2015, 0, 1, 13, 40), { pattern: 'M.dd.yyyy' })).toEqual('1.01.2015');
     });
 
-    it('long patterns', async () => {
+    test('long patterns', async () => {
       await locale.setLocale('en-US');
 
       expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'MMMM d, yyyy' })).toEqual('January 8, 2015');
@@ -1673,7 +1673,7 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2015, 0, 8, 13, 40), { pattern: 'd MMMM yyyy г.' })).toEqual('8 януари 2015 г.');
     });
 
-    it('with time and day period patterns', async () => {
+    test('with time and day period patterns', async () => {
       await locale.setLocale('en-US');
 
       expect(locale.formatDate(new Date(2018, 10, 10, 14, 15, 12), { pattern: 'HH:mm:ss' })).toEqual('14:15:12');
@@ -1688,7 +1688,7 @@ describe('IdsLocale API', () => {
   });
 
   describe('Timezone Dates', () => {
-    it('should be able to display dates into another timezone including long timezone name', async () => {
+    test('should be able to display dates into another timezone including long timezone name', async () => {
       await locale.setLocale('en-US');
       const opts: any = {
         timeZoneName: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric'
@@ -1715,7 +1715,7 @@ describe('IdsLocale API', () => {
         .toEqual(new Intl.DateTimeFormat('nl-NL', opts).format(date).replace(',', '').replace(/ /g, ' '));
     });
 
-    it('should be able to display dates into another timezone including short timezone name', async () => {
+    test('should be able to display dates into another timezone including short timezone name', async () => {
       const opts: any = {
         year: 'numeric',
         month: 'numeric',
@@ -1748,7 +1748,7 @@ describe('IdsLocale API', () => {
         .toEqual(new Intl.DateTimeFormat('nl-NL', opts).format(date).replace(',', '').replace(/ /g, ' '));
     });
 
-    it('should be able to display dates into another timezone', async () => {
+    test('should be able to display dates into another timezone', async () => {
       const opts: any = {
         year: 'numeric',
         month: 'numeric',
@@ -1781,7 +1781,7 @@ describe('IdsLocale API', () => {
         .toEqual(new Intl.DateTimeFormat('nl-NL', opts).format(date).replace(',', '').replace(/ /g, ' '));
     });
 
-    it('should be able to format timezones and timezones', async () => {
+    test('should be able to format timezones and timezones', async () => {
       const opts: any = {
         year: 'numeric',
         month: 'numeric',
@@ -1813,7 +1813,7 @@ describe('IdsLocale API', () => {
         .toEqual(new Intl.DateTimeFormat('zh-TW', opts).format(date).replace(',', '').replace(/ /g, ' '));
     });
 
-    it('should format dates with long timezones', async () => {
+    test('should format dates with long timezones', async () => {
       const opts: any = {
         year: 'numeric',
         month: 'numeric',
@@ -1835,7 +1835,7 @@ describe('IdsLocale API', () => {
   });
 
   describe('Hour Formatting', () => {
-    it('should format hours', async () => {
+    test('should format hours', async () => {
       await locale.setLocale('en-US');
 
       expect(locale.formatHour(0).replace(' ', ' ')).toEqual('12:00 AM');
@@ -1864,7 +1864,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('en-US');
     });
 
-    it('should format hours in de-DE', async () => {
+    test('should format hours in de-DE', async () => {
       await locale.setLocale('de-DE');
 
       expect(locale.formatHour(0)).toEqual('00:00');
@@ -1885,7 +1885,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('en-US');
     });
 
-    it('should format hours in da-DK', async () => {
+    test('should format hours in da-DK', async () => {
       await locale.setLocale('da-DK');
 
       expect(locale.formatHour(0)).toEqual('00.00');
@@ -1908,7 +1908,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('en-US');
     });
 
-    it('should format hours in fi-FI', async () => {
+    test('should format hours in fi-FI', async () => {
       await locale.setLocale('fi-FI');
 
       expect(locale.formatHour(0)).toEqual('0.00');
@@ -1931,7 +1931,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('en-US');
     });
 
-    it('should format hours in ko-KR', async () => {
+    test('should format hours in ko-KR', async () => {
       await locale.setLocale('ko-KR');
 
       expect(locale.formatHour(0)).toEqual('오전 12:00');
@@ -1952,7 +1952,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('en-US');
     });
 
-    it('should format hours in zh-Hant', async () => {
+    test('should format hours in zh-Hant', async () => {
       await locale.setLocale('zh-Hant');
 
       expect(locale.formatHour(0)).toEqual('上午12:00');
@@ -1973,7 +1973,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('en-US');
     });
 
-    it('should format hour range', async () => {
+    test('should format hour range', async () => {
       await locale.setLocale('en-US');
 
       // // expect(locale.formatHourRange(0, 5)).toEqual('12 - 5:00 AM');
@@ -2003,18 +2003,18 @@ describe('IdsLocale API', () => {
   });
 
   describe('Date Parsing', () => {
-    it('should parseDate with single digit formats', async () => {
+    test('should parseDate with single digit formats', async () => {
       expect(locale.parseDate('18.10.2019 7.15', { dateFormat: 'd.M.yyyy H.mm' }).getTime()).toEqual(new Date(2019, 9, 18, 7, 15, 0).getTime());
       expect(locale.parseDate('18.10.2019 7.15', { dateFormat: 'd.M.yyyy H.mm' }).getTime()).toEqual(new Date(2019, 9, 18, 7, 15, 0).getTime());
     });
 
-    it('should fallback for time', async () => {
+    test('should fallback for time', async () => {
       expect(locale.parseDate('1:00 AM', { dateFormat: 'h:mm a' }).getHours()).toEqual(1);
       locale.calendar().timeFormat = null;
       expect(locale.parseDate('1:00 AM', { dateFormat: 'h:mm a' }).getHours()).toEqual(1);
     });
 
-    it('should parseDate in el-GR', async () => {
+    test('should parseDate in el-GR', async () => {
       await locale.setLocale('el-GR');
       expect(locale.parseDate('18/10/2019 7:15 π.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 7, 15, 0).getTime());
       expect(locale.parseDate('18/10/2019 7:15 μ.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' }).getTime()).toEqual(new Date(2019, 9, 18, 19, 15, 0).getTime());
@@ -2028,7 +2028,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseDate('Απρ', { dateFormat: 'MMM' }).getMonth()).toEqual(3);
     });
 
-    it('should parseDate in fi-FI', async () => {
+    test('should parseDate in fi-FI', async () => {
       await locale.setLocale('fi-FI');
       expect(locale.parseDate('18.10.2019 7.15', { dateFormat: 'dd.MM.yyyy hh.mm' }).getTime()).toEqual(new Date(2019, 9, 18, 7, 15, 0).getTime());
       expect(locale.parseDate('18.10.2019', { dateFormat: 'dd.MM.yyyy' }).getTime()).toEqual(new Date(2019, 9, 18, 0, 0, 0).getTime());
@@ -2040,7 +2040,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseDate('helmi', { dateFormat: 'MMM' }).getMonth()).toEqual(1);
     });
 
-    it('should parse dates with and without spaces, dash, comma format', async () => {
+    test('should parse dates with and without spaces, dash, comma format', async () => {
       await locale.setLocale('en-US');
 
       // Date with spaces, dashes and comma
@@ -2050,7 +2050,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseDate('12112014', { dateFormat: 'Mdyyyy' }).getTime()).toEqual(new Date(2014, 11, 11, 0, 0, 0).getTime());
     });
 
-    it('should parse am/pm in Korean', async () => {
+    test('should parse am/pm in Korean', async () => {
       await locale.setLocale('ko-KR');
       expect(locale.parseDate('2020-02-26 오전 12:00', { dateFormat: 'yyyy-MM-dd a h:mm' }).getTime())
         .toEqual(new Date(2020, 1, 26, 0, 0, 0).getTime());
@@ -2058,7 +2058,7 @@ describe('IdsLocale API', () => {
         .toEqual(new Date(2020, 1, 26, 12, 0, 0).getTime());
     });
 
-    it('should parse am/pm in zh-TW', async () => {
+    test('should parse am/pm in zh-TW', async () => {
       await locale.setLocale('zh-TW');
       expect(locale.parseDate('2020/2/26 上午12:00', { dateFormat: 'yyyy/M/d ah:mm' }).getTime())
         .toEqual(new Date(2020, 1, 26, 0, 0, 0).getTime());
@@ -2068,7 +2068,7 @@ describe('IdsLocale API', () => {
         .toEqual(new Date(2020, 2, 4, 21, 0, 0).getTime());
     });
 
-    it('should be able to parse a date in a non current locale', async () => {
+    test('should be able to parse a date in a non current locale', async () => {
       await locale.setLocale('es-ES');
       await locale.setLocale('en-US');
       expect(locale.language.name).toEqual('en');
@@ -2076,13 +2076,13 @@ describe('IdsLocale API', () => {
       expect(locale.parseDate('20/10/2019 20:12', { dateFormat: 'dd/MM/yyyy HH:mm', locale: 'es-ES' }).getTime()).toEqual(new Date(2019, 9, 20, 20, 12, 0).getTime());
     });
 
-    it('should parse date in es-419', async () => {
+    test('should parse date in es-419', async () => {
       await locale.setLocale('es-419');
       expect(locale.parseDate('29/4/2020 08:40', { dateFormat: 'd/M/yyyy HH:mm' }).getTime()).toEqual(new Date(2020, 3, 29, 8, 40, 0).getTime());
       expect(locale.parseDate('29 de abril de 2020', { pattern: 'd de MMMM de yyyy' }).getTime()).toEqual(new Date(2020, 3, 29, 0, 0, 0).getTime());
     });
 
-    it('should parse date in ar-SA', async () => {
+    test('should parse date in ar-SA', async () => {
       await locale.setLocale('ar-SA');
       const dateTest = locale.parseDate('1441/09/05 9:30 ص', { locale: 'ar-SA', pattern: 'yyyy/MM/dd h:mm a' });
 
@@ -2094,7 +2094,7 @@ describe('IdsLocale API', () => {
       expect(dateTest[5]).toEqual(0);
     });
 
-    it('should parse date in ar-SA with no time', async () => {
+    test('should parse date in ar-SA with no time', async () => {
       await locale.setLocale('ar-SA');
       const dateTest = locale.parseDate('1442/09/05', { locale: 'ar-SA', pattern: 'yyyy/MM/dd' });
 
@@ -2106,14 +2106,14 @@ describe('IdsLocale API', () => {
       expect(dateTest[5]).toEqual(0);
     });
 
-    it('should parse date in Croatian (Croatia) hr-HR', async () => {
+    test('should parse date in Croatian (Croatia) hr-HR', async () => {
       await locale.setLocale('hr-HR');
 
       expect(locale.parseDate('01. 11. 2018. 05:25', { pattern: 'dd. MM. y. HH:mm' }).getTime()).toEqual(new Date(2018, 10, 1, 5, 25, 0).getTime());
       expect(locale.parseDate('01. 11. 2018. 17:25', { pattern: 'dd. MM. y. HH:mm' }).getTime()).toEqual(new Date(2018, 10, 1, 17, 25, 0).getTime());
     });
 
-    it('should be able to parse dates', async () => {
+    test('should be able to parse dates', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseDate('11/8/2000').getTime()).toEqual(new Date(2000, 10, 8).getTime());
       expect(locale.parseDate('11/8/00').getTime()).toEqual(new Date(2000, 10, 8).getTime());
@@ -2122,25 +2122,25 @@ describe('IdsLocale API', () => {
       expect(locale.parseDate('08.11.2000').getTime()).toEqual(new Date(2000, 10, 8).getTime());
     });
 
-    it('should parse dates with month zero', async () => {
+    test('should parse dates with month zero', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseDate('2016-01-01', { dateFormat: 'yyyy-MM-dd' }).getTime()).toEqual(new Date(2016, 0, 1).getTime());
       expect(locale.parseDate('2016-01-03', { dateFormat: 'yyyy-MM-dd' }).getTime()).toEqual(new Date(2016, 0, 3).getTime());
       expect(locale.parseDate('2016-01-31', { dateFormat: 'yyyy-MM-dd' }).getTime()).toEqual(new Date(2016, 0, 31).getTime());
     });
 
-    it('should parse Dates with dashes in them', async () => {
+    test('should parse Dates with dashes in them', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseDate('2015-05-10', { dateFormat: 'yyyy-dd-MM' }).getTime()).toEqual(new Date(2015, 9, 5, 0, 0, 0).getTime());
       expect(locale.parseDate('05-10-2015', { dateFormat: 'dd-MM-yyyy' }).getTime()).toEqual(new Date(2015, 9, 5, 0, 0, 0).getTime());
     });
 
-    it('should parse ISO Dates with dashes in them', async () => {
+    test('should parse ISO Dates with dashes in them', async () => {
       await locale.setLocale('en-US');
       expect(locale.parseDate('2011-10-05T14:48:00.000Z').getTime()).toEqual(1317826080000);
     });
 
-    it('should parse single months, days, years and their combinations', async () => {
+    test('should parse single months, days, years and their combinations', async () => {
       await locale.setLocale('en-US');
 
       expect(locale.parseDate('June', 'MMMM').getMonth()).toEqual(5);
@@ -2154,7 +2154,7 @@ describe('IdsLocale API', () => {
       expect(locale.parseDate('02', 'dd').getDate()).toEqual(2);
     });
 
-    it('should stricly parse time', async () => {
+    test('should stricly parse time', async () => {
       await locale.setLocale('en-US');
 
       // Strict
@@ -2173,7 +2173,7 @@ describe('IdsLocale API', () => {
   });
 
   describe('Arabic/Islamic Calendar', () => {
-    it('should support checking if using the islamic calendar', async () => {
+    test('should support checking if using the islamic calendar', async () => {
       await locale.setLocale('en-US');
       expect(locale.isIslamic()).toEqual(false);
 
@@ -2186,7 +2186,7 @@ describe('IdsLocale API', () => {
       expect(locale.isIslamic('xx-XX')).toEqual(false);
     });
 
-    it('should be able to test RTL', async () => {
+    test('should be able to test RTL', async () => {
       await locale.setLocale('en-US');
       expect(locale.isRTL()).toEqual(false);
 

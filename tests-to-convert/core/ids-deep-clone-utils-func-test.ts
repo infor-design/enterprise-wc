@@ -4,22 +4,22 @@
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 describe('IdsDeepCloneMixin Tests', () => {
-  it('can clone a plain array', () => {
+  test('can clone a plain array', () => {
     expect(deepClone([1, 2, 3])).toEqual([1, 2, 3]);
   });
 
-  it('can clone a string / non object', () => {
+  test('can clone a string / non object', () => {
     expect(deepClone('test')).toEqual('test');
     expect(deepClone(null)).toEqual(null);
   });
 
-  it('can clone a date', () => {
+  test('can clone a date', () => {
     const d1 = new Date();
     const d2 = new Date(d1.getTime());
     expect(deepClone(d1).getTime()).toEqual(d2.getTime());
   });
 
-  it('can clone a plain object', () => {
+  test('can clone a plain object', () => {
     const original = { prop1: 1, prop2: 2 };
     const clone = deepClone(original);
     original.prop1 = 3;
@@ -29,7 +29,7 @@ describe('IdsDeepCloneMixin Tests', () => {
     expect(clone.prop2).toEqual(2);
   });
 
-  it('can clone an arrays in an object', () => {
+  test('can clone an arrays in an object', () => {
     const original: any = { x: 1, triggers: ['1', '2'] };
     const clone = deepClone(original);
     original.triggers = [4, 5];
@@ -38,7 +38,7 @@ describe('IdsDeepCloneMixin Tests', () => {
     expect(clone.triggers[1]).toEqual('2');
   });
 
-  it('can clone an array of objects', () => {
+  test('can clone an array of objects', () => {
     const original = [{ test1: '1', test2: '1' }, { test1: '2', test2: '2' }];
     const clone = deepClone(original);
     original[0] = { test1: '2', test2: '2' };
@@ -48,7 +48,7 @@ describe('IdsDeepCloneMixin Tests', () => {
     expect(clone[1]).toEqual({ test1: '2', test2: '2' });
   });
 
-  it('can skip prototype properties', () => {
+  test('can skip prototype properties', () => {
     const Person: any = function Person(this: any, name: string) {
       this.name = name;
     };
@@ -60,7 +60,7 @@ describe('IdsDeepCloneMixin Tests', () => {
     expect(clone.name).toEqual('Bill');
   });
 
-  it('can clone an array of date objects', () => {
+  test('can clone an array of date objects', () => {
     const d1 = new Date();
 
     const original = [{ test1: d1, test2: '1' }, { test1: d1, test2: '2' }];
@@ -72,7 +72,7 @@ describe('IdsDeepCloneMixin Tests', () => {
     expect(clone[1].test1.getTime()).toEqual(d1.getTime());
   });
 
-  it('can clone an array of date objects', () => {
+  test('can clone an array of date objects', () => {
     const d1 = new Date();
     const d2 = new Date();
 
@@ -85,7 +85,7 @@ describe('IdsDeepCloneMixin Tests', () => {
     expect(clone[1].getTime()).toEqual(d2.getTime());
   });
 
-  it('can clone an object with circular refs', () => {
+  test('can clone an object with circular refs', () => {
     const original = { okProp: true };
     (original as any).circularReference = original;
 
@@ -95,7 +95,7 @@ describe('IdsDeepCloneMixin Tests', () => {
     expect(clone.circularReference).toEqual(original);
   });
 
-  it('can clone an array with circular refs', () => {
+  test('can clone an array with circular refs', () => {
     const original: any = { nestedThing: [1, 2] };
     original.nestedThing.push(original);
 

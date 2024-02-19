@@ -8,7 +8,7 @@ describe('Ids Popup Menu e2e Tests', () => {
   const popupHoverDelay = 500; // popupDelay configured in ids-popup-interactions-mixin.js
 
 
-  it('should open sub popup menu when menu item hovered', async () => {
+  test('should open sub popup menu when menu item hovered', async () => {
     // open popup menu
     await page.click('ids-container', { button: 'right' });
 
@@ -21,7 +21,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     expect(isVisible).toBeTruthy();
   });
 
-  it('should open sub popup menu when menu item clicked', async () => {
+  test('should open sub popup menu when menu item clicked', async () => {
     // open popup menu
     await page.click('ids-container', { button: 'right' });
 
@@ -33,7 +33,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     expect(isVisible).toBeTruthy();
   });
 
-  it('should keep sub ppopup menu open when menu item hovered and then clicked', async () => {
+  test('should keep sub ppopup menu open when menu item hovered and then clicked', async () => {
     // open popup menu
     await page.click('ids-container', { button: 'right' });
 
@@ -47,7 +47,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     expect(isVisible).toBeTruthy();
   });
 
-  it('should be able to createElement', async () => {
+  test('should be able to createElement', async () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
@@ -59,7 +59,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     await expect(hasError).toEqual(false);
   });
 
-  it('should be able to set attributes before append', async () => {
+  test('should be able to set attributes before append', async () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
@@ -73,7 +73,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     await expect(hasError).toEqual(false);
   });
 
-  it('should be able to set attributes after append', async () => {
+  test('should be able to set attributes after append', async () => {
     let hasError = false;
     try {
       await page.evaluate(() => {
@@ -87,7 +87,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     await expect(hasError).toEqual(false);
   });
 
-  it('should be able to set attributes after insertAdjacentHTML', async () => {
+  test('should be able to set attributes after insertAdjacentHTML', async () => {
     let hasError = false;
     try {
       await page.evaluate(() => {

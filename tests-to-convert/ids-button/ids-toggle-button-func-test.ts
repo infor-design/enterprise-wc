@@ -24,7 +24,7 @@ describe('IdsToggleButton Component', () => {
     btn = null;
   });
 
-  it('can render via document.createElement (append early)', () => {
+  test('can render via document.createElement (append early)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem: any = document.createElement('ids-toggle-button');
 
@@ -38,7 +38,7 @@ describe('IdsToggleButton Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can be pressed/unpressed', () => {
+  test('can be pressed/unpressed', () => {
     btn.pressed = true;
 
     expect(btn.icon).toBe('star-filled');
@@ -60,7 +60,7 @@ describe('IdsToggleButton Component', () => {
     expect(btn.text).toBe('Test Button (Off)');
   });
 
-  it('can be toggled', () => {
+  test('can be toggled', () => {
     btn.toggle();
 
     expect(btn.icon).toBe('star-filled');
@@ -72,7 +72,7 @@ describe('IdsToggleButton Component', () => {
     expect(btn.text).toBe('Test Button (Off)');
   });
 
-  it('cannot be any other appearance but "default"', () => {
+  test('cannot be any other appearance but "default"', () => {
     btn.appearance = 'primary';
 
     expect(btn.getAttribute('appearance')).toBe(null);
@@ -88,7 +88,7 @@ describe('IdsToggleButton Component', () => {
     expect(btn.button.classList.contains('secondary')).toBeFalsy();
   });
 
-  it('can set the "on" icon', () => {
+  test('can set the "on" icon', () => {
     btn.iconOn = 'settings';
 
     expect(btn.getAttribute('icon-on')).toBe('settings');
@@ -106,7 +106,7 @@ describe('IdsToggleButton Component', () => {
     expect(btn.iconOn).toBe('star-filled');
   });
 
-  it('can set the "off" icon', () => {
+  test('can set the "off" icon', () => {
     btn.iconOff = 'settings';
 
     expect(btn.getAttribute('icon-off')).toBe('settings');
@@ -124,7 +124,7 @@ describe('IdsToggleButton Component', () => {
     expect(btn.iconOff).toBe('star-outlined');
   });
 
-  it('can set the "on" text', () => {
+  test('can set the "on" text', () => {
     btn.textOn = 'Button is on';
 
     expect(btn.getAttribute('text-on')).toBe('Button is on');
@@ -141,7 +141,7 @@ describe('IdsToggleButton Component', () => {
     expect(btn.textOn).toBe('');
   });
 
-  it('can set the "off" text', () => {
+  test('can set the "off" text', () => {
     btn.textOff = 'Button is off';
 
     expect(btn.getAttribute('text-off')).toBe('Button is off');

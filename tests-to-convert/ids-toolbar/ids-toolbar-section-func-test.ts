@@ -91,17 +91,17 @@ describe('IdsToolbarSection Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('has items', () => {
+  test('has items', () => {
     const items = sectionButtonset.items;
 
     expect(items.length).toBe(4);
   });
 
-  it('has a parent toolbar reference', () => {
+  test('has a parent toolbar reference', () => {
     expect(sectionButtonset.toolbar instanceof IdsToolbar).toBeTruthy();
   });
 
-  it('can have a specified type', () => {
+  test('can have a specified type', () => {
     expect(sectionAppMenu.type).toBe('static');
     expect(sectionTitle.type).toBe('title');
     expect(sectionButtonset.type).toBe('buttonset');
@@ -120,7 +120,7 @@ describe('IdsToolbarSection Component', () => {
     expect(sectionAppMenu.type).toBe('static');
   });
 
-  it('can be aligned', () => {
+  test('can be aligned', () => {
     expect(sectionTitle.align).toBe('start');
     expect(sectionButtonset.align).toBe('end');
 
@@ -135,7 +135,7 @@ describe('IdsToolbarSection Component', () => {
     expect(sectionTitle.getAttribute('align')).toBe(null);
   });
 
-  it('can be favored', () => {
+  test('can be favored', () => {
     sectionTitle.favor = true;
 
     expect(sectionTitle.container.classList.contains('favor')).toBeTruthy();

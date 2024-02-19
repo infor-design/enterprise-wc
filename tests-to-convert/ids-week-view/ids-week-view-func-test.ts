@@ -89,21 +89,21 @@ describe('IdsWeekView Component initialization', () => {
     document.body.innerHTML = '';
   });
 
-  it('can render via document.createElement (append early)', () => {
+  test('can render via document.createElement (append early)', () => {
     const component: any = document.createElement('ids-week-view');
     container.appendChild(component);
     setupComponent(component);
     testComponent(component);
   });
 
-  it('can render via document.createElement (append late)', () => {
+  test('can render via document.createElement (append late)', () => {
     const component: any = document.createElement('ids-week-view');
     setupComponent(component);
     container.appendChild(component);
     testComponent(component);
   });
 
-  it('can render html template', () => {
+  test('can render html template', () => {
     container.insertAdjacentHTML('beforeend', `
       <ids-week-view
         start-date="${startDate}"
@@ -141,7 +141,7 @@ describe('IdsWeekView Component (using properties)', () => {
     component = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
@@ -151,16 +151,7 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.outerHTML).toMatchSnapshot();
   });
 
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    component.remove();
-
-    expect(document.querySelectorAll(name).length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('has properties', () => {
+  test('has properties', () => {
     expect(component.startDate.toISOString()).toEqual(new Date(startDate).toISOString());
     expect(component.endDate.toISOString()).toEqual(addDate(new Date(endDate), 1, 'days').toISOString());
     expect(component.firstDayOfWeek).toEqual(startFirstDayOfWeek);
@@ -172,7 +163,7 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.eventTypesData).toBeDefined();
   });
 
-  it('should change properties', () => {
+  test('should change properties', () => {
     component.startDate = null;
     component.endDate = null;
     component.startHour = null;
@@ -190,7 +181,7 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.timelineInterval).toEqual(defaultInterval);
   });
 
-  it('can add calendar events', () => {
+  test('can add calendar events', () => {
     const beforeCallback = jest.fn();
     const afterCallback = jest.fn();
     component.addEventListener('beforeeventrendered', beforeCallback);
@@ -231,23 +222,14 @@ describe('IdsWeekView Component (using attributes)', () => {
     component = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can be destroyed', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    component.remove();
-
-    expect(document.querySelectorAll(name).length).toEqual(0);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('has properties', () => {
+  test('has properties', () => {
     expect(component.startDate.toISOString()).toEqual(new Date(startDate).toISOString());
     expect(component.endDate.toISOString()).toEqual(addDate(new Date(endDate), 1, 'days').toISOString());
     expect(component.firstDayOfWeek).toEqual(startFirstDayOfWeek);
@@ -273,7 +255,7 @@ describe('IdsWeekView Component (empty)', () => {
     component = null;
   });
 
-  it('should not error if no container', () => {
+  test('should not error if no container', () => {
     document.body.innerHTML = '';
     const errors = jest.spyOn(global.console, 'error');
     const comp: any = new IdsWeekView();
@@ -283,14 +265,14 @@ describe('IdsWeekView Component (empty)', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll(name).length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should have default properties', () => {
+  test('should have default properties', () => {
     expect(component.startDate.toISOString()).toEqual(firstDayOfWeekDate(new Date()).toISOString());
     expect(component.endDate.toISOString()).toEqual(lastDayOfWeekDate(new Date()).toISOString());
     expect(component.startHour).toEqual(7);

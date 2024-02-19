@@ -58,23 +58,23 @@ describe('IdsMenuGroup Component', () => {
     item6 = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     expect(document.querySelectorAll('ids-menu-group').length).toEqual(2);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('has access to its parent menu', () => {
+  test('has access to its parent menu', () => {
     expect(group1.menu.isEqualNode(menu)).toBeTruthy();
   });
 
-  it('can be associated with a header', () => {
+  test('can be associated with a header', () => {
     expect(group1.header).toBeDefined();
     expect(group1.header.isEqualNode(header1)).toBeTruthy();
   });
 
-  it('can programmatically change selection type', () => {
+  test('can programmatically change selection type', () => {
     group1.select = 'multiple';
 
     expect(group1.getAttribute('select')).toBe('multiple');
@@ -87,7 +87,7 @@ describe('IdsMenuGroup Component', () => {
     expect(item1.container.classList.contains('has-multi-checkmark')).toBeFalsy();
   });
 
-  it('can programmatically change whether or not the menu stays open after selection', () => {
+  test('can programmatically change whether or not the menu stays open after selection', () => {
     group1.keepOpen = true;
 
     expect(group1.getAttribute('keep-open')).toBeTruthy();
@@ -97,7 +97,7 @@ describe('IdsMenuGroup Component', () => {
     expect(group1.getAttribute('keep-open')).toBeFalsy();
   });
 
-  it('can deselect all but a single item from a multi-select group', () => {
+  test('can deselect all but a single item from a multi-select group', () => {
     item4.select();
     item5.select();
     item6.select();

@@ -4,7 +4,6 @@
 import '../helpers/resize-observer-mock';
 import waitForTimeout from '../helpers/wait-for-timeout';
 import wait from '../helpers/wait';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsMultiselect from '../../src/components/ids-multiselect/ids-multiselect';
 import '../../src/components/ids-dropdown/ids-dropdown';
@@ -55,7 +54,7 @@ describe('IdsMultiselect Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders empty multiselect with no errors', () => {
+  test('renders empty multiselect with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     multiselect.remove();
     const elem: any = new IdsMultiselect();
@@ -65,17 +64,17 @@ describe('IdsMultiselect Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders with disabled', () => {
+  test('renders with disabled', () => {
     multiselect = createFromTemplate(`<ids-multiselect id="multiselect-1" disabled="true" label="Test"></ids-multiselect>`);
     expect(multiselect.disabled).toBeTruthy();
   });
 
-  it('renders with readonly', () => {
+  test('renders with readonly', () => {
     multiselect = createFromTemplate(`<ids-multiselect id="multiselect-1" readonly="true" label="Test"></ids-multiselect>`);
     expect(multiselect.readonly).toBeTruthy();
   });
 
-  it('can set readonly', () => {
+  test('can set readonly', () => {
     multiselect.readonly = true;
     expect(multiselect.readonly).toEqual(true);
     expect(multiselect.getAttribute('readonly')).toBeTruthy();
@@ -93,7 +92,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.getAttribute('readonly')).toBeFalsy();
   });
 
-  it('can set disabled', () => {
+  test('can set disabled', () => {
     multiselect.disabled = true;
     expect(multiselect.disabled).toEqual(true);
     expect(multiselect.getAttribute('disabled')).toBeTruthy();
@@ -111,7 +110,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.getAttribute('disabled')).toBeFalsy();
   });
 
-  it('renders with validation', () => {
+  test('renders with validation', () => {
     multiselect = createFromTemplate(`<ids-multiselect id="multiselect-1" validate="required" validation-events="blur change" label="Test"></ids-multiselect>`);
     expect(multiselect.validate).toEqual('required');
     expect(multiselect.validationEvents).toEqual('blur change');
@@ -128,7 +127,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.validationEvents).toEqual('change');
   });
 
-  it('supports validation', async () => {
+  test('supports validation', async () => {
     multiselect = createFromTemplate(`<ids-multiselect id="multiselect-5" label="Dropdown with Icons" validate="true">
      </ids-multiselect>`);
     await waitForTimeout(() => expect(multiselect.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
@@ -139,7 +138,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.getAttribute('validate')).toEqual('required');
   });
 
-  it('can reset validation and validation-events', async () => {
+  test('can reset validation and validation-events', async () => {
     multiselect.validate = 'required';
     multiselect.validationEvents = 'blur change';
     multiselect.validate = null;
@@ -148,7 +147,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.getAttribute('validation-events')).toBeFalsy();
   });
 
-  it('handles setting disabled', () => {
+  test('handles setting disabled', () => {
     multiselect.disabled = true;
     expect(multiselect.getAttribute('disabled')).toEqual('true');
     expect(multiselect.getAttribute('readonly')).toBeFalsy();
@@ -156,31 +155,31 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.input.disabled).toEqual(true);
   });
 
-  it('handles setting readonly', () => {
+  test('handles setting readonly', () => {
     multiselect.readonly = true;
     expect(multiselect.getAttribute('readonly')).toEqual('true');
     expect(multiselect.readonly).toEqual(true);
     expect(multiselect.input.disabled).toEqual(false);
   });
 
-  it('can change the label', () => {
+  test('can change the label', () => {
     multiselect.label = 'Changed Label';
     expect(multiselect.label).toEqual('Changed Label');
   });
 
-  it('should be able to reset dirty indicator', () => {
+  test('should be able to reset dirty indicator', () => {
     multiselect.dirtyTracker = true;
     expect(multiselect.getAttribute('dirty-tracker')).toEqual('true');
     multiselect.dirtyTracker = false;
     expect(multiselect.getAttribute('dirty-tracker')).toBeFalsy();
   });
 
-  it('should be able to set value', () => {
+  test('should be able to set value', () => {
     multiselect.value = ['opt3'];
     expect(multiselect.value).toContain('opt3');
   });
 
-  it('should ignore null / bad value', () => {
+  test('should ignore null / bad value', () => {
     multiselect.value = ['opt3'];
     expect(multiselect.value).toContain('opt3');
 
@@ -191,7 +190,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.value).toContain('opt3');
   });
 
-  it('supports opening the list with open', async () => {
+  test('supports opening the list with open', async () => {
     expect(multiselect.popup.visible).toEqual(false);
     await multiselect.open();
     expect(multiselect.popup.visible).toEqual(true);
@@ -205,7 +204,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.popup.visible).toEqual(false);
   });
 
-  it('supports opening the list with toggle', async () => {
+  test('supports opening the list with toggle', async () => {
     expect(multiselect.popup.visible).toEqual(false);
     multiselect.toggle();
     expect(multiselect.popup.visible).toEqual(true);
@@ -213,7 +212,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.popup.visible).toEqual(false);
   });
 
-  it('supports closing the list with closing', async () => {
+  test('supports closing the list with closing', async () => {
     expect(multiselect.popup.visible).toEqual(false);
     multiselect.open();
     expect(multiselect.popup.visible).toEqual(true);
@@ -225,7 +224,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.popup.visible).toEqual(false);
   });
 
-  it('can click outside an open list to close it', (done) => {
+  test('can click outside an open list to close it', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
     multiselect.dropdownList.onOutsideClick = jest.fn();
@@ -242,7 +241,7 @@ describe('IdsMultiselect Component', () => {
     }, 70);
   });
 
-  it('supports async beforeShow', async () => {
+  test('supports async beforeShow', async () => {
     const getContents = () => new Promise((resolve) => {
       setTimeout(() => {
         resolve(states);
@@ -259,14 +258,14 @@ describe('IdsMultiselect Component', () => {
     expect(await multiselect.querySelectorAll('ids-list-box-option').length).toEqual(59);
   });
 
-  it('ignores type ahead to open when no matches', async () => {
+  test('ignores type ahead to open when no matches', async () => {
     multiselect.triggerEvent('keydownend', multiselect, { detail: { keys: 'xxxxx' } });
 
     await waitForTimeout(() => expect(multiselect.popup.visible).toEqual(false));
     expect(multiselect.popup.visible).toEqual(false);
   });
 
-  it('ignores type ahead when readonly', async () => {
+  test('ignores type ahead when readonly', async () => {
     multiselect.readonly = true;
     multiselect.triggerEvent('keydownend', multiselect, { detail: { keys: 'option thr' } });
 
@@ -277,21 +276,21 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.popup.visible).toEqual(false);
   });
 
-  it('supports clicking trigger to open', async () => {
+  test('supports clicking trigger to open', async () => {
     await waitForTimeout(() => expect(multiselect.trigger).toBeTruthy());
 
     multiselect.trigger.click();
     expect(multiselect.popup.visible).toEqual(true);
   });
 
-  it('supports clicking input to open', async () => {
+  test('supports clicking input to open', async () => {
     await waitForTimeout(() => expect(multiselect.container).toBeTruthy());
     multiselect.input.shadowRoot.querySelector('.field-container').click();
     await waitForTimeout(() => expect(multiselect.popup.visible).toBeTruthy());
     expect(multiselect.popup.visible).toEqual(true);
   });
 
-  it('supports clicking to select', async () => {
+  test('supports clicking to select', async () => {
     expect(multiselect.value).toContain('opt2');
     multiselect.trigger.click();
 
@@ -304,21 +303,20 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.value).toContain('opt2');
   });
 
-  it('can changing language from the container', async () => {
+  test('can changing language from the container', async () => {
     IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
     await IdsGlobal.getLocale().setLanguage('de');
-    await processAnimFrame();
     expect(multiselect.getAttribute('aria-description')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');
   });
 
-  it('opens on arrow down', () => {
+  test('opens on arrow down', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     multiselect.dispatchEvent(event);
 
     expect(multiselect.popup.visible).toEqual(true);
   });
 
-  it('ignores arrow down on open', () => {
+  test('ignores arrow down on open', () => {
     multiselect.open();
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     multiselect.dispatchEvent(event);
@@ -326,14 +324,14 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.popup.visible).toEqual(true);
   });
 
-  it('opens on arrow up', () => {
+  test('opens on arrow up', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     multiselect.dispatchEvent(event);
 
     expect(multiselect.popup.visible).toEqual(true);
   });
 
-  it('opens on enter', () => {
+  test('opens on enter', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     multiselect.dispatchEvent(event);
 
@@ -352,21 +350,21 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.value).toEqual(['opt5']);
   });
 
-  it('should set/unset tags attribute', () => {
+  test('should set/unset tags attribute', () => {
     multiselect.tags = true;
     expect(multiselect.tags).toBeTruthy();
     multiselect.tags = false;
     expect(multiselect.tags).toBeFalsy();
   });
 
-  it('should set/unset max attribute', () => {
+  test('should set/unset max attribute', () => {
     multiselect.max = 5;
     expect(multiselect.max).toEqual(5);
     multiselect.max = null;
     expect(multiselect.max).toBeNaN();
   });
 
-  it('tags work correctly', async () => {
+  test('tags work correctly', async () => {
     createFromTemplate(`<ids-multiselect id="multiselect-1" tags="true" label="Tags Multiselect" dirty-tracker="true">
       <ids-list-box>
         <ids-list-box-option value="opt1"><ids-checkbox label="Option One" class="justify-center"></ids-checkbox></ids-list-box-option>
@@ -398,7 +396,7 @@ describe('IdsMultiselect Component', () => {
     expect(multiselect.value).toEqual(['opt1']);
   });
 
-  it('should handle overflowed text', async () => {
+  test('should handle overflowed text', async () => {
     multiselect = createFromTemplate(
       `<ids-multiselect label="Overflow text multiselect">
         <ids-list-box>
@@ -410,7 +408,6 @@ describe('IdsMultiselect Component', () => {
     );
     const getText = () => multiselect.input.querySelector('ids-text');
 
-    await processAnimFrame();
 
     expect(multiselect.value).toEqual(['opt1', 'opt2', 'opt3']);
     expect(getText()?.textContent).toEqual('Option One, Option Two, Option Three');

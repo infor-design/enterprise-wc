@@ -18,7 +18,7 @@ describe('Ids Error Page Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('can set the error icon', () => {
+  test('can set the error icon', () => {
     const iconId = 'empty-error-loading';
 
     errorPage.icon = iconId;
@@ -32,7 +32,7 @@ describe('Ids Error Page Tests', () => {
     expect(errorPage.getAttribute('icon')).toBe(null);
   });
 
-  it('can set the label', () => {
+  test('can set the label', () => {
     const labelText = 'Error Alert';
 
     errorPage.label = labelText;
@@ -47,7 +47,7 @@ describe('Ids Error Page Tests', () => {
     expect(errorPage.getAttribute('label')).toBe(null);
   });
 
-  it('can set the description', () => {
+  test('can set the description', () => {
     const descriptionText = 'Test Description';
 
     errorPage.description = descriptionText;
@@ -61,7 +61,7 @@ describe('Ids Error Page Tests', () => {
     expect(errorPage.getAttribute('description')).toBe(null);
   });
 
-  it('can set the buttonText', () => {
+  test('can set the buttonText', () => {
     const defaultButtonText = 'Return';
 
     errorPage.buttonText = defaultButtonText;
@@ -75,7 +75,7 @@ describe('Ids Error Page Tests', () => {
     expect(errorPage.getAttribute('buttonText')).toBe(null);
   });
 
-  it('can trigger the action-button event on click', async () => {
+  test('can trigger the action-button event on click', async () => {
     const button = errorPage.shadowRoot.querySelector('[slot="button"]');
     const event = new MouseEvent('click', {
       button: 1,
@@ -91,7 +91,7 @@ describe('Ids Error Page Tests', () => {
     expect(errorPage.getAttribute('visible')).toBe(null);
   });
 
-  it('can trigger the action-button event on touchend', async () => {
+  test('can trigger the action-button event on touchend', async () => {
     const button = errorPage.shadowRoot.querySelector('[slot="button"]');
     const event = new TouchEvent('touchend', {
       touches: [{

@@ -4,7 +4,7 @@
 import NiceScale from '../../src/components/ids-axis-chart/ids-nice-scale';
 
 describe('Nice Scale Tests', () => {
-  it('computes scales', () => {
+  test('computes scales', () => {
     let scale = new NiceScale(-0.085, 0.173);
     expect(scale).toEqual({ niceMax: 0.2, niceMin: -0.1, tickSpacing: 0.05 });
 
@@ -27,7 +27,7 @@ describe('Nice Scale Tests', () => {
     expect(scale).toEqual({ niceMax: 10, niceMin: 0, tickSpacing: 1 });
   });
 
-  it('can loop the scale', () => {
+  test('can loop the scale', () => {
     const scale: any = new NiceScale(0, 3411);
     expect(scale).toEqual({ niceMax: 3500, niceMin: 0, tickSpacing: 500 });
     const values = [];
@@ -37,7 +37,7 @@ describe('Nice Scale Tests', () => {
     expect(values).toEqual([0, 500, 1000, 1500, 2000, 2500, 3000, 3500]);
   });
 
-  it('can set the max ticks the scale', () => {
+  test('can set the max ticks the scale', () => {
     const scale = new NiceScale(0, 3411, { maxTicks: 8 });
     expect(scale).toEqual({ niceMax: 4000, niceMin: 0, tickSpacing: 1000 });
 

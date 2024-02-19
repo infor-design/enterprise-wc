@@ -36,19 +36,19 @@ describe('IdsCounts Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders a specific hex color', () => {
+  test('renders a specific hex color', () => {
     count.color = '#800000';
     expect(count.getAttribute('color')).toEqual('#800000');
     expect(count.color).toEqual('#800000');
   });
 
-  it('renders a status color', () => {
+  test('renders a status color', () => {
     count.color = 'base';
     expect(count.getAttribute('color')).toEqual('base');
     expect(count.color).toEqual('base');
   });
 
-  it('unsets container color when href property is set', () => {
+  test('unsets container color when href property is set', () => {
     count.href = '#';
     count.color = 'success';
     expect(count.container?.getAttribute('color')).toEqual('');
@@ -58,26 +58,26 @@ describe('IdsCounts Component', () => {
     expect(count.container?.getAttribute('color')).toEqual('');
   });
 
-  it('is able to change sizes via compact attribute', () => {
+  test('is able to change sizes via compact attribute', () => {
     count.compact = 'true';
     expect(count.getAttribute('compact')).toEqual('true');
     expect(count.compact).toBeTruthy();
   });
 
-  it('is able to change link via href attribute', () => {
+  test('is able to change link via href attribute', () => {
     count.href = 'http://www.google.com';
     expect(count.getAttribute('href')).toEqual('http://www.google.com');
     expect(count.href).toEqual('http://www.google.com');
   });
 
-  it('creates an ids-hyperlink container', () => {
+  test('creates an ids-hyperlink container', () => {
     count.remove();
     document.body.insertAdjacentHTML('beforeend', template);
     count = document.querySelector('ids-counts') as IdsCounts;
     expect(count.shadowRoot?.querySelectorAll('ids-hyperlink').length).toEqual(1);
   });
 
-  it('creates a compact counts component', () => {
+  test('creates a compact counts component', () => {
     count.remove();
     document.body.insertAdjacentHTML('beforeend', compact);
     count = document.querySelector('ids-counts') as IdsCounts;

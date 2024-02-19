@@ -42,7 +42,7 @@ describe('IdsToast Component', () => {
     options = null;
   });
 
-  it('renders using document.createElement with no errors (append late)', () => {
+  test('renders using document.createElement with no errors (append late)', () => {
     const errors = jest.spyOn(global.console, 'error');
     const toastElem: any = document.createElement('ids-toast');
 
@@ -56,7 +56,7 @@ describe('IdsToast Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should set to put links in the toast message', () => {
+  test('should set to put links in the toast message', () => {
     expect(toast.getAttribute('allow-link')).toEqual(null);
     expect(toast.allowLink).toEqual(DEFAULTS.allowLink);
     toast.allowLink = true;
@@ -70,7 +70,7 @@ describe('IdsToast Component', () => {
     expect(toast.allowLink).toEqual(DEFAULTS.allowLink);
   });
 
-  it('should set audible to toast message', () => {
+  test('should set audible to toast message', () => {
     expect(toast.getAttribute('audible')).toEqual(null);
     expect(toast.audible).toEqual(DEFAULTS.audible);
     toast.audible = true;
@@ -84,7 +84,7 @@ describe('IdsToast Component', () => {
     expect(toast.audible).toEqual(DEFAULTS.audible);
   });
 
-  it('should set to allows drag/drop the toast', () => {
+  test('should set to allows drag/drop the toast', () => {
     expect(toast.getAttribute('draggable')).toEqual(null);
     expect(toast.draggable).toEqual(DEFAULTS.draggable);
     toast.draggable = true;
@@ -98,7 +98,7 @@ describe('IdsToast Component', () => {
     expect(toast.draggable).toEqual(DEFAULTS.draggable);
   });
 
-  it('should set position of the toast container in specific place', () => {
+  test('should set position of the toast container in specific place', () => {
     let toastContainer = toast.toastContainer();
 
     expect(toast.getAttribute('position')).toEqual(null);
@@ -123,7 +123,7 @@ describe('IdsToast Component', () => {
     expect(toastContainer.classList.contains(DEFAULTS.position)).toEqual(true);
   });
 
-  it('should set toast to progress bar', () => {
+  test('should set toast to progress bar', () => {
     expect(toast.getAttribute('progress-bar')).toEqual(null);
     expect(toast.progressBar).toEqual(DEFAULTS.progressBar);
     toast.progressBar = true;
@@ -137,7 +137,7 @@ describe('IdsToast Component', () => {
     expect(toast.progressBar).toEqual(DEFAULTS.progressBar);
   });
 
-  it('should set toast container to save position', () => {
+  test('should set toast container to save position', () => {
     expect(toast.getAttribute('save-position')).toEqual(null);
     expect(toast.savePosition).toEqual(DEFAULTS.savePosition);
     toast.savePosition = true;
@@ -151,7 +151,7 @@ describe('IdsToast Component', () => {
     expect(toast.savePosition).toEqual(DEFAULTS.savePosition);
   });
 
-  it('should set toast timeout', () => {
+  test('should set toast timeout', () => {
     expect(toast.getAttribute('timeout')).toEqual(null);
     expect(toast.timeout).toEqual(DEFAULTS.timeout);
     toast.timeout = 2000;
@@ -162,7 +162,7 @@ describe('IdsToast Component', () => {
     expect(toast.timeout).toEqual(DEFAULTS.timeout);
   });
 
-  it('should set toast uniqueId', () => {
+  test('should set toast uniqueId', () => {
     const uniqueId = 'some-uniqueid';
     expect(toast.getAttribute('unique-id')).toEqual(null);
     expect(toast.uniqueId).toEqual(DEFAULTS.uniqueId);
@@ -174,7 +174,7 @@ describe('IdsToast Component', () => {
     expect(toast.uniqueId).toEqual(DEFAULTS.uniqueId);
   });
 
-  it('should set to destroy after complete all the toasts', () => {
+  test('should set to destroy after complete all the toasts', () => {
     expect(toast.getAttribute('destroy-on-complete')).toEqual(null);
     expect(toast.destroyOnComplete).toEqual(DEFAULTS.destroyOnComplete);
     toast.destroyOnComplete = true;
@@ -188,7 +188,7 @@ describe('IdsToast Component', () => {
     expect(toast.destroyOnComplete).toEqual(DEFAULTS.destroyOnComplete);
   });
 
-  it('should set toast message', () => {
+  test('should set toast message', () => {
     options = {
       ...options,
       allowLink: true,
@@ -210,7 +210,7 @@ describe('IdsToast Component', () => {
     expect(messageEl).toBeTruthy();
   });
 
-  it('should check if can save position to local storage', async () => {
+  test('should check if can save position to local storage', async () => {
     const uniqueId = 'some-uniqueid';
     const transform = 'translate(100px, 250px)';
 
@@ -240,7 +240,7 @@ describe('IdsToast Component', () => {
     expect(localStorage.getItem(id(uniqueId))).toEqual(null);
   });
 
-  it('should saved position to local storage', async () => {
+  test('should saved position to local storage', async () => {
     const uniqueId = 'some-uniqueid';
     const transform = 'translate(100px, 250px)';
 
@@ -268,7 +268,7 @@ describe('IdsToast Component', () => {
     expect(localStorage.getItem(id(uniqueId))).toEqual(null);
   });
 
-  it('should restore saved position', () => {
+  test('should restore saved position', () => {
     const uniqueId = 'some-uniqueid';
     const transform = 'translate(100px, 250px)';
     localStorage.setItem(id(uniqueId), transform);
@@ -285,7 +285,7 @@ describe('IdsToast Component', () => {
     toast.clearPosition(uniqueId);
   });
 
-  it('should reset saved position', () => {
+  test('should reset saved position', () => {
     const uniqueId = 'some-uniqueid';
     const transform = 'translate(-9999px, -9999px)';
     localStorage.setItem(id(uniqueId), transform);
@@ -305,7 +305,7 @@ describe('IdsToast Component', () => {
     toast.clearPosition(uniqueId);
   });
 
-  it('should clear saved position', () => {
+  test('should clear saved position', () => {
     const uniqueId = 'some-uniqueid';
     const transform = 'translate(100px, 250px)';
     localStorage.setItem(id(uniqueId), transform);
@@ -341,7 +341,7 @@ describe('IdsToast Component', () => {
     expect(localStorage.getItem('testaaa')).toEqual(null);
   });
 
-  it('should fire toast events', async () => {
+  test('should fire toast events', async () => {
     const uniqueId = 'some-uniqueid';
     const transform = 'translate(100px, 250px)';
 
@@ -426,12 +426,12 @@ describe('IdsToast Component', () => {
     expect(detail.active.clearPosition).toEqual(detail.after.clearPosition);
   });
 
-  it('should update with container language change', async () => {
+  test('should update with container language change', async () => {
     await container.localeAPI.setLanguage('ar');
     expect(toast.getAttribute('dir')).toEqual('rtl');
   });
 
-  it('should remove toast host element', async () => {
+  test('should remove toast host element', async () => {
     toast.destroyOnComplete = false;
     toast.show(options);
     let toastContainer = toast.toastContainer();
@@ -463,7 +463,7 @@ describe('IdsToast Component', () => {
     expect(messageEl).toBeFalsy();
   });
 
-  it('should not destroy on complete toast', async () => {
+  test('should not destroy on complete toast', async () => {
     toast.destroyOnComplete = false;
     toast.show(options);
     const toastContainer = toast.toastContainer();
@@ -477,7 +477,7 @@ describe('IdsToast Component', () => {
     expect(toast.shadowRoot?.querySelector('ids-toast-message')).toBeFalsy();
   });
 
-  it('should close with click (x) button toast message', async () => {
+  test('should close with click (x) button toast message', async () => {
     toast.show(options);
     let toastContainer = toast.toastContainer();
     let messageEl = toastContainer.querySelector('ids-toast-message');
@@ -494,7 +494,7 @@ describe('IdsToast Component', () => {
     expect(messageEl).toBeFalsy();
   });
 
-  it('should handle pause/play by key events toast message', async () => {
+  test('should handle pause/play by key events toast message', async () => {
     toast.show(options);
     let toastContainer = toast.toastContainer();
     let messageEl = toastContainer.querySelector('ids-toast-message');
@@ -511,7 +511,7 @@ describe('IdsToast Component', () => {
     expect(messageEl).toBeFalsy();
   });
 
-  it('should handle pause/play by mouse events toast message', async () => {
+  test('should handle pause/play by mouse events toast message', async () => {
     toast.show(options);
     let toastContainer = toast.toastContainer();
     let messageEl = toastContainer.querySelector<IdsToastMessage>('ids-toast-message');
@@ -532,7 +532,7 @@ describe('IdsToast Component', () => {
     expect(messageEl).toBeFalsy();
   });
 
-  it('should handle toast message progress bar', async () => {
+  test('should handle toast message progress bar', async () => {
     toast.destroyOnComplete = false;
 
     options.progressBar = true;
@@ -578,7 +578,7 @@ describe('IdsToast Component', () => {
     expect(messageEl).toBeFalsy();
   });
 
-  it('renders toast-message with no errors', () => {
+  test('renders toast-message with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem: any = new IdsToast();
     const messageEl1: any = new IdsToastMessage();
@@ -609,7 +609,7 @@ describe('IdsToast Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should call toast-message template', () => {
+  test('should call toast-message template', () => {
     const messageEl = new IdsToastMessage();
     messageEl.progressBar = false;
     messageEl.audible = false;

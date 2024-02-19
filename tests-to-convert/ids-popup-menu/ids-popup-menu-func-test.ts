@@ -175,7 +175,7 @@ describe('IdsPopupMenu Component', () => {
     subitem3 = null;
   });
 
-  it('should render', () => {
+  test('should render', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     // Two popupmenus (top level and submenu)
@@ -183,7 +183,7 @@ describe('IdsPopupMenu Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can programmatically show and hide', () => {
+  test('can programmatically show and hide', () => {
     menu.show();
 
     expect(menu.hidden).toBeFalsy();
@@ -197,7 +197,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.visible).toBeFalsy();
   });
 
-  it('can be prevented from showing with a vetoed `beforeshow` event', () => {
+  test('can be prevented from showing with a vetoed `beforeshow` event', () => {
     menu.addEventListener('beforeshow', (e: { detail: { response: (arg0: boolean) => void; }; }) => {
       e.detail.response(false);
     });
@@ -206,7 +206,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.hidden).toBeTruthy();
   });
 
-  it('listens for `selected` event from menu items', (done) => {
+  test('listens for `selected` event from menu items', (done) => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
     });
@@ -223,7 +223,7 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  it('will cause `selectItem` to open a submenu if a menu item contains one', (done) => {
+  test('will cause `selectItem` to open a submenu if a menu item contains one', (done) => {
     menu.selectItem(item6);
 
     setTimeout(() => {
@@ -232,7 +232,7 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  it('focuses the menu\'s `focusTarget` when the menu is shown', (done) => {
+  test('focuses the menu\'s `focusTarget` when the menu is shown', (done) => {
     item1.focus();
     menu.triggerEvent('show', menu.popup, { bubbles: true });
 
@@ -243,7 +243,7 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  it('can change its trigger type', () => {
+  test('can change its trigger type', () => {
     menu.triggerType = 'click';
 
     expect(menu.triggerType).toEqual('click');
@@ -258,7 +258,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.triggerType).toEqual('contextmenu');
   });
 
-  it('can set a triggering element separately from the target', () => {
+  test('can set a triggering element separately from the target', () => {
     const triggerElem = document.createElement('input');
     triggerElem.id = 'test-input';
     triggerElem.type = 'text';
@@ -271,7 +271,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.visible).toBeTruthy();
   });
 
-  it('can set a target as an element', () => {
+  test('can set a target as an element', () => {
     const targetElem = document.createElement('button');
     targetElem.id = 'test-button';
     targetElem.type = 'button';
@@ -282,7 +282,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.popup.alignTarget.isEqualNode(targetElem)).toBeTruthy();
   });
 
-  it('closes the menu if there is a click event outside the open menu', (done) => {
+  test('closes the menu if there is a click event outside the open menu', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
     menu.show();
@@ -309,7 +309,7 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  it('toggles the menu open and closed when by clicking its target element when configured with a `click` trigger type', (done) => {
+  test('toggles the menu open and closed when by clicking its target element when configured with a `click` trigger type', (done) => {
     const targetElem = document.createElement('button');
     targetElem.id = 'test-button';
     targetElem.type = 'button';
@@ -334,7 +334,7 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  it('can trigger by click without a target', (done) => {
+  test('can trigger by click without a target', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
     menu.triggerType = 'click';
@@ -347,7 +347,7 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  it('navigates between menu and submenu with arrow keys', (done) => {
+  test('navigates between menu and submenu with arrow keys', (done) => {
     const navigateRightEvent = new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true });
     const navigateLeftEvent = new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true });
 
@@ -367,7 +367,7 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  it('cannot trigger a submenu to open on an item that doesn\'t have one', (done) => {
+  test('cannot trigger a submenu to open on an item that doesn\'t have one', (done) => {
     const navigateRightEvent = new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true });
 
     item5.focus();
@@ -379,7 +379,7 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  it('closes an open menu when the escape key is pressed', () => {
+  test('closes an open menu when the escape key is pressed', () => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'Escape' });
     menu.show();
 
@@ -400,7 +400,7 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  it('can programmatically hide all submenus', (done) => {
+  test('can programmatically hide all submenus', (done) => {
     menu.show();
 
     setTimeout(() => {
@@ -417,7 +417,7 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  it('will not hide submenus that designated `ignored`', (done) => {
+  test('will not hide submenus that designated `ignored`', (done) => {
     menu.show();
 
     setTimeout(() => {
@@ -435,7 +435,7 @@ describe('IdsPopupMenu Component', () => {
   });
 
   // @TODO, how do we test `contextmenu` event being triggered on `window`?
-  it('opens on `contextmenu` event by default', (done) => {
+  test('opens on `contextmenu` event by default', (done) => {
     const args: any = {
       bubbles: true,
       clientX: 10,
@@ -453,7 +453,7 @@ describe('IdsPopupMenu Component', () => {
   });
 
   // Tests `connectedCallback`'s extra path
-  it('won\'t be set to hidden if it\'s already hidden', () => {
+  test('won\'t be set to hidden if it\'s already hidden', () => {
     const newMenu: any = new IdsPopupMenu();
     newMenu.id = 'new-menu';
     newMenu.hidden = true;
@@ -463,17 +463,17 @@ describe('IdsPopupMenu Component', () => {
   });
 
   describe('IdsMenuItem', () => {
-    it('can have a submenu', () => {
+    test('can have a submenu', () => {
       expect(item6.hasSubmenu).toBeTruthy();
     });
 
-    it('can dismount the submenu', () => {
+    test('can dismount the submenu', () => {
       item6.submenu.remove();
 
       expect(item6.hasSubmenu).toBeFalsy();
     });
 
-    it('can add a new submenu', () => {
+    test('can add a new submenu', () => {
       // Add a new submenu to item 5
       const newSubmenu = new IdsPopupMenu();
       newSubmenu.id = 'new-submenu';
@@ -484,7 +484,7 @@ describe('IdsPopupMenu Component', () => {
       expect(item5.submenu.items.length).toEqual(3);
     });
 
-    it('can programmatically show/hide the submenu', (done) => {
+    test('can programmatically show/hide the submenu', (done) => {
       item6.showSubmenu();
 
       setTimeout(() => {
@@ -498,7 +498,7 @@ describe('IdsPopupMenu Component', () => {
       }, 20);
     });
 
-    it('will not close the menu if picked from a `keep-open` group', (done) => {
+    test('will not close the menu if picked from a `keep-open` group', (done) => {
       const pickEvent = new CustomEvent('pick', {
         bubbles: true,
         detail: { elem: item1 }
@@ -524,7 +524,7 @@ describe('IdsPopupMenu Component', () => {
       }, 20);
     });
 
-    it('cannot be unhighlighted if its submenu is open', (done) => {
+    test('cannot be unhighlighted if its submenu is open', (done) => {
       menu.show();
 
       setTimeout(() => {

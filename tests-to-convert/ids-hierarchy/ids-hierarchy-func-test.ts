@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import processAnimFrame from '../helpers/process-anim-frame';
 import IdsHierarchy from '../../src/components/ids-hierarchy/ids-hierarchy';
 import IdsHierarchyItem from '../../src/components/ids-hierarchy/ids-hierarchy-item';
 import IdsContainer from '../../src/components/ids-container/ids-container';
@@ -101,7 +100,6 @@ describe('IdsHierarchy Component', () => {
     container.appendChild(el);
     document.body.appendChild(container);
 
-    await processAnimFrame();
 
     return el;
   };
@@ -116,12 +114,11 @@ describe('IdsHierarchy Component', () => {
     container.appendChild(legend);
     document.body.appendChild(container);
 
-    await processAnimFrame();
 
     return legend;
   };
 
-  it('renders from HTML Template with no errors', async () => {
+  test('renders from HTML Template with no errors', async () => {
     el = await createElemViaTemplate(DEFAULT_HIERARCHY_HTML);
 
     const errors = jest.spyOn(global.console, 'error');
@@ -129,7 +126,7 @@ describe('IdsHierarchy Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders the legend from HTML Template with no errors', async () => {
+  test('renders the legend from HTML Template with no errors', async () => {
     legend = await createLegendViaTemplate(DEFAULT_HIERARCHY_LEGEND_HTML);
 
     const errors = jest.spyOn(global.console, 'error');
@@ -137,7 +134,7 @@ describe('IdsHierarchy Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can set the expanded attribute', () => {
+  test('can set the expanded attribute', () => {
     expect(item.getAttribute('expanded')).toBe(null);
 
     item.setAttribute('expanded', true);
@@ -147,7 +144,7 @@ describe('IdsHierarchy Component', () => {
     expect(item.getAttribute('expanded')).toBe(null);
   });
 
-  it('can set the expanded attribute', () => {
+  test('can set the expanded attribute', () => {
     expect(item.getAttribute('expanded')).toBe(null);
 
     item.setAttribute('expanded', true);
@@ -157,7 +154,7 @@ describe('IdsHierarchy Component', () => {
     expect(item.getAttribute('expanded')).toBe(null);
   });
 
-  it('can set the root-item attribute', () => {
+  test('can set the root-item attribute', () => {
     expect(item.getAttribute('root-item')).toBe(null);
 
     item.setAttribute('root-item', true);
@@ -169,7 +166,7 @@ describe('IdsHierarchy Component', () => {
     expect(item.getAttribute('root-item')).toBe(null);
   });
 
-  it('can set the selected attribute', () => {
+  test('can set the selected attribute', () => {
     expect(item.getAttribute('selected')).toBe(null);
 
     item.setAttribute('selected', true);
@@ -182,7 +179,7 @@ describe('IdsHierarchy Component', () => {
     expect(item.getAttribute('selected')).toBe(null);
   });
 
-  it('can expand and collapse items when clicked', () => {
+  test('can expand and collapse items when clicked', () => {
     const event = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
@@ -198,7 +195,7 @@ describe('IdsHierarchy Component', () => {
     expect(item.expanded).toBe(null);
   });
 
-  it('can expand and collapse items when touchend', () => {
+  test('can expand and collapse items when touchend', () => {
     const event = new TouchEvent('touchend', {
       touches: [{
         identifier: 123,
@@ -228,7 +225,7 @@ describe('IdsHierarchy Component', () => {
     expect(item.expanded).toBe(null);
   });
 
-  it('can select an item when touchstart', () => {
+  test('can select an item when touchstart', () => {
     const event = new TouchEvent('touchstart', {
       touches: [{
         identifier: 123,
@@ -255,12 +252,12 @@ describe('IdsHierarchy Component', () => {
     expect(item.selected).toBe(true);
   });
 
-  it('checks for nested items', async () => {
+  test('checks for nested items', async () => {
     el = await createElemViaTemplate(DEFAULT_HIERARCHY_HTML);
     expect(el.container.classList.contains('has-nested-items')).toBe(false);
   });
 
-  it('can set the legend item text attribute', () => {
+  test('can set the legend item text attribute', () => {
     expect(legendItem.getAttribute('text')).toBe(null);
 
     legendItem.setAttribute('text', 'Test');

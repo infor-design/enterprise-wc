@@ -62,7 +62,7 @@ describe('IdsSwipeAction Component', () => {
     expect(swipeAction.container.scrollLeft).toEqual(0);
   });
 
-  it('clicks the actions buttons on swipe left', () => {
+  test('clicks the actions buttons on swipe left', () => {
     swipeAction.swipeType = 'continuous';
     const mockCallback = jest.fn((e) => {
       expect(e.detail.direction).toEqual('left');
@@ -73,13 +73,13 @@ describe('IdsSwipeAction Component', () => {
     expect(mockCallback.mock.calls.length).toBe(1);
   });
 
-  it('can click the right button and reset scroll', () => {
+  test('can click the right button and reset scroll', () => {
     swipeAction.swipeType = 'reveal';
     document.querySelector<any>('#action-right-continuous').click();
     expect(swipeAction.container.scrollLeft).toEqual(0);
   });
 
-  it('can click the left button and reset scroll', () => {
+  test('can click the left button and reset scroll', () => {
     swipeAction.swipeType = 'reveal';
     document.querySelector<any>('#action-left-continuous').click();
     expect(swipeAction.container.scrollLeft).toEqual(0);

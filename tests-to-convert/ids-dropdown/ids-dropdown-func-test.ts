@@ -4,7 +4,6 @@
 import '../helpers/resize-observer-mock';
 import waitForTimeout from '../helpers/wait-for-timeout';
 import wait from '../helpers/wait';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
 import '../../src/components/ids-list-box/ids-list-box';
@@ -52,7 +51,7 @@ describe('IdsDropdown Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with validation', () => {
+  test('renders with validation', () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-1" validate="required" validation-events="blur change" label="Test"></ids-dropdown>`);
     expect(dropdown.validate).toEqual('required');
     expect(dropdown.validationEvents).toEqual('blur change');
@@ -69,7 +68,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.validationEvents).toEqual('change');
   });
 
-  it('supports validation', async () => {
+  test('supports validation', async () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-5" label="Dropdown with Icons" validate="true">
      </ids-dropdown>`);
     await waitForTimeout(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
@@ -80,7 +79,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.getAttribute('validate')).toEqual('required');
   });
 
-  it('can reset validation and validation-events', async () => {
+  test('can reset validation and validation-events', async () => {
     dropdown.validate = 'required';
     dropdown.validationEvents = 'blur change';
     dropdown.validate = null;
@@ -89,7 +88,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.getAttribute('validation-events')).toBeFalsy();
   });
 
-  it('renders with icons', () => {
+  test('renders with icons', () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-5" label="Dropdown with Icons" value="opt2">
     <ids-list-box>
       <ids-list-box-option value="opt1" id="opt1">
@@ -123,7 +122,7 @@ describe('IdsDropdown Component', () => {
     expect(icons[5].icon).toEqual('roles');
   });
 
-  it('renders with tooltips', async () => {
+  test('renders with tooltips', async () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-6" label="Dropdown with Tooltips" value="opt2">
       <ids-list-box>
         <ids-list-box-option value="opt1" id="opt1" tooltip="Additional Info on Option One">Option One</ids-list-box-option>
@@ -139,7 +138,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.tooltip).toEqual('Additional Info on Option Two');
   });
 
-  it('handles setting disabled', () => {
+  test('handles setting disabled', () => {
     dropdown.disabled = true;
     expect(dropdown.getAttribute('disabled')).toEqual('true');
     expect(dropdown.getAttribute('readonly')).toBeFalsy();
@@ -147,19 +146,19 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.input.disabled).toEqual(true);
   });
 
-  it('handles setting readonly', () => {
+  test('handles setting readonly', () => {
     dropdown.readonly = true;
     expect(dropdown.getAttribute('readonly')).toEqual('true');
     expect(dropdown.readonly).toEqual(true);
     expect(dropdown.input.disabled).toEqual(false);
   });
 
-  it('can change the label', () => {
+  test('can change the label', () => {
     dropdown.label = 'Changed Label';
     expect(dropdown.label).toEqual('Changed Label');
   });
 
-  it('should show dirty indicator on change', () => {
+  test('should show dirty indicator on change', () => {
     expect(dropdown.dirty).toEqual({ original: 'Option Two' });
     dropdown.dirtyTracker = true;
     dropdown.value = 'opt3';
@@ -167,20 +166,20 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.input.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
   });
 
-  it('should be able to reset dirty indicator', () => {
+  test('should be able to reset dirty indicator', () => {
     dropdown.dirtyTracker = true;
     expect(dropdown.getAttribute('dirty-tracker')).toEqual('true');
     dropdown.dirtyTracker = false;
     expect(dropdown.getAttribute('dirty-tracker')).toBeFalsy();
   });
 
-  it('should be able to set value', () => {
+  test('should be able to set value', () => {
     dropdown.value = 'opt3';
     expect(dropdown.value).toEqual('opt3');
     expect(dropdown.input.value).toEqual('Option Three');
   });
 
-  it('should be able to set value with selectedIndex', () => {
+  test('should be able to set value with selectedIndex', () => {
     expect(dropdown.selectedIndex).toEqual(1);
 
     dropdown.selectedIndex = 2;
@@ -194,7 +193,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.input.value).toEqual('Option Three');
   });
 
-  it('should ignore null / bad selectedIndex', () => {
+  test('should ignore null / bad selectedIndex', () => {
     expect(dropdown.selectedIndex).toEqual(1);
     dropdown.selectedIndex = 'x'; // ignored
     expect(dropdown.selectedIndex).toEqual(1);
@@ -202,7 +201,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.input.value).toEqual('Option Two');
   });
 
-  it('should ignore null / bad value', () => {
+  test('should ignore null / bad value', () => {
     dropdown.value = 'opt3';
     expect(dropdown.value).toEqual('opt3');
     expect(dropdown.input.value).toEqual('Option Three');
@@ -214,7 +213,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.input.value).toEqual('Option Three');
   });
 
-  it('supports opening the list with open', async () => {
+  test('supports opening the list with open', async () => {
     expect(dropdown.popup.visible).toEqual(false);
     await dropdown.open();
     expect(dropdown.popup.visible).toEqual(true);
@@ -228,7 +227,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toEqual(false);
   });
 
-  it('supports opening the list with toggle', async () => {
+  test('supports opening the list with toggle', async () => {
     expect(dropdown.popup.visible).toEqual(false);
     dropdown.toggle();
     expect(dropdown.popup.visible).toEqual(true);
@@ -236,7 +235,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toEqual(false);
   });
 
-  it('supports closing the list with closing', async () => {
+  test('supports closing the list with closing', async () => {
     expect(dropdown.popup.visible).toEqual(false);
     dropdown.open();
     expect(dropdown.popup.visible).toEqual(true);
@@ -244,7 +243,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toEqual(false);
   });
 
-  it('can click outside an open list to close it', (done) => {
+  test('can click outside an open list to close it', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
     dropdown.dropdownList.onOutsideClick = jest.fn();
@@ -261,7 +260,7 @@ describe('IdsDropdown Component', () => {
     }, 70);
   });
 
-  it('supports async beforeShow', async () => {
+  test('supports async beforeShow', async () => {
     const getContents = () => new Promise((resolve) => {
       setTimeout(() => {
         resolve(states);
@@ -302,7 +301,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.typeahead).toBeFalsy();
   });
 
-  it('supports type ahead to show No Results option when nothing found', async () => {
+  test('supports type ahead to show No Results option when nothing found', async () => {
     // Turn on typeahead
     dropdown.typeahead = true;
     expect(dropdown.typeahead).toBeTruthy();
@@ -316,7 +315,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelector('ids-list-box-option')?.textContent).toEqual('No results');
   });
 
-  it('ignores type ahead when readonly', async () => {
+  test('ignores type ahead when readonly', async () => {
     dropdown.readonly = true;
     // Turn on typeahead
     dropdown.typeahead = true;
@@ -331,7 +330,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(6);
   });
 
-  it('supports type ahead when the dropdown is closed', async () => {
+  test('supports type ahead when the dropdown is closed', async () => {
     dropdown.typeahead = true;
 
     // Typing v letter when closed (only Option Five to match)
@@ -348,7 +347,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toBeFalsy();
   });
 
-  it('should accept Space key and stay opened when typing with typeahead', async () => {
+  test('should accept Space key and stay opened when typing with typeahead', async () => {
     dropdown.typeahead = true;
     dropdown.open();
     // Typing v letter when closed (only Option Five to match)
@@ -383,7 +382,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.clearable).toBeFalsy();
   });
 
-  it('should handle custom text for blank option', () => {
+  test('should handle custom text for blank option', () => {
     const clearText = '(Custom Clear Text)';
     dropdown.allowBlank = true;
     dropdown.clearableText = clearText;
@@ -395,21 +394,21 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.getAttribute('clearable-text')).toBeNull();
   });
 
-  it('supports clicking trigger to open', async () => {
+  test('supports clicking trigger to open', async () => {
     await waitForTimeout(() => expect(dropdown.trigger).toBeTruthy());
 
     dropdown.trigger.click();
     expect(dropdown.popup.visible).toEqual(true);
   });
 
-  it('supports clicking input to open', async () => {
+  test('supports clicking input to open', async () => {
     await waitForTimeout(() => expect(dropdown.container).toBeTruthy());
     dropdown.input.input.click();
     await waitForTimeout(() => expect(dropdown.popup.visible).toBeTruthy());
     expect(dropdown.popup.visible).toBeTruthy();
   });
 
-  it('should not open by clicking on label', async () => {
+  test('should not open by clicking on label', async () => {
     await waitForTimeout(() => expect(dropdown.labelEl).toBeTruthy());
     expect(dropdown.labelEl).toBeTruthy();
     dropdown.labelEl.click();
@@ -420,7 +419,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toBeTruthy();
   });
 
-  it('should not set icon if setting has-icon as false', async () => {
+  test('should not set icon if setting has-icon as false', async () => {
     expect(dropdown.value).toEqual('opt2');
     dropdown.trigger.click();
 
@@ -433,7 +432,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('opt5');
   });
 
-  it('supports clicking to select', async () => {
+  test('supports clicking to select', async () => {
     expect(dropdown.value).toEqual('opt2');
     dropdown.trigger.click();
 
@@ -444,7 +443,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('opt5');
   });
 
-  it('supports clicking to select on the icon', () => {
+  test('supports clicking to select on the icon', () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-5" label="Dropdown with Icons" value="opt2">
     <ids-list-box>
       <ids-list-box-option value="opt1" id="opt1">
@@ -479,21 +478,20 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('opt6');
   });
 
-  it('can changing language from the container', async () => {
+  test('can changing language from the container', async () => {
     IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
     await IdsGlobal.getLocale().setLanguage('de');
-    await processAnimFrame();
     expect(dropdown.getAttribute('aria-description')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');
   });
 
-  it('opens on arrow down', () => {
+  test('opens on arrow down', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     dropdown.dispatchEvent(event);
 
     expect(dropdown.popup.visible).toEqual(true);
   });
 
-  it('ignores arrow down on open', () => {
+  test('ignores arrow down on open', () => {
     dropdown.open();
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     dropdown.dispatchEvent(event);
@@ -501,7 +499,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.popup.visible).toEqual(true);
   });
 
-  it('opens on arrow up', () => {
+  test('opens on arrow up', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     dropdown.dispatchEvent(event);
 
@@ -521,7 +519,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('opt3');
   });
 
-  it('closes on escape without changing', () => {
+  test('closes on escape without changing', () => {
     dropdown.open();
     expect(dropdown.value).toEqual('opt2');
     let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
@@ -612,7 +610,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('opt4');
   });
 
-  it('tab works correcty', async () => {
+  test('tab works correcty', async () => {
     dropdown.input.focus();
     expect((document.activeElement as any).id).toEqual('dropdown-1');
     const event = new KeyboardEvent('keydown', { key: 'Tab' });
@@ -622,7 +620,7 @@ describe('IdsDropdown Component', () => {
     expect((document.activeElement as any).id).toEqual('dropdown-1');
   });
 
-  it('should render field height', () => {
+  test('should render field height', () => {
     const heights = ['xs', 'sm', 'md', 'lg'];
     const defaultHeight = 'md';
     const className = (h: any) => `field-height-${h}`;
@@ -655,7 +653,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.container.classList).toContain(className(defaultHeight));
   });
 
-  it('should set compact height', () => {
+  test('should set compact height', () => {
     dropdown.compact = true;
 
     expect(dropdown.hasAttribute('compact')).toBeTruthy();
@@ -666,7 +664,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.container.classList.contains('compact')).toBeFalsy();
   });
 
-  it('should set size', () => {
+  test('should set size', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
     const defaultSize = 'md';
     const checkSize = (size: any) => {
@@ -687,7 +685,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.dropdownList.listBox.getAttribute('size')).toEqual(null);
   });
 
-  it('should set no margins', () => {
+  test('should set no margins', () => {
     expect(dropdown.getAttribute('no-margins')).toEqual(null);
     expect(dropdown.noMargins).toEqual(false);
     expect(dropdown.input.getAttribute('no-margins')).toEqual(null);
@@ -703,7 +701,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.input.getAttribute('no-margins')).toEqual(null);
   });
 
-  it('should set values thru template', () => {
+  test('should set values thru template', () => {
     expect(dropdown.colorVariant).toEqual(null);
     expect(dropdown.labelState).toEqual(null);
     expect(dropdown.compact).toEqual(false);
@@ -730,7 +728,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.getAttribute('field-height')).toEqual('lg');
   });
 
-  it('fixes itself with an empty container', () => {
+  test('fixes itself with an empty container', () => {
     dropdown = createFromTemplate(
       `<ids-dropdown id="dropdown-1" label="Normal Dropdown">
        </ids-dropdown>`
@@ -826,7 +824,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.value).toEqual('gr2opt1');
   });
 
-  it('should handle placeholder attribute', () => {
+  test('should handle placeholder attribute', () => {
     dropdown.placeholder = 'select an item';
     expect(dropdown.input.placeholder).toEqual('select an item');
 
@@ -835,7 +833,7 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.input.placeholder).toBeNull();
   });
 
-  it('should select an option and update the value by keyboard input', async () => {
+  test('should select an option and update the value by keyboard input', async () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-keyboard" label="Dropdown Keyboard">
       <ids-list-box>
         <ids-list-box-option value="opt1" id="opt1">A</ids-list-box-option>

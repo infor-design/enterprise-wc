@@ -3,7 +3,6 @@
  */
 import '../helpers/resize-observer-mock';
 import '../helpers/match-media-mock';
-import processAnimFrame from '../helpers/process-anim-frame';
 import wait from '../helpers/wait';
 
 import IdsModal from '../../src/components/ids-modal/ids-modal';
@@ -71,7 +70,7 @@ describe('IdsFocusCaptureMixin)', () => {
     modalBtnOK = null;
   });
 
-  it('can disable/enable focus capturing', () => {
+  test('can disable/enable focus capturing', () => {
     modal.capturesFocus = false;
 
     expect(modal.getAttribute('captures-focus')).toBeFalsy();
@@ -81,7 +80,7 @@ describe('IdsFocusCaptureMixin)', () => {
     expect(modal.getAttribute('captures-focus')).toBeTruthy();
   });
 
-  it('can disable/enable focus cycling', () => {
+  test('can disable/enable focus cycling', () => {
     modal.cyclesFocus = false;
 
     expect(modal.getAttribute('cycles-focus')).toBeFalsy();
@@ -93,7 +92,7 @@ describe('IdsFocusCaptureMixin)', () => {
     expect(modal.cyclesFocus).toBeTruthy();
   });
 
-  it('can get references to focusable elements', () => {
+  test('can get references to focusable elements', () => {
     const focusable = modal.focusableElements;
     expect(focusable.length).toBe(3);
     expect(focusable[0].isEqualNode(modalBtnCancel)).toBeTruthy();
@@ -101,7 +100,7 @@ describe('IdsFocusCaptureMixin)', () => {
     expect(modal.lastFocusableElement.isEqualNode(modalBtnOK)).toBeTruthy();
   });
 
-  it('can configure CSS selectors used for focusable element types', () => {
+  test('can configure CSS selectors used for focusable element types', () => {
     modal.focusableSelectors = [];
     let focusable = modal.focusableElements;
     expect(focusable.length).toBe(0);
@@ -112,35 +111,31 @@ describe('IdsFocusCaptureMixin)', () => {
     expect(focusable.length).toBe(0);
   });
 
-  it('can set focus programmatically', async () => {
+  test('can set focus programmatically', async () => {
     await modal.show();
     await wait(310);
 
     // Do nothing
     modal.setFocus();
-    await processAnimFrame();
     expect((document.activeElement as any).isEqualNode(modalBtnCancel)).toBeTruthy();
     expect(modal.nextFocusableElement).toEqual(modalBtnReset);
     expect(modal.previousFocusableElement).toEqual(modalBtnOK);
 
     modal.setFocus(1);
-    await processAnimFrame();
     expect((document.activeElement as any).isEqualNode(modalBtnReset)).toBeTruthy();
     expect(modal.nextFocusableElement).toEqual(modalBtnOK);
     expect(modal.previousFocusableElement).toEqual(modalBtnCancel);
 
     modal.setFocus('first');
-    await processAnimFrame();
     expect((document.activeElement as any).isEqualNode(modalBtnCancel)).toBeTruthy();
 
     modal.setFocus('last');
-    await processAnimFrame();
     expect((document.activeElement as any).isEqualNode(modalBtnOK)).toBeTruthy();
     expect(modal.nextFocusableElement).toEqual(modalBtnCancel);
     expect(modal.previousFocusableElement).toEqual(modalBtnReset);
   });
 
-  it('can set focus with keyboard events', async () => {
+  test('can set focus with keyboard events', async () => {
     const tabToNextEvent = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true });
     const tabToPrevEvent = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, shiftKey: true });
 
@@ -148,7 +143,6 @@ describe('IdsFocusCaptureMixin)', () => {
     await wait(310);
 
     modal.setFocus();
-    await processAnimFrame();
 
     expect((document.activeElement as any).isEqualNode(modalBtnCancel));
 
@@ -181,12 +175,11 @@ describe('IdsFocusCaptureMixin)', () => {
     expect((document.activeElement as any).isEqualNode(afterBtn));
   });
 
-  it('listens to namespaced keydown events', async () => {
+  test('listens to namespaced keydown events', async () => {
     await modal.show();
     await wait(310);
 
     modal.setFocus();
-    await processAnimFrame();
 
     expect((document.activeElement as any).isEqualNode(modalBtnCancel));
 
@@ -232,12 +225,11 @@ describe('IdsFocusCaptureMixin (empty)', () => {
     afterBtn = null;
   });
 
-  it('sets no focus', async () => {
+  test('sets no focus', async () => {
     await modal.show();
     await wait(310);
 
     modal.setFocus();
-    await processAnimFrame();
 
     expect(modal.contains((document.activeElement as any))).toBeFalsy();
     expect(modal.focusableElements).toEqual([]);

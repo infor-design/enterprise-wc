@@ -4,7 +4,6 @@
 import '../helpers/resize-observer-mock';
 import '../helpers/match-media-mock';
 import wait from '../helpers/wait';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsEditor from '../../src/components/ids-editor/ids-editor';
@@ -41,7 +40,7 @@ describe('IdsEditor Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should be able to get current value', async () => {
+  test('should be able to get current value', async () => {
     expect(editor.value).toEqual('');
     const template = document.createElement('template');
     template.innerHTML = '<p>test</p>';
@@ -50,7 +49,7 @@ describe('IdsEditor Component', () => {
     expect(editor.value).toEqual('<p>test</p>\n');
   });
 
-  it('should sets as disabled state', () => {
+  test('should sets as disabled state', () => {
     const labelEl = editor.container.querySelector('#editor-label');
     const textarea = editor.container.querySelector('#source-textarea');
     const contenteditableEl = editor.container.querySelector('.editor-container');
@@ -83,7 +82,7 @@ describe('IdsEditor Component', () => {
     expect(editor.disabled).toEqual(false);
   });
 
-  it('should sets as hyperlink disabled state', async () => {
+  test('should sets as hyperlink disabled state', async () => {
     const template = document.createElement('template');
     template.innerHTML = '<p>test<a href="http://example.com">link</a></p>';
     editor.appendChild(template.content.childNodes[0]);
@@ -101,7 +100,7 @@ describe('IdsEditor Component', () => {
     expect(link.getAttribute('tabindex')).toEqual(null);
   });
 
-  it('should sets the label text', () => {
+  test('should sets the label text', () => {
     editor.label = 'Ids editor';
 
     let labelEl = editor.container.querySelector('#editor-label');
@@ -138,7 +137,7 @@ describe('IdsEditor Component', () => {
     expect(sourceLabelEl.textContent.trim()).toEqual(sourceLabel);
   });
 
-  it('should sets the label to be hidden or shown', () => {
+  test('should sets the label to be hidden or shown', () => {
     expect(editor.getAttribute('label-state')).toEqual(null);
     expect(editor.container.classList.contains('label-state-hidden')).toBeFalsy();
     expect(editor.container.classList.contains('label-state-collapsed')).toBeFalsy();
@@ -154,7 +153,7 @@ describe('IdsEditor Component', () => {
     expect(editor.container.classList.contains('label-state-collapsed')).toBeTruthy();
   });
 
-  it('should sets the label validation required indicator to be hidden or shown', () => {
+  test('should sets the label validation required indicator to be hidden or shown', () => {
     const labelEl = editor.container.querySelector('#editor-label');
     editor.validate = 'required';
     expect(editor.getAttribute('label-required')).toEqual(null);
@@ -174,7 +173,7 @@ describe('IdsEditor Component', () => {
     expect(labelEl.classList.contains('no-required-indicator')).toEqual(false);
   });
 
-  it('should sets paragraph separator', () => {
+  test('should sets paragraph separator', () => {
     const SEPARATORS = ['p', 'div', 'br'];
     const DEFAULT_SEPARATOR = 'p';
     expect(editor.paragraphSeparator).toEqual(DEFAULT_SEPARATOR);
@@ -196,7 +195,7 @@ describe('IdsEditor Component', () => {
     expect(editor.getAttribute('paragraph-separator')).toEqual(null);
   });
 
-  it('should sets to be paste as plain text', () => {
+  test('should sets to be paste as plain text', () => {
     expect(editor.getAttribute('paste-as-plain-text')).toEqual(null);
     expect(editor.pasteAsPlainText).toEqual(false);
     editor.pasteAsPlainText = true;
@@ -210,7 +209,7 @@ describe('IdsEditor Component', () => {
     expect(editor.pasteAsPlainText).toEqual(false);
   });
 
-  it('should sets placeholder text', () => {
+  test('should sets placeholder text', () => {
     const containers = {
       editor: editor.container.querySelector('.editor-container'),
       source: editor.container.querySelector('#source-textarea')
@@ -228,7 +227,7 @@ describe('IdsEditor Component', () => {
     expect(containers.source.getAttribute('placeholder')).toEqual(null);
   });
 
-  it('should sets as readonly state', () => {
+  test('should sets as readonly state', () => {
     const labelEl = editor.container.querySelector('#editor-label');
     const textarea = editor.container.querySelector('#source-textarea');
     const contenteditableEl = editor.container.querySelector('.editor-container');
@@ -261,7 +260,7 @@ describe('IdsEditor Component', () => {
     expect(editor.readonly).toEqual(false);
   });
 
-  it('should sets be use source formatter', () => {
+  test('should sets be use source formatter', () => {
     expect(editor.getAttribute('source-formatter')).toEqual(null);
     expect(editor.sourceFormatter).toEqual(false);
     editor.sourceFormatter = true;
@@ -275,7 +274,7 @@ describe('IdsEditor Component', () => {
     expect(editor.sourceFormatter).toEqual(false);
   });
 
-  it('should sets view mode', () => {
+  test('should sets view mode', () => {
     const VIEWS = ['editor', 'source'];
     const DEFAULT_VIEW = 'editor';
     const getElems = () => ({
@@ -326,7 +325,7 @@ describe('IdsEditor Component', () => {
     expect(elems.btnSource.hidden).toEqual(false);
   });
 
-  it('should switch to view mode with toolbar button', () => {
+  test('should switch to view mode with toolbar button', () => {
     const getElems = () => ({
       editor: editor.container.querySelector('.editor-container'),
       source: editor.container.querySelector('.source-container'),
@@ -361,7 +360,7 @@ describe('IdsEditor Component', () => {
     expect(elems.btnSource.hidden).toEqual(false);
   });
 
-  it('should veto before change mode', () => {
+  test('should veto before change mode', () => {
     const getElems = () => ({
       editor: editor.container.querySelector('.editor-container'),
       source: editor.container.querySelector('.source-container'),
@@ -426,7 +425,7 @@ describe('IdsEditor Component', () => {
     expect(elems.btnSource.hidden).toEqual(false);
   });
 
-  it('should set default value on each element in modals', () => {
+  test('should set default value on each element in modals', () => {
     const modals = {
       hyperlink: {
         url: 'http://www.test.com',
@@ -469,7 +468,7 @@ describe('IdsEditor Component', () => {
     expect(elems.linkCbClickable).toBeFalsy();
   });
 
-  it('should renders with markup', async () => {
+  test('should renders with markup', async () => {
     document.body.innerHTML = `
       <ids-editor label="test editor1" placeholder="test" view="source" label-hidden disabled>
         <p>test<a href="http://example.com">link</a></p>
@@ -477,7 +476,6 @@ describe('IdsEditor Component', () => {
       <ids-editor label="test editor2" view="editor" label-required="false" readonly>
         <p>test<a href="http://example.com">link</a></p>
       </ids-editor>`;
-    await processAnimFrame();
     const editors: any = document.querySelectorAll('ids-editor');
     expect(editors[0].view).toEqual('source');
     expect(editors[0].disabled).toEqual(true);
@@ -487,7 +485,7 @@ describe('IdsEditor Component', () => {
     expect(editors[1].readonly).toEqual(true);
   });
 
-  it('should be let paste content', () => {
+  test('should be let paste content', () => {
     const mockCallback = jest.fn(() => { });
     const editorContainer = editor.container.querySelector('.editor-container');
     const event = new (Event as any)('paste', {
@@ -506,7 +504,7 @@ describe('IdsEditor Component', () => {
     expect(mockCallback).toBeCalledTimes(2);
   });
 
-  it('should be handle paste as plain text', () => {
+  test('should be handle paste as plain text', () => {
     let content: any = null;
     const getClipboardData = (opt: string): any => ({
       clipboardData: {
@@ -522,7 +520,7 @@ describe('IdsEditor Component', () => {
     expect(content).toEqual('<img src="test.png" />');
   });
 
-  it('should be handle paste as html', () => {
+  test('should be handle paste as html', () => {
     let content = null;
     const getGlobalData = (opt: string) => ({ getData: (s: string) => (s === 'Text' ? `${opt}` : `<h1>${opt}</h1>`) });
     const getClipboardData = (opt: string): any => ({
@@ -553,11 +551,9 @@ describe('IdsEditor Component', () => {
     expect(content).toEqual('<img src="test.png" />');
   });
 
-  it('should handle dirty tracking', async () => {
+  test('should handle dirty tracking', async () => {
     IdsGlobal.getLocale().setLanguage('ar');
-    await processAnimFrame();
     editor.dirtyTracker = true;
-    await processAnimFrame();
     await wait(500);
 
     await expect(editor.value).toEqual('');
@@ -565,7 +561,6 @@ describe('IdsEditor Component', () => {
     const template = document.createElement('template');
     template.innerHTML = '<p>test</p>';
     editor.appendChild(template.content.childNodes[0]);
-    await processAnimFrame();
     await wait(500);
 
     await expect(editor.value).toEqual('<p>test</p>\n');

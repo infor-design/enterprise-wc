@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import processAnimFrame from '../helpers/process-anim-frame';
 import IdsHidden from '../../src/components/ids-hidden/ids-hidden';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
@@ -45,7 +44,6 @@ describe('IdsHidden Component', () => {
     container.appendChild(hidden1);
     document.body.appendChild(container);
 
-    await processAnimFrame();
 
     return hidden1;
   };
@@ -60,12 +58,11 @@ describe('IdsHidden Component', () => {
     container.appendChild(hidden2);
     document.body.appendChild(container);
 
-    await processAnimFrame();
 
     return hidden2;
   };
 
-  it('renders from HTML Template with no errors', async () => {
+  test('renders from HTML Template with no errors', async () => {
     hidden1 = await createElemViaTemplate1(DEFAULT_HIDDEN_HTML);
 
     const errors = jest.spyOn(global.console, 'error');
@@ -73,7 +70,7 @@ describe('IdsHidden Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders from HTML Template 2 with no errors', async () => {
+  test('renders from HTML Template 2 with no errors', async () => {
     hidden2 = await createElemViaTemplate2(DEFAULT_HIDDEN_2_HTML);
 
     const errors = jest.spyOn(global.console, 'error');
@@ -94,33 +91,33 @@ describe('IdsHidden Component', () => {
     (<any>window.requestAnimationFrame).mockRestore();
   });
 
-  it('can set the hideDown attribute', () => {
+  test('can set the hideDown attribute', () => {
     el.hideDown = 'sm';
     el.setAttribute('hide-down', 'sm');
     expect(el.getAttribute('hide-down')).toEqual('sm');
     expect(el.hideDown).toEqual('sm');
   });
 
-  it('can remove the hideDown attribute', () => {
+  test('can remove the hideDown attribute', () => {
     el.hideDown = 'sm';
     el.hideDown = false;
     expect(el.getAttribute('hide-down')).toBeFalsy();
   });
 
-  it('can set the hideUp attribute', () => {
+  test('can set the hideUp attribute', () => {
     el.hideUp = 'sm';
     el.setAttribute('hide-up', 'sm');
     expect(el.getAttribute('hide-up')).toEqual('sm');
     expect(el.hideUp).toEqual('sm');
   });
 
-  it('can remove the hideUp attribute', () => {
+  test('can remove the hideUp attribute', () => {
     el.hideUp = 'sm';
     el.hideUp = false;
     expect(el.getAttribute('hide-up')).toBeFalsy();
   });
 
-  it('can set the visible attribute', () => {
+  test('can set the visible attribute', () => {
     expect(el.getAttribute('visible')).toBe(null);
 
     el.setAttribute('visible', true);
@@ -138,7 +135,7 @@ describe('IdsHidden Component', () => {
     expect(el.getAttribute('visible')).toBe(null);
   });
 
-  it('should hide when media query matches', () => {
+  test('should hide when media query matches', () => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: jest.fn().mockImplementation(() => ({ matches: true }))
@@ -150,7 +147,7 @@ describe('IdsHidden Component', () => {
     expect(el.visible).toBeFalsy();
   });
 
-  it('should hide when condition matches', () => {
+  test('should hide when condition matches', () => {
     el.value = 'test';
     el.condition = 'true';
     expect(el.hidden).toBeTruthy();

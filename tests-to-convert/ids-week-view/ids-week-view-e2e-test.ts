@@ -11,7 +11,7 @@ describe('Ids Week View e2e Tests', () => {
   });
 
 
-  it('should render one day and show correct day', async () => {
+  test('should render one day and show correct day', async () => {
     // Set startDay = endDate to render one day view
     await page.evaluate((el: string) => {
       const element = document.querySelector<any>(el);
@@ -39,7 +39,7 @@ describe('Ids Week View e2e Tests', () => {
     // expect(monthYear).toEqual('November 2021');
   });
 
-  it('should change dates', async () => {
+  test('should change dates', async () => {
     // Previous date
     await page.$eval(name, (el: IdsWeekView) => el.changeDate('previous'));
 
@@ -131,7 +131,7 @@ describe('Ids Week View e2e Tests', () => {
     expect(weekDay).toEqual('الاثنين');
   });
 
-  it('should hide timeline if current time is out of start/end hour range', async () => {
+  test('should hide timeline if current time is out of start/end hour range', async () => {
     // Change start/end hour to make timeline hidden
     await page.evaluate((el: string) => {
       const now = new Date();
@@ -150,7 +150,7 @@ describe('Ids Week View e2e Tests', () => {
     expect(timelineShiftCssVar).toEqual('--timeline-shift: 0px;');
   });
 
-  it('should show/hide timeline', async () => {
+  test('should show/hide timeline', async () => {
     // Hide timeline
     await page.evaluate((el: string) => {
       const element = document.querySelector<any>(el);
@@ -174,7 +174,7 @@ describe('Ids Week View e2e Tests', () => {
     expect(timeline).not.toBeNull();
   });
 
-  it('should change timeline position with interval', async () => {
+  test('should change timeline position with interval', async () => {
     // Show timeline and change interval
     await page.evaluate((el: string) => {
       const element = document.querySelector<any>(el);

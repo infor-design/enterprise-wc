@@ -3,7 +3,6 @@
  */
 import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
-import processAnimFrame from '../helpers/process-anim-frame';
 
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsHomePage from '../../src/components/ids-home-page/ids-home-page';
@@ -46,7 +45,7 @@ describe('IdsHomePage Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should set animated to home page', () => {
+  test('should set animated to home page', () => {
     expect(homePage.getAttribute('animated')).toEqual(null);
     expect(homePage.animated).toEqual(DEFAULTS.animated);
     homePage.animated = true;
@@ -60,7 +59,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.animated).toEqual(DEFAULTS.animated);
   });
 
-  it('should set custom widget height', () => {
+  test('should set custom widget height', () => {
     expect(homePage.getAttribute('widget-height')).toEqual(null);
     expect(homePage.widgetHeight).toEqual(DEFAULTS.widgetHeight);
     homePage.widgetHeight = '260';
@@ -74,7 +73,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.widgetHeight).toEqual(DEFAULTS.widgetHeight);
   });
 
-  it('should set custom widget width', () => {
+  test('should set custom widget width', () => {
     expect(homePage.getAttribute('widget-width')).toEqual(null);
     expect(homePage.widgetWidth).toEqual(DEFAULTS.widgetWidth);
     homePage.widgetWidth = '260';
@@ -85,7 +84,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.widgetWidth).toEqual(DEFAULTS.widgetWidth);
   });
 
-  it('should set max columns', () => {
+  test('should set max columns', () => {
     expect(homePage.getAttribute('cols')).toEqual(null);
     expect(homePage.cols).toEqual(DEFAULTS.cols);
     homePage.cols = '4';
@@ -96,7 +95,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.cols).toEqual(DEFAULTS.cols);
   });
 
-  it('should set widget gap for single span', () => {
+  test('should set widget gap for single span', () => {
     expect(homePage.getAttribute('gap')).toEqual(null);
     expect(homePage.gap).toEqual(null);
     homePage.gap = '50';
@@ -107,7 +106,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.gap).toEqual(null);
   });
 
-  it('should set widget gap-x for single span', () => {
+  test('should set widget gap-x for single span', () => {
     expect(homePage.getAttribute('gap-x')).toEqual(null);
     expect(homePage.gapX).toEqual(null);
     homePage.gapX = '50';
@@ -118,7 +117,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.gapX).toEqual(null);
   });
 
-  it('should set widget gap-y for single span', () => {
+  test('should set widget gap-y for single span', () => {
     expect(homePage.getAttribute('gap-y')).toEqual(null);
     expect(homePage.gapY).toEqual(null);
     homePage.gapY = '50';
@@ -129,7 +128,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.gapY).toEqual(null);
   });
 
-  it('should set other gap states', () => {
+  test('should set other gap states', () => {
     expect(homePage.getAttribute('gap')).toEqual(null);
     expect(homePage.getAttribute('gap-x')).toEqual(null);
     expect(homePage.gap).toEqual(null);
@@ -182,7 +181,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.gapY).toEqual(null);
   });
 
-  it('should trigger resized event', async () => {
+  test('should trigger resized event', async () => {
     const mockCallback = jest.fn(() => { });
     homePage.addEventListener(EVENTS.resized, mockCallback);
     homePage.container?.style.setProperty('width', '1000px');
@@ -194,11 +193,10 @@ describe('IdsHomePage Component', () => {
 
   it.skip('should trigger resized event in RTL', async () => {
     await container.localeAPI.setLanguage('ar');
-    await processAnimFrame();
     expect(homePage.getAttribute('dir')).toEqual('rtl');
   });
 
-  it('should append widget', async () => {
+  test('should append widget', async () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1400, writable: true });
     Object.defineProperty(homePage.container, 'offsetWidth', { configurable: true, value: 1250, writable: true });
     const id = 'test-widget';
@@ -219,7 +217,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(1);
   });
 
-  it('should append widget in RTL', async () => {
+  test('should append widget in RTL', async () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1400, writable: true });
     Object.defineProperty(homePage.container, 'offsetWidth', { configurable: true, value: 1250, writable: true });
     const event = new CustomEvent('languagechange', {
@@ -238,7 +236,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(1);
   });
 
-  it('should adjust column width', async () => {
+  test('should adjust column width', async () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 800, writable: true });
     Object.defineProperty(homePage.container, 'offsetWidth', { configurable: true, value: 750, writable: true });
     const id = 'test-widget';
@@ -256,7 +254,7 @@ describe('IdsHomePage Component', () => {
     expect(homePage.querySelectorAll(`#${id}`).length).toEqual(1);
   });
 
-  it('should adjust extra columns', async () => {
+  test('should adjust extra columns', async () => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 2200, writable: true });
     Object.defineProperty(homePage.container, 'offsetWidth', { configurable: true, value: 2150, writable: true });
     const id = 'test-widget';
