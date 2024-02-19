@@ -275,4 +275,7 @@
         <slot name="tooltip">
           <ids-tooltip id="tooltip" exportparts="tooltip-popup, tooltip-arrow"></ids-tooltip>
         </slot>
+        <slot name="loading-container">
+          <ids-loading-indicator stopped=""></ids-loading-indicator>
+        </slot>
       </div>

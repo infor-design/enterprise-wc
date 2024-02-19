@@ -6,6 +6,10 @@ import { test } from '../base-fixture';
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsPagerInput from '../../src/components/ids-pager/ids-pager-input';
 import IdsDataGridCell from '../../src/components/ids-data-grid/ids-data-grid-cell';
+import IdsDataGridRow from '../../src/components/ids-data-grid/ids-data-grid-row';
+import { IdsZip } from '../../src/utils/ids-zip/ids-zip';
+import { XLSXFormatter } from '../../src/utils/ids-excel-exporter/ids-excel-formatter';
+import { ExcelColumn } from '../../src/utils/ids-excel-exporter/ids-worksheet-templates';
 
 test.describe('IdsDataGrid tests', () => {
   const url = '/ids-data-grid/example.html';
@@ -409,6 +413,187 @@ test.describe('IdsDataGrid tests', () => {
         expect(await locator.getAttribute('empty-message-label')).toEqual(null);
         expect(await value4).toEqual(null);
       });
+    });
+  });
+
+  test.describe('loading indicator tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-data-grid/loading-indicator.html');
+    });
+
+    test('can set minHeight', async ({ page }) => {
+      const dataGrid = await page.locator('ids-data-grid').first();
+      expect(await dataGrid.getAttribute('min-height')).toBe('350px');
+      const minHeight = await page.evaluate(() => {
+        const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        elem.setAttribute('min-height', '450px');
+        return elem.container!.style.minHeight;
+      });
+      expect(await minHeight).toBe(`450px`);
+      const values = await page.evaluate(() => {
+        const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        elem.setAttribute('min-height', '');
+        return [elem.container!.style.minHeight, elem.minHeight];
+      });
+      expect(await values[0]).toBe('');
+      expect(await values[1]).toBe('350px');
+    });
+
+    test('can start and stop loading indicator minHeight', async ({ page }) => {
+      const isStarted = await page.evaluate(() => {
+        const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        elem.loadingIndicator.start();
+        return elem.loadingIndicator.getAttribute('stopped') === null;
+      });
+      expect(await isStarted).toBe(true);
+      const isStopped = await page.evaluate(() => {
+        const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        elem.loadingIndicator.stop();
+        return elem.loadingIndicator.getAttribute('stopped') === '';
+      });
+      expect(await isStopped).toBe(true);
+    });
+  });
+
+  test.describe('row tests', () => {
+    test('can get rowsHidden', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        return elem.rowsHidden.length;
+      });
+      expect(results).toBe(0);
+      const results2 = await page.evaluate(() => {
+        const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        elem.container!.querySelector<IdsDataGridRow>('ids-data-grid-row:nth-child(2)')!.hidden = true;
+        return elem.rowsHidden.length;
+      });
+      expect(results2).toBe(1);
+    });
+  });
+
+  test.describe('excel export tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-data-grid/export-excel.html');
+    });
+
+    test('can export to csv', async ({ page }) => {
+      await page.on('download', async (download) => {
+        // eslint-disable-next-line no-underscore-dangle
+        expect(await (download as any)._url).toBeTruthy();
+        // eslint-disable-next-line no-underscore-dangle
+        expect(await (download as any)._suggestedFilename).toEqual('test.csv');
+      });
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        elem.exportToExcel('csv', 'test');
+      });
+    });
+
+    test('can export to xlsx', async ({ page }) => {
+      await page.on('download', async (download) => {
+        // eslint-disable-next-line no-underscore-dangle
+        expect(await (download as any)._url).toBeTruthy();
+        // eslint-disable-next-line no-underscore-dangle
+        expect(await (download as any)._suggestedFilename).toEqual('test.xlsx');
+      });
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        elem.exportToExcel('xlsx', 'test');
+      });
+    });
+
+    test('can create a zip file', async ({ page }) => {
+      await page.exposeFunction('createZip', () => {
+        const root = new IdsZip();
+        root.file('test.txt', 'test data');
+        const zipFile = root.zip('text/*');
+        return [zipFile instanceof Blob, zipFile.type];
+      });
+
+      const results: any = await page.evaluate(() => (window as any).createZip());
+
+      expect(results[0]).toBeTruthy();
+      expect(results[1]).toEqual('text/*');
+    });
+
+    test('can generate xlsx worksheet with string types', async ({ page }) => {
+      await page.exposeFunction('formatString', () => {
+        const xlsxFormatter = new XLSXFormatter();
+        const data = [{ name: 'Joe Shmo' }];
+        const xlColumns: ExcelColumn[] = [{
+          id: 'name',
+          name: 'Name',
+          field: 'name',
+          type: 'string'
+        }];
+        const worksheet = xlsxFormatter.generateWorksheet(data, xlColumns);
+        return worksheet;
+      });
+
+      const worksheet: any = await page.evaluate(() => (window as any).formatString());
+      const expectedCell = '<is><t>Joe Shmo</t></is>';
+      expect(worksheet.indexOf(expectedCell) !== -1).toBeTruthy();
+    });
+
+    test('can generate xlsx worksheet with number types', async ({ page }) => {
+      await page.exposeFunction('formatNumber', () => {
+        const xlsxFormatter = new XLSXFormatter();
+        const data = [{ num: 12345.54321 }];
+        const xlColumns: ExcelColumn[] = [{
+          id: 'num',
+          name: 'Num',
+          field: 'num',
+          type: 'number'
+        }];
+        const worksheet = xlsxFormatter.generateWorksheet(data, xlColumns);
+        return worksheet;
+      });
+
+      const worksheet: any = await page.evaluate(() => (window as any).formatNumber());
+      const expectedCell = '<v>12345.54321</v>';
+      expect(worksheet.indexOf(expectedCell) !== -1).toBeTruthy();
+    });
+
+    test('can generate xlsx worksheet with date types', async ({ page }) => {
+      await page.exposeFunction('formatNumber', () => {
+        const xlsxFormatter = new XLSXFormatter();
+        const date = new Date(1990, 3, 21);
+        const data = [{ date: date.toISOString() }];
+        const xlColumns: ExcelColumn[] = [{
+          id: 'date',
+          name: 'Date',
+          field: 'date',
+          type: 'date'
+        }];
+        const worksheet = xlsxFormatter.generateWorksheet(data, xlColumns);
+        return worksheet;
+      });
+
+      const dateInExcelFormat = 32984; // days since Jan 1 1900;
+      const worksheet: any = await page.evaluate(() => (window as any).formatNumber());
+      const expectedCell = `<v>${dateInExcelFormat}</v>`;
+      expect(worksheet.indexOf(expectedCell) !== -1).toBeTruthy();
+    });
+
+    test('can generate xlsx worksheet with time types', async ({ page }) => {
+      await page.exposeFunction('formatNumber', () => {
+        const xlsxFormatter = new XLSXFormatter();
+        const date = new Date(1990, 3, 21, 3, 25); // April 21 1990 3:25
+        const data = [{ time: date.toISOString() }];
+        const xlColumns: ExcelColumn[] = [{
+          id: 'time',
+          name: 'Time',
+          field: 'time',
+          type: 'time'
+        }];
+        const worksheet = xlsxFormatter.generateWorksheet(data, xlColumns);
+        return worksheet;
+      });
+
+      const dateInExcelFormat = 32984.14236111111;
+      const worksheet: any = await page.evaluate(() => (window as any).formatNumber());
+      const expectedCell = `<v>${dateInExcelFormat}</v>`;
+      expect(worksheet.indexOf(expectedCell) !== -1).toBeTruthy();
     });
   });
 });

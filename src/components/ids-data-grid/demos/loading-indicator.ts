@@ -1,16 +1,12 @@
 import type IdsDataGrid from '../ids-data-grid';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
-import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-empty-message')!;
-const showEmptyData = true;
 
 if (dataGrid) {
   (async function init() {
-    // Do an ajax request
-    const url: any = booksJSON;
     const columns: IdsDataGridColumn[] = [];
 
     // Set up columns
@@ -59,18 +55,10 @@ if (dataGrid) {
     });
 
     dataGrid.columns = columns;
-    const setData = async () => {
-      const res = await fetch(url);
-      const data = await res.json();
-      dataGrid.suppressEmptyMessage = true;
-      dataGrid.data = [];
-      dataGrid.loadingIndicator.start();
-      setTimeout(() => {
-        dataGrid.data = showEmptyData ? [] : data;
-        dataGrid.loadingIndicator.stop();
-      }, 2000);
-    };
-
-    setData();
+    dataGrid.suppressEmptyMessage = true;
+    dataGrid.data = [];
+    dataGrid.loadingIndicator.start();
+    // Later on...
+    // dataGrid.loadingIndicator.stop();
   }());
 }

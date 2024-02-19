@@ -141,27 +141,24 @@ export default class IdsDataGrid extends Base {
   /* Returns all the row elements in an array */
   get rows(): IdsDataGridRow[] {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
-    if (!this.container) return [];
     return [
-      ...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row')
+      ...this.container!.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row')
     ];
   }
 
   /* Returns all the hidden row elements in an array */
   get rowsHidden(): IdsDataGridRow[] {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
-    if (!this.container) return [];
     return [
-      ...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row[hidden]')
+      ...this.container!.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row[hidden]')
     ];
   }
 
   /* Returns all the visible row elements in an array */
   get rowsVisible(): IdsDataGridRow[] {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
-    if (!this.container) return [];
     return [
-      ...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row:not([hidden])')
+      ...this.container!.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row:not([hidden])')
     ];
   }
 
@@ -2009,7 +2006,7 @@ export default class IdsDataGrid extends Base {
     this.saveSettings?.();
   }
 
-  get minHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || '350px'; }
+  get minHeight() { return this.getAttribute(attributes.MIN_HEIGHT) || '350px'; }
 
   /**
    * Set the row index. If set, the datagrid's data set will initially load here.
