@@ -110,7 +110,7 @@ export default class IdsUploadAdvancedFile extends Base {
             <div class="file-progress" part="file-progress"><ids-text class="size">${this.sizeFormatted}</ids-text><div class="progress-text"><span class="bar">|</span><span class="percent">0%</span></div></div>
             <ids-button class="btn-close" part="btn-close">
               <span class="audible">${this.closeButtonText}</span>
-              <ids-icon icon="close" size="xsmall" part="btn-close-icon"></ids-icon>
+              <ids-icon icon="close" size="small" part="btn-close-icon"></ids-icon>
             </ids-button>
           </div>
           <div class="progress-row" part="progress-row">
@@ -217,7 +217,7 @@ export default class IdsUploadAdvancedFile extends Base {
         progressRow?.insertAdjacentHTML('beforeend', `
           <ids-button class="btn-start">
             <span class="audible">${this.startButtonText}</span>
-            <ids-icon icon="play" size="xsmall"></ids-icon>
+            <ids-icon icon="play" size="small"></ids-icon>
           </ids-button>`);
       }
     } else if (value < 100) {

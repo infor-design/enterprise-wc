@@ -367,7 +367,7 @@ export default class IdsUploadAdvanced extends Base {
         <div class="btn-close">
           <ids-button id="btn-close-error" part="btn-close-error">
             <span class="audible">${textCloseBtnError}</span>
-            <ids-icon icon="close" size="xsmall"></ids-icon>
+            <ids-icon icon="close" size="small"></ids-icon>
           </ids-button>
         </div>
       `;

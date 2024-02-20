@@ -257,6 +257,7 @@ export class DropdownEditor implements IdsDataGridEditor {
         const margin = cell?.dataGrid?.rowHeight === 'xxs' ? -3 : 0;
         popupRect.y = (this.input?.getBoundingClientRect().bottom || 0) + margin;
         popupRect.x = (this.input?.getBoundingClientRect().x || 0) - 1;
+        popupRect.width = 1000;
         return popupRect;
       };
     }

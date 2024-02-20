@@ -347,6 +347,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `suppressEmptyMessage` {boolean} Set to true to prevent display empty message.
 - `editable` {boolean} If true in addition to adding editors to columns the data grid is editable.
 - `editNextOnEnterPress` {boolean} If enabled when editing using <kbd>ENTER</kbd> will finish editing and start editing the same cell in next row and <kbd>SHIFT + ENTER</kbd> will edit the previous row.
+- `minHeight` {string} Sets the minimum height of the data grid. This is useful for having an area to show the empty message or the loading indicator. This can can be set as `250px` or `50%` ect.
 
 ## Column Settings (General)
 
@@ -543,6 +544,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `rowByIndex(rowIndex: number)` method to retrieve a specific row datagrid.
 - `cellByIndex(rowIndex: number, columnIndex: number)` method to retrieve a specific cell from datagrid.
 - `cellByIndex(columnIndex: number)` IdsDataGridRow method to retrieve a specific cell from row.
+- `loadingIndicator.start() / loadingIndicator.stop()` The member `loadingIndicator` lets you get to the loading indictor in the data grid. Then you can start and stop it with `.start()/stop()`
 
 ## Filters
 
