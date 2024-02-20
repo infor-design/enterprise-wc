@@ -641,7 +641,7 @@ export default class IdsSlider extends Base {
    * @returns {number} the corrected slider number
    */
   #sanitizeValue(value: string | number | any, secondary?: boolean): number {
-    const fixedValue = parseFloat(value);
+    const fixedValue = Math.ceil(parseFloat(value));
     if (fixedValue <= this.min) {
       return this.min;
     }

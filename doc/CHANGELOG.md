@@ -7,6 +7,7 @@
 - `[DataGrid]` Added dirty tracker to checkbox editor. ([#1747](https://github.com/infor-design/enterprise-wc/issues/1747))
 - `[Dropdown]` Fixed incorrect form values in reactive forms. ([#1850](https://github.com/infor-design/enterprise-wc/issues/1850))
 - `[TimePicker/Calendar]` Fixed outside click when interacting with the popup. ([#1860](https://github.com/infor-design/enterprise-wc/issues/1860))
+- `[Slider]` Rounded up the value to decimal to match the tooltip. ([#1746](https://github.com/infor-design/enterprise-wc/issues/1746))
 
 ## 1.0.0-beta.20
 
