@@ -188,6 +188,7 @@ export const attributes = {
   GAP: 'gap',
   GAP_X: 'gap-x',
   GAP_Y: 'gap-y',
+  GEN_AI: 'gen-ai',
   GROUP: 'group',
   GROUP_DISABLED: 'group-disabled',
   GROUP_LABEL: 'group-label',
