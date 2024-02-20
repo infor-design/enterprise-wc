@@ -1,10 +1,6 @@
 /* Ids Text Component */
 @use '../../themes/mixins/ids-core-mixins' as mixins;
 
-:host {
-  display: flex;
-}
-
 :host([overflow='ellipsis']) {
   max-width: 100%;
 }
