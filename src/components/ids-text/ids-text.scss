@@ -1,8 +1,12 @@
 /* Ids Text Component */
 @use '../../themes/mixins/ids-core-mixins' as mixins;
 
+:host {
+  display: flex;
+}
+
 :host([overflow='ellipsis']) {
-  max-width: fit-content;
+  max-width: 100%;
 }
 
 .ids-text {
