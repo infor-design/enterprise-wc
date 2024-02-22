@@ -68,6 +68,12 @@ const Base = IdsTooltipMixin(
 export default class IdsButton extends Base {
   shouldUpdate = false;
 
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate', 'alternate-formatter', 'module', 'module-nav'];
+
   constructor() {
     super();
     Object.keys(BUTTON_DEFAULTS).forEach((prop) => {
@@ -92,6 +98,24 @@ export default class IdsButton extends Base {
     this.shouldUpdate = true;
     if (this.getAttribute('width')) this.width = this.getAttribute('width');
     this.cssClass = this.cssClass;
+    this.#attachEventHandlers();
+  }
+
+  #attachEventHandlers() {
+    const mainSlot = this.container?.querySelector('slot');
+    this.onEvent('slotchange', mainSlot, () => {
+      this.#setInitialState();
+    });
+
+    this.onEvent('click', this.container, () => {
+      this.toggleGenAIActiveState();
+    });
+  }
+
+  toggleGenAIActiveState(isActive?: boolean) {
+    if (!this.appearance.includes('generative-ai')) return;
+    const currentState = this.button?.classList.contains('gen-ai-active');
+    this.button?.classList.toggle('gen-ai-active', typeof isActive === 'boolean' ? isActive : !currentState);
   }
 
   #setInitialState() {
@@ -108,6 +132,7 @@ export default class IdsButton extends Base {
 
     // set initial direction
     this.localeAPI.updateDirectionAttribute(this, this.localeAPI.language.name);
+    this.#setupGenAIButton(this.appearance);
   }
 
   /**
@@ -117,12 +142,6 @@ export default class IdsButton extends Base {
   static get attributes(): Array<string> {
     return [...super.attributes, ...BUTTON_ATTRIBUTES];
   }
-
-  /**
-   * Inherited from `IdsColorVariantMixin`
-   * @returns {Array<string>} List of available color variants for this component
-   */
-  colorVariants = ['alternate', 'alternate-formatter', 'module', 'module-nav'];
 
   /**
    * Figure out the classes
@@ -583,18 +602,48 @@ export default class IdsButton extends Base {
     this.refreshProtoClasses();
   }
 
+  #setupGenAIButton(appearance: string) {
+    if (!appearance.includes('generative') || this.querySelector('ids-icon[icon="insights-smart-panel"]')) return;
+
+    const linerGradient = `<defs>
+      <linearGradient id="paint-linear" x1="14.6681" y1="-32.5625" x2="31.7256" y2="-26.8896" gradientUnits="userSpaceOnUse">
+        <stop offset="0.117757" class="insights-stop-1"></stop>
+        <stop offset="0.927091" class="insights-stop-2"></stop>
+      </linearGradient>
+    </defs>`;
+    const activeAnimation = `<div class="loading-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>`;
+
+    const insightsIcon = document.createElement('ids-icon') as IdsIcon;
+    insightsIcon.setAttribute('icon', 'insights-smart-panel');
+    this.append(insightsIcon);
+    this.container?.insertAdjacentHTML('beforeend', activeAnimation);
+
+    // Tertiary style requires svg definitions for gradient colors
+    if (appearance.includes('tertiary')) {
+      requestAnimationFrame(() => {
+        insightsIcon.appendSVGDefs?.(linerGradient);
+        insightsIcon.pathElem?.setAttribute('fill', `url(#paint-linear)`);
+      });
+    }
+  }
+
   /**
    * Set the button appearance between 'default', 'primary', 'secondary', 'tertiary', or 'destructive'
    * @param {IdsButtonAppearance | null} val a valid button "appearance"
    */
   set appearance(val: IdsButtonAppearance | null) {
     if (!val || BUTTON_APPEARANCE.indexOf(val) <= 0) {
-      this.removeAttribute(attributes.APPEARANCE);
       this.state.appearance = BUTTON_APPEARANCE[0];
+      this.removeAttribute(attributes.APPEARANCE);
     } else {
+      this.state.appearance = val;
       this.setAttribute(attributes.APPEARANCE, val);
-      if (this.state.appearance !== val) this.state.appearance = val;
     }
+
     this.setAppearanceClass(val);
   }
 

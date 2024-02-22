@@ -468,6 +468,22 @@ export default class IdsIcon extends Base {
     return this.getAttribute(attributes.COLOR) as IdsColorValue;
   }
 
+  get pathElem(): SVGPathElement | null {
+    return this.container?.querySelector('path') || null;
+  }
+
+  /**
+   * Appends SVGDefsElement to icon SVG
+   * @param {SVGDefsElement | string} svgDefs svg defs
+   */
+  appendSVGDefs(svgDefs: SVGDefsElement | string) {
+    if (typeof svgDefs === 'string') {
+      this.container?.insertAdjacentHTML('beforeend', svgDefs);
+    } else {
+      this.container?.append(svgDefs);
+    }
+  }
+
   #adjustFill(): void {
     let fill = 'none';
     if (this.fill) {

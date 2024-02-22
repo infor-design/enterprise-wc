@@ -44,6 +44,16 @@ svg {
   }
 }
 
+:host([icon='insights-smart-panel']) {
+  .insights-stop-1 {
+    stop-color: var(--ids-button-ai-color-icon-primary);
+  }
+
+  .insights-stop-2 {
+    stop-color: var(--ids-button-ai-color-icon-secondary);
+  }
+}
+
 .notification-badge {
   background-color: var(--ids-notification-badge-error-color-background);
   border-radius: var(--ids-notification-badge-border-radius);
