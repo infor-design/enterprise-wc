@@ -103,10 +103,12 @@ export default class IdsButton extends Base {
 
   #attachEventHandlers() {
     const mainSlot = this.container?.querySelector('slot');
+    this.offEvent('slotchange', mainSlot);
     this.onEvent('slotchange', mainSlot, () => {
       this.#setInitialState();
     });
 
+    this.offEvent('click', this.container);
     this.onEvent('click', this.container, () => {
       this.toggleGenAIActiveState();
     });
