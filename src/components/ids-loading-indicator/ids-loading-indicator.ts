@@ -53,6 +53,7 @@ export default class IdsLoadingIndicator extends Base {
       attributes.PROGRESS,
       attributes.STICKY,
       attributes.TYPE,
+      attributes.VISIBLE
     ];
   }
 

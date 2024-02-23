@@ -140,6 +140,9 @@
   - link: list-style.html
     type: Example
     description: Shows a data grid with readonly list styling
+  - link: loading-indicator.html
+    type: Example
+    description: Shows a data grid with a loading indicator
   - link: m3-features.html
     type: Example
     description: Shows m3 teams typical usage
@@ -230,6 +233,9 @@
   - link: row-start.html
     type: Example
     description: Shows a data grid with row-start attribute
+  - link: rows-10k.html
+    type: Example
+    description: Shows a data grid with 10k rows
   - link: tooltip.html
     type: Example
     description: Shows a data grid with tooltip

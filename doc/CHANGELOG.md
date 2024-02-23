@@ -4,8 +4,10 @@
 
 ### 1.0.0-beta.21 Fixes
 
+- `[ColorPicker]` Fix Color Picker support for angular form controls. ([#1774](https://github.com/infor-design/enterprise-wc/issues/1774))
 - `[DataGrid]` Added dirty tracker to checkbox editor. ([#1747](https://github.com/infor-design/enterprise-wc/issues/1747))
 - `[Dropdown]` Fixed incorrect form values in reactive forms. ([#1850](https://github.com/infor-design/enterprise-wc/issues/1850))
+- `[Slider]` Rounded up the value to decimal to match the tooltip. ([#1746](https://github.com/infor-design/enterprise-wc/issues/1746))
 - `[TimePicker/Calendar]` Fixed outside click when interacting with the popup. ([#1860](https://github.com/infor-design/enterprise-wc/issues/1860))
 
 ## 1.0.0-beta.20
@@ -17,6 +19,7 @@
 ### 1.0.0-beta.20 Fixes
 
 - `[AppMenu]` Added an issue to reclaim space on app menu. ([#1563](https://github.com/infor-design/enterprise-wc/issues/1563))
+- `[Dropdown]` Fix typeahead on `ids-dropdown`. ([#1737](https://github.com/infor-design/enterprise-wc/issues/1737))
 - `[Dropdown]` Fixed position and styling issue on some frameworks (standalone examples). ([#1834](https://github.com/infor-design/enterprise-wc/issues/1834))
 - `[Dropdown/Datagrid]` Added style fixes to position the dropdown better next to the cell. ([#1770](https://github.com/infor-design/enterprise-wc/issues/1770))
 - `[Input/Textarea]` Fix double input and change events. ([#1765](https://github.com/infor-design/enterprise-wc/issues/1765))

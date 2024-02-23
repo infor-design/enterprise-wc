@@ -25,6 +25,7 @@
   box-sizing: border-box;
   overflow: auto;
   width: 100%;
+  min-height: var(--ids-data-grid-height-min);
 
   // Needed so sticky header works in safari
   display: inline-grid;
@@ -373,8 +374,19 @@ table.ids-data-grid {
     top: 0;
     pointer-events: none;
   }
+}
 
-  .ids-data-grid {
-    min-height: var(--ids-data-grid-height-min);
+// Loading Indicator
+ids-loading-indicator {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+
+  &[stopped] {
+    display: none;
   }
 }
