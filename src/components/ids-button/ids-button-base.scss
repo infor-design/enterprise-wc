@@ -266,10 +266,12 @@
   
   @keyframes dot-flashing {
     0% {
-      background-color: #ffffff;
+      background-color: #fff;
     }
-    50%, 100% {
-        background-color: rgba(255, 255, 255, 0.4);
+
+    50%,
+    100% {
+        background-color: rgba(255 255 255 / 0.4);
     }
   }
 
@@ -277,7 +279,9 @@
     0% {
       background-color: #0B9789;
     }
-    50%, 100% {
+
+    50%,
+    100% {
         background-color: #1A3362;
     }
   }
@@ -353,15 +357,14 @@
   &.btn-tertiary-generative-ai {
     background: var(--ids-button-ai-color-background-default);
     background-clip: text;
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     align-items: center;
 
     &:hover {
       background: var(--ids-button-ai-color-background-hover);
       background-clip: text;
-      -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+
       ::slotted(ids-icon[icon="insights-smart-panel"]) {
         --ids-button-ai-color-icon-primary: var(--ids-button-ai-color-icon-primary-hover);
         --ids-button-ai-color-icon-secondary: var(--ids-button-ai-color-icon-secondary-hover);
@@ -372,17 +375,17 @@
     &.gen-ai-active {
       background: var(--ids-button-ai-color-background-active);
       background-clip: text;
-      -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     &[disabled] {
       background: var(--ids-button-tertiary-ai-color-background-disabled);
       background-clip: text;
-      -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+
       ::slotted(ids-icon[icon="insights-smart-panel"]) {
         opacity: .5;
+
         --ids-button-ai-color-icon-primary: var(--ids-button-ai-color-icon-primary-disabled);
         --ids-button-ai-color-icon-secondary: var(--ids-button-ai-color-icon-secondary-disabled);
       }
