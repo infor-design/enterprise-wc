@@ -20,6 +20,9 @@
   - link: shortcut-keys.html
     type: Example
     description: Showing a Popup Menu displaying shortcut key icons
+  - link: load-data.html
+    type: Example
+    description: Showing loading data on beforeShow (with ajax)
   - link: trigger-immediate.html
     type: Test
     description: Showing a Popup Menu invoked on demand

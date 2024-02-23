@@ -1,5 +1,15 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.22
+
+### 1.0.0-beta.22 Features
+
+- `[PopupMenu]` Added ability to load menu data in a callback with `beforeShow`. ([#1804](https://github.com/infor-design/enterprise-wc/issues/1804))
+
+### 1.0.0-beta.22 Fixes
+
+- `[Datagrid]` Fixed a display issue with the new loading indicator in firefox. ([#1617](https://github.com/infor-design/enterprise-wc/issues/1617))
+
 ## 1.0.0-beta.21
 
 ### 1.0.0-beta.21 Fixes

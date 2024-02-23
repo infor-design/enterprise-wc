@@ -1,0 +1,25 @@
+{
+  "id": "submenu-group-n",
+  "select": "none",
+  "items": [
+    {
+      "id": "submenu-item-1",
+      "text": "Sub Menu Item One"
+    },
+    {
+      "id": "submenu-item-2",
+      "text": "Sub Menu Item Two"
+    },
+    {
+      "id": "submenu-item-3",
+      "text": "Another Sub Menu",
+      "submenu": {
+          "id": "submenu-group-n",
+          "contents": [
+            {
+            }
+          ]
+      }
+    }
+  ]
+}

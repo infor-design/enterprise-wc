@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
-import { getElementAtMouseLocation, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getElementAtMouseLocation, parents, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
@@ -311,9 +311,19 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
+   * An async function that fires when the popupmenu or submenu is opened allowing you to set contents dynamically
+   * @param {Function} func The async function
+   */
+  set beforeShow(func: (options: any) => Promise<string>) {
+    this.state.beforeShow = func;
+  }
+
+  get beforeShow(): () => Promise<string> { return this.state.beforeShow; }
+
+  /**
    * @returns {void}
    */
-  show(): void {
+  async show(): Promise<void> {
     if (this.popup?.visible) return;
 
     // Trigger a veto-able `beforeshow` event.
@@ -321,7 +331,7 @@ export default class IdsPopupMenu extends Base {
       return;
     }
 
-    // this.align = this.localeAPI.isRTL() ? 'left, top' : this.align;
+    await this.#callBeforeShow();
     this.configureSubmenuAlignment();
     this.refreshIconAlignment();
 
@@ -344,6 +354,65 @@ export default class IdsPopupMenu extends Base {
     this.popup?.addOpenEvents();
   }
 
+  /**
+   * Trigger an async callback for contents and update config
+   * @private
+   */
+  async #callBeforeShow() {
+    const isSubmenu = this.getAttribute('slot') === 'submenu';
+    let rootMenu;
+    if (isSubmenu) {
+      const parentElems = parents(this, 'ids-popup-menu');
+      rootMenu = parentElems[parentElems.length - 1] as IdsPopupMenu;
+      this.state.beforeShow = rootMenu?.state.beforeShow;
+    }
+
+    if (this.state.beforeShow) {
+      const menuData = await this.state.beforeShow({
+        popop: this.popup,
+        data: this.data,
+        isSubmenu: this.getAttribute('slot') === 'submenu',
+        contextElement: this
+      });
+      if (!menuData) return;
+      if (!isSubmenu) this.data = menuData;
+      if (isSubmenu && rootMenu) {
+        const submenuDataItem = this.#findSubmenu((rootMenu.data as any)[0].items, 'id', this.id)!;
+        submenuDataItem.contents = [menuData];
+        this.data = submenuDataItem;
+        this.setOnPlace(!!this.parentMenuItem);
+      }
+      if (!isSubmenu) this.popup?.setPosition(this.state.pageX, this.state.pageY);
+    }
+  }
+
+  /**
+   * Find an element in an array when its deeply nested. If we need a generic one this could be made into.
+   * @param {Array} array to scan
+   * @param {string} key selector containing a CSS selector to be used for matching
+   * @param {unknown} value the value to match the key
+   * @returns {any} The object in the array (ref)
+   * @private
+   */
+  #findSubmenu(array: any, key: string, value: unknown): any {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i][key] === value) {
+        return array[i];
+      }
+      if (array[i].submenu) {
+        // May need recursion soon
+        if (array[i].submenu[key] === value) {
+          return array[i].submenu;
+        }
+      }
+    }
+    return undefined;
+  }
+
+  /**
+   * Set the aria role
+   * @private
+   */
   #setVisibleARIA(): void {
     this.popup?.querySelector('nav')?.setAttribute(htmlAttributes.ROLE, 'menu');
     const items: Array<any> = [...this.querySelectorAll('ids-menu-item')];
@@ -353,6 +422,10 @@ export default class IdsPopupMenu extends Base {
     });
   }
 
+  /**
+   * Remove the aria role
+   * @private
+   */
   #removeVisibleARIA(): void {
     this.popup?.querySelector('nav')?.removeAttribute(htmlAttributes.ROLE);
   }
@@ -538,6 +611,8 @@ export default class IdsPopupMenu extends Base {
     e.preventDefault();
     e.stopPropagation();
     this.hide();
+    this.state.pageX = e.pageX;
+    this.state.pageY = e.pageY;
     this.popup?.setPosition(e.pageX, e.pageY);
     this.showIfAble();
     this.setInitialFocus();
