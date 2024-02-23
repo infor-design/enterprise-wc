@@ -613,18 +613,12 @@ export default class IdsPopup extends Base {
    * @returns {string} opposite align edge
    */
   #getOppositeEdge(currentEdge?: string): string {
-    switch (currentEdge) {
-      case 'left':
-        return 'right';
-      case 'right':
-        return 'left';
-      case 'top':
-        return 'bottom';
-      case 'bottom':
-        return 'top';
-      default:
-        return 'none';
-    }
+    return {
+      left: 'right',
+      right: 'left',
+      top: 'bottom',
+      bottom: 'top'
+    }[currentEdge ?? ''] || 'none';
   }
 
   /**
@@ -1483,24 +1477,25 @@ export default class IdsPopup extends Base {
 
     // Gets the distance between an edge on the target element, and its opposing viewport border
     const getDistance = (dir: string) => {
-      let d = 0;
+      let distance = 0;
 
       switch (dir) {
         case 'left':
-          d = (bleed ? 0 : containerRect.left) - scrollX - targetRect.left + this.x;
+          distance = (bleed ? 0 : containerRect.left) - scrollX - targetRect.left + this.x;
           break;
         case 'right':
-          d = (bleed ? viewportWidth : containerRect.right) - scrollX - targetRect.right - this.x;
+          distance = (bleed ? viewportWidth : containerRect.right) - scrollX - targetRect.right - this.x;
           break;
         case 'top':
-          d = (bleed ? 0 : containerRect.top) - scrollY - targetRect.top + this.y;
+          distance = (bleed ? 0 : containerRect.top) - scrollY - targetRect.top + this.y;
           break;
-        default: // bottom
-          d = (bleed ? viewportHeight : containerRect.bottom) - scrollY - targetRect.bottom - this.y;
+        case 'bottom':
+        default:
+          distance = (bleed ? viewportHeight : containerRect.bottom) - scrollY - targetRect.bottom - this.y;
           break;
       }
 
-      return Math.abs(d);
+      return Math.abs(distance);
     };
 
     const currentDir = this.alignEdge;
@@ -1521,7 +1516,7 @@ export default class IdsPopup extends Base {
       return popupRect[measuredPopupDimension] <= dist;
     });
 
-    return edge || 'none';
+    return edge || 'right';
   }
 
   /**
