@@ -48,7 +48,7 @@ const getInnerIndicatorHtml = ({
           : getPercentageTextHtml({ progress, type })}`
       );
     }
-    case attributes.GEN_AI: {
+    case attributes.GENERATIVE_AI: {
       return `<div class="ai-loading-indicator">
         <div class="bar"></div>
         <div class="bar"></div>

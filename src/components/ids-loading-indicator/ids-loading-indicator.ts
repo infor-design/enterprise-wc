@@ -71,8 +71,8 @@ export default class IdsLoadingIndicator extends Base {
       type = 'linear';
     }
 
-    if (this.hasAttribute(attributes.GEN_AI)) {
-      type = 'gen-ai';
+    if (this.hasAttribute(attributes.GENERATIVE_AI)) {
+      type = 'generative-ai';
     }
 
     return getInnerIndicatorHtml({

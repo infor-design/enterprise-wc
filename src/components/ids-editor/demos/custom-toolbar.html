@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Editor with custom toolbar</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-editor id="editor-demo" label="Ids Editor">
+          <ids-toolbar slot="toolbar" type="formatter">
+            <ids-toolbar-section type="buttonset">
+              <ids-button editor-action="bold" tooltip="Toggle Bold Text" color-variant="alternate-formatter">
+                <span class="audible">Bold</span>
+                <ids-icon icon="bold"></ids-icon>
+              </ids-button>
+              <ids-button editor-action="italic" tooltip="Toggle Italic Text" color-variant="alternate-formatter">
+                <span class="audible">Italic</span>
+                <ids-icon icon="italic"></ids-icon>
+              </ids-button>
+              <ids-button editor-action="underline" tooltip="Toggle Underline Text" color-variant="alternate-formatter">
+                <span class="audible">Underline</span>
+                <ids-icon icon="underline"></ids-icon>
+              </ids-button>
+              <ids-button editor-action="strikethrough" tooltip="Toggle Strike Through Text" color-variant="alternate-formatter">
+                <span class="audible">Strike through</span>
+                <ids-icon icon="strike-through"></ids-icon>
+              </ids-button>
+              <ids-separator vertical></ids-separator>
+              <ids-button editor-action="forecolor" tooltip="Text Color" color-variant="alternate-formatter">
+                <span class="audible">Text color</span>
+                <ids-icon icon="fore-color"></ids-icon>
+              </ids-button>
+              <ids-separator vertical></ids-separator>
+              <ids-button editor-action="alignleft" tooltip="Align Left" color-variant="alternate-formatter">
+                <span class="audible">Align left</span>
+                <ids-icon icon="left-text-align"></ids-icon>
+              </ids-button>
+              <ids-button editor-action="aligncenter" tooltip="Align Center" color-variant="alternate-formatter">
+                <span class="audible">Align center</span>
+                <ids-icon icon="center-text"></ids-icon>
+              </ids-button>
+              <ids-button editor-action="alignright" tooltip="Align Right" color-variant="alternate-formatter">
+                <span class="audible">Align right</span>
+                <ids-icon icon="right-text-align"></ids-icon>
+              </ids-button>
+              <ids-separator vertical></ids-separator>
+              <ids-button editor-action="generativeai" appearance="primary-generative-ai" color-variant="alternate-formatter">
+                <span class="audible">Generative</span>
+              </ids-button>
+              <ids-button editor-action="editormode" tooltip="View Visual" color-variant="alternate-formatter">
+                <span class="audible">View Visual</span>
+                <ids-icon icon="visual" width="50" viewbox="0 0 73 18"></ids-icon>
+              </ids-button>
+              <ids-button editor-action="sourcemode" tooltip="View Source" color-variant="alternate-formatter">
+                <span class="audible">View Source</span>
+                <ids-icon icon="html" width="38" viewbox="0 0 54 18"></ids-icon>
+              </ids-button>
+            </ids-toolbar-section>
+            <ids-toolbar-more-actions overflow color-variant="alternate-formatter"></ids-toolbar-more-actions>
+          </ids-toolbar>
+
+          <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+            reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
+            rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
+            synergistic synergies.</p>
+          <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+            extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
+            Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
+            infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage
+            morph.</p>
+        </ids-editor>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -112,7 +112,11 @@ export default class IdsButton extends Base {
     });
   }
 
-  toggleGenAIActiveState(isActive?: boolean) {
+  /**
+   * Toggles generative AI button active state
+   * @param {boolean} isActive active flag
+   */
+  toggleGenAIActiveState(isActive?: boolean): void {
     if (!this.appearance.includes('generative-ai')) return;
     const currentState = this.button?.classList.contains('gen-ai-active');
     this.button?.classList.toggle('gen-ai-active', typeof isActive === 'boolean' ? isActive : !currentState);

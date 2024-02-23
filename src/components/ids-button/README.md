@@ -21,6 +21,10 @@ The IDS Button component is a simple wrapper around a standard HTMLButtonElement
 - `icon` allows you to further style the internal icon element (used in some types of buttons)
 - `text` allows you to further style the internal icon element (used in some types of buttons)
 
+## Methods
+
+- `toggleGenAIActiveState(isActive: boolean)` Toggles generative AI button's active state which includes its own indicator.
+
 ## Features (With Code Samples)
 
 Standalone primary buttons could be built this way:
@@ -92,6 +96,8 @@ IDS button appearances include:
 - `secondary`
 - `tertiary`
 - `tertiary-destructive`
+- `primary-generative-ai`
+- `tertiary-generative-ai`
 
 ### Alignment
 

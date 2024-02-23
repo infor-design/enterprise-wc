@@ -305,6 +305,8 @@
     color: #FFF;
     border: none;
     align-items: center;
+    min-width: 34px;
+    min-height: 34px;
 
     &:hover {
       background: var(--ids-button-ai-color-background-hover);
@@ -318,6 +320,13 @@
     &[disabled] {
       background: var(--ids-button-ai-color-background-disabled);
       background-color: var(--ids-button-ai-color-background-color-disabled);
+    }
+
+    &.color-variant-alternate-formatter,
+    &.color-variant-alternate-formatter:hover {
+      color: #FFF;
+      min-height: var(--ids-button-formatter-size);
+      min-width: 34px;
     }
 
     .loading-dots {
