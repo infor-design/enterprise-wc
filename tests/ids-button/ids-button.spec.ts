@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
@@ -70,7 +71,6 @@ test.describe('IdsButton tests', () => {
   });
 
   test.describe('functionality tests', () => {
-
     test('can set focus values', async ({ page }) => {
       const ID = 'ids-button[id="test-button-primary"]';
       await test.step('tab index attribute not on ids-button level', async () => {
@@ -142,8 +142,8 @@ test.describe('IdsButton tests', () => {
           await expect(idsButton).toBeEnabled();
           await expect(button).toBeEnabled();
         });
-      })
-    })
+      });
+    });
 
     test('can disable/enable padding', async ({ page }) => {
       const ID = 'ids-button[id="test-button-primary"]';
@@ -156,7 +156,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('disable padding', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.noPadding = true;
         }, { id: ID }).then(async () => {
           await expect(idsButton).toHaveAttribute('no-padding', 'true');
@@ -165,7 +165,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('enable padding', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.noPadding = false;
         }, { id: ID }).then(async () => {
           await expect(idsButton).not.toHaveAttribute('no-padding', 'true');
@@ -182,7 +182,7 @@ test.describe('IdsButton tests', () => {
         byString: 'one two three',
         byArray: ['four', 'five', 'six'],
         byEmptyString: ''
-      }
+      };
 
       await test.step('check before test attributes', async () => {
         await expect(idsButton).not.toHaveAttribute('css-class');
@@ -190,7 +190,7 @@ test.describe('IdsButton tests', () => {
 
       await test.step('add class by passing a string', async () => {
         await expect(button).not.toHaveClass(new RegExp(testData.byString, 'g'));
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.cssClass = data.class;
         }, { id: ID, class: testData.byString }).then(async () => {
           await expect(idsButton).toHaveAttribute('css-class', testData.byString);
@@ -200,7 +200,7 @@ test.describe('IdsButton tests', () => {
 
       await test.step('add class by passing a string array', async () => {
         await expect(button).not.toHaveClass(new RegExp(testData.byArray.join(' '), 'g'));
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.cssClass = data.class;
         }, { id: ID, class: testData.byArray }).then(async () => {
           await expect(idsButton).toHaveAttribute('css-class', testData.byArray.join(' '));
@@ -209,14 +209,13 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('removes class by passing empty string', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.cssClass = data.class;
         }, { id: ID, class: testData.byEmptyString }).then(async () => {
           await expect(idsButton).not.toHaveClass(new RegExp(testData.byString, 'g'));
           await expect(button).not.toHaveClass(new RegExp(testData.byArray.join(' '), 'g'));
         });
       });
-
     });
 
     test('can change appearance', async ({ page }) => {
@@ -227,10 +226,10 @@ test.describe('IdsButton tests', () => {
 
       for (const tData of testData) {
         await test.step(`change to ${tData}`, async () => {
-          await page.evaluate(data => {
+          await page.evaluate((data) => {
             (document.querySelector<IdsButton>(data.id))!.appearance = data.apperance as IdsButtonAppearance;
           }, { id: ID, apperance: tData }).then(async () => {
-            if (tData !== 'default'){
+            if (tData !== 'default') {
               await expect(idsButton).toHaveAttribute('appearance', tData);
               await expect(button).toHaveClass(new RegExp(`btn-${tData}`, 'g'));
             } else {
@@ -255,7 +254,7 @@ test.describe('IdsButton tests', () => {
 
       await test.step('change text', async () => {
         const TEXT_DATA = 'Awesome';
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.text = data.text;
         }, { id: ID, text: TEXT_DATA }).then(async () => {
           await expect(idsButton).toHaveText(TEXT_DATA);
@@ -266,11 +265,11 @@ test.describe('IdsButton tests', () => {
       // looks like a bug - aria-label value still persist after clearing the text
       await test.step('remove text', async () => {
         const TEXT_DATA = '';
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.text = data.text;
         }, { id: ID, text: TEXT_DATA }).then(async () => {
           await expect(idsButton).toHaveText(TEXT_DATA);
-          //await expect(button).toHaveAttribute('aria-label', TEXT_DATA);
+          // await expect(button).toHaveAttribute('aria-label', TEXT_DATA);
         });
       });
     });
@@ -288,7 +287,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('add icon', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.icon = data.icon;
         }, { id: ID, icon: 'settings' }).then(async () => {
           await expect(idsIcon).toBeAttached();
@@ -298,7 +297,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('align icon to end', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.iconAlign = data.align as IdsButtonIconAlignment;
         }, { id: ID, align: 'end' }).then(async () => {
           await expect(idsIcon).toBeAttached();
@@ -308,7 +307,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('align icon to start', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.iconAlign = data.align as IdsButtonIconAlignment;
         }, { id: ID, align: 'start' }).then(async () => {
           await expect(idsIcon).toBeAttached();
@@ -318,7 +317,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('align undefined', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.iconAlign = data.align as IdsButtonIconAlignment;
         }, { id: ID, align: undefined }).then(async () => {
           await expect(idsIcon).toBeAttached();
@@ -328,7 +327,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('icon only', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.text = '';
         }, { id: ID }).then(async () => {
           await expect(idsIcon).toBeAttached();
@@ -339,13 +338,13 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('remove icon', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.icon = data.icon;
         }, { id: ID, icon: '' }).then(async () => {
           await expect(idsIcon).not.toBeAttached();
           await expect(idsButton).not.toHaveAttribute('icon', 'settings');
         });
-      })
+      });
     });
 
     test('can add/remove square', async ({ page }) => {
@@ -359,7 +358,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('add square', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.square = true;
         }, { id: ID }).then(async () => {
           await expect(idsButton).toHaveAttribute('square');
@@ -368,7 +367,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('remove square', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.square = false;
         }, { id: ID }).then(async () => {
           await expect(idsButton).not.toHaveAttribute('square');
@@ -389,7 +388,7 @@ test.describe('IdsButton tests', () => {
 
       await test.step('set by pixels', async () => {
         const WIDTH_VALUE = '200px';
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.width = data.width;
         }, { id: ID, width: WIDTH_VALUE }).then(async () => {
           await expect(idsButton).toHaveAttribute('width', WIDTH_VALUE);
@@ -401,7 +400,7 @@ test.describe('IdsButton tests', () => {
 
       await test.step('set by percentage', async () => {
         const WIDTH_VALUE = '90%';
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.width = data.width;
         }, { id: ID, width: WIDTH_VALUE }).then(async () => {
           await expect(idsButton).toHaveAttribute('width', WIDTH_VALUE);
@@ -413,7 +412,7 @@ test.describe('IdsButton tests', () => {
 
       // resetting width doesn't remove the style attribute
       await test.step('reset width', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.width = '';
         }, { id: ID }).then(async () => {
           await expect(idsButton).not.toHaveAttribute('width');
@@ -435,7 +434,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('set to hidden', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.hidden = true;
         }, { id: ID }).then(async () => {
           await expect(idsButton).toBeHidden();
@@ -444,7 +443,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('set to visible', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.hidden = false;
         }, { id: ID }).then(async () => {
           await expect(idsButton).toBeVisible();
@@ -464,7 +463,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('disable margins', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.noMargins = true;
         }, { id: ID }).then(async () => {
           await expect(idsButton).toHaveAttribute('no-margins');
@@ -473,7 +472,7 @@ test.describe('IdsButton tests', () => {
       });
 
       await test.step('enable margins', async () => {
-        await page.evaluate(data => {
+        await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.id))!.noMargins = false;
         }, { id: ID }).then(async () => {
           await expect(idsButton).not.toHaveAttribute('no-margins');
@@ -495,10 +494,10 @@ test.describe('IdsButton tests', () => {
 
       for (const tData of testData) {
         await test.step(`set ${tData} type`, async () => {
-          await page.evaluate(data => {
+          await page.evaluate((data) => {
             (document.querySelector<IdsButton>(data.id))!.type = data.submit as any;
           }, { id: ID, submit: tData }).then(async () => {
-            if (tData !== 'invalid'){
+            if (tData !== 'invalid') {
               await expect(idsButton).toHaveAttribute('type', tData);
               await expect(button).toHaveAttribute('type', tData);
             } else {
@@ -514,7 +513,7 @@ test.describe('IdsButton tests', () => {
       const ID = 'ids-button[id="test-button-primary"]';
       const idsButton = page.locator(ID);
       const button = idsButton.locator('button');
-      const testData = ['start', 'end', 'default']
+      const testData = ['start', 'end', 'default'];
 
       await test.step('check before align test', async () => {
         await expect(idsButton).not.toHaveAttribute('content-align');
@@ -523,7 +522,7 @@ test.describe('IdsButton tests', () => {
 
       for (const tData of testData) {
         await test.step(`set align ${tData}`, async () => {
-          await page.evaluate(data => {
+          await page.evaluate((data) => {
             (document.querySelector<IdsButton>(data.id))!.contentAlign = data.align as IdsButtonContentAlignment;
           }, { id: ID, align: tData }).then(async () => {
             if (tData !== 'default') {
@@ -536,9 +535,6 @@ test.describe('IdsButton tests', () => {
           });
         });
       }
-
-
     });
   });
 });
-
