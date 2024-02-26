@@ -90,6 +90,28 @@ test.describe('IdsDatePicker tests', () => {
     });
   });
 
+  test.describe('locale tests', () => {
+    test('should change format based on locale', async ({ page }) => {
+      const currentFormat = await page.evaluate(() => {
+        const datePicker = document.querySelector('ids-date-picker') as IdsDatePicker;
+        return datePicker.format;
+      });
+
+      expect(currentFormat).toEqual('M/d/yyyy');
+
+      await page.evaluate(async () => {
+        await window?.IdsGlobal?.locale?.setLocale('de-DE');
+      });
+
+      const newFormat = await page.evaluate(() => {
+        const datePicker = document.querySelector('ids-date-picker') as IdsDatePicker;
+        return datePicker.format;
+      });
+
+      expect(newFormat).toEqual('dd.MM.yyyy');
+    });
+  });
+
   test.describe('properties tests', () => {
     test('should have default properties', async ({ page }) => {
       const datePickerValue = await page.evaluate(() => {
@@ -107,7 +129,6 @@ test.describe('IdsDatePicker tests', () => {
           validate: component.validate,
           validationEvents: component.validationEvents,
           format: component.format,
-          isCalendarToolbar: component.isCalendarToolbar,
           month: component.month,
           year: component.year,
           day: component.day,
@@ -136,7 +157,6 @@ test.describe('IdsDatePicker tests', () => {
       expect(datePickerValue.validate).toBeNull();
       expect(datePickerValue.validationEvents).toEqual('change blur');
       expect(datePickerValue.format).toEqual('M/d/yyyy');
-      expect(datePickerValue.isCalendarToolbar).toBeFalsy();
       expect(datePickerValue.month).toEqual((new Date()).getMonth());
       expect(datePickerValue.year).toEqual((new Date()).getFullYear());
       expect(datePickerValue.day).toEqual((new Date()).getDate());
@@ -261,12 +281,6 @@ test.describe('IdsDatePicker tests', () => {
         component.minuteInterval = null;
         const minuteIntervalUnset = component.minuteInterval;
 
-        // Set isCalendarToolbar
-        component.isCalendarToolbar = true;
-        const isCalendarToolbarSet = component.isCalendarToolbar;
-        component.isCalendarToolbar = false;
-        const isCalendarToolbarUnset = component.isCalendarToolbar;
-
         // Set validate
         component.validate = 'required';
         const validateSet = component.validate;
@@ -290,6 +304,24 @@ test.describe('IdsDatePicker tests', () => {
         const dirtyTrackerSet = component.dirtyTracker;
         component.dirtyTracker = false;
         const dirtyTrackerUnset = component.dirtyTracker;
+
+        // Set label required
+        component.labelRequired = true;
+        const labelRequiredSet = component.labelRequired;
+        component.labelRequired = false;
+        const labelRequiredUnset = component.labelRequired;
+
+        // Set label state
+        component.labelState = 'collapsed';
+        const labelStateSet = component.labelState;
+        component.labelState = null;
+        const labelStateUnset = component.labelState;
+
+        // Set color variant
+        component.colorVariant = 'borderless';
+        const colorVariantSet = component.colorVariant;
+        component.colorVariant = null;
+        const colorVariantUnset = component.colorVariant;
 
         return {
           placeholderUnset,
@@ -330,8 +362,6 @@ test.describe('IdsDatePicker tests', () => {
           minuteIntervalSet,
           minuteIntervalPicker,
           minuteIntervalUnset,
-          isCalendarToolbarSet,
-          isCalendarToolbarUnset,
           validateSet,
           validateUnset,
           idSet,
@@ -340,6 +370,12 @@ test.describe('IdsDatePicker tests', () => {
           formatUnset,
           dirtyTrackerSet,
           dirtyTrackerUnset,
+          labelRequiredSet,
+          labelRequiredUnset,
+          labelStateSet,
+          labelStateUnset,
+          colorVariantSet,
+          colorVariantUnset
         };
       });
 
@@ -381,8 +417,6 @@ test.describe('IdsDatePicker tests', () => {
       expect(datePickerValue.minuteIntervalSet).toEqual(10);
       expect(datePickerValue.minuteIntervalPicker).toEqual(10);
       expect(datePickerValue.minuteIntervalUnset).toBeNaN();
-      expect(datePickerValue.isCalendarToolbarSet).toBeTruthy();
-      expect(datePickerValue.isCalendarToolbarUnset).toBeFalsy();
       expect(datePickerValue.validateSet).toEqual('required');
       expect(datePickerValue.validateUnset).toBeNull();
       expect(datePickerValue.idSet).toEqual('test-id');
@@ -391,6 +425,12 @@ test.describe('IdsDatePicker tests', () => {
       expect(datePickerValue.formatUnset).toEqual('M/d/yyyy');
       expect(datePickerValue.dirtyTrackerSet).toBeTruthy();
       expect(datePickerValue.dirtyTrackerUnset).toBeFalsy();
+      expect(datePickerValue.labelRequiredSet).toBeTruthy();
+      expect(datePickerValue.labelRequiredUnset).toBeFalsy();
+      expect(datePickerValue.labelStateSet).toEqual('collapsed');
+      expect(datePickerValue.labelStateUnset).toBeNull();
+      expect(datePickerValue.colorVariantSet).toEqual('borderless');
+      expect(datePickerValue.colorVariantUnset).toBeNull();
     });
 
     test('should set size', async ({ page }) => {
@@ -435,6 +475,46 @@ test.describe('IdsDatePicker tests', () => {
       });
 
       expect(datePickerFull).toBeTruthy();
+    });
+
+    test('should render field height', async ({ page }) => {
+      const heights = ['xs', 'sm', 'md', 'lg'];
+      const defaultHeight = 'md';
+      const checkHeight = async (height: string) => {
+        const datePickerHeights = await page.evaluate((heightArg) => {
+          const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+          component.fieldHeight = heightArg;
+
+          return {
+            fieldHeight: component.fieldHeight,
+            inputFieldHeight: component.input.fieldHeight,
+            hasClass: component?.container?.classList.contains(`field-height-${heightArg}`),
+          };
+        }, height);
+
+        expect(datePickerHeights.fieldHeight).toEqual(height);
+        expect(datePickerHeights.inputFieldHeight).toEqual(height);
+        expect(datePickerHeights.hasClass).toBeTruthy();
+      };
+
+      heights.forEach((h: any) => checkHeight(h));
+
+      // Reset to default height
+      const datePickerHeights = await page.evaluate((heightArg) => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        component.fieldHeight = heightArg;
+        component.onFieldHeightChange(heightArg);
+
+        return {
+          fieldHeight: component.fieldHeight,
+          inputFieldHeight: component.input.fieldHeight,
+          hasClass: component?.container?.classList.contains(`field-height-${heightArg}`),
+        };
+      }, defaultHeight);
+
+      expect(datePickerHeights.fieldHeight).toEqual(defaultHeight);
+      expect(datePickerHeights.inputFieldHeight).toEqual(defaultHeight);
+      expect(datePickerHeights.hasClass).toBeTruthy();
     });
 
     test('should set compact height', async ({ page }) => {
@@ -578,11 +658,10 @@ test.describe('IdsDatePicker tests', () => {
       await page.evaluate(() => {
         document.querySelector('body')?.click();
       });
-      await page.waitForTimeout(100);
 
       const pickerVisible = await page.evaluate(() => {
         const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
-        return component.popup?.visible;
+        return component.popup?.popup?.hasAttribute('visible');
       });
 
       expect(pickerVisible).toBeFalsy();
@@ -670,6 +749,87 @@ test.describe('IdsDatePicker tests', () => {
       expect(parseDate?.getMonth()).toEqual(3);
       expect(parseDate?.getFullYear()).toEqual(1990);
       expect(parseDate?.getDate()).toEqual(21);
+    });
+  });
+
+  test.describe('validation tests', () => {
+    test('should validate dates', async ({ page }) => {
+      const checkValidation = async (value: string, format: string, expected: boolean) => {
+        const isValid = await page.evaluate((args) => {
+          let isValidEventValue;
+          const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+          component.validate = 'date';
+          component.format = args.format;
+          component.value = args.value;
+          component.input.addEventListener('validate', (e: any) => {
+            isValidEventValue = e.detail.isValid;
+          });
+          component.input.checkValidation();
+          return isValidEventValue;
+        }, {
+          value, format
+        });
+
+        expect(isValid).toEqual(expected);
+      };
+      const values = [{
+        value: '2012-03-04',
+        format: 'yyyy-MM-dd',
+        expected: true
+      }, {
+        value: '201-03-04',
+        format: 'yyyy-MM-dd',
+        expected: false
+      }, {
+        value: '2012-40-04',
+        format: 'yyyy-MM-dd',
+        expected: false
+      }, {
+        value: '2012-03-50',
+        format: 'yyyy-MM-dd',
+        expected: false
+      }, {
+        value: '2012',
+        format: 'yyyy',
+        expected: true
+      }, {
+        value: '201',
+        format: 'yyyy',
+        expected: false
+      }];
+
+      values.forEach((v) => checkValidation(v.value, v.format, v.expected));
+    });
+
+    test('should validate unavailable dates', async ({ page }) => {
+      const checkValidation = async (value: string, expected: boolean) => {
+        const isValid = await page.evaluate((valueArg) => {
+          let isValidEventValue;
+          const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+          component.validate = 'availableDate';
+          component.disableSettings = {
+            dates: ['2/15/2010', '2/25/2010'],
+            dayOfWeek: [0, 6]
+          };
+          component.format = 'M/d/yyyy';
+          component.value = valueArg;
+          component.input.addEventListener('validate', (e: any) => {
+            isValidEventValue = e.detail.isValid;
+          });
+          component.input.checkValidation();
+          return isValidEventValue;
+        }, value);
+
+        expect(isValid).toEqual(expected);
+      };
+      const values = [{
+        value: '2/16/2010',
+        expected: true
+      }, {
+        value: '2/15/2010',
+        expected: false
+      }];
+      values.forEach((v) => checkValidation(v.value, v.expected));
     });
   });
 });

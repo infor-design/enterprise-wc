@@ -1,15 +1,12 @@
 
       <div class="ids-date-picker field-height-md" part="container">
-        
-        
-          <ids-trigger-field part="trigger-field" id="e2e-datepicker-value" label="Date Field" size="sm" format="M/d/yyyy" validation-events="change blur" value="3/4/2016" field-height="md" mask="date" aria-controls="popup-e2e-datepicker-value">
-            <span slot="label-post" class="audible">, Press down arrow to select</span>
-            <ids-trigger-button id="triggerBtn-e2e-datepicker-value" slot="trigger-end" part="trigger-button" field-height="md" aria-controls="popup-e2e-datepicker-value">
-              <ids-text audible="true" translate-text="true" translation-key="DatePickerTriggerButton">Date picker trigger</ids-text>
-              <ids-icon part="icon" icon="schedule"></ids-icon>
-            </ids-trigger-button>
-          </ids-trigger-field>
-        
+        <ids-trigger-field part="trigger-field" id="e2e-datepicker-value" label="Date Field" size="sm" format="M/d/yyyy" validation-events="change blur" value="3/4/2016" field-height="md" mask="date" aria-controls="popup-e2e-datepicker-value">
+          <span slot="label-post" class="audible">, Press down arrow to select</span>
+          <ids-trigger-button id="triggerBtn-e2e-datepicker-value" slot="trigger-end" part="trigger-button" field-height="md" aria-controls="popup-e2e-datepicker-value">
+            <ids-text audible="true" translate-text="true" translation-key="DatePickerTriggerButton">Date picker trigger</ids-text>
+            <ids-icon part="icon" icon="schedule"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
         <ids-date-picker-popup id="popup-e2e-datepicker-value" show-today="true" show-week-numbers="false" first-day-of-week="0" year="2016" month="2" day="4" trigger-type="click" target="#e2e-datepicker-value" trigger-elem="#triggerBtn-e2e-datepicker-value" format="M/d/yyyy" value="3/4/2016"></ids-date-picker-popup>
       </div>
     
