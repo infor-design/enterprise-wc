@@ -102,15 +102,9 @@ export default class IdsButton extends Base {
   }
 
   #attachEventHandlers() {
-    const mainSlot = this.container?.querySelector('slot');
-    this.offEvent('slotchange', mainSlot);
-    this.onEvent('slotchange', mainSlot, () => {
-      this.#setInitialState();
-    });
-
     this.offEvent('click', this.container);
     this.onEvent('click', this.container, () => {
-      this.toggleGenAIActiveState();
+      this.toggleAnimation();
     });
   }
 
@@ -118,7 +112,7 @@ export default class IdsButton extends Base {
    * Toggles generative AI button active state
    * @param {boolean} isActive active flag
    */
-  toggleGenAIActiveState(isActive?: boolean): void {
+  toggleAnimation(isActive?: boolean): void {
     if (!this.appearance.includes('generative-ai')) return;
     const currentState = this.button?.classList.contains('gen-ai-active');
     this.button?.classList.toggle('gen-ai-active', typeof isActive === 'boolean' ? isActive : !currentState);
@@ -627,6 +621,7 @@ export default class IdsButton extends Base {
     insightsIcon.setAttribute('icon', 'insights-smart-panel');
     this.append(insightsIcon);
     this.container?.insertAdjacentHTML('beforeend', activeAnimation);
+    this.#setInitialState();
 
     // Tertiary style requires svg definitions for gradient colors
     if (appearance.includes('tertiary')) {

@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       editor?.append(genAIBusyIndicator);
     }
 
-    genAIBtn.toggleGenAIActiveState(!isAIBusy);
+    genAIBtn.toggleAnimation(!isAIBusy);
     isAIBusy = !isAIBusy;
   });
 });

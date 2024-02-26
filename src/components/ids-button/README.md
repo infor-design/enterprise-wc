@@ -23,7 +23,7 @@ The IDS Button component is a simple wrapper around a standard HTMLButtonElement
 
 ## Methods
 
-- `toggleGenAIActiveState(isActive: boolean)` Toggles generative AI button's active state which includes its own indicator.
+- `toggleAnimation(isActive: boolean)` Toggles generative AI button's active state which includes its own indicator.
 
 ## Features (With Code Samples)
 

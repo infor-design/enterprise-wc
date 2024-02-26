@@ -305,24 +305,23 @@
   }
   
   &.btn-primary-generative-ai {
-    background: var(--ids-button-ai-color-background-default);
+    background: border-box var(--ids-button-ai-color-background-default);
     color: #FFF;
-    border: none;
     align-items: center;
     min-width: 34px;
     min-height: 34px;
 
     &:hover {
-      background: var(--ids-button-ai-color-background-hover);
+      background: border-box var(--ids-button-ai-color-background-hover);
     }
 
     &:active,
     &.gen-ai-active {
-      background: var(--ids-button-ai-color-background-active);
+      background: border-box var(--ids-button-ai-color-background-active);
     }
 
     &[disabled] {
-      background: var(--ids-button-ai-color-background-disabled);
+      background: border-box var(--ids-button-ai-color-background-disabled);
       background-color: var(--ids-button-ai-color-background-color-disabled);
     }
 
@@ -551,7 +550,7 @@
  * Provides the standard color rules for buttons that need box shadow
  */
 @mixin ids-standard-button-shadows() {
-  &:not(.btn-primary):not(.btn-secondary):not(.btn-primary-destructive):not(.btn-tertiary-destructive) {
+  &:not(.btn-primary):not(.btn-secondary):not(.btn-primary-destructive):not(.btn-tertiary-destructive):not(.btn-primary-generative-ai):not(.btn-tertiary-generative-ai) {
     // ====================================================
     // Default/Tertiary Default/Light Mode
     &:not(.hide-focus).is-active,
@@ -618,6 +617,22 @@
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
       box-shadow: var(--ids-button-secondary-shadow-focus);
+    }
+  }
+
+  &.btn-primary-generative-ai {
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      box-shadow: var(--ids-button-ai-shadow-focus);
+      border-color: transparent;
+    }
+  }
+
+  &.btn-tertiary-generative-ai {
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      box-shadow: var(--ids-button-tertiary-ai-shadow-focus);
+      border-color: var(--ids-button-ai-color-icon-secondary-hover);
     }
   }
 }
