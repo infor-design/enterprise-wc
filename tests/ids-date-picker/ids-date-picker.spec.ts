@@ -93,7 +93,7 @@ test.describe('IdsDatePicker tests', () => {
   test.describe('locale tests', () => {
     test('should change format based on locale', async ({ page }) => {
       const currentFormat = await page.evaluate(() => {
-        const datePicker = document.querySelector('ids-date-picker') as IdsDatePicker;
+        const datePicker = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         return datePicker.format;
       });
 
@@ -112,10 +112,10 @@ test.describe('IdsDatePicker tests', () => {
     });
   });
 
-  test.describe('properties tests', () => {
-    test('should have default properties', async ({ page }) => {
+  test.describe('functionality tests', () => {
+    test('should have initial/default properties', async ({ page }) => {
       const datePickerValue = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         return {
           tabbable: component.tabbable,
           showToday: component.showToday,
@@ -181,7 +181,7 @@ test.describe('IdsDatePicker tests', () => {
 
     test('should set properties', async ({ page }) => {
       const datePickerValue = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
 
         // Set placeholder
         component.placeholder = false;
@@ -438,7 +438,7 @@ test.describe('IdsDatePicker tests', () => {
       const defaultSize = 'sm';
       const checkSize = async (size: string) => {
         const datePickerSizes = await page.evaluate((sizeArg) => {
-          const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+          const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
           component.size = sizeArg;
 
           return {
@@ -455,7 +455,7 @@ test.describe('IdsDatePicker tests', () => {
 
       // Reset to default size
       const datePickerSizes = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         component.size = null;
 
         return {
@@ -468,7 +468,7 @@ test.describe('IdsDatePicker tests', () => {
       expect(datePickerSizes.triggerFieldSize).toEqual(defaultSize);
 
       const datePickerFull = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         component.size = 'full';
 
         return component?.container?.classList.contains('full');
@@ -482,7 +482,7 @@ test.describe('IdsDatePicker tests', () => {
       const defaultHeight = 'md';
       const checkHeight = async (height: string) => {
         const datePickerHeights = await page.evaluate((heightArg) => {
-          const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+          const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
           component.fieldHeight = heightArg;
 
           return {
@@ -501,7 +501,7 @@ test.describe('IdsDatePicker tests', () => {
 
       // Reset to default height
       const datePickerHeights = await page.evaluate((heightArg) => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         component.fieldHeight = heightArg;
         component.onFieldHeightChange(heightArg);
 
@@ -519,7 +519,7 @@ test.describe('IdsDatePicker tests', () => {
 
     test('should set compact height', async ({ page }) => {
       const datePickerValue = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
 
         component.compact = true;
         const compactPropSet = component.compact;
@@ -551,7 +551,7 @@ test.describe('IdsDatePicker tests', () => {
 
     test('should set day, month, year', async ({ page }) => {
       const datePickerValue = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
 
         component.onMonthChange(2, true);
         component.onYearChange(2010, true);
@@ -586,7 +586,7 @@ test.describe('IdsDatePicker tests', () => {
 
     test('should set focus', async ({ page }) => {
       const hasFocus = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         component?.focus();
         return component.hasFocus;
       });
@@ -596,7 +596,7 @@ test.describe('IdsDatePicker tests', () => {
 
     test('should set range settings', async ({ page }) => {
       const datePickerValue = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
 
         component.useRange = true;
         component.rangeSettings = {
@@ -628,7 +628,7 @@ test.describe('IdsDatePicker tests', () => {
   test.describe('interaction tests', () => {
     test('should open and close the popup with methods', async ({ page }) => {
       const datePickerValue = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         if (component.popup?.popup?.animated) {
           component.popup.popup.animated = false;
         }
@@ -648,7 +648,7 @@ test.describe('IdsDatePicker tests', () => {
 
     test.skip('should close the popup on outside click', async ({ page }) => {
       await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         if (component.popup?.popup?.animated) {
           component.popup.popup.animated = false;
         }
@@ -660,7 +660,7 @@ test.describe('IdsDatePicker tests', () => {
       });
 
       const pickerVisible = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         return component.popup?.popup?.hasAttribute('visible');
       });
 
@@ -671,7 +671,7 @@ test.describe('IdsDatePicker tests', () => {
   test.describe('keyboard tests', () => {
     test('should open and close the popup with keyboard', async ({ page }) => {
       await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         if (component.popup?.popup?.animated) {
           component.popup.popup.animated = false;
         }
@@ -681,7 +681,7 @@ test.describe('IdsDatePicker tests', () => {
       await page.waitForTimeout(100);
 
       const pickerVisible = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         if (component.popup?.popup?.animated) {
           component.popup.popup.animated = false;
         }
@@ -694,7 +694,7 @@ test.describe('IdsDatePicker tests', () => {
       await page.waitForTimeout(100);
 
       const pickerHidden = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         return component.popup?.visible;
       });
 
@@ -705,7 +705,7 @@ test.describe('IdsDatePicker tests', () => {
   test.describe('parser tests', () => {
     test('should parse dates in yyyy-MM-dd format', async ({ page }) => {
       const parseDate = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
 
         component.format = 'yyyy-MM-dd';
         const date = component.getDateValue('1990-04-21');
@@ -721,7 +721,7 @@ test.describe('IdsDatePicker tests', () => {
 
     test('should parse dates in dd.MM.yyyy format (German)', async ({ page }) => {
       const parseDate = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
 
         component.format = 'dd.MM.yyyy';
         const date = component.getDateValue('21.04.1990');
@@ -737,7 +737,7 @@ test.describe('IdsDatePicker tests', () => {
 
     test('should parse dates in dd/MM/yyyy format (Hebrew)', async ({ page }) => {
       const parseDate = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
 
         component.format = 'dd/MM/yyyy';
         const date = component.getDateValue('21/04/1990');
@@ -757,7 +757,7 @@ test.describe('IdsDatePicker tests', () => {
       const checkValidation = async (value: string, format: string, expected: boolean) => {
         const isValid = await page.evaluate((args) => {
           let isValidEventValue;
-          const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+          const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
           component.validate = 'date';
           component.format = args.format;
           component.value = args.value;
@@ -805,7 +805,7 @@ test.describe('IdsDatePicker tests', () => {
       const checkValidation = async (value: string, expected: boolean) => {
         const isValid = await page.evaluate((valueArg) => {
           let isValidEventValue;
-          const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+          const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
           component.validate = 'availableDate';
           component.disableSettings = {
             dates: ['2/15/2010', '2/25/2010'],
