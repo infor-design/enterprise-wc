@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Month Year Picklist Test</ids-text>
+    </ids-layout-grid>
+    <ids-layout-grid cols="2" gap="sm" padding-x="md">
+      <ids-layout-grid-cell col-start="1" row-start="1">
+        <ids-month-year-picklist
+          month="11"
+          year="2016"
+        ></ids-month-year-picklist>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+  </ids-container>
+</body>
+</html>

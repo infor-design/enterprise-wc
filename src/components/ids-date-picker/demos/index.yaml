@@ -26,6 +26,9 @@
   - link: sandbox.html
     type: Sandbox
     description: Showing various date formats and scenarios
+  - link: month-year-picklist.html
+    type: Example
+    description: Showing week/month/year picklist
   - link: axe.html
     type: Test
     description: Test page for axe scans
