@@ -89,4 +89,587 @@ test.describe('IdsDatePicker tests', () => {
       expect(eventFiredCount).toEqual(1);
     });
   });
+
+  test.describe('properties tests', () => {
+    test('should have default properties', async ({ page }) => {
+      const datePickerValue = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        return {
+          tabbable: component.tabbable,
+          showToday: component.showToday,
+          firstDayOfWeek: component.firstDayOfWeek,
+          id: component.id,
+          label: component.label,
+          disabled: component.disabled,
+          readonly: component.readonly,
+          value: component.value,
+          size: component.size,
+          validate: component.validate,
+          validationEvents: component.validationEvents,
+          format: component.format,
+          isCalendarToolbar: component.isCalendarToolbar,
+          month: component.month,
+          year: component.year,
+          day: component.day,
+          showPicklistYear: component.showPicklistYear,
+          showPicklistMonth: component.showPicklistMonth,
+          showPicklistWeek: component.showPicklistWeek,
+          showClear: component.showClear,
+          showCancel: component.showCancel,
+          disableSettings: component.disableSettings,
+          hasFocus: component.hasFocus,
+          noMargins: component.noMargins,
+          showWeekNumbers: component.showWeekNumbers,
+          useCurrentTime: component.useCurrentTime,
+          placeholder: component.placeholder,
+        };
+      });
+      expect(datePickerValue.tabbable).toBeFalsy();
+      expect(datePickerValue.showToday).toBeTruthy();
+      expect(datePickerValue.firstDayOfWeek).toEqual(0);
+      expect(datePickerValue.id).toEqual('e2e-datepicker-value');
+      expect(datePickerValue.label).toEqual('Date Field');
+      expect(datePickerValue.disabled).toBeFalsy();
+      expect(datePickerValue.readonly).toBeFalsy();
+      expect(datePickerValue.value).toEqual('3/4/2016');
+      expect(datePickerValue.size).toEqual('sm');
+      expect(datePickerValue.validate).toBeNull();
+      expect(datePickerValue.validationEvents).toEqual('change blur');
+      expect(datePickerValue.format).toEqual('M/d/yyyy');
+      expect(datePickerValue.isCalendarToolbar).toBeFalsy();
+      expect(datePickerValue.month).toEqual((new Date()).getMonth());
+      expect(datePickerValue.year).toEqual((new Date()).getFullYear());
+      expect(datePickerValue.day).toEqual((new Date()).getDate());
+      expect(datePickerValue.showPicklistYear).toBeTruthy();
+      expect(datePickerValue.showPicklistMonth).toBeTruthy();
+      expect(datePickerValue.showPicklistWeek).toBeFalsy();
+      expect(datePickerValue.showClear).toBeFalsy();
+      expect(datePickerValue.showCancel).toBeFalsy();
+      expect(datePickerValue.disableSettings).toEqual({
+        dates: [],
+        years: [],
+        minDate: '',
+        maxDate: '',
+        dayOfWeek: [],
+        isEnable: false
+      });
+      expect(datePickerValue.hasFocus).toBeFalsy();
+      expect(datePickerValue.noMargins).toBeFalsy();
+      expect(datePickerValue.showWeekNumbers).toBeFalsy();
+      expect(datePickerValue.useCurrentTime).toBeFalsy();
+    });
+
+    test('should set properties', async ({ page }) => {
+      const datePickerValue = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+
+        // Set placeholder
+        component.placeholder = false;
+        const placeholderUnset = component.placeholder;
+        component.placeholder = true;
+        const placeholderSet = component.placeholder;
+
+        // Set disabled
+        component.disabled = true;
+        const disabledSet = component.disabled;
+        component.disabled = false;
+        const disabledUnset = component.disabled;
+
+        // Set readonly
+        component.readonly = true;
+        const readonlySet = component.readonly;
+        component.readonly = false;
+        const readonlyUnset = component.readonly;
+
+        // Set validationEvents
+        component.validationEvents = 'change';
+        const validationEventsSet = component.validationEvents;
+        component.validationEvents = null;
+        const validationEventsUnset = component.validationEvents;
+
+        // Set noMargins
+        component.noMargins = true;
+        const noMarginsSet = component.noMargins;
+        component.noMargins = false;
+        const noMarginsUnset = component.noMargins;
+
+        // Set mask
+        component.mask = true;
+        const maskSet = component.mask;
+        component.mask = false;
+        const maskUnset = component.mask;
+
+        // Set showClear
+        component.showClear = true;
+        const showClearSet = component.showClear;
+        const showClearPicker = component.popup?.showClear;
+        component.showClear = false;
+        const showClearUnset = component.showClear;
+
+        // Set showCancel
+        component.showCancel = true;
+        const showCancelSet = component.showCancel;
+        const showCancelPicker = component.popup?.showCancel;
+        component.showCancel = false;
+        const showCancelUnset = component.showCancel;
+
+        // Set showPicklistYear
+        component.showPicklistYear = false;
+        const showPicklistYearSet = component.showPicklistYear;
+        const showPicklistYearPicker = component.popup?.showPicklistYear;
+        component.showPicklistYear = true;
+        const showPicklistYearUnset = component.showPicklistYear;
+
+        // Set showPicklistMonth
+        component.showPicklistMonth = false;
+        const showPicklistMonthSet = component.showPicklistMonth;
+        const showPicklistMonthPicker = component.popup?.showPicklistMonth;
+        component.showPicklistMonth = true;
+        const showPicklistMonthUnset = component.showPicklistMonth;
+
+        // Set showPicklistWeek
+        component.showPicklistWeek = true;
+        const showPicklistWeekSet = component.showPicklistWeek;
+        const showPicklistWeekPicker = component.popup?.showPicklistWeek;
+        component.showPicklistWeek = false;
+        const showPicklistWeekUnset = component.showPicklistWeek;
+
+        // Set showWeekNumbers
+        component.showWeekNumbers = true;
+        const showWeekNumbersSet = component.showWeekNumbers;
+        component.showWeekNumbers = false;
+        const showWeekNumbersUnset = component.showWeekNumbers;
+
+        // Set useCurrentTime
+        component.useCurrentTime = true;
+        const useCurrentTimeSet = component.useCurrentTime;
+        const useCurrentTimePicker = component.popup?.useCurrentTime;
+        component.useCurrentTime = false;
+        const useCurrentTimeUnset = component.useCurrentTime;
+
+        // Set secondInterval
+        component.secondInterval = 10;
+        const secondIntervalSet = component.secondInterval;
+        const secondIntervalPicker = component.popup?.secondInterval;
+        component.secondInterval = null;
+        const secondIntervalUnset = component.secondInterval;
+
+        // Set minuteInterval
+        component.minuteInterval = 10;
+        const minuteIntervalSet = component.minuteInterval;
+        const minuteIntervalPicker = component.popup?.minuteInterval;
+        component.minuteInterval = null;
+        const minuteIntervalUnset = component.minuteInterval;
+
+        // Set isCalendarToolbar
+        component.isCalendarToolbar = true;
+        const isCalendarToolbarSet = component.isCalendarToolbar;
+        component.isCalendarToolbar = false;
+        const isCalendarToolbarUnset = component.isCalendarToolbar;
+
+        // Set validate
+        component.validate = 'required';
+        const validateSet = component.validate;
+        component.validate = null;
+        const validateUnset = component.validate;
+
+        // Set ID
+        component.id = 'test-id';
+        const idSet = component.id;
+        component.onIdChange(null);
+        const idUnset = component.id;
+
+        // Set format
+        component.format = 'yyyy-MM-dd';
+        const formatSet = component.format;
+        component.format = null;
+        const formatUnset = component.format;
+
+        // Set dirty tracker
+        component.dirtyTracker = true;
+        const dirtyTrackerSet = component.dirtyTracker;
+        component.dirtyTracker = false;
+        const dirtyTrackerUnset = component.dirtyTracker;
+
+        return {
+          placeholderUnset,
+          placeholderSet,
+          disabledSet,
+          disabledUnset,
+          readonlySet,
+          readonlyUnset,
+          validationEventsSet,
+          validationEventsUnset,
+          noMarginsSet,
+          noMarginsUnset,
+          maskSet,
+          maskUnset,
+          showClearSet,
+          showClearPicker,
+          showClearUnset,
+          showCancelSet,
+          showCancelPicker,
+          showCancelUnset,
+          showPicklistYearSet,
+          showPicklistYearPicker,
+          showPicklistYearUnset,
+          showPicklistMonthSet,
+          showPicklistMonthPicker,
+          showPicklistMonthUnset,
+          showPicklistWeekSet,
+          showPicklistWeekPicker,
+          showPicklistWeekUnset,
+          showWeekNumbersSet,
+          showWeekNumbersUnset,
+          useCurrentTimeSet,
+          useCurrentTimePicker,
+          useCurrentTimeUnset,
+          secondIntervalSet,
+          secondIntervalPicker,
+          secondIntervalUnset,
+          minuteIntervalSet,
+          minuteIntervalPicker,
+          minuteIntervalUnset,
+          isCalendarToolbarSet,
+          isCalendarToolbarUnset,
+          validateSet,
+          validateUnset,
+          idSet,
+          idUnset,
+          formatSet,
+          formatUnset,
+          dirtyTrackerSet,
+          dirtyTrackerUnset,
+        };
+      });
+
+      expect(datePickerValue.placeholderUnset).toEqual('');
+      expect(datePickerValue.placeholderSet).toEqual('M/d/yyyy');
+      expect(datePickerValue.disabledSet).toBeTruthy();
+      expect(datePickerValue.disabledUnset).toBeFalsy();
+      expect(datePickerValue.readonlySet).toBeTruthy();
+      expect(datePickerValue.readonlyUnset).toBeFalsy();
+      expect(datePickerValue.validationEventsSet).toEqual('change');
+      expect(datePickerValue.validationEventsUnset).toEqual('change blur');
+      expect(datePickerValue.noMarginsSet).toBeTruthy();
+      expect(datePickerValue.noMarginsUnset).toBeFalsy();
+      expect(datePickerValue.maskSet).toBeTruthy();
+      expect(datePickerValue.maskUnset).toBeFalsy();
+      expect(datePickerValue.showClearSet).toBeTruthy();
+      expect(datePickerValue.showClearPicker).toBeTruthy();
+      expect(datePickerValue.showClearUnset).toBeFalsy();
+      expect(datePickerValue.showCancelSet).toBeTruthy();
+      expect(datePickerValue.showCancelPicker).toBeTruthy();
+      expect(datePickerValue.showCancelUnset).toBeFalsy();
+      expect(datePickerValue.showPicklistYearSet).toBeFalsy();
+      expect(datePickerValue.showPicklistYearPicker).toBeFalsy();
+      expect(datePickerValue.showPicklistYearUnset).toBeTruthy();
+      expect(datePickerValue.showPicklistMonthSet).toBeFalsy();
+      expect(datePickerValue.showPicklistMonthPicker).toBeFalsy();
+      expect(datePickerValue.showPicklistMonthUnset).toBeTruthy();
+      expect(datePickerValue.showPicklistWeekSet).toBeTruthy();
+      expect(datePickerValue.showPicklistWeekPicker).toBeTruthy();
+      expect(datePickerValue.showPicklistWeekUnset).toBeFalsy();
+      expect(datePickerValue.showWeekNumbersSet).toBeTruthy();
+      expect(datePickerValue.showWeekNumbersUnset).toBeFalsy();
+      expect(datePickerValue.useCurrentTimeSet).toBeTruthy();
+      expect(datePickerValue.useCurrentTimePicker).toBeTruthy();
+      expect(datePickerValue.useCurrentTimeUnset).toBeFalsy();
+      expect(datePickerValue.secondIntervalSet).toEqual(10);
+      expect(datePickerValue.secondIntervalPicker).toEqual(10);
+      expect(datePickerValue.secondIntervalUnset).toBeNaN();
+      expect(datePickerValue.minuteIntervalSet).toEqual(10);
+      expect(datePickerValue.minuteIntervalPicker).toEqual(10);
+      expect(datePickerValue.minuteIntervalUnset).toBeNaN();
+      expect(datePickerValue.isCalendarToolbarSet).toBeTruthy();
+      expect(datePickerValue.isCalendarToolbarUnset).toBeFalsy();
+      expect(datePickerValue.validateSet).toEqual('required');
+      expect(datePickerValue.validateUnset).toBeNull();
+      expect(datePickerValue.idSet).toEqual('test-id');
+      expect(datePickerValue.idUnset).toEqual('');
+      expect(datePickerValue.formatSet).toEqual('yyyy-MM-dd');
+      expect(datePickerValue.formatUnset).toEqual('M/d/yyyy');
+      expect(datePickerValue.dirtyTrackerSet).toBeTruthy();
+      expect(datePickerValue.dirtyTrackerUnset).toBeFalsy();
+    });
+
+    test('should set size', async ({ page }) => {
+      const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+      const defaultSize = 'sm';
+      const checkSize = async (size: string) => {
+        const datePickerSizes = await page.evaluate((sizeArg) => {
+          const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+          component.size = sizeArg;
+
+          return {
+            size: component.size,
+            triggerFieldSize: component.triggerField.size,
+          };
+        }, size);
+
+        expect(datePickerSizes.size).toEqual(size);
+        expect(datePickerSizes.triggerFieldSize).toEqual(size);
+      };
+
+      sizes.forEach((s) => checkSize(s));
+
+      // Reset to default size
+      const datePickerSizes = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        component.size = null;
+
+        return {
+          size: component.size,
+          triggerFieldSize: component.triggerField.size,
+        };
+      });
+
+      expect(datePickerSizes.size).toEqual(defaultSize);
+      expect(datePickerSizes.triggerFieldSize).toEqual(defaultSize);
+
+      const datePickerFull = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        component.size = 'full';
+
+        return component?.container?.classList.contains('full');
+      });
+
+      expect(datePickerFull).toBeTruthy();
+    });
+
+    test('should set compact height', async ({ page }) => {
+      const datePickerValue = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+
+        component.compact = true;
+        const compactPropSet = component.compact;
+        const compactAttrSet = component.hasAttribute('compact');
+        const compactClassSet = component?.container?.classList.contains('compact');
+
+        component.compact = false;
+        const compactPropUnset = component.compact;
+        const compactAttrUnset = component.hasAttribute('compact');
+        const compactClassUnset = component?.container?.classList.contains('compact');
+
+        return {
+          compactPropSet,
+          compactAttrSet,
+          compactClassSet,
+          compactPropUnset,
+          compactAttrUnset,
+          compactClassUnset,
+        };
+      });
+
+      expect(datePickerValue.compactPropSet).toBeTruthy();
+      expect(datePickerValue.compactAttrSet).toBeTruthy();
+      expect(datePickerValue.compactClassSet).toBeTruthy();
+      expect(datePickerValue.compactPropUnset).toBeFalsy();
+      expect(datePickerValue.compactAttrUnset).toBeFalsy();
+      expect(datePickerValue.compactClassUnset).toBeFalsy();
+    });
+
+    test('should set day, month, year', async ({ page }) => {
+      const datePickerValue = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+
+        component.onMonthChange(2, true);
+        component.onYearChange(2010, true);
+        component.onDayChange(4, true);
+        const monthSet = component?.picker?.month;
+        const yearSet = component?.picker?.year;
+        const daySet = component?.picker?.day;
+        component.onMonthChange(3, false);
+        component.onYearChange(2024, false);
+        component.onDayChange(10, false);
+        const monthUnset = component?.picker?.month;
+        const yearUnset = component?.picker?.year;
+        const dayUnset = component?.picker?.day;
+
+        return {
+          monthSet,
+          yearSet,
+          daySet,
+          monthUnset,
+          yearUnset,
+          dayUnset,
+        };
+      });
+
+      expect(datePickerValue.monthSet).toEqual(2);
+      expect(datePickerValue.yearSet).toEqual(2010);
+      expect(datePickerValue.daySet).toEqual(4);
+      expect(datePickerValue.monthUnset).toEqual((new Date()).getMonth());
+      expect(datePickerValue.yearUnset).toEqual((new Date()).getFullYear());
+      expect(datePickerValue.dayUnset).toEqual((new Date()).getDate());
+    });
+
+    test('should set focus', async ({ page }) => {
+      const hasFocus = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        component?.focus();
+        return component.hasFocus;
+      });
+
+      expect(hasFocus).toBeTruthy();
+    });
+
+    test('should set range settings', async ({ page }) => {
+      const datePickerValue = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+
+        component.useRange = true;
+        component.rangeSettings = {
+          start: '5/11/2020',
+          end: '5/14/2020',
+          selectWeek: true,
+          separator: ' - '
+        };
+
+        const useRangeSet = component.useRange;
+        const value = component.value;
+
+        component.useRange = false;
+        const useRangeUnset = component.useRange;
+
+        return {
+          useRangeSet,
+          value,
+          useRangeUnset
+        };
+      });
+
+      expect(datePickerValue.useRangeSet).toBeTruthy();
+      expect(datePickerValue.value).toEqual('5/11/2020 - 5/14/2020');
+      expect(datePickerValue.useRangeUnset).toBeFalsy();
+    });
+  });
+
+  test.describe('interaction tests', () => {
+    test('should open and close the popup with methods', async ({ page }) => {
+      const datePickerValue = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        if (component.popup?.popup?.animated) {
+          component.popup.popup.animated = false;
+        }
+        component.open();
+        const pickerVisible = component.popup?.visible;
+        component.close();
+        const pickerHidden = component.popup?.visible;
+        return {
+          pickerVisible,
+          pickerHidden
+        };
+      });
+
+      expect(datePickerValue.pickerVisible).toBeTruthy();
+      expect(datePickerValue.pickerHidden).toBeFalsy();
+    });
+
+    test('should close the popup on outside click', async ({ page }) => {
+      await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        if (component.popup?.popup?.animated) {
+          component.popup.popup.animated = false;
+        }
+        component.open();
+      });
+
+      await page.evaluate(() => {
+        document.querySelector('body')?.click();
+      });
+      await page.waitForTimeout(100);
+
+      const pickerVisible = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        return component.popup?.visible;
+      });
+
+      expect(pickerVisible).toBeFalsy();
+    });
+  });
+
+  test.describe('keyboard tests', () => {
+    test('should open and close the popup with keyboard', async ({ page }) => {
+      await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        if (component.popup?.popup?.animated) {
+          component.popup.popup.animated = false;
+        }
+        component.focus();
+      });
+      await page.keyboard.press('ArrowDown');
+      await page.waitForTimeout(100);
+
+      const pickerVisible = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        if (component.popup?.popup?.animated) {
+          component.popup.popup.animated = false;
+        }
+        return component.popup?.visible;
+      });
+
+      expect(pickerVisible).toBeTruthy();
+
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(100);
+
+      const pickerHidden = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+        return component.popup?.visible;
+      });
+
+      expect(pickerHidden).toBeFalsy();
+    });
+  });
+
+  test.describe('parser tests', () => {
+    test('should parse dates in yyyy-MM-dd format', async ({ page }) => {
+      const parseDate = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+
+        component.format = 'yyyy-MM-dd';
+        const date = component.getDateValue('1990-04-21');
+
+        return date;
+      });
+
+      expect(parseDate instanceof Date).toBeTruthy();
+      expect(parseDate?.getMonth()).toEqual(3);
+      expect(parseDate?.getFullYear()).toEqual(1990);
+      expect(parseDate?.getDate()).toEqual(21);
+    });
+
+    test('should parse dates in dd.MM.yyyy format (German)', async ({ page }) => {
+      const parseDate = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+
+        component.format = 'dd.MM.yyyy';
+        const date = component.getDateValue('21.04.1990');
+
+        return date;
+      });
+
+      expect(parseDate instanceof Date).toBeTruthy();
+      expect(parseDate?.getMonth()).toEqual(3);
+      expect(parseDate?.getFullYear()).toEqual(1990);
+      expect(parseDate?.getDate()).toEqual(21);
+    });
+
+    test('should parse dates in dd/MM/yyyy format (Hebrew)', async ({ page }) => {
+      const parseDate = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('#e2e-datepicker-value')!;
+
+        component.format = 'dd/MM/yyyy';
+        const date = component.getDateValue('21/04/1990');
+
+        return date;
+      });
+
+      expect(parseDate instanceof Date).toBeTruthy();
+      expect(parseDate?.getMonth()).toEqual(3);
+      expect(parseDate?.getFullYear()).toEqual(1990);
+      expect(parseDate?.getDate()).toEqual(21);
+    });
+  });
 });
