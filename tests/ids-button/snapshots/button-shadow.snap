@@ -1,4 +1,4 @@
-<button part="button" class="hide-focus ids-button btn-primary" tabindex="0" aria-label="Action">
+<button part="button" class="hide-focus btn-primary ids-button" tabindex="0" aria-label="Action">
       <slot></slot>
       <slot name="loading-indicator"></slot>
     </button>
