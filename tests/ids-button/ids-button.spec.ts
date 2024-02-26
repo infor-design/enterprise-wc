@@ -4,7 +4,7 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsButton from '../../src/components/ids-button/ids-button';
-import { IdsButtonAppearance, IdsButtonIconAlignment } from '../../src/components/ids-button/ids-button-common';
+import { IdsButtonAppearance, IdsButtonIconAlignment, IdsButtonContentAlignment } from '../../src/components/ids-button/ids-button-common';
 
 test.describe('IdsButton tests', () => {
   const url = '/ids-button/example.html';
@@ -223,28 +223,23 @@ test.describe('IdsButton tests', () => {
       const ID = 'ids-button[id="test-button-secondary"]';
       const idsButton = page.locator(ID);
       const button = idsButton.locator('button');
-      const testData = ['primary', 'secondary', 'tertiary'];
+      const testData = ['primary', 'secondary', 'tertiary', 'default'];
 
-      // primary to tertiary
-      for (const data of testData) {
-        await test.step(`change to ${data}`, async () => {
+      for (const tData of testData) {
+        await test.step(`change to ${tData}`, async () => {
           await page.evaluate(data => {
             (document.querySelector<IdsButton>(data.id))!.appearance = data.apperance as IdsButtonAppearance;
-          }, { id: ID, apperance: data }).then(async () => {
-            await expect(idsButton).toHaveAttribute('appearance', data);
-            await expect(button).toHaveClass(new RegExp(`btn-${data}`, 'g'));
+          }, { id: ID, apperance: tData }).then(async () => {
+            if (tData !== 'default'){
+              await expect(idsButton).toHaveAttribute('appearance', tData);
+              await expect(button).toHaveClass(new RegExp(`btn-${tData}`, 'g'));
+            } else {
+              await expect(idsButton).not.toHaveAttribute('appearance');
+              await expect(button).not.toHaveClass(new RegExp(testData.join(' '), 'g'));
+            }
           });
         });
       }
-      await test.step('change to default', async () => {
-        await page.evaluate(data => {
-          (document.querySelector<IdsButton>(data.id))!.appearance = data.apperance as IdsButtonAppearance;
-        }, { id: ID, apperance: 'default' }).then(async () => {
-          await expect(idsButton).not.toHaveAttribute('appearance');
-          await expect(button).not.toHaveClass(new RegExp(testData.join(' '), 'g'));
-        });
-      });
-
     });
 
     test('can change text', async ({ page }) => {
@@ -268,7 +263,7 @@ test.describe('IdsButton tests', () => {
         });
       });
 
-      // seems there is a bug - aria-label value still persist after clearing the text
+      // looks like a bug - aria-label value still persist after clearing the text
       await test.step('remove text', async () => {
         const TEXT_DATA = '';
         await page.evaluate(data => {
@@ -491,7 +486,7 @@ test.describe('IdsButton tests', () => {
       const ID = 'ids-button[id="test-button-primary"]';
       const idsButton = page.locator(ID);
       const button = idsButton.locator('button');
-      const testData = ['submit', 'reset', 'button'];
+      const testData = ['submit', 'reset', 'button', 'invalid'];
 
       await test.step('check before type test', async () => {
         await expect(idsButton).not.toHaveAttribute('type');
@@ -499,24 +494,50 @@ test.describe('IdsButton tests', () => {
       });
 
       for (const tData of testData) {
-        await test.step(`set ${tData}`, async () => {
+        await test.step(`set ${tData} type`, async () => {
           await page.evaluate(data => {
             (document.querySelector<IdsButton>(data.id))!.type = data.submit as any;
           }, { id: ID, submit: tData }).then(async () => {
-            await expect(idsButton).toHaveAttribute('type', tData);
-            await expect(button).toHaveAttribute('type', tData);
+            if (tData !== 'invalid'){
+              await expect(idsButton).toHaveAttribute('type', tData);
+              await expect(button).toHaveAttribute('type', tData);
+            } else {
+              await expect(idsButton).not.toHaveAttribute('type');
+              await expect(button).not.toHaveAttribute('type');
+            }
+          });
+        });
+      }
+    });
+
+    test('can set content alignment', async ({ page }) => {
+      const ID = 'ids-button[id="test-button-primary"]';
+      const idsButton = page.locator(ID);
+      const button = idsButton.locator('button');
+      const testData = ['start', 'end', 'default']
+
+      await test.step('check before align test', async () => {
+        await expect(idsButton).not.toHaveAttribute('content-align');
+        await expect(button).not.toHaveClass(/content-align/);
+      });
+
+      for (const tData of testData) {
+        await test.step(`set align ${tData}`, async () => {
+          await page.evaluate(data => {
+            (document.querySelector<IdsButton>(data.id))!.contentAlign = data.align as IdsButtonContentAlignment;
+          }, { id: ID, align: tData }).then(async () => {
+            if (tData !== 'default') {
+              await expect(idsButton).toHaveAttribute('content-align', tData);
+              await expect(button).toHaveClass(new RegExp(`content-align-${tData}`, 'g'));
+            } else {
+              await expect(idsButton).not.toHaveAttribute('content-align');
+              await expect(button).not.toHaveClass(/content-align/);
+            }
           });
         });
       }
 
-      await test.step('invalid data type', async () => {
-        await page.evaluate(data => {
-          (document.querySelector<IdsButton>(data.id))!.type = data.submit as any;
-        }, { id: ID, submit: 'invalid' }).then(async () => {
-          await expect(idsButton).not.toHaveAttribute('type');
-          await expect(button).not.toHaveAttribute('type');
-        });
-      });
+
     });
   });
 });
