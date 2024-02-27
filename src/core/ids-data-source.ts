@@ -414,6 +414,7 @@ class IdsDataSource {
   /**
    * Query row data from the dataset
    * @param {Array<Record<string, unknown>>} row records to get
+   * @returns {object} The dataset object
    */
   query(row: number) {
     const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === row);
@@ -421,7 +422,7 @@ class IdsDataSource {
       return this.#currentData[i];
     }
 
-    return;
+    return undefined;
   }
 
   /**
