@@ -2183,13 +2183,19 @@ export default class IdsDataGrid extends Base {
    */
   updateDataset(row: number, data: Record<string, unknown>, isClear?: boolean) {
     // Ensure the incoming record contains a proper ID (or use `idColumn`)
-    if (!data[this.idColumn]) {
+    if (!data[this.idColumn] && row < this.data.length) {
       data[this.idColumn] = this.data[row][this.idColumn];
+    } else {
+      const queryDataset = this.datasource.query(row + 1);
+      data[this.idColumn] = queryDataset !== undefined ? queryDataset[this.idColumn] : '';
     }
 
-    // Update the current data
-    if (isClear) this.data[row] = data;
-    else this.data[row] = { ...this.data[row], ...data };
+    // Same page update
+    if (row < this.data.length) {
+      // Update the current data
+      if (isClear) this.data[row] = data;
+      else this.data[row] = { ...this.data[row], ...data };
+    }
 
     // Update the tree element in the original data
     if (this.treeGrid) {

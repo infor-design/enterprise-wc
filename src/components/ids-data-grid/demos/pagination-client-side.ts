@@ -135,8 +135,9 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   });
 
   document.querySelector('#clear-row')?.addEventListener('click', () => {
-    dataGrid.selectedRows.reverse().forEach((row: any) => {
+    dataGrid.selectedRowsAcrossPages.reverse().forEach((row: any) => {
       dataGrid.clearRow(row.index);
+      updateTitleText();
     });
   });
 }());

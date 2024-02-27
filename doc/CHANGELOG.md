@@ -5,6 +5,7 @@
 ### 1.0.0-beta.21 Fixes
 
 - `[ColorPicker]` Fix Color Picker support for angular form controls. ([#1774](https://github.com/infor-design/enterprise-wc/issues/1774))
+- `[DataGrid]` Fixed clear button not clearing rows from other pages. ([#1757](https://github.com/infor-design/enterprise-wc/issues/1757))
 - `[DataGrid]` Added dirty tracker to checkbox editor. ([#1747](https://github.com/infor-design/enterprise-wc/issues/1747))
 - `[Dropdown]` Fixed incorrect form values in reactive forms. ([#1850](https://github.com/infor-design/enterprise-wc/issues/1850))
 - `[Slider]` Rounded up the value to decimal to match the tooltip. ([#1746](https://github.com/infor-design/enterprise-wc/issues/1746))
