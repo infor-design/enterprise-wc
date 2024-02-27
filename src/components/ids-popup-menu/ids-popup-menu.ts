@@ -79,7 +79,10 @@ export default class IdsPopupMenu extends Base {
     if (this.hasAttribute(attributes.WIDTH)) {
       this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
+    this.#configurePopup();
+  }
 
+  #configurePopup() {
     if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
     this.configureSubmenuAlignment();
     this.setOnPlace(!!this.parentMenuItem);
@@ -141,20 +144,20 @@ export default class IdsPopupMenu extends Base {
     });
 
     // When the underlying Popup triggers its "show" event, pass the event to the Host element.
-    this.offEvent('show');
-    this.onEvent('show', this.container, (e: CustomEvent) => {
+    this.offEvent('show', this.popup);
+    this.onEvent('show', this.popup, (e: CustomEvent) => {
       this.hideOtherMenus();
       if (!this.parentMenuItem) {
-        this.triggerEvent('show', this, e);
+        this.triggerEvent('show', this, { bubbles: true, detail: e.detail });
       }
       this.setInitialFocus();
     });
 
     // When the underlying Popup triggers its "hide" event, pass the event to the Host element.
-    this.offEvent('hide');
-    this.onEvent('hide', this.container, (e: CustomEvent) => {
+    this.offEvent('hide', this.popup);
+    this.onEvent('hide', this.popup, (e: CustomEvent) => {
       if (!this.parentMenuItem) {
-        this.triggerEvent('hide', this, e);
+        this.triggerEvent('hide', this, { bubbles: true, detail: e.detail });
       }
       this.#mo?.disconnect();
     });
@@ -375,14 +378,31 @@ export default class IdsPopupMenu extends Base {
         contextElement: this
       });
       if (!menuData) return;
-      if (!isSubmenu) this.data = menuData;
+      if (!isSubmenu) {
+        const alignTarget = this.popup!.alignTarget;
+        const arrowTarget = this.popup!.arrowTarget;
+        const arrow = this.popup!.arrow;
+        this.data = menuData;
+
+        this.#configurePopup();
+        if (this.triggerType === 'click') {
+          this.popup!.alignTarget = alignTarget;
+          this.popup!.arrowTarget = arrowTarget;
+          this.popup!.arrow = arrow;
+        }
+      }
       if (isSubmenu && rootMenu) {
         const submenuDataItem = this.#findSubmenu((rootMenu.data as any)[0].items, 'id', this.id)!;
         submenuDataItem.contents = [menuData];
         this.data = submenuDataItem;
         this.setOnPlace(!!this.parentMenuItem);
       }
-      if (!isSubmenu) this.popup?.setPosition(this.state.pageX, this.state.pageY);
+      if (!isSubmenu && this.triggerType === 'contextmenu') {
+        this.popup?.setPosition(this.state.pageX, this.state.pageY);
+      }
+      if (!isSubmenu && this.triggerType === 'click') {
+        this.setOnPlace(!!this.parentMenuItem);
+      }
     }
   }
 

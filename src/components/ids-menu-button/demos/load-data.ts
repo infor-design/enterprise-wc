@@ -1,9 +1,9 @@
 import json from '../../../assets/data/menu-array-lazy.json';
 import submenuJson from '../../../assets/data/menu-array-submenu.json';
-import IdsPopupMenu from '../ids-popup-menu';
+import IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const popupmenuEl: IdsPopupMenu = document.querySelector('#popupmenu')!;
+  const popupmenuEl: IdsPopupMenu = document.querySelector('#my-menu')!;
   let submenuCount = 1;
   // Load/set data on ajax request this fires for submenus
   popupmenuEl.beforeShow = async (opts: any) => {

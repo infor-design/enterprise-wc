@@ -7,17 +7,20 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-popup-menu id="popupmenu" align="left, top"></ids-popup-menu>
 
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-layout-grid-cell>
-        <ids-text font-size="12" type="h1">Popup Menu (ajax data driven)</ids-text>
+        <ids-text font-size="12" type="h1">Menu Button (ajax data driven)</ids-text>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
-        <ids-text>This Popupmenu's contents are loaded via an async callback when opening the menu and submenu</ids-text>
+        <ids-menu-button id="menu-button" icon="settings" appearance="tertiary" menu="my-menu" dropdown-icon>
+          <span>Settings</span>
+        </ids-menu-button>
+        <ids-popup-menu id="my-menu" target="menu-button" trigger-type="click">
+        </ids-popup-menu>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
