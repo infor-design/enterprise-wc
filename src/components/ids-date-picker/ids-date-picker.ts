@@ -104,14 +104,14 @@ class IdsDatePicker extends Base {
   constructor() {
     super();
 
-    this.picker = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup') || undefined;
+    this.picker = this.container?.querySelector<IdsDatePickerPopup>('ids-date-picker-popup');
     this.triggerButton = this.container?.querySelector('ids-trigger-button');
     this.triggerField = this.container?.querySelector('ids-trigger-field');
   }
 
   isFormComponent = true;
 
-  picker?: IdsDatePickerPopup | undefined | null;
+  picker?: IdsDatePickerPopup | null;
 
   triggerButton: any;
 
@@ -162,9 +162,7 @@ class IdsDatePicker extends Base {
    * @returns {void}
    */
   onColorVariantRefresh(): void {
-    if (this.triggerField) {
-      this.triggerField.colorVariant = this.colorVariant;
-    }
+    this.triggerField!.colorVariant = this.colorVariant;
   }
 
   /**
@@ -172,7 +170,7 @@ class IdsDatePicker extends Base {
    * @returns {void}
    */
   onLabelRequiredChange(): void {
-    if (this.triggerField) this.triggerField.labelRequired = this.labelRequired;
+    this.triggerField!.labelRequired = this.labelRequired;
   }
 
   /**
@@ -180,7 +178,7 @@ class IdsDatePicker extends Base {
    * @returns {void}
    */
   onLabelChange(): void {
-    if (this.triggerField) this.triggerField.label = this.label;
+    this.triggerField!.label = this.label;
   }
 
   /**
@@ -188,7 +186,7 @@ class IdsDatePicker extends Base {
    * @returns {void}
    */
   onLabelStateChange(): void {
-    if (this.triggerField) this.triggerField.labelState = this.labelState;
+    this.triggerField!.labelState = this.labelState;
   }
 
   /**
@@ -196,13 +194,12 @@ class IdsDatePicker extends Base {
    * @param {string} val the new field height setting
    */
   onFieldHeightChange(val: string) {
-    if (!this.triggerField) return;
     if (val) {
       const attr = val === 'compact' ? { name: 'compact', val: '' } : { name: 'field-height', val };
-      this.triggerField.setAttribute(attr.name, attr.val);
+      this.triggerField?.setAttribute(attr.name, attr.val);
     } else {
-      this.triggerField.removeAttribute('compact');
-      this.triggerField.removeAttribute('field-height');
+      this.triggerField?.removeAttribute('compact');
+      this.triggerField?.removeAttribute('field-height');
     }
   }
 
@@ -520,15 +517,6 @@ class IdsDatePicker extends Base {
         this.day = day;
       }
     };
-
-    // Set time picker value
-    if (this.#hasTime()) {
-      const timePicker = this.container?.querySelector('ids-time-picker');
-
-      if (timePicker) {
-        (timePicker as any).value = this.triggerField?.value;
-      }
-    }
 
     if (!this.useRange) {
       setDateParams((inputDate as Date) || new Date());
@@ -994,22 +982,20 @@ class IdsDatePicker extends Base {
   }
 
   onDisableSettingsChange(val: IdsDisableSettings) {
-    if (this.picker) this.picker.disableSettings = val;
+    this.picker!.disableSettings = val;
   }
 
   onLegendSettingsChange(val: Array<IdsLegend>) {
-    if (this.picker) this.picker.legend = val;
+    this.picker!.legend = val;
   }
 
   onRangeSettingsChange(val: IdsRangeSettings) {
-    if (this.picker) {
-      this.picker.rangeSettings = val;
+    this.picker!.rangeSettings = val;
 
-      if (val?.start && val?.end) {
-        const startDate = this.localeAPI.formatDate(this.#setTime(val.start), { pattern: this.format });
-        const endDate = this.localeAPI.formatDate(this.#setTime(val.end), { pattern: this.format });
-        this.value = `${startDate}${this.rangeSettings.separator}${endDate}`;
-      }
+    if (val?.start && val?.end) {
+      const startDate = this.localeAPI.formatDate(this.#setTime(val.start), { pattern: this.format });
+      const endDate = this.localeAPI.formatDate(this.#setTime(val.end), { pattern: this.format });
+      this.value = `${startDate}${this.rangeSettings.separator}${endDate}`;
     }
   }
 
@@ -1071,7 +1057,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.MINUTE_INTERVAL);
     }
-    if (this.picker) this.picker.minuteInterval = numberVal;
+    this.picker!.minuteInterval = numberVal;
   }
 
   /**
@@ -1093,7 +1079,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SECOND_INTERVAL);
     }
-    if (this.picker) this.picker.secondInterval = numberVal;
+    this.picker!.secondInterval = numberVal;
   }
 
   /**
@@ -1115,7 +1101,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_CLEAR);
     }
-    if (this.picker) this.picker.showClear = boolVal;
+    this.picker!.showClear = boolVal;
   }
 
   /**
@@ -1137,7 +1123,7 @@ class IdsDatePicker extends Base {
     } else {
       this.removeAttribute(attributes.SHOW_CANCEL);
     }
-    if (this.picker) this.picker.showCancel = boolVal;
+    this.picker!.showCancel = boolVal;
   }
 
   /**
@@ -1160,7 +1146,7 @@ class IdsDatePicker extends Base {
   set showPicklistYear(val: string | boolean | null) {
     const boolVal = stringToBool(val);
     this.setAttribute(attributes.SHOW_PICKLIST_YEAR, String(boolVal));
-    if (this.picker) this.picker.showPicklistYear = boolVal;
+    this.picker!.showPicklistYear = boolVal;
   }
 
   /**
@@ -1184,7 +1170,7 @@ class IdsDatePicker extends Base {
   set showPicklistMonth(val: string | boolean | null) {
     const boolVal = stringToBool(val);
     this.setAttribute(attributes.SHOW_PICKLIST_MONTH, String(boolVal));
-    if (this.picker) this.picker.showPicklistMonth = boolVal;
+    this.picker!.showPicklistMonth = boolVal;
   }
 
   /**
@@ -1202,7 +1188,7 @@ class IdsDatePicker extends Base {
   set showPicklistWeek(val: string | boolean | null) {
     const boolVal = stringToBool(val);
     this.setAttribute(attributes.SHOW_PICKLIST_WEEK, String(boolVal));
-    if (this.picker) this.picker.showPicklistWeek = boolVal;
+    this.picker!.showPicklistWeek = boolVal;
   }
 
   /**
@@ -1226,7 +1212,7 @@ class IdsDatePicker extends Base {
       this.removeAttribute(attributes.USE_CURRENT_TIME);
     }
 
-    if (this.picker) this.picker.useCurrentTime = boolVal;
+    this.picker!.useCurrentTime = boolVal;
   }
 
   set showWeekNumbers(val: boolean | null) {

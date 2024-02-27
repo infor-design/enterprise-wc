@@ -3,7 +3,9 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsDatePicker from '../../src/components/ids-date-picker/ids-date-picker';
+import type IdsDatePicker from '../../src/components/ids-date-picker/ids-date-picker';
+import type IdsTimePickerPopup from '../../src/components/ids-time-picker/ids-time-picker-popup';
+import type IdsMonthView from '../../src/components/ids-month-view/ids-month-view';
 
 test.describe('IdsDatePicker tests', () => {
   const url = '/ids-date-picker/example.html';
@@ -666,6 +668,18 @@ test.describe('IdsDatePicker tests', () => {
 
       expect(pickerVisible).toBeFalsy();
     });
+
+    test('should select a date', async ({ page }) => {
+      const selectedDate = await page.evaluate(() => {
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
+        const monthView = component?.popup?.container?.querySelector<IdsMonthView>('ids-month-view');
+        monthView?.container?.querySelector<HTMLElement>('[data-day="28"]')?.click();
+
+        return component.value;
+      });
+
+      expect(selectedDate).toEqual('2/28/2016');
+    });
   });
 
   test.describe('keyboard tests', () => {
@@ -830,6 +844,38 @@ test.describe('IdsDatePicker tests', () => {
         expected: false
       }];
       values.forEach((v) => checkValidation(v.value, v.expected));
+    });
+  });
+
+  test.describe('date time picker tests', () => {
+    test('should render time picker when format changes', async ({ page }) => {
+      const format = 'M/d/yyyy hh:mm:ss a';
+      const value = '2/3/2010 08:24:11 AM';
+      const timePickerVisible = await page.evaluate((args) => {
+        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
+        component.minuteInterval = 1;
+        component.secondInterval = 1;
+        component.format = args.format;
+        component.value = args.value;
+        component.popup!.value = args.value;
+
+        const timePicker = component.popup?.container?.querySelector<IdsTimePickerPopup>('ids-time-picker-popup');
+
+        return {
+          hours: timePicker?.hours,
+          minutes: timePicker?.minutes,
+          seconds: timePicker?.seconds,
+          period: timePicker?.period
+        };
+      }, {
+        format,
+        value
+      });
+
+      expect(timePickerVisible.hours).toEqual(8);
+      expect(timePickerVisible.minutes).toEqual(24);
+      expect(timePickerVisible.seconds).toEqual(11);
+      expect(timePickerVisible.period).toEqual('AM');
     });
   });
 });
