@@ -10,7 +10,7 @@ test.describe('IdsButton tests', () => {
   const url = '/ids-button/example.html';
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('https://main.wc.design.infor.com/ids-button/example.html');
+    await page.goto(url);
     await page.waitForLoadState();
   });
 
