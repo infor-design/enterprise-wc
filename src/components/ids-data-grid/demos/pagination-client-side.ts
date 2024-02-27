@@ -129,8 +129,9 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   });
 
   document.querySelector('#delete-row')?.addEventListener('click', () => {
-    dataGrid.selectedRows.reverse().forEach((row: any) => {
+    dataGrid.selectedRowsAcrossPages.reverse().forEach((row: any) => {
       dataGrid.removeRow(row.index);
+      updateTitleText();
     });
   });
 

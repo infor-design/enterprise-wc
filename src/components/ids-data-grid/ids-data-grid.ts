@@ -2348,10 +2348,15 @@ export default class IdsDataGrid extends Base {
   removeRow(index: number) {
     // Update data
     const data = this.data[index];
-    if (!data[this.idColumn]) {
+    if (index < this.data.length && !data[this.idColumn]) {
       data[this.idColumn] = this.data[index][this.idColumn];
+      this.datasource.delete([data]);
+    } else {
+      const queryDataset = this.datasource.query(index + 1);
+      const tempData = queryDataset !== undefined ? queryDataset : {};
+      this.datasource.delete([tempData]);
     }
-    this.datasource.delete([data]);
+
     this.datasource.refreshPreviousState();
 
     // Update grid state
