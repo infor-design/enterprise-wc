@@ -648,27 +648,6 @@ test.describe('IdsDatePicker tests', () => {
       expect(datePickerValue.pickerHidden).toBeFalsy();
     });
 
-    test.skip('should close the popup on outside click', async ({ page }) => {
-      await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
-        if (component.popup?.popup?.animated) {
-          component.popup.popup.animated = false;
-        }
-        component.open();
-      });
-
-      await page.evaluate(() => {
-        document.querySelector('body')?.click();
-      });
-
-      const pickerVisible = await page.evaluate(() => {
-        const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
-        return component.popup?.popup?.hasAttribute('visible');
-      });
-
-      expect(pickerVisible).toBeFalsy();
-    });
-
     test('should select a date', async ({ page }) => {
       const selectedDate = await page.evaluate(() => {
         const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
