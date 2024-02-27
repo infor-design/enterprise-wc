@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsMonthYearPicklist from '../../src/components/ids-date-picker/ids-month-year-picklist';
+import type IdsMonthYearPicklist from '../../src/components/ids-date-picker/ids-month-year-picklist';
 
 test.describe('IdsMonthYearPicklist tests', () => {
   const url = '/ids-date-picker/month-year-picklist.html';
