@@ -30,7 +30,7 @@
 - `[Multiselect]` Fixed issue in `ids-multiselect` where deselection would cause options to lose their sort-order in Angular. ([#1709](https://github.com/infor-design/enterprise-wc/issues/1709))
 - `[Popupmenu]` Fixed an issue where a popupmenu is in the wrong position on the filter row when in a modal. ([#1766](https://github.com/infor-design/enterprise-wc/issues/1766))
 - `[Pager]` Fixed an issue in angular where the buttons were invisible. ([#1826](https://github.com/infor-design/enterprise-wc/issues/1826))
-- `[Text]` Fix attribute order bug where a rerender ignores font weight. ([#1775](https://github.com/infor-design/enterprise-wc/issues/1775))
+- `[Text]` Fix attribute order bug where a re-render ignores font weight. ([#1775](https://github.com/infor-design/enterprise-wc/issues/1775))
 - `[Textarea]` Fixed an issue where could not type in textarea. ([#1827](https://github.com/infor-design/enterprise-wc/issues/1827))
 
 ### 1.0.0-beta.20 Features

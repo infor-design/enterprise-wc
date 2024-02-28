@@ -4,7 +4,7 @@ import eventsJSON from '../../../assets/data/accounts.json';
 import '../../ids-button/ids-button';
 import '../../ids-list-view/ids-list-view';
 import '../ids-modal';
-import '../../ids-modal-button/ids-modal-button';
+import '../ids-modal-button';
 import '../../ids-splitter/ids-splitter';
 import '../../ids-splitter/ids-splitter-pane';
 import '../../ids-tree/ids-tree';
