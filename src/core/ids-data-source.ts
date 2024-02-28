@@ -412,20 +412,6 @@ class IdsDataSource {
   }
 
   /**
-   * Query row data from the dataset
-   * @param {Array<Record<string, unknown>>} row records to get
-   * @returns {object} The dataset object
-   */
-  query(row: number) {
-    const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === row);
-    if (i > -1) {
-      return this.#currentData[i];
-    }
-
-    return undefined;
-  }
-
-  /**
    * Updates records in the current dataset to reflect new state
    * @param {Array<Record<string, unknown>>} items incoming records to update
    * @param {boolean} overwrite true if the record should be completely overwritten as opposed to augmented

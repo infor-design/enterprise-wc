@@ -130,15 +130,27 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
   document.querySelector('#delete-row')?.addEventListener('click', () => {
     dataGrid.selectedRowsAcrossPages.reverse().forEach((row: any) => {
-      dataGrid.removeRow(row.index);
+      const data = trimData(row);
+      dataGrid.removeRow(row.index, data);
       updateTitleText();
     });
   });
 
   document.querySelector('#clear-row')?.addEventListener('click', () => {
     dataGrid.selectedRowsAcrossPages.reverse().forEach((row: any) => {
-      dataGrid.clearRow(row.index);
+      const data = trimData(row);
+      dataGrid.clearRow(row.index, data);
       updateTitleText();
     });
   });
+
+  function trimData(row: any) {
+    const dataSource = dataGrid.datasource;
+    const key = dataSource.primaryKey;
+    const data = {
+      [key] : row.data[key]
+    };
+
+    return data;
+  }
 }());

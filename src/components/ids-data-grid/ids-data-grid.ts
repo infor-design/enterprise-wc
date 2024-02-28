@@ -2183,11 +2183,8 @@ export default class IdsDataGrid extends Base {
    */
   updateDataset(row: number, data: Record<string, unknown>, isClear?: boolean) {
     // Ensure the incoming record contains a proper ID (or use `idColumn`)
-    if (!data[this.idColumn] && row < this.data.length) {
+    if (!data[this.idColumn]) {
       data[this.idColumn] = this.data[row][this.idColumn];
-    } else {
-      const queryDataset = this.datasource.query(row + 1);
-      data[this.idColumn] = queryDataset !== undefined ? queryDataset[this.idColumn] : '';
     }
 
     // Same page update
@@ -2344,19 +2341,16 @@ export default class IdsDataGrid extends Base {
   /**
    * Remove a row by index for the data
    * @param {number} index the row index to remove
+   * @param {Array<Record<string, unknown>>} data to be deleted
    */
-  removeRow(index: number) {
+  removeRow(index: number, data: Record<string, unknown>) {
     // Update data
-    const data = this.data[index];
-    if (index < this.data.length && !data[this.idColumn]) {
-      data[this.idColumn] = this.data[index][this.idColumn];
-      this.datasource.delete([data]);
-    } else {
-      const queryDataset = this.datasource.query(index + 1);
-      const tempData = queryDataset !== undefined ? queryDataset : {};
-      this.datasource.delete([tempData]);
+    if (!data[this.idColumn]) {
+      data = this.data[index];
+      data[this.idColumn] = this.data[index][this.idColumn]; 
     }
 
+    this.datasource.delete([data]);
     this.datasource.refreshPreviousState();
 
     // Update grid state
@@ -2368,9 +2362,10 @@ export default class IdsDataGrid extends Base {
   /**
    * Clear all values in a row a row by index
    * @param {number} index the row index to clear
+   * @param {Array<Record<string, unknown>>} data to be cleared
    */
-  clearRow(index: number) {
-    this.updateDataset(index, {}, true);
+  clearRow(index: number, data: Record<string, unknown>) {
+    this.updateDataset(index, data, true);
     this.redrawBody();
   }
 
