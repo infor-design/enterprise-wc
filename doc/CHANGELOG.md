@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.22
+
+### 1.0.0-beta.222 Fixes
+
+- `[Docs]` Added docs page for IdsGlobal. Moved some subcomponents that should not be used directly into their main component area. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
+
 ## 1.0.0-beta.21
 
 ### 1.0.0-beta.21 Fixes
