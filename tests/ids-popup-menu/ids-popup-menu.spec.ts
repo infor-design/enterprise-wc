@@ -89,15 +89,16 @@ test.describe('IdsPopupMenu tests', () => {
     });
 
     test('reverts to markup-driven when provided an empty dataset', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const menu = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
-        const menus = document.querySelectorAll('ids-popup-menu');
-        menu.data = null as any;
-        return [menu.data, menus.length];
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
+        elem.show();
       });
-
-      expect(results[0]).toEqual([]);
-      expect(results[1]).toEqual(1);
+      await page.waitForFunction(() => document.querySelector<IdsPopupMenu>('ids-popup-menu')?.visible === true);
+      const markup: string = await page.evaluate(() => {
+        const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
+        return elem.innerHTML;
+      });
+      expect(markup).toContain(' Sub Sub Menu 1');
     });
   });
 });
