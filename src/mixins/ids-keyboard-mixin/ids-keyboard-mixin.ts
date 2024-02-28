@@ -66,7 +66,7 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
   /**
    * Add a key to the pressedKeys Map.
    * @private
-   * @param {string} key a string representing a {KeyboardEvent.key} that was pressed
+   * @param {string} key a string representing a KeyboardEvent.key that was pressed
    * @returns {Map} the current set of pressed keys
    */
   press(key: string) {
@@ -99,7 +99,7 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
   /**
    * Remove a key from the pressedKeys map.
    * @private
-   * @param {string} key a string representing a {KeyboardEvent.key} that is no longer active
+   * @param {string} key a string representing a KeyboardEvent.key that is no longer active
    * @returns {boolean} whether or not the key had been previously logged as "pressed"
    */
   unpress(key: string) {
@@ -109,7 +109,7 @@ const IdsKeyboardMixin = <T extends Constraints>(superclass: T) => class extends
   /**
    * Dispatch an event on any active listeners
    * @private
-   * @param {object} e a string representing a {KeyboardEvent.key} that is no longer active
+   * @param {object} e a string representing a KeyboardEvent.key that is no longer active
    * @returns {void}
    */
   dispatchHotkeys(e: KeyboardEvent) {
