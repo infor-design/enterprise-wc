@@ -22,37 +22,6 @@ describe('IdsPopupMenu Component', () => {
     document.body.appendChild(menu);
   });
 
-  afterEach(() => {
-    document.body.innerHTML = '';
-    menu = null;
-  });
-
-  test('should render', () => {
-    const errors = jest.spyOn(global.console, 'error');
-
-    // Three popupmenus (top level and 2 submenus)
-    expect(document.querySelectorAll('ids-popup-menu').length).toEqual(3);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  test('reverts to markup-driven if handed an empty dataset', () => {
-    menu.data = null;
-
-    // both old data and markup should stay in-tact
-    let menus = document.querySelectorAll('ids-popup-menu');
-
-    expect(menu.data).toEqual([]);
-    expect(menus.length).toEqual(3);
-
-    // Removing one via markup should work fine
-    menus[2].remove();
-    menus = document.querySelectorAll('ids-popup-menu');
-
-    // Data shouldn't change, but markup will
-    expect(menu.data).toEqual([]);
-    expect(menus.length).toEqual(2);
-  });
-
   test('accepts an array as a `contents` property', () => {
     const errors = jest.spyOn(global.console, 'error');
 
