@@ -11,7 +11,6 @@ test.describe('IdsButton tests', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
-    await page.waitForLoadState();
   });
 
   test.describe('general page checks', () => {
