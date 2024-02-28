@@ -2347,7 +2347,7 @@ export default class IdsDataGrid extends Base {
     // Update data
     if (!data[this.idColumn]) {
       data = this.data[index];
-      data[this.idColumn] = this.data[index][this.idColumn]; 
+      data[this.idColumn] = this.data[index][this.idColumn];
     }
 
     this.datasource.delete([data]);

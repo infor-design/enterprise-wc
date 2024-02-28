@@ -112,7 +112,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     const dataSource = dataGrid.datasource;
     const key = dataSource.primaryKey;
     const tempData = {
-      [key] : row.data[key]
+      [key]: row.data[key]
     };
 
     return tempData;
