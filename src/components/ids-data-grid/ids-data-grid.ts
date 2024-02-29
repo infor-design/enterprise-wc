@@ -2343,9 +2343,9 @@ export default class IdsDataGrid extends Base {
    * @param {number} index the row index to remove
    * @param {Array<Record<string, unknown>>} data to be deleted
    */
-  removeRow(index: number, data: Record<string, unknown>) {
+  removeRow(index: number, data?: Record<string, unknown>) {
     // Update data
-    if (!data[this.idColumn]) {
+    if (data === undefined || !data[this.idColumn]) {
       data = this.data[index];
       data[this.idColumn] = this.data[index][this.idColumn];
     }
@@ -2364,7 +2364,11 @@ export default class IdsDataGrid extends Base {
    * @param {number} index the row index to clear
    * @param {Array<Record<string, unknown>>} data to be cleared
    */
-  clearRow(index: number, data: Record<string, unknown>) {
+  clearRow(index: number, data?: Record<string, unknown>) {
+    if (data === undefined) {
+      data = {};
+    }
+
     this.updateDataset(index, data, true);
     this.redrawBody();
   }
