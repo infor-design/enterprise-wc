@@ -22,6 +22,10 @@ The IDS Menu Button component is an extension of the standard [Button component]
 - `menu` can be defined as a CSS selector string, or if using the JS property, can be a direct reference to an IdsPopupMenu component.
 - `value` sets/gets selected menu items by providing list of menu item values
 
+## Methods
+
+- `async beforeShow(opts)` A callback that fires when the menu is opened. You can use the opts to see what menu and details about what is opening. Since the method is async you can do a call back and return structured [menu data](https://github.com/infor-design/enterprise-wc/blob/main/src/assets/data/menu-contents.json) when returned the menu will show with this data. See [popup menu](https://github.com/infor-design/enterprise-wc/blob/main/src/components/ids-popup-menu/README.md) for more details.
+
 ## States and Variations
 
 Since the menu button combined from several IDS Components, you can refer to their documentation for information about states/variants:

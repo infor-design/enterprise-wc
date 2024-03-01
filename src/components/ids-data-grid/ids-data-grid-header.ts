@@ -239,7 +239,6 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
         offsetLeft = this.offsetParent.getBoundingClientRect().left
           - (this.offsetParent as HTMLElement).offsetLeft;
       }
-      cellLeft -= 32;
       cellLeft = cellLeft < 3 ? 0 : cellLeft;
       dragArrows?.style.setProperty('left', `${this.dataGrid?.localeAPI.isRTL() ? cellRight - offsetLeft : cellLeft - offsetLeft}px`);
       dragArrows?.style.setProperty('height', `${rect.height - 2}px`);
