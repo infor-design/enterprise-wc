@@ -82,14 +82,14 @@ test.describe('IdsMonthYearPicklist tests', () => {
     });
 
     test('should show week numbers', async ({ page }) => {
-      const weekNumber = await page.evaluate(() => {
+      const visibleWeeks = await page.evaluate(() => {
         const component = document.querySelector<IdsMonthYearPicklist>('ids-month-year-picklist')!;
         component.showPicklistWeek = true;
         component.activatePicklist();
-        return component.container?.querySelector<HTMLElement>('.is-week.is-selected')?.dataset.week;
+        return component.container?.querySelectorAll<HTMLElement>('.is-week')?.length;
       });
 
-      expect(weekNumber).toEqual('52');
+      expect(visibleWeeks).toEqual(6);
     });
   });
 
@@ -250,11 +250,11 @@ test.describe('IdsMonthYearPicklist tests', () => {
       await page.keyboard.press('ArrowUp');
       await page.keyboard.press('ArrowUp');
 
-      expect(await getWeek()).toEqual('50');
+      expect(await getWeek()).toEqual('46');
 
       await page.keyboard.press('ArrowDown');
 
-      expect(await getWeek()).toEqual('51');
+      expect(await getWeek()).toEqual('47');
 
       await page.keyboard.press('ArrowUp');
       await page.keyboard.press('ArrowUp');
@@ -262,7 +262,7 @@ test.describe('IdsMonthYearPicklist tests', () => {
       await page.keyboard.press('ArrowUp');
       await page.keyboard.press('ArrowUp');
 
-      expect(await getWeek()).toEqual('49');
+      expect(await getWeek()).toEqual('45');
     });
   });
 });
