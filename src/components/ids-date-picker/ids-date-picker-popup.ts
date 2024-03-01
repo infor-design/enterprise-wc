@@ -16,7 +16,7 @@ import {
 // Components
 import './ids-month-year-picklist';
 import '../ids-button/ids-button';
-import '../ids-modal-button/ids-modal-button';
+import '../ids-modal/ids-modal-button';
 import '../ids-expandable-area/ids-expandable-area';
 import '../ids-month-view/ids-month-view';
 import '../ids-time-picker/ids-time-picker-popup';
@@ -27,7 +27,7 @@ import '../ids-toolbar/ids-toolbar-section';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsExpandableArea from '../ids-expandable-area/ids-expandable-area';
 import type IdsLocale from '../ids-locale/ids-locale';
-import type IdsModalButton from '../ids-modal-button/ids-modal-button';
+import type IdsModalButton from '../ids-modal/ids-modal-button';
 import type IdsMonthView from '../ids-month-view/ids-month-view';
 import type IdsMonthYearPicklist from './ids-month-year-picklist';
 

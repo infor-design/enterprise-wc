@@ -16,9 +16,9 @@ import { toggleScrollbar, waitForTransitionEnd, getClosest } from '../../utils/i
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import '../ids-popup/ids-popup';
-import '../ids-modal-button/ids-modal-button';
+import './ids-modal-button';
 import IdsOverlay from './ids-overlay';
-import type IdsModalButton from '../ids-modal-button/ids-modal-button';
+import type IdsModalButton from './ids-modal-button';
 
 // Import Styles
 import styles from './ids-modal.scss';

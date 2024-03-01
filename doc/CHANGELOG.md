@@ -9,6 +9,7 @@
 ### 1.0.0-beta.22 Fixes
 
 - `[Datagrid]` Fixed a display issue with the new loading indicator in firefox. ([#1617](https://github.com/infor-design/enterprise-wc/issues/1617))
+- `[Docs]` Added docs page for IdsGlobal. Moved some subcomponents that should not be used directly into their main component area. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
 
 ## 1.0.0-beta.21
 
@@ -40,7 +41,7 @@
 - `[Multiselect]` Fixed issue in `ids-multiselect` where deselection would cause options to lose their sort-order in Angular. ([#1709](https://github.com/infor-design/enterprise-wc/issues/1709))
 - `[Popupmenu]` Fixed an issue where a popupmenu is in the wrong position on the filter row when in a modal. ([#1766](https://github.com/infor-design/enterprise-wc/issues/1766))
 - `[Pager]` Fixed an issue in angular where the buttons were invisible. ([#1826](https://github.com/infor-design/enterprise-wc/issues/1826))
-- `[Text]` Fix attribute order bug where a rerender ignores font weight. ([#1775](https://github.com/infor-design/enterprise-wc/issues/1775))
+- `[Text]` Fix attribute order bug where a re-render ignores font weight. ([#1775](https://github.com/infor-design/enterprise-wc/issues/1775))
 - `[Textarea]` Fixed an issue where could not type in textarea. ([#1827](https://github.com/infor-design/enterprise-wc/issues/1827))
 
 ### 1.0.0-beta.20 Features
