@@ -159,6 +159,11 @@ svg {
   color: var(--ids-icon-status-color-neutral-color-text);
 }
 
+.status-color-yellow {
+  background-color: var(--ids-icon-status-color-yellow-color-background);
+  color: var(--ids-icon-status-color-yellow-color-text);
+}
+
 .status-color-error {
   background-color: var(--ids-icon-status-color-error-color-background);
   color: var(--ids-icon-status-color-error-color-text);
