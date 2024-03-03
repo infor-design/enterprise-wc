@@ -254,9 +254,14 @@ export default class IdsTree extends Base {
     if (location === 'before' && node) {
       const nodeDatum = this.getNodeData(node);
       const idx = nodeDatum.idx || 0;
-      const bottomNodes = this.nodesData.splice(0, idx);
-      const topNodes = this.nodesData.splice(idx - 1);
-      this.nodesData = [...bottomNodes, ...data, ...topNodes];
+      const posinsetIdx = (nodeDatum.posinset || 1) - 1;
+      this.nodesData = this.nodesData.reduce((acc: IdsTreeData[], val, index) => {
+        if (index === idx) {
+          acc.push(...data);
+        }
+        acc.push(val);
+        return acc;
+      }, []);
 
       const parentArray = (nodeDatum?.data as any)?.parent;
       if (parentArray) {
@@ -264,18 +269,27 @@ export default class IdsTree extends Base {
         const topNodesChildren = parentArray.children;
         parentArray.children = [...bottomNodesChildren, ...nodeData, ...topNodesChildren];
       } else {
-        const bottomNodesOrg = this.datasource.data.splice(0, idx);
-        const topNodesOrg = this.datasource.data.splice(idx - 1);
-        this.datasource.data = [...bottomNodesOrg, ...nodeData, ...topNodesOrg];
+        this.datasource.data = this.datasource.data.reduce((acc: IdsTreeData[], val: IdsTreeData, index: number) => {
+          if (index === posinsetIdx) {
+            acc.push(...nodeData);
+          }
+          acc.push(val);
+          return acc;
+        }, []);
       }
       node.insertAdjacentHTML('beforebegin', html);
     }
     if (location === 'after' && node) {
       const nodeDatum = this.getNodeData(node);
       const idx = nodeDatum.idx || 0;
-      const bottomNodes = this.nodesData.splice(0, idx + 1);
-      const topNodes = this.nodesData.splice(idx + 1);
-      this.nodesData = [...bottomNodes, ...data, ...topNodes];
+      const posinsetIdx = (nodeDatum.posinset || 1) - 1;
+      this.nodesData = this.nodesData.reduce((acc: IdsTreeData[], val, index) => {
+        acc.push(val);
+        if (index === idx) {
+          acc.push(...data);
+        }
+        return acc;
+      }, []);
 
       const parentArray = (nodeDatum?.data as any)?.parent;
       if (parentArray) {
@@ -283,9 +297,13 @@ export default class IdsTree extends Base {
         const topNodesChildren = parentArray.children.splice(Number(nodeDatum?.posinset) - 1);
         parentArray.children = [...bottomNodesChildren, ...nodeData, ...topNodesChildren];
       } else {
-        const bottomNodesOrg = this.datasource.data.splice(0, idx + 1);
-        const topNodesOrg = this.datasource.data.splice(idx - 1);
-        this.datasource.data = [...bottomNodesOrg, ...nodeData, ...topNodesOrg];
+        this.datasource.data = this.datasource.data.reduce((acc: IdsTreeData[], val: IdsTreeData, index: number) => {
+          acc.push(val);
+          if (index === posinsetIdx) {
+            acc.push(...nodeData);
+          }
+          return acc;
+        }, []);
       }
 
       node.insertAdjacentHTML('afterend', html);
@@ -294,8 +312,6 @@ export default class IdsTree extends Base {
       const nodeDatum = this.getNodeData(node);
       const idx = nodeDatum.idx;
       if (this.nodesData && idx !== undefined && this.nodesData[idx]) {
-        if (!this.nodesData[idx].children) this.nodesData[idx].children = [];
-        this.nodesData[idx].children = data;
         const sourceData = (nodeDatum?.data as any)?.dataRef;
         if (!sourceData.children) sourceData.children = [];
         sourceData.children.push(...data);
@@ -1179,7 +1195,7 @@ export default class IdsTree extends Base {
       const allow = ['Space', 'Enter'];
       const key = e.code;
       const node = e.composedPath().find((el: any) => el.nodeName === 'IDS-TREE-NODE');
-      const nodeData = this.#nodes.find((el) => el.elem === node);
+      const nodeData = this.getNodeData(node);
       if (allow.indexOf(key) > -1) {
         handleClick(e, nodeData);
         e.preventDefault();
@@ -1196,7 +1212,7 @@ export default class IdsTree extends Base {
       });
       if (!found) return;
       const node = e.composedPath().find((el: any) => el.nodeName === 'IDS-TREE-NODE');
-      const nodeData = this.#nodes.find((el) => el.elem === node);
+      const nodeData = this.getNodeData(node);
       handleClick(e, nodeData);
     });
   }
