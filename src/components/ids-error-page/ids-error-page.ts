@@ -104,6 +104,7 @@ export default class IdsErrorPage extends IdsModal {
     }
 
     this.#refreshText('[slot="label"]', value);
+    this.refreshAriaLabel();
   }
 
   /**
@@ -129,6 +130,7 @@ export default class IdsErrorPage extends IdsModal {
     }
 
     this.#refreshText('[slot="description"]', value);
+    this.refreshAriaLabel();
   }
 
   /**

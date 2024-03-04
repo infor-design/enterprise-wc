@@ -10,7 +10,6 @@ import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin
 import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import IdsElement from '../../core/ids-element';
 
-import { setBooleanAttr } from '../../utils/ids-attribute-utils/ids-attribute-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { toggleScrollbar, waitForTransitionEnd, getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
@@ -24,8 +23,6 @@ import type IdsModalButton from '../ids-modal-button/ids-modal-button';
 import styles from './ids-modal.scss';
 
 type IdsModalFullsizeAttributeValue = null | 'null' | '' | keyof Breakpoints | 'always';
-
-const VALID_POSITIONS = ['left', 'right'];
 
 const Base = IdsXssMixin(
   IdsBreakpointMixin(
@@ -62,6 +59,18 @@ export default class IdsModal extends Base {
 
   onButtonClick?: (target: any) => void;
 
+  ro?: ResizeObserver;
+
+  /**
+   * @property {Array<string>} Modal vetoable events
+   */
+  vetoableEventTypes: Array<string> = ['beforeshow', 'beforehide'];
+
+  /**
+   * @property {boolean} visible true if this Modal instance is visible.
+   */
+  #visible = false;
+
   globalKeydownListener = (e: KeyboardEvent) => {
     switch (e.key) {
       case 'Escape':
@@ -73,14 +82,10 @@ export default class IdsModal extends Base {
     }
   };
 
-  ro?: ResizeObserver;
-
   constructor() {
     super();
 
-    if (!this.state) {
-      this.state = {};
-    }
+    this.state ??= {};
     this.state.fullsize = '';
     this.state.overlay = null;
     this.state.scrollable = true;
@@ -98,17 +103,12 @@ export default class IdsModal extends Base {
     ];
   }
 
-  /**
-   * @returns {Array<string>} Modal vetoable events
-   */
-  vetoableEventTypes: Array<string> = ['beforeshow', 'beforehide'];
-
   connectedCallback(): void {
     super.connectedCallback?.();
 
     if (this.popup) {
       this.popup.setAttribute(attributes.TYPE, 'modal');
-      this.popup.setAttribute(attributes.ANIMATED, 'true');
+      this.popup.setAttribute(attributes.ANIMATED, '');
       this.popup.setAttribute(attributes.ANIMATION_STYLE, 'scale-in');
       this.popup.onOutsideClick = this.onOutsideClick.bind(this);
       this.popup.addOpenEvents = this.addOpenEvents.bind(this);
@@ -121,7 +121,7 @@ export default class IdsModal extends Base {
     this.refreshAriaLabel();
 
     // Update Outer Modal Parts
-    this.#refreshOverlay(this.overlay);
+    this.#refreshOverlay();
 
     this.attachEventHandlers();
     this.shouldUpdate = true;
@@ -227,7 +227,7 @@ export default class IdsModal extends Base {
    * the Modal will change from normal mode to fullsize mode
    */
   set fullsize(val: IdsModalFullsizeAttributeValue) {
-    const current = this.state.fullsize;
+    const current = this.fullsize;
     const makeFullsize = (doFullsize: boolean) => {
       if (!this.popup) return;
 
@@ -276,23 +276,20 @@ export default class IdsModal extends Base {
   }
 
   set showCloseButton(val: boolean) {
-    if (stringToBool(val)) {
-      this.setAttribute(attributes.SHOW_CLOSE_BUTTON, '');
+    const show = stringToBool(stringToBool(val));
+
+    if (this.showCloseButton === show) return;
+
+    this.toggleAttribute(attributes.SHOW_CLOSE_BUTTON, show);
+    if (show) {
       this.#attachCloseButton();
     } else {
-      this.removeAttribute(attributes.SHOW_CLOSE_BUTTON);
       this.#removeCloseButton();
     }
   }
 
   get showCloseButton(): boolean {
-    const attrValue = this.getAttribute(attributes.SHOW_CLOSE_BUTTON);
-
-    if (typeof attrValue === 'string') {
-      return stringToBool(VALID_POSITIONS.includes(attrValue) ? attrValue : 'right');
-    }
-
-    return stringToBool(null);
+    return this.hasAttribute(attributes.SHOW_CLOSE_BUTTON);
   }
 
   get closeButton(): HTMLElement | null {
@@ -324,22 +321,19 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * @returns {HTMLElement} either an external overlay element, or none
+   * Gets current overlay element
+   * @returns {IdsOverlay} either an external overlay element, or none
    */
-  get overlay(): any {
+  get overlay(): IdsOverlay {
     return this.state.overlay || this.shadowRoot?.querySelector('ids-overlay');
   }
 
   /**
-   * @param {HTMLElement | undefined} val an overlay element
+   * @param {IdsOverlay} val an overlay element
    */
-  set overlay(val) {
-    if (val instanceof HTMLElement || val instanceof SVGElement) {
-      this.state.overlay = val;
-    } else {
-      this.state.overlay = null;
-    }
-    this.#refreshOverlay(this.state.overlay);
+  set overlay(val: IdsOverlay) {
+    this.state.overlay = val instanceof HTMLElement ? val : null;
+    this.#refreshOverlay();
   }
 
   /**
@@ -357,26 +351,35 @@ export default class IdsModal extends Base {
     const trueVal = this.xssSanitize(val);
     const currentVal = this.state.messageTitle;
 
-    if (currentVal !== trueVal) {
-      if (typeof trueVal === 'string' && trueVal.length) {
-        this.state.messageTitle = trueVal;
-        this.setAttribute(attributes.MESSAGE_TITLE, trueVal);
-      } else {
-        this.state.messageTitle = '';
-        this.removeAttribute(attributes.MESSAGE_TITLE);
-      }
+    if (currentVal === trueVal) return;
 
-      this.#refreshModalHeader(!!trueVal);
+    if (typeof trueVal === 'string' && trueVal.length) {
+      this.state.messageTitle = trueVal;
+      this.setAttribute(attributes.MESSAGE_TITLE, trueVal);
+    } else {
+      this.state.messageTitle = '';
+      this.removeAttribute(attributes.MESSAGE_TITLE);
     }
+
+    this.#refreshModalHeader(!!trueVal);
   }
 
-  set scrollable(val: string | boolean | null) {
-    const bool = stringToBool(val);
-    setBooleanAttr(attributes.SCROLLABLE, this, bool);
-    this.state.scrollable = bool;
+  /**
+   * Sets modal scrollable setting
+   * @param {boolean|string} val scrollable flag
+   */
+  set scrollable(val: boolean | string) {
+    const isScrollable = stringToBool(val);
+    this.toggleAttribute(attributes.SCROLLABLE, isScrollable);
+    this.container?.classList.toggle(attributes.SCROLLABLE);
+    this.state.scrollable = isScrollable;
   }
 
-  get scrollable() {
+  /**
+   * Gets modal scrollable setting
+   * @returns {boolean} scrollable flag
+   */
+  get scrollable(): boolean {
     return this.state.scrollable;
   }
 
@@ -386,30 +389,20 @@ export default class IdsModal extends Base {
    * @returns {void}
    */
   #refreshModalHeader(hasTitle: boolean): void {
-    let titleEls = [...this.querySelectorAll('[slot="title"]')];
+    const titleEls = [...this.querySelectorAll('[slot="title"]')];
 
-    if (hasTitle) {
-      // Search for slotted title elements.
-      // If one is found, replace the contents.  Otherwise, create one.
-      if (!titleEls.length) {
-        this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.messageTitle}</ids-text>`);
-        titleEls = [this.querySelector('[slot="title"]') as HTMLSlotElement];
-      }
+    // Search for slotted title elements.
+    // If one is found, replace the contents. Otherwise, create one.
+    if (!hasTitle) {
+      this.querySelectorAll('[slot="title"]').forEach((el) => el.remove());
+    } else if (titleEls.length) {
+      titleEls[0].textContent = this.state.messageTitle;
+      titleEls.slice(1).forEach((el) => el.remove());
+    } else {
+      this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.messageTitle}</ids-text>`);
     }
 
     this.refreshAriaLabel();
-
-    titleEls.forEach((el, i) => {
-      if (hasTitle) {
-        if (i > 0) {
-          el.remove();
-          return;
-        }
-        el.textContent = this.state.messageTitle;
-      } else {
-        el.remove();
-      }
-    });
   }
 
   /**
@@ -441,11 +434,6 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * @property {boolean} visible true if this Modal instance is visible.
-   */
-  #visible = false;
-
-  /**
    * @returns {boolean} true if the Modal is visible.
    */
   get visible(): boolean {
@@ -459,13 +447,7 @@ export default class IdsModal extends Base {
     const trueVal = stringToBool(val);
     if (this.#visible !== trueVal) {
       this.#visible = trueVal;
-
-      if (trueVal) {
-        this.setAttribute(attributes.VISIBLE, '');
-      } else {
-        this.removeAttribute(attributes.VISIBLE);
-      }
-
+      this.toggleAttribute(attributes.VISIBLE, trueVal);
       this.#refreshVisibility(trueVal);
     }
   }
@@ -489,11 +471,7 @@ export default class IdsModal extends Base {
     // Check if buttons have been added/removed, and adjust the footer visibility (if applicable)
     if (this.container) {
       const footer = this.container.querySelector('.ids-modal-footer');
-      if (this.buttons.length) {
-        footer?.removeAttribute(attributes.HIDDEN);
-      } else {
-        footer?.setAttribute(attributes.HIDDEN, '');
-      }
+      footer?.toggleAttribute(attributes.HIDDEN, !!this.buttons.length);
     }
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
@@ -544,9 +522,7 @@ export default class IdsModal extends Base {
    */
   async hide(): Promise<void> {
     // Trigger a veto-able `beforehide` event.
-    if (!this.triggerVetoableEvent('beforehide')) {
-      return;
-    }
+    if (!this.triggerVetoableEvent('beforehide')) return;
 
     // Setting the value reruns this method, so exit afterward
     if (this.visible) {
@@ -595,18 +571,17 @@ export default class IdsModal extends Base {
    * @private
    */
   addOpenEvents(): void {
+    this.removeOpenEvents();
+
     // Adds a global event listener for the Keydown event on the body to capture close via Escape
     // (NOTE cannot use IdsEventsMixin here due to scoping)
     document.addEventListener('keydown', this.globalKeydownListener);
 
     // If a Modal Button is clicked, fire an optional callback
-    if (this.container) {
-      const buttonSlot = this.container.querySelector('slot[name="buttons"]');
-
-      this.onEvent('click.buttons', buttonSlot, (e: MouseEvent) => {
-        this.handleButtonClick(e);
-      });
-    }
+    const buttonSlot = this.container?.querySelector('slot[name="buttons"]');
+    this.onEvent('click.buttons', buttonSlot, (e: MouseEvent) => {
+      this.handleButtonClick(e);
+    });
   }
 
   /**
@@ -622,20 +597,12 @@ export default class IdsModal extends Base {
   /**
    * Refreshes the state of the overlay used behind the modal.  If a shared overlay isn't applied,
    * an internal one is generated and applied to the ShadowRoot.
-   * @param {boolean} val if true, uses an external overlay
    * @returns {void}
    */
-  #refreshOverlay(val: boolean): void {
-    if (!this.shadowRoot) return;
-    let overlay;
-
-    if (!val) {
-      overlay = new IdsOverlay();
-      this.shadowRoot.prepend(overlay);
-    } else {
-      overlay = this.shadowRoot.querySelector('ids-overlay');
-      if (overlay) overlay.remove();
-    }
+  #refreshOverlay(): void {
+    const externalOverlay = this.state.overlay;
+    this.shadowRoot?.querySelector('ids-overlay')?.remove();
+    this.shadowRoot?.prepend(externalOverlay || new IdsOverlay());
   }
 
   /**
@@ -661,14 +628,14 @@ export default class IdsModal extends Base {
   }
 
   /**
-   * @property {Function} setFocusIfVisible runs calculation-sensitive routines when the entire DOM has loaded
+   * Runs calculation-sensitive routines when the entire DOM has loaded
    */
-  #setFocusIfVisible = async () => {
+  async #setFocusIfVisible() {
     this.visible = this.getAttribute('visible');
     if (this.visible && this.autoFocus) {
       this.setFocus(this.#getFocusableElementIndex());
     }
-  };
+  }
 
   /**
    * Sets up overall events
@@ -681,12 +648,17 @@ export default class IdsModal extends Base {
     // Stagger these one frame to prevent them from occuring
     // immediately when the component invokes
     window.requestAnimationFrame(() => {
+      this.offEvent('slotchange.title', titleSlot);
       this.onEvent('slotchange.title', titleSlot, () => {
-        const titleNodes = titleSlot?.assignedNodes();
+        const titleNodes = titleSlot?.assignedElements();
+
         if (titleNodes?.length) {
           this.messageTitle = titleNodes[0].textContent ?? '';
+          titleNodes.slice(1).forEach((elem) => elem.remove());
         }
       });
+
+      this.offEvent('slotchange.buttonset', buttonSlot);
       this.onEvent('slotchange.buttonset', buttonSlot, () => {
         this.#refreshModalFooter();
       });
