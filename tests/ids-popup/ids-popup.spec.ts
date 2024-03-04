@@ -63,4 +63,47 @@ test.describe('IdsPopup tests', () => {
       await percySnapshot(page, 'ids-popup-light');
     });
   });
+
+  test.describe('event tests', () => {
+    test('should fire show event', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const popup = document.querySelector<IdsPopup>('#popup-1')!;
+        popup?.addEventListener('show', () => { calls++; });
+        popup.visible = true;
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+
+    test('should fire hide event', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const popup = document.querySelector<IdsPopup>('#popup-1')!;
+        popup.visible = true;
+        popup?.addEventListener('hide', () => { calls++; });
+        popup.visible = false;
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+
+    test('can set visibility', async ({ page }) => {
+      const locator = await page.locator('#popup-1').first();
+      await page.evaluate(() => {
+        const popup = document.querySelector<IdsPopup>('#popup-1')!;
+        popup.visible = true;
+      });
+
+      expect(await locator.getAttribute('aria-hidden')).toBeFalsy();
+      expect(await locator.getAttribute('visible')).toBe('');
+
+      await page.evaluate(() => {
+        const popup = document.querySelector<IdsPopup>('#popup-1')!;
+        popup.visible = false;
+      });
+      expect(await locator.getAttribute('visible')).toBeFalsy();
+      expect(await locator.getAttribute('aria-hidden')).toBe('true');
+    });
+  });
 });

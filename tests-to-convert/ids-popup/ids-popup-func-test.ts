@@ -621,20 +621,6 @@ describe('IdsPopup Component', () => {
     expect(popup.container.classList.contains('position-viewport')).toBeTruthy();
   });
 
-  test('can enable/disable visibility', async () => {
-    popup.visible = true;
-    popup.show();
-    await wait(200);
-    expect(popup.hasAttribute('aria-hidden')).toBeFalsy();
-    expect(popup.hasAttribute('visible')).toBeTruthy();
-
-    popup.visible = false;
-    popup.hide();
-    await wait(300);
-    expect(popup.hasAttribute('aria-hidden')).toBeTruthy();
-    expect(popup.hasAttribute('visible')).toBeFalsy();
-  });
-
   test('can enable/disable container bleed', () => {
     popup.bleed = true;
 

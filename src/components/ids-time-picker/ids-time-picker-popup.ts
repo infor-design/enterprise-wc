@@ -12,11 +12,11 @@ import { IdsTimePickerCommonAttributes, IdsTimePickerMixinAttributes, range } fr
 
 import styles from './ids-time-picker-popup.scss';
 
-import '../ids-modal-button/ids-modal-button';
+import '../ids-modal/ids-modal-button';
 import '../ids-dropdown/ids-dropdown';
 
 import type IdsButton from '../ids-button/ids-button';
-import type IdsModalButton from '../ids-modal-button/ids-modal-button';
+import type IdsModalButton from '../ids-modal/ids-modal-button';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
 
 type IdsTimePickerPopupButton = IdsButton | IdsModalButton;

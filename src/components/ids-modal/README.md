@@ -16,7 +16,7 @@ The IDS Modal Component builds on top of the [Ids Popup](../ids-popup/README.md)
 
 ## Settings (Attributes)
 
-- `fullsize` used for defining what breakpoint (if any) should cause the modal to transform into fullsize mode, which takes up 100% width/height of the browser viewport.  Can also be set to `''` (no change) or `always` (always at 100%)
+- `fullsize` used for defining what breakpoint (if any) should cause the modal to transform into full size mode, which takes up 100% width/height of the browser viewport.  Can also be set to `''` (no change) or `always` (always at 100%)
 - `visible` can be used to make the Modal show or hide
 - `buttons` (readonly) contains a list of references to any Modal Buttons present
 - `messageTitle` The text present at the very top of the Modal to indicate its purpose
@@ -88,7 +88,7 @@ It's possible to append a Message Title to add more context, and Buttons to crea
 </ids-modal>
 ```
 
-### Displaying in fullsize mode
+### Displaying in full size mode
 
 IdsModal can alter its display mode to take up 100% of the browser viewport's width/height by using the `fullsize` attribute:
 
@@ -101,15 +101,36 @@ IdsModal can alter its display mode to take up 100% of the browser viewport's wi
 </ids-modal>
 ```
 
-The fullsize attribute can be defined with an IDS Breakpoint, as defined in the [IdsBreakpointMixin](../../mixins/ids-breakpoint-mixin/README.md).  Alternatively, this setting can be changed to `null` or `''` resulting in no fullscreen mode, or `'always'` which forces the fullscreen mode to be displayed indefinitely.
+The full size attribute can be defined with an IDS Breakpoint, as defined in the [IdsBreakpointMixin](../../mixins/ids-breakpoint-mixin/README.md).  Alternatively, this setting can be changed to `null` or `''` resulting in no fullscreen mode, or `'always'` which forces the fullscreen mode to be displayed indefinitely.
 
-By default, the fullsize setting on all modals is set to Small (sm) and will break when the viewport width is below 600px.
+By default, the full size setting on all modals is set to Small (`sm`) and will break when the viewport width is below 600px.
 
 ### Handling scrolled content
 
 Scrolled content on IdsModal can be configured using the `scrollable` setting.  By default, scrolling is disabled on the internal `ids-modal-content` element, which wraps the slot containing all nested content outside the header and footer areas.  In situations where scrolling is not handled by one of the slotted elements, using `scrollable="true"` will enable the scrolling internally.
 
 If a scrollable element such as [IdsSplitter](../ids-splitter/README.md) has been slotted, a best practice is to defer to that element for scrolling behavior on its own child elements.  In this case, `scrollable` should be set to false.
+
+### Ids Modal Button Component
+
+The IdsModalButton Component is an extension of the regular [IdsButton Component](../ids-button/README.md) that displays the button in a larger style that fits within [IdsModal Components](../ids-modal/README.md). Used to create buttons for use within Modal-type components.
+
+#### States/Attributes
+
+`cancel` a special flag that can be applied to Modal Buttons to more easily identify them as being associated with a "cancelling" action.
+
+#### Code Example
+
+Modal Buttons extend regular buttons and are constructed with similar markup.
+
+```html
+<ids-modal-button id="button-ok" appearance="primary">
+    <ids-text>OK</ids-text>
+</ids-modal-button>
+<ids-modal-button id="button-ok" appearance="secondary" cancel>
+    <ids-text>Cancel</ids-text>
+</ids-modal-button>
+```
 
 ## Converting from Previous Versions (Breaking Changes)
 
