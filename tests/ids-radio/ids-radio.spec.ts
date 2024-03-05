@@ -45,7 +45,7 @@ test.describe('IdsRadio tests', () => {
       expect(await page.evaluate(() => rb.input.hasAttribute('disabled'))).toBe(false);
 
       let rootEl = await page.evaluate(() => {
-        const element = rb.shadowRoot.querySelector('.ids-radio');
+        const element = rb.shadowRoot.querySelector('.ids-radio') as IdsRadio;
         return Array.from(element.classList);
       });
 
@@ -59,7 +59,7 @@ test.describe('IdsRadio tests', () => {
       expect(await page.evaluate(() => rb.input.hasAttribute('disabled'))).toBe(true);
 
       rootEl = await page.evaluate(() => {
-        const element = rb.shadowRoot.querySelector('.ids-radio');
+        const element = rb.shadowRoot.querySelector('.ids-radio') as IdsRadio;
         return Array.from(element.classList);
       });
 
@@ -74,7 +74,7 @@ test.describe('IdsRadio tests', () => {
       expect(await page.evaluate(() => rb.input.hasAttribute('disabled'))).toBe(false);
 
       rootEl = await page.evaluate(() => {
-        const element = rb.shadowRoot.querySelector('.ids-radio');
+        const element = rb.shadowRoot.querySelector('.ids-radio') as IdsRadio;
         return Array.from(element.classList);
       });
 
@@ -86,7 +86,7 @@ test.describe('IdsRadio tests', () => {
       expect(await page.evaluate(() => rb.input.hasAttribute('disabled'))).toBe(false);
 
       let rootEl = await page.evaluate(() => {
-        const element = rb.shadowRoot.querySelector('.ids-radio');
+        const element = rb.shadowRoot.querySelector('.ids-radio') as IdsRadio;
         return Array.from(element.classList);
       });
 
@@ -100,7 +100,7 @@ test.describe('IdsRadio tests', () => {
       expect(await page.evaluate(() => rb.input.hasAttribute('disabled'))).toBe(true);
 
       rootEl = await page.evaluate(() => {
-        const element = rb.shadowRoot.querySelector('.ids-radio');
+        const element = rb.shadowRoot.querySelector('.ids-radio') as IdsRadio;
         return Array.from(element.classList);
       });
 
@@ -115,7 +115,7 @@ test.describe('IdsRadio tests', () => {
       expect(await page.evaluate(() => rb.input.hasAttribute('disabled'))).toBe(false);
 
       rootEl = await page.evaluate(() => {
-        const element = rb.shadowRoot.querySelector('.ids-radio');
+        const element = rb.shadowRoot.querySelector('.ids-radio') as IdsRadio;
         return Array.from(element.classList);
       });
 
@@ -211,7 +211,7 @@ test.describe('IdsRadio tests', () => {
       expect(await page.evaluate(() => rb.getAttribute('disabled'))).toEqual('true');
 
       const rootEl = await page.evaluate(() => {
-        const element = rb.shadowRoot.querySelector('.ids-radio');
+        const element = rb.shadowRoot.querySelector('.ids-radio') as IdsRadio;
         return Array.from(element.classList);
       });
       expect(await rootEl).toContain('disabled');
