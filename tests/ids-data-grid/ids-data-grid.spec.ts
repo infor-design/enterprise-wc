@@ -63,6 +63,87 @@ test.describe('IdsDataGrid tests', () => {
       await expect(await pagerInputEl?.getAttribute('page-number')).toEqual('1');
     });
 
+    test('clear data', async ({ page, browserName }) => {
+      const pagerNextBtn = await page.locator('ids-pager-button[next]');
+      await pagerNextBtn.click();
+
+      await (await page.locator('ids-data-grid [aria-rowindex="5"] [aria-colindex="1"]')).click();
+
+      const titleText = await page.locator('#title-text');
+      await expect(await titleText.textContent()).toEqual('1 Result');
+
+      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('2');
+
+      const pagerPrevBtn = await page.locator('ids-pager-button[previous]');
+      await pagerPrevBtn.click();
+      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('1');
+
+      const clearBtn = await page.locator('[aria-label="Clear Row"]');
+      await clearBtn.click();
+
+      await expect(await titleText.textContent()).toEqual('');
+
+      await pagerNextBtn.click();
+      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('2');
+      await expect(await page.locator('ids-data-grid [aria-rowindex="5"] [aria-colindex="3"]').textContent()).toEqual('');
+
+      const pagerLastBtn = await page.locator('ids-pager-button[last]');
+      await pagerLastBtn.click();
+
+      await (await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="1"]')).click();
+
+      const pagerFirstBtn = await page.locator('ids-pager-button[first]');
+      await pagerFirstBtn.click();
+
+      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('1');
+      await clearBtn.click();
+
+      await pagerLastBtn.click();
+      await expect(await titleText.textContent()).toEqual('');
+      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="3"]').textContent()).toEqual('');
+    });
+
+    test('remove data', async ({ page, browserName }) => {
+      const pagerNextBtn = await page.locator('ids-pager-button[next]');
+      await pagerNextBtn.click();
+
+      await (await page.locator('ids-data-grid [aria-rowindex="5"] [aria-colindex="1"]')).click();
+
+      const titleText = await page.locator('#title-text');
+      await expect(await titleText.textContent()).toEqual('1 Result');
+
+      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('2');
+
+      const pagerPrevBtn = await page.locator('ids-pager-button[previous]');
+      await pagerPrevBtn.click();
+      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('1');
+
+      const deleteBtn = await page.locator('[aria-label="Delete Row"]');
+      await deleteBtn.click();
+
+      await expect(await titleText.textContent()).toEqual('');
+
+      await pagerNextBtn.click();
+      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('2');
+
+      await expect(await page.locator('ids-data-grid [aria-rowindex="10"] [aria-colindex="2"]').textContent()).toEqual('21');
+
+      const pagerLastBtn = await page.locator('ids-pager-button[last]');
+      await pagerLastBtn.click();
+
+      await (await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="1"]')).click();
+
+      const pagerFirstBtn = await page.locator('ids-pager-button[first]');
+      await pagerFirstBtn.click();
+
+      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('1');
+      await deleteBtn.click();
+
+      await pagerLastBtn.click();
+      await expect(await titleText.textContent()).toEqual('');
+      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('993');
+    });
+
     test('navigates pages', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
 
