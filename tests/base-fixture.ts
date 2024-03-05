@@ -46,7 +46,7 @@ export async function mount<T>(page: Page, html: string): Promise<T> {
     }
   }, html);
 
-  const tagHandle = await page.locator('body:first-child');
+  const tagHandle = await page.locator('body:first-child') as any;
   return tagHandle as T;
 }
 

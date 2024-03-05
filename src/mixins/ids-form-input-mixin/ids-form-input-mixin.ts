@@ -99,7 +99,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
   }
 
   #ariaDefaults() {
-    const label = this.getAttribute(attributes.LABEL) ?? this.#internals?.ariaLabel ?? '';
+    const label = this.getAttribute(attributes.LABEL) ?? (this.#internals as any)?.ariaLabel ?? '';
     this.formInput?.setAttribute('aria-label', label);
   }
 
@@ -107,7 +107,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
     const value = this.value;
 
     // If value is null, the element won't participate in form submission.
-    this.#internals?.setFormValue?.(value);
+    (this.#internals as any)?.setFormValue?.(value);
 
     if (e instanceof CustomEvent) {
       e.stopPropagation();
@@ -128,7 +128,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
     const value = this.value;
 
     // If value is null, the element won't participate in form submission.
-    this.#internals?.setFormValue?.(value);
+    (this.#internals as any)?.setFormValue?.(value);
     const inputWrapper = ((e.target as HTMLElement)?.getRootNode() as ShadowRoot)?.host;
 
     if (inputWrapper) {
@@ -150,7 +150,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
     });
   }
 
-  get form() { return this.#internals?.form; }
+  get form() { return (this.#internals as any)?.form; }
 
   get type() { return this.localName; }
 
@@ -172,35 +172,35 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
    * @see ElementInternals.validity
    * @returns {ValidityState} - Returns the ValidityState object for internals's target element.
    */
-  get validity(): ValidityState { return this.#internals?.validity as any; }
+  get validity(): ValidityState { return (this.#internals as any)?.validity as any; }
 
   /**
    * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/validationMessage
    * @see ElementInternals.validationMessage
    * @returns {string} - error message that would be shown to the user
    */
-  get validationMessage(): string { return this.#internals?.validationMessage as any; }
+  get validationMessage(): string { return (this.#internals as any)?.validationMessage as any; }
 
   /**
    * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/willValidate
    * @see ElementInternals.willValidate()
    * @returns {boolean} - true if internals's target element will be validated when the form is submitted
    */
-  get willValidate(): boolean { return this.#internals?.willValidate; }
+  get willValidate(): boolean { return (this.#internals as any)?.willValidate; }
 
   /**
    * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/checkValidity
    * @see ElementInternals.checkValidity()
    * @returns {boolean} - true if internals's target element has no validity problems
    */
-  checkValidity(): boolean { return this.#internals?.checkValidity?.() as any; }
+  checkValidity(): boolean { return (this.#internals as any)?.checkValidity?.() as any; }
 
   /**
    * @see https://developer.mozilla.org/docs/Web/API/ElementInternals/reportValidity
    * @see ElementInternals.reportValidity()
    * @returns {boolean} - true if internals's target element has no validity problems
    */
-  reportValidity(): boolean { return this.#internals?.reportValidity?.() as any; }
+  reportValidity(): boolean { return (this.#internals as any)?.reportValidity?.() as any; }
 
   /**
    * Called when the associated form-element changes to the form param.

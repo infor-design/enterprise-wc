@@ -56,6 +56,10 @@ The Ids Popup Menu is a complex component that combines an [`IdsMenu`](../ids-me
 - `tabindex` {number} set the `tabindex` attribute on the internal anchor.
 - `value` {string} set the radio value.
 
+## Methods
+
+- `async beforeShow(opts)` A callback that fires when the menu is opened. You can use the opts to see what menu and details about what is opening. Since the method is async you can do a call back and return structured [menu data](https://github.com/infor-design/enterprise-wc/blob/main/src/assets/data/menu-contents.json) when returned the menu will show with this data. See [popup menu](https://github.com/infor-design/enterprise-wc/blob/main/src/components/ids-popup-menu/README.md) for more details.
+
 ## Features (With Code Examples)
 
 It's possible to create a Popupmenu that stands alone and takes the place of the browser's context menu by default:
@@ -120,6 +124,19 @@ menu.data = {
     ]
 }
 document.body.appendChild(menu);
+```
+
+In some cases you may want to dynamically fetch data for the menu when it opens. You can do this by using the `beforeShow` callback.  This callback is called when the menu is opened and can be used to fetch data for the menu. This also fires when opening submenus. For a working example see [load-data.html](./demos//load-data.html) and [load-data.ts](./demos//load-data.ts). You should return return structured [menu data](https://github.com/infor-design/enterprise-wc/blob/main/src/assets/data/menu-contents.json) to control the menu. For dynamic submenus you can either return the submenu data directly on the initial call or use an empty contents area for the submenu if you plan  on fetching that dynamically `"contents": [{}]`.
+
+```js
+popupmenuEl.beforeShow = async (opts: any) => {
+  if (opts.isSubmenu) {
+    const submenuData = await fetch(...);
+    return submenuData;
+  }
+  const menuData = await fetch(...);
+  return menuData;
+};
 ```
 
 ### Size

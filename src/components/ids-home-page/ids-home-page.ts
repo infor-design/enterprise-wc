@@ -212,7 +212,7 @@ export default class IdsHomePage extends Base {
    * will look into three values gap, gap-x, gap-y to sync into gapX and gapY
    * will not use the gap value if used gap along with gap-x or/and gap-y
    * for example if user add gap="10", gap-x="15" then will use the gap-x value,
-   * but gap-y will be use as gap value, it will be { x: 15, y: 10 }
+   * but gap-y will be use as gap value, it will be  x: 15, y: 10
    * since the gap, gap-x, gap-y all three default values "20"
    * @private
    * @returns {object} This API object for chaining
