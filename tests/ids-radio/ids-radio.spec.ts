@@ -259,13 +259,13 @@ test.describe('IdsRadio tests', () => {
       }
 
       // Add assertions for each event
-      expect(await calls.click).toBe(1);
-      expect(await calls.dblclick).toBe(1);
-      expect(await calls.change).toBe(1);
-      expect(await calls.focus).toBe(1);
-      expect(await calls.keydown).toBe(1);
-      expect(await calls.keypress).toBe(1);
-      expect(await calls.keyup).toBe(1);
+      expect(calls.click).toBe(1);
+      expect(calls.dblclick).toBe(1);
+      expect(calls.change).toBe(1);
+      expect(calls.focus).toBe(1);
+      expect(calls.keydown).toBe(1);
+      expect(calls.keypress).toBe(1);
+      expect(calls.keyup).toBe(1);
     });
   });
 
