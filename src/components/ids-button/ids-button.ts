@@ -469,6 +469,24 @@ export default class IdsButton extends Base {
   }
 
   /**
+   * Sets flag for generative AI animation
+   * @param {boolean} val animation flag
+   */
+  set noAnimation(val: boolean | string | null) {
+    const skipAnimation = stringToBool(val);
+    this.toggleAttribute(attributes.NO_ANIMATION, skipAnimation);
+    this.container?.classList.toggle(attributes.NO_ANIMATION, skipAnimation);
+  }
+
+  /**
+   * Gets flag for generative AI animation
+   * @returns {boolean} animation flag
+   */
+  get noAnimation(): boolean {
+    return this.hasAttribute(attributes.NO_ANIMATION);
+  }
+
+  /**
    * Check if an icon exists, and adds the icon if it's missing
    * @param {string} iconName The icon name to check
    * @private

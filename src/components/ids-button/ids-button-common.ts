@@ -54,6 +54,7 @@ export const BUTTON_ATTRIBUTES: string[] = [
   attributes.ICON,
   attributes.ICON_ALIGN,
   attributes.ID,
+  attributes.NO_ANIMATION,
   attributes.NO_PADDING,
   attributes.NO_MARGINS,
   attributes.SQUARE,
