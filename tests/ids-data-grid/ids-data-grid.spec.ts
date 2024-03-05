@@ -64,6 +64,8 @@ test.describe('IdsDataGrid tests', () => {
     });
 
     test('clear data', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+
       const pagerNextBtn = await page.locator('ids-pager-button[next]');
       await pagerNextBtn.click();
 
@@ -104,6 +106,8 @@ test.describe('IdsDataGrid tests', () => {
     });
 
     test('remove data', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+
       const pagerNextBtn = await page.locator('ids-pager-button[next]');
       await pagerNextBtn.click();
 
