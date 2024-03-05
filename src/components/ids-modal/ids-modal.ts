@@ -471,7 +471,7 @@ export default class IdsModal extends Base {
     // Check if buttons have been added/removed, and adjust the footer visibility (if applicable)
     if (this.container) {
       const footer = this.container.querySelector('.ids-modal-footer');
-      footer?.toggleAttribute(attributes.HIDDEN, !!this.buttons.length);
+      footer?.toggleAttribute(attributes.HIDDEN, !this.buttons.length);
     }
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
