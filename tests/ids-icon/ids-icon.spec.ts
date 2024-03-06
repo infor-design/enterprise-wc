@@ -165,5 +165,36 @@ test.describe('IdsIcon tests', () => {
       expect(await page.locator('ids-icon').first().getAttribute('height')).toBeFalsy();
       expect(await page.locator('ids-icon').first().getAttribute('width')).toBeFalsy();
     });
+
+    test('can change status color', async ({ page }) => {
+      const statusColors = ['error', 'warning', 'caution', 'info', 'success', 'neutral', 'red', 'yellow', 'green', 'blue', 'teal', 'purple', 'white', 'black'];
+      const checkStatusColor = async (color: any) => {
+        const iconProps = await page.evaluate(async (argColor) => {
+          const component = document.querySelector<IdsIcon>('ids-icon')!;
+          component!.statusColor = argColor;
+          const attr = component.getAttribute('status-color');
+          const hasClass = component.container?.classList.contains(`status-color-${argColor}`);
+          component.statusColor = null;
+          const attrRemoved = component.getAttribute('status-color');
+          const hasClassRemoved = component.container?.classList.contains(`status-color-${argColor}`);
+
+          return {
+            attr,
+            hasClass,
+            attrRemoved,
+            hasClassRemoved
+          };
+        }, color);
+
+        expect(iconProps.attr).toBe(color);
+        expect(iconProps.hasClass).toBeTruthy();
+        expect(iconProps.attrRemoved).toBeNull();
+        expect(iconProps.hasClassRemoved).toBeFalsy();
+      };
+
+      statusColors.forEach(async (color) => {
+        await checkStatusColor(color);
+      });
+    });
   });
 });
