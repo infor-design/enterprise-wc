@@ -108,6 +108,16 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
   console.info('Loading Time:', window.performance.now());
 
+  function trimData(row: any) {
+    const dataSource = dataGrid.datasource;
+    const key = dataSource.primaryKey;
+    const tempData = {
+      [key]: row.data[key]
+    };
+
+    return tempData;
+  }
+
   // Example Buttons
   document.querySelector('#add-row')?.addEventListener('click', () => {
     const newRow = {
@@ -129,14 +139,18 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   });
 
   document.querySelector('#delete-row')?.addEventListener('click', () => {
-    dataGrid.selectedRows.reverse().forEach((row: any) => {
-      dataGrid.removeRow(row.index);
+    dataGrid.selectedRowsAcrossPages.reverse().forEach((row: any) => {
+      const removeData = trimData(row);
+      dataGrid.removeRow(row.index, removeData);
+      updateTitleText();
     });
   });
 
   document.querySelector('#clear-row')?.addEventListener('click', () => {
-    dataGrid.selectedRows.reverse().forEach((row: any) => {
-      dataGrid.clearRow(row.index);
+    dataGrid.selectedRowsAcrossPages.reverse().forEach((row: any) => {
+      const clearData = trimData(row);
+      dataGrid.clearRow(row.index, clearData);
+      updateTitleText();
     });
   });
 }());
