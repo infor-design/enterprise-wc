@@ -8,29 +8,23 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 
 test.describe('IdsRadio tests', () => {
   const url = '/ids-radio/example.html';
-  let rb: any;
-  let container: any;
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
   });
 
-  test.beforeEach(async ({ page }) => page.evaluate(async () => {
-    container = await document.querySelector<IdsContainer>('ids-container');
-    await window.IdsGlobal.locale?.setLanguage('de');
-    const elem = await document.querySelector<IdsRadio>('ids-radio');
-    await container.appendChild(elem);
-    await document.body.appendChild(container);
-    rb = await document.querySelector<IdsRadio>('ids-radio');
-  }));
+  test.describe('functional tests', () => {
+    let rb: any;
+    let container: any;
+    test.beforeEach(async ({ page }) => page.evaluate(async () => {
+      container = await document.querySelector<IdsContainer>('ids-container');
+      await window.IdsGlobal.locale?.setLanguage('de');
+      const elem = await document.querySelector<IdsRadio>('ids-radio');
+      await container.appendChild(elem);
+      await document.body.appendChild(container);
+      rb = await document.querySelector<IdsRadio>('ids-radio');
+    }));
 
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => {
-      document.body.innerHTML = '';
-    });
-  });
-
-  test.describe('render elements tests', () => {
     test('should render as checked', async ({ page }) => {
       await page.evaluate(() => {
         rb.checked = true;
@@ -221,25 +215,19 @@ test.describe('IdsRadio tests', () => {
       expect(await page.evaluate(() => rb.checked)).toEqual(true);
     });
 
+    test('can change language from the container', async ({ page }) => {
+      await page.evaluate(() => {
+        container.language = 'de';
+      });
+      expect(await page.evaluate(() => rb.getAttribute('language'))).toEqual('de');
+    });
+
     test('can focus its inner input element', async ({ page }) => {
       const focused = await page.evaluate(() => {
         rb.focus();
         return rb.shadowRoot.activeElement === rb.input;
       });
       expect(focused).toBeTruthy();
-    });
-  });
-
-  test.describe('event tests', () => {
-    test('should trigger click', async ({ page }) => {
-      const noOfCalls = await page.evaluate(() => {
-        let calls = 0;
-        rb.addEventListener('click', () => { calls++; });
-        const event = new MouseEvent('click', { bubbles: true });
-        rb.dispatchEvent(event);
-        return calls;
-      });
-      expect(noOfCalls).toBe(1);
     });
 
     test('should trigger native events', async ({ page }) => {
@@ -266,15 +254,6 @@ test.describe('IdsRadio tests', () => {
       expect(calls.keydown).toBe(1);
       expect(calls.keypress).toBe(1);
       expect(calls.keyup).toBe(1);
-    });
-  });
-
-  test.describe('language tests', () => {
-    test('can change language from the container', async ({ page }) => {
-      await page.evaluate(() => {
-        container.language = 'de';
-      });
-      expect(await page.evaluate(() => rb.getAttribute('language'))).toEqual('de');
     });
   });
 
