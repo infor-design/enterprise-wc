@@ -11,12 +11,14 @@
 - `[Datagrid]` Fixed a display issue with the new loading indicator in firefox. ([#1617](https://github.com/infor-design/enterprise-wc/issues/1617))
 - `[Docs]` Added docs page for IdsGlobal. Moved some subcomponents that should not be used directly into their main component area. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
 - `[Icon]` Fixed yellow and caution status colors. ([#1879](https://github.com/infor-design/enterprise-wc/issues/1879))
+- `[Modal]` Converted modal, about, error page, action panel tests. ([#1847](https://github.com/infor-design/enterprise-wc/issues/1847))
 
 ## 1.0.0-beta.21
 
 ### 1.0.0-beta.21 Fixes
 
 - `[ColorPicker]` Fix Color Picker support for angular form controls. ([#1774](https://github.com/infor-design/enterprise-wc/issues/1774))
+- `[DataGrid]` Fixed clear button not deleting or clearing rows from other pages. ([#1757](https://github.com/infor-design/enterprise-wc/issues/1757))
 - `[DataGrid]` Added dirty tracker to checkbox editor. ([#1747](https://github.com/infor-design/enterprise-wc/issues/1747))
 - `[DataGrid]` Fixed duplicate context menu selected events. ([#1813](https://github.com/infor-design/enterprise-wc/issues/1813))
 - `[Dropdown]` Fixed incorrect form values in reactive forms. ([#1850](https://github.com/infor-design/enterprise-wc/issues/1850))

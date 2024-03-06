@@ -1,9 +1,9 @@
-<ids-overlay></ids-overlay><ids-popup part="modal" class="ids-modal ids-error" type="modal" position-style="viewport" align="center" animation-style="scale-in" visible="" style="">
+<ids-overlay visible=""></ids-overlay><ids-popup part="modal" class="ids-modal ids-error" type="modal" position-style="viewport" align="center" animation-style="scale-in" visible="" style="">
       <div class="ids-modal-container" slot="content">
         <ids-empty-message icon="empty-error-loading-new">
           <ids-text type="h2" font-size="24" font-weight="semi-bold" label="true" slot="label">Access Denied</ids-text>
           <ids-text label="true" slot="description">Configuration Manager access has been denied.</ids-text>
-          <ids-button class="action-button" slot="button" appearance="primary">Return</ids-button>
+          <ids-button class="action-button" slot="button" appearance="primary">More Info</ids-button>
         </ids-empty-message>
       </div>
     </ids-popup>

@@ -2187,9 +2187,12 @@ export default class IdsDataGrid extends Base {
       data[this.idColumn] = this.data[row][this.idColumn];
     }
 
-    // Update the current data
-    if (isClear) this.data[row] = data;
-    else this.data[row] = { ...this.data[row], ...data };
+    // Same page update
+    if (row < this.data.length) {
+      // Update the current data
+      if (isClear) this.data[row] = data;
+      else this.data[row] = { ...this.data[row], ...data };
+    }
 
     // Update the tree element in the original data
     if (this.treeGrid) {
@@ -2338,13 +2341,15 @@ export default class IdsDataGrid extends Base {
   /**
    * Remove a row by index for the data
    * @param {number} index the row index to remove
+   * @param {Array<Record<string, unknown>>} data to be deleted
    */
-  removeRow(index: number) {
+  removeRow(index: number, data?: Record<string, unknown>) {
     // Update data
-    const data = this.data[index];
-    if (!data[this.idColumn]) {
+    if (data === undefined || !data[this.idColumn]) {
+      data = this.data[index];
       data[this.idColumn] = this.data[index][this.idColumn];
     }
+
     this.datasource.delete([data]);
     this.datasource.refreshPreviousState();
 
@@ -2357,9 +2362,14 @@ export default class IdsDataGrid extends Base {
   /**
    * Clear all values in a row a row by index
    * @param {number} index the row index to clear
+   * @param {Array<Record<string, unknown>>} data to be cleared
    */
-  clearRow(index: number) {
-    this.updateDataset(index, {}, true);
+  clearRow(index: number, data?: Record<string, unknown>) {
+    if (data === undefined) {
+      data = {};
+    }
+
+    this.updateDataset(index, data, true);
     this.redrawBody();
   }
 
