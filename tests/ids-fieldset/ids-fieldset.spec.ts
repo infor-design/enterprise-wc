@@ -4,6 +4,7 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsFieldset from '../../src/components/ids-fieldset/ids-fieldset';
+import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
 
 test.describe('IdsFieldset tests', () => {
   const url = '/ids-fieldset/example.html';
@@ -61,6 +62,16 @@ test.describe('IdsFieldset tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-fieldset-light');
+    });
+
+    test('should match the visual snapshot in percy (dropdowns)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        elem.open();
+      });
+      await percySnapshot(page, 'ids-fieldset-dropdown-light');
     });
   });
 });
