@@ -63,4 +63,69 @@ test.describe('IdsErrorPage tests', () => {
       await percySnapshot(page, 'ids-error-page-light');
     });
   });
+
+  test.describe('IdsErrorPage settings tests', () => {
+    test('setting error page icon', async ({ page }) => {
+      const epHandle = await page.locator('ids-error-page');
+
+      // set icon to empty-error-loading
+      await epHandle.evaluate((ep: IdsErrorPage) => { ep.icon = 'empty-error-loading'; });
+      expect(await page.locator('ids-error-page ids-empty-message').getAttribute('icon')).toEqual('empty-error-loading');
+
+      // set icon to null
+      await epHandle.evaluate((ep: IdsErrorPage) => { ep.icon = null; });
+      expect(await page.locator('ids-error-page ids-empty-message').getAttribute('icon')).toEqual(null);
+    });
+
+    test('setting error page label', async ({ page }) => {
+      const epHandle = await page.locator('ids-error-page');
+
+      // set label to "Error Alert"
+      await epHandle.evaluate((ep: IdsErrorPage) => { ep.label = 'Error Alert'; });
+      expect(await epHandle.getAttribute('label')).toEqual('Error Alert');
+      expect(await page.locator('ids-error-page ids-text[slot="label"]')).toHaveText(/Error Alert/);
+
+      // set label to null
+      await epHandle.evaluate((ep: IdsErrorPage) => { ep.label = null; });
+      expect(await epHandle.getAttribute('label')).toEqual(null);
+      expect(await page.locator('ids-error-page ids-text[slot="label"]')).toHaveText('');
+    });
+
+    test('setting error page description', async ({ page }) => {
+      const epHandle = await page.locator('ids-error-page');
+
+      // set description to "Test Description"
+      await epHandle.evaluate((ep: IdsErrorPage) => { ep.description = 'Test Description'; });
+      expect(await epHandle.getAttribute('description')).toEqual('Test Description');
+      expect(await page.locator('ids-error-page ids-text[slot="description"]')).toHaveText(/Test Description/);
+
+      // set description to null
+      await epHandle.evaluate((ep: IdsErrorPage) => { ep.description = null; });
+      expect(await epHandle.getAttribute('description')).toEqual(null);
+      expect(await page.locator('ids-error-page ids-text[slot="description"]')).toHaveText('');
+    });
+
+    test('setting error page button text', async ({ page }) => {
+      const epHandle = await page.locator('ids-error-page');
+
+      // set buttonText to "Button Test"
+      await epHandle.evaluate((ep: IdsErrorPage) => { ep.buttonText = 'Button Test'; });
+      expect(await epHandle.getAttribute('button-text')).toEqual('Button Test');
+      expect(await page.locator('ids-error-page ids-button[slot="button"]')).toHaveText(/Button Test/);
+
+      // set buttonText to null
+      await epHandle.evaluate((ep: IdsErrorPage) => { ep.buttonText = null; });
+      expect(await epHandle.getAttribute('button-text')).toEqual(null);
+      expect(await page.locator('ids-error-page ids-button[slot="button"]')).toHaveText('');
+    });
+
+    test('triggering action-button event', async ({ page }) => {
+      const epHandle = await page.locator('ids-error-page');
+      const buttonCallback = await epHandle.evaluate((ep: IdsErrorPage) => new Promise((resolve) => {
+        ep.addEventListener('action-button', () => resolve('fired'), { once: true });
+        ep.container?.querySelector('ids-button[slot="button"]')?.dispatchEvent(new Event('click'));
+      }));
+      expect(buttonCallback).toEqual('fired');
+    });
+  });
 });
