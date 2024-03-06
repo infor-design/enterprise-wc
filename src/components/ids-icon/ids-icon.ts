@@ -438,6 +438,7 @@ export default class IdsIcon extends Base {
    * @param {IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueCategories} value Any pallete color reference
    */
   set statusColor(value: IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueCategories) {
+    this.container?.classList.remove(`status-color-${this.statusColor}`);
     if (value) {
       this.setAttribute(attributes.STATUS_COLOR, value);
       this.container?.classList.add(`status-color-${value}`);

@@ -159,6 +159,11 @@ svg {
   color: var(--ids-icon-status-color-neutral-color-text);
 }
 
+.status-color-yellow {
+  background-color: var(--ids-icon-status-color-yellow-color-background);
+  color: var(--ids-icon-status-color-yellow-color-text);
+}
+
 .status-color-error {
   background-color: var(--ids-icon-status-color-error-color-background);
   color: var(--ids-icon-status-color-error-color-text);
@@ -182,5 +187,10 @@ svg {
 .status-color-success {
   background-color: var(--ids-icon-status-color-success-color-background);
   color: var(--ids-icon-status-color-success-color-text);
+}
+
+.status-color-caution {
+  background-color: var(--ids-icon-status-color-caution-color-background);
+  color: var(--ids-icon-status-color-caution-color-text);
 }
 
