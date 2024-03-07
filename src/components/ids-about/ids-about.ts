@@ -40,7 +40,7 @@ export default class IdsAbout extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.showCloseButton = stringToBool(this.getAttribute(attributes.SHOW_CLOSE_BUTTON));
+    this.showCloseButton = true;
   }
 
   /**
