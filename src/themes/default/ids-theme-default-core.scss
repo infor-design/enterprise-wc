@@ -370,6 +370,22 @@
   // Button (Module)
   --ids-button-system-color-text-hover: var(--ids-color-neutral-110);
 
+  // Button (Generative AI)
+  --ids-button-ai-color-background-default: linear-gradient(107deg, #254A92 17.32%, #10B7A6 95.32%);
+  --ids-button-ai-color-background-hover: linear-gradient(107deg, #1A3362 17.32%, #0B9789 95.32%);
+  --ids-button-ai-color-background-active: linear-gradient(107deg, #0B9789 5.97%, #1A3362 102.35%);
+  --ids-button-ai-color-background-disabled: linear-gradient(107deg, rgba(37 74 146 / 0.5) 17.32%, rgba(16 183 166 / 0.5) 95.32%);
+  --ids-button-ai-color-background-color-disabled: transparent;
+  --ids-button-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px #0B9789, 0 0 4px 3px #0B9789;
+  --ids-button-ai-color-icon-primary: #254A92;
+  --ids-button-ai-color-icon-secondary: #10B7A6;
+  --ids-button-ai-color-icon-primary-hover: #1A3362;
+  --ids-button-ai-color-icon-secondary-hover: #0B9789;
+  --ids-button-ai-color-icon-primary-disabled: #254A92;
+  --ids-button-ai-color-icon-secondary-disabled: #10B7A6;
+  --ids-button-tertiary-ai-color-background-disabled: linear-gradient(107deg, rgba(37 74 146 / 0.5) 17.32%, rgba(16 183 166 / 0.5) 95.32%);
+  --ids-button-tertiary-ai-shadow-focus: 0 0 3px 2px rgba(11 151 137 / 0.3);
+
   // Breadcrumb
   --ids-breadcrumb-color-text-default: var(--ids-color-text-subtle);
   --ids-breadcrumb-color-text-disabled: var(--ids-color-text-disabled);
