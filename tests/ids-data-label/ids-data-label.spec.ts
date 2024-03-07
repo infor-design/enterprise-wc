@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { expect, Locator } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsDataLabel from '../../src/components/ids-data-label/ids-data-label';
@@ -67,17 +67,17 @@ test.describe('IdsDataLabel tests', () => {
 
   test.describe('functionality test', () => {
     test('can change label position', async ({ page }) => {
-      const idsDataLabel: Locator = page.locator('ids-data-label').first();
-      const childContainer: Locator = idsDataLabel.locator('div').first();
+      const idsDataLabel = page.locator('ids-data-label').first();
+      const childContainer = idsDataLabel.locator('div').first();
 
       // initial position at left
-      const defaultPosition: string = 'left';
+      const defaultPosition = 'left';
       await expect(idsDataLabel).toHaveAttribute('label-position', defaultPosition);
       await expect(childContainer).toHaveClass(new RegExp(`${defaultPosition}-positioned`, 'g'));
 
-      const testData: (string | null)[] = ['top', 'left', '', null];
+      const testData = ['top', 'left', '', null];
       for (const data of testData) {
-        await idsDataLabel.evaluate((element: IdsDataLabel, tData: string | null) => {
+        await idsDataLabel.evaluate((element: IdsDataLabel, tData) => {
           element.labelPosition = tData;
         }, data);
         await expect(idsDataLabel).toHaveAttribute('label-position', (data && data.length > 0) ? data : defaultPosition);
@@ -86,17 +86,17 @@ test.describe('IdsDataLabel tests', () => {
     });
 
     test('can set label', async ({ page }) => {
-      const idsDataLabel: Locator = page.locator('ids-data-label').first();
-      const childIdsText: Locator = idsDataLabel.locator('ids-text[class="label"]');
-      const colonTemplate: string = '<span class="colon">:</span>';
+      const idsDataLabel = page.locator('ids-data-label').first();
+      const childIdsText = idsDataLabel.locator('ids-text[class="label"]');
+      const colonTemplate = '<span class="colon">:</span>';
 
-      let changeLabel: string = 'Label Test';
-      await idsDataLabel.evaluate((element: IdsDataLabel, label: string) => { element.label = label; }, changeLabel);
+      let changeLabel = 'Label Test';
+      await idsDataLabel.evaluate((element: IdsDataLabel, label) => { element.label = label; }, changeLabel);
       await expect(idsDataLabel).toHaveAttribute('label', changeLabel);
       expect(await childIdsText.innerHTML()).toEqual(changeLabel + colonTemplate);
 
       changeLabel = '';
-      await idsDataLabel.evaluate((element: IdsDataLabel, label: string) => { element.label = label; }, changeLabel);
+      await idsDataLabel.evaluate((element: IdsDataLabel, label) => { element.label = label; }, changeLabel);
       await expect(idsDataLabel).not.toHaveAttribute('label');
       expect(await childIdsText.innerHTML()).toEqual(changeLabel + colonTemplate);
     });
