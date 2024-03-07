@@ -16,6 +16,10 @@
 
 ## 1.0.0-beta.21
 
+### 1.0.0-beta.21 Features
+
+- `[Button]` Added `generative-ai` buttons and loading indicator. ([#1805](https://github.com/infor-design/enterprise-wc/issues/1805))
+
 ### 1.0.0-beta.21 Fixes
 
 - `[ColorPicker]` Fix Color Picker support for angular form controls. ([#1774](https://github.com/infor-design/enterprise-wc/issues/1774))

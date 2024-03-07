@@ -100,6 +100,21 @@ test.describe('IdsButton tests', () => {
       });
     });
 
+    test('should toggle animation', async ({ page }) => {
+      const btnSelector = 'ids-button[appearance="primary-generative-ai"]';
+
+      // enable animation via button click
+      await page.locator(btnSelector).first().click();
+      expect(await page.locator(`${btnSelector} .loading-dots`).first()).toBeVisible();
+
+      // hide animation via api
+      await page.evaluate((selector: string) => {
+        const aiBtn = document.querySelector<IdsButton>(selector);
+        aiBtn?.toggleAnimation(false);
+      }, btnSelector);
+      expect(await page.locator(`${btnSelector} .loading-dots`).first()).not.toBeVisible();
+    });
+
     test('can disable/enable button', async ({ page }) => {
       await test.step('disable button', async () => {
         const id = 'ids-button[id="test-button-primary"]';

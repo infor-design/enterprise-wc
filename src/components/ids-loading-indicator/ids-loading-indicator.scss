@@ -142,6 +142,39 @@ svg.circular-indicator.inline {
   stroke-dashoffset: #{'calc(283px - (var(--progress) * 2.83))'};
 }
 
+// Genartive AI Loading Indicator
+.ai-loading-indicator {
+  display: flex;
+  position: relative;
+  width: 56px;
+}
+
+.ai-loading-indicator .bar {
+  margin-right: 2px;
+  margin-left: 2px;
+  background-color: #F98300;
+  width: 16px;
+  height: 8px;
+  border-radius: 8px;
+  transition: 0.2s;
+  animation: loading 1.2s ease-in-out 0.2s infinite;
+}
+
+.ai-loading-indicator .bar:nth-child(1) {
+  background-color: #254A92;
+  animation-delay: 0s;
+}
+
+.ai-loading-indicator .bar:nth-child(2) {
+  background-color: #10B6A6;
+  animation-delay: 0.14s;
+}
+
+.ai-loading-indicator .bar:nth-child(3) {
+  background-color: #CBEFDC;
+  animation-delay: 0.42s;
+}
+
 @keyframes indeterminate-spinner-progress-anim {
   0%,
   15% {
@@ -216,6 +249,20 @@ svg.linear-indicator.indeterminate .progress {
   75.0000001%,
   100% {
     transform: scaleX(0%) translateX(0);
+  }
+}
+
+@keyframes loading {
+  0% {
+    height: 8px;
+  }
+
+  50% {
+    width: 56px;
+  }
+
+  100% {
+    height: 8px;
   }
 }
 
