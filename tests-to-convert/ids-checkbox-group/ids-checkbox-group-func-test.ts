@@ -16,20 +16,4 @@ describe('IdsCheckboxGroup Component', () => {
   afterEach(async () => {
     document.body.innerHTML = '';
   });
-
-  test('renders label correctly', () => {
-    checkboxGroup.label = 'Label Test';
-    expect(checkboxGroup.container.querySelector('ids-text').innerHTML).toEqual('Label Test');
-
-    checkboxGroup.label = null;
-    expect(checkboxGroup.container.querySelector('ids-text').innerHTML).toEqual('');
-  });
-
-  test('renders checkboxes correctly', () => {
-    checkboxGroup.innerHTML = `
-      <ids-checkbox label="Option 1" checked="false"></ids-checkbox>
-      <ids-checkbox label="Option 2" checked="true"></ids-checkbox>
-    `;
-    expect(checkboxGroup.querySelectorAll('ids-checkbox').length).toEqual(2);
-  });
 });
