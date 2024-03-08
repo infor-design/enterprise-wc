@@ -262,6 +262,155 @@
   }
 
   // ====================================================
+  // Primary Generative AI Button
+  
+  @keyframes dot-flashing {
+    0% {
+      background-color: #fff;
+    }
+
+    50%,
+    100% {
+        background-color: rgba(255 255 255 / 0.4);
+    }
+  }
+
+  @keyframes dot-flashing-colors {
+    0% {
+      background-color: #0B9789;
+    }
+
+    50%,
+    100% {
+        background-color: #1A3362;
+    }
+  }
+
+  .loading-dots {
+    display: none;
+    position: relative;
+    flex-direction: row;
+    gap: 2px;
+    padding-inline: 7px;
+
+    .dot {
+      display: inline-flex;
+      position: relative;
+      width: 3px;
+      height: 3px;
+      border-radius: 5px;
+      background-color: #FFF;
+      color: #FFF;
+    }
+  }
+  
+  &.btn-primary-generative-ai {
+    background: border-box var(--ids-button-ai-color-background-default);
+    color: #FFF;
+    align-items: center;
+    min-width: 34px;
+    min-height: 34px;
+
+    &:hover {
+      background: border-box var(--ids-button-ai-color-background-hover);
+    }
+
+    &:active,
+    &.gen-ai-active {
+      background: border-box var(--ids-button-ai-color-background-active);
+    }
+
+    &[disabled] {
+      background: border-box var(--ids-button-ai-color-background-disabled);
+      background-color: var(--ids-button-ai-color-background-color-disabled);
+    }
+
+    &.color-variant-alternate-formatter,
+    &.color-variant-alternate-formatter:hover {
+      color: #FFF;
+      min-height: var(--ids-button-formatter-size);
+      min-width: 34px;
+    }
+
+    .loading-dots {
+      .dot:nth-child(1) {
+        animation: dot-flashing 1s infinite alternate;
+        animation-delay: 0s;
+      }
+    
+      .dot:nth-child(2) {
+        animation: dot-flashing 1s infinite linear alternate;
+        animation-delay: 0.5s;
+      }
+    
+      .dot:nth-child(3) {
+        animation: dot-flashing 1s infinite alternate;
+        animation-delay: 1s;
+      }
+    }
+  }
+
+  // ====================================================
+  // Tertiary Generative Button
+
+  &.btn-tertiary-generative-ai {
+    background: var(--ids-button-ai-color-background-default);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    align-items: center;
+
+    &:hover {
+      background: var(--ids-button-ai-color-background-hover);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      ::slotted(ids-icon[icon="insights-smart-panel"]) {
+        --ids-button-ai-color-icon-primary: var(--ids-button-ai-color-icon-primary-hover);
+        --ids-button-ai-color-icon-secondary: var(--ids-button-ai-color-icon-secondary-hover);
+      }
+    }
+
+    &:active
+    &.gen-ai-active {
+      background: var(--ids-button-ai-color-background-active);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    &[disabled] {
+      background: var(--ids-button-tertiary-ai-color-background-disabled);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      ::slotted(ids-icon[icon="insights-smart-panel"]) {
+        opacity: .5;
+
+        --ids-button-ai-color-icon-primary: var(--ids-button-ai-color-icon-primary-disabled);
+        --ids-button-ai-color-icon-secondary: var(--ids-button-ai-color-icon-secondary-disabled);
+      }
+    }
+
+    // Loading dots animation
+    .loading-dots {
+      .dot:nth-child(1) {
+        animation: dot-flashing-colors 1s infinite alternate;
+        animation-delay: 0s;
+      }
+    
+      .dot:nth-child(2) {
+        animation: dot-flashing-colors 1s infinite linear alternate;
+        animation-delay: 0.5s;
+      }
+    
+      .dot:nth-child(3) {
+        animation: dot-flashing-colors 1s infinite alternate;
+        animation-delay: 1s;
+      }
+    }
+  }
+
+
+  // ====================================================
   // Secondary Button
 
   &.btn-secondary {
@@ -401,7 +550,7 @@
  * Provides the standard color rules for buttons that need box shadow
  */
 @mixin ids-standard-button-shadows() {
-  &:not(.btn-primary):not(.btn-secondary):not(.btn-primary-destructive):not(.btn-tertiary-destructive) {
+  &:not(.btn-primary):not(.btn-secondary):not(.btn-primary-destructive):not(.btn-tertiary-destructive):not(.btn-primary-generative-ai):not(.btn-tertiary-generative-ai) {
     // ====================================================
     // Default/Tertiary Default/Light Mode
     &:not(.hide-focus).is-active,
@@ -468,6 +617,22 @@
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
       box-shadow: var(--ids-button-secondary-shadow-focus);
+    }
+  }
+
+  &.btn-primary-generative-ai {
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      box-shadow: var(--ids-button-ai-shadow-focus);
+      border-color: transparent;
+    }
+  }
+
+  &.btn-tertiary-generative-ai {
+    &:not(.hide-focus).is-active,
+    &:not(.hide-focus):focus {
+      box-shadow: var(--ids-button-tertiary-ai-shadow-focus);
+      border-color: var(--ids-button-ai-color-icon-secondary-hover);
     }
   }
 }

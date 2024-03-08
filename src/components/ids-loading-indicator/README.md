@@ -56,10 +56,10 @@ affixed to the top of view it is currently in:
 
 ## Settings and Attributes
 
-- `progress` {number | undefined Represents the percentage completed for the indicator; if not specified, the indicator is set into indeterminate mode (e.g. no specific progress with an animation)
-- `sticky` {boolean} Flags the indicator as an sticky indicator type; causes
-the indicator to stick to the top of the innermost parent IdsElement and span it horizontally. If set, will flag this indicator as a linear or circular indicator.
+- `progress` {number | undefined} Represents the percentage completed for the indicator; if not specified, the indicator is set into indeterminate mode (e.g. no specific progress with an animation)
+- `sticky` {boolean} Flags the indicator as a sticky indicator type; causes the indicator to stick to the top of the innermost parent IdsElement and span it horizontally. If set, will flag this indicator as a linear or circular indicator.
 - `linear` {boolean} value Flags the indicator as a linear indicator type; causes the indicator to span its parent component horizontally and become a horizontal/linear bar. If set, removes other current flag types that may be set.
+- `generative-ai` {boolean} value Flags the indicator as a generative-ai indicator type; If set, removes other current flag types that may be set.
 - `percentage-visible` {boolean} Denotes that the percentage text should be visible (not applicable to `sticky` loading indicators).
 - `align` {string} Sets the alignment between 'normal/no' alignment and 'center'
 - `overlay` {boolean} If true adds an overlay so you cannot interact with the page
