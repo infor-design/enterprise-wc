@@ -17,11 +17,10 @@
             <ids-list-view
               id="demo-lv-selectable-multiple"
               item-height="76"
-              tooltip="Tooltip content here"
               max-width="150"
+              tooltip="Tooltip content here"
               overflow="ellipsis"
               searchable
-              (selected)="onMultiListClick()"
             >
               <template>
                 <ids-text font-size="16" type="h2">${subject}</ids-text>
@@ -29,19 +28,6 @@
                 <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
               </template>
             </ids-list-view>
-
-            <!--<ids-list-view
-              item-height="76"
-              max-width="200"
-              overflow="ellipsis"
-              tooltip="list-View"
-            >
-              <template>
-                <ids-text font-size="16" type="h2">${subject}</ids-text>
-                <ids-text font-size="12" type="span">ID: ${id}</ids-text>
-                <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
-              </template>
-            </ids-list-view>-->
         </div>
       </ids-layout-grid-cell>
     </ids-layout-grid>
