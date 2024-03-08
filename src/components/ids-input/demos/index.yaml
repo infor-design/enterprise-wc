@@ -29,7 +29,10 @@
   - link: layout-size.html
     type: Example
     description: Showing inputs in different layout
-  - link: test-reattach.html
+  - link: sizes.html
+    type: Example
+    description: Shows all input sizes
+  - link: reattach.html
     type: Test
     description: Shows validation works after reattach
   - link: validation-required.html
@@ -38,9 +41,6 @@
   - link: label-state.html
     type: Test
     description: Showing an example with hidden labels
-  - link: test-sizes.html
-    type: Test
-    description: Shows all input sizes
   - link: side-by-side.html
     type: Side by Side
     description: Showing an input with a 4.x input

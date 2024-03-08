@@ -142,7 +142,7 @@ test.describe('IdsInput tests', () => {
 
   test.describe('edge case tests', () => {
     test('should still handle required after reattaching', async ({ page }) => {
-      await page.goto('/ids-input/test-reattach.html');
+      await page.goto('/ids-input/reattach.html');
       expect(await page.locator('#input-id-error').count()).toBe(0);
       await page.locator('#reattach').click();
       await page.evaluate(() => {
