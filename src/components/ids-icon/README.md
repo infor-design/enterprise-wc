@@ -14,6 +14,10 @@ The design system provides a list of standard icons which can be used in your ap
 - **Icon**: An icon is a symbol. In this design case this is literal, for example  the little trashcan to indicate delete.
 - **Svg**: Stands for eXtensible Markup Language (XML)-based vector graphic format for the Web and other environments
 
+## Methods
+
+- `appendSVGDefs(SVGDefsElement | string)` Appends additional SVGDefs to the icon's SVG element to allow SVG customization.
+
 ## Features (With Code Examples)
 
 For a normal sized icon just specific the icon name and the web component will display the appropriate icon.
