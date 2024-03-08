@@ -48,7 +48,7 @@ describe('IdsCard Component', () => {
     expect(card.container.querySelector('.ids-card-content').classList.contains('overflow-hidden')).toBe(true);
     card.overflow = 'auto';
     expect(card.container.querySelector('.ids-card-content').classList.contains('overflow-hidden')).toBe(false);
-  });
+  });zz
 
   test('removes the clickable attribute when reset', () => {
     card.autoHeight = true;
