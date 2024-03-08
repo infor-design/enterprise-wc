@@ -54,6 +54,17 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 <ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
 ```
 
+The Tag component also has a sibling component called Tag List, it can be used to layout tags in a list of tags for showing classifications. It adds a bit of margin before and after and on sides. And can listen to dismiss events.
+
+```html
+<ids-tag-list>
+  <ids-tag dismissible="true">#Tag One</ids-tag>
+  <ids-tag dismissible="true">#Tag Two</ids-tag>
+  <ids-tag dismissible="true">#Tag Three</ids-tag>
+  <ids-tag dismissible="true">#Tag Four</ids-tag>
+</ids-tag-list>
+```
+
 ## Class Hierarchy
 
 - IdsTag

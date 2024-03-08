@@ -5,6 +5,7 @@
 ### 1.0.0-beta.22 Features
 
 - `[PopupMenu]` Added ability to load menu data in a callback with `beforeShow`. ([#1804](https://github.com/infor-design/enterprise-wc/issues/1804))
+- `[TagList]` Added a new `ids-tag-list` layout and eventing component. ([#1903](https://github.com/infor-design/enterprise-wc/issues/1903))
 
 ### 1.0.0-beta.22 Fixes
 

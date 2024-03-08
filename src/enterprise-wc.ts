@@ -89,6 +89,7 @@ import './components/ids-swipe-action/ids-swipe-action';
 import './components/ids-switch/ids-switch';
 import './components/ids-tabs/ids-tabs';
 import './components/ids-tag/ids-tag';
+import './components/ids-tag/ids-tag-list';
 import './components/ids-text/ids-text';
 import './components/ids-textarea/ids-textarea';
 import './components/ids-theme-switcher/ids-theme-switcher';
