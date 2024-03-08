@@ -1,5 +1,5 @@
-import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
 import {
   injectTemplate,
   stringToBool,
@@ -10,10 +10,10 @@ import IdsDataSource from '../../core/ids-data-source';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsListViewSearchMixin from './ids-list-view-search-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsPagerMixin from '../../mixins/ids-pager-mixin/ids-pager-mixin';
 import IdsScrollEffectMixin from '../../mixins/ids-scroll-effect-mixin/ids-scroll-effect-mixin';
+import IdsListViewSearchMixin from './ids-list-view-search-mixin';
 
 import '../ids-checkbox/ids-checkbox';
 import '../ids-search-field/ids-search-field';
@@ -23,9 +23,9 @@ import '../ids-virtual-scroll/ids-virtual-scroll';
 import './ids-list-view-item';
 import styles from './ids-list-view.scss';
 
-import type IdsListViewItem from './ids-list-view-item';
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 import type IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+import type IdsListViewItem from './ids-list-view-item';
 
 type IdsListViewSelectableTypes = 'single' | 'mixed' | 'multiple' | '' | null;
 
@@ -144,7 +144,10 @@ export default class IdsListView extends Base {
       attributes.SORTABLE,
       attributes.SUPPRESS_DEACTIVATION,
       attributes.SUPPRESS_DESELECTION,
-      attributes.VIRTUAL_SCROLL
+      attributes.VIRTUAL_SCROLL,
+      attributes.MAX_WIDTH,
+      attributes.OVERFLOW,
+      attributes.TOOLTIP,
     ];
   }
 
@@ -382,8 +385,12 @@ export default class IdsListView extends Base {
     const disabled = data.disabled ? ' disabled' : '';
     const selected = data.itemSelected ? ' selected' : '';
     const sortable = this.sortable ? ' class="sortable"' : '';
+    const maxWidth = this.maxWidth ? ` max-width="${this.maxWidth}"` : '';
+    const tooltip = this.tooltip ? ` tooltip="${this.tooltip}"` : '';
+    const overflow = this.overflow ? ` overflow="${this.overflow}"` : '';
+
     return this.templateListItemWrapper(
-      `<ids-list-view-item row-index="${rowIndex}" ${activated}${disabled}${selected}${sortable}>
+      `<ids-list-view-item row-index="${rowIndex}" ${activated}${disabled}${selected}${sortable}${maxWidth}${tooltip}${overflow}>
         ${this.templateCustomHTML(data)}
       </ids-list-view-item>`,
       index
@@ -887,6 +894,42 @@ export default class IdsListView extends Base {
   get label() {
     return this.getAttribute(attributes.LABEL) || LIST_VIEW_DEFAULTS.label;
   }
+
+  /**
+   * Set the maxWidth of the text (used for ellipsis)
+   * @param {string | null} value The value of the max-width
+   */
+  set maxWidth(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.MAX_WIDTH, value);
+      this?.style.setProperty('max-width', `${parseInt(value)}px`, 'important');
+    } else {
+      this.removeAttribute(attributes.MAX_WIDTH);
+      this?.style.removeProperty('max-width');
+    }
+  }
+
+  get maxWidth(): string | null { return this.getAttribute(attributes.MAX_WIDTH); }
+
+  set tooltip(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.TOOLTIP, value);
+    } else {
+      this.removeAttribute(attributes.TOOLTIP);
+    }
+  }
+
+  get tooltip(): string | null { return this.getAttribute(attributes.TOOLTIP); }
+
+  set overflow(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.OVERFLOW, value);
+    } else {
+      this.removeAttribute(attributes.OVERFLOW);
+    }
+  }
+
+  get overflow(): string | null { return this.getAttribute(attributes.OVERFLOW); }
 
   /**
    * Helper to select all list items.

@@ -26,6 +26,12 @@ li,
     align-items: center;
     line-height: var(--ids-list-builder-item-line-height);
 
+    &.ellipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .list-item-content {
       width: 100%;
     }
