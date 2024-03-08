@@ -25,10 +25,6 @@ const Base = IdsTooltipMixin(
 @customElement('ids-list-view-item')
 @scss(styles)
 export default class IdsListViewItem extends Base {
-  constructor() {
-    super();
-  }
-
   protected rootNode?: IdsListView;
 
   /**
@@ -135,11 +131,11 @@ export default class IdsListViewItem extends Base {
   }
 
   #maxWidth(newValue: string | null) {
-    this.#toggleChildAttribute('max-width', newValue);
+    this.#toggleChildAttribute(attributes.MAX_WIDTH, newValue);
   }
 
   #overflow(newValue: string) {
-    this.#toggleChildAttribute('overflow', newValue);
+    this.#toggleChildAttribute(attributes.OVERFLOW, newValue);
   }
 
   /**
@@ -464,7 +460,7 @@ export default class IdsListViewItem extends Base {
       this.container?.style.removeProperty('max-width');
     }
 
-    this.#toggleChildAttribute('max-width', value);
+    this.#toggleChildAttribute(attributes.MAX_WIDTH, value);
   }
 
   get maxWidth(): string | null { return this.getAttribute(attributes.MAX_WIDTH); }
@@ -483,11 +479,11 @@ export default class IdsListViewItem extends Base {
       this.container?.classList.remove('ellipsis');
       this.removeAttribute('overflow');
     }
-    this.#toggleChildAttribute('overflow', value);
+    this.#toggleChildAttribute(attributes.OVERFLOW, value);
   }
 
   get overflow(): string | null {
-    return this.getAttribute('overflow');
+    return this.getAttribute(attributes.OVERFLOW);
   }
 
   /**
