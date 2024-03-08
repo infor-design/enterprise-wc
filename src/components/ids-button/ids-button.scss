@@ -256,6 +256,26 @@ button {
   }
 }
 
+.ids-icon-button.gen-ai-active,
+.ids-button.gen-ai-active {
+  &:not(.no-animation) {
+    ::slotted(ids-icon[icon="insights-smart-panel"]) {
+      display: none;
+    }
+  
+    .loading-dots {
+      display: flex;
+    }
+  }
+}
+
+.ids-icon-button.gen-ai-active .loading-dots {
+  padding-inline-start: 3px;
+  padding-inline-end: 2px;
+  padding-block-start: 7px;
+  padding-block-end: 8px;
+}
+
 // Applies to all non-icon button types
 .ids-button,
 .ids-toggle-button,
