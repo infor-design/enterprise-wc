@@ -139,4 +139,17 @@ test.describe('IdsInput tests', () => {
       await percySnapshot(page, 'ids-input-sizes-light');
     });
   });
+
+  test.describe('edge case tests', () => {
+    test('should still handle required after reattaching', async ({ page }) => {
+      await page.goto('/ids-input/test-reattach.html');
+      expect(await page.locator('#input-id-error').count()).toBe(0);
+      await page.locator('#reattach').click();
+      await page.evaluate(() => {
+        document.querySelector<IdsInput>('ids-input')!.value = 'x';
+        document.querySelector<IdsInput>('ids-input')!.value = '';
+      });
+      expect(await page.locator('#input-id-error')).toBeVisible();
+    });
+  });
 });

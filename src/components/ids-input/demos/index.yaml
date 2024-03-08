@@ -20,18 +20,24 @@
   - link: validation-date-time.html
     type: Example
     description: Shows date/time validation and masks
+  - link: label-wrap.html
+    type: Example
+    description: Showing inputs in different label wrap styles
+  - link: context-menu.html
+    type: Example
+    description: Showing context menu on input
+  - link: layout-size.html
+    type: Example
+    description: Showing inputs in different layout
+  - link: test-reattach.html
+    type: Test
+    description: Shows validation works after reattach
   - link: validation-required.html
     type: Test
     description: Shows required indicator display under different conditions
   - link: label-state.html
     type: Test
     description: Showing an example with hidden labels
-  - link: label-wrap.html
-    type: Example
-    description: Showing inputs in different label wrap styles
-  - link: layout-size.html
-    type: Example
-    description: Showing inputs in different layout
   - link: test-sizes.html
     type: Test
     description: Shows all input sizes
@@ -41,7 +47,4 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a input that works with css only
-  - link: context-menu.html
-    type: Example
-    description: Showing context menu on input
 

@@ -50,6 +50,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
 
   connectedCallback() {
     super.connectedCallback?.();
+    this.useRules = new Map();
     this.handleValidation();
   }
 
