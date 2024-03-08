@@ -1,9 +1,11 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { expect } from '@playwright/test';
+import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsCalendar from '../../src/components/ids-calendar/ids-calendar';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsCalendarEvent from '../../src/components/ids-calendar/ids-calendar-event';
 
 test.describe('IdsCalendar tests', () => {
   const url = '/ids-calendar/example.html';
@@ -136,6 +138,260 @@ test.describe('IdsCalendar tests', () => {
       await handle?.evaluate((calendar: IdsCalendar) => calendar.changeView('month'));
       view = await handle?.evaluate((calendar: IdsCalendar) => calendar.state.view);
       expect(view).toEqual('month');
+    });
+  });
+
+  test.describe('calendar functionality tests', async () => {
+    let idsCalendar: Locator;
+
+    test.beforeEach(async ({ page }) => {
+      idsCalendar = page.locator('ids-calendar');
+    });
+
+    test('can create element via document.createElement', async ({ page }) => {
+      const id = 'new-calendar-test';
+      await page.evaluate((elementId) => {
+        const idsCal = document.createElement('ids-calendar');
+        idsCal.setAttribute('id', elementId);
+        (document.querySelector<IdsContainer>('ids-container'))!.appendChild(idsCal);
+      }, id);
+      await expect(page.locator(`ids-calendar[id="${id}"]`)).toBeAttached();
+    });
+
+    test('can change to day view by the overflow-click event', async () => {
+      await idsCalendar.evaluate((element: IdsCalendar) => {
+        element.triggerEvent('overflow-click', element.container, { detail: { date: new Date() } });
+      });
+
+      const viewMonth = idsCalendar.locator('div[class="calendar-view-pane"] > ids-month-view');
+      const viewWeek = idsCalendar.locator('div[class="calendar-view-pane"] > ids-week-view');
+
+      await expect(viewMonth).not.toBeAttached();
+      await expect(viewWeek).toBeAttached();
+
+      // start date and end date must be the same for the day view
+      const startDate = await viewWeek.getAttribute('start-date');
+      await expect(viewWeek).toHaveAttribute('end-date', startDate!);
+    });
+
+    test('can change view by the viewchange event', async () => {
+      const viewMonth = idsCalendar.locator('div[class="calendar-view-pane"] > ids-month-view');
+      const viewWeek = idsCalendar.locator('div[class="calendar-view-pane"] > ids-week-view');
+      await idsCalendar.evaluate((element: IdsCalendar) => {
+        element.triggerEvent('viewchange', element, { detail: { date: new Date(), view: 'day' } });
+      });
+      await expect(viewMonth).not.toBeAttached();
+      await expect(viewWeek).toBeAttached();
+      // start date and end date must be the same for the day view
+      const startDate = await viewWeek.getAttribute('start-date');
+      await expect(viewWeek).toHaveAttribute('end-date', startDate!);
+    });
+
+    test('can have events presist on different views', async () => {
+      const testDate = {
+        day: 21,
+        month: 10,
+        year: 2019,
+      };
+      // Save the events details for later comparison
+      let expectedEvents = await idsCalendar.evaluate((element: IdsCalendar) => element.eventsData);
+      expectedEvents = expectedEvents.filter((calEvent) => calEvent.starts.includes(`${testDate.year}-${testDate.month}-${testDate.day}`));
+
+      // day view
+      let actualEvents = await idsCalendar.evaluate((element: IdsCalendar, date) => {
+        element.date = `${date.month}/${date.day}/${date.year}`;
+        element.changeView('day');
+        return element.eventsData;
+      }, testDate);
+      expect(actualEvents.filter((calEvent) => calEvent.starts.includes(`${testDate.year}-${testDate.month}-${testDate.day}`))).toEqual(expectedEvents);
+
+      // week view
+      actualEvents = await idsCalendar.evaluate((element: IdsCalendar) => {
+        element.changeView('week');
+        return element.eventsData;
+      });
+      expect(actualEvents.filter((calEvent) => calEvent.starts.includes(`${testDate.year}-${testDate.month}-${testDate.day}`))).toEqual(expectedEvents);
+
+      // month view
+      actualEvents = await idsCalendar.evaluate((element: IdsCalendar) => {
+        element.changeView('month');
+        return element.eventsData;
+      });
+      expect(actualEvents.filter((calEvent) => calEvent.starts.includes(`${testDate.year}-${testDate.month}-${testDate.day}`))).toEqual(expectedEvents);
+    });
+
+    test.skip('can format duration / date range strings', async () => {
+      let testData: any = [
+        { start: new Date(2022, 7, 15), end: new Date(2022, 7, 18), expected: '3 Days' },
+        { start: new Date(2022, 7, 15), end: new Date(2022, 7, 15, 3), expected: '3 Hours' },
+        { start: new Date(2022, 7, 15, 0, 10), end: new Date(2022, 7, 15, 0, 15), expected: '5 Minutes' }
+      ];
+      for (const data of testData) {
+        const actual = await idsCalendar.evaluate(
+          (element: IdsCalendar, tData) => element.formatDuration(tData.start, tData.end).trim(),
+          data
+        );
+        expect(actual).toEqual(data.expected);
+      }
+      // When running locally the dates returning are 12 hours less
+      // Expected: "August 15, 2022 at 12:00 AM - August 18, 2022 at 12:00 AM"
+      // Received: "August 14, 2022 at 12:00 PM - August 17, 2022 at 12:00 PM"
+      testData = { start: new Date(2022, 7, 15), end: new Date(2022, 7, 18) };
+      const expected: string = `${new Intl.DateTimeFormat(undefined, { dateStyle: 'long', timeStyle: 'short' }).format(testData.start)} - `
+        + `${new Intl.DateTimeFormat(undefined, { dateStyle: 'long', timeStyle: 'short' }).format(testData.end)}`;
+      expect(await idsCalendar.evaluate(
+        (element: IdsCalendar, data: any) => element.formatDateRange(data.start, data.end),
+        testData
+      )).toEqual(expected);
+    });
+
+    test.skip('can show event details when dayselected event is triggered', async ({ page }) => {
+      const testData = {
+        day: 24,
+        month: 10,
+        year: 2019
+      };
+      const contextDate: Date = new Date(testData.year, testData.month - 1, testData.day, 0, 0);
+      const selectedDay: Locator = idsCalendar.locator(`ids-month-view td[data-year="${testData.year}"]`
+        + `[data-month="${testData.month - 1}"][data-day="${testData.day}"]:has(ids-calendar-event)`);
+      let expectedEvents: any[] = [];
+      // Retrieve dates which has specified start date
+      expectedEvents = await idsCalendar.evaluate((element: IdsCalendar, cDate) => {
+        const calEvts = element.eventsData.filter((item) => cDate.toDateString() === new Date(item.starts).toDateString());
+        element.showDetails = true;
+        element.triggerEvent('dayselected', element.container, { detail: { date: cDate, eventsData: calEvts } });
+      }, contextDate);
+    });
+
+    test('can clear calendar events', async () => {
+      expect((await idsCalendar.evaluate((element: IdsCalendar) => element.eventsData)).length).toBeGreaterThan(0);
+      await idsCalendar.evaluate((element: IdsCalendar) => element.clearEvents());
+      expect((await idsCalendar.evaluate((element: IdsCalendar) => element.eventsData)).length).toEqual(0);
+    });
+
+    test('can add/update calendar event', async () => {
+      const newEvent = {
+        id: 'new-event-test',
+        subject: 'Automation Event',
+        starts: '2019-10-10T12:00:00.000',
+        ends: '2019-10-10T12:15:00.000',
+        type: 'dto',
+        isAllDay: 'false',
+        status: 'test status',
+        comments: 'test comment'
+      };
+
+      // Add
+      await expect(idsCalendar.locator('ids-calendar-event[data-id="new-event-test"]')).not.toBeAttached();
+      await idsCalendar.evaluate((element: IdsCalendar, calEvent) => element.addEvent(calEvent), newEvent);
+      expect(await idsCalendar.evaluate((element: IdsCalendar) => element.eventsData)).toContainEqual(newEvent);
+      await expect(idsCalendar.locator('ids-calendar-event[data-id="new-event-test"]')).toBeAttached();
+
+      // Update
+      newEvent.subject = 'Modified Automation Event';
+      await idsCalendar.evaluate((element: IdsCalendar, calEvent) => element.updateEvent(calEvent), newEvent);
+      expect(await idsCalendar.evaluate((element: IdsCalendar) => element.eventsData)).toContainEqual(newEvent);
+      await expect(idsCalendar.locator('ids-calendar-event[data-id="new-event-test"]')).toBeAttached();
+    });
+
+    test('can return startDate and endDate properties', async () => {
+      const result = await idsCalendar.evaluate(
+        (element: IdsCalendar) => ({ startDate: element.startDate, endDate: element.endDate })
+      );
+      expect(result.startDate).not.toBeNull();
+      expect(result.endDate).not.toBeNull();
+    });
+  });
+
+  test.describe('calendar event functionality tests', async () => {
+    let idsCalendarEvent: Locator;
+
+    test.beforeEach(({ page }) => {
+      idsCalendarEvent = page.locator('ids-calendar ids-month-view ids-calendar-event[data-id="49"]');
+    });
+
+    test('can render calendar event', async ({ page }) => {
+      await page.evaluate(() => {
+        const calEvt = document.createElement('ids-calendar-event');
+        calEvt.setAttribute('id', 'new-cal-event');
+        document.querySelector('ids-container')?.appendChild(calEvt);
+      });
+      await expect(page.locator('#new-cal-event')).toBeAttached();
+    });
+
+    test('can get calendar event data', async () => {
+      const calEventsData = await idsCalendarEvent.evaluate(
+        (element: IdsCalendarEvent) => ({ eventTypeData: element.eventTypeData, eventData: element.eventData })
+      );
+      expect(calEventsData.eventData).not.toBeNull();
+      expect(calEventsData.eventTypeData).not.toBeNull();
+    });
+
+    test('can return calendar event duration', async () => {
+      const calEventsData = await idsCalendarEvent.evaluate(
+        (element: IdsCalendarEvent) => ({ eventData: element.eventData, duration: element.duration })
+      );
+      calEventsData.eventData!.starts = '2019-10-24T13:00:00.000';
+      calEventsData.eventData!.ends = '2019-10-24T15:30:00.000';
+      expect(await idsCalendarEvent.evaluate((element: IdsCalendarEvent, modEvent) => {
+        element.eventData = modEvent;
+        return element.duration;
+      }, calEventsData.eventData)).toEqual(2.5);
+    });
+
+    test('can set calendar event width and height', async () => {
+      await expect(idsCalendarEvent).not.toHaveAttribute('width');
+      await expect(idsCalendarEvent).not.toHaveAttribute('height');
+
+      const width = '50px';
+      await idsCalendarEvent.evaluate((element: IdsCalendarEvent, mWidth) => { element.width = mWidth; }, width);
+      await expect(idsCalendarEvent).toHaveAttribute('width', width);
+      await expect(idsCalendarEvent.locator('a')).toHaveAttribute('style', new RegExp(`width: ${width};`, 'g'));
+
+      const height = '100px';
+      await idsCalendarEvent.evaluate((element: IdsCalendarEvent, mHeight) => { element.height = mHeight; }, height);
+      await expect(idsCalendarEvent).toHaveAttribute('height', height);
+      await expect(idsCalendarEvent.locator('a')).toHaveAttribute('style', new RegExp(`height: ${height};`, 'g'));
+    });
+
+    test('can set x and y offsets', async () => {
+      const yOffset = '10px';
+      const beforeYOffset = await idsCalendarEvent.evaluate((element: IdsCalendarEvent, offset) => {
+        const beforeOff = element.yOffset;
+        element.yOffset = offset;
+        return beforeOff;
+      }, yOffset);
+      expect(yOffset).not.toEqual(beforeYOffset);
+      await expect(idsCalendarEvent).toHaveAttribute('y-offset', yOffset);
+
+      const xOffset = '5px';
+      const beforeXOffset = await idsCalendarEvent.evaluate((element: IdsCalendarEvent, offset) => {
+        const beforeOff = element.xOffset;
+        element.xOffset = offset;
+        return beforeOff;
+      }, xOffset);
+      expect(xOffset).not.toEqual(beforeXOffset);
+      await expect(idsCalendarEvent).toHaveAttribute('x-offset', xOffset);
+    });
+
+    test('can set extra css class', async () => {
+      const cssClass = 'dummy-class';
+      expect(idsCalendarEvent.locator('a')).not.toHaveClass(new RegExp(cssClass, 'g'));
+      await idsCalendarEvent.evaluate((element: IdsCalendarEvent, nClass) => { element.cssClass = [nClass]; }, cssClass);
+      expect(idsCalendarEvent.locator('a')).toHaveClass(new RegExp(cssClass, 'g'));
+    });
+
+    test('can set overflow value', async () => {
+      const overFlowValues = ['ellipsis', 'normal', null];
+      await expect(idsCalendarEvent).not.toHaveAttribute('overflow');
+      for (const overFlow of overFlowValues) {
+        await idsCalendarEvent.evaluate((element: IdsCalendarEvent, oValue) => { element.overflow = oValue; }, overFlow);
+        await expect(idsCalendarEvent).toHaveAttribute('overflow', (overFlow) ?? 'ellipsis');
+      }
+    });
+
+    test('can display hour range with displayTime', async () => {
+      await idsCalendarEvent.evaluate((element: IdsCalendarEvent) => { element.displayTime = true; });
     });
   });
 });
