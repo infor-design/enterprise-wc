@@ -55,13 +55,13 @@ export default class IdsThemeSwitcher extends Base {
    * @private
    */
   #attachEventHandlers() {
-    this.onEvent('selected.themeswitcher', this.popup, (e: CustomEvent) => {
+    this.onEvent('selected.themeswitcher', this.popup, async (e: CustomEvent) => {
       const val = e.detail.elem.value;
       if (val === 'light' || val === 'dark' || val === 'contrast') {
         this.mode = val;
       }
       if (val?.indexOf('-') > -1) {
-        IdsGlobal.getLocale().setLocale(val);
+        await IdsGlobal.getLocale().setLocale(val);
       }
     });
   }
@@ -209,6 +209,7 @@ export default class IdsThemeSwitcher extends Base {
   set theme(value: string) {
     if (value) {
       this.setAttribute(attributes.THEME, value);
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.loadTheme(value);
       this.triggerEvent('themechanged', this, { detail: { elem: this, mode: value }, bubbles: true, composed: true });
       return;

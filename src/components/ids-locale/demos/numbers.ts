@@ -49,6 +49,6 @@ import IdsGlobal from '../../ids-global/ids-global';
     maximumFractionDigits: 5
   }));
 
-  locale.setLocale('en-US');
+  await locale.setLocale('en-US');
   append(locale.formatNumber('12,345.123'));
 }());

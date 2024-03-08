@@ -123,7 +123,7 @@ const setData = async () => {
   input.data = data;
 };
 
-setData();
+await setData();
 ```
 
 ## Settings (Attributes)

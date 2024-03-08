@@ -82,9 +82,9 @@ test.describe('IdsModal tests', () => {
     });
 
     test('shows with buttons present', async ({ page }) => {
-      const isVisible = await page.evaluate(() => {
+      const isVisible = await page.evaluate(async () => {
         const modal = document.querySelector<IdsModal>('ids-modal');
-        modal?.show();
+        await modal?.show();
         return modal?.visible;
       });
       expect(isVisible).toBeTruthy();
@@ -144,11 +144,11 @@ test.describe('IdsModal tests', () => {
 
       await modalHandle.evaluate((modal: IdsModal) => { modal.showCloseButton = true; });
       await buttonHandle.click();
-      expect(await page.locator('ids-modal-button.modal-control-close')).toBeVisible();
+      await expect(await page.locator('ids-modal-button.modal-control-close')).toBeVisible();
       expect(await modalHandle?.evaluate((modal: IdsModal) => modal.showCloseButton)).toBeTruthy();
 
       await modalHandle.evaluate((modal: IdsModal) => { modal.showCloseButton = false; });
-      expect(await page.locator('ids-modal-button.modal-control-close')).not.toBeVisible();
+      await expect(await page.locator('ids-modal-button.modal-control-close')).not.toBeVisible();
       expect(await modalHandle?.evaluate((modal: IdsModal) => modal.showCloseButton)).toBeFalsy();
     });
   });
@@ -163,7 +163,7 @@ test.describe('IdsModal tests', () => {
       const modalHandle = page.locator('#my-modal');
       await modalHandle.evaluate((modal: IdsModal) => { modal.popup!.animated = false; });
       await buttonHandle.click();
-      expect(modalHandle).toBeVisible();
+      await expect(modalHandle).toBeVisible();
 
       // Close via escape
       await page.keyboard.press('Escape');
@@ -190,16 +190,16 @@ test.describe('IdsModal tests', () => {
 
       // set fullsize to 'always'
       await modalHandle.evaluate((modal: IdsModal) => { modal.fullsize = 'always'; });
-      expect(popupHandle).toHaveClass(/fullsize/);
+      await expect(popupHandle).toHaveClass(/fullsize/);
 
       // set fullsize to null
       await modalHandle.evaluate((modal: IdsModal) => { modal.fullsize = null; });
-      expect(popupHandle).not.toHaveClass(/fullsize/);
+      await expect(popupHandle).not.toHaveClass(/fullsize/);
     });
 
     test('updating modal title', async ({ page }) => {
       await page.locator('ids-modal').evaluate((modal: IdsModal) => { modal.messageTitle = 'My Test Message'; });
-      expect(await page.locator('ids-modal [slot="title"]')).toHaveText(/My Test Message/);
+      await expect(await page.locator('ids-modal [slot="title"]')).toHaveText(/My Test Message/);
     });
   });
 
@@ -230,7 +230,7 @@ test.describe('IdsModal tests', () => {
       await overlayHandle.evaluate((overlay: IdsOverlay) => { overlay.visible = false; });
       await page.locator('#modal-trigger-btn').click(); // open modal
       await page.waitForSelector('ids-modal[visible]'); // wait for modal to be open
-      expect(await page.locator('ids-modal ids-overlay')).not.toBeVisible();
+      await expect(await page.locator('ids-modal ids-overlay')).not.toBeVisible();
     });
 
     test('setting background color', async ({ page }) => {

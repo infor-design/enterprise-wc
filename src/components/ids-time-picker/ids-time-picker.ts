@@ -85,6 +85,7 @@ export default class IdsTimePicker extends Base {
     this.triggerButton = this.container?.querySelector<IdsTriggerButton>('ids-trigger-button');
     this.picker = this.container?.querySelector<IdsTimePickerPopup>('ids-time-picker-popup');
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.configurePickerPopup();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
@@ -218,7 +219,7 @@ export default class IdsTimePicker extends Base {
     }
   }
 
-  private configurePickerPopup(): void {
+  private configurePickerPopup() {
     const fieldId = this.input?.getAttribute('id');
     const btn = this.triggerButton;
     const btnId = btn?.getAttribute('id');
@@ -239,9 +240,9 @@ export default class IdsTimePicker extends Base {
           this.picker.popup.x = 0;
           this.picker.popup.setAttribute(attributes.ARROW_TARGET, `#${btnId}`);
           this.picker.popup.onXYSwitch = onPickerPopupXYSwitch;
-          this.picker.popup.onOutsideClick = (e: Event) => {
+          this.picker.popup.onOutsideClick = async (e: Event) => {
             if (this.picker && !e.composedPath()?.includes(this.picker)) {
-              this.picker.hide();
+              await this.picker.hide();
             }
           };
         }
@@ -262,12 +263,12 @@ export default class IdsTimePicker extends Base {
    * @returns {IdsTimePicker} this class-instance object for chaining
    */
   #attachKeyboardListeners(): IdsTimePicker {
-    this.listen(['ArrowDown', 'Escape', 'Backspace'], this, (e: KeyboardEvent) => {
+    this.listen(['ArrowDown', 'Escape', 'Backspace'], this, async (e: KeyboardEvent) => {
       e.stopPropagation();
       if (e.key === 'ArrowDown') {
         this.picker?.show();
       } else if (e.key === 'Escape' || e.key === 'Backspace') {
-        this.picker?.hide(true);
+        await this.picker?.hide(true);
       }
     });
 
@@ -564,10 +565,9 @@ export default class IdsTimePicker extends Base {
 
   /**
    * Public method to close timepicker popup
-   * @returns {void}
    */
-  close(): void {
-    this.picker?.hide(false);
+  async close() {
+    await this.picker?.hide(false);
   }
 
   /**

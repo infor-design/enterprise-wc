@@ -241,7 +241,7 @@ if (dataGrid) {
       dataGrid.data = data;
     };
 
-    setData();
+    await await setData();
   }());
 }
 
@@ -579,7 +579,7 @@ if (listBuilderEl) {
     const data = await res.json();
     listBuilderEl.data = data;
   };
-  setData();
+  await await setData();
 }
 
 // =================================================================
@@ -595,7 +595,7 @@ if (listViewEl) {
     const data = await res.json();
     listViewEl.data = data;
   };
-  setData();
+  await await setData();
 }
 
 // =================================================================
@@ -621,7 +621,7 @@ if (areaChartEl) {
     const data = await res.json();
     areaChartEl.data = data;
   };
-  setData();
+  await await setData();
 }
 
 // =================================================================
@@ -634,7 +634,7 @@ if (barChartEl) {
     const data = await res.json();
     barChartEl.data = data;
   };
-  setData();
+  await setData();
 }
 
 // =================================================================
@@ -647,7 +647,7 @@ if (pieChartEl) {
     const data = await res.json();
     pieChartEl.data = data;
   };
-  setData();
+  await setData();
 }
 
 // =================================================================
@@ -660,7 +660,7 @@ if (donutChartEl) {
     const data = await res.json();
     donutChartEl.data = data;
   };
-  setData();
+  await setData();
 }
 
 // =================================================================
@@ -673,7 +673,7 @@ if (lineChartEl) {
     const data = await res.json();
     lineChartEl.data = data;
   };
-  setData();
+  await setData();
 }
 
 // =================================================================
@@ -696,5 +696,5 @@ if (swaplistEl) {
     const data = await res.json();
     swaplistEl.data = data;
   };
-  setData();
+  await setData();
 }

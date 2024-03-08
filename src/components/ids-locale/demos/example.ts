@@ -6,7 +6,7 @@ import IdsGlobal from '../../ids-global/ids-global';
   // Set language and wait for it to load
   const initialLocale = 'en';
   const locale = IdsGlobal.getLocale();
-  locale.setLanguage(initialLocale);
+  await locale.setLanguage(initialLocale);
 
   // Show them in the page
   const keys = Object.keys(locale.language.messages);
