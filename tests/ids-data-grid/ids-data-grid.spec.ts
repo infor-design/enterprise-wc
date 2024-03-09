@@ -46,6 +46,79 @@ test.describe('IdsDataGrid tests', () => {
     });
   });
 
+  test.describe('event tests', () => {
+    test('should fire rowclick event', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let dataIndex;
+        const clickCallback = (e: any) => {
+          dataIndex = e.detail.row?.getAttribute('data-index');
+        };
+
+        dataGrid.addEventListener('rowclick', clickCallback);
+
+        const firstCellInRow = dataGrid.container?.querySelector<HTMLElement>('.ids-data-grid-body .ids-data-grid-cell');
+        firstCellInRow?.click();
+        return dataIndex;
+      });
+
+      expect(results).toEqual('0');
+    });
+
+    test('should fire double click event', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let elemType = '';
+        const dblClickCallback = (e: any) => {
+          elemType = e.detail.type;
+        };
+        const dblClickEvent = new MouseEvent('dblclick', { bubbles: true });
+
+        dataGrid.addEventListener('dblclick', dblClickCallback);
+
+        const headerTitle = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-cell');
+        headerTitle?.dispatchEvent(dblClickEvent);
+        const headerElementType = elemType;
+
+        const headerIcon = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-icon');
+        headerIcon?.dispatchEvent(dblClickEvent);
+        const headerIconType = elemType;
+
+        const headerFilter = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-cell-filter-wrapper');
+        headerFilter?.dispatchEvent(dblClickEvent);
+        const headerFilterType = elemType;
+
+        const headerFilterButton = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-cell-filter-wrapper [data-filter-conditions-button]');
+        headerFilterButton?.dispatchEvent(dblClickEvent);
+        const headerFilterButtonType = elemType;
+
+        const bodyCell = dataGrid.container?.querySelector('.ids-data-grid-body .ids-data-grid-cell');
+        bodyCell?.dispatchEvent(dblClickEvent);
+        const bodyCellType = elemType;
+
+        dataGrid.editable = true;
+        const editableCell = dataGrid.container?.querySelector<any>('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+        editableCell?.startCellEdit?.();
+        const hasEditingClass = editableCell?.classList.contains('is-editing');
+        editableCell?.dispatchEvent(dblClickEvent);
+        const editableCellType = elemType;
+
+        return {
+          headerElementType,
+          headerIconType,
+          headerFilterType,
+          headerFilterButtonType,
+          bodyCellType,
+          hasEditingClass,
+          editableCellType
+        };
+      });
+
+      expect(results.headerElementType).toEqual('header-title');
+      expect(results.bodyCellType).toEqual('body-cell');
+    });
+  });
+
   test.describe('client-side paging tests', () => {
     const clientPagingUrl = '/ids-data-grid/pagination-client-side.html';
 
@@ -666,6 +739,42 @@ test.describe('IdsDataGrid tests', () => {
 
       expect(results.updatedDataLength).toEqual(results.initialDataLength * 2);
     });
+
+    test('can set the rowHeight setting / can set the rowHeight setting in virtualScroll mode', async ({ page }) => {
+      const getRowHeightData = async (rowHeight: string | null) => {
+        const results = await page.evaluate((attrRowHeight) => {
+          const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+          dataGrid.rowHeight = attrRowHeight as string;
+
+          return {
+            container: dataGrid.container?.getAttribute('data-row-height'),
+            attr: dataGrid.getAttribute('row-height'),
+            virtualScrollSettings: dataGrid.virtualScrollSettings?.ROW_HEIGHT
+          };
+        }, rowHeight);
+
+        return results;
+      };
+
+      ['xs', 'sm', 'md', 'lg'].forEach(async (rowHeight) => {
+        expect(await getRowHeightData(rowHeight)).toEqual(
+          expect.objectContaining({ container: rowHeight, attr: rowHeight })
+        );
+      });
+
+      expect(await getRowHeightData(null)).toEqual(expect.objectContaining({ container: 'lg', attr: null }));
+
+      await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.virtualScroll = true;
+      });
+
+      expect(await getRowHeightData('xs')).toEqual(expect.objectContaining({ virtualScrollSettings: 31 }));
+      expect(await getRowHeightData('sm')).toEqual(expect.objectContaining({ virtualScrollSettings: 36 }));
+      expect(await getRowHeightData('md')).toEqual(expect.objectContaining({ virtualScrollSettings: 41 }));
+      expect(await getRowHeightData('lg')).toEqual(expect.objectContaining({ virtualScrollSettings: 51 }));
+      expect(await getRowHeightData(null)).toEqual(expect.objectContaining({ virtualScrollSettings: 51 }));
+    });
   });
 
   test.describe('column functionality tests', () => {
@@ -1203,6 +1312,251 @@ test.describe('IdsDataGrid tests', () => {
 
       expect(uniqueIdUnset).toBeNull();
       expect(await page.locator('ids-data-grid').getAttribute('unique-id')).toBeNull();
+    });
+
+    test('renders with listStyle option', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+
+        dataGrid.listStyle = true;
+        const listStyleSet = dataGrid.listStyle;
+        const hasClassSet = dataGrid.container?.classList.contains('is-list-style');
+
+        dataGrid.listStyle = false;
+        const listStyleUnset = dataGrid.listStyle;
+        const hasClassUnset = dataGrid.container?.classList.contains('is-list-style');
+
+        return {
+          listStyleSet,
+          hasClassSet,
+          listStyleUnset,
+          hasClassUnset
+        };
+      });
+
+      expect(results.listStyleSet).toBeTruthy();
+      expect(results.hasClassSet).toBeTruthy();
+      expect(results.listStyleUnset).toBeFalsy();
+      expect(results.hasClassUnset).toBeFalsy();
+    });
+  });
+
+  test.describe('sorting tests', () => {
+    test('fires sorted event on sort', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let elem;
+        let sortColumnId;
+        let sortColumnAscending;
+        const mockCallback = (e: any) => {
+          elem = e.detail.elem;
+          sortColumnId = e.detail.sortColumn.id;
+          sortColumnAscending = e.detail.sortColumn.ascending;
+        };
+
+        dataGrid.addEventListener('sorted', mockCallback);
+        dataGrid.setSortColumn('description', true);
+
+        return {
+          elem,
+          sortColumnId,
+          sortColumnAscending
+        };
+      });
+
+      expect(results.elem).toBeTruthy();
+      expect(results.sortColumnId).toEqual('description');
+      expect(results.sortColumnAscending).toBeTruthy();
+    });
+
+    test('fires defaults to ascending sort', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let elem;
+        let sortColumnId;
+        let sortColumnAscending;
+        const mockCallback = (e: any) => {
+          elem = e.detail.elem;
+          sortColumnId = e.detail.sortColumn.id;
+          sortColumnAscending = e.detail.sortColumn.ascending;
+        };
+
+        dataGrid.addEventListener('sorted', mockCallback);
+        dataGrid.setSortColumn('description');
+
+        return {
+          elem,
+          sortColumnId,
+          sortColumnAscending
+        };
+      });
+
+      expect(results.elem).toBeTruthy();
+      expect(results.sortColumnId).toEqual('description');
+      expect(results.sortColumnAscending).toBeTruthy();
+    });
+
+    test('can sort by field vs id', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let elem;
+        let sortColumnId;
+        let sortColumnAscending;
+        const mockCallback = (e: any) => {
+          elem = e.detail.elem;
+          sortColumnId = e.detail.sortColumn.id;
+          sortColumnAscending = e.detail.sortColumn.ascending;
+        };
+
+        dataGrid.addEventListener('sorted', mockCallback);
+        dataGrid.setSortColumn('publishTime', true);
+
+        return {
+          elem,
+          sortColumnId,
+          sortColumnAscending
+        };
+      });
+
+      expect(results.elem).toBeTruthy();
+      expect(results.sortColumnId).toEqual('publishTime');
+      expect(results.sortColumnAscending).toBeTruthy();
+    });
+
+    test('sets sort state via the API', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.setSortState('description');
+        return dataGrid.container?.querySelectorAll('[column-id]')[2].getAttribute('aria-sort');
+      });
+
+      expect(results).toEqual('ascending');
+    });
+
+    test('sets sort state via the API with direction', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.setSortState('description', false);
+        const descending = dataGrid.container?.querySelectorAll('[column-id]')[2].getAttribute('aria-sort');
+        dataGrid.setSortState('description', true);
+        const ascending = dataGrid.container?.querySelectorAll('[column-id]')[2].getAttribute('aria-sort');
+        return {
+          ascending,
+          descending
+        };
+      });
+      expect(results.ascending).toEqual('ascending');
+      expect(results.descending).toEqual('descending');
+    });
+
+    test('do not error when not sortable', async ({ page }) => {
+      let hasConsoleError = false;
+      page.on('console', (message) => {
+        if (message.type() === 'error') {
+          hasConsoleError = true;
+        }
+      });
+      await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.columns[2].sortable = false;
+        dataGrid.setSortState('description');
+      });
+      expect(hasConsoleError).toBeFalsy();
+    });
+
+    test('wont error in columnDataByHeaderElem', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        const data = dataGrid.columnDataByHeaderElem(dataGrid?.container?.querySelector<any>('.ids-data-grid-header-cell:nth-child(1000)'));
+        return data;
+      });
+
+      expect(results).not.toBeDefined();
+    });
+
+    test('handles wrong ID on sort', async ({ page }) => {
+      let hasConsoleError = false;
+      page.on('console', (message) => {
+        if (message.type() === 'error') {
+          hasConsoleError = true;
+        }
+      });
+      await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.setSortColumn('bookx', false);
+      });
+
+      expect(hasConsoleError).toBeFalsy();
+    });
+
+    test('fires sorted event on click', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let elem;
+        let sortColumnId;
+        let sortColumnAscending;
+        const mockCallback = (e: any) => {
+          elem = e.detail.elem;
+          sortColumnId = e.detail.sortColumn.id;
+          sortColumnAscending = e.detail.sortColumn.ascending;
+        };
+
+        dataGrid.addEventListener('sorted', mockCallback);
+        const headers = dataGrid.container?.querySelectorAll('.ids-data-grid-header-cell');
+        headers?.[2]?.querySelector<any>('.ids-data-grid-header-cell-content')?.click();
+
+        return {
+          elem,
+          sortColumnId,
+          sortColumnAscending
+        };
+      });
+
+      expect(results.elem).toBeTruthy();
+      expect(results.sortColumnId).toEqual('description');
+      expect(results.sortColumnAscending).toBeTruthy();
+    });
+
+    test('should not error clicking on a non sortable column', async ({ page }) => {
+      let hasConsoleError = false;
+      page.on('console', (message) => {
+        if (message.type() === 'error') {
+          hasConsoleError = true;
+        }
+      });
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let elem = null;
+        const mockCallback = (e: any) => {
+          elem = e.detail.elem;
+        };
+        dataGrid.addEventListener('sorted', mockCallback);
+        dataGrid.container?.querySelector<any>('.ids-data-grid-header-cell')?.[5]?.click();
+
+        return elem;
+      });
+
+      expect(hasConsoleError).toBeFalsy();
+      expect(results).toBeNull();
+    });
+
+    test('skips sort on resize click ', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let elem = null;
+        const mockCallback = (e: any) => {
+          elem = e.detail.elem;
+        };
+        dataGrid.addEventListener('sorted', mockCallback);
+        dataGrid.isResizing = true;
+
+        const headers = dataGrid.container?.querySelectorAll('.ids-data-grid-header-cell');
+        headers?.[2]?.querySelector<any>('.ids-data-grid-header-cell-content')?.click();
+
+        return elem;
+      });
+
+      expect(results).toBeNull();
     });
   });
 });
