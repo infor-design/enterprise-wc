@@ -1231,6 +1231,516 @@ test.describe('IdsDataGrid tests', () => {
   });
 
   test.describe('functionality tests', () => {
+    test('should have initial/default properties', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        return {
+          header: dataGrid.header,
+          body: dataGrid.body,
+          wrapper: dataGrid.wrapper,
+          cellFocused: dataGrid.cellFocused,
+          cellLastActive: dataGrid.cellLastActive,
+          rows: dataGrid.rows.length,
+          rowsHidden: dataGrid.rowsHidden.length,
+          rowsVisible: dataGrid.rowsVisible.length,
+          virtualRows: dataGrid.virtualRows.length,
+          columns: dataGrid.columns.length,
+          visibleColumns: dataGrid.visibleColumns.length,
+          rightFrozenColumns: dataGrid.rightFrozenColumns.length,
+          leftFrozenColumns: dataGrid.leftFrozenColumns.length,
+          showHeaderExpander: dataGrid.showHeaderExpander,
+          alternateRowShading: dataGrid.alternateRowShading,
+          headerMenuId: dataGrid.headerMenuId,
+          columnGroups: dataGrid.columnGroups,
+          emptyMessageDescription: dataGrid.emptyMessageDescription,
+          emptyMessageLabel: dataGrid.emptyMessageLabel,
+          emptyMessageIcon: dataGrid.emptyMessageIcon,
+          hasFrozenColumns: dataGrid.hasFrozenColumns,
+          label: dataGrid.label,
+          listStyle: dataGrid.listStyle,
+          minHeight: dataGrid.minHeight,
+          rowHeight: dataGrid.rowHeight,
+          uniqueId: dataGrid.uniqueId,
+          virtualScroll: dataGrid.virtualScroll,
+          editable: dataGrid.editable,
+          headerMenuData: dataGrid.headerMenuData,
+          menuId: dataGrid.menuId,
+          menuData: dataGrid.menuData,
+          scrollMaxRows: dataGrid.scrollMaxRows,
+          rowStart: dataGrid.rowStart,
+          rowNavigation: dataGrid.rowNavigation,
+          rowSelection: dataGrid.rowSelection,
+          suppressEmptyMessage: dataGrid.suppressEmptyMessage,
+          suppressRowClickSelection: dataGrid.suppressRowClickSelection,
+          suppressRowDeselection: dataGrid.suppressRowDeselection,
+          suppressRowDeactivation: dataGrid.suppressRowDeactivation,
+          selectedRows: dataGrid.selectedRows.length,
+          selectedRowsAcrossPages: dataGrid.selectedRowsAcrossPages.length,
+          activatedRow: dataGrid.activatedRow,
+          isEditable: dataGrid.isEditable,
+          rowCount: dataGrid.rowCount,
+          rowPixelHeight: dataGrid.rowPixelHeight,
+          autoFit: dataGrid.autoFit,
+          suppressCaching: dataGrid.suppressCaching,
+          disableClientFilter: dataGrid.disableClientFilter,
+          filterable: dataGrid.filterable,
+          filterRowDisabled: dataGrid.filterRowDisabled,
+          filterWhenTyping: dataGrid.filterWhenTyping,
+          treeGrid: dataGrid.treeGrid,
+          groupSelectsChildren: dataGrid.groupSelectsChildren,
+          idColumn: dataGrid.idColumn,
+          expandableRow: dataGrid.expandableRow,
+          expandableRowTemplate: dataGrid.expandableRowTemplate,
+          editNextOnEnterPress: dataGrid.editNextOnEnterPress,
+          addNewAtEnd: dataGrid.addNewAtEnd,
+          invalidCells: dataGrid.invalidCells,
+          dirtyCells: dataGrid.dirtyCells,
+          suppressTooltips: dataGrid.suppressTooltips,
+          saveActivePage: dataGrid.saveActivePage,
+          saveColumns: dataGrid.saveColumns,
+          saveFilter: dataGrid.saveFilter,
+          savePageSize: dataGrid.savePageSize,
+          saveRowHeight: dataGrid.saveRowHeight,
+          saveSortOrder: dataGrid.saveSortOrder,
+          saveUserSettings: dataGrid.saveUserSettings,
+        };
+      });
+
+      expect(results.header).toBeDefined();
+      expect(results.body).toBeDefined();
+      expect(results.wrapper).toBeDefined();
+      expect(results.cellFocused).toBeDefined();
+      expect(results.cellLastActive).toBeDefined();
+      expect(results.rows).toEqual(9);
+      expect(results.rowsHidden).toEqual(0);
+      expect(results.rowsVisible).toEqual(9);
+      expect(results.virtualRows).toEqual(9);
+      expect(results.columns).toEqual(18);
+      expect(results.visibleColumns).toEqual(18);
+      expect(results.rightFrozenColumns).toEqual(0);
+      expect(results.leftFrozenColumns).toEqual(0);
+      expect(results.showHeaderExpander).toBeFalsy();
+      expect(results.alternateRowShading).toBeFalsy();
+      expect(results.columnGroups).toBeNull();
+      expect(results.emptyMessageDescription).toBeNull();
+      expect(results.emptyMessageLabel).toBeNull();
+      expect(results.hasFrozenColumns).toBeFalsy();
+      expect(results.label).toBe('Books');
+      expect(results.listStyle).toBeFalsy();
+      expect(results.minHeight).toBe('350px');
+      expect(results.rowHeight).toBe('lg');
+      expect(results.uniqueId).toBeNull();
+      expect(results.virtualScroll).toBeFalsy();
+      expect(results.editable).toBeFalsy();
+      expect(results.headerMenuData).toBeNull();
+      expect(results.menuData).toBeNull();
+      expect(results.scrollMaxRows).toBe(100);
+      expect(results.rowStart).toBe(0);
+      expect(results.rowNavigation).toBeFalsy();
+      expect(results.rowSelection).toEqual('multiple');
+      expect(results.suppressEmptyMessage).toBeFalsy();
+      expect(results.suppressRowClickSelection).toBeFalsy();
+      expect(results.suppressRowDeselection).toBeFalsy();
+      expect(results.suppressRowDeactivation).toBeFalsy();
+      expect(results.selectedRows).toEqual(0);
+      expect(results.selectedRowsAcrossPages).toEqual(0);
+      expect(results.activatedRow).toEqual({});
+      expect(results.isEditable).toBeFalsy();
+      expect(results.rowCount).toBe(9);
+      expect(results.rowPixelHeight).toBe(51);
+      expect(results.autoFit).toBeFalsy();
+      expect(results.suppressCaching).toBeFalsy();
+      expect(results.disableClientFilter).toBeFalsy();
+      expect(results.filterable).toBeTruthy();
+      expect(results.filterRowDisabled).toBeFalsy();
+      expect(results.filterWhenTyping).toBeTruthy();
+      expect(results.treeGrid).toBeFalsy();
+      expect(results.groupSelectsChildren).toBeFalsy();
+      expect(results.idColumn).toEqual('id');
+      expect(results.expandableRow).toBeFalsy();
+      expect(results.expandableRowTemplate).toEqual('');
+      expect(results.editNextOnEnterPress).toBeFalsy();
+      expect(results.addNewAtEnd).toBeFalsy();
+      expect(results.invalidCells).toEqual([]);
+      expect(results.dirtyCells).toEqual([]);
+      expect(results.suppressTooltips).toBeFalsy();
+      expect(results.saveActivePage).toBeFalsy();
+      expect(results.saveColumns).toBeFalsy();
+      expect(results.saveFilter).toBeFalsy();
+      expect(results.savePageSize).toBeFalsy();
+      expect(results.saveRowHeight).toBeFalsy();
+      expect(results.saveSortOrder).toBeFalsy();
+      expect(results.saveUserSettings).toBeFalsy();
+    });
+
+    test('should set properties', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<any>('ids-data-grid')!;
+        dataGrid.showHeaderExpander = true;
+        const showHeaderExpanderSet = dataGrid.showHeaderExpander;
+        dataGrid.showHeaderExpander = false;
+        const showHeaderExpanderUnset = dataGrid.showHeaderExpander;
+
+        dataGrid.alternateRowShading = true;
+        const alternateRowShadingSet = dataGrid.alternateRowShading;
+        dataGrid.alternateRowShading = false;
+        const alternateRowShadingUnset = dataGrid.alternateRowShading;
+
+        dataGrid.columnGroups = [{
+          colspan: 3,
+          id: 'group1',
+          name: 'Column Group One',
+          align: 'center'
+        }];
+        const columnGroupsSet = dataGrid.columnGroups;
+        dataGrid.columnGroups = null;
+        const columnGroupsUnset = dataGrid.columnGroups;
+
+        dataGrid.emptyMessageDescription = 'emptyMessageDescription';
+        const emptyMessageDescriptionSet = dataGrid.emptyMessageDescription;
+        dataGrid.emptyMessageDescription = null;
+        const emptyMessageDescriptionUnset = dataGrid.emptyMessageDescription;
+
+        dataGrid.emptyMessageLabel = 'emptyMessageLabel';
+        const emptyMessageLabelSet = dataGrid.emptyMessageLabel;
+        dataGrid.emptyMessageLabel = null;
+        const emptyMessageLabelUnset = dataGrid.emptyMessageLabel;
+
+        dataGrid.emptyMessageIcon = 'emptyMessageIcon';
+        const emptyMessageIconSet = dataGrid.emptyMessageIcon;
+        dataGrid.emptyMessageIcon = null;
+        const emptyMessageIconUnset = dataGrid.emptyMessageIcon;
+
+        dataGrid.label = 'Label changed';
+        const labelSet = dataGrid.label;
+        dataGrid.label = null;
+        const labelUnset = dataGrid.label;
+
+        dataGrid.listStyle = true;
+        const listStyleSet = dataGrid.listStyle;
+        dataGrid.listStyle = false;
+        const listStyleUnset = dataGrid.listStyle;
+
+        dataGrid.minHeight = '100px';
+        const minHeightSet = dataGrid.minHeight;
+        dataGrid.minHeight = null;
+        const minHeightUnset = dataGrid.minHeight;
+
+        dataGrid.rowHeight = 'md';
+        const rowHeightSet = dataGrid.rowHeight;
+        dataGrid.rowHeight = null;
+        const rowHeightUnset = dataGrid.rowHeight;
+
+        dataGrid.uniqueId = 'some-uniqueid';
+        const uniqueIdSet = dataGrid.uniqueId;
+        dataGrid.uniqueId = null;
+        const uniqueIdUnset = dataGrid.uniqueId;
+
+        dataGrid.virtualScroll = true;
+        const virtualScrollSet = dataGrid.virtualScroll;
+        dataGrid.virtualScroll = false;
+        const virtualScrollUnset = dataGrid.virtualScroll;
+
+        dataGrid.editable = true;
+        const editableSet = dataGrid.editable;
+        dataGrid.editable = false;
+        const editableUnset = dataGrid.editable;
+
+        dataGrid.headerMenuData = [];
+        dataGrid.menuData = [];
+
+        dataGrid.scrollMaxRows = 200;
+        const scrollMaxRowsSet = dataGrid.scrollMaxRows;
+        dataGrid.scrollMaxRows = null;
+        const scrollMaxRowsUnset = dataGrid.scrollMaxRows;
+
+        dataGrid.rowStart = 1;
+        const rowStartSet = dataGrid.rowStart;
+        dataGrid.rowStart = null;
+        const rowStartUnset = dataGrid.rowStart;
+
+        dataGrid.rowNavigation = true;
+        const rowNavigationSet = dataGrid.rowNavigation;
+        dataGrid.rowNavigation = false;
+        const rowNavigationUnset = dataGrid.rowNavigation;
+
+        dataGrid.rowSelection = 'single';
+        const rowSelectionSet = dataGrid.rowSelection;
+        dataGrid.rowSelection = null;
+        const rowSelectionUnset = dataGrid.rowSelection;
+
+        dataGrid.suppressEmptyMessage = true;
+        const suppressEmptyMessageSet = dataGrid.suppressEmptyMessage;
+        dataGrid.suppressEmptyMessage = false;
+        const suppressEmptyMessageUnset = dataGrid.suppressEmptyMessage;
+
+        dataGrid.autoFit = true;
+        const autoFitSet = dataGrid.autoFit;
+        dataGrid.autoFit = false;
+        const autoFitUnset = dataGrid.autoFit;
+
+        dataGrid.suppressCaching = true;
+        const suppressCachingSet = dataGrid.suppressCaching;
+        dataGrid.suppressCaching = false;
+        const suppressCachingUnset = dataGrid.suppressCaching;
+
+        dataGrid.disableClientFilter = true;
+        const disableClientFilterSet = dataGrid.disableClientFilter;
+        dataGrid.disableClientFilter = false;
+        const disableClientFilterUnset = dataGrid.disableClientFilter;
+
+        dataGrid.filterable = true;
+        const filterableSet = dataGrid.filterable;
+        dataGrid.filterable = false;
+        const filterableUnset = dataGrid.filterable;
+
+        dataGrid.filterRowDisabled = true;
+        const filterRowDisabledSet = dataGrid.filterRowDisabled;
+        dataGrid.filterRowDisabled = false;
+        const filterRowDisabledUnset = dataGrid.filterRowDisabled;
+
+        dataGrid.filterWhenTyping = true;
+        const filterWhenTypingSet = dataGrid.filterWhenTyping;
+        dataGrid.filterWhenTyping = false;
+        const filterWhenTypingUnset = dataGrid.filterWhenTyping;
+
+        dataGrid.treeGrid = true;
+        const treeGridSet = dataGrid.treeGrid;
+        dataGrid.treeGrid = false;
+        const treeGridUnset = dataGrid.treeGrid;
+
+        dataGrid.groupSelectsChildren = true;
+        const groupSelectsChildrenSet = dataGrid.groupSelectsChildren;
+        dataGrid.groupSelectsChildren = false;
+        const groupSelectsChildrenUnset = dataGrid.groupSelectsChildren;
+
+        dataGrid.idColumn = 'changed';
+        const idColumnSet = dataGrid.idColumn;
+        dataGrid.idColumn = null;
+        const idColumnUnset = dataGrid.idColumn;
+
+        dataGrid.expandableRow = 'true';
+        const expandableRowSet = dataGrid.expandableRow;
+        dataGrid.expandableRow = null;
+        const expandableRowUnset = dataGrid.expandableRow;
+
+        dataGrid.expandableRowTemplate = 'template';
+        const expandableRowTemplateSet = dataGrid.expandableRowTemplate;
+        dataGrid.expandableRowTemplate = null;
+        const expandableRowTemplateUnset = dataGrid.expandableRowTemplate;
+
+        dataGrid.editNextOnEnterPress = true;
+        const editNextOnEnterPressSet = dataGrid.editNextOnEnterPress;
+        dataGrid.editNextOnEnterPress = false;
+        const editNextOnEnterPressUnset = dataGrid.editNextOnEnterPress;
+
+        dataGrid.addNewAtEnd = true;
+        const addNewAtEndSet = dataGrid.addNewAtEnd;
+        dataGrid.addNewAtEnd = false;
+        const addNewAtEndUnset = dataGrid.addNewAtEnd;
+
+        dataGrid.suppressTooltips = true;
+        const suppressTooltipsSet = dataGrid.suppressTooltips;
+        dataGrid.suppressTooltips = false;
+        const suppressTooltipsUnset = dataGrid.suppressTooltips;
+
+        dataGrid.saveActivePage = true;
+        const saveActivePageSet = dataGrid.saveActivePage;
+        dataGrid.saveActivePage = false;
+        const saveActivePageUnset = dataGrid.saveActivePage;
+
+        dataGrid.saveColumns = true;
+        const saveColumnsSet = dataGrid.saveColumns;
+        dataGrid.saveColumns = false;
+        const saveColumnsUnset = dataGrid.saveColumns;
+
+        dataGrid.saveFilter = true;
+        const saveFilterSet = dataGrid.saveFilter;
+        dataGrid.saveFilter = false;
+        const saveFilterUnset = dataGrid.saveFilter;
+
+        dataGrid.savePageSize = true;
+        const savePageSizeSet = dataGrid.savePageSize;
+        dataGrid.savePageSize = false;
+        const savePageSizeUnset = dataGrid.savePageSize;
+
+        dataGrid.saveRowHeight = true;
+        const saveRowHeightSet = dataGrid.saveRowHeight;
+        dataGrid.saveRowHeight = false;
+        const saveRowHeightUnset = dataGrid.saveRowHeight;
+
+        dataGrid.saveSortOrder = true;
+        const saveSortOrderSet = dataGrid.saveSortOrder;
+        dataGrid.saveSortOrder = false;
+        const saveSortOrderUnset = dataGrid.saveSortOrder;
+
+        dataGrid.saveUserSettings = true;
+        const saveUserSettingsSet = dataGrid.saveUserSettings;
+        dataGrid.saveUserSettings = false;
+        const saveUserSettingsUnset = dataGrid.saveUserSettings;
+
+        return {
+          showHeaderExpanderSet,
+          showHeaderExpanderUnset,
+          alternateRowShadingSet,
+          alternateRowShadingUnset,
+          columnGroupsSet,
+          columnGroupsUnset,
+          emptyMessageDescriptionSet,
+          emptyMessageDescriptionUnset,
+          emptyMessageLabelSet,
+          emptyMessageLabelUnset,
+          emptyMessageIconSet,
+          emptyMessageIconUnset,
+          labelSet,
+          labelUnset,
+          listStyleSet,
+          listStyleUnset,
+          minHeightSet,
+          minHeightUnset,
+          rowHeightSet,
+          rowHeightUnset,
+          uniqueIdSet,
+          uniqueIdUnset,
+          virtualScrollSet,
+          virtualScrollUnset,
+          editableSet,
+          editableUnset,
+          scrollMaxRowsSet,
+          scrollMaxRowsUnset,
+          rowStartSet,
+          rowStartUnset,
+          rowNavigationSet,
+          rowNavigationUnset,
+          rowSelectionSet,
+          rowSelectionUnset,
+          suppressEmptyMessageSet,
+          suppressEmptyMessageUnset,
+          autoFitSet,
+          autoFitUnset,
+          suppressCachingSet,
+          suppressCachingUnset,
+          disableClientFilterSet,
+          disableClientFilterUnset,
+          filterableSet,
+          filterableUnset,
+          filterRowDisabledSet,
+          filterRowDisabledUnset,
+          filterWhenTypingSet,
+          filterWhenTypingUnset,
+          treeGridSet,
+          treeGridUnset,
+          groupSelectsChildrenSet,
+          groupSelectsChildrenUnset,
+          idColumnSet,
+          idColumnUnset,
+          expandableRowSet,
+          expandableRowUnset,
+          expandableRowTemplateSet,
+          expandableRowTemplateUnset,
+          editNextOnEnterPressSet,
+          editNextOnEnterPressUnset,
+          addNewAtEndSet,
+          addNewAtEndUnset,
+          suppressTooltipsSet,
+          suppressTooltipsUnset,
+          saveActivePageSet,
+          saveActivePageUnset,
+          saveColumnsSet,
+          saveColumnsUnset,
+          saveFilterSet,
+          saveFilterUnset,
+          savePageSizeSet,
+          savePageSizeUnset,
+          saveRowHeightSet,
+          saveRowHeightUnset,
+          saveSortOrderSet,
+          saveSortOrderUnset,
+          saveUserSettingsSet,
+          saveUserSettingsUnset
+        };
+      });
+
+      expect(results.showHeaderExpanderSet).toBeTruthy();
+      expect(results.showHeaderExpanderUnset).toBeFalsy();
+      expect(results.alternateRowShadingSet).toBeTruthy();
+      expect(results.alternateRowShadingUnset).toBeFalsy();
+      expect(results.columnGroupsSet).toBeDefined();
+      expect(results.columnGroupsUnset).toBeNull();
+      expect(results.emptyMessageDescriptionSet).toEqual('emptyMessageDescription');
+      expect(results.emptyMessageDescriptionUnset).toBeNull();
+      expect(results.emptyMessageLabelSet).toEqual('emptyMessageLabel');
+      expect(results.emptyMessageLabelUnset).toBeNull();
+      expect(results.emptyMessageIconSet).toEqual('emptyMessageIcon');
+      expect(results.emptyMessageIconUnset).toBeNull();
+      expect(results.labelSet).toEqual('Label changed');
+      expect(results.labelUnset).toEqual('Data Grid');
+      expect(results.listStyleSet).toBeTruthy();
+      expect(results.listStyleUnset).toBeFalsy();
+      expect(results.minHeightSet).toEqual('100px');
+      expect(results.minHeightUnset).toEqual('350px');
+      expect(results.rowHeightSet).toEqual('md');
+      expect(results.rowHeightUnset).toEqual('lg');
+      expect(results.uniqueIdSet).toEqual('some-uniqueid');
+      expect(results.uniqueIdUnset).toBeNull();
+      expect(results.virtualScrollSet).toBeTruthy();
+      expect(results.virtualScrollUnset).toBeFalsy();
+      expect(results.editableSet).toBeTruthy();
+      expect(results.editableUnset).toBeFalsy();
+      expect(results.scrollMaxRowsSet).toEqual(200);
+      expect(results.scrollMaxRowsUnset).toEqual(0);
+      expect(results.rowStartSet).toEqual(1);
+      expect(results.rowStartUnset).toEqual(0);
+      expect(results.rowNavigationSet).toBeTruthy();
+      expect(results.rowNavigationUnset).toBeFalsy();
+      expect(results.rowSelectionSet).toEqual('single');
+      expect(results.rowSelectionUnset).toBeFalsy();
+      expect(results.suppressEmptyMessageSet).toBeTruthy();
+      expect(results.suppressEmptyMessageUnset).toBeFalsy();
+      expect(results.autoFitSet).toBeTruthy();
+      expect(results.autoFitUnset).toBeFalsy();
+      expect(results.suppressCachingSet).toBeTruthy();
+      expect(results.suppressCachingUnset).toBeFalsy();
+      expect(results.disableClientFilterSet).toBeTruthy();
+      expect(results.disableClientFilterUnset).toBeFalsy();
+      expect(results.filterableSet).toBeTruthy();
+      expect(results.filterableUnset).toBeFalsy();
+      expect(results.filterRowDisabledSet).toBeTruthy();
+      expect(results.filterRowDisabledUnset).toBeFalsy();
+      expect(results.filterWhenTypingSet).toBeTruthy();
+      expect(results.filterWhenTypingUnset).toBeFalsy();
+      expect(results.treeGridSet).toBeTruthy();
+      expect(results.treeGridUnset).toBeFalsy();
+      expect(results.groupSelectsChildrenSet).toBeTruthy();
+      expect(results.groupSelectsChildrenUnset).toBeFalsy();
+      expect(results.idColumnSet).toEqual('changed');
+      expect(results.idColumnUnset).toEqual('id');
+      expect(results.expandableRowSet).toBeTruthy();
+      expect(results.expandableRowUnset).toBeFalsy();
+      expect(results.expandableRowTemplateSet).toEqual('template');
+      expect(results.expandableRowTemplateUnset).toEqual('');
+      expect(results.editNextOnEnterPressSet).toBeTruthy();
+      expect(results.editNextOnEnterPressUnset).toBeFalsy();
+      expect(results.addNewAtEndSet).toBeTruthy();
+      expect(results.addNewAtEndUnset).toBeFalsy();
+      expect(results.suppressTooltipsSet).toBeTruthy();
+      expect(results.suppressTooltipsUnset).toBeFalsy();
+      expect(results.saveActivePageSet).toBeTruthy();
+      expect(results.saveActivePageUnset).toBeFalsy();
+      expect(results.saveColumnsSet).toBeTruthy();
+      expect(results.saveColumnsUnset).toBeFalsy();
+      expect(results.saveFilterSet).toBeTruthy();
+      expect(results.saveFilterUnset).toBeFalsy();
+      expect(results.savePageSizeSet).toBeTruthy();
+      expect(results.savePageSizeUnset).toBeFalsy();
+      expect(results.saveRowHeightSet).toBeTruthy();
+      expect(results.saveRowHeightUnset).toBeFalsy();
+      expect(results.saveSortOrderSet).toBeTruthy();
+      expect(results.saveSortOrderUnset).toBeFalsy();
+      expect(results.saveUserSettingsSet).toBeTruthy();
+      expect(results.saveUserSettingsUnset).toBeFalsy();
+    });
+
     test('can null dataset returns an array', async ({ page }) => {
       const results = await page.evaluate(() => {
         const dataGrid = document.querySelector<any>('ids-data-grid')!;
