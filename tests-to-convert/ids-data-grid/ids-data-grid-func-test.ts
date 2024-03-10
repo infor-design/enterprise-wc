@@ -585,254 +585,6 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
-  describe('Keyboard Tests', () => {
-    test('can handle ArrowRight key', () => {
-      expect(dataGrid.activeCell.row).toEqual(0);
-      expect(dataGrid.activeCell.cell).toEqual(0);
-      dataGrid.activeCell = null;
-      dataGrid.setActiveCell(0, 0, true);
-
-      expect(dataGrid.activeCell.row).toEqual(0);
-      expect(dataGrid.activeCell.cell).toEqual(0);
-      const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-      dataGrid.dispatchEvent(event);
-
-      expect(dataGrid.activeCell.row).toEqual(0);
-      expect(dataGrid.activeCell.cell).toEqual(1);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(2);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(3);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(4);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(5);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(6);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(7);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(8);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(9);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(10);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(11);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(12);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(13);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(14);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(15);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(16);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(17);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(17);
-    });
-
-    test('can handle ArrowLeft key', () => {
-      expect(dataGrid.activeCell.row).toEqual(0);
-      expect(dataGrid.activeCell.cell).toEqual(0);
-
-      let event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-      dataGrid.dispatchEvent(event);
-
-      expect(dataGrid.activeCell.row).toEqual(0);
-      expect(dataGrid.activeCell.cell).toEqual(1);
-
-      event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(0);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(0);
-    });
-
-    test('can handle ArrowDown key', () => {
-      expect(dataGrid.activeCell.row).toEqual(0);
-      expect(dataGrid.activeCell.cell).toEqual(0);
-
-      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      dataGrid.dispatchEvent(event);
-
-      expect(dataGrid.activeCell.row).toEqual(1);
-      expect(dataGrid.activeCell.cell).toEqual(0);
-
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(2);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(3);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(4);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(5);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(6);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(7);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(8);
-    });
-
-    test('should set row navigation', () => {
-      expect(dataGrid.getAttribute('row-navigation')).toEqual(null);
-      expect(dataGrid.container.classList.contains('row-navigation')).toBeFalsy();
-      expect(dataGrid.rowNavigation).toEqual(false);
-      dataGrid.rowNavigation = true;
-      expect(dataGrid.getAttribute('row-navigation')).toEqual('');
-      expect(dataGrid.container.classList.contains('row-navigation')).toBeTruthy();
-      expect(dataGrid.rowNavigation).toEqual(true);
-      dataGrid.rowNavigation = false;
-      expect(dataGrid.getAttribute('row-navigation')).toEqual(null);
-      expect(dataGrid.container.classList.contains('row-navigation')).toBeFalsy();
-      expect(dataGrid.rowNavigation).toEqual(false);
-    });
-
-    test('can handle keyboard row navigation', () => {
-      // focus on first grid cell
-      expect(dataGrid.activeCell.row).toEqual(0);
-      expect(dataGrid.activeCell.cell).toEqual(0);
-      dataGrid.activeCell.node.focus();
-
-      // dipatch arrow down event
-      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      dataGrid.rowNavigation = true;
-      dataGrid.dispatchEvent(event);
-
-      // expect second row to be focused
-      const rowElem = dataGrid.rowByIndex(dataGrid.activeCell.row);
-      expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
-    });
-
-    test('can handle keyboard with mixed row selection', () => {
-      dataGrid.rowSelection = 'mixed';
-      expect(dataGrid.activeCell.row).toEqual(0);
-      expect(dataGrid.activeCell.cell).toEqual(0);
-      dataGrid.activeCell.node.focus();
-
-      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      dataGrid.rowNavigation = true;
-      dataGrid.dispatchEvent(event);
-
-      const rowElem = dataGrid.rowByIndex(dataGrid.activeCell.row);
-      expect(rowElem.getAttribute('aria-rowindex')).toEqual('2');
-    });
-
-    test('can handle keyboard mixed row selection with shift key', () => {
-      dataGrid.rowSelection = 'mixed';
-      expect(dataGrid.activeCell.row).toEqual(0);
-      expect(dataGrid.activeCell.cell).toEqual(0);
-
-      const event = new KeyboardEvent('keydown', { key: 'ArrowDown', shiftKey: true });
-      dataGrid.rowNavigation = true;
-      dataGrid.dispatchEvent(event);
-
-      const previousRow = dataGrid.rowByIndex(0);
-      const nextRow = dataGrid.rowByIndex(1);
-
-      expect(previousRow.selected).toBeTruthy();
-      expect(nextRow.selected).toBeTruthy();
-    });
-
-    test('can set the rowNavigation setting', () => {
-      dataGrid.rowNavigation = true;
-      expect(dataGrid.getAttribute('row-navigation')).toEqual('');
-      expect(dataGrid.rowNavigation).toEqual(true);
-
-      dataGrid.rowNavigation = false;
-      expect(dataGrid.getAttribute('row-navigation')).toBeFalsy();
-      expect(dataGrid.rowNavigation).toEqual(false);
-    });
-
-    test('can handle errant click', () => {
-      const errors = jest.spyOn(global.console, 'error');
-      dataGrid.shadowRoot.querySelector('.ids-data-grid-body').dispatchEvent(new MouseEvent('click', { bubbles: true }));
-      expect(errors).not.toHaveBeenCalled();
-    });
-
-    test('can handle ArrowUp key', () => {
-      expect(dataGrid.activeCell.row).toEqual(0);
-
-      let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      dataGrid.dispatchEvent(event);
-
-      expect(dataGrid.activeCell.row).toEqual(1);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(2);
-
-      event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(1);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(0);
-      dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.row).toEqual(0);
-    });
-
-    test('should follow cell links with keyboard', () => {
-      const hyperlinkClickListener = jest.fn();
-      const buttonClickListener = jest.fn();
-      const customLinkClickListener = jest.fn();
-
-      dataGrid.resetCache();
-      dataGrid.columns.splice(0, 0, {
-        id: 'location-with-listener',
-        name: 'Location',
-        field: 'location',
-        formatter: formatters.hyperlink,
-        href: '#',
-        click: hyperlinkClickListener,
-      });
-      dataGrid.resetCache();
-      dataGrid.redraw();
-      dataGrid.setActiveCell(0, 0, false);
-      dataGrid.container.querySelector('ids-data-grid-cell').focus();
-      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      expect(hyperlinkClickListener).toHaveBeenCalled();
-
-      dataGrid.resetCache();
-      dataGrid.columns.splice(0, 0, {
-        id: 'drilldown',
-        name: '',
-        formatter: dataGrid.formatters.button,
-        icon: 'drilldown',
-        type: 'icon',
-        click: buttonClickListener,
-      });
-      dataGrid.resetCache();
-      dataGrid.redraw();
-      dataGrid.setActiveCell(0, 0, false);
-      dataGrid.container.querySelector('ids-data-grid-cell').focus();
-      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      expect(buttonClickListener).toHaveBeenCalled();
-
-      dataGrid.resetCache();
-      dataGrid.columns.splice(0, 0, {
-        id: 'custom',
-        name: 'Custom Formatter',
-        field: 'location',
-        formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
-          const value = `${rowData[columnData.field] || ''}`;
-          return `<a part="custom-link" href="#" class="text-ellipsis" tabindex="-1">${value}</a>`;
-        },
-        click: customLinkClickListener,
-      });
-      dataGrid.resetCache();
-      dataGrid.redraw();
-      dataGrid.setActiveCell(0, 0, false);
-      dataGrid.container.querySelector('ids-data-grid-cell').focus();
-      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-      expect(customLinkClickListener).toHaveBeenCalled();
-    });
-  });
-
   describe('Active Cell Tests', () => {
     test('fires activecellchange event', () => {
       const mockCallback = jest.fn((x) => {
@@ -1400,304 +1152,6 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
-  describe('Expandable Row Tests', () => {
-    // Some is covered by test can render with the expander formatter
-    test('can render a template', async () => {
-      // eslint-disable-next-line no-template-curly-in-string
-      dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
-      dataGrid.expandableRow = true;
-      dataGrid.expandableRowTemplate = `template-id`;
-      dataGrid.data[1].rowExpanded = true;
-
-      dataGrid.columns = [{
-        id: 'description',
-        name: 'description',
-        formatter: dataGrid.formatters.expander
-      }];
-
-      await processAnimFrame();
-      const area = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-expandable-row').innerHTML;
-      expect(area).toBe('<span>101</span>');
-    });
-
-    test('can an empty template if invalid expandableRowTemplate', async () => {
-      // eslint-disable-next-line no-template-curly-in-string
-      dataGrid.expandableRow = true;
-      dataGrid.expandableRowTemplate = `template-idxx`;
-      dataGrid.data[1].rowExpanded = true;
-
-      dataGrid.columns = [{
-        id: 'description',
-        name: 'description',
-        formatter: dataGrid.formatters.expander
-      }];
-
-      await processAnimFrame();
-      const area = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelector('.ids-data-grid-expandable-row').innerHTML;
-      expect(area).toBe('');
-    });
-
-    test('can expand/collapse expandableRow', async () => {
-      // eslint-disable-next-line no-template-curly-in-string
-      dataGrid.insertAdjacentHTML('afterbegin', '<template id="template-id"><span>${description}</span></template>');
-      dataGrid.expandableRow = true;
-      dataGrid.expandableRowTemplate = `template-id`;
-      dataGrid.resetCache();
-      dataGrid.columns = [{
-        id: 'description',
-        name: 'description',
-        formatter: dataGrid.formatters.expander
-      }];
-      dataGrid.resetCache();
-      dataGrid.redraw();
-      await processAnimFrame();
-      const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
-      expect(firstRow.querySelector('.ids-data-grid-expandable-row').hasAttribute('hidden')).toBeTruthy();
-
-      const expandButton = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[0].querySelector('ids-button');
-
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-      expandButton.dispatchEvent(mouseClick);
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
-      expect(firstRow.querySelector('.ids-data-grid-expandable-row').hasAttribute('hidden')).toBeFalsy();
-
-      expandButton.dispatchEvent(mouseClick);
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
-      expect(firstRow.querySelector('.ids-data-grid-expandable-row').hasAttribute('hidden')).toBeTruthy();
-    });
-
-    test('can set the expandableRow setting', () => {
-      dataGrid.expandableRow = true;
-      expect(dataGrid.getAttribute('expandable-row')).toEqual('true');
-
-      dataGrid.expandableRow = false;
-      expect(dataGrid.getAttribute('expandable-row')).toBeFalsy();
-    });
-
-    test('can set the expandableRowTemplate setting', () => {
-      dataGrid.expandableRowTemplate = 'myid';
-      expect(dataGrid.getAttribute('expandable-row-template')).toEqual('myid');
-      expect(dataGrid.expandableRowTemplate).toEqual('myid');
-
-      dataGrid.expandableRowTemplate = '';
-      expect(dataGrid.getAttribute('expandable-row-template')).toBeFalsy();
-      expect(dataGrid.expandableRowTemplate).toEqual('');
-    });
-  });
-
-  describe('Tree Grid Tests', () => {
-    const treeColumns: any = [];
-    treeColumns.push({
-      id: 'selectionCheckbox',
-      name: 'selection',
-      sortable: false,
-      resizable: false,
-      formatter: formatters.selectionCheckbox,
-      align: 'center',
-      frozen: 'left'
-    });
-    treeColumns.push({
-      id: 'name',
-      name: 'Name',
-      field: 'name',
-      sortable: true,
-      resizable: true,
-      formatter: formatters.tree
-    });
-    treeColumns.push({
-      id: 'id',
-      name: 'Id',
-      field: 'id',
-      sortable: true,
-      resizable: true,
-      formatter: formatters.text
-    });
-
-    test('can render a tree', async () => {
-      dataGrid.treeGrid = true;
-      dataGrid.columns = treeColumns;
-      dataGrid.data = datasetTree;
-
-      const rows = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row');
-      expect(rows.length).toBe(23);
-    });
-
-    test('should be able to set show header expander', async () => {
-      expect(dataGrid.getAttribute('show-header-expander')).toEqual(null);
-      expect(dataGrid.showHeaderExpander).toEqual(false);
-      dataGrid.showHeaderExpander = true;
-      expect(dataGrid.getAttribute('show-header-expander')).toEqual('');
-      expect(dataGrid.showHeaderExpander).toEqual(true);
-      dataGrid.showHeaderExpander = false;
-      expect(dataGrid.getAttribute('show-header-expander')).toEqual(null);
-      expect(dataGrid.showHeaderExpander).toEqual(false);
-    });
-
-    test('can expand/collapse all tree rows', async () => {
-      dataGrid.treeGrid = true;
-      dataGrid.columns = deepClone(treeColumns);
-      dataGrid.data = deepClone(datasetTree);
-      dataGrid.rowSelection = 'multiple';
-      dataGrid.showHeaderExpander = true;
-
-      const all = () => dataGrid.rows.filter((r: any) => r?.hasAttribute('aria-expanded')) || [];
-      const collapsedRows = () => all().filter((r: any) => r?.getAttribute('aria-expanded') === 'false');
-
-      expect(all().length).toBe(7);
-      expect(collapsedRows().length).toBe(1);
-
-      dataGrid.collapseAll();
-      expect(all().length).toBe(7);
-      expect(collapsedRows().length).toBe(7);
-
-      const firstRow = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1];
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
-      const expandButton = firstRow.querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-      expandButton.dispatchEvent(mouseClick);
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
-      expect(all().length).toBe(7);
-      expect(collapsedRows().length).toBe(6);
-
-      dataGrid.expandAll();
-      expect(all().length).toBe(7);
-      expect(collapsedRows().length).toBe(0);
-    });
-
-    test('can expand/collapse tree', async () => {
-      dataGrid.treeGrid = true;
-      dataGrid.columns = treeColumns;
-      dataGrid.data = datasetTree;
-      dataGrid.rowSelection = 'multiple';
-
-      const firstRow = dataGrid.rowByIndex(0);
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(3);
-      const expandButton = firstRow.querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
-
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-      expandButton.dispatchEvent(mouseClick);
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(0);
-
-      const seventhRow = dataGrid.rowByIndex(6);
-      expect(seventhRow.getAttribute('aria-expanded')).toEqual('true');
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(0);
-      const expandButton2 = seventhRow.querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
-
-      const tenth = dataGrid.rowByIndex(9);
-      expect(tenth.getAttribute('aria-expanded')).toEqual('true');
-      const expandButton3 = tenth.querySelectorAll('.ids-data-grid-cell')[1].querySelector('ids-button');
-      expandButton3.dispatchEvent(mouseClick);
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(4);
-
-      expandButton2.dispatchEvent(mouseClick);
-      expect(seventhRow.getAttribute('aria-expanded')).toEqual('false');
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(7);
-
-      expandButton2.dispatchEvent(mouseClick);
-      expect(seventhRow.getAttribute('aria-expanded')).toEqual('true');
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row[hidden]').length).toBe(4);
-
-      dataGrid.collapseAll();
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row:not([hidden])').length).toBe(6);
-      expandButton2.dispatchEvent(mouseClick);
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row:not([hidden])').length).toBe(9);
-    });
-
-    test('handles selection without children', async () => {
-      dataGrid.treeGrid = true;
-      dataGrid.columns = treeColumns;
-      dataGrid.data = datasetTree;
-      dataGrid.rowSelection = 'multiple';
-
-      const selectCheck = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[1];
-      expect(dataGrid.selectedRows.length).toBe(0);
-
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-      selectCheck.dispatchEvent(mouseClick);
-      expect(dataGrid.selectedRows.length).toBe(1);
-      selectCheck.dispatchEvent(mouseClick);
-      expect(dataGrid.selectedRows.length).toBe(0);
-    });
-
-    test('handles selection including children', async () => {
-      dataGrid.treeGrid = true;
-      dataGrid.columns = treeColumns;
-      dataGrid.data = datasetTree;
-      dataGrid.rowSelection = 'multiple';
-      dataGrid.groupSelectsChildren = true;
-
-      const selectCheck = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[1];
-      expect(dataGrid.selectedRows.length).toBe(0);
-
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-      selectCheck.dispatchEvent(mouseClick);
-      expect(dataGrid.selectedRows.length).toBe(4);
-      selectCheck.dispatchEvent(mouseClick);
-      expect(dataGrid.selectedRows.length).toBe(0);
-    });
-
-    test('handles suppressRowClickSelection including children', async () => {
-      dataGrid.treeGrid = true;
-      dataGrid.columns = treeColumns;
-      dataGrid.data = datasetTree;
-      dataGrid.suppressRowClickSelection = true;
-      dataGrid.rowSelection = 'multiple';
-
-      const mouseClick = new MouseEvent('click', { bubbles: true });
-      const otherCell = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[2];
-      otherCell.dispatchEvent(mouseClick);
-      expect(dataGrid.selectedRows.length).toBe(0);
-
-      const selectCheck = dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1].querySelectorAll('.ids-data-grid-cell')[0];
-      selectCheck.dispatchEvent(mouseClick);
-      expect(dataGrid.selectedRows.length).toBe(1);
-    });
-
-    test('can expand with the keyboard', async () => {
-      dataGrid.treeGrid = true;
-      dataGrid.columns = treeColumns;
-      dataGrid.data = datasetTree;
-
-      const firstRow = dataGrid.rowByIndex(0);
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('false');
-
-      dataGrid.setActiveCell(0, 0, true);
-      const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-      dataGrid.dispatchEvent(event);
-
-      const event2 = new KeyboardEvent('keydown', { key: ' ' });
-      dataGrid.dispatchEvent(event2);
-      expect(firstRow.getAttribute('aria-expanded')).toEqual('true');
-    });
-
-    test('can set the suppressRowClickSelection setting', () => {
-      dataGrid.suppressRowClickSelection = true;
-      expect(dataGrid.getAttribute('suppress-row-click-selection')).toEqual('true');
-
-      dataGrid.suppressRowClickSelection = false;
-      expect(dataGrid.getAttribute('suppress-row-click-selection')).toBeFalsy();
-    });
-
-    test('can set the treeGrid setting', () => {
-      dataGrid.treeGrid = true;
-      expect(dataGrid.getAttribute('tree-grid')).toEqual('true');
-
-      dataGrid.treeGrid = false;
-      expect(dataGrid.getAttribute('tree-grid')).toBeFalsy();
-    });
-
-    test('can set the idColumn setting', () => {
-      dataGrid.idColumn = 'myid';
-      expect(dataGrid.getAttribute('id-column')).toEqual('myid');
-
-      dataGrid.idColumn = '';
-      expect(dataGrid.getAttribute('id-column')).toBeFalsy();
-    });
-  });
-
   describe('Editing Tests', () => {
     test('should be able to edit a cell and type a value', () => {
       dataGrid.editable = true;
@@ -2201,4 +1655,63 @@ describe('IdsDataGrid Component', () => {
       expect(rowElem.querySelector('[aria-colindex="8"]')?.textContent.trim()).toEqual('EUR');
     });
   });
+
+  // test('should follow cell links with keyboard', () => {
+    //   const hyperlinkClickListener = jest.fn();
+    //   const buttonClickListener = jest.fn();
+    //   const customLinkClickListener = jest.fn();
+
+    //   dataGrid.resetCache();
+    //   dataGrid.columns.splice(0, 0, {
+    //     id: 'location-with-listener',
+    //     name: 'Location',
+    //     field: 'location',
+    //     formatter: formatters.hyperlink,
+    //     href: '#',
+    //     click: hyperlinkClickListener,
+    //   });
+    //   dataGrid.resetCache();
+    //   dataGrid.redraw();
+    //   dataGrid.setActiveCell(0, 0, false);
+    //   dataGrid.container.querySelector('ids-data-grid-cell').focus();
+    //   dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+    //   expect(hyperlinkClickListener).toHaveBeenCalled();
+
+    //   dataGrid.resetCache();
+    //   dataGrid.columns.splice(0, 0, {
+    //     id: 'drilldown',
+    //     name: '',
+    //     formatter: dataGrid.formatters.button,
+    //     icon: 'drilldown',
+    //     type: 'icon',
+    //     click: buttonClickListener,
+    //   });
+    //   dataGrid.resetCache();
+    //   dataGrid.redraw();
+    //   dataGrid.setActiveCell(0, 0, false);
+    //   dataGrid.container.querySelector('ids-data-grid-cell').focus();
+    //   dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+    //   expect(buttonClickListener).toHaveBeenCalled();
+
+    //   dataGrid.resetCache();
+    //   dataGrid.columns.splice(0, 0, {
+    //     id: 'custom',
+    //     name: 'Custom Formatter',
+    //     field: 'location',
+    //     formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+    //       const value = `${rowData[columnData.field] || ''}`;
+    //       return `<a part="custom-link" href="#" class="text-ellipsis" tabindex="-1">${value}</a>`;
+    //     },
+    //     click: customLinkClickListener,
+    //   });
+    //   dataGrid.resetCache();
+    //   dataGrid.redraw();
+    //   dataGrid.setActiveCell(0, 0, false);
+    //   dataGrid.container.querySelector('ids-data-grid-cell').focus();
+    //   dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+    //   expect(customLinkClickListener).toHaveBeenCalled();
+    // });
 });
