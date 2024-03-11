@@ -437,6 +437,7 @@ export default class IdsIcon extends Base {
    * @param {IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueCategories} value Any pallete color reference
    */
   set statusColor(value: IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueCategories) {
+    this.container?.classList.remove(`status-color-${this.statusColor}`);
     if (value) {
       this.setAttribute(attributes.STATUS_COLOR, value);
       this.container?.classList.add(`status-color-${value}`);
@@ -465,6 +466,22 @@ export default class IdsIcon extends Base {
 
   get color(): IdsColorValue {
     return this.getAttribute(attributes.COLOR) as IdsColorValue;
+  }
+
+  get pathElem(): SVGPathElement | null {
+    return this.container?.querySelector('path') || null;
+  }
+
+  /**
+   * Appends SVGDefsElement to icon SVG
+   * @param {SVGDefsElement | string} svgDefs svg defs
+   */
+  appendSVGDefs(svgDefs: SVGDefsElement | string) {
+    if (typeof svgDefs === 'string') {
+      this.container?.insertAdjacentHTML('beforeend', svgDefs);
+    } else {
+      this.container?.append(svgDefs);
+    }
   }
 
   #adjustFill(): void {

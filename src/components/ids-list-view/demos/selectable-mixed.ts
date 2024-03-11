@@ -30,5 +30,5 @@ if (listView) {
   listView.addEventListener('deactivated', (e: any) => {
     console.info('deactivated event called', e.detail);
   });
-  setData();
+  await setData();
 }

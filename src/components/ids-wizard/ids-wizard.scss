@@ -157,4 +157,8 @@
       stroke-width: 3px;
     }
   }
+
+  slot {
+    display: none;
+  }
 }

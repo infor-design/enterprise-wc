@@ -4,7 +4,7 @@ export type IdsButtonContentAlignment = 'default' | 'start' | 'end';
 
 export type IdsButtonIconAlignment = undefined | 'start' | 'end';
 
-export type IdsButtonAppearance = 'default' | 'primary' | 'secondary' | 'tertiary' | 'primary-destructive' | 'tertiary-destructive' | 'swipe-action-right' | 'swipe-action-left';
+export type IdsButtonAppearance = 'default' | 'primary' | 'secondary' | 'tertiary' | 'primary-destructive' | 'tertiary-destructive' | 'swipe-action-right' | 'swipe-action-left' | 'primary-generative-ai' | 'tertiary-generative-ai';
 
 // Button Appearance types
 export const BUTTON_APPEARANCE: Array<IdsButtonAppearance> = [
@@ -15,7 +15,9 @@ export const BUTTON_APPEARANCE: Array<IdsButtonAppearance> = [
   'primary-destructive',
   'tertiary-destructive',
   'swipe-action-left',
-  'swipe-action-right'
+  'swipe-action-right',
+  'primary-generative-ai',
+  'tertiary-generative-ai'
 ];
 
 export const BUTTON_CONTENT_ALIGNMENTS: Array<IdsButtonContentAlignment> = [
@@ -52,6 +54,7 @@ export const BUTTON_ATTRIBUTES: string[] = [
   attributes.ICON,
   attributes.ICON_ALIGN,
   attributes.ID,
+  attributes.NO_ANIMATION,
   attributes.NO_PADDING,
   attributes.NO_MARGINS,
   attributes.SQUARE,

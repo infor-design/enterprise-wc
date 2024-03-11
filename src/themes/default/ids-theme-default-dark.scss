@@ -158,6 +158,14 @@
   // Button (Module)
   --ids-button-system-color-text-hover: var(--ids-color-white-100);
 
+  // Button (Generative AI)
+  --ids-button-ai-color-background-color-disabled: #FFF;
+  --ids-button-ai-color-icon-primary-hover: #1A3362;
+  --ids-button-ai-color-icon-secondary-hover: #0B9789;
+  --ids-button-ai-color-icon-primary-disabled: #6F6F76;
+  --ids-button-ai-color-icon-secondary-disabled: #6F6F76;
+  --ids-button-tertiary-ai-color-background-disabled: rgba(111 111 118 / 0.5);
+
   // Calendar
   --ids-calendar-toolbar-color-background: var(--ids-color-gray-80);
   --ids-calendar-toolbar-color-border: var(--ids-color-gray-70);
@@ -167,9 +175,9 @@
   --ids-card-color-background: var(--ids-color-gray-90);
   --ids-card-color-border: var(--ids-color-gray-70);
   --ids-card-color-border-hover: var(--ids-color-gray-70);
+  --ids-card-color-border-selected: var(--ids-color-primary-60);
   --ids-card-divider-color-border: var(--ids-color-gray-80);
   --ids-card-shadow: 0 0 8px rgba(0 0 0 / 0.7);
-  --ids-card-color-background-selected: transparent;
 
   // Charts
   --ids-chart-legend-color-text: var(--ids-color-text-default);
@@ -324,6 +332,7 @@
   --ids-icon-color-default-disabled: var(--ids-color-text-disabled);
   --ids-icon-status-color-red-color-background: transparent;
   --ids-icon-status-color-orange-color-background: transparent;
+  --ids-icon-status-color-yellow-color-background: transparent;
   --ids-icon-status-color-green-color-background: transparent;
   --ids-icon-status-color-primary-color-background: transparent;
   --ids-icon-status-color-teal-color-background: transparent;
@@ -332,8 +341,8 @@
   --ids-icon-status-color-error-color-background: transparent;
   --ids-icon-status-color-warning-color-background: transparent;
   --ids-icon-status-color-success-color-background: transparent;
-  --ids-icon-status-color-alert-color-background: transparent;
   --ids-icon-status-color-info-color-background: transparent;
+  --ids-color-status-color-caution-color-background: transparent;
 
   // Input Styles
   --ids-input-color-background-default: transparent;

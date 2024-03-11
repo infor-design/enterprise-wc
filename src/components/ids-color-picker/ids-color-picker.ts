@@ -469,6 +469,7 @@ export default class IdsColorPicker extends Base {
     this.popup.arrowTarget = this.triggerBtn as IdsPopupElementRef;
     this.popup.alignTarget = this.textInput as IdsPopupElementRef;
     this.popup.visible = true;
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.popup.show();
     this.popup?.addOpenEvents();
     this.#configureSwatches();

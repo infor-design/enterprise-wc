@@ -346,6 +346,22 @@
   // Button (Module)
   --ids-button-system-color-text-hover: var(--ids-color-black-100);
 
+  // Button (Generative AI)
+  --ids-button-ai-color-background-default: linear-gradient(107deg, #254A92 17.32%, #10B7A6 95.32%);
+  --ids-button-ai-color-background-hover: linear-gradient(107deg, #1A3362 17.32%, #0B9789 95.32%);
+  --ids-button-ai-color-background-active: linear-gradient(107deg, #0B9789 5.97%, #1A3362 102.35%);
+  --ids-button-ai-color-background-disabled: linear-gradient(107deg, rgba(37 74 146 / 0.5) 17.32%, rgba(16 183 166 / 0.5) 95.32%);
+  --ids-button-ai-color-background-color-disabled: transparent;
+  --ids-button-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px #0B9789, 0 0 4px 3px #0B9789;
+  --ids-button-ai-color-icon-primary: #254A92;
+  --ids-button-ai-color-icon-secondary: #10B7A6;
+  --ids-button-ai-color-icon-primary-hover: #1A3362;
+  --ids-button-ai-color-icon-secondary-hover: #0B9789;
+  --ids-button-ai-color-icon-primary-disabled: #254A92;
+  --ids-button-ai-color-icon-secondary-disabled: #10B7A6;
+  --ids-button-tertiary-ai-color-background-disabled: linear-gradient(107deg, rgba(37 74 146 / 0.5) 17.32%, rgba(16 183 166 / 0.5) 95.32%);
+  --ids-button-tertiary-ai-shadow-focus: 0 0 3px 2px rgba(11 151 137 / 0.3);
+
   // Breadcrumb
   --ids-breadcrumb-color-text-default: var(--ids-color-text-subtle);
   --ids-breadcrumb-color-text-disabled: var(--ids-color-text-disabled);
@@ -396,7 +412,7 @@
   --ids-card-color-border-hover: var(--ids-hyperlink-box-color-border-default);
   --ids-card-divider-color-border: var(--ids-color-gray-20);
   --ids-card-shadow: 0 0 4px rgba(0 0 0 / 0.15);
-  --ids-card-color-background-selected: transparent;
+  --ids-card-color-background-selected: var(--ids-card-color-background);
   --ids-card-color-border-selected: var(--ids-color-primary);
   --ids-card-color-border-focus: var(--ids-input-color-border-focus);
   --ids-card-color-text-default: var(--ids-color-text-label);
@@ -725,6 +741,8 @@
   --ids-icon-status-color-green-color-background: var(--ids-color-green-10);
   --ids-icon-status-color-blue-color-text: var(--ids-color-blue-60);
   --ids-icon-status-color-blue-color-background: var(--ids-color-blue-10);
+  --ids-icon-status-color-yellow-color-text: var(--ids-color-yellow-60);
+  --ids-icon-status-color-yellow-color-background: var(--ids-color-yellow-10);
   --ids-icon-status-color-teal-color-text: var(--ids-color-teal-60);
   --ids-icon-status-color-teal-color-background: var(--ids-color-teal-10);
   --ids-icon-status-color-purple-color-text: var(--ids-color-purple-60);
@@ -737,10 +755,10 @@
   --ids-icon-status-color-warning-color-background: var(--ids-color-warning-10);
   --ids-icon-status-color-success-color-text: var(--ids-color-surface-success-default);
   --ids-icon-status-color-success-color-background: var(--ids-color-success-10);
-  --ids-icon-status-color-alert-color-text: var(--ids-color-alert-default);
-  --ids-icon-status-color-alert-color-background: var(--ids-color-alert-10);
   --ids-icon-status-color-info-color-text: var(--ids-color-surface-info-default);
   --ids-icon-status-color-info-color-background: var(--ids-color-info-10);
+  --ids-icon-status-color-caution-color-text: var(--ids-color-caution-default);
+  --ids-icon-status-color-caution-color-background: var(--ids-color-caution-10);
 
   // Image
   --ids-image-color-border-focus: var(--ids-color-border-focus);

@@ -92,7 +92,7 @@ const setData = async () => {
   dataGrid.data = data.splice(0, 120);
 };
 
-setData();
+await setData();
 
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);

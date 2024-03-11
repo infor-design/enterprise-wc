@@ -10,7 +10,7 @@ if (autocomplete) {
     autocomplete.data = data;
   };
 
-  setData();
+  await setData();
 }
 
 const categories = ['Images', 'Documents', 'Audio', 'Video'];

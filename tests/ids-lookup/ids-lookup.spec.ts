@@ -66,7 +66,7 @@ test.describe('IdsLookup tests', () => {
 
     test('should match the visual snapshot in percy (mobile mode)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      page.setViewportSize({ width: 600, height: 600 });
+      await page.setViewportSize({ width: 600, height: 600 });
       await percySnapshot(page, 'ids-lookup-mobile-light');
     });
   });
@@ -275,7 +275,7 @@ test.describe('IdsLookup tests', () => {
 
     test('supports custom modals', async ({ page }) => {
       await page.locator('#lookup-5 ids-trigger-button').first().click();
-      expect(await page.locator('#custom-lookup-modal')).toBeVisible();
+      await expect(await page.locator('#custom-lookup-modal')).toBeVisible();
     });
   });
 

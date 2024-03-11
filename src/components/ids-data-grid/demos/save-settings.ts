@@ -120,5 +120,5 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     dataGrid.data = data;
     dataGrid.pageTotal = data.length;
   };
-  setData();
+  await setData();
 }());

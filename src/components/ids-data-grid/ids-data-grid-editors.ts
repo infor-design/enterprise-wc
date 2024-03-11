@@ -62,10 +62,10 @@ const applyEditorSettings = (elem: any, settings?: Record<string, any> | undefin
   }
 };
 
-const applyEditorPopupFocus = (editor: IdsDataGridEditor) => {
+const applyEditorPopupFocus = async (editor: IdsDataGridEditor) => {
   const autoOpen = (<HTMLElement> editor.clickEvent?.target)?.classList?.contains('editor-cell-icon');
   if (autoOpen) {
-    editor.popup?.show();
+    await editor.popup?.show();
     editor.popup?.focus();
   } else {
     editor.input?.focus();
@@ -270,6 +270,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
 
     this.#attchEventListeners();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.input?.open();
   }
 
@@ -295,6 +296,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input?.onEvent('click', this.input, () => {
       const popup = this.list?.popup;
       if (popup) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         if (!popup.visible) this.input?.open();
         else this.input?.close();
       }
@@ -403,6 +405,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
       if (this.popup.popup) {
         this.popup.popup.popupOpenEventsTarget = document.body;
         this.popup.popup.onOutsideClick = (e: MouseEvent) => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           if (!e.composedPath().includes(popup)) { popup.hide(); }
         };
       }
@@ -417,6 +420,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
       this.popup.popup!.y = 16;
       this.popup.refreshTriggerEvents();
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       applyEditorPopupFocus(this);
     }
 
@@ -558,8 +562,8 @@ export class TimePickerEditor implements IdsDataGridEditor {
       this.popup.appendToTargetParent();
       if (this.popup.popup) {
         this.popup.popup.popupOpenEventsTarget = document.body;
-        this.popup.popup.onOutsideClick = (e: MouseEvent) => {
-          if (!e.composedPath().includes(popup)) { popup.hide(); }
+        this.popup.popup.onOutsideClick = async (e: MouseEvent) => {
+          if (!e.composedPath().includes(popup)) { await popup.hide(); }
         };
       }
 
@@ -581,6 +585,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
         this.popup.period = hours > 11 ? 'PM' : 'AM';
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       applyEditorPopupFocus(this);
     }
 
@@ -747,6 +752,7 @@ export class LookupEditor implements IdsDataGridEditor {
     this.popup = this.input.modal ?? undefined;
 
     applyEditorSettings(this.input, { ...cell?.column.editor?.editorSettings });
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     applyEditorPopupFocus(this);
   }
 

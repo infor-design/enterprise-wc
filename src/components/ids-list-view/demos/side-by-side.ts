@@ -22,6 +22,6 @@ const setData = async () => {
   });
 };
 
-setData();
+await setData();
 // Initialize the 4.x
 $('body').initialize();

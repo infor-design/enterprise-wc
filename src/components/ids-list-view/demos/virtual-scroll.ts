@@ -19,4 +19,4 @@ const setData = async () => {
   listView.data = data;
 };
 
-setData();
+await setData();
