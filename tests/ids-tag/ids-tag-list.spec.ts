@@ -24,7 +24,7 @@ test.describe('IdsTag tests', () => {
         elem.id = 'test-tag-list';
         document.body.appendChild(elem);
       });
-      await expect(await page.locator('#test-tag')).toHaveAttribute('id');
+      await expect(await page.locator('#test-tag-list')).toHaveAttribute('id');
     });
   });
 
