@@ -649,6 +649,7 @@ export default class IdsModuleNavBar extends Base {
 
   private setOutsideClick() {
     if (this.displayMode === 'expanded') {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.establishOutsideClick();
     } else {
       this.removeOutsideClick();

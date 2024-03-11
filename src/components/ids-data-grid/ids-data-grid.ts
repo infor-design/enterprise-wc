@@ -427,6 +427,7 @@ export default class IdsDataGrid extends Base {
     this.toggleEmptyMessage();
 
     // Do some things after redraw
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.afterRedraw();
   }
 

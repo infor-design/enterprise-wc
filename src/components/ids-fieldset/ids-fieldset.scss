@@ -1,7 +1,6 @@
 /* Ids Fieldset CSS */
 fieldset {
   border: var(--ids-space-none);
-  contain: content;
 }
 
 fieldset > ::slotted(legend),

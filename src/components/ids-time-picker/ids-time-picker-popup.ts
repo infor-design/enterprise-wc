@@ -193,16 +193,16 @@ class IdsTimePickerPopup extends Base {
     });
 
     this.offEvent('click.time-picker-set');
-    this.onEvent('click.time-picker-set', this.applyButtonEl, () => {
+    this.onEvent('click.time-picker-set', this.applyButtonEl, async () => {
       this.updateValue();
       this.triggerSelectedEvent();
-      this.hide(true);
+      await this.hide(true);
     });
 
-    this.listen(['Escape', 'Backspace'], this, (e: KeyboardEvent) => {
+    this.listen(['Escape', 'Backspace'], this, async (e: KeyboardEvent) => {
       if (this.embeddable) return;
       if (e.key === 'Escape' || e.key === 'Backspace') {
-        this.hide(true);
+        await this.hide(true);
       }
     });
   }

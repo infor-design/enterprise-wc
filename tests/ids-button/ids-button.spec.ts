@@ -105,14 +105,14 @@ test.describe('IdsButton tests', () => {
 
       // enable animation via button click
       await page.locator(btnSelector).first().click();
-      expect(await page.locator(`${btnSelector} .loading-dots`).first()).toBeVisible();
+      await expect(await page.locator(`${btnSelector} .loading-dots`).first()).toBeVisible();
 
       // hide animation via api
       await page.evaluate((selector: string) => {
         const aiBtn = document.querySelector<IdsButton>(selector);
         aiBtn?.toggleAnimation(false);
       }, btnSelector);
-      expect(await page.locator(`${btnSelector} .loading-dots`).first()).not.toBeVisible();
+      await expect(await page.locator(`${btnSelector} .loading-dots`).first()).not.toBeVisible();
     });
 
     test('can disable/enable button', async ({ page }) => {

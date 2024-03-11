@@ -436,7 +436,7 @@
   --ids-card-color-border-hover: var(--ids-hyperlink-box-color-border-default);
   --ids-card-divider-color-border: var(--ids-color-neutral-20);
   --ids-card-shadow: 0 0 4px rgba(0 0 0 / 0.15);
-  --ids-card-color-background-selected: transparent;
+  --ids-card-color-background-selected: var(--ids-card-color-background);
   --ids-card-color-border-selected: var(--ids-color-primary);
   --ids-card-color-border-focus: var(--ids-input-color-border-focus);
   --ids-card-color-text-default: var(--ids-color-text-label);

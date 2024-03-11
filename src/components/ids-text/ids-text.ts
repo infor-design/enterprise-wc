@@ -135,8 +135,8 @@ export default class IdsText extends Base {
    */
   #attachEventHandlers() {
     if (this.translateText) {
-      this.onLanguageChange = () => {
-        this.#translateAsync();
+      this.onLanguageChange = async () => {
+        await this.#translateAsync();
       };
     }
   }
@@ -442,6 +442,7 @@ export default class IdsText extends Base {
     if (val && !this.getAttribute('translation-key')) {
       this.setAttribute(attributes.TRANSLATE_TEXT, val.toString());
       this.setAttribute('translation-key', this.textContent ?? '');
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#translateAsync();
     }
   }

@@ -70,5 +70,5 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-list')!;
     dataGrid.data = data;
   };
 
-  setData();
+  await setData();
 }());

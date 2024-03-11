@@ -810,6 +810,7 @@ export default class IdsMenuItem extends Base {
     }
     this.a?.setAttribute(htmlAttributes.ARIA_EXPANDED, 'true');
     (this.menu as IdsPopupMenu)?.hideSubmenus(this);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (this.submenu as IdsPopupMenu)?.show();
   }
 
