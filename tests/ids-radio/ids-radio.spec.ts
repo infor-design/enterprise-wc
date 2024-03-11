@@ -16,13 +16,14 @@ test.describe('IdsRadio tests', () => {
   test.describe('functional tests', () => {
     let rb: any;
     let container: any;
+
     test.beforeEach(async ({ page }) => page.evaluate(async () => {
-      container = await document.querySelector<IdsContainer>('ids-container');
+      container = document.querySelector<IdsContainer>('ids-container');
       await window.IdsGlobal.locale?.setLanguage('de');
-      const elem = await document.querySelector<IdsRadio>('ids-radio');
+      const elem = document.querySelector<IdsRadio>('ids-radio');
       await container.appendChild(elem);
       await document.body.appendChild(container);
-      rb = await document.querySelector<IdsRadio>('ids-radio');
+      rb = document.querySelector<IdsRadio>('ids-radio');
     }));
 
     test('should render as checked', async ({ page }) => {
@@ -208,8 +209,8 @@ test.describe('IdsRadio tests', () => {
         const element = rb.shadowRoot.querySelector('.ids-radio') as IdsRadio;
         return Array.from(element.classList);
       });
-      expect(await rootEl).toContain('disabled');
-      expect(await rootEl).toContain('horizontal');
+      expect(rootEl).toContain('disabled');
+      expect(rootEl).toContain('horizontal');
       expect(await page.evaluate(() => rb.getAttribute('horizontal'))).toEqual('true');
       expect(await page.evaluate(() => rb.getAttribute('checked'))).toEqual('true');
       expect(await page.evaluate(() => rb.checked)).toEqual(true);
@@ -271,7 +272,7 @@ test.describe('IdsRadio tests', () => {
 
       await page.goto(url);
       await page.waitForLoadState();
-      await expect(exceptions).toBeNull();
+      expect(exceptions).toBeNull();
     });
   });
 
@@ -290,7 +291,7 @@ test.describe('IdsRadio tests', () => {
       if (browserName !== 'chromium') return;
       const handle = await page.$('ids-radio');
       const html = await handle?.evaluate((el: IdsRadio) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('radio-html');
+      expect(html).toMatchSnapshot('radio-html');
     });
 
     test('should match shadowRoot snapshot', async ({ page, browserName }) => {
@@ -300,7 +301,7 @@ test.describe('IdsRadio tests', () => {
         el?.shadowRoot?.querySelector('style')?.remove();
         return el?.shadowRoot?.innerHTML;
       });
-      await expect(html).toMatchSnapshot('radio-shadow');
+      expect(html).toMatchSnapshot('radio-shadow');
     });
 
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {

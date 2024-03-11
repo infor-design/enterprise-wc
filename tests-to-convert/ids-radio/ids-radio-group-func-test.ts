@@ -36,51 +36,6 @@ describe('IdsRadioGroup Component', () => {
     document.body.innerHTML = '';
   });
 
-  test('should renders as disabled', () => {
-    expect(rg.getAttribute('disabled')).toEqual(null);
-    let radioArr = [...rg.querySelectorAll('ids-radio')];
-    radioArr.forEach((r: any) => {
-      expect(r.getAttribute('group-disabled')).toEqual(null);
-    });
-    let rootEl = rg.shadowRoot.querySelector('.ids-radio-group');
-    expect(rootEl.classList).not.toContain('disabled');
-    expect(rg.disabled).toEqual(false);
-    rg.disabled = true;
-    expect(rg.getAttribute('disabled')).toEqual('true');
-    radioArr = [...rg.querySelectorAll('ids-radio')];
-    radioArr.forEach((r: any) => {
-      expect(r.getAttribute('group-disabled')).toEqual('true');
-    });
-    rootEl = rg.shadowRoot.querySelector('.ids-radio-group');
-    expect(rootEl.classList).toContain('disabled');
-    expect(rg.disabled).toEqual(true);
-    rg.disabled = false;
-    expect(rg.getAttribute('disabled')).toEqual(null);
-    radioArr = [...rg.querySelectorAll('ids-radio')];
-    radioArr.forEach((r: any) => {
-      expect(r.getAttribute('group-disabled')).toEqual(null);
-    });
-    rootEl = rg.shadowRoot.querySelector('.ids-radio-group');
-    expect(rootEl.classList).not.toContain('disabled');
-    expect(rg.disabled).toEqual(false);
-  });
-
-  test('should add/remove required error', () => {
-    rg.validate = 'required';
-    expect(rg.getAttribute('validate')).toEqual('required');
-    expect(rg.validate).toEqual('required');
-    expect(rg.labelEl.classList).toContain('required');
-    expect(rg.shadowRoot.querySelector('.validation-message')).toBeFalsy();
-    rg.checkValidation();
-    const msgEl = rg.shadowRoot.querySelector('.validation-message');
-    expect(msgEl).toBeTruthy();
-    expect(msgEl.getAttribute('validation-id')).toEqual('required');
-    const rb1 = rg.querySelector('ids-radio');
-    rg.makeChecked(rb1);
-    rg.checkValidation();
-    expect(rg.shadowRoot.querySelector('.validation-message')).toBeFalsy();
-  });
-
   test('should set validation events', () => {
     expect(rg.getAttribute('validate')).toEqual(null);
     expect(rg.getAttribute('validation-events')).toEqual(null);
