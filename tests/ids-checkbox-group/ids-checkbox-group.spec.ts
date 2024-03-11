@@ -66,7 +66,7 @@ test.describe('IdsCheckboxGroup tests', () => {
 
   test.describe('functionality test', () => {
     test('can change label', async ({ page }) => {
-      const idsCheckBoxGroup = page.locator('ids-checkbox-group').first();
+      const idsCheckBoxGroup = await page.locator('ids-checkbox-group').first();
 
       const changeLabel = 'Label Test';
       await idsCheckBoxGroup.evaluate((element:IdsCheckboxGroup, label) => { element.label = label; }, changeLabel);
@@ -77,7 +77,7 @@ test.describe('IdsCheckboxGroup tests', () => {
     });
 
     test('can get checkboxes under the group', async ({ page }) => {
-      const idsCheckBoxGroup = page.locator('ids-checkbox-group').first();
+      const idsCheckBoxGroup = await page.locator('ids-checkbox-group').first();
       const idsCheckBoxes = await idsCheckBoxGroup.evaluate(
         (element: IdsCheckboxGroup) => element.checkboxes
       );
@@ -86,7 +86,7 @@ test.describe('IdsCheckboxGroup tests', () => {
 
     // has unexpected output - remove .skip to run the test
     test('can get selected checkboxes', async ({ page }) => {
-      const idsCheckBoxGroup = page.locator('ids-checkbox-group').first();
+      const idsCheckBoxGroup = await page.locator('ids-checkbox-group').first();
       const idsSelectedCheckBoxes = await idsCheckBoxGroup.evaluate(
         (element: IdsCheckboxGroup) => element.checkboxesSelected
       );
@@ -97,7 +97,7 @@ test.describe('IdsCheckboxGroup tests', () => {
 
     // has unexpected output - remove .skip to run the test
     test('can select checkboxes', async ({ page }) => {
-      const idsCheckBoxGroup = page.locator('ids-checkbox-group').first();
+      const idsCheckBoxGroup = await page.locator('ids-checkbox-group').first();
 
       await idsCheckBoxGroup.evaluate((element: IdsCheckboxGroup) => { element.value = true; });
       // the first checkbox is selected, but the parent element 'ids-checkbox' checked attribute is still false

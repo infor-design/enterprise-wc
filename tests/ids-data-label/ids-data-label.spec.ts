@@ -67,8 +67,8 @@ test.describe('IdsDataLabel tests', () => {
 
   test.describe('functionality test', () => {
     test('can change label position', async ({ page }) => {
-      const idsDataLabel = page.locator('ids-data-label').first();
-      const childContainer = idsDataLabel.locator('div').first();
+      const idsDataLabel = await page.locator('ids-data-label').first();
+      const childContainer = await idsDataLabel.locator('div').first();
 
       // initial position at left
       const defaultPosition = 'left';
@@ -86,8 +86,8 @@ test.describe('IdsDataLabel tests', () => {
     });
 
     test('can set label', async ({ page }) => {
-      const idsDataLabel = page.locator('ids-data-label').first();
-      const childIdsText = idsDataLabel.locator('ids-text[class="label"]');
+      const idsDataLabel = await page.locator('ids-data-label').first();
+      const childIdsText = await idsDataLabel.locator('ids-text[class="label"]');
       const colonTemplate = '<span class="colon">:</span>';
 
       let changeLabel = 'Label Test';
