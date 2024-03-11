@@ -75,5 +75,5 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     lookup.data = data;
   };
 
-  setData();
+  await setData();
 }());

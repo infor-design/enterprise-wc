@@ -15,4 +15,4 @@ const setData = async () => {
   $('#4x-example').chart({ type: 'pie', dataset: data });
 };
 
-setData();
+await setData();

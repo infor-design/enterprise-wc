@@ -1004,6 +1004,7 @@ class IdsMonthView extends Base implements IdsRangeSettingsInterface {
     this.state.hasRendered = true;
 
     if (!this.compact && !this.isDatePicker) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.renderEventsData();
     }
 

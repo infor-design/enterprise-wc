@@ -405,6 +405,7 @@ export default class IdsTooltip extends Base {
 
       if (this.state.visible) {
         this.setAttribute('visible', 'true');
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.#show();
         return;
       }

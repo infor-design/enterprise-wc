@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   configurePopup(dropdownEl);
 
   // Handle selections
-  dropdownEl.onEvent('selected', dropdownEl, (e: CustomEvent) => {
+  dropdownEl.onEvent('selected', dropdownEl, async (e: CustomEvent) => {
     const target = (e.target as any); // trigger field
     if (target) {
       const picker = document.querySelector<IdsDropdownList>('ids-dropdown-list')!;
@@ -75,18 +75,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       console.info('"selected" event triggered: ', e.detail.value, ` -- Value will be passed to field "${fieldId}"`);
       target.value = picker.value;
-      picker.hide(true);
+      await picker.hide(true);
     }
   });
 
   // Wire up click event to open/close the menu
-  dropdownEl.onEvent('click', dropdownEl, (e: CustomEvent) => {
+  dropdownEl.onEvent('click', dropdownEl, async (e: CustomEvent) => {
     const target = (e.target as any); // trigger field
     if (target) {
       const picker = document.querySelector<IdsDropdownList>('ids-dropdown-list')!;
       const popup = picker.popup;
       if (popup) {
-        if (!popup.visible) dropdownEl.open();
+        if (!popup.visible) await dropdownEl.open();
         else dropdownEl.close();
       }
     }

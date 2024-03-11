@@ -12,7 +12,7 @@ import type {
 } from '../../ids-menu/ids-menu-attributes';
 import type IdsInput from '../../ids-input/ids-input';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const popupmenuEl: any = document.querySelector('#popupmenu');
 
   // Configure the menu
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     popupmenuEl.data = data;
   };
 
-  setData();
+  await setData();
 
   // Handle change of maxHeight via IdsInput 'input' event
   const input = document.querySelector<IdsInput>('ids-input')!;

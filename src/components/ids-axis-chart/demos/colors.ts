@@ -7,4 +7,4 @@ const setData = async () => {
   (document.querySelector('ids-axis-chart') as any).data = data;
 };
 
-setData();
+await setData();

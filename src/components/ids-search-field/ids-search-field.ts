@@ -324,8 +324,8 @@ export default class IdsSearchField extends IdsTriggerField {
    * Adds Search Field specific event handlers
    */
   #attachEventHandlers() {
-    const handleSearchEvent = (e: any) => {
-      this.search(e.target?.value);
+    const handleSearchEvent = async (e: any) => {
+      await this.search(e.target?.value);
     };
 
     this.offEvent('change', this.input);
@@ -335,8 +335,8 @@ export default class IdsSearchField extends IdsTriggerField {
     this.onEvent('input', this.input, handleSearchEvent);
 
     this.offEvent('click', this.#categoriesActionButton);
-    this.onEvent('click', this.#categoriesActionButton, () => {
-      this.search(this.value);
+    this.onEvent('click', this.#categoriesActionButton, async () => {
+      await this.search(this.value);
       this.#triggerCategoriesEvent('search');
     });
 

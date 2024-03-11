@@ -134,6 +134,6 @@ if (dataGrid) {
       dataGrid.data = data;
     };
 
-    setData();
+    await setData();
   }());
 }

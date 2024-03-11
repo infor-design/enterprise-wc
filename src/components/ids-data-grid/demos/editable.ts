@@ -220,7 +220,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     dataGrid.data = data;
   };
 
-  setData();
+  await setData();
 
   // Event Handlers
   dataGrid.addEventListener('beforecelledit', (e: Event) => {
