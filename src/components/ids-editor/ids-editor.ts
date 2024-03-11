@@ -71,6 +71,7 @@ import {
 import formatHtml from './ids-editor-formatters';
 
 import styles from './ids-editor.scss';
+import type IdsIcon from '../ids-icon/ids-icon';
 
 export interface IdsEditorModals {
   /** The hyperlink options */
@@ -636,6 +637,16 @@ export default class IdsEditor extends Base {
         const cssText = 'border:0;padding:0;margin:0;height:100%;width:100%;opacity:0;position:absolute;top:0;left:0;';
         if (input) input.style.cssText = cssText;
         this.#elems[`${key}Input`] = input;
+        const btnIcon = btn.querySelector<IdsIcon>('ids-icon');
+        const colorPickerSVGDefs = `<defs>
+          <linearGradient id="colorpicker-underline" gradientTransform="rotate(90)">
+            <stop class="stop-base" offset="80%"></stop>
+            <stop class="stop-underline" offset="20%"></stop>
+          </linearGradient>
+        </defs>`;
+        btnIcon?.classList.add('editor-forecolor');
+        btnIcon?.pathElem?.setAttribute('fill', 'url(#colorpicker-underline)');
+        btnIcon?.appendSVGDefs(colorPickerSVGDefs);
         btn.onEvent('click', btn, () => {
           input?.focus();
           input?.click();
@@ -806,6 +817,11 @@ export default class IdsEditor extends Base {
   #unActiveToolbarButtons(): void {
     this.#elems.toolbarElms?.forEach((btn: any) => {
       if (btn) btn.cssClass = [];
+
+      // remove underline style for color picker
+      if (btn.getAttribute('editor-action') === 'forecolor') {
+        btn.querySelector('ids-icon')?.classList.remove('is-active');
+      }
     });
   }
 
@@ -863,6 +879,7 @@ export default class IdsEditor extends Base {
       if (k.substring(0, 5) === 'align') return;
       if (k === 'forecolor' && parents.font?.node?.hasAttribute('color')) {
         setActive(elems.forecolorBtn);
+        this.#setForecolorActiveColor(elems.forecolorBtn, parents.font?.node?.getAttribute('color'));
       }
       if (k === 'backcolor' && parents.span?.node?.style?.backgroundColor) {
         setActive(elems.backcolorBtn);
@@ -880,6 +897,18 @@ export default class IdsEditor extends Base {
         setActive(this.querySelector(`[editor-action="${k}"]`));
       }
     });
+  }
+
+  /**
+   * Updates forecolor toolbar button with selected font color
+   * @param {IdsButton} btn forecolor button
+   * @param {string} color hex color
+   */
+  #setForecolorActiveColor(btn: IdsButton, color: string): void {
+    if (!btn || !color) return;
+    const btnIcon = btn.querySelector<IdsIcon>('ids-icon');
+    btnIcon?.classList.add('is-active');
+    btnIcon?.style.setProperty('--forecolor-active-color', color);
   }
 
   /**

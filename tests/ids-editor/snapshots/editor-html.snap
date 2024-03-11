@@ -32,7 +32,7 @@
       <ids-separator vertical=""></ids-separator>
       <ids-button editor-action="forecolor" tooltip="Text Color" color-variant="alternate-formatter">
         <span class="audible">Text color</span>
-        <ids-icon icon="fore-color"></ids-icon>
+        <ids-icon icon="fore-color" class="editor-forecolor"></ids-icon>
       <input type="color" aria-label="Text Color" class="forecolor-input" style="border: 0px; padding: 0px; margin: 0px; height: 100%; width: 100%; opacity: 0; position: absolute; top: 0px; left: 0px;"></ids-button>
       <ids-separator vertical=""></ids-separator>
       <ids-button editor-action="alignleft" tooltip="Align Left" color-variant="alternate-formatter">
