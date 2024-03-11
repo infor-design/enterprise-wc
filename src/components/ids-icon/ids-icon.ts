@@ -1,6 +1,5 @@
-import pathImport from 'ids-identity/dist/theme-new/icons/default/path-data.json';
-// import pathImportOld from 'ids-identity/dist/theme-new/icons/old/standard/path-data.json'
-import emptyPathImport from 'ids-identity/dist/theme-new/icons/old/empty/path-data.json';
+import pathImport from 'ids-foundation/icons/standard/path-data.json';
+import emptyPathImport from 'ids-foundation/icons/empty/path-data.json';
 
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';

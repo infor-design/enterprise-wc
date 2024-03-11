@@ -46,7 +46,7 @@ ids-input::part(container) {
   display: grid;
   grid-template-columns: repeat(10, 20px);
   overflow: visible;
-  padding: var(--ids-space-40);
+  padding: var(--ids-spacing-xs);
   align-items: center;
   align-content: center;
   justify-content: center;
@@ -59,7 +59,7 @@ ids-input::part(container) {
 
 .advanced-color-picker {
   position: absolute;
-  bottom: var(--ids-space-60);
+  bottom: var(--ids-spacing-sm);
 
   // The visibility: hidden style behaves like a combination of opacity: 0 and pointer-events: none.
   // Regarding the accessibility, opacity: 0 is the only property which makes the

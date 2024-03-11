@@ -83,20 +83,20 @@
     }
   }
 
-  &.status-neutral::before,
+  &.status-gray::before,
   &.status-error::before,
   &.status-info::before,
   &.status-success::before,
   &.status-warning::before {
     display: inline-flex;
     margin-inline-end: var(--ids-input-margin-bottom);
-    border-radius: var(--ids-border-radius-circle);
+    border-radius: var(--ids-radius-circular);
     content: '';
     height: 8px;
     width: 8px;
   }
 
-  &.status-neutral {
+  &.status-gray {
     color: var(--ids-color-text-label);
 
     &::before {

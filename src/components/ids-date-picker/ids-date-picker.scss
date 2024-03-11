@@ -73,7 +73,7 @@
 
   .popup-btn::part(button) {
     display: flex;
-    padding-block: var(--ids-space-50);
+    padding-block: var(--ids-spacing-12);
     border-radius: 0;
     justify-content: center;
 
@@ -116,7 +116,7 @@
     color: var(--ids-date-picker-dropdown-button-color-text);
     padding: 4px;
     border: none;
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-radius-xxs);
 
     &:focus {
       box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-date-picker-dropdown-color-focus), 0 0 4px 3px rgb(54 138 192 / 0.3);

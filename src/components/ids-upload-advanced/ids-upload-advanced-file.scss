@@ -15,11 +15,11 @@
   }
 
   .container {
-    margin-top: var(--ids-space-40);
-    padding: var(--ids-space-20);
+    margin-top: var(--ids-spacing-xs);
+    padding: var(--ids-spacing-xxxs);
     border: 1px solid var(--ids-upload-advanced-file-color-border-default);
     border-style: dashed;
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-radius-xxs);
 
     .file-row {
       align-items: center;
@@ -39,7 +39,7 @@
 
         display: block;
         font-weight: var(--ids-font-weight-normal);
-        margin: var(--ids-space-none);
+        margin: var(--ids-spacing-none);
         font-family: var(--ids-font-family-default);
         text-overflow: ellipsis;
       }
@@ -52,7 +52,7 @@
         @include flex-item-stable();
 
         display: block;
-        margin-inline-start: var(--ids-space-50);
+        margin-inline-start: var(--ids-spacing-12);
       }
 
       .progress-text {
@@ -60,7 +60,7 @@
 
         font-weight: var(--ids-font-weight-normal);
         display: block;
-        margin: var(--ids-space-none);
+        margin: var(--ids-spacing-none);
         font-family: var(--ids-font-family-default);
         min-width: 48px;
         text-overflow: ellipsis;
@@ -79,16 +79,16 @@
       .btn-close {
         @include flex-item-stable();
 
-        padding-inline: var(--ids-space-20);
+        padding-inline: var(--ids-spacing-xxxs);
       }
     }
 
     .status .ids-alert,
     .status ids-alert {
       display: block;
-      padding: var(--ids-space-40);
-      padding-bottom: var(--ids-space-30);
-      margin: var(--ids-space-none);
+      padding: var(--ids-spacing-xs);
+      padding-bottom: var(--ids-spacing-xxs);
+      margin: var(--ids-spacing-none);
     }
 
     .error-row,
@@ -101,19 +101,19 @@
 
     .error-row,
     .progress-row {
-      padding-inline: var(--ids-space-50);
-      padding-bottom: var(--ids-space-30);
+      padding-inline: var(--ids-spacing-12);
+      padding-bottom: var(--ids-spacing-xxs);
     }
 
     .progress-row {
-      padding-inline: var(--ids-space-90);
+      padding-inline: var( --ids-spacing-24);
       align-items: center;
       display: flex;
       min-height: 28px;
 
       .progress-bar,
       .ids-progress-bar {
-        padding-inline-end: var(--ids-space-30);
+        padding-inline-end: var(--ids-spacing-xxs);
         flex-grow: 1;
         flex-shrink: 0;
       }
@@ -135,12 +135,12 @@
       }
 
       .progress-row {
-        padding-inline-start: var(--ids-space-90);
-        padding-inline-end: var(--ids-space-20);
+        padding-inline-start: var( --ids-spacing-24);
+        padding-inline-end: var(--ids-spacing-xxxs);
       }
 
       .progress-row .progress-bar {
-        padding-inline-end: var(--ids-space-20);
+        padding-inline-end: var(--ids-spacing-xxxs);
       }
 
       .progress-row .btn-start {

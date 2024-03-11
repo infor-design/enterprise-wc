@@ -33,7 +33,7 @@
 .ids-swipe-element {
   @include mixins.antialiased();
 
-  padding: var(--ids-space-60);
+  padding: var(--ids-spacing-sm);
   font-family: var(--ids-font-family-default);
   scroll-snap-align: start;
   scroll-snap-stop: always;

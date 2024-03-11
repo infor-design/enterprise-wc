@@ -1,4 +1,3 @@
-import fontSizes from 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -188,14 +187,29 @@ export default class IdsHyperlink extends Base {
     return this.getAttribute(attributes.COLOR);
   }
 
+  fontSizes = [
+    { 10: '10px' },
+    { 12: '12px' },
+    { 14: '14px' },
+    { 16: '16px' },
+    { 20: '20px' },
+    { 24: '24px' },
+    { 28: '28px' },
+    { 32: '32px' },
+    { 40: '40px' },
+    { 48: '48px' },
+    { 60: '60px' },
+    { 72: '72px' }
+  ];
+
   /**
    * Set the font size/style of the text with a class.
    * @param {string | null} value The font size in the font scheme
    * i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set fontSize(value: string | null) {
-    fontSizes?.forEach((size: string) => {
-      this.container?.classList.remove(`ids-text-${Object.keys(size)}`);
+    this.fontSizes?.forEach((string: any) => {
+      this.container?.classList.remove(`ids-text-${Object.keys(string)}`);
     });
 
     if (value) {

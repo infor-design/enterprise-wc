@@ -19,7 +19,7 @@
 
     &::before {
       transform: rotate(-45deg);
-      border-top: 2px solid var(--ids-color-error-default);
+      border-top: 2px solid var(--ids-color-surface-error-default);
       content: '';
       left: 0;
       right: 0;
@@ -66,7 +66,7 @@
 }
 
 .ids-color {
-  background-color: var(--ids-color-neutral-100);
+  background-color: var(--ids-color-gray-100);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -127,7 +127,7 @@
 
 :host(.light) {
   .color-check {
-    color: var(--ids-color-neutral-100);
+    color: var(--ids-color-gray-100);
   }
 }
 

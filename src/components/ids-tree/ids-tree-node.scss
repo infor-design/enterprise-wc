@@ -3,21 +3,21 @@
 
 .ids-tree-node {
   list-style-type: none;
-  margin-bottom: var(--ids-space-10);
+  margin-bottom: var(--ids-spacing-xxxxs);
 
   .node-container {
     border: 1px solid transparent;
     cursor: pointer;
     display: inline-flex;
-    padding: var(--ids-space-30);
+    padding: var(--ids-spacing-xxs);
     color: var(--ids-tree-node-color-text-default);
     align-items: baseline;
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-radius-xxs);
     transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), opacity var(--ids-motion-duration) var(--ids-motion-ease);
 
     .icon,
     .toggle-icon {
-      padding-top: var(--ids-space-10);
+      padding-top: var(--ids-spacing-xxxxs);
       flex: 0 0 auto;
       margin-inline-end: 8px;
       transition: fill var(--ids-motion-duration) var(--ids-motion-ease);
@@ -103,7 +103,7 @@
 }
 
 ids-checkbox::part(root) {
-  margin-bottom: var(--ids-space-none);
+  margin-bottom: var(--ids-spacing-none);
 }
 
 @include tree-node-badge();

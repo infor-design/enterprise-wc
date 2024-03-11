@@ -132,7 +132,7 @@ $image-sizes: (
   // Draw a border and ring around the background color
   &::before {
     position: absolute;
-    border-radius: var(--ids-border-radius-circle);
+    border-radius: var(--ids-radius-circular);
     background-color: var(--ids-color-white-100);
     content: '';
     width: 12px;
@@ -144,7 +144,7 @@ $image-sizes: (
 
   &::after {
     position: absolute;
-    border-radius: var(--ids-border-radius-circle);
+    border-radius: var(--ids-radius-circular);
     background-color: var(--ids-color-background-default);
     content: '';
     width: 16px;
@@ -160,7 +160,7 @@ $image-sizes: (
 
 .user-status-wrapper .user-status {
   svg {
-    border-radius: var(--ids-border-radius-circle);
+    border-radius: var(--ids-radius-circular);
     background-color: var(--ids-color-background-default);
   }
 

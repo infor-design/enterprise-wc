@@ -34,8 +34,8 @@
   font-family: var(--ids-font-family-default);
   font-size: var(--ids-font-size-40);
   overflow: hidden;
-  padding-bottom: calc(var(--ids-space-40) - 2px);
-  padding-top: calc(var(--ids-space-40) - 2px);
+  padding-bottom: calc(var(--ids-spacing-xs) - 2px);
+  padding-top: calc(var(--ids-spacing-xs) - 2px);
   position: relative;
 
   &,
@@ -86,7 +86,7 @@
   }
 
   &:not(.ids-icon-button) ::slotted(ids-icon) {
-    padding-inline-end: var(--ids-space-30);
+    padding-inline-end: var(--ids-spacing-xxs);
   }
 
   .ids-icon {
@@ -98,7 +98,7 @@
 
   &.align-icon-end {
     ::slotted(ids-icon) {
-      padding-inline-start: var(--ids-space-30);
+      padding-inline-start: var(--ids-spacing-xxs);
     }
   }
 
@@ -111,12 +111,11 @@
   }
 
   &.no-margins {
-    margin-inline: var(--ids-space-none);
+    margin-inline: var(--ids-spacing-none);
   }
 
-  // Account for 2px borders on secondary buttons
-  &:not(.btn-secondary):not(.no-margins) {
-    margin: var(--ids-space-10);
+  &:not(.no-margins) {
+    margin: var(--ids-spacing-xxxs);
   }
 
   &.field-height-xxs:not(.btn-secondary):not(.no-margins) {
@@ -136,11 +135,11 @@
  * Provides standardized padding rules for certain button types
  */
 @mixin ids-standard-button-padding() {
-  padding-inline: var(--ids-space-90);
+  padding-inline: var(--ids-button-padding-inline);
 }
 
 @mixin ids-inline-button-padding() {
-  padding-inline: var(--ids-space-50);
+  padding-inline: var(--ids-spacing-12);
 }
 
 /**
@@ -149,10 +148,11 @@
 @mixin ids-standard-button-colors() {
   display: inline-flex;
   font-weight: var(--ids-button-tertiary-font-weight);
-  border-radius: var(--ids-border-radius-03);
+  border-radius: var(--ids-button-radius);
 
   // ====================================================
   // Default/Tertiary Button
+  background-color: var(--ids-button-tertiary-color-background-default);
   border-color: var(--ids-button-tertiary-color-border-default);
   color: var(--ids-button-tertiary-color-text-default);
 
@@ -164,21 +164,30 @@
   &:hover {
     color: var(--ids-button-tertiary-color-text-hover);
     background-color: var(--ids-button-tertiary-color-background-hover);
+    border-color: var(--ids-button-tertiary-color-border-hover);
   }
 
   &[disabled] {
     color: var(--ids-button-tertiary-color-text-disabled);
-    background-color: var(--ids-button-tertiary-disabled-background-color);
+    background-color: var(--ids-button-tertiary-color-background-disabled);
+    border-color: var(--ids-button-tertiary-color-border-disabled);
+    opacity: var(--ids-button-tertiary-opacity-disabled);
   }
 
   .ripple-effect {
     background-color: var(--ids-button-tertiary-color-background-pressed);
   }
 
+  &:active {
+    background-color: var(--ids-button-tertiary-color-background-pressed);
+    border-color: var(--ids-button-tertiary-color-border-pressed);
+    color: var(--ids-button-tertiary-color-text-pressed);
+  }
+
   // ====================================================
   // Tertiary Destructive Button
   &.btn-tertiary-destructive {
-    color: var(--ids-color-error-default);
+    color: var(--ids-color-surface-error-default);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -196,7 +205,7 @@
     }
 
     .ripple-effect {
-      background-color: var(--ids-color-error-default);
+      background-color: var(--ids-color-surface-error-default);
     }
   }
 
@@ -208,8 +217,8 @@
     border-color: var(--ids-button-primary-color-border-default);
     border: 1px solid var(--ids-button-primary-color-border-default);
     color: var(--ids-button-primary-color-text-default);
-    padding-bottom: calc(var(--ids-space-40) - 1px);
-    padding-top: calc(var(--ids-space-40) - 1px);
+    padding-bottom: calc(var(--ids-spacing-xs) - 2px);
+    padding-top: calc(var(--ids-spacing-xs) - 2px);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -225,10 +234,12 @@
       background-color: var(--ids-button-primary-color-background-disabled);
       border-color: var(--ids-button-primary-color-border-disabled);
       color: var(--ids-button-primary-color-text-disabled);
+      opacity: var(--ids-button-primary-opacity-disabled);
     }
 
     .ripple-effect {
-      background-color: var(--ids-button-primary-color-background-pressed);
+      background-color: var(--ids-button-primary-color-text-default);
+      border-color: var(--ids-button-primary-color-text-default);
     }
   }
 
@@ -236,13 +247,13 @@
   // Primary Destructive Button
 
   &.btn-primary-destructive {
-    background-color: var(--ids-color-error-default);
-    border-color: var(--ids-color-error-default);
+    background-color: var(--ids-color-surface-error-default);
+    border-color: var(--ids-color-surface-error-default);
     color: var(--ids-color-text-on-error);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      border-color: var(--ids-color-error-default);
+      border-color: var(--ids-color-surface-error-default);
     }
 
     &:hover {
@@ -272,21 +283,31 @@
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
+      background-color: var(--ids-button-secondary-color-background-focus);
       border-color: var(--ids-button-secondary-color-border-focus);
     }
 
     &:hover {
       background-color: var(--ids-button-secondary-color-background-hover);
+      border-color: var(--ids-button-secondary-color-border-hover);
+      color: var(--ids-button-secondary-color-text-hover);
     }
 
     &[disabled] {
       background-color: var(--ids-button-secondary-color-background-disabled);
       border-color: var(--ids-button-secondary-color-border-disabled);
       color: var(--ids-button-secondary-color-text-disabled);
+      opacity: var(--ids-button-secondary-opacity-disabled);
     }
 
     .ripple-effect {
       background-color: var(--ids-button-secondary-color-background-pressed);
+    }
+
+    &:active {
+      background-color: var(--ids-button-secondary-color-background-pressed);
+      border-color: var(--ids-button-secondary-color-border-pressed);
+      color: var(--ids-button-secondary-color-text-pressed);
     }
   }
 
@@ -372,11 +393,11 @@
     }
 
     &.ids-menu-button.compact {
-      padding: var(--ids-space-30);
-      padding-inline: var(--ids-space-30);
+      padding: var(--ids-spacing-xxs);
+      padding-inline: var(--ids-spacing-xxs);
 
       &.square {
-        border-radius: var(--ids-border-radius-02);
+        border-radius: var(--ids-radius-xs);
       }
     }
   }
@@ -457,7 +478,7 @@
     &:not(.hide-focus):focus {
       @include outset-button-shadow(
         var(--ids-color-background-default),
-        var(--ids-color-error-default)
+        var(--ids-color-surface-error-default)
       );
     }
   }
@@ -489,7 +510,7 @@
     }
 
     &[disabled] {
-      opacity: 0.3;
+      opacity: var(--ids-button-primary-opacity-disabled);
     }
 
     .ripple-effect {
@@ -503,7 +524,7 @@
   &.btn-secondary,
   &.btn-tertiary {
     background-color: var(--ids-modal-color-background);
-    color: var(--ids-color-neutral-80);
+    color: var(--ids-color-gray-80);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -511,7 +532,7 @@
     }
 
     &:hover {
-      color: var(--ids-color-neutral-100);
+      color: var(--ids-color-gray-100);
     }
 
     &[disabled] {

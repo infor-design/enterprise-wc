@@ -7,6 +7,7 @@
 
 :host {
   display: inline-flex;
+  vertical-align: middle;
 
   ::slotted(span) {
     vertical-align: bottom;
@@ -102,8 +103,8 @@ button {
 
 .ids-menu-button.formatter-width {
   &:not(.no-padding):not(.ids-icon-button) {
-    padding-inline-start: calc(var(--ids-space-40) - 1px);
-    padding-inline-end:calc(var(--ids-space-40) - 1px);
+    padding-inline-start: calc(var(--ids-spacing-xs) - 1px);
+    padding-inline-end:calc(var(--ids-spacing-xs) - 1px);
   }
 
   &:not(.formatter-width-percentage) {
@@ -111,7 +112,7 @@ button {
 
     .ids-icon {
       position: absolute;
-      inset-inline-end: var(--ids-space-30);
+      inset-inline-end: var(--ids-spacing-xxs);
     }
   }
 }
@@ -135,7 +136,7 @@ button {
   }
 
   &:not(.square) {
-    border-radius: var(--ids-border-radius-03);
+    border-radius: var(--ids-button-radius);
   }
 
   &.square {
@@ -144,7 +145,7 @@ button {
 
   .ids-icon {
     display: block;
-    padding-inline-start: var(--ids-space-none);
+    padding-inline-start: var(--ids-spacing-none);
     font-size: 0;
   }
 
@@ -158,8 +159,8 @@ button {
   }
 
   &.no-margins {
-    margin-inline-start: var(--ids-space-none);
-    margin-inline-end: var(--ids-space-none);
+    margin-inline-start: var(--ids-spacing-none);
+    margin-inline-end: var(--ids-spacing-none);
   }
 }
 
@@ -176,8 +177,8 @@ button {
   @include ids-base-button-styles();
   @include ids-modal-button-color-defaults();
 
-  padding-block-start: var(--ids-space-50);
-  padding-block-end: var(--ids-space-50);
+  padding-block-start: var(--ids-spacing-12);
+  padding-block-end: var(--ids-spacing-12);
   display: block;
   font-weight: var(--ids-font-weight-semibold);
   justify-content: center;
@@ -191,7 +192,7 @@ button {
 
 // Adjusting hitbox for the modal close icon
 .ids-modal-icon-button {
-  padding: var(--ids-space-40);
+  padding: var(--ids-spacing-xs);
 }
 
 // ====================================================
@@ -199,7 +200,7 @@ button {
 .btn-swipe-action-left,
 .btn-swipe-action-right {
   display: block;
-  padding: 0 var(--ids-space-40) var(--ids-space-40);
+  padding: 0 var(--ids-spacing-xs) var(--ids-spacing-xs);
   height: 100%;
   margin: 0;
   white-space: inherit;
@@ -281,7 +282,7 @@ button {
 // Adjustment for about close icon
 .ids-modal-button {
   ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
-    padding: var(--ids-space-20);
+    padding: var(--ids-spacing-xxxs);
   }
 }
 

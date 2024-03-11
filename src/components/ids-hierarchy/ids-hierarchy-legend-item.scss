@@ -5,17 +5,17 @@
 .ids-hierarchy-legend-item {
   display: flex;
   align-items: center;
-  margin-inline-end: calc(var(--ids-space-40) * 4);
-  margin-block-end: var(--ids-space-40);
+  margin-inline-end: calc(var(--ids-spacing-xs) * 4);
+  margin-block-end: var(--ids-spacing-xs);
   position: relative;
 
   &::before {
-    border-radius: var(--ids-border-radius-circle);
+    border-radius: var(--ids-radius-circular);
     content: ' ';
     display: block;
-    height: calc(var(--ids-space-40) * 2);
-    width: calc(var(--ids-space-40) * 2);
-    margin-inline-end: var(--ids-space-40);
+    height: calc(var(--ids-spacing-xs) * 2);
+    width: calc(var(--ids-spacing-xs) * 2);
+    margin-inline-end: var(--ids-spacing-xs);
     background-color: var(--background);
   }
 }

@@ -13,7 +13,7 @@
   background-color: var(--ids-toast-color-background);
   box-sizing: border-box;
   border: 1px solid var(--ids-toast-color-border);
-  border-radius: var(--ids-border-radius-01);
+  border-radius: var(--ids-radius-xxs);
   color: var(--ids-toast-color-text);
   font-family: var(--ids-font-family-default);
   font-size: var(--ids-font-size-40);
@@ -35,16 +35,16 @@
     display: flex;
 
     .content-container {
-      margin-block-end: var(--ids-space-50);
-      margin-block-start: var(--ids-space-60);
-      margin-inline-start: var(--ids-space-50);
-      padding-block-end: var(--ids-space-10);
+      margin-block-end: var(--ids-spacing-12);
+      margin-block-start: var(--ids-spacing-sm);
+      margin-inline-start: var(--ids-spacing-12);
+      padding-block-end: var(--ids-spacing-xxxxs);
       flex-grow: 1;
     }
 
     .close-button-container {
       flex-grow: 0;
-      margin: var(--ids-space-10);
+      margin: var(--ids-spacing-xxxxs);
     }
   }
 
@@ -55,7 +55,7 @@
 
   .message {
     display: block;
-    margin-block-start: var(--ids-space-40);
+    margin-block-start: var(--ids-spacing-xs);
   }
 
   .close-button::part(button) {

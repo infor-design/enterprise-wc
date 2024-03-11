@@ -75,14 +75,14 @@
     height: 34px;
     opacity: 0;
     position: absolute;
-    inset-inline-start: var(--ids-space-40);
+    inset-inline-start: var(--ids-spacing-xs);
     top: 0;
     width: 4px;
 
     ids-icon {
       position: absolute;
       color: var(--ids-data-grid-header-color-icon);
-      inset-inline-start: calc(-1 * var(--ids-space-40));
+      inset-inline-start: calc(-1 * var(--ids-spacing-xs));
       text-align: center;
       top: calc(50% - 9px);
     }
@@ -178,8 +178,8 @@
 .ids-data-grid-header-icon {
   align-self: center;
   color: var(--ids-data-grid-header-color-text);
-  margin-inline-start: var(--ids-space-30);
-  margin-block-start: var(--ids-space-30);
+  margin-inline-start: var(--ids-spacing-xxs);
+  margin-block-start: var(--ids-spacing-xxs);
 }
 
 // Header sort styles
@@ -224,7 +224,7 @@
   max-height: 18px;
   cursor: var(--ids-cursor-pointer);
   color: var(--ids-data-grid-header-expander-color);
-  margin-inline-start: var(--ids-space-50);
+  margin-inline-start: var(--ids-spacing-12);
 
   &:hover {
     color: var(--ids-data-grid-header-expander-color-active);

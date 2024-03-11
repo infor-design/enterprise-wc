@@ -31,11 +31,11 @@ li,
     }
 
     .list-item-checkbox {
-      padding-inline-end: var(--ids-space-70);
+      padding-inline-end: var(--ids-spacing-20);
       flex-grow: 0;
       flex-shrink: 0;
-      max-height: var(--ids-space-60);
-      max-width: var(--ids-space-60);
+      max-height: var(--ids-spacing-sm);
+      max-width: var(--ids-spacing-sm);
     }
 
     .list-item-checkbox[disabled]::part(checkmark) {

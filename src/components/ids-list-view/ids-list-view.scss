@@ -11,7 +11,7 @@
     ::slotted(li),
     ::slotted(ids-list-view-item) {
       &:first-child {
-        margin-block-start: var(--ids-space-none);
+        margin-block-start: var(--ids-spacing-none);
       }
     }
   }
@@ -55,11 +55,11 @@
       align-items: center;
 
       .list-item-checkbox {
-        padding-inline-end: var(--ids-space-70);
+        padding-inline-end: var(--ids-spacing-20);
         flex-grow: 0;
         flex-shrink: 0;
-        max-height: var(--ids-space-60);
-        max-width: var(--ids-space-60);
+        max-height: var(--ids-spacing-sm);
+        max-width: var(--ids-spacing-sm);
       }
 
       .list-item-checkbox[disabled]::part(checkmark) {
@@ -75,12 +75,12 @@
 }
 
 ids-swappable-item {
-  border-bottom-color: var(--ids-color-neutral-20);
+  border-bottom-color: var(--ids-color-gray-20);
   border: none;
 }
 
 ids-swappable-item[over] {
-  border: 1px dashed var(--ids-color-neutral-80);
+  border: 1px dashed var(--ids-color-gray-80);
 }
 
 ::slotted(ids-search-field) {

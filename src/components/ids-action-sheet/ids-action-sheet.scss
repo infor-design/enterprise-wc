@@ -29,8 +29,8 @@
 }
 
 ids-button {
-  width: calc(100% - calc(var(--ids-space-40) * 3));
-  margin-block-start: var(--ids-space-40);
+  width: calc(100% - calc(var(--ids-spacing-xs) * 3));
+  margin-block-start: var(--ids-spacing-xs);
 
   span {
     display: block;

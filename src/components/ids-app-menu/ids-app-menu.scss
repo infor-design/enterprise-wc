@@ -21,24 +21,24 @@
 
 // Setup padding to reclaim space
 .ids-app-menu-user > * {
-  padding: 0 var(--ids-space-80);
+  padding: 0 var(--ids-spacing-md);
   padding-bottom: 0;
   display: block;
 }
 
 .ids-app-menu-search {
-  padding: var(--ids-space-40);
+  padding: var(--ids-spacing-xs);
 }
 
 // Add some padding and sizing on Avatar Icons
 ::slotted(ids-icon[slot='avatar']) {
-  padding: var(--ids-space-40);
+  padding: var(--ids-spacing-xs);
 }
 
 ::slotted(img[slot='avatar']) {
   display: block;
   margin-block-start: 24px;
-  border-radius: var(--ids-border-radius-circle);
+  border-radius: var(--ids-radius-circular);
   height: 40px;
   width: 40px;
 }
@@ -50,8 +50,8 @@
 }
 
 ::slotted(ids-toolbar) {
-  padding-inline: var(--ids-space-40);
-  margin-block-end: var(--ids-space-40);
+  padding-inline: var(--ids-spacing-xs);
+  margin-block-end: var(--ids-spacing-xs);
 }
 
 // Style Sub Components

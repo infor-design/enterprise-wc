@@ -15,7 +15,7 @@ $textarea-size-default-height: 120px;
 
 .ids-textarea {
   display: block;
-  margin-bottom: var(--ids-space-50);
+  margin-bottom: var(--ids-spacing-12);
   font-size: var(--ids-font-size-40);
   font-family: var(--ids-font-family-default);
 
@@ -39,8 +39,8 @@ $textarea-size-default-height: 120px;
   }
 
   .field-container {
-    margin: var(--ids-space-none);
-    padding: var(--ids-space-none);
+    margin: var(--ids-spacing-none);
+    padding: var(--ids-spacing-none);
     position: relative;
     display: flex;
   }
@@ -153,13 +153,13 @@ $textarea-size-default-height: 120px;
     border-color: var(--ids-textarea-color-border-default);
     color: var(--ids-textarea-color-text-default);
     box-sizing: border-box;
-    margin-bottom: var(--ids-space-30);
-    padding: var(--ids-space-50);
+    margin-bottom: var(--ids-spacing-xxs);
+    padding: var(--ids-spacing-12);
     font-size: var(--ids-font-size-40);
     appearance: none;
     font-family: var(--ids-font-family-default);
     border-collapse: separate;
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-radius-xxs);
     display: inline-block;
     text-align: left;
     width: 100%;
@@ -290,7 +290,7 @@ $textarea-size-default-height: 120px;
     }
 
     ~ .btn-clear {
-      margin-top: var(--ids-space-30);
+      margin-top: var(--ids-spacing-xxs);
       position: absolute;
       right: 0;
     }
@@ -305,7 +305,7 @@ $textarea-size-default-height: 120px;
 
 
   .validation-message {
-    margin-top: var(--ids-space-30);
+    margin-top: var(--ids-spacing-xxs);
   }
 
   &.disabled {
@@ -323,7 +323,7 @@ $textarea-size-default-height: 120px;
   @include mixins.antialiased();
 
   color: var(--ids-textarea-label-color-text-default);
-  margin-bottom: var(--ids-space-40);
+  margin-bottom: var(--ids-spacing-xs);
   align-items: baseline;
   font-family: var(--ids-font-family-default);
   display: flex;
@@ -338,7 +338,7 @@ $textarea-size-default-height: 120px;
   &.required {
     &::after {
       position: relative;
-      padding-inline: var(--ids-space-20);
+      padding-inline: var(--ids-spacing-xxxs);
       font-size: var(--ids-font-size-50);
       content: '*';
       color: var(--ids-input-required-indicator-color-text-default);
@@ -356,7 +356,7 @@ $textarea-size-default-height: 120px;
 
 .label-state-collapsed {
   .ids-label-text.empty {
-    margin: var(--ids-space-none);
+    margin: var(--ids-spacing-none);
     visibility: hidden;
     height: 0;
   }

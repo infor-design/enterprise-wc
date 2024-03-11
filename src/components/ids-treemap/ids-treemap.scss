@@ -11,7 +11,7 @@ text {
 
   display: block;
   font-weight: var(--ids-font-weight-normal);
-  margin: var(--ids-space-none);
+  margin: var(--ids-spacing-none);
   font-size: var(--ids-font-size-40);
   color: currentColor;
   font-family: var(--ids-font-family-default);
@@ -23,7 +23,7 @@ svg {
 
 .treemap-title {
   background-color: var(--ids-tree-treemap-title-color-background);
-  padding: var(--ids-space-40);
+  padding: var(--ids-spacing-xs);
   color: var(--ids-tree-treemap-title-color-text);
   text-align: center;
 }

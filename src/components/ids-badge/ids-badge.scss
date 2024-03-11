@@ -12,9 +12,7 @@
 :host-context(.disabled),
 :host-context([disabled]) {
   .ids-badge {
-    background-color: var(--ids-badge-disabled-background-color);
-    border-color: var(--ids-badge-disabled-border-color);
-    color: var(--ids-badge-disabled-text-color);
+    opacity: var(--ids-badge-disabled-opacity);
   }
 }
 
@@ -25,7 +23,7 @@
   background-color: var(--ids-badge-color-background);
   border: 1px solid var(--ids-badge-color-border);
   border-radius: var(--ids-badge-border-radius);
-  color: var(--ids-input-color-text);
+  color: var(--ids-badge-color-default);
 
   // Fonts
   font-family: var(--ids-font-family-default);
@@ -48,7 +46,7 @@
     display: inline-flex;
     justify-content: center;
     height: var(--ids-size-10);
-    padding: var(--ids-space-none);
+    padding: var(--ids-spacing-none);
     width: var(--ids-size-10);
   }
 
