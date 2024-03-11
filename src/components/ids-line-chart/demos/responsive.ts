@@ -7,4 +7,4 @@ const setData = async () => {
   (document as any).querySelector('ids-line-chart').data = data;
 };
 
-setData();
+await setData();

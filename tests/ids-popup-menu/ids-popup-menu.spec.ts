@@ -70,9 +70,9 @@ test.describe('IdsPopupMenu tests', () => {
     });
 
     test('supports async beforeShow', async ({ page }) => {
-      await page.evaluate(() => {
+      await page.evaluate(async () => {
         const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
-        elem.show();
+        await elem.show();
       });
       await page.waitForFunction(() => document.querySelector<IdsPopupMenu>('ids-popup-menu')?.visible === true);
       const markup: string = await page.evaluate(() => {
@@ -89,9 +89,9 @@ test.describe('IdsPopupMenu tests', () => {
     });
 
     test('reverts to markup-driven when provided an empty dataset', async ({ page }) => {
-      await page.evaluate(() => {
+      await page.evaluate(async () => {
         const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
-        elem.show();
+        await elem.show();
       });
       await page.waitForFunction(() => document.querySelector<IdsPopupMenu>('ids-popup-menu')?.visible === true);
       const markup: string = await page.evaluate(() => {

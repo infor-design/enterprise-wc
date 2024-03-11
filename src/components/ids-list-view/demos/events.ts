@@ -15,7 +15,7 @@ if (listView) {
     const data = await res.json();
     listView.data = data;
   };
-  setData();
+  await setData();
 
   /**
    * EVENTS

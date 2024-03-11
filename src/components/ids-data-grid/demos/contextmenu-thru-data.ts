@@ -225,6 +225,6 @@ if (dataGrid) {
       });
     };
 
-    setData();
+    await setData();
   }());
 }

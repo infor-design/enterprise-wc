@@ -122,7 +122,7 @@ if (dataGrid) {
       dataGrid.data = data;
     };
 
-    setData();
+    await setData();
 
     // Event Handlers
     dataGrid.addEventListener('rowexpanded', (e: Event) => {

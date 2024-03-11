@@ -26,6 +26,7 @@ class IdsLocale {
       language: 'en',
       localeName: 'en-US'
     };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.setDefaults();
   }
 
@@ -56,6 +57,7 @@ class IdsLocale {
   set language(value: string | any) {
     const lang = this.#correctLanguage(value);
     if (value && lang !== this.state.language) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.setLanguage(lang, false);
     }
   }
@@ -106,6 +108,7 @@ class IdsLocale {
    */
   loadLanguageScript(value: string) {
     const promise = fetch(`${this.localeDataPath}${value}-messages.json`);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     promise.then(async (response) => {
       const data = await response.json();
       this.loadedLanguages.set(value, data);
@@ -208,7 +211,7 @@ class IdsLocale {
    */
   async loadLocaleScript(value: string) {
     const promise = fetch(`${this.localeDataPath}${value}.json`);
-    promise.then(async (response) => {
+    await promise.then(async (response) => {
       const data = await response.json();
       this.loadedLocales.set(value, data);
     });
@@ -353,6 +356,7 @@ class IdsLocale {
   set locale(value: string) {
     const locale = this.#correctLocale(value);
     if (value && locale !== this.state.localeName) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.setLocale(locale, false);
     }
   }

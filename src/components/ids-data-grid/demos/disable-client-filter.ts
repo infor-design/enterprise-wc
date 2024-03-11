@@ -91,7 +91,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-disable-client-
     dataGrid.data = data;
     dataGrid.pageTotal = data.length;
   };
-  setData();
+  await setData();
 
   // Disable client filter
   dataGrid.addEventListener('filtered', (e: any) => {
