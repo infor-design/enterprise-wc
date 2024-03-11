@@ -366,6 +366,6 @@ if (dataGrid) {
       IdsIcon.customIconData = customIconData;
     };
 
-    setData();
+    await setData();
   }());
 }

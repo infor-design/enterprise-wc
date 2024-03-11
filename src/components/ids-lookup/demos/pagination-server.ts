@@ -88,5 +88,5 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     });
   };
 
-  setData();
+  await setData();
 }());

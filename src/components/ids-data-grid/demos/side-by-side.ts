@@ -95,7 +95,7 @@ const setData = async () => {
   dataGrid.data = data;
 };
 
-setData();
+await setData();
 
 // Initialize the 4.x
 $('body').initialize();

@@ -277,7 +277,7 @@ const setData = async () => {
   dataGrid.data = data;
 };
 
-setData();
+await setData();
 
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);

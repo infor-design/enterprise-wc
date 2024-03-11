@@ -258,7 +258,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
       console.info('After contextmenu show', e.detail);
     });
 
-    dataGrid.addEventListener('menuselected', (e: any) => {
+    dataGrid.addEventListener('menuselected', async (e: any) => {
       console.info('contextmenu item selected', e.detail);
 
       const { menuSelectedEvent, rowIndex, columnIndex } = e.detail?.data ?? {};
@@ -273,17 +273,17 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
           targetCell?.startCellEdit?.();
           break;
         case 'edit-copy':
-          window.navigator.clipboard.writeText(targetCellText);
+          await window.navigator.clipboard.writeText(targetCellText);
           break;
         case 'edit-cut':
-          window.navigator.clipboard
+          await window.navigator.clipboard
             .writeText(targetCellText)
             .then(() => {
               targetCell.updateData('');
             });
           break;
         case 'edit-paste':
-          window.navigator.clipboard
+          await window.navigator.clipboard
             .readText()
             .then((cliptext) => {
               targetCell.updateData(cliptext);
@@ -294,7 +294,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     });
   };
 
-  setData();
+  await setData();
 
   // Event Handlers
   dataGrid.addEventListener('beforecelledit', (e: Event) => {
