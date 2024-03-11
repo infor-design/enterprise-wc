@@ -19,7 +19,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should set abort handler', () => {
+  test('should set abort handler', () => {
     el.value = 10;
     expect(el.status).toEqual('in-process');
     el.abortHandler();
@@ -33,7 +33,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.status).toEqual('aborted');
   });
 
-  it('should set progress handler', () => {
+  test('should set progress handler', () => {
     el.value = 10;
     expect(el.value).toEqual('10');
     expect(el.status).toEqual('in-process');
@@ -42,7 +42,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.status).toEqual('in-process');
   });
 
-  it('should set status', () => {
+  test('should set status', () => {
     const status = 'not-started';
     expect(el.getAttribute('status')).toEqual(null);
     expect(el.status).toEqual(null);
@@ -54,7 +54,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.status).toEqual('in-process');
   });
 
-  it('should set complete handler', () => {
+  test('should set complete handler', () => {
     const event = {
       loaded: 100,
       total: 100,
@@ -69,7 +69,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.status).toEqual('completed');
   });
 
-  it('should set complete handler with error', () => {
+  test('should set complete handler with error', () => {
     const event = {
       loaded: 100,
       total: 100,
@@ -89,7 +89,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.status).toEqual('errored');
   });
 
-  it('should set error handler', () => {
+  test('should set error handler', () => {
     const event = {
       loaded: 10,
       total: 100,
@@ -121,7 +121,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.status).toEqual('errored');
   });
 
-  it('should set file name', () => {
+  test('should set file name', () => {
     expect(el.fileName).toEqual('test');
     expect(el.getAttribute('file-name')).toEqual('test');
     el.fileName = null;
@@ -129,7 +129,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.getAttribute('file-name')).toEqual(null);
   });
 
-  it('should set file size', () => {
+  test('should set file size', () => {
     expect(el.size).toEqual('1000');
     expect(el.getAttribute('size')).toEqual('1000');
     el.size = null;
@@ -137,7 +137,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.getAttribute('size')).toEqual(null);
   });
 
-  it('should set progress bar value', () => {
+  test('should set progress bar value', () => {
     expect(el.value).toEqual(null);
     expect(el.getAttribute('value')).toEqual(null);
     el.value = 10;
@@ -161,7 +161,7 @@ describe('IdsUploadAdvancedFile Component', () => {
     expect(el.getAttribute('value')).toEqual(null);
   });
 
-  it('should render template', () => {
+  test('should render template', () => {
     el = document.createElement('ids-upload-advanced-file');
     el.setAttribute('disabled', 'true');
 

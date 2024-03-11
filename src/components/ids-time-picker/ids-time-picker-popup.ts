@@ -6,17 +6,17 @@ import { hoursTo12, hoursTo24 } from '../../utils/ids-date-utils/ids-date-utils'
 import IdsDateAttributeMixin from '../../mixins/ids-date-attribute-mixin/ids-date-attribute-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
-import IdsPickerPopup from '../ids-picker-popup/ids-picker-popup';
+import IdsPickerPopup from '../ids-popup/ids-picker-popup';
 
 import { IdsTimePickerCommonAttributes, IdsTimePickerMixinAttributes, range } from './ids-time-picker-common';
 
 import styles from './ids-time-picker-popup.scss';
 
-import '../ids-modal-button/ids-modal-button';
+import '../ids-modal/ids-modal-button';
 import '../ids-dropdown/ids-dropdown';
 
 import type IdsButton from '../ids-button/ids-button';
-import type IdsModalButton from '../ids-modal-button/ids-modal-button';
+import type IdsModalButton from '../ids-modal/ids-modal-button';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
 
 type IdsTimePickerPopupButton = IdsButton | IdsModalButton;
@@ -52,6 +52,10 @@ class IdsTimePickerPopup extends Base {
     this.attachEventListeners();
     this.setAttribute(attributes.FOCUS_INLINE, 'true');
     this.isRendering = false;
+    this.onEvent('input', this, (e) => {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    });
   }
 
   disconnectedCallback(): void {

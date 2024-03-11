@@ -48,7 +48,7 @@ describe('IdsSwappable Component', () => {
     idsSwappable?.remove();
   });
 
-  it('can select ids-swappable-item', async () => {
+  test('can select ids-swappable-item', async () => {
     idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
     const items = idsSwappable.querySelectorAll('ids-swappable-item');
     const startingItem = items[0];
@@ -86,7 +86,7 @@ describe('IdsSwappable Component', () => {
     expect(startingItem2.selected).toBe(false);
   });
 
-  it('can toggle select on ids-swappable-items', async () => {
+  test('can toggle select on ids-swappable-items', async () => {
     idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
     const items = idsSwappable.querySelectorAll('ids-swappable-item');
     const startingItem = items[0];
@@ -113,7 +113,7 @@ describe('IdsSwappable Component', () => {
     expect(startingItem.getAttribute('selected')).toEqual(null);
   });
 
-  it('can get drag and drop items', async () => {
+  test('can get drag and drop items', async () => {
     idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
     const items = idsSwappable.querySelectorAll('ids-swappable-item');
     const startingItem = items[0];
@@ -170,7 +170,7 @@ describe('IdsSwappable Component', () => {
     );
   });
 
-  it('can use keyboard events to navigate items', async () => {
+  test('can use keyboard events to navigate items', async () => {
     idsSwappable = await createElemViaTemplate(HTMLSnippets.SWAPPABLE_COMPONENT);
     const items = idsSwappable.querySelectorAll('ids-swappable-item');
     const startingItem = items[0];

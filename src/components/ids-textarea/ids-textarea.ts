@@ -453,27 +453,13 @@ export default class IdsTextarea extends Base {
   }
 
   /**
-   * Handle change event
-   * @private
-   * @returns {void}
-   */
-  handleTextareaChangeEvent(): void {
-    const events = ['change', 'input', 'propertychange'];
-    events.forEach((evt) => {
-      this.onEvent(evt, this.input, () => {
-        this.value = this.input?.value || '';
-      });
-    });
-  }
-
-  /**
    * Establish Internal Event Handlers
    * @private
    * @returns {object} The object for chaining.
    */
   handleNativeEvents(): object {
     if (this.input) {
-      const events = ['change', 'input', 'propertychange', 'focus', 'select'];
+      const events = ['propertychange', 'focus', 'select'];
       events.forEach((evt) => {
         this.onEvent(evt, this.input, (e: Event) => {
           /**
@@ -487,6 +473,13 @@ export default class IdsTextarea extends Base {
             detail: { elem: this, nativeEvent: e, value: this.value }
           });
         });
+      });
+
+      // suppress native input event
+      this.onEvent('input', this.input, (e: InputEvent) => {
+        if (e instanceof InputEvent) {
+          e.stopPropagation();
+        }
       });
     }
     return this;
@@ -503,7 +496,6 @@ export default class IdsTextarea extends Base {
     this.handleAutogrow();
     this.handleSlotchangeEvent();
     this.handleNativeEvents();
-    this.handleTextareaChangeEvent();
   }
 
   /**
@@ -885,7 +877,6 @@ export default class IdsTextarea extends Base {
 
     if (this.input && this.input.value !== v) {
       this.input.value = this.getMaxValue(v);
-      this.input.dispatchEvent(new Event('change', { bubbles: true }));
       this.resetDirtyTracker();
     }
     this.updateCounter();
@@ -893,5 +884,5 @@ export default class IdsTextarea extends Base {
     this.setAutogrow();
   }
 
-  get value(): string { return this.getAttribute(attributes.VALUE) || ''; }
+  get value(): string { return this.input?.value || ''; }
 }

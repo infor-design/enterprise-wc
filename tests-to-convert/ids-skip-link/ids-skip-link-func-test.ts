@@ -15,13 +15,13 @@ describe('IdsSkipLink Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders href setting', () => {
+  test('renders href setting', () => {
     elem.href = 'test';
     expect(elem.href).toEqual('test');
     expect(document.querySelectorAll('[href="test"]').length).toEqual(1);
   });
 
-  it('renders href setting then removes it', () => {
+  test('renders href setting then removes it', () => {
     elem.href = 'test';
     expect(elem.href).toEqual('test');
     elem.href = null;

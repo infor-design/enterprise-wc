@@ -19,7 +19,7 @@ describe('IdsMaskAPI (Date)', () => {
     api = null;
   });
 
-  it('should process short dates', () => {
+  test('should process short dates', () => {
     const textValue = '1111111111';
     const opts: IdsMaskOptions = {
       selection: {
@@ -39,7 +39,7 @@ describe('IdsMaskAPI (Date)', () => {
     expect(result.conformedValue).toEqual('11/11/1111');
   });
 
-  it('should process short dates with default patternOptions', () => {
+  test('should process short dates with default patternOptions', () => {
     const textValue = '1111111111';
     const opts: IdsMaskOptions = {
       selection: {
@@ -54,7 +54,7 @@ describe('IdsMaskAPI (Date)', () => {
     expect(result.conformedValue).toEqual('11/11/1111');
   });
 
-  it('should process short dates with no separators or other literals present', () => {
+  test('should process short dates with no separators or other literals present', () => {
     const textValue = '12122012';
     let opts: IdsMaskOptions = {
       selection: {
@@ -83,7 +83,7 @@ describe('IdsMaskAPI (Date)', () => {
     expect(result.conformedValue).toEqual('12122012');
   });
 
-  it('should process partial short dates', () => {
+  test('should process partial short dates', () => {
     const textValue = '1111111111';
     const opts: IdsMaskOptions = {
       selection: {
@@ -102,7 +102,7 @@ describe('IdsMaskAPI (Date)', () => {
     expect(result.conformedValue).toEqual('11/11/1111');
   });
 
-  it('should process short dates when the format allows for single digit months and days', () => {
+  test('should process short dates when the format allows for single digit months and days', () => {
     const textValue = '1/1/2020';
     const opts: IdsMaskOptions = {
       selection: {
@@ -148,7 +148,7 @@ describe('IdsMaskAPI (Date)', () => {
 });
 
 describe('Date Mask function', () => {
-  it('can mask with defaults', () => {
+  test('can mask with defaults', () => {
     const result = dateMask(undefined, undefined);
 
     // Resulting mask will match default 'en-us' date format:
@@ -156,7 +156,7 @@ describe('Date Mask function', () => {
     expect(result.mask.length).toBe(14);
   });
 
-  it('should always provide masking space for at least one number', () => {
+  test('should always provide masking space for at least one number', () => {
     const result = dateMask('', {}); // this one was null
 
     // Resulting mask will match default 'en-us' date format:
@@ -164,7 +164,7 @@ describe('Date Mask function', () => {
     expect(result.mask.length).toBe(14);
   });
 
-  it('can handle time periods', () => {
+  test('can handle time periods', () => {
     const result = dateMask('1212am', {
       locale,
       format: 'HH:mm a'
@@ -175,7 +175,7 @@ describe('Date Mask function', () => {
     expect(result.mask.length).toBe(12);
   });
 
-  it('can handle `ah`', () => {
+  test('can handle `ah`', () => {
     const result = dateMask('202006', {
       locale,
       format: 'ah:mm'

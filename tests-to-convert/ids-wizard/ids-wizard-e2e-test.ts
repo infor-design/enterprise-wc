@@ -7,7 +7,7 @@ describe('Ids Wizard e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should be able to click first step', async () => {
+  test('should be able to click first step', async () => {
     await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelectorAll("a")[0].click()');
     const activeStep = await page.evaluate(`document.querySelector("ids-wizard").stepNumber`);
     expect(activeStep).toEqual(1);

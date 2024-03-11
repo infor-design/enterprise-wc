@@ -4,7 +4,6 @@
 import IdsDataLabel from '../../src/components/ids-data-label/ids-data-label';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import waitForTimeout from '../helpers/wait-for-timeout';
-import processAnimFrame from '../helpers/process-anim-frame';
 import frMessages from '../../src/components/ids-locale/data/fr-messages.json';
 
 describe('IdsDataLabel Component', () => {
@@ -27,7 +26,7 @@ describe('IdsDataLabel Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with label-position', async () => {
+  test('renders with label-position', async () => {
     expect(dataLabel.container?.classList).toContain('top-positioned');
 
     dataLabel.labelPosition = 'left';
@@ -43,7 +42,7 @@ describe('IdsDataLabel Component', () => {
     expect(dataLabel.labelClass).toEqual('top-positioned');
   });
 
-  it('can set the label', () => {
+  test('can set the label', () => {
     expect(dataLabel.label).toEqual('Address');
     dataLabel.label = 'test';
     expect(dataLabel.label).toEqual('test');
@@ -52,11 +51,10 @@ describe('IdsDataLabel Component', () => {
     expect(dataLabel.label).toEqual('');
   });
 
-  it('renders for french', async () => {
+  test('renders for french', async () => {
     await container.localeAPI.setLanguage('fr');
     dataLabel.label = 'Shipping To';
     dataLabel.labelPosition = 'left';
-    await processAnimFrame();
     const colonElements = dataLabel.container?.querySelector('.label')?.getElementsByClassName('colon');
     expect(colonElements?.length).toEqual(1);
     expect(dataLabel.getAttribute('language')).toEqual('fr');

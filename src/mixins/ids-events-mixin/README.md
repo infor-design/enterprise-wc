@@ -30,7 +30,7 @@ console.info(this.handledEvents());
 The events mixin also lets you use a few convenient "custom events" for common interactions. We currently have the following events:
 
 - `hoverend` Fires when the user hovers the target and stops. This is to ensure they actually hovered the element and didn't just accidentally pass the mouse over it.
-- `sloped-mouseleave` Fires after a native `mouseleave` event, followed by a specified delay.  After the delay, the event only fires if mouse movement has occured and places the cursor a specified distance away from its original point.  The `event.detail.mouseLeaveNode` returned represents the element located at the new coordinates.
+- `sloped-mouseleave` Fires after a native `mouseleave` event, followed by a specified delay.  After the delay, the event only fires if mouse movement has occurred and places the cursor a specified distance away from its original point.  The `event.detail.mouseLeaveNode` returned represents the element located at the new coordinates.
 - `swipe` Fires when a user swipes left or right on a scrollable element. The direction can be seen in `event.detail`
 - `longpress` Fires when the user presses and olds on a touch device.
 - `keydown` Fires when the user presses a sequence of keys and stops typing

@@ -4,7 +4,7 @@
 import { convertPatternFromString } from '../../src/components/ids-mask/ids-mask-common';
 
 describe('Ids Mask (common API)', () => {
-  it('can convert a string-based pattern to a Javascript array', () => {
+  test('can convert a string-based pattern to a Javascript array', () => {
     let arr: any = convertPatternFromString('["(", /[1-9]/, /\\d/, /\\d/, ")", " ", /\\d/, /\\d/, /\\d/, "-", /\\d/, /\\d/, /\\d/, /\\d/]');
 
     expect(Array.isArray(arr)).toBeTruthy();
@@ -22,7 +22,7 @@ describe('Ids Mask (common API)', () => {
     expect(arr[0]).toBe('(');
   });
 
-  it('cannot convert invalid patterns', () => {
+  test('cannot convert invalid patterns', () => {
     let arr: any = convertPatternFromString('');
 
     expect(arr).toBeUndefined();

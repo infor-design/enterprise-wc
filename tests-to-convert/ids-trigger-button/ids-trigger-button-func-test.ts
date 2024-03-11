@@ -17,7 +17,7 @@ describe('IdsTriggerButton Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('supports readonly', () => {
+  test('supports readonly', () => {
     triggerButton.readonly = true;
     expect(triggerButton.readonly).toEqual(true);
     expect(triggerButton.hasAttribute('readonly')).toBeTruthy();
@@ -27,7 +27,7 @@ describe('IdsTriggerButton Component', () => {
     expect(triggerButton.hasAttribute('readonly')).toBeFalsy();
   });
 
-  it('supports readonly initially', () => {
+  test('supports readonly initially', () => {
     triggerButton = createFromTemplate(triggerButton, `<ids-trigger-button readonly="true">
       <ids-text audible="true">Search trigger</ids-text>
       <ids-icon icon="search"></ids-icon>
@@ -37,7 +37,7 @@ describe('IdsTriggerButton Component', () => {
     expect(triggerButton.hasAttribute('readonly')).toBeTruthy();
   });
 
-  it('supports readonly with tabbable', () => {
+  test('supports readonly with tabbable', () => {
     triggerButton.tabbable = true;
     triggerButton.readonly = true;
     expect(triggerButton.readonly).toEqual(true);
@@ -51,7 +51,7 @@ describe('IdsTriggerButton Component', () => {
     expect(triggerButton.tabbable).toBeFalsy();
   });
 
-  it('supports tabbable', () => {
+  test('supports tabbable', () => {
     triggerButton.tabbable = true;
 
     expect(triggerButton.shadowRoot.querySelector('button').getAttribute('tabindex')).toEqual('0');
@@ -63,7 +63,7 @@ describe('IdsTriggerButton Component', () => {
     expect(triggerButton.tabbable).toBeFalsy();
   });
 
-  it('can be displayed as "inline" with a border', () => {
+  test('can be displayed as "inline" with a border', () => {
     // Looks like an "End" trigger button by default
     triggerButton = createFromTemplate(triggerButton, `<ids-trigger-button inline>
       <ids-text audible="true">+</ids-text>

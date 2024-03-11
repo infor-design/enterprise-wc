@@ -158,11 +158,7 @@ function handleContextmenu(
  * @param {IdsPopupMenu} menuEl The menu element for contextmenu.
  * @returns {void}
  */
-function handleContextmenuSelectedItem(
-  this: IdsDataGrid,
-  e: IdsDataGridContextmenuSelected,
-  menuEl?: IdsPopupMenu,
-): void {
+function handleContextmenuSelectedItem(this: IdsDataGrid, e: IdsDataGridContextmenuSelected, menuEl?: IdsPopupMenu): void {
   if (menuEl) {
     const args = {
       data: {
@@ -207,8 +203,8 @@ export function setContextmenu(this: IdsDataGrid) {
 
     // Selected item for header, and header group.
     if (headerMenu) {
-      this.offEvent('selected.datagrid-contextmenu-item', headerMenu);
-      this.onEvent('selected.datagrid-contextmenu-item', headerMenu, (e: IdsDataGridContextmenuSelected) => {
+      this.offEvent('selected.datagrid-header-contextmenu-item', headerMenu);
+      this.onEvent('selected.datagrid-header-contextmenu-item', headerMenu, (e: IdsDataGridContextmenuSelected) => {
         handleContextmenuSelectedItem.apply(this, [e, headerMenu]);
       });
     }

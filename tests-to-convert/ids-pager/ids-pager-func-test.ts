@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 // eslint-disable-next-line
-import processAnimFrame from '../helpers/process-anim-frame';
 import '../helpers/resize-observer-mock';
 import '../../src/components/ids-input/ids-input';
 import '../../src/components/ids-pager/ids-pager';
@@ -96,51 +95,7 @@ const HTMLSnippets = {
 describe('IdsPager Component', () => {
   let elem: any;
 
-  const createElemViaTemplate = async (innerHTML: any) => {
-    elem?.remove?.();
-    IdsGlobal.getLocale().loadedLanguages.set('de', deMessages);
-
-    const template = document.createElement('template');
-    template.innerHTML = innerHTML;
-    elem = template.content.childNodes[0];
-    document.body.appendChild(elem);
-
-    await processAnimFrame();
-
-    return elem;
-  };
-
-  afterEach(async () => {
-    elem?.remove();
-  });
-
-  // ---------------- //
-  // ids-pager tests //
-  // =============== //
-
-  it('renders from HTML Template with nav buttons with no errors', async () => {
-    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-pager').length).toEqual(1);
-
-    elem.remove();
-
-    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_WITHOUT_NESTING);
-    expect(document.querySelectorAll('ids-pager').length).toEqual(1);
-
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('renders from HTML Template with number list navigation with no errors', async () => {
-    elem = await createElemViaTemplate(HTMLSnippets.NUMBER_LIST_NAV);
-
-    const errors = jest.spyOn(global.console, 'error');
-    expect(document.querySelectorAll('ids-pager').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('should set label text for button and number list', async () => {
+  test('should set label text for button and number list', async () => {
     const el = await createElemViaTemplate(HTMLSnippets.NUMBER_LIST_NAV);
     const btn = el.querySelector('ids-pager-button');
     const listEl = el.querySelector('ids-pager-number-list');
@@ -166,7 +121,7 @@ describe('IdsPager Component', () => {
     expect(listEl.getAttribute('label')).toEqual(null);
   });
 
-  it('should set the number of step on page number list', async () => {
+  test('should set the number of step on page number list', async () => {
     const el = await createElemViaTemplate(HTMLSnippets.NUMBER_LIST_NAV);
     const listEl = el.querySelector('ids-pager-number-list');
     const defaultStep = 3;
@@ -191,7 +146,7 @@ describe('IdsPager Component', () => {
     expect(listEl.getAttribute('step')).toEqual(String(defaultStep));
   });
 
-  it('shows tooltip-popup when IdsPagerButton.tooltip is not empty', async () => {
+  test('shows tooltip-popup when IdsPagerButton.tooltip is not empty', async () => {
     const pager = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_WITH_TOOLTIPS);
     const [first, previous, next, last] = pager.querySelectorAll('ids-pager-button');
     expect(first.tooltip).toEqual('First');
@@ -213,28 +168,7 @@ describe('IdsPager Component', () => {
     expect(tooltipElement?.textContent).toEqual('First');
   });
 
-  it('hides tooltip-popup when IdsPagerButton.tooltip is empty', async () => {
-    // const pager = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_WITH_TOOLTIPS);
-    // const [first, previous, next, last] = pager.querySelectorAll('ids-pager-button');
-    // expect(first.tooltip).toEqual('First');
-    // expect(previous.tooltip).toEqual('Previous');
-    // expect(next.tooltip).toEqual('Next');
-    // expect(last.tooltip).toEqual('Last');
-
-    // expect(first.getAttribute('tooltip')).toEqual('First');
-    // expect(previous.getAttribute('tooltip')).toEqual('Previous');
-    // expect(next.getAttribute('tooltip')).toEqual('Next');
-    // expect(last.getAttribute('tooltip')).toEqual('Last');
-
-    // const tooltip = first.querySelector('ids-tooltip');
-    // expect(tooltip.visible).toEqual(false);
-
-    // first.showTooltip();
-    // expect(tooltip.visible).toEqual(true);
-    // expect(tooltip.textContent).toEqual('First');
-  });
-
-  it('has slots: start, middle, end', async () => {
+  test('has slots: start, middle, end', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.DOUBLE_SIDED_CONTENT);
     const { slots } = elem.elements;
     expect(slots.start).toBeDefined();
@@ -242,7 +176,7 @@ describe('IdsPager Component', () => {
     expect(slots.end).toBeDefined();
   });
 
-  it('renders with content on both sides with no errors', async () => {
+  test('renders with content on both sides with no errors', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.DOUBLE_SIDED_CONTENT);
 
     const errors = jest.spyOn(global.console, 'error');
@@ -250,7 +184,7 @@ describe('IdsPager Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders with content on right side with no errors', async () => {
+  test('renders with content on right side with no errors', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.RIGHT_ALIGNED_CONTENT);
 
     const errors = jest.spyOn(global.console, 'error');
@@ -258,13 +192,13 @@ describe('IdsPager Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('can set custom page sizes', () => {
+  test('can set custom page sizes', () => {
     expect(elem.pageSizes).toEqual([5, 10, 25, 50, 100]);
     elem.pageSizes = [1, 2, 3];
     expect(elem.pageSizes).toEqual([1, 2, 3]);
   });
 
-  it('sets the ids-pager page-number to invalid values and it gets reset to 1', async () => {
+  test('sets the ids-pager page-number to invalid values and it gets reset to 1', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     elem.setAttribute('page-number', 'z35');
     expect(elem.pageNumber).toEqual(1);
@@ -273,7 +207,7 @@ describe('IdsPager Component', () => {
     expect(elem.pageNumber).toEqual(1);
   });
 
-  it('sets the ids-pager page-size to invalid values and it gets reset to 1', async () => {
+  test('sets the ids-pager page-size to invalid values and it gets reset to 1', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     elem.setAttribute('page-size', 'z35');
     expect(elem.pageSize).toEqual(10);
@@ -282,7 +216,7 @@ describe('IdsPager Component', () => {
     expect(elem.pageSize).toEqual(10);
   });
 
-  it('can set disabled on ids-pager predictably', async () => {
+  test('can set disabled on ids-pager predictably', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager page-number="1" page-size="10" total="100" disabled></ids-pager>'
     );
@@ -307,23 +241,23 @@ describe('IdsPager Component', () => {
     expect(elem.disabled).toEqual(true);
   });
 
-  it('sets the list type', async () => {
+  test('sets the list type', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NUMBER_LIST);
     expect(elem.type).toEqual('list');
   });
 
-  it('sets the dropdowns', async () => {
+  test('sets the dropdowns', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.DROPDOWN_CONTENT);
     expect(elem.elements.dropdowns.length).toEqual(2);
   });
 
-  it('sets the ids-pager page-number above max value and it is limited', async () => {
+  test('sets the ids-pager page-number above max value and it is limited', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     elem.setAttribute('page-number', '100');
     expect(elem.pageNumber).toEqual(10);
   });
 
-  it('sets the ids-pager total to invalid values and it gets reset to 1', async () => {
+  test('sets the ids-pager total to invalid values and it gets reset to 1', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     elem.setAttribute('total', 'z35');
     expect(elem.total).toEqual(1);
@@ -332,7 +266,7 @@ describe('IdsPager Component', () => {
     expect(elem.total).toEqual(1);
   });
 
-  it('creates a pager and toggles the last button attribute predictably', async () => {
+  test('creates a pager and toggles the last button attribute predictably', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     const lastNavButton = elem.querySelector('ids-pager-button[last]');
     elem.setAttribute('disabled', true);
@@ -342,7 +276,7 @@ describe('IdsPager Component', () => {
     expect(lastNavButton.hasAttribute('disabled')).toEqual(false);
   });
 
-  it('dispatches a pagenumberchange event and has page number changed', async () => {
+  test('dispatches a pagenumberchange event and has page number changed', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     elem.dispatchEvent(new CustomEvent('pagenumberchange', {
       bubbles: true,
@@ -356,32 +290,20 @@ describe('IdsPager Component', () => {
   // ids-pager-button //
   // =============== //
 
-  it('creates a pager and the "type" of each of its nav button when accessed is based on their flag attrib', async () => {
-    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
-    const navButtons = elem.querySelectorAll('ids-pager-button');
-    navButtons.forEach((idsPagerButton: any) => {
-      expect(idsPagerButton.type).not.toBeFalsy();
-      expect(idsPagerButton.hasAttribute(idsPagerButton.type)).not.toBeFalsy();
-    });
-  });
-
-  it('creates a an ids-pager-button with "first" flag set and nav-disabled works reliably', async () => {
+  test('creates a an ids-pager-button with "first" flag set and nav-disabled works reliably', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" first></ids-pager-button>'
     );
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
     expect(elem.navDisabled).toEqual(true);
     elem.setAttribute('page-number', 5);
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeFalsy();
     expect(elem.navDisabled).toEqual(false);
     elem.setAttribute('page-number', 1);
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
   });
 
-  it('can set parent-disabled on ids-pager-button predictably', async () => {
+  test('can set parent-disabled on ids-pager-button predictably', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" parent-disabled></ids-pager-button>'
     );
@@ -400,14 +322,14 @@ describe('IdsPager Component', () => {
     expect(elem.parentDisabled).toEqual(true);
   });
 
-  it('sets pageNumber to NaN on ids-pager-button and pageNumber resets to 1', async () => {
+  test('sets pageNumber to NaN on ids-pager-button and pageNumber resets to 1', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="z" page-size="10" total="100" parent-disabled></ids-pager-button>'
     );
     expect(elem.pageNumber).toEqual(1);
   });
 
-  it('sets the pageSize on ids-pager-button predictably', async () => {
+  test('sets the pageSize on ids-pager-button predictably', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" parent-disabled></ids-pager-button>'
     );
@@ -419,49 +341,40 @@ describe('IdsPager Component', () => {
     expect(elem.pageSize).toEqual(10);
   });
 
-  it('creates a an ids-pager-button with "previous" flag set and nav-disabled works reliably', async () => {
+  test('creates a an ids-pager-button with "previous" flag set and nav-disabled works reliably', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" previous></ids-pager-button>'
     );
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
     elem.setAttribute('page-number', 5);
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeFalsy();
     elem.setAttribute('page-number', 1);
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
   });
 
-  it('creates a an ids-pager-button with "next" flag set and nav-disabled works reliably', async () => {
+  test('creates a an ids-pager-button with "next" flag set and nav-disabled works reliably', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="10" page-size="10" total="100" next></ids-pager-button>'
     );
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
     elem.setAttribute('page-number', 5);
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeFalsy();
     elem.setAttribute('page-number', 10);
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
   });
 
-  it('sets "last" flag on ids-pager-button and nav-disabled works reliably', async () => {
+  test('sets "last" flag on ids-pager-button and nav-disabled works reliably', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="10" page-size="10" total="100" last></ids-pager-button>'
     );
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
     elem.setAttribute('page-number', 5);
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeFalsy();
     elem.setAttribute('page-number', 10);
-    await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
   });
 
-  it('creates ids-pager-button(s) and clicking causes no issues reliably', async () => {
+  test('creates ids-pager-button(s) and clicking causes no issues reliably', async () => {
     let pageNumberChangeListener = jest.fn();
     let pageButtonFirstListener = jest.fn();
     let pageButtonPreviousListener = jest.fn();
@@ -570,7 +483,7 @@ describe('IdsPager Component', () => {
     expect(pageButtonFirstListener).toBeCalledTimes(0);
   });
 
-  it('creates a "first" ids-pager-button, then changes the type to "previous" with no issues', async () => {
+  test('creates a "first" ids-pager-button, then changes the type to "previous" with no issues', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" next></ids-pager-button>'
     );
@@ -578,13 +491,11 @@ describe('IdsPager Component', () => {
     expect(elem.hasAttribute('previous')).toBeTruthy();
   });
 
-  it('updates the input on ids-pager-input and pager pageNumber updates', async () => {
+  test('updates the input on ids-pager-input and pager pageNumber updates', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     const idsPagerInput = elem.querySelector('ids-pager-input');
     idsPagerInput.input.value = '10';
-    await processAnimFrame();
     idsPagerInput.input.dispatchEvent(new Event('change', { bubbles: true }));
-    await processAnimFrame();
 
     expect(elem.pageNumber).toEqual(10);
   });
@@ -593,7 +504,7 @@ describe('IdsPager Component', () => {
   // ids-pager-number-list //
   // ===================== //
 
-  it('creates ids-pager-number-list and it has the correct number of entries based on page size and total', async () => {
+  test('creates ids-pager-number-list and it has the correct number of entries based on page size and total', async () => {
     const pageSize = 10;
     const total = 100;
 
@@ -607,7 +518,7 @@ describe('IdsPager Component', () => {
     expect(pageNumberButtons.length).toEqual(pageCount);
   });
 
-  it('should fire event when clicked on number list button', async () => {
+  test('should fire event when clicked on number list button', async () => {
     const pageSize = 10;
     const total = 100;
 
@@ -630,7 +541,7 @@ describe('IdsPager Component', () => {
     expect(cbPageNumberChange).toBeCalledTimes(1);
   });
 
-  it('creates an ids-pager-input and pageSize can be set and read predictably', async () => {
+  test('creates an ids-pager-input and pageSize can be set and read predictably', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-input page-number="10" page-size="2" total="100" last></ids-pager-input>`
     );
@@ -641,7 +552,7 @@ describe('IdsPager Component', () => {
     expect(elem.pageSize).toEqual(20);
   });
 
-  it('creates a disabled ids-pager-button and parent-disabled can be set and read predictably', async () => {
+  test('creates a disabled ids-pager-button and parent-disabled can be set and read predictably', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-button page-number="10" page-size="2" total="100" disabled></ids-pager-button>`
     );
@@ -649,7 +560,7 @@ describe('IdsPager Component', () => {
     expect(elem.disabled).toEqual(true);
   });
 
-  it('registers an pagenumberchange event predictably on ids-pager-input changes', async () => {
+  test('registers an pagenumberchange event predictably on ids-pager-input changes', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-input page-number="10" page-size="2" total="100" first></ids-pager-input>`
     );
@@ -668,7 +579,7 @@ describe('IdsPager Component', () => {
     expect(pageNumberChangeListener).toBeCalledTimes(0);
   });
 
-  it('creates an ids-pager-input and before value is assigned to total, has null calculated pageCount', async () => {
+  test('creates an ids-pager-input and before value is assigned to total, has null calculated pageCount', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-input page-number="10" page-size="2" first></ids-pager-input>`
     );
@@ -676,7 +587,7 @@ describe('IdsPager Component', () => {
     expect(elem.pageCount).toEqual(null);
   });
 
-  it('sets default page size on ids-pager-input for non-numeric value', async () => {
+  test('sets default page size on ids-pager-input for non-numeric value', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-input page-number="10" page-size="2" total="100" first></ids-pager-input>`
     );
@@ -686,7 +597,7 @@ describe('IdsPager Component', () => {
     expect(elem.pageSize).toEqual(10);
   });
 
-  it('sets pageNumber on ids-pager-input to non-numeric value and gets page-number reset to 1', async () => {
+  test('sets pageNumber on ids-pager-input to non-numeric value and gets page-number reset to 1', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-input page-number="1" page-size="2" total="100" first></ids-pager-input>`
     );
@@ -695,7 +606,7 @@ describe('IdsPager Component', () => {
     expect(elem.pageNumber).toEqual(1);
   });
 
-  it('sets total on ids-pager-input to invalid values and gets reset to 1', async () => {
+  test('sets total on ids-pager-input to invalid values and gets reset to 1', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-input page-number="1" page-size="2" total="100" first></ids-pager-input>`
     );
@@ -707,7 +618,7 @@ describe('IdsPager Component', () => {
     expect(elem.total).toEqual(1);
   });
 
-  it('predictably handles the disabled attribute on ids-pager-input', async () => {
+  test('predictably handles the disabled attribute on ids-pager-input', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager-input page-number="1" page-size="10" total="100" disabled></ids-pager-input>'
     );
@@ -726,7 +637,7 @@ describe('IdsPager Component', () => {
     expect(elem.disabled).toEqual(true);
   });
 
-  it('predictably handles the parent-disabled attribute on ids-pager-input', async () => {
+  test('predictably handles the parent-disabled attribute on ids-pager-input', async () => {
     elem = await createElemViaTemplate(
       '<ids-pager-input page-number="1" page-size="10" total="100" parent-disabled></ids-pager-input>'
     );
@@ -745,7 +656,7 @@ describe('IdsPager Component', () => {
     expect(elem.parentDisabled).toEqual(true);
   });
 
-  it('it sets the pageSize on ids-pager-number-list to non numeric and it is reset to default', async () => {
+  test('it sets the pageSize on ids-pager-number-list to non numeric and it is reset to default', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-number-list page-number="1" page-size="z2z" total="100" first></ids-pager-number-list>`
     );
@@ -753,7 +664,7 @@ describe('IdsPager Component', () => {
     expect(elem.pageSize).toEqual(10);
   });
 
-  it('it sets the pageNumber on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {
+  test('it sets the pageNumber on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-number-list page-number="zz" page-size="2" total="100" first></ids-pager-number-list>`
     );
@@ -764,7 +675,7 @@ describe('IdsPager Component', () => {
     expect(elem.pageNumber).toEqual(1);
   });
 
-  it('it sets the total on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {
+  test('it sets the total on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-number-list page-number="1" page-size="2" total="z2z" first></ids-pager-number-list>`
     );
@@ -775,7 +686,7 @@ describe('IdsPager Component', () => {
     expect(elem.total).toEqual(1);
   });
 
-  it('sets disabled predictably on ids-pager-number-list', async () => {
+  test('sets disabled predictably on ids-pager-number-list', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-number-list page-number="10" page-size="2" total="100"></ids-pager-number-list>`
     );
@@ -798,7 +709,7 @@ describe('IdsPager Component', () => {
     elem.disabled = true;
   });
 
-  it('sets parent-disabled predictably on ids-pager-number-list', async () => {
+  test('sets parent-disabled predictably on ids-pager-number-list', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-number-list page-number="10" page-size="2" total="100"></ids-pager-number-list>`
     );

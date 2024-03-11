@@ -13,7 +13,7 @@ describe('IdsDebounceUtils Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('should executes just once with default threshold', () => {
+  test('should executes just once with default threshold', () => {
     const func = jest.fn();
     const debounced: any = debounce(func, 0);
     expect(func).not.toBeCalled();
@@ -31,7 +31,7 @@ describe('IdsDebounceUtils Tests', () => {
     expect(func).toBeCalledTimes(1);
   });
 
-  it('should executes just once', () => {
+  test('should executes just once', () => {
     const func = jest.fn();
     const debounced: any = debounce(func, 500);
     expect(func).not.toBeCalled();
@@ -49,7 +49,7 @@ describe('IdsDebounceUtils Tests', () => {
     expect(func).toBeCalledTimes(1);
   });
 
-  it('should executes immediately', () => {
+  test('should executes immediately', () => {
     const func = jest.fn();
     const debounced: any = debounce(func, 500, true);
     expect(func).not.toBeCalled();

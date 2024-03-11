@@ -54,7 +54,7 @@ class IdsGlobal {
     return IdsGlobal.personalize;
   }
 
-  static get version(): IdsPersonalize {
+  static get version(): string {
     return IdsGlobal.version;
   }
 

@@ -18,7 +18,7 @@ describe('IdsMaskAPI (Number)', () => {
     api = null;
   });
 
-  it('can handle simple number masking', () => {
+  test('can handle simple number masking', () => {
     let textValue = '123456';
     const opts: IdsMaskOptions = {
       selection: {
@@ -44,7 +44,7 @@ describe('IdsMaskAPI (Number)', () => {
   });
 
   // Test that `Locale.formatNumber()` is implemented.
-  it('should process numbers with thousands separators', () => {
+  test('should process numbers with thousands separators', () => {
     // Handle big numbers with thousands separators
     let textValue = '1111111111';
     const opts: IdsMaskOptions = {
@@ -89,7 +89,7 @@ describe('IdsMaskAPI (Number)', () => {
     expect(result.conformedValue).toEqual('$2,345');
   });
 
-  it('can handle numbers with prefixes or suffixes', () => {
+  test('can handle numbers with prefixes or suffixes', () => {
     // Handle Numbers with a prefix (currency)
     let textValue = '2345';
     const opts: IdsMaskOptions = {
@@ -118,7 +118,7 @@ describe('IdsMaskAPI (Number)', () => {
     expect(result.conformedValue).toEqual('100%');
   });
 
-  it('should process arabic numbers', () => {
+  test('should process arabic numbers', () => {
     // Handle big numbers with thousands separators
     let textValue = '١٢٣٤٥٦٧٨٩٠';
     const opts: IdsMaskOptions = {
@@ -160,7 +160,7 @@ describe('IdsMaskAPI (Number)', () => {
     expect(result.conformedValue).toEqual('١٢٣%');
   });
 
-  it('should process hindi (devanagari) numbers', () => {
+  test('should process hindi (devanagari) numbers', () => {
     // Handle big numbers with thousands separators
     let textValue = '१२३४५६७८९०';
     const opts: IdsMaskOptions = {
@@ -194,7 +194,7 @@ describe('IdsMaskAPI (Number)', () => {
     expect(result.conformedValue).toEqual('-१२३४५६७८९०.११');
   });
 
-  it('should process hindi (devanagari) numbers with a percentage', () => {
+  test('should process hindi (devanagari) numbers with a percentage', () => {
     // Handle big numbers with thousands separators
     let textValue = '१२३४५६७८९०';
     const opts: IdsMaskOptions = {
@@ -229,7 +229,7 @@ describe('IdsMaskAPI (Number)', () => {
     expect(result.conformedValue).toEqual('%');
   });
 
-  it('should process chinese (financial) numbers', () => {
+  test('should process chinese (financial) numbers', () => {
     const textValue = '壹贰叁肆伍陆柒';
     const opts = {
       selection: {
@@ -247,7 +247,7 @@ describe('IdsMaskAPI (Number)', () => {
     expect(result.conformedValue).toEqual('壹贰叁肆伍陆柒');
   });
 
-  it('should process chinese (normal) numbers', () => {
+  test('should process chinese (normal) numbers', () => {
     const textValue = '一二三四五六七七九';
     const opts = {
       selection: {
@@ -265,7 +265,7 @@ describe('IdsMaskAPI (Number)', () => {
     expect(result.conformedValue).toEqual('一二三四五六七七九');
   });
 
-  it('should process number masks with leading zeros', () => {
+  test('should process number masks with leading zeros', () => {
     // Handle big numbers with thousands separators
     let textValue = '00001';
     const opts: IdsMaskOptions = {
@@ -318,14 +318,14 @@ describe('IdsMaskAPI (Number)', () => {
 });
 
 describe('Number Mask function', () => {
-  it('should always provide masking space for at least one number', () => {
+  test('should always provide masking space for at least one number', () => {
     const result = numberMask('', {});
 
     // Resulting mask will be [/\d/]
     expect(result.mask.length).toBe(1);
   });
 
-  it('should handle prefixes', () => {
+  test('should handle prefixes', () => {
     const result = numberMask('$', {
       prefix: '$'
     });
@@ -334,7 +334,7 @@ describe('Number Mask function', () => {
     expect(result.mask.length).toBe(2);
   });
 
-  it('should handle suffixes', () => {
+  test('should handle suffixes', () => {
     const opts: IdsMaskOptions = { suffix: '%' };
     let result = numberMask('100%', opts);
 
@@ -347,7 +347,7 @@ describe('Number Mask function', () => {
     expect(result.mask.length).toBe(2);
   });
 
-  it('should account for decimal placement', () => {
+  test('should account for decimal placement', () => {
     const result = numberMask('.', {
       allowDecimal: true,
       symbols: {
@@ -359,7 +359,7 @@ describe('Number Mask function', () => {
     expect(result.mask.length).toBe(5);
   });
 
-  it('should handle multiple decimals in the value', () => {
+  test('should handle multiple decimals in the value', () => {
     const opts: IdsMaskOptions = {
       allowDecimal: true,
       decimalLimit: 3,
@@ -372,7 +372,7 @@ describe('Number Mask function', () => {
     expect(result.mask.length).toBe(10);
   });
 
-  it('should handle leading zeros', () => {
+  test('should handle leading zeros', () => {
     let opts: IdsMaskOptions = { allowLeadingZeros: true };
     let result = numberMask('00001', opts);
 
@@ -393,14 +393,14 @@ describe('Number Mask function', () => {
     expect(result.mask.length).toBe(8);
   });
 
-  it('should handle a negative symbol with no other value', () => {
+  test('should handle a negative symbol with no other value', () => {
     const result = numberMask('-', { allowNegative: true });
 
     // Resulting mask will be ['-', /\d/]
     expect(result.mask.length).toBe(2);
   });
 
-  it('should handle a complex combination of settings', () => {
+  test('should handle a complex combination of settings', () => {
     const opts: IdsMaskOptions = {
       allowDecimal: true,
       allowLeadingZeros: true,
@@ -420,7 +420,7 @@ describe('Number Mask function', () => {
     // @TODO: add more tests here when we can use thousands separator
   });
 
-  it('should account for caret placement after the decimal, if the decimal exists in the value', () => {
+  test('should account for caret placement after the decimal, if the decimal exists in the value', () => {
     const opts: IdsMaskOptions = {
       allowDecimal: true,
       requireDecimal: true,

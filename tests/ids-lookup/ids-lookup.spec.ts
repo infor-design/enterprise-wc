@@ -108,6 +108,20 @@ test.describe('IdsLookup tests', () => {
       expect(fireCount).toEqual(1);
     });
 
+    test('should fire the input event', async ({ page }) => {
+      const fireCount = await page.evaluate(() => {
+        let eventCount = 0;
+        const lookup = (document.querySelector('ids-lookup') as IdsLookup);
+        lookup?.addEventListener('input', () => { eventCount++; });
+        lookup.value = '218901';
+        return eventCount;
+      });
+
+      const locator = await page.locator('ids-lookup').first();
+      expect(await locator.getAttribute('value')).toEqual('218901');
+      expect(fireCount).toEqual(1);
+    });
+
     test('should be able to set tabbable with the property', async ({ page }) => {
       const values = await page.evaluate(() => {
         const lookup = (document.querySelector('ids-lookup') as IdsLookup);

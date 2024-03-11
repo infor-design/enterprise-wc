@@ -53,6 +53,7 @@ export default class IdsLoadingIndicator extends Base {
       attributes.PROGRESS,
       attributes.STICKY,
       attributes.TYPE,
+      attributes.VISIBLE
     ];
   }
 
@@ -69,6 +70,10 @@ export default class IdsLoadingIndicator extends Base {
 
     if (this.hasAttribute(attributes.LINEAR)) {
       type = 'linear';
+    }
+
+    if (this.hasAttribute(attributes.GENERATIVE_AI)) {
+      type = 'generative-ai';
     }
 
     return getInnerIndicatorHtml({

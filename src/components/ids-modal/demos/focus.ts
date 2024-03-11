@@ -2,10 +2,8 @@
 import '../../ids-checkbox/ids-checkbox';
 import '../../ids-input/ids-input';
 import '../../ids-dropdown/ids-dropdown';
-import '../../ids-modal-button/ids-modal-button';
+import '../ids-modal-button';
 import '../../ids-textarea/ids-textarea';
-
-// import './focus.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#modal-trigger-btn';
@@ -14,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const checkboxCapture: HTMLInputElement | null = document.querySelector('#setting-capture');
   const checkboxCycle: HTMLInputElement | null = document.querySelector('#setting-cycle');
+  const checkboxAutoFocus: HTMLInputElement | null = document.querySelector('#setting-auto-focus');
 
   // Links the Modal to its trigger button (sets up click/focus events)
   modal.target = triggerBtn;
@@ -47,5 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   checkboxCycle.addEventListener('change', (e: any) => {
     modal.cyclesFocus = e.target.checked;
+  });
+
+  checkboxAutoFocus?.addEventListener('change', (e: any) => {
+    modal.autoFocus = e.target.checked;
   });
 });

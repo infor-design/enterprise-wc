@@ -83,7 +83,7 @@ const getFileContents = (filePath) => {
     return fileData;
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.error(`${filePath} file not found`);
+    if (filePath.indexOf('ids-demo-app') === -1) console.error(`${filePath} file not found`);
     return false;
   }
 };

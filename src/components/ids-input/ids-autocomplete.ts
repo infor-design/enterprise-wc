@@ -314,10 +314,12 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   #configurePopup() {
-    this.popup.type = 'dropdown';
-    this.popup.align = 'bottom, left';
-    this.popup.alignTarget = (this as IdsInputInterface).fieldContainer;
-    this.popup.y = -1;
+    if (this.popup) {
+      this.popup.type = 'dropdown';
+      this.popup.align = 'bottom, left';
+      this.popup.alignTarget = (this as IdsInputInterface).fieldContainer;
+      this.popup.y = -1;
+    }
   }
 
   /**

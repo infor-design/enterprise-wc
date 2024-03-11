@@ -14,6 +14,10 @@ The design system provides a list of standard icons which can be used in your ap
 - **Icon**: An icon is a symbol. In this design case this is literal, for example  the little trashcan to indicate delete.
 - **Svg**: Stands for eXtensible Markup Language (XML)-based vector graphic format for the Web and other environments
 
+## Methods
+
+- `appendSVGDefs(SVGDefsElement | string)` Appends additional SVGDefs to the icon's SVG element to allow SVG customization.
+
 ## Features (With Code Examples)
 
 For a normal sized icon just specific the icon name and the web component will display the appropriate icon.
@@ -32,19 +36,6 @@ Icons come in 6 sizes depending where it is used.
 <!-- Used only for extreme edge cases -->
 <ids-icon icon="notes" size="small"></ids-icon>
 <ids-icon icon="notes" size="xsmall"></ids-icon>
-```
-
-In addition to the default sizes the icon also supports custom height, width and viewbox properties
-for specialized cases
-
-```html
-<ids-icon icon="notes" custom-height="80" custom-width="70" custom-viewbox="0 0 50 50"></ids-icon>
-```
-
-The most common implementation of custom sizing is for empty-message icons, which are available through ids-icon
-
-```html
-<ids-icon icon="empty-generic" custom-height="80" custom-width="80" custom-viewbox="0 0 80 80"></ids-icon>
 ```
 
 Icons can also have a color that can be used for embellishment or to indicate status or bring attention to data. These should not be confused with `ids-alert` icons which are used in error messages / validation messages and for alert/errors. These should be used for softer embellishment and do not replace alert icons where these are shown in examples (i.e. validation messages). Valid values are 'error' | 'warning' | 'caution' | 'info' | 'success' | 'neutral' | 'red' | 'yellow' | 'green' | 'blue' | 'teal' | 'purple' | 'white' | 'black'

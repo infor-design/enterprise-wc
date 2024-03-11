@@ -589,6 +589,14 @@ export default class IdsInput extends Base {
         });
       });
     });
+
+    // suppress native input event
+    this.onEvent('input', this.input, (evt: InputEvent) => {
+      if (evt instanceof InputEvent) {
+        evt.stopPropagation();
+      }
+    });
+
     return this;
   }
 
@@ -599,6 +607,9 @@ export default class IdsInput extends Base {
    */
   #attachEventHandlers(): void {
     this.#attachNativeEvents();
+    this.onEvent('click', this.labelEl, () => {
+      this.focus();
+    });
   }
 
   /**

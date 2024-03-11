@@ -785,6 +785,15 @@ export default class IdsCalendar extends Base {
       const checked = evt.detail.checked;
       this.#toggleTimePickers(checked);
     });
+
+    if (popup) {
+      popup.onOutsideClick = (e: any) => {
+        const path = e.composedPath && e.composedPath();
+        if (!path?.includes(popup)) {
+          this.#removePopup();
+        }
+      };
+    }
   }
 
   /**

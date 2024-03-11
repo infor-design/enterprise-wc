@@ -14,6 +14,9 @@
   - link: display-selected.html
     type: Example
     description: Demonstrates how to update the text value of the menu button on selection
+  - link: load-data.html
+    type: Example
+    description: Showing loading data on beforeShow (with ajax)
   - link: side-by-side.html
     type: Side-by-side Example
     description: Showing a menu button side by side with 4.x

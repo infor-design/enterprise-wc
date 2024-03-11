@@ -15,7 +15,7 @@ describe('IdsKeyboardMixin Tests', () => {
     document.body.innerHTML = '';
   });
 
-  it('can watch for single hot keys', () => {
+  test('can watch for single hot keys', () => {
     const mockHandler = jest.fn();
     elem.listen('Enter', elem, mockHandler);
 
@@ -25,7 +25,7 @@ describe('IdsKeyboardMixin Tests', () => {
     expect(mockHandler.mock.calls.length).toBe(1);
   });
 
-  it('can will not fire if not watching', () => {
+  test('can will not fire if not watching', () => {
     const mockHandler = jest.fn();
     elem.listen('Enter', elem, mockHandler);
 
@@ -35,7 +35,7 @@ describe('IdsKeyboardMixin Tests', () => {
     expect(mockHandler.mock.calls.length).toBe(0);
   });
 
-  it('can watch for multiple hot keys in the same event', () => {
+  test('can watch for multiple hot keys in the same event', () => {
     const mockHandler = jest.fn();
     elem.listen(['Delete', 'Backpace'], elem, mockHandler);
 
@@ -48,7 +48,7 @@ describe('IdsKeyboardMixin Tests', () => {
     expect(mockHandler.mock.calls.length).toBe(2);
   });
 
-  it('can watch for pressed keys', () => {
+  test('can watch for pressed keys', () => {
     const mockHandler = jest.fn(() => elem.pressedKeys);
     elem.listen('Delete', elem, mockHandler);
 
@@ -59,7 +59,7 @@ describe('IdsKeyboardMixin Tests', () => {
     expect(mockHandler.mock.results[0].value.get('Delete')).toEqual(true);
   });
 
-  it('can release unpressed keys', () => {
+  test('can release unpressed keys', () => {
     const mockHandler = jest.fn();
     elem.listen('', elem, mockHandler);
 
@@ -75,7 +75,7 @@ describe('IdsKeyboardMixin Tests', () => {
     expect(elem.pressedKeys.get('Delete')).toEqual(undefined);
   });
 
-  it('can destroy', () => {
+  test('can destroy', () => {
     const mockHandler = jest.fn();
     elem.listen(['Delete', 'Backpace'], elem, mockHandler);
     expect(elem.keyDownHandler).toBeTruthy();

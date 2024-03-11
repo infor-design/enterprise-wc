@@ -34,6 +34,7 @@ export const attributes = {
   AUTO_FILL: 'auto-fill',
   AUTO_FIT: 'auto-fit',
   AUTO_FLOW: 'auto-flow',
+  AUTO_FOCUS: 'auto-focus',
   AUTO_HEIGHT: 'auto-height',
   AUTO_ROWS: 'auto-rows',
   AUTO_START: 'auto-start',
@@ -109,6 +110,7 @@ export const attributes = {
   COMPLETED_LABEL: 'completed-label',
   COMPONENT_NAME: 'component-name',
   CONDITION: 'condition',
+  CONFIRM: 'confirm',
   CONTENT_ALIGN: 'content-align',
   COPYRIGHT_YEAR: 'copyright-year',
   COUNT: 'count',
@@ -186,6 +188,7 @@ export const attributes = {
   GAP: 'gap',
   GAP_X: 'gap-x',
   GAP_Y: 'gap-y',
+  GENERATIVE_AI: 'generative-ai',
   GROUP: 'group',
   GROUP_DISABLED: 'group-disabled',
   GROUP_LABEL: 'group-label',
@@ -229,6 +232,7 @@ export const attributes = {
   JUSTIFY_CONTENT: 'justify-content',
   KEEP_OPEN: 'keep-open',
   KPI: 'kpi',
+  KPI_FORMAT: 'kpi-format',
   LABEL: 'label',
   LABEL_AUDIBLE: 'label-audible',
   LABEL_FILETYPE: 'label-filetype',
@@ -497,6 +501,7 @@ export const attributes = {
   TRANSLATE_TEXT: 'translate-text',
   TREE_GRID: 'tree-grid',
   TREND_LABEL: 'trend-label',
+  TREND_FORMAT: 'trend-format',
   TRIGGER: 'trigger',
   TRIGGER_ELEM: 'trigger-elem',
   TRIGGER_LABEL: 'trigger-label',
@@ -569,7 +574,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.19';
+export const version = '1.0.0-beta.21';
 
 export enum IdsDirection {
   Up = 'up',

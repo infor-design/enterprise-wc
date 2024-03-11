@@ -9,7 +9,7 @@ describe('Ids Virtual Scroll e2e Tests', () => {
   });
 
 
-  it('should render some rows', async () => {
+  test('should render some rows', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await page.waitForSelector('.ids-data-grid-row');
 

@@ -71,17 +71,17 @@ describe('IdsAppMenu Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('has default settings', async () => {
+  test('has default settings', async () => {
     expect(appMenuElem.type).toBe('app-menu');
     expect(appMenuElem.edge).toBe('start');
   });
 
-  it('should convert inner accordions to use the "app-menu" color variant', async () => {
+  test('should convert inner accordions to use the "app-menu" color variant', async () => {
     const acc = appMenuElem.querySelector('ids-accordion') as IdsAccordion;
     waitForTimeout(() => expect(acc.colorVariant).toBe('app-menu'));
   });
 
-  it('can close by pressing the escape key', () => {
+  test('can close by pressing the escape key', () => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
 
     // Open the Menu
@@ -99,7 +99,7 @@ describe('IdsAppMenu Component', () => {
     waitForTimeout(() => expect(appMenuElem.visible).toBeFalsy());
   });
 
-  it('wont close by pressing any key but escape', () => {
+  test('wont close by pressing any key but escape', () => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'a', bubbles: true });
 
     // Open the Menu
@@ -117,11 +117,11 @@ describe('IdsAppMenu Component', () => {
     waitForTimeout(() => expect(appMenuElem.visible).toBeTruthy());
   });
 
-  it('provides an API for its accordion element', async () => {
+  test('provides an API for its accordion element', async () => {
     expect(appMenuElem.accordion?.name).toBe('ids-accordion');
   });
 
-  it('filters its navigation accordion when the search field is used', async () => {
+  test('filters its navigation accordion when the search field is used', async () => {
     const searchField = appMenuElem.querySelector('#search') as IdsSearchField;
     expect(searchField).toBeDefined();
 
@@ -148,7 +148,7 @@ describe('IdsAppMenu Component', () => {
     expect(document.querySelector('#h3')?.hasAttribute('child-filter-match')).toBeTruthy();
   });
 
-  it('filters its navigation using its API', async () => {
+  test('filters its navigation using its API', async () => {
     const searchField = appMenuElem.querySelector('#search');
     expect(searchField).toBeDefined();
 

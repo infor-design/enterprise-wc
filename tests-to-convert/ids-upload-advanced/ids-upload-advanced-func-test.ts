@@ -19,7 +19,7 @@ describe('IdsUploadAdvanced Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders as limit types accept', () => {
+  test('renders as limit types accept', () => {
     const files = [
       { size: 5000, type: 'audio/mp3', name: 'myfile1.mp3' },
       { size: 1000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -36,7 +36,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.fileInput.getAttribute('accept')).toEqual(null);
   });
 
-  it('should renders as disabled', () => {
+  test('should renders as disabled', () => {
     expect(el.getAttribute('disabled')).toEqual(null);
     let rootEl = el.shadowRoot.querySelector('.ids-upload-advanced');
     expect(rootEl.classList).not.toContain('disabled');
@@ -50,7 +50,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(rootEl.classList).not.toContain('disabled');
   });
 
-  it('should set icon to be use in main drop area', () => {
+  test('should set icon to be use in main drop area', () => {
     const defaultIcon = 'upload';
     let icon = el.shadowRoot.querySelector('.icon');
     expect(icon.getAttribute('icon')).toEqual(defaultIcon);
@@ -65,7 +65,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.getAttribute('icon')).toEqual(null);
   });
 
-  it('should set icon size for main drop area', () => {
+  test('should set icon size for main drop area', () => {
     const icon = el.shadowRoot.querySelector('.icon');
     expect(el.getAttribute('icon-size')).toEqual(null);
     expect(icon.getAttribute('size')).toEqual(null);
@@ -80,7 +80,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.iconSize).toEqual(null);
   });
 
-  it('should set the max file size', () => {
+  test('should set the max file size', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -97,7 +97,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.maxFileSize).toEqual(-1);
   });
 
-  it('should set max number of files can be uploaded', () => {
+  test('should set max number of files can be uploaded', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 1000, type: 'image/jpg', name: 'myfile2.jpg' },
@@ -115,7 +115,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.maxFiles).toEqual(99999);
   });
 
-  it('should set max files can be uploaded while in process', () => {
+  test('should set max files can be uploaded while in process', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 1000, type: 'image/jpg', name: 'myfile2.jpg' },
@@ -132,7 +132,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.maxFilesInProcess).toEqual(99999);
   });
 
-  it('should set method to use xhr', () => {
+  test('should set method to use xhr', () => {
     expect(el.getAttribute('method')).toEqual(null);
     expect(el.method).toEqual('POST');
     el.method = 'PUT';
@@ -143,7 +143,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.method).toEqual('POST');
   });
 
-  it('should set param name to read from server', () => {
+  test('should set param name to read from server', () => {
     expect(el.getAttribute('param-name')).toEqual(null);
     expect(el.paramName).toEqual('myfile');
     el.paramName = 'test';
@@ -154,7 +154,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.paramName).toEqual('myfile');
   });
 
-  it('should set link to browse files to upload', () => {
+  test('should set link to browse files to upload', () => {
     expect(el.getAttribute('show-browse-link')).toEqual(null);
     expect(el.showBrowseLink).toEqual(null);
     el.showBrowseLink = 'false';
@@ -168,7 +168,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.showBrowseLink).toEqual(null);
   });
 
-  it('should set url to use with xhr', () => {
+  test('should set url to use with xhr', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -187,7 +187,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.url).toEqual(null);
   });
 
-  it('should get current files from api', () => {
+  test('should get current files from api', () => {
     const files = [
       { size: 5000, type: 'audio/mp3', name: 'myfile1.mp3' },
       { size: 1000, type: 'image/jpg', name: 'myfile2.jpg' },
@@ -202,7 +202,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.completed.length).toEqual(0);
   });
 
-  it('should change event on file input', () => {
+  test('should change event on file input', () => {
     const file: any = { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' };
     const args: any = { bubbles: true, files: [file] };
     const event = new Event('change', args);
@@ -212,7 +212,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(fileElems.length).toEqual(1);
   });
 
-  it('should click event on label', () => {
+  test('should click event on label', () => {
     const labelMockClick = jest.fn();
     const hyperlinkMockClick = jest.fn();
     const label = el.shadowRoot.querySelector('label');
@@ -225,7 +225,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(hyperlinkMockClick.mock.calls.length).toBe(1);
   });
 
-  it('should update slot value', () => {
+  test('should update slot value', () => {
     const span1 = document.createElement('span');
     const span2 = document.createElement('span');
     const span3 = document.createElement('span');
@@ -250,7 +250,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.xhrHeaders).toEqual([{ name: 'header1', value: 'header1-value' }]);
   });
 
-  it('should run custom send methos', () => {
+  test('should run custom send methos', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -261,7 +261,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(fileElems.length).toEqual(2);
   });
 
-  it('should call xhr method', () => {
+  test('should call xhr method', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -277,7 +277,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(fileElems.length).toEqual(2);
   });
 
-  it('should drag drop', () => {
+  test('should drag drop', () => {
     const files = [{ size: 1000, type: 'image/jpg', name: 'myfile1.jpg' }];
     const createBubbledEvent = (type: any, attributes = {}) => {
       const event = new Event(type, { bubbles: true });
@@ -316,7 +316,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(fileElems.length).toEqual(1);
   });
 
-  it('should render template', () => {
+  test('should render template', () => {
     document.body.innerHTML = '';
     el = document.createElement('ids-upload-advanced');
     el.setAttribute('accept', '.jpg');
@@ -328,7 +328,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(rootEl.classList).toContain('disabled');
   });
 
-  it('should auto start', () => {
+  test('should auto start', () => {
     expect(el.getAttribute('auto-start')).toEqual(null);
     expect(el.autoStart).toEqual(true);
     el.autoStart = false;
@@ -342,7 +342,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.autoStart).toEqual(true);
   });
 
-  it('should set arbitrary error message on files', () => {
+  test('should set arbitrary error message on files', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -360,7 +360,7 @@ describe('IdsUploadAdvanced Component', () => {
     });
   });
 
-  it('should set arbitrary error message on single file by ui element', () => {
+  test('should set arbitrary error message on single file by ui element', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -377,7 +377,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(fileElems[1].status).toEqual('in-process');
   });
 
-  it('should manually start upload single file', () => {
+  test('should manually start upload single file', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -400,7 +400,7 @@ describe('IdsUploadAdvanced Component', () => {
     });
   });
 
-  it('should manually start upload all files', async () => {
+  test('should manually start upload all files', async () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -425,7 +425,7 @@ describe('IdsUploadAdvanced Component', () => {
     waitForTimeout(() => expect(toolbararea).toBeFalsy());
   });
 
-  it('should cancel upload single file', () => {
+  test('should cancel upload single file', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -445,7 +445,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(fileElems[0].status).toEqual('not-started');
   });
 
-  it('should cancel upload all files', () => {
+  test('should cancel upload all files', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -465,7 +465,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.all.length).toEqual(0);
   });
 
-  it('should remove if existing in files', () => {
+  test('should remove if existing in files', () => {
     const files = [
       { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
       { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }

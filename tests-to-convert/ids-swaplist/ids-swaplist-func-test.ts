@@ -44,7 +44,7 @@ describe('IdsSwapList Component', () => {
     idsSwapList?.remove();
   });
 
-  it('can swap item to next/previous list on click event', async () => {
+  test('can swap item to next/previous list on click event', async () => {
     const event0 = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
@@ -93,7 +93,7 @@ describe('IdsSwapList Component', () => {
     }, 20);
   });
 
-  it('can swap item to next/previous list on touch event', async () => {
+  test('can swap item to next/previous list on touch event', async () => {
     const event0 = new TouchEvent('touchend', {
       touches: [{
         identifier: 123,

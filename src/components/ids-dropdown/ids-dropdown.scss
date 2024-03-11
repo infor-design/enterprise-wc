@@ -83,7 +83,7 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
 
   .ids-trigger-field-slot-trigger-end,
   ::slotted(*[slot='trigger-end']:last-of-type:not([inline]):not([compact]):not([field-height='xs'])) {
-    margin-inline-end: 0;
+    margin-inline-end: -3px;
   }
 
   &.field-height-lg {
@@ -110,6 +110,13 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
   &.field-height-xs {
     ids-trigger-field::part(input) {
       padding-inline: 4px;
+      height: 30px;
+    }
+  }
+
+  &.field-height-xxs {
+    ids-trigger-field::part(input) {
+      padding-inline: 2px;
       height: 30px;
     }
   }

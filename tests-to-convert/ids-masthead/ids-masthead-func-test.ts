@@ -30,7 +30,7 @@ describe('IdsMasthead Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders any icon', () => {
+  test('renders any icon', () => {
     element.setAttribute('icon', '');
     expect(element.icon).toBe('');
 
@@ -45,7 +45,7 @@ describe('IdsMasthead Component', () => {
     expect(element.template()).toMatchSnapshot();
   });
 
-  it('renders and updates logo', () => {
+  test('renders and updates logo', () => {
     const ICON1 = 'logo';
     const ICON2 = 'star-outlined';
     element.setAttribute('icon', '');
@@ -72,7 +72,7 @@ describe('IdsMasthead Component', () => {
 
   it.skip('renders clickable logo', () => { });
 
-  it('renders and updates title', () => {
+  test('renders and updates title', () => {
     element.setAttribute('title', '');
     expect(element.title).toBe('');
 
@@ -83,7 +83,7 @@ describe('IdsMasthead Component', () => {
     expect(element.template()).toMatchSnapshot();
   });
 
-  it('restyles buttons to be square and transparent', () => {
+  test('restyles buttons to be square and transparent', () => {
     const buttons = element.querySelectorAll<IdsButton | IdsMenuButton>('ids-button, ids-menu-button');
     buttons.forEach((button) => {
       expect(button.colorVariant).toBe('alternate');
@@ -91,7 +91,7 @@ describe('IdsMasthead Component', () => {
     });
   });
 
-  it('has breakpoints', () => {
+  test('has breakpoints', () => {
     expect(element.breakpoints.mobile).toBeDefined();
     expect(element.breakpoints.tablet).toBeDefined();
     expect(element.breakpoints.desktop).toBeDefined();
@@ -103,7 +103,7 @@ describe('IdsMasthead Component', () => {
     expect(global.matchMedia).toHaveBeenCalled();
   });
 
-  it('renders breakpoint: desktop', () => {
+  test('renders breakpoint: desktop', () => {
     jest.spyOn(element, 'isDesktop', 'get').mockReturnValue(true);
     expect(element.isDesktop).toBe(true);
     expect(element.isTablet).toBe(false);
@@ -117,7 +117,7 @@ describe('IdsMasthead Component', () => {
     expect(sections.more.querySelector('slot').assignedNodes()).toEqual([]);
   });
 
-  it('renders breakpoint: tablet', () => {
+  test('renders breakpoint: tablet', () => {
     jest.spyOn(element, 'isTablet', 'get').mockReturnValue(true);
     expect(element.isTablet).toBe(true);
     expect(element.isDesktop).toBe(false);
@@ -132,7 +132,7 @@ describe('IdsMasthead Component', () => {
     expect(sections.more.querySelector('slot').assignedNodes()).toContain(element.slots.end);
   });
 
-  it('renders breakpoint: mobile', () => {
+  test('renders breakpoint: mobile', () => {
     jest.spyOn(element, 'isMobile', 'get').mockReturnValue(true);
     expect(element.isMobile).toBe(true);
     expect(element.isDesktop).toBe(false);

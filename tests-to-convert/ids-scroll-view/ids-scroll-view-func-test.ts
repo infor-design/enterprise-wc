@@ -33,7 +33,7 @@ describe('IdsScrollView Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('should sets loop', () => {
+  test('should sets loop', () => {
     expect(scrollView.getAttribute(attributes.LOOP)).toEqual(null);
     expect(scrollView.loop).toEqual(false);
     scrollView.loop = true;
@@ -44,7 +44,7 @@ describe('IdsScrollView Component', () => {
     expect(scrollView.loop).toEqual(false);
   });
 
-  it('should sets show tooltip', () => {
+  test('should sets show tooltip', () => {
     expect(scrollView.getAttribute(attributes.SHOW_TOOLTIP)).toEqual(null);
     expect(scrollView.showTooltip).toEqual(false);
     scrollView.showTooltip = true;
@@ -55,7 +55,7 @@ describe('IdsScrollView Component', () => {
     expect(scrollView.showTooltip).toEqual(false);
   });
 
-  it('should sets suppress controls', () => {
+  test('should sets suppress controls', () => {
     expect(scrollView.getAttribute(attributes.SUPPRESS_CONTROLS)).toEqual(null);
     expect(scrollView.suppressControls).toEqual(false);
     scrollView.suppressControls = true;
@@ -66,7 +66,7 @@ describe('IdsScrollView Component', () => {
     expect(scrollView.suppressControls).toEqual(false);
   });
 
-  it('should call control api', async () => {
+  test('should call control api', async () => {
     const slideExpect = async (expectNum: number) => {
       const selEl = scrollView.controls.querySelector('.selected');
       expect(selEl.getAttribute('data-slide-number')).toEqual(`${expectNum}`);
@@ -89,7 +89,7 @@ describe('IdsScrollView Component', () => {
     await slideExpect(2);
   });
 
-  it('can click the circle buttons', () => {
+  test('can click the circle buttons', () => {
     const link = scrollView.controls.querySelector('[data-slide-number="4"]');
     expect(link.classList.contains('selected')).toBeFalsy();
     expect(link.getAttribute('aria-selected')).toEqual(null);
@@ -106,7 +106,7 @@ describe('IdsScrollView Component', () => {
     expect(link.getAttribute('aria-selected')).toEqual('true');
   });
 
-  it('should rerender controls based on slotchange events', async () => {
+  test('should rerender controls based on slotchange events', async () => {
     document.body.innerHTML = '';
     const elem = new IdsScrollView();
     document.body.appendChild(elem);
@@ -115,7 +115,7 @@ describe('IdsScrollView Component', () => {
     expect(elem.controls?.querySelectorAll('ids-button.circle-button').length).toEqual(6);
   });
 
-  it('moved on ArrowLeft/ArrowRight', () => {
+  test('moved on ArrowLeft/ArrowRight', () => {
     const testArrowKey = (key: string, id: string) => {
       scrollView.dispatchEvent(new KeyboardEvent('keydown', { key }));
       const link = scrollView.controls.querySelector(`[data-slide-number="${id}"]`);

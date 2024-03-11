@@ -194,10 +194,10 @@ export default class IdsLookup extends Base {
           </ids-layout-grid-cell>
         </ids-layout-grid>
 
-        <ids-modal-button slot="buttons" id="modal-cancel-btn" appearance="secondary">
+        <ids-modal-button slot="buttons" cancel id="modal-cancel-btn" appearance="secondary">
           <span>Cancel</span>
         </ids-modal-button>
-        <ids-modal-button slot="buttons" id="modal-apply-btn" appearance="primary">
+        <ids-modal-button slot="buttons" confirm id="modal-confirm-btn" appearance="primary">
           <span>Apply</span>
         </ids-modal-button>
       </ids-modal>
@@ -247,12 +247,8 @@ export default class IdsLookup extends Base {
         const tfValue = this.triggerField.value;
         if (tfValue !== this.state.value) {
           this.triggerField.value = this.state.value;
-          this.triggerField?.input?.dispatchEvent(new Event('change'));
         }
       }
-
-      // Send the change event
-      this.triggerEvent('change', this, { detail: { elem: this, value: this.state.value } });
     }
   }
 
@@ -380,7 +376,7 @@ export default class IdsLookup extends Base {
   #syncSelectedRows(value: string = this.value): void {
     // Deselect all rows, if given value is empty
     if (value === '') {
-      if (this.dataGrid?.selectedRows.length) this.dataGrid.deSelectAllRows();
+      if (this.dataGrid?.selectedRows?.length) this.dataGrid.deSelectAllRows();
       if (this.value !== value) this.value = value;
       return;
     }
@@ -624,15 +620,13 @@ export default class IdsLookup extends Base {
   #handleEvents() {
     this.onEvent('click.lookup', this.modal, (e: any) => {
       const btnId = e.target?.getAttribute('id');
+      const isCancelButton = e.target?.hasAttribute('cancel') || btnId === 'modal-cancel-btn';
+      const isConfirmButton = e.target?.hasAttribute('confirm') || ['modal-confirm-btn', 'modal-apply-btn'].includes(btnId);
 
-      // Cancel
-      if (btnId === 'modal-cancel-btn') {
+      if (isCancelButton) {
         this.modal?.hide();
         this.#syncSelectedRows();
-      }
-
-      // Apply
-      if (btnId === 'modal-apply-btn') {
+      } else if (isConfirmButton) {
         this.modal?.hide();
         this.#setInputValue();
       }

@@ -104,6 +104,7 @@ export default class IdsText extends Base {
    */
   template(): string {
     const tag = this.type || 'span';
+    const fontWeight = this.fontWeight;
 
     let classList = 'ids-text';
     classList += this.status ? ` ${this.statusClass()}` : '';
@@ -112,7 +113,7 @@ export default class IdsText extends Base {
     classList += (this.audible) ? ' audible' : '';
     classList += (this.label) ? ' label' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
-    classList += (this.fontWeight === 'bold' || this.fontWeight === 'lighter')
+    classList += (fontWeight === 'bold' || fontWeight === 'lighter' || fontWeight === 'semi-bold')
       ? ` ${this.fontWeight}` : '';
 
     return `<${tag}
@@ -326,7 +327,7 @@ export default class IdsText extends Base {
   set maxWidth(value: string | null) {
     if (value) {
       this.setAttribute(attributes.MAX_WIDTH, value);
-      this.container?.style.setProperty('max-width', `${value}px`);
+      this.container?.style.setProperty('max-width', `${parseInt(value)}px`, 'important');
     } else {
       this.removeAttribute(attributes.MAX_WIDTH);
       this.container?.style.removeProperty('max-width');
@@ -464,7 +465,7 @@ export default class IdsText extends Base {
   }
 
   canTooltipShow() {
-    if (this.tooltip === 'true' && this.container) {
+    if (this.tooltip && this.tooltip !== 'false' && this.container) {
       return ((checkOverflow(this.container) || checkOverflow(this.parentElement))) || false;
     }
     return false;

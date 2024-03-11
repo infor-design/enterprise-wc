@@ -8,7 +8,7 @@ describe('Ids Swipe Action e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not have errors', async () => {
+  test('should not have errors', async () => {
     await expect(page.title()).resolves.toMatch('IDS Swipe Action Component');
   });
 

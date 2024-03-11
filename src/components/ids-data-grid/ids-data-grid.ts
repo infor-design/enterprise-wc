@@ -43,6 +43,7 @@ import IdsDataGridSaveSettingsMixin from './ids-data-grid-save-settings-mixin';
 import IdsDataGridTooltipMixin from './ids-data-grid-tooltip-mixin';
 import IdsDataGridCell from './ids-data-grid-cell';
 import { ExcelColumn } from '../../utils/ids-excel-exporter/ids-worksheet-templates';
+import IdsLoadingIndicator from '../ids-loading-indicator/ids-loading-indicator';
 
 const Base = IdsPagerMixin(
   IdsDataGridSaveSettingsMixin(
@@ -140,27 +141,24 @@ export default class IdsDataGrid extends Base {
   /* Returns all the row elements in an array */
   get rows(): IdsDataGridRow[] {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
-    if (!this.container) return [];
     return [
-      ...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row')
+      ...this.container!.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row')
     ];
   }
 
   /* Returns all the hidden row elements in an array */
   get rowsHidden(): IdsDataGridRow[] {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
-    if (!this.container) return [];
     return [
-      ...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row[hidden]')
+      ...this.container!.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row[hidden]')
     ];
   }
 
   /* Returns all the visible row elements in an array */
   get rowsVisible(): IdsDataGridRow[] {
     // NOTE: Array.from() seems slower than dotdotdot array-destructuring.
-    if (!this.container) return [];
     return [
-      ...this.container.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row:not([hidden])')
+      ...this.container!.querySelectorAll<IdsDataGridRow>('.ids-data-grid-body ids-data-grid-row:not([hidden])')
     ];
   }
 
@@ -226,6 +224,7 @@ export default class IdsDataGrid extends Base {
       attributes.LABEL,
       attributes.LIST_STYLE,
       attributes.MENU_ID,
+      attributes.MIN_HEIGHT,
       attributes.ROW_HEIGHT,
       attributes.ROW_NAVIGATION,
       attributes.ROW_SELECTION,
@@ -279,6 +278,9 @@ export default class IdsDataGrid extends Base {
         <slot name="header-contextmenu"></slot>
         <slot name="tooltip">
           <ids-tooltip id="tooltip" exportparts="tooltip-popup, tooltip-arrow"></ids-tooltip>
+        </slot>
+        <slot name="loading-container">
+          <ids-loading-indicator stopped></ids-loading-indicator>
         </slot>
       </div>`;
 
@@ -1244,7 +1246,7 @@ export default class IdsDataGrid extends Base {
     }
   }
 
-  get data(): Array<Record<string, any>> { return this?.datasource?.data; }
+  get data(): Array<Record<string, any>> { return this?.datasource?.data || []; }
 
   /**
    * Set empty message description
@@ -1990,6 +1992,23 @@ export default class IdsDataGrid extends Base {
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }
 
   /**
+   * Set the min height of the grid (for the empty message or loading indicator)
+   * @param {string} value The min height
+   */
+  set minHeight(value) {
+    if (value) {
+      this.setAttribute(attributes.MIN_HEIGHT, value.toString());
+      (this.shadowRoot!.querySelector('.ids-data-grid') as HTMLElement)!.style.minHeight = value;
+    } else {
+      this.removeAttribute(attributes.MIN_HEIGHT);
+      (this.shadowRoot!.querySelector('.ids-data-grid') as HTMLElement)!.style.minHeight = '';
+    }
+    this.saveSettings?.();
+  }
+
+  get minHeight() { return this.getAttribute(attributes.MIN_HEIGHT) || '350px'; }
+
+  /**
    * Set the row index. If set, the datagrid's data set will initially load here.
    * @param {number} rowIndex The row-index at which to start showing data.
    */
@@ -2066,6 +2085,14 @@ export default class IdsDataGrid extends Base {
 
   get suppressEmptyMessage(): boolean {
     return this.hasAttribute(attributes.SUPPRESS_EMPTY_MESSAGE);
+  }
+
+  /*
+  * Get the loading indicator element
+  * @param {IdsLoadingIndicator} the loading element
+  */
+  get loadingIndicator(): IdsLoadingIndicator {
+    return this.shadowRoot?.querySelector('slot[name="loading-container"]')?.children[0] as IdsLoadingIndicator;
   }
 
   /*
@@ -2160,9 +2187,12 @@ export default class IdsDataGrid extends Base {
       data[this.idColumn] = this.data[row][this.idColumn];
     }
 
-    // Update the current data
-    if (isClear) this.data[row] = data;
-    else this.data[row] = { ...this.data[row], ...data };
+    // Same page update
+    if (row < this.data.length) {
+      // Update the current data
+      if (isClear) this.data[row] = data;
+      else this.data[row] = { ...this.data[row], ...data };
+    }
 
     // Update the tree element in the original data
     if (this.treeGrid) {
@@ -2184,6 +2214,7 @@ export default class IdsDataGrid extends Base {
     }
 
     // Non tree - update original data
+    if (!data.id) data.id = row;
     this.datasource.update([data], !!isClear);
   }
 
@@ -2310,13 +2341,15 @@ export default class IdsDataGrid extends Base {
   /**
    * Remove a row by index for the data
    * @param {number} index the row index to remove
+   * @param {Array<Record<string, unknown>>} data to be deleted
    */
-  removeRow(index: number) {
+  removeRow(index: number, data?: Record<string, unknown>) {
     // Update data
-    const data = this.data[index];
-    if (!data[this.idColumn]) {
+    if (data === undefined || !data[this.idColumn]) {
+      data = this.data[index];
       data[this.idColumn] = this.data[index][this.idColumn];
     }
+
     this.datasource.delete([data]);
     this.datasource.refreshPreviousState();
 
@@ -2329,9 +2362,14 @@ export default class IdsDataGrid extends Base {
   /**
    * Clear all values in a row a row by index
    * @param {number} index the row index to clear
+   * @param {Array<Record<string, unknown>>} data to be cleared
    */
-  clearRow(index: number) {
-    this.updateDataset(index, {}, true);
+  clearRow(index: number, data?: Record<string, unknown>) {
+    if (data === undefined) {
+      data = {};
+    }
+
+    this.updateDataset(index, data, true);
     this.redrawBody();
   }
 

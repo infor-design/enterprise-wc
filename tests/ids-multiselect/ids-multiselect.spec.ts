@@ -63,4 +63,30 @@ test.describe('IdsMultiselect tests', () => {
       await percySnapshot(page, 'ids-multiselect-light');
     });
   });
+
+  test.describe('event tests', () => {
+    test.skip('should fire a change event', async ({ page }) => {
+      const eventFiredCount = await page.evaluate(() => {
+        let changeCount = 0;
+        const dropdown = document.querySelector('ids-multiselect') as IdsMultiselect;
+        dropdown?.addEventListener('change', () => { changeCount++; });
+        dropdown.value = ['ca'];
+        return changeCount;
+      });
+
+      expect(eventFiredCount).toEqual(1);
+    });
+
+    test('should fire an input event', async ({ page }) => {
+      const eventFiredCount = await page.evaluate(() => {
+        let changeCount = 0;
+        const dropdown = document.querySelector('ids-multiselect') as IdsMultiselect;
+        dropdown?.addEventListener('input', () => { changeCount++; });
+        dropdown.value = ['ca'];
+        return changeCount;
+      });
+
+      expect(eventFiredCount).toEqual(1);
+    });
+  });
 });

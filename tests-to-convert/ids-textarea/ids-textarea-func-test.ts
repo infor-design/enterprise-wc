@@ -1,155 +1,7 @@
-/**
- * @jest-environment jsdom
- */
-import IdsTextarea from '../../src/components/ids-textarea/ids-textarea';
-import '../../src/mixins/ids-events-mixin/ids-events-mixin';
-
 describe('IdsTextarea Component', () => {
   let textarea: any;
 
-  beforeEach(async () => {
-    const elem: any = new IdsTextarea();
-    document.body.appendChild(elem);
-    textarea = document.querySelector('ids-textarea');
-  });
-
-  afterEach(async () => {
-    document.body.innerHTML = '';
-  });
-
-  it('renders placeholder', () => {
-    textarea.placeholder = 'Placeholder Text';
-    expect(textarea.getAttribute('placeholder')).toEqual('Placeholder Text');
-    expect(textarea.placeholder).toEqual('Placeholder Text');
-    textarea.placeholder = null;
-    expect(textarea.getAttribute('placeholder')).toEqual(null);
-    expect(textarea.placeholder).toEqual(null);
-  });
-
-  it('renders with document.createElement (append late)', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem: any = document.createElement('ids-textarea');
-
-    elem.placeholder = 'Placeholder Text';
-    elem.value = 'Test Content';
-    document.body.appendChild(elem);
-
-    expect(elem.placeholder).toEqual('Placeholder Text');
-    expect(elem.value).toEqual('Test Content');
-    expect(errors).not.toHaveBeenCalled();
-  });
-
-  it('should set label text', () => {
-    expect(textarea.labelEl.textContent.trim()).toBe('');
-    textarea.label = 'test';
-    expect(textarea.labelEl.textContent.trim()).toBe('test');
-    textarea.label = null;
-    expect(textarea.labelEl.textContent.trim()).toBe('');
-  });
-
-  it('should set label required indicator', () => {
-    const className = 'no-required-indicator';
-    expect(textarea.getAttribute('validate')).toEqual(null);
-    expect(textarea.getAttribute('label-required')).toEqual(null);
-    expect(textarea.labelEl.classList).not.toContain(className);
-    textarea.validate = 'required';
-    expect(textarea.getAttribute('validate')).toEqual('required');
-    expect(textarea.getAttribute('label-required')).toEqual(null);
-    expect(textarea.labelEl.classList).not.toContain(className);
-    textarea.labelRequired = false;
-    expect(textarea.getAttribute('validate')).toEqual('required');
-    expect(textarea.getAttribute('label-required')).toEqual('false');
-    expect(textarea.labelEl.classList).toContain(className);
-    expect(textarea.labelRequired).toEqual(false);
-    textarea.labelRequired = true;
-    expect(textarea.getAttribute('validate')).toEqual('required');
-    expect(textarea.getAttribute('label-required')).toEqual('true');
-    expect(textarea.labelEl.classList).not.toContain(className);
-    expect(textarea.labelRequired).toEqual(true);
-  });
-
-  it('should set validation events', () => {
-    expect(textarea.getAttribute('validate')).toEqual(null);
-    expect(textarea.getAttribute('validation-events')).toEqual(null);
-    textarea.validate = 'required';
-    textarea.validationEvents = 'blur';
-    expect(textarea.getAttribute('validate')).toEqual('required');
-    expect(textarea.getAttribute('validation-events')).toEqual('blur');
-    textarea.validationEvents = null;
-    expect(textarea.getAttribute('validate')).toEqual('required');
-    expect(textarea.getAttribute('validation-events')).toEqual(null);
-    textarea.validate = null;
-    expect(textarea.getAttribute('validate')).toEqual(null);
-    expect(textarea.getAttribute('validation-events')).toEqual(null);
-  });
-
-  it('should set value', () => {
-    textarea.value = '';
-    expect(textarea.input.value).toEqual('');
-    textarea.value = 'test';
-    expect(textarea.input.value).toEqual('test');
-    textarea.value = null;
-    expect(textarea.input.value).toEqual('');
-  });
-
-  it('should call template', () => {
-    textarea.value = 'test';
-    textarea.rows = '15';
-    textarea.maxlength = '90';
-    textarea.characterCounter = 'true';
-    textarea.readonly = 'true';
-    textarea.disabled = 'true';
-    textarea.printable = 'false';
-    textarea.placeholder = 'test';
-    textarea.resizable = 'true';
-    textarea.size = 'sm';
-    textarea.template();
-    expect(textarea.input.value).toEqual('test');
-  });
-
-  it('renders field as disabled', () => {
-    expect(textarea.getAttribute('disabled')).toEqual(null);
-    expect(textarea.input.getAttribute('disabled')).toBe(null);
-    expect(textarea.container.classList).not.toContain('disabled');
-    textarea.validate = 'required';
-    textarea.checkValidation();
-    textarea.disabled = true;
-    expect(textarea.getAttribute('disabled')).toEqual('true');
-    expect(textarea.input.getAttribute('disabled')).toBe('true');
-    expect(textarea.container.classList).toContain('disabled');
-  });
-
-  it('should disable and enable', () => {
-    expect(textarea.getAttribute('disabled')).toEqual(null);
-    expect(textarea.input.getAttribute('disabled')).toBe(null);
-    expect(textarea.container.classList).not.toContain('disabled');
-    textarea.disabled = true;
-    expect(textarea.getAttribute('disabled')).toEqual('true');
-    expect(textarea.input.getAttribute('disabled')).toBe('true');
-    expect(textarea.container.classList).toContain('disabled');
-    textarea.disabled = false;
-    expect(textarea.getAttribute('disabled')).toEqual(null);
-    expect(textarea.input.getAttribute('disabled')).toBe(null);
-    expect(textarea.container.classList).not.toContain('disabled');
-  });
-
-  it('renders field as readonly', () => {
-    expect(textarea.getAttribute('readonly')).toEqual(null);
-    expect(textarea.input.getAttribute('readonly')).toBe(null);
-    expect(textarea.container.classList).not.toContain('readonly');
-    textarea.validate = 'required';
-    textarea.checkValidation();
-    textarea.readonly = true;
-    expect(textarea.getAttribute('readonly')).toEqual('true');
-    expect(textarea.input.getAttribute('readonly')).toBe('true');
-    expect(textarea.container.classList).toContain('readonly');
-    textarea.readonly = false;
-    expect(textarea.getAttribute('readonly')).toEqual(null);
-    expect(textarea.input.getAttribute('readonly')).toBe(null);
-    expect(textarea.container.classList).not.toContain('readonly');
-  });
-
-  it('renders rows to field', () => {
+  test('renders rows to field', () => {
     expect(textarea.getAttribute('rows')).toEqual(null);
     expect(textarea.input.getAttribute('rows')).toBe(null);
     textarea.rows = '15';
@@ -160,7 +12,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.input.getAttribute('rows')).toBe(null);
   });
 
-  it('renders autogrow to field', () => {
+  test('renders autogrow to field', () => {
     textarea.autogrow = true;
     expect(textarea.getAttribute('autogrow')).toEqual('true');
 
@@ -168,7 +20,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.getAttribute('autogrow')).toEqual(null);
   });
 
-  it('set autogrow to field', () => {
+  test('set autogrow to field', () => {
     textarea.autogrow = true;
     expect(textarea.getAttribute('autogrow')).toEqual('true');
     textarea.maxHeight = 200;
@@ -183,7 +35,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.getAttribute('autogrow')).toEqual(null);
   });
 
-  it('set min/max height', () => {
+  test('set min/max height', () => {
     textarea.maxHeight = 500;
     expect(textarea.container.classList.contains('has-max-height')).toBeTruthy();
     expect(textarea.input.style.maxHeight).toEqual('500px');
@@ -192,7 +44,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.input.style.minHeight).toEqual('200px');
   });
 
-  it('set min/max width', () => {
+  test('set min/max width', () => {
     textarea.maxWidth = 500;
     expect(textarea.container.classList.contains('has-max-width')).toBeTruthy();
     expect(textarea.input.style.maxWidth).toEqual('500px');
@@ -201,7 +53,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.input.style.minWidth).toEqual('200px');
   });
 
-  it('should set value with slotchange', (done) => {
+  test('should set value with slotchange', (done) => {
     textarea.textContent = 'test';
     expect(textarea.textContent).toEqual('test');
     setTimeout(() => {
@@ -210,7 +62,7 @@ describe('IdsTextarea Component', () => {
     }, 1);
   });
 
-  it('renders autogrow and max height to field', () => {
+  test('renders autogrow and max height to field', () => {
     expect(textarea.getAttribute('max-height')).toEqual(null);
     textarea.maxHeight = true;
     textarea.autogrow = true;
@@ -219,7 +71,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.getAttribute('max-height')).toEqual(null);
   });
 
-  it('renders clearable to field', () => {
+  test('renders clearable to field', () => {
     expect(textarea.getAttribute('clearable')).toEqual(null);
     expect(textarea.input.classList).not.toContain('has-clearable');
     textarea.clearable = true;
@@ -230,7 +82,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.container.classList).not.toContain('has-clearable');
   });
 
-  it('renders resizable to field', () => {
+  test('renders resizable to field', () => {
     expect(textarea.getAttribute('resizable')).toEqual(null);
     expect(textarea.container.classList).not.toContain('resizable');
     textarea.resizable = true;
@@ -250,7 +102,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.container.classList).not.toContain('resizable');
   });
 
-  it('renders printable to field', () => {
+  test('renders printable to field', () => {
     expect(textarea.getAttribute('printable')).toEqual(null);
     expect(textarea.shadowRoot.querySelector('.textarea-print')).toBeTruthy();
     textarea.printable = 'true';
@@ -265,7 +117,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.shadowRoot.querySelector('.textarea-print')).toBeTruthy();
   });
 
-  it('renders maxlength to field', () => {
+  test('renders maxlength to field', () => {
     expect(textarea.getAttribute('maxlength')).toEqual(null);
     expect(textarea.input.getAttribute('maxlength')).toBe(null);
     textarea.maxlength = '90';
@@ -276,7 +128,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.input.getAttribute('maxlength')).toBe(null);
   });
 
-  it('renders character counter to field', () => {
+  test('renders character counter to field', () => {
     expect(textarea.getAttribute('character-counter')).toEqual(null);
     expect(textarea.shadowRoot.querySelector('.textarea-character-counter')).toBeFalsy();
     textarea.maxlength = '90';
@@ -297,7 +149,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.shadowRoot.querySelector('.textarea-character-counter')).toBeTruthy();
   });
 
-  it('renders char-max-text as default to field', () => {
+  test('renders char-max-text as default to field', () => {
     const valueMax = '012345678901234567890';
     const valueAlmostEmpty = '012345678901234';
     const maxlength = 20;
@@ -330,7 +182,7 @@ describe('IdsTextarea Component', () => {
     expect(counter.classList).not.toContain('almost-empty');
   });
 
-  it('renders char-max-text as custom to field', () => {
+  test('renders char-max-text as custom to field', () => {
     const valueMax = '01234567890123456789';
     const maxlength = '20';
     const defaultText: any = {
@@ -374,7 +226,7 @@ describe('IdsTextarea Component', () => {
     expect(counter.textContent).toEqual(defaultText.charRemainingTextVal);
   });
 
-  it('should skip invalid textarea state', () => {
+  test('should skip invalid textarea state', () => {
     expect(textarea.getAttribute('test')).toEqual(null);
     expect(textarea.input.getAttribute('test')).toBe(null);
     expect(textarea.container.classList).not.toContain('test');
@@ -384,12 +236,12 @@ describe('IdsTextarea Component', () => {
     expect(textarea.container.classList).not.toContain('test');
   });
 
-  it('should count line breaks', () => {
+  test('should count line breaks', () => {
     expect(textarea.countLinebreaks('test\n-\nabc')).toEqual(2);
     expect(textarea.countLinebreaks('test-abc')).toEqual(0);
   });
 
-  it('should setup browser', () => {
+  test('should setup browser', () => {
     Object.defineProperty(window.navigator, 'userAgent', ((value) => ({
       get() { return value; },
       set(v) { value = v; } // eslint-disable-line
@@ -433,7 +285,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.isSafari).toEqual(true);
   });
 
-  it('should destroy dirty tracking', () => {
+  test('should destroy dirty tracking', () => {
     expect(textarea.getAttribute('dirty-tracker')).toEqual(null);
     expect(textarea.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(textarea.labelEl.querySelector('.msg-dirty')).toBeFalsy();
@@ -449,7 +301,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.labelEl.querySelector('.msg-dirty')).toBeFalsy();
   });
 
-  it('can have dirty tracking', () => {
+  test('can have dirty tracking', () => {
     expect(textarea.getAttribute('dirty-tracker')).toEqual(null);
     expect(textarea.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(textarea.labelEl.querySelector('.msg-dirty')).toBeFalsy();
@@ -483,7 +335,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.labelEl.querySelector('.msg-dirty')).toBeFalsy();
   });
 
-  it('should autoselect', (done) => {
+  test('should autoselect', (done) => {
     textarea.autoselect = true;
     textarea.value = 'test';
     expect(textarea.getAttribute('autoselect')).toEqual('true');
@@ -495,7 +347,7 @@ describe('IdsTextarea Component', () => {
     }, 2);
   });
 
-  it('should not set wrong text-align', () => {
+  test('should not set wrong text-align', () => {
     textarea.textAlign = 'test';
     expect(textarea.getAttribute('text-align')).toEqual('left');
     expect(textarea.input.classList).not.toContain('test');
@@ -506,7 +358,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.input.classList).toContain(textAlign);
   });
 
-  it('should textarea text-align', () => {
+  test('should textarea text-align', () => {
     const textAligns: string[] = ['left', 'center', 'right'];
     const checkAlign = (textAlign: string) => {
       textarea.textAlign = textAlign;
@@ -521,7 +373,7 @@ describe('IdsTextarea Component', () => {
     textAligns.forEach((s) => checkAlign(s));
   });
 
-  it('should dispatch native events', () => {
+  test('should dispatch native events', () => {
     const events = ['change', 'input', 'propertychange', 'focus', 'select'];
     events.forEach((evt) => {
       let response = null;
@@ -534,7 +386,7 @@ describe('IdsTextarea Component', () => {
     });
   });
 
-  it('should not set wrong size', () => {
+  test('should not set wrong size', () => {
     textarea.size = 'test';
     expect(textarea.getAttribute('size')).toEqual('md');
     expect(textarea.input.classList).not.toContain('test');
@@ -544,7 +396,7 @@ describe('IdsTextarea Component', () => {
     expect(textarea.shadowRoot.querySelector('.field-container').classList).toContain(size);
   });
 
-  it('should rendr textarea sizes', () => {
+  test('should rendr textarea sizes', () => {
     const sizes = ['sm', 'md', 'lg', 'full'];
     const checkSize = (size: string) => {
       textarea.size = size;

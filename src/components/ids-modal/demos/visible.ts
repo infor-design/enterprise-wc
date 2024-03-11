@@ -1,6 +1,6 @@
 // Supprt components
 import '../ids-modal';
-import '../../ids-modal-button/ids-modal-button';
+import '../ids-modal-button';
 import '../../ids-menu-button/ids-menu-button';
 
 document.addEventListener('DOMContentLoaded', () => {

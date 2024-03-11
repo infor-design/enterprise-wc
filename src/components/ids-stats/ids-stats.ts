@@ -63,8 +63,10 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
       attributes.COL_SPAN,
       attributes.ICON,
       attributes.KPI,
+      attributes.KPI_FORMAT,
       attributes.MAIN_LABEL,
       attributes.TREND_LABEL,
+      attributes.KPI_FORMAT,
       attributes.SELECTED,
       attributes.STATUS_COLOR,
       attributes.SUBTITLE
@@ -343,7 +345,7 @@ export default class IdsStats extends IdsLocaleMixin(IdsEventsMixin(IdsElement))
    * Set the locale format for the kpi
    * @param {Intl.NumberFormatOptions | undefined} value If 2 will span 2 columns, nothing else is valid
    */
-  set trendFormat(value: Intl.NumberFormatOptions | undefined) {
+  set trendFormat(value: Intl.NumberFormatOptions | undefined | string) {
     if (value !== undefined && typeof value !== 'string') {
       this.formats.trend = value;
     } else {

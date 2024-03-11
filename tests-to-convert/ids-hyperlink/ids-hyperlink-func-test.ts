@@ -16,13 +16,13 @@ describe('IdsHyperlink Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders href setting', () => {
+  test('renders href setting', () => {
     elem.href = 'test';
     expect(elem.href).toEqual('test');
     expect(document.querySelectorAll('[href="test"]').length).toEqual(1);
   });
 
-  it('renders href setting then removes it', () => {
+  test('renders href setting then removes it', () => {
     elem.href = 'test';
     expect(elem.href).toEqual('test');
     elem.href = null;
@@ -30,13 +30,13 @@ describe('IdsHyperlink Component', () => {
     expect(elem.getAttribute('href')).toEqual(null);
   });
 
-  it('renders target setting', () => {
+  test('renders target setting', () => {
     elem.target = '_blank';
     expect(elem.target).toEqual('_blank');
     expect(elem.getAttribute('target')).toEqual('_blank');
   });
 
-  it('renders target setting then removes it', () => {
+  test('renders target setting then removes it', () => {
     elem = new IdsHyperlink();
     document.body.appendChild(elem);
     elem.target = '_blank';
@@ -46,7 +46,7 @@ describe('IdsHyperlink Component', () => {
     expect(elem.getAttribute('target')).toEqual(null);
   });
 
-  it('renders text-decoration setting', () => {
+  test('renders text-decoration setting', () => {
     elem.textDecoration = 'none';
     expect(elem.container.classList.contains('ids-text-decoration-none')).toBeTruthy();
     expect(elem.getAttribute('text-decoration')).toEqual('none');
@@ -58,7 +58,7 @@ describe('IdsHyperlink Component', () => {
     expect(elem.textDecoration).toEqual('hover');
   });
 
-  it('renders target setting then removes it', () => {
+  test('renders target setting then removes it', () => {
     elem = new IdsHyperlink();
     document.body.appendChild(elem);
     expect(elem.textDecoration).toEqual(null);
@@ -68,7 +68,7 @@ describe('IdsHyperlink Component', () => {
     expect(elem.getAttribute('text-decoration')).toEqual(null);
   });
 
-  it('renders disabled setting then removes it', () => { // ids-text audible
+  test('renders disabled setting then removes it', () => { // ids-text audible
     elem = new IdsHyperlink();
     document.body.appendChild(elem);
     elem.disabled = true;
@@ -81,43 +81,43 @@ describe('IdsHyperlink Component', () => {
     expect(elem.shadowRoot.querySelector('a').getAttribute('tabindex')).toEqual(null);
   });
 
-  it('unsets the color', () => {
+  test('unsets the color', () => {
     elem.color = 'unset';
     expect(elem.getAttribute('color')).toEqual('unset');
     expect(elem.color).toEqual('unset');
   });
 
-  it('does not render a color for inputs other than unset', () => {
+  test('does not render a color for inputs other than unset', () => {
     elem.color = 'blue';
     expect(elem.getAttribute('color')).toEqual(null);
     expect(elem.color).toEqual(null);
   });
 
-  it('sets a given font size', () => {
+  test('sets a given font size', () => {
     elem.fontSize = 14;
     expect(elem.getAttribute('font-size')).toEqual('14');
   });
 
-  it('sets font weight to bold or lighter', () => {
+  test('sets font weight to bold or lighter', () => {
     elem.fontWeight = 'bold';
     expect(elem.getAttribute('font-weight')).toEqual('bold');
     elem.fontWeight = 'lighter';
     expect(elem.getAttribute('font-weight')).toEqual('lighter');
   });
 
-  it('removes font size if attribute is empty', () => {
+  test('removes font size if attribute is empty', () => {
     elem.fontSize = '';
     expect(elem.getAttribute('font-size')).toEqual(null);
     expect(elem.fontSize).toEqual(null);
   });
 
-  it('does not set font weight to anything other than bold or lighter', () => {
+  test('does not set font weight to anything other than bold or lighter', () => {
     elem.fontWeight = 'extra bold';
     expect(elem.getAttribute('font-weight')).toEqual(null);
     expect(elem.fontWeight).toEqual(null);
   });
 
-  it('should handle allow-empty-href setting', () => {
+  test('should handle allow-empty-href setting', () => {
     expect(elem.allowEmptyHref).toBeTruthy();
 
     elem.allowEmptyHref = false;
@@ -127,7 +127,7 @@ describe('IdsHyperlink Component', () => {
   });
 
   /* To do */
-  // it('doesn\'t set the role attribute if one already exists', () => {
+  // test('doesn\'t set the role attribute if one already exists', () => {
 
   // })
 });

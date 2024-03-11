@@ -1,0 +1,10 @@
+---
+ component: Ids Global
+ link: ids-global
+ description: Ids Global Object
+ category: Patterns
+ keywords: Locale, Personalize, Version, IdsGlobal
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows Ids Global Settings

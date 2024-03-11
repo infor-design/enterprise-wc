@@ -152,7 +152,7 @@ export default class IdsProcessStep extends Base {
    */
   statusIcon(status: string): string {
     if (status === 'cancelled') {
-      return `<ids-icon icon="close" size="xsmall"></ids-icon>`;
+      return `<ids-icon icon="close" size="small"></ids-icon>`;
     }
 
     return '';
@@ -193,7 +193,7 @@ export default class IdsProcessStep extends Base {
       if (statusIcon) {
         this.container
           ?.querySelector('.step')
-          ?.insertAdjacentHTML('beforeend', `<ids-icon icon="close" size="xsmall"></ids-icon>`);
+          ?.insertAdjacentHTML('beforeend', `<ids-icon icon="close" size="small"></ids-icon>`);
       }
     }
   }

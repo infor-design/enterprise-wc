@@ -89,13 +89,11 @@ describe('IdsTabs Tests', () => {
     elem?.remove();
   });
 
-  it('removes a tab after rendering and does not break', async () => {
+  test('removes a tab after rendering and does not break', async () => {
     const errors = jest.spyOn(global.console, 'error');
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
-    await processAnimFrame();
 
     elem.remove(elem.children[elem.children.length - 1]);
-    await processAnimFrame();
 
     expect(errors).not.toHaveBeenCalled();
     expect(elem.outerHTML).toMatchSnapshot();
@@ -105,7 +103,6 @@ describe('IdsTabs Tests', () => {
   it.skip('sets "selected" state of a new tab directly, and does not become in an invalid tabs state', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     elem.children[1].selected = true;
-    await processAnimFrame();
     const hasValidTabs = areTabSelectionAttribsValid();
     expect(hasValidTabs).toEqual(true);
   });
@@ -114,27 +111,23 @@ describe('IdsTabs Tests', () => {
   it.skip('unsets "selected" state of a selected tab false, and triggers an error with an invalid tabs state', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     elem.children[0].selected = false;
-    await processAnimFrame();
     const hasValidTabs = areTabSelectionAttribsValid();
     expect(hasValidTabs).toEqual(false);
   });
 
-  it('changes content within a text node to fire a slotchange with no errors', async () => {
+  test('changes content within a text node to fire a slotchange with no errors', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
-    await processAnimFrame();
 
     const errors = jest.spyOn(global.console, 'error');
     elem.children[0].textContent = 'Its Over 9000';
 
-    await processAnimFrame();
 
     expect(errors).not.toHaveBeenCalled();
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
-  it('changes value of ids-tab, and the "selected" attrib of every ids-tab listed is predictable', async () => {
+  test('changes value of ids-tab, and the "selected" attrib of every ids-tab listed is predictable', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
-    await processAnimFrame();
 
     await Promise.all([...elem.children].map((tabEl) => async () => {
       elem.value = tabEl.getAttribute('value');
@@ -145,21 +138,19 @@ describe('IdsTabs Tests', () => {
     }));
   });
 
-  it('changes calls value setter of ids-tab to it\'s current value without side effects', async () => {
+  test('changes calls value setter of ids-tab to it\'s current value without side effects', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
-    await processAnimFrame();
 
     elem.value = 'world';
   });
 
-  it('sets count attribute on the ids-tab component predictably', async () => {
+  test('sets count attribute on the ids-tab component predictably', async () => {
     elem = await createFromTemplate(
       elem,
       `<ids-tab count="20" value="eggs">Eggs In a Basket</ids-tab>`
     );
 
     // wait for ids element to fire #updateAttributes() rAF
-    await processAnimFrame();
 
     expect(elem.getAttribute('count')).toEqual('20');
 
@@ -173,14 +164,14 @@ describe('IdsTabs Tests', () => {
     expect(elem.getAttribute('count')).toEqual('20');
   });
 
-  it('is created within ids-header and gets set to an alternate color variant', async () => {
+  test('is created within ids-header and gets set to an alternate color variant', async () => {
     const idsHeader = new IdsHeader();
     (document.body as any).appendChild(idsHeader);
 
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
   });
 
-  it('predictably sets/gets color-variant', async () => {
+  test('predictably sets/gets color-variant', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     expectEnumAttributeBehavior({
       elem,
@@ -193,7 +184,7 @@ describe('IdsTabs Tests', () => {
     expect(elem.hasAttribute('color-variant')).toBeFalsy();
   });
 
-  it('clicks on an unselected tab and ids-tabs detects tabselect', async () => {
+  test('clicks on an unselected tab and ids-tabs detects tabselect', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     const args: any = {
       target: elem.children[1],
@@ -205,13 +196,13 @@ describe('IdsTabs Tests', () => {
     elem.children[1].dispatchEvent(clickEvent);
   });
 
-  it('sets/gets the selected flag predictably on ids-tab', async () => {
+  test('sets/gets the selected flag predictably on ids-tab', async () => {
     elem = await createFromTemplate(elem, '<ids-tab value="random"></ids-tab>');
 
     await expectFlagAttributeBehavior({ elem, attribute: 'selected' });
   });
 
-  it('sets/gets the color-variant flag predictably on ids-tab', async () => {
+  test('sets/gets the color-variant flag predictably on ids-tab', async () => {
     elem = await createFromTemplate(elem, '<ids-tab value="random"></ids-tab>');
     expectEnumAttributeBehavior({
       elem,
@@ -223,7 +214,7 @@ describe('IdsTabs Tests', () => {
     expect(elem.hasAttribute('color-variant')).toBeFalsy();
   });
 
-  it('gets/sets the value of ids-tabs-context reliably', async () => {
+  test('gets/sets the value of ids-tabs-context reliably', async () => {
     elem = await createFromTemplate(elem, TAB_CONTEXT_HTML);
     expectEnumAttributeBehavior({
       elem,
@@ -235,7 +226,7 @@ describe('IdsTabs Tests', () => {
     expect(elem.hasAttribute('color-variant')).toBeFalsy();
   });
 
-  it('sets the ids-tab-content value directly', async () => {
+  test('sets the ids-tab-content value directly', async () => {
     elem = await createFromTemplate(elem, TAB_CONTEXT_HTML);
     const contentElem = elem.querySelector('ids-tab-content');
     expect(contentElem.getAttribute('value')).toEqual('a');
@@ -245,7 +236,7 @@ describe('IdsTabs Tests', () => {
     expect(contentElem.value).toEqual('b');
   });
 
-  it('sets the aria-label', async () => {
+  test('sets the aria-label', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     expect(elem.querySelector('ids-tab').getAttribute('aria-label')).toEqual('Hello');
     elem = await createFromTemplate(elem, `<ids-tabs></ids-tabs>`);

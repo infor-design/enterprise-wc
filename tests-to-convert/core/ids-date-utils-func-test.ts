@@ -26,7 +26,7 @@ import {
 } from '../../src/utils/ids-date-utils/ids-date-utils';
 
 describe('IdsDateUtils Tests', () => {
-  it('should determine whether or not a date is todays date', () => {
+  test('should determine whether or not a date is todays date', () => {
     const today = new Date();
     const notToday = new Date('01/01/2015');
 
@@ -34,7 +34,7 @@ describe('IdsDateUtils Tests', () => {
     expect(isTodaysDate(notToday)).toBeFalsy();
   });
 
-  it('should get the first day of the week', () => {
+  test('should get the first day of the week', () => {
     // Friday
     const date = new Date('11/12/2021');
 
@@ -46,7 +46,7 @@ describe('IdsDateUtils Tests', () => {
     expect(firstDayOfWeekDate(date, 4, false).getDay()).toEqual(4);
   });
 
-  it('should get the last day of the week', () => {
+  test('should get the last day of the week', () => {
     // Wednesday
     const date = new Date('11/10/2021');
 
@@ -58,7 +58,7 @@ describe('IdsDateUtils Tests', () => {
     expect(lastDayOfWeekDate(date, 3).getDay()).toEqual(2);
   });
 
-  it('should get the difference between two dates', () => {
+  test('should get the difference between two dates', () => {
     const first = new Date();
     const second = addDate(new Date(), 1, 'days');
 
@@ -68,19 +68,19 @@ describe('IdsDateUtils Tests', () => {
     expect(dateDiff(first, second, true)).toEqual(24);
   });
 
-  it('should get the month difference between two dates', () => {
+  test('should get the month difference between two dates', () => {
     expect(monthDiff(new Date('11/10/2021'), new Date('12/14/2021'))).toEqual(1);
     expect(monthDiff(new Date('11/10/2021'), new Date('11/14/2021'))).toEqual(0);
     expect(monthDiff(new Date('01/01/2021'), new Date('01/01/2022'))).toEqual(12);
     expect(monthDiff(new Date('01/01/2022'), new Date('01/01/2021'))).toEqual(0);
   });
 
-  it('should get the day difference between two dates', () => {
+  test('should get the day difference between two dates', () => {
     expect(daysDiff(new Date('11/10/2021'), new Date('11/14/2021'))).toEqual(4);
     expect(daysDiff(new Date('11/10/2021'), new Date('11/10/2021'))).toEqual(0);
   });
 
-  it('should add and subtract a number of units to original date', () => {
+  test('should add and subtract a number of units to original date', () => {
     let twoDaysAdd = addDate(new Date(), 2, 'days');
     let twoDaysSubtract = subtractDate(new Date(), 2, 'days');
 
@@ -99,17 +99,17 @@ describe('IdsDateUtils Tests', () => {
     expect(daysDiff(twoDaysSubtract, new Date('11/10/2021'))).toEqual(2);
   });
 
-  it('should check if a date is valid', () => {
+  test('should check if a date is valid', () => {
     expect(isValidDate(new Date())).toBeTruthy();
     expect(isValidDate('string')).toBeFalsy();
   });
 
-  it('should check if a date is using daylight saving time', () => {
+  test('should check if a date is using daylight saving time', () => {
     expect(isDaylightSavingTime(new Date('11/10/2021'))).toBeFalsy();
     expect(isDaylightSavingTime(new Date('06/10/2021'))).toBeTruthy();
   });
 
-  it('should get correct number of days in a month', () => {
+  test('should get correct number of days in a month', () => {
     expect(daysInMonth(2021, 11, 23, true)).toEqual(30);
     expect(daysInMonth(2021, 11)).toEqual(31);
     expect(daysInMonth(2022, 0, 23, true)).toEqual(29);
@@ -122,7 +122,7 @@ describe('IdsDateUtils Tests', () => {
     expect(daysInMonth(2000, 1, 15, true)).toEqual(29);
   });
 
-  it('should get correct number of weeks in a month', () => {
+  test('should get correct number of weeks in a month', () => {
     expect(weeksInMonth(2021, 9)).toEqual(6);
     expect(weeksInMonth(2021, 10, 0, 5)).toEqual(5);
     expect(weeksInMonth(2022, 0, 0, 1)).toEqual(6);
@@ -134,12 +134,12 @@ describe('IdsDateUtils Tests', () => {
     expect(weeksInMonth(2000, 1)).toEqual(5);
   });
 
-  it('should get correct number of weeks in range', () => {
+  test('should get correct number of weeks in range', () => {
     expect(weeksInRange(new Date(2021, 11, 1), new Date(2021, 11, 1))).toEqual(1);
     expect(weeksInRange(new Date(2021, 11, 1), new Date(2021, 11, 15))).toEqual(3);
   });
 
-  it('should convert the Umm al-Qura to Gregorian calendar date', () => {
+  test('should convert the Umm al-Qura to Gregorian calendar date', () => {
     expect(umalquraToGregorian(1420, 10, 8).getDate()).toEqual(14);
     expect(umalquraToGregorian(1420, 10, 8).getMonth()).toEqual(1);
     expect(umalquraToGregorian(1420, 10, 8).getFullYear()).toEqual(2000);
@@ -151,7 +151,7 @@ describe('IdsDateUtils Tests', () => {
     expect(umalquraToGregorian(1357, 10, 1).getFullYear()).toEqual(1938);
   });
 
-  it('should convert the Gregorian to Umm al-Qura calendar date', () => {
+  test('should convert the Gregorian to Umm al-Qura calendar date', () => {
     expect(gregorianToUmalqura()).toHaveProperty('year');
     expect(gregorianToUmalqura()).toHaveProperty('month');
     expect(gregorianToUmalqura()).toHaveProperty('day');
@@ -163,14 +163,14 @@ describe('IdsDateUtils Tests', () => {
     expect(gregorianToUmalqura(new Date(2021, 11, 22)).year).toEqual(1443);
   });
 
-  it('should get correct first/last day of a month', () => {
+  test('should get correct first/last day of a month', () => {
     expect(firstDayOfMonthDate(2021, 10).getDate()).toEqual(1);
     expect(lastDayOfMonthDate(2021, 10).getDate()).toEqual(30);
     expect(firstDayOfMonthDate(2000, 1).getDate()).toEqual(1);
     expect(lastDayOfMonthDate(2000, 1).getDate()).toEqual(29);
   });
 
-  it('should get correct date from week number', () => {
+  test('should get correct date from week number', () => {
     // Week starts on Sunday
     expect(weekNumberToDate(2022, 1)).toEqual(new Date(2022, 0, 2));
     expect(weekNumberToDate(2022, 52)).toEqual(new Date(2022, 11, 25));
@@ -192,7 +192,7 @@ describe('IdsDateUtils Tests', () => {
     expect(weekNumberToDate(2022, 33, 1)).toEqual(new Date(2022, 7, 15));
   });
 
-  it('should get correct week number by date', () => {
+  test('should get correct week number by date', () => {
     // Week starts on Sunday
     expect(weekNumber(new Date(2022, 11, 31))).toEqual(52);
     expect(weekNumber(new Date(2026, 11, 31))).toEqual(53);
@@ -207,7 +207,7 @@ describe('IdsDateUtils Tests', () => {
     expect(weekNumber(new Date(2022, 5, 26), 1)).toEqual(25);
   });
 
-  it('should convert hours to 24 hour format', () => {
+  test('should convert hours to 24 hour format', () => {
     // AM
     expect(hoursTo24(12, 0)).toEqual(0);
     expect(hoursTo24(1, 0)).toEqual(1);
@@ -226,7 +226,7 @@ describe('IdsDateUtils Tests', () => {
     expect(hoursTo24(22)).toEqual(22);
   });
 
-  it('should convert hours to 12 hour format', () => {
+  test('should convert hours to 12 hour format', () => {
     expect(hoursTo12(0)).toEqual(12);
     expect(hoursTo12(12)).toEqual(12);
     expect(hoursTo12(1)).toEqual(1);
