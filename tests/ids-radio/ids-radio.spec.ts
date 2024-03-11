@@ -237,12 +237,12 @@ test.describe('IdsRadio tests', () => {
       const calls: { [key: string]: number } = {};
 
       for (const eventName of eventsToTest) {
-        // eslint-disable-next-line @typescript-eslint/no-loop-func
         calls[eventName] = await page.evaluate((event) => {
           let eventCalls = 0;
-          rb.addEventListener(event, () => { eventCalls++; });
+          const rbEl = document.querySelector<IdsRadio>('ids-radio');
+          rbEl?.addEventListener(event, () => { eventCalls++; });
           const eventObj = new Event(event, { bubbles: true });
-          rb.dispatchEvent(eventObj);
+          rbEl?.dispatchEvent(eventObj);
           return eventCalls;
         }, eventName);
       }
