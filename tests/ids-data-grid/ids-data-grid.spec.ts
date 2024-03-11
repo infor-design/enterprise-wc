@@ -118,6 +118,25 @@ test.describe('IdsDataGrid tests', () => {
       expect(results.headerElementType).toEqual('header-title');
       expect(results.bodyCellType).toEqual('body-cell');
     });
+
+    test('should fire activecellchanged cell event on click', async ({ page }) => {
+      const results: any = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let activeCell;
+        const activeCellChangeCallback = (e: any) => {
+          activeCell = e.detail.activeCell;
+        };
+
+        dataGrid.addEventListener('activecellchanged', activeCellChangeCallback);
+
+        dataGrid.container?.querySelectorAll('.ids-data-grid-row')?.[3]?.querySelectorAll<HTMLElement>('.ids-data-grid-cell')?.[3]?.click();
+
+        return activeCell;
+      });
+
+      expect(results?.row).toEqual(2);
+      expect(results?.cell).toEqual(3);
+    });
   });
 
   test.describe('client-side paging tests', () => {
@@ -2603,6 +2622,523 @@ test.describe('IdsDataGrid tests', () => {
       const selectedRows = await page.locator('ids-data-grid').evaluate((elem: IdsDataGrid) => elem.selectedRows.length);
 
       expect(selectedRows).toEqual(3);
+    });
+  });
+
+  test.describe('editing tests', () => {
+    const editableUrl = '/ids-data-grid/editable.html';
+    test.beforeEach(async ({ page }) => {
+      await page.goto(editableUrl);
+    });
+
+    test('should be able to edit a cell and type a value', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+        editableCell.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        editableCell.querySelector('ids-input').value = 'test';
+        editableCell.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        return editableCell.textContent;
+      });
+      // dataGrid.editable = true;
+      // const clickEvent = new MouseEvent('click', { bubbles: true });
+      // const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      // const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
+
+      // editableCell.dispatchEvent(clickEvent);
+      // expect(editableCell.classList.contains('is-editing')).toBeTruthy();
+      // editableCell.querySelector('ids-input').value = 'test';
+
+      // nextCell.dispatchEvent(clickEvent);
+      // expect(editableCell.textContent).toBe('test');
+    });
+
+    test('should be able to edit a cell and validate a value', () => {
+      dataGrid.editable = true;
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
+
+      editableCell.dispatchEvent(clickEvent);
+      editableCell.dispatchEvent(clickEvent); // skipped
+      editableCell.querySelector('ids-input').value = '';
+
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.textContent).toBe('');
+      expect(editableCell.classList.contains('is-invalid')).toBeTruthy();
+    });
+
+    test('should handle error situations', () => {
+      const errors = jest.spyOn(global.console, 'error');
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.isEditing = true;
+      editableCell.startCellEdit();
+      expect(errors).not.toHaveBeenCalled();
+    });
+
+    test('can veto edit on with readonly/disabled', () => {
+      const readonlyCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(1) > .ids-data-grid-cell:nth-child(3)');
+      readonlyCell.startCellEdit();
+      expect(readonlyCell.classList.contains('is-editing')).toBeFalsy();
+      readonlyCell.classList.remove('is-readonly');
+      readonlyCell.classList.add('is-disabled');
+      readonlyCell.startCellEdit();
+      expect(readonlyCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    test('can veto edit on with beforeCellEdit', () => {
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.addEventListener('beforecelledit', (e: Event) => {
+        (<CustomEvent>e).detail.response(false);
+      });
+
+      editableCell.startCellEdit();
+      expect(editableCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    test('clears invalid state on edit', () => {
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.classList.add('is-invalid');
+      editableCell.startCellEdit();
+      expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
+    });
+
+    test('add inline class', () => {
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.column.editor.inline = true;
+      editableCell.startCellEdit();
+      expect(editableCell.classList.contains('is-inline')).toBeTruthy();
+    });
+
+    test('rendercell on rowNumber columns', () => {
+      const rowNumberCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(1) > .ids-data-grid-cell:nth-child(2)');
+      rowNumberCell.renderCell();
+      expect(rowNumberCell.textContent).toBe('1');
+    });
+
+    test('endCellEdit on valid columns', () => {
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.column.editor.editorSettings.validate = null;
+      editableCell.endCellEdit();
+      expect(editableCell.isInValid).toBe(false);
+    });
+
+    test('should be able to edit a cell and reset validation state', () => {
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      editableCell.isInValid = true;
+
+      editableCell.startCellEdit();
+      editableCell.querySelector('ids-input').value = '102';
+      editableCell.endCellEdit();
+
+      expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
+    });
+
+    test('should be able to cancel a cell and reset validation state', () => {
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      expect(editableCell.textContent).toBe('102');
+
+      editableCell.startCellEdit();
+      editableCell.querySelector('ids-input').value = 'Test';
+      editableCell.cancelCellEdit();
+      expect(editableCell.textContent).toBe('102');
+    });
+
+    test('can edit date cells', () => {
+      dataGrid.editable = true;
+      dataGrid.setActiveCell(2, 1);
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(5)');
+      const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
+      expect(editableCell.textContent).toBe('2/23/2021');
+
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+
+      editableCell.dispatchEvent(clickEvent);
+      editableCell.querySelector('ids-input').value = '10/10/2023';
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.textContent).toBe('10/10/2023');
+    });
+
+    test('show and revert dirty indicators on cells', () => {
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      editableCell.startCellEdit();
+      editableCell.querySelector('ids-input').value = 'test';
+      editableCell.querySelector('ids-input').dirty = {};
+      editableCell.querySelector('ids-input').dirty.original = '102';
+      editableCell.endCellEdit();
+
+      expect(editableCell.classList.contains('is-dirty')).toBeTruthy();
+
+      editableCell.startCellEdit();
+      editableCell.querySelector('ids-input').value = '102';
+      editableCell.endCellEdit();
+
+      expect(editableCell.classList.contains('is-dirty')).toBeFalsy();
+    });
+
+    test('show and revert validation indicators on cells', () => {
+      dataGrid.editable = true;
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
+
+      expect(editableCell.textContent).toBe('102');
+
+      editableCell.dispatchEvent(clickEvent);
+      editableCell.querySelector('ids-input').value = '';
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.textContent).toBe('');
+      expect(editableCell.classList.contains('is-invalid')).toBeTruthy();
+
+      editableCell.dispatchEvent(clickEvent);
+      editableCell.querySelector('ids-input').value = '102';
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.textContent).toBe('102');
+      expect(editableCell.classList.contains('is-invalid')).toBeFalsy();
+    });
+
+    test('can edit as checkboxes', () => {
+      dataGrid.editable = true;
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      const nextCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(4)');
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
+
+      expect(editableCell.querySelector('[aria-checked]').getAttribute('aria-checked')).toBe('false');
+      editableCell.dispatchEvent(clickEvent);
+      nextCell.dispatchEvent(clickEvent);
+      expect(editableCell.querySelector('[aria-checked]').getAttribute('aria-checked')).toBe('true');
+    });
+
+    test('covers the checkboxes editor', () => {
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
+      editableCell.startCellEdit();
+      editableCell.editor.clickEvent = new MouseEvent('click');
+      editableCell.editor.init(editableCell);
+      expect(editableCell.editor.input.checked).toBe(true);
+      editableCell.endCellEdit();
+
+      editableCell.startCellEdit();
+      editableCell.editor.clickEvent = undefined;
+      editableCell.editor.init(editableCell);
+      expect(editableCell.editor.input.checked).toBe(false);
+      editableCell.endCellEdit();
+    });
+
+    test('can reset dirty cells', () => {
+      dataGrid.editable = true;
+      dataGrid.resetDirtyCells();
+      expect(dataGrid.dirtyCells.length).toBe(0);
+      dataGrid.data[1].dirtyCells = [];
+      dataGrid.data[1].dirtyCells.push({ row: 1, cell: 0, originalValue: 'x' });
+      expect(dataGrid.dirtyCells.length).toBe(1);
+      dataGrid.resetDirtyCells();
+      expect(dataGrid.dirtyCells.length).toBe(0);
+    });
+
+    test('can set the editable setting', () => {
+      dataGrid.editable = true;
+      expect(dataGrid.getAttribute('editable')).toEqual('true');
+      expect(dataGrid.editable).toEqual(true);
+
+      dataGrid.editable = false;
+      expect(dataGrid.getAttribute('editable')).toBeFalsy();
+      expect(dataGrid.editable).toEqual(false);
+    });
+
+    test('can set the editNextOnEnterPress setting', () => {
+      dataGrid.editNextOnEnterPress = true;
+      expect(dataGrid.getAttribute('edit-next-on-enter-press')).toEqual('true');
+      expect(dataGrid.editNextOnEnterPress).toEqual(true);
+
+      dataGrid.editNextOnEnterPress = false;
+      expect(dataGrid.getAttribute('edit-next-on-enter-press')).toBeFalsy();
+      expect(dataGrid.editNextOnEnterPress).toEqual(false);
+    });
+
+    test('can call commit commitCellEdit', () => {
+      dataGrid.editable = true;
+      const clickEvent = new MouseEvent('click', { bubbles: true });
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+
+      expect(editableCell.textContent).toBe('102');
+
+      editableCell.dispatchEvent(clickEvent);
+      editableCell.querySelector('ids-input').value = 'test';
+      dataGrid.commitCellEdit();
+
+      expect(editableCell.textContent).toBe('test');
+    });
+
+    test('can call commit cancelCellEdit', () => {
+      dataGrid.editable = true;
+      const editableCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+
+      expect(editableCell.textContent).toBe('102');
+
+      editableCell.startCellEdit();
+      dataGrid.cancelCellEdit();
+
+      expect(editableCell.textContent).toBe('102');
+      expect(editableCell.classList.contains('is-editing')).toBe(false);
+    });
+
+    test('can call addRow', () => {
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      dataGrid.addRow({ description: 'test' });
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
+    });
+
+    test('can add multiple rows at given index', () => {
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      dataGrid.addRows([
+        { description: 'test1' },
+        { description: 'test2' },
+        { description: 'test3' }
+      ], 2);
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(13);
+      expect(dataGrid.container.getAttribute('aria-rowcount')).toEqual('12');
+      expect(dataGrid.data[2].description).toEqual('test1');
+      expect(dataGrid.data[3].description).toEqual('test2');
+      expect(dataGrid.data[4].description).toEqual('test3');
+    });
+
+    test('can call removeRow', async () => {
+      await processAnimFrame();
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      dataGrid.addRow({ description: 'test' });
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(11);
+      dataGrid.removeRow(9);
+      expect(dataGrid.container.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+      expect(dataGrid.container.getAttribute('aria-rowcount')).toEqual('9');
+    });
+
+    test('can call clearRow', async () => {
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(8) > .ids-data-grid-cell:nth-child(3)');
+
+      expect(descCell.textContent).toEqual('108');
+      dataGrid.clearRow(7);
+      await processAnimFrame();
+      expect(dataGrid.container.querySelector('.ids-data-grid-row:nth-child(8) > .ids-data-grid-cell:nth-child(3)').textContent).toEqual('');
+    });
+
+    test('can call editFirstCell', () => {
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+
+      expect(descCell.classList.contains('is-editing')).toBeFalsy();
+      dataGrid.setActiveCell(0, 1);
+      dataGrid.editFirstCell();
+      expect(descCell.classList.contains('is-editing')).toBeTruthy();
+    });
+
+    test('can enter edit mode with enter and exit with arrows', () => {
+      dataGrid.editable = true;
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(event);
+      const event2 = new KeyboardEvent('keydown', { key: ' ' }); // Ignored
+      dataGrid.dispatchEvent(event2);
+      dataGrid.dispatchEvent(event2);
+      expect(descCell.classList.contains('is-editing')).toBeTruthy();
+      const event3 = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+      dataGrid.dispatchEvent(event3);
+      expect(descCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    test('can enter edit mode with enter and exit with f2', () => {
+      dataGrid.editable = true;
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(event);
+      const event2 = new KeyboardEvent('keydown', { key: 'F2' });
+      dataGrid.dispatchEvent(event2);
+      expect(descCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    test('can enter edit mode with enter and cancel with ESC', () => {
+      dataGrid.editable = true;
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(event);
+      const event2 = new KeyboardEvent('keydown', { key: 'Escape' });
+      dataGrid.dispatchEvent(event2);
+      expect(descCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    test('can enter edit mode with enter by typing', () => {
+      dataGrid.editable = true;
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'a' });
+      dataGrid.dispatchEvent(event);
+      expect(descCell.classList.contains('is-editing')).toBeTruthy();
+    });
+
+    test('can enter edit mode and editNextOnEnterPress', () => {
+      dataGrid.editable = true;
+      dataGrid.editNextOnEnterPress = true;
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(event);
+      expect(descCell.classList.contains('is-editing')).toBeTruthy();
+      const event2 = new KeyboardEvent('keydown', { key: 'a' });
+      dataGrid.dispatchEvent(event2);
+
+      dataGrid.dispatchEvent(event);
+      expect(descCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it.skip('can continue to enter edit mode with tabbing', () => {
+      dataGrid.editable = true;
+      const tabKey = new KeyboardEvent('keydown', { key: 'Tab' });
+      dataGrid.dispatchEvent(tabKey); // Does nothing
+
+      const descCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+      dataGrid.setActiveCell(2, 1);
+      expect(descCell.classList.contains('is-editable')).toBeTruthy();
+      const event = new KeyboardEvent('keydown', { key: 'a' });
+      dataGrid.dispatchEvent(event);
+      expect(descCell.classList.contains('is-editing')).toBeTruthy();
+      for (let index = 0; index < 300; index++) {
+        dataGrid.dispatchEvent(tabKey);
+        expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
+      }
+
+      const shiftTabKey = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
+      for (let index = 0; index < 300; index++) {
+        dataGrid.dispatchEvent(shiftTabKey);
+        expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
+      }
+
+      for (let index = 0; index < 300; index++) {
+        dataGrid.dispatchEvent(tabKey);
+        expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
+      }
+
+      for (let index = 0; index < 300; index++) {
+        dataGrid.dispatchEvent(shiftTabKey);
+        expect(dataGrid.container.querySelectorAll('.is-editing').length).toBe(1);
+      }
+    });
+
+    it.skip('can create rows while tabbing', () => {
+      // test setting
+      dataGrid.editable = true;
+      dataGrid.editNextOnEnterPress = true;
+      dataGrid.addNewAtEnd = true;
+      expect(dataGrid.addNewAtEnd).toEqual(true);
+
+      const rowsLen = dataGrid.rows.length;
+      const cell = dataGrid.setActiveCell(2, 7);
+      expect(cell.node.classList.contains('is-editable')).toBeTruthy();
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      expect(cell.node.classList.contains('is-editing')).toBeTruthy();
+
+      const tabKey = new KeyboardEvent('keydown', { key: 'Tab' });
+      for (let i = 0; i < 20; i++) {
+        dataGrid.dispatchEvent(tabKey);
+      }
+      expect(dataGrid.rows.length).toBeGreaterThan(rowsLen);
+    });
+
+    test('space toggles editable checkboxes', () => {
+      dataGrid.editable = true;
+      const checkCell = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
+      dataGrid.setActiveCell(11, 1);
+      expect(checkCell.querySelector('[aria-checked]').getAttribute('aria-checked')).toBe('false');
+      const event = new KeyboardEvent('keydown', { key: ' ' });
+      dataGrid.dispatchEvent(event);
+      const checkCell2 = dataGrid.container.querySelector('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(12)');
+      expect(checkCell2.querySelector('ids-checkbox').getAttribute('checked')).toBe('true');
+    });
+
+    const cellQuery = (col: number, row: number) => dataGrid.container.querySelector(`.ids-data-grid-row:nth-child(${row}) > .ids-data-grid-cell:nth-child(${col})`);
+    const activateCell = (col: number, row: number) => {
+      dataGrid.editable = true;
+      const activeCell = dataGrid.setActiveCell(col, row);
+      activeCell.node.focus();
+      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
+      dataGrid.dispatchEvent(enterKey);
+    };
+
+    test('supports a dropdown editor', () => {
+      const dropdownCell = cellQuery(8, 2);
+      activateCell(7, 1);
+      expect(dropdownCell.classList.contains('is-editing')).toBeTruthy();
+      expect(dropdownCell.querySelector('ids-dropdown')).not.toBeNull();
+    });
+
+    it.skip('can change cell value using dropdown editor', () => {
+      const dropdownCell = cellQuery(8, 2);
+      const arrowDownKey = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      const enterKey = new KeyboardEvent('keydown', { key: 'Enter' });
+      activateCell(7, 1);
+
+      const dropdown = dropdownCell.querySelector('ids-dropdown');
+      dropdown.focus();
+      dropdown.dispatchEvent(arrowDownKey); // navigates list box options
+      dropdown.dispatchEvent(enterKey); // selects option
+      expect(dropdown.value).toEqual('yen');
+
+      dropdownCell.endCellEdit();
+      expect(dropdownCell.classList.contains('is-editing')).toBeFalsy();
+    });
+
+    it.skip('supports a datepicker editor', () => {
+      const activeCell = dataGrid.setActiveCell(4, 0);
+      const gridCell = activeCell.node;
+
+      // activate cell editing
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      const datePicker = gridCell.querySelector('ids-trigger-field'); // connected to IdsDatePickerPopup
+      expect(datePicker).toBeDefined();
+
+      // set new value
+      datePicker.value = '4/30/2023';
+      gridCell.endCellEdit();
+
+      expect(gridCell.textContent).toEqual('4/30/2023');
+    });
+
+    it.skip('supports a timepicker editor', () => {
+      const activeCell = dataGrid.setActiveCell(5, 0);
+      const gridCell = activeCell.node;
+
+      // activate cell editing
+      dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      const timePicker = gridCell.querySelector('ids-trigger-field'); // connected to IdsTimePickerPopup
+      expect(timePicker).toBeDefined();
+      expect(timePicker.value).toEqual('2:25 PM');
+
+      // set new value
+      timePicker.value = '3:45 AM';
+      gridCell.endCellEdit();
+
+      expect(gridCell.textContent).toEqual('3:45 AM');
+    });
+
+    test('supports updating data set and refreshing row', () => {
+      const rowIndex = 0;
+      const rowElem = dataGrid.rowByIndex(0);
+      dataGrid.updateDatasetAndRefresh(rowIndex, { bookCurrency: 'eur' });
+
+      // check that data is updated
+      expect(dataGrid.data[rowIndex].bookCurrency).toEqual('eur');
+      // check that UI is updated with new data
+      expect(rowElem.querySelector('[aria-colindex="8"]')?.textContent.trim()).toEqual('EUR');
     });
   });
 });

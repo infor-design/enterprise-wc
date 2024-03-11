@@ -585,34 +585,20 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
-  describe('Active Cell Tests', () => {
-    test('fires activecellchange event', () => {
-      const mockCallback = jest.fn((x) => {
-        expect(x.detail.elem).toBeTruthy();
-        expect(x.detail.activeCell.row).toEqual(1);
-        expect(x.detail.activeCell.cell).toEqual(0);
-        expect(x.detail.activeCell.node).toBeTruthy();
-      });
+  // test('fires activecellchange event', () => {
+  //   const mockCallback = jest.fn((x) => {
+  //     expect(x.detail.elem).toBeTruthy();
+  //     expect(x.detail.activeCell.row).toEqual(1);
+  //     expect(x.detail.activeCell.cell).toEqual(0);
+  //     expect(x.detail.activeCell.node).toBeTruthy();
+  //   });
 
-      dataGrid.addEventListener('activecellchanged', mockCallback);
-      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      dataGrid.dispatchEvent(event);
+  //   dataGrid.addEventListener('activecellchanged', mockCallback);
+  //   const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+  //   dataGrid.dispatchEvent(event);
 
-      expect(mockCallback.mock.calls.length).toBe(1);
-    });
-
-    test('fires activecellchange event on click', () => {
-      const mockCallback = jest.fn();
-
-      dataGrid.addEventListener('activecellchanged', mockCallback);
-      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[3]
-        .querySelectorAll('.ids-data-grid-cell')[3].click();
-
-      expect(mockCallback.mock.calls.length).toBe(1);
-      expect(dataGrid.activeCell.row).toEqual(2);
-      expect(dataGrid.activeCell.cell).toEqual(3);
-    });
-  });
+  //   expect(mockCallback.mock.calls.length).toBe(1);
+  // });
 
   describe('RTL/Language Tests', () => {
     test('supports readonly columns / RTL', () => {
