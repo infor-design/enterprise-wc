@@ -1002,6 +1002,7 @@ export default class IdsPopup extends Base {
       } else {
         this.removeAttribute(attributes.VISIBLE);
       }
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.refreshVisibility();
     }
   }
@@ -1110,23 +1111,12 @@ export default class IdsPopup extends Base {
 
     // Fix location first
     this.place();
-
     this.placeArrow(this.#targetAlignEdge);
-
     this.removeAttribute('aria-hidden');
 
     // Change transparency/visibility
     this.container.classList.add('open');
     this.open = true;
-
-    if (this.animated) {
-      await waitForTransitionEnd(this.container, 'opacity');
-    }
-
-    // Unblur if needed
-    this.correct3dMatrix();
-
-    this.addOpenEvents();
 
     this.triggerEvent('show', this, {
       bubbles: true,
@@ -1134,6 +1124,14 @@ export default class IdsPopup extends Base {
         elem: this
       }
     });
+
+    if (this.animated) {
+      await waitForTransitionEnd(this.container, 'opacity');
+    }
+
+    // Unblur if needed
+    this.correct3dMatrix();
+    this.addOpenEvents();
   }
 
   /**
@@ -1142,19 +1140,12 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   async hide() {
-    if (this.visible || !this.container) {
-      return;
-    }
-
+    if (!this.visible && !this.open) return;
+    this.setAttribute('aria-hidden', 'true');
+    this.visible = false;
     this.open = false;
     this.#remove3dMatrix();
-    this.container.classList.remove('open');
-
-    if (this.animated) {
-      await waitForTransitionEnd(this.container, 'opacity');
-    }
-
-    this.removeOpenEvents();
+    this.container!.classList.remove('open');
 
     // Always fire the 'hide' event
     this.triggerEvent('hide', this, {
@@ -1164,7 +1155,11 @@ export default class IdsPopup extends Base {
       }
     });
 
-    this.setAttribute('aria-hidden', 'true');
+    if (this.animated) {
+      await waitForTransitionEnd(this.container!, 'opacity');
+    }
+
+    this.removeOpenEvents();
   }
 
   /**
@@ -1177,7 +1172,7 @@ export default class IdsPopup extends Base {
     if (!e?.target || this.contains(e.target as HTMLElement)) {
       return;
     }
-    this.visible = false;
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hide();
   }
 

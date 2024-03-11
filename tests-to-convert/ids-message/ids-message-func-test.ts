@@ -7,7 +7,7 @@ import '../helpers/match-media-mock';
 import '../../src/components/ids-message/ids-message';
 
 // Supporing components
-import '../../src/components/ids-modal-button/ids-modal-button';
+import '../../src/components/ids-modal/ids-modal-button';
 import '../../src/components/ids-text/ids-text';
 import type IdsMessage from '../../src/components/ids-message/ids-message';
 

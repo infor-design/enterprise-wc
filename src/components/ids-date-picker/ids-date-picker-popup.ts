@@ -16,7 +16,7 @@ import {
 // Components
 import './ids-month-year-picklist';
 import '../ids-button/ids-button';
-import '../ids-modal-button/ids-modal-button';
+import '../ids-modal/ids-modal-button';
 import '../ids-expandable-area/ids-expandable-area';
 import '../ids-month-view/ids-month-view';
 import '../ids-time-picker/ids-time-picker-popup';
@@ -27,7 +27,7 @@ import '../ids-toolbar/ids-toolbar-section';
 import type IdsButton from '../ids-button/ids-button';
 import type IdsExpandableArea from '../ids-expandable-area/ids-expandable-area';
 import type IdsLocale from '../ids-locale/ids-locale';
-import type IdsModalButton from '../ids-modal-button/ids-modal-button';
+import type IdsModalButton from '../ids-modal/ids-modal-button';
 import type IdsMonthView from '../ids-month-view/ids-month-view';
 import type IdsMonthYearPicklist from './ids-month-year-picklist';
 
@@ -283,8 +283,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
   }
 
   onFormatChange() {
-    if (!this.container) return;
-    if (this.monthView) this.monthView.format = this.format;
+    this.monthView!.format = this.format;
     if (this.timepicker) this.timepicker.format = this.format;
     this.updateTimepickerDisplay();
   }
@@ -306,12 +305,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       (textElem as IdsText).language = this.language.name;
     });
   };
-
-  hideIfAble(): void {
-    if (!this.expanded && this.popup?.visible) {
-      this.hide();
-    }
-  }
 
   get applyBtnEl(): IdsModalButton | null | undefined {
     return this.container?.querySelector<IdsModalButton>('.popup-btn-apply');
@@ -371,8 +364,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
    * @param {IdsRangeSettings} val incoming range settings
    */
   setRangeSettings(val: IdsRangeSettings) {
-    if (this.monthView) this.monthView.rangeSettings = val;
-    else this.rangeSettings = val;
+    this.monthView!.rangeSettings = val;
   }
 
   onRangeSettingsChange(val: IdsRangeSettings) {
@@ -751,7 +743,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
 
     // Handles input from footer buttons
     this.offEvent('click.date-picker-footer');
-    this.onEvent('click.date-picker-footer', this.container?.querySelector('.popup-footer'), (e: MouseEvent) => {
+    this.onEvent('click.date-picker-footer', this.container?.querySelector('.popup-footer'), async (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target) return;
 
@@ -764,13 +756,13 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
 
       if (target.closest('.popup-btn-clear')) {
         this.clear();
-        this.hide(true);
+        await this.hide(true);
         return;
       }
 
       if (target.closest('.popup-btn-cancel')) {
         this.expanded = false;
-        this.hide(true);
+        await this.hide(true);
       }
     });
 
@@ -809,8 +801,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
    */
   private handleApplyEvent(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.monthView) return;
-
     if (this.expanded) {
       this.captureValueFromPicklist();
       this.updateMonthYearPickerTriggerDisplay();
@@ -835,6 +825,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
           ),
         ].filter(Boolean).join('');
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.hide(true);
         this.triggerSelectedEvent();
       } else {
@@ -856,6 +847,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hide(true);
     this.triggerSelectedEvent();
   }
@@ -876,17 +868,13 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
    * @param {IdsDayselectedEvent} e event from the calendar day selection
    */
   private handleDaySelectedEvent(e: CustomEvent): void {
-    if (!this.monthView) return;
-
     const currentDate = this.dateValue;
 
     // Clear action
     // Deselect the selected date by clicking to the selected date
     if (currentDate instanceof Date && isValidDate(currentDate) && currentDate.getTime() === e.detail.date.getTime()) {
       this.value = '';
-      if (this.monthView.selectDay) {
-        this.monthView.selectDay();
-      }
+      this.monthView?.selectDay();
       this.triggerSelectedEvent(e);
 
       return;
@@ -905,6 +893,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
         e.detail.date = fixedDate;
         e.detail.value = this.value;
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.hide(true);
         this.triggerSelectedEvent(e);
 
@@ -931,6 +920,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       e.detail.date = fixedDate;
       e.detail.value = this.value;
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.hide(true);
       this.triggerSelectedEvent(e);
     }
@@ -959,6 +949,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       { pattern: this.format }
     );
     this.triggerSelectedEvent();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hide(true);
   }
 

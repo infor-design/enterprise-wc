@@ -23,12 +23,12 @@
   - link: label-state.html
     type: Test
     description: Showing an example with hidden labels
+  - link: month-year-picklist.html
+    type: Test
+    description: Shows standalone IdsMonthYearPicker for testing purposes
   - link: sandbox.html
     type: Sandbox
     description: Showing various date formats and scenarios
-  - link: axe.html
-    type: Test
-    description: Test page for axe scans
   - link: side-by-side.html
     type: Side by Side
     description: Shows date picker side by side with a 4.x date picker

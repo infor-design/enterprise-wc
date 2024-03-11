@@ -40,7 +40,7 @@ export default class IdsAbout extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.showCloseButton = stringToBool(this.getAttribute(attributes.SHOW_CLOSE_BUTTON));
+    this.showCloseButton = true;
   }
 
   /**
@@ -154,12 +154,7 @@ export default class IdsAbout extends Base {
    */
   get deviceSpecs(): boolean {
     const attrVal = this.getAttribute(attributes.DEVICE_SPECS);
-
-    if (attrVal) {
-      return stringToBool(attrVal);
-    }
-
-    return true;
+    return attrVal ? stringToBool(attrVal) : true;
   }
 
   /**
@@ -221,12 +216,7 @@ export default class IdsAbout extends Base {
    */
   get useDefaultCopyright(): boolean {
     const attrVal = this.getAttribute(attributes.USE_DEFAULT_COPYRIGHT);
-
-    if (attrVal) {
-      return stringToBool(attrVal);
-    }
-
-    return true;
+    return attrVal ? stringToBool(attrVal) : true;
   }
 
   /**

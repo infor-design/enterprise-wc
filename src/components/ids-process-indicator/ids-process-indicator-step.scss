@@ -47,6 +47,12 @@
       margin-top: unset;
     }
   }
+
+  @media (min-width: $breakpoint-lg) {
+    .label {
+      display: flex;
+    }
+  }
 }
 
 ::slotted(*) {
@@ -63,6 +69,7 @@
 
     &.label {
       margin: var(--ids-process-indicator-margin);
+      margin-bottom: 16px;
       white-space: nowrap;
     }
   }

@@ -360,20 +360,20 @@ table.ids-data-grid {
 }
 
 // Empty Message
-.ids-data-grid-wrapper.has-empty-message {
+.ids-data-grid-wrapper {
   position: relative;
+}
 
-  ids-empty-message:not([hidden]),
-  ::slotted(ids-empty-message:not([hidden])) {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    pointer-events: none;
-  }
+ids-empty-message:not([hidden]),
+::slotted(ids-empty-message:not([hidden])) {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  pointer-events: none;
 }
 
 // Loading Indicator

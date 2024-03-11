@@ -262,7 +262,7 @@ export default class IdsTreeMap extends Base {
 
   /**
    * Validate the treemap object.
-   * @param {TreemapDataSet} treemap { data, height }
+   * @param {TreemapDataSet} treemap containing data and height
    * @param {Data[]} treemap.data array that contains the treemap block definitions
    * @param {number} treemap.height total hieght of the treemap
    * @memberof IdsTreeMap

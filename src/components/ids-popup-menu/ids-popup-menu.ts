@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
-import { getElementAtMouseLocation, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getElementAtMouseLocation, parents, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
@@ -79,7 +79,10 @@ export default class IdsPopupMenu extends Base {
     if (this.hasAttribute(attributes.WIDTH)) {
       this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
+    this.#configurePopup();
+  }
 
+  #configurePopup() {
     if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
     this.configureSubmenuAlignment();
     this.setOnPlace(!!this.parentMenuItem);
@@ -141,20 +144,20 @@ export default class IdsPopupMenu extends Base {
     });
 
     // When the underlying Popup triggers its "show" event, pass the event to the Host element.
-    this.offEvent('show');
-    this.onEvent('show', this.container, (e: CustomEvent) => {
+    this.offEvent('show', this.popup);
+    this.onEvent('show', this.popup, (e: CustomEvent) => {
       this.hideOtherMenus();
       if (!this.parentMenuItem) {
-        this.triggerEvent('show', this, e);
+        this.triggerEvent('show', this, { bubbles: true, detail: e.detail });
       }
       this.setInitialFocus();
     });
 
     // When the underlying Popup triggers its "hide" event, pass the event to the Host element.
-    this.offEvent('hide');
-    this.onEvent('hide', this.container, (e: CustomEvent) => {
+    this.offEvent('hide', this.popup);
+    this.onEvent('hide', this.popup, (e: CustomEvent) => {
       if (!this.parentMenuItem) {
-        this.triggerEvent('hide', this, e);
+        this.triggerEvent('hide', this, { bubbles: true, detail: e.detail });
       }
       this.#mo?.disconnect();
     });
@@ -296,6 +299,7 @@ export default class IdsPopupMenu extends Base {
     this.hideSubmenus();
     this.popup?.removeOpenEvents();
     this.#removeMutationObservers();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.startHiddenTimer();
   }
 
@@ -311,9 +315,19 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
+   * An async function that fires when the popupmenu or submenu is opened allowing you to set contents dynamically
+   * @param {Function} func The async function
+   */
+  set beforeShow(func: (options: any) => Promise<string>) {
+    this.state.beforeShow = func;
+  }
+
+  get beforeShow(): () => Promise<string> { return this.state.beforeShow; }
+
+  /**
    * @returns {void}
    */
-  show(): void {
+  async show(): Promise<void> {
     if (this.popup?.visible) return;
 
     // Trigger a veto-able `beforeshow` event.
@@ -321,7 +335,7 @@ export default class IdsPopupMenu extends Base {
       return;
     }
 
-    // this.align = this.localeAPI.isRTL() ? 'left, top' : this.align;
+    await this.#callBeforeShow();
     this.configureSubmenuAlignment();
     this.refreshIconAlignment();
 
@@ -344,6 +358,82 @@ export default class IdsPopupMenu extends Base {
     this.popup?.addOpenEvents();
   }
 
+  /**
+   * Trigger an async callback for contents and update config
+   * @private
+   */
+  async #callBeforeShow() {
+    const isSubmenu = this.getAttribute('slot') === 'submenu';
+    let rootMenu;
+    if (isSubmenu) {
+      const parentElems = parents(this, 'ids-popup-menu');
+      rootMenu = parentElems[parentElems.length - 1] as IdsPopupMenu;
+      this.state.beforeShow = rootMenu?.state.beforeShow;
+    }
+
+    if (this.state.beforeShow) {
+      const menuData = await this.state.beforeShow({
+        popop: this.popup,
+        data: this.data,
+        isSubmenu: this.getAttribute('slot') === 'submenu',
+        contextElement: this
+      });
+      if (!menuData) return;
+      if (!isSubmenu) {
+        const alignTarget = this.popup!.alignTarget;
+        const arrowTarget = this.popup!.arrowTarget;
+        const arrow = this.popup!.arrow;
+        this.data = menuData;
+
+        this.#configurePopup();
+        if (this.triggerType === 'click') {
+          this.popup!.alignTarget = alignTarget;
+          this.popup!.arrowTarget = arrowTarget;
+          this.popup!.arrow = arrow;
+        }
+      }
+      if (isSubmenu && rootMenu) {
+        const submenuDataItem = this.#findSubmenu((rootMenu.data as any)[0].items, 'id', this.id)!;
+        submenuDataItem.contents = [menuData];
+        this.data = submenuDataItem;
+        this.setOnPlace(!!this.parentMenuItem);
+      }
+      if (!isSubmenu && this.triggerType === 'contextmenu') {
+        this.popup?.setPosition(this.state.pageX, this.state.pageY);
+      }
+      if (!isSubmenu && this.triggerType === 'click') {
+        this.setOnPlace(!!this.parentMenuItem);
+      }
+    }
+  }
+
+  /**
+   * Find an element in an array when its deeply nested. If we need a generic one this could be made into.
+   * @param {Array} array to scan
+   * @param {string} key selector containing a CSS selector to be used for matching
+   * @param {unknown} value the value to match the key
+   * @returns {any} The object in the array (ref)
+   * @private
+   */
+  #findSubmenu(array: any, key: string, value: unknown): any {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i][key] === value) {
+        return array[i];
+      }
+      if (array[i].submenu) {
+        // May need recursion soon
+        if (array[i].submenu[key] === value) {
+          return array[i].submenu;
+        }
+      }
+    }
+    return undefined;
+  }
+
+  /**
+   * Set the aria role
+   * @private
+   */
   #setVisibleARIA(): void {
     this.popup?.querySelector('nav')?.setAttribute(htmlAttributes.ROLE, 'menu');
     const items: Array<any> = [...this.querySelectorAll('ids-menu-item')];
@@ -353,6 +443,10 @@ export default class IdsPopupMenu extends Base {
     });
   }
 
+  /**
+   * Remove the aria role
+   * @private
+   */
   #removeVisibleARIA(): void {
     this.popup?.querySelector('nav')?.removeAttribute(htmlAttributes.ROLE);
   }
@@ -363,8 +457,10 @@ export default class IdsPopupMenu extends Base {
    */
   showIfAble(): void {
     if (!this.target) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.show();
     } else if (!(this.target as any)?.disabled && !(this.target as any)?.hidden) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.show();
     }
   }
@@ -538,6 +634,8 @@ export default class IdsPopupMenu extends Base {
     e.preventDefault();
     e.stopPropagation();
     this.hide();
+    this.state.pageX = e.pageX;
+    this.state.pageY = e.pageY;
     this.popup?.setPosition(e.pageX, e.pageY);
     this.showIfAble();
     this.setInitialFocus();

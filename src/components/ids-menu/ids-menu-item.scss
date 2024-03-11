@@ -217,7 +217,7 @@
   &.has-icon {
     a {
       padding-inline-start: 8px;
-      padding-inline-end: 8px;
+      padding-inline-end: 14px;
       grid-template-columns: 30px max-content;
     }
   }
@@ -320,7 +320,7 @@
 
   &.has-icon.has-submenu {
     a {
-      grid-template-columns: 30px calc(100% - 55px) 25px;
+      grid-template-columns: 30px calc(100% - 53px) 31px;
     }
   }
 

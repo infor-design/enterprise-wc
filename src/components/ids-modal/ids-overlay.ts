@@ -20,12 +20,6 @@ import styles from './ids-overlay.scss';
 export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
-
-    this.state = {
-      opacity: 0.5,
-      backgroundColor: '',
-      visible: false,
-    };
   }
 
   static get attributes(): Array<string> {
@@ -47,99 +41,121 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
   }
 
   /**
-   * @returns {boolean} true if the overlay is visible
+   * Gets overlay visible state
+   * @returns {boolean} visible flag
    */
   get visible(): boolean {
-    return this.state.visible;
+    return this.hasAttribute(attributes.VISIBLE);
   }
 
   /**
-   * @param {boolean} val true if the overlay should be made visible
+   * Sets overlay visible state
+   * @param {boolean|string} val visible flag
    */
-  set visible(val: boolean) {
-    const trueVal = stringToBool(val);
-
-    this.state.visible = trueVal;
-    this.#smoothlyAnimateVisibility(trueVal);
+  set visible(val: boolean | string) {
+    const isVisible = stringToBool(val);
+    this.toggleAttribute(attributes.VISIBLE, isVisible);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.#smoothlyAnimateVisibility(isVisible);
   }
 
   /**
+   * Gets background color
    * @returns {string} css variable for background color
    */
   get backgroundColor(): string {
-    return this.state.backgroundColor;
+    return this.getAttribute(attributes.BACKGROUND_COLOR) ?? '';
   }
 
   /**
-   * @param {string} val css variable for background color
+   * Sets background color
+   * @param {string} val css variable
    */
   set backgroundColor(val: string) {
-    this.state.backgroundColor = val;
+    if (val) {
+      this.setAttribute(attributes.BACKGROUND_COLOR, val);
+    } else {
+      this.removeAttribute(attributes.BACKGROUND_COLOR);
+    }
   }
 
   /**
-   * @returns {string} value for zindex
+   * Gets overlay z index value
+   * @returns {number} zindex
    */
-  get zIndex(): string {
-    return this.state.zIndex;
+  get zIndex(): number {
+    return Number(this.getAttribute(attributes.Z_INDEX));
   }
 
   /**
-   * @param {boolean} val value for zindex
+   * Sets overlay z index value
+   * @param {number|string} val zindex
    */
-  set zIndex(val: string) {
-    this.state.zIndex = val;
+  set zIndex(val: number | string) {
+    const trueVal = Number(val);
+
+    if (trueVal) {
+      this.setAttribute(attributes.Z_INDEX, String(trueVal));
+      this.container?.style.setProperty('z-index', String(trueVal));
+    } else {
+      this.removeAttribute(attributes.Z_INDEX);
+      this.container?.style.removeProperty('z-index');
+    }
   }
 
   /**
-   * @returns {number} the percent opacity
+   * Gets overlay opacity
+   * @returns {number} opacity
    */
   get opacity(): number {
-    return this.state.opacity;
+    const trueVal = Number(this.getAttribute(attributes.OPACITY) ?? NaN);
+    return Number.isNaN(trueVal) ? 0.5 : trueVal;
   }
 
   /**
-   * @param {number} val a percentage number for setting overlay transparency
+   * Sets overlay opacity
+   * @param {number} val opacity
    */
   set opacity(val: number | string) {
     let trueVal = Number(val);
-    if (Number.isNaN(trueVal)) {
-      return;
-    }
+
+    if (Number.isNaN(trueVal) || trueVal === this.opacity) return;
 
     // Opacity is a percentage value between 0 and 1,
     // so adjust the number accordingly if we get something off
-    if (trueVal < 0) {
-      trueVal = 0;
-    }
-    if (trueVal > 1) {
-      trueVal = 1;
-    }
-    this.state.opacity = trueVal;
+    trueVal = Math.max(trueVal, 0);
+    trueVal = Math.min(trueVal, 1);
+
+    this.setAttribute(attributes.OPACITY, String(trueVal));
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.#changeOpacity(trueVal);
   }
 
   /**
    * Changes the amount of opacity on the overlay
-   * @param {number} val the opacity value to set on the overlay
+   * @param {number} opacity opacity value
    * @returns {Promise} fulfilled after a CSS transition completes.
    */
-  async #changeOpacity(val: any): Promise<any> {
-    return transitionToPromise(this.container, 'background-color', `rgba(${this.backgroundColor === 'page' ? 'var(--ids-overlay-page-background-color)' : 'var(--ids-overlay-background-color)'} / ${val})`);
+  async #changeOpacity(opacity: number): Promise<any> {
+    return transitionToPromise(
+      this.container,
+      'background-color',
+      `rgba(${this.backgroundColor === 'page' ? 'var(--ids-overlay-page-background-color)' : 'var(--ids-overlay-background-color)'} / ${opacity})`
+    );
   }
 
   /**
    * Animates in/out the visibility of the overlay
    * @param {boolean} val if true, shows the overlay.  If false, hides the overlay.
    */
-  async #smoothlyAnimateVisibility(val: any) {
+  async #smoothlyAnimateVisibility(val: boolean) {
     const cl = this.container?.classList;
 
     if (val && !cl?.contains('visible')) {
       // Make visible
       cl?.add('visible');
       await cssTransitionTimeout(2);
-      this.#changeOpacity(this.opacity);
+      await this.#changeOpacity(this.opacity);
     } else if (!val && cl?.contains('visible')) {
       // Make hidden
       await this.#changeOpacity(0);

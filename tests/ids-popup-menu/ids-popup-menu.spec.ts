@@ -63,4 +63,42 @@ test.describe('IdsPopupMenu tests', () => {
       await percySnapshot(page, 'ids-popup-menu-light');
     });
   });
+
+  test.describe('callback tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-popup-menu/load-data.html');
+    });
+
+    test('supports async beforeShow', async ({ page }) => {
+      await page.evaluate(async () => {
+        const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
+        await elem.show();
+      });
+      await page.waitForFunction(() => document.querySelector<IdsPopupMenu>('ids-popup-menu')?.visible === true);
+      const markup: string = await page.evaluate(() => {
+        const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
+        return elem.innerHTML;
+      });
+      expect(markup).toContain('Sub Menu One');
+    });
+  });
+
+  test.describe('data drive tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-popup-menu/data-driven.html');
+    });
+
+    test('reverts to markup-driven when provided an empty dataset', async ({ page }) => {
+      await page.evaluate(async () => {
+        const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
+        await elem.show();
+      });
+      await page.waitForFunction(() => document.querySelector<IdsPopupMenu>('ids-popup-menu')?.visible === true);
+      const markup: string = await page.evaluate(() => {
+        const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
+        return elem.innerHTML;
+      });
+      expect(markup).toContain(' Sub Sub Menu 1');
+    });
+  });
 });

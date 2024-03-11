@@ -7,7 +7,7 @@ import wait from '../helpers/wait';
 
 import IdsModal from '../../src/components/ids-modal/ids-modal';
 import '../../src/components/ids-modal/ids-overlay';
-import IdsModalButton from '../../src/components/ids-modal-button/ids-modal-button';
+import IdsModalButton from '../../src/components/ids-modal/ids-modal-button';
 import IdsButton from '../../src/components/ids-button/ids-button';
 
 describe('IdsFocusCaptureMixin)', () => {

@@ -121,7 +121,7 @@ const setData = async () => {
   dataGrid.data = data;
 };
 
-setData();
+await setData();
 
 const exportMenu = document.querySelector('#export-excel');
 exportMenu?.addEventListener('selected', ((evt: CustomEvent) => {

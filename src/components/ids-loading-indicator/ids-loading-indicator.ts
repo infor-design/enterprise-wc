@@ -72,6 +72,10 @@ export default class IdsLoadingIndicator extends Base {
       type = 'linear';
     }
 
+    if (this.hasAttribute(attributes.GENERATIVE_AI)) {
+      type = 'generative-ai';
+    }
+
     return getInnerIndicatorHtml({
       progress: this.progress,
       percentageVisible: this.percentageVisible,

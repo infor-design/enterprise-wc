@@ -123,12 +123,12 @@ export default class IdsModuleNav extends Base {
   /**
    * Inherited from IdsModuleNavDisplayModeMixin
    */
-  onDisplayModeChange(): void {
+  async onDisplayModeChange() {
     if (this.bar) this.bar.displayMode = this.displayMode;
     if (this.content) this.content.displayMode = this.displayMode;
 
     if (this.displayMode !== 'expanded') {
-      this.hideContentOverlay();
+      await this.hideContentOverlay();
     } else if (this.isWithinMobileBreakpoint()) {
       this.content?.showOverlay();
     }
@@ -157,11 +157,11 @@ export default class IdsModuleNav extends Base {
    */
   private configureResponsiveBehavior() {
     if (this.responsive) {
-      this.onBreakpointDownResponse = (detectedBreakpoint: keyof Breakpoints, matches: boolean) => {
+      this.onBreakpointDownResponse = async (detectedBreakpoint: keyof Breakpoints, matches: boolean) => {
         if (matches) {
           this.handleBelowBreakpoint();
         } else {
-          this.handleAboveBreakpoint();
+          await this.handleAboveBreakpoint();
         }
       };
       if (!this.respondDown) this.respondDown = RESPONSIVE_BREAKPOINT;
@@ -174,9 +174,9 @@ export default class IdsModuleNav extends Base {
   /**
    * Switches the Module Nav into its mobile behavior mode
    */
-  private handleAboveBreakpoint() {
+  private async handleAboveBreakpoint() {
     console.info('Mobile module nav deactivated');
-    this.hideContentOverlay();
+    await this.hideContentOverlay();
     if (this.displayMode !== 'expanded') {
       this.displayMode = 'collapsed';
     }
@@ -195,9 +195,9 @@ export default class IdsModuleNav extends Base {
     this.content!.offsetContent = false;
   }
 
-  private hideContentOverlay() {
+  private async hideContentOverlay() {
     if (this.content && this.content.overlay!.visible) {
-      this.content.hideOverlay();
+      await this.content.hideOverlay();
     }
   }
 

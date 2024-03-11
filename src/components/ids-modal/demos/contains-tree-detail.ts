@@ -4,7 +4,7 @@ import eventsJSON from '../../../assets/data/accounts.json';
 import '../../ids-button/ids-button';
 import '../../ids-list-view/ids-list-view';
 import '../ids-modal';
-import '../../ids-modal-button/ids-modal-button';
+import '../ids-modal-button';
 import '../../ids-splitter/ids-splitter';
 import '../../ids-splitter/ids-splitter-pane';
 import '../../ids-tree/ids-tree';
@@ -13,7 +13,7 @@ import type IdsModal from '../ids-modal';
 import type IdsListView from '../../ids-list-view/ids-list-view';
 import type IdsSplitter from '../../ids-splitter/ids-splitter';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const triggerId = '#modal-trigger-btn';
   const triggerBtn: any = document.querySelector(triggerId);
   const modal = document.querySelector<IdsModal>('ids-modal')!;
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
       (listView as any).data = data;
     };
 
-    setData();
+    await setData();
   }
 
   // Links the Modal to its trigger button (sets up click/focus events)
@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Close the modal when its inner button is clicked.
-  modal.onButtonClick = () => {
-    modal.hide();
+  modal.onButtonClick = async () => {
+    await modal.hide();
   };
 
   // After the modal is done hiding, re-enable its trigger button.

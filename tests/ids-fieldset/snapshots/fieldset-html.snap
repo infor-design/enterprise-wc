@@ -2,4 +2,11 @@
           <legend><ids-text font-size="20" type="h2" id="user-info">User Information</ids-text></legend>
           <ids-input type="text" label="User Name" id="user-name"></ids-input>
           <ids-input type="text" label="User Address" id="user-address"></ids-input>
+          <ids-dropdown id="dropdown" label="Other Options" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-dropdown">
+            <ids-list-box role="listbox" size="md" id="ids-list-box-dropdown" aria-label="Listbox">
+              <ids-list-box-option value="One" role="option" tabindex="-1" row-index="0">Option One</ids-list-box-option>
+              <ids-list-box-option value="Two" role="option" tabindex="-1" row-index="1">Option Two</ids-list-box-option>
+              <ids-list-box-option value="Three" role="option" tabindex="-1" row-index="2">Option Three</ids-list-box-option>
+            </ids-list-box>
+          </ids-dropdown>
         </ids-fieldset>

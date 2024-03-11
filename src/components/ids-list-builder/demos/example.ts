@@ -34,4 +34,4 @@ const setData = async () => {
   addEventListeners(listBuilder1);
 };
 
-setData();
+await setData();

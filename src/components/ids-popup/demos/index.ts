@@ -19,6 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Toggle the Popup
   triggerBtn?.addEventListener('click', () => {
-    popup.visible = !popup.visible;
+    if (!popup.visible) popup.visible = true; // closes automatically on click out
+  });
+
+  popup.addEventListener('hide', () => {
+    console.info('Hide event fired');
+  });
+  popup.addEventListener('show', () => {
+    console.info('Show event fired');
   });
 });
