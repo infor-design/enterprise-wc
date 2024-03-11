@@ -115,7 +115,7 @@ const myCustomFilter = (opt: any) => {
     dataGrid.data = data;
     dataGrid.pageTotal = data.length;
   };
-  setData();
+  await setData();
 }());
 
 const setFilterBtn = document.body.querySelector('#set-filter-btn');

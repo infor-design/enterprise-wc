@@ -130,7 +130,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-single-select')
     dataGrid.data = data;
   };
 
-  setData();
+  await setData();
 
   // Event Handlers
   dataGrid.addEventListener('beforerowselected', (e: Event) => {

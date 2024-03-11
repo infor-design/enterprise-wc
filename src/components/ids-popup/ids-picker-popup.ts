@@ -118,6 +118,7 @@ class IdsPickerPopup extends Base implements IdsPickerPopupCallbacks {
 
     // Show the popup and do placement
     this.popup.visible = true;
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.popup.show();
 
     if (typeof this.onShow === 'function') this.onShow();
@@ -141,6 +142,7 @@ class IdsPickerPopup extends Base implements IdsPickerPopupCallbacks {
     if (!this.popup.visible) {
       this.show();
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.hide();
     }
   }
@@ -148,6 +150,7 @@ class IdsPickerPopup extends Base implements IdsPickerPopupCallbacks {
   onOutsideClick(e: Event) {
     const target = (e.target as HTMLElement);
     if (!this.contains(target)) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.hide();
     }
   }

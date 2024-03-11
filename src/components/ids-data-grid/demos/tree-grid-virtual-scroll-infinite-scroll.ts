@@ -136,7 +136,7 @@ const setData = async () => {
   const data = await fetchData();
   dataGrid.data = data.slice(0, 50);
 };
-setData();
+await setData();
 
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);

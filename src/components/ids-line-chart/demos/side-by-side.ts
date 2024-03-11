@@ -18,4 +18,4 @@ const setData = async () => {
   $('#line-example').chart({ type: 'line', dataset: data, yAxis: { ticks: { number: 10, format: 's' } } });
 };
 
-setData();
+await setData();

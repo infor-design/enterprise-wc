@@ -65,7 +65,7 @@ if (dataGrid) {
       dataGrid.data = data;
     };
 
-    setData();
+    await setData();
 
     dataGrid.addEventListener('rowexpanded', (e: Event) => {
       console.info(`Row Expanded`, (<CustomEvent>e).detail);

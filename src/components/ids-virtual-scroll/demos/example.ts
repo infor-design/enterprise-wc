@@ -31,5 +31,5 @@ if (virtualScrollList) {
     virtualScrollTable.data = data;
   };
 
-  await setData();
+  await await setData();
 }

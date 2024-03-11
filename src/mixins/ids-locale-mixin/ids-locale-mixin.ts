@@ -54,6 +54,7 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
    */
   set locale(value: string) {
     if (value && value !== this.localeAPI.name && typeof value === 'string') {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.localeAPI.setLocale(value, false);
     }
   }
@@ -68,6 +69,7 @@ const IdsLocaleMixin = <T extends Constraints>(superclass: T) => class extends s
    */
   set language(value: string) {
     if (value && value !== this.language.name) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.localeAPI.setLanguage(value);
     }
   }

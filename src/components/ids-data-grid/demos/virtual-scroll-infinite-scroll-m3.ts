@@ -487,7 +487,7 @@ dataGrid.addEventListener('afterrendered', async () => {
   dataGrid.selectRow(30);
 });
 
-setData();
+await setData();
 
 dataGrid.addEventListener('scrollend', async (e: Event) => {
   const endIndex = (<CustomEvent>e).detail?.value || 0;

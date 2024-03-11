@@ -743,7 +743,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
 
     // Handles input from footer buttons
     this.offEvent('click.date-picker-footer');
-    this.onEvent('click.date-picker-footer', this.container?.querySelector('.popup-footer'), (e: MouseEvent) => {
+    this.onEvent('click.date-picker-footer', this.container?.querySelector('.popup-footer'), async (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target) return;
 
@@ -756,13 +756,13 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
 
       if (target.closest('.popup-btn-clear')) {
         this.clear();
-        this.hide(true);
+        await this.hide(true);
         return;
       }
 
       if (target.closest('.popup-btn-cancel')) {
         this.expanded = false;
-        this.hide(true);
+        await this.hide(true);
       }
     });
 
@@ -825,6 +825,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
           ),
         ].filter(Boolean).join('');
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.hide(true);
         this.triggerSelectedEvent();
       } else {
@@ -846,6 +847,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hide(true);
     this.triggerSelectedEvent();
   }
@@ -891,6 +893,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
         e.detail.date = fixedDate;
         e.detail.value = this.value;
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.hide(true);
         this.triggerSelectedEvent(e);
 
@@ -917,6 +920,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       e.detail.date = fixedDate;
       e.detail.value = this.value;
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.hide(true);
       this.triggerSelectedEvent(e);
     }
@@ -945,6 +949,7 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
       { pattern: this.format }
     );
     this.triggerSelectedEvent();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hide(true);
   }
 

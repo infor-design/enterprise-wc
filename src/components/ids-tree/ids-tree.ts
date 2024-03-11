@@ -175,6 +175,7 @@ export default class IdsTree extends Base {
    */
   toggle(selector: string) {
     const node = this.getNode(selector);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.#toggle(node);
   }
 
@@ -987,6 +988,7 @@ export default class IdsTree extends Base {
    */
   #collapse(node: any) {
     if (node && node.elem?.isGroup && node.elem?.expanded) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#toggle(node);
     }
   }
@@ -999,6 +1001,7 @@ export default class IdsTree extends Base {
    */
   #expand(node: any) {
     if (node && node.elem?.isGroup && !node.elem?.expanded) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#toggle(node);
     }
   }
@@ -1139,6 +1142,7 @@ export default class IdsTree extends Base {
         if (this.expandTarget === 'icon' || this.isMultiSelect) {
           const hasToggle = e.composedPath().find((el: any) => el.nodeName === 'IDS-ICON' && (el.classList.contains('toggle-icon') || el.classList.contains('icon')));
           if (node.elem.isGroup && hasToggle) {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             this.#toggle(node);
           } else {
             if (this.isMultiSelect) {
@@ -1154,6 +1158,7 @@ export default class IdsTree extends Base {
           }
         } else {
           if (node.elem.isGroup) {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             this.#toggle(node);
           }
           this.#setSelected(node);
