@@ -618,16 +618,16 @@ export default class IdsLookup extends Base {
    * @returns {object} The object for chaining.
    */
   #handleEvents() {
-    this.onEvent('click.lookup', this.modal, (e: any) => {
+    this.onEvent('click.lookup', this.modal, async (e: any) => {
       const btnId = e.target?.getAttribute('id');
       const isCancelButton = e.target?.hasAttribute('cancel') || btnId === 'modal-cancel-btn';
       const isConfirmButton = e.target?.hasAttribute('confirm') || ['modal-confirm-btn', 'modal-apply-btn'].includes(btnId);
 
       if (isCancelButton) {
-        this.modal?.hide();
+        await this.modal?.hide();
         this.#syncSelectedRows();
       } else if (isConfirmButton) {
-        this.modal?.hide();
+        await this.modal?.hide();
         this.#setInputValue();
       }
     });
@@ -706,8 +706,8 @@ export default class IdsLookup extends Base {
    * @returns {object} This API object for chaining
    */
   #handleKeys() {
-    this.listen(['ArrowDown'], this, () => {
-      this.modal?.show();
+    this.listen(['ArrowDown'], this, async () => {
+      await this.modal?.show();
     });
     return this;
   }

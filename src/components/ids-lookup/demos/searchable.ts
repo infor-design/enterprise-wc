@@ -119,7 +119,7 @@ const lookup = document.querySelector<IdsLookup>('#lookup-1')!;
     lookup.data = data;
   };
 
-  setData();
+  await setData();
 
   // Fake filtering logic
   let searchTerm = '';

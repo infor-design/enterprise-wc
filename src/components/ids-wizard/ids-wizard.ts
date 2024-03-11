@@ -6,6 +6,7 @@ import '../ids-text/ids-text';
 import './ids-wizard-step';
 import styles from './ids-wizard.scss';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
+import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
 
 const Base = IdsKeyboardMixin(
   IdsEventsMixin(
@@ -29,24 +30,19 @@ export default class IdsWizard extends Base {
     super();
   }
 
-  /**
-   * whether to update callbacks after
-   * a render() event
-   */
-  shouldUpdateCallbacks = true;
-
-  stepObserver = new MutationObserver((mutations) => {
-    for (const { type } of mutations) {
-      if (type === 'childList') {
-        this.shouldUpdateCallbacks = true;
-        this.render(true);
-      }
-    }
-  });
-
-  resizeObserver = new ResizeObserver(() => {
+  resizeObserver = new ResizeObserver(debounce(() => {
     this.fitAndSizeElements();
-  });
+  }, 100));
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.#attachEventHandlers();
+  }
+
+  mountedCallback(): void {
+    this.resizeObserver.disconnect();
+    if (this.container) this.resizeObserver.observe(this.container);
+  }
 
   /**
    * fits and resizes all labels to fit
@@ -64,14 +60,12 @@ export default class IdsWizard extends Base {
       }
     }
 
-    requestAnimationFrame(() => {
-      const stepRects = this.resizeStepLabelRects(this);
-      for (let i = 0; i < stepRects.length; i++) {
-        const { width } = stepRects[i];
+    const stepRects = this.resizeStepLabelRects(this);
+    for (let i = 0; i < stepRects.length; i++) {
+      const { width } = stepRects[i];
 
-        labelEls[i].style.maxWidth = `${width + 8}px`;
-      }
-    });
+      labelEls[i].style.maxWidth = `${width + 8}px`;
+    }
   }
 
   /**
@@ -161,6 +155,86 @@ export default class IdsWizard extends Base {
    * @returns {string} the template to render
    */
   template(): string {
+    return `<div class="ids-wizard">
+      <slot></slot>
+      <nav class="steps"></nav>
+    </div>`;
+  }
+
+  /**
+   * Get the step number
+   * @returns {number|string} step number (1-based)
+   */
+  get stepNumber(): number | string {
+    const stepNumber = parseInt(this.getAttribute(attributes.STEP_NUMBER) ?? '');
+
+    if (Number.isNaN(stepNumber)) {
+      return -1;
+    }
+
+    return stepNumber;
+  }
+
+  /**
+   * Set the step number
+   * @param {number|string} value step number (1-based)
+   */
+  set stepNumber(value: number | string) {
+    if (!this.children?.length) return;
+
+    if (Number.isNaN(Number(value))) {
+      throw new Error('ids-wizard: Invalid step number provided');
+    }
+
+    const v = parseInt(<string>value);
+    if (v <= 0) {
+      throw new Error('ids-wizard: step number should be > 0');
+    } else if (v > this.children?.length) {
+      throw new Error('ids-wizard: step number should be below step-count');
+    }
+
+    this.setAttribute('step-number', v.toString());
+  }
+
+  set clickable(value) {
+    this.setAttribute(attributes.CLICKABLE, String(value !== 'false'));
+  }
+
+  get clickable() {
+    return this.getAttribute(attributes.CLICKABLE);
+  }
+
+  #onStepClick(stepElem: HTMLElement | null | undefined) {
+    if (!stepElem) return;
+
+    const stepNumber = Number(stepElem?.getAttribute('step-number') ?? NaN);
+
+    if (!Number.isNaN(stepNumber) && this.isStepClickable(stepNumber)) {
+      this.stepNumber = stepNumber;
+      this.#selectStep();
+    }
+  }
+
+  #attachEventHandlers() {
+    this.offEvent('click.step', this.container);
+    this.onEvent('click.step', this.container, (evt: MouseEvent) => {
+      const stepElem = (evt.target as HTMLElement).closest<HTMLElement>('.step');
+      this.#onStepClick(stepElem);
+    });
+
+    this.unlisten('Enter');
+    this.listen('Enter', this.container, () => {
+      const focusedElem = this.shadowRoot?.activeElement;
+      const stepElem = focusedElem?.closest<HTMLElement>('.step');
+      this.#onStepClick(stepElem);
+    });
+
+    const slot = this.container?.querySelector('slot');
+    this.offEvent('slotchange');
+    this.onEvent('slotchange', slot, () => this.#render());
+  }
+
+  #stepsTemplate(): string {
     let stepsHtml = '';
 
     // iterate through ids-wizard-step
@@ -216,115 +290,16 @@ export default class IdsWizard extends Base {
       );
     }
 
-    return (
-      `<div class="ids-wizard">
-      <nav class="steps">
-        ${stepsHtml}
-      </nav>
-    </div>`
-    );
+    return stepsHtml;
   }
 
-  /**
-   * Get the step number
-   * @returns {number|string} step number (1-based)
-   */
-  get stepNumber(): number | string {
-    const stepNumber = parseInt(this.getAttribute(attributes.STEP_NUMBER) ?? '');
+  #render() {
+    const nav = this.container?.querySelector('nav.steps');
+    const stepsHTML = this.#stepsTemplate();
 
-    if (Number.isNaN(stepNumber)) {
-      return -1;
+    if (nav) {
+      nav.innerHTML = stepsHTML;
     }
-
-    return stepNumber;
-  }
-
-  /**
-   * Set the step number
-   * @param {number|string} value step number (1-based)
-   */
-  set stepNumber(value: number | string) {
-    if (Number.isNaN(Number(value))) {
-      throw new Error('ids-wizard: Invalid step number provided');
-    }
-
-    const v = parseInt(<string>value);
-    if (v <= 0) {
-      throw new Error('ids-wizard: step number should be > 0');
-    } else if (v > this.children?.length) {
-      throw new Error('ids-wizard: step number should be below step-count');
-    }
-
-    this.setAttribute('step-number', v.toString());
-  }
-
-  set clickable(value) {
-    this.setAttribute(attributes.CLICKABLE, String(value !== 'false'));
-  }
-
-  get clickable() {
-    return this.getAttribute(attributes.CLICKABLE);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
-  mountedCallback(): void {
-    this.stepObserver.disconnect();
-    this.#attachEventHandlers();
-
-    // set up observer for monitoring if a child element changed
-    this.stepObserver.observe(<any> this, {
-      childList: true,
-      attributes: true,
-      subtree: true
-    });
-    this.rendered();
-  }
-
-  #onStepClick(stepElem: HTMLElement | null | undefined) {
-    if (!stepElem) return;
-
-    const stepNumber = Number(stepElem?.getAttribute('step-number') ?? NaN);
-
-    if (!Number.isNaN(stepNumber) && this.isStepClickable(stepNumber)) {
-      this.stepNumber = stepNumber;
-      this.#selectStep();
-    }
-  }
-
-  #attachEventHandlers() {
-    this.offEvent('click.step', this.container);
-    this.onEvent('click.step', this.container, (evt: MouseEvent) => {
-      const stepElem = (evt.target as HTMLElement).closest<HTMLElement>('.step');
-      this.#onStepClick(stepElem);
-    });
-
-    this.unlisten('Enter');
-    this.listen('Enter', this.container, () => {
-      const focusedElem = this.shadowRoot?.activeElement;
-      const stepElem = focusedElem?.closest<HTMLElement>('.step');
-      this.#onStepClick(stepElem);
-    });
-  }
-
-  /**
-   * Binds associated callbacks
-   * old handlers when template refreshes
-   */
-  rendered() {
-    if (!this.shouldUpdateCallbacks) {
-      return;
-    }
-
-    // stop observing changes before updating DOM
-    this.resizeObserver.disconnect();
-
-    // set up observer for resize which prevents overlapping labels
-    if (this.container) this.resizeObserver.observe(this.container);
-
-    this.shouldUpdateCallbacks = false;
   }
 
   /**
@@ -334,8 +309,8 @@ export default class IdsWizard extends Base {
    * @param {*} stepNumber step number
    * @returns {HTMLElement} the step element
    */
-  getStepEl(wizardEl: IdsWizard, stepNumber: number): IdsWizard | undefined | null {
-    return wizardEl?.shadowRoot?.querySelector(`.step[step-number="${stepNumber}"]`);
+  getStepEl(wizardEl: IdsWizard, stepNumber: number): HTMLElement | null {
+    return wizardEl?.shadowRoot?.querySelector(`.step[step-number="${stepNumber}"]`) ?? null;
   }
 
   /**

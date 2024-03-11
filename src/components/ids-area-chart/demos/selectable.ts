@@ -21,4 +21,4 @@ const setData = async () => {
   }
 };
 
-setData();
+await setData();

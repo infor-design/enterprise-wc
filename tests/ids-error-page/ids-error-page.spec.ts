@@ -83,12 +83,12 @@ test.describe('IdsErrorPage tests', () => {
       // set label to "Error Alert"
       await epHandle.evaluate((ep: IdsErrorPage) => { ep.label = 'Error Alert'; });
       expect(await epHandle.getAttribute('label')).toEqual('Error Alert');
-      expect(await page.locator('ids-error-page ids-text[slot="label"]')).toHaveText(/Error Alert/);
+      await expect(await page.locator('ids-error-page ids-text[slot="label"]')).toHaveText(/Error Alert/);
 
       // set label to null
       await epHandle.evaluate((ep: IdsErrorPage) => { ep.label = null; });
       expect(await epHandle.getAttribute('label')).toEqual(null);
-      expect(await page.locator('ids-error-page ids-text[slot="label"]')).toHaveText('');
+      await expect(await page.locator('ids-error-page ids-text[slot="label"]')).toHaveText('');
     });
 
     test('setting error page description', async ({ page }) => {
@@ -97,12 +97,12 @@ test.describe('IdsErrorPage tests', () => {
       // set description to "Test Description"
       await epHandle.evaluate((ep: IdsErrorPage) => { ep.description = 'Test Description'; });
       expect(await epHandle.getAttribute('description')).toEqual('Test Description');
-      expect(await page.locator('ids-error-page ids-text[slot="description"]')).toHaveText(/Test Description/);
+      await expect(await page.locator('ids-error-page ids-text[slot="description"]')).toHaveText(/Test Description/);
 
       // set description to null
       await epHandle.evaluate((ep: IdsErrorPage) => { ep.description = null; });
       expect(await epHandle.getAttribute('description')).toEqual(null);
-      expect(await page.locator('ids-error-page ids-text[slot="description"]')).toHaveText('');
+      await expect(await page.locator('ids-error-page ids-text[slot="description"]')).toHaveText('');
     });
 
     test('setting error page button text', async ({ page }) => {
@@ -111,12 +111,12 @@ test.describe('IdsErrorPage tests', () => {
       // set buttonText to "Button Test"
       await epHandle.evaluate((ep: IdsErrorPage) => { ep.buttonText = 'Button Test'; });
       expect(await epHandle.getAttribute('button-text')).toEqual('Button Test');
-      expect(await page.locator('ids-error-page ids-button[slot="button"]')).toHaveText(/Button Test/);
+      await expect(await page.locator('ids-error-page ids-button[slot="button"]')).toHaveText(/Button Test/);
 
       // set buttonText to null
       await epHandle.evaluate((ep: IdsErrorPage) => { ep.buttonText = null; });
       expect(await epHandle.getAttribute('button-text')).toEqual(null);
-      expect(await page.locator('ids-error-page ids-button[slot="button"]')).toHaveText('');
+      await expect(await page.locator('ids-error-page ids-button[slot="button"]')).toHaveText('');
     });
 
     test('triggering action-button event', async ({ page }) => {

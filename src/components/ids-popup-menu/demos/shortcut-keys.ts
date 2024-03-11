@@ -7,7 +7,7 @@ import type IdsCheckbox from '../../ids-checkbox/ids-checkbox';
 
 import json from '../../../assets/data/menu-shortcuts.json';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const popupmenuEl: IdsPopupMenu = document.querySelector<IdsPopupMenu>('#popupmenu')!;
 
   // Configure the menu
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = await res.json();
     popupmenuEl.data = data;
   };
-  setData();
+  await setData();
 
   // Disable/Enable selection on the menu
   const singleSelectCheckEl = document.querySelector<IdsCheckbox>('#controls-selection')!;
