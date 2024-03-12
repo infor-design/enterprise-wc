@@ -5,7 +5,8 @@ import { test } from '../base-fixture';
 
 import IdsCalendar from '../../src/components/ids-calendar/ids-calendar';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-import IdsCalendarEvent from '../../src/components/ids-calendar/ids-calendar-event';
+import IdsCalendarEvent, { CalendarEventData, CalendarEventTypeData } from '../../src/components/ids-calendar/ids-calendar-event';
+import IdsCustomCalendarEvent from '../../src/components/ids-calendar/demos/custom-calendar-event';
 
 test.describe('IdsCalendar tests', () => {
   const url = '/ids-calendar/example.html';
@@ -145,7 +146,7 @@ test.describe('IdsCalendar tests', () => {
     let idsCalendar: Locator;
 
     test.beforeEach(async ({ page }) => {
-      idsCalendar = page.locator('ids-calendar');
+      idsCalendar = await page.locator('ids-calendar');
     });
 
     test('can create element via document.createElement', async ({ page }) => {
@@ -175,8 +176,8 @@ test.describe('IdsCalendar tests', () => {
     });
 
     test('can change view by the viewchange event', async () => {
-      const viewMonth = idsCalendar.locator('div[class="calendar-view-pane"] > ids-month-view');
-      const viewWeek = idsCalendar.locator('div[class="calendar-view-pane"] > ids-week-view');
+      const viewMonth = await idsCalendar.locator('div[class="calendar-view-pane"] > ids-month-view');
+      const viewWeek = await idsCalendar.locator('div[class="calendar-view-pane"] > ids-week-view');
       await idsCalendar.evaluate((element: IdsCalendar) => {
         element.triggerEvent('viewchange', element, { detail: { date: new Date(), view: 'day' } });
       });
@@ -251,8 +252,8 @@ test.describe('IdsCalendar tests', () => {
         month: 10,
         year: 2019
       };
-      const contextDate: Date = new Date(testData.year, testData.month - 1, testData.day, 0, 0);
-      const selectedDay: Locator = idsCalendar.locator(`ids-month-view td[data-year="${testData.year}"]`
+      const contextDate = new Date(testData.year, testData.month - 1, testData.day, 0, 0);
+      const selectedDay = await idsCalendar.locator(`ids-month-view td[data-year="${testData.year}"]`
         + `[data-month="${testData.month - 1}"][data-day="${testData.day}"]:has(ids-calendar-event)`);
       let expectedEvents: any[] = [];
       // Retrieve dates which has specified start date
@@ -306,8 +307,8 @@ test.describe('IdsCalendar tests', () => {
   test.describe('calendar event functionality tests', async () => {
     let idsCalendarEvent: Locator;
 
-    test.beforeEach(({ page }) => {
-      idsCalendarEvent = page.locator('ids-calendar ids-month-view ids-calendar-event[data-id="49"]');
+    test.beforeEach(async ({ page }) => {
+      idsCalendarEvent = await page.locator('ids-calendar ids-month-view ids-calendar-event[data-id="49"]');
     });
 
     test('can render calendar event', async ({ page }) => {
@@ -391,7 +392,138 @@ test.describe('IdsCalendar tests', () => {
     });
 
     test('can display hour range with displayTime', async () => {
-      await idsCalendarEvent.evaluate((element: IdsCalendarEvent) => { element.displayTime = true; });
+      // returns time
+      expect(await idsCalendarEvent.evaluate((element: IdsCalendarEvent) => {
+        element.displayTime = true;
+        return element.getDisplayTime();
+      })).not.toBeNull();
+
+      // returns empty string
+      expect(await idsCalendarEvent.evaluate((element: IdsCalendarEvent) => {
+        element.displayTime = false;
+        return element.getDisplayTime();
+      })).toHaveLength(0);
+    });
+  });
+
+  test.describe('custom calendar functionality test', async () => {
+    let idsCustomCalendarEvent: Locator;
+    const eventItem = {
+      id: '99999',
+      subject: 'Autumn Foliage Trip',
+      shortSubject: 'Autumn Foliage Trip',
+      comments: 'Autumn Foliage Trip',
+      status: 'Pending',
+      starts: '2018-10-22T00:00:00.000',
+      ends: '2018-10-22T02:00:00.000',
+      icon: 'clock',
+      type: 'dto',
+      isAllDay: 'false'
+    };
+    const eventType = {
+      id: 'dto',
+      label: 'Discretionary Time Off',
+      translationKey: 'DiscretionaryTimeOff',
+      color: 'yellow',
+      checked: true
+    };
+
+    test.beforeEach(async ({ page }) => {
+      page.waitForLoadState();
+      // creation of the element and adding events data are separated due to
+      // runtine error being encountered, might be timing issue
+      await page.evaluate(() => {
+        const idsCalEvt = document.createElement('ids-custom-calendar-event') as IdsCustomCalendarEvent;
+        idsCalEvt.setAttribute('id', 'custom-event-test');
+        document.querySelector('ids-container')!.appendChild(idsCalEvt);
+      });
+      idsCustomCalendarEvent = await page.locator('#custom-event-test');
+      await idsCustomCalendarEvent.evaluate((element: IdsCustomCalendarEvent, data) => {
+        element.eventData = data.eventItem;
+        element.eventTypeData = data.eventType as CalendarEventTypeData;
+      }, { eventItem, eventType });
+    });
+
+    test('can render custom event after creation', async () => {
+      await expect(idsCustomCalendarEvent).toBeAttached();
+    });
+
+    test('can get calendar event data', async () => {
+      const calEventsData = await idsCustomCalendarEvent.evaluate(
+        (element: IdsCustomCalendarEvent) => ({ eventTypeData: element.eventTypeData, eventData: element.eventData })
+      );
+      expect(calEventsData.eventData).toEqual(eventItem);
+      expect(calEventsData.eventTypeData).toEqual(eventType);
+    });
+
+    test.skip('can return calendar event duration', async () => {
+      const calEventsData = await idsCustomCalendarEvent.evaluate(
+        (element: IdsCustomCalendarEvent) => ({ eventData: element.eventData, duration: element.duration })
+      );
+      calEventsData.eventData!.starts = '2019-10-24T13:00:00.000';
+      calEventsData.eventData!.ends = '2019-10-24T15:30:00.000';
+      const duration = await idsCustomCalendarEvent.evaluate((element: IdsCustomCalendarEvent, modEvent) => {
+        element.eventData = modEvent;
+        return element.eventData;
+      }, calEventsData.eventData);
+      expect(duration).toEqual(2.5);
+    });
+
+    test('can set custom calendar event width and height', async () => {
+      await expect(idsCustomCalendarEvent).not.toHaveAttribute('width');
+      await expect(idsCustomCalendarEvent).not.toHaveAttribute('height');
+
+      const width = '50px';
+      await idsCustomCalendarEvent.evaluate((element: IdsCustomCalendarEvent, mWidth) => { element.width = mWidth; }, width);
+      await expect(idsCustomCalendarEvent).toHaveAttribute('width', width);
+      await expect(idsCustomCalendarEvent.locator('a')).toHaveAttribute('style', new RegExp(`width: ${width};`, 'g'));
+
+      const height = '100px';
+      await idsCustomCalendarEvent.evaluate((element: IdsCustomCalendarEvent, mHeight) => {
+        element.height = mHeight;
+      }, height);
+      await expect(idsCustomCalendarEvent).toHaveAttribute('height', height);
+      await expect(idsCustomCalendarEvent.locator('a')).toHaveAttribute('style', new RegExp(`height: ${height};`, 'g'));
+    });
+
+    test('can set x and y offsets', async () => {
+      const yOffset = '10px';
+      const beforeYOffset = await idsCustomCalendarEvent.evaluate((element: IdsCustomCalendarEvent, offset) => {
+        const beforeOff = element.yOffset;
+        element.yOffset = offset;
+        return beforeOff;
+      }, yOffset);
+      expect(yOffset).not.toEqual(beforeYOffset);
+      await expect(idsCustomCalendarEvent).toHaveAttribute('y-offset', yOffset);
+
+      const xOffset = '5px';
+      const beforeXOffset = await idsCustomCalendarEvent.evaluate((element: IdsCustomCalendarEvent, offset) => {
+        const beforeOff = element.xOffset;
+        element.xOffset = offset;
+        return beforeOff;
+      }, xOffset);
+      expect(xOffset).not.toEqual(beforeXOffset);
+      await expect(idsCustomCalendarEvent).toHaveAttribute('x-offset', xOffset);
+    });
+
+    test('can set extra css class', async () => {
+      const cssClass = 'dummy-class';
+      expect(idsCustomCalendarEvent.locator('a')).not.toHaveClass(new RegExp(cssClass, 'g'));
+      await idsCustomCalendarEvent.evaluate((element: IdsCustomCalendarEvent, nClass) => {
+        element.cssClass = [nClass];
+      }, cssClass);
+      expect(idsCustomCalendarEvent.locator('a')).toHaveClass(new RegExp(cssClass, 'g'));
+    });
+
+    test('can set overflow value', async () => {
+      const overFlowValues = ['ellipsis', 'normal', null];
+      await expect(idsCustomCalendarEvent).not.toHaveAttribute('overflow');
+      for (const overFlow of overFlowValues) {
+        await idsCustomCalendarEvent.evaluate((element: IdsCustomCalendarEvent, oValue) => {
+          element.overflow = oValue;
+        }, overFlow);
+        await expect(idsCustomCalendarEvent).toHaveAttribute('overflow', (overFlow) ?? 'ellipsis');
+      }
     });
   });
 });
