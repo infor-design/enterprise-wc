@@ -131,10 +131,21 @@ test.describe('IdsCard tests', () => {
       });
       await card.click();
       await expect(card.locator('ids-checkbox')).toHaveAttribute('checked', 'true');
+      await card.click();
+      await expect(card.locator('ids-checkbox')).not.toHaveAttribute('checked');
+    });
+    test('should fire selectionchanged event', async ({ page }) => {
+      const card: Locator = page.locator('ids-card').first();
+      await expect(card).not.toHaveAttribute('selected');
+      await expect(card).not.toHaveAttribute('selection');
+      await card.evaluate((element: IdsCard) => {
+        element.selection = 'multiple';
+      });
+      await card.click();
+      await expect(card.locator('ids-checkbox')).toHaveAttribute('checked', 'true');
     });
   });
   test.describe('Actionable Ids Card', () => {
-
     test('should allow setting href', async ({ page }) => {
       const card: Locator = page.locator('ids-card').first();
       let href = await card.evaluate((element: IdsCard) =>  element.href );
@@ -166,7 +177,6 @@ test.describe('IdsCard tests', () => {
       expect(expectedTarget).toEqual('_blank');
       expectedTarget = null;
       expect(expectedTarget).toBeNull();
-      console.log(expectedTarget);
     });
     test('should allow setting height', async ({ page }) => {
       const card: Locator = page.locator('ids-card').first();
@@ -175,7 +185,6 @@ test.describe('IdsCard tests', () => {
       expect(actionableCardHeight).toEqual('100');
       actionableCardHeight = null;
       expect(actionableCardHeight).toBeNull();
-      console.log('>>>>>.' + actionableCardHeight);
     });
   });
 });
