@@ -63,4 +63,14 @@ test.describe('IdsAppMenu tests', () => {
       await percySnapshot(page, 'ids-app-menu-light');
     });
   });
+
+  test.describe('appmenu component', () => {
+    test('has default settings', async ({ page, browserName }) => {
+      const appmenu = await page.$('ids-app-menu');
+      let appMenuType = await appmenu.evaluate((element: IdsAppMenu) =>  element.type );
+      let appMenuEdge = await appmenu.evaluate((element: IdsAppMenu) =>  element.edge );
+      expect(appMenuType).toBe('app-menu');
+      expect(appMenuEdge).toBe('start');
+    });
+  });
 });
