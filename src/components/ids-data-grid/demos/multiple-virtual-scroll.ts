@@ -100,10 +100,10 @@ lists.push(dataGrid1);
     dataGrid1.data = data;
   };
 
-  setData();
+  await setData();
 
   button?.addEventListener('click', () => {
-    setData();
+    await setData();
   });
 }());
 
@@ -191,9 +191,9 @@ const dataGrid2 = document.querySelector<IdsDataGrid>('#data-grid-2')!;
     dataGrid2.data = data;
   };
 
-  setData();
-
   dataGrid1.addEventListener('selected', (e: any) => {
     console.info('selected', e.detail);
   });
+
+  await setData();
 }());

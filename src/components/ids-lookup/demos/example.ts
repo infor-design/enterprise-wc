@@ -108,6 +108,6 @@ const autocomplete: Element | any = autocompleteLookup?.shadowRoot?.querySelecto
     autocompleteLookup.data = data;
   };
 
-  setData();
+  await setData();
   addEventListeners();
 }());

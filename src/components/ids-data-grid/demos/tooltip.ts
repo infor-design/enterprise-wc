@@ -210,5 +210,5 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-tooltip')!;
       }
     });
   };
-  setData();
+  await setData();
 }());

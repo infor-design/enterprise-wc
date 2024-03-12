@@ -9,4 +9,4 @@ const setData = async () => {
     chart.data = data;
   }
 };
-setData();
+await setData();

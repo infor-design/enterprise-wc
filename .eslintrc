@@ -92,7 +92,7 @@
       // Allow any
       "@typescript-eslint/no-explicit-any": "off",
       // Avoid mising async
-      "@typescript-eslint/no-floating-promises": ["off", { "ignoreVoid": true, "ignoreIIFE": true}],
+      "@typescript-eslint/no-floating-promises": ["error", { "ignoreVoid": true, "ignoreIIFE": true}],
       // Allow empty constructors
       "no-useless-constructor": "off",
       "@typescript-eslint/no-useless-constructor": ["off"],

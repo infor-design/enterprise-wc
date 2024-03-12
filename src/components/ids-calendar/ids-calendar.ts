@@ -551,18 +551,18 @@ export default class IdsCalendar extends Base {
     });
 
     this.offEvent('viewchange.calendar');
-    this.onEvent('viewchange.calendar', this, (evt: CustomEvent) => {
+    this.onEvent('viewchange.calendar', this, async (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateActiveDate(evt.detail.date);
       this.changeView(evt.detail.view);
-      this.renderEventsData();
+      await this.renderEventsData();
     });
 
     this.offEvent('datechange.calendar-container');
-    this.onEvent('datechange.calendar-container', this.container, (evt: CustomEvent) => {
+    this.onEvent('datechange.calendar-container', this.container, async (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateActiveDate(evt.detail.date);
-      this.renderEventsData();
+      await this.renderEventsData();
     });
 
     this.offEvent('change.calendar-legend');
