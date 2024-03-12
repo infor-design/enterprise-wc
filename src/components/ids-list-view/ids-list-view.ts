@@ -697,8 +697,9 @@ export default class IdsListView extends Base {
     if (name === attributes.PAGE_NUMBER) this.redraw();
     if (name === attributes.PAGE_SIZE) this.redraw();
     if (name === attributes.PAGE_TOTAL) this.redraw();
-    if (name === attributes.TOOLTIP) this.redraw(); // TODO: change this to proper DOM manipulation
+    if (name === attributes.MAX_WIDTH) this.redraw(); // TODO: change this to proper DOM manipulation
     if (name === attributes.OVERFLOW) this.redraw(); // TODO: change this to proper DOM manipulation
+    if (name === attributes.TOOLTIP) this.redraw(); // TODO: change this to proper DOM manipulation
   }
 
   #selectable() {

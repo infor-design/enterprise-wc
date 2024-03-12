@@ -131,10 +131,26 @@ export default class IdsListViewItem extends Base {
   }
 
   #maxWidth(newValue: string | null) {
+    const maxWidth = Math.max(parseInt(newValue || '0'), 0);
+
+    if (maxWidth > 0) {
+      this.container?.style.setProperty('max-width', `${maxWidth}px`, 'important');
+    } else {
+      this.container?.style.removeProperty('max-width');
+    }
+
     this.#toggleChildAttribute(attributes.MAX_WIDTH, newValue);
   }
 
   #overflow(newValue: string) {
+    const isEllipsis = newValue === 'ellipsis';
+
+    if (isEllipsis) {
+      this.container?.classList.add('ellipsis');
+    } else {
+      this.container?.classList.remove('ellipsis');
+    }
+
     this.#toggleChildAttribute(attributes.OVERFLOW, newValue);
   }
 
@@ -454,13 +470,9 @@ export default class IdsListViewItem extends Base {
   set maxWidth(value: string | null) {
     if (value) {
       this.setAttribute(attributes.MAX_WIDTH, value);
-      this.container?.style.setProperty('max-width', `${parseInt(value)}px`, 'important');
     } else {
       this.removeAttribute(attributes.MAX_WIDTH);
-      this.container?.style.removeProperty('max-width');
     }
-
-    this.#toggleChildAttribute(attributes.MAX_WIDTH, value);
   }
 
   get maxWidth(): string | null { return this.getAttribute(attributes.MAX_WIDTH); }
@@ -473,13 +485,10 @@ export default class IdsListViewItem extends Base {
     const isEllipsis = value === 'ellipsis';
 
     if (isEllipsis) {
-      this.container?.classList.add('ellipsis');
       this.setAttribute('overflow', 'ellipsis');
     } else {
-      this.container?.classList.remove('ellipsis');
       this.removeAttribute('overflow');
     }
-    this.#toggleChildAttribute(attributes.OVERFLOW, value);
   }
 
   get overflow(): string | null {
