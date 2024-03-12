@@ -17,6 +17,7 @@ import type IdsTimePickerPopup from '../ids-time-picker/ids-time-picker-popup';
 import '../ids-time-picker/ids-time-picker';
 import '../ids-date-picker/ids-date-picker';
 import '../ids-lookup/ids-lookup';
+import { IdsValidationRule } from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
@@ -55,10 +56,17 @@ export interface IdsDataGridEditor {
   change: (newValue: boolean | number | string) => void;
 }
 
-const applyEditorSettings = (elem: any, settings?: Record<string, any> | undefined) => {
+const applyEditorSettings = (elem: any, settings?: Record<string, any>) => {
   // eslint-disable-next-line guard-for-in
   for (const setting in settings) {
     elem[setting] = settings[setting];
+  }
+};
+
+const applyEditorValidation = (elem: any, validation?: Partial<IdsValidationRule>) => {
+  if (elem?.addValidationRule && validation) {
+    validation.type = 'error';
+    elem?.addValidationRule?.(validation);
   }
 };
 
@@ -112,6 +120,7 @@ export class InputEditor implements IdsDataGridEditor {
     if (this.input instanceof IdsInput && cell) {
       if (!isInline) this.input.shadowRoot?.querySelector('input')?.style.setProperty('width', `${cell.offsetWidth - 5}px`);
       applyEditorSettings(this.input, cell?.column.editor?.editorSettings);
+      applyEditorValidation(this.input, cell?.column.editor?.editorValidation);
     }
     this.input.focus();
   }
@@ -216,6 +225,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? null;
     const isInline = cell?.column.editor?.inline;
     const settings = { ...cell?.column?.editor?.editorSettings };
+    const validation = { ...cell?.column?.editor?.editorValidation };
     const dataset = <any[]>settings?.options ?? [];
 
     this.input = <IdsDropdown>document.createElement('ids-dropdown');
@@ -268,6 +278,11 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
     this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
+
+    // apply user validation
+    if (validation) {
+      applyEditorValidation(this.input.input, validation);
+    }
 
     this.#attchEventListeners();
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -394,6 +409,11 @@ export class DatePickerEditor implements IdsDataGridEditor {
     this.input.value = this.#displayValue;
     this.popup?.syncDateAttributes(this.#value ?? new Date());
     if (this.input) this.input.autoselect = true;
+
+    const validation = cell?.column.editor?.editorValidation;
+    if (validation) {
+      applyEditorValidation(this.input, validation);
+    }
 
     if (this.popup) {
       const popup = this.popup;

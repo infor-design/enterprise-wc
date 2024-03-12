@@ -116,6 +116,9 @@
   - link: editable-inline-first.html
     type: Test
     description: Shows a data grid with inline editable cells, with editable cells in the first column
+  - link: editable-validation.html
+    type: Example
+    description: Shows an editable data grid with custom validation rules
   - link: expandable-row.html
     type: Example
     description: Shows a data grid with and expandable row
