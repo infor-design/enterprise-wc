@@ -102,7 +102,7 @@ lists.push(dataGrid1);
 
   await setData();
 
-  button?.addEventListener('click', () => {
+  button?.addEventListener('click', async () => {
     await setData();
   });
 }());
