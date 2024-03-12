@@ -6,10 +6,10 @@
 
 .ids-input-group {
   display: inline-block;
-  margin-block-end: var(--ids-spacing-sm);
+  margin-block-end: var(--ids-space-sm);
 
   #group-message-container {
-    padding-top: var(--ids-spacing-xxs);
+    padding-top: var(--ids-space-xxs);
     width: min-content;
     min-width: 100%;
   }
@@ -22,7 +22,7 @@
 ::slotted(*) {
   display: inline-block;
   vertical-align: top;
-  margin-inline-end: var(--ids-spacing-xxxs);
+  margin-inline-end: var(--ids-space-xxxs);
 
   &::part(field-container) {
     border-color: yellow;

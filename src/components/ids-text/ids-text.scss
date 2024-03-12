@@ -90,7 +90,7 @@
   &.status-warning::before {
     display: inline-flex;
     margin-inline-end: var(--ids-input-margin-bottom);
-    border-radius: var(--ids-radius-circular);
+    border-radius: var(--ids-border-radius-circle);
     content: '';
     height: 8px;
     width: 8px;

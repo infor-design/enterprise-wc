@@ -1,9 +1,9 @@
 /* Ids Fieldset CSS */
 fieldset {
-  border: var(--ids-spacing-none);
+  border: var(--ids-space-none);
 }
 
 fieldset > ::slotted(legend),
 fieldset > legend {
-  padding-block-end: var(--ids-spacing-sm);
+  padding-block-end: var(--ids-space-sm);
 }

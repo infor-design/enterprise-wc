@@ -34,7 +34,7 @@
   height: 100%;
   outline: none;
   overflow: auto;
-  padding: var(--ids-spacing-none);
+  padding: var(--ids-space-none);
   scroll-behavior: smooth;
   transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
   width: 100%;
@@ -52,7 +52,7 @@
 // ids-app-menu pushes the container
 :host(.app-menu)::part(container) {
   @media (min-width: mixins.$breakpoint-md) {
-    margin-bottom: var(--ids-spacing-none);
+    margin-bottom: var(--ids-space-none);
     transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
     transition: width var(--ids-motion-duration) var(--ids-motion-ease), margin var(--ids-motion-duration) var(--ids-motion-ease);
   }

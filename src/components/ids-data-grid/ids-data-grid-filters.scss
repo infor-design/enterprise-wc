@@ -13,16 +13,16 @@
 
   .ids-data-grid-header-cell-content.vertical-align-center {
     position: relative;
-    top: calc(50% - var(--ids-spacing-sm));
+    top: calc(50% - var(--ids-space-sm));
   }
 
   .ids-data-grid-header-cell-filter-wrapper {
     align-items: center;
     display: flex;
     position: relative;
-    padding-inline-start: var(--ids-spacing-xs);
-    padding-inline-end: var(--ids-spacing-xs);
-    padding-block-end: var(--ids-spacing-xs);
+    padding-inline-start: var(--ids-space-xs);
+    padding-inline-end: var(--ids-space-xs);
+    padding-block-end: var(--ids-space-xs);
 
     &.hidden {
       display: none;

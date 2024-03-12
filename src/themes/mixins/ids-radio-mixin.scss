@@ -30,11 +30,11 @@
 }
 
 @mixin radio-unchecked-error-circle {
-  border-color: var(--ids-color-surface-error-default);
+  border-color: var(--ids-color-error-default);
 }
 
 @mixin radio-unchecked-error-label-text {
-  color: var(--ids-color-surface-error-default);
+  color: var(--ids-color-error-default);
 }
 
 // Checked

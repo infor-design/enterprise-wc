@@ -11,7 +11,7 @@
 :host([field-height='xs']),
 :host([field-height='sm']) {
   .ids-trigger-button.ids-icon-button {
-    padding: var(--ids-spacing-none);
+    padding: var(--ids-space-none);
 
     &:not(.square) {
       border-radius: var(--ids-trigger-field-button-border-radius);
@@ -39,7 +39,7 @@
   justify-content: center;
 
   &.ids-icon-button {
-    padding: var(--ids-spacing-xxs);
+    padding: var(--ids-space-xxs);
 
     &[disabled] {
       color: var(--ids-trigger-field-color-text-disabled);
@@ -57,12 +57,12 @@
   // Inline Style: Show a border on the trigger button's inner-edge
   &.style-inline {
     border: 0;
-    padding: var(--ids-spacing-none);
+    padding: var(--ids-space-none);
     border-radius: var(--ids-trigger-field-button-border-radius);
-    margin: var(--ids-spacing-none);
+    margin: var(--ids-space-none);
 
     &.ids-icon-button {
-      padding: var(--ids-spacing-none);
+      padding: var(--ids-space-none);
     }
 
     &.square {
@@ -113,7 +113,7 @@
   }
 
   &.color-variant-alternate-formatter {
-    padding: var(--ids-spacing-xxxs);
+    padding: var(--ids-space-xxxs);
   }
 
   // ===================================================

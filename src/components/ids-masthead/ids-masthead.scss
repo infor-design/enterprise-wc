@@ -19,8 +19,8 @@
     top: var(--ids-masthead-logo-top-space-icon);
 
     &::part(button) {
-      margin: var(--ids-spacing-none);
-      padding: var(--ids-spacing-none);
+      margin: var(--ids-space-none);
+      padding: var(--ids-space-none);
       opacity: 1;
     }
   }

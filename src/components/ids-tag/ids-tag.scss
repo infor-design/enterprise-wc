@@ -20,8 +20,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-inline-end: var(--ids-spacing-xxs);
-  padding-inline:  var(--ids-spacing-xs);
+  margin-inline-end: var(--ids-space-xxs);
+  padding-inline:  var(--ids-space-xs);
   height: var(--ids-tag-height);
   contain: content;
 
@@ -32,32 +32,32 @@
   }
 
   &.info {
-    background-color: var(--ids-color-surface-info-default);
-    border-color: var(--ids-color-surface-info-default);
+    background-color: var(--ids-color-info-default);
+    border-color: var(--ids-color-info-default);
     color: var(--ids-color-text-on-info);
   }
 
   &.success {
-    background-color: var(--ids-color-surface-success-default);
-    border-color: var(--ids-color-surface-success-default);
+    background-color: var(--ids-color-success-default);
+    border-color: var(--ids-color-success-default);
     color: var(--ids-color-text-on-success);
   }
 
   &.warning {
-    background-color: var(--ids-color-surface-warning-default);
-    border-color: var(--ids-color-surface-warning-default);
+    background-color: var(--ids-color-warning-default);
+    border-color: var(--ids-color-warning-default);
     color: var(--ids-color-text-on-warning);
   }
 
   &.caution {
-    background-color: var(--ids-color-surface-caution-default);
-    border-color: var(--ids-color-surface-caution-default);
+    background-color: var(--ids-color-caution-default);
+    border-color: var(--ids-color-caution-default);
     color: var(--ids-color-text-on-caution);
   }
 
   &.error {
-    background-color: var(--ids-color-surface-error-default);
-    border-color: var(--ids-color-surface-error-default);
+    background-color: var(--ids-color-error-default);
+    border-color: var(--ids-color-error-default);
     color: var(--ids-color-text-on-error);
   }
 
@@ -77,7 +77,7 @@
 :host-context(ids-data-grid-cell) {
   .ids-tag {
     display: inline;
-    margin-bottom: var(--ids-spacing-none);
+    margin-bottom: var(--ids-space-none);
   }
 }
 
@@ -130,8 +130,8 @@
   cursor: var(--ids-cursor-pointer);
   align-self: center;
   display: inline-flex;
-  padding-inline-start: var(--ids-spacing-xxs);
-  padding-top: var(--ids-spacing-xxxs);
+  padding-inline-start: var(--ids-space-xxs);
+  padding-top: var(--ids-space-xxxs);
   color: var(--ids-input-color-text);
 }
 
@@ -145,7 +145,7 @@
   .ids-tag {
     background-color: var(--ids-input-color-background-default);
     border-color: var(--ids-input-color-border-default);
-    margin-bottom: var(--ids-spacing-xxs);
+    margin-bottom: var(--ids-space-xxs);
   }
 }
 

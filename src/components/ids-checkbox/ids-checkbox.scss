@@ -7,11 +7,11 @@
 }
 
 :host([no-margin]) .ids-checkbox {
-  margin: var(--ids-spacing-none);
+  margin: var(--ids-space-none);
 }
 
 .ids-checkbox {
-  margin-bottom: var(--ids-spacing-xs);
+  margin-bottom: var(--ids-space-xs);
 
   label {
     cursor: var(--ids-cursor-pointer);
@@ -28,8 +28,8 @@
     &.required .label-checkbox::after {
       position: absolute;
       font-family: var(--ids-font-family-default);
-      margin-inline-start: var(--ids-spacing-xxxs);
-      margin-inline-end: var(--ids-spacing-xxxs);
+      margin-inline-start: var(--ids-space-xxxs);
+      margin-inline-end: var(--ids-space-xxxs);
       font-size: var(--ids-font-size-50);
       color: var(--ids-input-required-indicator-color-text-default);
       content: '*';
@@ -54,8 +54,8 @@
   }
 
   &.hitbox {
-    padding-top: var(--ids-spacing-12);
-    padding-bottom: var(--ids-spacing-12);
+    padding-top: var(--ids-space-12);
+    padding-bottom: var(--ids-space-12);
 
     label {
       padding-inline-start: 42px;
@@ -71,7 +71,7 @@
   }
 
   &.horizontal {
-    margin-inline-end: var(--ids-spacing-12);
+    margin-inline-end: var(--ids-space-12);
     display: inline-block;
   }
 
@@ -143,7 +143,7 @@
   @include checkbox.checkbox-colored();
 
   .validation-message {
-    margin-top: var(--ids-spacing-xxs);
+    margin-top: var(--ids-space-xxs);
     margin-inline-start: -1px;
   }
 
@@ -179,6 +179,6 @@
   }
 
   .ids-checkbox label {
-    padding-inline-start: var(--ids-spacing-sm);
+    padding-inline-start: var(--ids-space-sm);
   }
 }

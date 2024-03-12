@@ -19,24 +19,24 @@
 
   // Reset badge margin to center it vertically
   ids-badge::part(badge) {
-    margin-block-end: var(--ids-spacing-none);
-    margin-inline-end: var(--ids-spacing-none);
+    margin-block-end: var(--ids-space-none);
+    margin-inline-end: var(--ids-space-none);
   }
 
   ids-badge {
-    padding-inline-start: var(--ids-spacing-sm);
-    padding-inline-end: var(--ids-spacing-sm);
+    padding-inline-start: var(--ids-space-sm);
+    padding-inline-end: var(--ids-space-sm);
   }
 
   ids-hyperlink {
-    margin: var(--ids-spacing-sm);
+    margin: var(--ids-space-sm);
   }
 
   .text-ellipsis {
     display: inline-block;
     vertical-align: middle;
-    padding-inline-start: var(--ids-spacing-sm);
-    padding-inline-end: var(--ids-spacing-sm);
+    padding-inline-start: var(--ids-space-sm);
+    padding-inline-end: var(--ids-space-sm);
     height: auto;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -169,7 +169,7 @@
       justify-content: space-between;
 
       ids-alert {
-        margin-inline-end: var(--ids-spacing-xs);
+        margin-inline-end: var(--ids-space-xs);
       }
     }
   }
@@ -308,7 +308,7 @@
 
   ids-input,
   ids-trigger-field {
-    --ids-spacing-xxxs: 0;
+    --ids-space-xxxs: 0;
     --ids-input-font-size-sm: var(--ids-data-grid-font-size-sm);
   }
 
@@ -339,7 +339,7 @@
     }
 
     &.is-editable.is-editable.is-invalid ids-alert {
-      margin-inline-end: var(--ids-spacing-xxxxs);
+      margin-inline-end: var(--ids-space-xxxxs);
     }
   }
 }
@@ -482,8 +482,8 @@
 // Standalone Css
 td.ids-data-grid-cell {
   display: table-cell;
-  padding-inline-start: var(--ids-spacing-sm);
-  padding-inline-end: var(--ids-spacing-sm);
+  padding-inline-start: var(--ids-space-sm);
+  padding-inline-end: var(--ids-space-sm);
 }
 
 // Handle RTL

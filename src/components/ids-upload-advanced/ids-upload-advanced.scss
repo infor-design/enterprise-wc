@@ -3,7 +3,7 @@
 
 .ids-upload-advanced {
   display: block;
-  margin-bottom: var(--ids-spacing-sm);
+  margin-bottom: var(--ids-space-sm);
 
   .hidden {
     display: none;
@@ -17,7 +17,7 @@
     position: relative;
     align-items: center;
     display: flex;
-    border-radius: var(--ids-radius-xxs);
+    border-radius: var(--ids-border-radius-xxs);
     border-style: dashed;
     flex-direction: column;
     justify-content: center;
@@ -93,10 +93,10 @@
 
   .errorarea {
     border: 1px solid transparent;
-    margin-top: var(--ids-spacing-xs);
-    padding: var(--ids-spacing-xxxs);
+    margin-top: var(--ids-space-xs);
+    padding: var(--ids-space-xxxs);
     display: none;
-    border-radius: var(--ids-radius-xxs);
+    border-radius: var(--ids-border-radius-xxs);
     border-style: dashed;
     align-items: center;
 
@@ -112,8 +112,8 @@
       .ids-alert,
       ids-alert {
         display: block;
-        padding: var(--ids-spacing-xs);
-        padding-bottom: var(--ids-spacing-xxs);
+        padding: var(--ids-space-xs);
+        padding-bottom: var(--ids-space-xxs);
         margin: 0;
       }
     }
@@ -134,7 +134,7 @@
     }
 
     .btn-close {
-      padding-inline: var(--ids-spacing-xxxs);
+      padding-inline: var(--ids-space-xxxs);
       flex-grow: 0;
       flex-shrink: 0;
     }

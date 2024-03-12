@@ -169,8 +169,8 @@ $input-size-full: 100%;
     &::after {
       position: relative;
       font-family: var(--ids-font-family-default);
-      margin-inline-start: var(--ids-spacing-xxxs);
-      margin-inline-end: var(--ids-spacing-xxxs);
+      margin-inline-start: var(--ids-space-xxxs);
+      margin-inline-end: var(--ids-space-xxxs);
       font-size: var(--ids-font-size-50);
       color: var(--ids-input-required-indicator-color-text-default);
       content: '*';
@@ -216,8 +216,8 @@ $input-size-full: 100%;
   }
 
   .ids-input-field {
-    padding-inline-start: var(--ids-spacing-xxs);
-    padding-inline-end: var(--ids-spacing-xxs);
+    padding-inline-start: var(--ids-space-xxs);
+    padding-inline-end: var(--ids-space-xxs);
     padding-top: 0;
     padding-bottom: 0;
     font-size: var(--ids-input-font-size-sm);
@@ -254,7 +254,7 @@ $input-size-full: 100%;
 .ids-input {
   position: relative;
   display: block;
-  margin-block-end: var(--ids-spacing-sm);
+  margin-block-end: var(--ids-space-sm);
   max-width: var(--ids-input-width-full);
 
   // Applied to the wrapper element that wraps the input and other interactable elements
@@ -266,9 +266,9 @@ $input-size-full: 100%;
     color: inherit;
     display: flex;
     align-items: center;
-    margin: var(--ids-spacing-none);
+    margin: var(--ids-space-none);
     max-width: var(--ids-input-width-full);
-    padding: var(--ids-spacing-none);
+    padding: var(--ids-space-none);
     position: relative;
     resize: none;
     text-align: left;
@@ -290,11 +290,11 @@ $input-size-full: 100%;
   }
 
   .ids-icon.starting-icon {
-    margin-inline-start: var(--ids-spacing-xs);
+    margin-inline-start: var(--ids-space-xs);
   }
 
   .ids-icon.ending-icon {
-    margin-inline-end: var(--ids-spacing-xs);
+    margin-inline-end: var(--ids-space-xs);
   }
 
   // Applied to the shadow root's HTMLInputElement
@@ -305,10 +305,10 @@ $input-size-full: 100%;
     background-color: transparent;
     border: none;
     font-family: var(--ids-font-family-default);
-    padding-block-start: var(--ids-spacing-xxs);
-    padding-block-end: var(--ids-spacing-xxs);
-    padding-inline-start: var(--ids-spacing-xs);
-    padding-inline-end: var(--ids-spacing-xs);
+    padding-block-start: var(--ids-space-xxs);
+    padding-block-end: var(--ids-space-xxs);
+    padding-inline-start: var(--ids-space-xs);
+    padding-inline-end: var(--ids-space-xs);
     font-size: var(--ids-input-font-size);
     width: 100%;
 
@@ -348,7 +348,7 @@ $input-size-full: 100%;
 
   // Validation Messages are appended beneath the `.field-container`
   .validation-message {
-    margin-block-start: var(--ids-spacing-xxs);
+    margin-block-start: var(--ids-space-xxs);
     margin-bottom: 0;
   }
 
@@ -374,7 +374,7 @@ $input-size-full: 100%;
     // Reverse the margins on `ids-input[no-margins]` fields to have the bottom margin on top
     .validation-message {
       margin-bottom: 0;
-      margin-block-start: var(--ids-spacing-xxs);
+      margin-block-start: var(--ids-space-xxs);
     }
 
     .ids-label-text {
@@ -505,26 +505,26 @@ $input-size-full: 100%;
 
     &.ids-input.field-height-lg {
       .ids-input-field {
-        padding-inline: calc(var(--ids-spacing-sm) - 2px);
+        padding-inline: calc(var(--ids-space-sm) - 2px);
       }
     }
 
     &.ids-input.field-height-md {
       .ids-input-field {
-        padding-inline: calc(var(--ids-spacing-12) - 2px);
+        padding-inline: calc(var(--ids-space-12) - 2px);
       }
     }
 
     &.ids-input.field-height-sm {
       .ids-input-field {
-        padding-inline: calc(var(--ids-spacing-xs) - 2px);
+        padding-inline: calc(var(--ids-space-xs) - 2px);
       }
     }
 
     &.ids-input.field-height-xs {
       .ids-input-field {
         font-size: var(--ids-data-grid-font-size-sm);
-        padding-inline: var(--ids-spacing-xxxs);
+        padding-inline: var(--ids-space-xxxs);
       }
 
       slot[name="trigger-end"]  {
@@ -535,7 +535,7 @@ $input-size-full: 100%;
     &.ids-input.field-height-xxs {
       .ids-input-field {
         font-size: var(--ids-data-grid-font-size-sm);
-        padding-inline: var(--ids-spacing-xxxxs);
+        padding-inline: var(--ids-space-xxxxs);
       }
 
       slot[name="trigger-end"]  {
@@ -642,8 +642,8 @@ $input-size-full: 100%;
       &.focus-within .field-container {
         &.error,
         &.error:hover {
-          border-color: var(--ids-color-surface-error-default);
-          color: var(--ids-color-surface-error-default);
+          border-color: var(--ids-color-error-default);
+          color: var(--ids-color-error-default);
         }
       }
 

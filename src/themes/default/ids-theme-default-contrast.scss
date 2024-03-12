@@ -1,5 +1,5 @@
 @use './ids-theme-default-core.scss';
-@import '../../../node_modules/ids-foundation/theme-soho/semantic-dark';
+@import '../../../node_modules/ids-foundation/theme-soho/semantic-contrast';
 
 :root {
   // Primary Color
@@ -39,22 +39,22 @@
   // Alert Color Overrides
   --ids-color-error-10: var(--ids-color-red-20);
   --ids-color-error-30: var(--ids-color-red-40);
-  --ids-color-surface-error-default: var(--ids-color-red-80);
+  --ids-color-error-default: var(--ids-color-red-80);
   --ids-color-text-on-warning: var(--ids-color-gray-100);
   --ids-color-warning-10: var(--ids-color-orange-20);
   --ids-color-warning-30: var(--ids-color-orange-40);
-  --ids-color-surface-warning-default: var(--ids-color-orange-70);
+  --ids-color-warning-default: var(--ids-color-orange-70);
   --ids-color-text-on-caution: var(--ids-color-gray-100);
   --ids-color-caution-10: var(--ids-color-orange-20);
   --ids-color-caution-30: var(--ids-color-orange-40);
-  --ids-color-surface-caution-default: var(--ids-color-orange-70);
+  --ids-color-caution-default: var(--ids-color-orange-70);
   --ids-color-text-on-success: var(--ids-color-gray-100);
   --ids-color-success-10: var(--ids-color-green-20);
   --ids-color-success-30: var(--ids-color-green-40);
-  --ids-color-surface-success-default: var(--ids-color-green-70);
+  --ids-color-success-default: var(--ids-color-green-70);
   --ids-color-info-10: var(--ids-color-primary-20);
   --ids-color-info-30: var(--ids-color-primary-40);
-  --ids-color-surface-info-default: var(--color-surface-info-default);
+  --ids-color-info-default: var(--ids-color-info-default);
 
   // Focus
   --ids-color-border-focus: var(--ids-color-primary);
@@ -100,24 +100,10 @@
   --ids-axis-chart-last-line-color-border: var(--ids-color-gray-80);
   --ids-axis-chart-color-text: var(--ids-color-gray-70);
 
-  // Badge
-  --ids-badge-color-background-error: var(--ids-color-error-80);
-  --ids-badge-color-border-error: var(--ids-color-error-80);
-  --ids-badge-color-error: var(--ids-color-text-on-error);
-  --ids-badge-color-background-info: var(--ids-color-info-80);
-  --ids-badge-color-border-info: var(--ids-color-info-80);
-  --ids-badge-color-info: var(--ids-color-text-on-info);
-  --ids-badge-color-background-success: var(--ids-color-success-80);
-  --ids-badge-color-border-success: var(--ids-color-success-80);
-  --ids-badge-color-success: var(--ids-color-white-100);
-  --ids-badge-color-background-warning: var(--ids-color-warning-100);
-  --ids-badge-color-border-warning: var(--ids-color-warning-100);
-  --ids-badge-color-warning: var(--ids-color-white-100);
-
   // Block Grid
   --ids-block-grid-item-color-background-selectable-hover: var(--ids-color-white-100);
-  --ids-block-grid-item-selectable-container-focus: var(--ids-spacing-xxxxs) solid var(--ids-color-blue-90);
-  --ids-block-grid-item-outline-selected: var(--ids-spacing-xxxs) solid var(--ids-color-blue-90);
+  --ids-block-grid-item-selectable-container-focus: var(--ids-space-xxxxs) solid var(--ids-color-blue-90);
+  --ids-block-grid-item-outline-selected: var(--ids-space-xxxs) solid var(--ids-color-blue-90);
 
   // Calendar
   --ids-calendar-toolbar-color-border: var(--ids-color-gray-30);
@@ -140,43 +126,6 @@
   --ids-box-shadow: var(--ids-card-shadow);
   --ids-box-outline-selected: 2px solid var(--ids-color-primary-70);
   --ids-box-outline-hover: 1px solid var(--ids-color-gray-80);
-
-  // Button (Primary)
-  --ids-button-primary-color-border-default: var(--ids-color-primary);
-  --ids-button-primary-color-background-default: var(--ids-color-primary);
-  --ids-button-primary-color-text-default: var(--ids-color-text-on-primary);
-  --ids-button-primary-color-border-focus: var(--ids-color-border-focus);
-  --ids-button-primary-shadow-focus: 0 0 0 2px var(--ids-color-gray-10), 0 0 0 3px var(--ids-color-primary-90), 0 0 4px 3px var(--ids-color-primary-90);
-  --ids-button-primary-color-background-hover: var(--ids-color-primary-90);
-  --ids-button-primary-color-border-hover: var(--ids-color-primary-70);
-  --ids-button-primary-color-background-disabled: var(--ids-color-gray-20);
-  --ids-button-primary-color-border-disabled: var(--ids-color-gray-20);
-  --ids-button-primary-color-text-disabled: var(--ids-color-gray-40);
-  --ids-button-primary-color-background-pressed: var(--ids-color-text-on-primary);
-
-  // Button (Secondary)
-  --ids-button-secondary-color-background-default: transparent;
-  --ids-button-secondary-border-width: 2px;
-  --ids-button-secondary-color-border-default: var(--ids-color-primary);
-  --ids-button-secondary-color-text-default: var(--ids-color-primary);
-  --ids-button-secondary-color-border-focus: var(--ids-color-border-focus);
-  --ids-button-secondary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary), 0 0 4px 3px var(--ids-color-primary);
-  --ids-button-secondary-color-background-hover: var(--ids-color-primary-20);
-  --ids-button-secondary-color-background-disabled: var(--ids-color-gray-10);
-  --ids-button-secondary-color-border-disabled: var(--ids-color-gray-50);
-  --ids-button-secondary-color-text-disabled: var(--ids-color-gray-50);
-  --ids-button-secondary-color-background-pressed: var(--ids-color-primary);
-
-  // Button (Tertiary)
-  --ids-button-tertiary-color-border-default: transparent;
-  --ids-button-tertiary-color-text-default: var(--ids-color-gray-80);
-  --ids-button-tertiary-color-border-focus: var(--ids-color-border-focus);
-  --ids-button-tertiary-color-text-hover: var(--ids-color-gray-80);
-  --ids-button-tertiary-color-background-hover: var(--ids-color-primary-20);
-  --ids-button-tertiary-color-text-disabled: var(--ids-color-gray-40);
-  --ids-button-tertiary-disabled-background-color: transparent;
-  --ids-button-tertiary-color-background-pressed: var(--ids-color-primary-40);
-  --ids-button-destructive-color-background-hover: var(--ids-color-error-10);
 
   // Button (Formatter)
   --ids-button-formatter-color-text-hover: var(--ids-color-gray-100);
@@ -254,8 +203,8 @@
   --ids-editor-color-border-hover: var(--ids-color-gray-90);
   --ids-editor-color-border-focus: var(--ids-color-border-focus);
   --ids-editor-shadow-border-focus: var(--ids-shadow-focus);
-  --ids-editor-color-border-error: var(--ids-color-surface-error-default);
-  --ids-editor-color-text-error: var(--ids-color-surface-error-default);
+  --ids-editor-color-border-error: var(--ids-color-error-default);
+  --ids-editor-color-text-error: var(--ids-color-error-default);
   --ids-editor-shadow-error: var(--ids-shadow-error);
   --ids-editor-color-background-readonly: var(--ids-color-gray-20);
   --ids-editor-color-border-readonly: var(--ids-color-gray-40);
@@ -439,7 +388,7 @@
 
   // Stats
   --ids-stats-positive-color-text: var(--ids-color-green-80);
-  --ids-stats-negative-color-text: var(--ids-color-surface-error-default);
+  --ids-stats-negative-color-text: var(--ids-color-error-default);
   --ids-stats-color-text: var(--ids-color-text-label);
   --ids-stats-kpi-label-color: var(--ids-color-black-100);
 
@@ -483,7 +432,7 @@
   // Tag
   --ids-tag-color-background-default: var(--ids-input-color-background-readonly);
   --ids-tag-color-border: var(--ids-input-color-background-readonly);
-  --ids-tag-border-radius: var(--ids-radius-sm);
+  --ids-tag-border-radius: var(--ids-border-radius-sm);
   --ids-tag-color-text-default: var(--ids-input-color-text);
   --ids-tag-font-size-default: var(--ids-font-size-30);
   --ids-tag-color-icon-hover: var(--ids-color-gray-90);

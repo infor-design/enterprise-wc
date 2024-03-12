@@ -125,24 +125,24 @@ ids-empty-message:not([hidden]),
 
 // Stacked tooltips
 .tooltip-center {
-  margin-block: var(--ids-spacing-xxs);
+  margin-block: var(--ids-space-xxs);
   text-align: center;
 }
 
 .tooltip.chart-legend {
   flex-direction: column;
-  margin-block-end: var(--ids-spacing-xs);
+  margin-block-end: var(--ids-space-xs);
   padding: 0;
 
   .swatch {
-    margin-inline: var(--ids-spacing-xxs);
+    margin-inline: var(--ids-space-xxs);
     padding: 0;
   }
 }
 
 .tooltip-row span {
-  padding-inline-start: var(--ids-spacing-xxxs);
-  padding-inline-end: var(--ids-spacing-xxs);
+  padding-inline-start: var(--ids-space-xxxs);
+  padding-inline-end: var(--ids-space-xxs);
 }
 
 // Move Stuff for RTL

@@ -19,7 +19,7 @@
 
     &::before {
       transform: rotate(-45deg);
-      border-top: 2px solid var(--ids-color-surface-error-default);
+      border-top: 2px solid var(--ids-color-error-default);
       content: '';
       left: 0;
       right: 0;

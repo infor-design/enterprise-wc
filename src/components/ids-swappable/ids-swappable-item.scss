@@ -54,14 +54,14 @@
 }
 
 :host(.p-8) {
-  padding-block: var(--ids-spacing-xs);
-  padding-inline-end: var(--ids-spacing-xs);
-  padding-inline-start: var(--ids-spacing-sm);
+  padding-block: var(--ids-space-xs);
+  padding-inline-end: var(--ids-space-xs);
+  padding-inline-start: var(--ids-space-sm);
 }
 
 :host(.is-hidden) {
-  height: var(--ids-spacing-none);
-  padding: var(--ids-spacing-none);
+  height: var(--ids-space-none);
+  padding: var(--ids-space-none);
   border: none;
   overflow: hidden;
 }
@@ -75,5 +75,5 @@
 }
 
 :host(.slotted-ids-tab:not(.orientation-vertical)) {
-  margin-inline-start: var(--ids-spacing-xxs);
+  margin-inline-start: var(--ids-space-xxs);
 }
