@@ -11,6 +11,10 @@ document.querySelector('head')?.insertAdjacentHTML('afterbegin', cssLink);
 const url: any = productsJSON;
 const columns1: IdsDataGridColumn[] = [];
 const dataGrid1 = document.querySelector<IdsDataGrid>('#data-grid-1')!;
+const button = document.querySelector('#button-1')!;
+
+const lists: IdsDataGrid[] = [];
+lists.push(dataGrid1);
 
 (async function init() {
   // Set up columns
@@ -50,7 +54,14 @@ const dataGrid1 = document.querySelector<IdsDataGrid>('#data-grid-1')!;
     name: 'In Stock',
     field: 'inStock',
     formatter: dataGrid1.formatters.text,
-    sortable: true
+    filterType: dataGrid1.filters.dropdown,
+    filterConditions: [
+      { value: 'not-filtered', label: ' ' },
+      { value: 'True', label: 'True' },
+      { value: 'False', label: 'False' },
+      { value: 'True', label: 'true' },
+      { value: 'False', label: 'false' },
+    ]
   });
   columns1.push({
     id: 'productId',
@@ -90,6 +101,10 @@ const dataGrid1 = document.querySelector<IdsDataGrid>('#data-grid-1')!;
   };
 
   setData();
+
+  button?.addEventListener('click', () => {
+    setData();
+  });
 }());
 
 const dataGrid2 = document.querySelector<IdsDataGrid>('#data-grid-2')!;
@@ -177,4 +192,8 @@ const dataGrid2 = document.querySelector<IdsDataGrid>('#data-grid-2')!;
   };
 
   setData();
+
+  dataGrid1.addEventListener('selected', (e: any) => {
+    console.info('selected', e.detail);
+  });
 }());
