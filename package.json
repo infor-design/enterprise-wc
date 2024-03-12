@@ -42,7 +42,7 @@
     "test:percy": "npx percy exec -- npm run test",
     "test:coverage": "npx rimraf .nyc_output && npm run build:coverage && npm run test && npx nyc report && open coverage/index.html",
     "test:coverage:no-build": "npx rimraf .nyc_output && npm run test && npx nyc report && open coverage/index.html",
-    "test:ci": "PERCY_LOGLEVEL=warn npx playwright test && npx nyc report",
+    "test:ci": "PERCY_LOGLEVEL=silent npx playwright test && npx nyc report",
     "test:update-snapshots": "PERCY_LOGLEVEL=silent npx playwright test --update-snapshots",
     "test:ui": "PERCY_LOGLEVEL=silent npx playwright test --ui",
     "test:vulnerabilities": "snyk test",

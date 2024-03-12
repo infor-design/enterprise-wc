@@ -1,0 +1,13 @@
+<ids-tag-list>
+            <ids-tag dismissible="true">#Tag One<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+            <ids-tag dismissible="true">#Tag Two<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+            <ids-tag dismissible="true">#Tag Three<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+            <ids-tag dismissible="true">#Tag Four<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+            <ids-tag dismissible="true">#Tag Five<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+            <ids-tag dismissible="true">#Tag Six<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+            <ids-tag dismissible="true">#Tag Seven<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+            <ids-tag dismissible="true">#Tag Eight<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+            <ids-tag dismissible="true">#Tag Nine<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+            <ids-tag dismissible="true">#Tag Ten<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+            <ids-tag dismissible="true">#Tag Eleven<ids-icon part="icon" icon="close" size="small" class="ids-icon" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-tag>
+          </ids-tag-list>

@@ -222,7 +222,7 @@ export class DropdownEditor implements IdsDataGridEditor {
   clickEvent?: MouseEvent;
 
   init(cell?: IdsDataGridCell): void {
-    this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? null;
+    this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? cell?.value ?? null;
     const isInline = cell?.column.editor?.inline;
     const settings = { ...cell?.column?.editor?.editorSettings };
     const validation = { ...cell?.column?.editor?.editorValidation };
@@ -272,7 +272,7 @@ export class DropdownEditor implements IdsDataGridEditor {
       };
     }
 
-    this.input.value = this.#value;
+    this.input.value = this.#value ?? '';
     this.input.size = 'full';
     this.input.labelState = 'collapsed';
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
@@ -340,7 +340,7 @@ export class DropdownEditor implements IdsDataGridEditor {
       });
     }
 
-    this.list?.onEvent('keydown', this.list, (e) => {
+    this.input?.onEvent('keydown', this.list, (e) => {
       const key = e.key;
       if (key === 'Enter') {
         e.stopPropagation();

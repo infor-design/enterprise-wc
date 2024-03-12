@@ -242,6 +242,9 @@
   - link: tooltip.html
     type: Example
     description: Shows a data grid with tooltip
+  - link: column-settings-server-side.html
+    type: Example
+    description: Shows a data grid with server-side column-settings
   - link: save-settings.html
     type: Example
     description: Shows a data grid to save user settings
