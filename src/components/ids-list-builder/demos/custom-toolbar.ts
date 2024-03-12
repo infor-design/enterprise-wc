@@ -11,4 +11,4 @@ const setData = async () => {
   listBuilder1.data = data;
 };
 
-setData();
+await setData();

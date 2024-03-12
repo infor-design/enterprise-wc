@@ -49,8 +49,8 @@ test.describe('IdsAbout tests', () => {
 
       // set copyrightYear to 2015
       await aboutHandle.evaluate((about: IdsAbout) => { about.copyrightYear = 2015; });
-      expect(await page.locator('ids-text[slot="copyright"]')).toHaveText(/2015/);
-      expect(await aboutHandle.evaluate((about: IdsAbout) => about.copyrightYear)).toEqual('2015');
+      await expect(await page.locator('ids-text[slot="copyright"]')).toHaveText(/2015/);
+      await expect(await aboutHandle.evaluate((about: IdsAbout) => about.copyrightYear)).toEqual('2015');
     });
 
     test('setting device specs', async ({ page }) => {
@@ -58,11 +58,11 @@ test.describe('IdsAbout tests', () => {
       const aboutHandle = await page.locator('ids-about').first();
 
       // should have device specs by default
-      expect(await page.locator('ids-text[slot="device"]')).toHaveText(/Platform :/);
+      await expect(await page.locator('ids-text[slot="device"]')).toHaveText(/Platform :/);
 
       // set deviceSpecs to false
       await aboutHandle.evaluate((about: IdsAbout) => { about.deviceSpecs = false; });
-      expect(await page.locator('ids-text[slot="device"]')).not.toBeVisible();
+      await expect(await page.locator('ids-text[slot="device"]')).not.toBeVisible();
       expect(await aboutHandle.evaluate((about: IdsAbout) => about.deviceSpecs)).toEqual(false);
     });
 
@@ -71,11 +71,11 @@ test.describe('IdsAbout tests', () => {
       const aboutHandle = await page.locator('ids-about').first();
 
       // should have product name by default
-      expect(await page.locator('ids-text[slot="product"]')).toHaveText(/Controls Example Application/);
+      await expect(await page.locator('ids-text[slot="product"]')).toHaveText(/Controls Example Application/);
 
       // set productName to ''
       await aboutHandle.evaluate((about: IdsAbout) => { about.productName = ''; });
-      expect(await page.locator('ids-text[slot="product"]')).not.toHaveText(/Controls Example Application/);
+      await expect(await page.locator('ids-text[slot="product"]')).not.toHaveText(/Controls Example Application/);
       expect(await aboutHandle.evaluate((about: IdsAbout) => about.productName)).toEqual('');
     });
 
@@ -85,7 +85,7 @@ test.describe('IdsAbout tests', () => {
 
       // set product version to 1.23
       await aboutHandle.evaluate((about: IdsAbout) => { about.productVersion = '1.23'; });
-      expect(await page.locator('ids-text[slot="product"]')).toHaveText(/1.23/);
+      await expect(await page.locator('ids-text[slot="product"]')).toHaveText(/1.23/);
       expect(await aboutHandle.evaluate((about: IdsAbout) => about.productVersion)).toEqual('1.23');
     });
 
@@ -95,11 +95,11 @@ test.describe('IdsAbout tests', () => {
 
       // should useDefaultCopyright by default
       expect(await aboutHandle.evaluate((about: IdsAbout) => about.useDefaultCopyright)).toEqual(true);
-      expect(await page.locator('ids-text[slot="copyright"]')).toBeVisible();
+      await expect(await page.locator('ids-text[slot="copyright"]')).toBeVisible();
 
       // set useDefaultCopyright to false
       await aboutHandle.evaluate((about: IdsAbout) => { about.useDefaultCopyright = false; });
-      expect(await page.locator('ids-text[slot="copyright"]')).not.toBeVisible();
+      await expect(await page.locator('ids-text[slot="copyright"]')).not.toBeVisible();
     });
   });
 
@@ -116,12 +116,14 @@ test.describe('IdsAbout tests', () => {
 
     test('content should be translated when switching languages', async ({ page }) => {
       // set language to spanish
-      await page.evaluate(async () => {
+      const platformInSpanish = await page.evaluate(async () => {
         await window.IdsGlobal.locale?.setLocale('es-ES');
+        await window.IdsGlobal.locale?.setLanguage('es');
+        return window.IdsGlobal.locale?.loadedLanguages.get('es').Platform.value;
       });
 
-      // check that translation took place
-      expect(await page.locator('ids-text[slot="device"]').textContent()).toContain('Plataforma :');
+      // check that translation took place for the word 'Platform'
+      expect(await page.locator('ids-text[slot="device"]').textContent()).toContain(platformInSpanish);
     });
   });
 });

@@ -44,6 +44,7 @@ export default class IdsSwipeAction extends Base {
     this.leftButton = this.querySelector('[slot="action-left"]');
     this.rightButton = this.querySelector('[slot="action-right"]');
     this.#attachEventHandlers();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.#afterConnectedCallback();
   }
 

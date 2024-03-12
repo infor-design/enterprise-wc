@@ -11,5 +11,5 @@ if (autocomplete) {
     autocomplete.data = data;
   };
 
-  await setData();
+  await await setData();
 }

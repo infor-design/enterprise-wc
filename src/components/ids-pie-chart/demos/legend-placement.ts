@@ -15,7 +15,7 @@ const setData = async () => {
   }
 };
 
-setData();
+await setData();
 
 document.addEventListener('DOMContentLoaded', () => {
   const chartEl = document.querySelector<IdsPieChart>('#index-example')!;

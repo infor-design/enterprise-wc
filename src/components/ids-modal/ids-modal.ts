@@ -71,11 +71,11 @@ export default class IdsModal extends Base {
    */
   #visible = false;
 
-  globalKeydownListener = (e: KeyboardEvent) => {
+  globalKeydownListener = async (e: KeyboardEvent) => {
     switch (e.key) {
       case 'Escape':
         e.stopImmediatePropagation();
-        this.hide();
+        await this.hide();
         break;
       default:
         break;
@@ -127,6 +127,7 @@ export default class IdsModal extends Base {
     this.shouldUpdate = true;
     this.setResize();
     this.#setFullsizeDefault();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.#setFocusIfVisible();
   }
 
@@ -579,8 +580,8 @@ export default class IdsModal extends Base {
 
     // If a Modal Button is clicked, fire an optional callback
     const buttonSlot = this.container?.querySelector('slot[name="buttons"]');
-    this.onEvent('click.buttons', buttonSlot, (e: MouseEvent) => {
-      this.handleButtonClick(e);
+    this.onEvent('click.buttons', buttonSlot, async (e: MouseEvent) => {
+      await this.handleButtonClick(e);
     });
   }
 
@@ -611,8 +612,10 @@ export default class IdsModal extends Base {
    */
   #refreshVisibility(val: boolean): void {
     if (val) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.show();
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.hide();
     }
   }
@@ -687,7 +690,7 @@ export default class IdsModal extends Base {
     // it as a `cancel` button and hide.
     const modalBtn = e.target.closest('ids-modal-button');
     if (modalBtn?.cancel) {
-      this.hide();
+      await this.hide();
     }
   }
 
@@ -696,6 +699,7 @@ export default class IdsModal extends Base {
    * @returns {void}
    */
   onTriggerClick(): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.show();
   }
 
@@ -708,6 +712,7 @@ export default class IdsModal extends Base {
     if (!e || !e?.target) {
       return;
     }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hide();
   }
 
