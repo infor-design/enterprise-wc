@@ -133,4 +133,49 @@ test.describe('IdsCard tests', () => {
       await expect(card.locator('ids-checkbox')).toHaveAttribute('checked', 'true');
     });
   });
+  test.describe('Actionable Ids Card', () => {
+
+    test('should allow setting href', async ({ page }) => {
+      const card: Locator = page.locator('ids-card').first();
+      let href = await card.evaluate((element: IdsCard) =>  element.href );
+      expect(href).toBeNull();
+      href = await card.evaluate((element: IdsCard) =>  { 
+        element.href = '#section'; 
+        return element.href; 
+      });
+      expect(href).toEqual('#section');
+      href = await card.evaluate((element: IdsCard) =>  { 
+        element.href = ''; 
+        return element.href; 
+      });
+      expect(href).toBeNull();
+    });
+    test('should allow setting actionable', async ({ page }) => {
+      const card: Locator = page.locator('ids-card').first();
+      let act = await card.evaluate((element: IdsCard) =>  element.actionable );
+      act = true;
+      expect(act).toBeTruthy();
+      act = false;
+      expect(act).toBeFalsy();
+    });
+    test('should allow setting target', async ({ page }) => {
+      const card: Locator = page.locator('ids-card').first();
+      let expectedTarget = await card.evaluate((element: IdsCard) =>  element.target );
+      expect(expectedTarget).toBeNull();
+      expectedTarget = '_blank';
+      expect(expectedTarget).toEqual('_blank');
+      expectedTarget = null;
+      expect(expectedTarget).toBeNull();
+      console.log(expectedTarget);
+    });
+    test('should allow setting height', async ({ page }) => {
+      const card: Locator = page.locator('ids-card').first();
+      let actionableCardHeight = await card.evaluate((element: IdsCard) =>  element.height );
+      actionableCardHeight = '100';
+      expect(actionableCardHeight).toEqual('100');
+      actionableCardHeight = null;
+      expect(actionableCardHeight).toBeNull();
+      console.log('>>>>>.' + actionableCardHeight);
+    });
+  });
 });
