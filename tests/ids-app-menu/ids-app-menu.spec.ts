@@ -72,5 +72,14 @@ test.describe('IdsAppMenu tests', () => {
       expect(appMenuType).toBe('app-menu');
       expect(appMenuEdge).toBe('start');
     });
+    test('should convert inner accordions to use the "app-menu" color variant', async () => {
+      //????
+    });
+    test('can close by pressing the escape key', async ({ page }) => {
+      await page.locator('#app-menu-trigger').click();
+      await expect(page.locator('#app-menu')).toHaveAttribute('visible');
+      await page.keyboard.press('Escape');
+      await expect(page.locator('#app-menu')).not.toHaveAttribute('visible');
+    });
   });
 });
