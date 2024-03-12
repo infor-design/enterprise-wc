@@ -5,21 +5,25 @@
 ### 1.0.0-beta.22 Features
 
 - `[Button]` Added updated button designs from the tokens. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
+- `[Datagrid]` Add ability (and example) to set editor's column settings from server. ([#1714](https://github.com/infor-design/enterprise-wc/issues/1714))
 - `[ProcessIndicator]` Style fix prevent labels and icons from overlapping on initial page-load. ([#1730](https://github.com/infor-design/enterprise-wc/issues/1730))
 - `[PopupMenu]` Added ability to load menu data in a callback with `beforeShow`. ([#1804](https://github.com/infor-design/enterprise-wc/issues/1804))
 - `[Tokens]` Integrate tokens with figma/ids-foundation. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
+- `[TagList]` Added a new `ids-tag-list` layout and eventing component. ([#1903](https://github.com/infor-design/enterprise-wc/issues/1903))
 
 ### 1.0.0-beta.22 Fixes
 
+- `[Button]` Fixed layout issues when buttons are next to each other. ([#1999](https://github.com/infor-design/enterprise-wc/issues/1999))
 - `[Card]` Fix selected state styles for dark mode. ([#1887](https://github.com/infor-design/enterprise-wc/issues/1887))
 - `[Datagrid]` Fixed a display issue with the new loading indicator in firefox. ([#1617](https://github.com/infor-design/enterprise-wc/issues/1617))
 - `[Docs]` Added docs page for IdsGlobal. Moved some subcomponents that should not be used directly into their main component area. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
 - `[Fieldset]` Fixed issue that popups in the fieldset were cut off. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
 - `[Icon]` Fixed yellow and caution status colors. ([#1879](https://github.com/infor-design/enterprise-wc/issues/1879))
 - `[Modal]` Converted modal, about, error page, action panel tests. ([#1847](https://github.com/infor-design/enterprise-wc/issues/1847))
+- `[Radio]` Converted radio tests to playwright. ([#1872](https://github.com/infor-design/enterprise-wc/issues/1872))
 - `[Tree]` Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
 - `[Wizard]` Fixed broken wizard component in angular framework. ([#1885](https://github.com/infor-design/enterprise-wc/issues/1885))
-- `[Button]` Fixed layout issues when buttons are next to each other. ([#1999](https://github.com/infor-design/enterprise-wc/issues/1999))
+- `[Wizard]` Converted wizard tests to playwright. ([#1994](https://github.com/infor-design/enterprise-wc/issues/1994))
 
 ## 1.0.0-beta.21
 
