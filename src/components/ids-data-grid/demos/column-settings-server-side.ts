@@ -1,4 +1,4 @@
-import booksJSON from '../../../assets/data/books.json';
+// import booksJSON from '../../../assets/data/books.json';
 import '../ids-data-grid';
 import type IdsDataGrid from '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
@@ -117,7 +117,7 @@ if (dataGrid) {
       if (!updatedColumns?.[3]?.editor?.editorSettings) return;
 
       // set options later simulating options comming from server
-      console.log('Now setting >>> updatedColumns[3].editor.editorSettings.options');
+      console.info('Now setting >>> updatedColumns[3].editor.editorSettings.options');
       updatedColumns[3].editor.editorSettings.options = [
         {
           value: 'Administration',
