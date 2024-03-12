@@ -148,6 +148,7 @@ export default class IdsListView extends Base {
       attributes.MAX_WIDTH,
       attributes.OVERFLOW,
       attributes.TOOLTIP,
+      attributes.TOOLTIP_PLAIN_TEXT,
     ];
   }
 
@@ -386,7 +387,8 @@ export default class IdsListView extends Base {
     const selected = data.itemSelected ? ' selected' : '';
     const sortable = this.sortable ? ' class="sortable"' : '';
     const maxWidth = this.maxWidth ? ` max-width="${this.maxWidth}"` : '';
-    const tooltip = this.tooltip ? ` tooltip="${this.tooltip}"` : '';
+    const tooltipPlainText = this.hasAttribute(attributes.TOOLTIP_PLAIN_TEXT) ? ` tooltip-plain-text` : '';
+    const tooltip = this.tooltip ? ` tooltip="${this.tooltip}"${tooltipPlainText}` : '';
     const overflow = this.overflow ? ` overflow="${this.overflow}"` : '';
 
     return this.templateListItemWrapper(
@@ -697,9 +699,12 @@ export default class IdsListView extends Base {
     if (name === attributes.PAGE_NUMBER) this.redraw();
     if (name === attributes.PAGE_SIZE) this.redraw();
     if (name === attributes.PAGE_TOTAL) this.redraw();
-    if (name === attributes.MAX_WIDTH) this.redraw(); // TODO: change this to proper DOM manipulation
-    if (name === attributes.OVERFLOW) this.redraw(); // TODO: change this to proper DOM manipulation
-    if (name === attributes.TOOLTIP) this.redraw(); // TODO: change this to proper DOM manipulation
+
+    // TODO: change the follow to use proper DOM manipulation instead of this.redraw();
+    if (name === attributes.MAX_WIDTH) this.redraw();
+    if (name === attributes.OVERFLOW) this.redraw();
+    if (name === attributes.TOOLTIP) this.redraw();
+    if (name === attributes.TOOLTIP_PLAIN_TEXT) this.redraw();
   }
 
   #selectable() {

@@ -11,24 +11,30 @@ if (head) {
 }
 
 // Example for populating the List View
-const listView = document.querySelector<IdsListView>('ids-list-view#demo-list-view-searchable');
-if (listView) {
-  // Do an ajax request and apply the data to the list
-  const url: any = eventsJSON;
+const listView1 = document.querySelector<IdsListView>('ids-list-view#demo-list-view-tooltip-html');
+const listView2 = document.querySelector<IdsListView>('ids-list-view#demo-list-view-tooltip-plain-text');
 
-  const setData = async () => {
-    const res = await fetch(url);
-    const data = await res.json();
-    (listView as any).data = data;
-  };
+const url: any = eventsJSON;
 
-  await setData();
+const setData = async () => {
+  const res = await fetch(url);
+  const data = await res.json();
+  (listView1 as any).data = data;
+  (listView2 as any).data = data;
+};
 
-  const splitter: any = document.querySelector<IdsSplitter>('ids-splitter');
-  splitter?.addEventListener('sizechanged', (e: CustomEvent) => {
-    console.info('sizechanged', e.detail);
-    const { splitBar } = e.detail;
-    const width = splitBar?.getBoundingClientRect().x;
-    if (width) listView.maxWidth = String(width - 100);
-  });
-}
+const splitter: any = document.querySelector<IdsSplitter>('ids-splitter');
+const splitterPaneRight = document.querySelector<IdsListView>('ids-splitter-pane#p2');
+splitterPaneRight?.style.setProperty('padding-left', '50px');
+
+splitter?.addEventListener('sizechanged', (e: CustomEvent) => {
+  console.info('sizechanged', e.detail);
+  const { splitBar } = e.detail;
+  const width = splitBar?.getBoundingClientRect().x;
+  if (width) {
+    if (listView1) listView1.maxWidth = `${width - 100}px`;
+    if (listView2) listView2.maxWidth = `${window.innerWidth - (width + 200)}px`;
+  }
+});
+
+await setData();
