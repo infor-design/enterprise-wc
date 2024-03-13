@@ -77,6 +77,7 @@ test.describe('IdsCard tests', () => {
       await card.evaluate((element: IdsCard) => { element.autoHeight = 'false'; });
       await expect(card).not.toHaveAttribute('auto-height');
     });
+
     test('can render auto-fit from an attribute', async ({ page }) => {
       const card = await page.locator('ids-card').first();
       await expect(card).not.toHaveAttribute('auto-fit');
@@ -89,6 +90,7 @@ test.describe('IdsCard tests', () => {
       await card.evaluate((element: IdsCard) => { element.autoFit = false; });
       await expect(card).not.toHaveAttribute('auto-fit', 'true');
     });
+
     test('can render overflow setting from the api', async ({ page }) => {
       const card = await page.locator('ids-card').first();
       const cardContent = card.locator('div[part="content"]');
@@ -99,6 +101,7 @@ test.describe('IdsCard tests', () => {
       await expect(card).not.toHaveAttribute('overflow');
       await expect(cardContent).not.toHaveClass(/overflow-hidden/);
     });
+
     test('can remove the clickable attribute when reset', async ({ page }) => {
       const card = await page.locator('ids-card').first();
       await card.evaluate((element: IdsCard) => { element.autoHeight = 'true'; });
@@ -106,12 +109,14 @@ test.describe('IdsCard tests', () => {
       await card.evaluate((element: IdsCard) => { element.autoHeight = 'false'; });
       await expect(card).not.toHaveAttribute('auto-height');
     });
+
     test('can set no header setting', async ({ page }) => {
       const card = await page.locator('ids-card').first();
       await expect(card).not.toHaveAttribute('no-header');
       await card.evaluate((element: IdsCard) => { element.noHeader = 'false'; });
       await expect(card).not.toHaveAttribute('no-header', 'true');
     });
+
     test('can support card selection single', async ({ page }) => {
       const card = await page.locator('ids-card').first();
       await expect(card).not.toHaveAttribute('selected');
@@ -121,6 +126,7 @@ test.describe('IdsCard tests', () => {
       await card.click({ timeout: 300 });
       await expect(card).toHaveAttribute('selected', 'true');
     });
+
     test('can support card selection multiple', async ({ page }) => {
       const card = await page.locator('ids-card').first();
       await expect(card).not.toHaveAttribute('selected');
@@ -133,6 +139,7 @@ test.describe('IdsCard tests', () => {
       await card.click();
       await expect(card.locator('ids-checkbox')).not.toHaveAttribute('checked');
     });
+
     test('can trigger selectionchanged event', async ({ page }) => {
       let isEventTriggered = false;
       const card = await page.locator('ids-card').first();
@@ -147,6 +154,7 @@ test.describe('IdsCard tests', () => {
       });
       expect(isEventTriggered).toBeTruthy();
     });
+
     test('can set css class for footer', async ({ page }) => {
       await page.evaluate(() => {
         document.body.innerHTML = '';
@@ -162,6 +170,7 @@ test.describe('IdsCard tests', () => {
       await expect(card.locator('div[part="card"]')).toHaveClass(/has-footer/);
     });
   });
+
   test.describe('actionable ids card', () => {
     test('can allow setting href', async ({ page }) => {
       const card = await page.locator('ids-card').first();
@@ -178,6 +187,7 @@ test.describe('IdsCard tests', () => {
       });
       expect(href).toBeNull();
     });
+
     test('can allow setting actionable', async ({ page }) => {
       const card = await page.locator('ids-card').first();
       let act = await card.evaluate((element: IdsCard) => element.actionable);
@@ -186,6 +196,7 @@ test.describe('IdsCard tests', () => {
       act = false;
       expect(act).toBeFalsy();
     });
+
     test('can allow setting target', async ({ page }) => {
       const card = await page.locator('ids-card').first();
       let expectedTarget = await card.evaluate((element: IdsCard) => element.target);
@@ -195,6 +206,7 @@ test.describe('IdsCard tests', () => {
       expectedTarget = null;
       expect(expectedTarget).toBeNull();
     });
+    
     test('can allow setting height', async ({ page }) => {
       const card = await page.locator('ids-card').first();
       let actionableCardHeight: string | null = await card.evaluate((element: IdsCard) => element.height);
