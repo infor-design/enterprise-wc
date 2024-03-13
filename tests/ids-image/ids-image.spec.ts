@@ -75,17 +75,11 @@ test.describe('IdsImage tests', () => {
   });
 
   test.describe('functional tests', () => {
-    // const name = 'ids-image';
-    // const alt = 'example alt';
-    // const src = '../assets/images/placeholder-60x60.png';
-    // const newSrc = '../assets/images/placeholder-154x120.png';
-    // const size = 'sm';
     let alt: string;
     let name: string;
     let size: string;
     let src: string;
     let idsImage: IdsImage;
-    let newSrc: string;
 
     test.describe('IdsImage Component (using properties', () => {
       test.beforeEach(async ({ page }) => {
