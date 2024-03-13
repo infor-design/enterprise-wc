@@ -166,8 +166,9 @@ class IdsMultiselect extends IdsDropdown {
    */
   get selectedOptions(): HTMLElement[] {
     const values = Array.isArray(this.value) ? this.value : [this.value];
-    const selectors = values.map((value) => `ids-list-box-option[value="${value}"]`);
-    return [...(this.dropdownList?.listBox?.querySelectorAll<HTMLElement>(selectors.join(', ')) ?? [])];
+    const selectors = values.map((value) => `ids-list-box-option[value="${value}"]`).join(', ');
+    if (!selectors) return [];
+    return [...(this.dropdownList?.listBox?.querySelectorAll<HTMLElement>(selectors) ?? [])];
   }
 
   /**
