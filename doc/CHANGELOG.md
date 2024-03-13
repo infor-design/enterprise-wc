@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.22 Features
 
+- `[Input]` Added `IdsTooltipMixin` to `IdsInput` and only showing tooltip when text-overflow ellipses visible. ([#1755](https://github.com/infor-design/enterprise-wc/issues/1755))
 - `[PopupMenu]` Added ability to load menu data in a callback with `beforeShow`. ([#1804](https://github.com/infor-design/enterprise-wc/issues/1804))
 
 ### 1.0.0-beta.22 Fixes
