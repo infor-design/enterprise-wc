@@ -81,5 +81,18 @@ test.describe('IdsAppMenu tests', () => {
       await page.keyboard.press('Escape');
       await expect(page.locator('#app-menu')).not.toHaveAttribute('visible');
     });
+    test('wont close by pressing any key but escape', async ({ page }) => {
+      await page.locator('#app-menu-trigger').click();
+      await expect(page.locator('#app-menu')).toHaveAttribute('visible');
+      await page.keyboard.press('A');
+      await page.keyboard.press('0');
+      await page.keyboard.press('ArrowUp');
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('F12');
+      await expect(page.locator('#app-menu')).toHaveAttribute('visible');
+      await page.keyboard.press('Escape');
+      await expect(page.locator('#app-menu')).not.toHaveAttribute('visible');
+    });
   });
 });
