@@ -197,7 +197,7 @@ test.describe('IdsDropdown tests', () => {
 
       // expect new value to be selected and dropdown list to be hidden
       const selected = await page.locator('ids-dropdown').evaluate((dropdown: IdsDropdown) => dropdown.value);
-      expect(await page.locator('ids-dropdown ids-dropdown-list')).not.toBeVisible();
+      await expect(await page.locator('ids-dropdown ids-dropdown-list')).not.toBeVisible();
       expect(selected).toEqual('opt4');
     });
   });

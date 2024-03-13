@@ -149,7 +149,7 @@ test.describe('IdsInput tests', () => {
         document.querySelector<IdsInput>('ids-input')!.value = 'x';
         document.querySelector<IdsInput>('ids-input')!.value = '';
       });
-      expect(await page.locator('#input-id-error')).toBeVisible();
+      await expect(await page.locator('#input-id-error')).toBeVisible();
     });
   });
 });

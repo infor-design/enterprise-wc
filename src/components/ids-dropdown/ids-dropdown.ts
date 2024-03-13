@@ -143,6 +143,7 @@ export default class IdsDropdown extends Base {
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.dropdownList?.hide();
   }
 
