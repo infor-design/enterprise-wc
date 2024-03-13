@@ -38,5 +38,8 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a limited toolbar that works with css only
+  - link: in-header.html
+    type: In Header
+    description: In Header Example
 
 
