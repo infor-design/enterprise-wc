@@ -206,7 +206,7 @@ test.describe('IdsCard tests', () => {
       expectedTarget = null;
       expect(expectedTarget).toBeNull();
     });
-    
+
     test('can allow setting height', async ({ page }) => {
       const card = await page.locator('ids-card').first();
       let actionableCardHeight: string | null = await card.evaluate((element: IdsCard) => element.height);
