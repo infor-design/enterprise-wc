@@ -639,9 +639,11 @@ export default class IdsDropdown extends Base {
     // Trigger an async callback for contents
     if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
-      this.loadDataSet(stuff);
-      if (this.typeahead) {
-        this.#optionsData = stuff;
+      if (stuff) {
+        this.loadDataSet(stuff);
+        if (this.typeahead) {
+          this.#optionsData = stuff;
+        }
       }
     }
 

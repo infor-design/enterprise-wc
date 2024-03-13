@@ -161,6 +161,16 @@ class IdsMultiselect extends IdsDropdown {
   get value() { return this.internalSelectedList; }
 
   /**
+   * Returns the selected Listbox option based on the Dropdown's value.
+   * @returns {HTMLElement[]} the selected option
+   */
+  get selectedOptions(): HTMLElement[] {
+    const values = Array.isArray(this.value) ? this.value : [this.value];
+    const selectors = values.map((value) => `ids-list-box-option[value="${value}"]`);
+    return [...(this.dropdownList?.listBox?.querySelectorAll<HTMLElement>(selectors.join(', ')) ?? [])];
+  }
+
+  /**
    * Rewriting dropdown click events
    */
   attachClickEvent() {
