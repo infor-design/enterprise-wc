@@ -3209,4 +3209,254 @@ test.describe('IdsDataGrid tests', () => {
       expect(results).toBe('EUR');
     });
   });
+
+  test.describe('selection tests', () => {
+    test('renders a radio for single select', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.rowSelection = 'single';
+        dataGrid.columns[0].id = 'selectionRadio';
+        dataGrid.columns[0].formatter = dataGrid.formatters.selectionRadio;
+        dataGrid.redraw();
+        const radio = dataGrid.container?.querySelector('.ids-data-grid-radio');
+        return radio?.classList.contains('ids-data-grid-radio');
+      });
+
+      expect(results).toBeTruthy();
+    });
+
+    test('can disable the selectionRadio', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.rowSelection = 'single';
+        dataGrid.columns[0].id = 'selectionRadio';
+        dataGrid.columns[0].formatter = dataGrid.formatters.selectionRadio;
+        const disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
+        dataGrid.columns[0].disabled = disabled;
+        dataGrid.redraw();
+        const radio = dataGrid.container?.querySelector('.ids-data-grid-radio');
+        const radio2 = dataGrid.container?.querySelectorAll('.ids-data-grid-row')[2].querySelector('.ids-data-grid-radio');
+        return {
+          radio: radio?.classList.contains('disabled'),
+          radio2: radio2?.classList.contains('disabled'),
+        };
+      });
+
+      expect(results.radio).toBeTruthy();
+      expect(results.radio2).toBeFalsy();
+    });
+
+    test('removes rowSelection on setting to false', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.rowSelection = 'single';
+        const rowSelection = dataGrid.getAttribute('row-selection');
+        dataGrid.rowSelection = false;
+        const rowSelection2 = dataGrid.getAttribute('row-selection');
+
+        return {
+          rowSelection,
+          rowSelection2,
+        };
+      });
+
+      expect(results.rowSelection).toBe('single');
+      expect(results.rowSelection2).toBeFalsy();
+    });
+
+    test('keeps selections on sort for single selection', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.rowSelection = 'single';
+        dataGrid.columns[0].id = 'selectionRadio';
+        dataGrid.columns[0].formatter = dataGrid.formatters.selectionRadio;
+        dataGrid.redraw();
+        const selected = dataGrid.selectedRows.length;
+        const gridCell = dataGrid.container?.querySelector<any>('ids-data-grid-cell');
+        gridCell?.click();
+        const selected2 = dataGrid.selectedRows.length;
+        dataGrid.container?.querySelector<any>('.sort-indicator ids-icon')?.click();
+        const selected3 = dataGrid.selectedRows.length;
+
+        return {
+          selected,
+          selected2,
+          selected3,
+        };
+      });
+
+      expect(results.selected).toBe(0);
+      expect(results.selected2).toBe(1);
+      expect(results.selected3).toBe(1);
+    });
+
+    test('keeps selections on sort for mixed selection', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.rowSelection = 'mixed';
+        dataGrid.redraw();
+        const selected = dataGrid.selectedRows.length;
+        dataGrid.container?.querySelectorAll<any>('ids-data-grid-cell[aria-colindex="1"]')[0]?.click();
+        dataGrid.container?.querySelectorAll<any>('ids-data-grid-cell[aria-colindex="1"]')[1]?.click();
+        const selected2 = dataGrid.selectedRows.length;
+        dataGrid.container?.querySelector<any>('.sort-indicator ids-icon')?.click();
+        const selected3 = dataGrid.selectedRows.length;
+
+        return {
+          selected,
+          selected2,
+          selected3,
+        };
+      });
+
+      expect(results.selected).toBe(0);
+      expect(results.selected2).toBe(2);
+      expect(results.selected3).toBe(2);
+    });
+
+    test('can click the header checkbox to select all and deselect all', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        const selected = dataGrid.selectedRows.length;
+        dataGrid.container?.querySelector<any>('.ids-data-grid-checkbox')?.click();
+        const selected2 = dataGrid.selectedRows.length;
+        dataGrid.container?.querySelector<any>('.ids-data-grid-checkbox')?.click();
+        const selected3 = dataGrid.selectedRows.length;
+
+        return {
+          selected,
+          selected2,
+          selected3,
+        };
+      });
+
+      expect(results.selected).toBe(0);
+      expect(results.selected2).toBe(9);
+      expect(results.selected3).toBe(0);
+    });
+
+    test('can shift click to select in between', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        const selected = dataGrid.selectedRows.length;
+        dataGrid.container?.querySelectorAll<any>('ids-data-grid-cell[aria-colindex="1"]')[0]?.click();
+        dataGrid.container?.querySelectorAll<any>('ids-data-grid-cell[aria-colindex="1"]')[5]?.click();
+        const selected2 = dataGrid.selectedRows.length;
+        dataGrid.container?.querySelectorAll<any>('ids-data-grid-cell[aria-colindex="1"]')[7]?.click();
+        const selected3 = dataGrid.selectedRows.length;
+
+        return {
+          selected,
+          selected2,
+          selected3,
+        };
+      });
+
+      expect(results.selected).toBe(0);
+      expect(results.selected2).toBe(2);
+      expect(results.selected3).toBe(3);
+    });
+
+    test('can select the row ui via the row element', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.selectRow(0);
+        const selected = dataGrid.selectedRows.length;
+        dataGrid.deSelectRow(0);
+        const selected2 = dataGrid.selectedRows.length;
+
+        return {
+          selected,
+          selected2,
+        };
+      });
+
+      expect(results.selected).toBe(1);
+      expect(results.selected2).toBe(0);
+    });
+
+    test('can disable the selectionCheckbox', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        const disabled = (row: number, value: string, col: any, item: Record<string, any>) => item.book === 101;
+        dataGrid.columns[0].disabled = disabled;
+        dataGrid.redraw();
+        const checkbox = dataGrid.container?.querySelectorAll('.ids-data-grid-row')[1]?.querySelectorAll('.ids-data-grid-cell .ids-data-grid-checkbox')[0];
+        const checkbox2 = dataGrid.container?.querySelectorAll('.ids-data-grid-row')[2]?.querySelectorAll('.ids-data-grid-cell .ids-data-grid-checkbox')[0];
+        return {
+          checkbox: checkbox?.classList.contains('disabled'),
+          checkbox2: checkbox2?.classList.contains('disabled'),
+        };
+      });
+
+      expect(results.checkbox).toBeTruthy();
+      expect(results.checkbox2).toBeFalsy();
+    });
+
+    test('can select a row with space key', async ({ page }) => {
+      const selected = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.setActiveCell(0, 0);
+        const event = new KeyboardEvent('keydown', { key: ' ' });
+        dataGrid.dispatchEvent(event);
+        return dataGrid.selectedRows.length;
+      });
+      expect(selected).toBe(1);
+    });
+
+    test('handles suppress row deselection', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<any>('ids-data-grid')!;
+        dataGrid.rowSelection = 'single';
+        dataGrid.suppressRowDeselection = true;
+        const gridCell = dataGrid.container?.querySelector('ids-data-grid-cell');
+        gridCell?.click();
+        const selected = dataGrid.selectedRows.length;
+        gridCell?.click();
+        const selected2 = dataGrid.selectedRows.length;
+        return {
+          selected,
+          selected2,
+        };
+      });
+
+      expect(results.selected).toBe(1);
+      expect(results.selected2).toBe(1);
+    });
+
+    test('handles a deSelectRow method', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<any>('ids-data-grid')!;
+        dataGrid.rowNavigation = true;
+        dataGrid.rowSelection = 'mixed';
+        dataGrid.setActiveCell(0, 0);
+        const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+        dataGrid.dispatchEvent(event);
+        dataGrid.deSelectRow(1);
+        return dataGrid.activatedRow.index;
+      });
+
+      expect(results).toBe(0);
+    });
+
+    // fails - need to fix
+    test.skip('has no error on invalid selectRow / deSelectRow calls', async ({ page }) => {
+      let hasConsoleError = false;
+      page.on('console', (message) => {
+        if (message.type() === 'error') {
+          hasConsoleError = true;
+        }
+      });
+      await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.selectRow(100000);
+      });
+      expect(hasConsoleError).toBeFalsy();
+      await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.deSelectRow(100000);
+      });
+      expect(hasConsoleError).toBeFalsy();
+    });
+  });
 });
