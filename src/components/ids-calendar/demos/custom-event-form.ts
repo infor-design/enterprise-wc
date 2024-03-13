@@ -87,6 +87,7 @@ function showEventForm(eventData: CalendarEventData | null, selectedDay?: Date):
   const toolbarTemplate = formToolbarTemplate(eventData);
   const contentTemplate = formContentTemplate(eventData, selectedDay);
   actionPanel!.innerHTML = toolbarTemplate + contentTemplate;
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   actionPanel!.show();
 }
 
@@ -154,6 +155,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       calendar?.updateEvent(eventData);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     actionPanel?.hide();
   };
 });

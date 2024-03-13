@@ -135,6 +135,6 @@ if (dataGrid) {
       dataGrid.headerMenuData = menuData;
     };
 
-    setData();
+    await setData();
   }());
 }

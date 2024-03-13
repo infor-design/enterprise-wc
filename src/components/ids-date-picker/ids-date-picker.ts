@@ -425,6 +425,7 @@ class IdsDatePicker extends Base {
 
       this.picker?.focus();
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.picker?.hide();
 
       this.container?.classList.remove('is-open');

@@ -185,8 +185,8 @@ export default class IdsToastMessage extends Base {
     const id = this.messageId;
 
     // When progress bar animation is done, the toast completes
-    this.onEvent('animationend', this.progressBarEl, () => {
-      this.removeToastMessage();
+    this.onEvent('animationend', this.progressBarEl, async () => {
+      await this.removeToastMessage();
     });
 
     // Handle pause/play updates for toast timeout
@@ -201,7 +201,7 @@ export default class IdsToastMessage extends Base {
 
     const keyEvents = [`keydown.toast-${id}`, `keyup.toast-${id}`];
     keyEvents.forEach((event) => {
-      this.onEvent(event, document, (e: KeyboardEvent) => {
+      this.onEvent(event, document, async (e: KeyboardEvent) => {
         const key = e.which || e.keyCode;
 
         // Control + Alt + P
@@ -213,7 +213,7 @@ export default class IdsToastMessage extends Base {
         if (e.type === 'keydown' && key === 27) {
           e.stopImmediatePropagation();
           e.preventDefault();
-          this.removeToastMessage();
+          await this.removeToastMessage();
         }
       });
     });

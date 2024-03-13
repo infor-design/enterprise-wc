@@ -15,6 +15,7 @@ if (listView) {
     data = await res.json();
     listView.data = data;
   };
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   setInitialData();
 
   randomizeDataBtn?.addEventListener('click', () => {

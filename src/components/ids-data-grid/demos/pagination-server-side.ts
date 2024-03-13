@@ -101,20 +101,20 @@ const toolbarTitleText = document.querySelector<IdsText>('#title-text')!;
     dataGrid.pageTotal = totalResults;
   };
 
-  populatePaginatedDatagrid(1, 10); // load data for 1st page
+  await populatePaginatedDatagrid(1, 10); // load data for 1st page
 
-  dataGrid.pager.addEventListener('pagenumberchange', (e: Event) => {
+  dataGrid.pager.addEventListener('pagenumberchange', async (e: Event) => {
     console.info(`server-side page-number # ${(<CustomEvent>e).detail.value}`);
     const pageNumber = (<CustomEvent>e).detail.value;
     const pageSize = dataGrid.pageSize;
-    populatePaginatedDatagrid(pageNumber, pageSize);
+    await populatePaginatedDatagrid(pageNumber, pageSize);
   });
 
-  dataGrid.pager.addEventListener('pagesizechange', (e: Event) => {
+  dataGrid.pager.addEventListener('pagesizechange', async (e: Event) => {
     console.info(`server-side page-size # ${(<CustomEvent>e).detail.value}`);
     const pageSize = (<CustomEvent>e).detail.value;
     const pageNumber = dataGrid.pageNumber;
-    populatePaginatedDatagrid(pageNumber, pageSize);
+    await populatePaginatedDatagrid(pageNumber, pageSize);
   });
 
   // Updates the toolbar title with number of currently-selected items

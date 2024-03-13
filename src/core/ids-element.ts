@@ -229,6 +229,7 @@ export default class IdsElement extends HTMLElement {
    * @private
    */
   set theme(theme: string) {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.loadTheme(theme);
     document.body.querySelector('ids-theme-switcher')?.setAttribute('theme', theme);
   }

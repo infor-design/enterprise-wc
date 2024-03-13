@@ -67,9 +67,9 @@ test.describe('IdsFieldset tests', () => {
     test('should match the visual snapshot in percy (dropdowns)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
 
-      await page.evaluate(() => {
+      await page.evaluate(async () => {
         const elem = document.querySelector<IdsDropdown>('ids-dropdown')!;
-        elem.open();
+        await elem.open();
       });
       await percySnapshot(page, 'ids-fieldset-dropdown-light');
     });

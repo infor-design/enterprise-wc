@@ -1,0 +1,11 @@
+/* Ids Tag List Component */
+:host {
+  margin: var(--ids-tag-list-margin);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+// Ids tag has its own margin-inline-end
+::slotted(.ids-tag) {
+  margin: var(--ids-tag-list-margin);
+}

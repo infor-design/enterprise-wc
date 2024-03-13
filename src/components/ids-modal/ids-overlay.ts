@@ -55,6 +55,7 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
   set visible(val: boolean | string) {
     const isVisible = stringToBool(val);
     this.toggleAttribute(attributes.VISIBLE, isVisible);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.#smoothlyAnimateVisibility(isVisible);
   }
 
@@ -126,6 +127,7 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
     trueVal = Math.min(trueVal, 1);
 
     this.setAttribute(attributes.OPACITY, String(trueVal));
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.#changeOpacity(trueVal);
   }
 
@@ -153,7 +155,7 @@ export default class IdsOverlay extends IdsEventsMixin(IdsElement) {
       // Make visible
       cl?.add('visible');
       await cssTransitionTimeout(2);
-      this.#changeOpacity(this.opacity);
+      await this.#changeOpacity(this.opacity);
     } else if (!val && cl?.contains('visible')) {
       // Make hidden
       await this.#changeOpacity(0);

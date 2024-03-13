@@ -718,6 +718,7 @@ export default class IdsDropdown extends Base {
     this.removeOpenEvents();
 
     if (this.dropdownList) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       if (this.dropdownList?.popup?.visible) this.dropdownList.hide(!noFocus);
       if (this.input) this.input.active = false;
       this.dropdownList.setAttribute(attributes.TABINDEX, '-1');
@@ -754,6 +755,7 @@ export default class IdsDropdown extends Base {
   toggle(shouldSelect = false): void {
     if (!this.dropdownList) return;
     if (!this.dropdownList.popup?.visible) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.open(shouldSelect);
     } else {
       this.close();
@@ -820,6 +822,7 @@ export default class IdsDropdown extends Base {
       this.openedByKeyboard = true;
       if (this.dropdownList?.popup?.visible) return;
       if (e.key === ' ' && this.typeahead) return;
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.open(this.typeahead);
     });
   }
@@ -846,9 +849,9 @@ export default class IdsDropdown extends Base {
     if (this.dropdownList) {
       this.offEvent('open.dropdown-list');
       this.offEvent('close.dropdown-list');
-      this.onEvent('open.dropdown-list', this.dropdownList, (e: CustomEvent) => {
+      this.onEvent('open.dropdown-list', this.dropdownList, async (e: CustomEvent) => {
         e.stopPropagation();
-        this.open();
+        await this.open();
       });
       this.onEvent('close.dropdown-list', this.dropdownList, (e: CustomEvent) => {
         e.stopPropagation();
@@ -945,6 +948,7 @@ export default class IdsDropdown extends Base {
       if (['Backspace', 'Delete', 'Escape', 'Tab'].includes(key)) return;
 
       if (!this.dropdownList?.popup?.visible) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.open(true);
       }
     });
@@ -964,6 +968,7 @@ export default class IdsDropdown extends Base {
       e.preventDefault();
 
       if (!this.dropdownList?.popup?.visible) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.open(this.typeahead);
         return;
       }

@@ -514,7 +514,7 @@ const IdsDataGridTooltipMixin = <T extends Constraints>(superclass: T) => class 
     }, 250));
     this.onEvent('mouseover.data-grid', this.container, debounce(async (e: MouseEvent) => {
       this.#mouseOut = false;
-      this.#handleTooltip(e);
+      await this.#handleTooltip(e);
     }, 250));
     this.onEvent('scroll.data-grid.tooltip-scroll', this.container, () => {
       this.#hideTooltip();

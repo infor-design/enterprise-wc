@@ -3,7 +3,7 @@ import '../ids-popup-menu';
 import '../../ids-popup/ids-popup';
 import json from '../../../assets/data/menu-contents.json';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const popupmenuEl: any = document.querySelector('#popupmenu');
 
   // Configure the menu
@@ -18,5 +18,5 @@ document.addEventListener('DOMContentLoaded', () => {
     popupmenuEl.data = data;
   };
 
-  setData();
+  await setData();
 });

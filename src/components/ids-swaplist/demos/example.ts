@@ -15,4 +15,4 @@ const setData = async () => {
   swaplist.data = data;
 };
 
-setData();
+await setData();
