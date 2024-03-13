@@ -5,4 +5,4 @@ const setData = async () => {
   const data = await res.json();
   (document.querySelector('#colors-example') as any).data = data;
 };
-setData();
+await setData();

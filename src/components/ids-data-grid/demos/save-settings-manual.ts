@@ -115,7 +115,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-save-settings-m
     dataGrid.data = data;
     dataGrid.pageTotal = data.length;
   };
-  setData();
+  await setData();
 
   /* ==========================================================
    * Some unique-id to save/restore

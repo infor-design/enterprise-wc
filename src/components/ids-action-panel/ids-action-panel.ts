@@ -70,8 +70,8 @@ export default class IdsActionPanel extends IdsModal {
 
     // If a Modal Button is clicked, fire an optional callback
     const toolbarSlot = this.container?.querySelector('slot[name="toolbar"]');
-    this.onEvent('click.toolbar', toolbarSlot, (e: MouseEvent) => {
-      this.handleButtonClick(e);
+    this.onEvent('click.toolbar', toolbarSlot, async (e: MouseEvent) => {
+      await this.handleButtonClick(e);
     });
   }
 

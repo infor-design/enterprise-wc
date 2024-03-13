@@ -108,6 +108,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
 
   console.info('Loading Time:', window.performance.now());
 
+  // eslint-disable-next-line jsdoc/require-jsdoc
   function trimData(row: any) {
     const dataSource = dataGrid.datasource;
     const key = dataSource.primaryKey;

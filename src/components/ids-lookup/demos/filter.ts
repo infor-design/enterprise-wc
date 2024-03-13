@@ -97,6 +97,6 @@ const lookup: Element | any = document.querySelector('#lookup-1');
     lookup.data = data.slice(0, 5);
   };
 
-  setData();
+  await setData();
   addEventListeners();
 }());

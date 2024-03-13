@@ -138,7 +138,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-mixed')!;
     dataGrid.data = data;
   };
 
-  setData();
+  await setData();
 
   // Event Handlers
   dataGrid.addEventListener('rowselected', (e: Event) => {

@@ -92,6 +92,7 @@ function showContextmenu(this: IdsDataGrid, e: MouseEvent): boolean {
     // Adjust menu
     menuEl.popup?.setPosition?.(e.clientX, e.clientY, false, true);
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     menuEl.show();
     isShow = true;
 

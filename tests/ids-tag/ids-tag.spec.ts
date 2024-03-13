@@ -42,17 +42,20 @@ test.describe('IdsTag tests', () => {
   test.describe('snapshot tests', () => {
     test('should match innerHTML snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-tag');
-      const html = await handle?.evaluate((el: IdsTag) => el?.outerHTML);
+      const html = await page.evaluate(() => {
+        const elem = document.querySelector('ids-tag')!;
+        elem.shadowRoot?.querySelector('style')?.remove();
+        return elem?.outerHTML;
+      });
       await expect(html).toMatchSnapshot('tag-html');
     });
 
     test('should match shadowRoot snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-tag');
-      const html = await handle?.evaluate((el: IdsTag) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
+      const html = await page.evaluate(() => {
+        const elem = document.querySelector('ids-tag')!;
+        elem.shadowRoot?.querySelector('style')?.remove();
+        return elem.shadowRoot?.innerHTML;
       });
       await expect(html).toMatchSnapshot('tag-shadow');
     });

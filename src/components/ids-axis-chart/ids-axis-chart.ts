@@ -183,6 +183,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     if (themeLoaded) {
       this.init();
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       Promise.all([
         IdsGlobal.onThemeLoaded().promise, // wait for container visible
         this.dataLoaded // wait for initial set of data

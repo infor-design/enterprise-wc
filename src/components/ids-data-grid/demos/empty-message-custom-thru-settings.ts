@@ -97,5 +97,5 @@ const showEmptyData = true;
       dataGrid.pageTotal = data.length;
     }
   };
-  setData();
+  await setData();
 }());

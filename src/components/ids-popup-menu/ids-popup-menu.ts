@@ -299,6 +299,7 @@ export default class IdsPopupMenu extends Base {
     this.hideSubmenus();
     this.popup?.removeOpenEvents();
     this.#removeMutationObservers();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.startHiddenTimer();
   }
 
@@ -456,8 +457,10 @@ export default class IdsPopupMenu extends Base {
    */
   showIfAble(): void {
     if (!this.target) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.show();
     } else if (!(this.target as any)?.disabled && !(this.target as any)?.hidden) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.show();
     }
   }

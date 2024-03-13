@@ -89,7 +89,7 @@ const dataGrid1 = document.querySelector<IdsDataGrid>('#data-grid-1')!;
     dataGrid1.data = data;
   };
 
-  setData();
+  await setData();
 }());
 
 const dataGrid2 = document.querySelector<IdsDataGrid>('#data-grid-2')!;
@@ -176,5 +176,5 @@ const dataGrid2 = document.querySelector<IdsDataGrid>('#data-grid-2')!;
     dataGrid2.data = data;
   };
 
-  setData();
+  await setData();
 }());
