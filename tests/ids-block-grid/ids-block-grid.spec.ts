@@ -126,12 +126,23 @@ test.describe('IdsBlockGrid tests', () => {
           name: 'Sheena Taylor3',
           title: 'Infor, Developer'
         }];
-      const afterData = await idsBlockGrid.evaluate((element: IdsBlockGrid, tData) => {
+      let afterData = await idsBlockGrid.evaluate((element: IdsBlockGrid, tData) => {
         element.data = tData;
         return element.data;
       }, data);
       expect((await idsBlockGrid.locator('ids-block-grid-item').all()).length).toEqual(data.length);
       expect(data).toEqual(afterData);
+
+      // can set null to data
+      await expect(idsBlockGrid.locator('ids-page')).not.toBeAttached();
+      afterData = await idsBlockGrid.evaluate((element: IdsBlockGrid) => {
+        element.data = null;
+        // doesn't remove the data on the page, but returns []
+        element.redraw();
+        return element.data;
+      });
+      expect(afterData).toEqual([]);
+      await expect(idsBlockGrid.locator('ids-page')).not.toBeAttached();
     });
 
     // seems to be a bug where the attribute values are updated to 'null'
