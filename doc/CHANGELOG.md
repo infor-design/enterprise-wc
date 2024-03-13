@@ -16,6 +16,7 @@
 - `[Docs]` Added docs page for IdsGlobal. Moved some subcomponents that should not be used directly into their main component area. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
 - `[Fieldset]` Fixed issue that popups in the fieldset were cut off. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
 - `[Icon]` Fixed yellow and caution status colors. ([#1879](https://github.com/infor-design/enterprise-wc/issues/1879))
+- `[Image]` Converted image tests to playwright. ([#1942](https://github.com/infor-design/enterprise-wc/issues/1942))
 - `[Modal]` Converted modal, about, error page, action panel tests. ([#1847](https://github.com/infor-design/enterprise-wc/issues/1847))
 - `[Radio]` Converted radio tests to playwright. ([#1872](https://github.com/infor-design/enterprise-wc/issues/1872))
 - `[Tree]` Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
