@@ -304,6 +304,7 @@ export default class IdsWeekView extends Base {
     });
 
     this.#renderTimeline();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.renderEventsData();
   }
 

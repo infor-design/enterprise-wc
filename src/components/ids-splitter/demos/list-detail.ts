@@ -20,5 +20,5 @@ if (listView) {
     (listView as any).data = data;
   };
 
-  setData();
+  await setData();
 }

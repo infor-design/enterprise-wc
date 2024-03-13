@@ -28,5 +28,5 @@ if (listView) {
     console.info('deselected event called', e.detail);
   });
 
-  setData();
+  await setData();
 }

@@ -136,6 +136,6 @@ if (dataGrid) {
       dataGrid.data = data.slice(0, 100);
     };
 
-    setData();
+    await setData();
   }());
 }

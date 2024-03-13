@@ -28,5 +28,5 @@ if (listView) {
     console.info('activated event called', e.detail);
   });
 
-  setData();
+  await setData();
 }

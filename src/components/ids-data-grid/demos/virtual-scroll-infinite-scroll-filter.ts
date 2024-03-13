@@ -101,7 +101,7 @@ const setData = async () => {
   dataGrid.data = await fetchData();
 };
 
-setData();
+await setData();
 
 dataGrid.addEventListener('scrollend', async (e: Event) => {
   const endIndex = (<CustomEvent>e).detail?.value || 0;

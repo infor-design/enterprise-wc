@@ -65,6 +65,6 @@ if (dataGrid) {
       dataGrid.data = showEmptyData ? [] : data;
     };
 
-    setData();
+    await setData();
   }());
 }
