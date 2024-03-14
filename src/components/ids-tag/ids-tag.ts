@@ -286,7 +286,7 @@ export default class IdsTag extends Base {
     }
 
     this.triggerEvent('tagremove', this, { bubbles: true, detail: { elem: this } });
+    this.triggerEvent('aftertagremove', this, { bubbles: true, detail: { elem: this } });
     this.remove();
-    this.triggerEvent('aftertagremove', this, { detail: { elem: this } });
   }
 }
