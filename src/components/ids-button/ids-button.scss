@@ -43,6 +43,7 @@
 :host([system-button]) {
   button:hover {
     background-color: transparent;
+    border-color: transparent;
     color: var(--ids-button-system-color-text-hover);
   }
 
@@ -352,4 +353,32 @@ button {
     left: 0;
     right: 0;
   }
+}
+
+// Color effects on toggle button
+:host(ids-toggle-button) {
+  --ids-button-tertiary-color-background-hover: var(--ids-button-toggle-color-background-hover-default);
+  --ids-button-tertiary-color-text-hover: var(--ids-button-toggle-color-text-hover-default);
+}
+
+:host(ids-toggle-button[pressed]) {
+  --ids-button-tertiary-color-text-default: var(--ids-button-toggle-color-text-pressed-default);
+}
+
+:host(ids-toggle-button[color='orange']) {
+  --ids-button-tertiary-color-background-hover: var(--ids-button-toggle-color-background-hover-orange);
+  --ids-button-tertiary-color-text-hover: var(--ids-button-toggle-color-text-hover-orange);
+}
+
+:host(ids-toggle-button[pressed][color='orange']) {
+  --ids-button-tertiary-color-text-default: var(--ids-button-toggle-color-text-pressed-orange);
+}
+
+:host(ids-toggle-button[color='red']) {
+  --ids-button-tertiary-color-background-hover: var(--ids-button-toggle-color-background-hover-red);
+  --ids-button-tertiary-color-text-hover: var(--ids-button-toggle-color-text-hover-red);
+}
+
+:host(ids-toggle-button[pressed][color='red']) {
+  --ids-button-tertiary-color-text-default: var(--ids-button-toggle-color-text-pressed-red);
 }

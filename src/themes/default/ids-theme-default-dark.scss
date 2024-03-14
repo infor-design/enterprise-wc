@@ -17,18 +17,18 @@
   --ids-color-text-subtle: var(--ids-color-gray-20);
   --ids-color-text-data: var(--ids-color-white-100);
   --ids-color-text-disabled: var(--ids-color-gray-50);
-  --ids-color-text-error: var(--ids-color-error-50);
-  --ids-color-text-info: var(--ids-color-info-60);
-  --ids-color-text-success: var(--ids-color-success-50);
-  --ids-color-text-warning: var(--ids-color-warning-50);
+  --ids-color-text-error: var(--ids-color-red-50);
+  --ids-color-text-info: var(--ids-color-info-default);
+  --ids-color-text-success: var(--ids-color-green-50);
+  --ids-color-text-warning: var(--ids-color-orange-50);
 
   // Alert Colors
-  --ids-color-error-10: var(--ids-color-error-90);
-  --ids-color-warning-10: var(--ids-color-orange-90);
+  --ids-color-error-weak: var(--ids-color-red-90);
+  --ids-color-warning-weak: var(--ids-color-orange-90);
   --ids-color-text-on-caution: var(--ids-color-gray-100);
-  --ids-color-caution-10: var(--ids-color-orange-90);
-  --ids-color-info-10: var(--ids-color-primary-90);
-  --ids-color-success-10: var(--ids-color-green-90);
+  --ids-color-caution-weak: var(--ids-color-orange-90);
+  --ids-color-info-weak: var(--ids-color-primary-90);
+  --ids-color-success-weak: var(--ids-color-green-90);
 
   // Elevations
   --ids-shadow-none: 0 0 3px 2px rgba(28 134 239 / 0);
@@ -116,29 +116,14 @@
   --ids-calendar-toolbar-color-border: var(--ids-color-gray-70);
 
   // Card
-  --ids-card-header-title-color: var(--ids-color-white-100);
-  --ids-card-color-background: var(--ids-color-gray-90);
-  --ids-card-color-border: var(--ids-color-gray-70);
   --ids-card-color-border-hover: var(--ids-color-gray-70);
   --ids-card-color-border-selected: var(--ids-color-primary-60);
   --ids-card-divider-color-border: var(--ids-color-gray-80);
-  --ids-card-shadow: 0 0 8px rgba(0 0 0 / 0.7);
 
   // Charts
   --ids-chart-legend-color-text: var(--ids-color-text-default);
 
   // Checkbox
-  --ids-checkbox-color-background-selected: var(--ids-color-gray-70);
-  --ids-checkbox-color-border-selected: var(--ids-color-gray-70);
-  --ids-checkbox-color-border-selected-after: var(--ids-color-white-100);
-  --ids-checkbox-color-background-indeterminate: var(--ids-color-gray-80);
-  --ids-checkbox-color-border-indeterminate: var(--ids-color-gray-80);
-  --ids-checkbox-color-border-indeterminate-after: var(--ids-color-white-100);
-  --ids-checkbox-color-background-disabled: var(--ids-color-gray-80);
-  --ids-checkbox-color-border-disabled: var(--ids-color-gray-80);
-  --ids-checkbox-color-background-selected-disabled: var(--ids-color-gray-80);
-  --ids-checkbox-color-border-selected-disabled: var(--ids-color-gray-80);
-  --ids-checkbox-color-text-disabled: var(--ids-color-gray-60);
   --ids-checkbox-color-background-multiselect: var(--ids-color-gray-80);
 
   // Data Grid
@@ -332,9 +317,9 @@
   --ids-loading-indicator-primary-progress-color-border: var(--ids-color-gray-80);
   --ids-loading-indicator-primary-color-border: var(--ids-color-gray-50);
   --ids-loading-indicator-progress-color: var(--ids-color-primary-60);
-  --ids-loading-indicator-primary-destructive-overall-color-border: var(--ids-color-error-20);
-  --ids-loading-indicator-destructive-progress-color-border: var(--ids-color-error-70);
-  --ids-loading-indicator-tertiary-destructive-color-border: var(--ids-color-error-30);
+  --ids-loading-indicator-primary-destructive-overall-color-border: var(--ids-color-red-20);
+  --ids-loading-indicator-destructive-progress-color-border: var(--ids-color-error-stronger);
+  --ids-loading-indicator-tertiary-destructive-color-border: var(--ids-color-red-30);
 
   // Masthead
   --ids-masthead-color-background: var(--ids-color-gray-80);
@@ -453,7 +438,7 @@
   // Process Indicator
   --ids-process-indicator-color-primary: var(--ids-color-primary-70);
   --ids-process-indicator-color-active: var(--ids-color-primary-70);
-  --ids-process-indicator-canceled-step-color-background: var(--ids-color-error-50);
+  --ids-process-indicator-canceled-step-color-background: var(--ids-color-red-50);
   --ids-process-indicator-canceled-step-color-icon: var(--ids-color-white-100);
 
   // Radio
@@ -465,7 +450,7 @@
   --ids-radio-button-inner-color-background-selected: var(--ids-color-white-100);
 
   // Required
-  --ids-input-required-indicator-color-text-default: var(--ids-color-error-60);
+  --ids-input-required-indicator-color-text-default: var(--ids-color-error-default);
 
   // Scroll View
   --ids-scroll-view-color-icon-default: var(--ids-color-gray-40);
@@ -605,7 +590,7 @@
   --ids-textarea-color-background-disabled: transparent;
   --ids-textarea-color-border-disabled: var(--ids-color-gray-60);
   --ids-textarea-color-text-disabled: var(--ids-color-gray-60);
-  --ids-textarea-color-border-error-default: var(--ids-color-error-50);
+  --ids-textarea-color-border-error-default: var(--ids-color-red-50);
   --ids-textarea-color-border-hover: var(--ids-color-gray-40);
   --ids-textarea-color-background-readonly: var(--ids-color-gray-70);
   --ids-textarea-color-border-readonly: var(--ids-color-gray-40);

@@ -47,6 +47,7 @@
 
   &.disabled label {
     cursor: var(--ids-cursor-default);
+    opacity: var(--ids-checkbox-opacity-disabled);
 
     &.required .label-checkbox::after {
      color: var(--ids-input-required-indicator-color-text-disabled);
