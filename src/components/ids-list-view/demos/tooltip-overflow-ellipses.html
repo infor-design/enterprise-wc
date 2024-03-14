@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">List View</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" gap="xl" padding-x="lg">
+      <ids-layout-grid-cell col-span="1">
+        <div class="parent-container">
+            <ids-splitter>
+              <ids-splitter-pane id="p1">
+                <ids-text font-size="12" type="h1">
+                  Tooltip - HTML Text
+                </ids-text>
+
+                <ids-list-view
+                  id="demo-list-view-tooltip-html"
+                  item-height="76"
+                  max-width="150"
+                  tooltip="true"
+                  overflow="ellipsis"
+                  searchable
+                >
+                  <template>
+                    <ids-text font-size="16" type="h2">${subject}</ids-text>
+                    <ids-text font-size="12" type="span">ID: ${id}</ids-text>
+                    <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
+                  </template>
+                </ids-list-view>
+              </ids-splitter-pane>
+              <ids-splitter-pane id="p2">
+                <ids-text font-size="12" type="h1">
+                  Tooltip - Plain text
+                </ids-text>
+
+                <ids-list-view
+                  id="demo-list-view-tooltip-plain-text"
+                  item-height="76"
+                  max-width="150"
+                  tooltip="true"
+                  tooltip-plain-text
+                  overflow="ellipsis"
+                  searchable
+                >
+                  <template>
+                    <ids-text font-size="16" type="h2">${subject}</ids-text>
+                    <ids-text font-size="12" type="span">ID: ${id}</ids-text>
+                    <ids-text font-size="12" type="span">Comments: ${comments}</ids-text>
+                  </template>
+                </ids-list-view>
+              </ids-splitter-pane>
+            </ids-splitter>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
