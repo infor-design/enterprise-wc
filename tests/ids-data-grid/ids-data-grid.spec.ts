@@ -4,14 +4,11 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
-import IdsPagerInput from '../../src/components/ids-pager/ids-pager-input';
 import IdsDataGridCell from '../../src/components/ids-data-grid/ids-data-grid-cell';
-import IdsDataGridRow from '../../src/components/ids-data-grid/ids-data-grid-row';
 import { IdsZip } from '../../src/utils/ids-zip/ids-zip';
 import { XLSXFormatter } from '../../src/utils/ids-excel-exporter/ids-excel-formatter';
 import { ExcelColumn } from '../../src/utils/ids-excel-exporter/ids-worksheet-templates';
 import datasetTree from '../../src/assets/data/tree-buildings.json';
-import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
 
 test.describe('IdsDataGrid tests', () => {
   const url = '/ids-data-grid/example.html';
@@ -45,337 +42,6 @@ test.describe('IdsDataGrid tests', () => {
         .exclude('[disabled]') // Disabled elements do not have to pass
         .analyze();
       expect(accessibilityScanResults.violations).toEqual([]);
-    });
-  });
-
-  test.describe('event tests', () => {
-    test('should fire rowclick event', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        let dataIndex;
-        const clickCallback = (e: any) => {
-          dataIndex = e.detail.row?.getAttribute('data-index');
-        };
-
-        dataGrid.addEventListener('rowclick', clickCallback);
-
-        const firstCellInRow = dataGrid.container?.querySelector<HTMLElement>('.ids-data-grid-body .ids-data-grid-cell');
-        firstCellInRow?.click();
-        return dataIndex;
-      });
-
-      expect(results).toEqual('0');
-    });
-
-    test('should fire double click event', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        let elemType = '';
-        const dblClickCallback = (e: any) => {
-          elemType = e.detail.type;
-        };
-        const dblClickEvent = new MouseEvent('dblclick', { bubbles: true });
-
-        dataGrid.addEventListener('dblclick', dblClickCallback);
-
-        const headerTitle = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-cell');
-        headerTitle?.dispatchEvent(dblClickEvent);
-        const headerElementType = elemType;
-
-        const headerIcon = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-icon');
-        headerIcon?.dispatchEvent(dblClickEvent);
-        const headerIconType = elemType;
-
-        const headerFilter = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-cell-filter-wrapper');
-        headerFilter?.dispatchEvent(dblClickEvent);
-        const headerFilterType = elemType;
-
-        const headerFilterButton = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-cell-filter-wrapper [data-filter-conditions-button]');
-        headerFilterButton?.dispatchEvent(dblClickEvent);
-        const headerFilterButtonType = elemType;
-
-        const bodyCell = dataGrid.container?.querySelector('.ids-data-grid-body .ids-data-grid-cell');
-        bodyCell?.dispatchEvent(dblClickEvent);
-        const bodyCellType = elemType;
-
-        dataGrid.editable = true;
-        const editableCell = dataGrid.container?.querySelector<any>('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
-        editableCell?.startCellEdit?.();
-        const hasEditingClass = editableCell?.classList.contains('is-editing');
-        editableCell?.dispatchEvent(dblClickEvent);
-        const editableCellType = elemType;
-
-        return {
-          headerElementType,
-          headerIconType,
-          headerFilterType,
-          headerFilterButtonType,
-          bodyCellType,
-          hasEditingClass,
-          editableCellType
-        };
-      });
-
-      expect(results.headerElementType).toEqual('header-title');
-      expect(results.bodyCellType).toEqual('body-cell');
-    });
-
-    test('should fire activecellchanged cell event on click', async ({ page }) => {
-      const results: any = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        let activeCell;
-        const activeCellChangeCallback = (e: any) => {
-          activeCell = e.detail.activeCell;
-        };
-
-        dataGrid.addEventListener('activecellchanged', activeCellChangeCallback);
-
-        dataGrid.container?.querySelectorAll('.ids-data-grid-row')?.[3]?.querySelectorAll<HTMLElement>('.ids-data-grid-cell')?.[3]?.click();
-
-        return activeCell;
-      });
-
-      expect(results?.row).toEqual(2);
-      expect(results?.cell).toEqual(3);
-    });
-  });
-
-  test.describe('client-side paging tests', () => {
-    const clientPagingUrl = '/ids-data-grid/pagination-client-side.html';
-
-    test.beforeEach(async ({ page }) => {
-      await page.goto(clientPagingUrl);
-    });
-
-    test('renders pager', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-
-      const dataGridEl = await page.locator('ids-data-grid');
-      await expect(await dataGridEl.getAttribute('pagination')).toEqual('client-side');
-
-      const pagerInputEl = await page.locator('ids-data-grid ids-pager-input');
-      await expect(await pagerInputEl?.getAttribute('page-number')).toEqual('1');
-    });
-
-    test('clear data', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-
-      const pagerNextBtn = await page.locator('ids-pager-button[next]');
-      await pagerNextBtn.click();
-
-      await (await page.locator('ids-data-grid [aria-rowindex="5"] [aria-colindex="1"]')).click();
-
-      const titleText = await page.locator('#title-text');
-      await expect(await titleText.textContent()).toEqual('1 Result');
-
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('2');
-
-      const pagerPrevBtn = await page.locator('ids-pager-button[previous]');
-      await pagerPrevBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('1');
-
-      const clearBtn = await page.locator('[aria-label="Clear Row"]');
-      await clearBtn.click();
-
-      await expect(await titleText.textContent()).toEqual('');
-
-      await pagerNextBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('2');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="5"] [aria-colindex="3"]').textContent()).toEqual('');
-
-      const pagerLastBtn = await page.locator('ids-pager-button[last]');
-      await pagerLastBtn.click();
-
-      await (await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="1"]')).click();
-
-      const pagerFirstBtn = await page.locator('ids-pager-button[first]');
-      await pagerFirstBtn.click();
-
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('1');
-      await clearBtn.click();
-
-      await pagerLastBtn.click();
-      await expect(await titleText.textContent()).toEqual('');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="3"]').textContent()).toEqual('');
-    });
-
-    test('remove data', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-
-      const pagerNextBtn = await page.locator('ids-pager-button[next]');
-      await pagerNextBtn.click();
-
-      await (await page.locator('ids-data-grid [aria-rowindex="5"] [aria-colindex="1"]')).click();
-
-      const titleText = await page.locator('#title-text');
-      await expect(await titleText.textContent()).toEqual('1 Result');
-
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('2');
-
-      const pagerPrevBtn = await page.locator('ids-pager-button[previous]');
-      await pagerPrevBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('1');
-
-      const deleteBtn = await page.locator('[aria-label="Delete Row"]');
-      await deleteBtn.click();
-
-      await expect(await titleText.textContent()).toEqual('');
-
-      await pagerNextBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('2');
-
-      await expect(await page.locator('ids-data-grid [aria-rowindex="10"] [aria-colindex="2"]').textContent()).toEqual('21');
-
-      const pagerLastBtn = await page.locator('ids-pager-button[last]');
-      await pagerLastBtn.click();
-
-      await (await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="1"]')).click();
-
-      const pagerFirstBtn = await page.locator('ids-pager-button[first]');
-      await pagerFirstBtn.click();
-
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('1');
-      await deleteBtn.click();
-
-      await pagerLastBtn.click();
-      await expect(await titleText.textContent()).toEqual('');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('993');
-    });
-
-    test('navigates pages', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-
-      const pagerInputEl = await page.locator('ids-data-grid ids-pager-input');
-      await expect(await pagerInputEl?.getAttribute('page-number')).toEqual('1');
-
-      // Set number input
-      const pagerInputHandle = await page.$('ids-data-grid ids-pager-input');
-      await pagerInputHandle?.evaluate((el: IdsPagerInput) => {
-        el.setAttribute('page-number', '2');
-      });
-      await expect(await pagerInputHandle?.getAttribute('page-number')).toEqual('2');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('11');
-
-      // Click next button
-      const pagerNextBtn = await page.locator('ids-pager-button[next]');
-      await pagerNextBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('3');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('21');
-
-      // Click previous button
-      const pagerPrevBtn = await page.locator('ids-pager-button[previous]');
-      await pagerPrevBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('2');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('11');
-
-      // Click first button
-      const pagerFirstBtn = await page.locator('ids-pager-button[first]');
-      await pagerFirstBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('1');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('1');
-
-      // Click last button
-      const pagerLastBtn = await page.locator('ids-pager-button[last]');
-      await pagerLastBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('100');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('991');
-    });
-
-    test('selects across pages', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-
-      // Check two items on first page
-      await (await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="1"]')).click();
-      await (await page.locator('ids-data-grid [aria-rowindex="3"] [aria-colindex="1"]')).click();
-
-      // Click next button
-      const pagerNextBtn = await page.locator('ids-pager-button[next]');
-      await pagerNextBtn.click();
-
-      // Check two items on second page
-      await (await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="1"]')).click();
-      await (await page.locator('ids-data-grid [aria-rowindex="3"] [aria-colindex="1"]')).click();
-
-      const handle = await page.$('ids-data-grid');
-      const selectedRows = await handle?.evaluate((el: IdsDataGrid) => el?.selectedRowsAcrossPages);
-      await expect(selectedRows?.length).toEqual(4);
-    });
-  });
-
-  test.describe('server-side paging tests', () => {
-    const clientPagingUrl = '/ids-data-grid/pagination-server-side.html';
-
-    test.beforeEach(async ({ page }) => {
-      await page.goto(clientPagingUrl);
-    });
-
-    test('renders pager', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-
-      const dataGridEl = await page.locator('ids-data-grid');
-      await expect(await dataGridEl.getAttribute('pagination')).toEqual('server-side');
-
-      const pagerInputEl = await page.locator('ids-data-grid ids-pager-input');
-      await expect(await pagerInputEl?.getAttribute('page-number')).toEqual('1');
-    });
-
-    test('navigates pages', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-
-      const pagerInputEl = await page.locator('ids-data-grid ids-pager-input');
-      await expect(await pagerInputEl?.getAttribute('page-number')).toEqual('1');
-
-      // Set number input
-      const pagerInputHandle = await page.$('ids-data-grid ids-pager-input');
-      await pagerInputHandle?.evaluate((el: IdsPagerInput) => {
-        el.setAttribute('page-number', '2');
-      });
-      await expect(await pagerInputHandle?.getAttribute('page-number')).toEqual('2');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('11');
-
-      // Click next button
-      const pagerNextBtn = await page.locator('ids-pager-button[next]');
-      await pagerNextBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('3');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('21');
-
-      // Click previous button
-      const pagerPrevBtn = await page.locator('ids-pager-button[previous]');
-      await pagerPrevBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('2');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('11');
-
-      // Click first button
-      const pagerFirstBtn = await page.locator('ids-pager-button[first]');
-      await pagerFirstBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('1');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('1');
-
-      // Click last button
-      const pagerLastBtn = await page.locator('ids-pager-button[last]');
-      await pagerLastBtn.click();
-      await expect(await page.locator('ids-data-grid ids-pager-input').getAttribute('page-number')).toEqual('100');
-      await expect(await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="2"]').textContent()).toEqual('991');
-    });
-
-    test('selects across pages', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-
-      // Check two items on first page
-      await (await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="1"]')).click();
-      await (await page.locator('ids-data-grid [aria-rowindex="3"] [aria-colindex="1"]')).click();
-
-      // Click next button
-      const pagerNextBtn = await page.locator('ids-pager-button[next]');
-      await pagerNextBtn.click();
-
-      // Check two items on second page
-      await (await page.locator('ids-data-grid [aria-rowindex="1"] [aria-colindex="1"]')).click();
-      await (await page.locator('ids-data-grid [aria-rowindex="3"] [aria-colindex="1"]')).click();
-
-      const handle = await page.$('ids-data-grid');
-      const selectedRows = await handle?.evaluate((el: IdsDataGrid) => el?.selectedRowsAcrossPages);
-      await expect(selectedRows?.length).toEqual(4);
     });
   });
 
@@ -496,6 +162,98 @@ test.describe('IdsDataGrid tests', () => {
       if (browserName !== 'chromium') return;
       await page.goto('ids-data-grid/loading-indicator.html');
       await percySnapshot(page, 'ids-data-grid-loading-indicator-light');
+    });
+  });
+
+  test.describe('event tests', () => {
+    test('should fire rowclick event', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let dataIndex;
+        const clickCallback = (e: any) => {
+          dataIndex = e.detail.row?.getAttribute('data-index');
+        };
+
+        dataGrid.addEventListener('rowclick', clickCallback);
+
+        const firstCellInRow = dataGrid.container?.querySelector<HTMLElement>('.ids-data-grid-body .ids-data-grid-cell');
+        firstCellInRow?.click();
+        return dataIndex;
+      });
+
+      expect(results).toEqual('0');
+    });
+
+    test('should fire double click event', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let elemType = '';
+        const dblClickCallback = (e: any) => {
+          elemType = e.detail.type;
+        };
+        const dblClickEvent = new MouseEvent('dblclick', { bubbles: true });
+
+        dataGrid.addEventListener('dblclick', dblClickCallback);
+
+        const headerTitle = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-cell');
+        headerTitle?.dispatchEvent(dblClickEvent);
+        const headerElementType = elemType;
+
+        const headerIcon = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-icon');
+        headerIcon?.dispatchEvent(dblClickEvent);
+        const headerIconType = elemType;
+
+        const headerFilter = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-cell-filter-wrapper');
+        headerFilter?.dispatchEvent(dblClickEvent);
+        const headerFilterType = elemType;
+
+        const headerFilterButton = dataGrid.container?.querySelector('.ids-data-grid-header .ids-data-grid-header-cell-filter-wrapper [data-filter-conditions-button]');
+        headerFilterButton?.dispatchEvent(dblClickEvent);
+        const headerFilterButtonType = elemType;
+
+        const bodyCell = dataGrid.container?.querySelector('.ids-data-grid-body .ids-data-grid-cell');
+        bodyCell?.dispatchEvent(dblClickEvent);
+        const bodyCellType = elemType;
+
+        dataGrid.editable = true;
+        const editableCell = dataGrid.container?.querySelector<any>('.ids-data-grid-row:nth-child(2) > .ids-data-grid-cell:nth-child(3)');
+        editableCell?.startCellEdit?.();
+        const hasEditingClass = editableCell?.classList.contains('is-editing');
+        editableCell?.dispatchEvent(dblClickEvent);
+        const editableCellType = elemType;
+
+        return {
+          headerElementType,
+          headerIconType,
+          headerFilterType,
+          headerFilterButtonType,
+          bodyCellType,
+          hasEditingClass,
+          editableCellType
+        };
+      });
+
+      expect(results.headerElementType).toEqual('header-title');
+      expect(results.bodyCellType).toEqual('body-cell');
+    });
+
+    test('should fire activecellchanged cell event on click', async ({ page }) => {
+      const results: any = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let activeCell;
+        const activeCellChangeCallback = (e: any) => {
+          activeCell = e.detail.activeCell;
+        };
+
+        dataGrid.addEventListener('activecellchanged', activeCellChangeCallback);
+
+        dataGrid.container?.querySelectorAll('.ids-data-grid-row')?.[3]?.querySelectorAll<HTMLElement>('.ids-data-grid-cell')?.[3]?.click();
+
+        return activeCell;
+      });
+
+      expect(results?.row).toEqual(2);
+      expect(results?.cell).toEqual(3);
     });
   });
 
@@ -637,164 +395,6 @@ test.describe('IdsDataGrid tests', () => {
         return elem.loadingIndicator.getAttribute('stopped') === '';
       });
       expect(await isStopped).toBe(true);
-    });
-  });
-
-  test.describe('row functionality tests', () => {
-    test('can get rowsHidden', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        return elem.rowsHidden.length;
-      });
-      expect(results).toBe(0);
-      const results2 = await page.evaluate(() => {
-        const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        elem.container!.querySelector<IdsDataGridRow>('ids-data-grid-row:nth-child(2)')!.hidden = true;
-        return elem.rowsHidden.length;
-      });
-      expect(results2).toBe(1);
-    });
-
-    test('renders row data', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-
-        return {
-          columns: dataGrid.columns.length,
-          rows: dataGrid.container?.querySelectorAll('.ids-data-grid-row').length,
-          cells: dataGrid.container?.querySelectorAll('.ids-data-grid-cell').length
-        };
-      });
-
-      expect(results.rows).toBe(10);
-      expect(results.cells).toBe(((results.rows || 1) - 1) * results.columns);
-    });
-
-    test('skips hidden rows', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.data[0].rowHidden = true;
-        dataGrid.redraw();
-        const row1 = dataGrid.container?.querySelectorAll('.ids-data-grid-row')[1];
-        const row2 = dataGrid.container?.querySelectorAll('.ids-data-grid-row')[2];
-
-        return {
-          row1: row1?.getAttribute('hidden'),
-          row2: row2?.getAttribute('hidden')
-        };
-      });
-
-      expect(results.row1).toBe('');
-      expect(results.row2).toBeNull();
-    });
-
-    test('render disabled rows', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.data[0].disabled = true;
-        dataGrid.redraw();
-        const row1 = dataGrid.container?.querySelectorAll('.ids-data-grid-row')[1];
-        const row2 = dataGrid.container?.querySelectorAll('.ids-data-grid-row')[2];
-
-        return {
-          row1: row1?.getAttribute('disabled'),
-          row2: row2?.getAttribute('disabled')
-        };
-      });
-
-      expect(results.row1).toBe('');
-      expect(results.row2).toBeNull();
-    });
-
-    test('skips re-rerender if no data', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.columns = [];
-        dataGrid.data = [];
-        dataGrid.redrawBody();
-        const rows = dataGrid.container?.querySelectorAll('.ids-data-grid-row').length;
-
-        return rows;
-      });
-
-      expect(results).toEqual(10);
-    });
-
-    test('renders with alternateRowShading option', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-
-        dataGrid.alternateRowShading = true;
-        const alternaiveRowShadingSet = dataGrid.alternateRowShading;
-        const hasClassSet = dataGrid.container?.classList.contains('alt-row-shading');
-
-        dataGrid.alternateRowShading = false;
-        const alternaiveRowShadingUnset = dataGrid.alternateRowShading;
-        const hasClassUnset = dataGrid.container?.classList.contains('alt-row-shading');
-
-        return {
-          alternaiveRowShadingSet,
-          hasClassSet,
-          alternaiveRowShadingUnset,
-          hasClassUnset
-        };
-      });
-
-      expect(results.alternaiveRowShadingSet).toBeTruthy();
-      expect(results.hasClassSet).toBeTruthy();
-      expect(results.alternaiveRowShadingUnset).toBeFalsy();
-      expect(results.hasClassUnset).toBeFalsy();
-    });
-
-    test('renders additional rows when IdsDataGrid.appendData() used', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const initialDataLength = dataGrid.data.length;
-        dataGrid.appendData(dataGrid.data);
-
-        return {
-          initialDataLength,
-          updatedDataLength: dataGrid.data.length
-        };
-      });
-
-      expect(results.updatedDataLength).toEqual(results.initialDataLength * 2);
-    });
-
-    test('can set the rowHeight setting / can set the rowHeight setting in virtualScroll mode', async ({ page }) => {
-      const getRowHeightData = async (rowHeight: string | null) => {
-        const results = await page.evaluate((attrRowHeight) => {
-          const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-          dataGrid.rowHeight = attrRowHeight as string;
-
-          return {
-            container: dataGrid.container?.getAttribute('data-row-height'),
-            attr: dataGrid.getAttribute('row-height'),
-            virtualScrollSettings: dataGrid.virtualScrollSettings?.ROW_HEIGHT
-          };
-        }, rowHeight);
-
-        return results;
-      };
-
-      ['xs', 'sm', 'md', 'lg'].forEach(async (rowHeight) => {
-        expect(await getRowHeightData(rowHeight)).toEqual(
-          expect.objectContaining({ container: rowHeight, attr: rowHeight })
-        );
-      });
-
-      expect(await getRowHeightData(null)).toEqual(expect.objectContaining({ container: 'lg', attr: null }));
-
-      await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.virtualScroll = true;
-      });
-
-      expect(await getRowHeightData('xs')).toEqual(expect.objectContaining({ virtualScrollSettings: 31 }));
-      expect(await getRowHeightData('sm')).toEqual(expect.objectContaining({ virtualScrollSettings: 36 }));
-      expect(await getRowHeightData('md')).toEqual(expect.objectContaining({ virtualScrollSettings: 41 }));
-      expect(await getRowHeightData('lg')).toEqual(expect.objectContaining({ virtualScrollSettings: 51 }));
-      expect(await getRowHeightData(null)).toEqual(expect.objectContaining({ virtualScrollSettings: 51 }));
     });
   });
 
@@ -2623,590 +2223,6 @@ test.describe('IdsDataGrid tests', () => {
       const selectedRows = await page.locator('ids-data-grid').evaluate((elem: IdsDataGrid) => elem.selectedRows.length);
 
       expect(selectedRows).toEqual(3);
-    });
-  });
-
-  test.describe('editing tests', () => {
-    const editableUrl = '/ids-data-grid/editable.html';
-
-    test.beforeEach(async ({ page }) => {
-      await page.goto(editableUrl);
-    });
-
-    test('should be able to edit a cell and type a value', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        editableCell?.click();
-        editableCell?.querySelector('ids-input')?.setAttribute('value', 'test');
-        const editableCellHasClass = editableCell?.classList.contains('is-editing');
-        editableCell?.cellLeft?.click();
-        const editableCellText = editableCell?.textContent;
-
-        return {
-          editableCellText,
-          editableCellHasClass,
-        };
-      });
-
-      expect(results.editableCellText).toBe('test');
-      expect(results.editableCellHasClass).toBeTruthy();
-    });
-
-    test('should be able to edit a cell and validate a value', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-datepicker.is-editable');
-        editableCell?.click();
-        editableCell?.editor?.input?.setAttribute('value', '');
-        editableCell?.cellLeft?.click();
-        const editableCellHasClass = editableCell?.classList.contains('is-invalid');
-        const editableCellText = editableCell?.textContent;
-
-        return {
-          editableCellText,
-          editableCellHasClass,
-        };
-      });
-
-      expect(results.editableCellText).toBe('');
-      expect(results.editableCellHasClass).toBeTruthy();
-    });
-
-    test('should not have errors when editing cell', async ({ page }) => {
-      let hasConsoleError = false;
-      page.on('console', (message) => {
-        if (message.type() === 'error') {
-          hasConsoleError = true;
-        }
-      });
-      await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        editableCell!.isEditing = true;
-        editableCell?.startCellEdit();
-      });
-      expect(hasConsoleError).toBeFalsy();
-    });
-
-    test('can veto edit on with readonly/disabled', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        editableCell?.classList.add('is-readonly');
-        editableCell?.startCellEdit();
-        const editableCellHasClass = editableCell?.classList.contains('is-editing');
-        editableCell?.endCellEdit();
-        editableCell?.classList.remove('is-readonly');
-        editableCell?.classList.add('is-disabled');
-        editableCell?.startCellEdit();
-        const editableCellHasClass2 = editableCell?.classList.contains('is-editing');
-
-        return {
-          editableCellHasClass,
-          editableCellHasClass2,
-        };
-      });
-
-      expect(results.editableCellHasClass).toBeFalsy();
-      expect(results.editableCellHasClass2).toBeFalsy();
-    });
-
-    test('can veto edit on with beforeCellEdit', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        dataGrid?.addEventListener('beforecelledit', (e: Event) => {
-          (<CustomEvent>e).detail.response(false);
-        });
-        editableCell?.startCellEdit();
-        const editableCellHasClass = editableCell?.classList.contains('is-editing');
-
-        return {
-          editableCellHasClass,
-        };
-      });
-
-      expect(results.editableCellHasClass).toBeFalsy();
-    });
-
-    test('clears invalid state on edit', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        editableCell?.classList.add('is-invalid');
-        editableCell?.startCellEdit();
-        const editableCellHasClass = editableCell?.classList.contains('is-invalid');
-
-        return {
-          editableCellHasClass,
-        };
-      });
-
-      expect(results.editableCellHasClass).toBeFalsy();
-    });
-
-    test('should add inline class', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        editableCell!.column!.editor!.inline = true;
-        editableCell?.startCellEdit();
-        const editableCellHasClass = editableCell?.classList.contains('is-inline');
-
-        return {
-          editableCellHasClass,
-        };
-      });
-
-      expect(results.editableCellHasClass).toBeTruthy();
-    });
-
-    test('rendercell on rowNumber columns', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.columns[0].formatter = dataGrid.formatters.rowNumber;
-        dataGrid.redraw();
-        const rowNumberCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell');
-        rowNumberCell?.renderCell();
-        return rowNumberCell?.textContent;
-      });
-      expect(results).toBe('1');
-    });
-
-    test('endCellEdit on valid columns', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        editableCell!.column!.editor!.editorSettings!.validate = null;
-        editableCell?.endCellEdit();
-        return editableCell?.isInValid;
-      });
-      expect(results).toBeFalsy();
-    });
-
-    test('should be able to edit a cell and reset validation state', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.columns[2].editor!.editorSettings!.validate = 'required';
-        dataGrid.redraw();
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        editableCell!.isInValid = true;
-        editableCell?.startCellEdit();
-        editableCell?.querySelector('ids-input')?.setAttribute('value', 'test');
-        editableCell?.endCellEdit();
-        return editableCell?.classList.contains('is-invalid');
-      });
-
-      expect(results).toBeFalsy();
-    });
-
-    test('should be able to cancel a cell and reset validation state', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        const initialValue = editableCell?.cellBelow?.textContent;
-        editableCell?.cellBelow?.startCellEdit();
-        editableCell?.cellBelow?.querySelector('ids-input')?.setAttribute('value', 'test');
-        editableCell?.cellBelow?.cancelCellEdit();
-
-        return {
-          initialValue,
-          newValue: editableCell?.cellBelow?.textContent,
-        };
-      });
-
-      expect(results.initialValue).toBe('CORE');
-      expect(results.newValue).toBe('CORE');
-    });
-
-    test('can edit date cells', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-datepicker.is-editable');
-        const initialValue = editableCell?.textContent;
-        editableCell?.click();
-        editableCell?.querySelector('ids-trigger-field')?.setAttribute('value', '10/10/2023');
-        editableCell?.cellLeft?.click();
-
-        return {
-          initialValue,
-          newValue: editableCell?.textContent,
-        };
-      });
-
-      expect(results.initialValue).toBe('4/23/2021');
-      expect(results.newValue).toBe('10/10/2023');
-    });
-
-    test('show and revert dirty indicators on cells', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        editableCell?.startCellEdit();
-        editableCell?.querySelector('ids-input')?.setAttribute('value', 'test');
-        editableCell?.endCellEdit();
-
-        const isDirty = editableCell?.classList.contains('is-dirty');
-
-        editableCell?.startCellEdit();
-        editableCell?.querySelector('ids-input')?.setAttribute('value', '');
-        editableCell?.endCellEdit();
-
-        const isDirty2 = editableCell?.classList.contains('is-dirty');
-
-        return {
-          isDirty,
-          isDirty2,
-        };
-      });
-
-      expect(results.isDirty).toBeTruthy();
-      expect(results.isDirty2).toBeFalsy();
-    });
-
-    test('show and revert validation indicators on cells', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-datepicker.is-editable');
-        editableCell?.click();
-        editableCell?.querySelector('ids-trigger-field')?.setAttribute('value', '');
-        editableCell?.cellRight?.click();
-
-        const isInvalid = editableCell?.classList.contains('is-invalid');
-
-        editableCell?.click();
-        editableCell?.querySelector('ids-trigger-field')?.setAttribute('value', '2/23/2021');
-        editableCell?.endCellEdit();
-
-        const isInvalid2 = editableCell?.classList.contains('is-invalid');
-
-        return {
-          isInvalid,
-          isInvalid2,
-        };
-      });
-
-      expect(results.isInvalid).toBeTruthy();
-      expect(results.isInvalid2).toBeFalsy();
-    });
-
-    test('can edit as checkboxes', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-checkbox.is-editable');
-        editableCell?.click();
-        const checked1 = editableCell?.querySelector<any>('ids-checkbox')?.checked;
-        editableCell?.endCellEdit();
-        editableCell?.click();
-        const checked2 = editableCell?.querySelector<any>('ids-checkbox')?.checked;
-
-        return {
-          checked1,
-          checked2,
-        };
-      });
-
-      expect(results.checked1).toBeTruthy();
-      expect(results.checked2).toBeFalsy();
-    });
-
-    test('covers the checkboxes editor', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<any>('ids-data-grid-cell.is-checkbox.is-editable');
-        editableCell?.click();
-        editableCell.startCellEdit();
-        const checked1 = editableCell?.editor?.input?.checked;
-        editableCell?.endCellEdit();
-        editableCell?.click();
-        editableCell?.startCellEdit();
-        const checked2 = editableCell?.editor?.input?.checked;
-
-        return {
-          checked1,
-          checked2,
-        };
-      });
-
-      expect(results.checked1).toBeTruthy();
-      expect(results.checked2).toBeFalsy();
-    });
-
-    test('can reset dirty cells', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.resetDirtyCells();
-        const dirtyCells1 = dataGrid.dirtyCells.length;
-        dataGrid.data[1].dirtyCells = [];
-        dataGrid.data[1].dirtyCells.push({ row: 1, cell: 0, originalValue: 'x' });
-        const dirtyCells2 = dataGrid.dirtyCells.length;
-        dataGrid.resetDirtyCells();
-        const dirtyCells3 = dataGrid.dirtyCells.length;
-        return {
-          dirtyCells1,
-          dirtyCells2,
-          dirtyCells3,
-        };
-      });
-
-      expect(results.dirtyCells1).toBe(0);
-      expect(results.dirtyCells2).toBe(1);
-      expect(results.dirtyCells3).toBe(0);
-    });
-
-    test('can call commit commitCellEdit', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        editableCell?.click();
-        editableCell?.querySelector('ids-input')?.setAttribute('value', 'test');
-        dataGrid.commitCellEdit();
-        return editableCell?.textContent;
-      });
-
-      expect(results).toBe('test');
-    });
-
-    test('can call commit cancelCellEdit', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        editableCell?.click();
-        editableCell?.querySelector('ids-input')?.setAttribute('value', 'test');
-        dataGrid.cancelCellEdit();
-        return editableCell?.textContent;
-      });
-
-      expect(results).toBe('');
-    });
-
-    test('can call addRow', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.addRow({ description: 'test' });
-        return dataGrid.container?.querySelectorAll('.ids-data-grid-row').length;
-      });
-
-      expect(results).toEqual(11);
-    });
-
-    test('can add multiple rows at given index', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.addRows([
-          { description: 'test1' },
-          { description: 'test2' },
-          { description: 'test3' }
-        ], 2);
-        dataGrid.redraw();
-        const numberOfRows = dataGrid.container?.querySelectorAll('.ids-data-grid-row').length;
-        const attrRowCount = dataGrid.container?.getAttribute('aria-rowcount');
-
-        return {
-          numberOfRows,
-          attrRowCount,
-          description2: dataGrid.data[2].description,
-          description3: dataGrid.data[3].description,
-          description4: dataGrid.data[4].description,
-        };
-      });
-
-      expect(results.numberOfRows).toEqual(13);
-      expect(results.attrRowCount).toEqual('12');
-      // fails - check addRows for first index
-      // expect(results.description2).toEqual('test1');
-      expect(results.description3).toEqual('test2');
-      expect(results.description4).toEqual('test3');
-    });
-
-    test('can call removeRow', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.addRow({ description: 'test' });
-        const rowsBefore = dataGrid.container?.querySelectorAll('.ids-data-grid-row').length;
-        dataGrid.removeRow(9);
-        const rowsAfter = dataGrid.container?.querySelectorAll('.ids-data-grid-row').length;
-        return {
-          rowsBefore,
-          rowsAfter,
-        };
-      });
-
-      expect(results.rowsBefore).toEqual(11);
-      expect(results.rowsAfter).toEqual(10);
-    });
-
-    test('can call clearRow', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const cell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell');
-        dataGrid.clearRow(0);
-        return cell?.textContent;
-      });
-
-      expect(results).toEqual('');
-    });
-
-    test('can call editFirstCell', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-        dataGrid.editFirstCell();
-        return editableCell?.classList.contains('is-editing');
-      });
-
-      expect(results).toBeTruthy();
-    });
-
-    test('can enter edit mode with enter and exit F2 or Enter', async ({ page }) => {
-      const isEditing = async () => {
-        const results = await page.evaluate(() => {
-          const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-          const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-          return editableCell?.classList.contains('is-editing');
-        });
-
-        return results;
-      };
-      expect(await isEditing()).toBeFalsy();
-      await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.setActiveCell(2, 0);
-      });
-
-      await page.keyboard.press('Enter');
-      expect(await isEditing()).toBeTruthy();
-
-      await page.keyboard.press('ArrowLeft');
-      expect(await isEditing()).toBeTruthy();
-
-      await page.keyboard.press('F2');
-      expect(await isEditing()).toBeFalsy();
-
-      await page.keyboard.press('Enter');
-      expect(await isEditing()).toBeTruthy();
-      await page.keyboard.press('Escape');
-      expect(await isEditing()).toBeFalsy();
-    });
-
-    test('can enter edit mode with enter by typing', async ({ page }) => {
-      const isEditing = async () => {
-        const results = await page.evaluate(() => {
-          const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-          const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-          return editableCell?.classList.contains('is-editing');
-        });
-
-        return results;
-      };
-      expect(await isEditing()).toBeFalsy();
-      await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.setActiveCell(2, 0);
-      });
-      await page.keyboard.type('test');
-      expect(await isEditing()).toBeTruthy();
-    });
-
-    test('can enter edit mode and editNextOnEnterPress', async ({ page }) => {
-      await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.editNextOnEnterPress = true;
-        dataGrid.setActiveCell(2, 0);
-        dataGrid.redraw();
-      });
-      const isEditing = async () => {
-        const results = await page.evaluate(() => {
-          const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-          const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-          return editableCell?.classList.contains('is-editing');
-        });
-
-        return results;
-      };
-      await page.keyboard.press('Enter');
-      expect(await isEditing()).toBeFalsy();
-    });
-
-    test('can continue to enter edit mode with tabbing', async ({ page }) => {
-      const isEditing = async () => {
-        const results = await page.evaluate(() => {
-          const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-          const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
-          return editableCell?.classList.contains('is-editing');
-        });
-
-        return results;
-      };
-      expect(await isEditing()).toBeFalsy();
-      await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.setActiveCell(2, 0);
-      });
-      await page.keyboard.press('Enter');
-      expect(await isEditing()).toBeTruthy();
-      await page.keyboard.press('Tab');
-      expect(await isEditing()).toBeFalsy();
-    });
-
-    test('space toggles editable checkboxes', async ({ page }) => {
-      const isChecked = async () => {
-        const results = await page.evaluate(() => {
-          const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-          const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-checkbox.is-editable');
-          return editableCell?.querySelector<any>('.ids-data-grid-checkbox')?.getAttribute('aria-checked') === 'true';
-        });
-
-        return results;
-      };
-      await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-checkbox.is-editable');
-        dataGrid.setActiveCell(11, 0);
-        editableCell?.click();
-      });
-      expect(await isChecked()).toBeTruthy();
-      await page.keyboard.press(' ');
-      expect(await isChecked()).toBeFalsy();
-    });
-
-    test('supports a dropdown editor', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-dropdown.is-editable');
-        editableCell?.startCellEdit();
-        const opened = editableCell?.querySelector<IdsDropdown>('ids-dropdown')?.container?.classList.contains('is-open');
-        return opened;
-      });
-
-      expect(results).toBeTruthy();
-    });
-
-    test('can change cell value using dropdown editor', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-dropdown.is-editable');
-        editableCell?.startCellEdit();
-        editableCell?.querySelector<IdsDropdown>('ids-dropdown')?.setAttribute('value', 'eur');
-        editableCell?.endCellEdit();
-        return editableCell?.value;
-      });
-
-      expect(results).toBe('EUR');
-    });
-
-    test('supports updating data set and refreshing row', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        const rowIndex = 0;
-        const rowElem = dataGrid.rowByIndex(rowIndex);
-        dataGrid.updateDatasetAndRefresh(rowIndex, { bookCurrency: 'eur' });
-
-        return rowElem?.querySelector('[aria-colindex="7"]')?.textContent?.trim();
-      });
-
-      expect(results).toBe('EUR');
     });
   });
 

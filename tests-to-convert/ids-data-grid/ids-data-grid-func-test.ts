@@ -317,32 +317,6 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.rows[0].rowIndex).toBe(0);
       expect(dataGrid.rows[dataGrid.rows.length - 1].rowIndex).toBe(MAX_ROWS - 1);
     });
-
-    it.todo('does not recycle cells down when at the bottom');
-
-    it.todo('does not recycle cells up when at the top');
-
-    it.todo('can scroll row 10 into view');
-
-    it.todo('can scroll row 2 into view');
-
-    it.todo('can scroll row 100 into view');
-
-    it.todo('scrolls first row into view when given row-index too small');
-
-    it.todo('scrolls last row into view when given row-index too large');
-
-    it.todo('caches rows');
-
-    it.todo('caches cells');
-
-    it.todo('can bust row-cache');
-
-    it.todo('can bust cell-cache');
-
-    it.todo('does not use requestAnimationFrame (RAF) if virtural scroll is disabled');
-
-    it.todo('scrollRowIntoView()');
   });
 
   describe('Reordering Tests', () => {
