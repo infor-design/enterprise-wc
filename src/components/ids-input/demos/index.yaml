@@ -32,6 +32,9 @@
   - link: layout-size.html
     type: Example
     description: Showing inputs in different layout
+  - link: tooltip-overflow-ellipses.html
+    type: Example
+    description: Showing tooltip on inputs when text-overflow "ellipses" is set
   - link: test-sizes.html
     type: Test
     description: Shows all input sizes
