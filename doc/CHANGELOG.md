@@ -18,6 +18,7 @@
 - `[Fieldset]` Fixed issue that popups in the fieldset were cut off. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
 - `[Icon]` Fixed yellow and caution status colors. ([#1879](https://github.com/infor-design/enterprise-wc/issues/1879))
 - `[Image]` Converted image tests to playwright. ([#1942](https://github.com/infor-design/enterprise-wc/issues/1942))
+- `[ListView]` Added support for attributes `tooltip`, `max-width` and `overflow="ellipses"`. ([#1637](https://github.com/infor-design/enterprise-wc/issues/1637))
 - `[Modal]` Converted modal, about, error page, action panel tests. ([#1847](https://github.com/infor-design/enterprise-wc/issues/1847))
 - `[Radio]` Converted radio tests to playwright. ([#1872](https://github.com/infor-design/enterprise-wc/issues/1872))
 - `[Tree]` Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
