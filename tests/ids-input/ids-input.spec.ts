@@ -135,7 +135,7 @@ test.describe('IdsInput tests', () => {
 
     test('should match the visual snapshot in percy for sizes', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('/ids-input/test-sizes.html');
+      await page.goto('/ids-input/sizes.html');
       await percySnapshot(page, 'ids-input-sizes-light');
     });
   });
