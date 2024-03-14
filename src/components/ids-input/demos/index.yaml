@@ -35,16 +35,18 @@
   - link: tooltip-overflow-ellipses.html
     type: Example
     description: Showing tooltip on inputs when text-overflow "ellipses" is set
-  - link: test-sizes.html
+  - link: context-menu.html
+    type: Example
+    description: Showing context menu on input
+  - link: sizes.html
     type: Test
     description: Shows all input sizes
   - link: side-by-side.html
     type: Side by Side
     description: Showing an input with a 4.x input
+  - link: reattach.html
+    type: Test
+    description: Shows validation works after reattach
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a input that works with css only
-  - link: context-menu.html
-    type: Example
-    description: Showing context menu on input
-
