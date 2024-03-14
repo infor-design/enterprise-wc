@@ -22,24 +22,6 @@ import deDELocale from '../../src/components/ids-locale/data/de-DE.json';
 
 describe('IdsDataGrid Component', () => {
 
-  // describe('Setup / General Tests', () => {
-  //   test('fires after rendered event after redraw the data grid', async () => {
-  //     document.body.innerHTML = '';
-  //     const mockCallback = jest.fn(() => {});
-  //     container = new IdsContainer();
-  //     dataGrid = new IdsDataGrid();
-  //     dataGrid.addEventListener('afterrendered', mockCallback);
-  //     container.appendChild(dataGrid);
-  //     document.body.appendChild(container);
-  //     dataGrid.columns = columns();
-  //     dataGrid.data = deepClone(dataset);
-  //     await processAnimFrame();
-  //     await processAnimFrame();
-
-  //     expect(mockCallback.mock.calls.length).toBe(1);
-  //   });
-  // });
-
   // test('supports column resize', async () => {
     //   (window as any).getComputedStyle = () => ({ width: 200 });
 
@@ -553,31 +535,6 @@ describe('IdsDataGrid Component', () => {
 
   //   expect(mockCallback.mock.calls.length).toBe(1);
   // });
-
-  describe('RTL/Language Tests', () => {
-    test('supports readonly columns / RTL', () => {
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[1].classList.contains('is-readonly')).toBeTruthy();
-    });
-
-    test('supports readonly RTL when set from the container', async () => {
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(5)').textContent.trim()).toEqual('2/23/2021');
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(6)').textContent.trim().replace(' ', ' ')).toEqual('1:25 PM');
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent.trim()).toEqual('13.99');
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(10)').textContent.trim()).toEqual('14');
-
-      await IdsGlobal.getLocale().setLanguage('ar');
-      await processAnimFrame();
-      await IdsGlobal.getLocale().setLocale('de-DE');
-      await processAnimFrame();
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(5)').textContent.trim()).toEqual('23.2.2021');
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(6)').textContent.trim()).toEqual('13:25');
-      // Set to en-US for the example
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(7)').textContent.trim()).toEqual('13.99');
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(10)').textContent.trim()).toEqual('14');
-      container.locale = 'en-US';
-    });
-  });
 
   describe('Paging Tests', () => {
     test('renders pager', () => {

@@ -255,6 +255,23 @@ test.describe('IdsDataGrid tests', () => {
       expect(results?.row).toEqual(2);
       expect(results?.cell).toEqual(3);
     });
+
+    test.skip('should fire afterrendered event after redraw', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let rendered = 0;
+        const mockCallback = () => {
+          rendered++;
+        };
+
+        dataGrid.addEventListener('afterrendered', mockCallback);
+        dataGrid.redraw();
+
+        return rendered;
+      });
+
+      expect(results).toEqual(1);
+    });
   });
 
   test.describe('cell functionality tests', () => {
@@ -2472,6 +2489,34 @@ test.describe('IdsDataGrid tests', () => {
         dataGrid.deSelectRow(100000);
       });
       expect(hasConsoleError).toBeFalsy();
+    });
+  });
+
+  test.describe('rtl/locale tests', () => {
+    test('supports readonly columns / RTL', async ({ page }) => {
+      const checkReadonly = async () => {
+        const results = await page.locator('ids-data-grid').evaluate(
+          (elem: IdsDataGrid) => elem.container?.querySelectorAll('ids-data-grid-cell')?.[1]?.classList.contains('is-readonly'));
+        return results;
+      };
+      expect(await checkReadonly()).toBeTruthy();
+      await page.evaluate(async () => {
+        await window?.IdsGlobal?.locale?.setLocale('ar-SA');
+      });
+      expect(await checkReadonly()).toBeTruthy();
+    });
+
+    test('should format values based on locale', async ({ page }) => {
+      const getCellText = async (col: number) => {
+        const results = await page.locator('ids-data-grid').evaluate((elem: IdsDataGrid, colArg: number) => elem.container?.querySelectorAll('ids-data-grid-cell')?.[colArg]?.textContent?.trim(), col);
+        return results;
+      };
+
+      expect(await getCellText(4)).toBe('4/23/2021');
+      await page.evaluate(async () => {
+        await window?.IdsGlobal?.locale?.setLocale('de-DE');
+      });
+      expect(await getCellText(4)).toBe('23.4.2021');
     });
   });
 });
