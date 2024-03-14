@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+    <ids-container role="main" padding="8" hidden>
+      <ids-theme-switcher mode="light"></ids-theme-switcher>
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-text font-size="12" type="h1">Tag List</ids-text>
+      </ids-layout-grid>
+
+      <ids-layout-grid auto-fit="true" padding-x="md">
+        <ids-layout-grid-cell>
+          <ids-tag-list>
+            <ids-tag dismissible="true">#Tag One</ids-tag>
+            <ids-tag dismissible="true">#Tag Two</ids-tag>
+            <ids-tag dismissible="true">#Tag Three</ids-tag>
+            <ids-tag dismissible="true">#Tag Four</ids-tag>
+            <ids-tag dismissible="true">#Tag Five</ids-tag>
+            <ids-tag dismissible="true">#Tag Six</ids-tag>
+            <ids-tag dismissible="true">#Tag Seven</ids-tag>
+            <ids-tag dismissible="true">#Tag Eight</ids-tag>
+            <ids-tag dismissible="true">#Tag Nine</ids-tag>
+            <ids-tag dismissible="true">#Tag Ten</ids-tag>
+            <ids-tag dismissible="true">#Tag Eleven</ids-tag>
+          </ids-tag-list>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </ids-container>
+</body>
+</html>

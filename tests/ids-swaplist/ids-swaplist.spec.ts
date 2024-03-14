@@ -63,4 +63,34 @@ test.describe('IdsSwaplist tests', () => {
       await percySnapshot(page, 'ids-swaplist-light');
     });
   });
+
+  test.describe('setting tests', () => {
+    test('can use the DOM for the default template', async ({ page }) => {
+      const tmpl = await page.evaluate(() => {
+        const elem = document.createElement('ids-swaplist') as any;
+        return elem.defaultTemplate;
+      });
+      expect(tmpl).toEqual(undefined);
+    });
+
+    test('can set the default template', async ({ page }) => {
+      const tmpl = await page.evaluate(() => {
+        const elem = document.createElement('ids-swaplist') as any;
+        // eslint-disable-next-line no-template-curly-in-string
+        elem.defaultTemplate = '<div>${field}</div>';
+        return elem.defaultTemplate;
+      });
+      // eslint-disable-next-line no-template-curly-in-string
+      expect(tmpl).toEqual('<div>${field}</div>');
+    });
+  });
+
+  test.describe('edge case tests', () => {
+    test('should still render after reattaching', async ({ page }) => {
+      await page.goto('/ids-swaplist/reattach.html');
+      expect(await page.locator('ids-swappable-item').count()).toBe(3);
+      await page.locator('#reattach').click();
+      expect(await page.locator('ids-swaplist ids-swappable-item').count()).toBe(3);
+    });
+  });
 });

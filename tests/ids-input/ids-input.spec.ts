@@ -135,8 +135,21 @@ test.describe('IdsInput tests', () => {
 
     test('should match the visual snapshot in percy for sizes', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('/ids-input/test-sizes.html');
+      await page.goto('/ids-input/sizes.html');
       await percySnapshot(page, 'ids-input-sizes-light');
+    });
+  });
+
+  test.describe('edge case tests', () => {
+    test('should still handle required after reattaching', async ({ page }) => {
+      await page.goto('/ids-input/reattach.html');
+      expect(await page.locator('#input-id-error').count()).toBe(0);
+      await page.locator('#reattach').click();
+      await page.evaluate(() => {
+        document.querySelector<IdsInput>('ids-input')!.value = 'x';
+        document.querySelector<IdsInput>('ids-input')!.value = '';
+      });
+      await expect(await page.locator('#input-id-error')).toBeVisible();
     });
   });
 });

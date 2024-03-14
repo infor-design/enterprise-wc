@@ -3,6 +3,7 @@
 
 :host([overflow='ellipsis']) {
   max-width: 100%;
+  display: block;
 }
 
 .ids-text {

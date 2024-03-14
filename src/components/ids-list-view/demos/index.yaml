@@ -41,6 +41,9 @@
   - link: card.html
     type: Example
     description: Showing a list view wrapped in ids-card
+  - link: tooltip-overflow-ellipses.html
+    type: Example
+    description: Showing a list view with tooltip, max-width and overflow-ellipses
   - link: sortable.html
     type: Example
     description: Showing a list view with the sortable functionality
