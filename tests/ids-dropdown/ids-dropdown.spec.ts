@@ -179,4 +179,26 @@ test.describe('IdsDropdown tests', () => {
       expect(values2[1]).toBeNull();
     });
   });
+
+  test.describe('reattachment tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-dropdown/reattach.html');
+    });
+
+    test('popup functionality after reattachment', async ({ page }) => {
+      // reattach
+      await page.locator('ids-button#reattach').click();
+
+      // open dropdown
+      await page.locator('ids-dropdown').click();
+
+      // select another option
+      await page.locator('ids-list-box-option[value="opt4"]').click();
+
+      // expect new value to be selected and dropdown list to be hidden
+      const selected = await page.locator('ids-dropdown').evaluate((dropdown: IdsDropdown) => dropdown.value);
+      await expect(await page.locator('ids-dropdown ids-dropdown-list')).not.toBeVisible();
+      expect(selected).toEqual('opt4');
+    });
+  });
 });
