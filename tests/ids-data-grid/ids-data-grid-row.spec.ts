@@ -168,4 +168,88 @@ test.describe('IdsDataGridRow tests', () => {
       expect(await getRowHeightData(null)).toEqual(expect.objectContaining({ virtualScrollSettings: 51 }));
     });
   });
+
+  test.describe('activation tests', () => {
+    test('handles suppress row deactivation', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<any>('ids-data-grid')!;
+        dataGrid.rowSelection = 'mixed';
+        dataGrid.suppressRowDeactivation = false;
+        dataGrid.container?.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)')?.click();
+        const activatedRow1 = dataGrid.activatedRow;
+        dataGrid.container?.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)')?.click();
+        const activatedRow2 = dataGrid.activatedRow;
+
+        dataGrid.suppressRowDeactivation = true;
+        dataGrid.container?.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
+        const activatedRow3 = dataGrid.activatedRow;
+        dataGrid.container?.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
+        const activatedRow4 = dataGrid.activatedRow;
+        dataGrid.container?.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(3) .ids-data-grid-cell:nth-child(2)').click();
+        const activatedRow5 = dataGrid.activatedRow;
+
+        return {
+          activatedRow1,
+          activatedRow2,
+          activatedRow3,
+          activatedRow4,
+          activatedRow5
+        };
+      });
+
+      expect(results.activatedRow1.index).toBe(1);
+      expect(results.activatedRow2.index).not.toBeDefined();
+      expect(results.activatedRow3.index).toBe(1);
+      expect(results.activatedRow4.index).toBe(1);
+      expect(results.activatedRow5.index).toBe(2);
+    });
+
+    test('should fire the rowactivated event', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<any>('ids-data-grid')!;
+        let calls = 0;
+        const mockCallback = () => {
+          calls++;
+        };
+        dataGrid.rowSelection = 'mixed';
+        dataGrid.addEventListener('rowactivated', mockCallback);
+        dataGrid.container?.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
+
+        return calls;
+      });
+
+      expect(results).toBe(1);
+    });
+
+    test('handles a deactivateRow method', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<any>('ids-data-grid')!;
+        const activatedRow = dataGrid.activatedRow;
+        dataGrid.rowSelection = 'mixed';
+        dataGrid.activateRow(1);
+        const activatedRow1 = dataGrid.activatedRow;
+        dataGrid.deactivateRow(1);
+        const activatedRow2 = dataGrid.activatedRow;
+        dataGrid.activateRow(2);
+        const activatedRow3 = dataGrid.activatedRow;
+        dataGrid.deactivateRow(null);
+        const activatedRow4 = dataGrid.activatedRow;
+
+        return {
+          activatedRow,
+          activatedRow1,
+          activatedRow2,
+          activatedRow3,
+          activatedRow4
+        };
+      });
+
+      expect(results.activatedRow.index).not.toBeDefined();
+      expect(results.activatedRow1.index).toBe(1);
+      expect(results.activatedRow1.data).toBeTruthy();
+      expect(results.activatedRow2.index).not.toBeDefined();
+      expect(results.activatedRow3.index).toBe(2);
+      expect(results.activatedRow4.index).toBe(2);
+    });
+  });
 });

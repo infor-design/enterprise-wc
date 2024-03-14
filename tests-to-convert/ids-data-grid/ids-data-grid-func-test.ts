@@ -579,57 +579,6 @@ describe('IdsDataGrid Component', () => {
     });
   });
 
-  describe('Activation Tests', () => {
-    test('handles suppress row deactivation', () => {
-      dataGrid.rowSelection = 'mixed';
-      dataGrid.suppressRowDeactivation = false;
-      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
-      expect(dataGrid.activatedRow.index).toBe(1);
-      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
-      expect(dataGrid.activatedRow).toEqual({});
-
-      dataGrid.suppressRowDeactivation = true;
-      expect(dataGrid.suppressRowDeactivation).toBeTruthy();
-
-      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
-      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(2) .ids-data-grid-cell:nth-child(2)').click();
-      expect(dataGrid.activatedRow.index).toBe(1);
-
-      dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(3) .ids-data-grid-cell:nth-child(2)').click();
-      expect(dataGrid.activatedRow.index).toBe(2);
-    });
-
-    test('should fire the rowactivated event', () => {
-      const mockCallback = jest.fn((x) => {
-        expect(x.detail.elem).toBeTruthy();
-      });
-
-      dataGrid.rowSelection = 'mixed';
-      dataGrid.addEventListener('rowactivated', mockCallback);
-      dataGrid.activateRow(1);
-
-      expect(dataGrid.activatedRow.index).toBe(1);
-      expect(mockCallback.mock.calls.length).toBe(1);
-
-      dataGrid.rowSelection = false;
-      dataGrid.activateRow(1);
-      expect(dataGrid.activatedRow.index).toBe(1);
-      expect(mockCallback.mock.calls.length).toBe(1);
-    });
-
-    test('handles a deactivateRow method', async () => {
-      dataGrid.deactivateRow(1);
-      expect(dataGrid.activatedRow).toEqual({});
-
-      dataGrid.rowSelection = 'mixed';
-      dataGrid.activateRow(1);
-      await processAnimFrame();
-      expect(dataGrid.activatedRow.data).toBeTruthy();
-      dataGrid.deactivateRow(null);
-      expect(dataGrid.activatedRow.data).toBeTruthy();
-    });
-  });
-
   describe('Paging Tests', () => {
     test('renders pager', () => {
       const selector = '.ids-data-grid-body .ids-data-grid-row';
