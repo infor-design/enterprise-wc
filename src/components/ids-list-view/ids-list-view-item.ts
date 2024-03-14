@@ -1,17 +1,20 @@
-import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import { customElement, scss } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
-import styles from './ids-list-view-item.scss';
-import type IdsListView from './ids-list-view';
-import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
+import type IdsListView from './ids-list-view';
+import styles from './ids-list-view-item.scss';
 
-const Base = IdsEventsMixin(
-  IdsElement
+const Base = IdsTooltipMixin(
+  IdsEventsMixin(
+    IdsElement
+  )
 );
 
 /**
@@ -79,7 +82,7 @@ export default class IdsListViewItem extends Base {
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
-  static get attributes() {
+  static get attributes(): Array<any> {
     return [
       ...super.attributes,
       attributes.ACTIVATED,
@@ -87,6 +90,9 @@ export default class IdsListViewItem extends Base {
       attributes.DISABLED,
       attributes.SELECTED,
       attributes.ROW_INDEX,
+      attributes.MAX_WIDTH,
+      attributes.TOOLTIP,
+      attributes.OVERFLOW,
     ];
   }
 
@@ -120,6 +126,32 @@ export default class IdsListViewItem extends Base {
     if (name === attributes.DISABLED) this.#disabled(stringToBool(newValue));
     if (name === attributes.SELECTED) this.#selected(stringToBool(newValue));
     if (name === attributes.ROW_INDEX) this.#rowIndex(newValue);
+    if (name === attributes.MAX_WIDTH) this.#maxWidth(newValue);
+    if (name === attributes.OVERFLOW) this.#overflow(newValue);
+  }
+
+  #maxWidth(newValue: string | null) {
+    const maxWidth = Math.max(parseInt(newValue || '0'), 0);
+
+    if (maxWidth > 0) {
+      this.container?.style.setProperty('max-width', `${maxWidth}px`, 'important');
+    } else {
+      this.container?.style.removeProperty('max-width');
+    }
+
+    this.#toggleChildAttribute(attributes.MAX_WIDTH, newValue);
+  }
+
+  #overflow(newValue: string) {
+    const isEllipsis = newValue === 'ellipsis';
+
+    if (isEllipsis) {
+      this.container?.classList.add('ellipsis');
+    } else {
+      this.container?.classList.remove('ellipsis');
+    }
+
+    this.#toggleChildAttribute(attributes.OVERFLOW, newValue);
   }
 
   /**
@@ -432,6 +464,38 @@ export default class IdsListViewItem extends Base {
   }
 
   /**
+   * Set the max-width of the text (used for ellipsis)
+   * @param {string | null} value The value of the max-width
+   */
+  set maxWidth(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.MAX_WIDTH, value);
+    } else {
+      this.removeAttribute(attributes.MAX_WIDTH);
+    }
+  }
+
+  get maxWidth(): string | null { return this.getAttribute(attributes.MAX_WIDTH); }
+
+  /**
+   * Set how content overflows; can specify 'ellipsis', or undefined or 'none'
+   * @param {string | null} value how content is overflow
+   */
+  set overflow(value: string | null) {
+    const isEllipsis = value === 'ellipsis';
+
+    if (isEllipsis) {
+      this.setAttribute('overflow', 'ellipsis');
+    } else {
+      this.removeAttribute('overflow');
+    }
+  }
+
+  get overflow(): string | null {
+    return this.getAttribute(attributes.OVERFLOW);
+  }
+
+  /**
    * Handle item selection
    * @param {Event} e the event object
    */
@@ -554,5 +618,17 @@ export default class IdsListViewItem extends Base {
     });
 
     return !allowed;
+  }
+
+  #toggleChildAttribute(name: string, value: string | null) {
+    this.childNodes.forEach((node) => {
+      if (node instanceof HTMLElement) {
+        if (value) {
+          node.setAttribute(name, value);
+        } else {
+          node.removeAttribute(name);
+        }
+      }
+    });
   }
 }

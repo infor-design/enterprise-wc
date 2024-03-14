@@ -30,6 +30,7 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
       ...(superclass as any).attributes,
       attributes.TOOLTIP,
       attributes.TOOLTIP_PLACEMENT,
+      attributes.TOOLTIP_PLAIN_TEXT,
     ];
   }
 
@@ -112,7 +113,15 @@ const IdsTooltipMixin = <T extends Constraints>(superclass: T) => class extends 
     tooltip.state.noAria = true;
 
     // Handle Ellipsis Text if tooltip="true"
-    tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;
+    try {
+      if (this.hasAttribute(attributes.TOOLTIP_PLAIN_TEXT)) {
+        tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;
+      } else {
+        tooltip.innerHTML = this.tooltip === 'true' ? this.innerHTML : this.tooltip;
+      }
+    } catch (e) {
+      tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;
+    }
 
     if (this.hasAttribute(attributes.TOOLTIP_PLACEMENT)) {
       tooltip.placement = this.getAttribute(attributes.TOOLTIP_PLACEMENT) as IdsTooltipPlacement;
