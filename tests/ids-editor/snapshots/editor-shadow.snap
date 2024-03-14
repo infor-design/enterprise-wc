@@ -1,14 +1,15 @@
 
   <div class="ids-editor" part="editor">
-    <slot class="hidden"></slot>
+    <slot id="hidden-slot" class="hidden"></slot>
     <ids-text id="editor-label" label="true" class="editor-label empty" part="editor-label">Ids Editor</ids-text>
     <div class="main-container" part="main-container">
       <div class="toolbar-container" part="toolbar-container">
         <slot name="toolbar"></slot>
       </div>
       <div class="editor-content">
-        <div id="editor-container" class="editor-container" part="editor-container" contenteditable="true" aria-multiline="true" role="textbox" aria-labelledby="editor-label"><p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>, reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve synergistic synergies.</p> <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge. Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage morph.</p>
-</div>
+        <div id="editor-container" class="editor-container" part="editor-container" aria-multiline="true" role="textbox" aria-labelledby="editor-label">
+          <slot name="editor-slot" id="editor-slot"></slot>
+        </div>
         <div class="source-container hidden" part="source-container">
           <div class="source-wrapper">
             <ul class="line-numbers"></ul>
@@ -36,7 +37,7 @@
         <ids-input id="hyperlink-modal-input-classes" label="Css Class" value="hyperlink"></ids-input>
         
           <ids-dropdown id="hyperlink-modal-dropdown-targets" label="Target" value="_blank" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-hyperlink-modal-dropdown-targets" tooltip="New Window">
-            <ids-list-box size="md" id="ids-list-box-hyperlink-modal-dropdown-targets" aria-label="Listbox" role="listbox"><ids-list-box-option value="" role="option" tabindex="-1">Same Window</ids-list-box-option><ids-list-box-option value="_blank" role="option" tabindex="-1">New Window</ids-list-box-option></ids-list-box>
+            <ids-list-box size="md" id="ids-list-box-hyperlink-modal-dropdown-targets" aria-label="Listbox" role="listbox"><ids-list-box-option value="_self" role="option" tabindex="-1">Same Window</ids-list-box-option><ids-list-box-option value="_blank" role="option" tabindex="-1">New Window</ids-list-box-option></ids-list-box>
           </ids-dropdown>
         <div id="hyperlink-modal-checkbox-remove-container" class="hidden">
           <ids-checkbox id="hyperlink-modal-checkbox-remove" label="Remove hyperlink"></ids-checkbox>
