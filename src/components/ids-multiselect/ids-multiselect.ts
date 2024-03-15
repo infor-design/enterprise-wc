@@ -357,6 +357,7 @@ class IdsMultiselect extends IdsDropdown {
       .forEach((option: IdsListBoxOption) => {
         option.classList.remove('last-selected');
         option.hidden = false;
+        if (option?.childCheckbox) option.childCheckbox.offEvent('change');
         if (this.internalSelectedList.includes(option.value)) {
           option.selected = true;
           selectedOptions.push(option);
