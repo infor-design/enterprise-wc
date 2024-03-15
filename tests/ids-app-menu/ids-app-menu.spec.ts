@@ -64,16 +64,16 @@ test.describe('IdsAppMenu tests', () => {
     });
   });
 
-  test.describe('appmenu component', () => {
-    test('has default settings', async ({ page }) => {
-      const appmenu = await page.$('ids-app-menu');
+  test.describe('appmenu component tests', () => {
+    test('should have default settings', async ({ page }) => {
+      const appmenu = await page.locator('ids-app-menu');
       const appMenuType = await appmenu.evaluate((element: IdsAppMenu) => element.type);
       const appMenuEdge = await appmenu.evaluate((element: IdsAppMenu) => element.edge);
       expect(appMenuType).toBe('app-menu');
       expect(appMenuEdge).toBe('start');
     });
 
-    test('should convert inner accordions to use the "app-menu" color variant', async ({ page }) => {
+    test('can convert inner accordions to use the "app-menu" color variant', async ({ page }) => {
       const acc = await page.locator('ids-accordion');
       await expect(acc).toBeDefined();
     });
@@ -85,7 +85,7 @@ test.describe('IdsAppMenu tests', () => {
       await expect(page.locator('#app-menu')).not.toHaveAttribute('visible');
     });
 
-    test('wont close by pressing any key but escape', async ({ page }) => {
+    test('should not close by pressing any key but escape', async ({ page }) => {
       await page.locator('#app-menu-trigger').click();
       await expect(page.locator('#app-menu')).toHaveAttribute('visible');
       await page.keyboard.press('A');
@@ -99,7 +99,7 @@ test.describe('IdsAppMenu tests', () => {
       await expect(page.locator('#app-menu')).not.toHaveAttribute('visible');
     });
 
-    test('filters its navigation accordion when the search field is used', async ({ page }) => {
+    test('can filter its navigation accordion when the search field is used', async ({ page }) => {
       await page.locator('#app-menu-trigger').click();
       await expect(page.locator('#app-menu')).toHaveAttribute('visible');
       const sf = await page.locator('#search');
