@@ -363,7 +363,7 @@ export default class IdsDataGridCell extends IdsElement {
 
     const isDirty = column.editor?.editorSettings?.dirtyTracker && (input?.isDirty || input?.input.isDirty);
     const isDirtyCheckbox = column.editor?.editorSettings?.dirtyTracker && editorType === 'checkbox';
-    const isValid = column.editor?.editorSettings?.validate ? input?.isValid : true;
+    const isValid = input?.isValid;
     const newValue = this.editor?.save(this);
     this.#saveCellValue(newValue?.value);
 

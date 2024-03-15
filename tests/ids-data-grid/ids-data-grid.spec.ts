@@ -10,6 +10,8 @@ import IdsDataGridRow from '../../src/components/ids-data-grid/ids-data-grid-row
 import { IdsZip } from '../../src/utils/ids-zip/ids-zip';
 import { XLSXFormatter } from '../../src/utils/ids-excel-exporter/ids-excel-formatter';
 import { ExcelColumn } from '../../src/utils/ids-excel-exporter/ids-worksheet-templates';
+import type IdsInput from '../../src/components/ids-input/ids-input';
+import type IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 
 test.describe('IdsDataGrid tests', () => {
   const url = '/ids-data-grid/example.html';
@@ -685,6 +687,57 @@ test.describe('IdsDataGrid tests', () => {
       const worksheet: any = await page.evaluate(() => (window as any).formatNumber());
       const expectedCell = `<v>${dateInExcelFormat}</v>`;
       expect(worksheet.indexOf(expectedCell) !== -1).toBeTruthy();
+    });
+  });
+
+  test.describe('editable cell custom validation', () => {
+    const validationURL = '/ids-data-grid/editable-validation.html';
+
+    test.beforeEach(async ({ page }) => {
+      await page.goto(validationURL);
+    });
+
+    test('editable IdsInput validation', async ({ page }) => {
+      // activate cell
+      const cellSelector = 'ids-data-grid [aria-rowindex="2"] [aria-colindex="1"]';
+      const idCell = await page.locator(cellSelector);
+      await idCell.click();
+
+      // edit cell
+      const inputEditor = await page.locator(`${cellSelector} ids-input`);
+      await inputEditor.evaluate((input: IdsInput) => { input.value = 'alphabet'; });
+      await inputEditor.press('Enter');
+
+      // check cell is marked as invalid
+      expect(await idCell.evaluate((cell: IdsDataGridCell) => cell.classList.contains('is-invalid'))).toBeTruthy();
+    });
+
+    test('editable IdsDatePicker validation', async ({ page }) => {
+      // activate cell
+      const cellSelector = 'ids-data-grid [aria-rowindex="2"] [aria-colindex="2"]';
+      const idCell = await page.locator(cellSelector);
+      await idCell.click();
+
+      // edit cell
+      const triggerField = await page.locator(`${cellSelector} ids-trigger-field`);
+      await triggerField.evaluate((input: IdsTriggerField) => { input.value = '4/21/1990'; });
+      await triggerField.press('Enter');
+
+      // check cell is marked as invalid
+      expect(await idCell.evaluate((cell: IdsDataGridCell) => cell.classList.contains('is-invalid'))).toBeTruthy();
+    });
+
+    test('editable IdsDropdown validation', async ({ page }) => {
+      // activate cell
+      const cellSelector = 'ids-data-grid [aria-rowindex="2"] [aria-colindex="4"]';
+      const idCell = await page.locator(cellSelector);
+      await idCell.click();
+
+      // click dropdown option
+      await page.locator(`ids-data-grid ids-dropdown-list ids-list-box-option[value="yen"]`).click();
+
+      // check cell is marked as invalid
+      expect(await idCell.evaluate((cell: IdsDataGridCell) => cell.classList.contains('is-invalid'))).toBeTruthy();
     });
   });
 });
