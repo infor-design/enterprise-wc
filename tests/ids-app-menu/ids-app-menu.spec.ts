@@ -4,9 +4,6 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsAppMenu from '../../src/components/ids-app-menu/ids-app-menu';
-import exp from 'constants';
-import IdsAccordionHeader from '../../src/components/ids-accordion/ids-accordion-header';
-import { Console } from 'console';
 
 test.describe('IdsAppMenu tests', () => {
   const url = '/ids-app-menu/example.html';
@@ -68,7 +65,7 @@ test.describe('IdsAppMenu tests', () => {
   });
 
   test.describe('appmenu component', () => {
-    test('has default settings', async ({ page, browserName }) => {
+    test('has default settings', async ({ page }) => {
       const appmenu = await page.$('ids-app-menu');
       const appMenuType = await appmenu.evaluate((element: IdsAppMenu) => element.type);
       const appMenuEdge = await appmenu.evaluate((element: IdsAppMenu) => element.edge);
