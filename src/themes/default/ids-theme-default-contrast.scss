@@ -7,12 +7,11 @@
   --ids-color-text-on-primary: var(--ids-color-white-100);
 
   // Body Colors
-  --ids-color-background-default: var(--ids-color-gray-10);
+  --ids-color-background-default: var(--ids-color-white-100);
   --ids-color-text-default: var(--ids-color-gray-100);
 
   // Text Colors
   --ids-color-text: var(--ids-color-gray-100);
-  --ids-color-text-label: var(--ids-color-gray-90);
   --ids-color-text-inverse: var(--ids-color-white-100);
   --ids-color-text-subtle: var(--ids-color-gray-90);
   --ids-color-text-data: var(--ids-color-gray-100);
@@ -21,20 +20,6 @@
   --ids-color-text-info: var(--ids-color-blue-80);
   --ids-color-text-success: var(--ids-color-success-weak0);
   --ids-color-text-warning: var(--ids-color-warning-weak0);
-
-  // Input Styles
-  --ids-input-color-background-default: var(--ids-color-white-100);
-  --ids-input-color-border-default: var(--ids-color-gray-40);
-  --ids-input-color-text: var(--ids-color-gray-100);
-  --ids-input-color-text-placeholder: var(--ids-color-gray-60);
-  --ids-input-label-color-text-default: var(--ids-color-text-label);
-  --ids-input-color-border-readonly: var(--ids-color-gray-40);
-  --ids-input-color-text-readonly: var(--ids-color-gray-100);
-  --ids-input-color-background-readonly: var(--ids-color-gray-20);
-  --ids-input-color-text-disabled: var(--ids-color-text-disabled);
-  --ids-input-color-border-disabled: var(--ids-color-text-disabled);
-  --ids-input-color-border-hover: var(--ids-color-gray-90);
-  --ids-input-color-border-focus: var(--ids-color-border-focus);
 
   // Alert Color Overrides
   --ids-color-error-weak: var(--ids-color-red-20);
@@ -116,12 +101,8 @@
   // Card
   --ids-card-divider-color-border: var(--ids-color-gray-30);
 
-  // Box
-  --ids-box-color-background: var(--ids-card-color-background);
-  --ids-box-color-border: var(--ids-color-gray-40);
-  --ids-box-shadow: var(--ids-card-shadow);
-  --ids-box-outline-selected: 2px solid var(--ids-color-primary-70);
-  --ids-box-outline-hover: 1px solid var(--ids-color-gray-80);
+  // Button (Tertiary)
+  --ids-button-tertiary-color-background-hover: var(--ids-color-gray-20);
 
   // Button (Formatter)
   --ids-button-formatter-color-text-hover: var(--ids-color-gray-100);
@@ -382,12 +363,6 @@
   --ids-splitter-bar-color-border-dragging: var(--ids-color-blue-40);
   --ids-splitter-handle-color-background-hover: var(--ids-color-blue-70);
 
-  // Stats
-  --ids-stats-positive-color-text: var(--ids-color-green-80);
-  --ids-stats-negative-color-text: var(--ids-color-error-default);
-  --ids-stats-color-text: var(--ids-color-text-label);
-  --ids-stats-kpi-label-color: var(--ids-color-black-100);
-
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-gray-30);
   --ids-step-chart-color-background-complete: var(--ids-color-primary);
@@ -429,7 +404,7 @@
   --ids-tag-color-background-default: var(--ids-input-color-background-readonly);
   --ids-tag-color-border: var(--ids-input-color-background-readonly);
   --ids-tag-border-radius: var(--ids-border-radius-sm);
-  --ids-tag-color-text-default: var(--ids-input-color-text);
+  --ids-tag-color-text-default: var(--ids-input-color-text-default);
   --ids-tag-font-size-default: var(--ids-font-size-30);
   --ids-tag-color-icon-hover: var(--ids-color-gray-90);
   --ids-tag-secondary-color-background: var(--ids-input-color-background-default);

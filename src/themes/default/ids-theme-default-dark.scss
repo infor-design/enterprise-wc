@@ -12,7 +12,6 @@
 
   // Text Colors
   --ids-color-text: var(--ids-color-gray-10);
-  --ids-color-text-label: var(--ids-color-gray-30);
   --ids-color-text-inverse: var(--ids-color-gray-100);
   --ids-color-text-subtle: var(--ids-color-gray-20);
   --ids-color-text-data: var(--ids-color-white-100);
@@ -83,13 +82,6 @@
   // Block Grid
   --ids-block-grid-item-color-background-selectable-hover: var(--ids-color-gray-80);
 
-  // Box
-  --ids-box-color-background: var(--ids-card-color-background);
-  --ids-box-color-border: var(--ids-color-gray-70);
-  --ids-box-shadow: var(--ids-card-shadow);
-  --ids-box-outline-selected: 2px solid var(--ids-color-primary-60);
-  --ids-box-outline-hover: 1px solid var(--ids-color-gray-70);
-
   // Button (Formatter)
   --ids-button-formatter-color-border: var(--ids-color-gray-70);
   --ids-button-formatter-color-text-hover: var(--ids-color-gray-10);
@@ -110,6 +102,9 @@
   --ids-button-ai-color-background-color-disabled: #FFF;
   --ids-button-ai-color-icon-primary-hover: #1A3362;
   --ids-button-ai-color-icon-secondary-hover: #0B9789;
+
+  // Button (Tertiary)
+  --ids-button-tertiary-color-background-hover: var(--ids-color-accent-gray-weaker);
 
   // Calendar
   --ids-calendar-toolbar-color-background: var(--ids-color-gray-80);
@@ -275,18 +270,6 @@
   --ids-color-status-color-caution-color-background: transparent;
 
   // Input Styles
-  --ids-input-color-background-default: transparent;
-  --ids-input-color-border-default: var(--ids-color-gray-40);
-  --ids-input-color-text: var(--ids-color-text-data);
-  --ids-input-color-text-placeholder: var(--ids-color-gray-60);
-  --ids-input-label-color-text-default: var(--ids-color-text-label);
-  --ids-input-color-border-readonly: var(--ids-color-gray-40);
-  --ids-input-color-text-readonly: var(--ids-color-text-data);
-  --ids-input-color-background-readonly: var(--ids-color-gray-70);
-  --ids-input-color-text-disabled: var(--ids-color-text-disabled);
-  --ids-input-color-border-disabled: var(--ids-color-text-disabled);
-  --ids-input-color-border-hover: var(--ids-color-gray-10);
-  --ids-input-color-border-focus: var(--ids-color-border-focus);
   --ids-input-header-color-text-default: var(--ids-color-white-100);
   --ids-input-header-color-text-placeholder: var(--ids-color-gray-40);
   --ids-input-header-color-background: transparent;
@@ -494,12 +477,6 @@
   --ids-splitter-bar-color-border-dragging: var(--ids-color-primary-30);
   --ids-splitter-handle-color-background-hover: var(--ids-color-primary-60);
 
-  // Stats
-  --ids-stats-positive-color-text: var(--ids-color-green-50);
-  --ids-stats-negative-color-text: var(--ids-color-error-default);
-  --ids-stats-color-text: var(--ids-color-text-label);
-  --ids-stats-kpi-label-color: var(--ids-color-white-100);
-
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-gray-70);
   --ids-step-chart-color-background-complete: var(--ids-color-primary-60);
@@ -577,7 +554,7 @@
   --ids-tag-color-background-default: var(--ids-input-color-background-readonly);
   --ids-tag-color-border: var(--ids-input-color-background-readonly);
   --ids-tag-border-radius: var(--ids-border-radius-sm);
-  --ids-tag-color-text-default: var(--ids-input-color-text);
+  --ids-tag-color-text-default: var(--ids-input-color-text-default);
   --ids-tag-font-size-default: var(--ids-font-size-30);
   --ids-tag-color-icon-hover: var(--ids-input-color-border-hover);
   --ids-tag-secondary-color-background: var(--ids-input-color-background-default);

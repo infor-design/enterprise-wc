@@ -286,7 +286,7 @@ export default class IdsInput extends Base {
       ${attrs.required}
     >
       <slot name="label-pre"></slot>
-      <ids-text part="label" label ${attrs.disabled} color-unset>
+      <ids-text part="label" color-unset>
         ${this.label}
       </ids-text>
       <slot name="label-post"></slot>
@@ -468,17 +468,14 @@ export default class IdsInput extends Base {
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
         this.container?.classList?.remove?.(options.prop2);
-        this.container?.querySelector?.('ids-text')?.removeAttribute(options.prop2);
         msgNodes.forEach((x: any) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
         this.container?.classList.add(options.prop1);
-        this.container?.querySelector?.('ids-text')?.setAttribute?.(options.prop1, 'true');
         msgNodes.forEach((x: any) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
         this.container?.classList.remove(options.prop1);
-        this.container?.querySelector('ids-text')?.removeAttribute(options.prop1);
         msgNodes.forEach((x: any) => x.classList.remove(options.prop1));
       }
     }
