@@ -4,6 +4,9 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsAppMenu from '../../src/components/ids-app-menu/ids-app-menu';
+import exp from 'constants';
+import IdsAccordionHeader from '../../src/components/ids-accordion/ids-accordion-header';
+import { Console } from 'console';
 
 test.describe('IdsAppMenu tests', () => {
   const url = '/ids-app-menu/example.html';
@@ -67,20 +70,24 @@ test.describe('IdsAppMenu tests', () => {
   test.describe('appmenu component', () => {
     test('has default settings', async ({ page, browserName }) => {
       const appmenu = await page.$('ids-app-menu');
-      let appMenuType = await appmenu.evaluate((element: IdsAppMenu) =>  element.type );
-      let appMenuEdge = await appmenu.evaluate((element: IdsAppMenu) =>  element.edge );
+      const appMenuType = await appmenu.evaluate((element: IdsAppMenu) => element.type);
+      const appMenuEdge = await appmenu.evaluate((element: IdsAppMenu) => element.edge);
       expect(appMenuType).toBe('app-menu');
       expect(appMenuEdge).toBe('start');
     });
-    test('should convert inner accordions to use the "app-menu" color variant', async () => {
-      //????
+
+    test('should convert inner accordions to use the "app-menu" color variant', async ({ page }) => {
+      const acc = await page.locator('ids-accordion');
+      await expect(acc).toBeDefined();
     });
+
     test('can close by pressing the escape key', async ({ page }) => {
       await page.locator('#app-menu-trigger').click();
       await expect(page.locator('#app-menu')).toHaveAttribute('visible');
       await page.keyboard.press('Escape');
       await expect(page.locator('#app-menu')).not.toHaveAttribute('visible');
     });
+
     test('wont close by pressing any key but escape', async ({ page }) => {
       await page.locator('#app-menu-trigger').click();
       await expect(page.locator('#app-menu')).toHaveAttribute('visible');
@@ -93,6 +100,18 @@ test.describe('IdsAppMenu tests', () => {
       await expect(page.locator('#app-menu')).toHaveAttribute('visible');
       await page.keyboard.press('Escape');
       await expect(page.locator('#app-menu')).not.toHaveAttribute('visible');
+    });
+
+    test('filters its navigation accordion when the search field is used', async ({ page }) => {
+      await page.locator('#app-menu-trigger').click();
+      await expect(page.locator('#app-menu')).toHaveAttribute('visible');
+      const sf = await page.locator('#search');
+      await expect(sf).toBeDefined();
+      await page.locator('.ids-input-field').fill('Second');
+      const acc = await page.locator('ids-accordion-header').first();
+      await expect(acc).toHaveAttribute('hidden-by-filter');
+      await page.locator('.ids-input-field').fill('');
+      await expect(acc).not.toHaveAttribute('hidden-by-filter');
     });
   });
 });
