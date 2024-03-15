@@ -56,5 +56,31 @@ test.describe('IdsActionSheet tests', () => {
       });
       await expect(html).toMatchSnapshot('action-sheet-shadow');
     });
+
+    test.describe('action sheet tests', () => {
+      test('can render page with no errors', async ({ page }) => {
+        const as = await page.locator('ids-action-sheet');
+        await expect(as).toBeDefined();
+        expect(test.info().errors).toHaveLength(0);
+      });
+
+      test('can set the hidden attribute', async ({ page }) => {
+        const as = await page.locator('ids-action-sheet');
+        await expect(page.locator('hidden')).toBeNull;
+        await as.evaluate((element: IdsActionSheet) => element.setAttribute('hidden', 'true'));
+        await expect(page.locator('hidden')).toBeTruthy();
+        await as.evaluate((element: IdsActionSheet) => element.setAttribute('hidden', ''));
+        await expect(page.locator('hidden')).toBeNull;
+      });
+
+      test('can set the cancelBtnText attribute', async ({ page }) => {
+        const as = await page.locator('ids-action-sheet');
+        await expect(page.locator('cancelBtnText')).toBeNull;
+        await as.evaluate((element: IdsActionSheet) => element.setAttribute('cancelBtnText', 'Test'));
+        await expect(as).toHaveAttribute('cancelBtnText', 'Test');
+        await as.evaluate((element: IdsActionSheet) => element.setAttribute('cancelBtnText', ''));
+        await expect(page.locator('cancelBtnText')).toBeNull;
+      });
+    });
   });
 });
