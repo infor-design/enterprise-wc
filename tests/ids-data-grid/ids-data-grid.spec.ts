@@ -2134,37 +2134,24 @@ test.describe('IdsDataGrid tests', () => {
     });
 
     test('can expand with the keyboard', async ({ page }) => {
-      const results = await page.evaluate((data) => {
-        const dataGrid = document.querySelector<any>('ids-data-grid')!;
-        dataGrid.treeGrid = true;
-        dataGrid.columns = data.treeColumnsData;
-        dataGrid.columns[0].formatter = dataGrid.formatters.selectionCheckbox;
-        dataGrid.columns[1].formatter = dataGrid.formatters.tree;
-        dataGrid.columns[2].formatter = dataGrid.formatters.text;
-        dataGrid.data = data.datasetTree;
-        dataGrid.redraw();
-
-        const firstRow = dataGrid.rowByIndex(0);
-        const expanded1 = firstRow.getAttribute('aria-expanded');
-        dataGrid.setActiveCell(0, 0, true);
-        const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-        dataGrid.dispatchEvent(event);
-        const event2 = new KeyboardEvent('keydown', { key: ' ' });
-        dataGrid.dispatchEvent(event2);
-        const expanded2 = firstRow.getAttribute('aria-expanded');
-
-        return {
-          expanded1,
-          expanded2
-        };
-      }, {
-        datasetTree,
-        treeColumnsData,
+      await page.goto('/ids-data-grid/tree-grid.html');
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.setActiveCell(1, 0);
       });
+      const isRowExpanded = async () => {
+        const results = await dataGrid.evaluate((elem: IdsDataGrid) => {
+          const firstRow = elem.rowByIndex(0);
+          return firstRow?.getAttribute('aria-expanded');
+        });
 
-      expect(results.expanded1).toBe('false');
-      // TODO: This is not working in the test, check datagrid keyboard events
-      // expect(results.expanded2).toBe('true');
+        return results;
+      };
+      expect(await isRowExpanded()).toBe('false');
+      await page.keyboard.press(' ');
+      expect(await isRowExpanded()).toBe('true');
+      await page.keyboard.press(' ');
+      expect(await isRowExpanded()).toBe('false');
     });
   });
 
