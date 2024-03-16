@@ -388,13 +388,13 @@ test.describe('IdsDataGrid editing tests', () => {
     expect(results).toEqual(11);
   });
 
-  test.skip('can add multiple rows at given index', async ({ page }) => {
+  test('can add multiple rows at given index', async ({ page }) => {
     const results = await page.evaluate(() => {
       const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
       dataGrid.addRows([
-        { description: 'test1' },
-        { description: 'test2' },
-        { description: 'test3' }
+        { book: 'test1' },
+        { book: 'test2' },
+        { book: 'test3' }
       ], 2);
       dataGrid.redraw();
       const numberOfRows = dataGrid.container?.querySelectorAll('.ids-data-grid-row').length;
@@ -403,17 +403,17 @@ test.describe('IdsDataGrid editing tests', () => {
       return {
         numberOfRows,
         attrRowCount,
-        description2: dataGrid.data[2].description,
-        description3: dataGrid.data[3].description,
-        description4: dataGrid.data[4].description,
+        value2: dataGrid.data[2].book,
+        value3: dataGrid.data[3].book,
+        value4: dataGrid.data[4].book,
       };
     });
 
     expect(results.numberOfRows).toEqual(13);
     expect(results.attrRowCount).toEqual('12');
-    expect(results.description2).toEqual('test1');
-    expect(results.description3).toEqual('test2');
-    expect(results.description4).toEqual('test3');
+    expect(results.value2).toEqual('test1');
+    expect(results.value3).toEqual('test2');
+    expect(results.value4).toEqual('test3');
   });
 
   test('can call removeRow', async ({ page }) => {
