@@ -2474,7 +2474,7 @@ test.describe('IdsDataGrid tests', () => {
       expect(results).toBe(0);
     });
 
-    test.skip('has no errors on invalid selectRow / deSelectRow calls', async ({ page }) => {
+    test('has no errors on invalid selectRow / deSelectRow calls', async ({ page }) => {
       let hasConsoleError = false;
       page.on('console', (message) => {
         if (message.type() === 'error') {
