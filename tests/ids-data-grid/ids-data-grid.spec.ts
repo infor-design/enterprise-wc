@@ -9,8 +9,6 @@ import { IdsZip } from '../../src/utils/ids-zip/ids-zip';
 import { XLSXFormatter } from '../../src/utils/ids-excel-exporter/ids-excel-formatter';
 import { ExcelColumn } from '../../src/utils/ids-excel-exporter/ids-worksheet-templates';
 import datasetTree from '../../src/assets/data/tree-buildings.json';
-import type IdsInput from '../../src/components/ids-input/ids-input';
-import type IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 
 test.describe('IdsDataGrid tests', () => {
   const url = '/ids-data-grid/example.html';
@@ -2243,6 +2241,113 @@ test.describe('IdsDataGrid tests', () => {
 
       expect(selectedRows).toEqual(3);
     });
+
+    test.skip('should fire activecellchange event keyboard arrows', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        let activeElem;
+        let activeCell;
+        let activeRow;
+        let activeNode;
+        const mockCallback = (e: any) => {
+          activeElem = e.detail.elem;
+          activeCell = e.detail.activeCell.cell;
+          activeRow = e.detail.activeCell.row;
+          activeNode = e.detail.activeCell.node;
+        };
+
+        dataGrid.addEventListener('activecellchange', mockCallback);
+        dataGrid.setActiveCell(0, 0);
+        const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+        dataGrid.dispatchEvent(event);
+
+        return {
+          activeElem,
+          activeCell,
+          activeRow,
+          activeNode
+        };
+      });
+
+      expect(results.activeElem).toBeDefined();
+      expect(results.activeCell).toEqual(1);
+      expect(results.activeRow).toEqual(0);
+      expect(results.activeNode).toBeDefined();
+    });
+
+    test.skip('should follow cell links with keyboard', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        let hyperlinkClickCount = 0;
+        const hyperlinkClickListener = () => {
+          hyperlinkClickCount++;
+        };
+        let buttonClickCount = 0;
+        const buttonClickListener = () => {
+          buttonClickCount++;
+        };
+        let customLinkClickCount = 0;
+        const customLinkClickListener = () => {
+          customLinkClickCount++;
+        };
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.columns.splice(0, 0, {
+          id: 'location-with-listener',
+          name: 'Location',
+          field: 'location',
+          formatter: dataGrid.formatters.hyperlink,
+          href: '#',
+          click: hyperlinkClickListener,
+        });
+        dataGrid.resetCache();
+        dataGrid.redraw();
+        dataGrid.setActiveCell(0, 0, false);
+        dataGrid.container?.querySelector<any>('ids-data-grid-cell')?.focus();
+        const event = new KeyboardEvent('keydown', { key: 'Enter' });
+        dataGrid.dispatchEvent(event);
+
+        dataGrid.resetCache();
+        dataGrid.columns.splice(0, 0, {
+          id: 'drilldown',
+          name: '',
+          formatter: dataGrid.formatters.button,
+          icon: 'drilldown',
+          type: 'icon',
+          click: buttonClickListener,
+        });
+        dataGrid.resetCache();
+        dataGrid.redraw();
+        dataGrid.setActiveCell(0, 0, false);
+        dataGrid.container?.querySelector<any>('ids-data-grid-cell')?.focus();
+        dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+        dataGrid.resetCache();
+        dataGrid.columns.splice(0, 0, {
+          id: 'custom',
+          name: 'Custom Formatter',
+          field: 'location',
+          formatter: (rowData: Record<string, unknown>, columnData: Record<string, any>) => {
+            const value = `${rowData[columnData.field] || ''}`;
+            return `<a part="custom-link" href="#" class="text-ellipsis" tabindex="-1">${value}</a>`;
+          },
+          click: customLinkClickListener,
+        });
+        dataGrid.resetCache();
+        dataGrid.redraw();
+        dataGrid.setActiveCell(0, 0, false);
+        dataGrid.container?.querySelector<any>('ids-data-grid-cell').focus();
+        dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+        return {
+          hyperlinkClickCount,
+          buttonClickCount,
+          customLinkClickCount
+        };
+      });
+
+      expect(results.hyperlinkClickCount).toEqual(1);
+      expect(results.buttonClickCount).toEqual(1);
+      expect(results.customLinkClickCount).toEqual(1);
+    });
   });
 
   test.describe('selection tests', () => {
@@ -2520,57 +2625,6 @@ test.describe('IdsDataGrid tests', () => {
         await window?.IdsGlobal?.locale?.setLocale('de-DE');
       });
       expect(await getCellText(4)).toBe('23.4.2021');
-    });
-  });
-
-  test.describe('editable cell custom validation', () => {
-    const validationURL = '/ids-data-grid/editable-validation.html';
-
-    test.beforeEach(async ({ page }) => {
-      await page.goto(validationURL);
-    });
-
-    test('editable IdsInput validation', async ({ page }) => {
-      // activate cell
-      const cellSelector = 'ids-data-grid [aria-rowindex="2"] [aria-colindex="1"]';
-      const idCell = await page.locator(cellSelector);
-      await idCell.click();
-
-      // edit cell
-      const inputEditor = await page.locator(`${cellSelector} ids-input`);
-      await inputEditor.evaluate((input: IdsInput) => { input.value = 'alphabet'; });
-      await inputEditor.press('Enter');
-
-      // check cell is marked as invalid
-      expect(await idCell.evaluate((cell: IdsDataGridCell) => cell.classList.contains('is-invalid'))).toBeTruthy();
-    });
-
-    test('editable IdsDatePicker validation', async ({ page }) => {
-      // activate cell
-      const cellSelector = 'ids-data-grid [aria-rowindex="2"] [aria-colindex="2"]';
-      const idCell = await page.locator(cellSelector);
-      await idCell.click();
-
-      // edit cell
-      const triggerField = await page.locator(`${cellSelector} ids-trigger-field`);
-      await triggerField.evaluate((input: IdsTriggerField) => { input.value = '4/21/1990'; });
-      await triggerField.press('Enter');
-
-      // check cell is marked as invalid
-      expect(await idCell.evaluate((cell: IdsDataGridCell) => cell.classList.contains('is-invalid'))).toBeTruthy();
-    });
-
-    test('editable IdsDropdown validation', async ({ page }) => {
-      // activate cell
-      const cellSelector = 'ids-data-grid [aria-rowindex="2"] [aria-colindex="4"]';
-      const idCell = await page.locator(cellSelector);
-      await idCell.click();
-
-      // click dropdown option
-      await page.locator(`ids-data-grid ids-dropdown-list ids-list-box-option[value="yen"]`).click();
-
-      // check cell is marked as invalid
-      expect(await idCell.evaluate((cell: IdsDataGridCell) => cell.classList.contains('is-invalid'))).toBeTruthy();
     });
   });
 });
