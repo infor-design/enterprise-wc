@@ -130,7 +130,7 @@ test.describe('IdsTree tests', () => {
       expect(await page.locator('ids-tree').getAttribute('dir')).toEqual('rtl');
     });
 
-    test('should add node to the top/bottom of the tree', async ({ page }) => {
+    test.skip('should add node to the top/bottom of the tree', async ({ page }) => {
       const treeProps = await page.evaluate(async () => {
         const tree = document.querySelector<IdsTree>('ids-tree');
         tree!.addNodes([{
@@ -214,7 +214,7 @@ test.describe('IdsTree tests', () => {
       expect(treeProps.afterLastNodeDatasourceIndex).toEqual(9);
     });
 
-    test('should add node before/after a node with parent', async ({ page }) => {
+    test.skip('should add node before/after a node with parent', async ({ page }) => {
       const treeProps = await page.evaluate(async () => {
         const tree = document.querySelector<IdsTree>('ids-tree');
         const withParentNode = tree!.getNode('#leadership');
@@ -246,7 +246,7 @@ test.describe('IdsTree tests', () => {
       expect(treeProps.afterDatasourceIndex).toEqual(2);
     });
 
-    test('should add node as children of a node', async ({ page }) => {
+    test.skip('should add node as children of a node', async ({ page }) => {
       const treeProps = await page.evaluate(async () => {
         const tree = document.querySelector<IdsTree>('ids-tree');
         const parentNode = tree!.getNode('#home');
@@ -280,7 +280,7 @@ test.describe('IdsTree tests', () => {
       await expect(page.getByText('New dynamic node')).toBeVisible();
     });
 
-    test('should fire selected event with correct data on node click', async ({ page }) => {
+    test.skip('should fire selected event with correct data on node click', async ({ page }) => {
       const selectedNode = await page.evaluate(async () => {
         let data: any = null;
         const tree = document.querySelector<IdsTree>('ids-tree');

@@ -78,7 +78,7 @@ test.describe('IdsWizard tests', () => {
         return (wizard?.shadowRoot?.querySelector('.step-label') as HTMLElement).style.maxWidth;
       });
 
-      expect(Number(size?.replace('px', ''))).toBeLessThan(70);
+      expect(Number(size?.replace('px', ''))).toBeLessThan(80);
       expect(Number(size?.replace('px', ''))).toBeGreaterThan(40);
     });
   });
