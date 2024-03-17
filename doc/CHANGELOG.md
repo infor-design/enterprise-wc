@@ -17,7 +17,6 @@
 - `[Tokens]` Integrate tokens with figma/ids-foundation. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 - `[TagList]` Added a new `ids-tag-list` layout and eventing component. ([#1903](https://github.com/infor-design/enterprise-wc/issues/1903))
 
-
 ### 1.0.0-beta.22 Fixes
 
 - `[Button]` Fixed layout issues when buttons are next to each other. ([#1999](https://github.com/infor-design/enterprise-wc/issues/1999))
@@ -103,7 +102,7 @@
 - `[Datagrid]` Fix for empty-data text still showing after adding a grid row. ([#1580](https://github.com/infor-design/enterprise-wc/issues/1580))
 - `[Datagrid]` Fix for RTL direction of datagrid filter header. ([#1669](https://github.com/infor-design/enterprise-wc/issues/1669))
 - `[Checkbox]` Adjust the label to be positioned in the center. ([#1738](https://github.com/infor-design/enterprise-wc/issues/1738))
-- `[Editor]` Fix hyerplink action for safari and firefox. ([#982](https://github.com/infor-design/enterprise-wc/issues/982))
+- `[Editor]` Fix hyperlink action for safari and firefox. ([#982](https://github.com/infor-design/enterprise-wc/issues/982))
 - `[Editor]` Fix font style and alignment action for safari. ([#983](https://github.com/infor-design/enterprise-wc/issues/983))
 - `[Editor]` Fix text color action for safari. ([#1079](https://github.com/infor-design/enterprise-wc/issues/1079))
 - `[Icon]` Fixed a bug where setting `color` did not work. ([#1790](https://github.com/infor-design/enterprise-wc/issues/1790))
