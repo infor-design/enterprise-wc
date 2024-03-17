@@ -339,7 +339,7 @@ test.describe('IdsDataGrid tests', () => {
       });
       await page.evaluate(() => {
         const elem = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        elem.exportToExcel('xlsx', 'test');
+        elem.exportToExcel('xlsx', 'test', false);
       });
     });
 
