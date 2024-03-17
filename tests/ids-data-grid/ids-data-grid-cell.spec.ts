@@ -32,6 +32,12 @@ test.describe('IdsDataGridCell tests', () => {
       expect(await cell.innerHTML()).toBe(`<span class="text-ellipsis">Custom: 12.99</span>`);
     });
 
+    test('should get cell with cellByIndex', async ({ page }) => {
+      const dataGrid = await page.locator('ids-data-grid');
+      const cell = await dataGrid.evaluate((elem: IdsDataGrid) => elem.cellByIndex(2, 3)?.textContent);
+      expect(cell).toBe('103');
+    });
+
     test.describe('empty message tests', () => {
       test.beforeEach(async ({ page }) => {
         await page.goto('/ids-data-grid/empty-message.html');

@@ -2057,19 +2057,25 @@ test.describe('IdsDataGrid tests', () => {
     test('can select the row ui via the row element', async ({ page }) => {
       const results = await page.evaluate(() => {
         const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        dataGrid.selectRow(0);
+        dataGrid.selectRow(2);
+        const rowIsSelected = dataGrid.rowIsSelected(2);
         const selected = dataGrid.selectedRows.length;
-        dataGrid.deSelectRow(0);
+        dataGrid.deSelectRow(2);
+        const rowIsSelected2 = dataGrid.rowIsSelected(2);
         const selected2 = dataGrid.selectedRows.length;
 
         return {
           selected,
+          rowIsSelected,
           selected2,
+          rowIsSelected2,
         };
       });
 
       expect(results.selected).toBe(1);
       expect(results.selected2).toBe(0);
+      expect(results.rowIsSelected).toBeTruthy();
+      expect(results.rowIsSelected2).toBeFalsy();
     });
 
     test('can disable the selectionCheckbox', async ({ page }) => {
@@ -2122,18 +2128,43 @@ test.describe('IdsDataGrid tests', () => {
     });
 
     test('handles a deSelectRow method', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<any>('ids-data-grid')!;
-        dataGrid.rowNavigation = true;
-        dataGrid.rowSelection = 'mixed';
-        dataGrid.setActiveCell(0, 0);
-        const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
-        dataGrid.dispatchEvent(event);
-        dataGrid.deSelectRow(1);
-        return dataGrid.activatedRow.index;
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.rowNavigation = true;
+        elem.rowSelection = 'mixed';
+        elem.redraw();
+        elem.setActiveCell(0, 2);
+        elem.selectRow(2);
       });
-
-      expect(results).toBe(0);
+      await page.keyboard.down('ArrowLeft');
+      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.selectedRows.length)).toBe(1);
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.deSelectRow(2);
+      });
+      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.selectedRows.length)).toBe(0);
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.rowSelection = 'single';
+        elem.redraw();
+        elem.setActiveCell(0, 2);
+        elem.selectRow(2);
+      });
+      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.selectedRows.length)).toBe(1);
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.deSelectRow(2);
+      });
+      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.selectedRows.length)).toBe(0);
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.rowSelection = 'multiple';
+        elem.redraw();
+        elem.setActiveCell(0, 2);
+        elem.selectRow(2);
+        elem.selectRow(3);
+      });
+      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.selectedRows.length)).toBe(2);
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.deSelectRow(2);
+      });
+      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.selectedRows.length)).toBe(1);
     });
 
     test('has no errors on invalid selectRow / deSelectRow calls', async ({ page }) => {

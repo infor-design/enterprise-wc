@@ -128,5 +128,34 @@ test.describe('IdsDataGrid virtual scroll tests', () => {
       expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.selectedRows.length)).toBe(0);
       expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.datasource.currentData[999].rowSelected)).toBeFalsy();
     });
+
+    test('should scroll rows into view', async ({ page }) => {
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.scrollRowIntoView(400);
+      });
+      let row = await page.locator('ids-data-grid ids-data-grid-row[row-index="400"]');
+      expect(await row.isVisible()).toBeTruthy();
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.scrollRowIntoView(0);
+      });
+      row = await page.locator('ids-data-grid ids-data-grid-row[row-index="0"]');
+      expect(await row.isVisible()).toBeTruthy();
+    });
+
+    test('should scroll rows into view for tree grid', async ({ page }) => {
+      await page.goto('/ids-data-grid/tree-grid-virtual-scroll.html');
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.scrollRowIntoView(200);
+      });
+      let row = await page.locator('ids-data-grid ids-data-grid-row[row-index="200"]');
+      expect(await row.isVisible()).toBeTruthy();
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.scrollRowIntoView(0);
+      });
+      row = await page.locator('ids-data-grid ids-data-grid-row[row-index="0"]');
+      expect(await row.isVisible()).toBeTruthy();
+    });
   });
 });
