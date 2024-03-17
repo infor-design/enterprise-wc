@@ -156,6 +156,13 @@ test.describe('IdsDataGrid virtual scroll tests', () => {
       });
       row = await page.locator('ids-data-grid ids-data-grid-row[row-index="0"]');
       expect(await row.isVisible()).toBeTruthy();
+      // scroll to hidden row
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.updateDataset(111, { rowHidden: true });
+        elem.rowByIndex(111)?.refreshRow();
+        elem.data[111].rowHidden = true;
+        elem.scrollRowIntoView(111);
+      });
     });
   });
 });
