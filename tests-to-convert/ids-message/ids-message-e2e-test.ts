@@ -1,7 +1,7 @@
 import checkForAxeViolations from '../helpers/check-for-axe-violations';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Message e2e Tests', () => {
+describe('Ids Message Tests', () => {
   const url = 'http://localhost:4444/ids-message/example.html';
 
   test('should open message on click', async () => {

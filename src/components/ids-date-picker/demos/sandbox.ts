@@ -1,6 +1,6 @@
 import '../ids-date-picker';
 
-const datePickerAvailable: any = document.querySelector('#e2e-date-picker-available');
+const datePickerAvailable: any = document.querySelector('#date-picker-available');
 
 if (datePickerAvailable) {
   datePickerAvailable.disableSettings = {

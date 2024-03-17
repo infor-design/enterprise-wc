@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Draggable e2e Tests', () => {
+describe('Ids Draggable Tests', () => {
   const exampleUrl = 'http://localhost:4444/ids-draggable/example.html';
 
   beforeAll(async () => {
@@ -159,7 +159,7 @@ describe('Ids Draggable e2e Tests', () => {
   });
 });
 
-describe('Ids Draggable Sandbox e2e Tests', () => {
+describe('Ids Draggable Sandbox Tests', () => {
   const sandboxUrl = 'http://localhost:4444/ids-draggable/sandbox.html';
 
   test('should pass Axe accessibility tests', async () => {

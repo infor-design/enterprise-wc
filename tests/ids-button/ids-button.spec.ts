@@ -227,7 +227,7 @@ test.describe('IdsButton tests', () => {
       const id = 'ids-button[id="test-button-primary"]';
       const idsButton = page.locator(id);
       const button = idsButton.locator('button');
-      const defaultText = 'Action';
+      const defaultText = 'Button label';
 
       await expect(idsButton).toHaveText(defaultText);
       await expect(button).toHaveAttribute('aria-label', defaultText);

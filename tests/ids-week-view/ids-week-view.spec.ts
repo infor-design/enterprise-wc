@@ -42,7 +42,6 @@ test.describe('IdsWeekView tests', () => {
   test.describe('snapshot tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.waitForSelector('ids-calendar-event all-day');
       await percySnapshot(page, 'ids-week-view-light');
     });
   });

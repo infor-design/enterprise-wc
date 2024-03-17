@@ -1,1 +1,1 @@
-<ids-toggle-button id="test-toggle-button" icon-on="star-filled" icon-off="star-outlined" text-off="Toggle Button (Off)" text-on="Toggle Button (On)" icon="star-outlined"><ids-icon icon="star-outlined" class="ids-icon"></ids-icon><span>Toggle Button (Off)</span></ids-toggle-button>
+<ids-toggle-button id="test-favorite-button" icon-on="heart-filled" icon-off="heart-outlined" color="red" text-off="Favorite" text-on="Favorited" icon="heart-outlined"><ids-icon icon="heart-outlined" class="ids-icon"></ids-icon><span>Favorite</span></ids-toggle-button>

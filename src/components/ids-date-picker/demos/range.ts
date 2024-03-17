@@ -5,15 +5,15 @@ import '../ids-date-picker';
 // Set Locale and wait for it to load
   const locale = IdsGlobal.getLocale();
   await locale?.setLocale('en-US');
-  const rangePickerSettings: any = document.querySelector('#e2e-datepicker-settings-value');
-  const rangePickerForward: any = document.querySelector('#e2e-datepicker-forward');
-  const rangePickerBackward: any = document.querySelector('#e2e-datepicker-backward');
-  const rangePickerMax: any = document.querySelector('#e2e-datepicker-max');
-  const rangePickerMin: any = document.querySelector('#e2e-datepicker-min');
-  const rangePickerNotIncluded: any = document.querySelector('#e2e-datepicker-not-included');
-  const rangePickerIncluded: any = document.querySelector('#e2e-datepicker-included');
-  const rangePickerLegend: any = document.querySelector('#e2e-datepicker-range-legend');
-  const rangePickerWeek: any = document.querySelector('#e2e-datepicker-week');
+  const rangePickerSettings: any = document.querySelector('#datepicker-settings-value');
+  const rangePickerForward: any = document.querySelector('#datepicker-forward');
+  const rangePickerBackward: any = document.querySelector('#datepicker-backward');
+  const rangePickerMax: any = document.querySelector('#datepicker-max');
+  const rangePickerMin: any = document.querySelector('#datepicker-min');
+  const rangePickerNotIncluded: any = document.querySelector('#datepicker-not-included');
+  const rangePickerIncluded: any = document.querySelector('#datepicker-included');
+  const rangePickerLegend: any = document.querySelector('#datepicker-range-legend');
+  const rangePickerWeek: any = document.querySelector('#datepicker-week');
 
   // Example to set start/end of the range via component settings
   if (rangePickerSettings) {
