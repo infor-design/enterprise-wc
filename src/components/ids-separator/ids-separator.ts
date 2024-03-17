@@ -32,6 +32,7 @@ export default class IdsSeparator extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.vertical = this.vertical;
   }
 
   static get attributes(): Array<string> {
@@ -63,11 +64,7 @@ export default class IdsSeparator extends Base {
    * Set the separator to be vertical
    */
   set vertical(val: boolean) {
-    const current = this.vertical;
-    const trueVal = stringToBool(val);
-    if (current !== trueVal) {
-      setBooleanAttr(attributes.VERTICAL, this, val);
-    }
+    setBooleanAttr(attributes.VERTICAL, this, val);
   }
 
   get vertical(): boolean {

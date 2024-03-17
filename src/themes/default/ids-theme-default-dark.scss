@@ -246,9 +246,6 @@
   --ids-homepage-color-background-default: var(--ids-color-gray-100);
 
   // Hyperlinks
-  --ids-hyperlink-color-text-default: var(--ids-color-primary-40);
-  --ids-hyperlink-color-text-hover: var(--ids-color-primary-60);
-  --ids-hyperlink-color-text-disabled: var(--ids-color-gray-50);
   --ids-hyperlink-box-icon-color-text-default: var(--ids-color-purple-50);
   --ids-hyperlink-box-color-text-default: var(--ids-color-gray-40);
   --ids-hyperlink-box-color-border-default: var(--ids-color-gray-70);
@@ -365,13 +362,7 @@
   --ids-menu-header-color-text: var(--ids-color-white-100);
   --ids-menu-item-color-text-disabled: var(--ids-color-gray-50);
   --ids-menu-item-highlight-color: var(--ids-color-gray-80);
-  --ids-menu-item-color-text-default: var(--ids-color-white-100);
   --ids-menu-check-color-default: var(--ids-color-primary-60);
-
-  // Popup
-  --ids-popup-color-background: var(--ids-color-gray-90);
-  --ids-popup-color-border: var(--ids-color-gray-60);
-  --ids-popup-shadow: 0 2px 5px var(--ids-color-gray-80);
 
   // Popup Menu
   --ids-popup-menu-color-text-default: var(--ids-color-white-100);
@@ -405,14 +396,6 @@
   // Pie chart
   --ids-chart-pie-color-text: var(--ids-color-gray-30);
 
-  // Progress Bar
-  --ids-progress-bar-color-text-disabled: var(--ids-color-text-disabled);
-  --ids-progress-bar-color-background-disabled: var(--ids-color-gray-70);
-  --ids-progress-bar-color-border: var(--ids-color-gray-40);
-  --ids-progress-bar-border: 1px solid var(--ids-progress-bar-color-border);
-  --ids-progress-bar-fill-color-background: var(--ids-color-primary-60);
-  --ids-progress-bar-label-color-text: var(--ids-color-text-label);
-
   // Progress Chart
   --ids-progress-chart-label-color-text: var(--ids-color-gray-30);
   --ids-progress-chart-total-color-background: var(--ids-color-gray-50);
@@ -423,14 +406,6 @@
   --ids-process-indicator-color-active: var(--ids-color-primary-70);
   --ids-process-indicator-canceled-step-color-background: var(--ids-color-red-50);
   --ids-process-indicator-canceled-step-color-icon: var(--ids-color-white-100);
-
-  // Radio
-  --ids-radio-shadow: none;
-  --ids-radio-shadow-with-border: 0 0 0 1px var(--ids-color-background-default),
-    0 0 0 2px var(--ids-color-primary-60);
-  --ids-radio-button-color-background-selected: var(--ids-color-primary-60);
-  --ids-radio-button-color-border-selected: var(--ids-color-primary-60);
-  --ids-radio-button-inner-color-background-selected: var(--ids-color-white-100);
 
   // Required
   --ids-input-required-indicator-color-text-default: var(--ids-color-error-default);
@@ -445,10 +420,6 @@
   --ids-search-field-header-color-background: var(--ids-color-gray-100);
   --ids-search-field-header-color-text: var(--ids-color-text-default);
   --ids-search-field-header-color-icon-default: var(--ids-color-gray-10);
-
-  // Separator
-  --ids-separator-color-background: var(--ids-color-gray-50);
-  --ids-separator-alternate-color-background: var(--ids-color-gray-30);
 
   // Slider
   --ids-slider-tick-color-background-default: var(--ids-color-primary-60);
@@ -471,12 +442,6 @@
   --ids-slider-track-color-background-readonly: var(--ids-color-gray-70);
   --ids-slider-track-progress-color-background-readonly: var(--ids-color-gray-40);
 
-  // Splitter
-  --ids-splitter-bar-color-border: var(--ids-color-gray-70);
-  --ids-splitter-bar-color-border-hover: var(--ids-color-gray-70);
-  --ids-splitter-bar-color-border-dragging: var(--ids-color-primary-30);
-  --ids-splitter-handle-color-background-hover: var(--ids-color-primary-60);
-
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-gray-70);
   --ids-step-chart-color-background-complete: var(--ids-color-primary-60);
@@ -495,102 +460,12 @@
   --ids-swipe-action-color-background-right: var(--ids-color-primary-50);
   --ids-swipe-action-color-text-right: var(--ids-color-white-100);
 
-  // Switch
-  --ids-switch-pole-color-background-default: var(--ids-color-gray-40);
-  --ids-switch-toggle-color-background-default: var(--ids-color-white-100);
-  --ids-switch-toggle-color-border-default: var(--ids-input-color-border-default);
-  --ids-switch-pole-color-background-selected: var(--ids-color-primary-30);
-  --ids-switch-toggle-color-background-selected: var(--ids-color-primary-60);
-  --ids-switch-toggle-color-border-selected: var(--ids-color-primary-60);
-  --ids-switch-pole-color-background-disabled: var(--ids-color-gray-60);
-  --ids-switch-toggle-color-background-disabled: var(--ids-color-gray-70);
-  --ids-switch-toggle-color-border-disabled: var(--ids-color-gray-60);
-  --ids-switch-pole-color-background-selected-disabled: var(--ids-color-primary-20);
-  --ids-switch-toggle-color-background-selected-disabled: var(--ids-color-primary-30);
-  --ids-switch-toggle-color-border-selected-disabled: var(--ids-color-primary-30);
-  --ids-switch-toggle-color-background-hover: var(--ids-color-gray-30);
-  --ids-switch-toggle-shadow-focus: 0 0 0 3px var(--ids-color-primary-90), 0 0 0 4px var(--ids-color-primary-60);
-
-  // Tab
-  --ids-tab-content-color-text: var(--ids-color-text-default);
-  --ids-tab-color-text-hover: var(--ids-color-white-100);
-  --ids-tab-color-background-hover: var(--ids-color-gray-80);
-  --ids-tab-color-background-focus: var(--ids-color-background-default);
-  --ids-tab-color-border-focus: var(--ids-color-white-100);
-  --ids-tab-color-text-selected: var(--ids-color-blue-40);
-  --ids-tab-color-text-disabled: var(--ids-color-gray-60);
-
-  // Tab (Header Variant)
-  --ids-tab-header-color-text-default: var(--ids-color-gray-30);
-  --ids-tab-header-color-text-disabled: var(--ids-color-gray-50);
-  --ids-tab-header-color-text-hover: var(--ids-color-white-100);
-  --ids-tab-header-color-text-selected: var(--ids-color-white-100);
-  --ids-tab-header-color-background-hover: var(--ids-color-gray-90);
-  --ids-tab-header-color-border-focus: var(--ids-color-white-100);
-
-  // Tab (Vertical Variant)
-  --ids-tab-vertical-color-background-default: var(--ids-color-gray-70);
-  --ids-tab-vertical-color-text-default: var(--ids-color-white-100);
-  --ids-tab-vertical-color-background-hover: var(--ids-color-gray-90);
-  --ids-tab-vertical-color-background-selected: var(--ids-color-gray-80);
-  --ids-tab-vertical-color-text-selected: var(--ids-color-white-100);
-  --ids-tab-vertical-color-text-hover: var(--ids-color-white-100);
-  --ids-tab-vertical-color-background-disabled: var(--ids-color-gray-60);
-  --ids-tab-vertical-color-text-disabled: var(--ids-color-gray-40);
-  --ids-tab-vertical-color-border-default: var(--ids-color-gray-60);
-
-  // Tab (Module Variant)
-  --ids-tab-module-color-background-default: var(--ids-color-gray-80);
-  --ids-tab-module-color-border-right: var(--ids-color-gray-100);
-  --ids-tab-module-color-text-default: var(--ids-color-white-100);
-  --ids-tab-module-color-background-hover: var(--ids-color-gray-90);
-  --ids-tab-module-color-text-hover: var(--ids-color-white-100);
-  --ids-tab-module-color-background-selected: var(--ids-color-gray-70);
-  --ids-tab-module-color-text-selected: var(--ids-color-white-100);
-  --ids-tab-module-color-background-disabled: var(--ids-color-gray-90);
-  --ids-tab-module-color-text-disabled: var(--ids-color-gray-40);
-
-  // Tag
-  --ids-tag-color-background-default: var(--ids-input-color-background-readonly);
-  --ids-tag-color-border: var(--ids-input-color-background-readonly);
-  --ids-tag-border-radius: var(--ids-border-radius-sm);
-  --ids-tag-color-text-default: var(--ids-input-color-text-default);
-  --ids-tag-font-size-default: var(--ids-font-size-30);
-  --ids-tag-color-icon-hover: var(--ids-input-color-border-hover);
-  --ids-tag-secondary-color-background: var(--ids-input-color-background-default);
-  --ids-tag-secondary-color-border: var(--ids-input-color-border-default);
-  --ids-tag-color-text-disabled: var(--ids-color-gray-40);
-  --ids-tag-secondary-color-text-disabled: var(--ids-color-gray-50);
-
-  // Textarea
-  --ids-textarea-color-background-default: transparent;
-  --ids-textarea-color-background-disabled: transparent;
-  --ids-textarea-color-border-disabled: var(--ids-color-gray-60);
-  --ids-textarea-color-text-disabled: var(--ids-color-gray-60);
-  --ids-textarea-color-border-error-default: var(--ids-color-red-50);
-  --ids-textarea-color-border-hover: var(--ids-color-gray-40);
-  --ids-textarea-color-background-readonly: var(--ids-color-gray-70);
-  --ids-textarea-color-border-readonly: var(--ids-color-gray-40);
-  --ids-textarea-color-text-readonly: var(--ids-color-gray-10);
-  --ids-textarea-color-text-default: var(--ids-color-white-100);
-
   // Time Picker
   --ids-time-picker-popup-color-background: var(--ids-color-gray-80);
   --ids-time-picker-popup-colons-color-text: var(--ids-color-gray-30);
   --ids-time-picker-popup-button-color-border: var(--ids-color-gray-50);
   --ids-time-picker-popup-button-color-text-hover: var(--ids-color-primary-20);
   --ids-time-picker-popup-button-color-text-default: var(--ids-color-primary-30);
-
-  // Toast
-  --ids-toast-color-background: var(--ids-color-gray-70);
-  --ids-toast-color-border: var(--ids-color-gray-50);
-  --ids-toast-color-text: var(--ids-color-white-100);
-  --ids-toast-progress-color-background: var(--ids-progress-bar-fill-color-background);
-
-  // Tooltip
-  --ids-tooltip-color-background: var(--ids-color-white-100);
-  --ids-tooltip-color-text: var(--ids-color-gray-100);
-  --ids-tooltip-shadow: 0 2px 5px rgb(239 239 240 / 0.4);
 
   // Toolbar (Formatter)
   --ids-toolbar-formatter-color-background: var(--ids-color-gray-70);

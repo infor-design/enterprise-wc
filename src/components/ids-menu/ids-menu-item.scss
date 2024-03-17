@@ -65,7 +65,7 @@
   a {
     padding-inline-start: 12px;
     padding-inline-end: 8px;
-    padding-block: 8px 8px;
+    padding-block: var(--ids-menu-item-padding);
     display: grid;
     font-size: var(--ids-menu-item-font-size);
     grid-template-columns: 0 max-content;

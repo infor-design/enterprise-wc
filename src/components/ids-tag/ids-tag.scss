@@ -32,33 +32,45 @@
   }
 
   &.info {
-    background-color: var(--ids-color-info-default);
-    border-color: var(--ids-color-info-default);
-    color: var(--ids-color-text-on-info);
+    background-color: var(--ids-tag-color-background-info);
+    border-color: var(--ids-tag-color-border-info);
+    color: var(--ids-tag-color-text-info);
   }
 
   &.success {
-    background-color: var(--ids-color-success-default);
-    border-color: var(--ids-color-success-default);
-    color: var(--ids-color-text-on-success);
+    background-color: var(--ids-tag-color-background-success);
+    border-color: var(--ids-tag-color-border-success);
+    color: var(--ids-tag-color-text-success);
   }
 
   &.warning {
-    background-color: var(--ids-color-warning-default);
-    border-color: var(--ids-color-warning-default);
-    color: var(--ids-color-text-on-warning);
+    background-color: var(--ids-tag-color-background-warning);
+    border-color: var(--ids-tag-color-border-warning);
+    color: var(--ids-tag-color-text-warning);
   }
 
   &.caution {
-    background-color: var(--ids-color-caution-default);
-    border-color: var(--ids-color-caution-default);
-    color: var(--ids-color-text-on-caution);
+    background-color: var(--ids-tag-color-background-caution);
+    border-color: var(--ids-tag-color-border-caution);
+    color: var(--ids-tag-color-text-caution);
   }
 
   &.error {
-    background-color: var(--ids-color-error-default);
-    border-color: var(--ids-color-error-default);
-    color: var(--ids-color-text-on-error);
+    background-color: var(--ids-tag-color-background-error);
+    border-color: var(--ids-tag-color-border-error);
+    color: var(--ids-tag-color-text-error);
+  }
+
+  &.purple {
+    background-color: var(--ids-tag-color-background-purple);
+    border-color: var(--ids-tag-color-border-purple);
+    color: var(--ids-tag-color-text-purple);
+  }
+
+  &.teal {
+    background-color: var(--ids-tag-color-background-teal);
+    border-color: var(--ids-tag-color-border-teal);
+    color: var(--ids-tag-color-text-teal);
   }
 
   // Clickable tags can be focused and clicked
@@ -97,6 +109,8 @@
   }
 
   .ids-tag {
+    opacity: var(--ids-tag-disabled-opacity);
+
     &,
     &.info,
     &.success,

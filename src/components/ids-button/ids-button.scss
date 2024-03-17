@@ -102,6 +102,12 @@ button {
   }
 }
 
+.ids-menu-button.is-active,
+.ids-menu-button.is-active:hover {
+  background-color: var(--ids-button-menu-background-color-active);
+  color: var(--ids-button-menu-color-active);
+}
+
 .ids-menu-button.formatter-width {
   &:not(.no-padding):not(.ids-icon-button) {
     padding-inline-start: calc(var(--ids-space-xs) - 1px);

@@ -52,7 +52,8 @@ export default class IdsHyperlink extends Base {
       attributes.FONT_WEIGHT,
       attributes.HREF,
       attributes.TARGET,
-      attributes.TEXT_DECORATION
+      attributes.TEXT_DECORATION,
+      attributes.SHOW_VISITED_COLOR
     ];
   }
 
@@ -145,6 +146,26 @@ export default class IdsHyperlink extends Base {
 
   get textDecoration(): string | null {
     return this.getAttribute(attributes.TEXT_DECORATION);
+  }
+
+  /**
+   * Show/Hide the visited color on the link
+   * @param {boolean} value if true visited color is shown
+   */
+  set showVisitedColor(value: boolean) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.SHOW_VISITED_COLOR, '');
+      this.container?.classList.add('show-visited-color');
+      this.container?.setAttribute('tabindex', '-1');
+      return;
+    }
+    this.removeAttribute(attributes.SHOW_VISITED_COLOR);
+    this.container?.classList.add('show-visited-color');
+  }
+
+  get showVisitedColor(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_VISITED_COLOR)) || false;
   }
 
   /**
