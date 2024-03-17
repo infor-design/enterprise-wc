@@ -54,6 +54,19 @@ svg {
   }
 }
 
+:host(.editor-forecolor) {
+  .stop-underline,
+  .stop-base {
+    stop-color: var(--ids-button-formatter-color-text-default);
+  }
+}
+
+:host(.editor-forecolor.is-active) {
+  .stop-underline {
+    stop-color: var(--forecolor-active-color);
+  }
+}
+
 .notification-badge {
   background-color: var(--ids-notification-badge-error-color-background);
   border-radius: var(--ids-notification-badge-border-radius);

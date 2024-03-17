@@ -34,7 +34,7 @@ import {
 import styles from './ids-input.scss';
 import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsButton from '../ids-button/ids-button';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { checkOverflow, getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 const Base = IdsTooltipMixin(
   IdsLabelStateMixin(
@@ -607,6 +607,31 @@ export default class IdsInput extends Base {
     this.onEvent('click', this.labelEl, () => {
       this.focus();
     });
+
+    /**
+     * Update tooltip on input change
+     */
+    this.onEvent('input', this?.input, () => {
+      this.#updateTooltip();
+    });
+
+    /**
+     * Update tooltip on mouseenter
+     */
+    this.onEvent('mouseenter', this, () => {
+      this.#updateTooltip();
+    });
+  }
+
+  /**
+   * Updates the tooltip attribute based on the input's value and overflow state
+   */
+  #updateTooltip(): void {
+    if (this.canTooltipShow()) {
+      this.setAttribute('tooltip', this.input?.value || '');
+    } else {
+      this.removeAttribute('tooltip');
+    }
   }
 
   /**
@@ -1018,5 +1043,16 @@ export default class IdsInput extends Base {
    */
   focus(): void {
     this.input?.focus();
+  }
+
+  /**
+   *
+   * @returns {boolean} true if the input or its container is overflowing
+   */
+  canTooltipShow(): boolean {
+    if (checkOverflow(this.input) || checkOverflow(this?.container)) {
+      return true;
+    }
+    return false;
   }
 }

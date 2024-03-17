@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid cols="1" x--cols-sm="2" x--cols-md="3" gap="md" padding="md">
+      <ids-layout-grid-cell>
+        <ids-splitter>
+          <ids-splitter-pane id="p1">
+            <ids-text font-size="12" type="h1">Ids Input - Tooltip</ids-text>
+            <br>
+            <ids-input tooltip="true" size="full" type="text" label="First Name" placeholder="Normal text Field"></ids-input>
+            <ids-input tooltip="true" size="full" type="text" label="Last Name" validate="required"></ids-input>
+            <ids-input tooltip="true" size="full" type="text" label="Email Address" placeholder="Company@address.com" validate="email required"></ids-input>
+            <ids-input tooltip="true" size="full" type="text" label="Disabled" disabled="true" value="Field not editable"></ids-input>
+            <ids-input tooltip="true" size="full" type="text" label="Readonly" readonly="true" value="02006"></ids-input>
+            <ids-input tooltip="true" size="full" type="text" label="Dirty Tracking" dirty-tracker="true" placeholder="Dirty Tracking" value="02006"></ids-input>
+            <ids-input tooltip="true" size="full" type="text" label="Clearable" placeholder="Clearable text Field" clearable="true"></ids-input>
+            <ids-input tooltip="true" size="full" type="text" label="Autoselect" value="Text select on focus" autoselect="true"></ids-input>
+          </ids-splitter-pane>
+          <ids-splitter-pane id="p2">
+            <ids-text font-size="12" type="h1">Ids Input - Tooltip</ids-text>
+            <br>
+            <ids-input tooltip="true" size="xs" type="text" label="First Name" placeholder="Normal text Field"></ids-input>
+            <ids-input tooltip="true" size="sm" type="text" label="Last Name" validate="required"></ids-input>
+            <ids-input tooltip="true" size="mm" type="text" label="Email Address" placeholder="Company@address.com" validate="email required"></ids-input>
+            <ids-input tooltip="true" size="md" type="text" label="Disabled" disabled="true" value="Field not editable"></ids-input>
+            <ids-input tooltip="true" size="lg" type="text" label="Readonly" readonly="true" value="02006"></ids-input>
+            <ids-input tooltip="true" size="full" type="text" label="Dirty Tracking" dirty-tracker="true" placeholder="Dirty Tracking" value="02006"></ids-input>
+            <ids-input tooltip="true" size="full" type="text" label="Clearable" placeholder="Clearable text Field" clearable="true"></ids-input>
+            <ids-input tooltip="true" size="full" type="text" label="Autoselect" value="Text select on focus" autoselect="true"></ids-input>
+          </ids-splitter-pane>
+        </ids-splitter>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

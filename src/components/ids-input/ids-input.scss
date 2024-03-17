@@ -38,8 +38,8 @@ $input-size-full: 100%;
     }
   }
 
-  .error,
-  .error:hover {
+  .field-container.error,
+  .field-container.error:hover {
     border-color: var(--ids-input-color-border-error-default);
     color: var(--ids-input-error-color-text-error-default);
 

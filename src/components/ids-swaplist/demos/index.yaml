@@ -8,3 +8,6 @@
   - link: example.html
     type: Main Example
     description: Showing various SwapList examples
+  - link: reattach.html
+    type: Test
+    description: Shows functionality works after reattach

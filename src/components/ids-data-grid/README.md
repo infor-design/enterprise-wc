@@ -230,6 +230,11 @@ columns.push({
       editorSettings: {
         autoselect: true,
         dirtyTracker: true
+      },
+      editorValidation: {
+        check: (input) => input.value.length < 50>,
+        message: 'Maximum of 50 characters',
+        id: 'maxchars'
       }
     }
   });
@@ -284,6 +289,10 @@ The following settings are available on editors.
 `editorSettings.options` Dataset used for dropdown editor's list box options.
 `editorSettings.maxlength` Sets the input editor's `maxlength` property to the max characters you can type
 `editorSettings.uppercase` Sets the input editor's to all uppercase
+`editorValidation` Optional property to set custom validation rule
+`editorValidation.check` Callback function for custom validation. It is passed the editable cell's input field and expects a boolean value in return
+`editorValidation.message` Error message displayed when the validation check fails
+`editorValidation.id` Unique id for the validation rule
 
 When the use clicks in the cell or activates editing with the keyboard with the Enter key and types. The following events will fire.
 
