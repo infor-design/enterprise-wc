@@ -1257,8 +1257,8 @@
   --ids-radio-color-text-disabled: var(--ids-input-label-color-text-default);
 
   // Rating
-  --ids-rating-star-color-selected: var(--ids-color-orange-60);
-  --ids-rating-star-color-default: var(--ids-icon-color-default);
+  --ids-rating-star-color-selected: var(--ids-color-accent-orange-strong);
+  --ids-rating-star-color-default: var(--ids-color-accent-gray-default);
   --ids-rating-star-color-hover: var(--ids-button-primary-color-background-default);
   --ids-rating-star-color-focus: var(--ids-button-primary-color-background-default);
   --ids-rating-star-disabled-color: var(--ids-color-text-disabled);
@@ -1636,7 +1636,7 @@
 
   // Trigger Field
   --ids-trigger-field-button-border-radius: var(--ids-border-radius-sm);
-  --ids-trigger-field-button-margin: 0;
+  --ids-trigger-field-button-margin: -2px;
   --ids-trigger-field-color-background-default: var(--ids-input-color-background-default);
   --ids-trigger-field-color-background-readonly: var(--ids-input-color-background-readonly);
   --ids-trigger-field-color-border-readonly: var(--ids-input-color-border-readonly);

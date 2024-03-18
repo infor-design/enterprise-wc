@@ -71,6 +71,7 @@
     & > * {
       display: inline-flex;
       align-self: center;
+      inset-inline-start: 5px;
     }
 
     &::part(button) {
@@ -88,6 +89,14 @@
         background: transparent;
         background-color: transparent;
       }
+    }
+  }
+}
+
+:host([category]) {
+  ids-menu-button {
+    & > * {
+      inset-inline-start: 0;
     }
   }
 }
@@ -126,6 +135,10 @@
     display: inline-flex;
     flex-direction: row;
     width: 100%;
+
+    ids-button {
+      align-self: center;
+    }
   }
 
   #category-action-button::part(button) {

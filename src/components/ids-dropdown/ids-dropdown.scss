@@ -40,7 +40,7 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
   color: var(--ids-dropdown-color-icon);
   margin: 0 0 0 var(--ids-dropdown-space-text);
   position: relative;
-  top: 2px;
+  top: 0;
 }
 
 :host([mode='light']) {
