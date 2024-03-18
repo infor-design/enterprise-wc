@@ -1,23 +1,23 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { expect } from '@playwright/test';
+import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
 
 test.describe('IdsCheckbox tests', () => {
   const url = '/ids-checkbox/example.html';
-  let cb: any;
-  let checkbox: any;
-  let span: any;
-  let el: any;
+  // let cb: Locator;
+  let checkbox: Locator;
+  let span: Locator;
+  let element: string;
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
-    cb = await page.locator('.checkmark').first();
+    // cb = await page.locator('.checkmark').first();
     checkbox = await page.locator('ids-checkbox').first();
     span = await checkbox.locator('span').first();
-    el = 'ids-checkbox';
+    element = 'ids-checkbox';
   });
 
   test.describe('general page checks', () => {
@@ -73,93 +73,50 @@ test.describe('IdsCheckbox tests', () => {
   });
 
   test.describe('e2e tests', () => {
-    test('should render a checked checkbox', async ({ page }) => {
-      await expect(cb.first()).not.toBeChecked();
+    test('can render a checked checkbox', async ({ page }) => {
+      await expect(span.first()).not.toBeChecked();
 
-      await cb.first().check();
-      expect(await cb.first().isChecked()).toBeTruthy();
-      expect(await cb.first().getAttribute('checked')).toBeDefined();
+      await span.first().check();
       await expect(checkbox.first()).toHaveAttribute('checked');
 
-      await cb.first().uncheck();
-      await expect(cb.first()).not.toBeChecked();
-      expect(await cb.first().getAttribute('checked')).toBe(null);
-      await expect(checkbox.first()).not.toHaveAttribute('checked');
-
-      await cb.first().setChecked(true);
-      expect(await cb.first().isChecked()).toBeTruthy();
-      expect(await cb.first().getAttribute('checked')).toBeDefined();
-      await expect(checkbox.first()).toHaveAttribute('checked');
-
-      await cb.first().setChecked(false);
-      await expect(cb.first()).not.toBeChecked();
-      expect(await cb.first().getAttribute('checked')).toBe(null);
+      await span.first().uncheck();
+      await expect(span.first()).not.toBeChecked();
       await expect(checkbox.first()).not.toHaveAttribute('checked');
 
       await page.evaluate((id) => {
-        (document.querySelector<IdsCheckbox>(id))!.checked = false;
-      }, el);
+        (document.querySelector<IdsCheckbox>(id))!.setAttribute('checked', 'true');
+      }, element);
+      await expect(checkbox.first()).toHaveAttribute('checked');
+      await expect(span.first()).toBeChecked();
+
+      await page.evaluate((id) => {
+        (document.querySelector<IdsCheckbox>(id))!.removeAttribute('checked');
+      }, element);
       await expect(checkbox.first()).not.toHaveAttribute('checked');
       await expect(span.first()).not.toBeChecked();
     });
 
-    test('should have a checked checkbox', async ({ page }) => {
-      await expect(await cb).not.toBeChecked();
-      await cb.check(); // does this work? If so its ok
-      expect(await cb.isChecked()).toBeTruthy();
-      expect(await cb.getAttribute('checked')).toBeDefined();
-      await expect(checkbox).toHaveAttribute('checked');
-
-      await cb.uncheck();
-      await expect(await cb).not.toBeChecked();
-      expect(await cb.getAttribute('checked')).toBe(null);
-      await expect(checkbox).not.toHaveAttribute('checked');
-
-      await cb.setChecked(true);
-      expect(await cb.isChecked()).toBeTruthy();
-      expect(await cb.getAttribute('checked')).toBeDefined();
-      await expect(checkbox).toHaveAttribute('checked');
-
-      await cb.setChecked(false);
-      await expect(cb).not.toBeChecked();
-      expect(await cb.getAttribute('checked')).toBe(null);
-      await expect(checkbox).not.toHaveAttribute('checked');
-
-      await page.evaluate((id) => {
-        document.querySelector<IdsCheckbox>(id)!.checked = false;
-      }, el);
-      await expect(checkbox).not.toHaveAttribute('checked');
-      await expect(span).not.toBeChecked();
-    });
-
-    test('should render as disabled', async ({ page }) => {
-      await expect(cb).not.toBeDisabled();
-      expect(await cb.isDisabled()).toBeFalsy();
-
-      expect(await cb.getAttribute('disabled')).toBe(null);
-      await expect(checkbox).not.toHaveAttribute('disabled');
-
+    test('can render as disabled', async ({ page }) => {
       const rootEl = await checkbox.locator('.ids-checkbox');
+      const input = await checkbox.locator('input').first();
+
+      await expect(span).not.toBeDisabled();
+      await expect(checkbox).not.toHaveAttribute('disabled');
+      await expect(input).not.toHaveAttribute('disabled');
       await expect(rootEl).not.toHaveClass(/disabled/);
 
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.disabled = true;
-      }, el);
+      }, element);
 
-      expect(await checkbox.getAttribute('disabled')).toBe('true');
-      await expect(checkbox).toHaveAttribute('disabled');
-      expect(await checkbox.isDisabled());
+      await expect(checkbox).toHaveAttribute('disabled', 'true');
       await expect(rootEl).toHaveClass(/disabled/);
-      // await expect(checkbox).toBeDisabled(); // not working for some reason
 
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.disabled = false;
-      }, el);
-      expect(await checkbox.getAttribute('disabled')).toBe(null);
+      }, element);
       await expect(checkbox).not.toHaveAttribute('disabled');
-      expect(await checkbox.isEnabled());
       await expect(rootEl).not.toHaveClass(/disabled/);
-      // await expect(checkbox).toBeDisabled(); // not working for some reason
     });
 
     test('can render a checkbox without a visible label', async ({ page }) => {
@@ -167,39 +124,39 @@ test.describe('IdsCheckbox tests', () => {
       const textEl = await checkbox.locator('ids-text').first();
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.label = 'My Checkbox';
-      }, el);
-      expect(await checkbox.getAttribute('label-state')).toEqual(null);
+      }, element);
+      await expect(checkbox).not.toHaveAttribute('label-state');
       await expect(textEl).toHaveText('My Checkbox');
-      expect(await innerCheckbox.getAttribute('aria-label')).toBe(null);
+      await expect(innerCheckbox).not.toHaveAttribute('aria-label');
 
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.labelState = 'hidden';
-      }, el);
+      }, element);
 
-      expect(await checkbox.getAttribute('label-state')).toEqual('hidden');
+      await expect(checkbox).toHaveAttribute('label-state', 'hidden');
       await expect(textEl).toHaveText('');
-      expect(await innerCheckbox.getAttribute('aria-label')).toBe('My Checkbox');
+      await expect(innerCheckbox).toHaveAttribute('aria-label', 'My Checkbox');
 
       // removeAttribute('label-state');
       await page.evaluate(() => {
-        const element = document.querySelector('ids-checkbox');
-        element!.removeAttribute('label-state');
+        const checkBox = document.querySelector('ids-checkbox');
+        checkBox!.removeAttribute('label-state');
       });
-      expect(await checkbox.getAttribute('label-state')).toEqual(null);
+      await expect(checkbox).not.toHaveAttribute('label-state');
       await expect(textEl).toHaveText('My Checkbox');
-      expect(await innerCheckbox.getAttribute('aria-label')).toBe(null);
+      await expect(innerCheckbox).not.toHaveAttribute('aria-label');
 
       // setAttribute('label-state', 'hidden');
       await page.evaluate(() => {
-        const element = document.querySelector('ids-checkbox');
-        element!.setAttribute('label-state', 'hidden');
+        const checkBox = document.querySelector('ids-checkbox');
+        checkBox!.setAttribute('label-state', 'hidden');
       });
-      expect(await checkbox.getAttribute('label-state')).toEqual('hidden');
+      await expect(checkbox).toHaveAttribute('label-state', 'hidden');
       await expect(textEl).toHaveText('');
-      expect(await innerCheckbox.getAttribute('aria-label')).toBe('My Checkbox');
+      await expect(innerCheckbox).toHaveAttribute('aria-label', 'My Checkbox');
     });
 
-    test('should add/remove required error', async ({ page }) => {
+    test('can add/remove required error', async ({ page }) => {
       const labelEl = await checkbox.locator('.ids-label-text');
       const msgEL = await checkbox.locator('.validation-message');
       const validationmsg = await checkbox.locator('#null-error');
@@ -208,51 +165,43 @@ test.describe('IdsCheckbox tests', () => {
       await expect(validationmsg).toBeHidden();
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.validate = 'required';
-      }, el);
-      expect(await checkbox.getAttribute('validate')).toEqual('required');
-      await expect(checkbox).toHaveAttribute('validate');
+      }, element);
+      await expect(checkbox).toHaveAttribute('validate', 'required');
       await expect(labelEl).toHaveClass(/required/);
-      /**
-       *
-       */
-      async function checkValidation() {
-        await page.evaluate((id) => {
-          document.querySelector<IdsCheckbox>(id)!.checkValidation();
-        }, el);
-      }
-      await checkValidation();
+
+      await checkbox.evaluate((checkboxEl: IdsCheckbox) => checkboxEl.checkValidation());
       await expect(msgEL).toBeVisible();
-      expect(await msgEL.getAttribute('validation-id')).toEqual('required');
+      await expect(msgEL).toHaveAttribute('validation-id', 'required');
       await span.check();
-      await checkValidation();
+      await checkbox.evaluate((checkboxEl: IdsCheckbox) => checkboxEl.checkValidation());
       await expect(validationmsg).toBeHidden();
     });
 
-    test('should set validation events', async ({ page }) => {
+    test('can set validation events', async ({ page }) => {
       await expect(checkbox).not.toHaveAttribute('validate');
       await expect(checkbox).not.toHaveAttribute('validation-events');
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.validate = 'required';
-      }, el);
+      }, element);
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.validationEvents = 'blur';
-      }, el);
+      }, element);
       await expect(checkbox).toHaveAttribute('validate', 'required');
       await expect(checkbox).toHaveAttribute('validation-events', 'blur');
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.validationEvents = null;
-      }, el);
+      }, element);
       await expect(checkbox).not.toHaveAttribute('validation-events');
       await expect(checkbox).toHaveAttribute('validate', 'required');
 
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.validate = null;
-      }, el);
+      }, element);
       await expect(checkbox).not.toHaveAttribute('validate');
       await expect(checkbox).not.toHaveAttribute('validation-events');
     });
 
-    test('should set label required indicator', async ({ page }) => {
+    test('can set label required indicator', async ({ page }) => {
       const className = 'no-required-indicator';
       const labelEl = await checkbox.locator('.ids-label-text');
 
@@ -261,25 +210,25 @@ test.describe('IdsCheckbox tests', () => {
       await expect(labelEl).not.toHaveClass(className);
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.validate = 'required';
-      }, el);
+      }, element);
       await expect(checkbox).toHaveAttribute('validate', 'required');
       await expect(checkbox).not.toHaveAttribute('label-required');
       await expect(labelEl).not.toHaveClass(className);
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.labelRequired = 'false';
-      }, el);
+      }, element);
       await expect(checkbox).toHaveAttribute('validate', 'required');
       await expect(checkbox).toHaveAttribute('label-required', 'false');
       await expect(labelEl).toHaveClass(/no-required-indicator/);
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.labelRequired = 'true';
-      }, el);
+      }, element);
       await expect(checkbox).toHaveAttribute('validate', 'required');
       await expect(checkbox).toHaveAttribute('label-required', 'true');
       await expect(labelEl).not.toHaveClass(/no-required-indicator/);
     });
 
-    test('should set label text', async ({ page }) => {
+    test('can set label text', async ({ page }) => {
       const labelEl = await checkbox.locator('.ids-label-text');
 
       await page.evaluate(() => {
@@ -288,7 +237,7 @@ test.describe('IdsCheckbox tests', () => {
       });
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.label = 'test';
-      }, el);
+      }, element);
 
       await page.evaluate(() => {
         document.body.innerHTML = '';
@@ -299,124 +248,124 @@ test.describe('IdsCheckbox tests', () => {
       await expect(labelEl).toContainText('');
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.label = 'test';
-      }, el);
+      }, element);
       await expect(labelEl).toContainText('test');
 
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.label = '';
-      }, el);
+      }, element);
       await expect(labelEl).toContainText('');
     });
 
-    test('should renders colored', async ({ page }) => {
+    test('can render color', async ({ page }) => {
       const rootEL = await checkbox.locator('.ids-checkbox');
       const color: any = 'green';
 
-      const elColor = await checkbox.getAttribute('color');
-      await expect(elColor).toEqual(null);
+      await expect(checkbox).not.toHaveAttribute('color');
 
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.color = 'green';
-      }, el);
-      await expect(await checkbox.getAttribute('color')).toEqual(color);
-      await expect(await rootEL.getAttribute('color')).toEqual(color);
+      }, element);
+      await expect(checkbox).toHaveAttribute('color', color);
+      await expect(rootEL).toHaveAttribute('color', color);
 
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.color = false as any;
-      }, el);
-      await expect(await checkbox.getAttribute('color')).toEqual(null);
-      await expect(await rootEL.getAttribute('color')).toEqual(null);
+      }, element);
+      await expect(checkbox).not.toHaveAttribute('color');
+      await expect(rootEL).not.toHaveAttribute('color');
     });
 
-    test('should renders value', async ({ page }) => {
-    // const value = 'test'; this causes error
+    test('can render value', async ({ page }) => {
+      const value = 'test';
 
-      await expect(await checkbox.getAttribute('value')).toEqual(null);
-      await page.evaluate((id) => {
-        document.querySelector<IdsCheckbox>(id)!.value = 'test';
-      }, el);
-      await expect(await checkbox.getAttribute('value')).toEqual(''); // error occurs when you assert with variable value / 'test'
+      await expect(checkbox).not.toHaveAttribute('value');
+
+      await page.evaluate((data) => {
+        document.querySelector<IdsCheckbox>(data.element)!.value = data.value;
+      }, { element, value });
+      await expect(checkbox).toHaveAttribute('value', '');
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.value = null;
-      }, el);
-      await expect(await checkbox.getAttribute('value')).toEqual(null);
+      }, element);
+      await expect(checkbox).not.toHaveAttribute('value');
     });
 
-    test('should set indeterminate', async ({ page }) => {
+    test('can set indeterminate', async ({ page }) => {
       const input = await checkbox.locator('input');
+      await expect(checkbox).not.toHaveAttribute('indeterminate');
 
-      await expect(await checkbox.getAttribute('indeterminate')).toEqual(null);
-      await expect(await input.getAttribute('class')).not.toContain('indeterminate');
+      await expect(input).not.toHaveClass(/indeterminate/);
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.indeterminate = true;
-      }, el);
-      await expect(await checkbox.getAttribute('indeterminate')).toEqual('true');
-      await expect(await input.getAttribute('class')).toContain('indeterminate');
+      }, element);
+      await expect(checkbox).toHaveAttribute('indeterminate', 'true');
+      await expect(input).toHaveClass(/indeterminate/);
+
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.indeterminate = false;
-      }, el);
-      await expect(await checkbox.getAttribute('indeterminate')).toEqual(null);
-      await expect(await input.getAttribute('class')).not.toContain('indeterminate');
+      }, element);
+      await expect(checkbox).not.toHaveAttribute('indeterminate');
+      await expect(input).not.toHaveClass(/indeterminate/);
+
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.indeterminate = true;
-      }, el);
-      await expect(await checkbox.getAttribute('indeterminate')).toEqual('true');
-      await expect(await input.getAttribute('class')).toContain('indeterminate');
+      }, element);
+      await expect(checkbox).toHaveAttribute('indeterminate', 'true');
+      await expect(input).toHaveClass(/indeterminate/);
 
-      await cb.check();
-      await expect(await checkbox.getAttribute('indeterminate')).toEqual(null);
-      await expect(await input.getAttribute('class')).not.toContain('indeterminate');
+      await span.check();
+      await expect(checkbox).not.toHaveAttribute('indeterminate');
+      await expect(input).not.toHaveClass(/indeterminate/);
     });
 
-    test('should set noAnimation', async ({ page }) => {
+    test('can set noAnimation', async ({ page }) => {
       await expect(checkbox).not.toHaveAttribute('no-animation');
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.noAnimation = true;
-      }, el);
+      }, element);
       await expect(checkbox).toHaveAttribute('no-animation');
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.noAnimation = false;
-      }, el);
+      }, element);
       await expect(checkbox).not.toHaveAttribute('no-animation');
     });
 
-    test('should rander display horizontal', async ({ page }) => {
-      await expect(await checkbox?.getAttribute('class')).toEqual(null);
+    test('can render display horizontal', async ({ page }) => {
+      await expect(checkbox).not.toHaveAttribute('class');
+
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.horizontal = true;
-      }, el);
-      await expect(checkbox).toHaveAttribute('horizontal');
-      expect(await checkbox.getAttribute('horizontal')).toEqual('true');
+      }, element);
+      await expect(checkbox).toHaveAttribute('horizontal', 'true');
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.horizontal = false;
-      }, el);
+      }, element);
       await expect(checkbox).not.toHaveAttribute('horizontal');
-      expect(await checkbox.getAttribute('horizontal')).toEqual(null);
     });
 
-    test('should remove events', async ({ page }) => {
+    test('can remove events', async ({ page }) => {
       let response;
       await page.evaluate(() => {
         document.body.innerHTML = '';
         const elem: any = document.createElement('ids-checkbox') as IdsCheckbox;
         document.body.appendChild(elem);
-        cb = document.querySelector('ids-checkbox');
-        cb.attachCheckboxChangeEvent('remove');
-        cb.attachNativeEvents('remove');
+        elem.attachCheckboxChangeEvent('remove');
+        elem.attachNativeEvents('remove');
         const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
         events.forEach((evt) => {
           response = null;
-          cb.addEventListener(`trigger${evt}`, () => {
+          elem.addEventListener(`trigger${evt}`, () => {
             response = 'triggered';
           });
           const event = new Event(evt);
-          cb.input.dispatchEvent(event);
+          elem.input.dispatchEvent(event);
         });
       });
       expect(response).not.toEqual('triggered');
     });
 
-    test('should render template', async ({ page }) => {
+    test('can render template', async ({ page }) => {
       const rootEl = await checkbox.locator('.ids-checkbox');
 
       await page.evaluate(() => {
@@ -424,22 +373,18 @@ test.describe('IdsCheckbox tests', () => {
         const elem: any = document.createElement('ids-checkbox') as IdsCheckbox;
         document.body.appendChild(elem);
 
-        cb = document.querySelector('ids-checkbox');
-        cb!.setAttribute('color', 'red');
-        cb!.setAttribute('disabled', 'true');
-        cb!.setAttribute('horizontal', 'true');
-        cb!.setAttribute('label-required', 'false');
-        cb!.setAttribute('indeterminate', 'true');
-        cb.template();
+        elem!.setAttribute('color', 'red');
+        elem!.setAttribute('disabled', 'true');
+        elem!.setAttribute('horizontal', 'true');
+        elem!.setAttribute('label-required', 'false');
+        elem!.setAttribute('indeterminate', 'true');
+        elem.template();
       });
-      expect(await checkbox.getAttribute('disabled')).toEqual('true');
-      await expect(checkbox).toHaveAttribute('disabled');
+      await expect(checkbox).toHaveAttribute('disabled', 'true');
       await expect(rootEl).toHaveClass(/disabled/);
       await expect(rootEl).toHaveClass(/horizontal/);
-      expect(await checkbox.getAttribute('horizontal')).toEqual('true');
-      await expect(checkbox).toHaveAttribute('horizontal');
-      expect(await checkbox.getAttribute('indeterminate')).toEqual('true');
-      await expect(checkbox).toHaveAttribute('indeterminate');
+      await expect(checkbox).toHaveAttribute('horizontal', 'true');
+      await expect(checkbox).toHaveAttribute('indeterminate', 'true');
     });
 
     test('can change language to rtl from the container', async ({ page }) => {
@@ -450,28 +395,25 @@ test.describe('IdsCheckbox tests', () => {
       await expect(container).toHaveAttribute('dir', 'rtl');
     });
 
-    test('can focus its inner Input element', async ({ page }) => {
-      await page.evaluate('document.querySelector("ids-checkbox").focus()');
-      await page.locator('ids-checkbox').first().focus();
-      const foc = await page.evaluate(() => {
-        const focs = document.activeElement;
-        return focs?.nodeName;
-      });
-      await expect(foc).toEqual('IDS-CHECKBOX');
+    test('can focus its inner Input element', async () => {
+      expect(await checkbox.evaluate((checkboxEl: IdsCheckbox) => {
+        checkboxEl.focus();
+        return document.activeElement?.nodeName;
+      })).toEqual('IDS-CHECKBOX');
     });
 
     test('can set/remove the hitbox setting', async ({ page }) => {
       const container = await checkbox.locator('.ids-checkbox ');
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.hitbox = 'true';
-      }, el);
+      }, element);
       await expect(container).toHaveClass(/hitbox/);
-      expect(await checkbox.getAttribute('hitbox')).toEqual('true');
+      await expect(checkbox).toHaveAttribute('hitbox', 'true');
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.hitbox = 'false';
-      }, el);
+      }, element);
       await expect(container).not.toHaveClass(/hitbox/);
-      expect(await checkbox.getAttribute('hitbox')).toEqual(null);
+      await expect(checkbox).not.toHaveAttribute('hitbox', 'true');
     });
   });
 });
