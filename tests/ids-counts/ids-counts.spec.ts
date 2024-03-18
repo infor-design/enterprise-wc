@@ -7,12 +7,10 @@ import IdsCounts from '../../src/components/ids-counts/ids-counts';
 
 test.describe('IdsCounts tests', () => {
   const url = '/ids-counts/example.html';
-  let el: any;
   let counts: any;
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
-    el = 'ids-count';
     counts = await page.locator('ids-counts').first();
   });
 
@@ -57,7 +55,7 @@ test.describe('IdsCounts tests', () => {
       const handle = await page.$('ids-counts');
       const html = await handle?.evaluate((eL: IdsCounts) => {
         eL?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
+        return eL?.shadowRoot?.innerHTML;
       });
       await expect(html).toMatchSnapshot('counts-shadow');
     });
@@ -68,35 +66,35 @@ test.describe('IdsCounts tests', () => {
     });
 
     test.describe('e2e tests', () => {
-      test('renders a specific hex color', async () => {
+      test('can render a specific hex color', async () => {
         await counts.evaluate((element: IdsCounts, eColor: string | null) => {
           element.color = eColor;
         }, '#800000');
-        expect(await counts.getAttribute('color')).toEqual('#800000');
+        await expect(counts).toHaveAttribute('color', '#800000');
       });
 
-      test('renders a status color', async () => {
+      test('can render a status color', async () => {
         await counts.evaluate((element: IdsCounts, eColor: string | null) => {
           element.color = eColor;
         }, 'base');
-        expect(await counts.getAttribute('color')).toEqual('base');
+        await expect(counts).toHaveAttribute('color', 'base');
       });
 
-      test('is able to change sizes via compact attribute', async () => {
+      test('can change sizes via compact attribute', async () => {
         await counts.evaluate((element: IdsCounts, val: string | boolean) => {
           element.compact = val;
         }, 'true');
-        expect(await counts.getAttribute('compact')).toEqual('true');
+        await expect(counts).toHaveAttribute('compact', 'true');
       });
 
-      test('is able to change link via href attribute', async () => {
+      test('can change link via href attribute', async () => {
         await counts.evaluate((element: IdsCounts, val: string | null) => {
           element.href = val;
         }, 'http://www.google.com');
-        expect(await counts.getAttribute('href')).toEqual('http://www.google.com');
+        await expect(counts).toHaveAttribute('href', 'http://www.google.com');
       });
 
-      test('creates an ids-hyperlink container', async ({ page }) => {
+      test('can create an ids-hyperlink container', async ({ page }) => {
         const hyperlinks = await page.locator('ids-hyperlink').all();
         await page.evaluate(() => {
           const template = `
@@ -110,7 +108,7 @@ test.describe('IdsCounts tests', () => {
         await expect(hyperlinks).toHaveLength(5);
       });
 
-      test('creates a compact counts component', async ({ page }) => {
+      test('can create a compact counts component', async ({ page }) => {
         const countVal = await counts.locator('ids-text[count-value]');
         await page.evaluate(() => {
           const compact = `

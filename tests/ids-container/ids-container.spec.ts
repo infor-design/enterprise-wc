@@ -51,7 +51,7 @@ test.describe('IdsContainer tests', () => {
       await page.evaluate(async (id) => {
         await document.querySelector<IdsContainer>(id)!.localeAPI.setLanguage('ar');
       }, el);
-      expect(await cont.getAttribute('dir')).toEqual('rtl');
+      await expect(cont).toHaveAttribute('dir', 'rtl');
     });
 
     test('can set locale via attribute', async ({ page }) => {
@@ -67,12 +67,12 @@ test.describe('IdsContainer tests', () => {
       await page.evaluate(async (id) => {
         await document.querySelector<IdsContainer>(id)!.localeAPI.setLocale('ar-SA');
       }, el);
-      expect(await cont.getAttribute('dir')).toEqual('rtl');
+      await expect(cont).toHaveAttribute('dir', 'rtl');
       const locale = await page.evaluate((id) => document.querySelector<IdsContainer>(id)!.locale, el);
       expect(await locale).toEqual('ar-SA');
     });
 
-    test('renders correctly for unscrollable', async ({ page }) => {
+    test('can render correctly for unscrollable', async ({ page }) => {
       await page.evaluate((id) => {
         document.querySelector<IdsContainer>(id)!.scrollable = true;
       }, el);
@@ -84,36 +84,35 @@ test.describe('IdsContainer tests', () => {
       await page.evaluate((id) => {
         document.querySelector<IdsContainer>(id)!.scrollable = true;
       }, el);
-      expect(await cont.getAttribute('scrollable')).toEqual('true');
-      expect(await div.getAttribute('scrollable')).toEqual('true');
+      await expect(cont).toHaveAttribute('scrollable', 'true');
+      await expect(div).toHaveAttribute('scrollable', 'true');
 
       await page.evaluate((id) => {
         document.querySelector<IdsContainer>(id)!.scrollable = false;
       }, el);
-      expect(await cont.getAttribute('scrollable')).toEqual('false');
-      expect(await div.getAttribute('scrollable')).toEqual('false');
+      await expect(cont).toHaveAttribute('scrollable', 'false');
+      await expect(div).toHaveAttribute('scrollable', 'false');
     });
 
-    test('supports setting language', async ({ page }) => {
+    test('can supports setting language', async ({ page }) => {
       await page.evaluate(async (id) => {
         await document.querySelector<IdsContainer>(id)!.localeAPI.setLanguage('ar');
       }, el);
-      expect(await cont.getAttribute('language')).toEqual('ar');
-      expect(await cont.getAttribute('dir')).toEqual('rtl');
-
+      await expect(cont).toHaveAttribute('language', 'ar');
+      await expect(cont).toHaveAttribute('dir', 'rtl');
       await page.evaluate(async (id) => {
         await document.querySelector<IdsContainer>(id)!.localeAPI.setLanguage('de');
       }, el);
-      expect(await cont.getAttribute('language')).toEqual('de');
-      expect(await cont.getAttribute('dir')).toEqual(null);
+      await expect(cont).toHaveAttribute('language', 'de');
+      await expect(cont).not.toHaveAttribute('dir');
     });
 
     test('has a padding attribute', async ({ page }) => {
       await page.evaluate((id) => {
         document.querySelector<IdsContainer>(id)!.padding = '18';
       }, el);
-      expect(await cont.getAttribute('padding')).toEqual('18');
-      expect(await div.getAttribute('style')).toEqual('padding: 18px;');
+      await expect(cont).toHaveAttribute('padding', '18');
+      await expect(div).toHaveAttribute('style', 'padding: 18px;');
     });
 
     test('has a reset attribute', async ({ page }) => {
@@ -128,7 +127,7 @@ test.describe('IdsContainer tests', () => {
       await expect(body).toHaveCSS('margin', '8px');
     });
 
-    test('should remove hidden on window elem', async ({ page }) => {
+    test('can remove hidden on window elem', async ({ page }) => {
       await page.evaluate((id) => {
         document.querySelector<IdsContainer>(id)!.hidden = true;
         const event = new KeyboardEvent('load', {});
