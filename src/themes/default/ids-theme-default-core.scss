@@ -400,8 +400,8 @@
   --ids-button-module-color-text-hover: var(--ids-color-gray-100);
 
   // Button (Menu)
-  --ids-button-menu-background-color-active: var(--ids-button-toggle-color-background-hover-default);
-  --ids-button-menu-color-active: var(--ids-button-toggle-color-text-hover-default);
+  --ids-button-menu-background-color-active: var(--ids-color-accent-gray-weakest);
+  --ids-button-menu-color-active: var(--ids-color-foreground-default-default);
 
   // Button (System)
   --ids-button-system-color-background-hover: transparent;
@@ -1472,7 +1472,7 @@
 
   // Tab (Vertical Orientation)
   --ids-tab-vertical-color-background-default: var(--ids-color-accent-gray-weakest);
-  --ids-tab-vertical-color-border-default: var(--ids-color-accent-gray-weak);
+  --ids-tab-vertical-color-border-default: var(--ids-color-border-weaker);
   --ids-tab-vertical-color-text-default: var(--ids-color-foreground-default-default);
   --ids-tab-vertical-color-background-hover: var(--ids-color-accent-gray-weaker);
   --ids-tab-vertical-color-text-hover: var(--ids-color-foreground-default-default);
