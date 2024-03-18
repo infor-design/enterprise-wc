@@ -195,6 +195,17 @@ test.describe('IdsCalendar tests', () => {
       await expect(todayBtn).toBeAttached();
     });
 
+    test('duplicate today btns are not created', async () => {
+      await idsCalendar.evaluate((element: IdsCalendar) => {
+        element.showToday = true;
+        element.showToday = true;
+      });
+
+      const todayBtnCount = await idsCalendar.locator('#calendar-toolbar > ids-toolbar-section > ids-button.btn-today').count();
+
+      await expect(todayBtnCount).toEqual(1);
+    });
+
     test('can set/get date', async () => {
       const currDate = new Intl.DateTimeFormat('en-US').format(new Date());
       expect(new Intl.DateTimeFormat('en-US').format(await idsCalendar.evaluate((element: IdsCalendar, date) => {
