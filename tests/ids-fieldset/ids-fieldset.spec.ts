@@ -71,6 +71,7 @@ test.describe('IdsFieldset tests', () => {
         const elem = document.querySelector<IdsDropdown>('ids-dropdown')!;
         await elem.open();
       });
+      await page.waitForSelector('#ids-list-box-dropdown');
       await percySnapshot(page, 'ids-fieldset-dropdown-light');
     });
   });
