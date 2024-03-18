@@ -496,4 +496,23 @@ test.describe('IdsLookup tests', () => {
       expect(values3[1]).toEqual(false);
     });
   });
+
+  test.describe('reattachment tests', () => {
+    test('should not throw error upon modal open after detach/reattach', async ({ page }) => {
+      page.on('pageerror', (err) => {
+        expect(err).toBeNull();
+      });
+
+      await page.evaluate(() => {
+        const lookupElem = document.querySelector('#lookup-5')!;
+        const parentNode = lookupElem.parentNode!;
+
+        parentNode.removeChild(lookupElem);
+        parentNode.appendChild(lookupElem);
+      });
+
+      await page.locator('#lookup-5 ids-trigger-button').first().click();
+      await page.waitForTimeout(1000);
+    });
+  });
 });
