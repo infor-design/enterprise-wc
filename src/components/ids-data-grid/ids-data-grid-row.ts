@@ -162,7 +162,7 @@ export default class IdsDataGridRow extends IdsElement {
 
     if (this.dataGrid?.expandableRow) {
       this.setAttribute('aria-expanded', String(!!rowExpanded));
-      this.expandIcon!.setAttribute('icon', iconType);
+      this.expandIcon?.setAttribute('icon', iconType);
 
       const childRow = this.querySelector<HTMLElement>('.ids-data-grid-expandable-row');
       if (rowExpanded) {
@@ -187,7 +187,7 @@ export default class IdsDataGridRow extends IdsElement {
       }
 
       if ((rowData?.children as any)?.length) {
-        this.expandIcon!.setAttribute('icon', iconType);
+        this.expandIcon?.setAttribute('icon', iconType);
       }
     }
   }
