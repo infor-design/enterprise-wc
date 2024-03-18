@@ -53,11 +53,12 @@ export default class IdsSwapList extends Base {
 
   datasource = new IdsDataSource();
 
-  defaultTemplate = '';
+  state = {
+    defaultTemplate: ''
+  };
 
   connectedCallback() {
     super.connectedCallback();
-    this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.renderLists();
     this.attachEventHandlers();
   }
@@ -85,6 +86,15 @@ export default class IdsSwapList extends Base {
   }
 
   get data(): any | null { return this?.datasource?.data || []; }
+
+  /**
+   * Set the internal template via JS
+   */
+  set defaultTemplate(value: any | null) {
+    this.state.defaultTemplate = value;
+  }
+
+  get defaultTemplate(): any | null { return this.state.defaultTemplate || this.querySelector('template')?.innerHTML; }
 
   /**
    * Swap the list item to the next list
@@ -220,7 +230,7 @@ export default class IdsSwapList extends Base {
     const data = this.data;
 
     return data.map((list: IdsSwaplistData, i: number) => {
-      const listTemplate = `<ids-card 
+      const listTemplate = `<ids-card
         class="list-card ${arrLen === i + 1 ? `card card-${i} card-last` : `card card-${i}`}"
         data-id="${list.id}"
         data-name="${list.name}">

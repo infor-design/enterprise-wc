@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid cols="1" padding-x="md">
+      <ids-text font-size="12" type="h1">Ids Swaplist (testing reattach)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" padding-x="md" padding-y="sm">
+      <ids-layout-grid-cell>
+        <ids-button id="reattach" appearance="primary-destructive">
+          Reattach
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="3" padding-x="md" padding-y="sm">
+      <ids-layout-grid-cell>
+        <ids-swaplist id="swaplist-1">
+        </ids-swaplist>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
