@@ -78,7 +78,7 @@ export default class IdsAccordionPanel extends Base {
    */
   #setTitles() {
     const identifier = Math.floor(10000 + Math.random() * 90000);
-    this.pane?.setAttribute('title', `ids-accordion-pane-${identifier}`);
+    this.title === '' ? this.pane?.setAttribute('title', `ids-accordion-pane-${identifier}`) : null;
   }
 
   /**
