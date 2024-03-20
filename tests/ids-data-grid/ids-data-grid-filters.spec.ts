@@ -10,6 +10,126 @@ test.describe('IdsDataGrid filter tests', () => {
     await page.goto(url);
   });
 
+  test.describe('event tests', () => {
+    test('fires filtered event when apply or clear conditions', async ({ page }) => {
+      const dataGrid = await page.locator('ids-data-grid');
+      const selector = '.ids-data-grid-body .ids-data-grid-row';
+      const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
+      expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        (window as any).filteredCount = 0;
+        (window as any).filteredType = '';
+        elem.addEventListener('filtered', (e: any) => {
+          (window as any).filteredCount++;
+          (window as any).filteredType = e.detail.type;
+        });
+        elem.applyFilter([{ columnId: 'integer', operator: 'equals', value: '200' }]);
+      });
+      expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(2);
+      expect(await page.evaluate(() => (window as any).filteredCount)).toBe(1);
+      expect(await page.evaluate(() => (window as any).filteredType)).toBe('apply');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.applyFilter([]);
+      });
+      expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+      expect(await page.evaluate(() => (window as any).filteredCount)).toBe(2);
+      expect(await page.evaluate(() => (window as any).filteredType)).toBe('clear');
+
+      // should not fire filtered event when setting filter conditions
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.filters.setFilterConditions([{
+          columnId: 'integer',
+          operator: 'equals',
+          value: '200'
+        }]);
+      });
+      expect(await page.evaluate(() => (window as any).filteredCount)).toBe(2);
+    });
+
+    test('fires open/close filter row event', async ({ page }) => {
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        (window as any).filterrowopenedCount = 0;
+        (window as any).filterrowclosedCount = 0;
+        elem.addEventListener('filterrowopened', () => {
+          (window as any).filterrowopenedCount++;
+        });
+        elem.addEventListener('filterrowclosed', () => {
+          (window as any).filterrowclosedCount++;
+        });
+        elem.filterable = false;
+      });
+      expect(await page.evaluate(() => (window as any).filterrowopenedCount)).toBe(0);
+      expect(await page.evaluate(() => (window as any).filterrowclosedCount)).toBe(1);
+      expect(await dataGrid.getAttribute('filterable')).toBe('false');
+      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.filterable)).toBeFalsy();
+
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.filterable = true;
+      });
+      expect(await page.evaluate(() => (window as any).filterrowopenedCount)).toBe(1);
+      expect(await page.evaluate(() => (window as any).filterrowclosedCount)).toBe(1);
+      expect(await dataGrid.getAttribute('filterable')).toBe('true');
+      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.filterable)).toBeTruthy();
+    });
+
+    test('fires filtered event when disableClientFilter with empty values', async ({ page }) => {
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        (window as any).filteredCount = 0;
+        elem.addEventListener('filtered', () => {
+          (window as any).filteredCount++;
+        });
+        elem.disableClientFilter = true;
+        elem.filters.filterWrapperById('price').querySelector('ids-input').setAttribute('value', '');
+        elem.applyFilter([]);
+      });
+      expect(await page.evaluate(() => (window as any).filteredCount)).toBeGreaterThan(0);
+    });
+
+    test('fires filtered event one time when dayselected event on datepicker', async ({ page }) => {
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        (window as any).filteredCount = 0;
+        elem.addEventListener('filtered', () => {
+          (window as any).filteredCount++;
+        });
+        elem.disableClientFilter = true;
+        const event = new CustomEvent('dayselected', {
+          bubbles: true,
+          detail: { value: '6/4/2024' },
+        });
+        elem.filters
+          .filterWrapperById('publishDate')
+          .querySelector('ids-trigger-field')
+          .dispatchEvent(event);
+      });
+
+      expect(await page.evaluate(() => (window as any).filteredCount)).toBe(1);
+    });
+
+    test('fires filtered event one time when timeselected event on timepicker', async ({ page }) => {
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        (window as any).filteredCount = 0;
+        elem.addEventListener('filtered', () => {
+          (window as any).filteredCount++;
+        });
+        elem.disableClientFilter = true;
+        const event = new CustomEvent('timeselected', {
+          bubbles: true,
+          detail: { value: '6:15 PM' },
+        });
+        elem.filters
+          .filterWrapperById('publishTime')
+          .querySelector('ids-trigger-field')
+          .dispatchEvent(event);
+      });
+
+      expect(await page.evaluate(() => (window as any).filteredCount)).toBe(1);
+    });
+  });
+
   test('should set filterable', async ({ page }) => {
     const dataGrid = await page.locator('ids-data-grid');
     expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.filterable)).toBeTruthy();
@@ -243,5 +363,211 @@ test.describe('IdsDataGrid filter tests', () => {
     expect(results.columnDataByHeaderElem.id).toEqual('price');
     expect(results.columnDataByHeaderElem.name).toEqual('Price');
     expect(results.columnDataById).toEqual(results.columnDataByHeaderElem);
+  });
+
+  test('should filter rows as filter type integer', async ({ page }) => {
+    const dataGrid = await page.locator('ids-data-grid');
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+    const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'integer', operator: 'equals', value: '16' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(1);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+  });
+
+  test('should filter rows as filter type decimal', async ({ page }) => {
+    const dataGrid = await page.locator('ids-data-grid');
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+    const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'price', operator: 'equals', value: '15.99' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(1);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+  });
+
+  test('should filter rows as filter type contents', async ({ page }) => {
+    const dataGrid = await page.locator('ids-data-grid');
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+    const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'location', operator: 'equals', value: 'United States' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(4);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'location', operator: 'equals', value: '' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(2);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'location', operator: 'equals', value: 'not-filtered' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+  });
+
+  test('should filter rows as filter type dropdown', async ({ page }) => {
+    const dataGrid = await page.locator('ids-data-grid');
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+    const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'useForEmployee', operator: 'equals', value: 'Yes' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(3);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'useForEmployee', operator: 'equals', value: 'not-filtered' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.filters.filterWrapperById('useForEmployee')?.querySelector('ids-dropdown')?.setAttribute('value', 'No');
+      elem.applyFilter(elem.filters.filterConditions());
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(6);
+  });
+
+  test('should filter rows as filter type checkbox', async ({ page }) => {
+    const dataGrid = await page.locator('ids-data-grid');
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+    const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'active', operator: 'selected', value: '' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(8);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'active', operator: 'not-selected', value: '' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(1);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'active', operator: 'selected-notselected', value: 'Yes' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+  });
+
+  test('should filter rows as filter type text', async ({ page }) => {
+    const dataGrid = await page.locator('ids-data-grid');
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+    const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.columns.push();
+      elem.columns.push({
+        id: 'description',
+        name: 'Description',
+        field: 'description',
+        sortable: true,
+        formatter: elem.formatters.text,
+        filterType: elem.filters.text
+      });
+      elem.redraw();
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'description', operator: 'equals', value: '105' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(1);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+  });
+
+  test.skip('should filter rows as filter type date', async ({ page }) => {
+    const dataGrid = await page.locator('ids-data-grid');
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+    const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'publishDate', operator: 'equals', value: '2/23/2021' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(1);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'publishDate', operator: 'in-range', value: '2/23/2021' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(1);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'publishDate', operator: 'in-range', value: '12/10/2021 - 12/25/2021' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(2);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+  });
+
+  test.skip('should filter rows as filter type time', async ({ page }) => {
+    const dataGrid = await page.locator('ids-data-grid');
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+    const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([{ columnId: 'publishTime', operator: 'equals', value: '8:25 PM' }]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(6);
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.applyFilter([]);
+    });
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
+  });
+
+  test('should filter rows as filter other operators', async ({ page }) => {
+    const dataGrid = await page.locator('ids-data-grid');
+    const selector = '.ids-data-grid-body .ids-data-grid-row';
+    const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      elem.columns.push();
+      elem.columns.push({
+        id: 'description',
+        name: 'Description',
+        field: 'description',
+        sortable: true,
+        formatter: elem.formatters.text,
+        filterType: elem.filters.text
+      });
+      elem.redraw();
+    });
+    const checkFilter = async (filter: any, rowsCount: number) => {
+      await dataGrid.evaluate((elem: IdsDataGrid, arg: any) => {
+        elem.applyFilter(arg);
+      }, filter);
+      expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(rowsCount);
+    };
+    await checkFilter([{ columnId: 'description', operator: 'does-not-equal', value: '105' }], 8);
+    await checkFilter([{ columnId: 'description', operator: 'contains', value: '5' }], 1);
+    await checkFilter([{ columnId: 'description', operator: 'does-not-contain', value: '5' }], 8);
+    await checkFilter([{ columnId: 'description', operator: 'end-with', value: '5' }], 1);
+    await checkFilter([{ columnId: 'description', operator: 'does-not-end-with', value: '5' }], 8);
+    await checkFilter([{ columnId: 'description', operator: 'start-with', value: '105' }], 1);
+    await checkFilter([{ columnId: 'description', operator: 'does-not-start-with', value: '105' }], 8);
+    await checkFilter([{ columnId: 'price', operator: 'is-empty', value: '' }], 2);
+    // await checkFilter([{ columnId: 'price', operator: 'is-not-empty', value: '' }], 7);
+    await checkFilter([{ columnId: 'integer', operator: 'less-than', value: '14' }], 3);
+    await checkFilter([{ columnId: 'integer', operator: 'less-equals', value: '14' }], 4);
+    await checkFilter([{ columnId: 'integer', operator: 'greater-than', value: '14' }], 3);
+    await checkFilter([{ columnId: 'integer', operator: 'greater-equals', value: '14' }], 4);
+    await checkFilter([{ columnId: 'integer', operator: 'test', value: '14' }], 9);
+    await checkFilter([{ columnId: 'test', operator: 'test', value: 'test' }], 9);
+    await checkFilter([], 9);
+    await checkFilter([{ columnId: 'test', operator: 'in-range', value: 'test' }], 9);
   });
 });
