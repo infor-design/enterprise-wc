@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="0" hidden>
+    <ids-text font-size="12" type="h1" audible="true">Ids Header with Search Field</ids-text>
+
+    <ids-header>
+      <ids-toolbar>
+        <ids-toolbar-section type="button">
+          <ids-button icon="menu" role="button">
+            <span slot="text" class="audible">Application Menu Trigger</span>
+          </ids-button>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20">My Header</ids-text>
+          <ids-text font-size="14">With some extra information below</ids-text>
+        </ids-toolbar-section>
+        <ids-toolbar-section align="end">
+          <ids-search-field
+            id="header-search"
+            clearable
+            label-state="collapsed"
+            no-margins
+          ></ids-search-field>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="button">
+          <ids-theme-switcher></ids-theme-switcher>
+        </ids-toolbar-section>
+      </ids-toolbar>
+    </ids-header>
+
+    <ids-splitter>
+      <ids-splitter-pane size="25%">
+        <ids-list-view item-height="76" selectable="single">
+          <template>
+            <ids-text font-size="16" type="h2" font-weight="semi-bold"></ids-text>
+            <ids-layout-grid cols="1" padding-y="xxs">
+              <ids-layout-grid-cell>
+                <ids-text font-size="16" type="span"></ids-text>
+                <ids-text font-size="14" type="span"></ids-text>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </template>
+        </ids-list-view>
+      </ids-splitter-pane>
+      <ids-splitter-pane>
+        <ids-layout-grid cols="1" padding="xs">
+          <ids-layout-grid-cell>
+            <ids-layout-flex justify-content="flex-end">
+              <ids-layout-flex-item>
+                <ids-theme-switcher mode="light"></ids-theme-switcher>
+              </ids-layout-flex-item>
+            </ids-layout-flex>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+      </ids-splitter-pane>
+    </ids-splitter>
+  </ids-container>
+</body>
+</html>

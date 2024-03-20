@@ -17,3 +17,6 @@
   - link: side-by-side.html
     type: Side by Side
     description: Shows the splitter component side by side with 4.x
+  - link: in-header.html
+    type: In Header
+    description: Shows the splitter component with header
