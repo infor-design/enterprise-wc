@@ -153,6 +153,30 @@ test.describe('IdsLayoutFlex tests', () => {
       }
     });
 
+    test('can set/get display attribute', async () => {
+      const testData = [
+        { data: 'flex', expected: 'flex' },
+        { data: null, expected: null },
+        { data: '', expected: null }
+      ];
+
+      expect(
+        await idsFlex.evaluate((element: IdsLayoutFlex) => element.display)
+      ).toBeFalsy();
+
+      for (const display of testData) {
+        expect(await idsFlex.evaluate((element: IdsLayoutFlex, tDisplay) => {
+          element.display = tDisplay;
+          return element.display;
+        }, display.data)).toEqual(display.expected);
+        if (typeof display.expected === 'string') {
+          await expect(idsFlex).toHaveAttribute('display', display.expected);
+        } else {
+          await expect(idsFlex).not.toHaveAttribute('display');
+        }
+      }
+    });
+
     test('can set/get gap attribute', async () => {
       const testData = [
         { data: '2', expected: '2' },
@@ -309,7 +333,7 @@ test.describe('IdsLayoutFlex tests', () => {
     });
   });
 
-  test.describe('IdsLayoutFlex functionality test', () => {
+  test.describe('IdsLayoutFlexItem functionality test', () => {
     let idsFlex: Locator;
     let idsFlexItem: Locator;
 
