@@ -163,7 +163,7 @@ export default class IdsInput extends Base {
       attributes.TEXT_ELLIPSIS,
       attributes.TYPE,
       attributes.UPPERCASE,
-      attributes.VALUE
+      attributes.VALUE,
     ];
   }
 
