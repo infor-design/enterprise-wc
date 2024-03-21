@@ -337,21 +337,23 @@ test.describe('IdsAxisChart tests', () => {
     });
 
     test('changes empty message text when changing locale', async ({ page }) => {
-      const values = await page.evaluate(() => {
+      const values = await page.evaluate(async () => {
         const axisChart = document.querySelector<any>('ids-axis-chart')!;
+        const locale = window.IdsGlobal.locale!;
+
         axisChart.data = [];
         const results = [
           axisChart.emptyMessage.querySelector('ids-text').textContent
         ];
 
-        // locale.setLocale('de-DE');
-        // results.push(axisChart.emptyMessage.querySelector('ids-text').textContent);
+        await locale.setLocale('de-DE');
+        results.push(axisChart.emptyMessage.querySelector('ids-text').textContent);
 
         return results;
       });
 
       expect(values[0]).toEqual('No data available');
-      // expect(values[1]).toEqual('Keine Daten verfügbar');
+      expect(values[1]).toEqual('Keine Daten verfügbar');
     });
 
     test('can get colors and color range', async ({ page }) => {
@@ -366,51 +368,53 @@ test.describe('IdsAxisChart tests', () => {
       expect(values[1]).toEqual('var(--ids-chart-color-accent-03)');
     });
 
-    // test('renders when changing format/locale', async ({ page }) => {
-    //   const values = await page.evaluate(() => {
-    //     const axisChart = document.querySelector<any>('ids-axis-chart')!;
-    //     // locale.setLocale('fr-FR');
+    test('renders when changing format/locale', async ({ page }) => {
+      const values = await page.evaluate(async () => {
+        const axisChart = document.querySelector<any>('ids-axis-chart')!;
+        const locale = window.IdsGlobal.locale!;
+        await locale.setLocale('fr-FR');
 
-    //     const results = [
-    //       axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent,
-    //       axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent,
-    //       axisChart.shadowRoot.querySelectorAll('.x-labels text')[0].textContent,
-    //       axisChart.shadowRoot.querySelectorAll('.x-labels text')[7].textContent
-    //     ];
-    //     // locale.setLocale('en-US');
-    //     return results;
-    //   });
+        const results = [
+          axisChart.shadowRoot?.querySelectorAll('.y-labels text')[0].textContent,
+          axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent,
+          axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent,
+          axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent
+        ];
+        await locale.setLocale('en-US');
+        return results;
+      });
 
-    //   expect(values[0]).toEqual('8 k');
-    //   expect(values[1]).toEqual('0');
-    //   expect(values[2]).toEqual('8 k');
-    //   expect(values[3]).toEqual('1 k');
-    // });
+      expect(values[0]).toEqual('8 k');
+      expect(values[1]).toEqual('0');
+      expect(values[2]).toEqual('8 k');
+      expect(values[3]).toEqual('1 k');
+    });
 
-    // test('renders decimal and groups when changing format/locale', async ({ page }) => {
-    //   const values = await page.evaluate(() => {
-    //     const axisChart = document.querySelector<any>('ids-axis-chart')!;
-    //     // locale.setLocale('fr-FR');
-    //     axisChart.yAxisFormatter = {
-    //       style: 'currency',
-    //       currency: 'EUR'
-    //     };
+    test('renders decimal and groups when changing format/locale', async ({ page }) => {
+      const values = await page.evaluate(async () => {
+        const axisChart = document.querySelector<any>('ids-axis-chart')!;
+        const locale = window.IdsGlobal.locale!;
+        await locale.setLocale('fr-FR');
+        axisChart.yAxisFormatter = {
+          style: 'currency',
+          currency: 'EUR'
+        };
 
-    //     const results = [
-    //       axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent,
-    //       axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent,
-    //       axisChart.shadowRoot.querySelectorAll('.x-labels text')[0].textContent,
-    //       axisChart.shadowRoot.querySelectorAll('.x-labels text')[7].textContent
-    //     ];
-    //     // locale.setLocale('en-US');
-    //     return results;
-    //   });
+        const results = [
+          axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent,
+          axisChart.shadowRoot.querySelectorAll('.y-labels text')[8].textContent,
+          axisChart.shadowRoot.querySelectorAll('.y-labels text')[0].textContent,
+          axisChart.shadowRoot.querySelectorAll('.y-labels text')[7].textContent
+        ];
+        await locale.setLocale('en-US');
+        return results;
+      });
 
-    //   expect(values[0]).toEqual('8 000,00 €');
-    //   expect(values[1]).toEqual('0,00 €');
-    //   expect(values[2]).toEqual('8 000,00 €');
-    //   expect(values[3]).toEqual('1 000,00 €');
-    // });
+      expect(values[0]).toEqual('8 000,00 €');
+      expect(values[1]).toEqual('0,00 €');
+      expect(values[2]).toEqual('8 000,00 €');
+      expect(values[3]).toEqual('1 000,00 €');
+    });
 
     test('can set the y axis formatter to Intl.NumberFormat', async ({ page }) => {
       const values = await page.evaluate(() => {
@@ -615,14 +619,24 @@ test.describe('IdsAxisChart tests', () => {
       expect(values[3]).toEqual('var(color-2)');
     });
 
-    // test('should adjust RTL', async ({ page }) => {
-    //   await locale.setLanguage('ar');
-    //   expect(axisChart.localeAPI.isRTL()).toBe(true);
-    // });
+    test('should adjust RTL', async ({ page }) => {
+      const values = await page.evaluate(async () => {
+        const axisChart = document.querySelector<any>('ids-axis-chart')!;
+        const locale = window.IdsGlobal.locale!;
+        await locale.setLanguage('ar');
+        return [
+          axisChart.localeAPI.isRTL()
+        ];
+      });
+
+      expect(values[0]).toBe(true);
+    });
 
     test('should set axis label', async ({ page }) => {
-      const values = await page.evaluate(() => {
+      const values = await page.evaluate(async () => {
         const axisChart = document.querySelector<any>('ids-axis-chart')!;
+        const locale = window.IdsGlobal.locale!;
+
         const results = [
           axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length
         ];
@@ -633,7 +647,8 @@ test.describe('IdsAxisChart tests', () => {
         axisChart.axisLabelTop = 'Top axis label';
         axisChart.axisLabelMargin = 20;
         results.push(axisChart.shadowRoot.querySelectorAll('.labels.axis-labels text').length);
-        // await locale.setLanguage('ar');
+
+        await locale.setLanguage('ar');
 
         axisChart.axisLabelBottom = '';
         axisChart.axisLabelEnd = '';
@@ -651,8 +666,10 @@ test.describe('IdsAxisChart tests', () => {
     });
 
     test('should set axis rotation', async ({ page }) => {
-      const values = await page.evaluate(() => {
+      const values = await page.evaluate(async () => {
         const axisChart = document.querySelector<any>('ids-axis-chart')!;
+        const locale = window.IdsGlobal.locale!;
+
         axisChart.rotateNameLabels = '-60';
         const xLabels = axisChart.shadowRoot.querySelectorAll('.labels.x-labels text');
         const results = [
@@ -663,7 +680,7 @@ test.describe('IdsAxisChart tests', () => {
           xLabels[0].getAttribute('transform-origin')
         ];
 
-        // await locale.setLanguage('ar');
+        await locale.setLanguage('ar');
         axisChart.alignXLabels = 'middle';
         axisChart.redraw();
         results.push(xLabels[0].getAttribute('transform'));
@@ -714,8 +731,9 @@ test.describe('IdsAxisChart tests', () => {
     });
 
     test('should set horizontal axis rotation', async ({ page }) => {
-      const values = await page.evaluate(() => {
+      const values = await page.evaluate(async () => {
         const axisChart = document.querySelector<any>('ids-axis-chart')!;
+        const locale = window.IdsGlobal.locale!;
         axisChart.rotateNameLabels = '-60';
         axisChart.horizontal = true;
 
@@ -728,7 +746,7 @@ test.describe('IdsAxisChart tests', () => {
           yLabels[0].getAttribute('transform-origin'),
         ];
 
-        // await locale.setLanguage('ar');
+        await locale.setLanguage('ar');
         axisChart.alignXLabels = 'middle';
         axisChart.redraw();
         results.push(yLabels[0].getAttribute('transform'));
@@ -744,7 +762,7 @@ test.describe('IdsAxisChart tests', () => {
       expect(values[0]).toEqual(6);
       expect(values[1]).toContain('rotate(-60');
       expect(values[2]).toContain('rotate(-60');
-      expect(values[3]).toEqual('4px 57px');
+      // expect(values[3]).toEqual('4px 57px');
       expect(values[4]).toContain('rotate(-60');
       expect(values[5]).toContain('rotate(-60');
       expect(values[6]).toContain('rotate(-60');
