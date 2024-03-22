@@ -7,14 +7,12 @@ import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
 
 test.describe('IdsCheckbox tests', () => {
   const url = '/ids-checkbox/example.html';
-  // let cb: Locator;
   let checkbox: Locator;
   let span: Locator;
   let element: string;
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
-    // cb = await page.locator('.checkmark').first();
     checkbox = await page.locator('ids-checkbox').first();
     span = await checkbox.locator('span').first();
     element = 'ids-checkbox';
