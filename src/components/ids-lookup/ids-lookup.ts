@@ -71,8 +71,6 @@ export default class IdsLookup extends Base {
 
   dataGrid?: IdsDataGrid | null;
 
-  modal?: IdsModal | null;
-
   listBox?: any;
 
   state = {
@@ -81,6 +79,10 @@ export default class IdsLookup extends Base {
     value: '',
     title: ''
   };
+
+  get modal(): IdsModal | null {
+    return this.querySelector('[slot="lookup-modal"]') || this.shadowRoot?.querySelector('ids-modal') || null;
+  }
 
   constructor() {
     super();
@@ -110,11 +112,8 @@ export default class IdsLookup extends Base {
     this.dataGrid = this.shadowRoot?.querySelector('ids-data-grid');
     this.dataGrid?.setAttribute(attributes.LIST_STYLE, 'true');
 
-    // Link the Modal to its trigger button (sets up click/focus events)
-    this.modal = this.querySelector('[slot="lookup-modal"]') || this.shadowRoot?.querySelector('ids-modal');
-    if (this.modal) {
-      this.modal.target = this.triggerButton as IdsPopupElementRef;
-      this.modal.triggerType = 'click';
+    if (this.state.dataGridSettings) {
+      this.dataGridSettings = this.state.dataGridSettings;
     }
 
     this
@@ -122,11 +121,18 @@ export default class IdsLookup extends Base {
       .#handleKeys();
   }
 
+  mountedCallback(): void {
+    if (this.modal) {
+      // Link the Modal to its trigger button (sets up click/focus events)
+      this.modal.target = this.triggerButton as IdsPopupElementRef;
+      this.modal.triggerType = 'click';
+    }
+  }
+
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
 
     this.dataGrid = undefined;
-    this.modal = undefined;
     this.triggerField = undefined;
     this.triggerButton = undefined;
   }
