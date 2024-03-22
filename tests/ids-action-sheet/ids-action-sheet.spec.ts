@@ -81,6 +81,34 @@ test.describe('IdsActionSheet tests', () => {
         await as.evaluate((element: IdsActionSheet) => element.setAttribute('cancelBtnText', ''));
         await expect(page.locator('cancelBtnText')).toBeNull;
       });
+
+      test('can be dismissed on overlay click', async ({ page }) => {
+        const as = await page.locator('ids-overlay');
+        await expect(as).toBeAttached;
+        await as.dispatchEvent('click');
+        await expect(as.getAttribute('visible')).toBeNull;
+      });
+
+      test('can be dismissed on cancelBtn click', async ({ page }) => {
+        const as = await page.locator('[part="cancel-btn"]');
+        await expect(as).toBeAttached;
+        await as.dispatchEvent('click');
+        await expect(as.getAttribute('visible')).toBeNull;
+      });
+
+      test('can be dismissed on overlay touchstart', async ({ page }) => {
+        const as = await page.locator('ids-overlay');
+        await expect(as).toBeAttached;
+        await as.dispatchEvent('touchstart');
+        await expect(as.getAttribute('visible')).toBeNull;
+      });
+
+      test('can be dismissed on cancelBtn touchstart', async ({ page }) => {
+        const as = await page.locator('[part="cancel-btn"]');
+        await expect(as).toBeAttached;
+        await as.dispatchEvent('touchstart');
+        await expect(as.getAttribute('visible')).toBeNull;
+      });
     });
   });
 });
