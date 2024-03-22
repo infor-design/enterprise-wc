@@ -112,10 +112,6 @@ export default class IdsLookup extends Base {
     this.dataGrid = this.shadowRoot?.querySelector('ids-data-grid');
     this.dataGrid?.setAttribute(attributes.LIST_STYLE, 'true');
 
-    if (this.state.dataGridSettings) {
-      this.dataGridSettings = this.state.dataGridSettings;
-    }
-
     this
       .#handleEvents()
       .#handleKeys();
@@ -126,6 +122,10 @@ export default class IdsLookup extends Base {
       // Link the Modal to its trigger button (sets up click/focus events)
       this.modal.target = this.triggerButton as IdsPopupElementRef;
       this.modal.triggerType = 'click';
+    }
+
+    if (this.state.dataGridSettings) {
+      this.dataGridSettings = this.state.dataGridSettings;
     }
   }
 
