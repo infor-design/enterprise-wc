@@ -129,7 +129,7 @@ test.describe('IdsInput tests', () => {
     const pristineEventFired = await inputPrisineEvent;
     expect(pristineEventFired).toBeDefined();
 
-    // test `` event being fired
+    // test `afterresetdirty` event being fired
     const inputAfterResetEvent = inputDirtyTracker.evaluate((input: IdsInput) => new Promise((resolve) => {
       input.addEventListener('afterresetdirty', (e) => { resolve(e); });
     }));
