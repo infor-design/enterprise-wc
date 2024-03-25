@@ -111,8 +111,6 @@ export default class IdsModal extends Base {
       this.popup.setAttribute(attributes.ANIMATED, '');
       this.popup.setAttribute(attributes.ANIMATION_STYLE, 'scale-in');
       this.popup.onOutsideClick = this.onOutsideClick.bind(this);
-      this.popup.addOpenEvents = this.addOpenEvents.bind(this);
-      this.popup.removeOpenEvents = this.removeOpenEvents.bind(this);
     }
 
     // Update ARIA / Sets up the label
@@ -486,7 +484,7 @@ export default class IdsModal extends Base {
       this.setScrollable();
       this.popup.correct3dMatrix();
     }
-
+    if (this.overlay) this.overlay.visible = true;
     this.removeAttribute('aria-hidden');
 
     // Focus the correct element
@@ -536,7 +534,7 @@ export default class IdsModal extends Base {
     if (popupElem) popupElem.animated = true;
 
     this.removeOpenEvents();
-    this.overlay.visible = false;
+    if (this.overlay) this.overlay.visible = false;
     if (popupElem) popupElem.visible = false;
 
     // Animation-out can wait for the opacity transition to end before changing z-index.
@@ -580,6 +578,7 @@ export default class IdsModal extends Base {
 
     // If a Modal Button is clicked, fire an optional callback
     const buttonSlot = this.container?.querySelector('slot[name="buttons"]');
+    this.offEvent('click.buttons');
     this.onEvent('click.buttons', buttonSlot, async (e: MouseEvent) => {
       await this.handleButtonClick(e);
     });
@@ -709,7 +708,7 @@ export default class IdsModal extends Base {
    * @returns {void}
    */
   onOutsideClick(e: MouseEvent): void {
-    if (!e || !e?.target) {
+    if (!e?.target || e.composedPath()?.includes(this.popup as HTMLElement)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
