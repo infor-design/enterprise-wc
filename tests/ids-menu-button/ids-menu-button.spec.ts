@@ -109,7 +109,7 @@ test.describe('IdsMenuButton tests', () => {
         menubutton.dropdownIcon = 'null';
       });
       await buttonEl.click();
-      await expect(menuArrow).toHaveAttribute('style', 'margin-left: 14px;');
+      await expect(menuArrow).toHaveAttribute('style', 'margin-left: 15px;');
     });
 
     test('can set active state', async ({ page }) => {
