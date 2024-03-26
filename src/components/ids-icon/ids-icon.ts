@@ -50,7 +50,15 @@ export default class IdsIcon extends Base {
   }
 
   connectedCallback() {
+    console.log('IdsIcon.connectedCallback()', `icon @ ${this.icon}`, this);
     super.connectedCallback();
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) return;
+    console.log('IdsIcon.attributeChangedCallback()', name, `oldValue=${oldValue}`, `newValue=${newValue}`, this);
   }
 
   /**

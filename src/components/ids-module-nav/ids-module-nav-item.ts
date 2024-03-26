@@ -34,6 +34,7 @@ export default class IdsModuleNavItem extends Base {
   }
 
   connectedCallback() {
+    console.log('IdsModulNav.connectedCallback()', `icon @ ${this.icon}`, this);
     super.connectedCallback();
     this.toggleExpanderIcon(this.panel && this.panel.isExpandable);
     this.#refreshTextNode();
