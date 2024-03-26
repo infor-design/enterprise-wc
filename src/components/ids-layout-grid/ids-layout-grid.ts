@@ -556,7 +556,7 @@ export default class IdsLayoutGrid extends IdsElement {
    * @returns { string | null } value Flow [undefined, row, column, dense, row-dense, column-dense]
    */
   get flowMd(): string | null {
-    return this.getAttribute(attributes.FLOW_SM);
+    return this.getAttribute(attributes.FLOW_MD);
   }
 
   /**

@@ -177,12 +177,14 @@ export default class IdsCalendar extends Base {
     this.#updateTodayBtn(toShow);
   }
 
-  #updateTodayBtn(val: boolean) {
-    const el = this.container?.querySelector('ids-toolbar-section');
-    if (val) {
-      el?.insertAdjacentHTML('beforeend', this.todayBtnTemplate());
-    } else {
-      this.container?.querySelector('.btn-today')?.remove();
+  #updateTodayBtn(show: boolean) {
+    const toolbar = this.container?.querySelector('ids-toolbar-section');
+    const todayBtn = this.container?.querySelector('.btn-today');
+
+    if (!show) {
+      todayBtn?.remove();
+    } else if (show && todayBtn == null) {
+      toolbar?.insertAdjacentHTML('beforeend', this.todayBtnTemplate());
     }
   }
 

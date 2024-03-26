@@ -129,23 +129,64 @@ test.describe('IdsTree tests', () => {
 
       expect(await page.locator('ids-tree').getAttribute('dir')).toEqual('rtl');
     });
+  });
+
+  test.describe('adding nodes tests', () => {
+    const singleNode = [
+      {
+        id: 'newa',
+        text: 'New node'
+      }
+    ];
+    const multiNode = [
+      {
+        id: 'newb',
+        text: 'New node 1'
+      },
+      {
+        id: 'newc',
+        text: 'New node 2',
+        expanded: false,
+        children: [
+          {
+            id: 'newd',
+            text: 'New node 2.1'
+          },
+          {
+            id: 'newe',
+            text: 'New node 2.1'
+          }
+        ]
+      },
+      {
+        id: 'newf',
+        text: 'New node 3',
+        icon: 'building'
+      }
+    ];
 
     test('should add node to the top/bottom of the tree', async ({ page }) => {
-      const treeProps = await page.evaluate(async () => {
-        const tree = document.querySelector<IdsTree>('ids-tree');
-        tree!.addNodes([{
+      const tree = await page.locator('ids-tree');
+      await tree.evaluate((elem: IdsTree) => {
+        (window as any).nodeData = {};
+        elem.addEventListener('selected', (e: any) => {
+          (window as any).nodeData = e.detail.node.data;
+        });
+      });
+      const results = await tree.evaluate((elem: IdsTree) => {
+        elem.addNodes([{
           id: 'top-node',
           text: 'Top node'
         }], 'top');
-        tree!.addNodes([{
+        elem.addNodes([{
           id: 'bottom-node',
           text: 'Bottom node'
         }], 'bottom');
 
-        const topNodeDataIndex = tree!.nodesData?.findIndex((item) => item.id === 'top-node');
-        const topNodeDatasourceIndex = tree!.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'top-node');
-        const bottomNodeDataIndex = tree!.nodesData?.findIndex((item) => item.id === 'bottom-node');
-        const bottomNodeDatasourceIndex = tree!.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'bottom-node');
+        const topNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'top-node');
+        const topNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'top-node');
+        const bottomNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'bottom-node');
+        const bottomNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'bottom-node');
 
         return {
           topNodeDataIndex,
@@ -155,42 +196,59 @@ test.describe('IdsTree tests', () => {
         };
       });
 
-      expect(treeProps.topNodeDataIndex).toEqual(0);
-      expect(treeProps.topNodeDatasourceIndex).toEqual(0);
-      expect(treeProps.bottomNodeDataIndex).toEqual(45);
-      expect(treeProps.bottomNodeDatasourceIndex).toEqual(7);
+      expect(results.topNodeDataIndex).toEqual(0);
+      expect(results.topNodeDatasourceIndex).toEqual(0);
+      expect(results.bottomNodeDataIndex).toEqual(45);
+      expect(results.bottomNodeDatasourceIndex).toEqual(7);
+
+      await page.getByText('Top node').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('top-node');
+      await page.getByText('Home').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('home');
+      await page.getByText('Bottom node').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('bottom-node');
+      await page.getByText('About Us').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('about-us');
+      await page.getByText('Contacts').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('contacts');
     });
 
     test('should add node before/after root node', async ({ page }) => {
-      const treeProps = await page.evaluate(async () => {
-        const tree = document.querySelector<IdsTree>('ids-tree');
-        const firstNode = tree!.getNode('#home');
-        const lastNode = tree!.getNode('#contacts');
-        tree!.addNodes([{
+      const tree = await page.locator('ids-tree');
+      await tree.evaluate((elem: IdsTree) => {
+        (window as any).nodeData = {};
+        elem.addEventListener('selected', (e: any) => {
+          (window as any).nodeData = e.detail.node.data;
+        });
+      });
+      const results = await tree.evaluate((elem: IdsTree) => {
+        const firstNode = elem.getNode('#home');
+        const lastNode = elem.getNode('#contacts');
+        elem.addNodes([{
           id: 'before-first-node',
           text: 'Before first node'
         }], 'before', firstNode.elem);
-        tree!.addNodes([{
+        elem.addNodes([{
           id: 'before-last-node',
           text: 'Before last node'
         }], 'before', lastNode.elem);
-        tree!.addNodes([{
+        elem.addNodes([{
           id: 'after-first-node',
           text: 'After first node'
         }], 'after', firstNode.elem);
-        tree!.addNodes([{
+        elem.addNodes([{
           id: 'after-last-node',
           text: 'After last node'
         }], 'after', lastNode.elem);
 
-        const beforeFirstNodeDataIndex = tree!.nodesData?.findIndex((item) => item.id === 'before-first-node');
-        const beforeFirstNodeDatasourceIndex = tree!.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'before-first-node');
-        const beforeLastNodeDataIndex = tree!.nodesData?.findIndex((item) => item.id === 'before-last-node');
-        const beforeLastNodeDatasourceIndex = tree!.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'before-last-node');
-        const afterFirstNodeDataIndex = tree!.nodesData?.findIndex((item) => item.id === 'after-first-node');
-        const afterFirstNodeDatasourceIndex = tree!.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'after-first-node');
-        const afterLastNodeDataIndex = tree!.nodesData?.findIndex((item) => item.id === 'after-last-node');
-        const afterLastNodeDatasourceIndex = tree!.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'after-last-node');
+        const beforeFirstNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'before-first-node');
+        const beforeFirstNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'before-first-node');
+        const beforeLastNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'before-last-node');
+        const beforeLastNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'before-last-node');
+        const afterFirstNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'after-first-node');
+        const afterFirstNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'after-first-node');
+        const afterLastNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'after-last-node');
+        const afterLastNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'after-last-node');
 
         return {
           beforeFirstNodeDataIndex,
@@ -204,33 +262,58 @@ test.describe('IdsTree tests', () => {
         };
       });
 
-      expect(treeProps.beforeFirstNodeDataIndex).toEqual(0);
-      expect(treeProps.beforeFirstNodeDatasourceIndex).toEqual(0);
-      expect(treeProps.beforeLastNodeDataIndex).toEqual(44);
-      expect(treeProps.beforeLastNodeDatasourceIndex).toEqual(7);
-      expect(treeProps.afterFirstNodeDataIndex).toEqual(2);
-      expect(treeProps.afterFirstNodeDatasourceIndex).toEqual(2);
-      expect(treeProps.afterLastNodeDataIndex).toEqual(46);
-      expect(treeProps.afterLastNodeDatasourceIndex).toEqual(9);
+      expect(results.beforeFirstNodeDataIndex).toEqual(0);
+      expect(results.beforeFirstNodeDatasourceIndex).toEqual(0);
+      expect(results.beforeLastNodeDataIndex).toEqual(44);
+      expect(results.beforeLastNodeDatasourceIndex).toEqual(7);
+      expect(results.afterFirstNodeDataIndex).toEqual(2);
+      expect(results.afterFirstNodeDatasourceIndex).toEqual(2);
+      expect(results.afterLastNodeDataIndex).toEqual(47);
+      expect(results.afterLastNodeDatasourceIndex).toEqual(9);
+
+      await page.getByText('Before first node').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('before-first-node');
+      await page.getByText('Home').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('home');
+      await page.getByText('After last node').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('after-last-node');
+      await page.getByText('Contacts').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('contacts');
+      await page.getByText('Before last node').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('before-last-node');
+      await page.getByText('Contacts').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('contacts');
+      await page.getByText('About Us').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('about-us');
+      await page.getByText('After first node').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('after-first-node');
+      await page.getByText('Home').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('home');
     });
 
     test('should add node before/after a node with parent', async ({ page }) => {
-      const treeProps = await page.evaluate(async () => {
-        const tree = document.querySelector<IdsTree>('ids-tree');
-        const withParentNode = tree!.getNode('#leadership');
-        tree!.addNodes([{
+      const tree = await page.locator('ids-tree');
+      await tree.evaluate((elem: IdsTree) => {
+        (window as any).nodeData = {};
+        elem.addEventListener('selected', (e: any) => {
+          (window as any).nodeData = e.detail.node.data;
+        });
+      });
+      const results = await tree.evaluate((elem: IdsTree) => {
+        const withParentNode = elem!.getNode('#leadership');
+        elem!.addNodes([{
           id: 'before-node-with-parent',
           text: 'Before node-with-parent'
         }], 'before', withParentNode.elem);
-        tree!.addNodes([{
+        elem!.addNodes([{
           id: 'after-node-with-parent',
           text: 'After node-with-parent'
         }], 'after', withParentNode.elem);
 
-        const beforeDataIndex = tree!.nodesData?.findIndex((item) => item.id === 'before-node-with-parent');
-        const beforeDatasourceIndex = tree!.datasource?.data?.[2]?.children?.findIndex((item: IdsTreeData) => item.id === 'before-node-with-parent');
-        const afterDataIndex = tree!.nodesData?.findIndex((item) => item.id === 'after-node-with-parent');
-        const afterDatasourceIndex = tree!.datasource?.data?.[2]?.children?.findIndex((item: IdsTreeData) => item.id === 'after-node-with-parent');
+        const beforeDataIndex = elem!.nodesData?.findIndex((item) => item.id === 'before-node-with-parent');
+        const beforeDatasourceIndex = elem!.datasource?.data?.[2]?.children?.findIndex((item: IdsTreeData) => item.id === 'before-node-with-parent');
+        const afterDataIndex = elem!.nodesData?.findIndex((item) => item.id === 'after-node-with-parent');
+        const afterDatasourceIndex = elem!.datasource?.data?.[2]?.children?.findIndex((item: IdsTreeData) => item.id === 'after-node-with-parent');
 
         return {
           beforeDataIndex,
@@ -240,35 +323,72 @@ test.describe('IdsTree tests', () => {
         };
       });
 
-      expect(treeProps.beforeDataIndex).toEqual(3);
-      expect(treeProps.beforeDatasourceIndex).toEqual(0);
-      expect(treeProps.afterDataIndex).toEqual(5);
-      expect(treeProps.afterDatasourceIndex).toEqual(2);
+      expect(results.beforeDataIndex).toEqual(3);
+      expect(results.beforeDatasourceIndex).toEqual(0);
+      expect(results.afterDataIndex).toEqual(8);
+      expect(results.afterDatasourceIndex).toEqual(2);
+
+      await page.getByText('Before node-with-parent').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('before-node-with-parent');
+      await page.getByText('Leadership').first().click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('leadership');
+      await page.getByText('After node-with-parent').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('after-node-with-parent');
+      await page.getByText('History 2nd').first().click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('history-2');
+      await page.getByText('Contacts').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('contacts');
+      await page.getByText('Careers', { exact: true }).first().click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('careers');
     });
 
     test('should add node as children of a node', async ({ page }) => {
-      const treeProps = await page.evaluate(async () => {
-        const tree = document.querySelector<IdsTree>('ids-tree');
-        const parentNode = tree!.getNode('#home');
-        tree!.addNodes([{
-          id: 'child-node',
-          text: 'Child node'
-        }], 'child', parentNode.elem);
-
-        const dataIndex = tree!.nodesData?.findIndex((item) => item.id === 'child-node');
-        const datasourceIndex = tree!.datasource?.data?.[0]?.children?.findIndex((item: IdsTreeData) => item.id === 'child-node');
-        const childrenCount = tree!.datasource?.data?.[0]?.children?.length;
-
-        return {
-          dataIndex,
-          datasourceIndex,
-          childrenCount
-        };
+      const tree = await page.locator('ids-tree');
+      const addNodes = async (id: string, data: Array<IdsTreeData>) => {
+        await tree.evaluate((elem: IdsTree, arg: { id: string, data: Array<IdsTreeData> }) => {
+          const node = elem.getNode(arg.id);
+          elem.addNodes(arg.data, 'child', node.elem);
+        }, {
+          id,
+          data
+        });
+      };
+      await tree.evaluate((elem: IdsTree) => {
+        (window as any).nodeData = {};
+        elem.addEventListener('selected', (e: any) => {
+          (window as any).nodeData = e.detail.node.data;
+        });
       });
-
-      expect(treeProps.dataIndex).toEqual(1);
-      expect(treeProps.datasourceIndex).toEqual(0);
-      expect(treeProps.childrenCount).toEqual(1);
+      await addNodes('#home', singleNode);
+      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item: IdsTreeData) => item.id === 'home')?.children?.length)).toBe(1);
+      expect(await tree.evaluate((elem: IdsTree) => elem.datasource.data.find((item: IdsTreeData) => item.id === 'home')?.children?.length)).toBe(1);
+      await page.getByText('About Us').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('about-us');
+      await page.getByText('New node').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('newa');
+      await addNodes('#home', multiNode);
+      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item: IdsTreeData) => item.id === 'home')?.children?.length)).toBe(4);
+      expect(await tree.evaluate((elem: IdsTree) => elem.datasource.data.find((item: IdsTreeData) => item.id === 'home')?.children?.length)).toBe(4);
+      await page.getByText('About Us').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('about-us');
+      await page.getByText('Public Folders').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('public-folders');
+      await page.getByText('New node 2').first().click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('newc');
+      await page.getByText('New node 2.1').first().click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('newd');
+      await page.getByText('Contacts').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('contacts');
+      await addNodes('#contacts', singleNode);
+      await addNodes('#contacts', multiNode);
+      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item: IdsTreeData) => item.id === 'contacts')?.children?.length)).toBe(4);
+      expect(await tree.evaluate((elem: IdsTree) => elem.datasource.data.find((item: IdsTreeData) => item.id === 'contacts')?.children?.length)).toBe(4);
+      await page.getByText('About Us').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('about-us');
+      await page.getByText('Public Folders').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('public-folders');
+      await page.getByText('Contacts').click();
+      expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('contacts');
     });
   });
 
@@ -281,7 +401,7 @@ test.describe('IdsTree tests', () => {
     });
 
     test('should fire selected event with correct data on node click', async ({ page }) => {
-      const selectedNode = await page.evaluate(async () => {
+      const selectedNode = await page.evaluate(() => {
         let data: any = null;
         const tree = document.querySelector<IdsTree>('ids-tree');
         tree?.addEventListener('selected', (e: any) => {

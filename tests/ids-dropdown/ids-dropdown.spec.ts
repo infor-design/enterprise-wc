@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { expect } from '@playwright/test';
+import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
@@ -177,6 +177,49 @@ test.describe('IdsDropdown tests', () => {
       });
       expect(values2[0]).toBeFalsy();
       expect(values2[1]).toBeNull();
+    });
+
+    test('can view tooltips on dropdown and options', async ({ page }) => {
+      const dropdownLocator: Locator = await page.locator('#dropdown-6');
+
+      // Check tooltip for dropdown
+      await dropdownLocator.hover();
+      await expect(await page.locator('ids-tooltip')).toBeAttached();
+      await dropdownLocator.blur();
+
+      // Check tooltip for dropdown option
+      await dropdownLocator.locator('ids-trigger-button').click();
+      const dropdownFirstOptionLocator: Locator = await page.locator('#dropdown-6 ids-list-box ids-list-box-option').first();
+      await dropdownFirstOptionLocator.hover();
+      await expect(await page.locator('ids-tooltip')).toBeAttached();
+      await dropdownFirstOptionLocator.blur();
+
+      // Check tooltip for lazy loaded dropdown option
+      await page.evaluate(() => {
+        const asyncTooltipDropdown = document.createElement('ids-dropdown');
+        asyncTooltipDropdown.id = 'dropdown-async-tooltips';
+        asyncTooltipDropdown.innerHTML = '<ids-list-box></ids-list-box>';
+        (asyncTooltipDropdown as IdsDropdown).beforeShow = async function beforeShow() {
+          return new Promise((resolve) => {
+            resolve([
+              {
+                value: 'opt1',
+                label: 'Option One',
+                tooltip: 'Additional Info on Option One'
+              }
+            ]);
+          });
+        };
+
+        const lastDropdown = document.querySelector('ids-dropdown:last-of-type');
+        lastDropdown?.after(asyncTooltipDropdown);
+      });
+
+      const asyncDropdownLocator: Locator = await page.locator('#dropdown-async-tooltips');
+      await asyncDropdownLocator.locator('ids-trigger-button').click();
+      const asyncDropdownFirstOptionLocator: Locator = await page.locator('#dropdown-async-tooltips ids-list-box ids-list-box-option').first();
+      await asyncDropdownFirstOptionLocator.hover();
+      await expect(await page.locator('ids-tooltip')).toBeAttached();
     });
   });
 

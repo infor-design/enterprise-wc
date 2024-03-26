@@ -241,34 +241,28 @@ export default class IdsTree extends Base {
   addNodes(nodeData: Array<IdsTreeData>, location?: 'bottom' | 'top' | 'before' | 'after' | 'child', node?: HTMLElement) {
     const slot = this.shadowRoot?.querySelector('slot');
     if (!slot) return;
-    const { data, html } = this.#htmlAndData(nodeData);
+    const { html } = this.#htmlAndData(nodeData);
     if (location === 'top') {
-      this.nodesData = [...data, ...this.nodesData];
       this.datasource.data = [...nodeData, ...this.datasource.data];
       slot.insertAdjacentHTML('afterbegin', html);
     }
     if (location === 'bottom') {
-      this.nodesData = [...this.nodesData, ...data];
       this.datasource.data = [...this.datasource.data, ...nodeData];
       slot.insertAdjacentHTML('beforeend', html);
     }
     if (location === 'before' && node) {
       const nodeDatum = this.getNodeData(node);
-      const idx = nodeDatum.idx || 0;
       const posinsetIdx = (nodeDatum.posinset || 1) - 1;
-      this.nodesData = this.nodesData.reduce((acc: IdsTreeData[], val, index) => {
-        if (index === idx) {
-          acc.push(...data);
-        }
-        acc.push(val);
-        return acc;
-      }, []);
 
       const parentArray = (nodeDatum?.data as any)?.parent;
       if (parentArray) {
-        const bottomNodesChildren = parentArray.children.splice(0, Number(nodeDatum.posinset) - 1);
-        const topNodesChildren = parentArray.children;
-        parentArray.children = [...bottomNodesChildren, ...nodeData, ...topNodesChildren];
+        parentArray.children = parentArray.children?.reduce((acc: IdsTreeData[], val: IdsTreeData, index: number) => {
+          if (index === posinsetIdx) {
+            acc.push(...nodeData);
+          }
+          acc.push(val);
+          return acc;
+        }, []) || [];
       } else {
         this.datasource.data = this.datasource.data.reduce((acc: IdsTreeData[], val: IdsTreeData, index: number) => {
           if (index === posinsetIdx) {
@@ -282,21 +276,17 @@ export default class IdsTree extends Base {
     }
     if (location === 'after' && node) {
       const nodeDatum = this.getNodeData(node);
-      const idx = nodeDatum.idx || 0;
       const posinsetIdx = (nodeDatum.posinset || 1) - 1;
-      this.nodesData = this.nodesData.reduce((acc: IdsTreeData[], val, index) => {
-        acc.push(val);
-        if (index === idx) {
-          acc.push(...data);
-        }
-        return acc;
-      }, []);
 
       const parentArray = (nodeDatum?.data as any)?.parent;
       if (parentArray) {
-        const bottomNodesChildren = parentArray.children.splice(0, nodeDatum.posinset);
-        const topNodesChildren = parentArray.children.splice(Number(nodeDatum?.posinset) - 1);
-        parentArray.children = [...bottomNodesChildren, ...nodeData, ...topNodesChildren];
+        parentArray.children = parentArray.children?.reduce((acc: IdsTreeData[], val: IdsTreeData, index: number) => {
+          acc.push(val);
+          if (index === posinsetIdx) {
+            acc.push(...nodeData);
+          }
+          return acc;
+        }, []) || [];
       } else {
         this.datasource.data = this.datasource.data.reduce((acc: IdsTreeData[], val: IdsTreeData, index: number) => {
           acc.push(val);
@@ -313,13 +303,15 @@ export default class IdsTree extends Base {
       const nodeDatum = this.getNodeData(node);
       const idx = nodeDatum.idx;
       if (this.nodesData && idx !== undefined && this.nodesData[idx]) {
-        const sourceData = (nodeDatum?.data as any)?.dataRef;
+        const sourceData = (nodeDatum?.data as any);
         if (!sourceData.children) sourceData.children = [];
-        sourceData.children.push(...data);
-        this.nodesData = this.#htmlAndData(this.data).data;
+        sourceData.children.push(...nodeData);
       }
       node.shadowRoot?.querySelector('li')?.insertAdjacentHTML('beforeend', `<ul class="group-nodes" role="group">${html}</ul>`);
     }
+
+    const { data } = this.#htmlAndData(this.data);
+    this.nodesData = data;
     this.#setNodes();
     this.#initIcons();
     this.#initTabbable();
@@ -374,7 +366,7 @@ export default class IdsTree extends Base {
           }
         };
 
-        n.dataRef = n;
+        if (!n.dataRef) n.dataRef = { ...n };
         if (parent) n.parent = parent;
         data.push(n);
 
@@ -392,7 +384,7 @@ export default class IdsTree extends Base {
 
           let fakeChildren = false;
           if (n.children.length === 0) {
-            n.children = [{}];
+            n.children = [{ placeholder: true }];
             fakeChildren = true;
           }
           nodesHtml(n.children, n);
@@ -477,6 +469,7 @@ export default class IdsTree extends Base {
    */
   #setNodes() {
     this.#nodes = [];
+    const nodesData = this.nodesData?.filter((item: any) => !item.placeholder) || [];
 
     const isNodeEl = (elem: any) => /^ids-tree-node$/i.test(elem.nodeName);
     let nodeIdx = 0;
@@ -503,8 +496,8 @@ export default class IdsTree extends Base {
         const args: any = {
           elem, level, posinset, setsize, idx, isGroup: elem.isGroup
         };
-        if (this.nodesData[idx]) {
-          args.data = this.nodesData[idx];
+        if (nodesData[idx]) {
+          args.data = nodesData[idx];
         }
         this.#nodes.push(args);
         if (elem.isGroup) {

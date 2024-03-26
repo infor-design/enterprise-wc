@@ -3,7 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 
 // Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { getClosestContainerNode, getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { IdsConstructor } from '../../core/ids-element';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
@@ -41,6 +41,7 @@ const IdsFocusCaptureMixin = <T extends Constraints>(superclass: T) => class ext
   connectedCallback() {
     super.connectedCallback?.();
     if (this.hasAttribute(attributes.FOCUS_INLINE)) this.syncInline(true);
+    else this.#hostNode = getClosestRootNode(this);
   }
 
   disconnectedCallback(): void {
