@@ -49,7 +49,6 @@ export default class IdsAccordionHeader extends Base {
   }
 
   connectedCallback() {
-    console.log('IdsAccordionHeader.connectedCallback()', `icon @ ${this.icon}`, this);
     super.connectedCallback();
     this.refreshIconDisplay(this.icon);
     this.#refreshExpanderIconType();
@@ -253,14 +252,11 @@ export default class IdsAccordionHeader extends Base {
    * @param {string} val the icon definition to apply
    */
   refreshIconDisplay(val: string | any[] | null) {
-    console.log('refreshIconDisplay', val);
     const iconDef = typeof val === 'string' && val.length ? val : '';
     const iconElem = this.container?.querySelector<IdsIcon>('.ids-accordion-display-icon');
 
     if (iconElem) {
-      // iconElem.icon = iconDef;
       iconElem.setAttribute('icon', iconDef);
-      // this.container?.classList[iconDef.length ? 'add' : 'remove']('has-icon');
       this.container?.classList.toggle('has-icon', !!iconDef.length);
     } else {
       this.container?.classList.remove('has-icon');
@@ -269,10 +265,6 @@ export default class IdsAccordionHeader extends Base {
     const hasParentIcon = this.parentHasIcon;
     const siblingsCanExpand = this.siblingsCanExpand;
     const expandable = this.panel.isExpandable;
-
-    // this.container?.classList[hasParentIcon ? 'add' : 'remove']('parent-has-icon');
-    // this.container?.classList[expandable ? 'add' : 'remove']('is-expandable');
-    // this.container?.classList[siblingsCanExpand ? 'add' : 'remove']('siblings-can-expand');
 
     this.container?.classList.toggle('parent-has-icon', !!hasParentIcon);
     this.container?.classList.toggle('is-expandable', !!expandable);
