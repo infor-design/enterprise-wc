@@ -2,16 +2,16 @@
 
 ## Publishing a package to NPM
 
-- Search for `1.0.0-beta.n` (current version) and replace with new version (currently `1.0.0-beta.21`), It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js` and this file (but not the change log)
+- Search for `1.0.0-beta.n` (current version) and replace with new version (currently `1.0.0-beta.22`), It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js` and this file (but not the change log)
 - Commit and push
-- Make and push a tag with `git tag 1.0.0-beta.21 && git push origin --tags`
+- Make and push a tag with `git tag 1.0.0-beta.22 && git push origin --tags`
 - Run command `npm run publish:dry-run` to test first if you wish
 - Run command `npm run publish:npm` or `publish:debug` (we may want to publish debuggable code for a period of time of stability)
 - If not installed, install GitHub cli so you get the [`gh`](https://cli.github.com/manual/gh_release_create) command with `brew install gh`
-- Run command `gh release create 1.0.0-beta.21 --title "1.0.0-beta.21" --notes-file "doc/CHANGELOG.md"`
+- Run command `gh release create 1.0.0-beta.22 --title "1.0.0-beta.22" --notes-file "doc/CHANGELOG.md"`
 - Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents to just the current release and if needed and make it pre-release
 - Commit and push (direct to repo or PR)
-- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-beta-21`
+- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-beta-22`
 - Post in announcements section following other similar link
 - (Run the docs generator (TBD) for `https://design.infor.com/web-components/` by running `scripts/docs-generator/main.js`
 

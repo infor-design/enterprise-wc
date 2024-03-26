@@ -1,0 +1,11 @@
+
+      <ids-step-chart
+        step-number="7"
+        steps-in-progress="5"
+        value="4"
+        progress-color="red-20"
+        
+        
+      >
+      </ids-step-chart>
+    
