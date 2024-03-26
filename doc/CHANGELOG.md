@@ -15,6 +15,7 @@
 - `[LayoutFlex]` Converted layout flex tests to playwright. ([#1944](https://github.com/infor-design/enterprise-wc/issues/1944))
 - `[LayoutGridCell/Attributes]` Corrected the values of `COL_END_*` constants from `col_start_*` to `col_end_*` along with the test coverage of the `IdsLayoutGridCell`. ([#2075](https://github.com/infor-design/enterprise-wc/issues/2075))
 - `[Lookup]` Fix `IdsLookup` (for Angular) so that modal triggers are attached after the modal has been mounted/constructed. ([#1889](https://github.com/infor-design/enterprise-wc/issues/1889))
+- `[Modal]` Fixed clicking outside the modal does not close the modal. ([#1892](https://github.com/infor-design/enterprise-wc/issues/1892))
 - `[Tree]` Re-Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
 
 ## 1.0.0-beta.22
@@ -46,7 +47,6 @@
 - `[Lookup]` Fix error that was thrown upon modal open after detach/reattach of lookup. ([#2059](https://github.com/infor-design/enterprise-wc/issues/2059))
 - `[ListView]` Added support for attributes `tooltip`, `max-width` and `overflow="ellipses"`. ([#1637](https://github.com/infor-design/enterprise-wc/issues/1637))
 - `[Modal]` Converted modal, about, error page, action panel tests. ([#1847](https://github.com/infor-design/enterprise-wc/issues/1847))
-- `[Modal]` Fixed clicking outside the modal does not close the modal. ([#1892](https://github.com/infor-design/enterprise-wc/issues/1892))
 - `[Radio]` Converted radio tests to playwright. ([#1872](https://github.com/infor-design/enterprise-wc/issues/1872))
 - `[Tree]` Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
 - `[Wizard]` Fixed broken wizard component in angular framework. ([#1885](https://github.com/infor-design/enterprise-wc/issues/1885))
