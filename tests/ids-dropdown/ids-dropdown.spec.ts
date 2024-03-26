@@ -179,6 +179,33 @@ test.describe('IdsDropdown tests', () => {
       expect(values2[1]).toBeNull();
     });
 
+    test('can have blank value=""', async ({ page }) => {
+      const values = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown#dropdown-9')!;
+        return [dropdown?.allowBlank, dropdown.value];
+      });
+
+      const [allowBlank, value] = values;
+      expect(allowBlank).toBeFalsy();
+      expect(value).toEqual(null);
+
+      const newValue = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown#dropdown-9')!;
+        dropdown.options[2].click();
+        return dropdown.value;
+      });
+
+      expect(newValue).toBe('opt2');
+
+      const blankValue = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown#dropdown-9')!;
+        dropdown.options[0].click();
+        return dropdown.value;
+      });
+
+      expect(blankValue).toEqual('');
+    });
+
     test('can view tooltips on dropdown and options', async ({ page }) => {
       const dropdownLocator: Locator = await page.locator('#dropdown-6');
 
