@@ -6,6 +6,7 @@
 - `[ActionSheet]` Converted ActionSheet tests. ([#1915](https://github.com/infor-design/enterprise-wc/issues/1915))
 - `[Datagrid]` Add ability (and example) to set editor's column settings from server. ([#1714](https://github.com/infor-design/enterprise-wc/issues/1714))
 - `[Input]` Added `checkOverflow()` check to `IdsInput` to ensure only showing tooltip when text-overflow ellipses. ([#1755](https://github.com/infor-design/enterprise-wc/issues/1755))
+- `[Input]` Fix clearing input value manually. ([#2011](https://github.com/infor-design/enterprise-wc/issues/2011))
 - `[ListBuilder]` Added a check to deselect the previously selected automatically upon adding a new item in a single-select ListBuilder. ([#1809](https://github.com/infor-design/enterprse-wc/issues/1809))
 - `[Lookup]` Fix `IdsLookup` (for Angular) so that modal triggers are attached after the modal has been mounted/constructed. ([#1889](https://github.com/infor-design/enterprise-wc/issues/1889))
 - `[ProcessIndicator]` Style fix prevent labels and icons from overlapping on initial page-load. ([#1730](https://github.com/infor-design/enterprise-wc/issues/1730))
