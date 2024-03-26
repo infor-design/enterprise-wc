@@ -14,6 +14,9 @@
 
 - `[Calendar]` Fix issue where duplicate "Today" buttons were created if showToday set to true multiple times. ([#2056](https://github.com/infor-design/enterprise-wc/issues/2056))
 - `[Card]` Fix selected state styles for dark mode. ([#1887](https://github.com/infor-design/enterprise-wc/issues/1887))
+- `[Checkbox]` Converted checkbox tests to playwright. ([#1870](https://github.com/infor-design/enterprise-wc/issues/1870))
+- `[Container]` Converted container tests to playwright. ([#1924](https://github.com/infor-design/enterprise-wc/issues/1924))
+- `[Counts]` Converted counts tests to playwright. ([#1927](https://github.com/infor-design/enterprise-wc/issues/1927))
 - `[Datagrid]` Fixed a display issue with the new loading indicator in firefox. ([#1617](https://github.com/infor-design/enterprise-wc/issues/1617))
 - `[Datagrid]` Added custom validation for editable datagrid cells. ([#1791](https://github.com/infor-design/enterprise-wc/issues/1791))
 - `[Docs]` Added docs page for IdsGlobal. Moved some subcomponents that should not be used directly into their main component area. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
