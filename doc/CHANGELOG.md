@@ -2,12 +2,19 @@
 
 ## 1.0.0-beta.23
 
+### 1.0.0-beta.23 Ui Changes
+
+- `[Tokens]` UI design changes to popups, buttons, toggle button, menu button, cards (minor), and darker text. Contrast mode is now white. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
+
 ### 1.0.0-beta.23 Features
 
 - `[ListBuilder]` Added a check to deselect the previously selected automatically upon adding a new item in a single-select ListBuilder. ([#1809](https://github.com/infor-design/enterprse-wc/issues/1809))
+- `[Separator]` Fixed issue rendering vertical separator. ([#1891](https://github.com/infor-design/enterprise-wc/issues/1891))
+- `[Tokens]` Integrate tokens with figma/ids-foundation. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 
 ### 1.0.0-beta.23 Fixes
 
+- `[Button]` Added updated button designs from the tokens. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 - `[Datagrid]` Converted datagrid tests to playwright. ([#1845](https://github.com/infor-design/enterprise-wc/issues/1845))
 - `[Dropdown]` Fix issue where required dropdowns were note rendering asterisk in React and Angular examples. ([#2023](https://github.com/infor-design/enterprise-wc/issues/2023))
 - `[Dropdown]` Fix issue where tooltips were not shown if options were lazy loaded. ([#2051](https://github.com/infor-design/enterprise-wc/issues/2051))
@@ -19,20 +26,13 @@
 
 ## 1.0.0-beta.22
 
-### 1.0.0-beta.22 Ui Changes
-
-- `[Tokens]` UI design changes to popups, buttons, toggle button, menu button, cards (minor), and darker text. Contrast mode is now white. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
-
 ### 1.0.0-beta.22 Features
 
 - `[ActionSheet]` Converted ActionSheet tests. ([#1915](https://github.com/infor-design/enterprise-wc/issues/1915))
-- `[Button]` Added updated button designs from the tokens. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 - `[Datagrid]` Add ability (and example) to set editor's column settings from server. ([#1714](https://github.com/infor-design/enterprise-wc/issues/1714))
 - `[Input]` Added `checkOverflow()` check to `IdsInput` to ensure only showing tooltip when text-overflow ellipses. ([#1755](https://github.com/infor-design/enterprise-wc/issues/1755))
 - `[ProcessIndicator]` Style fix prevent labels and icons from overlapping on initial page-load. ([#1730](https://github.com/infor-design/enterprise-wc/issues/1730))
 - `[PopupMenu]` Added ability to load menu data in a callback with `beforeShow`. ([#1804](https://github.com/infor-design/enterprise-wc/issues/1804))
-- `[Separator]` Fixed issue rendering vertical separator. ([#1891](https://github.com/infor-design/enterprise-wc/issues/1891))
-- `[Tokens]` Integrate tokens with figma/ids-foundation. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 - `[TagList]` Added a new `ids-tag-list` layout and eventing component. ([#1903](https://github.com/infor-design/enterprise-wc/issues/1903))
 
 ### 1.0.0-beta.22 Fixes
