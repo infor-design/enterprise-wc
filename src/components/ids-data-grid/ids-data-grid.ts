@@ -1654,7 +1654,7 @@ export default class IdsDataGrid extends Base {
     if (!this.container || !this.data.length) return;
 
     const { ROW_HEIGHT } = this.virtualScrollSettings;
-    const isRowHidden = this.data[rowIndex].rowHidden;
+    const isRowHidden = this.data[rowIndex]?.rowHidden;
     const forceRender: Record<number, boolean> = {};
 
     // if row is hidden, first expand all parent rows
