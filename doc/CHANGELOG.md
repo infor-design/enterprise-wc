@@ -28,6 +28,7 @@
 - `[Lookup]` Fix error that was thrown upon modal open after detach/reattach of lookup. ([#2059](https://github.com/infor-design/enterprise-wc/issues/2059))
 - `[ListView]` Added support for attributes `tooltip`, `max-width` and `overflow="ellipses"`. ([#1637](https://github.com/infor-design/enterprise-wc/issues/1637))
 - `[Modal]` Converted modal, about, error page, action panel tests. ([#1847](https://github.com/infor-design/enterprise-wc/issues/1847))
+- `[Modal]` Fixed clicking outside the modal does not close the modal. ([#1892](https://github.com/infor-design/enterprise-wc/issues/1892))
 - `[Radio]` Converted radio tests to playwright. ([#1872](https://github.com/infor-design/enterprise-wc/issues/1872))
 - `[Tree]` Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
 - `[Wizard]` Fixed broken wizard component in angular framework. ([#1885](https://github.com/infor-design/enterprise-wc/issues/1885))

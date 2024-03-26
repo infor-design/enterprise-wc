@@ -154,10 +154,6 @@ test.describe('IdsModal tests', () => {
   });
 
   test.describe(('modal functionality'), () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto(url);
-    });
-
     test('hiding modal via Escape', async ({ page }) => {
       const buttonHandle = page.locator('#modal-trigger-btn');
       const modalHandle = page.locator('#my-modal');
@@ -168,6 +164,32 @@ test.describe('IdsModal tests', () => {
       // Close via escape
       await page.keyboard.press('Escape');
       await page.waitForSelector('ids-modal:not([visible])');
+    });
+
+    test('should hide modal when clicking outside', async ({ page }) => {
+      const modal = await page.locator('ids-modal');
+      await modal.evaluate(async (elem: IdsModal) => {
+        elem.popup!.animated = false;
+        await elem.show();
+      });
+      await expect(modal).toHaveAttribute('visible');
+
+      // Click outside modal
+      await page.evaluate(() => {
+        document.querySelector<any>('ids-container')?.querySelector('ids-theme-switcher')?.click();
+      });
+      await page.waitForSelector('ids-modal:not([visible])');
+
+      // Disable outside click
+      await modal.evaluate(async (elem: IdsModal) => {
+        elem.popup!.onOutsideClick = () => {};
+        await elem.show();
+      });
+      await expect(modal).toHaveAttribute('visible');
+      await page.evaluate(() => {
+        document.querySelector<any>('ids-container')?.querySelector('ids-theme-switcher')?.click();
+      });
+      await page.waitForSelector('ids-modal[visible]');
     });
 
     test('setting custom overlay', async ({ page }) => {
