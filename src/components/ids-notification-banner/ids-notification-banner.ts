@@ -15,6 +15,8 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-notification-banner.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+import type IdsText from '../ids-text/ids-text';
+
 const Base = IdsKeyboardMixin(
   IdsEventsMixin(
     IdsElement
@@ -54,12 +56,25 @@ export default class IdsNotificationBanner extends Base {
    */
   static get attributes(): Array<any> {
     return [
+      attributes.MESSAGE,
       attributes.MESSAGE_TEXT,
       attributes.LINK,
       attributes.LINK_TEXT,
       attributes.TYPE,
       attributes.WRAP
     ];
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    if (oldValue === newValue) return;
+    if (name === attributes.MESSAGE) this.#messageText(newValue);
+    if (name === attributes.MESSAGE_TEXT) this.#messageText(newValue);
+  }
+
+  #messageText(value: string) {
+    const textElement = this.container?.querySelector<IdsText>('.ids-notification-banner-message ids-text.message');
+    if (textElement) textElement.innerText = value || '';
   }
 
   /**
@@ -82,7 +97,7 @@ export default class IdsNotificationBanner extends Base {
       <div class="ids-notification-banner" part="container" type="${type}">
         <ids-alert icon="${alertIcon === 'warning' ? 'alert' : alertIcon}"></ids-alert>
         <div class="ids-notification-banner-message ${this.wrap ? 'wrap' : ''}" part="message">
-          <ids-text ${overflow}>${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
+          <ids-text class="message" ${overflow}>${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
         </div>
 
         <div class="ids-notification-banner-link" part="link"${!this.link ? ' hidden' : ''}>
@@ -181,20 +196,31 @@ export default class IdsNotificationBanner extends Base {
 
   /**
    * Set the message text of the Notification Banner
-   * @param {string | null} value the link-text value
+   * @param {string | null} value the message-text value
    */
   set messageText(value: string | null) {
-    const textElem = this.container?.querySelector<HTMLElement>('.ids-notification-banner-message ids-text');
     if (value) {
       this.setAttribute(attributes.MESSAGE_TEXT, value);
-      if (textElem) textElem.innerText = value;
     } else {
       this.removeAttribute(attributes.MESSAGE_TEXT);
-      if (textElem) textElem.innerText = '';
     }
   }
 
   get messageText() { return this.getAttribute(attributes.MESSAGE_TEXT); }
+
+  /**
+   * Set the message text of the Notification Banner
+   * @param {string | null} value the message-text value
+   */
+  set message(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.MESSAGE, value);
+    } else {
+      this.removeAttribute(attributes.MESSAGE);
+    }
+  }
+
+  get message() { return this.getAttribute(attributes.MESSAGE); }
 
   /**
    * Establish Internal Event Handlers
