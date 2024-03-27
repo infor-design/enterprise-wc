@@ -41,7 +41,6 @@ export default class IdsAccordionPanel extends Base {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#setTitles();
     this.#attachEventHandlers();
     this.#refreshContentAlignment(this.contentAlignment);
     this.#toggleExpanderDisplay();
@@ -71,17 +70,6 @@ export default class IdsAccordionPanel extends Base {
   ];
 
   vetoableEventTypes = ['beforeexpanded', 'beforecollapsed'];
-
-  /**
-   * Create a unique title for each accordion pane
-   * @private
-   */
-  #setTitles() {
-    const identifier = Math.floor(10000 + Math.random() * 90000);
-    if (this.title === '') {
-      this.pane?.setAttribute('title', `ids-accordion-pane-${identifier}`);
-    }
-  }
 
   /**
    * When the accordion's color variant is set, push this change through to include a check on the expander icon
