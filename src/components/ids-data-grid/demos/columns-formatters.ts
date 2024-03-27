@@ -228,16 +228,16 @@ if (dataGrid) {
       formatter: dataGrid.formatters.icon,
       icon: 'user-profile',
     });
-    // columns.push({
-    //   id: 'image',
-    //   name: 'Image',
-    //   field: 'image',
-    //   align: 'center',
-    //   sortable: true,
-    //   resizable: true,
-    //   text: 'Image Alt Text',
-    //   formatter: dataGrid.formatters.image,
-    // });
+    columns.push({
+      id: 'image',
+      name: 'Image',
+      field: 'image',
+      align: 'center',
+      sortable: true,
+      resizable: true,
+      text: 'Image Alt Text',
+      formatter: dataGrid.formatters.image,
+    });
     columns.push({
       id: 'more',
       name: 'Actions',

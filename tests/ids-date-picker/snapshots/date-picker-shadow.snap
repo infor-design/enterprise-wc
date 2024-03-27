@@ -2,7 +2,7 @@
       <div class="ids-date-picker field-height-md" part="container">
         <ids-trigger-field part="trigger-field" id="datepicker-value" label="Date Field" size="sm" format="M/d/yyyy" validation-events="change blur" value="3/4/2016" field-height="md" mask="date" aria-controls="popup-datepicker-value">
           <span slot="label-post" class="audible">, Press down arrow to select</span>
-          <ids-trigger-button id="triggerBtn-datepicker-value" slot="trigger-end" part="trigger-button" field-height="md" aria-controls="popup-datepicker-value">
+          <ids-trigger-button id="triggerBtn-datepicker-value" slot="trigger-end" part="trigger-button" field-height="md" class="sm" aria-controls="popup-datepicker-value">
             <ids-text audible="true" translate-text="true" translation-key="DatePickerTriggerButton">Date picker trigger</ids-text>
             <ids-icon part="icon" icon="schedule"></ids-icon>
           </ids-trigger-button>
