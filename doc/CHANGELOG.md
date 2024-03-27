@@ -12,6 +12,7 @@
 
 ### 1.0.0-beta.22 Fixes
 
+- `[Accordion]` Converted accordion tests to playwright. ([#1914](https://github.com/infor-design/enterprise-wc/issues/1914))
 - `[Calendar]` Fix issue where duplicate "Today" buttons were created if showToday set to true multiple times. ([#2056](https://github.com/infor-design/enterprise-wc/issues/2056))
 - `[Card]` Fix selected state styles for dark mode. ([#1887](https://github.com/infor-design/enterprise-wc/issues/1887))
 - `[Checkbox]` Converted checkbox tests to playwright. ([#1870](https://github.com/infor-design/enterprise-wc/issues/1870))
