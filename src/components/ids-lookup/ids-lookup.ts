@@ -699,9 +699,13 @@ export default class IdsLookup extends Base {
       this.triggerEvent('rowdeselected', this, { detail: e.detail });
     }) as EventListener);
 
-    this.dataGrid?.addEventListener('selectionchanged', ((e: CustomEvent) => {
+    this.dataGrid?.addEventListener('selectionchanged', (async (e: CustomEvent) => {
       this.triggerEvent('selectionchanged', this, { detail: e.detail });
-    }) as EventListener);
+      if (this.dataGrid?.rowSelection === 'single' && e.detail.selectedRows?.length > 0) {
+        this.#setInputValue();
+        await this.modal?.hide();
+      }
+    }) as unknown as EventListener);
 
     return this;
   }

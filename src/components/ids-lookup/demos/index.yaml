@@ -23,6 +23,9 @@
   - link: searchable.html
     type: Example
     description: Showing a lookup with searchfield
+  - link: single-selection.html
+    type: Example
+    description: Showing a lookup with single row selection
   - link: sizes.html
     type: Example
     description: Showing width and height size variations
