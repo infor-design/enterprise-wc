@@ -23,6 +23,7 @@
 ### 1.0.0-beta.22 Features
 
 - `[ActionSheet]` Converted ActionSheet tests. ([#1915](https://github.com/infor-design/enterprise-wc/issues/1915))
+- `[AxisChart]` Converted AxisChart tests to Playwright. ([#1918](https://github.com/infor-design/enterprise-wc/issues/1918))
 - `[Datagrid]` Add ability (and example) to set editor's column settings from server. ([#1714](https://github.com/infor-design/enterprise-wc/issues/1714))
 - `[Input]` Added `checkOverflow()` check to `IdsInput` to ensure only showing tooltip when text-overflow ellipses. ([#1755](https://github.com/infor-design/enterprise-wc/issues/1755))
 - `[ProcessIndicator]` Style fix prevent labels and icons from overlapping on initial page-load. ([#1730](https://github.com/infor-design/enterprise-wc/issues/1730))
