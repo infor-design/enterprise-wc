@@ -7,15 +7,19 @@ dropdown?.addEventListener('change', (e: any) => {
 });
 
 dropdown?.addEventListener('focus', (e: any) => {
-  console.info(`Focus Changed to ${e.target}`);
+  console.info(`Focus Changed to: `, e.target);
 });
 
 const dropdownAsync: any = document.querySelector('#dropdown-7');
 if (dropdownAsync) {
+  let data: any[] = [];
   dropdownAsync.beforeShow = async function beforeShow() {
+    if (data.length) return false; // data already set
+
     const url: any = statesJSON;
     const res = await fetch(url);
-    const data = await res.json();
+    data = await res.json();
+
     return data;
   };
 }

@@ -318,6 +318,7 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
+    value = (Array.isArray(value) ? value[0] : value) || '';
     const labels = this.labels;
     const label = String(value);
     if (labels.includes(label)) {
@@ -645,9 +646,11 @@ export default class IdsDropdown extends Base {
     // Trigger an async callback for contents
     if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
-      this.loadDataSet(stuff);
-      if (this.typeahead) {
-        this.#optionsData = stuff;
+      if (stuff) {
+        this.loadDataSet(stuff);
+        if (this.typeahead) {
+          this.#optionsData = stuff;
+        }
       }
     }
 
