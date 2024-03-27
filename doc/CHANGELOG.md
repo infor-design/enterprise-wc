@@ -1,9 +1,27 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.23
+
+### 1.0.0-beta.23 Features
+
+- `[ListBuilder]` Added a check to deselect the previously selected automatically upon adding a new item in a single-select ListBuilder. ([#1809](https://github.com/infor-design/enterprse-wc/issues/1809))
+
+### 1.0.0-beta.23 Fixes
+
+- `[Datagrid]` Converted datagrid tests to playwright. ([#1845](https://github.com/infor-design/enterprise-wc/issues/1845))
+- `[Dropdown]` Fix issue where required dropdowns were note rendering asterisk in React and Angular examples. ([#2023](https://github.com/infor-design/enterprise-wc/issues/2023))
+- `[Dropdown]` Fix issue where tooltips were not shown if options were lazy loaded. ([#2051](https://github.com/infor-design/enterprise-wc/issues/2051))
+- `[Input]` Fix clearing input value manually. ([#2011](https://github.com/infor-design/enterprise-wc/issues/2011))
+- `[LayoutFlex]` Converted layout flex tests to playwright. ([#1944](https://github.com/infor-design/enterprise-wc/issues/1944))
+- `[LayoutGridCell/Attributes]` Corrected the values of `COL_END_*` constants from `col_start_*` to `col_end_*` along with the test coverage of the `IdsLayoutGridCell`. ([#2075](https://github.com/infor-design/enterprise-wc/issues/2075))
+- `[Lookup]` Fix `IdsLookup` (for Angular) so that modal triggers are attached after the modal has been mounted/constructed. ([#1889](https://github.com/infor-design/enterprise-wc/issues/1889))
+- `[Tree]` Re-Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
+
 ## 1.0.0-beta.22
 
 ### 1.0.0-beta.22 Features
 
+- `[ActionSheet]` Converted ActionSheet tests. ([#1915](https://github.com/infor-design/enterprise-wc/issues/1915))
 - `[Datagrid]` Add ability (and example) to set editor's column settings from server. ([#1714](https://github.com/infor-design/enterprise-wc/issues/1714))
 - `[Input]` Added `checkOverflow()` check to `IdsInput` to ensure only showing tooltip when text-overflow ellipses. ([#1755](https://github.com/infor-design/enterprise-wc/issues/1755))
 - `[ProcessIndicator]` Style fix prevent labels and icons from overlapping on initial page-load. ([#1730](https://github.com/infor-design/enterprise-wc/issues/1730))
@@ -19,8 +37,8 @@
 - `[Counts]` Converted counts tests to playwright. ([#1927](https://github.com/infor-design/enterprise-wc/issues/1927))
 - `[Datagrid]` Fixed a display issue with the new loading indicator in firefox. ([#1617](https://github.com/infor-design/enterprise-wc/issues/1617))
 - `[Datagrid]` Added custom validation for editable datagrid cells. ([#1791](https://github.com/infor-design/enterprise-wc/issues/1791))
+- `[Datagrid]` Converted datagrid tests to playwright. ([#1845](https://github.com/infor-design/enterprise-wc/issues/1845))
 - `[Docs]` Added docs page for IdsGlobal. Moved some subcomponents that should not be used directly into their main component area. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
-- `[Dropdown]` Fix issue where tooltips were not shown if options were lazy loaded. ([#2051](https://github.com/infor-design/enterprise-wc/issues/2051))
 - `[Fieldset]` Fixed issue that popups in the fieldset were cut off. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
 - `[General]` Fixed issue in input, swaplist and dropdown where some things did not work when reattached. ([#2015](https://github.com/infor-design/enterprise-wc/issues/2015))
 - `[Icon]` Fixed yellow and caution status colors. ([#1879](https://github.com/infor-design/enterprise-wc/issues/1879))
@@ -32,8 +50,6 @@
 - `[Tree]` Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
 - `[Wizard]` Fixed broken wizard component in angular framework. ([#1885](https://github.com/infor-design/enterprise-wc/issues/1885))
 - `[Wizard]` Converted wizard tests to playwright. ([#1994](https://github.com/infor-design/enterprise-wc/issues/1994))
-- `[Attributes/LayoutGridCell]` Corrected the values of `COL_END_*` constants from `col_start_*` to `col_end_*` along with the test coverage of the `IdsLayoutGridCell`. ([#2075](https://github.com/infor-design/enterprise-wc/issues/2075))
-- `[Draggable] Converted draggable tests to playwright. ([#1929](https://github.com/infor-design/enterprise-wc/issues/1929))
 
 ## 1.0.0-beta.21
 
