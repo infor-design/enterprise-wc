@@ -95,6 +95,7 @@ export default class IdsModal extends Base {
   static get attributes(): Array<string> {
     return [
       ...super.attributes,
+      attributes.CLICK_OUTSIDE_TO_CLOSE,
       attributes.FULLSIZE,
       attributes.MESSAGE_TITLE,
       attributes.SCROLLABLE,
@@ -110,7 +111,7 @@ export default class IdsModal extends Base {
       this.popup.setAttribute(attributes.TYPE, 'modal');
       this.popup.setAttribute(attributes.ANIMATED, '');
       this.popup.setAttribute(attributes.ANIMATION_STYLE, 'scale-in');
-      this.popup.onOutsideClick = this.onOutsideClick.bind(this);
+      this.popup.onOutsideClick = () => {};
     }
 
     // Update ARIA / Sets up the label
@@ -713,6 +714,28 @@ export default class IdsModal extends Base {
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hide();
+  }
+
+  /**
+   * click-outside-to-close attribute
+   * @returns {boolean} clickOutsideToClose param converted to boolean from attribute value
+   */
+  get clickOutsideToClose(): boolean {
+    return stringToBool(this.getAttribute(attributes.CLICK_OUTSIDE_TO_CLOSE));
+  }
+
+  /**
+   * Set whether or not to allow the modal to close by clicking outside
+   * @param {boolean | string | null} val click-outside-to-close attribute value
+   */
+  set clickOutsideToClose(val: boolean | string | null) {
+    const boolVal = stringToBool(val);
+    if (boolVal) {
+      this.popup!.onOutsideClick = this.onOutsideClick.bind(this);
+    } else {
+      this.popup!.onOutsideClick = () => {};
+    }
+    this.toggleAttribute(attributes.CLICK_OUTSIDE_TO_CLOSE, boolVal);
   }
 
   /**

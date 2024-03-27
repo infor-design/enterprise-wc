@@ -166,15 +166,21 @@ test.describe('IdsModal tests', () => {
       await page.waitForSelector('ids-modal:not([visible])');
     });
 
-    test('should hide modal when clicking outside', async ({ page }) => {
+    test('should hide modal when clicking outside with clickOutsideToClose', async ({ page }) => {
       const modal = await page.locator('ids-modal');
+      await expect(modal).not.toHaveAttribute('visible');
+      await expect(modal).not.toHaveAttribute('click-outside-to-close');
+      expect(await modal.evaluate((elem: IdsModal) => elem.clickOutsideToClose)).toBeFalsy();
+
+      // Enable outside click
       await modal.evaluate(async (elem: IdsModal) => {
         elem.popup!.animated = false;
+        elem.clickOutsideToClose = true;
         await elem.show();
       });
       await expect(modal).toHaveAttribute('visible');
-
-      // Click outside modal
+      await expect(modal).toHaveAttribute('click-outside-to-close');
+      // Click outside the modal somewhere
       await page.evaluate(() => {
         document.querySelector<any>('ids-container')?.querySelector('ids-theme-switcher')?.click();
       });
@@ -182,10 +188,9 @@ test.describe('IdsModal tests', () => {
 
       // Disable outside click
       await modal.evaluate(async (elem: IdsModal) => {
-        elem.popup!.onOutsideClick = () => {};
+        elem.clickOutsideToClose = false;
         await elem.show();
       });
-      await expect(modal).toHaveAttribute('visible');
       await page.evaluate(() => {
         document.querySelector<any>('ids-container')?.querySelector('ids-theme-switcher')?.click();
       });
