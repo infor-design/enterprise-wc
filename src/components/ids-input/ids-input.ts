@@ -20,6 +20,8 @@ import IdsElement from '../../core/ids-element';
 
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
+import '../ids-trigger-field/ids-trigger-button';
+
 import {
   LABEL_WRAPS,
   TYPES,
