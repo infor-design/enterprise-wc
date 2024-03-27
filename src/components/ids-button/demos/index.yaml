@@ -32,3 +32,6 @@
   - link: layout.html
     type: Test
     description: Tests button layouts side by side
+  - link: no-span.html
+    type: Test
+    description: Tests button with and without a span

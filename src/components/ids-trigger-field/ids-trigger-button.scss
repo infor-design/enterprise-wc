@@ -24,13 +24,13 @@
 
 :host([field-height='xs']) {
   .ids-trigger-button.ids-icon-button {
-    margin-inline-end: -1px;
+    margin-inline-end: 3px;
   }
 }
 
 :host([field-height='sm']) {
   .ids-trigger-button.ids-icon-button {
-    margin-inline-end: -4px;
+    margin-inline-end: 6px;
   }
 }
 

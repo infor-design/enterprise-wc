@@ -135,12 +135,15 @@ button {
   padding-block-end: var(--ids-button-icon-padding);
 
   &:not(.no-padding) {
-    height: var(--ids-button-icon-height);
-    width: var(--ids-button-icon-width);
     padding-inline-start: var(--ids-button-icon-padding);
     padding-inline-end:var(--ids-button-icon-padding);
     padding-top: var(--ids-button-icon-padding);
     padding-bottom: var(--ids-button-icon-padding);
+
+    &:not(.ids-trigger-button) {
+      height: var(--ids-button-icon-height);
+      width: var(--ids-button-icon-width);
+    }
   }
 
   &:not(.square) {

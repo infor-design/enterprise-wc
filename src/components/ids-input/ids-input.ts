@@ -20,7 +20,6 @@ import IdsElement from '../../core/ids-element';
 
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
-import '../ids-trigger-field/ids-trigger-button';
 import {
   LABEL_WRAPS,
   TYPES,
@@ -870,6 +869,9 @@ export default class IdsInput extends Base {
     this.setAttribute(attributes.SIZE, size);
     this.container?.classList.remove(...Object.values(SIZES));
     this.container?.classList.add(size);
+
+    this.querySelector('ids-trigger-button')?.classList.remove(...Object.values(SIZES));
+    this.querySelector('ids-trigger-button')?.classList.add(size);
   }
 
   get size(): string {
@@ -1051,7 +1053,7 @@ export default class IdsInput extends Base {
    * @returns {boolean} true if the input or its container is overflowing
    */
   canTooltipShow(): boolean {
-    if (checkOverflow(this.input) || checkOverflow(this?.container)) {
+    if (checkOverflow(this.input)) {
       return true;
     }
     return false;
