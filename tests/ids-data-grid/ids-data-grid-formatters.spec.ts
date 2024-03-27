@@ -130,7 +130,6 @@ test.describe('IdsDataGrid formatters tests', () => {
 
   test('can render with a custom formatter', async ({ page }) => {
     const dataGrid = await page.locator('ids-data-grid');
-    debugger;
     expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.cellByIndex(0, 24)?.textContent)).toBe('Custom: 12.99');
   });
 
