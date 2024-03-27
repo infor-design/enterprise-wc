@@ -1,0 +1,14 @@
+
+      <ids-slider
+        type="single"
+        label="0 of 100 stars"
+        min="0"
+        max="100"
+        value="0"
+        show-tooltip
+        
+        readonly
+        
+      >
+      </ids-slider>
+    

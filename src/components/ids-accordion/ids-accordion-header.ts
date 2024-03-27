@@ -230,22 +230,20 @@ export default class IdsAccordionHeader extends Base {
    * @returns {string} the currently-displayed icon, if applicable
    */
   get icon() {
-    return this.getAttribute('icon');
+    return this.getAttribute(attributes.ICON);
   }
 
   /**
    * @param {string} val the type of display icon to show
    */
   set icon(val: string | null) {
-    if (this.icon !== val) {
-      if (typeof val !== 'string' || !val.length) {
-        this.removeAttribute('icon');
-      } else {
-        this.setAttribute('icon', `${val}`);
-      }
-
-      this.refreshIconDisplay(val);
+    if (typeof val !== 'string' || !val.length) {
+      this.removeAttribute('icon');
+    } else {
+      this.setAttribute('icon', `${val}`);
     }
+
+    this.refreshIconDisplay(val);
   }
 
   /**
@@ -256,7 +254,7 @@ export default class IdsAccordionHeader extends Base {
     const iconElem = this.container?.querySelector<IdsIcon>('.ids-accordion-display-icon');
 
     if (iconElem) {
-      iconElem.icon = iconDef;
+      iconElem.setAttribute(attributes.ICON, iconDef);
       this.container?.classList[iconDef.length ? 'add' : 'remove']('has-icon');
     } else {
       this.container?.classList.remove('has-icon');

@@ -61,15 +61,18 @@ test.describe('IdsDataGrid editing tests', () => {
       editableCell?.cellLeft?.click();
       const editableCellHasClass = editableCell?.classList.contains('is-invalid');
       const editableCellText = editableCell?.textContent;
+      const invalidCells = dataGrid.invalidCells.length;
 
       return {
         editableCellText,
         editableCellHasClass,
+        invalidCells,
       };
     });
 
     expect(results.editableCellText).toBe('');
     expect(results.editableCellHasClass).toBeTruthy();
+    expect(results.invalidCells).toBe(1);
   });
 
   test('should not have errors when editing cell', async ({ page }) => {
@@ -254,14 +257,22 @@ test.describe('IdsDataGrid editing tests', () => {
 
       const isDirty2 = editableCell?.classList.contains('is-dirty');
 
+      editableCell?.startCellEdit();
+      editableCell?.querySelector('ids-input')?.setAttribute('value', 'test');
+      editableCell?.endCellEdit();
+      dataGrid.resetDirtyCells();
+      const isDirty3 = editableCell?.classList.contains('is-dirty');
+
       return {
         isDirty,
         isDirty2,
+        isDirty3,
       };
     });
 
     expect(results.isDirty).toBeTruthy();
     expect(results.isDirty2).toBeFalsy();
+    expect(results.isDirty3).toBeFalsy();
   });
 
   test('show and revert validation indicators on cells', async ({ page }) => {

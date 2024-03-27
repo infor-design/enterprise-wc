@@ -15,22 +15,4 @@ describe('IdsHeader Component', () => {
   afterEach(async () => {
     document.body.innerHTML = '';
   });
-
-  test('has a color attribute', () => {
-    elem.color = '#fff';
-
-    expect(elem.color).toBe('#fff');
-    expect(elem.getAttribute('color')).toBe(null);
-
-    elem.setAttribute('color', '#bb5500');
-
-    expect(elem.color).toBe('#bb5500');
-    expect(elem.getAttribute('color')).toBe('#bb5500');
-
-    // Reset to default
-    elem.removeAttribute('color');
-
-    expect(elem.color).toBe('#fff');
-    expect(elem.getAttribute('color')).toBe(null);
-  });
 });

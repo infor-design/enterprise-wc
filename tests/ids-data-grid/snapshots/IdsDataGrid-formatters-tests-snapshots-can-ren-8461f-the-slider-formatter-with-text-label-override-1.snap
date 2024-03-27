@@ -1,0 +1,14 @@
+
+      <ids-slider
+        type="single"
+        label="Slider Override"
+        min="0"
+        max="100"
+        value="4.6"
+        show-tooltip
+        
+        readonly
+        
+      >
+      </ids-slider>
+    

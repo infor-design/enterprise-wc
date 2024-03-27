@@ -2,7 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
-import { Page, test as baseTest } from '@playwright/test';
+import { Page, test as baseTest, expect as baseExpect } from '@playwright/test';
 
 const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output');
 
@@ -70,4 +70,46 @@ export async function runFunction<T>(page: Page, utilName: string, value: any, v
   return returnValue;
 }
 
-export const expect = test.expect;
+export const expect = baseExpect.extend({
+  /**
+   * **CUSTOM ASSERTION - NOT PLAYWRIGHT NATIVE**
+   *
+   * Calculates the `lowerBound` and `upperBound` from the `actual` and checks if the `expected` is within bounds
+   *
+   * `lowerBound` is the difference of `actual` and `margin`
+   *
+   * `upperBound` is the sum of the `actual` and `margin`
+   *
+   * **USAGE**
+   *
+   * ```js
+   * await expect(30).toBeInAllowedBounds(29, 1); // passed
+   * // lowerBound is 29, upperbound is 31
+   * // 28 is not within the lowerBound and upperBound
+   * await expect(30).toBeInAllowedBounds(28, 1); // failed
+   * ```
+   * @param {number} actual parameter of expect - ex. `expect(#actual).toBeInAllowedBounds(#expected, #margin)`
+   * @param {number} expected the expected value
+   * @param {number} margin the value in which the actual will be added or subtracted
+   * @returns {void}
+   */
+  toBeInAllowedBounds(actual: number, expected: number, margin: number):
+  { message: () => string; pass: true; } | { message: () => string; pass: false; } {
+    const lowerBound = actual - Math.abs(margin);
+    const upperBound = actual + Math.abs(margin);
+    if (expected <= upperBound && expected >= lowerBound) {
+      return {
+        message: () => 'passed',
+        pass: true
+      };
+    }
+    return {
+      message: () => `\nMargin      : +-${margin}`
+      + `\nUpper bound : ${upperBound}`
+      + `\nLower bound : ${lowerBound}`
+      + `\nExpected    : ${expected}`
+      + `\nActual      : ${actual}`,
+      pass: false
+    };
+  }
+});

@@ -925,9 +925,10 @@ export default class IdsInput extends Base {
     // If no masking occurs, simply use the provided value.
     if (this.mask) {
       v = this.processMaskFromProperty(val || '') || v;
-      if (this.input) {
-        this.input.value = v;
-      }
+    }
+
+    if (this.input) {
+      this.input.value = v;
     }
 
     if (currentValue !== v) {

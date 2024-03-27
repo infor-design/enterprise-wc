@@ -1,0 +1,4 @@
+
+      <ids-progress-bar label="0 of 10" label-audible max="10" value="0" readonly>
+      </ids-progress-bar>
+    

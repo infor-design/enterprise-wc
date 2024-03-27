@@ -155,6 +155,7 @@ export default class IdsDropdown extends Base {
     return [
       ...super.attributes,
       attributes.MAX_HEIGHT,
+      attributes.VALIDATE
     ];
   }
 
