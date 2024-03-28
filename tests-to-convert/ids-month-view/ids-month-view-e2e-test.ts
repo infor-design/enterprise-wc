@@ -1,7 +1,7 @@
 import checkForAxeViolations from '../helpers/check-for-axe-violations';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Month View e2e Tests', () => {
+describe('Ids Month View Tests', () => {
   const url = 'http://localhost:4444/ids-month-view/example.html';
 
 
@@ -861,7 +861,7 @@ describe('Ids Month View e2e Tests', () => {
       document.querySelector('ids-container')?.insertAdjacentHTML(
         'afterbegin',
         `<ids-month-view
-          id="e2e-month-view-week"
+          id="month-view-week"
           compact="true"
           show-picklist-week="true"
           year="2022"
@@ -871,7 +871,7 @@ describe('Ids Month View e2e Tests', () => {
       );
 
       // Expand picklist
-      const datePicker = (document.querySelector('#e2e-month-view-week') as any)?.container.querySelector('ids-date-picker');
+      const datePicker = (document.querySelector('#month-view-week') as any)?.container.querySelector('ids-date-picker');
 
       if (datePicker) {
         datePicker.expanded = true;
@@ -879,13 +879,13 @@ describe('Ids Month View e2e Tests', () => {
     });
 
     const getSelectedWeek = () => page.$eval(
-      '#e2e-month-view-week',
+      '#month-view-week',
       (el: any) => el?.container.querySelector('ids-date-picker')
         ?.container.querySelector('.is-week.is-selected')?.textContent
     );
 
     // If week numbers picklist is set month picklist doesn't appear
-    const monthPicker = await page.$eval('#e2e-month-view-week', (el: any) => el?.container.querySelector('.is-month'));
+    const monthPicker = await page.$eval('#month-view-week', (el: any) => el?.container.querySelector('.is-month'));
 
     expect(monthPicker).toBeNull();
 
@@ -894,7 +894,7 @@ describe('Ids Month View e2e Tests', () => {
 
     // Select another week, first in the list
     await page.$eval(
-      '#e2e-month-view-week',
+      '#month-view-week',
       (el: any) => el?.container.querySelector('ids-date-picker')?.container.querySelector('.is-week')?.click()
     );
 
@@ -902,14 +902,14 @@ describe('Ids Month View e2e Tests', () => {
 
     // Up/down buttons
     await page.$eval(
-      '#e2e-month-view-week',
+      '#month-view-week',
       (el: any) => el?.container.querySelector('ids-date-picker')?.container.querySelector('.is-week-nav')?.click()
     );
 
     expect(+await getSelectedWeek()).toEqual(15);
 
     await page.$eval(
-      '#e2e-month-view-week',
+      '#month-view-week',
       (el: any) => el?.container.querySelector('ids-date-picker')
         ?.container.querySelector('.is-btn-down.is-week-nav')?.click()
     );

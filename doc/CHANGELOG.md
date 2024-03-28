@@ -2,12 +2,20 @@
 
 ## 1.0.0-beta.23
 
+### 1.0.0-beta.23 Ui Changes
+
+- `[Tokens]` UI design changes to popups, buttons, toggle button, menu button, cards (minor), and darker text. Contrast mode is now white. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
+
 ### 1.0.0-beta.23 Features
 
 - `[ListBuilder]` Added a check to deselect the previously selected automatically upon adding a new item in a single-select ListBuilder. ([#1809](https://github.com/infor-design/enterprse-wc/issues/1809))
+- `[Separator]` Fixed issue rendering vertical separator. ([#1891](https://github.com/infor-design/enterprise-wc/issues/1891))
+- `[Tokens]` Integrate tokens with figma/ids-foundation. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 
 ### 1.0.0-beta.23 Fixes
 
+- `[Button]` Added updated button designs from the tokens. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
+- `[Button]` Fixed layout issues when buttons are next to each other. ([#1999](https://github.com/infor-design/enterprise-wc/issues/1999))
 - `[Datagrid]` Converted datagrid tests to playwright. ([#1845](https://github.com/infor-design/enterprise-wc/issues/1845))
 - `[Draggable] Converted draggable tests to playwright. ([#1929](https://github.com/infor-design/enterprise-wc/issues/1929))
 - `[Dropdown]` Fix issue where required dropdowns were note rendering asterisk in React and Angular examples. ([#2023](https://github.com/infor-design/enterprise-wc/issues/2023))
@@ -123,7 +131,7 @@
 - `[Datagrid]` Fix for empty-data text still showing after adding a grid row. ([#1580](https://github.com/infor-design/enterprise-wc/issues/1580))
 - `[Datagrid]` Fix for RTL direction of datagrid filter header. ([#1669](https://github.com/infor-design/enterprise-wc/issues/1669))
 - `[Checkbox]` Adjust the label to be positioned in the center. ([#1738](https://github.com/infor-design/enterprise-wc/issues/1738))
-- `[Editor]` Fix hyerplink action for safari and firefox. ([#982](https://github.com/infor-design/enterprise-wc/issues/982))
+- `[Editor]` Fix hyperlink action for safari and firefox. ([#982](https://github.com/infor-design/enterprise-wc/issues/982))
 - `[Editor]` Fix font style and alignment action for safari. ([#983](https://github.com/infor-design/enterprise-wc/issues/983))
 - `[Editor]` Fix text color action for safari. ([#1079](https://github.com/infor-design/enterprise-wc/issues/1079))
 - `[Icon]` Fixed a bug where setting `color` did not work. ([#1790](https://github.com/infor-design/enterprise-wc/issues/1790))

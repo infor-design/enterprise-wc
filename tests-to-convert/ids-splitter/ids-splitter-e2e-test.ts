@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Splitter e2e Tests', () => {
+describe('Ids Splitter Tests', () => {
   const url = 'http://localhost:4444/ids-splitter/example.html';
   const urlSandbox = 'http://localhost:4444/ids-splitter/sandbox.html';
   const stringToNumber = (val: any) => {

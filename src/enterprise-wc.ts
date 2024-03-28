@@ -47,6 +47,7 @@ import './components/ids-image/ids-image';
 import './components/ids-input/ids-input';
 import './components/ids-layout-flex/ids-layout-flex';
 import './components/ids-layout-grid/ids-layout-grid';
+import './components/ids-layout-grid/ids-layout-grid-cell';
 import './components/ids-line-chart/ids-line-chart';
 import './components/ids-list-box/ids-list-box';
 import './components/ids-list-builder/ids-list-builder';

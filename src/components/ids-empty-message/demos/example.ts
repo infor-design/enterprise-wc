@@ -1,5 +1,5 @@
 // Supporting components
-import pathData from 'ids-identity/dist/theme-new/icons/old/empty/path-data.json';
+import pathData from 'ids-foundation/icons/empty/path-data.json';
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.icon-examples');

@@ -21,6 +21,7 @@ import IdsElement from '../../core/ids-element';
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 import '../ids-trigger-field/ids-trigger-button';
+
 import {
   LABEL_WRAPS,
   TYPES,
@@ -286,7 +287,7 @@ export default class IdsInput extends Base {
       ${attrs.required}
     >
       <slot name="label-pre"></slot>
-      <ids-text part="label" label ${attrs.disabled} color-unset>
+      <ids-text part="label" color-unset>
         ${this.label}
       </ids-text>
       <slot name="label-post"></slot>
@@ -468,17 +469,14 @@ export default class IdsInput extends Base {
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
         this.container?.classList?.remove?.(options.prop2);
-        this.container?.querySelector?.('ids-text')?.removeAttribute(options.prop2);
         msgNodes.forEach((x: any) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
         this.container?.classList.add(options.prop1);
-        this.container?.querySelector?.('ids-text')?.setAttribute?.(options.prop1, 'true');
         msgNodes.forEach((x: any) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
         this.container?.classList.remove(options.prop1);
-        this.container?.querySelector('ids-text')?.removeAttribute(options.prop1);
         msgNodes.forEach((x: any) => x.classList.remove(options.prop1));
       }
     }
@@ -873,6 +871,9 @@ export default class IdsInput extends Base {
     this.setAttribute(attributes.SIZE, size);
     this.container?.classList.remove(...Object.values(SIZES));
     this.container?.classList.add(size);
+
+    this.querySelector('ids-trigger-button')?.classList.remove(...Object.values(SIZES));
+    this.querySelector('ids-trigger-button')?.classList.add(size);
   }
 
   get size(): string {
@@ -1054,7 +1055,7 @@ export default class IdsInput extends Base {
    * @returns {boolean} true if the input or its container is overflowing
    */
   canTooltipShow(): boolean {
-    if (checkOverflow(this.input) || checkOverflow(this?.container)) {
+    if (checkOverflow(this.input)) {
       return true;
     }
     return false;

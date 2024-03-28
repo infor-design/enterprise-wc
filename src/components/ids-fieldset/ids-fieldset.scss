@@ -5,5 +5,9 @@ fieldset {
 
 fieldset > ::slotted(legend),
 fieldset > legend {
-  padding-block-end: var(--ids-space-60);
+  padding-block-end: var(--ids-space-sm);
+}
+
+::slotted(ids-button) {
+  margin-left: -4px;
 }

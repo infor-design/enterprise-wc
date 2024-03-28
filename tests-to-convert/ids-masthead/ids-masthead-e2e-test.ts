@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Masthead e2e Tests', () => {
+describe('Ids Masthead Tests', () => {
   const url = 'http://localhost:4444/ids-masthead/example.html';
 
   test('should react to desktop, tablet and mobile breakpoints/viewports', async () => {

@@ -1,7 +1,7 @@
 import checkForAxeViolations from '../helpers/check-for-axe-violations';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Editor e2e Tests', () => {
+describe('Ids Editor Tests', () => {
   const url = 'http://localhost:4444/ids-editor/example.html';
 
   beforeAll(async () => {

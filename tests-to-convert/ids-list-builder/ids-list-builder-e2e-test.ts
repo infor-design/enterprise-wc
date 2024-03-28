@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids List Builder e2e Tests', () => {
+describe('Ids List Builder Tests', () => {
   const url = 'http://localhost:4444/ids-list-builder/example.html';
 
   /**
