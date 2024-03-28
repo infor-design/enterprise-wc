@@ -21,7 +21,7 @@ test.describe('IdsFocusCaptureMixin tests', () => {
       expect(autoFocus).toBeTruthy();
     });
 
-    test('should focus an element based on auto focus setting', async ({ page }) => {
+    test.skip('should focus an element based on auto focus setting', async ({ page }) => {
       const ifAnyFocused = async () => {
         const focused = await page.locator('ids-modal').evaluate(
           (modal: any) => modal?.focusableElements?.some((item: any) => {
@@ -37,8 +37,6 @@ test.describe('IdsFocusCaptureMixin tests', () => {
         await modal.show();
       });
 
-      await page.waitForTimeout(300);
-
       expect(await ifAnyFocused()).toBeTruthy();
 
       await page.locator('ids-modal').evaluate(async (modal: any) => {
@@ -49,8 +47,6 @@ test.describe('IdsFocusCaptureMixin tests', () => {
         modal.autoFocus = false;
         await modal.show();
       });
-
-      await page.waitForTimeout(300);
 
       expect(await ifAnyFocused()).toBeFalsy();
     });

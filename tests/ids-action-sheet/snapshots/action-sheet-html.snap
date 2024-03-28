@@ -1,5 +1,5 @@
 <ids-action-sheet cancel-btn-text="Cancel" hidden="">
-          <ids-menu role="none">
+          <ids-menu>
             <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
               <ids-menu-item icon="mail" text-align="center"><ids-icon slot="icon" icon="mail" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Option One</ids-menu-item>
               <ids-menu-item icon="filter" text-align="center"><ids-icon slot="icon" icon="filter" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Option Two</ids-menu-item>

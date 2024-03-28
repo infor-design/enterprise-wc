@@ -23,7 +23,7 @@
         <ids-icon icon="expand-app-tray"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
-      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" role="none" hidden="" disabled=""></ids-popup-menu>
+      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" hidden="" disabled=""></ids-popup-menu>
           <slot name="more"></slot>
         </ids-toolbar-more-actions>
       </ids-toolbar>

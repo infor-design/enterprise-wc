@@ -4,7 +4,7 @@
       <ids-menu-button editor-action="formatblock" id="btn-formatblock-1" role="button" menu="menu-formatblock-1" tooltip="Choose Font Style" formatter-width="125px" dropdown-icon="dropdown" no-padding="true" trigger-type="click" color-variant="alternate-formatter" aria-controls="menu-formatblock-1" aria-haspopup="menu">
         <span>Normal Text</span>
       </ids-menu-button>
-      <ids-popup-menu id="menu-formatblock-1" target="#btn-formatblock-1" role="none" hidden="">
+      <ids-popup-menu id="menu-formatblock-1" target="#btn-formatblock-1" hidden="">
         <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
           <ids-menu-item value="p" selected="true"><ids-text>Normal Text</ids-text></ids-menu-item>
           <ids-menu-item value="h1"><ids-text font-size="28">Header 1</ids-text></ids-menu-item>
@@ -90,10 +90,10 @@
         <ids-icon icon="more"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
-      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" role="none" hidden=""><ids-menu-group more-actions="" role="group" aria-label="Menu group containing 18 item(s)">
+      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" hidden=""><ids-menu-group more-actions="" role="group" aria-label="Menu group containing 18 item(s)">
       <ids-menu-item hidden="">
       Normal Text
-      <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+      <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
           <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
             <ids-menu-item>
       Normal Text
@@ -160,7 +160,7 @@
       
     </ids-menu-item><ids-menu-item icon="more" hidden=""><ids-icon slot="icon" icon="more" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       More Actions Button
-      <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+      <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
           <ids-menu-group role="group" aria-label="Menu group containing 0 item(s)">
             
           </ids-menu-group>

@@ -95,6 +95,8 @@
 
 :host([category]) {
   ids-menu-button {
+    --ids-button-tertiary-shadow-focus: var(--ids-shadow-focus);
+
     & > * {
       inset-inline-start: 0;
     }

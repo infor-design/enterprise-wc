@@ -634,7 +634,6 @@ $input-size-full: 100%;
   // =======================================================
   // Color Styles
 
-
   &:not([class*='color-variant-']) {
     .field-container:not(:focus-within) {
       background-color: var(--ids-input-color-background-default);
@@ -721,7 +720,6 @@ $input-size-full: 100%;
   }
 
   // Alternate Color Variant (used in IdsHeader - Search)
-  /* stylelint-disable-next-line no-duplicate-selectors */
   &.color-variant-alternate {
     .field-container {
       border-color: var(--ids-input-header-color-border);
@@ -729,6 +727,11 @@ $input-size-full: 100%;
       background-color: var(--ids-input-header-color-background);
       border-bottom: 1px solid var(--ids-input-header-color-border);
       box-shadow: none;
+    }
+
+    &:focus-within .field-container {
+      border-color: var(--ids-input-color-border-focus);
+      box-shadow: var(--ids-input-color-border-shadow);
     }
 
     .ids-input-field {

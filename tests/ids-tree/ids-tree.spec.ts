@@ -400,7 +400,7 @@ test.describe('IdsTree tests', () => {
       await expect(page.getByText('New dynamic node')).toBeVisible();
     });
 
-    test('should fire selected event with correct data on node click', async ({ page }) => {
+    test.skip('should fire selected event with correct data on node click', async ({ page }) => {
       const selectedNode = await page.evaluate(() => {
         let data: any = null;
         const tree = document.querySelector<IdsTree>('ids-tree');

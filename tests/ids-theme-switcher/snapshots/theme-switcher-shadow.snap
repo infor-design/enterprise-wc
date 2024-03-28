@@ -1,11 +1,11 @@
 <ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu" icon="more" aria-controls="ids-theme-menu" aria-haspopup="menu"><ids-icon icon="more" class="ids-icon"></ids-icon>
       <span class="audible">Theme Switcher</span>
     </ids-menu-button>
-    <ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger-type="click" role="none" hidden="">
+    <ids-popup-menu id="ids-theme-menu" target="#ids-theme-switcher" trigger-type="click" hidden="">
       <ids-menu-group role="group" aria-label="Menu group containing 2 item(s)">
     <ids-menu-item>
       <ids-text translate-text="true" translation-key="Mode">Mode</ids-text>
-        <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+        <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
           <ids-menu-group select="single" role="group" aria-label="Menu group containing 3 item(s)">
             <ids-menu-item selected="" value="light">
               <ids-text translate-text="true" translation-key="Light">Light</ids-text>
@@ -21,7 +21,7 @@
       </ids-menu-item>
       <ids-menu-item>
         <ids-text translate-text="true" translation-key="Locale">Locale</ids-text>
-        <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+        <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
           <ids-menu-group select="single" id="locale-menu" role="group" aria-label="Menu group containing 8 item(s)">
             <ids-menu-item selected="" value="en-US">
               <ids-text translate-text="true" translation-key="English">English (United States)</ids-text>

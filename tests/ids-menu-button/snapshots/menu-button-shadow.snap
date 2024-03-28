@@ -1,4 +1,4 @@
-<button part="button" class="hide-focus btn-tertiary ids-menu-button" tabindex="0" aria-label="Settings">
+<button part="button" type="button" class="hide-focus btn-tertiary ids-menu-button" tabindex="0" aria-label="Settings">
       <slot></slot>
       <slot name="loading-indicator"></slot>
     <ids-icon icon="dropdown" class="ids-icon dropdown-icon"></ids-icon></button>

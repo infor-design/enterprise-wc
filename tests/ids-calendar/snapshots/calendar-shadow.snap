@@ -28,7 +28,7 @@
       <ids-menu-button id="view-picker-btn" menu="view-picker" value="month" dropdown-icon="dropdown" display-selected-text="" aria-controls="view-picker" aria-haspopup="menu">
         <span><ids-text translate-text="true" font-weight="semi-bold" translation-key="Month">Month</ids-text></span>
       </ids-menu-button>
-      <ids-popup-menu id="view-picker" trigger-type="click" target="#view-picker-btn" role="none" hidden="">
+      <ids-popup-menu id="view-picker" trigger-type="click" target="#view-picker-btn" hidden="">
         <ids-menu-group select="single" role="group" aria-label="Menu group containing 3 item(s)">
           <ids-menu-item value="month" selected="">
             <ids-text translate-text="true" translation-key="Month">Month</ids-text>

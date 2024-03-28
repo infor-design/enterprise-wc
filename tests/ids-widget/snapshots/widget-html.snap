@@ -9,7 +9,7 @@
                   <ids-icon icon="vertical-ellipsis"></ids-icon>
                   <span class="audible">Actions</span>
                 </ids-menu-button>
-                <ids-popup-menu id="icon-actions-1" target="#actions-button-1" role="none" hidden="">
+                <ids-popup-menu id="icon-actions-1" target="#actions-button-1" hidden="">
                   <ids-menu-group role="group" aria-label="Menu group containing 2 item(s)">
                     <ids-menu-item>Action one</ids-menu-item>
                     <ids-menu-item>Action two</ids-menu-item>

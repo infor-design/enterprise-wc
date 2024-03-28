@@ -1,4 +1,4 @@
-<ids-dropdown id="dropdown-1" label="Normal Dropdown with Dirty Tracker" value="ca" dirty-tracker="true" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-description="Press down arrow to select" aria-controls="ids-list-box-dropdown-1" tooltip="California">
+<ids-dropdown id="dropdown-1" label="Normal Dropdown with Dirty Tracker" value="ca" dirty-tracker="true" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="ids-list-box-dropdown-1" tooltip="California">
           <ids-list-box role="listbox" size="md" id="ids-list-box-dropdown-1" aria-label="Listbox">
             <ids-list-box-option id="ca" value="ca" role="option" tabindex="-1" row-index="0">California</ids-list-box-option>
             <ids-list-box-option id="hi" value="hi" role="option" tabindex="-1" row-index="1">Hawaii</ids-list-box-option>

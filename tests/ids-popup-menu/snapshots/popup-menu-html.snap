@@ -1,4 +1,4 @@
-<ids-popup-menu id="popupmenu" role="none" hidden="">
+<ids-popup-menu id="popupmenu" hidden="">
       <ids-menu-group role="group" aria-label="Menu group containing 6 item(s)">
         <ids-menu-item>Item One</ids-menu-item>
         <ids-menu-item>Item Two</ids-menu-item>
@@ -7,7 +7,7 @@
         <ids-separator></ids-separator>
         <ids-menu-item id="item-five">
           More Actions
-          <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+          <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
             <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
               <ids-menu-item>Sub-item One</ids-menu-item>
               <ids-menu-item>Sub-item Two</ids-menu-item>
@@ -17,11 +17,11 @@
         </ids-menu-item>
         <ids-menu-item id="item-six">
           Even More Actions
-          <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+          <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
             <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
               <ids-menu-item icon="settings"><ids-icon slot="icon" icon="settings" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
                 Change Settings
-                <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+                <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
                   <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
                     <ids-menu-item>Setting One</ids-menu-item>
                     <ids-menu-item>Setting Two</ids-menu-item>
