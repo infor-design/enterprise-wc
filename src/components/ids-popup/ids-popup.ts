@@ -811,6 +811,7 @@ export default class IdsPopup extends Base {
     const arrowEl = this.arrowEl;
     const arrowElCl = this.arrowEl?.classList;
     const isNone = newDir === 'none';
+    newDir = newDir === 'center' ? 'bottom' : newDir;
 
     if (arrowEl) arrowEl.hidden = isNone;
     let cssPart = 'arrow';

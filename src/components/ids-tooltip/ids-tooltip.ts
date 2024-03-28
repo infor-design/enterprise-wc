@@ -11,7 +11,7 @@ import styles from './ids-tooltip.scss';
 import type IdsPopup from '../ids-popup/ids-popup';
 import '../ids-popup/ids-popup';
 
-export type IdsTooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
+export type IdsTooltipPlacement = 'top' | 'bottom' | 'left' | 'right' | 'center';
 
 const Base = IdsKeyboardMixin(
   IdsLocaleMixin(
@@ -185,7 +185,7 @@ export default class IdsTooltip extends Base {
     if (popup) {
       popup.type = 'tooltip';
       popup.align = `${this.placement}, center`;
-      popup.arrow = this.placement;
+      popup.arrow = this.placement === 'center' ? 'bottom' : this.placement;
 
       if (this.placement === 'top' || this.placement === 'bottom') {
         popup.setPosition(0, 10);
@@ -327,7 +327,7 @@ export default class IdsTooltip extends Base {
   get delay(): string | number { return Number(this.getAttribute('delay')) || 500; }
 
   /**
-   * Sets the tooltip placement between left, right, top, bottom
+   * Sets the tooltip placement between left, right, top, bottom, center
    * @param {IdsTooltipPlacement} value The placement of the tooltip
    */
   set placement(value: IdsTooltipPlacement) {
