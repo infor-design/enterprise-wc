@@ -1,0 +1,14 @@
+
+      <span class="text-ellipsis">
+        <ids-rating
+          label="1 of 1 stars"
+          size="large"
+          stars="1"
+          value="1"
+          
+          readonly
+          
+        >
+        </ids-rating>
+      </span>
+    

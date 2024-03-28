@@ -111,7 +111,8 @@ export default class IdsDropdownList extends Base {
     this.configureListBox();
     this.configurePopup();
     this.setAriaOnMenuOpen();
-    if (this.value) this.selectOption(this.value);
+
+    if (this.value || typeof this.value === 'string') this.selectOption(this.value);
   }
 
   onTargetChange() {
@@ -431,7 +432,7 @@ export default class IdsDropdownList extends Base {
    */
   set value(value: string | null) {
     let selector = `ids-list-box-option[value="${value}"]`;
-    if (value === ' ' || !value) selector = `ids-list-box-option:not([value])`;
+    if (value === ' ' || value === null) selector = `ids-list-box-option:not([value])`;
     const elem = this.listBox?.querySelector<IdsListBoxOption>(selector);
     if (!elem) return;
 
