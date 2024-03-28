@@ -427,7 +427,7 @@ test.describe('IdsButton tests', () => {
       const testData = ['submit', 'reset', 'button', 'invalid'];
 
       await expect(idsButton).not.toHaveAttribute('type');
-      await expect(button).not.toHaveAttribute('type');
+      await expect(button).toHaveAttribute('type', 'button');
 
       for (const tData of testData) {
         await test.step(`set ${tData} type`, async () => {
