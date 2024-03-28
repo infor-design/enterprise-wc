@@ -197,7 +197,7 @@ export default class IdsTreeNode extends Base {
     if (this.groupNodesEl) {
       if (this.expanded) {
         // Expand
-        this.groupNodesEl.style.visibility = '';
+        this.groupNodesEl.style.display = '';
         this.groupNodesEl.style.maxHeight = `${this.groupNodesEl.scrollHeight}px`;
         this.offEvent('transitionend.expanded.tree', this.groupNodesEl);
         this.onEvent('transitionend.expanded.tree', this.groupNodesEl, () => {
@@ -211,7 +211,7 @@ export default class IdsTreeNode extends Base {
         this.groupNodesEl.style.transition = '';
         requestAnimationFrame(() => {
           this.groupNodesEl?.style.setProperty('max-height', '0');
-          this.groupNodesEl?.style.setProperty('visibility', 'hidden');
+          this.groupNodesEl?.style.setProperty('display', 'none');
         });
       }
     }
