@@ -5,6 +5,7 @@
 ### 1.0.0-beta.23 Features
 
 - `[ListBuilder]` Added a check to deselect the previously selected automatically upon adding a new item in a single-select ListBuilder. ([#1809](https://github.com/infor-design/enterprse-wc/issues/1809))
+- `[Modal]` Added `click-outside-to-close` attribute allowing the modal to close by clicking outside. ([#1892](https://github.com/infor-design/enterprise-wc/issues/1892))
 
 ### 1.0.0-beta.23 Fixes
 

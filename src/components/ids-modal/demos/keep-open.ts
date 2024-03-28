@@ -27,15 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close behavior
 
   const checkbox: any = document.querySelector('ids-checkbox');
-  const defaultOnOutsideClick = modal.onOutsideClick;
 
   checkbox.addEventListener('change', (e: CustomEvent) => {
     const isChecked = (e.target as any).checked;
-    if (isChecked) {
-      modal.onOutsideClick = defaultOnOutsideClick;
-    } else {
-      // Overrides the default `onOutsideClick` to just keep the Modal open
-      modal.onOutsideClick = () => {};
-    }
+    modal.clickOutsideToClose = isChecked;
   });
 });

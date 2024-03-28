@@ -74,6 +74,7 @@ export const attributes = {
   CLEARABLE: 'clearable',
   CLEARABLE_FORCED: 'clearable-forced',
   CLEARABLE_TEXT: 'clearable-text',
+  CLICK_OUTSIDE_TO_CLOSE: 'click-outside-to-close',
   CLICKABLE: 'clickable',
   COL_END: 'col-end',
   COL_END_LG: 'col-end-lg',
