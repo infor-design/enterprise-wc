@@ -24,7 +24,7 @@ We have a well-defined, security-focused, development process:
 
 No code goes into production unless it is reviewed by at least two other developers. The onus is on the reviewer to ask hard questions if they see any red flags for security. During the code-review process, if you see logic that's complicated and lacks a test, politely ask the developer for a test.
 
-Any new code pushed to production is first thoroughly unit tested , e2e tested and QA tested in a staging environment. Mechanisms are in place for rolling back any changes that are pushed to production or patching fixes backwards to the previous version if needed.
+Any new code pushed to production is first thoroughly unit tested , tested and QA tested in a staging environment. Mechanisms are in place for rolling back any changes that are pushed to production or patching fixes backwards to the previous version if needed.
 
 Tests should not contain user-data, make sure to anonymize email addresses, usernames, etc.
 

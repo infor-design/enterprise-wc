@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding-inline-start: calc(var(--ids-space-40) * 12);
+  padding-inline-start: calc(var(--ids-space-xs) * 12);
 
   @media all and (max-width: $breakpoint-sm) {
     padding-inline-start: var(--ids-space-none);
@@ -13,8 +13,8 @@
 }
 
 .leaf {
-  border: var(--ids-space-10) solid var(--ids-hierarchy-item-leaf-color-border);
-  margin-block-end: calc(var(--ids-space-40) * 4);
+  border: var(--ids-space-xxxxs) solid var(--ids-hierarchy-item-leaf-color-border);
+  margin-block-end: calc(var(--ids-space-xs) * 4);
   box-shadow: var(--ids-hierarchy-item-leaf-shadow);
   border-radius: var(--ids-hierarchy-item-border-radius);
   position: relative;
@@ -39,7 +39,7 @@
   background-color: var(--ids-hierarchy-item-color-background);
   border-left: var(--ids-hierarchy-item-leaf-inside-border-left);
   box-shadow: var(--ids-hierarchy-item-leaf-inside-shadow);
-  padding: var(--ids-space-40) calc(var(--ids-space-40) * 2);
+  padding: var(--ids-space-xs) calc(var(--ids-space-xs) * 2);
   position: relative;
   display: flex;
   z-index: 1;
@@ -52,7 +52,7 @@
   width: 55px;
   border: var(--ids-hierarchy-item-border-default);
   border-radius: 100%;
-  margin-inline-end: calc(var(--ids-space-40) * 2);
+  margin-inline-end: calc(var(--ids-space-xs) * 2);
   overflow: hidden;
 
   ::slotted(img) {
@@ -102,10 +102,10 @@ div[part='actions'] {
 }
 
 ids-button[part='icon-menu'] {
-  margin-right: var(--ids-space-30);
+  margin-right: var(--ids-space-xxs);
 
   .ids-icon-button {
-    padding: var(--ids-space-30);
+    padding: var(--ids-space-xxs);
   }
 }
 
@@ -114,7 +114,7 @@ ids-button[part='icon-btn'] {
   cursor: pointer;
 
   .ids-icon-button {
-    padding: var(--ids-space-30);
+    padding: var(--ids-space-xxs);
   }
 }
 

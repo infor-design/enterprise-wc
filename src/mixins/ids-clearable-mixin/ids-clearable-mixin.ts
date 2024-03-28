@@ -66,7 +66,7 @@ const IdsClearableMixin = <T extends Constraints>(superclass: T) => class extend
 
     xButton.appendChild(text);
     xButton.appendChild(icon);
-    xButton.refreshProtoClasses();
+    if (xButton.refreshProtoClasses) xButton.refreshProtoClasses();
 
     if ((this as any).colorVariant) {
       xButton.colorVariant = (this as any).colorVariant === 'app-menu' ? 'alternate' : (this as any).colorVariant;

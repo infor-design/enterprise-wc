@@ -155,6 +155,7 @@ export default class IdsDropdown extends Base {
     return [
       ...super.attributes,
       attributes.MAX_HEIGHT,
+      attributes.VALIDATE
     ];
   }
 
@@ -1145,6 +1146,7 @@ export default class IdsDropdown extends Base {
     return `<ids-list-box-option
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
+      ${option.tooltip ? `tooltip="${option.tooltip}"` : ''}
       ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.label || ''}</ids-list-box-option>`;
   }
 
@@ -1231,7 +1233,8 @@ export default class IdsDropdown extends Base {
       ...option,
       id: this.xssSanitize(option?.id ?? '') as string,
       value: this.xssSanitize(option.value) as string,
-      label: this.xssSanitize(option.label) as string
+      label: this.xssSanitize(option.label) as string,
+      tooltip: this.xssSanitize(option.tooltip ?? '') as string
     });
   }
 
@@ -1292,6 +1295,7 @@ export default class IdsDropdown extends Base {
     }
     this.dropdownList = targetNode;
     this.configurePopup();
+    this.attachClickEvent();
   }
 
   /**

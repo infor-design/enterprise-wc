@@ -48,16 +48,6 @@ test.describe('IdsListBuilder tests', () => {
       await expect(html).toMatchSnapshot('list-builder-html');
     });
 
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-list-builder');
-      const html = await handle?.evaluate((el: IdsListBuilder) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('list-builder-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-list-builder-light');

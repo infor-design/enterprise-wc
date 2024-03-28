@@ -1,6 +1,6 @@
 import '../ids-dropdown';
 
-const dropdownXssTest: any = document.querySelector('#e2e-dropdown-xss-loaded');
+const dropdownXssTest: any = document.querySelector('#dropdown-xss-loaded');
 
 if (dropdownXssTest) {
   dropdownXssTest.beforeShow = async function beforeShow() {

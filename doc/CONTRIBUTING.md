@@ -63,7 +63,7 @@ If you'd like to submit a pull request you'll need to do the following:
 1. **Make your changes** to your local fork for the proper branch.
   - Almost all development will be done on branches from `main`.
   - If you are unsure, just ask someone on the team so you don't have to redo your branch.
-1. Remember to make an **e2e test** for your case.
+1. Remember to make an **test** for your case.
 1. Remember to add a **note to the [Change Log](CHANGELOG.md)** and keep it in alphanumeric format
 1. **Commit your changes locally.**  Try to follow the standards for your commit message outlined below.
   - Try to follow

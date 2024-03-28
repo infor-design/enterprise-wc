@@ -1,7 +1,7 @@
 import checkForAxeViolations from '../helpers/check-for-axe-violations';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Virtual Scroll e2e Tests', () => {
+describe('Ids Virtual Scroll Tests', () => {
   const url = 'http://localhost:4444/ids-virtual-scroll/example.html';
 
   beforeAll(async () => {

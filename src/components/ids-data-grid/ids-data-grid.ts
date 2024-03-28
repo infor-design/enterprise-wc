@@ -1654,7 +1654,7 @@ export default class IdsDataGrid extends Base {
     if (!this.container || !this.data.length) return;
 
     const { ROW_HEIGHT } = this.virtualScrollSettings;
-    const isRowHidden = this.data[rowIndex].rowHidden;
+    const isRowHidden = this.data[rowIndex]?.rowHidden;
     const forceRender: Record<number, boolean> = {};
 
     // if row is hidden, first expand all parent rows
@@ -2184,7 +2184,7 @@ export default class IdsDataGrid extends Base {
    */
   updateDataset(row: number, data: Record<string, unknown>, isClear?: boolean) {
     // Ensure the incoming record contains a proper ID (or use `idColumn`)
-    if (!data[this.idColumn]) {
+    if (!data[this.idColumn] && this.data[row]) {
       data[this.idColumn] = this.data[row][this.idColumn];
     }
 

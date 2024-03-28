@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addTab.onAction = () => {
       addTab.insertAdjacentHTML('beforebegin', `<ids-tab color-variant="module" value="new-tab-${newTabCount}" dismissible>New Tab ${newTabCount}</ids-tab>`);
       tabContentContainer.insertAdjacentHTML('beforeend', `<ids-tab-content value="new-tab-${newTabCount}">
-        <ids-layout-grid auto-fit="true" padding="md">
+        <ids-layout-grid auto-fit="true" padding="sm">
           <ids-layout-grid-cell>
             <ids-text font-size="20" type="h2">New Tab #${newTabCount}</ids-text>
             <br />

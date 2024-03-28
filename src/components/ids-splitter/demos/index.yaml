@@ -11,12 +11,15 @@
   - link: list-detail.html
     type: Example
     description: Shows splitting a list view on the left
+  - link: custom-height.html
+    type: Custom Height
+    description: Shows the splitter component with a custom height
+  - link: tree-detail.html
+    type: Tree Detail
+    description: Shows the splitter component side by side with tree view
   - link: sandbox.html
     type: Sandbox
     description: Shows additional splitter tests
   - link: side-by-side.html
     type: Side by Side
     description: Shows the splitter component side by side with 4.x
-  - link: custom-height.html
-    type: Custom Height
-    description: Shows the splitter component with a custom height

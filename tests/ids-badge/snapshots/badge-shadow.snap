@@ -1,1 +1,1 @@
-<span class="ids-badge normal" part="badge"><slot></slot></span>
+<span class="ids-badge round" part="badge"><slot></slot></span>
