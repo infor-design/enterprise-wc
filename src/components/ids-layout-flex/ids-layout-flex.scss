@@ -89,11 +89,13 @@ $units: 0 1 2 4 8 12 16 20 24 28 32 36 40;
 }
 
 // Full Height
-:host([full-height]) {
+:host([full-height]),
+.ids-layout-flex-full-height {
   height: 100%;
 }
 
 // Fix icons
-::slotted(ids-icon) {
+::slotted(ids-icon),
+.ids-layout-flex > .ids-icon {
   display: inline-flex;
 }
