@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Popup Menu e2e Tests', () => {
+describe('Ids Popup Menu Tests', () => {
   const url = 'http://localhost:4444/ids-popup-menu/example.html';
   const menuItemSelector = '#item-six'; // ids-menu-item with sub level ids-popup-menu
   const subPopupMenuSelector = `${menuItemSelector} > ids-popup-menu`; // reference to sub level ids-popup-menu

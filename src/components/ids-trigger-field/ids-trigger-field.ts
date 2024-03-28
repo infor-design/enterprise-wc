@@ -61,7 +61,8 @@ export default class IdsTriggerField extends IdsInput {
     return [
       ...super.attributes,
       attributes.FORMAT,
-      attributes.TABBABLE
+      attributes.TABBABLE,
+      attributes.VALIDATE
     ];
   }
 

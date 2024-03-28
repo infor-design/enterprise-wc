@@ -23,6 +23,12 @@
   margin-inline-end: var(--ids-trigger-field-button-margin);
 }
 
+::slotted(*[slot='trigger-end'].xs) {
+  --ids-trigger-field-button-margin: 2px;
+
+  width: 24px;
+}
+
 .ids-input.color-variant-alternate-formatter {
   &:focus-within {
     .field-container {

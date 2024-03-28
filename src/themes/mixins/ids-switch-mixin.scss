@@ -48,6 +48,7 @@
   background-color: var(--ids-switch-pole-color-background-disabled);
   border-color: var(--ids-switch-pole-off-disabled-border-color);
   cursor: var(--ids-cursor-default);
+  opacity: var( --ids-switch-disabled-opacity);
 }
 
 @mixin switch-disabled-off-after {
@@ -59,6 +60,7 @@
 @mixin switch-disabled-on {
   background-color: var(--ids-switch-pole-color-background-selected-disabled);
   border-color: var(--ids-switch-pole-on-disabled-border-color);
+  opacity: var( --ids-switch-disabled-opacity);
 }
 
 @mixin switch-disabled-on-after {
@@ -68,7 +70,8 @@
 
 @mixin switch-disabled-text {
   cursor: var(--ids-cursor-default);
-  color: var(--ids-color-text-disabled);
+  color: var(--ids-switch-label-color-text-default);
+  opacity: var( --ids-switch-disabled-opacity);
 }
 
 // Hover

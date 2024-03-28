@@ -91,50 +91,6 @@ describe('IdsHidden Component', () => {
     (<any>window.requestAnimationFrame).mockRestore();
   });
 
-  test('can set the hideDown attribute', () => {
-    el.hideDown = 'sm';
-    el.setAttribute('hide-down', 'sm');
-    expect(el.getAttribute('hide-down')).toEqual('sm');
-    expect(el.hideDown).toEqual('sm');
-  });
-
-  test('can remove the hideDown attribute', () => {
-    el.hideDown = 'sm';
-    el.hideDown = false;
-    expect(el.getAttribute('hide-down')).toBeFalsy();
-  });
-
-  test('can set the hideUp attribute', () => {
-    el.hideUp = 'sm';
-    el.setAttribute('hide-up', 'sm');
-    expect(el.getAttribute('hide-up')).toEqual('sm');
-    expect(el.hideUp).toEqual('sm');
-  });
-
-  test('can remove the hideUp attribute', () => {
-    el.hideUp = 'sm';
-    el.hideUp = false;
-    expect(el.getAttribute('hide-up')).toBeFalsy();
-  });
-
-  test('can set the visible attribute', () => {
-    expect(el.getAttribute('visible')).toBe(null);
-
-    el.setAttribute('visible', true);
-    expect(el.getAttribute('visible')).toBe('true');
-    expect(el.visible).toBe('true');
-
-    el.visible = null;
-    el.removeAttribute('visible');
-    expect(el.getAttribute('visible')).toBe(null);
-    expect(el.visible).toBe(null);
-
-    el.visible = true;
-    expect(el.getAttribute('visible')).toBe('true');
-    el.visible = false;
-    expect(el.getAttribute('visible')).toBe(null);
-  });
-
   test('should hide when media query matches', () => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -145,39 +101,5 @@ describe('IdsHidden Component', () => {
     el.checkScreen(mq);
     expect(el.hidden).toBeTruthy();
     expect(el.visible).toBeFalsy();
-  });
-
-  test('should hide when condition matches', () => {
-    el.value = 'test';
-    el.condition = 'true';
-    expect(el.hidden).toBeTruthy();
-
-    el.value = 'test';
-    el.condition = 'false';
-    expect(el.hidden).toBeFalsy();
-
-    el.value = 'false';
-    el.condition = 'false';
-    expect(el.hidden).toBeTruthy();
-
-    el.value = 'test-1';
-    el.condition = 'test-1';
-    expect(el.hidden).toBeTruthy();
-
-    el.value = 'test-1';
-    el.condition = 'test-2';
-    expect(el.hidden).toBeFalsy();
-
-    el.value = 'true';
-    el.condition = 'true';
-    expect(el.hidden).toBeTruthy();
-
-    el.value = 'true';
-    el.condition = 'false';
-    expect(el.hidden).toBeFalsy();
-
-    el.value = '';
-    el.condition = '';
-    expect(el.hidden).toBeTruthy();
   });
 });

@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Process Indicator e2e Tests', () => {
+describe('Ids Process Indicator Tests', () => {
   const exampleUrl = 'http://localhost:4444/ids-process-indicator/example.html';
   const emptyLabelExampleUrl = `http://localhost:4444/ids-process-indicator/empty-label.html`;
 

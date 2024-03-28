@@ -1,0 +1,14 @@
+
+      <span class="text-ellipsis">
+        <ids-rating
+          label="Rating Override"
+          size="large"
+          stars="5"
+          value="4.6"
+          
+          readonly
+          
+        >
+        </ids-rating>
+      </span>
+    

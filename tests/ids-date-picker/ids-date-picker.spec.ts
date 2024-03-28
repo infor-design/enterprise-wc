@@ -150,7 +150,7 @@ test.describe('IdsDatePicker tests', () => {
       expect(datePickerValue.tabbable).toBeFalsy();
       expect(datePickerValue.showToday).toBeTruthy();
       expect(datePickerValue.firstDayOfWeek).toEqual(0);
-      expect(datePickerValue.id).toEqual('e2e-datepicker-value');
+      expect(datePickerValue.id).toEqual('datepicker-value');
       expect(datePickerValue.label).toEqual('Date Field');
       expect(datePickerValue.disabled).toBeFalsy();
       expect(datePickerValue.readonly).toBeFalsy();

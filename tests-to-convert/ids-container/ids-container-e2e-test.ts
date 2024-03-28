@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Container e2e Tests', () => {
+describe('Ids Container Tests', () => {
   const url = 'http://localhost:4444/ids-container/example.html';
 
   beforeAll(async () => {
