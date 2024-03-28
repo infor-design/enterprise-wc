@@ -34,7 +34,8 @@ $flex-shrink-list: 0 1;
 $overflow-list: auto hidden visible scroll;
 
 @each $overflow in $overflow-list {
-  :host([overflow='#{$overflow}']) {
+  :host([overflow='#{$overflow}']),
+  .ids-layout-flex-item-overflow-#{$overflow} {
     overflow: $overflow;
   }
 }

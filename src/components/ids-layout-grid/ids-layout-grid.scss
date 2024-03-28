@@ -496,7 +496,8 @@ $max-width: var(--max-width);
 $align-items-list: start end center stretch;
 
 @each $align-items in $align-items-list {
-  :host([align-items='#{$align-items}']) {
+  :host([align-items='#{$align-items}']),
+  .#{$prefix}-align-items-#{$align-items} {
     align-items: $align-items;
   }
 }
@@ -505,7 +506,8 @@ $align-items-list: start end center stretch;
 $align-items-list: start end center stretch;
 
 @each $align-items in $align-items-list {
-  :host([align-items='#{$align-items}']) {
+  :host([align-items='#{$align-items}']),
+  .#{$prefix}-align-items-#{$align-items} {
     align-items: $align-items;
   }
 }
@@ -524,12 +526,14 @@ $align-content-list: start center space-between space-around space-evenly end;
     align-content: $align-content;
   }
 
-  ::slotted([justify-content='#{$align-content}']) {
+  ::slotted([justify-content='#{$align-content}']),
+  .#{$prefix} > .#{$prefix}-justify-#{$align-content} {
     display: grid;
     justify-content: $align-content;
   }
 
-  ::slotted([align-content='#{$align-content}']) {
+  ::slotted([align-content='#{$align-content}']),
+  .#{$prefix} > .#{$prefix}-align-#{$align-content} {
     display: grid;
     align-content: $align-content;
   }

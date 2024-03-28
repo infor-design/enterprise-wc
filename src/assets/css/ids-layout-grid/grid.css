@@ -25,6 +25,10 @@ ids-card::part(card) {
   margin-bottom: 24px;
 }
 
-.ids-layout-grid-cell.height-176 {
+.height-176 {
   height: 176px;
+}
+
+.border {
+  border: 1px solid var(--ids-color-gray-30);
 }
