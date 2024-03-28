@@ -1294,6 +1294,9 @@ export default class IdsDropdown extends Base {
       }
     }
     this.dropdownList = targetNode;
+    if (this.dropdownList && this.value) {
+      this.dropdownList.setAttribute(attributes.VALUE, this.value);
+    }
     this.configurePopup();
     this.attachClickEvent();
   }
