@@ -71,13 +71,13 @@ $ids-tab-vertical-height: 42px;
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):first-child),
 :host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):first-child),
 .ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:first-child {
-  margin-inline-start: 0;
+  margin-inline-start: 4px;
 }
 
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):last-child),
 :host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):last-child),
 .ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:last-child {
-  margin-inline-end: 0;
+  margin-inline-end: 4px;
 }
 
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):not(:last-child)),
@@ -98,7 +98,7 @@ $ids-tab-vertical-height: 42px;
   color: var(--ids-tab-color-text-default);
   box-sizing: border-box;
   height: 100%;
-  padding-inline: 8px;
+  padding-inline: 4px;
   padding-block: 8px;
   list-style: none outside none;
   user-select: none;
