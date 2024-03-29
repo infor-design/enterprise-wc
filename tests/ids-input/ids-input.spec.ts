@@ -108,6 +108,60 @@ test.describe('IdsInput tests', () => {
       await expect(await page.locator('#test-input').first().getAttribute('validate')).toEqual('required');
       await expect(await page.locator('#test-input').first().getAttribute('label-required')).toEqual('true');
     });
+
+    test('should set/unset type attribute/property', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      const inputTypes = ['text', 'number', 'email', 'password'];
+
+      for (const inputType of inputTypes) {
+        await input.evaluate((elem: IdsInput, arg: string) => {
+          elem.type = arg;
+        }, inputType);
+        expect(await input.getAttribute('type')).toEqual(inputType);
+        expect(await input.evaluate((elem: IdsInput) => elem.type)).toEqual(inputType);
+      }
+
+      await input.evaluate((elem: any) => {
+        elem.type = null;
+      });
+      expect(await input.getAttribute('type')).toEqual('text');
+      expect(await input.evaluate((elem: IdsInput) => elem.type)).toEqual('text');
+    });
+
+    test('should set/unset placeholder attribute/property', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      await input.evaluate((elem: any) => {
+        elem.placeholder = null;
+      });
+      expect(await input.getAttribute('placeholder')).toBeNull();
+      expect(await input.evaluate((elem: IdsInput) => elem.placeholder)).toBeNull();
+      await input.evaluate((elem: any) => {
+        elem.placeholder = 'Placeholder Text';
+      });
+      expect(await input.getAttribute('placeholder')).toEqual('Placeholder Text');
+      expect(await input.evaluate((elem: IdsInput) => elem.placeholder)).toEqual('Placeholder Text');
+    });
+
+    test('renders showable password', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      await input.evaluate((elem: any) => {
+        elem.type = 'password';
+        elem.revealablePassword = 'true';
+        elem.passwordVisible = 'true';
+      });
+
+      expect(await input.getAttribute('password-visible')).toBe('true');
+      expect(await input.getAttribute('revealable-password')).toBe('true');
+      expect(await input.evaluate(
+        (elem: IdsInput) => elem.container?.querySelector('.show-hide-password')?.textContent
+      )).toBe('HIDE');
+      await input.evaluate((elem: any) => {
+        elem.passwordVisible = 'false';
+      });
+      expect(await input.evaluate(
+        (elem: IdsInput) => elem.container?.querySelector('.show-hide-password')?.textContent
+      )).toBe('SHOW');
+    });
   });
 
   test.describe('snapshot tests', () => {
