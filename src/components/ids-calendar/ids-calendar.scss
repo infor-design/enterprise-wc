@@ -27,7 +27,7 @@
   }
 
   #{$prefix}[color='neutral']#{$suffix} {
-    #{$property}: var(--ids-color-neutral-60);
+    #{$property}: var(--ids-color-gray-60);
   }
 }
 
@@ -204,13 +204,13 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
 
 #event-form-header {
   align-items: center;
-  color: var(--ids-color-neutral-10);
+  color: var(--ids-color-gray-10);
   height: 40px;
   padding-inline-start: 16px;
   padding-inline-end: 8px;
 
   ids-icon[data-action='close'] {
-    color: var(--ids-color-neutral-10);
+    color: var(--ids-color-gray-10);
     padding: 5px;
     border-radius: 50%;
     cursor: pointer;
@@ -249,7 +249,7 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
 #event-form-actions {
   ids-button {
     flex-grow: 1;
-    border: 1px solid var(--ids-color-neutral-40);
+    border: 1px solid var(--ids-color-gray-40);
     border-bottom-width: 0;
 
     &::part(button) {

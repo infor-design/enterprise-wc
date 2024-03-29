@@ -173,7 +173,7 @@ export function statusToIDSColor(statusName: string) {
 export type IdsColorValueHex = `#${string}`;
 export type IdsColorValueEmpty = null | '' | undefined;
 export type IdsColorValueStatus = 'error' | 'warning' | 'caution' | 'info' | 'success' | 'neutral';
-export type IdsColorValueCategories = 'red' | 'yellow' | 'orange' | 'green' | 'blue' | 'teal' | 'purple' | 'neutral' | 'white' | 'black';
+export type IdsColorValueCategories = 'red' | 'yellow' | 'orange' | 'green' | 'blue' | 'teal' | 'purple' | 'neutral' | 'grey' | 'white' | 'black';
 export type IdsColorValueNames = `red-${IdsColorValueNumbers}` | `yellow-${IdsColorValueNumbers}` | `orange-${IdsColorValueNumbers}` | `green-${IdsColorValueNumbers}` | `blue-${IdsColorValueNumbers}` | `teal-${IdsColorValueNumbers}` | `purple-${IdsColorValueNumbers}` | `neutral-${IdsColorValueNumbers}`;
 export type IdsColorValueNumbers = '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90' | '100';
 export type IdsColorValue = IdsColorValueHex | IdsColorValueEmpty | IdsColorValueStatus | IdsColorValueNames;

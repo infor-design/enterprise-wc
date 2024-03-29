@@ -155,7 +155,6 @@ test.describe('IdsDraggable tests', () => {
       positions.maxX.moveTo = positions.maxX.relValue + positions.maxX.variable;
       positions.minY.moveTo = positions.minY.relValue + positions.minY.variable;
       positions.maxY.moveTo = positions.maxY.relValue + positions.maxY.variable;
-      console.info(positions);
 
       // drags the element outside of the limit and check if the x and y values are on the closest limit edge
       // validate min-x limit

@@ -219,7 +219,7 @@ datePicker.disableSettings = {
 - <kbd>Page Down</kbd> moves to the same date in the next month
 - <kbd>Enter</kbd> submits the form
 - <kbd>Escape</kbd>, in the case of a popup date picker, closes the widget without any action
-- <kbd>T</kbd> inserts today's date. Except for cases where date format includes wide/abbreaviated months
+- <kbd>T</kbd> inserts today's date. Except for cases where date format includes wide/abbreviated months
 - <kbd>+</kbd> Is used to increment the day in the calendar. This is in addition to the <kbd>Right</kbd>. This works both when in the input field or when the calendar picker is open. If the date pattern contains a `-` in it then this key interferes with typing so this key shortcut is disabled.
 - <kbd>-</kbd>  Is used to increment the day in the calendar. This is in addition to the <kbd>Left</kbd>. This works both when in the input field or when the calendar picker is open. If the date pattern contains a `-` in it then this key interferes with typing so this key shortcut is disabled.
 

@@ -15,7 +15,7 @@ $textarea-size-default-height: 120px;
 
 .ids-textarea {
   display: block;
-  margin-bottom: var(--ids-space-50);
+  margin-bottom: var(--ids-space-12);
   font-size: var(--ids-font-size-40);
   font-family: var(--ids-font-family-default);
 
@@ -153,13 +153,13 @@ $textarea-size-default-height: 120px;
     border-color: var(--ids-textarea-color-border-default);
     color: var(--ids-textarea-color-text-default);
     box-sizing: border-box;
-    margin-bottom: var(--ids-space-30);
-    padding: var(--ids-space-50);
+    margin-bottom: var(--ids-space-xxs);
+    padding: var(--ids-space-12);
     font-size: var(--ids-font-size-40);
     appearance: none;
     font-family: var(--ids-font-family-default);
     border-collapse: separate;
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-border-radius-xxs);
     display: inline-block;
     text-align: left;
     width: 100%;
@@ -174,6 +174,7 @@ $textarea-size-default-height: 120px;
       background-color: var(--ids-textarea-color-background-disabled);
       border-color: var(--ids-textarea-color-border-disabled);
       color: var(--ids-textarea-color-text-disabled);
+      opacity: var(--ids-textarea-disabled-opacity);
     }
 
     &:not([disabled]):not([readonly]):not(:focus):hover {
@@ -224,25 +225,16 @@ $textarea-size-default-height: 120px;
       text-align: end;
     }
 
-    // textarea message: [alert, error, info, success]
-    &.alert,
-    &.alert:hover {
-      border-color: var(--ids-textarea-alert-color-border-default);
-      color: var(--ids-textarea-alert-color-text-default);
-
-      &:focus {
-        border-color: var(--ids-textarea-alert-color-border-alert-focus);
-        box-shadow: var(--ids-textarea-shadow-alert-focus);
-      }
-
-      &[disabled] {
-        border-color: var(--ids-textarea-alert-color-border-disabled);
-        color: var(--ids-textarea-alert-color-text-disabled);
-      }
+    ~ .btn-clear {
+      margin-top: var(--ids-space-xxs);
+      position: absolute;
+      right: 0;
     }
+  }
 
-    &.error,
-    &.error:hover {
+  // Error Styles
+  .error {
+    .ids-textarea-field {
       border-color: var(--ids-textarea-color-border-error-default);
       color: var(--ids-textarea-color-text-error);
 
@@ -255,10 +247,37 @@ $textarea-size-default-height: 120px;
         border-color: var(--ids-textarea-color-border-error-disabled);
         color: var(--ids-textarea-color-text-error-disabled);
       }
-    }
 
-    &.info,
-    &.info:hover {
+      &:hover {
+        border-color: var(--ids-textarea-color-border-error-default);
+      }
+    }
+  }
+
+  // warning, error, info, success Styles
+  &.warning {
+    .ids-textarea-field {
+      border-color: var(--ids-textarea-warning-color-border-default);
+      color: var(--ids-textarea-warning-color-text-default);
+
+      &:focus {
+        border-color: var(--ids-textarea-warning-color-border-focus);
+        box-shadow: var(--ids-textarea-shadow-warning-focus);
+      }
+
+      &[disabled] {
+        border-color: var(--ids-textarea-warning-color-border-disabled);
+        color: var(--ids-textarea-warning-color-text-disabled);
+      }
+
+      &:hover {
+        border-color: var(--ids-textarea-warning-color-border-default);
+      }
+    }
+  }
+
+  &.info {
+    .ids-textarea-field {
       border-color: var(--ids-textarea-color-border-info-default);
       color: var(--ids-textarea-color-text-info-default);
 
@@ -271,10 +290,15 @@ $textarea-size-default-height: 120px;
         border-color: var(--ids-textarea-color-border-info-disabled);
         color: var(--ids-textarea-color-text-info-disabled);
       }
-    }
 
-    &.success,
-    &.success:hover {
+      &:hover {
+        border-color: var(--ids-textarea-color-border-info-default);
+      }
+    }
+  }
+
+  &.success {
+    .ids-textarea-field {
       border-color: var(--ids-textarea-color-border-success-default);
       color: var(--ids-textarea-color-text-success-default);
 
@@ -287,25 +311,15 @@ $textarea-size-default-height: 120px;
         border-color: var(--ids-textarea-color-border-success-disabled);
         color: var(--ids-textarea-color-text-success-disabled);
       }
-    }
 
-    ~ .btn-clear {
-      margin-top: var(--ids-space-30);
-      position: absolute;
-      right: 0;
+      &:hover {
+        border-color: var(--ids-textarea-color-border-success-default);
+      }
     }
   }
-
-  // Error Styles
-  .error {
-    .ids-textarea-field {
-      border-color: var(--ids-textarea-color-border-error-default);
-    }
-  }
-
 
   .validation-message {
-    margin-top: var(--ids-space-30);
+    margin-top: var(--ids-space-xxs);
   }
 
   &.disabled {
@@ -323,7 +337,7 @@ $textarea-size-default-height: 120px;
   @include mixins.antialiased();
 
   color: var(--ids-textarea-label-color-text-default);
-  margin-bottom: var(--ids-space-40);
+  margin-bottom: var(--ids-space-xs);
   align-items: baseline;
   font-family: var(--ids-font-family-default);
   display: flex;
@@ -338,7 +352,7 @@ $textarea-size-default-height: 120px;
   &.required {
     &::after {
       position: relative;
-      padding-inline: var(--ids-space-20);
+      padding-inline: var(--ids-space-xxxs);
       font-size: var(--ids-font-size-50);
       content: '*';
       color: var(--ids-input-required-indicator-color-text-default);
