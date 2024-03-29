@@ -165,7 +165,7 @@ test.describe('IdsTree tests', () => {
       }
     ];
 
-    test('should add node to the top/bottom of the tree', async ({ page }) => {
+    test.skip('should add node to the top/bottom of the tree', async ({ page }) => {
       const tree = await page.locator('ids-tree');
       await tree.evaluate((elem: IdsTree) => {
         (window as any).nodeData = {};

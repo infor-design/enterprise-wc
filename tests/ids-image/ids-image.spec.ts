@@ -30,11 +30,16 @@ test.describe('IdsImage tests', () => {
     });
   });
 
-  test.describe('e2e tests', () => {
+  test.describe('placeholder functionality tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('ids-image/placeholders.html');
+    });
+
     const imgSrcExists = '../assets/images/placeholder-60x60.png';
     const imgSrcNotFound = '../assets/images/non-existant.jpg';
-    const placeholderEl = '#e2e-placeholder';
-    const fallbackEl = '#e2e-fallback';
+    const placeholderEl = '#placeholder';
+    const fallbackEl = '#fallback';
+
     test('should render placeholder on image error', async ({ page }) => {
       const hasPlaceholder = await page.locator(fallbackEl).evaluateHandle((el) => el.shadowRoot?.querySelector('.placeholder'));
 
@@ -66,7 +71,7 @@ test.describe('IdsImage tests', () => {
       }, { elSelector: fallbackEl, src: imgSrcNotFound });
 
       // Image failed to load - placeholder appears
-      await page.waitForFunction(() => document.querySelector('#e2e-fallback')?.shadowRoot?.querySelector('.placeholder'));
+      await page.waitForFunction(() => document.querySelector('#fallback')?.shadowRoot?.querySelector('.placeholder'));
 
       const hasPlaceholder = await page.locator(fallbackEl).evaluateHandle((el) => el.shadowRoot?.querySelector('.placeholder'));
 
@@ -83,6 +88,7 @@ test.describe('IdsImage tests', () => {
 
     test.describe('IdsImage Component (using properties', () => {
       test.beforeEach(async ({ page }) => {
+        await page.goto('ids-image/placeholders.html');
         await page.evaluate(() => {
           document.body.innerHTML = '';
           src = '../assets/images/placeholder-60x60.png';
@@ -144,6 +150,7 @@ test.describe('IdsImage tests', () => {
 
     test.describe('IdsImage Component (using attributes)', () => {
       test.beforeEach(async ({ page }) => {
+        await page.goto('ids-image/placeholders.html');
         await page.evaluate(() => {
           document.body.innerHTML = '';
           src = '../assets/images/placeholder-60x60.png';
@@ -230,6 +237,7 @@ test.describe('IdsImage tests', () => {
 
     test.describe('IdsImage Component (empty)', () => {
       test.beforeEach(async ({ page }) => {
+        await page.goto('ids-image/placeholders.html');
         await page.evaluate(() => {
           document.body.innerHTML = '';
           document.body.insertAdjacentHTML('beforeend', `<ids-image></ids-image>`);

@@ -1,9 +1,9 @@
 import '../ids-date-picker';
 
-const disabledDates: any = document.querySelector('#e2e-date-picker-disabled-dates');
-const disabledYears: any = document.querySelector('#e2e-date-picker-disabled-years');
-const disabledMinMax: any = document.querySelector('#e2e-date-picker-disabled-min-max');
-const disabledReverse: any = document.querySelector('#e2e-date-picker-disabled-reverse');
+const disabledDates: any = document.querySelector('#date-picker-disabled-dates');
+const disabledYears: any = document.querySelector('#date-picker-disabled-years');
+const disabledMinMax: any = document.querySelector('#date-picker-disabled-min-max');
+const disabledReverse: any = document.querySelector('#date-picker-disabled-reverse');
 
 if (disabledDates) {
   disabledDates.disableSettings = {

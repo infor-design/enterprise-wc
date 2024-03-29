@@ -7,7 +7,7 @@ import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 import styles from './ids-tag.scss';
-import { IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
+import { IdsColorValue, IdsColorValueCategories } from '../../utils/ids-color-utils/ids-color-utils';
 
 const Base = IdsLocaleMixin(
   IdsKeyboardMixin(
@@ -70,7 +70,7 @@ export default class IdsTag extends Base {
    * @param {IdsColorValue} value The color to use between
    * secondary (white), error, success, warning, caution, info or a hex code with the # at the start
    */
-  set color(value: IdsColorValue | 'secondary') {
+  set color(value: IdsColorValue | IdsColorValueCategories | 'secondary') {
     if (value) {
       this.setAttribute(attributes.COLOR, value);
     } else {
@@ -80,7 +80,7 @@ export default class IdsTag extends Base {
     this.#addDimissibleIcon();
   }
 
-  get color(): IdsColorValue | 'secondary' {
+  get color(): IdsColorValue | IdsColorValueCategories | 'secondary' {
     return this.getAttribute(attributes.COLOR) as IdsColorValue;
   }
 

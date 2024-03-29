@@ -206,12 +206,10 @@ export default class IdsRadio extends Base {
       rootEl?.classList.add(attributes.DISABLED);
       rootEl?.setAttribute('tabindex', '-1');
       labelText?.setAttribute('aria-disabled', 'true');
-      labelText?.setAttribute(attributes.DISABLED, 'true');
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.input?.removeAttribute(attributes.DISABLED);
       labelText?.removeAttribute('aria-disabled');
-      labelText?.removeAttribute(attributes.DISABLED);
       rootEl?.classList.remove(attributes.DISABLED);
     }
   }
@@ -223,19 +221,16 @@ export default class IdsRadio extends Base {
    * @param {boolean|string} value If true will set `group-disabled` attribute
    */
   set groupDisabled(value: boolean | string) {
-    const labelText = this.shadowRoot?.querySelector('.label-text');
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.GROUP_DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val.toString());
       this.rootEl?.classList.add(attributes.DISABLED);
       this.rootEl?.setAttribute('tabindex', '-1');
-      labelText?.setAttribute(attributes.DISABLED, 'true');
     } else {
       this.removeAttribute(attributes.GROUP_DISABLED);
       this.input?.removeAttribute(attributes.DISABLED);
       this.rootEl?.classList.remove(attributes.DISABLED);
-      labelText?.removeAttribute(attributes.DISABLED);
     }
   }
 
