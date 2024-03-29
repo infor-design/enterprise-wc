@@ -91,10 +91,49 @@ export default class IdsSplitter extends Base {
       attributes.AXIS,
       attributes.DISABLED,
       attributes.LABEL,
+      attributes.HEIGHT,
       attributes.RESIZE_ON_DRAG_END,
       attributes.SAVE_POSITION,
       attributes.UNIQUE_ID
     ];
+  }
+
+  /**
+   * React to attributes changing on the web-component
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    if (oldValue === newValue) return;
+
+    if (name === attributes.HEIGHT) this.#height(newValue);
+  }
+
+  /**
+   * Get user-set height for splitter
+   * @returns {string} the user-set height
+   */
+  get height(): string { return this.getAttribute(attributes.HEIGHT) || '100%'; }
+
+  /**
+   * Override the splitter's height
+   * @param {string} value the user-set height
+   */
+  set height(value: string) { this.setAttribute(attributes.HEIGHT, value || '100%'); }
+
+  /**
+   * Helper for when height attribute changes
+   * @param {string} value override splitter height
+   * @see IdsSplitter.attributeChangedCallback
+   */
+  #height(value: string) {
+    if (value) {
+      this.container?.style.setProperty('height', value);
+    } else {
+      this.container?.style.removeProperty('height');
+    }
   }
 
   /**

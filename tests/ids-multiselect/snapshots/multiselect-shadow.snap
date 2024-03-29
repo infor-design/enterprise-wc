@@ -6,7 +6,7 @@
           <ids-icon icon="dropdown" part="icon"></ids-icon>
         </ids-trigger-button>
       </ids-trigger-field>
-      <ids-dropdown-list id="dropdownList-dropdown-1" field-height="md" size="md" tabindex="-1" target="#triggerField-dropdown-1-internal" trigger-elem="#triggerBtn-dropdown-1">
+      <ids-dropdown-list id="dropdownList-dropdown-1" field-height="md" size="md" tabindex="-1" value="ca,nj" target="#triggerField-dropdown-1-internal" trigger-elem="#triggerBtn-dropdown-1">
       <slot></slot>
     </ids-dropdown-list>
     </div>
