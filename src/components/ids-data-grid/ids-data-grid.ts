@@ -213,6 +213,7 @@ export default class IdsDataGrid extends Base {
       attributes.EMPTY_MESSAGE_LABEL,
       attributes.EDITABLE,
       attributes.EDIT_NEXT_ON_ENTER_PRESS,
+      attributes.ALLOW_ONE_EXPANDED_ROW,
       attributes.EXPANDABLE_ROW,
       attributes.EXPANDABLE_ROW_TEMPLATE,
       attributes.FILTER_ROW_DISABLED,
@@ -285,6 +286,18 @@ export default class IdsDataGrid extends Base {
       </div>`;
 
     return html;
+  }
+
+  /**
+   * Collapse all expandable or tree rows except the one passed in.
+   * @param currentRowNum number The row number to keep expanded
+   * @returns {void}
+   */
+  collapseExpandedRows(currentRowNum: number | null = null): void {
+    this.rows.forEach((row: IdsDataGridRow) => {
+      if (currentRowNum !== null && row.rowIndex === currentRowNum) return;
+      if (row.isExpanded()) row.doCollapse();
+    });
   }
 
   /**
@@ -662,6 +675,7 @@ export default class IdsDataGrid extends Base {
 
       // Handle Expand/Collapse Clicking
       if (isClickable && isExpandButton) {
+        if (this.allowOneExpandedRow) this.collapseExpandedRows(rowNum);
         row.toggleExpandCollapse();
         return;
       }
@@ -2920,6 +2934,23 @@ export default class IdsDataGrid extends Base {
 
   get expandableRow() {
     return this.getAttribute(attributes.EXPANDABLE_ROW) || false;
+  }
+
+  /**
+   * If true an expandable row is present in the grid. Then only one row can be expanded at a time.
+   * @param {string} value The value
+   */
+  set allowOneExpandedRow(value) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.ALLOW_ONE_EXPANDED_ROW, value.toString());
+    } else {
+      this.removeAttribute(attributes.ALLOW_ONE_EXPANDED_ROW);
+    }
+  }
+
+  get allowOneExpandedRow() {
+    return this.getAttribute(attributes.ALLOW_ONE_EXPANDED_ROW) || false;
   }
 
   /**
