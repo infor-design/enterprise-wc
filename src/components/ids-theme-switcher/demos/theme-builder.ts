@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Date Picker
 // =================================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  const datePickerLegend: any = document.querySelector('#e2e-datepicker-legend');
+  const datePickerLegend: any = document.querySelector('#datepicker-legend');
 
   if (datePickerLegend) {
     datePickerLegend.legend = [

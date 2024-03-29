@@ -135,11 +135,16 @@ export default class IdsDropdown extends Base {
 
     if (this.hasAttribute(attributes.VALUE)) this.value = this.getAttribute(attributes.VALUE);
 
-    this.resetDirtyTracker();
     this.container?.classList.toggle('typeahead', this.typeahead);
     this.listBox?.setAttribute(attributes.SIZE, this.size);
     if (this.getAttribute('disabled')) this.disabled = stringToBool(this.getAttribute('disabled'));
     if (this.getAttribute('readonly')) this.readonly = stringToBool(this.getAttribute('readonly'));
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.dropdownList?.hide();
   }
 
   /**
@@ -150,6 +155,7 @@ export default class IdsDropdown extends Base {
     return [
       ...super.attributes,
       attributes.MAX_HEIGHT,
+      attributes.VALIDATE
     ];
   }
 
@@ -299,8 +305,8 @@ export default class IdsDropdown extends Base {
     return this;
   }
 
-  get input() {
-    return this.container?.querySelector<IdsTriggerField>('ids-trigger-field');
+  get input(): IdsTriggerField | null {
+    return this.container?.querySelector<IdsTriggerField>('ids-trigger-field') ?? null;
   }
 
   get popup() {
@@ -832,19 +838,19 @@ export default class IdsDropdown extends Base {
    * Connects event handlers related to activation of the Dropdown List
    */
   attachClickEvent() {
-    this.offEvent('click.dropdown-input');
     if (!this.list) {
-      this.onEvent('click.dropdown-input', this.input, (e: MouseEvent) => {
-        if (!this.dropdownList?.visible) {
+      this.offEvent('click.dropdown-input');
+      this.onEvent('click.dropdown-input', this.input, (e) => {
+        if (e instanceof PointerEvent) {
           this.dropdownList?.onTriggerClick?.(e);
         }
       });
     }
 
     // Respond to open/close events from an external IdsDropdownList component
-    this.offEvent('open.dropdown-list');
-    this.offEvent('close.dropdown-list');
     if (this.dropdownList) {
+      this.offEvent('open.dropdown-list');
+      this.offEvent('close.dropdown-list');
       this.onEvent('open.dropdown-list', this.dropdownList, async (e: CustomEvent) => {
         e.stopPropagation();
         await this.open();
@@ -855,8 +861,8 @@ export default class IdsDropdown extends Base {
       });
     }
 
-    this.offEvent('selected.dropdown-list');
     if (this.input?.fieldContainer) {
+      this.offEvent('selected.dropdown-list');
       this.onEvent('selected.dropdown-list', this.input.fieldContainer, (e: CustomEvent) => {
         e.stopPropagation();
         this.value = e.detail.value;
@@ -1140,6 +1146,7 @@ export default class IdsDropdown extends Base {
     return `<ids-list-box-option
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
+      ${option.tooltip ? `tooltip="${option.tooltip}"` : ''}
       ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.label || ''}</ids-list-box-option>`;
   }
 
@@ -1226,7 +1233,8 @@ export default class IdsDropdown extends Base {
       ...option,
       id: this.xssSanitize(option?.id ?? '') as string,
       value: this.xssSanitize(option.value) as string,
-      label: this.xssSanitize(option.label) as string
+      label: this.xssSanitize(option.label) as string,
+      tooltip: this.xssSanitize(option.tooltip ?? '') as string
     });
   }
 
@@ -1286,6 +1294,9 @@ export default class IdsDropdown extends Base {
       }
     }
     this.dropdownList = targetNode;
+    if (this.dropdownList && this.value) {
+      this.dropdownList.setAttribute(attributes.VALUE, this.value);
+    }
     this.configurePopup();
     this.attachClickEvent();
   }

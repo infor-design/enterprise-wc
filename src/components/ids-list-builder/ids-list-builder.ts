@@ -203,6 +203,8 @@ export default class IdsListBuilder extends IdsListView {
     const swappableParent = lastItem?.swappableParent ?? this.shadowRoot?.querySelector('ids-swappable');
     swappableParent?.after(swappable);
 
+    if (lastItem?.swappableParent && this.selectable === 'single') lastItem.swappableParent.selected = false;
+
     newItem.activated = true;
     newItem.selected = true;
     swappable.selected = true;

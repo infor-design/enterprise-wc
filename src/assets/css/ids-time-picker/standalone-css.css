@@ -23,7 +23,7 @@
   padding-bottom: 12px;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid var(--ids-color-neutral-30);
+  border-top: 1px solid var(--ids-color-gray-30);
 }
 
 .ids-trigger-field.xs {

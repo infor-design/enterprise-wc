@@ -5,6 +5,10 @@
 
 $editor-container-height: 285px;
 
+:host(:focus-visible) {
+  outline: none;
+}
+
 .ids-editor {
   .hidden {
     display: none;
@@ -17,7 +21,7 @@ $editor-container-height: 285px;
   .editor-label {
     display: flex;
     align-items: baseline;
-    margin-block-end: var(--ids-space-40);
+    margin-block-end: var(--ids-space-xs);
 
     &.required {
       &::after {
@@ -25,7 +29,7 @@ $editor-container-height: 285px;
         color: var(--ids-input-required-indicator-color-text-default);
         font-family: var(--ids-editor-font-family);
         font-size: var(--ids-font-size-50);
-        margin-inline: var(--ids-space-20);
+        margin-inline: var(--ids-space-xxxs);
         margin-top: -10px;
         position: relative;
         top: 1px;
@@ -41,7 +45,7 @@ $editor-container-height: 285px;
   // Simulate standard label text size while empty with a non-breaking space
   &.label-state-hidden {
     .editor-label {
-      margin-block-end: var(--ids-space-40);
+      margin-block-end: var(--ids-space-xs);
 
       &::before {
         content: '\00a0';
@@ -65,15 +69,16 @@ $editor-container-height: 285px;
     border-style: var(--ids-editor-border-style-default);
     border-width: var(--ids-editor-border-width-default);
 
+    &:hover,
+    &:active {
+      border-color: var(--ids-editor-color-border-hover);
+    }
+
+    &.focused,
     &:focus-within {
       border-color: var(--ids-editor-color-border-focus);
       outline: var(--ids-editor-outline-focus);
       box-shadow: var(--ids-editor-shadow-border-focus);
-    }
-
-    &:hover:not(:focus-within),
-    &:active:not(:focus-within) {
-      border-color: var(--ids-editor-color-border-hover);
     }
 
     &.error,
@@ -90,8 +95,8 @@ $editor-container-height: 285px;
   }
 
   .toolbar-container {
-    border-top-left-radius: var(--ids-space-10);
-    border-top-right-radius: var(--ids-space-10);
+    border-top-left-radius: var(--ids-space-xxxxs);
+    border-top-right-radius: var(--ids-space-xxxxs);
   }
 
   // Causes overflow to occur on Formatter Toolbar
@@ -145,7 +150,7 @@ $editor-container-height: 285px;
     .main-container,
     .main-container * {
       border-color: var(--ids-editor-color-border-disabled);
-      color: var(--ids-editor-color-text-disabled);
+      color: var(--ids-editor-color-text-disabled) !important;
       cursor: var(--ids-editor-cursor-disabled);
       pointer-events: none;
       user-select: none;
@@ -179,8 +184,6 @@ $editor-container-height: 285px;
 
   .editor-container {
     height: $editor-container-height;
-    padding: var(--ids-editor-padding);
-    user-select: text;
 
     a {
       color: var(--ids-editor-link-color-text-link);
@@ -198,29 +201,6 @@ $editor-container-height: 285px;
         border-width: var(--ids-editor-link-border-width-focus);
         outline: var(--ids-editor-link-outline-focus);
         box-shadow: var(--ids-editor-shadow-focus);
-      }
-    }
-
-    blockquote {
-      border-inline-start: var(--ids-editor-blockquote-border-inline-start);
-      margin-inline-start: var(--ids-editor-blockquote-margin-inline-start);
-      margin-inline-end:  var(--ids-editor-blockquote-margin-inline-end);
-      padding-inline-start: var(--ids-editor-blockquote-padding-inline-start);
-    }
-
-    :is(h1, h2, h3, h4, h5, h6, p, pre, blockquote):first-child {
-      margin-block-start: 0;
-    }
-
-    &[placeholder]:empty {
-      &::before {
-        content: attr(placeholder);
-        display: inline-block;
-        opacity: 0.7;
-      }
-
-      &:focus::before {
-        content: '';
       }
     }
   }
@@ -259,5 +239,24 @@ $editor-container-height: 285px;
       height: 100%;
       width: 100%;
     }
+  }
+}
+
+::slotted(div#editor-container) {
+  padding: var(--ids-editor-padding);
+  box-sizing: border-box;
+  min-height: 100%;
+  outline: none;
+}
+
+::slotted(div#editor-container:empty) {
+  &::before {
+    content: attr(placeholder);
+    display: inline-block;
+    opacity: 0.7;
+  }
+
+  &:focus::before {
+    content: '';
   }
 }

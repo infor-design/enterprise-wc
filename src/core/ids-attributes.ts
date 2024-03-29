@@ -76,12 +76,12 @@ export const attributes = {
   CLEARABLE_TEXT: 'clearable-text',
   CLICKABLE: 'clickable',
   COL_END: 'col-end',
-  COL_END_LG: 'col-start-lg',
-  COL_END_MD: 'col-start-md',
-  COL_END_SM: 'col-start-sm',
-  COL_END_XL: 'col-start-xl',
-  COL_END_XS: 'col-start-xs',
-  COL_END_XXL: 'col-start-xxl',
+  COL_END_LG: 'col-end-lg',
+  COL_END_MD: 'col-end-md',
+  COL_END_SM: 'col-end-sm',
+  COL_END_XL: 'col-end-xl',
+  COL_END_XS: 'col-end-xs',
+  COL_END_XXL: 'col-end-xxl',
   COL_SPAN: 'col-span',
   COL_SPAN_LG: 'col-span-lg',
   COL_SPAN_MD: 'col-span-md',
@@ -436,6 +436,7 @@ export const attributes = {
   SHOW_TODAY: 'show-today',
   SHOW_TOOLTIP: 'show-tooltip',
   SHOW_VERTICAL_GRID_LINES: 'show-vertical-grid-lines',
+  SHOW_VISITED_COLOR: 'show-visited-color',
   SHOW_WEEK_NUMBERS: 'show-week-numbers',
   SHRINK: 'shrink',
   SIZE: 'size',
@@ -497,6 +498,7 @@ export const attributes = {
   TOOLBAR_TYPE: 'toolbar-type',
   TOOLTIP: 'tooltip',
   TOOLTIP_PLACEMENT: 'tooltip-placement',
+  TOOLTIP_PLAIN_TEXT: 'tooltip-plain-text',
   TOTAL: 'total',
   TRANSLATE_TEXT: 'translate-text',
   TREE_GRID: 'tree-grid',
@@ -574,7 +576,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.21';
+export const version = '1.0.0-beta.22';
 
 export enum IdsDirection {
   Up = 'up',

@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Swipe Action e2e Tests', () => {
+describe('Ids Swipe Action Tests', () => {
   const url = 'http://localhost:4444/ids-swipe-action/example.html';
 
   beforeAll(async () => {

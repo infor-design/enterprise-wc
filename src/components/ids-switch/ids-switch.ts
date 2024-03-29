@@ -222,18 +222,15 @@ export default class IdsSwitch extends Base {
    */
   set disabled(value: boolean | string) {
     const val = stringToBool(value);
-    const labelText = this.shadowRoot?.querySelector('.label-text');
 
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, '');
       this.container?.classList.add(attributes.DISABLED);
-      labelText?.setAttribute(attributes.DISABLED, 'true');
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.input?.removeAttribute(attributes.DISABLED);
       this.container?.classList.remove(attributes.DISABLED);
-      labelText?.removeAttribute(attributes.DISABLED);
     }
   }
 

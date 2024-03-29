@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid cols="1" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <p>
+          <ids-text font-size="12" type="h1">Normal Default button with and without span</ids-text>
+        </p>
+        <p>
+          <ids-button>Button label</ids-button>
+        </p>
+        <p>
+          <ids-button><ids-icon icon="folder"></ids-icon><span>Button label</span></ids-button>
+        </p>
+        <p>
+          <ids-button>
+            <span>Button label</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button>
+            <ids-icon icon="folder"></ids-icon>
+            <span>Button label</span>
+          </ids-button>
+        </p>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -244,11 +244,11 @@
 }
 
 .ids-module-nav-user {
-  padding: var(--ids-spacing-4xl);
+  padding: var(--ids-space-4xl);
 }
 
 .ids-module-nav-search {
-  padding: var(--ids-spacing-lg);
+  padding: var(--ids-space-lg);
 }
 
 .ids-module-nav-search-no-results {
@@ -261,7 +261,7 @@
 
 // Add some padding and sizing on Avatar Icons
 ::slotted(ids-icon[slot='avatar']) {
-  padding: var(--ids-spacing-lg);
+  padding: var(--ids-space-lg);
 }
 
 ::slotted(img[slot='avatar']) {
@@ -271,8 +271,8 @@
 }
 
 ::slotted(ids-toolbar) {
-  padding-inline: var(--ids-spacing-lg);
-  margin-block-end: var(--ids-spacing-lg);
+  padding-inline: var(--ids-space-lg);
+  margin-block-end: var(--ids-space-lg);
 }
 
 ::slotted(ids-tooltip) {

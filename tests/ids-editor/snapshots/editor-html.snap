@@ -12,7 +12,7 @@
           <ids-menu-item value="h3"><ids-text font-size="20">Header 3</ids-text></ids-menu-item>
         </ids-menu-group>
       </ids-popup-menu>
-      <ids-separator vertical=""></ids-separator>
+      <ids-separator vertical="true"></ids-separator>
       <ids-button editor-action="bold" tooltip="Toggle Bold Text" color-variant="alternate-formatter">
         <span class="audible">Bold</span>
         <ids-icon icon="bold"></ids-icon>
@@ -29,12 +29,12 @@
         <span class="audible">Strike through</span>
         <ids-icon icon="strike-through"></ids-icon>
       </ids-button>
-      <ids-separator vertical=""></ids-separator>
+      <ids-separator vertical="true"></ids-separator>
       <ids-button editor-action="forecolor" tooltip="Text Color" color-variant="alternate-formatter">
         <span class="audible">Text color</span>
-        <ids-icon icon="fore-color"></ids-icon>
-      </ids-button><input type="color" class="forecolor-input" style="border: 0px; padding: 0px; margin: 0px; height: 0px; width: 0px; visibility: hidden;">
-      <ids-separator vertical=""></ids-separator>
+        <ids-icon icon="fore-color" class="editor-forecolor"></ids-icon>
+      <input type="color" aria-label="Text Color" class="forecolor-input" style="border: 0px; padding: 0px; margin: 0px; height: 100%; width: 100%; opacity: 0; position: absolute; top: 0px; left: 0px;"></ids-button>
+      <ids-separator vertical="true"></ids-separator>
       <ids-button editor-action="alignleft" tooltip="Align Left" color-variant="alternate-formatter">
         <span class="audible">Align left</span>
         <ids-icon icon="left-text-align"></ids-icon>
@@ -47,7 +47,7 @@
         <span class="audible">Align right</span>
         <ids-icon icon="right-text-align"></ids-icon>
       </ids-button>
-      <ids-separator vertical=""></ids-separator>
+      <ids-separator vertical="true"></ids-separator>
       <ids-button editor-action="blockquote" tooltip="Block Quote" color-variant="alternate-formatter">
         <span class="audible">Block quote</span>
         <ids-icon icon="quote"></ids-icon>
@@ -60,7 +60,7 @@
         <span class="audible">Unordered List</span>
         <ids-icon icon="bullet-list"></ids-icon>
       </ids-button>
-      <ids-separator vertical=""></ids-separator>
+      <ids-separator vertical="true"></ids-separator>
       <ids-button editor-action="hyperlink" tooltip="Insert Hyperlink" color-variant="alternate-formatter">
         <span class="audible">Insert Hyperlink</span>
         <ids-icon icon="link"></ids-icon>
@@ -69,21 +69,21 @@
         <span class="audible">Insert Image</span>
         <ids-icon icon="insert-image"></ids-icon>
       </ids-button>
-      <ids-separator vertical=""></ids-separator>
+      <ids-separator vertical="true"></ids-separator>
       <ids-button editor-action="clearformatting" tooltip="Clear Formatting" color-variant="alternate-formatter">
         <span class="audible">Clear Formatting</span>
         <ids-icon icon="clear-formatting"></ids-icon>
       </ids-button>
-      <ids-separator vertical=""></ids-separator>
+      <ids-separator vertical="true"></ids-separator>
       
   <ids-button editor-action="sourcemode" tooltip="View Source" color-variant="alternate-formatter">
     <span class="audible">View Source</span>
-    <ids-icon icon="html" width="38" viewbox="0 0 54 18" style="--ids-icon-width-default: 38px;"></ids-icon>
+    <ids-icon icon="html" width="50" viewbox="0 0 35 18" style="--ids-icon-width-default: 50px;"></ids-icon>
   </ids-button>
       
   <ids-button editor-action="editormode" tooltip="View Visual" color-variant="alternate-formatter" hidden="">
     <span class="audible">View Visual</span>
-    <ids-icon icon="visual" width="50" viewbox="0 0 73 18" style="--ids-icon-width-default: 50px;"></ids-icon>
+    <ids-icon icon="visual" width="50" viewbox="0 0 43 18" style="--ids-icon-width-default: 50px;"></ids-icon>
   </ids-button>
     </ids-toolbar-section>
     <ids-toolbar-more-actions overflow="" color-variant="alternate-formatter" toolbar-type="formatter"><ids-menu-button tooltip="More" id="more-actions" menu="more-actions-menu" aria-controls="more-actions-menu" color-variant="alternate-formatter" aria-haspopup="menu" hidden="">
@@ -152,10 +152,10 @@
     </ids-menu-item><ids-menu-item icon="clear-formatting" hidden=""><ids-icon slot="icon" icon="clear-formatting" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Clear Formatting
       
-    </ids-menu-item><ids-menu-item icon="html" viewbox="0 0 54 18" hidden=""><ids-icon slot="icon" icon="html" viewbox="0 0 54 18" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="html" viewbox="0 0 35 18" hidden=""><ids-icon slot="icon" icon="html" viewbox="0 0 35 18" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       View Source
       
-    </ids-menu-item><ids-menu-item icon="visual" viewbox="0 0 73 18" hidden=""><ids-icon slot="icon" icon="visual" viewbox="0 0 73 18" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+    </ids-menu-item><ids-menu-item icon="visual" viewbox="0 0 43 18" hidden=""><ids-icon slot="icon" icon="visual" viewbox="0 0 43 18" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       View Visual
       
     </ids-menu-item><ids-menu-item icon="more" hidden=""><ids-icon slot="icon" icon="more" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
@@ -168,13 +168,13 @@
     </ids-menu-item>
     </ids-menu-group></ids-popup-menu></ids-toolbar-more-actions>
   </ids-toolbar>
-          <p>Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink">e-commerce action-items</a>,
+          
+          
+        <div contenteditable="true" slot="editor-slot" id="editor-container" placeholder=""><p style="margin-block-start: 0px;">Embrace <a href="http://en.wikipedia.org/wiki/e-commerce" class="hyperlink" style="color: var(--ids-editor-link-color-text-link);">e-commerce action-items</a>,
             reintermediate, ecologies paradigms wireless share life-hacks create innovative harness. Evolve solutions
             rich-clientAPIs synergies harness relationships virtual vertical facilitate end-to-end, wireless, evolve
-            synergistic synergies.</p>
-          <p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
+            synergistic synergies.</p><p>Cross-platform, evolve, ROI scale cultivate eyeballs addelivery, e-services content cross-platform leverage
             extensible viral incentivize integrateAJAX-enabled sticky evolve magnetic cultivate leverage; cutting-edge.
             Innovate, end-to-end podcasting, whiteboard streamline e-business social; compelling, "cross-media exploit
             infomediaries innovative integrate integrateAJAX-enabled." Killer interactive reinvent, cultivate widgets leverage
-            morph.</p>
-        </ids-editor>
+            morph.</p></div></ids-editor>
