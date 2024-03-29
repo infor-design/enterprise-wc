@@ -236,12 +236,10 @@ export default class IdsCheckbox extends Base {
       this.setAttribute(attributes.DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val.toString());
       rootEl?.classList.add(attributes.DISABLED);
-      this.labelEl?.querySelector('.label-checkbox')?.setAttribute(attributes.DISABLED, val.toString());
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.input?.removeAttribute(attributes.DISABLED);
       rootEl?.classList.remove(attributes.DISABLED);
-      this.labelEl?.querySelector('.label-checkbox')?.removeAttribute(attributes.DISABLED);
     }
   }
 

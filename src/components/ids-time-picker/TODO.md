@@ -20,7 +20,7 @@ Keep this file in sync with #636
 
 - [x] Add Side-by-side Examples
 - [x] Add Standalone CSS Examples
-- [x] Fix skipped e2e and percy tests
+- [x] Fix skipped and percy tests
 - [x] Add custom id's/automation id's that can be used for scripting
 - [x] Add "Themeable Parts" for `label`, `input`, and `popup`
 - [x] Make private `this.is24Hours`, `this.is12Hours`, `this.hasSeconds` and `this.hasPeriod` (i.e. `this.#is24Hours`)

@@ -109,6 +109,10 @@
   &:not(.ids-hyperlink-color-unset) {
     color: var(--ids-hyperlink-color-text-default);
 
+    &.show-visited-color:visited {
+      color: var(--ids-hyperlink-color-text-visited);
+    }
+
     &:focus {
       border: 1px solid var(--ids-hyperlink-color-text-default);
       box-shadow: var(--ids-shadow-focus);

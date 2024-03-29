@@ -1,7 +1,7 @@
 <div class="ids-trigger-field ids-input field-height-md sm" part="container">
       <label class="ids-label-text" for="input-id" part="label">
       <slot name="label-pre"></slot>
-      <ids-text part="label" label="true" color-unset="">Date Field</ids-text>
+      <ids-text part="label" color-unset="">Date Field</ids-text>
       <slot name="label-post"></slot>
     </label>
       <div class="field-container" part="field-container">

@@ -5,7 +5,7 @@
 
   display: flex;
   font-family: var(--ids-font-family-default);
-  margin-top: var(--ids-space-30);
+  margin-top: var(--ids-space-xxs);
 
   &.has-custom-icon {
     color: var(--ids-icon-color-default);
@@ -16,14 +16,14 @@
   }
 
   .ids-icon {
-    margin-inline-end: var(--ids-space-30);
+    margin-inline-end: var(--ids-space-xxs);
   }
 
   &.alert {
     color: var(--ids-color-caution-default);
 
     &.disabled {
-      color: var(--ids-color-caution-30);
+      color: var(--ids-color-yellow-30);
     }
   }
 
@@ -31,7 +31,7 @@
     color: var(--ids-color-warning-default);
 
     &.disabled {
-      color: var(--ids-color-warning-30);
+      color: var(--ids-color-orange-30);
     }
   }
 
@@ -39,7 +39,7 @@
     color: var(--ids-color-error-default);
 
     &.disabled {
-      color: var(--ids-color-error-30);
+      color: var(--ids-color-red-30);
     }
   }
 
@@ -47,7 +47,7 @@
     color: var(--ids-color-info-default);
 
     &.disabled {
-      color: var(--ids-color-info-30);
+      color: var(--ids-color-blue-30);
     }
   }
 
@@ -55,7 +55,7 @@
     color: var(--ids-color-success-default);
 
     &.disabled {
-      color: var(--ids-color-success-30);
+      color: var(--ids-color-green-30);
     }
   }
 

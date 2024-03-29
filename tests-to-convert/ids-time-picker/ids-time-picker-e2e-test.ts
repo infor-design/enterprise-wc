@@ -3,7 +3,7 @@ import countObjects from '../helpers/count-objects';
 
 const getDropdownLabels = async (): Promise<any> => {
   const labels: Promise<any> = await page.$eval(
-    '#e2e-timepicker-required',
+    '#timepicker-required',
     (el: any) => ({
       hours: el?.picker.container.querySelector('ids-dropdown#hours')?.label,
       minutes: el?.picker.container.querySelector('ids-dropdown#minutes')?.label,
@@ -14,7 +14,7 @@ const getDropdownLabels = async (): Promise<any> => {
   return labels;
 };
 
-describe('Ids Time Picker e2e Tests', () => {
+describe('Ids Time Picker Tests', () => {
   const url = 'http://localhost:4444/ids-time-picker/example.html';
   const axeUrl = 'http://localhost:4444/ids-time-picker/open.html';
 
@@ -30,12 +30,12 @@ describe('Ids Time Picker e2e Tests', () => {
   test('should change value on input value change', async () => {
     // Set value to the input
     await page.$eval(
-      '#e2e-timepicker-required',
+      '#timepicker-required',
       (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '01:00 AM')
     );
 
     let value = await page.$eval(
-      '#e2e-timepicker-required',
+      '#timepicker-required',
       (el: any) => el?.value
     );
 
@@ -43,12 +43,12 @@ describe('Ids Time Picker e2e Tests', () => {
 
     // Reset value in the input
     await page.$eval(
-      '#e2e-timepicker-required',
+      '#timepicker-required',
       (el: any) => el?.container.querySelector('ids-trigger-field')?.setAttribute('value', '')
     );
 
     value = await page.$eval(
-      '#e2e-timepicker-required',
+      '#timepicker-required',
       (el: any) => el?.value
     );
 
@@ -56,13 +56,13 @@ describe('Ids Time Picker e2e Tests', () => {
   });
 
   it.skip('setting the language will update the labels', async () => {
-    await page.$eval('#e2e-timepicker-required', (el: any) => {
+    await page.$eval('#timepicker-required', (el: any) => {
       el?.setAttribute('format', 'hh:mm:ss a');
     });
 
     const getLabels = async (): Promise<any> => {
       const labels: Promise<any> = await page.$eval(
-        '#e2e-timepicker-required',
+        '#timepicker-required',
         (el: any) => ({
           hours: el?.picker.container.querySelector('ids-dropdown#hours')?.label,
           minutes: el?.picker.container.querySelector('ids-dropdown#minutes')?.label,
@@ -97,7 +97,7 @@ describe('Ids Time Picker e2e Tests', () => {
   it.skip('setting the locale will update the dropdowns and field', async () => {
     await page.evaluate(async () => {
       const container: any = document.querySelector('ids-container');
-      const component: any = document.querySelector('#e2e-timepicker-required');
+      const component: any = document.querySelector('#timepicker-required');
 
       if (container) {
         // await IdsGlobal.getLocale().setLocale('en-US');
@@ -134,7 +134,7 @@ describe('Ids Time Picker e2e Tests', () => {
     expect(thisDropdowns.period).not.toBeDefined();
 
     // custom hh:mm:ss a
-    await page.$eval('#e2e-timepicker-required', (el: any) => {
+    await page.$eval('#timepicker-required', (el: any) => {
       el?.setAttribute('format', 'hh:mm:ss a');
     });
 
@@ -147,7 +147,7 @@ describe('Ids Time Picker e2e Tests', () => {
 
   test('can select a time from the time picker dropdowns', async () => {
     // Open the timepicker popup
-    await page.$eval('#e2e-timepicker-required', (el: any) => {
+    await page.$eval('#timepicker-required', (el: any) => {
       el.format = 'h:mm a';
       if (!el.picker) {
         throw new Error('cannot find IdsTimePickerPopup');
@@ -166,7 +166,7 @@ describe('Ids Time Picker e2e Tests', () => {
     });
 
     // Check input for correct value
-    const inputValue = await page.$eval('#e2e-timepicker-required', (el: any) => el.input.value);
+    const inputValue = await page.$eval('#timepicker-required', (el: any) => el.input.value);
     expect(inputValue).toBe('12:00 PM');
   });
 });

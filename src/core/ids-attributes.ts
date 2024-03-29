@@ -74,6 +74,7 @@ export const attributes = {
   CLEARABLE: 'clearable',
   CLEARABLE_FORCED: 'clearable-forced',
   CLEARABLE_TEXT: 'clearable-text',
+  CLICK_OUTSIDE_TO_CLOSE: 'click-outside-to-close',
   CLICKABLE: 'clickable',
   COL_END: 'col-end',
   COL_END_LG: 'col-end-lg',
@@ -436,6 +437,7 @@ export const attributes = {
   SHOW_TODAY: 'show-today',
   SHOW_TOOLTIP: 'show-tooltip',
   SHOW_VERTICAL_GRID_LINES: 'show-vertical-grid-lines',
+  SHOW_VISITED_COLOR: 'show-visited-color',
   SHOW_WEEK_NUMBERS: 'show-week-numbers',
   SHRINK: 'shrink',
   SIZE: 'size',
@@ -575,7 +577,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.21';
+export const version = '1.0.0-beta.22';
 
 export enum IdsDirection {
   Up = 'up',

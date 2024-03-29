@@ -63,4 +63,29 @@ test.describe('IdsHeader tests', () => {
       await percySnapshot(page, 'ids-header-light');
     });
   });
+
+  test.describe('functionality tests', () => {
+    test('has a color attribute', async ({ page }) => {
+      const locator = await page.locator('ids-header').first();
+      expect(await locator.getAttribute('color')).toEqual(null);
+
+      await page.evaluate(() => {
+        const elem: any = document.querySelector('ids-header');
+        elem.setAttribute('color', '#fff');
+      });
+      expect(await locator.getAttribute('color')).toEqual('#fff');
+
+      await page.evaluate(() => {
+        const elem: any = document.querySelector('ids-header');
+        elem.setAttribute('color', '#bb5500');
+      });
+      expect(await locator.getAttribute('color')).toEqual('#bb5500');
+
+      await page.evaluate(() => {
+        const elem: any = document.querySelector('ids-header');
+        elem.removeAttribute('color');
+      });
+      expect(await locator.getAttribute('color')).toEqual(null);
+    });
+  });
 });

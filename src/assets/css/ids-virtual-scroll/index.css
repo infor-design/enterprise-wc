@@ -44,7 +44,7 @@ html {
   border-radius: 2px;
   width: 100%;
   border-collapse: collapse;
-  border-color: var(--ids-color-neutral-30);
+  border-color: var(--ids-color-gray-30);
   contain: content;
   overflow: auto;
   scroll-behavior: smooth;
@@ -75,8 +75,8 @@ html {
   border-left: 1px solid;
   border-style: solid;
   display: flex;
-  background-color: var(--ids-color-neutral-80);
-  border-color: var(--ids-color-neutral-30);
+  background-color: var(--ids-color-gray-80);
+  border-color: var(--ids-color-gray-30);
   min-height: 35px;
 }
 
@@ -120,9 +120,9 @@ html {
   border-top: 1px solid;
   border-style: solid;
   display: inline-flex;
-  color: var(--ids-color-neutral-100);
+  color: var(--ids-color-gray-100);
   align-items: center;
-  border-color: var(--ids-color-neutral-30);
+  border-color: var(--ids-color-gray-30);
   overflow: hidden;
   white-space: nowrap;
 }

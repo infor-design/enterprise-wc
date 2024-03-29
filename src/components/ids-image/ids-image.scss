@@ -37,6 +37,7 @@ $image-sizes: (
 // normal
 :host .placeholder,
 .ids-image.placeholder {
+  border-radius: var(--ids-image-placeholder-border-radius);
   border-color: var(--ids-image-color-border-default);
 
   ids-icon {
@@ -126,13 +127,14 @@ $image-sizes: (
   }
 
   &.unknown {
-    color: var(--ids-image-status-unknown-color-background);
+    fill: var(--ids-image-status-unknown-color-background);
+    color: transparent;
   }
 
   // Draw a border and ring around the background color
   &::before {
     position: absolute;
-    border-radius: var(--ids-border-radius-circle);
+    border-radius: var(--ids-image-border-radius);
     background-color: var(--ids-color-white-100);
     content: '';
     width: 12px;
@@ -144,7 +146,7 @@ $image-sizes: (
 
   &::after {
     position: absolute;
-    border-radius: var(--ids-border-radius-circle);
+    border-radius: var(--ids-image-border-radius);
     background-color: var(--ids-color-background-default);
     content: '';
     width: 16px;
@@ -160,7 +162,7 @@ $image-sizes: (
 
 .user-status-wrapper .user-status {
   svg {
-    border-radius: var(--ids-border-radius-circle);
+    border-radius: var(--ids-image-border-radius);
     background-color: var(--ids-color-background-default);
   }
 

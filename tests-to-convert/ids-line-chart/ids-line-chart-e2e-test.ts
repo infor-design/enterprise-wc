@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Line Chart e2e Tests', () => {
+describe('Ids Line Chart Tests', () => {
   const url = 'http://localhost:4444/ids-line-chart/example.html';
 
   beforeAll(async () => {

@@ -142,22 +142,22 @@ test.describe('IdsTag tests', () => {
 
     test('should dismiss on click', async ({ page }) => {
       const handle = await page.$('ids-tag');
-      expect(await handle?.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      expect(await handle?.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(14);
       await handle?.evaluate((el: IdsTag) => {
         el.setAttribute('dismissible', 'true');
       });
       const locator = await page.locator('ids-tag ids-icon[icon="close"]').first();
       await locator.click();
-      expect(await handle?.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(12);
+      expect(await handle?.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
     });
 
     test('should dismiss on keyboard', async ({ page }) => {
-      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(14);
       await page.evaluate(() => {
         const event = new KeyboardEvent('keydown', { key: 'Backspace' });
         document.querySelector('ids-tag[dismissible]')?.dispatchEvent(event);
       });
-      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(12);
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
     });
 
     test('should remove the clickable attribute when reset', async ({ page }) => {
@@ -184,13 +184,13 @@ test.describe('IdsTag tests', () => {
     });
 
     test('should veto dismiss in beforetagremove', async ({ page }) => {
-      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(14);
       await page.evaluate(() => {
         const tag = document.querySelector<IdsTag>('ids-tag[dismissible]');
         tag?.addEventListener('beforetagremove', (e: any) => { e.detail.response(false); });
         tag?.dismiss();
       });
-      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(14);
     });
 
     test('should fire tagremove on dismiss', async ({ page }) => {
@@ -242,19 +242,19 @@ test.describe('IdsTag tests', () => {
     });
 
     test('should cancel dismiss when not dismissible', async ({ page }) => {
-      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(14);
       await page.evaluate(() => {
         document.querySelector<IdsTag>('ids-tag')?.dismiss();
       });
-      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(14);
     });
 
     test('should cancel dismiss when disabled', async ({ page }) => {
-      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(14);
       await page.evaluate(() => {
         document.querySelector<IdsTag>('#ids-clickable-tag')?.dismiss();
       });
-      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(13);
+      expect(await page.evaluate(() => document.querySelectorAll('ids-tag').length)).toEqual(14);
     });
   });
 });
