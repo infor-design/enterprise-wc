@@ -37,6 +37,7 @@ test.describe('IdsDataGrid tests', () => {
   test.describe('accessibility tests', () => {
     test('should pass an Axe scan', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
+      await page.goto('/ids-data-grid/example.html');
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
         .analyze();
@@ -69,97 +70,97 @@ test.describe('IdsDataGrid tests', () => {
 
     test('should match the visual snapshot in percy (standalone css)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/standalone-css.html');
+      await page.goto('/ids-data-grid/standalone-css.html');
       await percySnapshot(page, 'ids-data-grid-standalone-light');
     });
 
     test('should match the visual snapshot in percy (list style)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/list-style.html');
+      await page.goto('/ids-data-grid/list-style.html');
       await percySnapshot(page, 'ids-data-grid-list-style-light');
     });
 
     test('should match the visual snapshot in percy (auto fit)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/list-style.html');
+      await page.goto('/ids-data-grid/list-style.html');
       await percySnapshot(page, 'ids-data-grid-auto-fit-light');
     });
 
     test('should not have visual regressions in percy (auto columns)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/columns-auto.html');
+      await page.goto('/ids-data-grid/columns-auto.html');
       await percySnapshot(page, 'ids-data-grid-auto-columns-light');
     });
 
     test('should not have visual regressions in percy (fixed columns)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/columns-fixed.html');
+      await page.goto('/ids-data-grid/columns-fixed.html');
       await percySnapshot(page, 'ids-data-grid-columns-fixed-light');
     });
 
     test('should not have visual regressions in percy (percent columns)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/columns-percent.html');
+      await page.goto('/ids-data-grid/columns-percent.html');
       await percySnapshot(page, 'ids-data-grid-columns-percent-light');
     });
 
-    test('should not have visual regressions in percy (column formatters )', async ({ page, browserName }) => {
+    test('should not have visual regressions in percy (column formatters)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/columns-formatters.html');
+      await page.goto('/ids-data-grid/columns-formatters.html');
       await percySnapshot(page, 'ids-data-grid-columns-formatters-light');
     });
 
     test('should not have visual regressions in percy (column alignment)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/columns-alignment.html');
+      await page.goto('/ids-data-grid/columns-alignment.html');
       await percySnapshot(page, 'ids-data-grid-columns-alignment-light');
     });
 
     test('should not have visual regressions in percy (column groups)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/columns-groups.html');
+      await page.goto('/ids-data-grid/columns-groups.html');
       await percySnapshot(page, 'ids-data-grid-columns-groups-light');
     });
 
     test('should not have visual regressions in percy (stretch coluimn)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/columns-stretch.html');
+      await page.goto('/ids-data-grid/columns-stretch.html');
       await percySnapshot(page, 'ids-data-grid-columns-stretch-light');
     });
 
     test('should not have visual regressions in percy (frozen columns)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/columns-frozen.html');
+      await page.goto('/ids-data-grid/columns-frozen.html');
       await percySnapshot(page, 'ids-data-grid-columns-frozen-light');
     });
 
     test('should not have visual regressions in percy (alternate row shading)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/alternate-row-shading.html');
+      await page.goto('/ids-data-grid/alternate-row-shading.html');
       await percySnapshot(page, 'ids-data-grid-alternate-row-shading-light');
     });
 
     test('should not have visual regressions in percy (expandable-row)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/expandable-row.html');
+      await page.goto('/ids-data-grid/expandable-row.html');
       await percySnapshot(page, 'ids-data-grid-expandable-row-light');
     });
 
     test('should not have visual regressions in percy (tree grid)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/tree-grid.html');
+      await page.goto('/ids-data-grid/tree-grid.html');
       await percySnapshot(page, 'ids-data-grid-tree-grid-light');
     });
 
     test('should not have visual regressions in percy (editable inline)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/editable-inline.html');
+      await page.goto('/ids-data-grid/editable-inline.html');
       await percySnapshot(page, 'ids-data-grid-editable-inline-light');
     });
 
     test('should not have visual regressions in percy (loading indicator)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('ids-data-grid/loading-indicator.html');
+      await page.goto('/ids-data-grid/loading-indicator.html');
       await percySnapshot(page, 'ids-data-grid-loading-indicator-light');
     });
   });

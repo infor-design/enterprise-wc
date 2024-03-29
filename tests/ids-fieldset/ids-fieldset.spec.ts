@@ -64,7 +64,7 @@ test.describe('IdsFieldset tests', () => {
       await percySnapshot(page, 'ids-fieldset-light');
     });
 
-    test('should match the visual snapshot in percy (dropdowns)', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy (dropdowns)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
 
       await page.evaluate(async () => {

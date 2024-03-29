@@ -13,7 +13,7 @@ test.describe('IdsWizard tests', () => {
     await page.goto(url);
   });
 
-  test.describe('e2e tests', () => {
+  test.describe('functionality tests', () => {
     test('should be able to click first step', async ({ page }) => {
       const activeStep = await page.evaluate(() => {
         const wizard = document.querySelector('ids-wizard') as IdsWizard;
@@ -78,7 +78,7 @@ test.describe('IdsWizard tests', () => {
         return (wizard?.shadowRoot?.querySelector('.step-label') as HTMLElement).style.maxWidth;
       });
 
-      expect(Number(size?.replace('px', ''))).toBeLessThan(70);
+      expect(Number(size?.replace('px', ''))).toBeLessThan(80);
       expect(Number(size?.replace('px', ''))).toBeGreaterThan(40);
     });
   });

@@ -10,14 +10,35 @@
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Toggle Button</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="4" padding-x="md">
+    <ids-layout-grid auto-fit="true" padding="md">
       <ids-layout-grid-cell>
         <ids-toggle-button
-          id="test-toggle-button"
+          id="test-favorite-button"
+          icon-on="heart-filled"
+          icon-off="heart-outlined"
+          color="red"
+          text-off="Favorite"
+          text-on="Favorited"></ids-toggle-button>
+        <ids-toggle-button
+          id="test-star-button"
           icon-on="star-filled"
+          color="orange"
           icon-off="star-outlined"
-          text-off="Toggle Button (Off)"
-          text-on="Toggle Button (On)"></ids-toggle-button>
+          text-off="Star"
+          text-on="Starred"></ids-toggle-button>
+        <ids-toggle-button
+          id="test-filter-button"
+          icon-on="filter"
+          icon-off="filter"
+          text-off="Filter"
+          text-on="Filter"></ids-toggle-button>
+       <ids-toggle-button
+          id="test-disabled-button"
+          disabled
+          icon-on="filter"
+          icon-off="filter"
+          text-off="Filter"
+          text-on="Filter"></ids-toggle-button>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

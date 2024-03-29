@@ -437,6 +437,7 @@ export const attributes = {
   SHOW_TODAY: 'show-today',
   SHOW_TOOLTIP: 'show-tooltip',
   SHOW_VERTICAL_GRID_LINES: 'show-vertical-grid-lines',
+  SHOW_VISITED_COLOR: 'show-visited-color',
   SHOW_WEEK_NUMBERS: 'show-week-numbers',
   SHRINK: 'shrink',
   SIZE: 'size',

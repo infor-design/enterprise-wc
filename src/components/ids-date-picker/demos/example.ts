@@ -3,7 +3,7 @@ import type IdsDatePicker from '../ids-date-picker';
 import '../ids-date-picker-popup';
 
 // Example for populating the legend
-const datePickerLegend: IdsDatePicker = document.querySelector<IdsDatePicker>('#e2e-datepicker-legend')!;
+const datePickerLegend: IdsDatePicker = document.querySelector<IdsDatePicker>('#datepicker-legend')!;
 datePickerLegend.legend = [
   {
     name: 'Public Holiday',

@@ -84,7 +84,7 @@
     }
   }
 
-  &.status-neutral::before,
+  &.status-gray::before,
   &.status-error::before,
   &.status-info::before,
   &.status-success::before,
@@ -97,7 +97,7 @@
     width: 8px;
   }
 
-  &.status-neutral {
+  &.status-gray {
     color: var(--ids-color-text-label);
 
     &::before {
