@@ -3,6 +3,8 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 import { LABEL_WRAPS } from '../../src/components/ids-input/ids-input-attributes';
+import IdsDataSource from '../../src/core/ids-data-source';
+import dataset from '../../src/assets/data/states.json';
 
 import IdsInput from '../../src/components/ids-input/ids-input';
 
@@ -836,6 +838,24 @@ test.describe('IdsInput tests', () => {
 
       expect(results).toBeTruthy();
     });
+
+    test('should autoselect', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      await input.evaluate((elem: any) => {
+        elem.autoselect = true;
+        elem.value = 'test';
+      });
+      expect(await input.getAttribute('autoselect')).toEqual('true');
+      await input.evaluate((elem: any) => {
+        elem.input?.focus();
+        elem.container?.querySelector('.ids-input-field')?.focus();
+      });
+      await input.evaluate((elem: any) => {
+        elem.autoselect = false;
+        elem.handleInputFocusEvent('remove');
+      });
+      expect(await input.getAttribute('autoselect')).toBeNull();
+    });
   });
 
   test.describe('snapshot tests', () => {
@@ -878,6 +898,72 @@ test.describe('IdsInput tests', () => {
         document.querySelector<IdsInput>('ids-input')!.value = '';
       });
       await expect(await page.locator('#input-id-error')).toBeVisible();
+    });
+  });
+
+  test.describe('autocomplete tests', () => {
+    test('should set autocomplete', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      expect(await input.getAttribute('autocomplete')).toBeNull();
+      expect(await input.evaluate((elem: IdsInput) => elem.autocomplete)).toBeFalsy();
+      const datasource = new IdsDataSource();
+      await input.evaluate((elem: any, arg) => {
+        elem.autocomplete = true;
+        elem.datasource = arg.datasource;
+        elem.data = arg.dataset;
+      }, {
+        dataset,
+        datasource
+      });
+
+      await expect(input).toHaveAttribute('autocomplete');
+      expect(await input.evaluate((elem: IdsInput) => elem.autocomplete)).toBeTruthy();
+      expect(await input.evaluate((elem: IdsInput) => elem.data.length)).toEqual(59);
+      expect(await input.evaluate((elem: IdsInput) => elem.searchField)).toEqual('value');
+      await input.evaluate((elem: any) => {
+        elem.searchField = 'label';
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.searchField)).toEqual('label');
+    });
+
+    test('should open popup on keydown if autocomplete is enabled', async ({ page }) => {
+      await page.goto('/ids-input/autocomplete.html');
+      const input = await page.locator('ids-input');
+      expect(await input.evaluate((elem: IdsInput) => elem.autocomplete)).toBeTruthy();
+      await expect(input).toHaveAttribute('autocomplete');
+      await input.evaluate((elem: any) => {
+        elem.popup.animated = false;
+        elem.input?.focus();
+      });
+      await page.keyboard.press('a');
+      await page.waitForFunction(() => {
+        const elem = document.querySelector<IdsInput>('ids-input');
+        return elem?.popup?.visible;
+      });
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('ArrowDown');
+      expect(await input.evaluate(
+        (elem: IdsInput) => elem.options[1].classList.contains('is-selected')
+      )).toBeTruthy();
+      await page.keyboard.press('ArrowUp');
+      expect(await input.evaluate(
+        (elem: IdsInput) => elem.options[0].classList.contains('is-selected')
+      )).toBeTruthy();
+      await page.keyboard.press('Enter');
+      expect(await input.evaluate((elem: IdsInput) => elem.value)).toEqual('Alabama');
+      await input.evaluate((elem: IdsInput) => {
+        elem.value = '';
+        elem.disabled = true;
+        elem.readonly = true;
+      });
+      await input.evaluate((elem: any) => {
+        elem.input?.focus();
+      });
+      await page.keyboard.press('a');
+      await page.waitForFunction(() => {
+        const elem = document.querySelector<IdsInput>('ids-input');
+        return !elem?.popup?.visible;
+      });
     });
   });
 });
