@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
+import { LABEL_WRAPS } from '../../src/components/ids-input/ids-input-attributes';
 
 import IdsInput from '../../src/components/ids-input/ids-input';
 
@@ -27,6 +28,16 @@ test.describe('IdsInput tests', () => {
       await page.goto(url);
       await page.waitForLoadState();
       await expect(exceptions).toBeNull();
+    });
+  });
+
+  test.describe('accessibility tests', () => {
+    test('should pass an Axe scan', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      const accessibilityScanResults = await new AxeBuilder({ page } as any)
+        .exclude('[disabled]') // Disabled elements do not have to pass
+        .analyze();
+      expect(accessibilityScanResults.violations).toEqual([]);
     });
   });
 
@@ -79,16 +90,6 @@ test.describe('IdsInput tests', () => {
       });
 
       expect(await page.evaluate(() => (window as any).changeEventCount)).toEqual(1);
-    });
-  });
-
-  test.describe('accessibility tests', () => {
-    test('should pass an Axe scan', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const accessibilityScanResults = await new AxeBuilder({ page } as any)
-        .exclude('[disabled]') // Disabled elements do not have to pass
-        .analyze();
-      expect(accessibilityScanResults.violations).toEqual([]);
     });
   });
 
@@ -245,6 +246,30 @@ test.describe('IdsInput tests', () => {
       await expect(input).not.toHaveAttribute('compact');
       expect(await input.evaluate((elem: IdsInput) => elem.compact)).toBeFalsy();
       expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('compact'))).toBeFalsy();
+    });
+
+    test('cannot have both a "compact" and "field-height" setting applied', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      await input.evaluate((elem: any) => {
+        elem.compact = true;
+      });
+      await expect(input).toHaveAttribute('compact');
+      expect(await input.evaluate((elem: IdsInput) => elem.compact)).toBeTruthy();
+      await input.evaluate((elem: any) => {
+        elem.fieldHeight = 'xs';
+      });
+      expect(await input.getAttribute('compact')).toBeNull();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('compact'))).toBeFalsy();
+      expect(await input.getAttribute('field-height')).toEqual('xs');
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('field-height-xs'))).toBeTruthy();
+      await input.evaluate((elem: any) => {
+        elem.compact = true;
+      });
+      await expect(input).toHaveAttribute('compact');
+      expect(await input.evaluate((elem: IdsInput) => elem.compact)).toBeTruthy();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('compact'))).toBeTruthy();
+      expect(await input.getAttribute('field-height')).toBeNull();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('field-height-xs'))).toBeFalsy();
     });
 
     test('should set disabled', async ({ page }) => {
@@ -627,6 +652,189 @@ test.describe('IdsInput tests', () => {
       });
       expect(await input.getAttribute('text-align')).toBe('start');
       expect(await input.evaluate((elem: IdsInput) => elem.input?.classList.contains('test'))).toBeFalsy();
+    });
+
+    test('should set label wrap', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      const attrName = 'label-wrap';
+      const defaultVal = 'wrap';
+      const check = async (applyVal: string, propVal: string | null, attrVal: string | null) => {
+        await input.evaluate((elem: any, arg: string) => {
+          elem.labelWrap = arg;
+        }, applyVal);
+        expect(await input.evaluate((elem: IdsInput) => elem.labelWrap)).toEqual(propVal);
+        expect(await input.getAttribute(attrName)).toEqual(attrVal);
+      };
+
+      expect(await input.evaluate((elem: IdsInput) => elem.labelWrap)).toEqual(defaultVal);
+      expect(await input.getAttribute(attrName)).toBeNull();
+
+      for (const val of LABEL_WRAPS) {
+        await check(val, val, val);
+      }
+      await check('test', defaultVal, null);
+    });
+
+    test('should handle input sizes', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+      const checkSize = async (size: string) => {
+        await input.evaluate((elem: any, arg: string) => {
+          elem.size = arg;
+        }, size);
+        expect(await input.getAttribute('size')).toEqual(size);
+        expect(await input.evaluate((elem: IdsInput) => elem.size)).toEqual(size);
+        for (const s of sizes.filter((item: string) => item !== size)) {
+          expect(await input.evaluate((elem: IdsInput, arg: string) => {
+            const hasClass = elem.container?.classList.contains(arg);
+            return hasClass;
+          }, s)).toBeFalsy();
+        }
+      };
+
+      expect(await input.evaluate((elem: IdsInput) => elem.size)).toEqual('md');
+      expect(await input.getAttribute('size')).toBeNull();
+
+      for (const size of sizes) {
+        await checkSize(size);
+      }
+
+      await input.evaluate((elem: any) => {
+        elem.size = 'test';
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.size)).toEqual('md');
+      expect(await input.getAttribute('size')).toBe('md');
+      await input.evaluate((elem: any) => {
+        elem.size = null;
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.size)).toEqual('md');
+      expect(await input.getAttribute('size')).toBe('md');
+    });
+
+    test('should handle input field height', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      const heights = ['xs', 'sm', 'md', 'lg'];
+      const defaultHeight = 'md';
+      const className = (h: any) => `field-height-${h}`;
+      const checkHeight = async (height: string) => {
+        await input.evaluate((elem: any, arg: string) => {
+          elem.fieldHeight = arg;
+        }, height);
+        expect(await input.getAttribute('field-height')).toEqual(height);
+        expect(await input.evaluate((elem: IdsInput) => elem.fieldHeight)).toEqual(height);
+        expect(await input.evaluate((elem: IdsInput, arg: string) => {
+          const hasClass = elem.container?.classList.contains(arg);
+          return hasClass;
+        }, className(height))).toBeTruthy();
+        for (const h of heights.filter((item: string) => item !== height)) {
+          expect(await input.evaluate((elem: IdsInput, arg: string) => {
+            const hasClass = elem.container?.classList.contains(arg);
+            return hasClass;
+          }, className(h))).toBeFalsy();
+        }
+      };
+
+      expect(await input.evaluate((elem: IdsInput) => elem.fieldHeight)).toEqual(defaultHeight);
+      expect(await input.getAttribute('field-height')).toBeNull();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('field-height-md'))).toBeTruthy();
+
+      for (const height of heights) {
+        await checkHeight(height);
+      }
+
+      await input.evaluate((elem: any) => {
+        elem.fieldHeight = null;
+        elem.fieldHeight = 'test';
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.fieldHeight)).toEqual(defaultHeight);
+      expect(await input.getAttribute('field-height')).toBeNull();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('field-height-md'))).toBeTruthy();
+    });
+
+    test('supports setting cursor', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      await input.evaluate((elem: any) => {
+        elem.cursor = 'pointer';
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.input?.style.cursor)).toEqual('pointer');
+      expect(await input.evaluate((elem: IdsInput) => elem.cursor)).toEqual('pointer');
+      await input.evaluate((elem: any) => {
+        elem.cursor = null;
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.input?.style.cursor)).toEqual('');
+    });
+
+    test('supports setting noMargins', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      await input.evaluate((elem: any) => {
+        elem.noMargins = true;
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.noMargins)).toBeTruthy();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('no-margins'))).toBeTruthy();
+      await expect(input).toHaveAttribute('no-margins');
+      await input.evaluate((elem: any) => {
+        elem.noMargins = false;
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.noMargins)).toBeFalsy();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('no-margins'))).toBeFalsy();
+      await expect(input).not.toHaveAttribute('no-margins');
+    });
+
+    test('supports setting padding', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      await input.evaluate((elem: any) => {
+        elem.padding = '10';
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.padding)).toEqual('10');
+      expect(await input.evaluate((elem: IdsInput) => elem.input?.style.getPropertyValue('padding-inline-end'))).toEqual('10px');
+      await input.evaluate((elem: any) => {
+        elem.padding = '';
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.padding)).toEqual('');
+      expect(await input.evaluate((elem: IdsInput) => elem.input?.style.getPropertyValue('padding-inline-end'))).toEqual('');
+    });
+
+    test('should set readonly background', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      expect(await input.getAttribute('readonly-background')).toBeNull();
+      expect(await input.evaluate((elem: IdsInput) => elem.readonlyBackground)).toBeFalsy();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('readonly-background'))).toBeFalsy();
+      await input.evaluate((elem: any) => {
+        elem.readonlyBackground = true;
+      });
+      await expect(input).toHaveAttribute('readonly-background');
+      expect(await input.evaluate((elem: IdsInput) => elem.readonlyBackground)).toBeTruthy();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('readonly-background'))).toBeTruthy();
+    });
+
+    test('should set active', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      expect(await input.evaluate((elem: IdsInput) => elem.active)).toBeFalsy();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('is-active'))).toBeFalsy();
+      await input.evaluate((elem: any) => {
+        elem.active = true;
+      });
+      expect(await input.evaluate((elem: IdsInput) => elem.active)).toBeTruthy();
+      expect(await input.evaluate((elem: IdsInput) => elem.container?.classList.contains('is-active'))).toBeTruthy();
+    });
+
+    test('focuses its inner HTMLInputElement when the host element becomes focused', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      await input.focus();
+      expect(await page.evaluate(() => document.activeElement))
+        .toEqual(await input.evaluate((elem: IdsInput) => elem));
+    });
+
+    test('focuses its inner HTMLInputElement when its label is clicked', async ({ page }) => {
+      const input = await page.locator('ids-input').first();
+      const results = await input.evaluate((elem: IdsInput) => {
+        const labelEl = elem.container?.querySelector('label');
+        labelEl?.click();
+
+        return elem.input?.isEqualNode(elem.shadowRoot?.activeElement as HTMLElement);
+      });
+
+      expect(results).toBeTruthy();
     });
   });
 

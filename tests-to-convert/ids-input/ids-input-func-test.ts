@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import IdsInput from '../../src/components/ids-input/ids-input';
-import { LABEL_WRAPS } from '../../src/components/ids-input/ids-input-attributes';
 import IdsDataSource from '../../src/core/ids-data-source';
 import dataset from '../../src/assets/data/states.json';
 import '../helpers/resize-observer-mock';
@@ -19,138 +18,6 @@ test('should autoselect', (done) => {
     expect(input.getAttribute('autoselect')).toEqual(null);
     done();
   }, 2);
-});
-
-test('should set label wrap', () => {
-  const attrName = 'label-wrap';
-  const defaultVal = 'wrap';
-  const check = (applyVal: string, propVal: string | null, attrVal: string | null) => {
-    input.labelWrap = applyVal;
-    expect(input.labelWrap).toEqual(propVal);
-    expect(input.getAttribute(attrName)).toEqual(attrVal);
-  };
-
-  expect(input.labelWrap).toEqual(defaultVal);
-  expect(input.getAttribute(attrName)).toEqual(null);
-  LABEL_WRAPS.forEach((val) => check(val, val, val));
-  check('test', defaultVal, null);
-});
-
-test('should not set wrong size', () => {
-  input.size = 'test';
-  expect(input.getAttribute('size')).toEqual('md');
-  expect(input.container.classList).not.toContain('test');
-  const size = 'sm';
-  input.size = size;
-  expect(input.getAttribute('size')).toEqual(size);
-  expect(input.container.classList).toContain(size);
-});
-
-test('should render input sizes', () => {
-  const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
-  const checkSize = (size: any) => {
-    input.size = size;
-    expect(input.getAttribute('size')).toEqual(size);
-    expect(input.container.classList).toContain(size);
-    sizes.filter((s) => s !== size).forEach((s) => {
-      expect(input.container.classList).not.toContain(s);
-    });
-  };
-  expect(input.getAttribute('size')).toEqual(null);
-  expect(input.container.classList).toContain('md');
-  sizes.forEach((s) => checkSize(s));
-});
-
-test('should not set wrong input field height', () => {
-  const className = (h: any) => `field-height-${h}`;
-  input.fieldHeight = 'test';
-  expect(input.getAttribute('field-height')).toEqual(null);
-  expect(input.container.classList).not.toContain('test');
-  expect(input.container.classList).not.toContain(className('test'));
-  const fieldHeight = 'sm';
-  input.fieldHeight = fieldHeight;
-  expect(input.getAttribute('field-height')).toEqual(fieldHeight);
-  expect(input.container.classList).toContain(className(fieldHeight));
-});
-
-test('should render input field height', () => {
-  const heights = ['xs', 'sm', 'md', 'lg'];
-  const defaultHeight = 'md';
-  const className = (h: any) => `field-height-${h}`;
-  const checkHeight = (height: any) => {
-    input.fieldHeight = height;
-    expect(input.getAttribute('field-height')).toEqual(height);
-    expect(input.container.classList).toContain(className(height));
-    heights.filter((h) => h !== height).forEach((h) => {
-      expect(input.container.classList).not.toContain(className(h));
-    });
-  };
-  expect(input.getAttribute('field-height')).toEqual(null);
-  heights.filter((h) => h !== defaultHeight).forEach((h) => {
-    expect(input.container.classList).not.toContain(className(h));
-  });
-  expect(input.container.classList).toContain(className(defaultHeight));
-  heights.forEach((h) => checkHeight(h));
-});
-
-test('cannot have both a "compact" and "field-height" setting applied', () => {
-  input.compact = true;
-
-  expect(input.hasAttribute('compact')).toBeTruthy();
-  expect(input.container.classList.contains('compact')).toBeTruthy();
-
-  input.fieldHeight = 'xs';
-
-  expect(input.hasAttribute('compact')).toBeFalsy();
-  expect(input.container.classList.contains('compact')).toBeFalsy();
-  expect(input.getAttribute('field-height')).toEqual('xs');
-  expect(input.container.classList.contains('field-height-xs')).toBeTruthy();
-
-  input.compact = true;
-
-  expect(input.hasAttribute('compact')).toBeTruthy();
-  expect(input.container.classList.contains('compact')).toBeTruthy();
-  expect(input.hasAttribute('field-height')).toBeFalsy();
-  expect(input.container.classList.contains('field-height-xs')).toBeFalsy();
-});
-
-test('supports setting cursor', () => {
-  input.cursor = 'pointer';
-  expect(input.shadowRoot.querySelector('input').style.cursor).toEqual('pointer');
-  expect(input.cursor).toEqual('pointer');
-});
-
-test('supports setting noMargins', () => {
-  input.noMargins = true;
-  expect(input.noMargins).toEqual(true);
-  expect(input.container.classList.contains('no-margins')).toEqual(true);
-  expect(input.hasAttribute('no-margins')).toBeTruthy();
-
-  input.noMargins = false;
-  expect(input.noMargins).toEqual(false);
-  expect(input.hasAttribute('no-margins')).toBeFalsy();
-});
-
-test('supports setting padding', () => {
-  input.padding = '10';
-  expect(input.padding).toEqual('10');
-  expect(input.input.style.getPropertyValue('padding-inline-end')).toEqual('10px');
-
-  input.padding = '';
-  expect(input.padding).toEqual('');
-  expect(input.input.style.getPropertyValue('padding-inline-end')).toEqual('');
-});
-
-test('focuses its inner HTMLInputElement when the host element becomes focused', () => {
-  input.focus();
-  expect(document.activeElement).toEqual(input);
-});
-
-test('focuses its inner HTMLInputElement when its label is clicked', async () => {
-  const labelEl = input.container.querySelector('label');
-  labelEl.click();
-
-  expect(input.input.isEqualNode(input.shadowRoot.activeElement));
 });
 
 test('should set autocomplete', async () => {
@@ -173,28 +40,6 @@ test('should set autocomplete', async () => {
   expect(input.searchField).toEqual('value');
   input.searchField = 'label';
   expect(input.searchField).toEqual('label');
-});
-
-test('should set readonly background', async () => {
-  const template = document.createElement('template');
-  template.innerHTML = '<ids-input label="testing input" readonly-background="true"></ids-input>';
-  input = template.content.childNodes[0];
-  document.body.appendChild(input);
-
-  expect(input.container.classList).toContain('readonly-background');
-  input.readonlyBackground = false;
-  expect(input.container.classList).not.toContain('readonly-background');
-});
-
-test('should set active', async () => {
-  const template = document.createElement('template');
-  template.innerHTML = '<ids-input label="testing input" active="true"></ids-input>';
-  input = template.content.childNodes[0];
-  document.body.appendChild(input);
-
-  expect(input.container.classList).toContain('is-active');
-  input.active = false;
-  expect(input.container.classList).not.toContain('is-active');
 });
 
 test('should open popup on keydown if autocomplete is enabled', async () => {
