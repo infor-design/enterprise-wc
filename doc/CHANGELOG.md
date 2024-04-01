@@ -18,7 +18,9 @@
 
 - `[Button]` Added updated button designs from the tokens. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 - `[Button]` Fixed layout issues when buttons are next to each other. ([#1999](https://github.com/infor-design/enterprise-wc/issues/1999))
-- `[Checkboxes]` Fixed required icon placement when checkbox wraps. ([#1983](https://github.com/infor-design/enterprise-wc/issues/1983))
+- `[Checkbox]` Fixed required icon placement when checkbox wraps. ([#1983](https://github.com/infor-design/enterprise-wc/issues/1983))
+- `[Checkbox]` Fixed checked attribute being set to `false` when checked. ([#2020](https://github.com/infor-design/enterprise-wc/issues/2020))
+- `[CheckboxGroups]` Moved component into checkbox component. Fixed bug with `selectedCheckboxes. ([#2021](https://github.com/infor-design/enterprise-wc/issues/2021))
 - `[Datagrid]` Converted datagrid tests to playwright. ([#1845](https://github.com/infor-design/enterprise-wc/issues/1845))
 - `[DirtyTrackerMixin]` Added `dirty`, `pristine`, `afterresetdirty` events to dirty tracker. ([#2003](https://github.com/infor-design/enterprise-wc/issues/2003))
 - `[Datagrid]` Fix maintaining editable cell text spaces. ([#2069](https://github.com/infor-design/enterprise-wc/issues/2069))
@@ -34,6 +36,7 @@
 - `[Lookup]` Fix `IdsLookup` (for Angular) so that modal triggers are attached after the modal has been mounted/constructed. ([#1889](https://github.com/infor-design/enterprise-wc/issues/1889))
 - `[Lookup]` Fixed single row selection behavior. ([#1808](https://github.com/infor-design/enterprise-wc/issues/1808))
 - `[ModuleNav]` Fix icons on `IdsModuleNav` for Angular. ([#1881](https://github.com/infor-design/enterprise-wc/issues/1881))
+- `[Switch]` Fixed problems setting the value attribute (you should use checked). ([#2045](https://github.com/infor-design/enterprise-wc/issues/2045))
 - `[Tree|Splitter]` Fixed horizontal scrollbar showing on tree-grid even after tree is collapsed and no longer in need of scrollbar. ([#1836](https://github.com/infor-design/enterprise-wc/issues/1836))
 - `[Tree]` Re-Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
 

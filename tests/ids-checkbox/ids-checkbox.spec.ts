@@ -76,7 +76,7 @@ test.describe('IdsCheckbox tests', () => {
     });
   });
 
-  test.describe('e2e tests', () => {
+  test.describe('functionality tests', () => {
     test('can render a checked checkbox', async ({ page }) => {
       await expect(span.first()).not.toBeChecked();
 
@@ -98,6 +98,18 @@ test.describe('IdsCheckbox tests', () => {
       }, element);
       await expect(checkbox.first()).not.toHaveAttribute('checked');
       await expect(span.first()).not.toBeChecked();
+    });
+
+    test('handles checked correctly', async ({ page }) => {
+      await page.evaluate((id) => {
+        (document.querySelector<IdsCheckbox>(id))!.setAttribute('checked', 'true');
+      }, element);
+      await expect(checkbox.first()).toHaveAttribute('checked');
+
+      await page.evaluate((id) => {
+        (document.querySelector<IdsCheckbox>(id))!.setAttribute('checked', 'false');
+      }, element);
+      await expect(checkbox.first()).not.toHaveAttribute('checked');
     });
 
     test('can render as disabled', async ({ page }) => {
@@ -282,17 +294,23 @@ test.describe('IdsCheckbox tests', () => {
 
     test('can render value', async ({ page }) => {
       const value = 'test';
-
       await expect(checkbox).not.toHaveAttribute('value');
 
       await page.evaluate((data) => {
         document.querySelector<IdsCheckbox>(data.element)!.value = data.value;
       }, { element, value });
-      await expect(checkbox).toHaveAttribute('value', '');
+      await expect(checkbox).toHaveAttribute('value', 'test');
       await page.evaluate((id) => {
         document.querySelector<IdsCheckbox>(id)!.value = null;
       }, element);
       await expect(checkbox).not.toHaveAttribute('value');
+      const value1 = await page.evaluate((id) => {
+        const checkbox1 = document.querySelector<IdsCheckbox>(id)!;
+        checkbox1.removeAttribute('value');
+        checkbox1.checked = true;
+        return checkbox1.value;
+      }, element);
+      await expect(value1).toBe('on');
     });
 
     test('can set indeterminate', async ({ page }) => {

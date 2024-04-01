@@ -84,7 +84,21 @@ Hide label and show only checkbox:
 <ids-checkbox label="UnChecked" label-state="hidden"></ids-checkbox>
 ```
 
-## Settings (Attributes)
+## Checkbox Groups
+
+The IDS Checkbox Group Component consists of group of checkboxes with label. Its useful if you need to group a set of checkbox under a legend or category. Has a `label` property and `ids-checkbox` elements for slots
+
+```html
+<ids-checkbox-group label="Checkbox Group">
+  <ids-checkbox label="Option 1" checked="false"></ids-checkbox>
+  <ids-checkbox label="Option 2" checked="true"></ids-checkbox>
+  <ids-checkbox label="Option 3" checked="true"></ids-checkbox>
+</ids-checkbox-group>
+```
+
+- `label` {string} Sets the label for the checkbox group
+
+## Checkbox Settings
 
 - `checked` {boolean} set checked state.
 - `color` {string} set the color for checkbox.

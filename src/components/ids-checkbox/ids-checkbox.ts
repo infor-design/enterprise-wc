@@ -187,12 +187,13 @@ export default class IdsCheckbox extends Base {
 
   /**
    * Sets the checked state to true or false
-   * @param {boolean|string} value If true will set `checked` attribute
+   * @param {boolean} value If true will set `checked` attribute
    */
-  set checked(value: boolean | string) {
+  set checked(value: boolean) {
     const val = stringToBool(value);
     const checkmark = this.shadowRoot?.querySelector<HTMLInputElement>('.checkmark');
 
+    if (!val) this.removeAttribute(attributes.CHECKED);
     if (this.checked === val && this.input?.checked === val) return;
 
     this.toggleAttribute(attributes.CHECKED, val);
@@ -203,6 +204,7 @@ export default class IdsCheckbox extends Base {
     if (!this.#triggeredChange && this.input) {
       this.triggerEvent('change', this.input, { bubbles: true });
     }
+
     this.#triggeredChange = false;
   }
 
@@ -288,17 +290,20 @@ export default class IdsCheckbox extends Base {
   get indeterminate(): string | null { return this.getAttribute(attributes.INDETERMINATE); }
 
   /**
-   * Set the checkbox `value` attribute
-   * @param {string | boolean} val the value property
+   * Sets the checkbox `value` attribute
+   * @param {string | null} value the value property
    */
-  set value(val: string | boolean | null) {
-    const value = stringToBool(val);
-    this.toggleAttribute(attributes.VALUE, value);
-    this.input?.toggleAttribute(attributes.VALUE, value);
-    this.checked = value;
+  set value(value: string | null) {
+    this.setAttribute(attributes.VALUE, value || '');
+    if (!value) this.removeAttribute(attributes.VALUE);
   }
 
-  get value() { return stringToBool(this.input?.checked); }
+  /**
+   * Gets the checkbox `value` attribute
+   * @returns {string | null} the value property
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
+   */
+  get value(): string | null { return this.checked ? (this.getAttribute(attributes.VALUE) ?? 'on') : ''; }
 
   /**
    * Disable the check animation
