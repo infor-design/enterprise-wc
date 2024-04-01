@@ -125,7 +125,7 @@ export default class IdsDropdownList extends Base {
 
     const selectedOptionText = this.getOption(this.value)?.textContent;
     const dropdownEl = this.dropdownEl;
-    const dropdownInput = dropdownEl.input?.input;
+    const dropdownInput = dropdownEl?.input?.input;
 
     if (selectedOptionText && dropdownEl && dropdownInput) {
       dropdownInput.value = selectedOptionText;
