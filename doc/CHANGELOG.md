@@ -18,6 +18,7 @@
 
 - `[Button]` Added updated button designs from the tokens. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 - `[Button]` Fixed layout issues when buttons are next to each other. ([#1999](https://github.com/infor-design/enterprise-wc/issues/1999))
+- `[Checkboxes]` Fixed required icon placement when checkbox wraps. ([#1983](https://github.com/infor-design/enterprise-wc/issues/1983))
 - `[Datagrid]` Converted datagrid tests to playwright. ([#1845](https://github.com/infor-design/enterprise-wc/issues/1845))
 - `[DirtyTrackerMixin]` Added `dirty`, `pristine`, `afterresetdirty` events to dirty tracker. ([#2003](https://github.com/infor-design/enterprise-wc/issues/2003))
 - `[Datagrid]` Fix maintaining editable cell text spaces. ([#2069](https://github.com/infor-design/enterprise-wc/issues/2069))

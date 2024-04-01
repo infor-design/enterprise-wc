@@ -8,6 +8,12 @@
   - link: example.html
     type: Main Example
     description: Shows all checkbox settings and states
+  - link: label-state.html
+    type: Example
+    description: Shows the label state setting
+  - link: required-state.html
+    type: Test
+    description: Shows the required state
   - link: side-by-side.html
     type: Side by Side
     description: Showing a checkbox with a 4.x checkbox

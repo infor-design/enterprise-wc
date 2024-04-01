@@ -68,6 +68,12 @@ test.describe('IdsCheckbox tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-checkbox-light');
     });
+
+    test('should match the visual snapshot in percy (required wrapping)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-checkbox/required-state.html');
+      await percySnapshot(page, 'ids-checkbox-required-light');
+    });
   });
 
   test.describe('e2e tests', () => {
