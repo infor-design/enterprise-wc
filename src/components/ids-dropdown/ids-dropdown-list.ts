@@ -80,6 +80,7 @@ export default class IdsDropdownList extends Base {
     this.configureListBox();
     this.configurePopup();
     this.attachEventHandlers();
+    this.#setPreselectedLabel();
   }
 
   disconnectedCallback() {
@@ -117,6 +118,18 @@ export default class IdsDropdownList extends Base {
   onTargetChange() {
     const id = this.getAttribute(attributes.ID);
     if (id) this.target?.setAttribute(attributes.LIST, `#${id}`);
+  }
+
+  #setPreselectedLabel() {
+    if (!this.value) return;
+
+    const selectedOptionText = this.getOption(this.value)?.textContent;
+    const dropdownEl = this.dropdownEl;
+    const dropdownInput = dropdownEl?.input?.input;
+
+    if (selectedOptionText && dropdownEl && dropdownInput) {
+      dropdownInput.value = selectedOptionText;
+    }
   }
 
   private attachEventHandlers() {
