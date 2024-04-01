@@ -110,7 +110,7 @@ The IDS Checkbox Group Component consists of group of checkboxes with label. Its
 - `label-required` {boolean} set validation `required` indicator, default is set to `true`.
 - `validate` {string} set the validation rule `required`.
 - `validation-events` {string} set the validation events, use `space` to add multiple default is set to `change`.
-- `value` {string} set the checkbox value.
+- `value` {string} set the form submit value (not to be confused with checked, it only sets the form value)
 - `noAnimation` {boolean} disable the checkbox animation
 
 ## Events
