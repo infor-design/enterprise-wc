@@ -529,7 +529,12 @@ export default class IdsDataGridFilters {
         if (filterType === 'date' || filterType === 'time') {
           if (/string|undefined/g.test(typeof value)) value = formatterVal();
           const getValues = (rValue: any, cValue: any) => {
-            const format = c.format || column.formatOptions || this.root.localeAPI?.calendar().timeFormat;
+            // NOTE: HERE IS THE DATE PROBLEM, format is always equal to a time format, not a date format
+            const defaultFilterFormat = filterType === 'date'
+              ? this.root.localeAPI?.calendar().dateFormat
+              : this.root.localeAPI?.calendar().timeFormat;
+            const format = c.format || column.formatOptions || defaultFilterFormat;
+
             cValue = this.root.localeAPI?.parseDate(cValue, format);
             if (cValue) {
               if (filterType === 'time') {
