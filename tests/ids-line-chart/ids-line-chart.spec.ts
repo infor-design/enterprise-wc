@@ -65,7 +65,7 @@ test.describe('IdsLineChart tests', () => {
     });
   });
 
-  test.describe('functional tests', () => {
+  test.describe('functionality tests', () => {
     let idsLine: Locator;
 
     test.beforeEach(async ({ page }) => {
