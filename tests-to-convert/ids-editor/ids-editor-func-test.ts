@@ -468,7 +468,7 @@ describe('IdsEditor Component', () => {
     expect(elems.linkCbClickable).toBeFalsy();
   });
 
-  test('should renders with markup', async () => {
+  test('should render with markup', async () => {
     document.body.innerHTML = `
       <ids-editor label="test editor1" placeholder="test" view="source" label-hidden disabled>
         <p>test<a href="http://example.com">link</a></p>

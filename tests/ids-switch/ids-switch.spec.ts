@@ -44,7 +44,7 @@ test.describe('IdsSwitch tests', () => {
     test('should match innerHTML snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       const html = await page.evaluate(() => {
-        const elem = document.querySelector('switch-tag')!;
+        const elem = document.querySelector('ids-switch')!;
         elem.shadowRoot?.querySelector('style')?.remove();
         return elem?.outerHTML;
       });
@@ -111,11 +111,11 @@ test.describe('IdsSwitch tests', () => {
       expect(innerValue2).toBe('');
     });
 
-    test('should renders value', async ({ page }) => {
+    test('should render value', async ({ page }) => {
       let values = await page.evaluate(() => {
         const elem = document.querySelector<IdsSwitch>('ids-switch')!;
-        const before = elem.value;
         elem.checked = true;
+        const before = elem.value;
         elem.value = 'test';
         return [before, elem.value];
       });
