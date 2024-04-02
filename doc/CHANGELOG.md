@@ -41,6 +41,7 @@
 
 ### 1.0.0-beta.22 Features
 
+- `[Accordion]` Add ability to use custom title in the accordion panel title attribute. ([#1996](https://github.com/infor-design/enterprise-wc/issues/1996))
 - `[ActionSheet]` Converted ActionSheet tests. ([#1915](https://github.com/infor-design/enterprise-wc/issues/1915))
 - `[AxisChart]` Converted AxisChart tests to Playwright. ([#1918](https://github.com/infor-design/enterprise-wc/issues/1918))
 - `[Datagrid]` Add ability (and example) to set editor's column settings from server. ([#1714](https://github.com/infor-design/enterprise-wc/issues/1714))
