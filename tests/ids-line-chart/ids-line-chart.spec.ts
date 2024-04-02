@@ -156,5 +156,72 @@ test.describe('IdsLineChart tests', () => {
         await expect(legend).toHaveClass(new RegExp(`color-${index + 1}`, 'g'));
       });
     });
+
+    test('can set/get selected', async () => {
+      const lines = await idsLine.locator('g.marker-lines polyline').all();
+      const circles = await idsLine.locator('g.markers circle').all();
+
+      await expect(idsLine).not.toHaveAttribute('selected');
+      expect(await idsLine.evaluate((element: IdsLineChart) => element.selectable)).toBeFalsy();
+      lines.forEach(async (line) => {
+        await expect(line).not.toHaveClass('selected');
+      });
+      circles.forEach(async (circle) => {
+        await expect(circle).not.toHaveClass('selected');
+      });
+
+      // select line if selectable = false
+      expect(await idsLine.evaluate((element: IdsLineChart) => {
+        element.setSelected({ groupIndex: 0, index: 0 });
+        return element.getSelected();
+      })).toEqual({});
+      lines.forEach(async (line) => {
+        await expect(line).not.toHaveClass('selected');
+      });
+      circles.forEach(async (circle) => {
+        await expect(circle).not.toHaveClass('selected');
+      });
+
+      const testData = [
+        { groupIndex: 0, index: undefined },
+        { groupIndex: 1, index: 5 },
+        { groupIndex: 2, index: 3 },
+      ];
+
+      for (const data of testData) {
+        const selected = await idsLine.evaluate((element: IdsLineChart, select) => {
+          element.selectable = true;
+          element.setSelected({ groupIndex: select.groupIndex, index: select.index });
+          return element.getSelected();
+        }, data);
+        expect(selected.groupIndex).toBe(data.groupIndex.toString());
+        expect(selected.index).toBe((data.index !== undefined) ? data.index.toString() : undefined);
+
+        lines.forEach(async (line) => {
+          if ((await line.getAttribute('group-index')) === data.groupIndex.toString()) {
+            await expect(line).toHaveClass(/selected/);
+          } else {
+            await expect(line).toHaveClass(/not-selected/);
+          }
+        });
+        circles.forEach(async (circle) => {
+          if ((await circle.getAttribute('group-index')) === data.groupIndex.toString()) {
+            await expect(circle).toHaveClass(/selected/);
+          } else {
+            await expect(circle).toHaveClass(/not-selected/);
+          }
+        });
+      }
+    });
+
+    test('prevent setting of horizontal attribute', async () => {
+      expect(await idsLine.evaluate((element: IdsLineChart) => element.horizontal)).toBeFalsy();
+      await expect(idsLine).not.toHaveAttribute('horizontal');
+      expect(await idsLine.evaluate((element: IdsLineChart) => {
+        element.horizontal = true;
+        return element.horizontal;
+      })).toBeFalsy();
+      await expect(idsLine).not.toHaveAttribute('horizontal');
+    });
   });
 });
