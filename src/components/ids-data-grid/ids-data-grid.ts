@@ -789,6 +789,10 @@ export default class IdsDataGrid extends Base {
       const activeRowIndex = nextCell?.rowIndex || 0;
       nextCell?.focus?.();
 
+      if (nextCell && nextCell.columnIndex >= 0) {
+        this.setActiveCell(nextCell.columnIndex, activeRowIndex, false);
+      }
+
       // Handle row selection
       const movingVertical = key === 'ArrowDown' || key === 'ArrowUp';
       if ((this.rowSelection === 'mixed' || this.rowSelection === 'multiple') && movingVertical && e.shiftKey) {
