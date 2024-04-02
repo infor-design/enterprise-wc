@@ -110,6 +110,34 @@ test.describe('IdsInput tests', () => {
     });
   });
 
+  test('should fire dirty tracker events', async ({ page }) => {
+    const inputDirtyTracker = await page.locator('ids-input#e2e-dirty-tracker-input');
+
+    // test `dirty` event being fired
+    const inputDirtyEvent = inputDirtyTracker.evaluate((input: IdsInput) => new Promise((resolve) => {
+      input.addEventListener('dirty', (e) => { resolve(e); });
+    }));
+    await inputDirtyTracker.evaluate((input: IdsInput) => { input.value = '020061'; });
+    const dirtyEventFired = await inputDirtyEvent;
+    expect(dirtyEventFired).toBeDefined();
+
+    // test `pristine` event being fired
+    const inputPrisineEvent = inputDirtyTracker.evaluate((input: IdsInput) => new Promise((resolve) => {
+      input.addEventListener('pristine', (e) => { resolve(e); });
+    }));
+    await inputDirtyTracker.evaluate((input: IdsInput) => { input.value = '02006'; });
+    const pristineEventFired = await inputPrisineEvent;
+    expect(pristineEventFired).toBeDefined();
+
+    // test `afterresetdirty` event being fired
+    const inputAfterResetEvent = inputDirtyTracker.evaluate((input: IdsInput) => new Promise((resolve) => {
+      input.addEventListener('afterresetdirty', (e) => { resolve(e); });
+    }));
+    await inputDirtyTracker.evaluate((input: IdsInput) => { input.resetDirtyTracker(); });
+    const afterResetEventFired = await inputAfterResetEvent;
+    expect(afterResetEventFired).toBeDefined();
+  });
+
   test.describe('snapshot tests', () => {
     test('should match innerHTML snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;

@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnDisable: any = document.querySelector('#btn-input-disable');
   const btnReadonly: any = document.querySelector('#btn-input-readonly');
   const input: any = document.querySelector('#input-toggle-state');
+  const dirtyTrackerInput: any = document.querySelector('#e2e-dirty-tracker-input');
 
   // Enable
   btnEnable?.addEventListener('click', () => {
@@ -41,4 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
     decimalLimit: 2,
     integerLimit: 3
   };
+
+  // Dirty tracker events
+  dirtyTrackerInput.addEventListener('dirty', (e: any) => {
+    console.info('Test Input "dirty" Event', e.detail);
+  });
+
+  dirtyTrackerInput.addEventListener('pristine', (e: any) => {
+    console.info('Test Input "pristine" Event', e.detail);
+  });
+
+  dirtyTrackerInput.addEventListener('afterresetdirty', (e: any) => {
+    console.info('Test Input "afterresetdirty" Event', e.detail);
+  });
 });
