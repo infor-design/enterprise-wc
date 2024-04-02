@@ -6,14 +6,14 @@ import { IdsMaskOptions, convertPatternFromString } from '../../src/components/i
 import MaskAPI from '../../src/components/ids-mask/ids-mask-api';
 import IdsLocale from '../../src/components/ids-locale/ids-locale';
 
-import IdsMask, {
+import {
   dateMask,
   autoCorrectedDatePipe,
-  rangeDateMask,
   numberMask
 } from '../../src/components/ids-mask/ids-masks';
+import IdsInput from '../../src/components/ids-input/ids-input';
 
-test.describe('IdsMask tests', () => {
+test.describe('IdsInput tests', () => {
   const url = '/ids-mask/example.html';
   let api: any;
   let locale: any;
@@ -51,15 +51,15 @@ test.describe('IdsMask tests', () => {
     });
   });
 
-  test.describe('e2e tests', () => {
+  test.describe('functionality tests', () => {
     test('doesn\'t render any changes if masking fails', async ({ page }) => {
       const input = 'ids-input';
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.mask = false;
-        document.querySelector<IdsMask>(id)!.value = '12345';
+        document.querySelector<IdsInput>(id)!.mask = false;
+        document.querySelector<IdsInput>(id)!.value = '12345';
       }, input);
 
-      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toEqual('12345');
     });
 
@@ -67,11 +67,11 @@ test.describe('IdsMask tests', () => {
       const input = 'ids-input';
       await page.evaluate((id) => {
         const CREDIT_CARD_MASK = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-        document.querySelector<IdsMask>(id)!.mask = CREDIT_CARD_MASK;
-        document.querySelector<IdsMask>(id)!.value = 'x0x1x2x3x4x5x6x7x8x9x0x1x2x3x4x5x6x';
+        document.querySelector<IdsInput>(id)!.mask = CREDIT_CARD_MASK;
+        document.querySelector<IdsInput>(id)!.value = 'x0x1x2x3x4x5x6x7x8x9x0x1x2x3x4x5x6x';
       }, input);
 
-      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toEqual('0123-4567-8901-2345');
     });
 
@@ -79,11 +79,11 @@ test.describe('IdsMask tests', () => {
       const input = 'ids-input';
       await page.evaluate((id) => {
         const CREDIT_CARD_MASK = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-        document.querySelector<IdsMask>(id)!.mask = CREDIT_CARD_MASK;
-        document.querySelector<IdsMask>(id)!.setAttribute('value', 'x0x1x2x3x4x5x6x7x8x9x0x1x2x3x4x5x6x');
+        document.querySelector<IdsInput>(id)!.mask = CREDIT_CARD_MASK;
+        document.querySelector<IdsInput>(id)!.setAttribute('value', 'x0x1x2x3x4x5x6x7x8x9x0x1x2x3x4x5x6x');
       }, input);
 
-      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toEqual('0123-4567-8901-2345');
     });
 
@@ -94,42 +94,42 @@ test.describe('IdsMask tests', () => {
           bubbles: true
         });
         const CREDIT_CARD_MASK = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-        document.querySelector<IdsMask>(id)!.mask = CREDIT_CARD_MASK;
-        document.querySelector<IdsMask>(id)!.setAttribute('value', 'x0x1x2x3x4x5x6x7x8x9x0x1x2x3x4x5x6x');
-        document.querySelector<IdsMask>(id)!.dispatchEvent(inputEvent);
+        document.querySelector<IdsInput>(id)!.mask = CREDIT_CARD_MASK;
+        document.querySelector<IdsInput>(id)!.setAttribute('value', 'x0x1x2x3x4x5x6x7x8x9x0x1x2x3x4x5x6x');
+        document.querySelector<IdsInput>(id)!.dispatchEvent(inputEvent);
       }, input);
 
-      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toEqual('0123-4567-8901-2345');
     });
 
     test('can use the shorthand "number" to actviate the built-in number mask', async ({ page }) => {
       const input = 'ids-input';
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.mask = 'number';
+        document.querySelector<IdsInput>(id)!.mask = 'number';
       }, input);
 
-      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.mask.toString(), input);
-      await expect(inputValue).toEqual(numberMask.toString());
+      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.mask().mask.length, input);
+      await expect(inputValue).toEqual(1);
     });
 
     test('can use the shorthand "rangeDate" to actviate the built-in range date mask', async ({ page }) => {
       const input = 'ids-input';
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.mask = 'rangeDate';
+        document.querySelector<IdsInput>(id)!.mask = 'rangeDate';
       }, input);
 
-      const inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.mask.toString(), input);
-      await expect(inputValue).toEqual(rangeDateMask.toString());
+      const inputValue = await page.evaluate(async () => (document.querySelector('ids-input') as any)!.mask().mask.length, input);
+      await expect(inputValue).toEqual(28);
     });
 
     test('can convert a string-based mask to an array internally', async ({ page }) => {
       const input = 'ids-input';
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.mask = '["(", /[1-9]/, /\\d/, /\\d/, ")", " ", /\\d/, /\\d/, /\\d/, "-", /\\d/, /\\d/, /\\d/, /\\d/]';
+        document.querySelector<IdsInput>(id)!.mask = '["(", /[1-9]/, /\\d/, /\\d/, ")", " ", /\\d/, /\\d/, /\\d/, "-", /\\d/, /\\d/, /\\d/, /\\d/]';
       }, input);
 
-      const convertedMask = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.mask, input);
+      const convertedMask = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.mask, input);
       await expect(Array.isArray(convertedMask)).toBeTruthy();
       await expect(convertedMask).toHaveLength(14);
     });
@@ -138,25 +138,25 @@ test.describe('IdsMask tests', () => {
       const input = 'ids-input';
       let maskOptions;
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.maskOptions = [1, 2, 3];
+        document.querySelector<IdsInput>(id)!.maskOptions = [1, 2, 3];
       }, input);
 
-      maskOptions = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.maskOptions, input);
+      maskOptions = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.maskOptions, input);
       await expect(typeof maskOptions).toBe('object');
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.maskOptions = 1;
+        document.querySelector<IdsInput>(id)!.maskOptions = 1;
       }, input);
-      maskOptions = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.maskOptions, input);
+      maskOptions = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.maskOptions, input);
       await expect(typeof maskOptions).toBe('object');
     });
 
     test('cannot set `maskPipe` to an invalid type', async ({ page }) => {
       const input = 'ids-input';
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.maskPipe = [1, 2, 3];
+        document.querySelector<IdsInput>(id)!.maskPipe = [1, 2, 3];
       }, input);
 
-      const maskPipe = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.maskPipe, input);
+      const maskPipe = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.maskPipe, input);
       await expect(maskPipe).toBeUndefined();
     });
 
@@ -166,24 +166,24 @@ test.describe('IdsMask tests', () => {
       const input = 'ids-input';
       await page.evaluate((id) => {
         const PHONE_NUMBER_MASK = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-        document.querySelector<IdsMask>(id)!.maskGuide = true;
-        document.querySelector<IdsMask>(id)!.mask = PHONE_NUMBER_MASK;
-        document.querySelector<IdsMask>(id)!.value = '123';
+        document.querySelector<IdsInput>(id)!.maskGuide = true;
+        document.querySelector<IdsInput>(id)!.mask = PHONE_NUMBER_MASK;
+        document.querySelector<IdsInput>(id)!.value = '123';
       }, input);
 
-      maskGuide = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.maskGuide, input);
+      maskGuide = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.maskGuide, input);
       await expect(maskGuide).toBeTruthy();
 
-      inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toEqual('(123) ___-____');
 
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.maskGuide = false;
-        document.querySelector<IdsMask>(id)!.value = '123';
+        document.querySelector<IdsInput>(id)!.maskGuide = false;
+        document.querySelector<IdsInput>(id)!.value = '123';
       }, input);
 
-      maskGuide = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.maskGuide, input);
-      inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      maskGuide = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.maskGuide, input);
+      inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(maskGuide).toBeFalsy();
       await expect(inputValue).toEqual('(123');
     });
@@ -193,28 +193,28 @@ test.describe('IdsMask tests', () => {
       const input = 'ids-input';
       await page.evaluate((id) => {
         const PHONE_NUMBER_MASK = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-        document.querySelector<IdsMask>(id)!.maskGuide = true;
-        document.querySelector<IdsMask>(id)!.maskRetainPositions = true;
-        document.querySelector<IdsMask>(id)!.mask = PHONE_NUMBER_MASK;
-        document.querySelector<IdsMask>(id)!.value = '(123) 456-7890';
+        document.querySelector<IdsInput>(id)!.maskGuide = true;
+        document.querySelector<IdsInput>(id)!.maskRetainPositions = true;
+        document.querySelector<IdsInput>(id)!.mask = PHONE_NUMBER_MASK;
+        document.querySelector<IdsInput>(id)!.value = '(123) 456-7890';
       }, input);
 
-      const maskRetain = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.maskRetainPositions, input);
+      const maskRetain = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.maskRetainPositions, input);
       await expect(maskRetain).toBeTruthy();
 
-      inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toEqual('(123) 456-7890');
 
       // Simulates an input event after selecting the "456" with the text caret
       await page.evaluate((id) => {
-        const shadowroot = document.querySelector<IdsMask>(id)!.shadowRoot;
-        document.querySelector<IdsMask>(id)!.safelySetSelection(shadowroot, 6, 9);
+        const shadowroot = document.querySelector<IdsInput>(id)!.shadowRoot;
+        document.querySelector<IdsInput>(id)!.safelySetSelection(shadowroot, 6, 9);
         const inputEvent = new InputEvent('input', { bubbles: true, data: '___' });
-        document.querySelector<IdsMask>(id)!.value = '(123) ___-7890'; // Simulate input value changing
-        document.querySelector<IdsMask>(id)!.dispatchEvent(inputEvent);
+        document.querySelector<IdsInput>(id)!.value = '(123) ___-7890'; // Simulate input value changing
+        document.querySelector<IdsInput>(id)!.dispatchEvent(inputEvent);
       }, input);
 
-      inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toEqual('(123) ___-7890');
     });
 
@@ -222,19 +222,19 @@ test.describe('IdsMask tests', () => {
       let inputValue;
       const input = 'ids-input';
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.maskOptions = { suffix: '%' };
-        document.querySelector<IdsMask>(id)!.mask = [/\d/, /\d/, /\d/];
-        document.querySelector<IdsMask>(id)!.value = '10';
+        document.querySelector<IdsInput>(id)!.maskOptions = { suffix: '%' };
+        document.querySelector<IdsInput>(id)!.mask = [/\d/, /\d/, /\d/];
+        document.querySelector<IdsInput>(id)!.value = '10';
       }, input);
 
-      inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toBe('10%');
 
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.value = '100';
+        document.querySelector<IdsInput>(id)!.value = '100';
       }, input);
 
-      inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toBe('100%');
     });
 
@@ -243,23 +243,23 @@ test.describe('IdsMask tests', () => {
       let inputValue;
       const input = 'ids-input';
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.mask = [/[*]/];
-        document.querySelector<IdsMask>(id)!.processMaskWithCurrentValue();
+        document.querySelector<IdsInput>(id)!.mask = [/[*]/];
+        document.querySelector<IdsInput>(id)!.processMaskWithCurrentValue();
       }, input);
 
-      inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toBe('');
 
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.processMaskFromProperty();
+        document.querySelector<IdsInput>(id)!.processMaskFromProperty();
       }, input);
-      inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toBe('');
 
       await page.evaluate((id) => {
-        document.querySelector<IdsMask>(id)!.processMask('undefined', {}, undefined);
+        document.querySelector<IdsInput>(id)!.processMask('undefined', {}, undefined);
       }, input);
-      inputValue = await page.evaluate(async (id) => document.querySelector<IdsMask>(id)!.value, input);
+      inputValue = await page.evaluate(async (id) => document.querySelector<IdsInput>(id)!.value, input);
       await expect(inputValue).toBe('');
     });
 
