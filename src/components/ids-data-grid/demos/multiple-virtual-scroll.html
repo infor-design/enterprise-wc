@@ -7,13 +7,14 @@
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <button id="button-1">Reset Data</button>
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Data Grid One (Virtual Scroll)</ids-text>
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
         <div class="parent-container">
-          <ids-data-grid id="data-grid-1" row-selection="multiple" label="Books" auto-fit="true" virtual-scroll="true"
+          <ids-data-grid id="data-grid-1" row-selection="single" label="Books" auto-fit="true" virtual-scroll="true" filter-when-typing="false"
             row-height="md"></ids-data-grid>
         </div>
       </ids-layout-grid-cell>
@@ -25,7 +26,7 @@
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
         <div class="parent-container">
-          <ids-data-grid id="data-grid-2" row-selection="multiple" label="Products" auto-fit="true" virtual-scroll="true" row-height="md"></ids-data-grid>
+          <ids-data-grid id="data-grid-2" row-selection="single" label="Products" auto-fit="true" virtual-scroll="true" row-height="md" filter-when-typing="false"></ids-data-grid>
         </div>
       </ids-layout-grid-cell>
     </ids-layout-grid>
