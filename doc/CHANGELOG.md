@@ -8,6 +8,7 @@
 
 ### 1.0.0-beta.23 Features
 
+- `[DataGrid]` Added the ability to link a button formatter to a menu see example `ids-data-grid/columns-formatters.html` and data grid docs. ([#1933](https://github.com/infor-design/enterprise-wc/issues/1933))
 - `[ListBuilder]` Added a check to deselect the previously selected automatically upon adding a new item in a single-select ListBuilder. ([#1809](https://github.com/infor-design/enterprse-wc/issues/1809))
 - `[Modal]` Added `click-outside-to-close` attribute allowing the modal to close by clicking outside. ([#1892](https://github.com/infor-design/enterprise-wc/issues/1892))
 - `[Separator]` Fixed issue rendering vertical separator. ([#1891](https://github.com/infor-design/enterprise-wc/issues/1891))

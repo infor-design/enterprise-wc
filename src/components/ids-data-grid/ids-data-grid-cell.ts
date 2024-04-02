@@ -44,15 +44,13 @@ export default class IdsDataGridCell extends IdsElement {
       this.setAttribute('tabindex', '0');
 
       this.dataGrid?.setAttribute('active-cell', `${this.rowIndex}:${this.columnIndex}`);
-      // this.startCellEdit();
+      this.dataGrid?.hideOpenMenus();
     });
 
     this.dataGrid?.offEvent('focusout.ids-cell', this);
     this.dataGrid?.onEvent('focusout.ids-cell', this, () => {
       this.tabIndex = -1;
       this.setAttribute('tabindex', '-1');
-
-      // this.endCellEdit();
     });
   }
 
