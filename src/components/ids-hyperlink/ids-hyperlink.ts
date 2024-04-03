@@ -65,8 +65,8 @@ export default class IdsHyperlink extends Base {
    * @returns {void}
    */
   #attachEventHandlers(): void {
-    this.onEvent('click', this, (e: Event) => {
-      if (this.hasAttribute('disabled')) {
+    this.onEvent('click.ids-hyperlink', this, (e: Event) => {
+      if (this.disabled) {
         e.preventDefault();
         e.stopImmediatePropagation();
       }
