@@ -20,7 +20,7 @@
                   </ids-layout-grid-cell>
                 </ids-layout-grid>
               </div>
-              <ids-button slot="action-right" id="action-right-reveal-one" appearance="swipe-action-right" aria-hidden="true" no-ripple="">
+              <ids-button slot="action-right" id="action-right-reveal-one" appearance="swipe-action-right" aria-hidden="true">
                 <ids-icon icon="tack" size="xsmall" style="--ids-icon-height-default: 10px; --ids-icon-width-default: 10px;"></ids-icon>
                 <span>Right Action</span>
               </ids-button>
