@@ -108,6 +108,7 @@ export default class IdsAppMenu extends Base {
     this.onEvent('hide.app-menu-hide', this, () => {
       this.#container?.classList.remove(CONTAINER_OPEN_CLASS);
     });
+    this.refreshTriggerEvents();
   }
 
   #detachEventHandlers() {
@@ -121,10 +122,11 @@ export default class IdsAppMenu extends Base {
   #setContainer() {
     this.#container = getClosest(this, 'ids-container');
     this.#container?.classList.add(CONTAINER_CLASS);
+    this.#container?.classList.toggle(CONTAINER_OPEN_CLASS, this.visible);
   }
 
   #clearContainer() {
-    this.#container?.classList.remove(CONTAINER_CLASS, CONTAINER_OPEN_CLASS);
+    this.#container?.classList.remove(CONTAINER_CLASS);
     this.#container = null;
   }
 
