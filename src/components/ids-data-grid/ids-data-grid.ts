@@ -45,6 +45,10 @@ import IdsDataGridCell from './ids-data-grid-cell';
 import { ExcelColumn } from '../../utils/ids-excel-exporter/ids-worksheet-templates';
 import IdsLoadingIndicator from '../ids-loading-indicator/ids-loading-indicator';
 
+// Types
+import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import type IdsButton from '../ids-button/ids-button';
+
 const Base = IdsPagerMixin(
   IdsDataGridSaveSettingsMixin(
     IdsDataGridTooltipMixin(
@@ -809,6 +813,10 @@ export default class IdsDataGrid extends Base {
       const activeRowIndex = nextCell?.rowIndex || 0;
       nextCell?.focus?.();
 
+      if (nextCell && nextCell.columnIndex >= 0) {
+        this.setActiveCell(nextCell.columnIndex, activeRowIndex, false);
+      }
+
       // Handle row selection
       const movingVertical = key === 'ArrowDown' || key === 'ArrowUp';
       if ((this.rowSelection === 'mixed' || this.rowSelection === 'multiple') && movingVertical && e.shiftKey) {
@@ -864,6 +872,20 @@ export default class IdsDataGrid extends Base {
     // Follow links with keyboard and start editing
     this.listen(['Enter'], this, (e: KeyboardEvent) => {
       const cellNode = this.cellLastActive;
+
+      // Hyperlink
+      if (cellNode?.classList.contains('formatter-hyperlink')) {
+        cellNode.querySelector<IdsHyperlink>('ids-hyperlink')?.container?.click();
+        return;
+      }
+
+      // Button
+      if (cellNode?.classList.contains('formatter-button')) {
+        cellNode.querySelector<IdsButton>('ids-button')?.button?.click();
+        return;
+      }
+
+      // Editahe
       if (!cellNode?.isEditing) {
         cellNode?.startCellEdit();
         return;

@@ -340,6 +340,8 @@ export default class IdsDataGridCell extends IdsElement {
     const column = this.column;
     const input = this.editor?.input as any;
 
+    if (!input) return;
+
     const editorType = (this.editor?.type as string);
     input?.offEvent('focusout', input);
 
@@ -369,6 +371,7 @@ export default class IdsDataGridCell extends IdsElement {
     if (isDirty || isDirtyCheckbox) this.#saveDirtyState(newValue?.dirtyCheckValue ?? newValue?.value);
     if (!isValid) this.#saveValidState(input?.validationMessages);
     if (this.isInValid && isValid) this.#resetValidState();
+    this.isInValid = !isValid;
 
     this.editor?.destroy(this);
     this.renderCell();
