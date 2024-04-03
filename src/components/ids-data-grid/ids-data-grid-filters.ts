@@ -892,6 +892,7 @@ export default class IdsDataGridFilters {
         input.maskOptions = {
           allowDecimal: false,
           allowNegative: true,
+          allowLeadingZeros: true,
           allowThousandsSeparator: false
         };
       }
@@ -900,6 +901,7 @@ export default class IdsDataGridFilters {
         input.mask = 'number';
         input.maskOptions = {
           allowDecimal: true,
+          allowLeadingZeros: true,
           allowNegative: true
         };
       }
