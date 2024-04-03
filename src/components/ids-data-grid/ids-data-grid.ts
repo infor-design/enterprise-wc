@@ -653,11 +653,12 @@ export default class IdsDataGrid extends Base {
         if (!menuEl) return;
         menuEl.target = null;
         menuEl.hide();
-        menuEl.triggerType = '';
+        menuEl.triggerType = 'immediate-closed';
         menuEl.target = e.target;
         menuEl.align = 'bottom, left';
         menuEl.arrow = 'bottom';
         menuEl.triggerType = 'immediate';
+        menuEl.offEvent('selected', menuEl);
         menuEl.onEvent('selected', menuEl, (evt: CustomEvent) => {
           column?.selected?.(this.data[rowNum], this.visibleColumns[cellNum], evt);
         });

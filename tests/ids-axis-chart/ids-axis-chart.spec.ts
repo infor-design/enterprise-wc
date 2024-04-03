@@ -349,6 +349,7 @@ test.describe('IdsAxisChart tests', () => {
       });
 
       expect(value1).toEqual('No data available');
+
       const value2 = await page.evaluate(async () => {
         const axisChart = document.querySelector<any>('ids-axis-chart')!;
         const locale = window.IdsGlobal.locale!;
