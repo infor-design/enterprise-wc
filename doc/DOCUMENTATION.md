@@ -4,7 +4,7 @@
 
 - [Alert](../src/components/ids-alert/README.md) Alert indicator/icon
 - [Checkbox](../src/components/ids-checkbox/README.md) Checkbox Input element
-- [Checkbox Group](../src/components/ids-checkbox-group/README.md) Group of checkboxes with label
+- [Checkbox Group](../src/components/ids-checkbox/README.md) Group of checkboxes with label
 - [Color Picker](../src/components/ids-color-picker/TODO.md) Input field for colors
 - [Data Label](../src/components/ids-data-label/README.md) Readonly data/label component
 - [Date Picker](../src/components/ids-date-picker/README.md) Input field for a date

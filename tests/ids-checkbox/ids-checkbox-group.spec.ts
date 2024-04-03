@@ -3,10 +3,10 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsCheckboxGroup from '../../src/components/ids-checkbox-group/ids-checkbox-group';
+import IdsCheckboxGroup from '../../src/components/ids-checkbox/ids-checkbox-group';
 
 test.describe('IdsCheckboxGroup tests', () => {
-  const url = '/ids-checkbox-group/example.html';
+  const url = '/ids-checkbox/checkbox-group.html';
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
@@ -14,7 +14,7 @@ test.describe('IdsCheckboxGroup tests', () => {
 
   test.describe('general page checks', () => {
     test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS Checkbox Group Component');
+      await expect(page).toHaveTitle('IDS Checkbox Component');
     });
 
     test('should not have errors', async ({ page, browserName }) => {
@@ -88,24 +88,24 @@ test.describe('IdsCheckboxGroup tests', () => {
     test('can get selected checkboxes', async ({ page }) => {
       const idsCheckBoxGroup = await page.locator('ids-checkbox-group').first();
       const idsSelectedCheckBoxes = await idsCheckBoxGroup.evaluate(
-        (element: IdsCheckboxGroup) => element.checkboxesSelected
+        (element: IdsCheckboxGroup) => element.selectedCheckboxes
       );
-      // Only 2 checkboxes are selected, but component is returning 3
-      // await expect(idsCheckBoxGroup.locator('ids-checkbox input[checked]')).toHaveCount(idsSelectedCheckBoxes.length);
-      expect(idsSelectedCheckBoxes.length).toBeGreaterThan(0);
+      expect(idsSelectedCheckBoxes.length).toBe(2);
     });
 
     // has unexpected output - remove .skip to run the test
     test('can select checkboxes', async ({ page }) => {
-      const idsCheckBoxGroup = await page.locator('ids-checkbox-group').first();
+      await page.evaluate(() => {
+        document.querySelector<IdsCheckboxGroup>('ids-checkbox-group')!.checked = true;
+      });
 
-      await idsCheckBoxGroup.evaluate((element: IdsCheckboxGroup) => { element.value = true; });
-      // the first checkbox is selected, but the parent element 'ids-checkbox' checked attribute is still false
-      // await expect(idsCheckBoxGroup.locator('ids-checkbox[label="Option 1"]')).toHaveAttribute('checked', 'true');
+      await page.evaluate(() => {
+        document.querySelector<IdsCheckboxGroup>('ids-checkbox-group')!.checked = [true, false, false];
+      });
 
-      await idsCheckBoxGroup.evaluate((element: IdsCheckboxGroup) => { element.value = [true, false, false]; });
-      await expect(idsCheckBoxGroup.locator('ids-checkbox[label="Option 2"]')).not.toHaveAttribute('checked');
-      await expect(idsCheckBoxGroup.locator('ids-checkbox[label="Option 3"]')).not.toHaveAttribute('checked');
+      await expect(await page.locator('ids-checkbox[label="Option 1"]')).toHaveAttribute('checked');
+      await expect(await page.locator('ids-checkbox[label="Option 2"]')).not.toHaveAttribute('checked');
+      await expect(await page.locator('ids-checkbox[label="Option 3"]')).not.toHaveAttribute('checked');
     });
   });
 });
