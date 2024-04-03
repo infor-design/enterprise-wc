@@ -1114,6 +1114,7 @@ export default class IdsPopup extends Base {
     this.place();
     this.placeArrow(this.#targetAlignEdge);
     this.removeAttribute('aria-hidden');
+    this.#checkViewportPositionScrolling();
 
     // Change transparency/visibility
     this.container.classList.add('open');
@@ -1129,7 +1130,6 @@ export default class IdsPopup extends Base {
     if (this.animated) {
       await waitForTransitionEnd(this.container, 'opacity');
     }
-    this.#checkViewportPositionScrolling();
 
     // Unblur if needed
     this.correct3dMatrix();
