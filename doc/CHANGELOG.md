@@ -39,6 +39,7 @@
 - `[Lookup]` Fix `IdsLookup` (for Angular) so that modal triggers are attached after the modal has been mounted/constructed. ([#1889](https://github.com/infor-design/enterprise-wc/issues/1889))
 - `[Lookup]` Fixed single row selection behavior. ([#1808](https://github.com/infor-design/enterprise-wc/issues/1808))
 - `[ModuleNav]` Fix icons on `IdsModuleNav` for Angular. ([#1881](https://github.com/infor-design/enterprise-wc/issues/1881))
+- `[Searchfield]` Converted form tests to playwright. ([#1969](https://github.com/infor-design/enterprise-wc/issues/1969))
 - `[Tree|Splitter]` Fixed horizontal scrollbar showing on tree-grid even after tree is collapsed and no longer in need of scrollbar. ([#1836](https://github.com/infor-design/enterprise-wc/issues/1836))
 - `[Tree]` Re-Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
 - `[LineChart]` Converted line chart tests to playwright. ([#1946](https://github.com/infor-design/enterprise-wc/issues/1946))
