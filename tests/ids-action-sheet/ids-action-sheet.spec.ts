@@ -105,6 +105,11 @@ test.describe('IdsActionSheet tests', () => {
       await expect(asOverlay.getAttribute('visible')).toBeNull;
     });
 
+    test.skip('can be dismissed on overlay touchstart', async () => {
+      await asOverlay.dispatchEvent('touchstart');
+      await expect(asOverlay.getAttribute('visible')).toBeNull;
+    });
+
     test('can be dismissed on cancelBtn touchstart', async () => {
       await asCancelBtn.dispatchEvent('touchstart');
       await expect(asCancelBtn.getAttribute('visible')).toBeNull;

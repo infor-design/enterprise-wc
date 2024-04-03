@@ -241,8 +241,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   closePopup() {
-    this.popup.open = false;
-    this.popup.visible = false;
+    this.popup?.hide();
   }
 
   /**
@@ -250,8 +249,8 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   openPopup() {
-    this.popup.open = true;
-    this.popup.visible = true;
+    this.popup!.visible = true;
+    this.popup?.show();
   }
 
   /**

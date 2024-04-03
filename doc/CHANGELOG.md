@@ -10,37 +10,49 @@
 ### 1.0.0-beta.23 Features
 
 - `[ListBuilder]` Added a check to deselect the previously selected automatically upon adding a new item in a single-select ListBuilder. ([#1809](https://github.com/infor-design/enterprse-wc/issues/1809))
+- `[Modal]` Added `click-outside-to-close` attribute allowing the modal to close by clicking outside. ([#1892](https://github.com/infor-design/enterprise-wc/issues/1892))
 - `[Separator]` Fixed issue rendering vertical separator. ([#1891](https://github.com/infor-design/enterprise-wc/issues/1891))
 - `[Splitter]` Added `height` attribute to `IdsSplitter` as workaround to to remove unnecessary vertical scrollbar. ([#1926](https://github.com/infor-design/enterprise-wc/issues/1926))
 - `[Tokens]` Integrate tokens with figma/ids-foundation. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 
 ### 1.0.0-beta.23 Fixes
 
+- `[AppMenu]` Fix open/close events after reattach. ([#2070](https://github.com/infor-design/enterprise-wc/issues/2070))
 - `[Button]` Added updated button designs from the tokens. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 - `[Button]` Fixed layout issues when buttons are next to each other. ([#1999](https://github.com/infor-design/enterprise-wc/issues/1999))
 - `[Datagrid]` Converted datagrid tests to playwright. ([#1845](https://github.com/infor-design/enterprise-wc/issues/1845))
+- `[DirtyTrackerMixin]` Added `dirty`, `pristine`, `afterresetdirty` events to dirty tracker. ([#2003](https://github.com/infor-design/enterprise-wc/issues/2003))
 - `[Datagrid]` Fix maintaining editable cell text spaces. ([#2069](https://github.com/infor-design/enterprise-wc/issues/2069))
 - `[Draggable] Converted draggable tests to playwright. ([#1929](https://github.com/infor-design/enterprise-wc/issues/1929))
 - `[Dropdown]` Fix issue where required dropdowns were note rendering asterisk in React and Angular examples. ([#2023](https://github.com/infor-design/enterprise-wc/issues/2023))
 - `[Dropdown]` Fix issue where tooltips were not shown if options were lazy loaded. ([#2051](https://github.com/infor-design/enterprise-wc/issues/2051))
 - `[Dropdown]` Fix displaying preselected value in angular. ([#1880](https://github.com/infor-design/enterprise-wc/issues/1880))
+- `[Dropdown]` Prevent Enter key (and other meta keys) from opening the `IdsDropdown`. ([#1878](https://github.com/infor-design/enterprise-wc/issues/1878))
 - `[Form]` Converted form tests to playwright. ([#1936](https://github.com/infor-design/enterprise-wc/issues/1936))
+- `[Input]` Converted input tests to Playwright. ([#1943](https://github.com/infor-design/enterprise-wc/issues/1943))
 - `[Input]` Fix clearing input value manually. ([#2011](https://github.com/infor-design/enterprise-wc/issues/2011))
+- `[Input]` Fix autocomplete popup menu is not closing on select. ([#2072](https://github.com/infor-design/enterprise-wc/issues/2072))
 - `[LayoutFlex]` Converted layout flex tests to playwright. ([#1944](https://github.com/infor-design/enterprise-wc/issues/1944))
 - `[LayoutGrid/LayoutFlex]` Added missing classes for standalone css. ([#1763](https://github.com/infor-design/enterprise-wc/issues/1763))
 - `[LayoutGridCell/Attributes]` Corrected the values of `COL_END_*` constants from `col_start_*` to `col_end_*` along with the test coverage of the `IdsLayoutGridCell`. ([#2075](https://github.com/infor-design/enterprise-wc/issues/2075))
 - `[Lookup]` Fix `IdsLookup` (for Angular) so that modal triggers are attached after the modal has been mounted/constructed. ([#1889](https://github.com/infor-design/enterprise-wc/issues/1889))
+- `[Lookup]` Fixed single row selection behavior. ([#1808](https://github.com/infor-design/enterprise-wc/issues/1808))
+- `[ModuleNav]` Fix icons on `IdsModuleNav` for Angular. ([#1881](https://github.com/infor-design/enterprise-wc/issues/1881))
 - `[Tree|Splitter]` Fixed horizontal scrollbar showing on tree-grid even after tree is collapsed and no longer in need of scrollbar. ([#1836](https://github.com/infor-design/enterprise-wc/issues/1836))
 - `[Tree]` Re-Fixed selected event returning incorrect node data after adding children through addNodes. ([#1851](https://github.com/infor-design/enterprise-wc/issues/1851))
+- `[LineChart]` Converted line chart tests to playwright. ([#1946](https://github.com/infor-design/enterprise-wc/issues/1946))
 
 ## 1.0.0-beta.22
 
 ### 1.0.0-beta.22 Features
 
+- `[Accordion]` Add ability to use custom title in the accordion panel title attribute. ([#1996](https://github.com/infor-design/enterprise-wc/issues/1996))
 - `[ActionSheet]` Converted ActionSheet tests. ([#1915](https://github.com/infor-design/enterprise-wc/issues/1915))
 - `[AxisChart]` Converted AxisChart tests to Playwright. ([#1918](https://github.com/infor-design/enterprise-wc/issues/1918))
 - `[Datagrid]` Add ability (and example) to set editor's column settings from server. ([#1714](https://github.com/infor-design/enterprise-wc/issues/1714))
+- `[Dropdown]` Fix issue where required dropdowns were note rendering asterisk in React and Angular examples. ([#2023](https://github.com/infor-design/enterprise-wc/issues/2023))
 - `[Input]` Added `checkOverflow()` check to `IdsInput` to ensure only showing tooltip when text-overflow ellipses. ([#1755](https://github.com/infor-design/enterprise-wc/issues/1755))
+- `[Lookup]` Fix `IdsLookup` (for Angular) so that modal triggers are attached after the modal has been mounted/constructed. ([#1889](https://github.com/infor-design/enterprise-wc/issues/1889))
 - `[ProcessIndicator]` Style fix prevent labels and icons from overlapping on initial page-load. ([#1730](https://github.com/infor-design/enterprise-wc/issues/1730))
 - `[PopupMenu]` Added ability to load menu data in a callback with `beforeShow`. ([#1804](https://github.com/infor-design/enterprise-wc/issues/1804))
 - `[TagList]` Added a new `ids-tag-list` layout and eventing component. ([#1903](https://github.com/infor-design/enterprise-wc/issues/1903))
@@ -56,6 +68,7 @@
 - `[Datagrid]` Fixed a display issue with the new loading indicator in firefox. ([#1617](https://github.com/infor-design/enterprise-wc/issues/1617))
 - `[Datagrid]` Added custom validation for editable datagrid cells. ([#1791](https://github.com/infor-design/enterprise-wc/issues/1791))
 - `[Datagrid]` Converted datagrid tests to playwright. ([#1845](https://github.com/infor-design/enterprise-wc/issues/1845))
+- `[Datagrid]` Fix bug that causes duplicate `ids-dropdown-list` when data-grid data is reset. ([#1878](https://github.com/infor-design/enterprise-wc/issues/1878))
 - `[Docs]` Added docs page for IdsGlobal. Moved some subcomponents that should not be used directly into their main component area. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))
 - `[Dropdown]` Fix issue where tooltips were not shown if options were lazy loaded. ([#2051](https://github.com/infor-design/enterprise-wc/issues/2051))
 - `[Fieldset]` Fixed issue that popups in the fieldset were cut off. ([#1896](https://github.com/infor-design/enterprise-wc/issues/1896))

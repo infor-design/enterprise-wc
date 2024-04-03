@@ -820,9 +820,12 @@ export default class IdsDropdown extends Base {
         return;
       }
 
-      this.openedByKeyboard = true;
-      if (this.dropdownList?.popup?.visible) return;
+      const dropdownListVisible = !!this.dropdownList?.popup?.visible;
+      if (dropdownListVisible) return;
+      if (e.key === 'Enter' && !dropdownListVisible) return;
       if (e.key === ' ' && this.typeahead) return;
+
+      this.openedByKeyboard = true;
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.open(this.typeahead);
     });
@@ -946,9 +949,12 @@ export default class IdsDropdown extends Base {
   #attachKeyboardListeners() {
     this.onEvent('keydown.dropdown-typeahead', this, (e: KeyboardEvent) => {
       const key = e.key || 'Space';
-      if (['Backspace', 'Delete', 'Escape', 'Tab'].includes(key)) return;
+      if (['Backspace', 'Delete', 'Enter', 'Escape', 'Shift', 'Tab'].includes(key)) return;
 
       if (!this.dropdownList?.popup?.visible) {
+        const doNotOpen = ['Alt', 'Backspace', 'CapsLock', 'Control', 'Delete', 'Enter', 'Escape', 'Meta', 'Shift', 'Tab'];
+        if (doNotOpen.includes(key)) return;
+
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.open(true);
       }

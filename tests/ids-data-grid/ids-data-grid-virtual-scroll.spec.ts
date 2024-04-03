@@ -164,5 +164,20 @@ test.describe('IdsDataGrid virtual scroll tests', () => {
         elem.scrollRowIntoView(111);
       });
     });
+
+    test('should not create duplicate ids-dropdown-list elements in DOM when data reset', async ({ page }) => {
+      await page.goto('/ids-data-grid/multiple-virtual-scroll.html');
+      const dataGrid = await page.locator('ids-data-grid#data-grid-1');
+      const dropdownlistCount = await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.data = elem.data; // reset data once
+        elem.data = elem.data; // reset data twice
+        elem.data = elem.data; // reset data thrice
+
+        const dropdownLists = elem.shadowRoot?.querySelectorAll('ids-dropdown-list');
+        return dropdownLists?.length;
+      });
+
+      expect(dropdownlistCount).toBe(1);
+    });
   });
 });
