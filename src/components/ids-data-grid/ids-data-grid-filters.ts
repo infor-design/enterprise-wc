@@ -526,6 +526,7 @@ export default class IdsDataGridFilters {
           conditionValue = this.root.localeAPI?.parseNumber(conditionValue);
         }
 
+        // Date Time
         if (filterType === 'date' || filterType === 'time') {
           if (/string|undefined/g.test(typeof value)) value = formatterVal();
           const getValues = (rValue: any, cValue: any) => {
@@ -620,11 +621,15 @@ export default class IdsDataGridFilters {
             isMatch = (valueStr === '');
             break;
           case 'is-not-empty':
-            if (value === '') {
-              isMatch = (value !== '');
+            if (typeof value === 'string') {
+              isMatch = !!value.length;
               break;
             }
-            isMatch = !(value === null);
+            if (typeof value === 'number') {
+              isMatch = !Number.isNaN(value);
+              break;
+            }
+            isMatch = value !== null && value !== undefined;
             break;
           case 'in-range':
             if (typeof conditionValue === 'object') {
