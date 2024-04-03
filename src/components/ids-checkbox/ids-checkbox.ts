@@ -294,8 +294,11 @@ export default class IdsCheckbox extends Base {
    * @param {string | null} value the value property
    */
   set value(value: string | null) {
+    if (!value) {
+      this.removeAttribute(attributes.VALUE);
+      return;
+    }
     this.setAttribute(attributes.VALUE, value || '');
-    if (!value) this.removeAttribute(attributes.VALUE);
   }
 
   /**
