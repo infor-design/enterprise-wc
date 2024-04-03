@@ -36,7 +36,7 @@ describe('IdsUploadAdvanced Component', () => {
     expect(el.fileInput.getAttribute('accept')).toEqual(null);
   });
 
-  test('should renders as disabled', () => {
+  test('should render as disabled', () => {
     expect(el.getAttribute('disabled')).toEqual(null);
     let rootEl = el.shadowRoot.querySelector('.ids-upload-advanced');
     expect(rootEl.classList).not.toContain('disabled');

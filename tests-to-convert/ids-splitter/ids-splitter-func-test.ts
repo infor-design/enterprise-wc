@@ -233,7 +233,7 @@ describe('IdsSplitter Component', () => {
     checkSplitter(nestedSplitter, 'y');
   });
 
-  test('should renders collapsed', async () => {
+  test('should render collapsed', async () => {
     document.body.innerHTML = `
       <ids-splitter>
         <ids-splitter-pane id="p1" collapsed></ids-splitter-pane>
@@ -243,7 +243,7 @@ describe('IdsSplitter Component', () => {
     expect(splitter.querySelector('#p1').getAttribute('collapsed')).toEqual('');
   });
 
-  test('should renders collapsed and disabled', async () => {
+  test('should render collapsed and disabled', async () => {
     document.body.innerHTML = `
       <ids-splitter disabled>
         <ids-splitter-pane id="p1" collapsed></ids-splitter-pane>
@@ -256,7 +256,7 @@ describe('IdsSplitter Component', () => {
     expect(splitter.querySelector('#p1').getAttribute('collapsed')).toEqual('');
   });
 
-  test('should renders with slot change', async () => {
+  test('should render with slot change', async () => {
     document.body.innerHTML = `
       <ids-splitter>
         <ids-splitter-pane></ids-splitter-pane>
