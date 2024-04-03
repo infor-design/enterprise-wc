@@ -289,18 +289,6 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Collapse all expandable or tree rows except the one passed in.
-   * @param currentRowNum number The row number to keep expanded
-   * @returns {void}
-   */
-  collapseExpandedRows(currentRowNum: number | null = null): void {
-    this.rows.forEach((row: IdsDataGridRow) => {
-      if (currentRowNum !== null && row.rowIndex === currentRowNum) return;
-      if (row.isExpanded()) row.doCollapse();
-    });
-  }
-
-  /**
    * Collapse all expandable or tree rows.
    * @returns {void}
    */
@@ -675,8 +663,15 @@ export default class IdsDataGrid extends Base {
 
       // Handle Expand/Collapse Clicking
       if (isClickable && isExpandButton) {
-        if (this.allowOneExpandedRow) this.collapseExpandedRows(rowNum);
-        row.toggleExpandCollapse();
+        if (this.allowOneExpandedRow) {
+          const isExpanded = row.isExpanded();
+          const isCollapsed = !isExpanded;
+          this.collapseAll();
+          if (isExpanded) row.doCollapse();
+          if (isCollapsed) row.doExpand();
+        } else {
+          row.toggleExpandCollapse();
+        }
         return;
       }
 
@@ -2941,16 +2936,11 @@ export default class IdsDataGrid extends Base {
    * @param {string} value The value
    */
   set allowOneExpandedRow(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.ALLOW_ONE_EXPANDED_ROW, value.toString());
-    } else {
-      this.removeAttribute(attributes.ALLOW_ONE_EXPANDED_ROW);
-    }
+    this.toggleAttribute(attributes.ALLOW_ONE_EXPANDED_ROW, stringToBool(value));
   }
 
   get allowOneExpandedRow() {
-    return this.getAttribute(attributes.ALLOW_ONE_EXPANDED_ROW) || false;
+    return this.hasAttribute(attributes.ALLOW_ONE_EXPANDED_ROW);
   }
 
   /**
