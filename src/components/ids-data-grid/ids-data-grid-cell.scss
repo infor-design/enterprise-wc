@@ -40,7 +40,6 @@
     height: auto;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: pre;
   }
 
   // Text Alignment
@@ -205,6 +204,11 @@
     ids-dropdown {
       padding: 0 4px;
     }
+  }
+
+  // Text Editable Cell
+  &.formatter-text {
+    white-space: pre;
   }
 
   // Editing Uppercase
