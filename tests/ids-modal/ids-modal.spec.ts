@@ -228,6 +228,28 @@ test.describe('IdsModal tests', () => {
       await page.locator('ids-modal').evaluate((modal: IdsModal) => { modal.messageTitle = 'My Test Message'; });
       await expect(await page.locator('ids-modal [slot="title"]')).toHaveText(/My Test Message/);
     });
+
+    test('should handle scrollable option', async ({ page }) => {
+      const modalHandle = await page.locator('ids-modal');
+      await modalHandle.evaluate((elem: IdsModal) => { elem.scrollable = true; });
+      await expect(modalHandle).toHaveAttribute('scrollable');
+      await page.locator('#my-modal-content').evaluate((elem: HTMLElement) => {
+        const text = Array.from({ length: 1000 }).map(() => 'example').join(' ');
+        elem.textContent = text;
+      });
+
+      await modalHandle.evaluate(async (elem: IdsModal) => {
+        elem.popup!.animated = false;
+        await elem.show();
+      });
+      await page.waitForSelector('ids-modal[visible]');
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.modalContentEl?.classList?.contains('has-scrollbar')
+      )).toBeTruthy();
+
+      await modalHandle.evaluate((elem: IdsModal) => { elem.scrollable = false; });
+      await expect(modalHandle).not.toHaveAttribute('scrollable');
+    });
   });
 
   test.describe('IdsOverlay functionality test', () => {

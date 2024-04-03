@@ -1129,6 +1129,7 @@ export default class IdsPopup extends Base {
     if (this.animated) {
       await waitForTransitionEnd(this.container, 'opacity');
     }
+    this.#checkViewportPositionScrolling();
 
     // Unblur if needed
     this.correct3dMatrix();
