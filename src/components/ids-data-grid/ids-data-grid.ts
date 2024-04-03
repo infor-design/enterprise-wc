@@ -45,6 +45,10 @@ import IdsDataGridCell from './ids-data-grid-cell';
 import { ExcelColumn } from '../../utils/ids-excel-exporter/ids-worksheet-templates';
 import IdsLoadingIndicator from '../ids-loading-indicator/ids-loading-indicator';
 
+// Types
+import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import type IdsButton from '../ids-button/ids-button';
+
 const Base = IdsPagerMixin(
   IdsDataGridSaveSettingsMixin(
     IdsDataGridTooltipMixin(
@@ -851,6 +855,20 @@ export default class IdsDataGrid extends Base {
       // if (!this.activeCellCanClose()) return false;
 
       const cellNode = this.cellLastActive;
+
+      // Hyperlink
+      if (cellNode?.classList.contains('formatter-hyperlink')) {
+        cellNode.querySelector<IdsHyperlink>('ids-hyperlink')?.container?.click();
+        return;
+      }
+
+      // Button
+      if (cellNode?.classList.contains('formatter-button')) {
+        cellNode.querySelector<IdsButton>('ids-button')?.button?.click();
+        return;
+      }
+
+      // Editahe
       if (!cellNode?.isEditing) {
         cellNode?.startCellEdit();
         return;
