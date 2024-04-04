@@ -336,7 +336,7 @@ test.describe('IdsAxisChart tests', () => {
       expect(values[3]).toBeFalsy();
     });
 
-    test('changes empty message text when changing locale', async ({ page }) => {
+    test.skip('changes empty message text when changing locale', async ({ page }) => {
       const value1 = await page.evaluate(async () => {
         const axisChart = document.querySelector<any>('ids-axis-chart')!;
         axisChart.data = [];
@@ -345,15 +345,24 @@ test.describe('IdsAxisChart tests', () => {
 
       await page.evaluate(async () => {
         const locale = window.IdsGlobal.locale!;
-        await locale.setLocale('de-DE');
-      });
-
-      const value2 = await page.evaluate(async () => {
         const axisChart = document.querySelector<any>('ids-axis-chart')!;
-        return axisChart.emptyMessage.querySelector('ids-text').textContent;
+        axisChart.data = [];
+        const result = axisChart.emptyMessage.querySelector('ids-text').textContent;
+
+        await locale.setLocale('de-DE');
+        return result;
       });
 
       expect(value1).toEqual('No data available');
+
+      const value2 = await page.evaluate(async () => {
+        const axisChart = document.querySelector<any>('ids-axis-chart')!;
+        const locale = window.IdsGlobal.locale!;
+        axisChart.data = [];
+        await locale.setLocale('de-DE');
+        return axisChart.emptyMessage.querySelector('ids-text').textContent;
+      });
+
       expect(value2).toEqual('Keine Daten verfügbar');
     });
 

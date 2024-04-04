@@ -2,7 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
-import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import type IdsCheckbox from './ids-checkbox';
 
 import styles from './ids-checkbox-group.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
@@ -29,6 +29,7 @@ export default class IdsCheckboxGroup extends IdsEventsMixin(IdsElement) {
     return [
       ...super.attributes,
       attributes.LABEL,
+      attributes.CHECKED,
     ];
   }
 
@@ -78,11 +79,11 @@ export default class IdsCheckboxGroup extends IdsEventsMixin(IdsElement) {
    * Get the selected ids-checkbox inputs in this group
    * @returns {IdsCheckbox[]} list of selected checkboxes
    */
-  get checkboxesSelected(): IdsCheckbox[] {
+  get selectedCheckboxes(): IdsCheckbox[] {
     return [...this.querySelectorAll<IdsCheckbox>('ids-checkbox[checked]')];
   }
 
-  get value(): boolean[] {
+  get checked(): boolean[] {
     return this.checkboxes.map((checkbox) => stringToBool(checkbox.value));
   }
 
@@ -91,11 +92,11 @@ export default class IdsCheckboxGroup extends IdsEventsMixin(IdsElement) {
    * @private
    * @returns {void}
    */
-  set value(value: boolean | boolean[]) {
+  set checked(value: boolean | boolean[]) {
     const values = Array.isArray(value) ? value : [value];
     const lastValue = values.at(-1) || false;
     this.checkboxes.forEach((checkbox, idx) => {
-      checkbox.value = stringToBool(values[idx] ?? lastValue);
+      checkbox.checked = stringToBool(values[idx] ?? lastValue);
     });
   }
 }

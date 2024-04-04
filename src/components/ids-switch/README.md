@@ -45,7 +45,7 @@ Add an Disabled Switch as checked:
 - `checked` {boolean} set checked state.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
-- `value` {string} set the switch value.
+- `value` {string} set the form submit value (not to be confused with checked, it only sets the form value)
 
 ## Keyboard Guidelines
 

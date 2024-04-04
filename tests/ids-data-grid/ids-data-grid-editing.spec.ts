@@ -91,7 +91,7 @@ test.describe('IdsDataGrid editing tests', () => {
     expect(hasConsoleError).toBeFalsy();
   });
 
-  test.skip('can veto edit on with readonly/disabled', async ({ page }) => {
+  test('can veto edit on readonly/disabled', async ({ page }) => {
     const results = await page.evaluate(() => {
       const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
       const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
@@ -176,7 +176,7 @@ test.describe('IdsDataGrid editing tests', () => {
     expect(results).toBe('1');
   });
 
-  test.skip('endCellEdit on valid columns', async ({ page }) => {
+  test('endCellEdit on valid columns', async ({ page }) => {
     const results = await page.evaluate(() => {
       const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
       const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');

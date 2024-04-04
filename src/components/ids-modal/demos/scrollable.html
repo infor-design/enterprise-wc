@@ -1,28 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <title>
-    <%= htmlWebpackPlugin.options.title %>
-  </title>
+  <title><%= htmlWebpackPlugin.options.title %></title>
   <%= htmlWebpackPlugin.options.font %>
 </head>
-
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-modal id="my-modal" aria-labelledby="my-modal-title">
-      <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
-      <ids-text>The checkbox below controls whether or not a user can click in the overlay to close this Modal</ids-text>
-      <br>
-      <ids-checkbox label="Allow the modal to close by clicking outside"></ids-checkbox>
+    <ids-modal id="my-modal" aria-labelledby="my-modal-title" scrollable="true">
+      <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Modal Title</ids-text>
       <ids-modal-button slot="buttons" id="modal-close-btn" appearance="primary">
         <span>OK</span>
       </ids-modal-button>
+      <ids-text align="left" id="my-modal-content"></ids-text>
     </ids-modal>
 
     <ids-layout-grid auto-fit="true" padding="md">
-      <ids-text font-size="12" type="h1">Modal (Remains open when clicking outside)</ids-text>
+      <ids-text font-size="12" type="h1">Modal Scrollable</ids-text>
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
@@ -33,5 +27,4 @@
     </ids-layout-grid>
   </ids-container>
 </body>
-
 </html>

@@ -52,7 +52,7 @@ test.describe('IdsWizard tests', () => {
       expect(activeStep).toEqual(4);
     });
 
-    test.skip('should show ellipsis on resize', async ({ page }) => {
+    test.skip.skip('should show ellipsis on resize', async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 1080 });
       await page.goto(url);
       await page.setViewportSize({ width: 375, height: 1080 });

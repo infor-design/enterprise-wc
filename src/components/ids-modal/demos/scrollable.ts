@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const triggerBtn: any = document.querySelector(triggerId);
   const modal: any = document.querySelector('ids-modal');
 
+  // Sets up the modal's content to be scrollable
+  const textEl = document.querySelector('#my-modal-content');
+  const text = Array.from({ length: 1000 }).map(() => 'example').join(' ');
+  textEl!.textContent = text;
+
   // Links the Modal to its trigger button (sets up click/focus events)
   modal.target = triggerBtn;
   modal.triggerType = 'click';
@@ -21,15 +26,5 @@ document.addEventListener('DOMContentLoaded', () => {
   // After the modal is done hiding, re-enable its trigger button.
   modal.addEventListener('hide', () => {
     triggerBtn.disabled = false;
-  });
-
-  // ============================================================
-  // Close behavior
-
-  const checkbox: any = document.querySelector('ids-checkbox');
-
-  checkbox.addEventListener('change', (e: CustomEvent) => {
-    const isChecked = (e.target as any).checked;
-    modal.clickOutsideToClose = isChecked;
   });
 });
