@@ -230,13 +230,9 @@ test.describe('IdsModal tests', () => {
     });
 
     test('should handle scrollable option', async ({ page }) => {
+      await page.goto('/ids-modal/scrollable.html');
       const modalHandle = await page.locator('ids-modal');
-      await modalHandle.evaluate((elem: IdsModal) => { elem.scrollable = true; });
       await expect(modalHandle).toHaveAttribute('scrollable');
-      await page.locator('#my-modal-content').evaluate((elem: HTMLElement) => {
-        const text = Array.from({ length: 1000 }).map(() => 'example').join(' ');
-        elem.textContent = text;
-      });
 
       await modalHandle.evaluate(async (elem: IdsModal) => {
         elem.popup!.animated = false;
@@ -246,9 +242,18 @@ test.describe('IdsModal tests', () => {
       expect(await modalHandle.evaluate(
         (elem: IdsModal) => elem.modalContentEl?.classList?.contains('has-scrollbar')
       )).toBeTruthy();
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.container?.classList?.contains('scrollable')
+      )).toBeTruthy();
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.popup?.container?.classList?.contains('fit-viewport')
+      )).toBeTruthy();
 
       await modalHandle.evaluate((elem: IdsModal) => { elem.scrollable = false; });
       await expect(modalHandle).not.toHaveAttribute('scrollable');
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.container?.classList?.contains('scrollable')
+      )).toBeFalsy();
     });
   });
 
