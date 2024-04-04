@@ -263,7 +263,7 @@ export default class IdsSwitch extends Base {
     super.attributeChangedCallback(name, oldValue, newValue);
     if (oldValue === newValue) return;
 
-    if (name === attributes.VALUE) {
+    if (name === attributes.CHECKED) {
       this.checked = !!newValue;
     }
   }
@@ -273,20 +273,19 @@ export default class IdsSwitch extends Base {
    * @param {string} value the value property
    */
   set value(value: string) {
-    super.value = value || '';
-    this.checked = !this.checked;
+    if (!value) {
+      this.removeAttribute(attributes.VALUE);
+      return;
+    }
+    this.setAttribute(attributes.VALUE, value || '');
   }
 
   /**
    * Gets the checkbox `value` attribute
-   * @returns {string | null} the value property
-   *
-   * If a checkbox is unchecked when its form is submitted,
-   * neither the name nor the value is submitted to the server.
-   * If the value attribute is omitted, the default value for the checkbox is `on`.
+   * @returns {string} the value property
    * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
    */
-  get value(): string { return this.checked ? (super.value ?? 'on') : ''; }
+  get value(): string { return this.checked ? (this.getAttribute(attributes.VALUE) ?? 'on') : ''; }
 
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.

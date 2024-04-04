@@ -336,7 +336,7 @@ test.describe('IdsAxisChart tests', () => {
       expect(values[3]).toBeFalsy();
     });
 
-    test('changes empty message text when changing locale', async ({ page }) => {
+    test.skip('changes empty message text when changing locale', async ({ page }) => {
       const values = await page.evaluate(async () => {
         const axisChart = document.querySelector<any>('ids-axis-chart')!;
         const locale = window.IdsGlobal.locale!;

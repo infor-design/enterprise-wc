@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
   <%= htmlWebpackPlugin.options.font %>
 </head>
+
 <body>
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto-fit="true" padding="md">
-      <ids-text font-size="20" type="h1">Ids Checkbox Group Examples</ids-text>
-    </ids-layout-grid>
-    <ids-layout-grid auto-fit="true" padding-x="md">
+    <ids-layout-grid cols="3" gap="md" padding="md">
       <ids-layout-grid-cell>
-        <ids-demo-listing label="Checkbox Group Examples" component-name="ids-checkbox-group">
-        </ids-demo-listing>
+        <ids-checkbox id="checkbox-1" label="By checking this box, you agree to the Terms and Conditions and Privacy Policy." validate="required"></ids-checkbox>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>
 </body>
+
 </html>
