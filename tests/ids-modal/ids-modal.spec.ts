@@ -228,6 +228,33 @@ test.describe('IdsModal tests', () => {
       await page.locator('ids-modal').evaluate((modal: IdsModal) => { modal.messageTitle = 'My Test Message'; });
       await expect(await page.locator('ids-modal [slot="title"]')).toHaveText(/My Test Message/);
     });
+
+    test('should handle scrollable option', async ({ page }) => {
+      await page.goto('/ids-modal/scrollable.html');
+      const modalHandle = await page.locator('ids-modal');
+      await expect(modalHandle).toHaveAttribute('scrollable');
+
+      await modalHandle.evaluate(async (elem: IdsModal) => {
+        elem.popup!.animated = false;
+        await elem.show();
+      });
+      await page.waitForSelector('ids-modal[visible]');
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.modalContentEl?.classList?.contains('has-scrollbar')
+      )).toBeTruthy();
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.container?.classList?.contains('scrollable')
+      )).toBeTruthy();
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.popup?.container?.classList?.contains('fit-viewport')
+      )).toBeTruthy();
+
+      await modalHandle.evaluate((elem: IdsModal) => { elem.scrollable = false; });
+      await expect(modalHandle).not.toHaveAttribute('scrollable');
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.container?.classList?.contains('scrollable')
+      )).toBeFalsy();
+    });
   });
 
   test.describe('IdsOverlay functionality test', () => {

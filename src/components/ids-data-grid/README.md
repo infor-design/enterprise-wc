@@ -399,6 +399,8 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |Setting|Type|Description|
 |---|---|---|
 |`href` | {string|Function} | Used to create the href for hyperlink formatters. This can be a string or a function that can work dynamically. It can also replace `{{value}}` with the current value. |
+|`selected` | {Function} | Fired when an item linked by a menuId is selected when attached to button formatters. |
+|`menuId` | {string} | Used on button formatters to link a menu to the button via a css selector |
 |`text` | {string} | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
 |`disabled` | {boolean|Function} | Sets the cell contents to disabled, can also use a callback to determine this dynamically. Only checkboxes, radios, buttons and link columns can be disabled at this time. Selection columns require disabled rows in order to not be clickable/selectable. |
 |`uppercase` | {boolean} | Transforms all the text in the cell contents to uppercase. See also filterOptions and editorOptions |
@@ -1260,6 +1262,29 @@ Set context menu thru ID.
   </ids-menu-group>
 </ids-popup-menu>
 ```
+
+### Actions Menu Button
+
+The column settings `menuId` and `selected` callback can be used to construct an actions button with a menu for easy handling. An example column setup would be:
+
+```js
+columns.push({
+  id: 'more',
+  name: 'Actions',
+  formatter: dataGrid.formatters.button,
+  icon: 'more',
+  type: 'icon',
+  align: 'center',
+  text: 'Actions',
+  width: 56,
+  menuId: 'actions-menu',
+  selected: (data: Record<string, unknown>, col: IdsDataGridColumn, e: CustomEvent) => {
+    console.info(`Item "${e.detail.elem.text}" was selected (id "${e.detail.elem.id}")`);
+  }
+});
+```
+
+Then just add an `<ids-popup-menu id="actions-menu"></ids-popup-menu>` with any structure you like to the page and it will open when pressing the button. When an item is selected the callback will fire for `selected`
 
 ## Empty Message
 

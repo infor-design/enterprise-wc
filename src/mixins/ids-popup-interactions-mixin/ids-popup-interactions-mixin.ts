@@ -10,7 +10,8 @@ const POPUP_TRIGGER_TYPES = [
   'click',
   'custom',
   'hover',
-  'immediate'
+  'immediate',
+  'immediate-closed'
 ];
 
 const POPUP_INTERACTION_EVENT_NAMES = [

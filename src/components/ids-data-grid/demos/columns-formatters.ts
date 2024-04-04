@@ -252,7 +252,12 @@ if (dataGrid) {
         console.info('Actions clicked', info);
       },
       text: 'Actions',
-      width: 56
+      width: 56,
+      menuId: 'actions-menu',
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      selected: (data: Record<string, unknown>, col: IdsDataGridColumn, e: CustomEvent) => {
+        console.info(`Item "${e.detail.elem.text}" was selected (id "${e.detail.elem.id}")`);
+      }
     });
     columns.push({
       id: 'custom',

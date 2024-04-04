@@ -337,23 +337,28 @@ test.describe('IdsAxisChart tests', () => {
     });
 
     test.skip('changes empty message text when changing locale', async ({ page }) => {
-      const values = await page.evaluate(async () => {
+      const value1 = await page.evaluate(async () => {
         const axisChart = document.querySelector<any>('ids-axis-chart')!;
         const locale = window.IdsGlobal.locale!;
 
         axisChart.data = [];
-        const results = [
-          axisChart.emptyMessage.querySelector('ids-text').textContent
-        ];
+        const result = axisChart.emptyMessage.querySelector('ids-text').textContent;
 
         await locale.setLocale('de-DE');
-        results.push(axisChart.emptyMessage.querySelector('ids-text').textContent);
-
-        return results;
+        return result;
       });
 
-      expect(values[0]).toEqual('No data available');
-      expect(values[1]).toEqual('Keine Daten verfügbar');
+      expect(value1).toEqual('No data available');
+
+      const value2 = await page.evaluate(async () => {
+        const axisChart = document.querySelector<any>('ids-axis-chart')!;
+        const locale = window.IdsGlobal.locale!;
+        axisChart.data = [];
+        await locale.setLocale('de-DE');
+        return axisChart.emptyMessage.querySelector('ids-text').textContent;
+      });
+
+      expect(value2).toEqual('Keine Daten verfügbar');
     });
 
     test('can get colors and color range', async ({ page }) => {

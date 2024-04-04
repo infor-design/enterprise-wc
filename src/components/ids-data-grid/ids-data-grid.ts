@@ -641,11 +641,31 @@ export default class IdsDataGrid extends Base {
       const isClickable = isButton || isHyperlink;
       const column: IdsDataGridColumn = this.visibleColumns[cellNum];
 
-      // Focus Cell
+      // Focus cell
       this.setActiveCell(cellNum, rowNum, isHyperlink);
       // Handle click callbacks
       if (isClickable && column.click !== undefined && !e.target?.getAttribute('disabled')) {
         column.click(this.data[rowNum], this.visibleColumns[cellNum], e);
+      }
+
+      // hide menus on body click
+      this.hideOpenMenus();
+
+      // Handle popup menus
+      if (isClickable && column?.menuId !== undefined && !e.target?.getAttribute('disabled')) {
+        const menuEl = document.querySelector<IdsPopupMenu>(`#${column.menuId}`);
+        if (!menuEl) return;
+        menuEl.target = null;
+        menuEl.hide();
+        menuEl.triggerType = 'immediate-closed';
+        menuEl.target = e.target;
+        menuEl.align = 'bottom, left';
+        menuEl.arrow = 'bottom';
+        menuEl.triggerType = 'immediate';
+        menuEl.offEvent('selected', menuEl);
+        menuEl.onEvent('selected', menuEl, (evt: CustomEvent) => {
+          column?.selected?.(this.data[rowNum], this.visibleColumns[cellNum], evt);
+        });
       }
 
       // Fires for each row that is clicked
@@ -851,9 +871,6 @@ export default class IdsDataGrid extends Base {
 
     // Follow links with keyboard and start editing
     this.listen(['Enter'], this, (e: KeyboardEvent) => {
-      // if (this.openMenu) return;
-      // if (!this.activeCellCanClose()) return false;
-
       const cellNode = this.cellLastActive;
 
       // Hyperlink
@@ -902,8 +919,6 @@ export default class IdsDataGrid extends Base {
 
     // Edit Next
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
-      // if (this.openMenu) return;
-      // if (!this.activeCellCanClose()) return false;
       if (!this.isEditable) {
         return;
       }
@@ -3189,6 +3204,17 @@ export default class IdsDataGrid extends Base {
     if (this.activeCellEditor?.column?.editor?.inline) return false;
 
     return true;
+  }
+
+  /**
+   * Hide any open context menus
+   * @private
+   */
+  hideOpenMenus() {
+    const openMenus = document.querySelector<IdsPopupMenu>('ids-popup-menu:not([hidden])');
+    if (openMenus) {
+      openMenus.hide();
+    }
   }
 
   /**
