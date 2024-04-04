@@ -14,6 +14,16 @@
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
 
+        <ids-multiselect id="multiselect-1" label="Normal Multiselect" dirty-tracker="true" validate="required">
+          <ids-list-box>
+            <ids-list-box-option value="opt2" id="opt2" selected><ids-checkbox label="Option Two" tooltip="Additional Info on Option Two"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option value="opt3" id="opt3"><ids-checkbox label="Option Three" tooltip="Additional Info on Option Three"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option value="opt4" id="opt4"><ids-checkbox label="Option Four" tooltip="Additional Info on Option Four"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option value="opt5" id="opt5"><ids-checkbox label="Option Five" tooltip="Additional Info on Option Five"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option value="opt6" id="opt6"><ids-checkbox label="Option Six" tooltip="Additional Info on Option Six"></ids-checkbox></ids-list-box-option>
+          </ids-list-box>
+        </ids-multiselect>
+
         <ids-multiselect id="dropdown-1" label="Multiselect (with max 3 choices and dirty tracker)" max="3" dirty-tracker="true">
           <ids-list-box>
             <ids-list-box-option id="al1" value="al" tooltip="The State of Alabama"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
@@ -80,6 +90,25 @@
             <ids-list-box-option id="ca4" value="ca"><ids-checkbox label="California"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="co4" value="co"><ids-checkbox label="Colorado"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="nj4" value="nj" selected><ids-checkbox label="New Jersey"></ids-checkbox></ids-list-box-option>
+          </ids-list-box>
+        </ids-multiselect>
+
+        <ids-multiselect id="multiselect-tags" tags="true" label="Tags Multiselect" dirty-tracker="true">
+          <ids-list-box>
+            <ids-list-box-option value="opt1"><ids-checkbox label="Option One" class="justify-center"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option value="opt2"><ids-checkbox label="Option Two" class="justify-center"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option value="opt3" id="opt3"><ids-checkbox label="Option Three" class="justify-center"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option value="opt4" id="opt4"><ids-checkbox label="Option Four" class="justify-center"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option value="opt5" id="opt5"><ids-checkbox label="Option Five" class="justify-center"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option value="opt6" id="opt6"><ids-checkbox label="Option Six" class="justify-center"></ids-checkbox></ids-list-box-option>
+          </ids-list-box>
+        </ids-multiselect>
+
+        <ids-multiselect id="multiselect-overflow" label="Overflow text multiselect">
+          <ids-list-box>
+            <ids-list-box-option value="opt1" id="opt1" selected>Option One</ids-list-box-option>
+            <ids-list-box-option value="opt2" id="opt2" selected>Option Two</ids-list-box-option>
+            <ids-list-box-option value="opt3" id="opt3" selected>Option Three</ids-list-box-option>
           </ids-list-box>
         </ids-multiselect>
 
