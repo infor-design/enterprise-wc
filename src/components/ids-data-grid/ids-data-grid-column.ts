@@ -138,6 +138,10 @@ export interface IdsDataGridColumn {
   href?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn) => string);
   /** Fires for clickable formatters (like button) */
   click?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, event: MouseEvent) => void;
+  /** Fires for menuId formatters (like button) */
+  selected?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, event: CustomEvent) => void;
+  /** Selector for menu id */
+  menuId?: string;
   /** Get the color dynamically from a function or as text */
   // eslint-disable-next-line max-len
   color?: IdsColorValue | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
