@@ -35,6 +35,8 @@ export default class IdsHyperlink extends Base {
   connectedCallback() {
     super.connectedCallback();
     if (!(this.getAttribute('role'))) this.setAttribute('role', 'link');
+
+    this.#attachEventHandlers();
   }
 
   /**
@@ -55,6 +57,20 @@ export default class IdsHyperlink extends Base {
       attributes.TEXT_DECORATION,
       attributes.SHOW_VISITED_COLOR
     ];
+  }
+
+  /**
+   * Attaches event handlers
+   * @private
+   * @returns {void}
+   */
+  #attachEventHandlers(): void {
+    this.onEvent('click.ids-hyperlink', this, (e: Event) => {
+      if (this.disabled) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    });
   }
 
   /**

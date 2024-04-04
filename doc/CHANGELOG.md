@@ -34,6 +34,7 @@
 - `[Dropdown]` Fix displaying preselected value in angular. ([#1880](https://github.com/infor-design/enterprise-wc/issues/1880))
 - `[Dropdown]` Prevent Enter key (and other meta keys) from opening the `IdsDropdown`. ([#1878](https://github.com/infor-design/enterprise-wc/issues/1878))
 - `[Form]` Converted form tests to playwright. ([#1936](https://github.com/infor-design/enterprise-wc/issues/1936))
+- `[Hyperlink]` Fix so that disabled `ids-hyperlink` will no longer fire click events. ([#1849](https://github.com/infor-design/enterprise-wc/issues/1849))
 - `[Input]` Converted input tests to Playwright. ([#1943](https://github.com/infor-design/enterprise-wc/issues/1943))
 - `[Input]` Fix clearing input value manually. ([#2011](https://github.com/infor-design/enterprise-wc/issues/2011))
 - `[Input]` Fix autocomplete popup menu is not closing on select. ([#2072](https://github.com/infor-design/enterprise-wc/issues/2072))
