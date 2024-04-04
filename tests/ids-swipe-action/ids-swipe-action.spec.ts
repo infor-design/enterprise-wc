@@ -137,7 +137,7 @@ test.describe('IdsSwipeAction tests', () => {
         for (let i = box!.x + box!.width / 2; i >= box!.x - 10; i--) {
           await page.mouse.move(i, 0);
         }
-        // validate if the button is show while still pressing down
+        // validate if the button is shown while still pressing down
         expect(await idsSwipe.evaluate((element: IdsSwipeAction) => element.container!.scrollLeft)).toBeLessThan(70);
         await page.mouse.up({ button: 'middle' });
         await page.waitForTimeout(500);
@@ -157,6 +157,7 @@ test.describe('IdsSwipeAction tests', () => {
         for (let i = box!.x + box!.width / 2; i <= box!.width + 10; i++) {
           await page.mouse.move(i, 0);
         }
+        // validate if the button is shown while still pressing down
         expect(await idsSwipe.evaluate((element: IdsSwipeAction) => element.container!.scrollLeft)).toBeGreaterThan(70);
         await page.mouse.up({ button: 'middle' });
         await page.waitForTimeout(500);
