@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0
+
+### 1.0.0 Features
+
+- `[About]` Added the ability to copy stats to the clipboard with a button. ([#2176](https://github.com/infor-design/enterprise-wc/issues/2176))
+
 ## 1.0.0-beta.23
 
 ### 1.0.0-beta.23 Ui Changes
