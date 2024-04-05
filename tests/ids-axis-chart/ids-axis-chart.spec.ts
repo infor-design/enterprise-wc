@@ -339,8 +339,13 @@ test.describe('IdsAxisChart tests', () => {
     test.skip('changes empty message text when changing locale', async ({ page }) => {
       const value1 = await page.evaluate(async () => {
         const axisChart = document.querySelector<any>('ids-axis-chart')!;
-        const locale = window.IdsGlobal.locale!;
+        axisChart.data = [];
+        return axisChart.emptyMessage.querySelector('ids-text').textContent;
+      });
 
+      await page.evaluate(async () => {
+        const locale = window.IdsGlobal.locale!;
+        const axisChart = document.querySelector<any>('ids-axis-chart')!;
         axisChart.data = [];
         const result = axisChart.emptyMessage.querySelector('ids-text').textContent;
 

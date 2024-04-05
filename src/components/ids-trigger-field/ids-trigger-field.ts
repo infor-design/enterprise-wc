@@ -198,6 +198,21 @@ export default class IdsTriggerField extends IdsInput {
   }
 
   /**
+   * Sets the id internally and externally
+   * @param {string} value id value
+   */
+  set id(value: string) {
+    const shadowId = `${value}-internal`;
+    this.setAttribute(attributes.ID, value);
+    this.shadowRoot?.querySelector('label')?.setAttribute('for', shadowId);
+    this.shadowRoot?.querySelector('input')?.setAttribute('id', shadowId);
+  }
+
+  get id(): string {
+    return this.getAttribute(attributes.ID) || 'none';
+  }
+
+  /**
    * Set format for date, time
    * @param {string} val date, time format
    */

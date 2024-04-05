@@ -1,11 +1,11 @@
 <div class="ids-input md field-height-md" part="container">
-      <label class="ids-label-text" for="input-id" part="label">
+      <label class="ids-label-text" part="label" for="test-input-internal">
       <slot name="label-pre"></slot>
       <ids-text part="label" color-unset="">First Name</ids-text>
       <slot name="label-post"></slot>
     </label>
       <div class="field-container" part="field-container">
-        <input part="input" id="test-input" type="text" class="ids-input-field start readonly-background" placeholder="Normal text Field" aria-label="First Name" label="First Name">
+        <input part="input" type="text" class="ids-input-field start readonly-background" placeholder="Normal text Field" aria-label="First Name" label="First Name" id="test-input-internal">
         
         
         <slot name="loading-indicator"></slot>
