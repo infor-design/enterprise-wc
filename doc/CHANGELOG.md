@@ -31,6 +31,7 @@
 - `[Datagrid]` Fix datagrid bugs found in converted tests. ([#2115](https://github.com/infor-design/enterprise-wc/issues/2115))
 - `[Draggable]` Converted draggable tests to playwright. ([#1929](https://github.com/infor-design/enterprise-wc/issues/1929))
 - `[Dropdown]` Fix issue where required dropdowns were note rendering asterisk in React and Angular examples. ([#2023](https://github.com/infor-design/enterprise-wc/issues/2023))
+- `[Dropdown]` Fix issue where dropdown wouldn't open in safari via click. ([#2096](https://github.com/infor-design/enterprise-wc/issues/2096))
 - `[Dropdown]` Fix issue where tooltips were not shown if options were lazy loaded. ([#2051](https://github.com/infor-design/enterprise-wc/issues/2051))
 - `[Dropdown]` Fix displaying preselected value in angular. ([#1880](https://github.com/infor-design/enterprise-wc/issues/1880))
 - `[Dropdown]` Prevent Enter key (and other meta keys) from opening the `IdsDropdown`. ([#1878](https://github.com/infor-design/enterprise-wc/issues/1878))

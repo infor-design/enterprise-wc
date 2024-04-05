@@ -843,7 +843,7 @@ export default class IdsDropdown extends Base {
     if (!this.list) {
       this.offEvent('click.dropdown-input');
       this.onEvent('click.dropdown-input', this.input, (e) => {
-        if (e instanceof PointerEvent) {
+        if (e instanceof MouseEvent) {
           this.dropdownList?.onTriggerClick?.(e);
         }
       });
