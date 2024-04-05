@@ -334,7 +334,7 @@ test.describe('IdsDropdown tests', () => {
         await dropdown.open();
         results.push(dropdown?.popup?.visible);
 
-        await dropdown.close();
+        dropdown.close();
         results.push(dropdown?.popup?.visible);
 
         dropdown.readonly = true;
@@ -397,22 +397,28 @@ test.describe('IdsDropdown tests', () => {
       expect(values[2]).toEqual(false);
     });
 
-    // test('can click outside an open list to close it', async ({ page }) => {
-    //   const values = await page.evaluate(async () => {
-    //     const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
-    //     const clickEvent = new MouseEvent('click', { bubbles: true });
+    test('can click outside an open list to close it', async ({ page }) => {
+      const values = await page.evaluate(async () => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        const clickEvent = new MouseEvent('click', { bubbles: true });
 
-    //     dropdown?.dropdownList?.onOutsideClick = jest.fn();
-    //     await dropdown.open();
+        // @see https://github.com/microsoft/playwright/issues/19536
+        // dropdown?.dropdownList?.onOutsideClick = jest.fn();
+        await dropdown.open();
+        document.body.dispatchEvent(clickEvent);
+        const results : any = [
+          dropdown?.dropdownList?.onOutsideClick,
+        ];
 
-    //     document.body.dispatchEvent(clickEvent);
-    //     return [
-    //       dropdown?.dropdownList?.onOutsideClick
-    //     ];
-    //   });
+        dropdown?.dropdownList?.onOutsideClick(clickEvent);
+        results.push(dropdown.popup?.visible);
 
-    //   expect(values[0]).toHaveBeenCalled();
-    // });
+        return results;
+      });
+      // @see https://github.com/microsoft/playwright/issues/19536
+      // expect(values[0]).toHaveBeenCalled();
+      expect(values[1]).toBeFalsy();
+    });
 
     test('supports async beforeShow', async ({ page }) => {
       const values = await page.evaluate(async () => {
@@ -488,7 +494,7 @@ test.describe('IdsDropdown tests', () => {
 
     test('supports type ahead to show No Results option when nothing found', async ({ page }) => {
       const values = await page.evaluate(async () => {
-        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        const dropdown = document.querySelector<any>('ids-dropdown')!;
         dropdown.typeahead = true;
 
         const results : any = [
@@ -496,8 +502,7 @@ test.describe('IdsDropdown tests', () => {
         ];
 
         await dropdown.open();
-        // dropdown.input?.value = 'y';
-        dropdown.input?.setAttribute('value', 'y');
+        dropdown.input.value = 'y';
         dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'y' }));
 
         // await wait(600);
@@ -508,7 +513,7 @@ test.describe('IdsDropdown tests', () => {
       });
 
       expect(values[0]).toBeTruthy();
-      expect(values[1]).toEqual(6);
+      expect(values[1]).toEqual(1);
       expect(values[2]).toEqual('No results');
     });
 
@@ -1035,42 +1040,57 @@ test.describe('IdsDropdown tests', () => {
       expect(values[1]).toEqual('dropdown-0');
     });
 
-    // test('should render field height', async ({ page }) => {
-    //   const heights = ['xs', 'sm', 'md', 'lg'];
-    //   const defaultHeight = 'md';
-    //   const className = (h: any) => `field-height-${h}`;
-    //   const values = await page.evaluate(async () => {
-    //     const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
-    //   });
+    test('should render field height', async ({ page }) => {
+      const heights = ['xs', 'sm', 'md', 'lg'];
+      const defaultHeight = 'md';
+      const className = (h: any) => `field-height-${h}`;
 
-    //   const checkHeight = (height: any) => {
-    //     dropdown.fieldHeight = height;
+      const values = await page.evaluate(async ({ heightsArray }) => {
+        const dropdown = document.querySelector<any>('ids-dropdown')!;
+        const results: any = [];
+        const checkHeight = (height: any) => {
+          dropdown.fieldHeight = height;
 
-    //     expect(dropdown.input.getAttribute('field-height')).toEqual(height);
-    //     expect(dropdown.container.classList).toContain(className(height));
-    //     heights.filter((h) => h !== height).forEach((h) => {
-    //       expect(dropdown.container.classList).not.toContain(className(h));
-    //     });
-    //   };
+          results.push(dropdown.input?.getAttribute('field-height'));
+          results.push(Array.from(dropdown.container.classList));
+        };
+        results.push(dropdown.getAttribute('field-height'));
+        results.push(Array.from(dropdown.container?.classList));
 
-    //   expect(dropdown.getAttribute('field-height')).toEqual(null);
-    //   heights.filter((h) => h !== defaultHeight).forEach((h) => {
-    //     expect(dropdown.container.classList).not.toContain(className(h));
-    //   });
+        heightsArray.forEach((h) => checkHeight(h));
 
-    //   expect(dropdown.container.classList).toContain(className(defaultHeight));
-    //   heights.forEach((h) => checkHeight(h));
-    //   dropdown.removeAttribute('field-height');
-    //   dropdown.removeAttribute('compact');
+        dropdown.removeAttribute('field-height');
+        dropdown.removeAttribute('compact');
+        results.push(dropdown.getAttribute('field-height'));
 
-    //   expect(dropdown.getAttribute('field-height')).toEqual(null);
-    //   heights.filter((h) => h !== defaultHeight).forEach((h) => {
-    //     expect(dropdown.container.classList).not.toContain(className(h));
-    //   });
-    //   dropdown.onFieldHeightChange();
+        dropdown.onFieldHeightChange();
+        results.push(Array.from(dropdown.container.classList));
 
-    //   expect(dropdown.container.classList).toContain(className(defaultHeight));
-    // });
+        return results;
+      }, { heightsArray: heights });
+
+      expect(values[0]).toEqual(null);
+      heights.filter((h) => h !== defaultHeight).forEach((h) => {
+        expect(values[1]).not.toContain(className(h));
+      });
+      expect(values[1]).toContain(className(defaultHeight));
+
+      heights.forEach((height, index) => {
+        const indexValue = (index * 2) + 2;
+        expect(values[indexValue]).toEqual(height);
+        expect(values[indexValue + 1]).toContain(className(height));
+
+        heights.filter((h) => h !== height).forEach((h) => {
+          expect(values[indexValue + 1]).not.toContain(className(h));
+        });
+      });
+
+      expect(values[10]).toEqual(null);
+      heights.filter((h) => h !== defaultHeight).forEach((h) => {
+        expect(values[11]).not.toContain(className(h));
+      });
+      expect(values[11]).toContain(className(defaultHeight));
+    });
 
     test('should set compact height', async ({ page }) => {
       const values = await page.evaluate(async () => {
@@ -1092,30 +1112,48 @@ test.describe('IdsDropdown tests', () => {
       expect(values[2]).toBeFalsy();
     });
 
-    // test('should set size', async ({ page }) => {
-    //   const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
-    //   const defaultSize = 'md';
-    //   const values = await page.evaluate(async () => {
-    //     const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
-    //   });
+    test('should set size', async ({ page }) => {
+      const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+      const defaultSize = 'md';
+      const values = await page.evaluate(async ({ sizesArray }) => {
+        const dropdown = document.querySelector<any>('ids-dropdown')!;
 
-    //   const checkSize = (size: any) => {
-    //     dropdown.size = size;
+        const results: any = [];
 
-    //     expect(dropdown.getAttribute('size')).toEqual(size);
-    //     expect(dropdown.input.getAttribute('size')).toEqual(size);
-    //     expect(dropdown.dropdownList.listBox.getAttribute('size')).toEqual(size);
-    //   };
+        const checkSize = (size: any) => {
+          dropdown.size = size;
 
-    //   expect(dropdown.getAttribute('size')).toEqual(null);
-    //   expect(dropdown.input.getAttribute('size')).toEqual(defaultSize);
-    //   sizes.forEach((s) => checkSize(s));
-    //   dropdown.size = null;
+          results.push(dropdown.getAttribute('size'));
+          results.push(dropdown.input?.getAttribute('size'));
+          results.push(dropdown.dropdownList?.listBox?.getAttribute('size'));
+        };
 
-    //   expect(dropdown.getAttribute('size')).toEqual(null);
-    //   expect(dropdown.input.getAttribute('size')).toEqual(defaultSize);
-    //   expect(dropdown.dropdownList.listBox.getAttribute('size')).toEqual(null);
-    // });
+        results.push(dropdown.getAttribute('size'));
+        results.push(dropdown.input?.getAttribute('size'));
+        sizesArray.forEach((s) => checkSize(s));
+        dropdown.size = null;
+
+        results.push(dropdown.getAttribute('size'));
+        results.push(dropdown.input?.getAttribute('size'));
+        results.push(dropdown.dropdownList?.listBox?.getAttribute('size'));
+
+        return results;
+      }, { sizesArray: sizes });
+
+      expect(values[0]).toEqual(null);
+      expect(values[1]).toEqual(defaultSize);
+
+      sizes.forEach((s, index) => {
+        const indexValue = (index * 3) + 2;
+        expect(values[indexValue]).toEqual(s);
+        expect(values[indexValue + 1]).toEqual(s);
+        expect(values[indexValue + 2]).toEqual(s);
+      });
+
+      expect(values[20]).toEqual(null);
+      expect(values[21]).toEqual(defaultSize);
+      expect(values[22]).toEqual(null);
+    });
 
     test('should set no margins', async ({ page }) => {
       const values = await page.evaluate(async () => {
