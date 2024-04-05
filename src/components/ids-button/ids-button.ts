@@ -144,7 +144,7 @@ export default class IdsButton extends Base {
    * @returns {Array<string>} containing classes used to identify this button prototype
    */
   get protoClasses() {
-    const textContent = this.querySelector('span:not(.audible), ids-text:not([audible])') || (this.textContent && !this.querySelector('span.audible'));
+    const textContent = this.querySelector('span:not(.audible), ids-text:not([audible])');
     const iconContent = this.iconEl;
     if (iconContent && (!textContent)) {
       return ['ids-icon-button'];
