@@ -955,6 +955,20 @@ export default class IdsDropdown extends Base {
       }
     });
 
+    this.onEvent('keydown', this, (e: any) => {
+      const key = e.key;
+      const value = e.target?.value || key;
+
+      if (!value) return;
+      if (['Backspace', 'Delete', 'Escape', 'Tab'].includes(key)) return;
+
+      if (this.typeahead) {
+        this.#typeAhead(value);
+      } else {
+        this.#selectMatch(value);
+      }
+    });
+
     this.onEvent('input.dropdown', this.input?.input, (e: any) => {
       if (this.typeahead) {
         this.#typeAhead(e.target?.value);
@@ -1037,6 +1051,7 @@ export default class IdsDropdown extends Base {
    */
   #typeAhead(text: string) {
     const resultsArr = this.#findMatches(text);
+    console.log('resultsArr', resultsArr);
     const results = resultsArr.map((item: IdsDropdownOption) => {
       const regex = new RegExp(text, 'gi');
       const optionText = item.groupLabel ? item.label : item.label?.replace(
@@ -1075,7 +1090,6 @@ export default class IdsDropdown extends Base {
    */
   #selectMatch(input: string) {
     const term: string = escapeRegExp(input)?.trim();
-
     if (!term) return;
 
     const option = this.options
