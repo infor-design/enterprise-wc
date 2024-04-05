@@ -78,6 +78,7 @@ export default class IdsColorPicker extends Base {
       attributes.CHECKED,
       attributes.COMPACT,
       attributes.DISABLED,
+      attributes.ID,
       attributes.LABEL,
       attributes.PLACEHOLDER,
       attributes.SUPPRESS_LABELS,
@@ -432,6 +433,19 @@ export default class IdsColorPicker extends Base {
 
   get compact(): boolean {
     return stringToBool(this.getAttribute(attributes.COMPACT));
+  }
+
+  /**
+   * Sets the id internally and externally
+   * @param {string} value id value
+   */
+  set id(value: string) {
+    this.shadowRoot?.querySelector('ids-trigger-field')?.setAttribute(attributes.ID, `${value}-trigger-field`);
+    this.setAttribute(attributes.ID, value);
+  }
+
+  get id(): string {
+    return this.getAttribute(attributes.ID) || 'none';
   }
 
   /**

@@ -4,6 +4,7 @@
 
 ### 1.0.0-beta.23 Ui Changes
 
+- `[General]` Changed the ids on trigger and input fields for the internal input element to be unique. They will use the assigned id plus `-internal`. ([#1852](https://github.com/infor-design/enterprise-wc/issues/1852))
 - `[Tokens]` UI design changes to popups, buttons, toggle button, menu button, cards (minor), and darker text. Contrast mode is now white. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 
 ### 1.0.0-beta.23 Features

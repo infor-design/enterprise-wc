@@ -1,5 +1,5 @@
 <div class="ids-trigger-field ids-input field-height-md sm" part="container">
-      <label class="ids-label-text" for="input-id" part="label">
+      <label class="ids-label-text" part="label" for="trigger-field-1-internal">
       <slot name="label-pre"></slot>
       <ids-text part="label" color-unset="">Date Field</ids-text>
       <slot name="label-post"></slot>
@@ -7,7 +7,7 @@
       <div class="field-container" part="field-container">
         <slot name="trigger-start"></slot>
         <slot class="content-area" part="content-area"></slot>
-        <input part="input" id="trigger-field-1" type="text" class="ids-input-field start readonly-background" aria-label="Date Field" label="Date Field" size="sm">
+        <input part="input" id="trigger-field-1-internal" type="text" class="ids-input-field start readonly-background" aria-label="Date Field" label="Date Field" size="sm">
         <slot name="trigger-end"></slot>
         <slot name="loading-indicator"></slot>
       </div>

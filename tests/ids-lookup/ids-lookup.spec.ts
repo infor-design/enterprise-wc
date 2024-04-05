@@ -551,7 +551,6 @@ test.describe('IdsLookup tests', () => {
       });
 
       await page.locator('#lookup-5 ids-trigger-button').first().click();
-      await page.waitForTimeout(1000);
     });
   });
 });

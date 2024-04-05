@@ -204,7 +204,7 @@ export default class IdsButton extends Base {
     let alignCSS = '';
     if (this.state?.iconAlign) alignCSS = ` align-icon-${this.state?.iconAlign}`;
 
-    return `<button part="button" class="${protoClasses}${appearance}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
+    return `<button part="button" type="${this.type}" class="${protoClasses}${appearance}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
       <slot></slot>
       <slot name="loading-indicator"></slot>
     </button>`;
@@ -686,7 +686,7 @@ export default class IdsButton extends Base {
    * @returns {IdsButtonType} Gets the HTMLButtonElement 'type' attribute
    */
   get type(): IdsButtonType {
-    return this.state.type;
+    return this.state.type || 'button';
   }
 
   /**

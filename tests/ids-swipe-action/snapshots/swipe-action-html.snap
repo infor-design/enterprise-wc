@@ -10,7 +10,7 @@
                       <ids-icon icon="vertical-ellipsis"></ids-icon>
                       <span class="audible">Actions</span>
                     </ids-menu-button>
-                    <ids-popup-menu id="actions-reveal-one-menu" target="actions-reveal-one" trigger-type="click" role="none" hidden="">
+                    <ids-popup-menu id="actions-reveal-one-menu" target="actions-reveal-one" trigger-type="click" hidden="">
                       <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
                         <ids-menu-item>Right Action</ids-menu-item>
                         <ids-menu-item>Left Action</ids-menu-item>
