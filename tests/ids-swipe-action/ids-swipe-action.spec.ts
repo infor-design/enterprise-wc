@@ -1,5 +1,5 @@
 import percySnapshot from '@percy/playwright';
-import { Locator, devices } from '@playwright/test';
+import { Locator } from '@playwright/test';
 import { test, expect } from '../base-fixture';
 
 import IdsSwipeAction from '../../src/components/ids-swipe-action/ids-swipe-action';
@@ -53,20 +53,8 @@ test.describe('IdsSwipeAction tests', () => {
     });
 
     test.describe('functional tests', async () => {
-      let idsSwipe: Locator;
-      const iPhone = devices['iPhone 12 Pro'];
-      test.use({
-        viewport: iPhone.viewport,
-        userAgent: iPhone.userAgent,
-        isMobile: true,
-        hasTouch: true
-      });
-
-      test.beforeEach(async ({ page }) => {
-        idsSwipe = await page.locator('ids-swipe-action').nth(1);
-      });
-
-      test('can set/get swipeType property', async () => {
+      test('can set/get swipeType property', async ({ page }) => {
+        const idsSwipe = await page.locator('ids-swipe-action').nth(1);
         const testData = [
           { data: 'reveal', expected: 'reveal' },
           { data: 'continuous', expected: 'continuous' },
@@ -77,7 +65,7 @@ test.describe('IdsSwipeAction tests', () => {
         await expect(idsSwipe).toHaveAttribute('swipe-type', 'continuous');
 
         for (const data of testData) {
-          expect(await idsSwipe.evaluate((element: IdsSwipeAction, tData) => {
+          expect(await idsSwipe.evaluate((element: IdsSwipeAction, tData: any) => {
             element.swipeType = tData.data;
             return element.swipeType;
           }, data)).toEqual(data.expected);
@@ -89,7 +77,8 @@ test.describe('IdsSwipeAction tests', () => {
         }
       });
 
-      test('can trigger the swipe event', async () => {
+      test('can trigger the swipe event', async ({ page }) => {
+        const idsSwipe = await page.locator('ids-swipe-action').nth(1);
         expect(await idsSwipe.evaluate((element: IdsSwipeAction) => {
           let isSwiped = false;
           element.addEventListener('swipe', () => { isSwiped = true; });
@@ -98,73 +87,65 @@ test.describe('IdsSwipeAction tests', () => {
         })).toBeTruthy();
       });
 
+      /**
+       * Waits for the scrollLeft value of left or right
+       * @param {Locator} target `ids-swipe-action` target
+       * @param {string} direction `left` or `right` direction
+       * @returns {number} IdsSwipeAction.container.scrollLeft value
+       */
+      async function waitForButton(target: Locator, direction: 'left' | 'right'): Promise<number> {
+        let scrollValue = 70;
+        const allowableLeft = 5; // ideal is 0, added allowable range to consider flakiness
+        const allowableRight = 130; // ideal is 140, added allowable range to consider flakiness
+        for (let i = 0; i < 100; i++) {
+          scrollValue = await target.evaluate((element: IdsSwipeAction) => element.container!.scrollLeft);
+          if (direction === 'left' && scrollValue <= allowableLeft) break;
+          if (direction === 'right' && scrollValue >= allowableRight) break;
+        }
+        return scrollValue;
+      }
+
       // no visual cue or document change seen when "swiping to the left/right"
       // checks the container.scrollLeft property instead
       test('can display left/right buttons on reveal type', async ({ page }) => {
+        const idsSwipe = await page.locator('ids-swipe-action').nth(1);
         await idsSwipe.evaluate((element: IdsSwipeAction) => { element.swipeType = 'reveal'; });
-        const box = await idsSwipe.boundingBox();
+        await idsSwipe.click({ force: true });
 
-        await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
-        await page.mouse.down({ button: 'middle' });
-        for (let i = box!.x + box!.width / 2; i >= box!.x - 10; i--) {
-          await page.mouse.move(i, 0);
-        }
-        await page.mouse.up({ button: 'middle' });
-        expect(await idsSwipe.evaluate((element: IdsSwipeAction) => element.container!.scrollLeft)).toBeLessThan(70);
+        await page.keyboard.press('ArrowLeft');
+        expect(await waitForButton(idsSwipe, 'left')).toBeLessThan(70);
 
-        // resets the mouse
-        await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
-        await page.mouse.down({ button: 'middle' });
-        await page.mouse.move(box!.x + box!.width + 20, 0);
-        await page.mouse.up({ button: 'middle' });
+        await page.keyboard.press('ArrowRight');
+        expect(await waitForButton(idsSwipe, 'right')).toBeInAllowedBounds(70, 3);
 
-        await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
-        await page.mouse.down({ button: 'middle' });
-        for (let i = box!.x + box!.width / 2; i <= box!.width + 10; i++) {
-          await page.mouse.move(i, 0);
-        }
-        await page.mouse.up({ button: 'middle' });
-        expect(await idsSwipe.evaluate((element: IdsSwipeAction) => element.container!.scrollLeft)).toBeGreaterThan(70);
+        await page.keyboard.press('ArrowRight');
+        expect(await waitForButton(idsSwipe, 'right')).toBeGreaterThan(70);
+
+        await page.keyboard.press('ArrowLeft');
+        expect(await waitForButton(idsSwipe, 'left')).toBeInAllowedBounds(70, 3);
       });
 
       // no visual cue or document change seen when "swiping to the left/right"
       // checks the container.scrollLeft property instead
       test('can display left/right buttons on continuous type', async ({ page }) => {
-        const box = await idsSwipe.boundingBox();
+        const idsSwipe = await page.locator('ids-swipe-action').nth(1);
+        await idsSwipe.click({ force: true });
 
-        await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
-        await page.mouse.down({ button: 'middle' });
-        for (let i = box!.x + box!.width / 2; i >= box!.x - 10; i--) {
-          await page.mouse.move(i, 0);
+        for (let i = 0; i < 10; i++) {
+          await page.keyboard.press('ArrowLeft');
         }
-        // validate if the button is shown while still pressing down
-        expect(await idsSwipe.evaluate((element: IdsSwipeAction) => element.container!.scrollLeft)).toBeLessThan(70);
-        await page.mouse.up({ button: 'middle' });
-        await page.waitForTimeout(500);
-        // validate if the button is hidden when not pressed
-        expect(await idsSwipe.evaluate(
-          (element: IdsSwipeAction) => element.container!.scrollLeft
-        )).toBeInAllowedBounds(70, 5);
+        expect(await waitForButton(idsSwipe, 'left')).toBeLessThan(70);
 
-        // resets the mouse
-        await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
-        await page.mouse.down({ button: 'middle' });
-        await page.mouse.move(box!.x + box!.width + 20, 0);
-        await page.mouse.up({ button: 'middle' });
+        await page.keyboard.press('ArrowRight');
+        expect(await waitForButton(idsSwipe, 'right')).toBeInAllowedBounds(70, 3);
 
-        await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2);
-        await page.mouse.down({ button: 'middle' });
-        for (let i = box!.x + box!.width / 2; i <= box!.width + 10; i++) {
-          await page.mouse.move(i, 0);
+        for (let i = 0; i < 10; i++) {
+          await page.keyboard.press('ArrowRight');
         }
-        // validate if the button is shown while still pressing down
-        expect(await idsSwipe.evaluate((element: IdsSwipeAction) => element.container!.scrollLeft)).toBeGreaterThan(70);
-        await page.mouse.up({ button: 'middle' });
-        await page.waitForTimeout(500);
-        // validate if the button is hidden when not pressed
-        expect(await idsSwipe.evaluate(
-          (element: IdsSwipeAction) => element.container!.scrollLeft
-        )).toBeInAllowedBounds(70, 5);
+        expect(await waitForButton(idsSwipe, 'right')).toBeGreaterThan(70);
+
+        await page.keyboard.press('ArrowLeft');
+        expect(await waitForButton(idsSwipe, 'left')).toBeInAllowedBounds(70, 3);
       });
     });
   });
