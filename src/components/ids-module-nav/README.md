@@ -189,8 +189,7 @@ IdsModuleNavUser creates a composable area that will be fixed to the very bottom
           menu="module-nav-settings-menu"
           color-variant="module-nav"
           content-align="start"
-          no-margins
-          no-ripple>
+          no-margins>
           <ids-text>Settings</ids-text>
         </ids-module-nav-settings>
         <ids-popup-menu

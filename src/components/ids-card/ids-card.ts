@@ -5,7 +5,6 @@ import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsSelectionMixin from '../../mixins/ids-selection-mixin/ids-selection-mixin';
 import IdsBox from '../ids-box/ids-box';
-import IdsRippleMixin from '../../mixins/ids-ripple-mixin/ids-ripple-mixin';
 
 import '../ids-hyperlink/ids-hyperlink';
 import '../ids-checkbox/ids-checkbox';
@@ -14,11 +13,9 @@ import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 const Base = IdsHideFocusMixin(
-  IdsRippleMixin(
-    IdsEventsMixin(
-      IdsSelectionMixin(
-        IdsBox
-      )
+  IdsEventsMixin(
+    IdsSelectionMixin(
+      IdsBox
     )
   )
 );
@@ -30,7 +27,6 @@ const Base = IdsHideFocusMixin(
  * @mixes IdsEventsMixin
  * @mixes IdsSelectionMixin
  * @mixes IdsHideFocusMixin
- * @mixes IdsRippleMixin
  * @part card - the card element
  * @part header - the header element
  * @part content - the card content element
@@ -154,11 +150,6 @@ export default class IdsCard extends Base {
       });
     }
 
-    // If actionable link, setup ripple
-    if (this.actionable && this.href) {
-      this.setupRipple();
-    }
-
     return this;
   }
 
@@ -252,10 +243,6 @@ export default class IdsCard extends Base {
       this.container?.style.setProperty('height', `${this.height}px`);
       link?.style.setProperty('height', `${this.height}px`);
       this.querySelector('[slot]')?.classList.add('fixed-height');
-    }
-
-    if (this.actionable && this.href) {
-      this.setupRipple();
     }
   }
 
