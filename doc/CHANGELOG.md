@@ -1,5 +1,12 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0
+
+### 1.0.0 Fixes
+
+- `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2074](https://github.com/infor-design/enterprise-wc/issues/2074))
+- `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2126](https://github.com/infor-design/enterprise-wc/issues/2126))
+
 ## 1.0.0-beta.23
 
 ### 1.0.0-beta.23 Ui Changes

@@ -20,3 +20,6 @@
   - link: no-header.html
     type: Example
     description: Shows Module Nav with no header area
+  - link: with-masthead.html
+    type: Example
+    description: Shows Module Nav with masthead on top

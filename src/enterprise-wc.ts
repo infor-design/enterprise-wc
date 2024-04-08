@@ -75,6 +75,7 @@ import './components/ids-progress-bar/ids-progress-bar';
 import './components/ids-progress-chart/ids-progress-chart';
 import './components/ids-radio/ids-radio';
 import './components/ids-rating/ids-rating';
+import './components/ids-layout-flex/ids-scroll-container';
 import './components/ids-scroll-view/ids-scroll-view';
 import './components/ids-search-field/ids-search-field';
 import './components/ids-separator/ids-separator';

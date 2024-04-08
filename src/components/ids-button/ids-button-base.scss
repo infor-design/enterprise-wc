@@ -502,6 +502,7 @@
 
     &:hover {
       background-color: var(--ids-button-formatter-color-background-hover);
+      border-color: transparent;
       color: var(--ids-button-formatter-color-text-hover);
       opacity: 1;
     }
