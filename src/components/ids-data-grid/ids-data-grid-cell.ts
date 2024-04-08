@@ -558,4 +558,16 @@ export default class IdsDataGridCell extends IdsElement {
     this.clearCache();
     this.renderCell();
   }
+
+  /**
+   * Checks on the cell editor to see if its current state allows it to be closed.
+   * @returns {boolean} true if the cell editor is able to "close"
+   */
+  canClose(): boolean {
+    if (this.isEditing) return false;
+    if (this.editor?.popup?.visible) return false;
+    if (this.column?.editor?.inline) return false;
+
+    return true;
+  }
 }

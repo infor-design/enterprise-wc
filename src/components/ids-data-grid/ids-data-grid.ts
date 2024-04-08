@@ -823,26 +823,30 @@ export default class IdsDataGrid extends Base {
 
     // Handle Selection and Expand
     this.listen([' ', 'Space'], this, (e: Event) => {
+      let activeCell = this.cellLastActive;
+      if (!activeCell) {
+        activeCell = this.activeCell.node;
+      }
+      if (!activeCell) return;
       if (this.openMenu) return;
-      if (this.activeCellEditor) return;
-      if (!this.activeCell?.node) return;
-      if (!this.activeCellCanClose()) return;
+      if (activeCell.isEditing) return;
+      if (!activeCell.canClose()) return;
 
-      const row = this.rowByIndex(this.activeCell.row)!;
+      const row = this.rowByIndex(activeCell.row)!;
       if (!row || row.disabled) return;
 
-      const button = this.activeCell.node.querySelector('ids-button');
+      const button = activeCell.querySelector('ids-button') as any;
       if (button) {
         button.click();
         e.preventDefault();
         return;
       }
 
-      const child = this.activeCell.node.children[0];
+      const child = activeCell.children[0];
       const isCheckbox = child?.classList.contains('ids-data-grid-checkbox-container')
         && !child?.classList.contains('is-selection-checkbox');
       if (isCheckbox) {
-        this.activeCell.node.click();
+        activeCell.click();
         e.preventDefault();
         return;
       }
