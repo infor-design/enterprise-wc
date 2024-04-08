@@ -306,7 +306,6 @@ export const attributes = {
   NO_HEADER: 'no-header',
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
-  NO_RIPPLE: 'no-ripple',
   OFFSET_CONTENT: 'offset-content',
   OPACITY: 'opacity',
   ORDER: 'order',
@@ -577,7 +576,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.22';
+export const version = '1.0.0-beta.23';
 
 export enum IdsDirection {
   Up = 'up',

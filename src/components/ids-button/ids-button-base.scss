@@ -2,7 +2,6 @@
  * Ids Button Sass mixins, used in Ids Button CSS to define base styles.
  */
 @use '../../themes/mixins/ids-core-mixins' as mixins;
-@import '../../themes/mixins/ids-ripple-mixin';
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
 @mixin blank-shadow() {
@@ -85,7 +84,7 @@
   }
 
   &:not(.ids-icon-button) ::slotted(ids-icon) {
-    padding-inline-end: var(--ids-space-xxs);
+    padding-inline-end: calc(var(--ids-space-xxs) + 5px);
   }
 
   .ids-icon {
@@ -173,10 +172,6 @@
     opacity: var(--ids-button-tertiary-opacity-disabled);
   }
 
-  .ripple-effect {
-    background-color: var(--ids-button-tertiary-color-ripple);
-  }
-
   &:active {
     background-color: var(--ids-button-tertiary-color-background-pressed);
     border-color: var(--ids-button-tertiary-color-border-pressed);
@@ -205,10 +200,6 @@
       color: var(--ids-button-destructive-tertiary-color-text-disabled);
       background-color: var(--ids-button-destructive-tertiary-color-background-disabled);
       border-color: var(--ids-button-destructive-tertiary-color-border-disabled);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-button-destructive-tertiary-color-ripple);
     }
   }
 
@@ -239,11 +230,6 @@
       color: var(--ids-button-primary-color-text-disabled);
       opacity: var(--ids-button-primary-opacity-disabled);
     }
-
-    .ripple-effect {
-      background-color: var(--ids-button-primary-color-text-default);
-      border-color: var(--ids-button-primary-color-text-default);
-    }
   }
 
   // ====================================================
@@ -270,10 +256,6 @@
       border-color: var(--ids-button-destructive-color-border-disabled);
       color: var(--ids-button-destructive-color-text-disabled);
       opacity: var(--ids-button-destructive-opacity-disabled);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-button-destructive-color-ripple);
     }
   }
 
@@ -307,7 +289,8 @@
     position: relative;
     flex-direction: row;
     gap: 2px;
-    padding-inline: 7px;
+    padding-inline-start: 7px;
+    padding-inline-end: 3px;
 
     .dot {
       display: inline-flex;
@@ -329,6 +312,7 @@
 
     &:hover {
       background: border-box var(--ids-button-ai-color-background-hover);
+      border-color: var(--ids-button-ai-color-border-hover);
     }
 
     &:active,
@@ -453,10 +437,6 @@
       opacity: var(--ids-button-secondary-opacity-disabled);
     }
 
-    .ripple-effect {
-      background-color: var(--ids-button-secondary-color-background-pressed);
-    }
-
     &:active {
       background-color: var(--ids-button-secondary-color-background-pressed);
       border-color: var(--ids-button-secondary-color-border-pressed);
@@ -511,10 +491,6 @@
       background-color: transparent;
       opacity: var(--ids-button-formatter-opacity-disabled);
     }
-
-    .ripple-effect {
-      background-color: var(--ids-button-alternate-color-background-pressed);
-    }
   }
 
   // Used on Editor and List Builder "darker" toolbars
@@ -538,10 +514,6 @@
     &:hover {
       background-color: var(--ids-button-formatter-color-background-hover);
       color: var(--ids-button-formatter-color-text-hover);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-color-primary-light);
     }
 
     &.is-active {
@@ -684,10 +656,6 @@
     &[disabled] {
       opacity: var(--ids-button-primary-opacity-disabled);
     }
-
-    .ripple-effect {
-      background-color: var(--ids-modal-button-color-default);
-    }
   }
 
   // ====================================================
@@ -710,10 +678,6 @@
     &[disabled] {
       background-color: var(--ids-button-secondary-color-border-disabled);
       border-color: var(--ids-button-secondary-color-border-disabled);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-button-secondary-color-ripple);
     }
   }
 }

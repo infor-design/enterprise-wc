@@ -1044,16 +1044,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
   }
 
   /**
-   * Removes all button ripples in the component
-   * @returns {void}
-   */
-  private removeRipples() {
-    this.buttons?.forEach((button: IdsDatePickerPopupButton) => {
-      button.removeRipples();
-    });
-  }
-
-  /**
    * Takes a string containing a date, or an actual Date object, and syncs its values
    * to the correct properties provided by IdsDateAttributeMixin
    * @param {string | Date} val incoming date string/object
@@ -1133,7 +1123,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
   onHide() {
     this.container?.setAttribute(htmlAttributes.TABINDEX, '-1');
     this.expanded = false;
-    this.removeRipples();
   }
 
   /**
@@ -1157,7 +1146,6 @@ class IdsDatePickerPopup extends Base implements IdsRangeSettingsInterface {
 
     if (!this.useRange) {
       if (btnApply) {
-        if (btnApply.removeRipples) btnApply?.removeRipples();
         btnApply.setAttribute(attributes.HIDDEN, 'true');
         btnApply.setAttribute(attributes.DISABLED, `${hasPartialRangeSelected}`);
       }
