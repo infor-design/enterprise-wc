@@ -46,6 +46,7 @@
 - `[Lookup]` Fixed single row selection behavior. ([#1808](https://github.com/infor-design/enterprise-wc/issues/1808))
 - `[Modal]` Enable scroll support for content on initial load if scrollable. ([#2049](https://github.com/infor-design/enterprise-wc/issues/2049))
 - `[ModuleNav]` Fix icons on `IdsModuleNav` for Angular. ([#1881](https://github.com/infor-design/enterprise-wc/issues/1881))
+- `[Pager]` Converted pager tests to playwright. ([#1959](https://github.com/infor-design/enterprise-wc/issues/1959))
 - `[Personalization]` Fixed infinite loop on using personalization via an import. ([#2046](https://github.com/infor-design/enterprise-wc/issues/2046))
 - `[Searchfield]` Converted form tests to playwright. ([#1969](https://github.com/infor-design/enterprise-wc/issues/1969))
 - `[Switch]` Fixed problems setting the value attribute (you should use checked). ([#2045](https://github.com/infor-design/enterprise-wc/issues/2045))
