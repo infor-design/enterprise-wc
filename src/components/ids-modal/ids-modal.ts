@@ -371,7 +371,7 @@ export default class IdsModal extends Base {
   set scrollable(val: boolean | string) {
     const isScrollable = stringToBool(val);
     this.toggleAttribute(attributes.SCROLLABLE, isScrollable);
-    this.container?.classList.toggle(attributes.SCROLLABLE);
+    this.container?.classList.toggle(attributes.SCROLLABLE, isScrollable);
     this.state.scrollable = isScrollable;
   }
 

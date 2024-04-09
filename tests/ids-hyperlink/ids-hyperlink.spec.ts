@@ -28,6 +28,36 @@ test.describe('IdsHyperlink tests', () => {
       await page.waitForLoadState();
       await expect(exceptions).toBeNull();
     });
+
+    test('disable should not fire events', async ({ page }) => {
+      const enabledClick = await page?.evaluate(() => {
+        let enabledClickCount = 0;
+        const hyperlink = document.querySelector('ids-hyperlink');
+        hyperlink?.addEventListener('click', () => {
+          enabledClickCount++;
+        });
+
+        hyperlink?.dispatchEvent(new MouseEvent('click'));
+
+        return enabledClickCount;
+      });
+
+      expect(enabledClick).toBe(1);
+
+      const disabledClick = await page?.evaluate(() => {
+        let disabledClickCount = 0;
+        const hyperlink = document.querySelector('ids-hyperlink[disabled]');
+        hyperlink?.addEventListener('click', () => {
+          disabledClickCount++;
+        });
+
+        hyperlink?.dispatchEvent(new MouseEvent('click'));
+
+        return disabledClickCount;
+      });
+
+      expect(disabledClick).toBe(0);
+    });
   });
 
   test.describe('accessibility tests', () => {

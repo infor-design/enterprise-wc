@@ -1,12 +1,12 @@
 
-    <div class="ids-dropdown field-height-md has-value" part="container">
-      <ids-trigger-field id="triggerField-dropdown-1" readonly="true" readonly-background="true" size="md" label="Multiselect (with max 3 choices and dirty tracker)" part="trigger-field" exportparts="container: triggerfield-container, field-container: triggerfield-field-container, content-area: triggerfield-content-area, input: triggerfield-input, popup: triggerfield-popup" field-height="md" list="#dropdownList-dropdown-1" value="California, New Jersey"><ids-text overflow="ellipsis" tooltip="true">California, New Jersey</ids-text>
+    <div class="ids-dropdown field-height-md has-value" part="container" list="#dropdownList-dropdown-1">
+      <ids-trigger-field id="triggerField-dropdown-1" readonly="true" readonly-background="true" size="md" label="Multiselect (with max 3 choices and dirty tracker)" part="trigger-field" exportparts="container: triggerfield-container, field-container: triggerfield-field-container, content-area: triggerfield-content-area, input: triggerfield-input, popup: triggerfield-popup" field-height="md" value="California, New Jersey"><ids-text overflow="ellipsis" tooltip="true">California, New Jersey</ids-text>
         <ids-trigger-button class="ids-trigger-field-slot-trigger-end md" id="triggerBtn-dropdown-1" slot="trigger-end" part="trigger-button" field-height="md">
           
           <ids-icon icon="dropdown" part="icon"></ids-icon>
         </ids-trigger-button>
       </ids-trigger-field>
-      <ids-dropdown-list id="dropdownList-dropdown-1" field-height="md" size="md" tabindex="-1" value="ca,nj" target="#triggerField-dropdown-1" trigger-elem="#triggerBtn-dropdown-1">
+      <ids-dropdown-list id="dropdownList-dropdown-1" field-height="md" size="md" tabindex="-1" value="ca,nj" target="#triggerField-dropdown-1-internal" trigger-elem="#triggerBtn-dropdown-1">
       <slot></slot>
     </ids-dropdown-list>
     </div>

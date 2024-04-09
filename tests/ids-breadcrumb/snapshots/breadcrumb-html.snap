@@ -1,6 +1,6 @@
 <ids-breadcrumb role="navigation" aria-label="Breadcrumb">
-        <ids-hyperlink href="#" role="link" color-variant="breadcrumb" font-size="14" text-decoration="hover">First Item</ids-hyperlink>
-        <ids-hyperlink href="#" role="link" color-variant="breadcrumb" font-size="14" text-decoration="hover">Second Item</ids-hyperlink>
-        <ids-hyperlink disabled="" role="link" color-variant="breadcrumb" font-size="14" text-decoration="hover">Disabled Item</ids-hyperlink>
-        <ids-hyperlink role="link" color-variant="breadcrumb" font-size="14" font-weight="semibold" text-decoration="none">Current Item</ids-hyperlink>
+        <ids-hyperlink href="#" role="link" font-size="14" text-decoration="hover" color-variant="breadcrumb">First Item</ids-hyperlink>
+        <ids-hyperlink href="#" role="link" font-size="14" text-decoration="hover" color-variant="breadcrumb">Second Item</ids-hyperlink>
+        <ids-hyperlink disabled="" role="link" font-size="14" text-decoration="hover" color-variant="breadcrumb">Disabled Item</ids-hyperlink>
+        <ids-hyperlink role="link" font-size="14" color-variant="breadcrumb" font-weight="semibold" text-decoration="none">Current Item</ids-hyperlink>
       </ids-breadcrumb>

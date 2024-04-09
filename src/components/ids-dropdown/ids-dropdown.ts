@@ -294,7 +294,6 @@ export default class IdsDropdown extends Base {
       'aria-expanded': 'false',
       'aria-autocomplete': 'list',
       'aria-haspopup': 'listbox',
-      'aria-description': this.localeAPI?.translate('PressDown'),
       'aria-controls': targetListboxId
     };
 
@@ -844,7 +843,7 @@ export default class IdsDropdown extends Base {
     if (!this.list) {
       this.offEvent('click.dropdown-input');
       this.onEvent('click.dropdown-input', this.input, (e) => {
-        if (e instanceof PointerEvent) {
+        if (e instanceof MouseEvent) {
           this.dropdownList?.onTriggerClick?.(e);
         }
       });

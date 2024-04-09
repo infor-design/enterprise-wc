@@ -22,13 +22,13 @@
             <ids-menu-button role="button" id="button-4" menu="button-4-menu" dropdown-icon="dropdown" no-padding="" aria-controls="button-4-menu" aria-haspopup="menu">
               <span>Menu</span>
             </ids-menu-button>
-            <ids-popup-menu id="button-4-menu" target="#button-4" role="none" hidden="">
+            <ids-popup-menu id="button-4-menu" target="#button-4" hidden="">
               <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
                 <ids-menu-item value="1">Item One</ids-menu-item>
                 <ids-menu-item value="2">Item Two</ids-menu-item>
                 <ids-menu-item value="3">Item Three</ids-menu-item>
                 <ids-menu-item>More Items
-                  <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+                  <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
                     <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
                       <ids-menu-item value="4">Item Four</ids-menu-item>
                       <ids-menu-item value="4">Item Five</ids-menu-item>
@@ -54,7 +54,7 @@
         <ids-icon icon="more"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
-      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" role="none" hidden=""><ids-menu-group more-actions="" role="group" aria-label="Menu group containing 8 item(s)">
+      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" hidden=""><ids-menu-group more-actions="" role="group" aria-label="Menu group containing 8 item(s)">
       <ids-menu-item icon="menu" hidden=""><ids-icon slot="icon" icon="menu" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Application Menu Trigger
       
@@ -69,7 +69,7 @@
       
     </ids-menu-item><ids-menu-item hidden="">
       Menu
-      <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+      <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
           <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
             <ids-menu-item>
       Item One
@@ -82,7 +82,7 @@
       
     </ids-menu-item><ids-menu-item>
       More Items
-      <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+      <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
           <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
             <ids-menu-item>
       Item Four
@@ -107,7 +107,7 @@
       
     </ids-menu-item><ids-menu-item icon="more" hidden=""><ids-icon slot="icon" icon="more" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       More Actions Button
-      <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+      <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
           <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
             <ids-menu-item>
       Option One
@@ -120,7 +120,7 @@
       
     </ids-menu-item><ids-menu-item>
       More Options
-      <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+      <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
           <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
             <ids-menu-item>
       Option Four
@@ -143,7 +143,7 @@
               <ids-menu-item value="2">Option Two</ids-menu-item>
               <ids-menu-item value="3">Option Three</ids-menu-item>
               <ids-menu-item>More Options
-                <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+                <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
                   <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
                     <ids-menu-item value="4">Option Four</ids-menu-item>
                     <ids-menu-item value="5">Option Five</ids-menu-item>

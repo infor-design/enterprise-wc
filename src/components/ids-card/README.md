@@ -85,7 +85,6 @@ A card with footer element and vertical no-padding.
     - IdsElement
 - Mixins
   IdsHideFocusMixin
-  IdsRippleMixin
   IdsEventsMixin
   IdsSelectionMixin
 
