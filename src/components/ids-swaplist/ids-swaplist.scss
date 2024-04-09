@@ -18,6 +18,13 @@
     }
   }
 }
+:host([searchable]) {
+  ids-card {
+    &::part(header) {
+      border-block-end: none;
+    }
+  }
+}
 
 ids-swappable-item {
   padding: var(--ids-swaplist-item-padding);
