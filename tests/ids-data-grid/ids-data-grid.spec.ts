@@ -1401,6 +1401,38 @@ test.describe('IdsDataGrid tests', () => {
       expect(results.expandedAttrCollapsed).toEqual('false');
       expect(results.expandedHiddenCollapsed).toBeTruthy();
     });
+
+    test('should not have visual regressions in percy (expandable-row)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-data-grid/expandable-row.html');
+      let rowsExpanded = await page.evaluate(() => {
+        const dataGrid = document.querySelectorAll<any>('ids-data-grid')[0];
+        dataGrid.rows[0].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGrid.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGrid.rows[1].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGrid.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGrid.rows[2].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGrid.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+
+        return dataGrid.shadowRoot.querySelectorAll('ids-data-grid-row[aria-expanded="true"]').length;
+      });
+
+      expect(rowsExpanded).toBe(3);
+
+      rowsExpanded = await page.evaluate(() => {
+        const dataGrid2 = document.querySelectorAll<any>('ids-data-grid')[1];
+        dataGrid2.rows[0].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGrid2.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGrid2.rows[1].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGrid2.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGrid2.rows[2].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGrid2.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+
+        return dataGrid2.shadowRoot.querySelectorAll('ids-data-grid-row[aria-expanded="true"]').length;
+      });
+
+      expect(rowsExpanded).toBe(1);
+    });
   });
 
   test.describe('tree grid tests', () => {
