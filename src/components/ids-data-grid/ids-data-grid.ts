@@ -2973,7 +2973,7 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * If true an expandable row is present in the grid. Then only one row can be expanded at a time.
+   * This setting will allow only one expandable-row to be opened/expanded at a time.
    * @param {string} value The value
    */
   set allowOneExpandedRow(value) {
