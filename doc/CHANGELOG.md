@@ -7,6 +7,11 @@
 - `[Header]` Changed the header color setting to work separate from personalization. ([#2050](https://github.com/infor-design/enterprise-wc/issues/2050))
 - `[Personalizations]` Added a method to reset the personalization color to the default. ([#2054](https://github.com/infor-design/enterprise-wc/issues/2054))
 
+### 1.0.0 Features
+
+- `[About]` Added the ability to copy stats to the clipboard with a button. ([#2176](https://github.com/infor-design/enterprise-wc/issues/2176))
+- `[Slider]` Step number has been changed to the number of steps between start and end step. ([#2091](https://github.com/infor-design/enterprise-wc/issues/2091))
+
 ## 1.0.0-beta.23
 
 ### 1.0.0-beta.23 Ui Changes
