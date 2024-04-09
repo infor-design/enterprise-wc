@@ -7,6 +7,11 @@
 - `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2074](https://github.com/infor-design/enterprise-wc/issues/2074))
 - `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2126](https://github.com/infor-design/enterprise-wc/issues/2126))
 
+### 1.0.0 Features
+
+- `[About]` Added the ability to copy stats to the clipboard with a button. ([#2176](https://github.com/infor-design/enterprise-wc/issues/2176))
+- `[Slider]` Step number has been changed to the number of steps between start and end step. ([#2091](https://github.com/infor-design/enterprise-wc/issues/2091))
+
 ## 1.0.0-beta.23
 
 ### 1.0.0-beta.23 Ui Changes
