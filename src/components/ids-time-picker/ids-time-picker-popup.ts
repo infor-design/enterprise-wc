@@ -337,16 +337,6 @@ class IdsTimePickerPopup extends Base {
   }
 
   /**
-   * Removes all button ripples in the component
-   * @returns {void}
-   */
-  private removeRipples() {
-    this.buttons?.forEach((button: IdsTimePickerPopupButton) => {
-      button.removeRipples();
-    });
-  }
-
-  /**
    * @param {number} value minutes or seconds to be rounded
    * @param {number} interval for value to be rounded to
    * @returns {number} rounded value
@@ -858,7 +848,6 @@ class IdsTimePickerPopup extends Base {
   }
 
   onHide() {
-    this.removeRipples();
     this.container?.setAttribute('tabindex', '-1');
     this.capturesFocus = false;
     this.cyclesFocus = false;

@@ -58,8 +58,8 @@ export default class IdsModuleNavContent extends Base {
   }
 
   /**
-   * If set to true the ripple effect will be disabled.
-   * @param {boolean} val The ripple value
+   * Set the offset content
+   * @param {boolean} val The offset value
    */
   set offsetContent(val) {
     if (stringToBool(val)) {
@@ -72,7 +72,7 @@ export default class IdsModuleNavContent extends Base {
   }
 
   /**
-   * @returns {boolean} true if ripple disabled
+   * @returns {boolean} true if offset content
    */
   get offsetContent(): boolean {
     return this.hasAttribute(attributes.OFFSET_CONTENT);

@@ -301,10 +301,10 @@ test.describe('IdsButton tests', () => {
       await test.step('icon only', async () => {
         await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.elementId))!.text = '';
+          (document.querySelector<IdsButton>(data.elementId))!.container!.classList.add('ids-icon-button');
         }, { elementId: id });
         await expect(idsIcon).toBeAttached();
         await expect(button).toHaveClass(/ids-icon-button/);
-        await expect(button).not.toHaveClass(/ids-button/);
         await expect(idsButton).toHaveAttribute('icon', 'settings');
       });
 

@@ -189,7 +189,7 @@
           </ids-accordion-section>
         </ids-accordion>
 
-        <ids-module-nav-settings slot="settings" role="button" icon="settings" id="module-nav-settings-btn" menu="module-nav-settings-menu" color-variant="module-nav" content-align="start" no-margins="" no-ripple="" aria-controls="module-nav-settings-menu" aria-haspopup="menu" display-mode="collapsed"><ids-icon icon="settings" class="ids-icon"></ids-icon>
+        <ids-module-nav-settings slot="settings" role="button" icon="settings" id="module-nav-settings-btn" menu="module-nav-settings-menu" color-variant="module-nav" content-align="start" no-margins="" aria-controls="module-nav-settings-menu" aria-haspopup="menu" display-mode="collapsed"><ids-icon icon="settings" class="ids-icon"></ids-icon>
           <ids-text audible="true">Settings</ids-text>
         </ids-module-nav-settings>
         <ids-popup-menu id="module-nav-settings-menu" target="#module-nav-settings-btn" trigger-type="click" slot="settings" hidden="">
