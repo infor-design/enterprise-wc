@@ -7,7 +7,7 @@ The IDS Accordion component is a UI pattern that is comprised of a stacked list 
 ## Use Cases
 
 - Can be used to conserve space, by hiding information until needed. Accordions can be commonly seen on mobile sites and applications. It can help tell the user what the page is about and allows the user to select and see what is needed.
-- Can be used for navigation.  The accordion is the main interactive element inside of the [App Menu](../ids-app-menu/README.md)
+- Can be used for navigation.  The accordion is the main interactive element inside of the [App Menu](../ids-application-menu/README.md)
 
 ## Terminology
 

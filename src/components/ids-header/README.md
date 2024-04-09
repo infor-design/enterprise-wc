@@ -18,7 +18,7 @@ A basic use case of the default ids header.
   <ids-text font-size="12" type="h1">Ids Header</ids-text>
 </ids-header>
 ```
-Header components can contain other navigation components, such as [IdsBreadcrumb](../ids-breadcrumb/README.md) and `[IdsToolbar](../ids-toolbar/README.md):
+Header components can contain other navigation components, such as [IdsBreadcrumb](../ids-breadcrumb/README.md) and [IdsToolbar](../ids-toolbar/README.md):
 
 ```html
 <ids-header>

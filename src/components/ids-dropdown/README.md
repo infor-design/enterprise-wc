@@ -130,7 +130,7 @@ For groups you should add `group-label` attribute to `ids-list-box-option` to in
 </ids-dropdown>
 ```
 
-In some situations, it may be preferable to separate the IdsDropdownList element from its in-page parent element.  This can be done using the `list` attribute, and simply referencing the dropdown list by its `id` attribute.  This might be necessary for reasons such as breaking out of CSS stacking context.  Note that in this situation, it's necessary to also manually define the event handling and [Popup Interactions](../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin.ts) that cause the IdsDropdownList to activate, making this ideal for custom IdsDropdown configurations:
+In some situations, it may be preferable to separate the IdsDropdownList element from its in-page parent element.  This can be done using the `list` attribute, and simply referencing the dropdown list by its `id` attribute.  This might be necessary for reasons such as breaking out of CSS stacking context.  Note that in this situation, it's necessary to also manually define the event handling and [Popup Interactions](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin.ts) that cause the IdsDropdownList to activate, making this ideal for custom IdsDropdown configurations:
 
 ```html
 <ids-dropdown id="dropdown-1" list="separate-list" label="Dropdown (list is adjacent)" value="blank" dirty-tracker="true" allow-blank="true"></ids-dropdown>
@@ -150,11 +150,11 @@ In some situations, it may be preferable to separate the IdsDropdownList element
 - `compact` {boolean} sets the component to be compact mode.
 - `dirtyTracker` {boolean} Sets the dirty tracking feature on to indicate a changed
 - `disabled` {boolean} Sets dropdown to disabled
-- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
+- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-field-height-mixin/README.md) for more information.
 - `label` {string} Sets the label text
 - `language` {string} Sets the language for RTL and inner labels
 - `labelRequired` {boolean} Sets the validation required indicator on label text, it's default to `true`
-- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
+- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-label-state-mixin/README.md) for more information.
 - `list` {string} ID selector used to reference/connect to an external IdsDropdownList component (used in some scenarios like IdsDataGrid filters)
 - `maxlength` {number | string} Maximum characters allowed in textarea
 - `noMargins` {boolean} sets whether or not no-margins around the component.
