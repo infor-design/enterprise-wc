@@ -1406,29 +1406,29 @@ test.describe('IdsDataGrid tests', () => {
       if (browserName !== 'chromium') return;
       await page.goto('/ids-data-grid/expandable-row.html');
       let rowsExpanded = await page.evaluate(() => {
-        const dataGrid = document.querySelectorAll<any>('ids-data-grid')[0];
-        dataGrid.rows[0].children[0].dispatchEvent(new FocusEvent('focusin'));
-        dataGrid.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
-        dataGrid.rows[1].children[0].dispatchEvent(new FocusEvent('focusin'));
-        dataGrid.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
-        dataGrid.rows[2].children[0].dispatchEvent(new FocusEvent('focusin'));
-        dataGrid.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        const dataGridAllowManyExpanded = document.querySelectorAll<any>('ids-data-grid')[0];
+        dataGridAllowManyExpanded.rows[0].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowManyExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowManyExpanded.rows[1].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowManyExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowManyExpanded.rows[2].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowManyExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
 
-        return dataGrid.shadowRoot.querySelectorAll('ids-data-grid-row[aria-expanded="true"]').length;
+        return dataGridAllowManyExpanded.shadowRoot.querySelectorAll('ids-data-grid-row[aria-expanded="true"]').length;
       });
 
       expect(rowsExpanded).toBe(3);
 
       rowsExpanded = await page.evaluate(() => {
-        const dataGrid2 = document.querySelectorAll<any>('ids-data-grid')[1];
-        dataGrid2.rows[0].children[0].dispatchEvent(new FocusEvent('focusin'));
-        dataGrid2.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
-        dataGrid2.rows[1].children[0].dispatchEvent(new FocusEvent('focusin'));
-        dataGrid2.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
-        dataGrid2.rows[2].children[0].dispatchEvent(new FocusEvent('focusin'));
-        dataGrid2.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        const dataGridAllowOneExpanded = document.querySelectorAll<any>('ids-data-grid')[1];
+        dataGridAllowOneExpanded.rows[0].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowOneExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowOneExpanded.rows[1].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowOneExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowOneExpanded.rows[2].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowOneExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
 
-        return dataGrid2.shadowRoot.querySelectorAll('ids-data-grid-row[aria-expanded="true"]').length;
+        return dataGridAllowOneExpanded.shadowRoot.querySelectorAll('ids-data-grid-row[aria-expanded="true"]').length;
       });
 
       expect(rowsExpanded).toBe(1);
