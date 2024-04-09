@@ -126,7 +126,9 @@ menu.data = {
 document.body.appendChild(menu);
 ```
 
-In some cases you may want to dynamically fetch data for the menu when it opens. You can do this by using the `beforeShow` callback.  This callback is called when the menu is opened and can be used to fetch data for the menu. This also fires when opening submenus. For a working example see [load-data.html](https://github.com/infor-design/enterprise-wc/blob/main/src/components/ids-popup-menu/demos/load-data.html) and [load-data.ts](https://github.com/infor-design/enterprise-wc/blob/main/src/components/ids-popup-menu/demos/load-data.ts). You should return return structured [menu data](https://github.com/infor-design/enterprise-wc/blob/main/src/assets/data/menu-contents.json) to control the menu. For dynamic submenus you can either return the submenu data directly on the initial call or use an empty contents area for the submenu if you plan  on fetching that dynamically `"contents": [{}]`.
+In some cases you may want to dynamically fetch data for the menu when it opens. You can do this by using the `beforeShow` callback.  This callback is called when the menu is opened and can be used to fetch data for the menu. This also fires when opening submenus.
+
+For a working example see [load-data.html](https://github.com/infor-design/enterprise-wc/blob/main/src/components/ids-popup-menu/demos/load-data.html) and [load-data.ts](https://github.com/infor-design/enterprise-wc/blob/main/src/components/ids-popup-menu/demos/load-data.ts). You should return return structured [menu data](https://github.com/infor-design/enterprise-wc/blob/main/src/assets/data/menu-contents.json) to control the menu. For dynamic submenus you can either return the submenu data directly on the initial call or use an empty contents area for the submenu if you plan  on fetching that dynamically `"contents": [{}]`.
 
 ```js
 popupmenuEl.beforeShow = async (opts: any) => {

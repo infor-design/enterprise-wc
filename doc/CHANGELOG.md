@@ -32,6 +32,7 @@
 - `[Datagrid]` Fix so that filter-types that use the integer formatter allow numbers with leading-zero and additional numbers after the leading-zeros. ([#1877](https://github.com/infor-design/enterprise-wc/issues/1877))
 - `[Datagrid]` Fix maintaining editable cell text spaces. ([#2069](https://github.com/infor-design/enterprise-wc/issues/2069))
 - `[Datagrid]` Fix datagrid bugs found in converted tests. ([#2115](https://github.com/infor-design/enterprise-wc/issues/2115))
+- `[Docs]` Fix broken links in README.md files. ([#2147](https://github.com/infor-design/enterprise-wc/issues/2147))
 - `[Draggable]` Converted draggable tests to playwright. ([#1929](https://github.com/infor-design/enterprise-wc/issues/1929))
 - `[Dropdown]` Fix issue where required dropdowns were note rendering asterisk in React and Angular examples. ([#2023](https://github.com/infor-design/enterprise-wc/issues/2023))
 - `[Dropdown]` Fix issue where dropdown wouldn't open in safari via click. ([#2096](https://github.com/infor-design/enterprise-wc/issues/2096))
