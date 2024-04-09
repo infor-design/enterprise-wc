@@ -11,15 +11,18 @@
   // Button Styles
   --ids-button-tertiary-color-text-default: var(--ids-header-button-color-text-default);
   --ids-button-tertiary-color-background-hover:  var(--ids-header-button-color-background-hover);
-  --ids-button-tertiary-color-border-hover: var(--ids-header-button-color-background-hover);
+  --ids-button-tertiary-color-border-hover: var(--ids-header-button-color-border-hover);
   --ids-button-tertiary-color-text-hover: var(--ids-header-button-color-text-hover);
-  --ids-button-tertiary-color-background-pressed: var(--ids-header-button-color-background-hover);
-  --ids-button-tertiary-color-border-pressed: var(--ids-header-button-color-background-hover);
+  --ids-button-tertiary-color-background-pressed: var(--ids-header-button-color-background-pressed);
+  --ids-button-tertiary-color-border-pressed: var(--ids-header-button-color-border-pressed);
   --ids-button-tertiary-color-text-pressed: var(--ids-header-button-color-text-pressed);
   --ids-input-color-border-hover: var(--ids-header-input-color-border-hover);
   --ids-button-tertiary-color-text-disabled: var(--ids-header-button-color-text-disabled);
   --ids-button-tertiary-shadow-focus: var(--ids-header-button-shadow-focus);
   --ids-button-tertiary-color-border-focus: var(--ids-header-button-color-border-focus);
+  --ids-button-menu-background-color-active: var(--ids-header-button-menu-color-background-active);
+  --ids-button-menu-color-text-active: var(--ids-header-button-menu-color-active);
+  --ids-button-alt-margin: 0 var(--ids-space-xxxs);
 }
 
 ::slotted(ids-toolbar),

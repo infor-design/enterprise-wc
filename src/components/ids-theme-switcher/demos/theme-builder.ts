@@ -64,6 +64,8 @@ import '../../ids-trigger-field/ids-trigger-field';
 import '../../ids-upload/ids-upload';
 import '../../ids-upload-advanced/ids-upload-advanced';
 import '../../ids-week-view/ids-week-view';
+import css from '../../../assets/css/ids-personalize/example.css';
+import IdsPersonalization from '../../ids-personalize/ids-personalize';
 
 // Assets
 import bikesJSON from '../../../assets/data/bikes.json';
@@ -81,6 +83,10 @@ import treeBasicJSON from '../../../assets/data/tree-basic.json';
 // Types
 import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
 import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';
+import type IdsColorPicker from '../../ids-color-picker/ids-color-picker';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+document.querySelector('head')!.insertAdjacentHTML('afterbegin', cssLink);
 
 // Implement Action Panel
 const actionPanelTriggerBtn: any = document.querySelector('#cap-trigger-btn');
@@ -737,3 +743,11 @@ if (swaplistEl) {
   };
   await setData();
 }
+
+const personalize = new IdsPersonalization();
+const picker = document.querySelector<IdsColorPicker>('ids-color-picker')!;
+document.querySelector('#reset')?.addEventListener('click', () => {
+  picker.value = '#0066d4';
+  personalize.resetToDefault();
+  document.querySelector('#ids-theme-builder')?.remove();
+});

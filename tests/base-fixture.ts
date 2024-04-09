@@ -54,11 +54,20 @@ export async function mount<T>(page: Page, html: string): Promise<T> {
  * Runs a util that is added to the page in ids-demo-app/utils.ts
  * @param {any} page the page element
  * @param {string} utilName the util name
- * @param {any} value the util call value
- * @param {any} value2 the util call value2
+ * @param {any} value the first param
+ * @param {any} value2 the second param
+ * @param {any} value3 the third param
  * @returns {unknown} the element that was inserted
  */
-export async function runFunction<T>(page: Page, utilName: string, value: any, value2?: any): Promise<T> {
+export async function runFunction<T>(page: Page, utilName: string, value: any, value2?: any, value3?: any): Promise<T> {
+  if (value3) {
+    // eslint-disable-next-line max-len
+    const returnValue = await page.evaluate((obj) => ((window as any).utils as any)[obj.utilName](obj.value, obj.value2, obj.value3), {
+      utilName, value, value2, value3
+    });
+    return returnValue;
+  }
+
   if (value2) {
     // eslint-disable-next-line max-len
     const returnValue = await page.evaluate((obj) => ((window as any).utils as any)[obj.utilName](obj.value, obj.value2), { utilName, value, value2 });
