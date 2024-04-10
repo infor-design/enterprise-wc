@@ -2,6 +2,10 @@
 
 :host {
   display: block;
+
+  &::part(popup) {
+    width: calc(100% - 32px);
+  }
 }
 
 .ids-message-status {
