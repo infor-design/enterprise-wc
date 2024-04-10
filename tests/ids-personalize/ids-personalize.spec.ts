@@ -30,7 +30,7 @@ test.describe('IdsPersonalize tests', () => {
   test.describe('functionality tests', () => {
     test('defaults to no background color', async ({ page }) => {
       const bgColor = await page.evaluate(() => getComputedStyle((document.querySelector('ids-header') as any).container).backgroundColor);
-      expect(bgColor).toEqual('rgba(0, 0, 0, 0)');
+      expect(bgColor).toEqual('rgb(255, 255, 255)');
     });
 
     test('can set personalization color with the api', async ({ page, browserName }) => {
