@@ -62,9 +62,9 @@ As an example for customizing the header color, and text colors you could do som
 
 ```css
 --ids-color-primary: var(--ids-color-blue-70);
---ids-color-text: var(--ids-color-neutral-100);
+--ids-color-text: var(--ids-color-gray-100);
 --ids-input-color-background-default: var(--ids-color-white-100);
---ids-input-color-border-default: var(--ids-color-neutral-100);
+--ids-input-color-border-default: var(--ids-color-gray-100);
 ```
 
 Using this technique one can customize everything from a simple primary color change to an entire new theme for a customer or future themes. We may not have got every component fully them-able the first go so make a request to add any further tokens to the components.

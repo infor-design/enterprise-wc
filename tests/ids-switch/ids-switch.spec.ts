@@ -43,17 +43,20 @@ test.describe('IdsSwitch tests', () => {
   test.describe('snapshot tests', () => {
     test('should match innerHTML snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-switch');
-      const html = await handle?.evaluate((el: IdsSwitch) => el?.outerHTML);
+      const html = await page.evaluate(() => {
+        const elem = document.querySelector('ids-switch')!;
+        elem.shadowRoot?.querySelector('style')?.remove();
+        return elem?.outerHTML;
+      });
       await expect(html).toMatchSnapshot('switch-html');
     });
 
     test('should match shadowRoot snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-switch');
-      const html = await handle?.evaluate((el: IdsSwitch) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
+      const html = await page.evaluate(() => {
+        const elem = document.querySelector('ids-switch')!;
+        elem.shadowRoot?.querySelector('style')?.remove();
+        return elem.shadowRoot?.innerHTML;
       });
       await expect(html).toMatchSnapshot('switch-shadow');
     });
@@ -61,6 +64,107 @@ test.describe('IdsSwitch tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-switch-light');
+    });
+  });
+
+  test.describe('functionality tests', () => {
+    test('should render checked attribute', async ({ page }) => {
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsSwitch>('ids-switch')!;
+        elem.checked = true;
+        return elem.checked;
+      });
+      await expect(await page.locator('ids-switch').first()).toHaveAttribute('checked');
+    });
+
+    test('should render as disabled', async ({ page }) => {
+      await expect(await page.locator('ids-switch').first()).not.toHaveAttribute('checked');
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsSwitch>('ids-switch')!;
+        elem.disabled = true;
+        return elem.disabled;
+      });
+      await expect(await page.locator('ids-switch').first()).toHaveAttribute('disabled');
+      await page.evaluate(() => {
+        const elem = document.querySelector<IdsSwitch>('ids-switch')!;
+        elem.disabled = false;
+        return elem.disabled;
+      });
+      await expect(await page.locator('ids-switch').first()).not.toHaveAttribute('disabled');
+    });
+
+    test('should be able set label text', async ({ page }) => {
+      const innerValue = await page.evaluate(() => {
+        const elem = document.querySelector<IdsSwitch>('ids-switch')!;
+        elem.label = 'test';
+        return elem.labelEl?.querySelector('.label-text')?.textContent;
+      });
+
+      expect(innerValue).toBe('test');
+
+      const innerValue2 = await page.evaluate(() => {
+        const elem = document.querySelector<IdsSwitch>('ids-switch')!;
+        elem.label = '';
+        return elem.labelEl?.querySelector('.label-text')?.textContent;
+      });
+
+      expect(innerValue2).toBe('');
+    });
+
+    test('should render value', async ({ page }) => {
+      let values = await page.evaluate(() => {
+        const elem = document.querySelector<IdsSwitch>('ids-switch')!;
+        elem.checked = true;
+        const before = elem.value;
+        elem.value = 'test';
+        return [before, elem.value];
+      });
+      await expect(values[0]).toBe('on');
+      await expect(values[1]).toBe('test');
+
+      values = await page.evaluate(() => {
+        const elem = document.querySelector<IdsSwitch>('ids-switch')!;
+        elem.checked = false;
+        const before = elem.value;
+        elem.value = 'test';
+        return [before, elem.value];
+      });
+      await expect(values[0]).toBe('');
+      await expect(values[1]).toBe('');
+    });
+
+    test('should dispatch native events', async ({ page }) => {
+      const values = await page.evaluate(() => {
+        const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+        const triggered = Array<string>();
+        events.forEach((evt: string) => {
+          let response = null;
+          const el = document.querySelector<IdsSwitch>('ids-switch')!;
+          el.addEventListener(evt, () => {
+            response = 'triggered';
+            triggered.push(response);
+          });
+          const event = new Event(evt);
+          el.input?.dispatchEvent(event);
+        });
+        return triggered;
+      });
+
+      await expect(values[0]).toBe('triggered');
+      await expect(values[1]).toBe('triggered');
+      await expect(values[2]).toBe('triggered');
+      await expect(values[3]).toBe('triggered');
+      await expect(values[4]).toBe('triggered');
+      await expect(values[5]).toBe('triggered');
+    });
+
+    test('can focus its inner Input element', async ({ page }) => {
+      const value = await page.evaluate(() => {
+        document.querySelector<IdsSwitch>('ids-switch')!.focus();
+        return document.activeElement?.shadowRoot?.innerHTML;
+      });
+
+      await expect(value).toContain('Allow notifications');
     });
   });
 });

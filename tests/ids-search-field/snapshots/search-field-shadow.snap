@@ -1,7 +1,7 @@
 <div id="ids-search-field" class="ids-search-field ids-trigger-field ids-input md has-clearable field-height-md" part="container">
-      <label class="ids-label-text required" for="input-id" part="label" required="">
+      <label class="ids-label-text required" part="label" required="">
       <slot name="label-pre"></slot>
-      <ids-text part="label" label="true" color-unset="">Products</ids-text>
+      <ids-text part="label" color-unset="">Products</ids-text>
       <slot name="label-post"></slot>
     </label>
       <div class="fieldset">
@@ -9,7 +9,7 @@
           <ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon>
           <slot name="trigger-start"></slot>
           
-          <input part="input" id="-input" type="text" class="ids-input-field start readonly-background" value="Anti-virus Software" autocomplete="off" aria-label="Products" aria-required="true" placeholder="Type to search" dirty-tracker="" clearable="" validate="required" label="Products"><ids-trigger-button part="clearable-button" class="btn-clear" no-margins=""><ids-text audible="true">clear</ids-text><ids-icon icon="close" size="small" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-trigger-button>
+          <input part="input" id="none-input" type="text" class="ids-input-field start readonly-background" value="Anti-virus Software" autocomplete="off" aria-label="Products" aria-required="true" placeholder="Type to search" dirty-tracker="" clearable="" validate="required" label="Products"><ids-trigger-button part="clearable-button" class="btn-clear" no-margins=""><ids-text audible="true">clear</ids-text><ids-icon icon="close" size="small" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-trigger-button>
           <slot name="trigger-end"></slot>
         </div>
         

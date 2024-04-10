@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Tooltip e2e Tests', () => {
+describe('Ids Tooltip Tests', () => {
   const url = 'http://localhost:4444/ids-tooltip/example.html';
 
   beforeAll(async () => {

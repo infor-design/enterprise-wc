@@ -58,7 +58,7 @@ const IdsFormInputMixin = <T extends Constraints>(superclass: T) => class extend
    */
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     super.attributeChangedCallback(name, oldValue, newValue);
-    if (oldValue === newValue || !this.formInput) return;
+    if (oldValue === newValue || !this.formInput || (name === attributes.ID)) return;
 
     if (name === attributes.VALUE) {
       if (!this.formInput) return;

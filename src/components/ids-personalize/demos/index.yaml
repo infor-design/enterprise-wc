@@ -8,3 +8,6 @@
   - link: example.html
     type: Main Example
     description: Showing a form with personalization
+  - link: using-ids-global.html
+    type: Ids Global Example
+    description: Showing accessing personalize through IdsGlobal

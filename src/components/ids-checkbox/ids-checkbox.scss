@@ -11,13 +11,14 @@
 }
 
 .ids-checkbox {
-  margin-bottom: var(--ids-space-40);
+  margin-bottom: var(--ids-space-xs);
 
   label {
     cursor: var(--ids-cursor-pointer);
     user-select: none;
     padding-block-start: 1px;
     padding-inline-start: 25px;
+    margin-inline-end: 10px;
     position: relative;
     display: inline-block;
 
@@ -28,13 +29,11 @@
     &.required .label-checkbox::after {
       position: absolute;
       font-family: var(--ids-font-family-default);
-      margin-inline-start: var(--ids-space-20);
-      margin-inline-end: var(--ids-space-20);
       font-size: var(--ids-font-size-50);
       color: var(--ids-input-required-indicator-color-text-default);
       content: '*';
-      right: -13px;
-      top: -2px;
+      right: -10px;
+      top: -3px;
     }
 
     &.no-required-indicator,
@@ -47,6 +46,7 @@
 
   &.disabled label {
     cursor: var(--ids-cursor-default);
+    opacity: var(--ids-checkbox-opacity-disabled);
 
     &.required .label-checkbox::after {
      color: var(--ids-input-required-indicator-color-text-disabled);
@@ -54,8 +54,8 @@
   }
 
   &.hitbox {
-    padding-top: var(--ids-space-50);
-    padding-bottom: var(--ids-space-50);
+    padding-top: var(--ids-space-12);
+    padding-bottom: var(--ids-space-12);
 
     label {
       padding-inline-start: 42px;
@@ -71,7 +71,7 @@
   }
 
   &.horizontal {
-    margin-inline-end: var(--ids-space-50);
+    margin-inline-end: var(--ids-space-12);
     display: inline-block;
   }
 
@@ -143,7 +143,7 @@
   @include checkbox.checkbox-colored();
 
   .validation-message {
-    margin-top: var(--ids-space-30);
+    margin-top: var(--ids-space-xxs);
     margin-inline-start: -1px;
   }
 
@@ -179,6 +179,6 @@
   }
 
   .ids-checkbox label {
-    padding-inline-start: var(--ids-space-60);
+    padding-inline-start: var(--ids-space-sm);
   }
 }

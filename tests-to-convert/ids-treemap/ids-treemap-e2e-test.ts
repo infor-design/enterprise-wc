@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Treemap e2e Tests', () => {
+describe('Ids Treemap Tests', () => {
   const url = 'http://localhost:4444/ids-treemap/example.html';
 
   beforeAll(async () => {

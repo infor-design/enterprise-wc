@@ -51,7 +51,7 @@ class IdsGlobal {
   }
 
   static get personalize(): IdsPersonalize {
-    return IdsGlobal.personalize;
+    return window.IdsGlobal.personalize!;
   }
 
   static get version(): string {

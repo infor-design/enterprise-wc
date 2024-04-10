@@ -230,7 +230,7 @@ export default class IdsAccordionHeader extends Base {
    * @returns {string} the currently-displayed icon, if applicable
    */
   get icon() {
-    return this.getAttribute('icon');
+    return this.getAttribute(attributes.ICON);
   }
 
   /**
@@ -239,9 +239,9 @@ export default class IdsAccordionHeader extends Base {
   set icon(val: string | null) {
     if (this.icon !== val) {
       if (typeof val !== 'string' || !val.length) {
-        this.removeAttribute('icon');
+        this.removeAttribute(attributes.ICON);
       } else {
-        this.setAttribute('icon', `${val}`);
+        this.setAttribute(attributes.ICON, `${val}`);
       }
 
       this.refreshIconDisplay(val);
@@ -256,8 +256,8 @@ export default class IdsAccordionHeader extends Base {
     const iconElem = this.container?.querySelector<IdsIcon>('.ids-accordion-display-icon');
 
     if (iconElem) {
-      iconElem.icon = iconDef;
-      this.container?.classList[iconDef.length ? 'add' : 'remove']('has-icon');
+      iconElem.setAttribute('icon', iconDef);
+      this.container?.classList.toggle('has-icon', !!iconDef.length);
     } else {
       this.container?.classList.remove('has-icon');
     }
@@ -266,9 +266,9 @@ export default class IdsAccordionHeader extends Base {
     const siblingsCanExpand = this.siblingsCanExpand;
     const expandable = this.panel.isExpandable;
 
-    this.container?.classList[hasParentIcon ? 'add' : 'remove']('parent-has-icon');
-    this.container?.classList[expandable ? 'add' : 'remove']('is-expandable');
-    this.container?.classList[siblingsCanExpand ? 'add' : 'remove']('siblings-can-expand');
+    this.container?.classList.toggle('parent-has-icon', !!hasParentIcon);
+    this.container?.classList.toggle('is-expandable', !!expandable);
+    this.container?.classList.toggle('siblings-can-expand', !!siblingsCanExpand);
   }
 
   /**

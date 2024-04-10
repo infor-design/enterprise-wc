@@ -150,7 +150,7 @@ test.describe('IdsDatePicker tests', () => {
       expect(datePickerValue.tabbable).toBeFalsy();
       expect(datePickerValue.showToday).toBeTruthy();
       expect(datePickerValue.firstDayOfWeek).toEqual(0);
-      expect(datePickerValue.id).toEqual('e2e-datepicker-value');
+      expect(datePickerValue.id).toEqual('datepicker-value');
       expect(datePickerValue.label).toEqual('Date Field');
       expect(datePickerValue.disabled).toBeFalsy();
       expect(datePickerValue.readonly).toBeFalsy();
@@ -671,8 +671,6 @@ test.describe('IdsDatePicker tests', () => {
         component.focus();
       });
       await page.keyboard.press('ArrowDown');
-      await page.waitForTimeout(100);
-
       const pickerVisible = await page.evaluate(() => {
         const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
         if (component.popup?.popup?.animated) {
@@ -684,7 +682,6 @@ test.describe('IdsDatePicker tests', () => {
       expect(pickerVisible).toBeTruthy();
 
       await page.keyboard.press('Escape');
-      await page.waitForTimeout(100);
 
       const pickerHidden = await page.evaluate(() => {
         const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;

@@ -5,8 +5,9 @@
   "editor.formatOnSave": false,
   "editor.formatOnPaste": false,
   "cssVariables.lookupFiles": [
-    "src/themes/default/ids-theme-default-core.scss",
-    "src/themes/default/ids-theme-default-colors.scss"
+    "node_modules/ids-foundation/theme-soho/core.scss",
+    "node_modules/ids-foundation/theme-soho/semantic-light.scss",
+    "src/themes/default/ids-theme-default-core.scss"
   ],
   "html.customData": [
     "vscode.html-custom-data.json"

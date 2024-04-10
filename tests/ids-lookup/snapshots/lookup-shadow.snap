@@ -1,6 +1,6 @@
 
-    <ids-trigger-field label="Normal Lookup (dirty-tracker)" part="trigger-field" value="102,103" clearable="true" dirty-tracker="true" size="md" field-height="md" class="field-height-md">
-      <ids-trigger-button slot="trigger-end" part="trigger-lookup" tabbable="" field-height="md">
+    <ids-trigger-field label="Normal Lookup (dirty-tracker)" part="trigger-field" value="102,103" clearable="true" dirty-tracker="true" size="md" field-height="md" id="lookup-1-trigger-field" class="field-height-md">
+      <ids-trigger-button slot="trigger-end" part="trigger-lookup" tabbable="" field-height="md" class="md">
         <ids-text audible="true">LookupTriggerButton</ids-text>
         <ids-icon icon="search-list" part="icon"></ids-icon>
       </ids-trigger-button>

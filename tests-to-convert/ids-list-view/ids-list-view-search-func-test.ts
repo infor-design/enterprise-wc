@@ -70,7 +70,7 @@ describe('IdsListView Search', () => {
     expect(listView.searchField).toBeFalsy();
   });
 
-  test('should renders search field thru slot', async () => {
+  test('should render search field thru slot', async () => {
     document.body.innerHTML = '';
     const html = '<ids-list-view><ids-search-field slot="search"></ids-search-field><template><ids-text type="h2">${subject}</ids-text></template></ids-list-view>'; //eslint-disable-line
 
@@ -79,7 +79,7 @@ describe('IdsListView Search', () => {
     expect(listView.querySelector('ids-search-field[slot="search"]')).toBeTruthy();
   });
 
-  test('should renders search field thru id', async () => {
+  test('should render search field thru id', async () => {
     const id = 'lv-searchfield-1';
     const html = `<ids-search-field id="${id}"></ids-search-field>`;
     await createFromTemplate(null, html, container);

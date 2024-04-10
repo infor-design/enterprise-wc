@@ -1,4 +1,3 @@
-import fontSizes from 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -36,6 +35,8 @@ export default class IdsHyperlink extends Base {
   connectedCallback() {
     super.connectedCallback();
     if (!(this.getAttribute('role'))) this.setAttribute('role', 'link');
+
+    this.#attachEventHandlers();
   }
 
   /**
@@ -53,8 +54,23 @@ export default class IdsHyperlink extends Base {
       attributes.FONT_WEIGHT,
       attributes.HREF,
       attributes.TARGET,
-      attributes.TEXT_DECORATION
+      attributes.TEXT_DECORATION,
+      attributes.SHOW_VISITED_COLOR
     ];
+  }
+
+  /**
+   * Attaches event handlers
+   * @private
+   * @returns {void}
+   */
+  #attachEventHandlers(): void {
+    this.onEvent('click.ids-hyperlink', this, (e: Event) => {
+      if (this.disabled) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    });
   }
 
   /**
@@ -149,6 +165,26 @@ export default class IdsHyperlink extends Base {
   }
 
   /**
+   * Show/Hide the visited color on the link
+   * @param {boolean} value if true visited color is shown
+   */
+  set showVisitedColor(value: boolean) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.SHOW_VISITED_COLOR, '');
+      this.container?.classList.add('show-visited-color');
+      this.container?.setAttribute('tabindex', '-1');
+      return;
+    }
+    this.removeAttribute(attributes.SHOW_VISITED_COLOR);
+    this.container?.classList.add('show-visited-color');
+  }
+
+  get showVisitedColor(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_VISITED_COLOR)) || false;
+  }
+
+  /**
    * Set the text to disabled color.
    * @param {boolean} value True if disabled
    */
@@ -188,14 +224,29 @@ export default class IdsHyperlink extends Base {
     return this.getAttribute(attributes.COLOR);
   }
 
+  fontSizes = [
+    { 10: '10px' },
+    { 12: '12px' },
+    { 14: '14px' },
+    { 16: '16px' },
+    { 20: '20px' },
+    { 24: '24px' },
+    { 28: '28px' },
+    { 32: '32px' },
+    { 40: '40px' },
+    { 48: '48px' },
+    { 60: '60px' },
+    { 72: '72px' }
+  ];
+
   /**
    * Set the font size/style of the text with a class.
    * @param {string | null} value The font size in the font scheme
    * i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set fontSize(value: string | null) {
-    fontSizes?.forEach((size: string) => {
-      this.container?.classList.remove(`ids-text-${Object.keys(size)}`);
+    this.fontSizes?.forEach((string: any) => {
+      this.container?.classList.remove(`ids-text-${Object.keys(string)}`);
     });
 
     if (value) {

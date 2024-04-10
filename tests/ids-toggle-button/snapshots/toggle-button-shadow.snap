@@ -1,4 +1,4 @@
-<button part="button" class="hide-focus ids-button" tabindex="0" aria-label="Toggle Button (Off)">
+<button part="button" type="button" class="hide-focus ids-button" tabindex="0" aria-label="Favorite">
       <slot></slot>
       <slot name="loading-indicator"></slot>
     </button>

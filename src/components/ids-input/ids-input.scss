@@ -43,6 +43,11 @@ $input-size-full: 100%;
     border-color: var(--ids-input-color-border-error-default);
     color: var(--ids-input-error-color-text-error-default);
 
+    &.field-container:not(:focus-within) {
+      border-color: var(--ids-input-color-border-error-default);
+      color: var(--ids-input-error-color-text-error-default);
+    }
+
     &:focus-within,
     &.is-active {
       border-color: var(--ids-input-color-border-error-default);
@@ -169,8 +174,8 @@ $input-size-full: 100%;
     &::after {
       position: relative;
       font-family: var(--ids-font-family-default);
-      margin-inline-start: var(--ids-space-20);
-      margin-inline-end: var(--ids-space-20);
+      margin-inline-start: var(--ids-space-xxxs);
+      margin-inline-end: var(--ids-space-xxxs);
       font-size: var(--ids-font-size-50);
       color: var(--ids-input-required-indicator-color-text-default);
       content: '*';
@@ -195,7 +200,8 @@ $input-size-full: 100%;
 
 .disabled {
   .ids-label-text {
-    color: var(--ids-color-text-disabled);
+    color: var(--ids-input-label-color-text-disabled);
+    opacity: var(--ids-input-disabled-opacity);
 
     &.required::after {
       color: var(--ids-input-required-indicator-color-text-disabled);
@@ -216,8 +222,8 @@ $input-size-full: 100%;
   }
 
   .ids-input-field {
-    padding-inline-start: var(--ids-space-30);
-    padding-inline-end: var(--ids-space-30);
+    padding-inline-start: var(--ids-space-xxs);
+    padding-inline-end: var(--ids-space-xxs);
     padding-top: 0;
     padding-bottom: 0;
     font-size: var(--ids-input-font-size-sm);
@@ -254,7 +260,7 @@ $input-size-full: 100%;
 .ids-input {
   position: relative;
   display: block;
-  margin-block-end: var(--ids-space-60);
+  margin-block-end: var(--ids-space-sm);
   max-width: var(--ids-input-width-full);
 
   // Applied to the wrapper element that wraps the input and other interactable elements
@@ -285,16 +291,16 @@ $input-size-full: 100%;
 
     .field-container {
       border-color: var(--ids-input-color-border-focus);
-      box-shadow: var(--ids-shadow-focus);
+      box-shadow: var(--ids-input-color-border-shadow);
     }
   }
 
   .ids-icon.starting-icon {
-    margin-inline-start: var(--ids-space-40);
+    margin-inline-start: var(--ids-space-xs);
   }
 
   .ids-icon.ending-icon {
-    margin-inline-end: var(--ids-space-40);
+    margin-inline-end: var(--ids-space-xs);
   }
 
   // Applied to the shadow root's HTMLInputElement
@@ -305,10 +311,10 @@ $input-size-full: 100%;
     background-color: transparent;
     border: none;
     font-family: var(--ids-font-family-default);
-    padding-block-start: var(--ids-space-30);
-    padding-block-end: var(--ids-space-30);
-    padding-inline-start: var(--ids-space-40);
-    padding-inline-end: var(--ids-space-40);
+    padding-block-start: var(--ids-space-xxs);
+    padding-block-end: var(--ids-space-xxs);
+    padding-inline-start: var(--ids-space-12);
+    padding-inline-end: var(--ids-space-12);
     font-size: var(--ids-input-font-size);
     width: 100%;
 
@@ -348,7 +354,7 @@ $input-size-full: 100%;
 
   // Validation Messages are appended beneath the `.field-container`
   .validation-message {
-    margin-block-start: var(--ids-space-30);
+    margin-block-start: var(--ids-space-xxs);
     margin-bottom: 0;
   }
 
@@ -374,7 +380,7 @@ $input-size-full: 100%;
     // Reverse the margins on `ids-input[no-margins]` fields to have the bottom margin on top
     .validation-message {
       margin-bottom: 0;
-      margin-block-start: var(--ids-space-30);
+      margin-block-start: var(--ids-space-xxs);
     }
 
     .ids-label-text {
@@ -505,26 +511,26 @@ $input-size-full: 100%;
 
     &.ids-input.field-height-lg {
       .ids-input-field {
-        padding-inline: calc(var(--ids-space-60) - 2px);
+        padding-inline: calc(var(--ids-space-sm) - 2px);
       }
     }
 
     &.ids-input.field-height-md {
       .ids-input-field {
-        padding-inline: calc(var(--ids-space-50) - 2px);
+        padding-inline: calc(var(--ids-space-12) - 2px);
       }
     }
 
     &.ids-input.field-height-sm {
       .ids-input-field {
-        padding-inline: calc(var(--ids-space-40) - 2px);
+        padding-inline: calc(var(--ids-space-xs) - 2px);
       }
     }
 
     &.ids-input.field-height-xs {
       .ids-input-field {
         font-size: var(--ids-data-grid-font-size-sm);
-        padding-inline: var(--ids-space-20);
+        padding-inline: var(--ids-space-xxxs);
       }
 
       slot[name="trigger-end"]  {
@@ -535,7 +541,7 @@ $input-size-full: 100%;
     &.ids-input.field-height-xxs {
       .ids-input-field {
         font-size: var(--ids-data-grid-font-size-sm);
-        padding-inline: var(--ids-space-10);
+        padding-inline: var(--ids-space-xxxxs);
       }
 
       slot[name="trigger-end"]  {
@@ -628,12 +634,11 @@ $input-size-full: 100%;
   // =======================================================
   // Color Styles
 
-
   &:not([class*='color-variant-']) {
     .field-container:not(:focus-within) {
       background-color: var(--ids-input-color-background-default);
       border-color: var(--ids-input-color-border-default);
-      color: var(--ids-input-color-text);
+      color: var(--ids-input-color-text-default);
     }
 
     &.readonly {
@@ -662,6 +667,7 @@ $input-size-full: 100%;
       &:focus-within .field-container {
         border-color: var(--ids-input-color-border-disabled);
         color: var(--ids-input-color-text-disabled);
+        opacity: var(--ids-input-disabled-opacity);
 
         // Safari input text color
         -webkit-text-fill-color: var(--ids-input-color-text-disabled);
@@ -714,7 +720,6 @@ $input-size-full: 100%;
   }
 
   // Alternate Color Variant (used in IdsHeader - Search)
-  /* stylelint-disable-next-line no-duplicate-selectors */
   &.color-variant-alternate {
     .field-container {
       border-color: var(--ids-input-header-color-border);
@@ -722,6 +727,11 @@ $input-size-full: 100%;
       background-color: var(--ids-input-header-color-background);
       border-bottom: 1px solid var(--ids-input-header-color-border);
       box-shadow: none;
+    }
+
+    &:focus-within .field-container {
+      border-color: var(--ids-input-color-border-focus);
+      box-shadow: var(--ids-input-color-border-shadow);
     }
 
     .ids-input-field {
@@ -761,7 +771,7 @@ $input-size-full: 100%;
       }
 
       .ids-input-field {
-        box-shadow: 0 0 3px 1px var(--ids-shadow-focus);
+        box-shadow: var(--ids-input-color-border-shadow);
       }
     }
 
@@ -787,7 +797,7 @@ $input-size-full: 100%;
   // App Menu
   &.color-variant-app-menu {
     .field-container {
-      color: var(--ids-input-color-text-default);
+      color: var(--ids-input-color-text-app-menu);
     }
   }
 

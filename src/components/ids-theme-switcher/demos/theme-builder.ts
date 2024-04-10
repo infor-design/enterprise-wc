@@ -275,6 +275,45 @@ const appendStyleSheet = () => {
     --ids-color-primary-100: ${primary100};
     --ids-color-background-default: ${backgroundColor.value};
     --ids-color-text: ${textColor.value};
+    --ids-header-input-color-border-hover: transparent;
+    --ids-header-color-background:  var(--ids-color-primary);
+    --ids-header-color-border-bottom:  var(--ids-color-primary-80);
+    --ids-header-color-text: ${textColor.value};
+    --ids-header-button-color-text-default:${textColor.value};
+    --ids-header-button-color-background-hover: rgba(0, 0, 0, .3);
+    --ids-header-button-color-border-hover: rgba(0, 0, 0, .3);
+    --ids-header-button-color-text-hover: ${primary80};
+    --ids-header-button-color-text-disabled: ${adjustColor(primary80, 0.45)};
+    --ids-button-primary-color-background-default:  var(--ids-color-primary);
+    --ids-button-primary-color-border-default:  var(--ids-color-primary);
+    --ids-button-primary-color-background-hover: var(--ids-color-primary-80);
+    --ids-button-primary-color-border-hover: var(--ids-color-primary-80);
+    --ids-button-primary-color-background-disabled: var(--ids-color-primary);
+    --ids-button-primary-color-border-disabled:  var(--ids-color-primary);
+    --ids-button-primary-color-border-focus: var(--ids-color-primary);
+    --ids-button-primary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
+    --ids-button-secondary-color-border-default: var(--ids-color-primary);
+    --ids-button-secondary-color-text-default: var(--ids-color-primary);
+    --ids-button-secondary-color-border-disabled: var(--ids-color-primary);
+    --ids-button-secondary-color-text-disabled: var(--ids-color-primary);
+    --ids-button-secondary-color-background-hover: var(--ids-color-primary-10);
+    --ids-button-secondary-color-border-hover: var(--ids-color-primary-70);
+    --ids-button-secondary-color-text-hover: var(--ids-color-primary-70);
+    --ids-button-secondary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
+    --ids-button-secondary-color-border-focus: var(--ids-color-primary-80);
+    --ids-button-tertiary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
+    --ids-button-tertiary-color-border-focus: var(--ids-color-primary-80);
+    --ids-checkbox-color-background-selected: var(--ids-color-primary);
+    --ids-checkbox-color-border-selected: var(--ids-color-primary);
+    --ids-checkbox-color-border-focus: var(--ids-color-primary);
+    --ids-checkbox-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
+    --ids-input-color-border-focus: var(--ids-color-primary);
+    --ids-shadow-focus: 0px 0px 6px 0px ${adjustColor(primaryColor.value, 0.4)};
+    --ids-hyperlink-color-text-default: var(--ids-color-primary);
+    --ids-hyperlink-color-text-hover: var(--ids-color-primary-80);
+    --ids-progress-bar-fill-color-background: var(--ids-color-primary);
+    --ids-tab-color-text-selected: var(--ids-color-primary);
+    --ids-tab-color-text-selected: var(--ids-color-primary);
   }`;
 
   const doc = (document.head as any);
@@ -417,7 +456,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Date Picker
 // =================================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  const datePickerLegend: any = document.querySelector('#e2e-datepicker-legend');
+  const datePickerLegend: any = document.querySelector('#datepicker-legend');
 
   if (datePickerLegend) {
     datePickerLegend.legend = [

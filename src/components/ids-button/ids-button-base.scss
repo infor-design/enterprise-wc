@@ -2,7 +2,6 @@
  * Ids Button Sass mixins, used in Ids Button CSS to define base styles.
  */
 @use '../../themes/mixins/ids-core-mixins' as mixins;
-@import '../../themes/mixins/ids-ripple-mixin';
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
 @mixin blank-shadow() {
@@ -13,8 +12,7 @@
 @mixin outset-button-shadow($bg-color, $border-color) {
   box-shadow:
     0 0 0 2px $bg-color, // bg color
-    0 0 0 3px $border-color, // primary color (border)
-    0 0 4px 3px $border-color // primary color (shadowy-part)
+    0 0 0 3px $border-color
 }
 
 // Used to make the focus "border" on non-solid buttons (modal buttons, etc)
@@ -34,8 +32,8 @@
   font-family: var(--ids-font-family-default);
   font-size: var(--ids-font-size-40);
   overflow: hidden;
-  padding-bottom: calc(var(--ids-space-40) - 2px);
-  padding-top: calc(var(--ids-space-40) - 2px);
+  padding-bottom: calc(var(--ids-space-xs) - 2px);
+  padding-top: calc(var(--ids-space-xs) - 2px);
   position: relative;
 
   &,
@@ -86,7 +84,7 @@
   }
 
   &:not(.ids-icon-button) ::slotted(ids-icon) {
-    padding-inline-end: var(--ids-space-30);
+    padding-inline-end: calc(var(--ids-space-xxs) + 5px);
   }
 
   .ids-icon {
@@ -98,7 +96,7 @@
 
   &.align-icon-end {
     ::slotted(ids-icon) {
-      padding-inline-start: var(--ids-space-30);
+      padding-inline-start: var(--ids-space-xxs);
     }
   }
 
@@ -114,9 +112,8 @@
     margin-inline: var(--ids-space-none);
   }
 
-  // Account for 2px borders on secondary buttons
-  &:not(.btn-secondary):not(.no-margins) {
-    margin: var(--ids-space-10);
+  &:not(.no-margins) {
+    margin: var(--ids-space-xxxs);
   }
 
   &.field-height-xxs:not(.btn-secondary):not(.no-margins) {
@@ -136,11 +133,11 @@
  * Provides standardized padding rules for certain button types
  */
 @mixin ids-standard-button-padding() {
-  padding-inline: var(--ids-space-90);
+  padding-inline: var(--ids-button-padding-inline);
 }
 
 @mixin ids-inline-button-padding() {
-  padding-inline: var(--ids-space-50);
+  padding-inline: var(--ids-space-12);
 }
 
 /**
@@ -149,10 +146,11 @@
 @mixin ids-standard-button-colors() {
   display: inline-flex;
   font-weight: var(--ids-button-tertiary-font-weight);
-  border-radius: var(--ids-border-radius-03);
+  border-radius: var(--ids-button-radius);
 
   // ====================================================
   // Default/Tertiary Button
+  background-color: var(--ids-button-tertiary-color-background-default);
   border-color: var(--ids-button-tertiary-color-border-default);
   color: var(--ids-button-tertiary-color-text-default);
 
@@ -164,39 +162,44 @@
   &:hover {
     color: var(--ids-button-tertiary-color-text-hover);
     background-color: var(--ids-button-tertiary-color-background-hover);
+    border-color: var(--ids-button-tertiary-color-border-hover);
   }
 
   &[disabled] {
     color: var(--ids-button-tertiary-color-text-disabled);
-    background-color: var(--ids-button-tertiary-disabled-background-color);
+    background-color: var(--ids-button-tertiary-color-background-disabled);
+    border-color: var(--ids-button-tertiary-color-border-disabled);
+    opacity: var(--ids-button-tertiary-opacity-disabled);
   }
 
-  .ripple-effect {
+  &:active {
     background-color: var(--ids-button-tertiary-color-background-pressed);
+    border-color: var(--ids-button-tertiary-color-border-pressed);
+    color: var(--ids-button-tertiary-color-text-pressed);
   }
 
   // ====================================================
   // Tertiary Destructive Button
   &.btn-tertiary-destructive {
-    color: var(--ids-color-error-default);
+    background-color: var(--ids-button-destructive-tertiary-color-background-default);
+    border-color: var(--ids-button-destructive-tertiary-color-border-default);
+    color: var(--ids-button-destructive-tertiary-color-text-default);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      border-color: var(--ids-color-error-70);
+      border-color: var(--ids-button-destructive-tertiary-color-border-focus);
     }
 
     &:hover {
-      background-color: var(--ids-button-destructive-color-background-hover);
-      color: var(--ids-color-error-70);
+      background-color: var(--ids-button-destructive-tertiary-color-background-hover);
+      border-color: var(--ids-button-destructive-tertiary-color-border-hover);
+      color: var(--ids-button-destructive-tertiary-color-text-hover);
     }
 
     &[disabled] {
-      color: var(--ids-button-tertiary-color-text-disabled);
-      background-color: transparent;
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-color-error-default);
+      color: var(--ids-button-destructive-tertiary-color-text-disabled);
+      background-color: var(--ids-button-destructive-tertiary-color-background-disabled);
+      border-color: var(--ids-button-destructive-tertiary-color-border-disabled);
     }
   }
 
@@ -208,8 +211,8 @@
     border-color: var(--ids-button-primary-color-border-default);
     border: 1px solid var(--ids-button-primary-color-border-default);
     color: var(--ids-button-primary-color-text-default);
-    padding-bottom: calc(var(--ids-space-40) - 1px);
-    padding-top: calc(var(--ids-space-40) - 1px);
+    padding-bottom: calc(var(--ids-space-xs) - 2px);
+    padding-top: calc(var(--ids-space-xs) - 2px);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -225,10 +228,7 @@
       background-color: var(--ids-button-primary-color-background-disabled);
       border-color: var(--ids-button-primary-color-border-disabled);
       color: var(--ids-button-primary-color-text-disabled);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-button-primary-color-background-pressed);
+      opacity: var(--ids-button-primary-opacity-disabled);
     }
   }
 
@@ -236,34 +236,32 @@
   // Primary Destructive Button
 
   &.btn-primary-destructive {
-    background-color: var(--ids-color-error-default);
-    border-color: var(--ids-color-error-default);
-    color: var(--ids-color-text-on-error);
+    background-color: var(--ids-button-destructive-color-background-default);
+    border-color: var(--ids-button-destructive-color-border-default);
+    color: var(--ids-button-destructive-color-text-default);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      border-color: var(--ids-color-error-default);
+      border-color: var(--ids-button-destructive-color-border-focus);
     }
 
     &:hover {
-      background-color: var(--ids-color-error-70);
-      border-color: var(--ids-color-error-70);
+      background-color: var(--ids-button-destructive-color-background-hover);
+      border-color: var(--ids-button-destructive-color-border-hover);
+      color: var(--ids-button-destructive-color-text-hover);
     }
 
     &[disabled] {
-      background-color: var( --ids-button-primary-color-background-disabled);
-      border-color: var(--ids-button-primary-color-border-disabled);
-      color: var(--ids-button-primary-color-text-disabled);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-color-text-on-error);
+      background-color: var(--ids-button-destructive-color-background-disabled);
+      border-color: var(--ids-button-destructive-color-border-disabled);
+      color: var(--ids-button-destructive-color-text-disabled);
+      opacity: var(--ids-button-destructive-opacity-disabled);
     }
   }
 
   // ====================================================
   // Primary Generative AI Button
-  
+
   @keyframes dot-flashing {
     0% {
       background-color: #fff;
@@ -291,7 +289,8 @@
     position: relative;
     flex-direction: row;
     gap: 2px;
-    padding-inline: 7px;
+    padding-inline-start: 7px;
+    padding-inline-end: 3px;
 
     .dot {
       display: inline-flex;
@@ -303,7 +302,7 @@
       color: #FFF;
     }
   }
-  
+
   &.btn-primary-generative-ai {
     background: border-box var(--ids-button-ai-color-background-default);
     color: #FFF;
@@ -313,6 +312,7 @@
 
     &:hover {
       background: border-box var(--ids-button-ai-color-background-hover);
+      border-color: var(--ids-button-ai-color-border-hover);
     }
 
     &:active,
@@ -337,12 +337,12 @@
         animation: dot-flashing 1s infinite alternate;
         animation-delay: 0s;
       }
-    
+
       .dot:nth-child(2) {
         animation: dot-flashing 1s infinite linear alternate;
         animation-delay: 0.5s;
       }
-    
+
       .dot:nth-child(3) {
         animation: dot-flashing 1s infinite alternate;
         animation-delay: 1s;
@@ -362,6 +362,7 @@
     &:hover {
       background: var(--ids-button-ai-color-background-hover);
       background-clip: text;
+      border-color: transparent;
       -webkit-text-fill-color: transparent;
 
       ::slotted(ids-icon[icon="insights-smart-panel"]) {
@@ -381,12 +382,10 @@
       background: var(--ids-button-tertiary-ai-color-background-disabled);
       background-clip: text;
       -webkit-text-fill-color: transparent;
+      opacity: var(--ids-button-ai-opacity-disabled);
 
       ::slotted(ids-icon[icon="insights-smart-panel"]) {
-        opacity: .5;
-
-        --ids-button-ai-color-icon-primary: var(--ids-button-ai-color-icon-primary-disabled);
-        --ids-button-ai-color-icon-secondary: var(--ids-button-ai-color-icon-secondary-disabled);
+        opacity: var(--ids-button-ai-opacity-disabled);
       }
     }
 
@@ -396,12 +395,12 @@
         animation: dot-flashing-colors 1s infinite alternate;
         animation-delay: 0s;
       }
-    
+
       .dot:nth-child(2) {
         animation: dot-flashing-colors 1s infinite linear alternate;
         animation-delay: 0.5s;
       }
-    
+
       .dot:nth-child(3) {
         animation: dot-flashing-colors 1s infinite alternate;
         animation-delay: 1s;
@@ -421,21 +420,27 @@
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
+      background-color: var(--ids-button-secondary-color-background-focus);
       border-color: var(--ids-button-secondary-color-border-focus);
     }
 
     &:hover {
       background-color: var(--ids-button-secondary-color-background-hover);
+      border-color: var(--ids-button-secondary-color-border-hover);
+      color: var(--ids-button-secondary-color-text-hover);
     }
 
     &[disabled] {
       background-color: var(--ids-button-secondary-color-background-disabled);
       border-color: var(--ids-button-secondary-color-border-disabled);
       color: var(--ids-button-secondary-color-text-disabled);
+      opacity: var(--ids-button-secondary-opacity-disabled);
     }
 
-    .ripple-effect {
+    &:active {
       background-color: var(--ids-button-secondary-color-background-pressed);
+      border-color: var(--ids-button-secondary-color-border-pressed);
+      color: var(--ids-button-secondary-color-text-pressed);
     }
   }
 
@@ -485,14 +490,12 @@
       background-color: transparent;
       opacity: var(--ids-button-formatter-opacity-disabled);
     }
-
-    .ripple-effect {
-      background-color: var(--ids-button-alternate-color-background-pressed);
-    }
   }
 
   // Used on Editor and List Builder "darker" toolbars
   &.color-variant-alternate-formatter {
+    background-color: var(--ids-button-formatter-color-background-default);
+    border-color: var(--ids-button-formatter-color-border-default);
     color: var(--ids-button-formatter-color-text-default);
     margin-top: 2px;
     height: var(--ids-button-formatter-size);
@@ -512,20 +515,16 @@
       color: var(--ids-button-formatter-color-text-hover);
     }
 
-    .ripple-effect {
-      background-color: var(--ids-color-primary-light);
-    }
-
     &.is-active {
       color: var(--ids-button-formatter-color-active);
     }
 
     &.ids-menu-button.compact {
-      padding: var(--ids-space-30);
-      padding-inline: var(--ids-space-30);
+      padding: var(--ids-space-xxs);
+      padding-inline: var(--ids-space-xxs);
 
       &.square {
-        border-radius: var(--ids-border-radius-02);
+        border-radius: var(--ids-border-radius-xs);
       }
     }
   }
@@ -576,7 +575,7 @@
   &.btn-tertiary-destructive {
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
-      box-shadow: var(--ids-shadow-error);
+      box-shadow: var(--ids-button-destructive-tertiary-shadow-focus);
     }
   }
 
@@ -654,11 +653,7 @@
     }
 
     &[disabled] {
-      opacity: 0.3;
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-modal-button-color-default);
+      opacity: var(--ids-button-primary-opacity-disabled);
     }
   }
 
@@ -668,7 +663,7 @@
   &.btn-secondary,
   &.btn-tertiary {
     background-color: var(--ids-modal-color-background);
-    color: var(--ids-color-neutral-80);
+    color: var(--ids-color-gray-80);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -676,16 +671,12 @@
     }
 
     &:hover {
-      color: var(--ids-color-neutral-100);
+      color: var(--ids-color-gray-100);
     }
 
     &[disabled] {
       background-color: var(--ids-button-secondary-color-border-disabled);
       border-color: var(--ids-button-secondary-color-border-disabled);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-color-primary-70);
     }
   }
 }

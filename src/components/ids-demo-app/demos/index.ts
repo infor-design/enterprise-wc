@@ -16,7 +16,7 @@ import buttonYaml from '../../ids-button/demos/index.yaml';
 import calendarYaml from '../../ids-calendar/demos/index.yaml';
 import cardYaml from '../../ids-card/demos/index.yaml';
 import checkboxYaml from '../../ids-checkbox/demos/index.yaml';
-import checkboxGroupYaml from '../../ids-checkbox-group/demos/index.yaml';
+
 import colorYaml from '../../ids-color/demos/index.yaml';
 import colorPickerYaml from '../../ids-color-picker/demos/index.yaml';
 import containerYaml from '../../ids-container/demos/index.yaml';
@@ -137,7 +137,6 @@ addYaml(buttonYaml);
 addYaml(calendarYaml);
 addYaml(cardYaml);
 addYaml(checkboxYaml);
-addYaml(checkboxGroupYaml);
 addYaml(colorYaml);
 addYaml(colorPickerYaml);
 addYaml(containerYaml);

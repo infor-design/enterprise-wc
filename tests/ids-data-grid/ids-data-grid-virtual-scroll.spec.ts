@@ -128,5 +128,56 @@ test.describe('IdsDataGrid virtual scroll tests', () => {
       expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.selectedRows.length)).toBe(0);
       expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.datasource.currentData[999].rowSelected)).toBeFalsy();
     });
+
+    test('should scroll rows into view', async ({ page }) => {
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.scrollRowIntoView(400);
+      });
+      let row = await page.locator('ids-data-grid ids-data-grid-row[row-index="400"]');
+      expect(await row.isVisible()).toBeTruthy();
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.scrollRowIntoView(0);
+      });
+      row = await page.locator('ids-data-grid ids-data-grid-row[row-index="0"]');
+      expect(await row.isVisible()).toBeTruthy();
+    });
+
+    test('should scroll rows into view for tree grid', async ({ page }) => {
+      await page.goto('/ids-data-grid/tree-grid-virtual-scroll.html');
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.scrollRowIntoView(200);
+      });
+      let row = await page.locator('ids-data-grid ids-data-grid-row[row-index="200"]');
+      expect(await row.isVisible()).toBeTruthy();
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.scrollRowIntoView(0);
+      });
+      row = await page.locator('ids-data-grid ids-data-grid-row[row-index="0"]');
+      expect(await row.isVisible()).toBeTruthy();
+      // scroll to hidden row
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.updateDataset(111, { rowHidden: true });
+        elem.rowByIndex(111)?.refreshRow();
+        elem.data[111].rowHidden = true;
+        elem.scrollRowIntoView(111);
+      });
+    });
+
+    test('should not create duplicate ids-dropdown-list elements in DOM when data reset', async ({ page }) => {
+      await page.goto('/ids-data-grid/multiple-virtual-scroll.html');
+      const dataGrid = await page.locator('ids-data-grid#data-grid-1');
+      const dropdownlistCount = await dataGrid.evaluate((elem: IdsDataGrid) => {
+        elem.data = elem.data; // reset data once
+        elem.data = elem.data; // reset data twice
+        elem.data = elem.data; // reset data thrice
+
+        const dropdownLists = elem.shadowRoot?.querySelectorAll('ids-dropdown-list');
+        return dropdownLists?.length;
+      });
+
+      expect(dropdownlistCount).toBe(1);
+    });
   });
 });

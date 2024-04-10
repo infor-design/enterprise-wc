@@ -4,9 +4,6 @@ declare module '*.css';
 declare module '*.json';
 declare module '*.yaml';
 
-// For IDS Identity Stuff
-declare module 'ids-identity/dist/theme-new/tokens/web/ui.config.font-sizes';
-
 // For Image Imports
 declare module '*.png';
 declare module '*.jpg';

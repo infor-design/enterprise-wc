@@ -1,7 +1,7 @@
 import { AxePuppeteer } from '@axe-core/puppeteer';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Hidden e2e Tests', () => {
+describe('Ids Hidden Tests', () => {
   const url = 'http://localhost:4444/ids-hidden/example.html';
 
   test('should show hidden-1 el when on medium screens and down', async () => {
