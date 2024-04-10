@@ -312,6 +312,8 @@
   --ids-modal-footer-color-border: var(--ids-color-gray-50);
   --ids-modal-button-color-default: var(--ids-color-primary-40);
   --ids-modal-button-color-hover: var(--ids-color-primary-30);
+  --ids-modal-button-secondary-color-default: var(--ids-color-grey-30);
+  --ids-modal-button-secondary-color-hover: var(--ids-color-grey-10);
   --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary-30);
 
   // Module Nav (Main)
@@ -390,8 +392,8 @@
   --ids-calendar-month-view-range-color-background-compact-selected: var(--ids-color-primary-60);
 
   // Overlay
-  --ids-overlay-background-color: 0 0 0;
-  --ids-overlay-page-background-color: 0 0 0;
+  --ids-overlay-background-color: var(--ids-color-gray-100);
+  --ids-overlay-page-background-color: var(--ids-color-gray-100);
 
   // Pie chart
   --ids-chart-pie-color-text: var(--ids-color-gray-30);
