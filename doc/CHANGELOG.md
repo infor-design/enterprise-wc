@@ -6,6 +6,7 @@
 
 - `[About]` Added the ability to copy stats to the clipboard with a button. ([#2176](https://github.com/infor-design/enterprise-wc/issues/2176))
 - `[Slider]` Step number has been changed to the number of steps between start and end step. ([#2091](https://github.com/infor-design/enterprise-wc/issues/2091))
+- `[Swaplist]` Step number has been changed to the number of steps between start and end step. ([#1702](https://github.com/infor-design/enterprise-wc/issues/1702))
 
 ## 1.0.0-beta.23
 
