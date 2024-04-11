@@ -1401,6 +1401,38 @@ test.describe('IdsDataGrid tests', () => {
       expect(results.expandedAttrCollapsed).toEqual('false');
       expect(results.expandedHiddenCollapsed).toBeTruthy();
     });
+
+    test('should not have visual regressions in percy (expandable-row)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-data-grid/expandable-row.html');
+      let rowsExpanded = await page.evaluate(() => {
+        const dataGridAllowManyExpanded = document.querySelectorAll<any>('ids-data-grid')[0];
+        dataGridAllowManyExpanded.rows[0].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowManyExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowManyExpanded.rows[1].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowManyExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowManyExpanded.rows[2].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowManyExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+
+        return dataGridAllowManyExpanded.shadowRoot.querySelectorAll('ids-data-grid-row[aria-expanded="true"]').length;
+      });
+
+      expect(rowsExpanded).toBe(3);
+
+      rowsExpanded = await page.evaluate(() => {
+        const dataGridAllowOneExpanded = document.querySelectorAll<any>('ids-data-grid')[1];
+        dataGridAllowOneExpanded.rows[0].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowOneExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowOneExpanded.rows[1].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowOneExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowOneExpanded.rows[2].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowOneExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+
+        return dataGridAllowOneExpanded.shadowRoot.querySelectorAll('ids-data-grid-row[aria-expanded="true"]').length;
+      });
+
+      expect(rowsExpanded).toBe(1);
+    });
   });
 
   test.describe('tree grid tests', () => {
