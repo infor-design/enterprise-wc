@@ -136,7 +136,7 @@ The value can be use: start, end, flex-start, flex-end, center, left, right, spa
 ```
 
 Example of flex with wrap (wrap).
-The value can be use: nowrap, wrap, wrap-reverse
+The value can be use: `nowrap`, `wrap`, `wrap-reverse`
 
 ```html
 <ids-layout-flex wrap="wrap">
@@ -200,6 +200,23 @@ The value can be use: 0, 1
   <ids-layout-flex-item>
     <ids-text font-size="12">test</ids-text>
   </ids-layout-flex-item>
+</ids-layout-flex>
+```
+
+You can also make a flex item into a scrollable area using the `ids-scroll-container` separate min-component.
+
+```html
+  <ids-layout-flex direction="column" gap="0" full-height>
+    <ids-layout-flex-item>
+      <ids-header>
+      </ids-header>
+    </ids-layout-flex-item>
+
+    <ids-layout-flex-item grow="1" overflow="hidden">
+      <ids-scroll-container>
+        <!--Scrollable contents-->
+       </ids-scroll-container>
+    </ids-layout-flex-item>
 </ids-layout-flex>
 ```
 
