@@ -305,12 +305,12 @@ export default class IdsSwappable extends Base {
       this.itemsSlotted?.forEach((item: any) => {
         // NOTE: using textContent because innerText was causing older jest tests to fail
         // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
-        const needle = String(term);
-        const haystack = String(item?.textContent ?? '').trim();
+        const keywords = String(term);
+        const fulltext = String(item?.textContent ?? '').trim();
 
         const isMatch = this.searchTermCaseSensitive
-          ? haystack.includes(needle)
-          : haystack.toLowerCase().includes(needle.toLowerCase());
+          ? fulltext.includes(keywords)
+          : fulltext.toLowerCase().includes(keywords.toLowerCase());
 
         if (!term || isMatch) {
           item.classList.remove(SEARCH_MISMATCH_CLASS);
@@ -320,18 +320,18 @@ export default class IdsSwappable extends Base {
           item.setAttribute('slot', SEARCH_MISMATCH_CLASS);
         }
 
-        this.redrawItem(item, haystack);
+        this.redrawItem(item, fulltext);
       });
 
       return () => false;
     };
   }
 
-  redrawItem(item: any, haystack : string | null = null) {
+  redrawItem(item: any, fulltext : string | null = null) {
     const itemId = parseInt(item.getAttribute('data-id'));
     const findItem = this.swapList?.getListItemById(itemId);
     if (findItem) {
-      const highlightedItem = this.searchHighlight(findItem, haystack);
+      const highlightedItem = this.searchHighlight(findItem, fulltext);
       item.innerHTML = injectTemplate(this.swapList?.defaultTemplate, highlightedItem);
     }
   }

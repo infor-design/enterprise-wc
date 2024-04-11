@@ -383,10 +383,10 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
   /**
    * Set search term highlight
    * @param {string | HTMLElement | object} item The from data item
-   * @param {string | null} haystack item text to search
+   * @param {string | null} fulltext the item's fulltext that needs to be searched
    * @returns {string} search term highlight
    */
-  searchHighlight(item: string | HTMLElement | object, haystack : string | null = null): string | HTMLElement | object {
+  searchHighlight(item: string | HTMLElement | object, fulltext : string | null = null): string | HTMLElement | object {
     if (this.suppressHighlight || !item || this.#term === '') return item;
 
     // Set regex according to search filter mode
@@ -411,7 +411,7 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
     if (!regex) return item;
 
     let term = this.#term;
-    let text = haystack || this.#searchableContent(item);
+    let text = fulltext || this.#searchableContent(item);
     let cloneItem = deepClone(item);
 
     // Set case sensitive
