@@ -62,6 +62,13 @@ test.describe('IdsAppMenu tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-app-menu-light');
     });
+
+    test('should match the visual snapshot in percy (with masthead)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+
+      await page.goto('/ids-app-menu/with-masthead.html');
+      await percySnapshot(page, 'ids-app-menu-masthead-light');
+    });
   });
 
   test.describe('appmenu component tests', () => {
