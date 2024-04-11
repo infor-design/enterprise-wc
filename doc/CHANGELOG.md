@@ -4,15 +4,16 @@
 
 ### 1.0.0 Features
 
+- `[About]` Added the ability to copy stats to the clipboard with a button. ([#2176](https://github.com/infor-design/enterprise-wc/issues/2176))
 - `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2074](https://github.com/infor-design/enterprise-wc/issues/2074))
 - `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2126](https://github.com/infor-design/enterprise-wc/issues/2126))
+- `[Datagrid]` Add `allow-one-expanded-row` attribute to data-grid to limit expandable-rows to one. ([#1998](https://github.com/infor-design/enterprise-wc/issues/1998))
 
 ### 1.0.0 Fixes
 
-- `[About]` Added the ability to copy stats to the clipboard with a button. ([#2176](https://github.com/infor-design/enterprise-wc/issues/2176))
-- `[Modal]` Fixed invisible button in dark mode modals. ([#2197](https://github.com/infor-design/enterprise-wc/issues/2197))
-- `[Datagrid]` Add `allow-one-expanded-row` attribute to data-grid to limit expandable-rows to one. ([#1998](https://github.com/infor-design/enterprise-wc/issues/1998))
+- `[LayoutGrid]` Added fixes for background fill color in contrast mode. ([#2189](https://github.com/infor-design/enterprise-wc/issues/2189))
 - `[ListView]` Updated listview sortable styles. ([#1733](https://github.com/infor-design/enterprise-wc/issues/1733))
+- `[Modal]` Fixed invisible button in dark mode modals. ([#2197](https://github.com/infor-design/enterprise-wc/issues/2197))
 - `[Slider]` Step number has been changed to the number of steps between start and end step. ([#2091](https://github.com/infor-design/enterprise-wc/issues/2091))
 
 ## 1.0.0-beta.23
