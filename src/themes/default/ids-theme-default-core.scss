@@ -24,6 +24,7 @@
 
   // Body Colors
   --ids-color-background-default: var(--ids-color-white-100);
+  --ids-color-text-default: var(--ids-color-foreground-default-default);
 
   // Text Colors
   --ids-color-text-inverse: var(--ids-color-white-100);
@@ -368,7 +369,7 @@
 
   // Button (App Menu)
   --ids-button-app-menu-color-text-default: var(--ids-color-gray-20);
-  --ids-button-app-menu-color-background-hover: var(--ids-color-gray-90);
+  --ids-button-app-menu-color-background-hover: var(--ids-app-menu-header-color-background-hover);
   --ids-button-app-menu-color-text-hover: var(--ids-color-white-100);
   --ids-button-app-menu-color-text-disabled: var(--ids-color-gray-50);
 

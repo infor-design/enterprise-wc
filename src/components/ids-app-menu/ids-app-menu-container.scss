@@ -1,0 +1,36 @@
+/* Ids App Menu Container */
+@use '../../themes/mixins/ids-core-mixins' as mixins;
+
+:host {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
+}
+
+// ids-app-menu pushes the container
+:host(.app-menu) {
+  @media (min-width: mixins.$breakpoint-md) {
+    margin-bottom: var(--ids-space-none);
+    transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), color var(--ids-motion-duration) var(--ids-motion-ease);
+    transition: width var(--ids-motion-duration) var(--ids-motion-ease), margin var(--ids-motion-duration) var(--ids-motion-ease);
+  }
+}
+
+:host(.app-menu-is-open) {
+  @media (min-width: mixins.$breakpoint-md) {
+    margin-inline-start: 0;
+    width: 100%;
+    transition: width var(--ids-motion-duration) var(--ids-motion-ease), margin var(--ids-motion-duration) var(--ids-motion-ease);
+  }
+}
+
+:host(.app-menu-is-open) ::slotted(:not(ids-app-menu)) {
+  @media (min-width: mixins.$breakpoint-md) {
+    margin-inline-start: 300px;
+    transition: width var(--ids-motion-duration) var(--ids-motion-ease), margin var(--ids-motion-duration) var(--ids-motion-ease);
+  }
+}
