@@ -317,6 +317,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 
 - `virtualScroll` {boolean} When virtual scroll is used the grid can render many thousands of rows and only the rows visible in the scroll area are rendered for performance. This setting has limitations such as the rows need to be fixed size.
 - `addNewAtEnd` {boolean} Automatically append rows while keyboard navigating data grid in edit mode.
+- `allow-one-expanded-row` {boolean} This setting will allow only one expandable-row to be opened/expanded at a time. Defaults to false.
 - `alternateRowShading` {boolean} For better scan-ability you can shade alternate rows.
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
 - `columns` {Array<object>} Sets the columns array of the data grid. See column settings.

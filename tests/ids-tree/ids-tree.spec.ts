@@ -411,7 +411,7 @@ test.describe('IdsTree tests', () => {
         tree!.addNodes([{
           id: 'child-node',
           text: 'Child node'
-        }], 'child', parentNode.elem);
+        }], 'child', parentNode?.elem);
         tree?.container?.querySelector<any>('#about-us')?.container?.querySelector('.node-container')?.click();
 
         return data;

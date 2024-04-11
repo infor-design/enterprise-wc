@@ -5,6 +5,7 @@ import booksJSON from '../../../assets/data/books.json';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-expandable-row')!;
+const dataGrid2 = document.querySelector<IdsDataGrid>('#data-grid-expandable-row-allow-one')!;
 
 if (dataGrid) {
   (async function init() {
@@ -59,10 +60,13 @@ if (dataGrid) {
     });
 
     dataGrid.columns = columns;
+    dataGrid2.columns = columns;
+
     const setData = async () => {
       const res = await fetch(url);
       const data = await res.json();
       dataGrid.data = data;
+      dataGrid2.data = data;
     };
 
     await setData();
@@ -72,6 +76,14 @@ if (dataGrid) {
     });
 
     dataGrid.addEventListener('rowcollapsed', (e: Event) => {
+      console.info(`Row Collapsed`, (<CustomEvent>e).detail);
+    });
+
+    dataGrid2.addEventListener('rowexpanded', (e: Event) => {
+      console.info(`Row Expanded`, (<CustomEvent>e).detail);
+    });
+
+    dataGrid2.addEventListener('rowcollapsed', (e: Event) => {
       console.info(`Row Collapsed`, (<CustomEvent>e).detail);
     });
   }());

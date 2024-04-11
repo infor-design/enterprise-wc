@@ -2,6 +2,7 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getSpecs } from '../../utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
+import { copyHtmlToClipboard } from '../../utils/ids-copy-utils/ids-copy-utils';
 
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsModal from '../ids-modal/ids-modal';
@@ -62,6 +63,10 @@ export default class IdsAbout extends Base {
             <slot name="copyright"></slot>
             <slot name="device"></slot>
           </div>
+          <ids-button id="copy-to-clipboard">
+            <ids-icon icon="copy"></ids-icon>
+            <span class="audible">${this.localeAPI?.translate('CopyToClipboard')}</span>
+          </ids-button>
         </div>
       </div>
     </ids-popup>`;
@@ -87,6 +92,12 @@ export default class IdsAbout extends Base {
       this.#refreshDeviceSpecs();
       this.#refreshCopyright();
     };
+
+    this.onEvent('click', this.container?.querySelector('#copy-to-clipboard'), async () => {
+      let specs = `${this.querySelector<HTMLSlotElement>('[slot="product"]')?.innerText}\r\n`;
+      specs += `${this.querySelector<HTMLSlotElement>('[slot="device"]')?.innerText}\r\n`;
+      await copyHtmlToClipboard(specs);
+    });
     return this;
   }
 

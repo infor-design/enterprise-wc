@@ -1,5 +1,22 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0
+
+### 1.0.0 Fixes
+
+- `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2074](https://github.com/infor-design/enterprise-wc/issues/2074))
+- `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2126](https://github.com/infor-design/enterprise-wc/issues/2126))
+
+### 1.0.0 Features
+
+- `[About]` Added the ability to copy stats to the clipboard with a button. ([#2176](https://github.com/infor-design/enterprise-wc/issues/2176))
+- `[Datagrid]` Add `allow-one-expanded-row` attribute to data-grid to limit expandable-rows to one. ([#1998](https://github.com/infor-design/enterprise-wc/issues/1998))
+- `[Slider]` Step number has been changed to the number of steps between start and end step. ([#2091](https://github.com/infor-design/enterprise-wc/issues/2091))
+
+### 1.0.0 Fixes
+
+- `[ListView]` Updated listview sortable styles. ([#1733](https://github.com/infor-design/enterprise-wc/issues/1733))
+
 ## 1.0.0-beta.23
 
 ### 1.0.0-beta.23 Ui Changes
@@ -21,6 +38,9 @@
 - `[AppMenu]` Fix open/close events after reattach. ([#2070](https://github.com/infor-design/enterprise-wc/issues/2070))
 - `[Button]` Added updated button designs from the tokens. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
 - `[Button]` Fixed layout issues when buttons are next to each other. ([#1999](https://github.com/infor-design/enterprise-wc/issues/1999))
+- `[Button]` Fixed some buttons types from requiring a `span`. ([#2080](https://github.com/infor-design/enterprise-wc/issues/2080))
+- `[Button]` Removed ripple effects and mixin on all buttons. ([#1680](https://github.com/infor-design/enterprise-wc/issues/1680))
+- `[Button]` Improved vertical alignment. ([#2079](https://github.com/infor-design/enterprise-wc/issues/2079))
 - `[Checkbox]` Fixed required icon placement when checkbox wraps. ([#1983](https://github.com/infor-design/enterprise-wc/issues/1983))
 - `[Checkbox]` Fixed checked attribute being set to `false` when checked. ([#2020](https://github.com/infor-design/enterprise-wc/issues/2020))
 - `[CheckboxGroups]` Moved component into checkbox component. Fixed bug with `selectedCheckboxes. ([#2021](https://github.com/infor-design/enterprise-wc/issues/2021))
@@ -29,8 +49,10 @@
 - `[Datagrid]` Fix so that filter-types that use the integer formatter allow numbers with leading-zero and additional numbers after the leading-zeros. ([#1877](https://github.com/infor-design/enterprise-wc/issues/1877))
 - `[Datagrid]` Fix maintaining editable cell text spaces. ([#2069](https://github.com/infor-design/enterprise-wc/issues/2069))
 - `[Datagrid]` Fix datagrid bugs found in converted tests. ([#2115](https://github.com/infor-design/enterprise-wc/issues/2115))
+- `[Docs]` Fix broken links in README.md files. ([#2147](https://github.com/infor-design/enterprise-wc/issues/2147))
 - `[Draggable]` Converted draggable tests to playwright. ([#1929](https://github.com/infor-design/enterprise-wc/issues/1929))
 - `[Dropdown]` Fix issue where required dropdowns were note rendering asterisk in React and Angular examples. ([#2023](https://github.com/infor-design/enterprise-wc/issues/2023))
+- `[Dropdown]` Fix issue where dropdown wouldn't open in safari via click. ([#2096](https://github.com/infor-design/enterprise-wc/issues/2096))
 - `[Dropdown]` Fix issue where tooltips were not shown if options were lazy loaded. ([#2051](https://github.com/infor-design/enterprise-wc/issues/2051))
 - `[Dropdown]` Fix displaying preselected value in angular. ([#1880](https://github.com/infor-design/enterprise-wc/issues/1880))
 - `[Dropdown]` Prevent Enter key (and other meta keys) from opening the `IdsDropdown`. ([#1878](https://github.com/infor-design/enterprise-wc/issues/1878))

@@ -24,6 +24,7 @@
 
   // Body Colors
   --ids-color-background-default: var(--ids-color-white-100);
+  --ids-color-text-default: var(--ids-color-foreground-default-default);
 
   // Text Colors
   --ids-color-text-inverse: var(--ids-color-white-100);
@@ -306,7 +307,6 @@
   --ids-button-secondary-color-text-pressed: var(--ids-color-action-stronger);
   --ids-button-secondary-border-width: 1px;
   --ids-button-secondary-opacity-disabled: 0.4;
-  --ids-button-secondary-color-ripple: var(--ids-color-background-default);
 
   // Button (Tertiary)
   --ids-button-tertiary-color-border-default: transparent;
@@ -328,7 +328,6 @@
   --ids-button-icon-padding: calc(var(--ids-space-xs) - 2px);
   --ids-button-icon-height: 36px;
   --ids-button-icon-width: 36px;
-  --ids-button-tertiary-color-ripple: var(--ids-color-background-default);
 
   // Button (Destructive / Primary)
   --ids-button-destructive-color-background-default: var(--ids-color-error-default);
@@ -342,7 +341,6 @@
   --ids-button-destructive-color-text-disabled: var(--ids-color-foreground-light-default);
   --ids-button-destructive-color-background-disabled: var(--ids-color-error-default);
   --ids-button-destructive-color-border-disabled: var(--ids-color-error-default);
-  --ids-button-destructive-color-ripple: var(--ids-color-foreground-light-default);
 
   // Button (Destructive / Secondary)
   --ids-button-destructive-tertiary-color-background-default: var(--ids-color-background-default);
@@ -357,7 +355,6 @@
   --ids-button-destructive-tertiary-color-text-disabled: var(--ids-color-error-default);
   --ids-button-destructive-tertiary-color-background-disabled: var(--ids-color-background-default);
   --ids-button-destructive-tertiary-color-border-disabled: var(--ids-color-background-default);
-  --ids-button-destructive-tertiary-color-ripple: var(--ids-color-background-default);
 
   // Button (Toggle)
   --ids-button-toggle-color-background-hover-default: var(--ids-color-accent-blue-weakest);
@@ -372,7 +369,7 @@
 
   // Button (App Menu)
   --ids-button-app-menu-color-text-default: var(--ids-color-gray-20);
-  --ids-button-app-menu-color-background-hover: var(--ids-color-gray-90);
+  --ids-button-app-menu-color-background-hover: var(--ids-app-menu-header-color-background-hover);
   --ids-button-app-menu-color-text-hover: var(--ids-color-white-100);
   --ids-button-app-menu-color-text-disabled: var(--ids-color-gray-50);
 
@@ -409,23 +406,20 @@
   --ids-button-system-color-text-hover: var(--ids-color-foreground-default-default);
 
   // Button (Generative AI)
-  --ids-color-gen-ai-light: #10B7A6;
-  --ids-color-gen-ai-weaker: #0B9789;
-  --ids-color-gen-ai-weak :#254A92;
-  --ids-color-gen-ai-strong: #1A3362;
-  --ids-button-ai-color-background-default: linear-gradient(107deg, var(--ids-color-gen-ai-weak) 17.32%, var(--ids-color-gen-ai-light) 95.32%);
-  --ids-button-ai-color-background-hover: linear-gradient(107deg, var(--ids-color-gen-ai-strong) 17.32%, var(--ids-color-gen-ai-weaker) 95.32%);
-  --ids-button-ai-color-background-active: linear-gradient(107deg, var(--ids-color-gen-ai-weaker) 5.97%, var(--ids-color-gen-ai-strong) 102.35%);
+  --ids-button-ai-color-background-default: linear-gradient(107deg, #254A92 17.32%, #10B7A6 95.32%);
+  --ids-button-ai-color-background-hover: linear-gradient(107deg, #1A4162 17.32%, #0B9789 95.32%);
+  --ids-button-ai-color-border-hover: #0B9789;
+  --ids-button-ai-color-background-active: linear-gradient(107deg, #1A4162 17.32%, #0B9789 95.32%);
   --ids-button-ai-color-background-disabled: linear-gradient(107deg, rgba(37 74 146 / 0.5) 17.32%, rgba(16 183 166 / 0.5) 95.32%);
   --ids-button-ai-color-background-color-disabled: transparent;
-  --ids-button-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-gen-ai-weak);
-  --ids-button-ai-color-icon-primary: var(--ids-color-gen-ai-weak);
-  --ids-button-ai-color-icon-secondary: var(--ids-color-gen-ai-light);
-  --ids-button-ai-color-icon-primary-hover: var(--ids-color-gen-ai-strong);
-  --ids-button-ai-color-icon-secondary-hover: var(--ids-color-gen-ai-weaker);
+  --ids-button-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px #254A92;
+  --ids-button-ai-color-icon-primary: #254A92;
+  --ids-button-ai-color-icon-secondary: #10B7A6;
+  --ids-button-ai-color-icon-primary-hover: #1A3362;
+  --ids-button-ai-color-icon-secondary-hover: #0B9789;;
   --ids-button-ai-opacity-disabled: 0.4;
   --ids-button-tertiary-ai-color-background-disabled: var(--ids-button-ai-color-background-default);
-  --ids-button-tertiary-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-gen-ai-weaker);
+  --ids-button-tertiary-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px #0B9789;
 
   // Breadcrumb
   --ids-breadcrumb-color-text-default: var(--ids-color-text-subtle);
