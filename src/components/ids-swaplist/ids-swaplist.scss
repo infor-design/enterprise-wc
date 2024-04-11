@@ -18,6 +18,7 @@
     }
   }
 }
+
 :host([searchable]) {
   ids-card {
     &::part(header) {

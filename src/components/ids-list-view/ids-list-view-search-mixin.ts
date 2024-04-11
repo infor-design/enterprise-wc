@@ -308,7 +308,6 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
    */
   #handleSearch(term: string): void {
     const lv = this as unknown as IdsListView;
-    // if (!lv.datasource) return;
 
     // Reset search if term is empty
     const isTermString = typeof term === 'string';
