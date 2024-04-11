@@ -92,6 +92,7 @@ test.describe('IdsPager tests', () => {
     let idsInput: Locator;
     let idsNext: Locator;
     let idsLast: Locator;
+    let idsDrop: Locator;
     let children: Locator[];
 
     test.beforeEach(async ({ page }) => {
@@ -101,13 +102,12 @@ test.describe('IdsPager tests', () => {
       idsInput = await idsPager.locator('ids-pager-input');
       idsNext = await idsPager.locator('ids-pager-button[next]');
       idsLast = await idsPager.locator('ids-pager-button[last]');
-      await idsPager.evaluate((element: IdsPager) => {
-        const dropdown = document.createElement('ids-pager-dropdown');
-        dropdown.setAttribute('page-size', '20');
-        dropdown.setAttribute('slot', 'end');
-        element.appendChild(dropdown);
+      await page.evaluate(() => {
+        const pager = document.querySelector('ids-pager')!;
+        pager.insertAdjacentHTML('beforeend', '<ids-pager-dropdown id="rDrop" slot="end"></ids-pager-dropdown>');
       });
-      children = [idsFirst, idsPrevious, idsInput, idsNext, idsLast];
+      idsDrop = await idsPager.locator('#rDrop');
+      children = [idsFirst, idsPrevious, idsInput, idsNext, idsLast, idsDrop];
     });
 
     test('can set/get disabled status', async () => {
@@ -152,7 +152,47 @@ test.describe('IdsPager tests', () => {
     });
 
     test('can set/get pageSizes attribute', async () => {
+      const defSizes = [5, 10, 25, 50, 100];
+      const testData = [
+        { data: [3, 6, 9, 12, 15], expected: [3, 6, 9, 12, 15] },
+        { data: defSizes, expected: defSizes },
+        { data: ['A', 'C', 'E'], expected: defSizes },
+        { data: [3, 'A', 9, 'C', 15, 'E'], expected: [3, 9, 15] }
+      ];
 
+      expect(await idsPager.evaluate((element: IdsPager) => element.pageSizes)).toEqual(defSizes);
+
+      for (const data of testData) {
+        expect(await idsPager.evaluate((element: IdsPager, tData) => {
+          element.pageSizes = tData as any;
+          return element.pageSizes;
+        }, data.data)).toEqual(data.expected);
+      }
+    });
+
+    test('can set/get pageNumber attribute', async () => {
+      const defInitPageNumber = 1;
+      const defMaxPageCount = 10;
+      const testData = [
+        { data: 2, expected: 2 },
+        { data: '3', expected: 3 },
+        { data: 'A', expected: defInitPageNumber },
+        { data: 0.5, expected: defInitPageNumber },
+        { data: 20, expected: defMaxPageCount },
+      ];
+      expect(await idsPager.evaluate((element: IdsPager) => element.pageNumber)).toEqual(defInitPageNumber);
+      await expect(idsPager).toHaveAttribute('page-number', defInitPageNumber.toString());
+
+      for (const data of testData) {
+        expect(await idsPager.evaluate((element: IdsPager, tData) => {
+          element.pageNumber = tData as any;
+          return element.pageNumber;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsPager).toHaveAttribute('page-number', data.expected.toString());
+        children.forEach(async (child) => {
+          await expect(child).toHaveAttribute('page-number', data.expected.toString());
+        });
+      }
     });
   });
 });
