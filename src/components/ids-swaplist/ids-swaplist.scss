@@ -106,3 +106,14 @@ ids-card {
     }
   }
 }
+
+ids-search-field {
+  --ids-input-color-background-default: var(--ids-swaplist-search-color-background-default);
+  --ids-search-field-color-background-default: var(--ids-swaplist-search-color-background-default);
+  --ids-input-color-border-default: var(--ids-swaplist-search-color-border-default);
+  --ids-input-color-text-default: var(--ids-swaplist-search-color-text-default);
+  --ids-input-color-border-hover: var(--ids-swaplist-search-color-border-hover);
+  --ids-input-color-border-focus: var(--ids-swaplist-search-color-border-focus);
+  --ids-input-color-border-shadow: var(--ids-swaplist-search-color-border-shadow);
+  --ids-input-color-text-placeholder: var(--ids-swaplist-search-color-text-placeholder);
+}
