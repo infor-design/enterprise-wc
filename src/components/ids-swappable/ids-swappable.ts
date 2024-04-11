@@ -63,7 +63,7 @@ export default class IdsSwappable extends Base {
     }
   }
 
-  get swapList() {
+  get swapList(): IdsSwapList {
     if (!this.rootNode) this.rootNode = (this.getRootNode() as any);
     return (this.rootNode.host) as IdsSwapList;
   }
@@ -305,9 +305,14 @@ export default class IdsSwappable extends Base {
       this.itemsSlotted?.forEach((item: any) => {
         // NOTE: using textContent because innerText was causing older jest tests to fail
         // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
-        const haystack = String(item?.textContent ?? '').trim();
         const needle = String(term);
-        if (!term || haystack.includes(needle)) {
+        const haystack = String(item?.textContent ?? '').trim();
+
+        const isMatch = this.searchTermCaseSensitive
+          ? haystack.includes(needle)
+          : haystack.toLowerCase().includes(needle.toLowerCase());
+
+        if (!term || isMatch) {
           item.classList.remove(SEARCH_MISMATCH_CLASS);
           item.removeAttribute('slot');
         } else {

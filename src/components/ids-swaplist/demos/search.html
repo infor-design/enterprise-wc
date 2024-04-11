@@ -21,6 +21,20 @@
         </ids-swaplist>
       </ids-layout-grid-cell>
     </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">SwapList (Case-Sensitive)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-swaplist id="swaplist-case-sensitive" searchable search-term-case-sensitive>
+          <template>
+            <ids-text>${text}</ids-text>
+          </template>
+        </ids-swaplist>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
   </ids-container>
 </body>
 </html>

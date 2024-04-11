@@ -394,7 +394,7 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
     let regex: any = null;
     const modes = this.searchFilterModes;
     const flag = this.searchTermCaseSensitive ? 'g' : 'gi';
-    const replaceTmpl = `<strong class="highlight">$1</strong>`;
+    const replaceTmpl = (matched: string) => `<strong class="highlight">${matched}</strong>`;
     let replaceMatch = (s: string) => s.replace(regex, replaceTmpl);
     if (this.searchFilterMode === modes.WORD_STARTS_WITH) {
       regex = new RegExp(`(^|\\s)(${this.#term})`, flag);

@@ -246,7 +246,8 @@ export default class IdsSwapList extends Base {
     const arr = Array(this.data.length).fill(0);
     const arrLen = arr.length;
     const data = this.data;
-    const searchable = this.searchable ? 'searchable search-term-case-sensitive' : '';
+    const searchTermCaseSensitive = this.hasAttribute(attributes.SEARCH_TERM_CASE_SENSITIVE) ? attributes.SEARCH_TERM_CASE_SENSITIVE : '';
+    const searchable = this.searchable ? `searchable ${searchTermCaseSensitive}` : '';
 
     return data.map((list: IdsSwaplistData, i: number) => {
       const listTemplate = `<ids-card
@@ -291,7 +292,7 @@ export default class IdsSwapList extends Base {
   #resetSearch() {
     const listCards = [...this.container!.querySelectorAll('ids-card.list-card')];
     listCards.forEach((listCard) => {
-      const swappable = listCard.querySelector('ids-swappable') as IdsSwappable | null;
+      const swappable = listCard.querySelector<IdsSwappable>('ids-swappable');
       swappable?.resetSearch();
     });
   }
