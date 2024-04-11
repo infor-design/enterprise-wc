@@ -2,7 +2,7 @@
 
 The Ids App Menu serves as primary navigation for an Infor Application, combining top level functions of the application with user authentication and access to changing roles.
 
-The App Menu is built on top of `[IdsDrawer](../ids-drawer/README.md) and generally utilizes an [IdsAccordion](../ids-accordion/README.md) and/or [IdsToolbar](../ids-toolbar/README.md) for its navigation features.
+The App Menu is built on top of [IdsDrawer](../ids-drawer/README.md) and generally utilizes an [IdsAccordion](../ids-accordion/README.md) and/or [IdsToolbar](../ids-toolbar/README.md) for its navigation features.
 
 ## Use Cases
 

@@ -117,8 +117,8 @@ Set the sizes, available sizes are `'sm'|'md'|'lg'|'full'` and default type is `
 - `charMaxText` {string} set text that will be used in place of the `max` text.
 - `charRemainingText` {string} set text that will be used in place of the `remaining` text.
 - `characterCounter` {boolean} set a counter that counts down from the maximum character.
-- `clearable` {boolean} set clearable icon on the textarea. See [Ids Clearable Mixin](../../mixins/ids-clearable-mixin/README.md) for more information.
-- `dirty-tracker` {boolean} set dirty tracker to textarea. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
+- `clearable` {boolean} set clearable icon on the textarea. See [Ids Clearable Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-clearable-mixin/README.md) for more information.
+- `dirty-tracker` {boolean} set dirty tracker to textarea. See [Ids Dirty Tracker Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
 - `labelRequired` {boolean} set the required indicator on label text.
