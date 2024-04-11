@@ -1,1 +1,1 @@
-<slot></slot>
+<div class="ids-list-view-search" part="search"><slot name="search"></slot></div><slot></slot>
