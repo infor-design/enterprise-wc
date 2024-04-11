@@ -217,6 +217,7 @@ export default class IdsDataGrid extends Base {
       attributes.EMPTY_MESSAGE_LABEL,
       attributes.EDITABLE,
       attributes.EDIT_NEXT_ON_ENTER_PRESS,
+      attributes.ALLOW_ONE_EXPANDED_ROW,
       attributes.EXPANDABLE_ROW,
       attributes.EXPANDABLE_ROW_TEMPLATE,
       attributes.FILTER_ROW_DISABLED,
@@ -686,7 +687,15 @@ export default class IdsDataGrid extends Base {
 
       // Handle Expand/Collapse Clicking
       if (isClickable && isExpandButton) {
-        row.toggleExpandCollapse();
+        if (this.allowOneExpandedRow) {
+          const isExpanded = row.isExpanded();
+          const isCollapsed = !isExpanded;
+          this.collapseAll();
+          if (isExpanded) row.doCollapse();
+          if (isCollapsed) row.doExpand();
+        } else {
+          row.toggleExpandCollapse();
+        }
         return;
       }
 
@@ -842,26 +851,30 @@ export default class IdsDataGrid extends Base {
 
     // Handle Selection and Expand
     this.listen([' ', 'Space'], this, (e: Event) => {
+      let activeCell = this.cellLastActive;
+      if (!activeCell) {
+        activeCell = this.activeCell.node;
+      }
+      if (!activeCell) return;
       if (this.openMenu) return;
-      if (this.activeCellEditor) return;
-      if (!this.activeCell?.node) return;
-      if (!this.activeCellCanClose()) return;
+      if (activeCell.isEditing) return;
+      if (!activeCell.canClose()) return;
 
-      const row = this.rowByIndex(this.activeCell.row)!;
+      const row = this.rowByIndex(activeCell.row)!;
       if (!row || row.disabled) return;
 
-      const button = this.activeCell.node.querySelector('ids-button');
+      const button = activeCell.querySelector('ids-button') as any;
       if (button) {
         button.click();
         e.preventDefault();
         return;
       }
 
-      const child = this.activeCell.node.children[0];
+      const child = activeCell.children[0];
       const isCheckbox = child?.classList.contains('ids-data-grid-checkbox-container')
         && !child?.classList.contains('is-selection-checkbox');
       if (isCheckbox) {
-        this.activeCell.node.click();
+        activeCell.click();
         e.preventDefault();
         return;
       }
@@ -2957,6 +2970,18 @@ export default class IdsDataGrid extends Base {
 
   get expandableRow() {
     return this.getAttribute(attributes.EXPANDABLE_ROW) || false;
+  }
+
+  /**
+   * This setting will allow only one expandable-row to be opened/expanded at a time.
+   * @param {string} value The value
+   */
+  set allowOneExpandedRow(value) {
+    this.toggleAttribute(attributes.ALLOW_ONE_EXPANDED_ROW, stringToBool(value));
+  }
+
+  get allowOneExpandedRow() {
+    return this.hasAttribute(attributes.ALLOW_ONE_EXPANDED_ROW);
   }
 
   /**

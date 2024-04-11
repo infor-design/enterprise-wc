@@ -20,6 +20,7 @@ export const attributes = {
   ALLOW_EMPTY_HREF: 'allow-empty-href',
   ALLOW_LINK: 'allow-link',
   ALLOW_ONE_PANE: 'allow-one-pane',
+  ALLOW_ONE_EXPANDED_ROW: 'allow-one-expanded-row',
   ALT: 'alt',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
