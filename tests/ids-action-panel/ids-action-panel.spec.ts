@@ -49,11 +49,11 @@ test.describe('IdsActionPanel tests', () => {
       await page.waitForSelector('ids-action-panel[visible]');
 
       // click save button inside toolbar
-      await page.locator('ids-button#btn-save').click();
+      await page.locator('#btn-close').click();
 
       // check that action panel is closed
-      await page.waitForSelector('ids-action-panel:not([visible])');
-      expect(await page.locator('ids-action-panel').evaluate((cap: IdsActionPanel) => cap.visible)).toEqual(false);
+      await page.locator('ids-action-panel:not([visible])').waitFor({ state: 'hidden' });
+      expect(await page.locator('ids-action-panel:not([visible])').evaluate((cap: IdsActionPanel) => cap.visible)).toEqual(false);
     });
 
     test('rendering without a toolbar', async ({ page }) => {

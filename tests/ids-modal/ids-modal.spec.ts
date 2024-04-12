@@ -127,14 +127,14 @@ test.describe('IdsModal tests', () => {
       await page.locator('#modal-trigger-btn').click(); // open modal
       await page.waitForSelector('ids-modal[visible]'); // wait modal to finish show animation
       await page.locator('#modal-cancel-btn').click(); // click cancel
-      await page.waitForSelector('ids-modal:not([visible])'); // wait for modal to finish hide animation
+      await page.locator('ids-modal:not([visible])').waitFor({ state: 'hidden' }); // wait for modal to finish hide animation
     });
 
     test('responds to the example save button', async ({ page }) => {
       await page.locator('#modal-trigger-btn').click(); // open modal
       await page.waitForSelector('ids-modal[visible]'); // wait modal to finish show animation
       await page.locator('#modal-save-btn').click(); // click save
-      await page.waitForSelector('ids-modal:not([visible])'); // wait for modal to finish hide animation
+      await page.locator('ids-modal:not([visible])').waitFor({ state: 'hidden' }); // wait for modal to finish hide animation
     });
 
     test('showing/hiding modal close button', async ({ page }) => {
@@ -163,7 +163,7 @@ test.describe('IdsModal tests', () => {
 
       // Close via escape
       await page.keyboard.press('Escape');
-      await page.waitForSelector('ids-modal:not([visible])');
+      await page.locator('ids-modal:not([visible])').waitFor({ state: 'hidden' });
     });
 
     test('should hide modal when clicking outside with clickOutsideToClose', async ({ page }) => {
@@ -184,7 +184,7 @@ test.describe('IdsModal tests', () => {
       await page.evaluate(() => {
         document.querySelector<any>('ids-container')?.querySelector('ids-theme-switcher')?.click();
       });
-      await page.waitForSelector('ids-modal:not([visible])');
+      await page.locator('ids-modal:not([visible])').waitFor({ state: 'hidden' });
 
       // Disable outside click
       await modal.evaluate(async (elem: IdsModal) => {
