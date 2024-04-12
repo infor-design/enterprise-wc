@@ -14,6 +14,7 @@
 
 ### 1.0.0 Fixes
 
+- `[DataGrid]` Fixed placement of tree expand buttons in the tree grid. ([#1603](https://github.com/infor-design/enterprise-wc/issues/1603))
 - `[Forms]` Fixed issues with tabbing and layout issues in compact mode on forms. ([#2128](https://github.com/infor-design/enterprise-wc/issues/2128))
 - `[Editor]` Fixed style of some buttons and the height of the toolbar. ([#2188](https://github.com/infor-design/enterprise-wc/issues/2188))
 - `[LayoutGrid]` Added fixes for background fill color in contrast mode. ([#2189](https://github.com/infor-design/enterprise-wc/issues/2189))
