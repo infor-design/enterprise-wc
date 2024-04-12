@@ -68,7 +68,7 @@ test.describe('IdsScrollView tests', () => {
       await percySnapshot(page, 'ids-scroll-view-light');
     });
 
-    test.describe('e2e tests', () => {
+    test.describe('functionality tests', () => {
       test('can set loop', async ({ page }) => {
         let scrollviewLoop = await scrollview.evaluate((scrollviewEl: IdsScrollView) => scrollviewEl.loop);
         await expect(scrollview).not.toHaveAttribute(attributes.LOOP);
@@ -198,13 +198,9 @@ test.describe('IdsScrollView tests', () => {
         document.body.appendChild(elem);
         elem.innerHTML = html;
       });
-
-      await page.waitForTimeout(1000);
-
-      // const controls = await page.locator('.circle-button').all;
-      const controls = await page.evaluate(() => { document.querySelectorAll('.circle-button'); });
-      console.log(await controls);
-      // await expect(controls.length).toEqual(6);
+      await page.waitForSelector('img[slot="scroll-view-item"]');
+      const circleButton = await page.locator('.circle-button');
+      expect(await circleButton.count()).toEqual(6);
     });
 
     test('can moved on ArrowLeft/ArrowRight', async ({ page }) => {
