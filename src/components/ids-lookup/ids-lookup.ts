@@ -183,7 +183,6 @@ export default class IdsLookup extends Base {
       <ids-trigger-button
         slot="trigger-end"
         part="trigger-lookup"
-        tabbable="${this.tabbable}"
         disabled="${this.disabled}"
         readonly="${this.readonly}">
         <ids-text audible="true">LookupTriggerButton</ids-text>

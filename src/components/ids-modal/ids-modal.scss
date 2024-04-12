@@ -12,6 +12,7 @@
 
 :host(:not([visible])) {
   pointer-events: none;
+  visibility: hidden;
 }
 
 .ids-modal {
