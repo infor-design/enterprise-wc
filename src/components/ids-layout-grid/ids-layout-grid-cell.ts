@@ -516,7 +516,7 @@ export default class IdsLayoutGridCell extends Base {
   set height(value: string | null) {
     if (value !== null) {
       // Check if the value contains a unit, if not, default to 'px'
-      const newValue = /^\d+(\.\d+)?$/g.test(value) ? value + 'px' : value;
+      const newValue = /^\d+(\.\d+)?$/g.test(value) ? `${value}px` : value;
       this.setAttribute(attributes.HEIGHT, newValue);
       this.style.setProperty(attributes.HEIGHT, newValue);
     } else {
@@ -558,7 +558,7 @@ export default class IdsLayoutGridCell extends Base {
   set minHeight(value: string | null | any) {
     if (value !== null) {
       // Check if the value contains a unit, if not, default to 'px'
-      const newValue = /^\d+(\.\d+)?$/g.test(value) ? value + 'px' : value;
+      const newValue = /^\d+(\.\d+)?$/g.test(value) ? `${value}px` : value;
       this.setAttribute(attributes.MIN_HEIGHT, newValue);
       this.style.setProperty(attributes.MIN_HEIGHT, newValue);
     } else {
