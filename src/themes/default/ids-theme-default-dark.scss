@@ -103,6 +103,7 @@
 
   // Button (Tertiary)
   --ids-button-tertiary-color-background-hover: var(--ids-color-accent-gray-weaker);
+  --ids-button-tertiary-color-border-hover: var(--ids-color-accent-gray-weaker);
 
   // Calendar
   --ids-calendar-toolbar-color-background: var(--ids-color-gray-80);
@@ -452,7 +453,14 @@
   --ids-swappable-item-over-border: 1px dashed var(--ids-color-gray-30);
 
   // Swaplist
-  --ids-swaplist-button-color-background-hover: var(--ids-color-gray-70);
+  --ids-swaplist-button-color-background-hover: var(--ids-color-accent-gray-weaker);
+  --ids-swaplist-search-color-background-default: var(--ids-color-gray-80);
+  --ids-swaplist-search-color-border-default: var(--ids-color-gray-80);
+  --ids-swaplist-search-color-text-default: var(--ids-color-gray-10);
+  --ids-swaplist-search-color-text-placeholder: var(--ids-color-gray-10);
+  --ids-swaplist-search-color-border-hover: var(--ids-color-gray-10);
+  --ids-swaplist-search-color-border-focus: var(--ids-color-gray-10);
+  --ids-swaplist-search-color-border-shadow: 0 0 3px 2px rgba(54 138 192 / 0.1);
 
   // Swipe Action
   --ids-swipe-action-color-background-left: var(--ids-color-gray-60);
