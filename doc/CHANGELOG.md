@@ -5,6 +5,19 @@
 ### 1.0.0 Features
 
 - `[About]` Added the ability to copy stats to the clipboard with a button. ([#2176](https://github.com/infor-design/enterprise-wc/issues/2176))
+- `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2074](https://github.com/infor-design/enterprise-wc/issues/2074))
+- `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2126](https://github.com/infor-design/enterprise-wc/issues/2126))
+- `[Datagrid]` Add `allow-one-expanded-row` attribute to data-grid to limit expandable-rows to one. ([#1998](https://github.com/infor-design/enterprise-wc/issues/1998))
+- `[About]` Added the ability to copy stats to the clipboard with a button. ([#2176](https://github.com/infor-design/enterprise-wc/issues/2176))
+- `[Datagrid]` Added `allow-one-expanded-row` attribute to data-grid to limit expandable-rows to one. ([#1998](https://github.com/infor-design/enterprise-wc/issues/1998))
+- `[Swaplist]` Added search feature to `IdsSwapList`. ([#1702](https://github.com/infor-design/enterprise-wc/issues/1702))
+
+### 1.0.0 Fixes
+
+- `[Editor]` Fixed style of some buttons and the height of the toolbar. ([#2188](https://github.com/infor-design/enterprise-wc/issues/2188))
+- `[LayoutGrid]` Added fixes for background fill color in contrast mode. ([#2189](https://github.com/infor-design/enterprise-wc/issues/2189))
+- `[ListView]` Updated listview sortable styles. ([#1733](https://github.com/infor-design/enterprise-wc/issues/1733))
+- `[Modal]` Fixed invisible button in dark mode modals. ([#2197](https://github.com/infor-design/enterprise-wc/issues/2197))
 - `[Slider]` Step number has been changed to the number of steps between start and end step. ([#2091](https://github.com/infor-design/enterprise-wc/issues/2091))
 
 ## 1.0.0-beta.23
@@ -39,6 +52,7 @@
 - `[Datagrid]` Fix so that filter-types that use the integer formatter allow numbers with leading-zero and additional numbers after the leading-zeros. ([#1877](https://github.com/infor-design/enterprise-wc/issues/1877))
 - `[Datagrid]` Fix maintaining editable cell text spaces. ([#2069](https://github.com/infor-design/enterprise-wc/issues/2069))
 - `[Datagrid]` Fix datagrid bugs found in converted tests. ([#2115](https://github.com/infor-design/enterprise-wc/issues/2115))
+- `[Docs]` Fix broken links in README.md files. ([#2147](https://github.com/infor-design/enterprise-wc/issues/2147))
 - `[Draggable]` Converted draggable tests to playwright. ([#1929](https://github.com/infor-design/enterprise-wc/issues/1929))
 - `[Dropdown]` Fix issue where required dropdowns were note rendering asterisk in React and Angular examples. ([#2023](https://github.com/infor-design/enterprise-wc/issues/2023))
 - `[Dropdown]` Fix issue where dropdown wouldn't open in safari via click. ([#2096](https://github.com/infor-design/enterprise-wc/issues/2096))

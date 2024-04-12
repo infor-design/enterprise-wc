@@ -53,7 +53,7 @@ IDS Buttons can be designed to make the icon appear by itself, without any visib
 
 ### Color Variants
 
-If placing a button inside a container with a contrasting background color, sometimes the "base" styles for Ids Button appearances aren't adequate for passing contrast checks. To resolve this problem, the `color-variant` property can be used by way of the [IdsColorVariantMixin](../../mixins/ids-color-variant-mixin/README.md):
+If placing a button inside a container with a contrasting background color, sometimes the "base" styles for Ids Button appearances aren't adequate for passing contrast checks. To resolve this problem, the `color-variant` property can be used by way of the [IdsColorVariantMixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-color-variant-mixin/README.md):
 
 ```html
 <!-- Generates a default (Tertiary) Button with white text and focus/hover states --->
@@ -86,7 +86,7 @@ Standard button states include:
 - Focus
 - Active (pressed)
 - Disabled
-- Color Variant - alternate colors for each button appearance are available via the [IdsColorVariantMixin](../../src/mixins/ids-color-variant/README.md)
+- Color Variant - alternate colors for each button appearance are available via the [IdsColorVariantMixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-color-variant-mixin/README.md)
 
 IDS button appearances include:
 

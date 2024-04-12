@@ -482,6 +482,7 @@
 
     &:hover {
       background-color: var(--ids-button-formatter-color-background-hover);
+      border-color: transparent;
       color: var(--ids-button-formatter-color-text-hover);
       opacity: 1;
     }
@@ -526,6 +527,11 @@
       &.square {
         border-radius: var(--ids-border-radius-xs);
       }
+    }
+
+    &[editor-action='sourcemode'],
+    &[editor-action='editormode'] {
+      --ids-button-icon-width: 54px;
     }
   }
 
@@ -663,7 +669,7 @@
   &.btn-secondary,
   &.btn-tertiary {
     background-color: var(--ids-modal-color-background);
-    color: var(--ids-color-gray-80);
+    color: var(--ids-modal-button-secondary-color-default);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -671,7 +677,7 @@
     }
 
     &:hover {
-      color: var(--ids-color-gray-100);
+      color: var(--ids-modal-button-secondary-color-hover);
     }
 
     &[disabled] {
