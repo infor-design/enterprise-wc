@@ -310,7 +310,7 @@ export default class IdsHierarchyItem extends Base {
 
     if (this.dropdownMenu) {
       this.onEvent('click', this.dropdownMenu, () => {
-        this.adjustZIndex(this.parentNode, 202);
+        this.adjustZIndex(this.parentNode, 102);
 
         const leafElement = this.shadowRoot?.querySelector<HTMLElement>('.leaf');
         leafElement?.style.setProperty('z-index', '201');
