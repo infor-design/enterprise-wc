@@ -235,4 +235,3 @@ test.describe('IdsScrollView tests', () => {
     });
   });
 });
-
