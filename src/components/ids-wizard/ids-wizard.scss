@@ -159,10 +159,24 @@
   }
 
   .step.disabled {
-    svg:first-child circle {
-      fill: transparent;
-      stroke: var(--ids-color-text-disabled);
-      stroke-width: 3px;
+    &:not(.visited) {
+      svg:first-child circle {
+        fill: none;
+        stroke: var(--ids-wizard-step-color-disabled-unvisited);
+        stroke-width: 3px;
+      }
+    }
+
+    &.visited {
+      svg:first-child circle {
+        fill: var(--ids-wizard-step-color-disabled);
+        stroke: none;
+        stroke-width: none;
+      }
+
+      .step-label ids-text::part(text) {
+        color: var(--ids-wizard-step-color-disabled);
+      }
     }
   }
 
