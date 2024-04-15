@@ -5,6 +5,8 @@ import { test } from '../base-fixture';
 
 import IdsPager from '../../src/components/ids-pager/ids-pager';
 import IdsPagerButton from '../../src/components/ids-pager/ids-pager-button';
+import IdsPagerNumberList from '../../src/components/ids-pager/ids-pager-number-list';
+import IdsPagerInput from '../../src/components/ids-pager/ids-pager-input';
 
 test.describe('IdsPager tests', () => {
   const url = '/ids-pager/example.html';
@@ -286,18 +288,18 @@ test.describe('IdsPager tests', () => {
     });
 
     test('can get pager parent', async () => {
-      expect(await idsFirst.evaluate((element:IdsPagerButton) => element.pager)).toBeTruthy();
-      expect(await idsPrevious.evaluate((element:IdsPagerButton) => element.pager)).toBeTruthy();
-      expect(await idsNext.evaluate((element:IdsPagerButton) => element.pager)).toBeTruthy();
-      expect(await idsLast.evaluate((element:IdsPagerButton) => element.pager)).toBeTruthy();
+      expect(await idsFirst.evaluate((element: IdsPagerButton) => element.pager)).toBeTruthy();
+      expect(await idsPrevious.evaluate((element: IdsPagerButton) => element.pager)).toBeTruthy();
+      expect(await idsNext.evaluate((element: IdsPagerButton) => element.pager)).toBeTruthy();
+      expect(await idsLast.evaluate((element: IdsPagerButton) => element.pager)).toBeTruthy();
     });
 
     test('can get pageCount', async () => {
       const defPageCount = 10;
-      expect(await idsFirst.evaluate((element:IdsPagerButton) => element.pageCount)).toEqual(defPageCount);
-      expect(await idsPrevious.evaluate((element:IdsPagerButton) => element.pageCount)).toEqual(defPageCount);
-      expect(await idsNext.evaluate((element:IdsPagerButton) => element.pageCount)).toEqual(defPageCount);
-      expect(await idsLast.evaluate((element:IdsPagerButton) => element.pageCount)).toEqual(defPageCount);
+      expect(await idsFirst.evaluate((element: IdsPagerButton) => element.pageCount)).toEqual(defPageCount);
+      expect(await idsPrevious.evaluate((element: IdsPagerButton) => element.pageCount)).toEqual(defPageCount);
+      expect(await idsNext.evaluate((element: IdsPagerButton) => element.pageCount)).toEqual(defPageCount);
+      expect(await idsLast.evaluate((element: IdsPagerButton) => element.pageCount)).toEqual(defPageCount);
     });
 
     /**
@@ -448,6 +450,226 @@ test.describe('IdsPager tests', () => {
         } else {
           await expect(idsNext).not.toHaveAttribute('label');
         }
+      }
+    });
+  });
+
+  test.describe('IdsPagerNumberList functionality tests', () => {
+    let idsPager: Locator;
+    let idsNumberList: Locator;
+
+    test.beforeEach(async ({ page }) => {
+      idsPager = await page.locator('#ids-pager-example');
+      await idsPager.evaluate((element: IdsPager) => {
+        element.innerHTML = '';
+        const pgNum = document.createElement('ids-pager-number-list');
+        pgNum.setAttribute('id', 'pager-number');
+        element.appendChild(pgNum);
+      });
+      idsNumberList = await idsPager.locator('#pager-number');
+    });
+
+    test('can get pager parent', async () => {
+      await expect(idsNumberList).toBeAttached();
+      expect(await idsNumberList.evaluate((element: IdsPagerNumberList) => element.pager)).toBeTruthy();
+    });
+
+    test('can set/get pageSize attribute', async () => {
+      const defPageSize = 20;
+      const testData = [
+        { data: 5, expected: defPageSize },
+        { data: '7', expected: defPageSize },
+        { data: null, expected: defPageSize }
+      ];
+
+      expect(await idsNumberList.evaluate((element: IdsPagerNumberList) => element.pageSize)).toEqual(defPageSize);
+      await expect(idsNumberList).toHaveAttribute('page-size', defPageSize.toString());
+
+      for (const data of testData) {
+        expect(await idsNumberList.evaluate((element: IdsPagerNumberList, tData) => {
+          element.pageSize = tData.data as any;
+          return element.pageSize;
+        }, data)).toEqual(data.expected);
+      }
+    });
+
+    test('can set/get pageNumber attribute', async () => {
+      const defPageNumber = 1;
+      const testData = [
+        { data: 2, expected: defPageNumber },
+        { data: '3', expected: defPageNumber },
+        { data: 'A', expected: defPageNumber },
+        { data: 0.5, expected: defPageNumber },
+        { data: 20, expected: defPageNumber },
+      ];
+      expect(await idsNumberList.evaluate((element: IdsPagerNumberList) => element.pageNumber)).toEqual(defPageNumber);
+      await expect(idsNumberList).toHaveAttribute('page-number', defPageNumber.toString());
+
+      for (const data of testData) {
+        expect(await idsNumberList.evaluate((element: IdsPagerNumberList, tData) => {
+          element.pageNumber = tData as any;
+          return element.pageNumber;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsNumberList).toHaveAttribute('page-number', data.expected.toString());
+      }
+    });
+
+    test('can set/get total attribute', async () => {
+      const defTotal = 200;
+      const testData = [
+        { data: 100, expected: defTotal },
+        { data: '50', expected: defTotal },
+        { data: 'ACE', expected: defTotal }
+      ];
+
+      expect(await idsNumberList.evaluate((element: IdsPagerNumberList) => element.total)).toEqual(200);
+      await expect(idsNumberList).toHaveAttribute('total', defTotal.toString());
+
+      for (const data of testData) {
+        expect(await idsNumberList.evaluate((element: IdsPagerNumberList, tData) => {
+          element.total = tData as any;
+          return element.total;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsNumberList).toHaveAttribute('total', data.expected.toString());
+      }
+    });
+
+    test('can set/get disabled status', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsNumberList.evaluate((element: IdsPagerNumberList) => element.disabled)).toBeFalsy();
+
+      for (const data of testData) {
+        expect(await idsNumberList.evaluate((element: IdsPagerNumberList, tData) => {
+          element.disabled = tData as any;
+          return { disabled: element.disabled, disabledOverall: element.disabledOverall };
+        }, data.data)).toEqual({ disabled: data.expected, disabledOverall: data.expected });
+      }
+    });
+
+    test('can set/get parentDisabled status', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsNumberList.evaluate((element: IdsPagerNumberList) => element.parentDisabled)).toBeFalsy();
+      await expect(idsNumberList).not.toHaveAttribute('parent-disabled');
+
+      for (const data of testData) {
+        expect(await idsNumberList.evaluate((element: IdsPagerNumberList, tData) => {
+          element.parentDisabled = tData as any;
+          return { parentDisabled: element.parentDisabled, disabledOverall: element.disabledOverall };
+        }, data.data)).toEqual({ parentDisabled: data.expected, disabledOverall: data.expected });
+        if (data.expected) {
+          await expect(idsNumberList).toHaveAttribute('parent-disabled');
+        } else {
+          await expect(idsNumberList).not.toHaveAttribute('parent-disabled');
+        }
+      }
+    });
+
+    test('can set/get label attribute', async () => {
+      const defLabel = 'Go to page {num} of {total}';
+      const testData = [
+        { data: 'next', expected: 'next' },
+        { data: 1, expected: '1' },
+        { data: null, expected: defLabel }
+      ];
+
+      expect(await idsNumberList.evaluate((element: IdsPagerNumberList) => element.label)).not.toBeNull();
+      await expect(idsNumberList).not.toHaveAttribute('label');
+
+      for (const data of testData) {
+        expect(await idsNumberList.evaluate((element: IdsPagerNumberList, tData) => {
+          element.label = tData as any;
+          return element.label;
+        }, data.data)).toEqual(data.expected);
+        if (data.data !== null) {
+          await expect(idsNumberList).toHaveAttribute('label', data.expected);
+        } else {
+          await expect(idsNumberList).not.toHaveAttribute('label');
+        }
+      }
+    });
+
+    test('can set/get step attribute', async () => {
+      const defStep = 3;
+      const testData = [
+        { data: 1, expected: defStep },
+        { data: '2', expected: defStep },
+        { data: 'A', expected: defStep }
+      ];
+
+      expect(await idsNumberList.evaluate((element: IdsPagerNumberList) => element.step)).toEqual(defStep);
+      await expect(idsNumberList).toHaveAttribute('step', defStep.toString());
+
+      for (const data of testData) {
+        expect(await idsNumberList.evaluate((element: IdsPagerNumberList, tData) => {
+          element.step = tData;
+          return element.step;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsNumberList).toHaveAttribute('step', data.expected.toString());
+      }
+    });
+  });
+
+  test.describe('IdsPagerInput functionality tests', () => {
+    let idsPager: Locator;
+    let idsPagerInput: Locator;
+
+    test.beforeEach(async ({ page }) => {
+      idsPager = await page.locator('ids-pager');
+      idsPagerInput = await idsPager.locator('ids-pager-input');
+    });
+
+    test('can get pager parent', async () => {
+      await expect(idsPagerInput).toBeAttached();
+      expect(await idsPagerInput.evaluate((element: IdsPagerInput) => element.pager)).toBeTruthy();
+    });
+
+    test('can set/get pageNumber attribute', async () => {
+      const defInitPageNumber = 1;
+      const defMaxPageCount = await idsPagerInput.evaluate((element: IdsPagerInput) => element.pageCount) ?? 10;
+      const testData = [
+        { data: 2, expected: 2 },
+        { data: '3', expected: 3 },
+        { data: 'A', expected: defInitPageNumber },
+        { data: 0.5, expected: defInitPageNumber },
+        { data: 20, expected: defMaxPageCount },
+      ];
+      expect(await idsPagerInput.evaluate((element: IdsPagerInput) => element.pageNumber)).toEqual(defInitPageNumber);
+      await expect(idsPagerInput).toHaveAttribute('page-number', defInitPageNumber.toString());
+
+      for (const data of testData) {
+        expect(await idsPagerInput.evaluate((element: IdsPagerInput, tData) => {
+          element.pageNumber = tData as any;
+          return element.pageNumber;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsPagerInput).toHaveAttribute('page-number', data.expected.toString());
+      }
+    });
+
+    // https://github.com/infor-design/enterprise-wc/issues/2213
+    test.skip('can set/get disabled status', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsPagerInput.evaluate((element: IdsPagerInput) => element.disabled)).toBeFalsy();
+
+      for (const data of testData) {
+        expect(await idsPagerInput.evaluate((element: IdsPagerInput, tData) => {
+          element.disabled = tData as any;
+          return { disabled: element.disabled, disabledOverall: element.disabledOverall };
+        }, data.data)).toEqual({ disabled: data.expected, disabledOverall: data.expected });
       }
     });
   });
