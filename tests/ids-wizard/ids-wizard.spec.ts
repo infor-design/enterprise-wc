@@ -114,7 +114,7 @@ test.describe('IdsWizard tests', () => {
 
     test('should handle disabled steps', async ({ page }) => {
       await page.goto('/ids-wizard/sandbox.html');
-      const wizard = await page.locator('#disabled-steps');
+      const wizard = await page.locator('#ids-wizard-steps-disabled');
 
       expect(await wizard.getAttribute('step-number')).toEqual('2');
       expect(await wizard.evaluate((elem: IdsWizard) => elem.stepNumber)).toEqual(2);
