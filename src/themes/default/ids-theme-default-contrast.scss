@@ -234,6 +234,8 @@
   --ids-modal-footer-color-border: var(--ids-color-gray-50);
   --ids-modal-button-color-default: var(--ids-color-primary);
   --ids-modal-button-color-hover: var(--ids-color-primary-90);
+  --ids-modal-button-secondary-color-default: var(--ids-color-grey-80);
+  --ids-modal-button-secondary-color-hover: var(--ids-color-grey-100);
   --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary);
 
   // Module Nav (Main)
@@ -331,6 +333,10 @@
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-gray-30);
   --ids-step-chart-color-background-complete: var(--ids-color-primary);
+
+  // Swap List
+  --ids-swaplist-search-color-text-default: var(--ids-color-gray-100);
+  --ids-swaplist-search-color-text-placeholder: var(--ids-color-gray-70);
 
   // Swipe Action
   --ids-swipe-action-color-background-right-active: var(--ids-color-blue-90);

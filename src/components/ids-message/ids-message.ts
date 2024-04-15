@@ -50,6 +50,9 @@ export default class IdsMessage extends IdsModal {
     // Update opacity and correct
     this.opacity = this.getAttribute(attributes.OPACITY);
 
+    // Remove fullsize setting
+    this.fullsize = null;
+
     // Sanitizes the HTML in the component
     const currentContentEl = this.querySelector('*:not([slot])');
     if (currentContentEl) {

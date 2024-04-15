@@ -3,6 +3,7 @@
   :host {
     display: block;
     position: absolute;
+    visibility: visible;
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -12,6 +13,7 @@
 
   :host(:not([visible])) {
     pointer-events: none;
+    visibility: hidden;
   }
 }
 

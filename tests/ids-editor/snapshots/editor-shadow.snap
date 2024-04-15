@@ -23,7 +23,7 @@
   
   
   
-  <ids-message id="errormessage-modal" status="error" message-title="No Selection!" aria-label="error: No Selection!" role="dialog" fullsize="sm" respond-down="sm">
+  <ids-message id="errormessage-modal" status="error" message-title="No Selection!" aria-label="error: No Selection!" role="dialog">
     <ids-text slot="title" font-size="24" type="h2" id="errormessage-modal-title">No Selection!</ids-text>
     <ids-text class="demo-contents" align="left">Please make some selection to complete this task.</ids-text>
     <ids-modal-button slot="buttons" appearance="primary" id="errormessage-modal-ok">OK</ids-modal-button>
