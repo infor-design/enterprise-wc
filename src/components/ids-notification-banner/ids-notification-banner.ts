@@ -259,6 +259,7 @@ export default class IdsNotificationBanner extends Base {
       linkText
     } = notification;
     const messageTextEl = this.container?.querySelector('[part="message"]');
+    const linkEl = this.container?.querySelector('[part="link"]');
     const alertIcon = this.container?.querySelector('ids-alert');
     const overflow = this.wrap ? '' : 'overflow="ellipsis"';
 
@@ -272,14 +273,10 @@ export default class IdsNotificationBanner extends Base {
     if (messageTextEl) messageTextEl.innerHTML = `<ids-text ${overflow}>${this.messageText}</ids-text>`;
 
     // Check for link and create the necassary elements.
-    if (notification.link) {
-      const linkPart = document.createElement('div');
-      linkPart.setAttribute('part', 'link');
+    if (notification.link && linkEl) {
       this.link = link;
       this.linkText = linkText === undefined ? 'Click to view' : linkText;
-      linkPart.innerHTML = `<ids-hyperlink href="${this.link}" target="_blank">${this.linkText}</ids-hyperlink>`;
-      // Insert after the message text.
-      messageTextEl?.parentNode?.insertBefore(linkPart, messageTextEl.nextSibling);
+      linkEl.innerHTML = `<ids-hyperlink href="${this.link}" target="_blank">${this.linkText}</ids-hyperlink>`;
     }
 
     // Check if parent container is defined to prepend
