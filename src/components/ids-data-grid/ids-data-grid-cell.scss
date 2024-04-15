@@ -238,6 +238,7 @@
   }
 
   &.frozen-left {
+    background-color: var(--ids-data-grid-color-background);
     position: sticky;
     left: 0;
 
