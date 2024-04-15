@@ -158,6 +158,14 @@
     }
   }
 
+  .step.disabled {
+    svg:first-child circle {
+      fill: transparent;
+      stroke: var(--ids-color-text-disabled);
+      stroke-width: 3px;
+    }
+  }
+
   slot {
     display: none;
   }
