@@ -9,7 +9,8 @@ import {
 } from '../../../utils/ids-string-utils/ids-string-utils';
 
 import {
-  colorNameToRgba
+  colorNameToRgba,
+  contrastColor
 } from '../../../utils/ids-color-utils/ids-color-utils';
 
 import {
@@ -40,6 +41,7 @@ import { isObject, isObjectAndNotEmpty } from '../../../utils/ids-object-utils/i
   escapeRegExp,
   kebabCase,
   colorNameToRgba,
+  contrastColor,
   stripTags,
   stripHTML,
   sanitizeHTML,

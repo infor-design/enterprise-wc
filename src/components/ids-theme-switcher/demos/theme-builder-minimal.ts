@@ -11,6 +11,15 @@ import '../../ids-slider/ids-slider';
 import '../../ids-tabs/ids-tabs';
 import '../../ids-tabs/ids-tabs-context';
 import '../../ids-tag/ids-tag';
+import css from '../../../assets/css/ids-personalize/example.css';
+import type IdsColorPicker from '../../ids-color-picker/ids-color-picker';
+import IdsPersonalization from '../../ids-personalize/ids-personalize';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+const head = document.querySelector('head');
+if (head) {
+  head.insertAdjacentHTML('afterbegin', cssLink);
+}
 
 // Handle Theme Picker Changes
 const primaryColor = (document as any).querySelector('#primary-color');
@@ -121,3 +130,11 @@ window.onload = () => {
     document.querySelector('#ids-theme-builder')?.remove();
   });
 };
+
+const personalize = new IdsPersonalization();
+const picker = document.querySelector<IdsColorPicker>('ids-color-picker')!;
+document.querySelector('#reset')?.addEventListener('click', () => {
+  picker.value = '#0066d4';
+  personalize.resetToDefault();
+  document.querySelector('#ids-theme-builder')?.remove();
+});

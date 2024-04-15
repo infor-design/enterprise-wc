@@ -273,6 +273,7 @@
 
   // Button (Primary)
   --ids-button-padding-inline: 12px;
+  --ids-button-alt-margin: var(--ids-space-xxxs);
   --ids-button-radius: var(--ids-border-radius-sm);
   --ids-button-color-text-default: currentColor;
   --ids-button-primary-color-border-default: var(--ids-color-action-default);
@@ -398,7 +399,7 @@
 
   // Button (Menu)
   --ids-button-menu-background-color-active: var(--ids-color-accent-gray-weakest);
-  --ids-button-menu-color-active: var(--ids-color-foreground-default-default);
+  --ids-button-menu-color-text-active: var(--ids-color-foreground-default-default);
 
   // Button (System)
   --ids-button-system-color-background-hover: transparent;
@@ -757,11 +758,17 @@
   --ids-header-color-text: var(--ids-color-text-default);
   --ids-header-button-color-text-default: var(--ids-button-tertiary-color-text-default);
   --ids-header-button-color-background-hover: var(--ids-button-tertiary-color-background-hover);
+  --ids-header-button-color-border-hover: var(--ids-button-tertiary-color-background-hover);
   --ids-header-button-color-text-hover: var(--ids-button-tertiary-color-text-hover);
+  --ids-header-button-color-background-pressed : var(--ids-button-tertiary-color-background-hover);
+  --ids-header-button-color-border-pressed: var(--ids-button-tertiary-color-background-hover);
+  --ids-header-button-color-text-pressed: var(--ids-button-tertiary-color-text-hover);
   --ids-header-input-color-border-hover: var(--ids-input-color-border-hover);
   --ids-header-button-color-text-disabled: var(--ids-button-tertiary-color-text-disabled);
   --ids-header-button-shadow-focus: var(--ids-button-tertiary-shadow-focus);
   --ids-header-button-color-border-focus: var(--ids-button-tertiary-color-border-focus);
+  --ids-header-button-menu-color-background-active: var(--ids-button-tertiary-color-background-hover);
+  --ids-header-button-menu-color-active: var(--ids-button-tertiary-color-text-hover);
   --ids-header-padding: 8px;
   --ids-header-gradient-opacity-none: rgb(0 114 237 / 1);
   --ids-header-gradient-opacity-full: rgb(0 114 237 / 0);

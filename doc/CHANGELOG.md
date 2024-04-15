@@ -15,12 +15,14 @@
 - `[DataGrid]` Fixed placement of tree expand buttons in the tree grid. ([#1603](https://github.com/infor-design/enterprise-wc/issues/1603))
 - `[Editor]` Fixed style of some buttons and the height of the toolbar. ([#2188](https://github.com/infor-design/enterprise-wc/issues/2188))
 - `[Forms]` Fixed issues with tabbing and layout issues in compact mode on forms. ([#2128](https://github.com/infor-design/enterprise-wc/issues/2128))
+- `[Header]` Changed the header color setting to work separate from personalization. ([#2050](https://github.com/infor-design/enterprise-wc/issues/2050))
 - `[Hierarchy]` Fixed the issue where a popup appeared behind the field. ([#2191](https://github.com/infor-design/enterprise-wc/issues/2191))
 - `[LayoutGrid]` Added fixes for background fill color in contrast mode. ([#2189](https://github.com/infor-design/enterprise-wc/issues/2189))
 - `[ListView]` Updated listview sortable styles. ([#1733](https://github.com/infor-design/enterprise-wc/issues/1733))
 - `[Message]` Fixed mobile IdsMessage behavior. ([#2183](https://github.com/infor-design/enterprise-wc/issues/2183))
 - `[Modal]` Fixed invisible button in dark mode modals. ([#2197](https://github.com/infor-design/enterprise-wc/issues/2197))
 - `[Pager]` Fixed an error when creating an ids-pager-dropdown via document.createElement. ([#2193](https://github.com/infor-design/enterprise-wc/issues/2193))
+- `[Personalizations]` Added a method to reset the personalization color to the default. ([#2054](https://github.com/infor-design/enterprise-wc/issues/2054))
 - `[Slider]` Step number has been changed to the number of steps between start and end step. ([#2091](https://github.com/infor-design/enterprise-wc/issues/2091))
 
 ## 1.0.0-beta.23

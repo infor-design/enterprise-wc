@@ -44,6 +44,10 @@ console.log(personalize.colorProgression(personalize.color));
 - `color` {string} Get or set the personalization color
 - `colorProgression` {Record} Displays 10 primary color token values and the text color
 
+## Methods
+
+- `resetToDefault` {void} Removes any previous personalization styles from the page.
+
 ## Converting from Previous Versions
 
 - 3.x: This version did not have any personalization

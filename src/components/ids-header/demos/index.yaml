@@ -26,6 +26,9 @@
   - link: module.html
     type: Example
     description: Showing a header in module color variant
+  - link: multiple-color.html
+    type: Test
+    description: Showing a bug with header color changing other items
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a header with stand alone css
