@@ -102,7 +102,7 @@ IdsModal can alter its display mode to take up 100% of the browser viewport's wi
 </ids-modal>
 ```
 
-The full size attribute can be defined with an IDS Breakpoint, as defined in the [IdsBreakpointMixin](../../mixins/ids-breakpoint-mixin/README.md).  Alternatively, this setting can be changed to `null` or `''` resulting in no fullscreen mode, or `'always'` which forces the fullscreen mode to be displayed indefinitely.
+The full size attribute can be defined with an IDS Breakpoint, as defined in the [IdsBreakpointMixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-breakpoint-mixin/README.md).  Alternatively, this setting can be changed to `null` or `''` resulting in no fullscreen mode, or `'always'` which forces the fullscreen mode to be displayed indefinitely.
 
 By default, the full size setting on all modals is set to Small (`sm`) and will break when the viewport width is below 600px.
 

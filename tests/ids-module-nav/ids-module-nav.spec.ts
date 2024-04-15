@@ -62,6 +62,13 @@ test.describe('IdsModuleNav tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-module-nav-light');
     });
+
+    test('should match the visual snapshot in percy (with masthead)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+
+      await page.goto('/ids-module-nav/with-masthead.html');
+      await percySnapshot(page, 'ids-module-nav-masthead-light');
+    });
   });
 
   test.describe('sandbox tests', () => {

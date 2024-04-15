@@ -111,7 +111,7 @@ Example with legend
 
 ### Color Variants
 
-The `ids-hierarchy-item` and `ids-hierarchy-legend-item` make use of the [IdsColorVariantMixin](../../mixins/ids-color-variant-mixin/README.md) to modify the colors per item. There are currently 4 color variants available: `full-time`, `part-time`, `contractor` and `open-position`.
+The `ids-hierarchy-item` and `ids-hierarchy-legend-item` make use of the [IdsColorVariantMixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-color-variant-mixin/README.md) to modify the colors per item. There are currently 4 color variants available: `full-time`, `part-time`, `contractor` and `open-position`.
 
 ```html
 <ids-hierarchy-item id="item-1" color-variant="full-time">

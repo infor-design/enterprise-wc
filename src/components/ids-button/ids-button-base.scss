@@ -172,7 +172,7 @@
     opacity: var(--ids-button-tertiary-opacity-disabled);
   }
 
-  &:active {
+  &:active:not([disabled]) {
     background-color: var(--ids-button-tertiary-color-background-pressed);
     border-color: var(--ids-button-tertiary-color-border-pressed);
     color: var(--ids-button-tertiary-color-text-pressed);
@@ -322,7 +322,7 @@
 
     &[disabled] {
       background: border-box var(--ids-button-ai-color-background-disabled);
-      background-color: var(--ids-button-ai-color-background-color-disabled);
+      border-color: var(--ids-button-ai-color-background-color-disabled);
     }
 
     &.color-variant-alternate-formatter,
@@ -424,7 +424,7 @@
       border-color: var(--ids-button-secondary-color-border-focus);
     }
 
-    &:hover {
+    &:hover:not([disabled]) {
       background-color: var(--ids-button-secondary-color-background-hover);
       border-color: var(--ids-button-secondary-color-border-hover);
       color: var(--ids-button-secondary-color-text-hover);
@@ -437,7 +437,7 @@
       opacity: var(--ids-button-secondary-opacity-disabled);
     }
 
-    &:active {
+    &:active:not([disabled]) {
       background-color: var(--ids-button-secondary-color-background-pressed);
       border-color: var(--ids-button-secondary-color-border-pressed);
       color: var(--ids-button-secondary-color-text-pressed);
@@ -482,6 +482,7 @@
 
     &:hover {
       background-color: var(--ids-button-formatter-color-background-hover);
+      border-color: transparent;
       color: var(--ids-button-formatter-color-text-hover);
       opacity: 1;
     }
@@ -526,6 +527,11 @@
       &.square {
         border-radius: var(--ids-border-radius-xs);
       }
+    }
+
+    &[editor-action='sourcemode'],
+    &[editor-action='editormode'] {
+      --ids-button-icon-width: 54px;
     }
   }
 
@@ -663,7 +669,7 @@
   &.btn-secondary,
   &.btn-tertiary {
     background-color: var(--ids-modal-color-background);
-    color: var(--ids-color-gray-80);
+    color: var(--ids-modal-button-secondary-color-default);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -671,7 +677,7 @@
     }
 
     &:hover {
-      color: var(--ids-color-gray-100);
+      color: var(--ids-modal-button-secondary-color-hover);
     }
 
     &[disabled] {

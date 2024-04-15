@@ -308,7 +308,6 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
    */
   #handleSearch(term: string): void {
     const lv = this as unknown as IdsListView;
-    if (!lv.datasource) return;
 
     // Reset search if term is empty
     const isTermString = typeof term === 'string';
@@ -384,16 +383,17 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
   /**
    * Set search term highlight
    * @param {string | HTMLElement | object} item The from data item
+   * @param {string | null} fulltext the item's fulltext that needs to be searched
    * @returns {string} search term highlight
    */
-  searchHighlight(item: string | HTMLElement | object): string | HTMLElement | object {
+  searchHighlight(item: string | HTMLElement | object, fulltext : string | null = null): string | HTMLElement | object {
     if (this.suppressHighlight || !item || this.#term === '') return item;
 
     // Set regex according to search filter mode
     let regex: any = null;
     const modes = this.searchFilterModes;
     const flag = this.searchTermCaseSensitive ? 'g' : 'gi';
-    const replaceTmpl = `<strong class="highlight">$1</strong>`;
+    const replaceTmpl = (matched: string) => `<strong class="highlight">${matched}</strong>`;
     let replaceMatch = (s: string) => s.replace(regex, replaceTmpl);
     if (this.searchFilterMode === modes.WORD_STARTS_WITH) {
       regex = new RegExp(`(^|\\s)(${this.#term})`, flag);
@@ -411,7 +411,7 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
     if (!regex) return item;
 
     let term = this.#term;
-    let text = this.#searchableContent(item);
+    let text = fulltext || this.#searchableContent(item);
     let cloneItem = deepClone(item);
 
     // Set case sensitive
