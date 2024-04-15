@@ -8,6 +8,7 @@
 - `[AppMenu/ModuleNav]` Added examples showing content like masthead and tabs can move the menu container down. ([#2074](https://github.com/infor-design/enterprise-wc/issues/2074))
 - `[Datagrid]` Add `allow-one-expanded-row` attribute to data-grid to limit expandable-rows to one. ([#1998](https://github.com/infor-design/enterprise-wc/issues/1998))
 - `[Swaplist]` Added search feature to `IdsSwapList`. ([#1702](https://github.com/infor-design/enterprise-wc/issues/1702))
+- `[Wizard]` Added disabled attribute to the steps. ([#2192](https://github.com/infor-design/enterprise-wc/issues/2192))
 
 ### 1.0.0 Fixes
 
