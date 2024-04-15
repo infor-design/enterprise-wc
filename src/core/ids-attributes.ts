@@ -20,6 +20,7 @@ export const attributes = {
   ALLOW_EMPTY_HREF: 'allow-empty-href',
   ALLOW_LINK: 'allow-link',
   ALLOW_ONE_PANE: 'allow-one-pane',
+  ALLOW_ONE_EXPANDED_ROW: 'allow-one-expanded-row',
   ALT: 'alt',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
@@ -74,14 +75,15 @@ export const attributes = {
   CLEARABLE: 'clearable',
   CLEARABLE_FORCED: 'clearable-forced',
   CLEARABLE_TEXT: 'clearable-text',
+  CLICK_OUTSIDE_TO_CLOSE: 'click-outside-to-close',
   CLICKABLE: 'clickable',
   COL_END: 'col-end',
-  COL_END_LG: 'col-start-lg',
-  COL_END_MD: 'col-start-md',
-  COL_END_SM: 'col-start-sm',
-  COL_END_XL: 'col-start-xl',
-  COL_END_XS: 'col-start-xs',
-  COL_END_XXL: 'col-start-xxl',
+  COL_END_LG: 'col-end-lg',
+  COL_END_MD: 'col-end-md',
+  COL_END_SM: 'col-end-sm',
+  COL_END_XL: 'col-end-xl',
+  COL_END_XS: 'col-end-xs',
+  COL_END_XXL: 'col-end-xxl',
   COL_SPAN: 'col-span',
   COL_SPAN_LG: 'col-span-lg',
   COL_SPAN_MD: 'col-span-md',
@@ -305,7 +307,6 @@ export const attributes = {
   NO_HEADER: 'no-header',
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
-  NO_RIPPLE: 'no-ripple',
   OFFSET_CONTENT: 'offset-content',
   OPACITY: 'opacity',
   ORDER: 'order',
@@ -436,6 +437,7 @@ export const attributes = {
   SHOW_TODAY: 'show-today',
   SHOW_TOOLTIP: 'show-tooltip',
   SHOW_VERTICAL_GRID_LINES: 'show-vertical-grid-lines',
+  SHOW_VISITED_COLOR: 'show-visited-color',
   SHOW_WEEK_NUMBERS: 'show-week-numbers',
   SHRINK: 'shrink',
   SIZE: 'size',
@@ -575,7 +577,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.21';
+export const version = '1.0.0-beta.23';
 
 export enum IdsDirection {
   Up = 'up',

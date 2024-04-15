@@ -1,4 +1,4 @@
-import { attributes, htmlAttributes } from '../../core/ids-attributes';
+import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import {
@@ -198,7 +198,6 @@ export default class IdsMenu extends Base {
     super.connectedCallback();
     this.attachEventHandlers();
     this.attachKeyboardListeners();
-    this.setAttribute(htmlAttributes.ROLE, 'none');
 
     // If a dataset has been loaded, render it
     if (this.data) {
@@ -229,7 +228,7 @@ export default class IdsMenu extends Base {
    */
   template() {
     let id;
-    if (this.id) id = ` id="${this.id}"`;
+    if (this.id) id = ` id="${this.id}-menu"`;
 
     let disabledClass = '';
     if (this.disabled) disabledClass = ' disabled';

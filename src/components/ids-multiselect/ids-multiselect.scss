@@ -30,6 +30,11 @@ ids-trigger-field {
       &::part(input) {
         padding: 0;
         flex: 1;
+
+        &::selection {
+          color: transparent;
+          background: transparent;
+        }
       }
 
       ids-text {

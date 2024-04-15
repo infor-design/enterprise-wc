@@ -54,9 +54,9 @@
 }
 
 :host(.p-8) {
-  padding-block: var(--ids-space-40);
-  padding-inline-end: var(--ids-space-40);
-  padding-inline-start: var(--ids-space-60);
+  padding-block: var(--ids-space-xs);
+  padding-inline-end: var(--ids-space-xs);
+  padding-inline-start: var(--ids-space-sm);
 }
 
 :host(.is-hidden) {
@@ -75,5 +75,5 @@
 }
 
 :host(.slotted-ids-tab:not(.orientation-vertical)) {
-  margin-inline-start: var(--ids-space-30);
+  margin-inline-start: var(--ids-space-xxs);
 }

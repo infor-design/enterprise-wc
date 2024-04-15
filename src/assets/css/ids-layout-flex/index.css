@@ -6,31 +6,31 @@
 /* Light */
 .demo-ids-layout-flex .fill,
 [mode='light'] .demo-ids-layout-flex .fill {
-  background-color: var(--ids-color-neutral-10);
+  background-color: var(--ids-color-gray-10);
 }
 
 .demo-ids-layout-flex .box,
 [mode='light'] .demo-ids-layout-flex .box {
   background-color: var(--ids-color-white-100);
-  border: 1px solid var(--ids-color-neutral-30);
+  border: 1px solid var(--ids-color-gray-30);
 }
 
 /* Dark */
 [mode='dark'] .demo-ids-layout-flex .fill {
-  background-color: var(--ids-color-neutral-80);
+  background-color: var(--ids-color-gray-80);
 }
 
 [mode='dark'] .demo-ids-layout-flex .box {
-  background-color: var(--ids-color-neutral-70);
-  border-color: var(--ids-color-neutral-50);
+  background-color: var(--ids-color-gray-70);
+  border-color: var(--ids-color-gray-50);
 }
 
 /* Contrast */
 [mode='contrast'] .demo-ids-layout-flex .fill {
-  background-color: var(--ids-color-neutral-20);
+  background-color: var(--ids-color-gray-20);
 }
 
 [mode='contrast'] .demo-ids-layout-flex .box {
   background-color: var(--ids-color-white-100);
-  border-color: var(--ids-color-neutral-60);
+  border-color: var(--ids-color-gray-60);
 }

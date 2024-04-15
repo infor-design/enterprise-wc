@@ -27,6 +27,7 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
 
     window.requestAnimationFrame(() => {
       this.resetDirtyTracker();
+      this.#dirtyTrackerInitialized = true;
     });
   }
 
@@ -36,6 +37,8 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
       attributes.DIRTY_TRACKER
     ];
   }
+
+  #dirtyTrackerInitialized = false;
 
   dirty: any = {
     original: ''
@@ -188,9 +191,11 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
     if (this.isDirty) {
       this.appendDirtyTrackerMsg();
       this.appendDirtyTrackerIcon();
+      this.#triggerDirtyEvent('dirty');
     } else {
       this.removeDirtyTrackerMsg();
       this.removeDirtyTrackerIcon();
+      this.#triggerDirtyEvent('pristine');
     }
   }
 
@@ -239,6 +244,7 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
       this.handleDirtyTracker();
     }
     this.isDirty = false;
+    this.#triggerDirtyEvent('afterresetdirty');
   }
 
   /**
@@ -280,6 +286,18 @@ const IdsDirtyTrackerMixin = <T extends Constraints>(superclass: T) => class ext
   }
 
   get dirtyTracker() { return stringToBool(this.getAttribute(attributes.DIRTY_TRACKER)); }
+
+  #triggerDirtyEvent(name: 'dirty' | 'pristine' | 'afterresetdirty') {
+    if (!this.#dirtyTrackerInitialized) return;
+
+    this.triggerEvent(name, this, {
+      detail: {
+        elem: this,
+        ...this.dirty,
+        isDirty: this.isDirty
+      }
+    });
+  }
 };
 
 export default IdsDirtyTrackerMixin;

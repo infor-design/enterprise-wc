@@ -20,7 +20,7 @@
   // Outside border and Background and sizing
   background-color: var(--ids-data-grid-color-background);
   border: 1px solid var(--ids-data-grid-cell-color-border);
-  border-radius: var(--ids-border-radius-01);
+  border-radius: var(--ids-border-radius-xxs);
   border-collapse: collapse;
   box-sizing: border-box;
   overflow: auto;
@@ -153,6 +153,13 @@
     ids-button {
       padding-inline-start: 4px;
       padding-inline-end: 0;
+    }
+
+    ids-button.expand-button {
+      --ids-button-tertiary-color-background-hover: transparent;
+      --ids-button-tertiary-color-border-hover: transparent;
+      --ids-button-tertiary-color-background-pressed: transparent;
+      --ids-button-tertiary-color-border-pressed: transparent;
     }
 
     .text-ellipsis {

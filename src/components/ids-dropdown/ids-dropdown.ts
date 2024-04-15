@@ -155,6 +155,7 @@ export default class IdsDropdown extends Base {
     return [
       ...super.attributes,
       attributes.MAX_HEIGHT,
+      attributes.VALIDATE
     ];
   }
 
@@ -293,7 +294,6 @@ export default class IdsDropdown extends Base {
       'aria-expanded': 'false',
       'aria-autocomplete': 'list',
       'aria-haspopup': 'listbox',
-      'aria-description': this.localeAPI?.translate('PressDown'),
       'aria-controls': targetListboxId
     };
 
@@ -820,9 +820,12 @@ export default class IdsDropdown extends Base {
         return;
       }
 
-      this.openedByKeyboard = true;
-      if (this.dropdownList?.popup?.visible) return;
+      const dropdownListVisible = !!this.dropdownList?.popup?.visible;
+      if (dropdownListVisible) return;
+      if (e.key === 'Enter' && !dropdownListVisible) return;
       if (e.key === ' ' && this.typeahead) return;
+
+      this.openedByKeyboard = true;
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.open(this.typeahead);
     });
@@ -840,7 +843,7 @@ export default class IdsDropdown extends Base {
     if (!this.list) {
       this.offEvent('click.dropdown-input');
       this.onEvent('click.dropdown-input', this.input, (e) => {
-        if (e instanceof PointerEvent) {
+        if (e instanceof MouseEvent) {
           this.dropdownList?.onTriggerClick?.(e);
         }
       });
@@ -946,9 +949,12 @@ export default class IdsDropdown extends Base {
   #attachKeyboardListeners() {
     this.onEvent('keydown.dropdown-typeahead', this, (e: KeyboardEvent) => {
       const key = e.key || 'Space';
-      if (['Backspace', 'Delete', 'Escape', 'Tab'].includes(key)) return;
+      if (['Backspace', 'Delete', 'Enter', 'Escape', 'Shift', 'Tab'].includes(key)) return;
 
       if (!this.dropdownList?.popup?.visible) {
+        const doNotOpen = ['Alt', 'Backspace', 'CapsLock', 'Control', 'Delete', 'Enter', 'Escape', 'Meta', 'Shift', 'Tab'];
+        if (doNotOpen.includes(key)) return;
+
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.open(true);
       }
@@ -1145,6 +1151,7 @@ export default class IdsDropdown extends Base {
     return `<ids-list-box-option
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
+      ${option.tooltip ? `tooltip="${option.tooltip}"` : ''}
       ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.label || ''}</ids-list-box-option>`;
   }
 
@@ -1231,7 +1238,8 @@ export default class IdsDropdown extends Base {
       ...option,
       id: this.xssSanitize(option?.id ?? '') as string,
       value: this.xssSanitize(option.value) as string,
-      label: this.xssSanitize(option.label) as string
+      label: this.xssSanitize(option.label) as string,
+      tooltip: this.xssSanitize(option.tooltip ?? '') as string
     });
   }
 
@@ -1291,7 +1299,11 @@ export default class IdsDropdown extends Base {
       }
     }
     this.dropdownList = targetNode;
+    if (this.dropdownList && this.value) {
+      this.dropdownList.setAttribute(attributes.VALUE, this.value);
+    }
     this.configurePopup();
+    this.attachClickEvent();
   }
 
   /**

@@ -25,7 +25,7 @@
 
   .step.clickable:focus .step-label {
     border: 1px solid var(--ids-wizard-step-color-default);
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-border-radius-xxs);
     box-shadow: var(--ids-shadow-focus);
     outline: none;
     outline-color: transparent;

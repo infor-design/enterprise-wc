@@ -1,4 +1,4 @@
-import pathData from 'ids-identity/dist/theme-new/icons/default/path-data.json';
+import pathData from 'ids-foundation/icons/standard/path-data.json';
 import '../ids-icon';
 
 // Imports Used in the Examples

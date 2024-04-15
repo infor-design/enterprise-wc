@@ -21,6 +21,7 @@ import IdsElement from '../../core/ids-element';
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 import '../ids-trigger-field/ids-trigger-button';
+
 import {
   LABEL_WRAPS,
   TYPES,
@@ -221,7 +222,6 @@ export default class IdsInput extends Base {
       <div class="field-container" part="field-container">
         <input
           part="input"
-          id="input-id"
           ${type}${inputClass}${placeholder}${inputState}
           ${ariaLabel}
           ${value}
@@ -279,14 +279,13 @@ export default class IdsInput extends Base {
     const requiredLabelCss = !this.labelRequired ? ' no-required-indicator' : '';
     const labelHtml = `<label
       class="ids-label-text${requiredLabelCss}${hiddenLabelCss}"
-      for="input-id"
       part="label"
       ${attrs.readonly}
       ${attrs.disabled}
       ${attrs.required}
     >
       <slot name="label-pre"></slot>
-      <ids-text part="label" label ${attrs.disabled} color-unset>
+      <ids-text part="label" color-unset>
         ${this.label}
       </ids-text>
       <slot name="label-post"></slot>
@@ -449,6 +448,21 @@ export default class IdsInput extends Base {
   }
 
   /**
+   * Sets the id internally and externally
+   * @param {string} value id value
+   */
+  set id(value: string) {
+    const shadowId = `${value}-internal`;
+    this.setAttribute(attributes.ID, value);
+    this.shadowRoot?.querySelector('label')?.setAttribute('for', shadowId);
+    this.shadowRoot?.querySelector('input')?.setAttribute('id', shadowId);
+  }
+
+  get id(): string {
+    return this.getAttribute(attributes.ID) || 'none';
+  }
+
+  /**
    * Set input state for disabled or readonly
    * @private
    * @param {string} prop The property.
@@ -468,17 +482,14 @@ export default class IdsInput extends Base {
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
         this.container?.classList?.remove?.(options.prop2);
-        this.container?.querySelector?.('ids-text')?.removeAttribute(options.prop2);
         msgNodes.forEach((x: any) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
         this.container?.classList.add(options.prop1);
-        this.container?.querySelector?.('ids-text')?.setAttribute?.(options.prop1, 'true');
         msgNodes.forEach((x: any) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
         this.container?.classList.remove(options.prop1);
-        this.container?.querySelector('ids-text')?.removeAttribute(options.prop1);
         msgNodes.forEach((x: any) => x.classList.remove(options.prop1));
       }
     }
@@ -873,6 +884,9 @@ export default class IdsInput extends Base {
     this.setAttribute(attributes.SIZE, size);
     this.container?.classList.remove(...Object.values(SIZES));
     this.container?.classList.add(size);
+
+    this.querySelector('ids-trigger-button')?.classList.remove(...Object.values(SIZES));
+    this.querySelector('ids-trigger-button')?.classList.add(size);
   }
 
   get size(): string {
@@ -925,9 +939,10 @@ export default class IdsInput extends Base {
     // If no masking occurs, simply use the provided value.
     if (this.mask) {
       v = this.processMaskFromProperty(val || '') || v;
-      if (this.input) {
-        this.input.value = v;
-      }
+    }
+
+    if (this.input) {
+      this.input.value = v;
     }
 
     if (currentValue !== v) {
@@ -1053,7 +1068,7 @@ export default class IdsInput extends Base {
    * @returns {boolean} true if the input or its container is overflowing
    */
   canTooltipShow(): boolean {
-    if (checkOverflow(this.input) || checkOverflow(this?.container)) {
+    if (checkOverflow(this.input)) {
       return true;
     }
     return false;

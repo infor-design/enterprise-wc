@@ -277,6 +277,45 @@ test.describe('IdsLookup tests', () => {
       await page.locator('#lookup-5 ids-trigger-button').first().click();
       await expect(await page.locator('#custom-lookup-modal')).toBeVisible();
     });
+
+    test('should support single row selection', async ({ page }) => {
+      await page.goto('/ids-lookup/single-selection.html');
+      const lookup = await page.locator('ids-lookup');
+      const waitForVisible = async () => {
+        await page.waitForFunction(() => {
+          const elem = document.querySelector<IdsLookup>('ids-lookup');
+          return elem?.modal?.visible && (elem?.dataGrid?.data?.length || 0) > 0;
+        });
+      };
+      const waitForHidden = async () => {
+        await page.waitForFunction(() => {
+          const elem = document.querySelector<IdsLookup>('ids-lookup');
+          return !elem?.modal?.visible;
+        });
+      };
+      await lookup.evaluate(async (elem: IdsLookup) => {
+        elem.value = '8233719404,2451410442';
+        await elem?.modal?.show();
+      });
+      await waitForVisible();
+      expect(await lookup.evaluate((elem: IdsLookup) => elem.dataGrid?.selectedRows.length)).toEqual(1);
+      expect(await lookup.evaluate((elem: IdsLookup) => elem.dataGrid?.selectedRows))
+        .toEqual(
+          expect.arrayContaining([{
+            data: expect.objectContaining({ productId: '2451410442' }),
+            index: expect.any(Number)
+          }])
+        );
+      await lookup.evaluate((elem: IdsLookup) => {
+        elem.dataGrid?.cellByIndex(0, 0)?.click();
+      });
+      await waitForHidden();
+      expect(await lookup.evaluate((elem: IdsLookup) => elem.value)).toEqual('7439937961');
+      await lookup.evaluate(async (elem: IdsLookup) => {
+        await elem?.modal?.show();
+        elem.dataGrid?.cellByIndex(0, 0)?.click();
+      });
+    });
   });
 
   test.describe('page append tests', () => {
@@ -494,6 +533,24 @@ test.describe('IdsLookup tests', () => {
       });
       expect(values3[0]).toEqual(false);
       expect(values3[1]).toEqual(false);
+    });
+  });
+
+  test.describe('reattachment tests', () => {
+    test('should not throw error upon modal open after detach/reattach', async ({ page }) => {
+      page.on('pageerror', (err) => {
+        expect(err).toBeNull();
+      });
+
+      await page.evaluate(() => {
+        const lookupElem = document.querySelector('#lookup-5')!;
+        const parentNode = lookupElem.parentNode!;
+
+        parentNode.removeChild(lookupElem);
+        parentNode.appendChild(lookupElem);
+      });
+
+      await page.locator('#lookup-5 ids-trigger-button').first().click();
     });
   });
 });

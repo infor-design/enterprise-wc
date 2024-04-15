@@ -37,11 +37,11 @@ li,
     }
 
     .list-item-checkbox {
-      padding-inline-end: var(--ids-space-70);
+      padding-inline-end: var(--ids-space-20);
       flex-grow: 0;
       flex-shrink: 0;
-      max-height: var(--ids-space-60);
-      max-width: var(--ids-space-60);
+      max-height: var(--ids-space-sm);
+      max-width: var(--ids-space-sm);
     }
 
     .list-item-checkbox[disabled]::part(checkmark) {

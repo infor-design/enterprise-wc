@@ -80,6 +80,7 @@ export default class IdsDropdownList extends Base {
     this.configureListBox();
     this.configurePopup();
     this.attachEventHandlers();
+    this.#setPreselectedLabel();
   }
 
   disconnectedCallback() {
@@ -110,12 +111,25 @@ export default class IdsDropdownList extends Base {
     this.configureListBox();
     this.configurePopup();
     this.setAriaOnMenuOpen();
-    if (this.value) this.selectOption(this.value);
+
+    if (this.value || typeof this.value === 'string') this.selectOption(this.value);
   }
 
   onTargetChange() {
     const id = this.getAttribute(attributes.ID);
     if (id) this.target?.setAttribute(attributes.LIST, `#${id}`);
+  }
+
+  #setPreselectedLabel() {
+    if (!this.value) return;
+
+    const selectedOptionText = this.getOption(this.value)?.textContent;
+    const dropdownEl = this.dropdownEl;
+    const dropdownInput = dropdownEl?.input?.input;
+
+    if (selectedOptionText && dropdownEl && dropdownInput) {
+      dropdownInput.value = selectedOptionText;
+    }
   }
 
   private attachEventHandlers() {
@@ -418,7 +432,7 @@ export default class IdsDropdownList extends Base {
    */
   set value(value: string | null) {
     let selector = `ids-list-box-option[value="${value}"]`;
-    if (value === ' ' || !value) selector = `ids-list-box-option:not([value])`;
+    if (value === ' ' || value === null) selector = `ids-list-box-option:not([value])`;
     const elem = this.listBox?.querySelector<IdsListBoxOption>(selector);
     if (!elem) return;
 

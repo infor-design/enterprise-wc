@@ -10,11 +10,11 @@ The `ids-date-picker` is a web component to support date entry
 ## Settings (Attributes)
 - `colorVariant` {string} set the current color variant.
 - `compact` {boolean} sets the component to be compact mode.
-- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
+- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-field-height-mixin/README.md) for more information.
 - `value` {string|null} - Input value
 - `placeholder` {true|false} - Whether or not to show date format as input placeholder
 - `label` {string|null} - Input label
-- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
+- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-label-state-mixin/README.md) for more information.
 - `noMargins` {boolean} sets whether or not no-margins around the component.
 - `id` {string} - Input ID
 - `disabled` {true|false} - Whether or not the input should be disabled
@@ -219,7 +219,7 @@ datePicker.disableSettings = {
 - <kbd>Page Down</kbd> moves to the same date in the next month
 - <kbd>Enter</kbd> submits the form
 - <kbd>Escape</kbd>, in the case of a popup date picker, closes the widget without any action
-- <kbd>T</kbd> inserts today's date. Except for cases where date format includes wide/abbreaviated months
+- <kbd>T</kbd> inserts today's date. Except for cases where date format includes wide/abbreviated months
 - <kbd>+</kbd> Is used to increment the day in the calendar. This is in addition to the <kbd>Right</kbd>. This works both when in the input field or when the calendar picker is open. If the date pattern contains a `-` in it then this key interferes with typing so this key shortcut is disabled.
 - <kbd>-</kbd>  Is used to increment the day in the calendar. This is in addition to the <kbd>Left</kbd>. This works both when in the input field or when the calendar picker is open. If the date pattern contains a `-` in it then this key interferes with typing so this key shortcut is disabled.
 

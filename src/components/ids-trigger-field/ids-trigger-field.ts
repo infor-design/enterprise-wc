@@ -61,7 +61,8 @@ export default class IdsTriggerField extends IdsInput {
     return [
       ...super.attributes,
       attributes.FORMAT,
-      attributes.TABBABLE
+      attributes.TABBABLE,
+      attributes.VALIDATE
     ];
   }
 
@@ -194,6 +195,21 @@ export default class IdsTriggerField extends IdsInput {
 
   get readonly(): boolean {
     return super.readonly;
+  }
+
+  /**
+   * Sets the id internally and externally
+   * @param {string} value id value
+   */
+  set id(value: string) {
+    const shadowId = `${value}-internal`;
+    this.setAttribute(attributes.ID, value);
+    this.shadowRoot?.querySelector('label')?.setAttribute('for', shadowId);
+    this.shadowRoot?.querySelector('input')?.setAttribute('id', shadowId);
+  }
+
+  get id(): string {
+    return this.getAttribute(attributes.ID) || 'none';
   }
 
   /**

@@ -274,7 +274,7 @@ test.describe('IdsRadioGroup tests', () => {
       expect(await page.evaluate(() => rg.shadowRoot.querySelector('.group-label-text'))).toBeFalsy();
     });
 
-    test('should renders value', async ({ page }) => {
+    test('should render value', async ({ page }) => {
       let value: any = 'Test radio button 1';
       let rb1 = await page.evaluate(() => {
         value = 'Test radio button 1';

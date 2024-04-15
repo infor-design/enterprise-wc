@@ -230,6 +230,11 @@ columns.push({
       editorSettings: {
         autoselect: true,
         dirtyTracker: true
+      },
+      editorValidation: {
+        check: (input) => input.value.length < 50>,
+        message: 'Maximum of 50 characters',
+        id: 'maxchars'
       }
     }
   });
@@ -284,6 +289,10 @@ The following settings are available on editors.
 `editorSettings.options` Dataset used for dropdown editor's list box options.
 `editorSettings.maxlength` Sets the input editor's `maxlength` property to the max characters you can type
 `editorSettings.uppercase` Sets the input editor's to all uppercase
+`editorValidation` Optional property to set custom validation rule
+`editorValidation.check` Callback function for custom validation. It is passed the editable cell's input field and expects a boolean value in return
+`editorValidation.message` Error message displayed when the validation check fails
+`editorValidation.id` Unique id for the validation rule
 
 When the use clicks in the cell or activates editing with the keyboard with the Enter key and types. The following events will fire.
 
@@ -308,6 +317,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 
 - `virtualScroll` {boolean} When virtual scroll is used the grid can render many thousands of rows and only the rows visible in the scroll area are rendered for performance. This setting has limitations such as the rows need to be fixed size.
 - `addNewAtEnd` {boolean} Automatically append rows while keyboard navigating data grid in edit mode.
+- `allow-one-expanded-row` {boolean} This setting will allow only one expandable-row to be opened/expanded at a time. Defaults to false.
 - `alternateRowShading` {boolean} For better scan-ability you can shade alternate rows.
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
 - `columns` {Array<object>} Sets the columns array of the data grid. See column settings.
@@ -390,6 +400,8 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |Setting|Type|Description|
 |---|---|---|
 |`href` | {string|Function} | Used to create the href for hyperlink formatters. This can be a string or a function that can work dynamically. It can also replace `{{value}}` with the current value. |
+|`selected` | {Function} | Fired when an item linked by a menuId is selected when attached to button formatters. |
+|`menuId` | {string} | Used on button formatters to link a menu to the button via a css selector |
 |`text` | {string} | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
 |`disabled` | {boolean|Function} | Sets the cell contents to disabled, can also use a callback to determine this dynamically. Only checkboxes, radios, buttons and link columns can be disabled at this time. Selection columns require disabled rows in order to not be clickable/selectable. |
 |`uppercase` | {boolean} | Transforms all the text in the cell contents to uppercase. See also filterOptions and editorOptions |
@@ -1251,6 +1263,29 @@ Set context menu thru ID.
   </ids-menu-group>
 </ids-popup-menu>
 ```
+
+### Actions Menu Button
+
+The column settings `menuId` and `selected` callback can be used to construct an actions button with a menu for easy handling. An example column setup would be:
+
+```js
+columns.push({
+  id: 'more',
+  name: 'Actions',
+  formatter: dataGrid.formatters.button,
+  icon: 'more',
+  type: 'icon',
+  align: 'center',
+  text: 'Actions',
+  width: 56,
+  menuId: 'actions-menu',
+  selected: (data: Record<string, unknown>, col: IdsDataGridColumn, e: CustomEvent) => {
+    console.info(`Item "${e.detail.elem.text}" was selected (id "${e.detail.elem.id}")`);
+  }
+});
+```
+
+Then just add an `<ids-popup-menu id="actions-menu"></ids-popup-menu>` with any structure you like to the page and it will open when pressing the button. When an item is selected the callback will fire for `selected`
 
 ## Empty Message
 

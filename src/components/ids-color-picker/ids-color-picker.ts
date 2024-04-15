@@ -78,6 +78,7 @@ export default class IdsColorPicker extends Base {
       attributes.CHECKED,
       attributes.COMPACT,
       attributes.DISABLED,
+      attributes.ID,
       attributes.LABEL,
       attributes.PLACEHOLDER,
       attributes.SUPPRESS_LABELS,
@@ -190,7 +191,7 @@ export default class IdsColorPicker extends Base {
       ...Object.values(['--ids-color-blue-10', '--ids-color-blue-20', '--ids-color-blue-30', '--ids-color-blue-40', '--ids-color-blue-50', '--ids-color-blue-60', '--ids-color-blue-70', '--ids-color-blue-80', '--ids-color-blue-90', '--ids-color-blue-100']),
       ...Object.values(['--ids-color-teal-10', '--ids-color-teal-20', '--ids-color-teal-30', '--ids-color-teal-40', '--ids-color-teal-50', '--ids-color-teal-60', '--ids-color-teal-70', '--ids-color-teal-80', '--ids-color-teal-90', '--ids-color-teal-100']),
       ...Object.values(['--ids-color-purple-10', '--ids-color-purple-20', '--ids-color-purple-30', '--ids-color-purple-40', '--ids-color-purple-50', '--ids-color-purple-60', '--ids-color-purple-70', '--ids-color-purple-80', '--ids-color-purple-90', '--ids-color-purple-100']),
-      ...Object.values(['--ids-color-neutral-10', '--ids-color-neutral-20', '--ids-color-neutral-30', '--ids-color-neutral-40', '--ids-color-neutral-50', '--ids-color-neutral-60', '--ids-color-neutral-70', '--ids-color-neutral-80', '--ids-color-neutral-90', '--ids-color-neutral-100']),
+      ...Object.values(['--ids-color-gray-10', '--ids-color-gray-20', '--ids-color-gray-30', '--ids-color-gray-40', '--ids-color-gray-50', '--ids-color-gray-60', '--ids-color-gray-70', '--ids-color-gray-80', '--ids-color-gray-90', '--ids-color-gray-100']),
     ].map(createColor);
 
     return paletteGroups;
@@ -432,6 +433,19 @@ export default class IdsColorPicker extends Base {
 
   get compact(): boolean {
     return stringToBool(this.getAttribute(attributes.COMPACT));
+  }
+
+  /**
+   * Sets the id internally and externally
+   * @param {string} value id value
+   */
+  set id(value: string) {
+    this.shadowRoot?.querySelector('ids-trigger-field')?.setAttribute(attributes.ID, `${value}-trigger-field`);
+    this.setAttribute(attributes.ID, value);
+  }
+
+  get id(): string {
+    return this.getAttribute(attributes.ID) || 'none';
   }
 
   /**

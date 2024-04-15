@@ -88,7 +88,7 @@
 
 @mixin checkbox-focus-error {
   border-color: var(--ids-checkbox-color-border-focus-error);
-  box-shadow: var(--ids-checkbox-shadow-focus);
+  box-shadow: var(--ids-checkbox-shadow-focus-error);
 }
 
 // Colored

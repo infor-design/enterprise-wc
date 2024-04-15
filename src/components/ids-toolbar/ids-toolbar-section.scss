@@ -46,6 +46,11 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     }
   }
 
+  // Formatter toolbar (editor)
+  &.formatter {
+    padding: 2px 0 0;
+  }
+
   // Title sections are not Flex containers (so we can stack content)
   &.title {
     display: inline-block;

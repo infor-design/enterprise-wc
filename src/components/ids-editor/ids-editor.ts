@@ -660,6 +660,8 @@ export default class IdsEditor extends Base {
     let btnSource = this.querySelector<IdsButton>('[editor-action="sourcemode"]');
     let btnEditor = this.querySelector<IdsButton>('[editor-action="editormode"]');
     if (btnSource || btnEditor) {
+      btnSource?.container?.setAttribute('editor-action', 'sourcemode');
+      btnEditor?.container?.setAttribute('editor-action', 'editormode');
       if (!btnEditor) {
         const template = document.createElement('template');
         template.innerHTML = btnEditorModeTemplate;
