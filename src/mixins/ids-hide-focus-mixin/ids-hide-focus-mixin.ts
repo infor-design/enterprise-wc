@@ -62,7 +62,7 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
     this.#removeHideFocusEvents();
 
     this.onEvent('focusin.hide-focus', this, (e) => {
-      if (!this.#isClick && !this.#isFocused) {
+      if (!this.#isFocused) {
         this.#addIsFocusedCssClass();
         this.#removeHideFocusCssClass();
         this.triggerEvent('hidefocusremove', this, e);
