@@ -8,20 +8,28 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsSelectionMixin from '../../mixins/ids-selection-mixin/ids-selection-mixin';
+import IdsListViewSearchMixin from '../ids-list-view/ids-list-view-search-mixin';
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-swappable.scss';
 import IdsSwappableItem from './ids-swappable-item';
+import type IdsSwapList from '../ids-swaplist/ids-swaplist';
+import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
+import '../ids-search-field/ids-search-field';
 
 const Base = IdsKeyboardMixin(
   IdsLocaleMixin(
-    IdsEventsMixin(
-      IdsSelectionMixin(
-        IdsElement
+    IdsListViewSearchMixin(
+      IdsEventsMixin(
+        IdsSelectionMixin(
+          IdsElement
+        )
       )
     )
   )
 );
+
+const SEARCH_MISMATCH_CLASS = 'search-mismatch';
 
 /**
  * IDS Swappable Component
@@ -34,6 +42,8 @@ const Base = IdsKeyboardMixin(
 export default class IdsSwappable extends Base {
   draggingElements: Array<IdsSwappableItem> = [];
 
+  rootNode?: any;
+
   constructor() {
     super();
   }
@@ -42,6 +52,20 @@ export default class IdsSwappable extends Base {
     super.connectedCallback();
     this.setAttribute('dropzone', 'move');
     this.attachEventListeners();
+    this.#attachSearchFilterCallback();
+  }
+
+  mountedCallback(): void {
+    const listCard = this.closest('ids-card');
+    const listTitle = listCard?.getAttribute('data-name');
+    if (listTitle) {
+      this.searchField?.setAttribute(attributes.PLACEHOLDER, `Search ${listTitle}`);
+    }
+  }
+
+  get swapList(): IdsSwapList {
+    if (!this.rootNode) this.rootNode = (this.getRootNode() as any);
+    return (this.rootNode.host) as IdsSwapList;
   }
 
   static get attributes() {
@@ -53,7 +77,7 @@ export default class IdsSwappable extends Base {
   }
 
   template(): string {
-    return `<slot></slot>`;
+    return `${this.searchTemplate?.()}<slot></slot>`;
   }
 
   /**
@@ -74,6 +98,14 @@ export default class IdsSwappable extends Base {
    */
   get selectedItems(): any {
     return this.querySelectorAll('ids-swappable-item[selected]');
+  }
+
+  /**
+   * Get all the ids-swappable-items in the current list
+   * @returns {any} NodeList of ids-swappable-item
+   */
+  get itemsSlotted(): any {
+    return this.querySelectorAll('ids-swappable-item');
   }
 
   /**
@@ -262,5 +294,69 @@ export default class IdsSwappable extends Base {
 
     this.offEvent('dragend', this, () => this.#dzDragEnd());
     this.onEvent('dragend', this, () => this.#dzDragEnd());
+  }
+
+  /**
+   * Attach events for the search input
+   * @private
+   */
+  #attachSearchFilterCallback() {
+    this.searchFilterCallback = (term: string) => {
+      this.itemsSlotted?.forEach((item: any) => {
+        // NOTE: using textContent because innerText was causing older jest tests to fail
+        // @see https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
+        const keywords = String(term);
+        const fulltext = String(item?.textContent ?? '').trim();
+
+        const isMatch = this.searchTermCaseSensitive
+          ? fulltext.includes(keywords)
+          : fulltext.toLowerCase().includes(keywords.toLowerCase());
+
+        if (!term || isMatch) {
+          item.classList.remove(SEARCH_MISMATCH_CLASS);
+          item.removeAttribute('slot');
+        } else {
+          item.classList.add(SEARCH_MISMATCH_CLASS);
+          item.setAttribute('slot', SEARCH_MISMATCH_CLASS);
+        }
+
+        this.redrawItem(item, fulltext);
+      });
+
+      return () => false;
+    };
+  }
+
+  redrawItem(item: any, fulltext : string | null = null) {
+    const itemId = parseInt(item.getAttribute('data-id'));
+    const findItem = this.swapList?.getListItemById(itemId);
+    if (findItem) {
+      const highlightedItem = this.searchHighlight(findItem, fulltext);
+      item.innerHTML = injectTemplate(this.swapList?.defaultTemplate, highlightedItem);
+    }
+  }
+
+  /**
+   * Reset/Clear the search input and search results
+   */
+  resetSearch() {
+    const kids = this.itemsSlotted;
+    if (kids?.length) {
+      kids?.forEach((item: any) => {
+        item.classList.remove(SEARCH_MISMATCH_CLASS);
+        item.removeAttribute('slot');
+
+        this.redrawItem(item);
+      });
+    }
+    /**
+     * Reset the search input
+     */
+    super.resetSearch();
+
+    /**
+     * Clear the search input value
+     */
+    this.searchField?.setAttribute(attributes.VALUE, '');
   }
 }

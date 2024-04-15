@@ -16,6 +16,7 @@
   ::slotted(span),
   ::slotted(ids-text) {
     color: currentColor;
+    align-self: center;
   }
 
   ::slotted(ids-icon) {

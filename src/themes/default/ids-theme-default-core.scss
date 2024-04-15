@@ -388,7 +388,7 @@
   --ids-button-formatter-color-background-default: transparent;
   --ids-button-formatter-color-border-default: transparent;
   --ids-button-formatter-color-text-default: var(--ids-color-gray-100);
-  --ids-button-formatter-size: 32px;
+  --ids-button-formatter-size: 34px;
 
   // Button (Module)
   --ids-button-module-border-radius: 10px;
@@ -1015,6 +1015,8 @@
   --ids-modal-footer-color-border: var(--ids-color-gray-30);
   --ids-modal-button-color-default: var(--ids-color-primary);
   --ids-modal-button-color-hover: var(--ids-color-primary-80);
+  --ids-modal-button-secondary-color-default: var(--ids-color-grey-70);
+  --ids-modal-button-secondary-color-hover: var(--ids-color-grey-100);
   --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary);
 
   // Module Nav (Main)
@@ -1410,6 +1412,13 @@
   --ids-swaplist-item-margin-block-end: var(--ids-space-xxxxs);
   --ids-swaplist-item-line-height: 23px;
   --ids-swaplist-item-over-border: 1px dashed var(--ids-color-text-label);
+  --ids-swaplist-search-color-background-default: var(--ids-color-gray-10);
+  --ids-swaplist-search-color-border-default: var(--ids-color-gray-10);
+  --ids-swaplist-search-color-text-default: var(--ids-color-gray-90);
+  --ids-swaplist-search-color-text-placeholder: var(--ids-color-gray-60);
+  --ids-swaplist-search-color-border-hover: var(--ids-color-gray-80);
+  --ids-swaplist-search-color-border-focus: var(--ids-color-gray-80);
+  --ids-swaplist-search-color-border-shadow: 0 0 3px 2px rgba(54 138 192 / 0.1);
 
   // Swipe Action
   --ids-swipe-action-color-background-left-active: var(--ids-color-gray-40);

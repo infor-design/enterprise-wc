@@ -231,6 +231,10 @@
   }
 }
 
+[data-row-height='xxs'] .header-expander {
+  top: 2px;
+}
+
 :host([show-header-expander]) .header-expander,
 .column-header-expander .header-expander {
   display: unset;
