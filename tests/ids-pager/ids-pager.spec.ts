@@ -65,6 +65,21 @@ test.describe('IdsPager tests', () => {
     });
   });
 
+  test.describe('functionality tests', () => {
+    test('should not have an error when creating pager dropdown element', async ({ page }) => {
+      let hasConsoleError = false;
+      page.on('console', (message) => {
+        if (message.type() === 'error') {
+          hasConsoleError = true;
+        }
+      });
+      await page.evaluate(() => {
+        document.createElement('ids-pager-dropdown');
+      });
+      expect(hasConsoleError).toBeFalsy();
+    });
+  });
+
   test.describe('pager button tests', () => {
     test('pager buttons have a type', async ({ page }) => {
       const types = await page.evaluate(() => {
