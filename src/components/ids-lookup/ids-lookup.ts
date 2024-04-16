@@ -149,6 +149,7 @@ export default class IdsLookup extends Base {
       attributes.DISABLED,
       attributes.FIELD,
       attributes.ID,
+      attributes.NO_MARGINS,
       attributes.READONLY,
       attributes.SEARCHABLE,
       attributes.SEARCHFIELD_PLACEHOLDER,
@@ -545,6 +546,24 @@ export default class IdsLookup extends Base {
   #setTitleAndCount() {
     const titleElem = this.modal?.querySelector<IdsText>('[slot="title"]');
     if (titleElem) titleElem.innerHTML = `${this.title}${!this.recordCount ? '' : `<span class="result-count">${this.localeAPI.translate('Results').replace('{0}', this.recordCount)}</span>`}`;
+  }
+
+  /**
+   * Sets the no margins attribute
+   * @param {boolean} value The value for no margins attribute
+   */
+  set noMargins(value: boolean) {
+    if (stringToBool(value)) {
+      this.setAttribute(attributes.NO_MARGINS, '');
+      if (this.input) this.input.setAttribute(attributes.NO_MARGINS, '');
+      return;
+    }
+    this.removeAttribute(attributes.NO_MARGINS);
+    if (this.input) this.input.removeAttribute(attributes.NO_MARGINS);
+  }
+
+  get noMargins(): boolean {
+    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 
   /**

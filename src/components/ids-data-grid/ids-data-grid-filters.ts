@@ -1170,6 +1170,8 @@ export default class IdsDataGridFilters {
     this.#initial[column.id] = this.#initial[column.id] || {};
     if (!this.#initial[column.id].btn) this.#initial[column.id].btn = { ...sel };
 
+    console.log(items);
+
     return `
       <ids-menu-button
         color-variant="${!this.root.listStyle ? 'alternate-formatter' : 'alternate-list-formatter'}"

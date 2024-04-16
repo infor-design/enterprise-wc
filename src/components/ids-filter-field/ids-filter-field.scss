@@ -1,0 +1,30 @@
+.ids-filter-field {
+  label {
+    display: inline-block;
+    padding: 4px;
+  }
+
+  .field-container {
+    display: flex;
+    align-items: center;
+
+    ids-menu-button {
+      display: block;
+      border: 1px solid var(--ids-input-color-border-default);
+      border-inline-end: none;
+      border-radius: 0;
+  
+      &::part(button) {
+        margin: 0;
+        border-radius: 0;
+        width: unset;
+        border-inline-end-color: transparent;
+      }
+    }
+  }
+}
+
+::slotted(ids-date-picker)::part(field-container) {
+  border-radius: 0;
+}
+

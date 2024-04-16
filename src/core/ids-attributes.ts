@@ -168,6 +168,7 @@ export const attributes = {
   FILL: 'fill',
   FILTER_ROW_DISABLED: 'filter-row-disabled',
   FILTER_WHEN_TYPING: 'filter-when-typing',
+  FILTER_TYPE: 'filter-type',
   FILTERABLE: 'filterable',
   FIRST: 'first',
   FIRST_DAY_OF_WEEK: 'first-day-of-week',

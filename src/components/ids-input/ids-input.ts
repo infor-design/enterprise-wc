@@ -159,6 +159,7 @@ export default class IdsInput extends Base {
       attributes.READONLY,
       attributes.REVEALABLE_PASSWORD,
       attributes.SIZE,
+      attributes.SQUARE,
       attributes.TABBABLE,
       attributes.TEXT_ALIGN,
       attributes.TEXT_ELLIPSIS,
@@ -460,6 +461,16 @@ export default class IdsInput extends Base {
 
   get id(): string {
     return this.getAttribute(attributes.ID) || 'none';
+  }
+
+  set square(val: boolean) {
+    const isSquare = stringToBool(val);
+    this.toggleAttribute(attributes.SQUARE, isSquare);
+    this.container?.querySelector('.field-container')?.classList.toggle('square', isSquare);
+  }
+
+  get square(): boolean {
+    return stringToBool(this.getAttribute(attributes.SQUARE));
   }
 
   /**
