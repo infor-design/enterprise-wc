@@ -89,6 +89,12 @@ test.describe('IdsTextarea tests', () => {
       });
       await expect(await locator.getAttribute('placeholder')).toEqual('Placeholder Text');
       await expect(await value).toEqual('Placeholder Text');
+
+      expect(await locator.evaluate((element: IdsTextarea) => {
+        element.placeholder = null;
+        return element.placeholder;
+      })).toBeNull();
+      await expect(locator).not.toHaveAttribute('placeholder');
     });
 
     test('should be able to set label setting', async ({ page }) => {
@@ -164,6 +170,7 @@ test.describe('IdsTextarea tests', () => {
     });
 
     test('should be able to set value', async ({ page }) => {
+      const idsTextArea = await page.locator('ids-textarea').first();
       const value = await page.evaluate(() => {
         const elem = document.querySelector<IdsTextarea>('ids-textarea')!;
         elem.value = '';
@@ -182,6 +189,16 @@ test.describe('IdsTextarea tests', () => {
         return elem?.input?.value;
       });
       expect(value3).toEqual('');
+
+      // https://github.com/infor-design/enterprise-wc/issues/2229
+      const label = await idsTextArea.locator('div span.textarea-character-counter').first();
+      await expect(label).not.toBeAttached();
+      await idsTextArea.evaluate((element: IdsTextarea) => {
+        element.maxlength = '10';
+        element.value = '12345\n6790';
+      });
+      await expect(label).toBeAttached();
+      await expect(idsTextArea).not.toHaveClass(/almost-empty/);
     });
 
     test('should re render calling template', async ({ page }) => {
@@ -548,7 +565,8 @@ test.describe('IdsTextarea tests', () => {
       const testData = [
         { data: 'false', expected: false },
         { data: true, expected: true },
-        { data: '', expected: true }
+        { data: '', expected: true },
+        { data: null, expected: true }
       ];
 
       expect(await idsTextArea.evaluate((element: IdsTextarea) => element.characterCounter)).toBeTruthy();
@@ -556,10 +574,14 @@ test.describe('IdsTextarea tests', () => {
 
       for (const data of testData) {
         expect(await idsTextArea.evaluate((element: IdsTextarea, tData) => {
-          element.characterCounter = tData;
+          element.characterCounter = tData as any;
           return element.characterCounter;
         }, data.data)).toEqual(data.expected);
-        await expect(idsTextArea).toHaveAttribute('character-counter', data.expected.toString());
+        if (data.data !== null) {
+          await expect(idsTextArea).toHaveAttribute('character-counter', data.expected.toString());
+        } else {
+          await expect(idsTextArea).not.toHaveAttribute('character-counter');
+        }
       }
     });
 
