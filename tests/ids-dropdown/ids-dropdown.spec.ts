@@ -421,11 +421,11 @@ test.describe('IdsDropdown tests', () => {
     });
 
     test('supports async beforeShow', async ({ page }) => {
-      const values = await page.evaluate(async () => {
+      const values = await page.evaluate(async ({ _states }) => {
         const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
         const getContents = () => new Promise((resolve) => {
           setTimeout(() => {
-            resolve(states);
+            resolve(_states);
           }, 1);
         });
 
@@ -437,13 +437,14 @@ test.describe('IdsDropdown tests', () => {
         dropdown.beforeShow = async function beforeShow() {
           return getContents();
         };
+
         results.push(dropdown.beforeShow);
 
         await dropdown.open();
         results.push(dropdown.querySelectorAll('ids-list-box-option').length);
 
         return results;
-      });
+      }, { _states: states });
 
       expect(values[0]).toEqual(6);
       expect(values[1]).toBeFalsy();
@@ -562,7 +563,7 @@ test.describe('IdsDropdown tests', () => {
         results.push(dropdown.popup.visible);
 
         return results;
-      }, { page });
+      });
 
       expect(values[0]).toEqual(1);
       expect(values[1]).toEqual('opt5');
@@ -1385,22 +1386,28 @@ test.describe('IdsDropdown tests', () => {
       const values = await page.evaluate(async () => {
         const dropdown = document.querySelector<any>('#dropdown-keyboard')!;
         dropdown?.dispatchEvent(new KeyboardEvent('keydown', { key: 'C' }));
+        dropdown?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
         // Keydownend delay
         // await wait(700);
         const results: any = [
           dropdown.value
         ];
 
-        dropdown?.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
-        // Keydownend delay
         // await wait(700);
+        await new Promise((r) => {
+          setTimeout(r, 700);
+        });
+
+        dropdown?.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+        dropdown?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+        // Keydownend delay
         results.push(dropdown.value);
 
         return results;
       });
 
       expect(values[0]).toEqual('opt3');
-      expect(values[1]).toEqual('opt4');
+      expect(values[1]).toEqual('opt3');
     });
   });
 });

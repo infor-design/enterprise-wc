@@ -957,10 +957,14 @@ export default class IdsDropdown extends Base {
 
     this.onEvent('keydown', this, (e: any) => {
       const key = e.key;
-      const value = e.target?.value || key;
+      let value = e.target?.value || key;
+
+      if (this.input?.input?.value === key) {
+        value = key;
+      }
 
       if (!value) return;
-      if (['Backspace', 'Delete', 'Escape', 'Tab'].includes(key)) return;
+      if (['Backspace', 'Delete', 'Escape', 'Tab', 'Enter'].includes(key)) return;
 
       if (this.typeahead) {
         this.#typeAhead(value);
@@ -1051,7 +1055,6 @@ export default class IdsDropdown extends Base {
    */
   #typeAhead(text: string) {
     const resultsArr = this.#findMatches(text);
-    console.log('resultsArr', resultsArr);
     const results = resultsArr.map((item: IdsDropdownOption) => {
       const regex = new RegExp(text, 'gi');
       const optionText = item.groupLabel ? item.label : item.label?.replace(
