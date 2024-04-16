@@ -25,6 +25,7 @@
 - `[Pager]` Fixed an error when creating an ids-pager-dropdown via document.createElement. ([#2193](https://github.com/infor-design/enterprise-wc/issues/2193))
 - `[Personalizations]` Added a method to reset the personalization color to the default. ([#2054](https://github.com/infor-design/enterprise-wc/issues/2054))
 - `[Slider]` Step number has been changed to the number of steps between start and end step. ([#2091](https://github.com/infor-design/enterprise-wc/issues/2091))
+- `[TextArea]` Converted textarea tests to playwright. ([#1980](https://github.com/infor-design/enterprise-wc/issues/1980))
 
 ## 1.0.0-beta.23
 
