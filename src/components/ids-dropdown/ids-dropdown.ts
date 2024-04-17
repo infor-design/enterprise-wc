@@ -969,7 +969,7 @@ export default class IdsDropdown extends Base {
       if (this.typeahead) {
         this.#typeAhead(value);
       } else {
-        this.#selectMatch(value);
+        this.#selectMatch(key);
       }
     });
 

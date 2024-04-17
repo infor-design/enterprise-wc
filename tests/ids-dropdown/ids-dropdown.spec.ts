@@ -423,6 +423,7 @@ test.describe('IdsDropdown tests', () => {
     test('supports async beforeShow', async ({ page }) => {
       const values = await page.evaluate(async ({ _states }) => {
         const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+
         const getContents = () => new Promise((resolve) => {
           setTimeout(() => {
             resolve(_states);
@@ -437,7 +438,6 @@ test.describe('IdsDropdown tests', () => {
         dropdown.beforeShow = async function beforeShow() {
           return getContents();
         };
-
         results.push(dropdown.beforeShow);
 
         await dropdown.open();
@@ -447,8 +447,8 @@ test.describe('IdsDropdown tests', () => {
       }, { _states: states });
 
       expect(values[0]).toEqual(6);
-      expect(values[1]).toBeFalsy();
-      expect(values[2]).toBeTruthy();
+      expect(values[1]).toBeUndefined();
+      expect(values[2]).not.toBeUndefined();
       expect(values[3]).toEqual(59);
     });
 
@@ -553,22 +553,25 @@ test.describe('IdsDropdown tests', () => {
 
         // Keydownend delay
         // await wait(600);
-        const results : any = [
+        return [
           dropdown.querySelectorAll('ids-list-box-option').length,
           dropdown.querySelector('ids-list-box-option')?.getAttribute('value'),
           dropdown.popup.visible
         ];
+      });
 
+      const values2 = await page.evaluate(async () => {
+        const dropdown = document.querySelector<any>('ids-dropdown')!;
         document.body.dispatchEvent(new MouseEvent('click'));
-        results.push(dropdown.popup.visible);
-
-        return results;
+        return [
+          dropdown.popup.visible
+        ];
       });
 
       expect(values[0]).toEqual(1);
       expect(values[1]).toEqual('opt5');
       expect(values[2]).toBeTruthy();
-      expect(values[3]).toBeFalsy();
+      expect(values2[0]).toBeFalsy();
     });
 
     test('should accept Space key and stay opened when typing with typeahead', async ({ page }) => {
@@ -1394,10 +1397,6 @@ test.describe('IdsDropdown tests', () => {
         ];
 
         // await wait(700);
-        await new Promise((r) => {
-          setTimeout(r, 700);
-        });
-
         dropdown?.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
         dropdown?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
         // Keydownend delay
@@ -1407,7 +1406,7 @@ test.describe('IdsDropdown tests', () => {
       });
 
       expect(values[0]).toEqual('opt3');
-      expect(values[1]).toEqual('opt3');
+      expect(values[1]).toEqual('opt4');
     });
   });
 });
