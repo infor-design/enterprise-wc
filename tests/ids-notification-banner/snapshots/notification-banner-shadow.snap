@@ -6,7 +6,7 @@
         </div>
 
         <div class="ids-notification-banner-link" part="link">
-          <ids-hyperlink font-size="16" href="https://infor.com" target="_blank" role="link">https://infor.com</ids-hyperlink>
+          <ids-hyperlink font-size="16" href="https://infor.com" target="_blank" role="link">Click to view</ids-hyperlink>
         </div>
 
         <div class="ids-notification-banner-button" part="button">

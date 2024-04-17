@@ -21,6 +21,7 @@
 - `[ListView]` Updated listview sortable styles. ([#1733](https://github.com/infor-design/enterprise-wc/issues/1733))
 - `[Message]` Fixed mobile IdsMessage behavior. ([#2183](https://github.com/infor-design/enterprise-wc/issues/2183))
 - `[Modal]` Fixed invisible button in dark mode modals. ([#2197](https://github.com/infor-design/enterprise-wc/issues/2197))
+- `[NotificationBanner]` Fixed issue with the link attribute not being updated in the setter. ([#2209](https://github.com/infor-design/enterprise-wc/issues/2209))
 - `[Pager]` Fixed an error when creating an ids-pager-dropdown via document.createElement. ([#2193](https://github.com/infor-design/enterprise-wc/issues/2193))
 - `[Personalizations]` Added a method to reset the personalization color to the default. ([#2054](https://github.com/infor-design/enterprise-wc/issues/2054))
 - `[Slider]` Step number has been changed to the number of steps between start and end step. ([#2091](https://github.com/infor-design/enterprise-wc/issues/2091))
