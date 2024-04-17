@@ -59,9 +59,11 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
     if (val) {
       this.setAttribute(attributes.AUTOCOMPLETE, '');
       this.container?.classList.add('autocomplete');
+      this.#attachPopup();
     } else {
       this.removeAttribute(attributes.AUTOCOMPLETE);
       this.container?.classList.remove('autocomplete');
+      this.popup?.remove();
     }
   }
 
@@ -309,7 +311,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
   }
 
   /**
-   * Configure and attach internal IdsPopup element.
+   * Configure internal IdsPopup element.
    * @returns {void}
    */
   #configurePopup() {
@@ -319,6 +321,21 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
       this.popup.alignTarget = (this as IdsInputInterface).fieldContainer;
       this.popup.y = -1;
     }
+  }
+
+  /**
+   * Attach and configure internal IdsPopup element
+   * @returns {void}
+   */
+  #attachPopup() {
+    // Skip if popup already exists
+    if (this.popup) return;
+    this.container?.insertAdjacentHTML('beforeend', `
+      <ids-popup part="popup">
+        <ids-list-box slot="content"></ids-list-box>
+      </ids-popup>
+    `);
+    this.#configurePopup();
   }
 
   /**
