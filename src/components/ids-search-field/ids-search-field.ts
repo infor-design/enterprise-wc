@@ -62,7 +62,7 @@ export default class IdsSearchField extends IdsTriggerField {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.CATEGORY,
+      attributes.CATEGORY
     ];
   }
 
@@ -96,7 +96,7 @@ export default class IdsSearchField extends IdsTriggerField {
     return `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
       ${labelHtml}
       <div class="fieldset">
-        <div class="field-container" part="field-container">
+        <div class="field-container ${this.collapsible ? 'collapsible' : ''} ${this.collapsed ? 'collapsed' : ''}" part="field-container">
           ${this.categories?.length ? '' : searchIcon}
           <slot name="trigger-start"></slot>
           ${this.templateCategoriesMenu()}
@@ -151,6 +151,55 @@ export default class IdsSearchField extends IdsTriggerField {
         </ids-menu-group>
       </ids-popup-menu>
     `;
+  }
+
+  get expandButton(): any {
+    if (!this.collapsible) return;
+    const btn = this.querySelector('ids-trigger-button[slot="trigger-start"]');
+    btn?.classList.add('expand-button');
+    return btn;
+  }
+
+  get searchIcon(): any {
+    return `<ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>`;
+  }
+
+  expandField(): boolean | void {
+    if (!this.collapsible) return;
+    this.removeAttribute(attributes.COLLAPSED);
+    this.input?.focus();
+    this.#updateFieldContainerClass();
+  }
+
+  collapseField(event: any): boolean | void {
+    if (!this.collapsible && !this.collapsed) return;
+
+    if (
+      event.target !== this
+      && event.target !== this.input
+      && event.target !== this.expandButton
+    ) {
+      this.setAttribute(attributes.COLLAPSED, '');
+      this.#updateFieldContainerClass();
+    }
+  }
+
+  collapsibleFocus() {
+    if (!this.collapsible) return;
+    if (!this.collapsed) {
+      this.input?.focus();
+    }
+  }
+
+  #updateFieldContainerClass(): void {
+    const fieldContainer = this.shadowRoot?.querySelector('.field-container');
+    if (!fieldContainer) return;
+
+    if (!this.collapsed) {
+      fieldContainer.classList.remove('collapsed');
+    } else {
+      fieldContainer.classList.add('collapsed');
+    }
   }
 
   #updateCategoriesMenu() {
@@ -220,6 +269,36 @@ export default class IdsSearchField extends IdsTriggerField {
    */
   get category(): string {
     return this.getAttribute(attributes.CATEGORY) ?? '';
+  }
+
+  /**
+   *  @param {boolean} value - sets if the search field should be collapsible
+   */
+  set collapsible(value: boolean) {
+    if (value) {
+      this.setAttribute(attributes.COLLAPSIBLE, '');
+    } else {
+      this.removeAttribute(attributes.COLLAPSIBLE);
+    }
+  }
+
+  /**
+   * @returns {boolean} - gets if the search field should be collapsible
+   */
+  get collapsible(): boolean {
+    return this.hasAttribute(attributes.COLLAPSIBLE);
+  }
+
+  set collapsed(value: string) {
+    if (value) {
+      this.setAttribute(attributes.COLLAPSED, '');
+    } else {
+      this.removeAttribute(attributes.COLLAPSED);
+    }
+  }
+
+  get collapsed(): boolean {
+    return this.hasAttribute(attributes.COLLAPSED);
   }
 
   /**
@@ -351,6 +430,15 @@ export default class IdsSearchField extends IdsTriggerField {
       this.#updateCategoriesMenu();
       this.#triggerCategoriesEvent('deselected');
     });
+
+    this.offEvent('click', this.expandButton);
+    this.onEvent('click', this.expandButton, this.expandField.bind(this));
+
+    this.offEvent('click', document);
+    this.onEvent('click', document, this.collapseField.bind(this));
+
+    this.offEvent('click', this);
+    this.onEvent('click', this, this.collapsibleFocus.bind(this));
   }
 
   /**

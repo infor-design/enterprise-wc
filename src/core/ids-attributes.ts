@@ -98,6 +98,8 @@ export const attributes = {
   COL_START_XL: 'col-start-xl',
   COL_START_XS: 'col-start-xs',
   COL_START_XXL: 'col-start-xxl',
+  COLLAPSED: 'collapsed',
+  COLLAPSIBLE: 'collapsible',
   COLLAPSE_ICON: 'collapse-icon',
   COLOR: 'color',
   COLOR_VARIANT: 'color-variant',

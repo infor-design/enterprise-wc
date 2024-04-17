@@ -127,6 +127,21 @@
     border-color: var(--ids-search-field-color-border-default);
     border-radius: var(--ids-search-field-border-radius);
     margin: var(--ids-search-field-margin);
+    transition: all var(--ids-motion-duration) var(--ids-motion-ease);
+
+    &.collapsed {
+      border: none;
+      overflow: hidden;
+      width: var(--ids-button-icon-width);
+
+      .ids-input-field {
+        pointer-events: none;
+      }
+
+      .search-icon {
+        display: none;
+      }
+    }
   }
 
   ids-icon.search-icon {
