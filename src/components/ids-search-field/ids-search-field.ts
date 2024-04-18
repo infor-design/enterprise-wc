@@ -68,6 +68,7 @@ export default class IdsSearchField extends IdsTriggerField {
 
   connectedCallback() {
     super.connectedCallback();
+    this.#initializeCollapsibleSearchField();
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
 
@@ -91,13 +92,13 @@ export default class IdsSearchField extends IdsTriggerField {
       value
     } = this.templateVariables();
 
-    const searchIcon = `<ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>`;
+    // const searchIcon = `<ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>`;
 
     return `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
       ${labelHtml}
       <div class="fieldset">
         <div class="field-container ${this.collapsible ? 'collapsible' : ''} ${this.collapsed ? 'collapsed' : ''}" part="field-container">
-          ${this.categories?.length ? '' : searchIcon}
+          ${this.categories?.length ? '' : this.searchIcon}
           <slot name="trigger-start"></slot>
           ${this.templateCategoriesMenu()}
           <input
@@ -162,6 +163,13 @@ export default class IdsSearchField extends IdsTriggerField {
 
   get searchIcon(): any {
     return `<ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>`;
+  }
+
+  #initializeCollapsibleSearchField(): void | boolean {
+    if (!this.collapsible) return;
+    this.collapsed = true;
+    this.setAttribute(attributes.COLLAPSED, '');
+    this.#updateFieldContainerClass();
   }
 
   expandField(): boolean | void {
@@ -289,7 +297,7 @@ export default class IdsSearchField extends IdsTriggerField {
     return this.hasAttribute(attributes.COLLAPSIBLE);
   }
 
-  set collapsed(value: string) {
+  set collapsed(value: boolean) {
     if (value) {
       this.setAttribute(attributes.COLLAPSED, '');
     } else {
