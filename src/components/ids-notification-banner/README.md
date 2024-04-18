@@ -2,7 +2,11 @@
 
 ## Description
 
-The Ids Notification Banner allows developers to display a message and optionally a link to more information to the user. A user can dismiss banner or click through the provided link. It sits the top of a page or a widget.
+The Notification Banner allows developers to display a message and optionally a link to more information to the user. A user can dismiss banner or click through the provided link. It sits the top of a page or a widget.
+
+Generally, notification banners should be highly targeted to a specific user action within the purpose and function of the form or widget they appear in and not for global issues (Server error etc) and should communicate via friendly plain-spoken user oriented microcopy, not system-speak such as numerical error codes or status codes.
+
+Their scope should be limited to communicating immediately on a user action. Multiple notifications banners should be avoided in the same area if possible. Their scope should be limited to communicating on actions taking place within the widget.
 
 ## Use Cases
 

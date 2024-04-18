@@ -74,7 +74,7 @@ class IdsPersonalization {
       --ids-header-button-color-border-hover: transparent;
       --ids-header-button-color-text-hover: ${colors.contrast};
       --ids-header-button-color-text-disabled: ${adjustColor(colors.contrast, -0.20)};
-      --ids-header-button-shadow-focus: 0 0 0 2px var(--ids-color-primary), 0 0 0 3px ${colors.contrast};
+      --ids-header-button-shadow-focus: 0px 0px 0px 1px var(--ids-color-primary, 0px 0px 0px 1px var(--ids-color-primary;
       --ids-header-button-color-border-focus: ${colors.contrast};
       --ids-header-button-color-background-pressed: ${colors.contrast === '#ffffff' ? 'rgba(255 255 255 / 0.2)' : 'rgba(0 0 0 / 0.1)'};
       --ids-header-button-color-border-pressed: transparent;
@@ -99,9 +99,9 @@ class IdsPersonalization {
       --ids-button-secondary-color-background-pressed: var(--ids-color-primary-10);
       --ids-button-secondary-color-border-pressed: var(--ids-color-primary-70);
       --ids-button-secondary-color-text-pressed: var(--ids-color-primary-70);
-      --ids-button-secondary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
+      --ids-button-secondary-shadow-focus: 0px 0px 0px 1px var(--ids-color-primary-80), 0px 0px 0px 1px var(--ids-color-primary-80);
       --ids-button-secondary-color-border-focus: var(--ids-color-primary-80);
-      --ids-button-tertiary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
+      --ids-button-tertiary-shadow-focus: 0px 0px 0px 1px var(--ids-color-primary-80), 0px 0px 0px 1px var(--ids-color-primary-80);
       --ids-button-tertiary-color-border-focus: var(--ids-color-primary-80);
       --ids-checkbox-color-background-selected: var(--ids-color-primary);
       --ids-checkbox-color-border-selected: var(--ids-color-primary);

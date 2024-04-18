@@ -23,6 +23,9 @@
   --ids-button-menu-background-color-active: var(--ids-header-button-menu-color-background-active);
   --ids-button-menu-color-text-active: var(--ids-header-button-menu-color-active);
   --ids-button-alt-margin: 0 var(--ids-space-xxxs);
+
+  // Breadcrumb
+  --ids-breadcrumb-gradient: var(--ids-header-breadcrumb-gradient);
 }
 
 ::slotted(ids-toolbar),

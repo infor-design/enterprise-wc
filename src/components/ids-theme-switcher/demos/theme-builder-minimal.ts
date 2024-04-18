@@ -75,9 +75,9 @@ const appendStyleSheet = () => {
     --ids-button-secondary-color-background-hover: var(--ids-color-primary-10);
     --ids-button-secondary-color-border-hover: var(--ids-color-primary-70);
     --ids-button-secondary-color-text-hover: var(--ids-color-primary-70);
-    --ids-button-secondary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
+    --ids-button-secondary-shadow-focus: 0px 0px 0px 1px var(--ids-color-primary-80), 0px 0px 0px 1px var(--ids-color-primary-80);
     --ids-button-secondary-color-border-focus: var(--ids-color-primary-80);
-    --ids-button-tertiary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
+    --ids-button-tertiary-shadow-focus: 0px 0px 0px 1px var(--ids-color-primary-80), 0px 0px 0px 1px var(--ids-color-primary-80);
     --ids-button-tertiary-color-border-focus: var(--ids-color-primary-80);
     --ids-checkbox-color-background-selected: var(--ids-color-primary);
     --ids-checkbox-color-border-selected: var(--ids-color-primary);

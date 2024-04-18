@@ -1,5 +1,12 @@
 # What's New with Enterprise Web Components
 
+## 1.0.1
+
+### 1.0.1 Fixes
+
+- `[Button]` Updated focus state on tertiary buttons. ([#2239](https://github.com/infor-design/enterprise-wc/issues/2239))
+- `[Header]` Fixed inconsistency on header background color. ([#2242](https://github.com/infor-design/enterprise-wc/issues/2242))
+
 ## 1.0.0
 
 ### 1.0.0 Features
