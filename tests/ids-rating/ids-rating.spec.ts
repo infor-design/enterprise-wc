@@ -4,7 +4,6 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsRating from '../../src/components/ids-rating/ids-rating';
-import IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 test.describe('IdsRating tests', () => {
   const url = '/ids-rating/example.html';
