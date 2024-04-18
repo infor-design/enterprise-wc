@@ -65,19 +65,22 @@ test.describe('IdsTreemap tests', () => {
     });
 
     test('can resize the width when the viewport changes', async ({ page }) => {
+      // removes the padding of the ids-container and return the tree map width
+      let currWidth = await treemap.evaluate((element: IdsTreeMap) => {
+        document.querySelector<IdsContainer>('ids-container')!.padding = '0';
+        return element.width;
+      });
       let expWidth = 589;
       await page.setViewportSize({ width: expWidth, height: 9999 });
       await page.waitForFunction((width) => (window.innerWidth === width), expWidth);
-      let treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`) as number;
-      let containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`) as number;
-      expect(treemapWidth).toBeInAllowedBounds(containerWidth, 5);
+      currWidth = await treemap.evaluate((element: IdsTreeMap) => element.width);
+      expect(currWidth).toBeInAllowedBounds(expWidth, 5);
 
       expWidth = 989;
       await page.setViewportSize({ width: expWidth, height: 9999 });
       await page.waitForFunction((width) => (window.innerWidth === width), expWidth);
-      treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
-      containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
-      expect(treemapWidth).toBeInAllowedBounds(containerWidth, 5);
+      currWidth = await treemap.evaluate((element: IdsTreeMap) => element.width);
+      expect(currWidth).toBeInAllowedBounds(expWidth, 5);
     });
 
     test('can render via document.createElement (append early)', async ({ page }) => {
