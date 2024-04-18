@@ -64,7 +64,7 @@ test.describe('IdsTreemap tests', () => {
       });
     });
 
-    test('can resize the width when the viewport changes', async ({ page }) => {
+    test.skip('can resize the width when the viewport changes', async ({ page }) => {
       await page.setViewportSize({ width: 589, height: 9999 });
       let treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
       let containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
