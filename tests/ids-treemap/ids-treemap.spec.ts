@@ -1,10 +1,11 @@
 import AxeBuilder from '@axe-core/playwright';
+import { Locator } from '@playwright/test';
 import { test, expect } from '../base-fixture';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsTreeMap from '../../src/components/ids-treemap/ids-treemap';
 
 test.describe('IdsTreemap tests', () => {
-  let treemap: any;
+  let treemap: Locator;
   const url = '/ids-treemap/example.html';
 
   test.beforeEach(async ({ page }) => {
@@ -65,17 +66,15 @@ test.describe('IdsTreemap tests', () => {
 
     test('can resize the width when the viewport changes', async ({ page }) => {
       let expWidth = 589;
-      let watcher = page.waitForFunction((width) => (window.innerWidth === width), expWidth + 10);
       await page.setViewportSize({ width: expWidth, height: 9999 });
-      await watcher;
+      await page.waitForFunction((width) => (window.innerWidth === width), expWidth);
       let treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`) as number;
       let containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`) as number;
       expect(treemapWidth).toBeInAllowedBounds(containerWidth, 5);
 
       expWidth = 989;
-      watcher = page.waitForFunction((width) => (window.innerWidth === width), expWidth + 10);
       await page.setViewportSize({ width: expWidth, height: 9999 });
-      await watcher;
+      await page.waitForFunction((width) => (window.innerWidth === width), expWidth);
       treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
       containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
       expect(treemapWidth).toBeInAllowedBounds(containerWidth, 5);
@@ -140,13 +139,11 @@ test.describe('IdsTreemap tests', () => {
       expect(height).toBe(300);
     });
 
-    test('can set the treemap width', async ({ page }) => {
-      const tmContainer = await page.locator('ids-container').first();
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      const tmWidth = await tmContainer.evaluate((treemapEl: IdsTreeMap) => { treemapEl.offsetWidth as number; });
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      const width = await treemap.evaluate((treemapEl: IdsTreeMap) => { treemapEl.offsetWidth as number; });
-      expect(tmWidth).toBe(width);
+    test('can set the treemap width', async () => {
+      expect(await treemap.evaluate((treemapEl: IdsTreeMap) => {
+        treemapEl.width = 300;
+        return treemapEl.width;
+      })).toEqual(300);
     });
   });
 });
