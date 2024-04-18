@@ -101,7 +101,7 @@ export default class IdsNotificationBanner extends Base {
         </div>
 
         <div class="ids-notification-banner-link" part="link"${!this.link ? ' hidden' : ''}>
-          <ids-hyperlink font-size="16" href="${this.link}" target="_blank">${this.linkText === null ? 'Click to view' : this.linkText}</ids-hyperlink>
+          <ids-hyperlink font-size="16" href="${this.link || ''}" target="_blank">${this.linkText === null ? 'Click to view' : this.linkText}</ids-hyperlink>
         </div>
 
         <div class="ids-notification-banner-button" part="button">
@@ -164,11 +164,11 @@ export default class IdsNotificationBanner extends Base {
    * @param {string | null} value the link value
    */
   set link(value: string | null) {
-    const linkElem = this.container?.querySelector<HTMLElement>('.ids-notification-banner-link');
+    const linkElem = this.container?.querySelector('.ids-notification-banner-link');
     if (value) {
       this.setAttribute(attributes.LINK, value);
-      linkElem!.removeAttribute('hidden');
-      (linkElem!.firstElementChild as HTMLElement)!.innerText = value;
+      linkElem?.removeAttribute('hidden');
+      linkElem?.querySelector('ids-hyperlink')?.setAttribute(attributes.HREF, value);
     } else {
       this.removeAttribute(attributes.LINK);
       linkElem!.setAttribute('hidden', '');
