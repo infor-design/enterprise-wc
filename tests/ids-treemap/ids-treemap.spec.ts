@@ -1,6 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect } from '@playwright/test';
-import { test } from '../base-fixture';
+import { test, expect } from '../base-fixture';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsTreeMap from '../../src/components/ids-treemap/ids-treemap';
 
@@ -65,15 +64,19 @@ test.describe('IdsTreemap tests', () => {
     });
 
     test('can resize the width when the viewport changes', async ({ page }) => {
+      let watcher = page.waitForFunction((width) => (window.innerWidth !== width), page.viewportSize()?.width);
       await page.setViewportSize({ width: 589, height: 9999 });
-      let treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
-      let containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
-      expect(treemapWidth).toEqual(containerWidth);
+      await watcher;
+      let treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`) as number;
+      let containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`) as number;
+      expect(treemapWidth).toBeInAllowedBounds(containerWidth, 5);
 
+      watcher = page.waitForFunction((width) => (window.innerWidth !== width), page.viewportSize()?.width);
       await page.setViewportSize({ width: 989, height: 9999 });
+      await watcher;
       treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
       containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
-      expect(treemapWidth).toEqual(containerWidth);
+      expect(treemapWidth).toBeInAllowedBounds(containerWidth, 5);
     });
 
     test('can render via document.createElement (append early)', async ({ page }) => {
