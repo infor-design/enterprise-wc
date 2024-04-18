@@ -64,15 +64,17 @@ test.describe('IdsTreemap tests', () => {
     });
 
     test('can resize the width when the viewport changes', async ({ page }) => {
-      let watcher = page.waitForFunction((width) => (window.innerWidth !== width), page.viewportSize()?.width);
-      await page.setViewportSize({ width: 589, height: 9999 });
+      let expWidth = 589;
+      let watcher = page.waitForFunction((width) => (window.innerWidth === width), expWidth + 10);
+      await page.setViewportSize({ width: expWidth, height: 9999 });
       await watcher;
       let treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`) as number;
       let containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`) as number;
       expect(treemapWidth).toBeInAllowedBounds(containerWidth, 5);
 
-      watcher = page.waitForFunction((width) => (window.innerWidth !== width), page.viewportSize()?.width);
-      await page.setViewportSize({ width: 989, height: 9999 });
+      expWidth = 989;
+      watcher = page.waitForFunction((width) => (window.innerWidth === width), expWidth + 10);
+      await page.setViewportSize({ width: expWidth, height: 9999 });
       await watcher;
       treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
       containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
