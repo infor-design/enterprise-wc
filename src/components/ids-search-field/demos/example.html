@@ -120,8 +120,22 @@
           placeholder="Search..."
           search-field="label"
         >
-        <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
-      </ids-search-field>
+          <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+        </ids-search-field>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" max-col-width="300px" gap="xl" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-search-field
+          collapsible="responsive"
+          id="search-field-collapsible"
+          label="Collapsible - Responsive"
+          placeholder="Search..."
+          search-field="label"
+        >
+          <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+        </ids-search-field>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 

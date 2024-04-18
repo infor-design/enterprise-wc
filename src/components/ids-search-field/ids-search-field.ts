@@ -1,6 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 
@@ -68,7 +69,7 @@ export default class IdsSearchField extends IdsTriggerField {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#initializeCollapsibleSearchField();
+    this.#initializeCollapsible();
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
 
@@ -91,8 +92,6 @@ export default class IdsSearchField extends IdsTriggerField {
       type,
       value
     } = this.templateVariables();
-
-    // const searchIcon = `<ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>`;
 
     return `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
       ${labelHtml}
@@ -154,22 +153,30 @@ export default class IdsSearchField extends IdsTriggerField {
     `;
   }
 
-  get expandButton(): any {
+  #initializeCollapsible(): void | boolean {
     if (!this.collapsible) return;
-    const btn = this.querySelector('ids-trigger-button[slot="trigger-start"]');
-    btn?.classList.add('expand-button');
-    return btn;
-  }
-
-  get searchIcon(): any {
-    return `<ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>`;
-  }
-
-  #initializeCollapsibleSearchField(): void | boolean {
-    if (!this.collapsible) return;
+    if (typeof this.collapsible === 'string' && this.collapsible === 'responsive') {
+      const mq = window.matchMedia(`(min-width: ${breakpoints.md})`);
+      mq.addEventListener('change', () => {
+        this.#setCollapsibleResponsiveVisibility(mq);
+      });
+      return;
+    }
     this.collapsed = true;
     this.setAttribute(attributes.COLLAPSED, '');
     this.#updateFieldContainerClass();
+  }
+
+  #setCollapsibleResponsiveVisibility(mq: MediaQueryList): void {
+    if (mq.matches) {
+      this.removeAttribute(attributes.COLLAPSED);
+      this.removeAttribute(attributes.COLLAPSIBLE);
+      this.#updateFieldContainerClass();
+    } else {
+      this.setAttribute(attributes.COLLAPSED, '');
+      this.setAttribute(attributes.COLLAPSIBLE, 'responsive');
+      this.#updateFieldContainerClass();
+    }
   }
 
   expandField(): boolean | void {
@@ -208,6 +215,17 @@ export default class IdsSearchField extends IdsTriggerField {
     } else {
       fieldContainer.classList.add('collapsed');
     }
+  }
+
+  get expandButton(): any {
+    if (!this.collapsible) return;
+    const btn = this.querySelector('ids-trigger-button[slot="trigger-start"]');
+    btn?.classList.add('expand-button');
+    return btn;
+  }
+
+  get searchIcon(): any {
+    return `<ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>`;
   }
 
   #updateCategoriesMenu() {
@@ -282,7 +300,11 @@ export default class IdsSearchField extends IdsTriggerField {
   /**
    *  @param {boolean} value - sets if the search field should be collapsible
    */
-  set collapsible(value: boolean) {
+  set collapsible(value: boolean | string | any) {
+    if (typeof value === 'string' && value.toLowerCase() === 'responsive') {
+      this.setAttribute(attributes.COLLAPSIBLE, value);
+      return;
+    }
     if (value) {
       this.setAttribute(attributes.COLLAPSIBLE, '');
     } else {
@@ -291,10 +313,12 @@ export default class IdsSearchField extends IdsTriggerField {
   }
 
   /**
-   * @returns {boolean} - gets if the search field should be collapsible
+   * @returns {boolean | string} - gets if the search field should be collapsible
    */
-  get collapsible(): boolean {
-    return this.hasAttribute(attributes.COLLAPSIBLE);
+  get collapsible(): boolean | string | any {
+    if (this.getAttribute(attributes.COLLAPSIBLE) === 'responsive') return this.getAttribute(attributes.COLLAPSIBLE);
+    if (this.hasAttribute(attributes.COLLAPSIBLE)) return true;
+    return false;
   }
 
   set collapsed(value: boolean) {
