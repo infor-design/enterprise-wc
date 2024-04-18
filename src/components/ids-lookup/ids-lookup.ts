@@ -496,7 +496,9 @@ export default class IdsLookup extends Base {
   set field(value: string) {
     if (value) {
       this.setAttribute(attributes.FIELD, value);
-      this.input?.setAttribute(attributes.SEARCH_FIELD, value);
+      if (this.autocomplete) {
+        this.input?.setAttribute(attributes.SEARCH_FIELD, value);
+      }
     }
   }
 
