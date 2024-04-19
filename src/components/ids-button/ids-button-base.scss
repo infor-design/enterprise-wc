@@ -499,7 +499,7 @@
     color: var(--ids-button-formatter-color-text-default);
     margin-top: 2px;
     height: var(--ids-button-formatter-size);
-    min-width:  var(--ids-button-formatter-size);
+    min-width: var(--ids-button-formatter-size);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {

@@ -63,7 +63,7 @@
 
   // Focus Styles
   --ids-color-border-focus: var(--ids-color-primary);
-  --ids-shadow-focus:  0px 0px 8px 0px rgba(0 114 237 / 0.50);
+  --ids-shadow-focus: 0px 0px 8px 0px rgba(0 114 237 / 0.50);
   --ids-outline-none: 0;
 
   // Fonts
@@ -579,7 +579,7 @@
   --ids-data-grid-header-xs-padding: 6px var(--ids-data-grid-padding-xs);
   --ids-data-grid-header-xxs-padding: 5px 2px 0 2px;
   --ids-data-grid-header-expander-color: var(--ids-color-gray-90);
-  --ids-data-grid-header-expander-color-active:  var(--ids-color-gray-100);
+  --ids-data-grid-header-expander-color-active: var(--ids-color-gray-100);
 
   // Data Grid (Filter)
   --ids-data-grid-filter-icon-color: var(--ids-color-gray-90);
@@ -1593,7 +1593,7 @@
   --ids-textarea-color-border-success-disabled: var(--ids-color-success-strong);
   --ids-textarea-color-text-success-disabled: var(--ids-color-foreground-default-default);
   --ids-textarea-color-border-success-focus: var(--ids-color-success-strong);
-  --ids-textarea-shadow-success-focus:  0px 0px 4px 0px var(--ids-color-success-default);
+  --ids-textarea-shadow-success-focus: 0px 0px 4px 0px var(--ids-color-success-default);
   --ids-textarea-color-text-success-default: var(--ids-color-foreground-default-default);
   --ids-textarea-color-text-default: var(--ids-color-foreground-default-default);
 
@@ -1619,7 +1619,7 @@
 
   // Tooltip
   --ids-tooltip-color-background: var(--ids-color-background-dark);
-  --ids-tooltip-padding:  var(--ids-space-xs) var(--ids-space-sm);
+  --ids-tooltip-padding: var(--ids-space-xs) var(--ids-space-sm);
   --ids-tooltip-border-radius: var(--ids-border-radius-xxs);
   --ids-tooltip-color-text: var(--ids-color-foreground-light-default);
   --ids-tooltip-font-size: var(--ids-font-size-40);

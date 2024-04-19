@@ -18,7 +18,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry if fails */
   retries: 2,
-  /* Set workers process.env.CI ? 2 :  */
+  /* Set workers process.env.CI ? 2 : */
   workers: undefined,
   /* Control the snap shot names */
   snapshotPathTemplate: '{testDir}/{testFileDir}/snapshots/{arg}.snap',
