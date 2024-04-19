@@ -64,19 +64,11 @@ test.describe('IdsTreemap tests', () => {
       });
     });
 
-<<<<<<< HEAD
-    test.skip('can resize the width when the viewport changes', async ({ page }) => {
-      await page.setViewportSize({ width: 589, height: 9999 });
-      let treemapWidth = await page.evaluate(`document.querySelector("ids-treemap").width`);
-      let containerWidth = await page.evaluate(`document.querySelector("ids-treemap").container.offsetWidth`);
-      expect(treemapWidth).toEqual(containerWidth);
-=======
     test('can resize the width when the viewport changes', async ({ page }) => {
       // removes the padding of the ids-container and return the tree map width
       await page.evaluate(() => { document.querySelector<IdsContainer>('ids-container')!.padding = '0'; });
       let currWidth = await treemap.evaluate((element: IdsTreeMap) => element.width);
       expect(currWidth).toBeInAllowedBounds(page.viewportSize()!.width, 5);
->>>>>>> 1ef865a9bc08957bd351d3e3e620d81511343143
 
       let expWidth = 589;
       await page.setViewportSize({ width: expWidth, height: 9999 });
