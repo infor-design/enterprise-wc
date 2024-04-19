@@ -9,6 +9,5 @@ Keep this file in sync with #709
 
 ## Minor
 
-- [ ] Ripple effect (see designs)
 - [ ] Side-by-side Example
 - [ ] Standalone CSS Example

@@ -2,7 +2,7 @@
 
 The Ids Splitter is used to divide the user interface of a page. It is composed of resizable "panes" which divide content. It can layout either horizontally or vertically along an axis where a user can resize the panes, these are represented as `<ids-splitter-pane>` components.
 
-![Different variations of IdsSplitterLayout](./doc/ids-splitter-markup-legend.png)
+![Different variations of IdsSplitterLayout](https://infor-design-wp.s3.amazonaws.com/wp-content/uploads/2024/04/08183956/ids-splitter-markup-legend.png)
 
 The pane can move to the left or the right of the screen. This allows the user to have control of the customized layout. Elements inside and outside the pane will be resized to fit depending on if their css is fluid.
 

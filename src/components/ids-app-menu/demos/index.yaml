@@ -14,3 +14,6 @@
   - link: no-header.html
     type: Example
     description: Shows an app menu with no header area
+  - link: with-masthead.html
+    type: Example
+    description: Shows Module Nav with masthead on top

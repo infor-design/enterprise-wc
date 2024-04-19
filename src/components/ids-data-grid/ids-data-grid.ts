@@ -45,6 +45,10 @@ import IdsDataGridCell from './ids-data-grid-cell';
 import { ExcelColumn } from '../../utils/ids-excel-exporter/ids-worksheet-templates';
 import IdsLoadingIndicator from '../ids-loading-indicator/ids-loading-indicator';
 
+// Types
+import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import type IdsButton from '../ids-button/ids-button';
+
 const Base = IdsPagerMixin(
   IdsDataGridSaveSettingsMixin(
     IdsDataGridTooltipMixin(
@@ -213,6 +217,7 @@ export default class IdsDataGrid extends Base {
       attributes.EMPTY_MESSAGE_LABEL,
       attributes.EDITABLE,
       attributes.EDIT_NEXT_ON_ENTER_PRESS,
+      attributes.ALLOW_ONE_EXPANDED_ROW,
       attributes.EXPANDABLE_ROW,
       attributes.EXPANDABLE_ROW_TEMPLATE,
       attributes.FILTER_ROW_DISABLED,
@@ -637,11 +642,31 @@ export default class IdsDataGrid extends Base {
       const isClickable = isButton || isHyperlink;
       const column: IdsDataGridColumn = this.visibleColumns[cellNum];
 
-      // Focus Cell
+      // Focus cell
       this.setActiveCell(cellNum, rowNum, isHyperlink);
       // Handle click callbacks
       if (isClickable && column.click !== undefined && !e.target?.getAttribute('disabled')) {
         column.click(this.data[rowNum], this.visibleColumns[cellNum], e);
+      }
+
+      // hide menus on body click
+      this.hideOpenMenus();
+
+      // Handle popup menus
+      if (isClickable && column?.menuId !== undefined && !e.target?.getAttribute('disabled')) {
+        const menuEl = document.querySelector<IdsPopupMenu>(`#${column.menuId}`);
+        if (!menuEl) return;
+        menuEl.target = null;
+        menuEl.hide();
+        menuEl.triggerType = 'immediate-closed';
+        menuEl.target = e.target;
+        menuEl.align = 'bottom, left';
+        menuEl.arrow = 'bottom';
+        menuEl.triggerType = 'immediate';
+        menuEl.offEvent('selected', menuEl);
+        menuEl.onEvent('selected', menuEl, (evt: CustomEvent) => {
+          column?.selected?.(this.data[rowNum], this.visibleColumns[cellNum], evt);
+        });
       }
 
       // Fires for each row that is clicked
@@ -662,7 +687,15 @@ export default class IdsDataGrid extends Base {
 
       // Handle Expand/Collapse Clicking
       if (isClickable && isExpandButton) {
-        row.toggleExpandCollapse();
+        if (this.allowOneExpandedRow) {
+          const isExpanded = row.isExpanded();
+          const isCollapsed = !isExpanded;
+          this.collapseAll();
+          if (isExpanded) row.doCollapse();
+          if (isCollapsed) row.doExpand();
+        } else {
+          row.toggleExpandCollapse();
+        }
         return;
       }
 
@@ -789,6 +822,10 @@ export default class IdsDataGrid extends Base {
       const activeRowIndex = nextCell?.rowIndex || 0;
       nextCell?.focus?.();
 
+      if (nextCell && nextCell.columnIndex >= 0) {
+        this.setActiveCell(nextCell.columnIndex, activeRowIndex, false);
+      }
+
       // Handle row selection
       const movingVertical = key === 'ArrowDown' || key === 'ArrowUp';
       if ((this.rowSelection === 'mixed' || this.rowSelection === 'multiple') && movingVertical && e.shiftKey) {
@@ -814,26 +851,30 @@ export default class IdsDataGrid extends Base {
 
     // Handle Selection and Expand
     this.listen([' ', 'Space'], this, (e: Event) => {
+      let activeCell = this.cellLastActive;
+      if (!activeCell) {
+        activeCell = this.activeCell.node;
+      }
+      if (!activeCell) return;
       if (this.openMenu) return;
-      if (this.activeCellEditor) return;
-      if (!this.activeCell?.node) return;
-      if (!this.activeCellCanClose()) return;
+      if (activeCell.isEditing) return;
+      if (!activeCell.canClose()) return;
 
-      const row = this.rowByIndex(this.activeCell.row)!;
+      const row = this.rowByIndex(activeCell.row)!;
       if (!row || row.disabled) return;
 
-      const button = this.activeCell.node.querySelector('ids-button');
+      const button = activeCell.querySelector('ids-button') as any;
       if (button) {
         button.click();
         e.preventDefault();
         return;
       }
 
-      const child = this.activeCell.node.children[0];
+      const child = activeCell.children[0];
       const isCheckbox = child?.classList.contains('ids-data-grid-checkbox-container')
         && !child?.classList.contains('is-selection-checkbox');
       if (isCheckbox) {
-        this.activeCell.node.click();
+        activeCell.click();
         e.preventDefault();
         return;
       }
@@ -843,10 +884,21 @@ export default class IdsDataGrid extends Base {
 
     // Follow links with keyboard and start editing
     this.listen(['Enter'], this, (e: KeyboardEvent) => {
-      // if (this.openMenu) return;
-      // if (!this.activeCellCanClose()) return false;
-
       const cellNode = this.cellLastActive;
+
+      // Hyperlink
+      if (cellNode?.classList.contains('formatter-hyperlink')) {
+        cellNode.querySelector<IdsHyperlink>('ids-hyperlink')?.container?.click();
+        return;
+      }
+
+      // Button
+      if (cellNode?.classList.contains('formatter-button')) {
+        cellNode.querySelector<IdsButton>('ids-button')?.button?.click();
+        return;
+      }
+
+      // Editahe
       if (!cellNode?.isEditing) {
         cellNode?.startCellEdit();
         return;
@@ -880,8 +932,6 @@ export default class IdsDataGrid extends Base {
 
     // Edit Next
     this.listen(['Tab'], this, (e: KeyboardEvent) => {
-      // if (this.openMenu) return;
-      // if (!this.activeCellCanClose()) return false;
       if (!this.isEditable) {
         return;
       }
@@ -2923,6 +2973,18 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * This setting will allow only one expandable-row to be opened/expanded at a time.
+   * @param {string} value The value
+   */
+  set allowOneExpandedRow(value) {
+    this.toggleAttribute(attributes.ALLOW_ONE_EXPANDED_ROW, stringToBool(value));
+  }
+
+  get allowOneExpandedRow() {
+    return this.hasAttribute(attributes.ALLOW_ONE_EXPANDED_ROW);
+  }
+
+  /**
    * An id that points to the template to use for expandable rows. Also requires the expandable-row setting
    * and an expander formatter.
    * @param {string} value The value
@@ -3167,6 +3229,17 @@ export default class IdsDataGrid extends Base {
     if (this.activeCellEditor?.column?.editor?.inline) return false;
 
     return true;
+  }
+
+  /**
+   * Hide any open context menus
+   * @private
+   */
+  hideOpenMenus() {
+    const openMenus = document.querySelector<IdsPopupMenu>('ids-popup-menu:not([hidden])');
+    if (openMenus) {
+      openMenus.hide();
+    }
   }
 
   /**

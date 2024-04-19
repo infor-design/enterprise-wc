@@ -1,4 +1,3 @@
-import '../../ids-color-picker/ids-color-picker';
 import '../../ids-date-picker/ids-date-picker';
 import '../../ids-dropdown/ids-dropdown';
 import '../../ids-header/ids-header';
@@ -10,13 +9,22 @@ import '../../ids-slider/ids-slider';
 import '../../ids-tabs/ids-tabs';
 import '../../ids-tabs/ids-tabs-context';
 import '../../ids-tag/ids-tag';
+import '../../ids-color-picker/ids-color-picker';
 import '../../ids-toolbar/ids-toolbar';
 import IdsPersonalization from '../ids-personalize';
+import type IdsColorPicker from '../../ids-color-picker/ids-color-picker';
+import css from '../../../assets/css/ids-personalize/example.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+const head = document.querySelector('head');
+if (head) {
+  head.insertAdjacentHTML('afterbegin', cssLink);
+}
 
 // Handle Theme Picker Changes
+const personalize = new IdsPersonalization();
 const primaryColor = (document as any).querySelector('#pers-color');
 const updateColors = () => {
-  const personalize = new IdsPersonalization();
   const colors = personalize.colorProgression(primaryColor.value);
   personalize.color = primaryColor.value;
 
@@ -33,8 +41,12 @@ const updateColors = () => {
 };
 
 // Update Styles
-document.querySelectorAll('ids-color-picker').forEach((picker) => {
-  picker.addEventListener('change', () => {
-    updateColors();
-  });
+const picker = document.querySelector<IdsColorPicker>('ids-color-picker')!;
+picker.addEventListener('change', () => {
+  updateColors();
+});
+
+document.querySelector('#reset')?.addEventListener('click', () => {
+  picker.value = '#0066d4';
+  personalize.resetToDefault();
 });

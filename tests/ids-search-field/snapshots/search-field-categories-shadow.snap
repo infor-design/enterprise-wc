@@ -1,0 +1,29 @@
+<div id="ids-search-field" class="ids-search-field ids-trigger-field ids-input md has-clearable field-height-md" part="container"><div id="ids-search-field" class="ids-search-field ids-trigger-field ids-input md" part="container">
+      <label class="ids-label-text" part="label">
+      <slot name="label-pre"></slot>
+      <ids-text part="label" color-unset="">
+        Categories
+      </ids-text>
+      <slot name="label-post"></slot>
+    </label>
+      <div class="fieldset">
+        <div class="field-container" part="field-container">
+          
+          <slot name="trigger-start"></slot>
+          
+      <ids-menu-button id="menu-button" appearance="tertiary" menu="category-menu" icon="search" dropdown-icon="dropdown" aria-controls="category-menu" aria-haspopup="menu"><ids-icon icon="search" class="ids-icon"></ids-icon>
+        <span>Files</span>
+      </ids-menu-button>
+      <ids-popup-menu id="category-menu" target="menu-button" trigger-type="click" align="bottom, right" hidden="">
+        <ids-menu-group select="single" keep-open="true" role="group" aria-label="Menu group containing 4 item(s)">
+          <ids-menu-item value="0">Images</ids-menu-item><ids-menu-item value="1">Documents</ids-menu-item><ids-menu-item value="2">Audio</ids-menu-item><ids-menu-item value="3">Video</ids-menu-item>
+        </ids-menu-group>
+      </ids-popup-menu>
+    
+          <input part="input" id="categories-input" type="text" class="ids-input-field start readonly-background" placeholder="Type a search term" value="" autocomplete="off" aria-label="Categories"><ids-trigger-button part="clearable-button" class="btn-clear is-empty" no-margins=""><ids-text audible="true">clear</ids-text><ids-icon icon="close" size="small" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-trigger-button>
+          <slot name="trigger-end"></slot>
+        </div>
+        
+      </div>
+      
+    </div></div>

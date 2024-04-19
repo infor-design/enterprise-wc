@@ -548,13 +548,12 @@ export default class IdsSlider extends Base {
   }
 
   /**
-   * Sets the interval between slider ticks (only applicable to step sliders)
+   * Sets the interval between start and end slider tick (only applicable to step sliders)
    * @param {string | number | any} value the amount of steps
    */
   set stepNumber(value: string | number | any) {
     if (this.type === 'step') {
-      // must have at least 2 steps
-      if (parseInt(value) >= 2) {
+      if (parseInt(value) > 0) {
         this.setAttribute(attributes.STEP_NUMBER, value);
       }
     } else {
@@ -565,9 +564,15 @@ export default class IdsSlider extends Base {
   }
 
   /**
-   * @returns {number} the interval between slider ticks
+   * @returns {number} the interval between start and end slider tick
    */
-  get stepNumber(): number { return parseInt(this.getAttribute(attributes.STEP_NUMBER) ?? '') || 2; }
+  get stepNumber(): number {
+    const attrVal = this.getAttribute(attributes.STEP_NUMBER);
+    const val: number = attrVal ? parseInt(attrVal, 10) : 0;
+
+    // adding start and end slider ticks
+    return val + 2;
+  }
 
   #setStepNumber() {
     if (this.type === 'step') {

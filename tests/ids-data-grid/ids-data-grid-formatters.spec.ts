@@ -160,6 +160,15 @@ test.describe('IdsDataGrid formatters tests', () => {
     expect(await page.evaluate(() => (window as any).clicked)).toBeTruthy();
   });
 
+  test('can render with the button formatter (with menu functions)', async ({ page }) => {
+    const dataGrid = await page.locator('ids-data-grid');
+    await expect(await page.locator('#actions-menu[hidden]').first()).toBeTruthy();
+    await dataGrid.evaluate((elem: IdsDataGrid) => {
+      (elem.shadowRoot!.querySelector('ids-data-grid-row:nth-child(2) ids-button') as any).click();
+    });
+    await expect(await page.locator('#actions-menu:not([hidden])').first()).toBeTruthy();
+  });
+
   test('can render with the button formatter defaults', async ({ page }) => {
     const dataGrid = await page.locator('ids-data-grid');
     await dataGrid.evaluate((elem: IdsDataGrid) => {

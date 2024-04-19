@@ -24,6 +24,7 @@
 
   // Body Colors
   --ids-color-background-default: var(--ids-color-white-100);
+  --ids-color-text-default: var(--ids-color-foreground-default-default);
 
   // Text Colors
   --ids-color-text-inverse: var(--ids-color-white-100);
@@ -272,6 +273,7 @@
 
   // Button (Primary)
   --ids-button-padding-inline: 12px;
+  --ids-button-alt-margin: var(--ids-space-xxxs);
   --ids-button-radius: var(--ids-border-radius-sm);
   --ids-button-color-text-default: currentColor;
   --ids-button-primary-color-border-default: var(--ids-color-action-default);
@@ -306,7 +308,6 @@
   --ids-button-secondary-color-text-pressed: var(--ids-color-action-stronger);
   --ids-button-secondary-border-width: 1px;
   --ids-button-secondary-opacity-disabled: 0.4;
-  --ids-button-secondary-color-ripple: var(--ids-color-background-default);
 
   // Button (Tertiary)
   --ids-button-tertiary-color-border-default: transparent;
@@ -328,7 +329,6 @@
   --ids-button-icon-padding: calc(var(--ids-space-xs) - 2px);
   --ids-button-icon-height: 36px;
   --ids-button-icon-width: 36px;
-  --ids-button-tertiary-color-ripple: var(--ids-color-background-default);
 
   // Button (Destructive / Primary)
   --ids-button-destructive-color-background-default: var(--ids-color-error-default);
@@ -342,7 +342,6 @@
   --ids-button-destructive-color-text-disabled: var(--ids-color-foreground-light-default);
   --ids-button-destructive-color-background-disabled: var(--ids-color-error-default);
   --ids-button-destructive-color-border-disabled: var(--ids-color-error-default);
-  --ids-button-destructive-color-ripple: var(--ids-color-foreground-light-default);
 
   // Button (Destructive / Secondary)
   --ids-button-destructive-tertiary-color-background-default: var(--ids-color-background-default);
@@ -357,7 +356,6 @@
   --ids-button-destructive-tertiary-color-text-disabled: var(--ids-color-error-default);
   --ids-button-destructive-tertiary-color-background-disabled: var(--ids-color-background-default);
   --ids-button-destructive-tertiary-color-border-disabled: var(--ids-color-background-default);
-  --ids-button-destructive-tertiary-color-ripple: var(--ids-color-background-default);
 
   // Button (Toggle)
   --ids-button-toggle-color-background-hover-default: var(--ids-color-accent-blue-weakest);
@@ -372,7 +370,7 @@
 
   // Button (App Menu)
   --ids-button-app-menu-color-text-default: var(--ids-color-gray-20);
-  --ids-button-app-menu-color-background-hover: var(--ids-color-gray-90);
+  --ids-button-app-menu-color-background-hover: var(--ids-app-menu-header-color-background-hover);
   --ids-button-app-menu-color-text-hover: var(--ids-color-white-100);
   --ids-button-app-menu-color-text-disabled: var(--ids-color-gray-50);
 
@@ -391,7 +389,7 @@
   --ids-button-formatter-color-background-default: transparent;
   --ids-button-formatter-color-border-default: transparent;
   --ids-button-formatter-color-text-default: var(--ids-color-gray-100);
-  --ids-button-formatter-size: 32px;
+  --ids-button-formatter-size: 34px;
 
   // Button (Module)
   --ids-button-module-border-radius: 10px;
@@ -401,7 +399,7 @@
 
   // Button (Menu)
   --ids-button-menu-background-color-active: var(--ids-color-accent-gray-weakest);
-  --ids-button-menu-color-active: var(--ids-color-foreground-default-default);
+  --ids-button-menu-color-text-active: var(--ids-color-foreground-default-default);
 
   // Button (System)
   --ids-button-system-color-background-hover: transparent;
@@ -409,23 +407,20 @@
   --ids-button-system-color-text-hover: var(--ids-color-foreground-default-default);
 
   // Button (Generative AI)
-  --ids-color-gen-ai-light: #10B7A6;
-  --ids-color-gen-ai-weaker: #0B9789;
-  --ids-color-gen-ai-weak :#254A92;
-  --ids-color-gen-ai-strong: #1A3362;
-  --ids-button-ai-color-background-default: linear-gradient(107deg, var(--ids-color-gen-ai-weak) 17.32%, var(--ids-color-gen-ai-light) 95.32%);
-  --ids-button-ai-color-background-hover: linear-gradient(107deg, var(--ids-color-gen-ai-strong) 17.32%, var(--ids-color-gen-ai-weaker) 95.32%);
-  --ids-button-ai-color-background-active: linear-gradient(107deg, var(--ids-color-gen-ai-weaker) 5.97%, var(--ids-color-gen-ai-strong) 102.35%);
+  --ids-button-ai-color-background-default: linear-gradient(107deg, #254A92 17.32%, #10B7A6 95.32%);
+  --ids-button-ai-color-background-hover: linear-gradient(107deg, #1A4162 17.32%, #0B9789 95.32%);
+  --ids-button-ai-color-border-hover: #0B9789;
+  --ids-button-ai-color-background-active: linear-gradient(107deg, #1A4162 17.32%, #0B9789 95.32%);
   --ids-button-ai-color-background-disabled: linear-gradient(107deg, rgba(37 74 146 / 0.5) 17.32%, rgba(16 183 166 / 0.5) 95.32%);
   --ids-button-ai-color-background-color-disabled: transparent;
-  --ids-button-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-gen-ai-weak);
-  --ids-button-ai-color-icon-primary: var(--ids-color-gen-ai-weak);
-  --ids-button-ai-color-icon-secondary: var(--ids-color-gen-ai-light);
-  --ids-button-ai-color-icon-primary-hover: var(--ids-color-gen-ai-strong);
-  --ids-button-ai-color-icon-secondary-hover: var(--ids-color-gen-ai-weaker);
+  --ids-button-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px #254A92;
+  --ids-button-ai-color-icon-primary: #254A92;
+  --ids-button-ai-color-icon-secondary: #10B7A6;
+  --ids-button-ai-color-icon-primary-hover: #1A3362;
+  --ids-button-ai-color-icon-secondary-hover: #0B9789;;
   --ids-button-ai-opacity-disabled: 0.4;
   --ids-button-tertiary-ai-color-background-disabled: var(--ids-button-ai-color-background-default);
-  --ids-button-tertiary-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-gen-ai-weaker);
+  --ids-button-tertiary-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px #0B9789;
 
   // Breadcrumb
   --ids-breadcrumb-color-text-default: var(--ids-color-text-subtle);
@@ -763,11 +758,17 @@
   --ids-header-color-text: var(--ids-color-text-default);
   --ids-header-button-color-text-default: var(--ids-button-tertiary-color-text-default);
   --ids-header-button-color-background-hover: var(--ids-button-tertiary-color-background-hover);
+  --ids-header-button-color-border-hover: var(--ids-button-tertiary-color-background-hover);
   --ids-header-button-color-text-hover: var(--ids-button-tertiary-color-text-hover);
+  --ids-header-button-color-background-pressed : var(--ids-button-tertiary-color-background-hover);
+  --ids-header-button-color-border-pressed: var(--ids-button-tertiary-color-background-hover);
+  --ids-header-button-color-text-pressed: var(--ids-button-tertiary-color-text-hover);
   --ids-header-input-color-border-hover: var(--ids-input-color-border-hover);
   --ids-header-button-color-text-disabled: var(--ids-button-tertiary-color-text-disabled);
   --ids-header-button-shadow-focus: var(--ids-button-tertiary-shadow-focus);
   --ids-header-button-color-border-focus: var(--ids-button-tertiary-color-border-focus);
+  --ids-header-button-menu-color-background-active: var(--ids-button-tertiary-color-background-hover);
+  --ids-header-button-menu-color-active: var(--ids-button-tertiary-color-text-hover);
   --ids-header-padding: 8px;
   --ids-header-gradient-opacity-none: rgb(0 114 237 / 1);
   --ids-header-gradient-opacity-full: rgb(0 114 237 / 0);
@@ -1021,6 +1022,8 @@
   --ids-modal-footer-color-border: var(--ids-color-gray-30);
   --ids-modal-button-color-default: var(--ids-color-primary);
   --ids-modal-button-color-hover: var(--ids-color-primary-80);
+  --ids-modal-button-secondary-color-default: var(--ids-color-grey-70);
+  --ids-modal-button-secondary-color-hover: var(--ids-color-grey-100);
   --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary);
 
   // Module Nav (Main)
@@ -1196,7 +1199,7 @@
   --ids-progress-bar-color-border: var(--ids-color-border-default);
   --ids-progress-bar-border: 1px solid var(--ids-progress-bar-color-border);
   --ids-progress-bar-border-radius: var(--ids-border-radius-xs);
-  --ids-progress-bar-color-background-default: var(--ids-color-foreground-light-secondar);
+  --ids-progress-bar-color-background-default: var(--ids-color-foreground-light-secondary);
   --ids-progress-bar-height: var(--ids-space-xs);
   --ids-progress-bar-margin: var(--ids-space-sm) var(--ids-space-none);
   --ids-progress-bar-fill-color-background: var(--ids-color-theme-strong);
@@ -1416,6 +1419,13 @@
   --ids-swaplist-item-margin-block-end: var(--ids-space-xxxxs);
   --ids-swaplist-item-line-height: 23px;
   --ids-swaplist-item-over-border: 1px dashed var(--ids-color-text-label);
+  --ids-swaplist-search-color-background-default: var(--ids-color-gray-10);
+  --ids-swaplist-search-color-border-default: var(--ids-color-gray-10);
+  --ids-swaplist-search-color-text-default: var(--ids-color-gray-90);
+  --ids-swaplist-search-color-text-placeholder: var(--ids-color-gray-60);
+  --ids-swaplist-search-color-border-hover: var(--ids-color-gray-80);
+  --ids-swaplist-search-color-border-focus: var(--ids-color-gray-80);
+  --ids-swaplist-search-color-border-shadow: 0 0 3px 2px rgba(54 138 192 / 0.1);
 
   // Swipe Action
   --ids-swipe-action-color-background-left-active: var(--ids-color-gray-40);
@@ -1713,4 +1723,6 @@
   --ids-wizard-step-color-default: var(--ids-color-primary);
   --ids-wizard-step-color-unvisited: var(--ids-color-gray-60);
   --ids-wizard-step-inner-border-color-border: var(--ids-color-background-default);
+  --ids-wizard-step-color-disabled: var(--ids-color-action-weaker);
+  --ids-wizard-step-color-disabled-unvisited: var(--ids-color-gray-30);
 }

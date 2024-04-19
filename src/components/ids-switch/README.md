@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Switch component is a simple wrapper around a standard HTMLInputElement that is styled with Infor branding. A switch component is essentially a specially-styled [checkbox component](./ids-checkbox). Consider using a checkbox for most form layouts; Switch is primarily for settings.
+The IDS Switch component is a simple wrapper around a standard HTMLInputElement that is styled with Infor branding. A switch component is essentially a specially-styled [checkbox component](../ids-checkbox/README.md). Consider using a checkbox for most form layouts; Switch is primarily for settings.
 
 ## Use Cases
 
@@ -45,7 +45,7 @@ Add an Disabled Switch as checked:
 - `checked` {boolean} set checked state.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
-- `value` {string} set the switch value.
+- `value` {string} set the form submit value (not to be confused with checked, it only sets the form value)
 
 ## Keyboard Guidelines
 

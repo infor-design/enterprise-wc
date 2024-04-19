@@ -6,7 +6,6 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
-import IdsRippleMixin from '../../mixins/ids-ripple-mixin/ids-ripple-mixin';
 import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
 import IdsLoadingIndicatorMixin from '../../mixins/ids-loading-indicator-mixin/ids-loading-indicator-mixin';
 
@@ -35,12 +34,10 @@ import type IdsText from '../ids-text/ids-text';
 const Base = IdsTooltipMixin(
   IdsLocaleMixin(
     IdsLoadingIndicatorMixin(
-      IdsRippleMixin(
-        IdsColorVariantMixin(
-          IdsHideFocusMixin(
-            IdsEventsMixin(
-              IdsElement
-            )
+      IdsColorVariantMixin(
+        IdsHideFocusMixin(
+          IdsEventsMixin(
+            IdsElement
           )
         )
       )
@@ -55,7 +52,6 @@ const Base = IdsTooltipMixin(
  * @mixes IdsEventsMixin
  * @mixes IdsColorVariantMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsRippleMixin
  * @mixes IdsTooltipMixin
  * @mixes IdsHideFocusMixin
  * @mixes IdsLoadingIndicatorMixin
@@ -124,8 +120,6 @@ export default class IdsButton extends Base {
 
     this.setAriaText();
 
-    const isIconButton = this.button?.classList.contains('ids-icon-button');
-    this.setupRipple(this.button as HTMLButtonElement, isIconButton ? 35 : 50);
     if (this.hasAttribute(attributes.CONTENT_ALIGN)) this.setContentAlignClass(this.getAttribute(attributes.CONTENT_ALIGN));
     this.setIconAlignment();
     this.refreshProtoClasses();
@@ -210,7 +204,7 @@ export default class IdsButton extends Base {
     let alignCSS = '';
     if (this.state?.iconAlign) alignCSS = ` align-icon-${this.state?.iconAlign}`;
 
-    return `<button part="button" class="${protoClasses}${appearance}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
+    return `<button part="button" type="${this.type}" class="${protoClasses}${appearance}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
       <slot></slot>
       <slot name="loading-indicator"></slot>
     </button>`;
@@ -692,7 +686,7 @@ export default class IdsButton extends Base {
    * @returns {IdsButtonType} Gets the HTMLButtonElement 'type' attribute
    */
   get type(): IdsButtonType {
-    return this.state.type;
+    return this.state.type || 'button';
   }
 
   /**

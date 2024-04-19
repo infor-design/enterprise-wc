@@ -148,6 +148,7 @@ export default class IdsLookup extends Base {
       attributes.CLEARABLE,
       attributes.DISABLED,
       attributes.FIELD,
+      attributes.ID,
       attributes.READONLY,
       attributes.SEARCHABLE,
       attributes.SEARCHFIELD_PLACEHOLDER,
@@ -182,7 +183,6 @@ export default class IdsLookup extends Base {
       <ids-trigger-button
         slot="trigger-end"
         part="trigger-lookup"
-        tabbable="${this.tabbable}"
         disabled="${this.disabled}"
         readonly="${this.readonly}">
         <ids-text audible="true">LookupTriggerButton</ids-text>
@@ -594,6 +594,19 @@ export default class IdsLookup extends Base {
   }
 
   get clearable(): boolean { return this.state.clearable || true; }
+
+  /**
+   * Sets the id internally and externally
+   * @param {string} value id value
+   */
+  set id(value: string) {
+    this.shadowRoot?.querySelector('ids-trigger-field')?.setAttribute(attributes.ID, `${value}-trigger-field`);
+    this.setAttribute(attributes.ID, value);
+  }
+
+  get id(): string {
+    return this.getAttribute(attributes.ID) || 'none';
+  }
 
   /**
    * Push field-height/compact to the container element

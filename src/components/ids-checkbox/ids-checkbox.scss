@@ -18,6 +18,7 @@
     user-select: none;
     padding-block-start: 1px;
     padding-inline-start: 25px;
+    margin-inline-end: 10px;
     position: relative;
     display: inline-block;
 
@@ -28,13 +29,11 @@
     &.required .label-checkbox::after {
       position: absolute;
       font-family: var(--ids-font-family-default);
-      margin-inline-start: var(--ids-space-xxxs);
-      margin-inline-end: var(--ids-space-xxxs);
       font-size: var(--ids-font-size-50);
       color: var(--ids-input-required-indicator-color-text-default);
       content: '*';
-      right: -13px;
-      top: -2px;
+      right: -10px;
+      top: -3px;
     }
 
     &.no-required-indicator,

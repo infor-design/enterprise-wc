@@ -91,7 +91,7 @@ const value = await page.evaluate(() => {
 });
 ```
 
-- fix any language issues for example `should renders empty message with slot` can be `can render empty message with the slot`
+- fix any language issues for example `should render empty message with slot` can be `can render empty message with the slot`
 
 ## Component Test Mini-Tutorial
 

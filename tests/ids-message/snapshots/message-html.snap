@@ -1,4 +1,4 @@
-<ids-message id="message-example-error" status="error" message-title="Lost connection" aria-label="error: Lost connection" role="dialog" fullsize="sm" respond-down="sm">
+<ids-message id="message-example-error" status="error" message-title="Lost connection" aria-label="error: Lost connection" role="dialog">
       <ids-text slot="title" font-size="24" type="h2" id="my-message-title">Lost connection</ids-text>
       <ids-text id="my-message-contents" align="left">This application has experienced a system error due to the lack of internet access. Please restart the
         application in order to proceed.</ids-text>
