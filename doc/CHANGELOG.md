@@ -1,5 +1,13 @@
 # What's New with Enterprise Web Components
 
+## 1.0.1
+
+### 1.0.1 Features
+
+### 1.0.1 Fixes
+
+- `[Autocomplete]` Fixed the popup is not attached when using the `autocomplete` attribute to set it. ([#2173](https://github.com/infor-design/enterprise-wc/issues/2173))
+
 ## 1.0.0
 
 ### 1.0.0 Features
@@ -12,7 +20,7 @@
 
 ### 1.0.0 Fixes
 
-- `[Autocomplete]` Fixed the popup is not attached when using the `autocomplete` attribute to set it. ([#2173](https://github.com/infor-design/enterprise-wc/issues/2173))
+- `[AreaChart]` Converted area chart tests to playwright. ([#1917](https://github.com/infor-design/enterprise-wc/issues/1917))
 - `[DataGrid]` Fixed placement of tree expand buttons in the tree grid. ([#1603](https://github.com/infor-design/enterprise-wc/issues/1603))
 - `[Editor]` Fixed style of some buttons and the height of the toolbar. ([#2188](https://github.com/infor-design/enterprise-wc/issues/2188))
 - `[Forms]` Fixed issues with tabbing and layout issues in compact mode on forms. ([#2128](https://github.com/infor-design/enterprise-wc/issues/2128))
