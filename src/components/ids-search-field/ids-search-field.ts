@@ -34,6 +34,8 @@ export default class IdsSearchField extends IdsTriggerField {
 
   isFormComponent = true;
 
+  mediaQueryList = window.matchMedia(`(max-width: ${breakpoints.md})`);
+
   /**
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
@@ -153,30 +155,14 @@ export default class IdsSearchField extends IdsTriggerField {
     `;
   }
 
-  #initializeCollapsible(): void | boolean {
-    if (!this.collapsible) return;
-    if (typeof this.collapsible === 'string' && this.collapsible === 'responsive') {
-      const mq = window.matchMedia(`(min-width: ${breakpoints.md})`);
-      mq.addEventListener('change', () => {
-        this.#setCollapsibleResponsiveVisibility(mq);
-      });
-      return;
-    }
-    this.collapsed = true;
-    this.setAttribute(attributes.COLLAPSED, '');
-    this.#updateFieldContainerClass();
-  }
-
-  #setCollapsibleResponsiveVisibility(mq: MediaQueryList): void {
-    if (mq.matches) {
-      this.removeAttribute(attributes.COLLAPSED);
-      this.removeAttribute(attributes.COLLAPSIBLE);
-      this.#updateFieldContainerClass();
-    } else {
-      this.setAttribute(attributes.COLLAPSED, '');
-      this.setAttribute(attributes.COLLAPSIBLE, 'responsive');
-      this.#updateFieldContainerClass();
-    }
+  getCurrentBreakpoint(): string {
+    const windowWidth = window.innerWidth;
+    if (windowWidth >= parseInt(breakpoints.xxl)) return 'xxl';
+    if (windowWidth >= parseInt(breakpoints.xl)) return 'xl';
+    if (windowWidth >= parseInt(breakpoints.lg)) return 'lg';
+    if (windowWidth >= parseInt(breakpoints.md)) return 'md';
+    if (windowWidth >= parseInt(breakpoints.sm)) return 'sm';
+    return 'xs';
   }
 
   expandField(): boolean | void {
@@ -206,6 +192,27 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
+  disableCollapsible() {
+    this.removeAttribute(attributes.COLLAPSIBLE);
+    this.removeAttribute(attributes.COLLAPSED);
+    this.#updateFieldContainerClass();
+  }
+
+  enableCollapsible() {
+    this.setAttribute(attributes.COLLAPSIBLE, '');
+    this.setAttribute(attributes.COLLAPSED, '');
+    this.#updateFieldContainerClass();
+  }
+
+  #initializeCollapsible(): void | boolean {
+    if (!this.collapsible && !this.collapsibleResponsive) return;
+    if (this.collapsible || (this.collapsibleResponsive && window.innerWidth <= parseInt(breakpoints.lg))) {
+      this.enableCollapsible();
+    } else {
+      this.disableCollapsible();
+    }
+  }
+
   #updateFieldContainerClass(): void {
     const fieldContainer = this.shadowRoot?.querySelector('.field-container');
     if (!fieldContainer) return;
@@ -217,8 +224,21 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
+  handleMediaQueryChange() {
+    if (!this.collapsibleResponsive) return;
+
+    const mq = window.matchMedia(`(max-width: ${breakpoints.lg})`);
+    mq.addEventListener('change', () => {
+      if (mq.matches) {
+        this.enableCollapsible();
+      } else {
+        this.disableCollapsible();
+      }
+    });
+  }
+
   get expandButton(): any {
-    if (!this.collapsible) return;
+    if (!this.collapsible && !this.collapsibleResponsive) return;
     const btn = this.querySelector('ids-trigger-button[slot="trigger-start"]');
     btn?.classList.add('expand-button');
     return btn;
@@ -300,11 +320,7 @@ export default class IdsSearchField extends IdsTriggerField {
   /**
    *  @param {boolean} value - sets if the search field should be collapsible
    */
-  set collapsible(value: boolean | string | any) {
-    if (typeof value === 'string' && value.toLowerCase() === 'responsive') {
-      this.setAttribute(attributes.COLLAPSIBLE, value);
-      return;
-    }
+  set collapsible(value: boolean) {
     if (value) {
       this.setAttribute(attributes.COLLAPSIBLE, '');
     } else {
@@ -315,10 +331,20 @@ export default class IdsSearchField extends IdsTriggerField {
   /**
    * @returns {boolean | string} - gets if the search field should be collapsible
    */
-  get collapsible(): boolean | string | any {
-    if (this.getAttribute(attributes.COLLAPSIBLE) === 'responsive') return this.getAttribute(attributes.COLLAPSIBLE);
-    if (this.hasAttribute(attributes.COLLAPSIBLE)) return true;
-    return false;
+  get collapsible(): boolean {
+    return this.hasAttribute(attributes.COLLAPSIBLE);
+  }
+
+  set collapsibleResponsive(value: boolean) {
+    if (value) {
+      this.setAttribute('collapsible-responsive', '');
+    } else {
+      this.removeAttribute('collapsible-responsive');
+    }
+  }
+
+  get collapsibleResponsive(): boolean {
+    return this.hasAttribute('collapsible-responsive');
   }
 
   set collapsed(value: boolean) {
@@ -471,6 +497,8 @@ export default class IdsSearchField extends IdsTriggerField {
 
     this.offEvent('click', this);
     this.onEvent('click', this, this.collapsibleFocus.bind(this));
+
+    this.handleMediaQueryChange();
   }
 
   /**
