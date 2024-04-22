@@ -1,5 +1,12 @@
 # What's New with Enterprise Web Components
 
+## 1.0.1
+
+### 1.0.1 Features
+
+### 1.0.1 Fixes
+- `[BarChart]` Converted bar chart tests to playwright. ([#1919](https://github.com/infor-design/enterprise-wc/issues/1919))
+
 ## 1.0.0
 
 ### 1.0.0 Features
