@@ -1,7 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
-import { breakpoints } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
+import { breakpoints, isWidthBelow } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 
@@ -33,8 +33,6 @@ export default class IdsSearchField extends IdsTriggerField {
   };
 
   isFormComponent = true;
-
-  mediaQueryList = window.matchMedia(`(max-width: ${breakpoints.md})`);
 
   /**
    * Inherited from `IdsColorVariantMixin`
@@ -155,16 +153,6 @@ export default class IdsSearchField extends IdsTriggerField {
     `;
   }
 
-  getCurrentBreakpoint(): string {
-    const windowWidth = window.innerWidth;
-    if (windowWidth >= parseInt(breakpoints.xxl)) return 'xxl';
-    if (windowWidth >= parseInt(breakpoints.xl)) return 'xl';
-    if (windowWidth >= parseInt(breakpoints.lg)) return 'lg';
-    if (windowWidth >= parseInt(breakpoints.md)) return 'md';
-    if (windowWidth >= parseInt(breakpoints.sm)) return 'sm';
-    return 'xs';
-  }
-
   expandField(): boolean | void {
     if (!this.collapsible) return;
     this.removeAttribute(attributes.COLLAPSED);
@@ -174,7 +162,6 @@ export default class IdsSearchField extends IdsTriggerField {
 
   collapseField(event: any): boolean | void {
     if (!this.collapsible && !this.collapsed) return;
-
     if (
       event.target !== this
       && event.target !== this.input
@@ -206,7 +193,12 @@ export default class IdsSearchField extends IdsTriggerField {
 
   #initializeCollapsible(): void | boolean {
     if (!this.collapsible && !this.collapsibleResponsive) return;
-    if (this.collapsible || (this.collapsibleResponsive && window.innerWidth <= parseInt(breakpoints.lg))) {
+    const size = this.collapsibleResponsive;
+
+    if (
+      this.collapsible
+      || (size && window.innerWidth <= parseInt(`${breakpoints[size]}`))
+    ) {
       this.enableCollapsible();
     } else {
       this.disableCollapsible();
@@ -224,10 +216,11 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
-  handleMediaQueryChange() {
+  #collapsibleResponsiveChange() {
     if (!this.collapsibleResponsive) return;
+    const size = this.collapsibleResponsive;
+    const mq = isWidthBelow(size);
 
-    const mq = window.matchMedia(`(max-width: ${breakpoints.lg})`);
     mq.addEventListener('change', () => {
       if (mq.matches) {
         this.enableCollapsible();
@@ -335,18 +328,32 @@ export default class IdsSearchField extends IdsTriggerField {
     return this.hasAttribute(attributes.COLLAPSIBLE);
   }
 
-  set collapsibleResponsive(value: boolean) {
-    if (value) {
-      this.setAttribute('collapsible-responsive', '');
+  /**
+   * @param {string} value - sets if the search field should be collapsible
+   * based on screen size. Valid values: 'xxl', 'xl', 'lg', 'md', 'sm', 'xs'
+   * @memberof IdsSearchField
+   */
+  set collapsibleResponsive(value: string) {
+    const validBreakpoints = Object.keys(breakpoints);
+    const normalizedValue = value.toLowerCase();
+
+    if (validBreakpoints.includes(normalizedValue)) {
+      this.setAttribute(attributes.COLLAPSIBLE_RESPONSIVE, value);
     } else {
-      this.removeAttribute('collapsible-responsive');
+      this.removeAttribute(attributes.COLLAPSIBLE_RESPONSIVE);
     }
   }
 
-  get collapsibleResponsive(): boolean {
-    return this.hasAttribute('collapsible-responsive');
+  /**
+   * @returns {string | null} - gets the value of the collapsibleResponsive attribute
+   */
+  get collapsibleResponsive(): string | null {
+    return this.getAttribute(attributes.COLLAPSIBLE_RESPONSIVE);
   }
 
+  /**
+   * @param {boolean} value - sets if the search field is collapsed
+   */
   set collapsed(value: boolean) {
     if (value) {
       this.setAttribute(attributes.COLLAPSED, '');
@@ -355,6 +362,9 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
+  /**
+   * @returns {boolean} - gets if the search field is collapsed
+   */
   get collapsed(): boolean {
     return this.hasAttribute(attributes.COLLAPSED);
   }
@@ -498,7 +508,7 @@ export default class IdsSearchField extends IdsTriggerField {
     this.offEvent('click', this);
     this.onEvent('click', this, this.collapsibleFocus.bind(this));
 
-    this.handleMediaQueryChange();
+    this.#collapsibleResponsiveChange();
   }
 
   /**

@@ -100,6 +100,7 @@ export const attributes = {
   COL_START_XXL: 'col-start-xxl',
   COLLAPSED: 'collapsed',
   COLLAPSIBLE: 'collapsible',
+  COLLAPSIBLE_RESPONSIVE: 'collapsible-responsive',
   COLLAPSE_ICON: 'collapse-icon',
   COLOR: 'color',
   COLOR_VARIANT: 'color-variant',
