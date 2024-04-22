@@ -8,6 +8,7 @@ if (autocomplete) {
     const res = await fetch(url);
     const data = await res.json();
     autocomplete.data = data;
+    autocomplete.autocomplete = true;
   };
 
   await setData();
