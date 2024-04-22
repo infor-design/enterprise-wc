@@ -11,7 +11,7 @@
 
           <slot name="trigger-start"></slot>
 
-      <ids-menu-button id="menu-button" appearance="tertiary" menu="category-menu" icon="search" dropdown-icon="dropdown"><ids-icon icon="search" class="ids-icon"></ids-icon>
+      <ids-menu-button id="menu-button" appearance="tertiary" menu="category-menu" icon="search" dropdown-icon="dropdown" aria-controls="category-menu" aria-haspopup="menu"><ids-icon icon="search" class="ids-icon"></ids-icon>
         <span>Files</span>
       </ids-menu-button>
       <ids-popup-menu id="category-menu" target="menu-button" trigger-type="click" align="bottom, right" hidden="">
