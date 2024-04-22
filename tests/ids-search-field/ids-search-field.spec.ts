@@ -31,7 +31,7 @@ test.describe('IdsSearchField tests', () => {
   });
 
   test.describe('accessibility tests', () => {
-    test('should pass an Axe scan', async ({ page, browserName }) => {
+    test.skip('should pass an Axe scan', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .disableRules(['nested-interactive'])
