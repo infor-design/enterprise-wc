@@ -212,6 +212,10 @@ export default class IdsSearchField extends IdsTriggerField {
 
     if (!this.collapsed) {
       fieldContainer.classList.remove('collapsed');
+      fieldContainer.setAttribute('tabindex', '0');
+      fieldset?.setAttribute('tabindex', '0');
+      searchField?.setAttribute('tabindex', '0');
+      this.input?.setAttribute('tabindex', '0');
     } else {
       fieldContainer.classList.add('collapsed');
       fieldContainer.setAttribute('tabindex', '-1');
