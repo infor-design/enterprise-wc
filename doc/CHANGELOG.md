@@ -2,9 +2,9 @@
 
 ## 1.0.1
 
-### 1.0.1 Features
-
 ### 1.0.1 Fixes
+
+- `[AxisChart]` Fix `IdsAxisChart` so that it properly reloads when removed from the DOM and then reattached. ([#2111](https://github.com/infor-design/enterprise-wc/issues/2111))
 - `[BarChart]` Converted bar chart tests to playwright. ([#1919](https://github.com/infor-design/enterprise-wc/issues/1919))
 
 ## 1.0.0
