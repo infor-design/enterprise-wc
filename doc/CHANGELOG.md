@@ -6,8 +6,6 @@
 
 - `[Datagrid]` Added the ability to dynamically set the `icon` and `text` column options on some formatters. ([#2122](https://github.com/infor-design/enterprise-wc/issues/2122))
 
-## 1.0.1
-
 ### 1.0.1 Fixes
 
 - `[AxisChart]` Fix `IdsAxisChart` so that it properly reloads when removed from the DOM and then reattached. ([#2111](https://github.com/infor-design/enterprise-wc/issues/2111))
