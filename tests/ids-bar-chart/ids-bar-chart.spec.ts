@@ -337,5 +337,51 @@ test.describe('IdsBarChart tests', () => {
         index++;
       }
     });
+
+    test('can preselect group via data setting', async () => {
+      const copiedData: any = structuredClone(dataset);
+      const preSelectedIndex = 0;
+      copiedData[preSelectedIndex].selected = true;
+      await idsBarChart.evaluate((element: IdsBarChart, data) => {
+        element.selectable = true;
+        element.animated = false;
+        element.data = data;
+      }, copiedData);
+      await idsBarChart.waitFor();
+      const bars = await idsBarChart.locator('g.bars g rect').all();
+      await validateSelected(bars, preSelectedIndex.toString(), 'select', 'group-index', true);
+    });
+
+    test('can preselect items via data setting', async () => {
+      const copiedData: any = structuredClone(dataset);
+      const preSelectedIndex = 1;
+      copiedData[preSelectedIndex].data[preSelectedIndex].selected = true;
+      await idsBarChart.evaluate((element: IdsBarChart, data) => {
+        element.selectable = true;
+        element.animated = false;
+        element.data = data;
+      }, copiedData);
+      await idsBarChart.waitFor();
+      const bars = await idsBarChart.locator('g.bars g rect').all();
+      await validateSelected(bars, preSelectedIndex.toString(), 'select', 'index', true);
+    });
+
+    test('can set horizontal axis rotation and stacked', async () => {
+      await idsBarChart.evaluate((element: IdsBarChart, data) => {
+        element.data = data;
+        element.stacked = true;
+        element.horizontal = true;
+        element.rotateNameLabels = -60;
+        element.selectable = true;
+      }, dataset);
+      await expect(idsBarChart).toHaveAttribute('stacked', 'true');
+      await expect(idsBarChart).toHaveAttribute('horizontal');
+      await expect(idsBarChart).toHaveAttribute('rotate-name-labels', '-60');
+      await expect(idsBarChart).toHaveAttribute('selectable');
+      const labels = await idsBarChart.locator('g.y-labels text').all();
+      for (const label of labels) {
+        await expect(label).toHaveAttribute('transform', /-60/);
+      }
+    });
   });
 });
