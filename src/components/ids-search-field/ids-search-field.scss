@@ -131,8 +131,12 @@
 
     &.collapsed {
       border: none;
-      overflow: hidden;
-      width: var(--ids-button-icon-width);
+      width: 38px;
+
+      &:focus,
+      &:focus-within {
+        box-shadow: none;
+      }
 
       .ids-input-field {
         pointer-events: none;

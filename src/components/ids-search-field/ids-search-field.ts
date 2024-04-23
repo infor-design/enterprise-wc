@@ -163,8 +163,7 @@ export default class IdsSearchField extends IdsTriggerField {
   collapseField(event: any): boolean | void {
     if (!this.collapsible && !this.collapsed) return;
     if (
-      event.target !== this
-      && event.target !== this.input
+      event.target !== this.input
       && event.target !== this.expandButton
     ) {
       this.setAttribute(attributes.COLLAPSED, '');
@@ -207,12 +206,18 @@ export default class IdsSearchField extends IdsTriggerField {
 
   #updateFieldContainerClass(): void {
     const fieldContainer = this.shadowRoot?.querySelector('.field-container');
+    const fieldset = this.shadowRoot?.querySelector('.fieldset');
+    const searchField = this.shadowRoot?.querySelector('.ids-search-field');
     if (!fieldContainer) return;
 
     if (!this.collapsed) {
       fieldContainer.classList.remove('collapsed');
     } else {
       fieldContainer.classList.add('collapsed');
+      fieldContainer.setAttribute('tabindex', '-1');
+      fieldset?.setAttribute('tabindex', '-1');
+      searchField?.setAttribute('tabindex', '-1');
+      this.input?.setAttribute('tabindex', '-1');
     }
   }
 
@@ -234,6 +239,7 @@ export default class IdsSearchField extends IdsTriggerField {
     if (!this.collapsible && !this.collapsibleResponsive) return;
     const btn = this.querySelector('ids-trigger-button[slot="trigger-start"]');
     btn?.classList.add('expand-button');
+    btn?.setAttribute('tabindex', '0');
     return btn;
   }
 
@@ -499,6 +505,8 @@ export default class IdsSearchField extends IdsTriggerField {
       this.#triggerCategoriesEvent('deselected');
     });
 
+    this.#collapsibleResponsiveChange();
+
     this.offEvent('click', this.expandButton);
     this.onEvent('click', this.expandButton, this.expandField.bind(this));
 
@@ -508,7 +516,7 @@ export default class IdsSearchField extends IdsTriggerField {
     this.offEvent('click', this);
     this.onEvent('click', this, this.collapsibleFocus.bind(this));
 
-    this.#collapsibleResponsiveChange();
+    this.onEvent('focusout', this, this.collapseField.bind(this));
   }
 
   /**
@@ -528,6 +536,7 @@ export default class IdsSearchField extends IdsTriggerField {
             this.onSearch(this.input?.value);
             this.#triggerCategoriesEvent('search');
           }
+          this.expandField();
           break;
         default:
           break;
