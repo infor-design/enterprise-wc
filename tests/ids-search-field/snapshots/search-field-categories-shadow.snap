@@ -7,7 +7,7 @@
       <slot name="label-post"></slot>
     </label>
       <div class="fieldset">
-        <div class="field-container" part="field-container">
+        <div class="field-container  " part="field-container">
           
           <slot name="trigger-start"></slot>
           

@@ -138,6 +138,50 @@ test.describe('IdsSearchField tests', () => {
       expect(await page.locator('ids-search-field').first().getAttribute('readonly')).toBeFalsy();
     });
 
+    test('should be able to set collapsible', async ({ page }) => {
+      // Set collapsible attribute to true
+      await page.evaluate(() => {
+        const searchField = document.querySelector<IdsSearchField>('ids-search-field')!;
+        searchField.collapsible = true;
+      });
+
+      // Verify that the collapsible attribute is set
+      const isCollapsibleSet = await page.$eval('ids-search-field', (el) => el.hasAttribute('collapsible'));
+      expect(isCollapsibleSet).toBeTruthy();
+
+      // Set collapsible attribute to false
+      await page.evaluate(() => {
+        const searchField = document.querySelector<IdsSearchField>('ids-search-field')!;
+        searchField.collapsible = false;
+      });
+
+      // Verify that the collapsible attribute is removed
+      const isCollapsibleRemoved = await page.$eval('ids-search-field', (el) => !el.hasAttribute('collapsible'));
+      expect(isCollapsibleRemoved).toBeTruthy();
+    });
+
+    test('should be able to set collapsibleResponsive', async ({ page }) => {
+      // Set collapsible-responsive attribute to 'xl'
+      await page.evaluate(() => {
+        const searchField = document.querySelector<IdsSearchField>('ids-search-field')!;
+        searchField.collapsibleResponsive = 'xl';
+      });
+
+      // Verify that the collapsible-responsive attribute is set to 'xl'
+      const isCollapsibleResponsiveSet = await page.$eval('ids-search-field', (el) => el.getAttribute('collapsible-responsive') === 'xl');
+      expect(isCollapsibleResponsiveSet).toBeTruthy();
+
+      // Set invalid value for collapsible-responsive attribute
+      await page.evaluate(() => {
+        const searchField = document.querySelector<IdsSearchField>('ids-search-field')!;
+        searchField.collapsibleResponsive = 'invalidValue';
+      });
+
+      // Verify that the collapsible-responsive attribute is removed
+      const isCollapsibleResponsiveRemoved = await page.$eval('ids-search-field', (el) => !el.hasAttribute('collapsible-responsive'));
+      expect(isCollapsibleResponsiveRemoved).toBeTruthy();
+    });
+
     test('can init readonly via a template', async ({ page }) => {
       await page.evaluate(() => {
         document.body.insertAdjacentHTML('beforeend', `<ids-search-field id="test-append" readonly label="Test" value="Test"></ids-search-field>`);

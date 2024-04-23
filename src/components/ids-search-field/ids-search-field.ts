@@ -506,8 +506,6 @@ export default class IdsSearchField extends IdsTriggerField {
     });
 
     this.#collapsibleResponsiveChange();
-
-    this.offEvent('click', this.expandButton);
     this.onEvent('click', this.expandButton, this.expandField.bind(this));
 
     this.offEvent('click', document);
