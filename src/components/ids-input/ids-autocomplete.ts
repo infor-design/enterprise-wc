@@ -56,6 +56,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
       this.setAttribute(attributes.AUTOCOMPLETE, '');
       this.container?.classList.add('autocomplete');
       this.#attachPopup();
+      this.#addAria();
       this.#attachEventListeners();
       this.#attachKeyboardListeners();
     } else {
