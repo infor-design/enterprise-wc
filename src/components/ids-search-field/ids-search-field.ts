@@ -516,6 +516,7 @@ export default class IdsSearchField extends IdsTriggerField {
     this.offEvent('click', this);
     this.onEvent('click', this, this.collapsibleFocus.bind(this));
 
+    this.offEvent('focusout', this);
     this.onEvent('focusout', this, this.collapseField.bind(this));
   }
 
