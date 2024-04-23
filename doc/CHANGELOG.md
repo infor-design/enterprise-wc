@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.1
+
+### 1.0.1 Features
+
+- `[Datagrid]` Added the ability to dynamically set the `icon` and `text` column options on some formatters. ([#2122](https://github.com/infor-design/enterprise-wc/issues/2122))
+
 ## 1.0.0
 
 ### 1.0.0 Features
