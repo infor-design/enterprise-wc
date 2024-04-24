@@ -5,7 +5,7 @@
       <slot name="label-post"></slot>
     </label>
       <div class="fieldset">
-        <div class="field-container  " part="field-container">
+        <div class="field-container" part="field-container">
           <ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon>
           <slot name="trigger-start"></slot>
           
