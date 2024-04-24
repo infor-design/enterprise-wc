@@ -54,6 +54,7 @@ test.describe('IdsSearchField tests', () => {
 
     test('should match shadowRoot snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
+      await page.waitForSelector('ids-search-field');
       const html = await page.evaluate(() => {
         const elem = document.querySelector('ids-search-field')!;
         elem.shadowRoot?.querySelector('style')?.remove();
@@ -64,6 +65,7 @@ test.describe('IdsSearchField tests', () => {
 
     test('should match categories snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
+      await page.waitForSelector('#categories');
       const html = await page.evaluate(() => {
         const elem = document.querySelector('#categories')!;
         elem.shadowRoot?.querySelector('style')?.remove();
