@@ -169,6 +169,13 @@ export default class IdsSearchField extends IdsTriggerField {
    */
   collapseField(event: any) {
     if (!this.collapsible && !this.collapsed) return;
+    // Ignore clicks on the clear button
+    if (
+      this.clearable
+      && event.target === this
+      && event.type === 'click'
+    ) return;
+
     if (
       event.target !== this.input
       && event.target !== this.expandButton
