@@ -189,13 +189,14 @@ test.describe('IdsBarChart tests', () => {
     }
 
     test('can be selected/deselected by clicking the bars', async () => {
-      test.slow(true, 'this test runs slow as its selecting/deselecting all rectangle');
+      const copiedData = structuredClone(dataset);
+      copiedData.forEach((data) => { data.data.length = 3; });
       expect(await idsBarChart.evaluate((element: IdsBarChart, data) => {
         element.data = data;
         element.stacked = true;
         element.selectable = true;
         return element.selectable;
-      }, dataset)).toBeTruthy();
+      }, copiedData)).toBeTruthy();
       const bars = await idsBarChart.locator('g.bars g rect').all();
 
       for (const bar of bars) {
