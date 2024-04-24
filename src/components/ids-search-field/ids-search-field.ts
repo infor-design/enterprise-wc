@@ -153,14 +153,21 @@ export default class IdsSearchField extends IdsTriggerField {
     `;
   }
 
-  expandField(): boolean | void {
+  /**
+   * Expand the search field
+   */
+  expandField() {
     if (!this.collapsible) return;
     this.removeAttribute(attributes.COLLAPSED);
     this.input?.focus();
     this.#updateFieldContainerClass();
   }
 
-  collapseField(event: any): boolean | void {
+  /**
+   * Collapse the search field
+   * @param {any} event the original click event
+   */
+  collapseField(event: any) {
     if (!this.collapsible && !this.collapsed) return;
     if (
       event.target !== this.input
@@ -171,6 +178,9 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
+  /**
+   * Set focus on the input
+   */
   collapsibleFocus() {
     if (!this.collapsible) return;
     if (!this.collapsed) {
@@ -178,19 +188,28 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
+  /**
+   * Disable collapsible
+   */
   disableCollapsible() {
     this.removeAttribute(attributes.COLLAPSIBLE);
     this.removeAttribute(attributes.COLLAPSED);
     this.#updateFieldContainerClass();
   }
 
+  /**
+   * Enable collapsible
+   */
   enableCollapsible() {
     this.setAttribute(attributes.COLLAPSIBLE, '');
     this.setAttribute(attributes.COLLAPSED, '');
     this.#updateFieldContainerClass();
   }
 
-  #initializeCollapsible(): void | boolean {
+  /**
+   * Initialize collapsible
+   */
+  #initializeCollapsible() {
     if (!this.collapsible && !this.collapsibleResponsive) return;
     const size = this.collapsibleResponsive;
 
@@ -204,7 +223,10 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
-  #updateFieldContainerClass(): void {
+  /**
+   * Update the field container classes
+   */
+  #updateFieldContainerClass() {
     const fieldContainer = this.shadowRoot?.querySelector('.field-container');
     const fieldset = this.shadowRoot?.querySelector('.fieldset');
     const searchField = this.shadowRoot?.querySelector('.ids-search-field');
@@ -225,6 +247,9 @@ export default class IdsSearchField extends IdsTriggerField {
     }
   }
 
+  /**
+   * Listener for collapsible-responsive change
+   */
   #collapsibleResponsiveChange() {
     if (!this.collapsibleResponsive) return;
     const size = this.collapsibleResponsive;
@@ -239,6 +264,11 @@ export default class IdsSearchField extends IdsTriggerField {
     });
   }
 
+  /**
+   * Get the expand button
+   * @readonly
+   * @returns {any} the expand button
+   */
   get expandButton(): any {
     if (!this.collapsible && !this.collapsibleResponsive) return;
     const btn = this.querySelector('ids-trigger-button[slot="trigger-start"]');
@@ -247,6 +277,11 @@ export default class IdsSearchField extends IdsTriggerField {
     return btn;
   }
 
+  /**
+   * Get the search icon
+   * @readonly
+   * @returns {any} the search icon
+   */
   get searchIcon(): any {
     return `<ids-icon class="ids-icon search-icon starting-icon" size="medium" icon="search"></ids-icon>`;
   }
@@ -341,7 +376,6 @@ export default class IdsSearchField extends IdsTriggerField {
   /**
    * @param {string} value - sets if the search field should be collapsible
    * based on screen size. Valid values: 'xxl', 'xl', 'lg', 'md', 'sm', 'xs'
-   * @memberof IdsSearchField
    */
   set collapsibleResponsive(value: string) {
     const validBreakpoints = Object.keys(breakpoints);
