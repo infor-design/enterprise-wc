@@ -130,8 +130,13 @@
     transition: all var(--ids-motion-duration) var(--ids-motion-ease);
 
     &.collapsed {
-      border: none;
+      border-color: transparent;
       width: 38px;
+
+      &:hover,
+      &:not(:focus-within) {
+        border-color: transparent;
+      }
 
       &:focus,
       &:focus-within {
@@ -144,6 +149,22 @@
 
       .search-icon {
         display: none;
+      }
+    }
+  }
+
+  &:has(.collapsed) {
+    &:not(.readonly):not(.disabled):not(:focus):not(:focus-within) {
+      &:hover {
+        .field-container {
+          border-color: transparent;
+        }
+      }
+    }
+
+    &:focus-within {
+      .field-container {
+        border-color: transparent;
       }
     }
   }

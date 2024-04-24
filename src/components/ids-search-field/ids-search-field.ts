@@ -96,7 +96,7 @@ export default class IdsSearchField extends IdsTriggerField {
     return `<div id="ids-search-field" class="ids-search-field ids-trigger-field ${containerClass}" part="container">
       ${labelHtml}
       <div class="fieldset">
-        <div class="field-container ${this.collapsible ? 'collapsible' : ''} ${this.collapsed ? 'collapsed' : ''}" part="field-container">
+        <div class="field-container${this.collapsible ? ' collapsible' : ''}${this.collapsed ? ' collapsed' : ''}" part="field-container">
           ${this.categories?.length ? '' : this.searchIcon}
           <slot name="trigger-start"></slot>
           ${this.templateCategoriesMenu()}
