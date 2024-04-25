@@ -934,6 +934,7 @@ test.describe('IdsInput tests', () => {
       const input = await page.locator('ids-input').first();
       expect(await input.getAttribute('autocomplete')).toBeNull();
       expect(await input.evaluate((elem: IdsInput) => elem.autocomplete)).toBeFalsy();
+      expect(await input.evaluate((elem: IdsInput) => elem.popup)).toBeNull();
       const datasource = new IdsDataSource();
       await input.evaluate((elem: any, arg) => {
         elem.autocomplete = true;
@@ -948,6 +949,7 @@ test.describe('IdsInput tests', () => {
       expect(await input.evaluate((elem: IdsInput) => elem.autocomplete)).toBeTruthy();
       expect(await input.evaluate((elem: IdsInput) => elem.data.length)).toEqual(59);
       expect(await input.evaluate((elem: IdsInput) => elem.searchField)).toEqual('value');
+      expect(await input.evaluate((elem: IdsInput) => elem.popup)).toBeDefined();
       await input.evaluate((elem: any) => {
         elem.searchField = 'label';
       });
