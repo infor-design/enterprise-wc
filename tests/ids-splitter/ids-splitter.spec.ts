@@ -63,4 +63,28 @@ test.describe('IdsSplitter tests', () => {
       await percySnapshot(page, 'ids-splitter-light');
     });
   });
+
+  test.describe('functionality tests', () => {
+    test('should expand and collapse the splitter', async ({ page }) => {
+      await page.goto('/ids-splitter/expand-collapse.html');
+      const btn = await page.locator('#expand-collapse-btn');
+      const leftPane = await page.locator('#left-pane');
+      await btn.click();
+      await expect(leftPane).toHaveAttribute('collapsed');
+      await btn.click();
+      await expect(leftPane).not.toHaveAttribute('collapsed');
+      expect(await leftPane.getAttribute('style')).toContain('width: 25%');
+      // resize to have a collapsed pane
+      const resizer = await page.locator('ids-splitter ids-draggable').first();
+      await resizer.hover();
+      await page.mouse.down();
+      await page.mouse.move(0, 0);
+      await page.mouse.up();
+      expect(await leftPane.getAttribute('style')).toContain('width: 0%');
+      await expect(leftPane).toHaveAttribute('collapsed');
+      await btn.click();
+      await expect(leftPane).not.toHaveAttribute('collapsed');
+      expect(await leftPane.getAttribute('style')).toContain('width: 25%');
+    });
+  });
 });
