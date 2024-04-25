@@ -60,12 +60,10 @@ export default class IdsSwipeAction extends Base {
       if (this.rightButton) {
         this.rightButton.setAttribute('tabindex', '-1');
         this.rightButton.setAttribute('aria-hidden', 'true');
-        this.rightButton.setAttribute('no-ripple', 'true');
       }
       if (this.leftButton) {
         this.leftButton.setAttribute('tabindex', '-1');
         this.leftButton.setAttribute('aria-hidden', 'true');
-        this.leftButton.setAttribute('no-ripple', 'true');
 
         // Fix scroll position
         this.container?.style.setProperty('visibility', 'hidden');

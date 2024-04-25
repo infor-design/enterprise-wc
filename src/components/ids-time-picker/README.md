@@ -26,12 +26,12 @@ The Timepicker Component provides a click/touch user interface for setting a tim
 - `autoupdate` {boolean} Automatically updates the time string value and hides the "Set Time" button.
 - `colorVariant` {string} set the current color variant.
 - `compact` {boolean} sets the component to be compact mode.
-- `dirtyTracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
+- `dirtyTracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} Disables the timepicker
-- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
+- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-field-height-mixin/README.md) for more information.
 - `readonly` {boolean} Makes the timepicker readonly
 - `label` {string} Set the timepicker's label
-- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](../../mixins/ids-label-state-mixin/README.md) for more information.
+- `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-label-state-mixin/README.md) for more information.
 - `placeholder` {string} Set the timepicker's placeholder
 - `noMargins` {boolean} sets whether or not no-margins around the component.
 - `size` `{'sm' | 'md' | 'lg' | 'full' | string}` Sets the size of the input-field's width

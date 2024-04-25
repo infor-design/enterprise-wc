@@ -46,13 +46,6 @@
           <ids-upload label="Attachments" id="attachments" dirty-tracker validate="required" size="md"></ids-upload>
           <ids-textarea id="notes" label="Notes" dirty-tracker validate="required" size="md"></ids-textarea>
           <ids-checkbox id="freight" label="Freight" checked dirty-tracker validate="required" no-margin></ids-checkbox>
-          <br>
-          <ids-button id="btn-submit" appearance="primary" type="submit">
-            <span>Submit</span>
-          </ids-button>
-          <ids-button id="btn-cancel" appearance="secondary" type="submit">
-            <span>Cancel</span>
-          </ids-button>
         </ids-layout-grid-cell>
         <ids-layout-grid-cell>
           <ids-color-picker id="ship-color" label="Ship Color" value="red-80" clearable dirty-tracker validate="required" size="md"></ids-color-picker>
@@ -67,6 +60,16 @@
             <ids-radio value="opt2" label="Truck" checked="true"></ids-radio>
           </ids-radio-group>
           <ids-switch id="send-notifications" label="Send notifications" checked="true"></ids-switch>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+      <ids-layout-grid cols="1" cols-md="2" padding-x="md">
+        <ids-layout-grid-cell>
+          <ids-button id="btn-submit" appearance="primary" type="submit">
+            <span>Submit</span>
+          </ids-button>
+          <ids-button id="btn-cancel" appearance="secondary" type="submit">
+            <span>Cancel</span>
+          </ids-button>
         </ids-layout-grid-cell>
       </ids-layout-grid>
     </ids-form>

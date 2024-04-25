@@ -7,3 +7,15 @@
 :host([active]) {
   border-color: var(--ids-swappable-color-border-active);
 }
+
+::slotted(ids-search-field) {
+  margin: 0 8px;
+  margin-bottom: 8px;
+  width: calc(100% - 16px);
+}
+
+:host([searchable]) {
+  .has-searchfield {
+    border-block-end: var(--ids-swaplist-border);
+  }
+}

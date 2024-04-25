@@ -128,7 +128,7 @@ export default class IdsSearchField extends IdsTriggerField {
     if (!this.action) return ``;
 
     return `
-      <ids-button id="category-action-button" appearance="secondary">
+      <ids-button id="category-action-button" appearance="secondary" no-margins>
         <span>${this.action}</span>
       </ids-button>
     `;

@@ -148,6 +148,7 @@ export default class IdsLookup extends Base {
       attributes.CLEARABLE,
       attributes.DISABLED,
       attributes.FIELD,
+      attributes.ID,
       attributes.READONLY,
       attributes.SEARCHABLE,
       attributes.SEARCHFIELD_PLACEHOLDER,
@@ -182,7 +183,6 @@ export default class IdsLookup extends Base {
       <ids-trigger-button
         slot="trigger-end"
         part="trigger-lookup"
-        tabbable="${this.tabbable}"
         disabled="${this.disabled}"
         readonly="${this.readonly}">
         <ids-text audible="true">LookupTriggerButton</ids-text>
@@ -217,8 +217,14 @@ export default class IdsLookup extends Base {
    */
   set autocomplete(value: string | boolean | null) {
     const val = stringToBool(value);
-    if (val) this.setAttribute(attributes.AUTOCOMPLETE, '');
-    else this.removeAttribute(attributes.AUTOCOMPLETE);
+    if (val) {
+      this.setAttribute(attributes.AUTOCOMPLETE, '');
+      this.input?.setAttribute(attributes.AUTOCOMPLETE, '');
+      this.input?.setAttribute(attributes.SEARCH_FIELD, this.field);
+    } else {
+      this.removeAttribute(attributes.AUTOCOMPLETE);
+      this.input?.removeAttribute(attributes.AUTOCOMPLETE);
+    }
   }
 
   /**
@@ -490,6 +496,9 @@ export default class IdsLookup extends Base {
   set field(value: string) {
     if (value) {
       this.setAttribute(attributes.FIELD, value);
+      if (this.autocomplete) {
+        this.input?.setAttribute(attributes.SEARCH_FIELD, value);
+      }
     }
   }
 
@@ -594,6 +603,19 @@ export default class IdsLookup extends Base {
   }
 
   get clearable(): boolean { return this.state.clearable || true; }
+
+  /**
+   * Sets the id internally and externally
+   * @param {string} value id value
+   */
+  set id(value: string) {
+    this.shadowRoot?.querySelector('ids-trigger-field')?.setAttribute(attributes.ID, `${value}-trigger-field`);
+    this.setAttribute(attributes.ID, value);
+  }
+
+  get id(): string {
+    return this.getAttribute(attributes.ID) || 'none';
+  }
 
   /**
    * Push field-height/compact to the container element

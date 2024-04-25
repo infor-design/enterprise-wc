@@ -526,10 +526,16 @@ export default class IdsDataGridFilters {
           conditionValue = this.root.localeAPI?.parseNumber(conditionValue);
         }
 
+        // Date Time
         if (filterType === 'date' || filterType === 'time') {
           if (/string|undefined/g.test(typeof value)) value = formatterVal();
           const getValues = (rValue: any, cValue: any) => {
-            const format = c.format || column.formatOptions || this.root.localeAPI?.calendar().timeFormat;
+            // NOTE: HERE IS THE DATE PROBLEM, format is always equal to a time format, not a date format
+            const defaultFilterFormat = filterType === 'date'
+              ? this.root.localeAPI?.calendar().dateFormat
+              : this.root.localeAPI?.calendar().timeFormat;
+            const format = c.format || column.formatOptions || defaultFilterFormat;
+
             cValue = this.root.localeAPI?.parseDate(cValue, format);
             if (cValue) {
               if (filterType === 'time') {
@@ -615,11 +621,15 @@ export default class IdsDataGridFilters {
             isMatch = (valueStr === '');
             break;
           case 'is-not-empty':
-            if (value === '') {
-              isMatch = (value !== '');
+            if (typeof value === 'string') {
+              isMatch = !!value.length;
               break;
             }
-            isMatch = !(value === null);
+            if (typeof value === 'number') {
+              isMatch = !Number.isNaN(value);
+              break;
+            }
+            isMatch = value !== null && value !== undefined;
             break;
           case 'in-range':
             if (typeof conditionValue === 'object') {
@@ -750,7 +760,7 @@ export default class IdsDataGridFilters {
       let triggerField = node?.querySelector('ids-trigger-field');
       const datePickerPopup = node?.querySelector('ids-date-picker-popup');
       const timePickerPopup = node?.querySelector('ids-time-picker-popup');
-      let menuAttachment = '.ids-data-grid-wrapper';
+      let menuAttachment = '.ids-data-grid';
 
       // Slotted filter only
       if (slot && (input || dropdown || datePicker || timePicker || btn)) {
@@ -882,6 +892,7 @@ export default class IdsDataGridFilters {
         input.maskOptions = {
           allowDecimal: false,
           allowNegative: true,
+          allowLeadingZeros: true,
           allowThousandsSeparator: false
         };
       }
@@ -890,6 +901,7 @@ export default class IdsDataGridFilters {
         input.mask = 'number';
         input.maskOptions = {
           allowDecimal: true,
+          allowLeadingZeros: true,
           allowNegative: true
         };
       }

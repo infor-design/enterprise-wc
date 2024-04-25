@@ -4,6 +4,7 @@
 :host {
   display: block;
   position: fixed;
+  visibility: visible;
   height: 100%;
   width: 100%;
   top: 0;
@@ -12,6 +13,7 @@
 
 :host(:not([visible])) {
   pointer-events: none;
+  visibility: hidden;
 }
 
 .ids-modal {
@@ -36,6 +38,11 @@
     .has-scrollbar {
       overflow: auto;
     }
+  }
+
+  // Adding top/bottom space to the modal if full height
+  &:not(.fullsize)::part(popup) {
+    max-height: calc(100% - 32px);
   }
 }
 

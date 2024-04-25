@@ -40,7 +40,6 @@
     height: auto;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: pre;
   }
 
   // Text Alignment
@@ -207,6 +206,11 @@
     }
   }
 
+  // Text Editable Cell
+  &.formatter-text {
+    white-space: pre;
+  }
+
   // Editing Uppercase
   &.is-editing.is-uppercase {
     text-transform: uppercase;
@@ -234,6 +238,7 @@
   }
 
   &.frozen-left {
+    background-color: var(--ids-data-grid-color-background);
     position: sticky;
     left: 0;
 
