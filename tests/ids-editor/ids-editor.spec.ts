@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { Page, expect } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsEditor from '../../src/components/ids-editor/ids-editor';
@@ -174,6 +174,334 @@ test.describe('IdsEditor tests', () => {
         return secondParagraph.style.textAlign;
       });
       expect(textAlign).toEqual('right');
+    });
+  });
+
+  test.describe('functionality tests', async () => {
+    let idsEditor: Locator;
+
+    test.beforeEach(async ({ page }) => {
+      idsEditor = await page.locator('#editor-demo');
+    });
+
+    test('can get value', async () => {
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.value)).toBeTruthy();
+    });
+
+    test('can set/get disabled', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+      const container = await idsEditor.locator('div.ids-editor').first();
+      const textarea = await idsEditor.locator('#source-textarea').first();
+      const label = await idsEditor.locator('#editor-label').first();
+      const contentEditable = await idsEditor.locator('#editor-container').first();
+      const editorLinks = await contentEditable.locator('a').all();
+
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.disabled)).toBeFalsy();
+      await expect(idsEditor).not.toHaveAttribute('disabled');
+      await expect(container).not.toHaveAttribute('disabled');
+      await expect(textarea).not.toHaveAttribute('disabled');
+      await expect(label).not.toHaveAttribute('disabled');
+      await expect(contentEditable).toHaveAttribute('contenteditable', 'true');
+      for (const link of editorLinks) await expect(link).not.toHaveAttribute('tabIndex');
+
+      for (const data of testData) {
+        expect(await idsEditor.evaluate((element: IdsEditor, tData) => {
+          element.disabled = tData as any;
+          return element.disabled;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsEditor).toHaveAttribute('disabled');
+          await expect(container).toHaveAttribute('disabled');
+          await expect(textarea).toHaveAttribute('disabled');
+          await expect(label).toHaveAttribute('disabled');
+          await expect(contentEditable).toHaveAttribute('contenteditable', 'false');
+          for (const link of editorLinks) await expect(link).toHaveAttribute('tabIndex', '-1');
+        } else {
+          await expect(idsEditor).not.toHaveAttribute('disabled');
+          await expect(container).not.toHaveAttribute('disabled');
+          await expect(textarea).not.toHaveAttribute('disabled');
+          await expect(label).not.toHaveAttribute('disabled');
+          await expect(contentEditable).toHaveAttribute('contenteditable', 'true');
+          for (const link of editorLinks) await expect(link).not.toHaveAttribute('tabIndex');
+        }
+      }
+    });
+
+    test('can set/get label', async () => {
+      const defLabel = 'Ids Editor';
+      const testData = [
+        { data: 'Test', expected: 'Test' },
+        { data: '<a>Test</a>', expected: 'Test' },
+        { data: '<svg>', expected: '' },
+        { data: null, expected: '' }
+      ];
+
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.label)).toEqual(defLabel);
+      await expect(idsEditor).toHaveAttribute('label', defLabel);
+
+      for (const data of testData) {
+        expect(await idsEditor.evaluate((element: IdsEditor, tData) => {
+          element.label = tData as any;
+          return element.label;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsEditor).toHaveAttribute('label', data.expected);
+        } else {
+          await expect(idsEditor).not.toHaveAttribute('label');
+        }
+      }
+    });
+
+    test('can set/get labelState', async () => {
+      const testData = [
+        { data: 'hidden', expected: 'hidden' },
+        { data: 'test', expected: null },
+        { data: 'collapsed', expected: 'collapsed' },
+        { data: null, expected: null },
+        { data: '', expected: null }
+      ];
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.labelState)).toBeNull();
+      await expect(idsEditor).not.toHaveAttribute('label-state');
+
+      for (const data of testData) {
+        expect(await idsEditor.evaluate((element: IdsEditor, tData) => {
+          element.labelState = tData as any;
+          return element.labelState;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsEditor).toHaveAttribute('label-state', data.expected);
+        } else {
+          await expect(idsEditor).not.toHaveAttribute('label-state');
+        }
+      }
+    });
+
+    test('can set/get labeRequired', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: true }
+      ];
+
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.labelRequired)).toBeTruthy();
+      await expect(idsEditor).not.toHaveAttribute('label-required');
+
+      for (const data of testData) {
+        expect(await idsEditor.evaluate((element: IdsEditor, tData) => {
+          element.labelRequired = tData;
+          return element.labelRequired;
+        }, data.data)).toEqual(data.expected);
+        if (data.data !== null) {
+          await expect(idsEditor).toHaveAttribute('label-required', data.expected.toString());
+        } else {
+          await expect(idsEditor).not.toHaveAttribute('label-required');
+        }
+      }
+    });
+
+    test('can set/get paragraphSeparator', async () => {
+      const defSeparator = 'p';
+      const testData = [
+        { data: 'div', expected: 'div' },
+        { data: 'br', expected: 'br' },
+        { data: 'p', expected: defSeparator },
+        { data: 'a', expected: defSeparator },
+        { data: null, expected: defSeparator }
+      ];
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.paragraphSeparator)).toEqual(defSeparator);
+      await expect(idsEditor).not.toHaveAttribute('paragraph-separator');
+
+      for (const data of testData) {
+        expect(await idsEditor.evaluate((element: IdsEditor, tData) => {
+          element.paragraphSeparator = tData as any;
+          return element.paragraphSeparator;
+        }, data.data)).toEqual(data.expected);
+        if (data.data && ['p', 'div', 'br'].indexOf(data.data) > -1) {
+          await expect(idsEditor).toHaveAttribute('paragraph-separator', data.expected);
+        } else {
+          await expect(idsEditor).not.toHaveAttribute('paragraph-separator');
+        }
+      }
+    });
+
+    test('can set/get pasteAsPlainText', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.pasteAsPlainText)).toBeFalsy();
+      await expect(idsEditor).not.toHaveAttribute('paste-as-plain-text');
+
+      for (const data of testData) {
+        expect(await idsEditor.evaluate((element: IdsEditor, tData) => {
+          element.pasteAsPlainText = tData as any;
+          return element.pasteAsPlainText;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsEditor).toHaveAttribute('paste-as-plain-text');
+        } else {
+          await expect(idsEditor).not.toHaveAttribute('paste-as-plain-text');
+        }
+      }
+    });
+
+    test('can set/get placeholder', async () => {
+      const testData = [
+        { data: 'test', expected: 'test' },
+        { data: '', expected: null },
+        { data: 123, expected: '123' },
+        { data: null, expected: null }
+      ];
+
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.placeholder)).toBeNull();
+      await expect(idsEditor).not.toHaveAttribute('placeholder');
+
+      for (const data of testData) {
+        expect(await idsEditor.evaluate((element: IdsEditor, tData) => {
+          element.placeholder = tData as any;
+          return element.placeholder;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsEditor).toHaveAttribute('placeholder', data.expected);
+        } else {
+          await expect(idsEditor).not.toHaveAttribute('placeholder');
+        }
+      }
+    });
+
+    test('can set/get readonly', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+      const container = await idsEditor.locator('div.ids-editor').first();
+      const textarea = await idsEditor.locator('#source-textarea').first();
+      const label = await idsEditor.locator('#editor-label').first();
+      const contentEditable = await idsEditor.locator('#editor-container').first();
+
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.readonly)).toBeFalsy();
+      await expect(idsEditor).not.toHaveAttribute('readonly');
+      await expect(container).not.toHaveAttribute('readonly');
+      await expect(textarea).not.toHaveAttribute('readonly');
+      await expect(label).not.toHaveAttribute('readonly');
+      await expect(contentEditable).toHaveAttribute('contenteditable', 'true');
+
+      for (const data of testData) {
+        expect(await idsEditor.evaluate((element: IdsEditor, tData) => {
+          element.readonly = tData as any;
+          return element.readonly;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsEditor).toHaveAttribute('readonly');
+          await expect(container).toHaveAttribute('readonly');
+          await expect(textarea).toHaveAttribute('readonly');
+          await expect(label).toHaveAttribute('readonly');
+          await expect(contentEditable).toHaveAttribute('contenteditable', 'false');
+        } else {
+          await expect(idsEditor).not.toHaveAttribute('readonly');
+          await expect(container).not.toHaveAttribute('readonly');
+          await expect(textarea).not.toHaveAttribute('readonly');
+          await expect(label).not.toHaveAttribute('readonly');
+          await expect(contentEditable).toHaveAttribute('contenteditable', 'true');
+        }
+      }
+    });
+
+    test('can set/get sourceFormatter', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.sourceFormatter)).toBeFalsy();
+      await expect(idsEditor).not.toHaveAttribute('source-formatter');
+
+      for (const data of testData) {
+        expect(await idsEditor.evaluate((element: IdsEditor, tData) => {
+          element.sourceFormatter = tData as any;
+          return element.sourceFormatter;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsEditor).toHaveAttribute('source-formatter');
+        } else {
+          await expect(idsEditor).not.toHaveAttribute('source-formatter');
+        }
+      }
+    });
+
+    test('can set/get view', async () => {
+      const defView = 'editor';
+      const testData = [
+        { data: 'source', expected: 'source' },
+        { data: 'source', expected: 'source' },
+        { data: 'editor', expected: 'editor' },
+        { data: 'test', expected: defView }
+      ];
+      const btnSource = await idsEditor.locator('ids-button[editor-action="sourcemode"]').first();
+      const btnSourceBtn = await btnSource.locator('button[editor-action="sourcemode"]').first();
+      const btnEditor = await idsEditor.locator('ids-button[editor-action="editormode"]').first();
+      const btnEditorBtn = await btnEditor.locator('button[editor-action="editormode"]').first();
+      const toolBar = await idsEditor.locator('ids-toolbar').first();
+      const validateElements = async (mode: 'editor' | 'source') => {
+        if (mode === 'editor') {
+          await expect(btnSource).not.toHaveAttribute('hidden');
+          await expect(btnSourceBtn).not.toHaveAttribute('hidden');
+          await expect(btnEditor).toHaveAttribute('hidden');
+          await expect(btnEditorBtn).toHaveAttribute('hidden');
+          await expect(toolBar).not.toHaveAttribute('disabled');
+          return;
+        }
+        await expect(btnSource).toHaveAttribute('hidden');
+        await expect(btnSourceBtn).toHaveAttribute('hidden');
+        await expect(btnEditor).not.toHaveAttribute('hidden');
+        await expect(btnEditorBtn).not.toHaveAttribute('hidden');
+        await expect(toolBar).toHaveAttribute('disabled');
+      };
+
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.view)).toEqual(defView);
+      await expect(idsEditor).not.toHaveAttribute('view');
+      await validateElements('editor');
+
+      for (const data of testData) {
+        expect(await idsEditor.evaluate((element: IdsEditor, tData) => {
+          element.view = tData;
+          return element.view;
+        }, data.data)).toEqual(data.expected);
+        if (['editor', 'source'].includes(data.data)) {
+          await expect(idsEditor).toHaveAttribute('view', data.expected);
+          await validateElements(data.data as any);
+        } else {
+          await expect(idsEditor).not.toHaveAttribute('view');
+          await validateElements('editor');
+        }
+      }
+    });
+
+    test('can get editorSlot', async () => {
+      expect(await idsEditor.evaluate((element:IdsEditor) => element.editorSlot)).toBeTruthy();
+    });
+
+    test('can get hiddenSlot', async () => {
+      expect(await idsEditor.evaluate((element:IdsEditor) => element.hiddenSlot)).toBeTruthy();
+    });
+
+    test('can paste as html', async ({ context }) => {
+      await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+      const textarea = await idsEditor.locator('#editor-container').first();
+      await textarea.evaluate((element) => { element.innerHTML = ''; });
     });
   });
 });
