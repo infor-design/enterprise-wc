@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
+import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
 import IdsHitboxMixin from '../../mixins/ids-hitbox-mixin/ids-hitbox-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -9,10 +10,12 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-hyperlink.scss';
 
-const Base = IdsHitboxMixin(
-  IdsColorVariantMixin(
-    IdsEventsMixin(
-      IdsElement
+const Base = IdsHideFocusMixin(
+  IdsHitboxMixin(
+    IdsColorVariantMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
     )
   )
 );
@@ -22,6 +25,8 @@ const Base = IdsHitboxMixin(
  * @type {IdsHyperlink}
  * @inherits IdsElement
  * @mixes IdsHitboxMixin
+ * @mixes IdsHideFocusMixin
+ * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @part link - the link element
  */

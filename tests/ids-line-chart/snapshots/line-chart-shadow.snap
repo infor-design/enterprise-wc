@@ -68,7 +68,7 @@
       </g></svg>
       <slot name="legend"><div class="chart-legend" style=""><a data-index="0" class="chart-legend-item" aria-hidden="true"><div class="swatch color-1"></div>Component A</a><a data-index="1" class="chart-legend-item" aria-hidden="true"><div class="swatch color-2"></div>Component B</a><a data-index="2" class="chart-legend-item" aria-hidden="true"><div class="swatch color-3"></div>Component C</a></div></slot>
       <slot name="empty-message">
-        <ids-empty-message icon="empty-no-data" style="" hidden="">
+        <ids-empty-message icon="empty-no-data" hidden="" style="">
           <ids-text type="h2" font-size="20" label="true" slot="label">No data available</ids-text>
         </ids-empty-message>
       </slot>
