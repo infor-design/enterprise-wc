@@ -17,6 +17,8 @@ A specific composition of existing components [Trigger Field](../ids-trigger-fie
 - `readonly` { boolean } disallow editing input
 - `categories` { string[] } an array of text that dictates what appears in the categories dropdown
 - `category` { string } sets the initial text that appears in the categories dropdown menu
+- `collapsible` { boolean } determines if the search field should be collapsible.
+- `collapsible-responsive` { string } enables collapsible behavior for the search field based on viewport size.
 - `selectedCategories` { string[] } returns an array of currently selected categories
 - `action` { string } if set, an action button will appear on the search field, and this button fires the "search" event
 - `multiple` { boolean } if true, this will allow multiple categories to be selected in the category menu
@@ -48,6 +50,16 @@ Disabled state
 Read-only state
 ```html
     <ids-search-field readonly label="Pokemon" value="Lapras"></ids-search-field>
+```
+
+Collapsible
+```html
+    <ids-search-field collapsible label="Collapsible" value="Search..."></ids-search-field>
+```
+
+Collapsible - Responsive
+```html
+    <ids-search-field collapsible-responsive="md" label="Collapsible below md breakpoint" value="Search..."></ids-search-field>
 ```
 
 Search field with Categories

@@ -405,6 +405,9 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`text` | {string} | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
 |`disabled` | {boolean|Function} | Sets the cell contents to disabled, can also use a callback to determine this dynamically. Only checkboxes, radios, buttons and link columns can be disabled at this time. Selection columns require disabled rows in order to not be clickable/selectable. |
 |`uppercase` | {boolean} | Transforms all the text in the cell contents to uppercase. See also filterOptions and editorOptions |
+|`color` | {string | Function} | Returns the color to use in tag, rating, slider, stepChart, badge, color, icon formatter and icon formatters, can be a function if dynamic is needed |
+|`icon` | {string | Function} | Returns the icon to use in alert formatter and icon formatter, can be a function if dynamic is needed |
+|`text` | {string | Function} | Returns extra inner text in some formatters |
 
 ## Formatters
 

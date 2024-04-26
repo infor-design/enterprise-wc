@@ -10,7 +10,9 @@
           <ids-text font-size="14">With some extra information below</ids-text>
         </ids-toolbar-section>
         <ids-toolbar-section align="end">
-          <ids-search-field id="header-search" clearable="true" label-state="collapsed" no-margins="" color-variant="alternate" placeholder="Type to search" label="Search"></ids-search-field>
+          <ids-search-field collapsible="" id="header-search" clearable="true" label-state="collapsed" no-margins="" color-variant="alternate" collapsed="" placeholder="Type to search" label="Search">
+            <ids-trigger-button slot="trigger-start" icon="search" color-variant="alternate" class="expand-button"><ids-icon icon="search" class="ids-icon"></ids-icon></ids-trigger-button>
+          </ids-search-field>
         </ids-toolbar-section>
         <ids-toolbar-section type="button">
           <ids-theme-switcher theme="default-light"></ids-theme-switcher>
