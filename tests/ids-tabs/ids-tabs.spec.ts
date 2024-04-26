@@ -4,6 +4,7 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsTabs from '../../src/components/ids-tabs/ids-tabs';
+import IdsTab from '../../src/components/ids-tabs/ids-tab';
 
 test.describe('IdsTabs tests', () => {
   const url = '/ids-tabs/example.html';
@@ -135,6 +136,26 @@ test.describe('IdsTabs tests', () => {
       await page.goto('/ids-tabs/selected.html');
       expect(await page.locator('ids-tab[selected]').getAttribute('aria-selected')).toEqual('true');
       expect(await page.locator('ids-tab[selected]').getAttribute('value')).toEqual('opportunities');
+    });
+
+    test('sets count attribute on the ids-tab component predictably', async ({ page }) => {
+      const tab = await page.locator('ids-tab').first();
+      await expect(tab).toBeAttached();
+      await tab.evaluate((element: IdsTab) => { element.count = '20'; });
+      await expect(tab).toHaveAttribute('count', '20');
+      await tab.evaluate((element: IdsTab) => { element.count = ''; });
+      await expect(tab).not.toHaveAttribute('count');
+      await tab.evaluate((element: IdsTab) => { element.count = '20'; });
+      await expect(tab).toHaveAttribute('count', '20');
+      await tab.evaluate((element: IdsTab) => { element.count = 'z20z'; });
+      await expect(tab).toHaveAttribute('count', '20');
+    });
+
+    test('can set/get color-variant', async ({ page }) => {
+      const tab = await page.locator('ids-tab').first();
+      await expect(tab).toBeAttached();
+      await tab.evaluate((element: IdsTab) => { element.count = '20'; });
+      await expect(tab).toHaveAttribute('color-variant');
     });
   });
 });
