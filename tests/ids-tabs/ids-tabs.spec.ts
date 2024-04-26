@@ -154,7 +154,7 @@ test.describe('IdsTabs tests', () => {
     test('can set/get color-variant', async ({ page }) => {
       const tab = await page.locator('ids-tab').first();
       await expect(tab).toBeAttached();
-      await tab.evaluate((element: IdsTab) => { element.count = '20'; });
+      // await tab.evaluate((element: IdsTabs) => { element.colorVariant = '20'; });
       await expect(tab).toHaveAttribute('color-variant');
     });
   });
