@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
 import { Locator, Page, expect } from '@playwright/test';
-import { test } from '../base-fixture';
+import { test, pasteClipBoard } from '../base-fixture';
 
 import IdsEditor from '../../src/components/ids-editor/ids-editor';
 import IdsButton from '../../src/components/ids-button/ids-button';
@@ -498,10 +498,54 @@ test.describe('IdsEditor tests', () => {
       expect(await idsEditor.evaluate((element:IdsEditor) => element.hiddenSlot)).toBeTruthy();
     });
 
-    test('can paste as html', async ({ context }) => {
+    test('can paste as text', async ({ page, context }) => {
       await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+      // add paste event listener
+      await idsEditor.evaluate((element: IdsEditor) => {
+        (<any>window).pasteTriggered = false;
+        element.addEventListener('paste', () => { (<any>window).pasteTriggered = true; });
+        element.pasteAsPlainText = true;
+      });
       const textarea = await idsEditor.locator('#editor-container').first();
-      await textarea.evaluate((element) => { element.innerHTML = ''; });
+      const textToCopy = '<h1>test1234567890</h1>';
+      await expect(textarea).not.toContainText(textToCopy);
+      await textarea.clear();
+      await pasteClipBoard(textarea, textToCopy);
+      // validate if paste event is triggered
+      expect(await page.evaluate(() => (<any>window).pasteTriggered)).toBeTruthy();
+      await expect(textarea).toContainText(textToCopy);
+    });
+
+    test('can paste as html', async ({ page, context }) => {
+      await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+      // add paste event listener
+      await idsEditor.evaluate((element: IdsEditor) => {
+        (<any>window).pasteTriggered = false;
+        element.addEventListener('paste', () => { (<any>window).pasteTriggered = true; });
+      });
+      const textarea = await idsEditor.locator('#editor-container').first();
+      const textToCopy = '<h1>test1234567890</h1>';
+      const textNoTags = textToCopy.replaceAll(/<[^>]*>/g, '');
+      await expect(textarea).not.toContainText(textToCopy);
+      await textarea.clear();
+      await pasteClipBoard(textarea, textToCopy, { format: 'text/html' });
+      // validate if paste event is triggered
+      expect(await page.evaluate(() => (<any>window).pasteTriggered)).toBeTruthy();
+      await expect(textarea).toHaveText(textNoTags);
+    });
+
+    test('can set/get dirtyTracker', async () => {
+      expect(await idsEditor.evaluate((element: IdsEditor) => element.dirtyTracker)).toBeFalsy();
+      await expect(idsEditor).not.toHaveAttribute('dirty-tracker');
+      await expect(idsEditor.locator('ids-icon.icon-dirty')).not.toBeAttached();
+
+      expect(await idsEditor.evaluate((element: IdsEditor) => {
+        element.dirtyTracker = true;
+        return element.dirtyTracker;
+      })).toBeTruthy();
+      await expect(idsEditor).toHaveAttribute('dirty-tracker', 'true');
+      await idsEditor.locator('#editor-container').first().fill('another test');
+      await expect(idsEditor.locator('ids-icon.icon-dirty')).toBeAttached();
     });
   });
 });

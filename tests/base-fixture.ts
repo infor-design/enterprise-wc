@@ -2,7 +2,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
-import { Page, test as baseTest, expect as baseExpect } from '@playwright/test';
+import {
+  Page,
+  test as baseTest,
+  expect as baseExpect,
+  Locator
+} from '@playwright/test';
 
 const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output');
 
@@ -77,6 +82,33 @@ export async function runFunction<T>(page: Page, utilName: string, value: any, v
   // eslint-disable-next-line max-len
   const returnValue = await page.evaluate((obj) => ((window as any).utils as any)[obj.utilName](obj.value), { utilName, value });
   return returnValue;
+}
+
+/**
+ * Paste a text within the locator
+ * @param {Locator} locator element which will trigger the paste event
+ * @param {string} textToPaste text to be pasted
+ * @param {object} options options
+ * @param {string} options.format format of the text - default is `text/plain`
+ * @param {string} options.replaceAll clear text before pasting - default is `false`
+ */
+export async function pasteClipBoard(
+  locator: Locator,
+  textToPaste: string,
+  options?:{
+    format?:string,
+    replaceAll?: boolean
+  }
+) {
+  const format = ((options === undefined || (options.format === undefined))) ? 'text/plain' : options.format;
+  const replaceAll = ((options === undefined || (options.replaceAll === undefined))) ? false : options.replaceAll;
+  await locator.evaluate(async (element, text) => {
+    const clipboardData = new DataTransfer();
+    clipboardData.setData(text.format, text.textToPaste);
+    element.focus();
+    if (text.replaceAll) element.innerHTML = '';
+    element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData }));
+  }, { textToPaste, format, replaceAll });
 }
 
 export const expect = baseExpect.extend({
