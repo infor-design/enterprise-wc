@@ -13,7 +13,7 @@ Counts are distinctive elements used to highlight high level numbers or metrics.
 
 - **Counts**: UI embellishments for summarizing high level numeric information.
 - **Value**: The numeric value displayed on the count component.
-- **Text**:  The name or brief description of the value.
+- **Text**: The name or brief description of the value.
 - **Compact**: When compact, the count value appears slightly smaller than usual.
 
 ## Features (With Code Examples)

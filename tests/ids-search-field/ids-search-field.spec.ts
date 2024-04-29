@@ -140,6 +140,42 @@ test.describe('IdsSearchField tests', () => {
       expect(await page.locator('ids-search-field').first().getAttribute('readonly')).toBeFalsy();
     });
 
+    test('should be able to set collapsible', async ({ page }) => {
+      await page.evaluate(() => {
+        const searchField = document.querySelector<IdsSearchField>('ids-search-field')!;
+        searchField.collapsible = true;
+      });
+
+      const isCollapsibleSet = await page.$eval('ids-search-field', (el) => el.hasAttribute('collapsible'));
+      expect(isCollapsibleSet).toBeTruthy();
+
+      await page.evaluate(() => {
+        const searchField = document.querySelector<IdsSearchField>('ids-search-field')!;
+        searchField.collapsible = false;
+      });
+
+      const isCollapsibleRemoved = await page.$eval('ids-search-field', (el) => !el.hasAttribute('collapsible'));
+      expect(isCollapsibleRemoved).toBeTruthy();
+    });
+
+    test('should be able to set collapsibleResponsive', async ({ page }) => {
+      await page.evaluate(() => {
+        const searchField = document.querySelector<IdsSearchField>('ids-search-field')!;
+        searchField.collapsibleResponsive = 'xl';
+      });
+
+      const isCollapsibleResponsiveSet = await page.$eval('ids-search-field', (el) => el.getAttribute('collapsible-responsive') === 'xl');
+      expect(isCollapsibleResponsiveSet).toBeTruthy();
+
+      await page.evaluate(() => {
+        const searchField = document.querySelector<IdsSearchField>('ids-search-field')!;
+        searchField.collapsibleResponsive = 'invalidValue';
+      });
+
+      const isCollapsibleResponsiveRemoved = await page.$eval('ids-search-field', (el) => !el.hasAttribute('collapsible-responsive'));
+      expect(isCollapsibleResponsiveRemoved).toBeTruthy();
+    });
+
     test('can init readonly via a template', async ({ page }) => {
       await page.evaluate(() => {
         document.body.insertAdjacentHTML('beforeend', `<ids-search-field id="test-append" readonly label="Test" value="Test"></ids-search-field>`);
