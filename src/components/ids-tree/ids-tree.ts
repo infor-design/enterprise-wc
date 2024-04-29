@@ -433,7 +433,7 @@ export default class IdsTree extends Base {
    * @returns {void}
    */
   redraw() {
-    if (this.data.length === 0 || !this.shadowRoot) {
+    if (!this.shadowRoot) {
       return;
     }
 
