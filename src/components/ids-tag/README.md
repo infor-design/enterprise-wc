@@ -27,7 +27,7 @@ import IdsTag from 'mode_modules/ids-enterprise-wc/components/ids-tag/ids-tag';
 
 - **Tag**: A UI embellishments for classification
 - **Clickable/Dismissible**: Tag can be closed and removed with an X button
-- **Classification**:  How tags are labelled with colors and text
+- **Classification**: How tags are labelled with colors and text
 - **Disabled**: Tag can be disabled so it cannot be followed or clicked.
 
 ## Features (With Code Examples)

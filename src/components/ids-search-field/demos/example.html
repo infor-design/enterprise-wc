@@ -12,40 +12,44 @@
       <ids-text font-size="12" type="h1">Search Field - Default</ids-text>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="1" gap="xl" padding-x="md">
+    <ids-layout-grid cols-md="3" cols-xs="1" gap="xl" padding-x="md">
       <ids-layout-grid-cell>
-        <ids-layout-flex direction="row" justify-content="space-between" wrap="wrap" align-items="flex-start" cols="3" gap="xl" padding-x="md">
-          <ids-layout-flex-item>
-            <ids-search-field clearable dirty-tracker label="Products" value="Anti-virus Software" validate="required"></ids-search-field>
-            <ids-search-field clearable readonly label="Read-only Search Bar" value="Cellphone"></ids-search-field>
-          </ids-layout-flex-item>
-          <ids-layout-flex-item>
-            <ids-search-field clearable label="Search Field with Hidden Label" label-state="hidden" placeholder="Custom placeholder text"></ids-search-field>
-            <form>
-              <ids-search-field label="Search Wrapped in a Form tag" value="Cellphone" clearable></ids-search-field>
-            </form>
-          </ids-layout-flex-item>
-          <ids-layout-flex-item>
-            <ids-search-field disabled label="Disabled Search Bar" value="Anti-virus Software"></ids-search-field>
-            <ids-search-field clearable color-variant="alternate" label="Alternate Color Search Bar" value="Cellphone">
-            </ids-search-field>
-          </ids-layout-flex-item>
-        </ids-layout-flex>
+        <ids-search-field clearable dirty-tracker label="Products" value="Anti-virus Software" validate="required"></ids-search-field>
+        <ids-search-field clearable readonly label="Read-only Search Bar" value="Cellphone"></ids-search-field>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-search-field clearable label="Search Field with Hidden Label" label-state="hidden" placeholder="Custom placeholder text"></ids-search-field>
+        <form>
+          <ids-search-field label="Search Wrapped in a Form tag" value="Cellphone" clearable></ids-search-field>
+        </form>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-search-field disabled label="Disabled Search Bar" value="Anti-virus Software"></ids-search-field>
+        <ids-search-field clearable color-variant="alternate" label="Alternate Color Search Bar" value="Cellphone">
+        </ids-search-field>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
-    <ids-layout-grid cols="1" gap="xl" padding-x="md">
+    <ids-layout-grid cols-md="3" cols-xs="1" auto-fit="true" gap="xl" padding-x="md">
       <ids-layout-grid-cell>
         <ids-search-field
           id="search-field-autocomplete"
           label="Autocomplete Search Bar"
           placeholder="Search states..."
-          autocomplete
+          autocomplete="false"
           search-field="label"
         ></ids-search-field>
       </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-search-field
+          id="search-field-autocomplete-no-results"
+          label="Autocomplete Search Bar (No data)"
+          placeholder="Search states..."
+          search-field="label"
+          autocomplete
+        ></ids-search-field>
+      </ids-layout-grid-cell>
     </ids-layout-grid>
-
 
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Search Field - Categories</ids-text>
@@ -87,11 +91,55 @@
               <ids-text font-size="14">With some extra information below</ids-text>
             </ids-toolbar-section>
             <ids-toolbar-section type="search" align="end">
-              <ids-search-field clearable color-variant="alternate" label-state="collapsed" id="header-search" no-margins placeholder="Type to Search"></ids-search-field>
+              <ids-layout-grid-cell>
+                <ids-search-field
+                  collapsible
+                  clearable
+                  id="search-field-collapsible-toolbar"
+                  label="Collapsible Search Bar"
+                  placeholder="Type to search"
+                  search-field="label"
+                  label-state="collapsed"
+                  no-margins
+                >
+                <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+              </ids-search-field>
             </ids-toolbar-section>
             <ids-theme-switcher mode="light"></ids-theme-switcher>
           </ids-toolbar>
         </ids-header>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Search Field - Collapsible</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" max-col-width="300px" gap="xl" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-search-field
+          collapsible
+          id="search-field-collapsible"
+          label="Collapsible - Always"
+          placeholder="Search..."
+          search-field="label"
+        >
+          <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+        </ids-search-field>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" max-col-width="300px" gap="xl" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-search-field
+          collapsible-responsive="md"
+          id="search-field-collapsible-responsive"
+          label="Collapsible - Responsive"
+          placeholder="Search..."
+          search-field="label"
+        >
+          <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+        </ids-search-field>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 

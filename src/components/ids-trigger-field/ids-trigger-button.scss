@@ -34,6 +34,12 @@
   }
 }
 
+:host(.expand-button),
+.expand-button {
+  position: relative;
+  left: 3px;
+}
+
 .ids-trigger-button {
   align-items: center;
   background-color: transparent;
