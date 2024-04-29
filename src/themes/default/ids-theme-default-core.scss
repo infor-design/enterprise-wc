@@ -322,7 +322,7 @@
   --ids-button-tertiary-color-background-disabled: transparent;
   --ids-button-tertiary-color-border-disabled: transparent;
   --ids-button-tertiary-opacity-disabled: 0.4;
-  --ids-button-tertiary-shadow-focus: 0px 0px 0px 1px var(--ids-color-action-default), 0px 0px 0px 1px var(--ids-color-action-default);
+  --ids-button-tertiary-shadow-focus: 0px 0px 0px .5px var(--ids-color-action-default), 0px 0px 0px .5px var(--ids-color-action-default);
   --ids-button-tertiary-font-weight: var(--ids-font-weight-semibold);
   --ids-button-tertiary-color-background-pressed: var(--ids-color-accent-gray-weakest);
   --ids-button-tertiary-color-border-pressed: var(--ids-color-accent-gray-weakest);
