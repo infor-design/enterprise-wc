@@ -1257,6 +1257,7 @@ export default class IdsTree extends Base {
       return;
     }
     this.datasource.data = null;
+    this.redraw();
   }
 
   get data(): Array<IdsTreeData> { return this.datasource?.data || []; }
