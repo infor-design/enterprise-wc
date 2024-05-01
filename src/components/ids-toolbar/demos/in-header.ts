@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dataGrid2.data = data;
       };
 
-      setData();
+      await setData();
     }());
   }
 });
