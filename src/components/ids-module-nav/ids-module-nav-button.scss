@@ -60,10 +60,6 @@
     background-color: var(--ids-button-tertiary-disabled-background-color);
   }
 
-  .ripple-effect {
-    display: none;
-  }
-
   .ids-text {
     @include single-line-ellipsis-text();
   }

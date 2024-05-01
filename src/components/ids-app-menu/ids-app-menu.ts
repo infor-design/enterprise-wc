@@ -7,6 +7,7 @@ import '../ids-button/ids-button';
 import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 import '../ids-toolbar/ids-toolbar';
+import './ids-app-menu-container';
 import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import styles from './ids-app-menu.scss';
@@ -108,6 +109,7 @@ export default class IdsAppMenu extends Base {
     this.onEvent('hide.app-menu-hide', this, () => {
       this.#container?.classList.remove(CONTAINER_OPEN_CLASS);
     });
+    this.refreshTriggerEvents();
   }
 
   #detachEventHandlers() {
@@ -119,12 +121,14 @@ export default class IdsAppMenu extends Base {
    * Adds CSS class to ids-container for initial CSS rules
    */
   #setContainer() {
-    this.#container = getClosest(this, 'ids-container');
+    this.#container = getClosest(this, 'ids-app-menu-container');
+    if (!this.#container) this.#container = getClosest(this, 'ids-container');
     this.#container?.classList.add(CONTAINER_CLASS);
+    this.#container?.classList.toggle(CONTAINER_OPEN_CLASS, this.visible);
   }
 
   #clearContainer() {
-    this.#container?.classList.remove(CONTAINER_CLASS, CONTAINER_OPEN_CLASS);
+    this.#container?.classList.remove(CONTAINER_CLASS);
     this.#container = null;
   }
 

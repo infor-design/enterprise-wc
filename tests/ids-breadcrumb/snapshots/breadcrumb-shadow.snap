@@ -5,7 +5,7 @@
             <ids-icon icon="more"></ids-icon>
             <span class="audible">Icon Only Button</span>
           </ids-menu-button>
-          <ids-popup-menu id="icon-menu" target="#icon-button" trigger-type="click" role="none" hidden="">
+          <ids-popup-menu id="icon-menu" target="#icon-button" trigger-type="click" hidden="">
             <ids-menu-group role="group" aria-label="Menu group containing 0 item(s)">
             </ids-menu-group>
           </ids-popup-menu>

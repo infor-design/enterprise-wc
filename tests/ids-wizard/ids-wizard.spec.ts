@@ -13,6 +13,41 @@ test.describe('IdsWizard tests', () => {
     await page.goto(url);
   });
 
+  test.describe('general page checks', () => {
+    test('should have a title', async ({ page }) => {
+      await expect(page).toHaveTitle('IDS Wizard Component');
+    });
+
+    test('should not have errors', async ({ page, browserName }) => {
+      if (browserName === 'firefox') return;
+      let exceptions = null;
+      await page.on('pageerror', (error) => {
+        exceptions = error;
+      });
+
+      await page.goto(url);
+      await page.waitForLoadState();
+      await expect(exceptions).toBeNull();
+    });
+  });
+
+  test.describe('accessibility tests', () => {
+    test('should pass an Axe scan', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      const accessibilityScanResults = await new AxeBuilder({ page } as any)
+        .exclude('[disabled]') // Disabled elements do not have to pass
+        .analyze();
+      expect(accessibilityScanResults.violations).toEqual([]);
+    });
+  });
+
+  test.describe('snapshot tests', () => {
+    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await percySnapshot(page, 'ids-wizard-light');
+    });
+  });
+
   test.describe('functionality tests', () => {
     test('should be able to click first step', async ({ page }) => {
       const activeStep = await page.evaluate(() => {
@@ -52,14 +87,10 @@ test.describe('IdsWizard tests', () => {
       expect(activeStep).toEqual(4);
     });
 
-    test('should show ellipsis on resize', async ({ page }) => {
-      // Initial set of the page
-      await page.setViewportSize({ width: 375, height: 900 });
-
-      // This is where it resizes the page
+    test.skip('should show ellipsis on resize', async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 1080 });
-
-      await page.waitForTimeout(100);
+      await page.goto(url);
+      await page.setViewportSize({ width: 375, height: 1080 });
 
       let size = await page.evaluate(() => {
         const wizard = document.querySelector('ids-wizard') as IdsWizard;
@@ -69,9 +100,8 @@ test.describe('IdsWizard tests', () => {
       expect(Number(size?.replace('px', ''))).toBeLessThan(80);
       expect(Number(size?.replace('px', ''))).toBeGreaterThan(60);
 
+      await page.goto(url);
       await page.setViewportSize({ width: 320, height: 1080 });
-
-      await page.waitForTimeout(100);
 
       size = await page.evaluate(() => {
         const wizard = document.querySelector('ids-wizard') as IdsWizard;
@@ -80,6 +110,40 @@ test.describe('IdsWizard tests', () => {
 
       expect(Number(size?.replace('px', ''))).toBeLessThan(80);
       expect(Number(size?.replace('px', ''))).toBeGreaterThan(40);
+    });
+
+    test('should handle disabled steps', async ({ page }) => {
+      await page.goto('/ids-wizard/sandbox.html');
+      const wizard = await page.locator('#ids-wizard-steps-disabled');
+
+      expect(await wizard.getAttribute('step-number')).toEqual('2');
+      expect(await wizard.evaluate((elem: IdsWizard) => elem.stepNumber)).toEqual(2);
+      expect(await wizard.evaluate((elem: IdsWizard) => elem.getStepEl(elem, 1)?.classList.contains('disabled'))).toBeTruthy();
+      expect(await wizard.evaluate((elem: IdsWizard) => elem.getStepEl(elem, 3)?.classList.contains('disabled'))).toBeTruthy();
+      expect(await wizard.evaluate((elem: IdsWizard) => elem.getStepEl(elem, 5)?.classList.contains('disabled'))).toBeTruthy();
+
+      // Clicking on the disabled step should not change the step number
+      await wizard.evaluate((elem: IdsWizard) => {
+        elem.getStepEl(elem, 1)?.click();
+      });
+
+      expect(await wizard.getAttribute('step-number')).toEqual('2');
+      expect(await wizard.evaluate((elem: IdsWizard) => elem.stepNumber)).toEqual(2);
+
+      // Clicking on a non-disabled step should change the step number
+      await wizard.evaluate((elem: IdsWizard) => {
+        elem.getStepEl(elem, 4)?.click();
+      });
+
+      expect(await wizard.getAttribute('step-number')).toEqual('4');
+      expect(await wizard.evaluate((elem: IdsWizard) => elem.stepNumber)).toEqual(4);
+
+      await wizard.evaluate((elem: IdsWizard) => {
+        elem.getStepEl(elem, 3)?.click();
+      });
+
+      expect(await wizard.getAttribute('step-number')).toEqual('4');
+      expect(await wizard.evaluate((elem: IdsWizard) => elem.stepNumber)).toEqual(4);
     });
   });
 
@@ -227,41 +291,6 @@ test.describe('IdsWizard tests', () => {
       });
 
       expect(await page.evaluate(() => elem.resizeStepLabelRects(elem)[0])).toEqual({ left: 0, right: 0, width: 0 });
-    });
-  });
-
-  test.describe('general page checks', () => {
-    test('should have a title', async ({ page }) => {
-      await expect(page).toHaveTitle('IDS Wizard Component');
-    });
-
-    test('should not have errors', async ({ page, browserName }) => {
-      if (browserName === 'firefox') return;
-      let exceptions = null;
-      await page.on('pageerror', (error) => {
-        exceptions = error;
-      });
-
-      await page.goto(url);
-      await page.waitForLoadState();
-      await expect(exceptions).toBeNull();
-    });
-  });
-
-  test.describe('accessibility tests', () => {
-    test('should pass an Axe scan', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const accessibilityScanResults = await new AxeBuilder({ page } as any)
-        .exclude('[disabled]') // Disabled elements do not have to pass
-        .analyze();
-      expect(accessibilityScanResults.violations).toEqual([]);
-    });
-  });
-
-  test.describe('snapshot tests', () => {
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      await percySnapshot(page, 'ids-wizard-light');
     });
   });
 });

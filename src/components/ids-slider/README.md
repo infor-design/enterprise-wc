@@ -27,7 +27,7 @@ Displays a range of selectable values(s) between a minimum and maximum, which ca
 - `color` {string} set the color of the slider
 - `type` {'single' | 'range' | 'step'} set the type of the slider
 - `show-tooltip` {boolean} if true, allows the display of a Tooltip on each slider handle during interactions
-- `step-number` {number >= 2} number of steps (applicable only for the step slider)
+- `step-number` {number >= 0} number of steps between the start and end steps (applicable only for the step slider)
 - `vertical` {boolean}
 
 ## Settings (Non-attributes)

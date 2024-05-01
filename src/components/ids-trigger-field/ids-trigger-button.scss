@@ -34,6 +34,12 @@
   }
 }
 
+:host(.expand-button),
+.expand-button {
+  position: relative;
+  left: 3px;
+}
+
 .ids-trigger-button {
   align-items: center;
   background-color: transparent;
@@ -43,6 +49,7 @@
 
   &.ids-icon-button {
     padding: var(--ids-space-xxs);
+    inset-inline-start: -2px;
 
     &[disabled] {
       color: var(--ids-trigger-field-color-text-disabled);

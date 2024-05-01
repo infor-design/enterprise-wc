@@ -40,3 +40,15 @@
     }
   }
 }
+
+:host(:not([collapsed])) {
+  ::slotted(ids-trigger-button.expand-button) {
+    display: none;
+  }
+}
+
+:host([collapsed]) {
+  ::slotted(ids-trigger-button.expand-button) {
+    display: block;
+  }
+}

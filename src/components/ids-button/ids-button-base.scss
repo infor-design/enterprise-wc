@@ -2,7 +2,6 @@
  * Ids Button Sass mixins, used in Ids Button CSS to define base styles.
  */
 @use '../../themes/mixins/ids-core-mixins' as mixins;
-@import '../../themes/mixins/ids-ripple-mixin';
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
 @mixin blank-shadow() {
@@ -59,7 +58,6 @@
   transition:
     background-color var(--ids-motion-duration) var(--ids-motion-ease),
     border-color var(--ids-motion-duration) var(--ids-motion-ease),
-    box-shadow var(--ids-motion-duration) var(--ids-motion-ease),
     color var(--ids-motion-duration) var(--ids-motion-ease),
     opacity var(--ids-motion-duration) var(--ids-motion-ease);
   white-space: nowrap;
@@ -85,7 +83,7 @@
   }
 
   &:not(.ids-icon-button) ::slotted(ids-icon) {
-    padding-inline-end: var(--ids-space-xxs);
+    padding-inline-end: calc(var(--ids-space-xxs) + 5px);
   }
 
   .ids-icon {
@@ -114,7 +112,7 @@
   }
 
   &:not(.no-margins) {
-    margin: var(--ids-space-xxxs);
+    margin: var(--ids-button-alt-margin);
   }
 
   &.field-height-xxs:not(.btn-secondary):not(.no-margins) {
@@ -173,11 +171,7 @@
     opacity: var(--ids-button-tertiary-opacity-disabled);
   }
 
-  .ripple-effect {
-    background-color: var(--ids-button-tertiary-color-ripple);
-  }
-
-  &:active {
+  &:active:not([disabled]) {
     background-color: var(--ids-button-tertiary-color-background-pressed);
     border-color: var(--ids-button-tertiary-color-border-pressed);
     color: var(--ids-button-tertiary-color-text-pressed);
@@ -205,10 +199,6 @@
       color: var(--ids-button-destructive-tertiary-color-text-disabled);
       background-color: var(--ids-button-destructive-tertiary-color-background-disabled);
       border-color: var(--ids-button-destructive-tertiary-color-border-disabled);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-button-destructive-tertiary-color-ripple);
     }
   }
 
@@ -240,9 +230,10 @@
       opacity: var(--ids-button-primary-opacity-disabled);
     }
 
-    .ripple-effect {
-      background-color: var(--ids-button-primary-color-text-default);
-      border-color: var(--ids-button-primary-color-text-default);
+    &:active:not([disabled]) {
+      background-color: var(--ids-button-primary-color-background-pressed);
+      border-color: var(--ids-button-primary-color-border-pressed);
+      color: var(--ids-button-primary-color-text-pressed);
     }
   }
 
@@ -270,10 +261,6 @@
       border-color: var(--ids-button-destructive-color-border-disabled);
       color: var(--ids-button-destructive-color-text-disabled);
       opacity: var(--ids-button-destructive-opacity-disabled);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-button-destructive-color-ripple);
     }
   }
 
@@ -307,7 +294,8 @@
     position: relative;
     flex-direction: row;
     gap: 2px;
-    padding-inline: 7px;
+    padding-inline-start: 7px;
+    padding-inline-end: 3px;
 
     .dot {
       display: inline-flex;
@@ -329,16 +317,18 @@
 
     &:hover {
       background: border-box var(--ids-button-ai-color-background-hover);
+      border-color: var(--ids-button-ai-color-border-hover);
     }
 
     &:active,
     &.gen-ai-active {
       background: border-box var(--ids-button-ai-color-background-active);
+      color: var(--ids-button-ai-color-text-active);
     }
 
     &[disabled] {
       background: border-box var(--ids-button-ai-color-background-disabled);
-      background-color: var(--ids-button-ai-color-background-color-disabled);
+      border-color: var(--ids-button-ai-color-background-color-disabled);
     }
 
     &.color-variant-alternate-formatter,
@@ -440,7 +430,7 @@
       border-color: var(--ids-button-secondary-color-border-focus);
     }
 
-    &:hover {
+    &:hover:not([disabled]) {
       background-color: var(--ids-button-secondary-color-background-hover);
       border-color: var(--ids-button-secondary-color-border-hover);
       color: var(--ids-button-secondary-color-text-hover);
@@ -453,11 +443,7 @@
       opacity: var(--ids-button-secondary-opacity-disabled);
     }
 
-    .ripple-effect {
-      background-color: var(--ids-button-secondary-color-background-pressed);
-    }
-
-    &:active {
+    &:active:not([disabled]) {
       background-color: var(--ids-button-secondary-color-background-pressed);
       border-color: var(--ids-button-secondary-color-border-pressed);
       color: var(--ids-button-secondary-color-text-pressed);
@@ -502,6 +488,7 @@
 
     &:hover {
       background-color: var(--ids-button-formatter-color-background-hover);
+      border-color: transparent;
       color: var(--ids-button-formatter-color-text-hover);
       opacity: 1;
     }
@@ -509,10 +496,6 @@
     &[disabled] {
       background-color: transparent;
       opacity: var(--ids-button-formatter-opacity-disabled);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-button-alternate-color-background-pressed);
     }
   }
 
@@ -523,7 +506,7 @@
     color: var(--ids-button-formatter-color-text-default);
     margin-top: 2px;
     height: var(--ids-button-formatter-size);
-    min-width:  var(--ids-button-formatter-size);
+    min-width: var(--ids-button-formatter-size);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -539,10 +522,6 @@
       color: var(--ids-button-formatter-color-text-hover);
     }
 
-    .ripple-effect {
-      background-color: var(--ids-color-primary-light);
-    }
-
     &.is-active {
       color: var(--ids-button-formatter-color-active);
     }
@@ -554,6 +533,11 @@
       &.square {
         border-radius: var(--ids-border-radius-xs);
       }
+    }
+
+    &[editor-action='sourcemode'],
+    &[editor-action='editormode'] {
+      --ids-button-icon-width: 54px;
     }
   }
 
@@ -683,10 +667,6 @@
     &[disabled] {
       opacity: var(--ids-button-primary-opacity-disabled);
     }
-
-    .ripple-effect {
-      background-color: var(--ids-modal-button-color-default);
-    }
   }
 
   // ====================================================
@@ -695,7 +675,7 @@
   &.btn-secondary,
   &.btn-tertiary {
     background-color: var(--ids-modal-color-background);
-    color: var(--ids-color-gray-80);
+    color: var(--ids-modal-button-secondary-color-default);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {
@@ -703,16 +683,12 @@
     }
 
     &:hover {
-      color: var(--ids-color-gray-100);
+      color: var(--ids-modal-button-secondary-color-hover);
     }
 
     &[disabled] {
       background-color: var(--ids-button-secondary-color-border-disabled);
       border-color: var(--ids-button-secondary-color-border-disabled);
-    }
-
-    .ripple-effect {
-      background-color: var(--ids-button-secondary-color-ripple);
     }
   }
 }

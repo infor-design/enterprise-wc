@@ -107,9 +107,9 @@ Upload field with types of sizes
 - `accept` {string} sets limit the file types to be uploaded.
 - `colorVariant` {string} set the current color variant.
 - `compact` {boolean} sets the component to be compact mode.
-- `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](../../mixins/ids-dirty-tracker-mixin/README.md) for more information.
+- `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field. See [Ids Dirty Tracker Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-dirty-tracker-mixin/README.md) for more information.
 - `disabled` {boolean} sets to disabled state.
-- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](../../mixins/ids-field-height-mixin/README.md) for more information.
+- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-field-height-mixin/README.md) for more information.
 - `label` {string} sets the label text for text input.
 - `labelFiletype` {string} sets the label text for file input.
 - `language` {string} Sets the language for RTL and inner labels

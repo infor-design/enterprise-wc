@@ -13,7 +13,7 @@ The Form component is an Ids Web Component that provides some functionality simi
 
 - **Form**: An HTML form is used to collect user input. The user input is most often sent to a server for processing.
 - **Validation Messages**: Input errors a field might have
-- **isDirty**:  Form or field has been changed from its original value
+- **isDirty**: Form or field has been changed from its original value
 - **inValid**: Form or field has one or more errors
 
 ## Features (With Code Examples)

@@ -290,7 +290,7 @@ test.describe('IdsDataGrid filter tests', () => {
     expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(5);
   });
 
-  test.skip('should sets filter with click on menu button date filter type', async ({ page }) => {
+  test('should sets filter with click on menu button date filter type', async ({ page }) => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
     const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
     const dataGrid = await page.locator('ids-data-grid');
@@ -494,7 +494,7 @@ test.describe('IdsDataGrid filter tests', () => {
     expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(9);
   });
 
-  test.skip('should filter rows as filter type date', async ({ page }) => {
+  test('should filter rows as filter type date', async ({ page }) => {
     const dataGrid = await page.locator('ids-data-grid');
     const selector = '.ids-data-grid-body .ids-data-grid-row';
     const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
@@ -562,7 +562,7 @@ test.describe('IdsDataGrid filter tests', () => {
     await checkFilter([{ columnId: 'description', operator: 'start-with', value: '105' }], 1);
     await checkFilter([{ columnId: 'description', operator: 'does-not-start-with', value: '105' }], 8);
     await checkFilter([{ columnId: 'price', operator: 'is-empty', value: '' }], 2);
-    // await checkFilter([{ columnId: 'price', operator: 'is-not-empty', value: '' }], 7);
+    await checkFilter([{ columnId: 'price', operator: 'is-not-empty', value: '' }], 7);
     await checkFilter([{ columnId: 'integer', operator: 'less-than', value: '14' }], 3);
     await checkFilter([{ columnId: 'integer', operator: 'less-equals', value: '14' }], 4);
     await checkFilter([{ columnId: 'integer', operator: 'greater-than', value: '14' }], 3);

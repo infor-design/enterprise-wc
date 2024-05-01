@@ -1,3 +1,4 @@
+import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
@@ -23,6 +24,30 @@ test.describe('IdsPersonalize tests', () => {
       await page.goto(url);
       await page.waitForLoadState();
       await expect(exceptions).toBeNull();
+    });
+  });
+
+  test.describe('functionality tests', () => {
+    test('defaults to no background color', async ({ page }) => {
+      const bgColor = await page.evaluate(() => getComputedStyle((document.querySelector('ids-header') as any).container).backgroundColor);
+      expect(bgColor).toEqual('rgb(255, 255, 255)');
+    });
+
+    test('can set personalization color with the api', async ({ page, browserName }) => {
+      await page.evaluate(async () => {
+        (document.querySelector('ids-color-picker') as any).value = '#800000';
+      });
+      if (browserName !== 'chromium') return;
+      await percySnapshot(page, 'ids-personalization-set-light');
+    });
+
+    test('can set reset personalization color with the api', async ({ page, browserName }) => {
+      await page.evaluate(async () => {
+        (document.querySelector('ids-color-picker') as any).value = '#800000';
+        (document.querySelector('#reset') as any).click();
+      });
+      if (browserName !== 'chromium') return;
+      await percySnapshot(page, 'ids-personalization-reset-light');
     });
   });
 });

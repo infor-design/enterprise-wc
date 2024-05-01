@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
+import IdsSlider from '../../src/components/ids-slider/ids-slider';
 
 test.describe('IdsSlider tests', () => {
   const url = '/ids-slider/example.html';
@@ -42,6 +43,32 @@ test.describe('IdsSlider tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-slider-light');
+    });
+  });
+
+  test.describe('functionality tests', () => {
+    test('should be able to render steps', async ({ page }) => {
+      const slider = await page.locator('ids-slider').first();
+      expect(await slider.getAttribute('step-number')).toBeNull();
+      expect(await slider.evaluate((elem: IdsSlider) => elem.stepNumber)).toBe(2);
+      expect(await slider.evaluate((elem: IdsSlider) => elem.container?.querySelectorAll('.tick').length)).toBe(2);
+
+      await slider.evaluate((elem: IdsSlider) => {
+        elem.type = 'step';
+        elem.stepNumber = 1;
+      });
+
+      expect(await slider.getAttribute('step-number')).toBe('1');
+      expect(await slider.evaluate((elem: IdsSlider) => elem.stepNumber)).toBe(3);
+      expect(await slider.evaluate((elem: IdsSlider) => elem.container?.querySelectorAll('.tick').length)).toBe(3);
+
+      await slider.evaluate((elem: IdsSlider) => {
+        elem.stepNumber = 2;
+      });
+
+      expect(await slider.getAttribute('step-number')).toBe('2');
+      expect(await slider.evaluate((elem: IdsSlider) => elem.stepNumber)).toBe(4);
+      expect(await slider.evaluate((elem: IdsSlider) => elem.container?.querySelectorAll('.tick').length)).toBe(4);
     });
   });
 });

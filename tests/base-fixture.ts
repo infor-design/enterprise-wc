@@ -2,7 +2,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
-import { Page, test as baseTest, expect as baseExpect } from '@playwright/test';
+import {
+  Page,
+  test as baseTest,
+  expect as baseExpect,
+  Locator
+} from '@playwright/test';
 
 const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output');
 
@@ -54,11 +59,20 @@ export async function mount<T>(page: Page, html: string): Promise<T> {
  * Runs a util that is added to the page in ids-demo-app/utils.ts
  * @param {any} page the page element
  * @param {string} utilName the util name
- * @param {any} value the util call value
- * @param {any} value2 the util call value2
+ * @param {any} value the first param
+ * @param {any} value2 the second param
+ * @param {any} value3 the third param
  * @returns {unknown} the element that was inserted
  */
-export async function runFunction<T>(page: Page, utilName: string, value: any, value2?: any): Promise<T> {
+export async function runFunction<T>(page: Page, utilName: string, value: any, value2?: any, value3?: any): Promise<T> {
+  if (value3) {
+    // eslint-disable-next-line max-len
+    const returnValue = await page.evaluate((obj) => ((window as any).utils as any)[obj.utilName](obj.value, obj.value2, obj.value3), {
+      utilName, value, value2, value3
+    });
+    return returnValue;
+  }
+
   if (value2) {
     // eslint-disable-next-line max-len
     const returnValue = await page.evaluate((obj) => ((window as any).utils as any)[obj.utilName](obj.value, obj.value2), { utilName, value, value2 });
@@ -68,6 +82,33 @@ export async function runFunction<T>(page: Page, utilName: string, value: any, v
   // eslint-disable-next-line max-len
   const returnValue = await page.evaluate((obj) => ((window as any).utils as any)[obj.utilName](obj.value), { utilName, value });
   return returnValue;
+}
+
+/**
+ * Paste a text within the locator
+ * @param {Locator} locator element which will trigger the paste event
+ * @param {string} textToPaste text to be pasted
+ * @param {object} options options
+ * @param {string} options.format format of the text - default is `text/plain`
+ * @param {string} options.replaceAll clear text before pasting - default is `false`
+ */
+export async function pasteClipBoard(
+  locator: Locator,
+  textToPaste: string,
+  options?:{
+    format?:string,
+    replaceAll?: boolean
+  }
+) {
+  const format = ((options === undefined || (options.format === undefined))) ? 'text/plain' : options.format;
+  const replaceAll = ((options === undefined || (options.replaceAll === undefined))) ? false : options.replaceAll;
+  await locator.evaluate(async (element, text) => {
+    const clipboardData = new DataTransfer();
+    clipboardData.setData(text.format, text.textToPaste);
+    element.focus();
+    if (text.replaceAll) element.innerHTML = '';
+    element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData }));
+  }, { textToPaste, format, replaceAll });
 }
 
 export const expect = baseExpect.extend({

@@ -9,7 +9,7 @@
             <span class="audible">Popup Menu Button</span>
             <ids-icon icon="more"></ids-icon>
           </ids-menu-button>
-          <ids-popup-menu id="item-menu-id-one" target="#item-menu-btn-id-one" trigger-type="click" role="none" hidden="">
+          <ids-popup-menu id="item-menu-id-one" target="#item-menu-btn-id-one" trigger-type="click" hidden="">
             <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
               <ids-menu-item value="1">Option One</ids-menu-item>
               <ids-menu-item value="2">Option Two</ids-menu-item>
@@ -27,13 +27,13 @@
               <span class="audible">Popup Menu Button</span>
               <ids-icon icon="more"></ids-icon>
             </ids-menu-button>
-            <ids-popup-menu id="item-menu-id-two" target="#item-menu-btn-id-two" trigger-type="click" role="none" hidden="">
+            <ids-popup-menu id="item-menu-id-two" target="#item-menu-btn-id-two" trigger-type="click" hidden="">
               <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
                 <ids-menu-item value="1">Option One</ids-menu-item>
                 <ids-menu-item value="2">Option Two</ids-menu-item>
                 <ids-menu-item value="3">Option Three</ids-menu-item>
                 <ids-menu-item>More Options
-                  <ids-popup-menu slot="submenu" aria-expanded="false" role="none" hidden="">
+                  <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
                     <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
                       <ids-menu-item value="4">Option Four</ids-menu-item>
                       <ids-menu-item value="5">Option Five</ids-menu-item>
@@ -54,7 +54,7 @@
               <span class="audible">Popup Menu Button</span>
               <ids-icon icon="more"></ids-icon>
             </ids-menu-button>
-            <ids-popup-menu id="item-menu-id-three" target="#item-menu-btn-id-three" trigger-type="click" role="none" hidden="">
+            <ids-popup-menu id="item-menu-id-three" target="#item-menu-btn-id-three" trigger-type="click" hidden="">
               <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
                 <ids-menu-item value="1">Option One</ids-menu-item>
                 <ids-menu-item value="2">Option Two</ids-menu-item>

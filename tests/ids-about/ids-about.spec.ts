@@ -125,5 +125,22 @@ test.describe('IdsAbout tests', () => {
       // check that translation took place for the word 'Platform'
       expect(await page.locator('ids-text[slot="device"]').textContent()).toContain(platformInSpanish);
     });
+
+    test('should be be possible to copy to clipboard ', async ({ page, context }) => {
+      await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+
+      await page.locator('#about-example-trigger').click();
+      await page.locator('#copy-to-clipboard').click();
+
+      // Get clipboard content after the link/button has been clicked
+      const handle = await page.evaluateHandle(() => navigator.clipboard.readText());
+      const clipboardContent = await handle.jsonValue();
+
+      // Check that the clipboard contains correct UUID
+      expect(clipboardContent).toContain('IDS version');
+      expect(clipboardContent).toContain('Controls Example Application Version No. XX');
+      expect(clipboardContent).toContain('Mobile');
+      expect(clipboardContent).toContain('Platform');
+    });
   });
 });

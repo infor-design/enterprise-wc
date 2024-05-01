@@ -222,7 +222,6 @@ export default class IdsInput extends Base {
       <div class="field-container" part="field-container">
         <input
           part="input"
-          id="input-id"
           ${type}${inputClass}${placeholder}${inputState}
           ${ariaLabel}
           ${value}
@@ -280,7 +279,6 @@ export default class IdsInput extends Base {
     const requiredLabelCss = !this.labelRequired ? ' no-required-indicator' : '';
     const labelHtml = `<label
       class="ids-label-text${requiredLabelCss}${hiddenLabelCss}"
-      for="input-id"
       part="label"
       ${attrs.readonly}
       ${attrs.disabled}
@@ -315,6 +313,10 @@ export default class IdsInput extends Base {
    */
   get isPasswordVisible(): boolean {
     return this.revealablePassword && this.type === TYPES.password;
+  }
+
+  get collapsible(): boolean {
+    return this.hasAttribute(attributes.COLLAPSIBLE) || false;
   }
 
   templateShowHide(): string {
@@ -447,6 +449,21 @@ export default class IdsInput extends Base {
     }
 
     this.#passwordVisibilityHandler();
+  }
+
+  /**
+   * Sets the id internally and externally
+   * @param {string} value id value
+   */
+  set id(value: string) {
+    const shadowId = `${value}-internal`;
+    this.setAttribute(attributes.ID, value);
+    this.shadowRoot?.querySelector('label')?.setAttribute('for', shadowId);
+    this.shadowRoot?.querySelector('input')?.setAttribute('id', shadowId);
+  }
+
+  get id(): string {
+    return this.getAttribute(attributes.ID) || 'none';
   }
 
   /**

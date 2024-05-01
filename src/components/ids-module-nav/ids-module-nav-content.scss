@@ -1,13 +1,12 @@
-@import '../../themes/mixins/ids-core-mixins';
-@import '../../core/ids-base';
+@use '../../themes/mixins/ids-core-mixins' as mixins;
 
 // Module Nav Content Component
 // ================================================== //
 
 .ids-module-nav-content {
-  @include border-box();
-
-  display: block;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
   height: 100%;
   width: 100%;
   transition: margin var(--ids-motion-duration) var(--ids-motion-ease),
@@ -25,12 +24,10 @@
 
   &.display-mode-collapsed {
     &:not(.show-detail) {
-      margin-inline-start: var(--ids-module-nav-collapsed-size);
       width: calc(100% - var(--ids-module-nav-collapsed-size));
     }
 
     &.show-detail {
-      margin-inline-start: calc((var(--ids-module-nav-submenu-size) + var(--ids-module-nav-collapsed-size)));
       width: calc(100% - (var(--ids-module-nav-submenu-size) + var(--ids-module-nav-collapsed-size)));
     }
   }
@@ -47,8 +44,14 @@
     }
 
     &.offset-content {
-      margin-inline-start: var(--ids-module-nav-expanded-size);
       width: calc(100% - var(--ids-module-nav-expanded-size));
+    }
+
+    @media (max-width: mixins.$breakpoint-md) {
+      &.offset-content {
+        margin-inline-start: -300px;
+        width: 100%;
+      }
     }
 
     &.show-detail {

@@ -15,6 +15,8 @@ import IdsElement from '../../core/ids-element';
 import styles from './ids-notification-banner.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+import type IdsText from '../ids-text/ids-text';
+
 const Base = IdsKeyboardMixin(
   IdsEventsMixin(
     IdsElement
@@ -54,12 +56,25 @@ export default class IdsNotificationBanner extends Base {
    */
   static get attributes(): Array<any> {
     return [
+      attributes.MESSAGE,
       attributes.MESSAGE_TEXT,
       attributes.LINK,
       attributes.LINK_TEXT,
       attributes.TYPE,
       attributes.WRAP
     ];
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    if (oldValue === newValue) return;
+    if (name === attributes.MESSAGE) this.#messageText(newValue);
+    if (name === attributes.MESSAGE_TEXT) this.#messageText(newValue);
+  }
+
+  #messageText(value: string) {
+    const textElement = this.container?.querySelector<IdsText>('.ids-notification-banner-message ids-text.message');
+    if (textElement) textElement.innerText = value || '';
   }
 
   /**
@@ -82,11 +97,11 @@ export default class IdsNotificationBanner extends Base {
       <div class="ids-notification-banner" part="container" type="${type}">
         <ids-alert icon="${alertIcon === 'warning' ? 'alert' : alertIcon}"></ids-alert>
         <div class="ids-notification-banner-message ${this.wrap ? 'wrap' : ''}" part="message">
-          <ids-text ${overflow}>${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
+          <ids-text class="message" ${overflow}>${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
         </div>
 
         <div class="ids-notification-banner-link" part="link"${!this.link ? ' hidden' : ''}>
-          <ids-hyperlink font-size="16" href="${this.link}" target="_blank">${this.linkText === null ? 'Click to view' : this.linkText}</ids-hyperlink>
+          <ids-hyperlink font-size="16" href="${this.link || ''}" target="_blank">${this.linkText === null ? 'Click to view' : this.linkText}</ids-hyperlink>
         </div>
 
         <div class="ids-notification-banner-button" part="button">
@@ -149,11 +164,11 @@ export default class IdsNotificationBanner extends Base {
    * @param {string | null} value the link value
    */
   set link(value: string | null) {
-    const linkElem = this.container?.querySelector<HTMLElement>('.ids-notification-banner-link');
+    const linkElem = this.container?.querySelector('.ids-notification-banner-link');
     if (value) {
       this.setAttribute(attributes.LINK, value);
-      linkElem!.removeAttribute('hidden');
-      (linkElem!.firstElementChild as HTMLElement)!.innerText = value;
+      linkElem?.removeAttribute('hidden');
+      linkElem?.querySelector('ids-hyperlink')?.setAttribute(attributes.HREF, value);
     } else {
       this.removeAttribute(attributes.LINK);
       linkElem!.setAttribute('hidden', '');
@@ -181,20 +196,31 @@ export default class IdsNotificationBanner extends Base {
 
   /**
    * Set the message text of the Notification Banner
-   * @param {string | null} value the link-text value
+   * @param {string | null} value the message-text value
    */
   set messageText(value: string | null) {
-    const textElem = this.container?.querySelector<HTMLElement>('.ids-notification-banner-message ids-text');
     if (value) {
       this.setAttribute(attributes.MESSAGE_TEXT, value);
-      if (textElem) textElem.innerText = value;
     } else {
       this.removeAttribute(attributes.MESSAGE_TEXT);
-      if (textElem) textElem.innerText = '';
     }
   }
 
   get messageText() { return this.getAttribute(attributes.MESSAGE_TEXT); }
+
+  /**
+   * Set the message text of the Notification Banner
+   * @param {string | null} value the message-text value
+   */
+  set message(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.MESSAGE, value);
+    } else {
+      this.removeAttribute(attributes.MESSAGE);
+    }
+  }
+
+  get message() { return this.getAttribute(attributes.MESSAGE); }
 
   /**
    * Establish Internal Event Handlers
@@ -233,6 +259,7 @@ export default class IdsNotificationBanner extends Base {
       linkText
     } = notification;
     const messageTextEl = this.container?.querySelector('[part="message"]');
+    const linkEl = this.container?.querySelector('[part="link"]');
     const alertIcon = this.container?.querySelector('ids-alert');
     const overflow = this.wrap ? '' : 'overflow="ellipsis"';
 
@@ -246,14 +273,10 @@ export default class IdsNotificationBanner extends Base {
     if (messageTextEl) messageTextEl.innerHTML = `<ids-text ${overflow}>${this.messageText}</ids-text>`;
 
     // Check for link and create the necassary elements.
-    if (notification.link) {
-      const linkPart = document.createElement('div');
-      linkPart.setAttribute('part', 'link');
+    if (notification.link && linkEl) {
       this.link = link;
       this.linkText = linkText === undefined ? 'Click to view' : linkText;
-      linkPart.innerHTML = `<ids-hyperlink href="${this.link}" target="_blank">${this.linkText}</ids-hyperlink>`;
-      // Insert after the message text.
-      messageTextEl?.parentNode?.insertBefore(linkPart, messageTextEl.nextSibling);
+      linkEl.innerHTML = `<ids-hyperlink href="${this.link}" target="_blank">${this.linkText}</ids-hyperlink>`;
     }
 
     // Check if parent container is defined to prepend

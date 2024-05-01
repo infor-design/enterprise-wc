@@ -1,5 +1,4 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -17,17 +16,14 @@ import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import type IdsMenuGroup from '../ids-menu/ids-menu-group';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
-const Base = IdsColorVariantMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
+const Base = IdsEventsMixin(
+  IdsElement
 );
 
 /**
  * IDS Breadcrumb Component
  * @type {IdsBreadcrumb}
  * @inherits IdsElement
- * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @part breadcrumb
  */
@@ -50,7 +46,6 @@ export default class IdsBreadcrumb extends Base {
     if (this.truncate) {
       this.#enableTruncation();
     }
-    this.onColorVariantRefresh();
     this.#setActiveBreadcrumb();
     this.#setBreadcrumbStates();
   }
@@ -435,20 +430,5 @@ export default class IdsBreadcrumb extends Base {
       targetEl.fontSize = 14;
       targetEl.textDecoration = 'none';
     }
-  }
-
-  /**
-   * Inherited from IdsColorVariantMixin to set child element color variants
-   */
-  onColorVariantRefresh() {
-    const parentHeaderEl = this.closest('ids-header');
-    const breadcrumbVariant = parentHeaderEl ? 'alternate' : 'breadcrumb';
-    const menuButtonVariant = parentHeaderEl ? 'alternate' : null;
-
-    if (this.buttonEl) this.buttonEl.colorVariant = menuButtonVariant;
-    [...this.children].forEach((link) => {
-      link.setAttribute(attributes.COLOR_VARIANT, breadcrumbVariant);
-      (link as any).container?.classList.add(`color-variant-${breadcrumbVariant}`);
-    });
   }
 }

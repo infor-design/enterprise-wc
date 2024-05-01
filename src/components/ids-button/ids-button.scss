@@ -16,6 +16,7 @@
   ::slotted(span),
   ::slotted(ids-text) {
     color: currentColor;
+    align-self: center;
   }
 
   ::slotted(ids-icon) {
@@ -45,10 +46,6 @@
     background-color: transparent;
     border-color: transparent;
     color: var(--ids-button-system-color-text-hover);
-  }
-
-  .ripple-effect {
-    display: none;
   }
 }
 
@@ -81,11 +78,6 @@ button {
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
 
-  // Technically not valid
-  ::slotted(ids-icon:only-child) {
-    display: block;
-  }
-
   // Assign padding based on type/usage
   // ====================================================
   &:not(.no-padding) {
@@ -105,7 +97,7 @@ button {
 .ids-menu-button.is-active,
 .ids-menu-button.is-active:hover {
   background-color: var(--ids-button-menu-background-color-active);
-  color: var(--ids-button-menu-color-active);
+  color: var(--ids-button-menu-color-text-active);
 }
 
 .ids-menu-button.formatter-width {
@@ -156,17 +148,13 @@ button {
 
   .ids-icon {
     display: block;
-    padding-inline-start: var(--ids-space-none);
+    padding-inline-start: 2px;
     font-size: 0;
+    padding-block-start: 2px;
   }
 
   span.audible {
     @include mixins.audible();
-  }
-
-  .ripple-effect {
-    height: var(--ids-size-70);
-    width: var(--ids-size-70);
   }
 
   &.no-margins {
@@ -294,12 +282,9 @@ button {
 .ids-menu-button:not(.ids-icon-button),
 .ids-modal-button:not(.ids-icon-button) {
   // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
-  ::slotted(ids-icon:not(:first-child)), // shadowroot + text + icon
-  ::slotted(span:not(.audible):nth-child(2):last-child), // shadowroot + icon + text
-  ::slotted(ids-text:not([audible]):nth-child(2):last-child),
-  ::slotted(span:not(.audible):nth-child(3):last-child), // shadowroot + icon + (audible text) + text
-  ::slotted(ids-text:not([audible]):nth-child(3):last-child) {
+  ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
     padding-inline-start: 5px;
+    padding-inline-end: 0;
   }
 
   // Padding rules for standalone CSS buttons (match the rules/style above)

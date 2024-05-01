@@ -95,6 +95,7 @@ export default class IdsModal extends Base {
   static get attributes(): Array<string> {
     return [
       ...super.attributes,
+      attributes.CLICK_OUTSIDE_TO_CLOSE,
       attributes.FULLSIZE,
       attributes.MESSAGE_TITLE,
       attributes.SCROLLABLE,
@@ -110,9 +111,7 @@ export default class IdsModal extends Base {
       this.popup.setAttribute(attributes.TYPE, 'modal');
       this.popup.setAttribute(attributes.ANIMATED, '');
       this.popup.setAttribute(attributes.ANIMATION_STYLE, 'scale-in');
-      this.popup.onOutsideClick = this.onOutsideClick.bind(this);
-      this.popup.addOpenEvents = this.addOpenEvents.bind(this);
-      this.popup.removeOpenEvents = this.removeOpenEvents.bind(this);
+      this.popup.onOutsideClick = () => {};
     }
 
     // Update ARIA / Sets up the label
@@ -372,7 +371,7 @@ export default class IdsModal extends Base {
   set scrollable(val: boolean | string) {
     const isScrollable = stringToBool(val);
     this.toggleAttribute(attributes.SCROLLABLE, isScrollable);
-    this.container?.classList.toggle(attributes.SCROLLABLE);
+    this.container?.classList.toggle(attributes.SCROLLABLE, isScrollable);
     this.state.scrollable = isScrollable;
   }
 
@@ -486,7 +485,7 @@ export default class IdsModal extends Base {
       this.setScrollable();
       this.popup.correct3dMatrix();
     }
-
+    if (this.overlay) this.overlay.visible = true;
     this.removeAttribute('aria-hidden');
 
     // Focus the correct element
@@ -536,7 +535,7 @@ export default class IdsModal extends Base {
     if (popupElem) popupElem.animated = true;
 
     this.removeOpenEvents();
-    this.overlay.visible = false;
+    if (this.overlay) this.overlay.visible = false;
     if (popupElem) popupElem.visible = false;
 
     // Animation-out can wait for the opacity transition to end before changing z-index.
@@ -580,6 +579,7 @@ export default class IdsModal extends Base {
 
     // If a Modal Button is clicked, fire an optional callback
     const buttonSlot = this.container?.querySelector('slot[name="buttons"]');
+    this.offEvent('click.buttons');
     this.onEvent('click.buttons', buttonSlot, async (e: MouseEvent) => {
       await this.handleButtonClick(e);
     });
@@ -709,11 +709,33 @@ export default class IdsModal extends Base {
    * @returns {void}
    */
   onOutsideClick(e: MouseEvent): void {
-    if (!e || !e?.target) {
+    if (!e?.target || e.composedPath()?.includes(this.popup as HTMLElement)) {
       return;
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hide();
+  }
+
+  /**
+   * click-outside-to-close attribute
+   * @returns {boolean} clickOutsideToClose param converted to boolean from attribute value
+   */
+  get clickOutsideToClose(): boolean {
+    return stringToBool(this.getAttribute(attributes.CLICK_OUTSIDE_TO_CLOSE));
+  }
+
+  /**
+   * Set whether or not to allow the modal to close by clicking outside
+   * @param {boolean | string | null} val click-outside-to-close attribute value
+   */
+  set clickOutsideToClose(val: boolean | string | null) {
+    const boolVal = stringToBool(val);
+    if (boolVal) {
+      this.popup!.onOutsideClick = this.onOutsideClick.bind(this);
+    } else {
+      this.popup!.onOutsideClick = () => {};
+    }
+    this.toggleAttribute(attributes.CLICK_OUTSIDE_TO_CLOSE, boolVal);
   }
 
   /**
