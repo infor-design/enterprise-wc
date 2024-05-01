@@ -214,7 +214,7 @@ When using `alignTarget` and offsets, occasionally it may be necessary for a 'to
 
 - `x/y`: number values that will be used for offsets
 - `flip`: boolean true if a flip occurs at all
-- `shouldSwitchXY`: boolean true if the flip that occured also swiched the x/y axes
+- `shouldSwitchXY`: boolean true if the flip that occurred also switched the x/y axes
 - `targetEdge`: the original target edge
 - `oppositeEdge`: the edge that will be used in the case of a normal, same-axis flip
 

@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { checkOverflow, getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsPickerPopup from '../ids-popup/ids-picker-popup';
@@ -108,6 +108,7 @@ export default class IdsDropdownList extends Base {
   }
 
   onShow() {
+    this.scrollIntoView({ block: 'nearest' });
     this.configureListBox();
     this.configurePopup();
     this.setAriaOnMenuOpen();
@@ -292,20 +293,51 @@ export default class IdsDropdownList extends Base {
     }
 
     if (this.popup) {
+      const input = (this.parentNode?.querySelector('ids-trigger-field')?.shadowRoot?.querySelector('.field-container') as HTMLDivElement);
       if (!this.target) {
-        this.popup.alignTarget = this;
+        this.popup.alignTarget = input;
       }
       this.popup.type = 'dropdown';
       this.popup.container?.classList.add('dropdown');
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'none';
+      this.popup.positionStyle = 'fixed';
 
       // Fix aria if the menu is closed
       if (!this.popup.visible) {
         this.popup.y = -1;
         this.popup.x = 0;
         this.setAriaOnMenuClose();
-      } else if (this.popup.visible) this.popup.setPosition(0, -1, false, true);
+      } else if (this.popup.visible) {
+        let y = (input?.getBoundingClientRect().bottom || 0) - 1;
+        const x = (input?.getBoundingClientRect().x || 0);
+
+        if (getClosest(this.popup, 'ids-data-grid')) {
+          return;
+        }
+
+        this.popup.onPlace = (popupRect: any, domElement: HTMLElement) => {
+          if (getClosest(this.popup, 'ids-modal')) {
+            popupRect.x = 'unset';
+            popupRect.y = 'unset';
+            domElement.style.marginTop = '-17px';
+            return popupRect;
+          }
+          popupRect.y = y;
+          popupRect.x = x;
+
+          // Flip it up
+          if (y + Number(this.popup?.offsetHeight)
+            > Number(document.body?.scrollHeight)) {
+            y = (input?.getBoundingClientRect().top || 0) - Number(this.popup?.offsetHeight) + 1;
+            popupRect.y = y;
+            this.popup?.container?.classList.add('flipped');
+          }
+          return popupRect;
+        };
+
+        this.popup.setPosition(x, y, false, true);
+      }
     }
   }
 
