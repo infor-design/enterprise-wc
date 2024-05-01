@@ -18,6 +18,12 @@
     margin-inline-start: 35px;
   }
 
+  ids-trigger-field[compact]::part(dirty-tracker-icon) {
+    left: -1px;
+    top: 0;
+    margin-inline-start: 27px;
+  }
+
   &.full {
     max-width: var(--ids-input-width-full);
   }

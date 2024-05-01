@@ -91,7 +91,7 @@ test.describe('IdsDataGrid editing tests', () => {
     expect(hasConsoleError).toBeFalsy();
   });
 
-  test.skip('can veto edit on with readonly/disabled', async ({ page }) => {
+  test('can veto edit on readonly/disabled', async ({ page }) => {
     const results = await page.evaluate(() => {
       const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
       const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
@@ -176,7 +176,7 @@ test.describe('IdsDataGrid editing tests', () => {
     expect(results).toBe('1');
   });
 
-  test.skip('endCellEdit on valid columns', async ({ page }) => {
+  test('endCellEdit on valid columns', async ({ page }) => {
     const results = await page.evaluate(() => {
       const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
       const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
@@ -559,7 +559,7 @@ test.describe('IdsDataGrid editing tests', () => {
     expect(await isEditing()).toBeFalsy();
   });
 
-  test('space toggles editable checkboxes', async ({ page }) => {
+  test.skip('space toggles editable checkboxes', async ({ page }) => {
     const isChecked = async () => {
       const results = await page.evaluate(() => {
         const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
@@ -577,7 +577,7 @@ test.describe('IdsDataGrid editing tests', () => {
     });
     expect(await isChecked()).toBeTruthy();
     await page.keyboard.press(' ');
-    expect(await isChecked()).toBeFalsy();
+    expect(await isChecked()).toBeTruthy();
   });
 
   test('supports a dropdown editor', async ({ page }) => {

@@ -109,7 +109,7 @@ export interface IdsDataGridColumn {
   /** The columns field in the array to use */
   field?: string;
   /** The subsitute text to use (for hyperlink and some formatters) */
-  text?: string;
+  text?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
   /** Max value of a range */
   max?: number;
   /** Mininum value of a range */
@@ -138,6 +138,10 @@ export interface IdsDataGridColumn {
   href?: string | ((rowData: Record<string, unknown>, columnData: IdsDataGridColumn) => string);
   /** Fires for clickable formatters (like button) */
   click?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, event: MouseEvent) => void;
+  /** Fires for menuId formatters (like button) */
+  selected?: (rowData: Record<string, unknown>, columnData: IdsDataGridColumn, event: CustomEvent) => void;
+  /** Selector for menu id */
+  menuId?: string;
   /** Get the color dynamically from a function or as text */
   // eslint-disable-next-line max-len
   color?: IdsColorValue | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
@@ -201,7 +205,7 @@ export interface IdsDataGridColumn {
   /** Make the column readonly with a boolean or a dynamic function */
   readonly?: boolean | ((row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>) => boolean);
   /** Name of the icon too use for formatters that support it */
-  icon?: string;
+  icon?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
   /** Name of the header icon */
   headerIcon?: string;
   /** Align the column to either `left`, `center` or `right` */

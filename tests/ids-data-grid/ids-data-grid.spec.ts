@@ -1401,6 +1401,38 @@ test.describe('IdsDataGrid tests', () => {
       expect(results.expandedAttrCollapsed).toEqual('false');
       expect(results.expandedHiddenCollapsed).toBeTruthy();
     });
+
+    test('should not have visual regressions in percy (expandable-row)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-data-grid/expandable-row.html');
+      let rowsExpanded = await page.evaluate(() => {
+        const dataGridAllowManyExpanded = document.querySelectorAll<any>('ids-data-grid')[0];
+        dataGridAllowManyExpanded.rows[0].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowManyExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowManyExpanded.rows[1].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowManyExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowManyExpanded.rows[2].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowManyExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+
+        return dataGridAllowManyExpanded.shadowRoot.querySelectorAll('ids-data-grid-row[aria-expanded="true"]').length;
+      });
+
+      expect(rowsExpanded).toBe(3);
+
+      rowsExpanded = await page.evaluate(() => {
+        const dataGridAllowOneExpanded = document.querySelectorAll<any>('ids-data-grid')[1];
+        dataGridAllowOneExpanded.rows[0].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowOneExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowOneExpanded.rows[1].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowOneExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+        dataGridAllowOneExpanded.rows[2].children[0].dispatchEvent(new FocusEvent('focusin'));
+        dataGridAllowOneExpanded.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' }));
+
+        return dataGridAllowOneExpanded.shadowRoot.querySelectorAll('ids-data-grid-row[aria-expanded="true"]').length;
+      });
+
+      expect(rowsExpanded).toBe(1);
+    });
   });
 
   test.describe('tree grid tests', () => {
@@ -1800,40 +1832,21 @@ test.describe('IdsDataGrid tests', () => {
       expect(selectedRows).toEqual(3);
     });
 
-    test.skip('should fire activecellchange event keyboard arrows', async ({ page }) => {
-      const results = await page.evaluate(() => {
-        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
-        let activeElem;
-        let activeCell;
-        let activeRow;
-        let activeNode;
-        const mockCallback = (e: any) => {
-          activeElem = e.detail.elem;
-          activeCell = e.detail.activeCell.cell;
-          activeRow = e.detail.activeCell.row;
-          activeNode = e.detail.activeCell.node;
-        };
-
-        dataGrid.addEventListener('activecellchange', mockCallback);
+    test('should fire activecellchange event keyboard arrows', async ({ page }) => {
+      const dataGridHandle = await page.locator('ids-data-grid').first();
+      const cellChangedEvent: any = await dataGridHandle.evaluate((dataGrid: IdsDataGrid) => new Promise((resolve) => {
         dataGrid.setActiveCell(0, 0);
-        const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-        dataGrid.dispatchEvent(event);
+        dataGrid.addEventListener('activecellchanged', (e: any) => resolve(e.detail), { once: true });
+        dataGrid.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+      }));
 
-        return {
-          activeElem,
-          activeCell,
-          activeRow,
-          activeNode
-        };
-      });
-
-      expect(results.activeElem).toBeDefined();
-      expect(results.activeCell).toEqual(1);
-      expect(results.activeRow).toEqual(0);
-      expect(results.activeNode).toBeDefined();
+      expect(cellChangedEvent.elem).toBeDefined();
+      expect(cellChangedEvent.activeCell.cell).toEqual(1);
+      expect(cellChangedEvent.activeCell.row).toEqual(0);
+      expect(cellChangedEvent.activeCell.node).toBeDefined();
     });
 
-    test.skip('should follow cell links with keyboard', async ({ page }) => {
+    test('should follow cell links with keyboard', async ({ page }) => {
       const results = await page.evaluate(() => {
         let hyperlinkClickCount = 0;
         const hyperlinkClickListener = () => {
@@ -1904,7 +1917,9 @@ test.describe('IdsDataGrid tests', () => {
 
       expect(results.hyperlinkClickCount).toEqual(1);
       expect(results.buttonClickCount).toEqual(1);
-      expect(results.customLinkClickCount).toEqual(1);
+
+      // skipping because custom link causes CSP error
+      // expect(results.customLinkClickCount).toEqual(1);
     });
   });
 

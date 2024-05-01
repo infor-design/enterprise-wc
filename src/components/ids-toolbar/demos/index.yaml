@@ -1,7 +1,7 @@
 ---
  component: Toolbar
  link: ids-toolbar
- description:  A container for buttons
+ description: A container for buttons
  category: Layouts
  keywords: toolbar, layout, buttons
  examples:

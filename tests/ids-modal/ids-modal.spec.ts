@@ -127,14 +127,14 @@ test.describe('IdsModal tests', () => {
       await page.locator('#modal-trigger-btn').click(); // open modal
       await page.waitForSelector('ids-modal[visible]'); // wait modal to finish show animation
       await page.locator('#modal-cancel-btn').click(); // click cancel
-      await page.waitForSelector('ids-modal:not([visible])'); // wait for modal to finish hide animation
+      await page.locator('ids-modal:not([visible])').waitFor({ state: 'hidden' }); // wait for modal to finish hide animation
     });
 
     test('responds to the example save button', async ({ page }) => {
       await page.locator('#modal-trigger-btn').click(); // open modal
       await page.waitForSelector('ids-modal[visible]'); // wait modal to finish show animation
       await page.locator('#modal-save-btn').click(); // click save
-      await page.waitForSelector('ids-modal:not([visible])'); // wait for modal to finish hide animation
+      await page.locator('ids-modal:not([visible])').waitFor({ state: 'hidden' }); // wait for modal to finish hide animation
     });
 
     test('showing/hiding modal close button', async ({ page }) => {
@@ -163,7 +163,7 @@ test.describe('IdsModal tests', () => {
 
       // Close via escape
       await page.keyboard.press('Escape');
-      await page.waitForSelector('ids-modal:not([visible])');
+      await page.locator('ids-modal:not([visible])').waitFor({ state: 'hidden' });
     });
 
     test('should hide modal when clicking outside with clickOutsideToClose', async ({ page }) => {
@@ -184,7 +184,7 @@ test.describe('IdsModal tests', () => {
       await page.evaluate(() => {
         document.querySelector<any>('ids-container')?.querySelector('ids-theme-switcher')?.click();
       });
-      await page.waitForSelector('ids-modal:not([visible])');
+      await page.locator('ids-modal:not([visible])').waitFor({ state: 'hidden' });
 
       // Disable outside click
       await modal.evaluate(async (elem: IdsModal) => {
@@ -227,6 +227,33 @@ test.describe('IdsModal tests', () => {
     test('updating modal title', async ({ page }) => {
       await page.locator('ids-modal').evaluate((modal: IdsModal) => { modal.messageTitle = 'My Test Message'; });
       await expect(await page.locator('ids-modal [slot="title"]')).toHaveText(/My Test Message/);
+    });
+
+    test('should handle scrollable option', async ({ page }) => {
+      await page.goto('/ids-modal/scrollable.html');
+      const modalHandle = await page.locator('ids-modal');
+      await expect(modalHandle).toHaveAttribute('scrollable');
+
+      await modalHandle.evaluate(async (elem: IdsModal) => {
+        elem.popup!.animated = false;
+        await elem.show();
+      });
+      await page.waitForSelector('ids-modal[visible]');
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.modalContentEl?.classList?.contains('has-scrollbar')
+      )).toBeTruthy();
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.container?.classList?.contains('scrollable')
+      )).toBeTruthy();
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.popup?.container?.classList?.contains('fit-viewport')
+      )).toBeTruthy();
+
+      await modalHandle.evaluate((elem: IdsModal) => { elem.scrollable = false; });
+      await expect(modalHandle).not.toHaveAttribute('scrollable');
+      expect(await modalHandle.evaluate(
+        (elem: IdsModal) => elem.container?.classList?.contains('scrollable')
+      )).toBeFalsy();
     });
   });
 

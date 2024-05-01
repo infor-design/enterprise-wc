@@ -1,6 +1,6 @@
 # IDS Module Nav
 
-This component displays top-level navigation in a flyout menu, similar to [IDS App Menu](../ids-app-menu/README.md).
+This component displays top-level navigation in a fly out menu, similar to [IDS App Menu](../ids-app-menu/README.md).
 
 ## Use Cases
 
@@ -35,7 +35,7 @@ These settings apply to the IdsModuleNavBar element:
 ### IdsModuleNavContent
 
 - `display-mode` {false|'collapsed'|'expanded'} Chooses IdsModuleNavContent's display type.  This setting is controlled automatically when setting the same property on the IdsModuleNav container element.
-- `offset-content` {boolean} If true, doesn't allow an `display-mode: expanded` Module Nav to cover its underlying content pane, instead offseting the content.  This is controlled automatically if `responsive` is set on the IdsModuleNav element.
+- `offset-content` {boolean} If true, doesn't allow an `display-mode: expanded` Module Nav to cover its underlying content pane, instead offsetting the content.  This is controlled automatically if `responsive` is set on the IdsModuleNav element.
 
 ### IdsModuleNavSwitcher
 
@@ -189,8 +189,7 @@ IdsModuleNavUser creates a composable area that will be fixed to the very bottom
           menu="module-nav-settings-menu"
           color-variant="module-nav"
           content-align="start"
-          no-margins
-          no-ripple>
+          no-margins>
           <ids-text>Settings</ids-text>
         </ids-module-nav-settings>
         <ids-popup-menu
@@ -233,3 +232,5 @@ IdsModuleNavUser creates a composable area that will be fixed to the very bottom
       </ids-module-nav-content>
     </ids-module-nav>
 ```
+
+For app menu there is also an ability to put contents above like a masthead of module tabs. To do so include the `ids-app-menu-container` in the logic. See example [with-masthead](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-app-menu/demos/with-masthead.html)

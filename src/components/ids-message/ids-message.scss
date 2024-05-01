@@ -2,6 +2,11 @@
 
 :host {
   display: block;
+
+  &::part(popup) {
+    width: calc(100% - var(--ids-space-lg));
+    max-width: 400px;
+  }
 }
 
 .ids-message-status {

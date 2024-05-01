@@ -2,11 +2,11 @@
       <div class="ids-notification-banner" part="container" type="success">
         <ids-alert icon="success"></ids-alert>
         <div class="ids-notification-banner-message " part="message">
-          <ids-text overflow="ellipsis">DTO accepted by your manager for Sept 30, 2023.</ids-text>
+          <ids-text class="message" overflow="ellipsis">DTO accepted by your manager for Sept 30, 2023.</ids-text>
         </div>
 
         <div class="ids-notification-banner-link" part="link">
-          <ids-hyperlink font-size="16" href="https://infor.com" target="_blank" role="link">https://infor.com</ids-hyperlink>
+          <ids-hyperlink font-size="16" href="https://infor.com" target="_blank" role="link">Click to view</ids-hyperlink>
         </div>
 
         <div class="ids-notification-banner-button" part="button">

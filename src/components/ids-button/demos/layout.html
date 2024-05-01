@@ -12,75 +12,120 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
 
-    <ids-layout-grid-cell col-span="4">
-      <ids-button appearance="primary">
-        <span>Primary Button</span>
-      </ids-button>
-      <ids-button appearance="primary">
-        <span>Primary Button</span>
-      </ids-button>
-      <ids-button appearance="primary">
-        <span>Primary Button</span>
-      </ids-button>
-    </ids-layout-grid-cell>
-    <ids-layout-grid-cell col-span="4">
-      <ids-button appearance="primary" icon="refresh">
-        <span>Primary Button</span>
-      </ids-button>
-      <ids-button appearance="primary">
-        <span>Primary Button</span>
-      </ids-button>
-      <ids-button appearance="primary">
-        <span>Primary Button</span>
-      </ids-button>
-    </ids-layout-grid-cell>
-    <ids-layout-grid-cell col-span="4">
-      <ids-button appearance="secondary">
-        <span>Secondary Button</span>
-      </ids-button>
-      <ids-button appearance="secondary">
-        <span>Secondary Button</span>
-      </ids-button>
-      <ids-button appearance="secondary">
-        <span>Secondary Button</span>
-      </ids-button>
-    </ids-layout-grid-cell>
-    <ids-layout-grid-cell col-span="4">
-      <ids-button appearance="secondary" icon="refresh">
-        <span>Secondary Button</span>
-      </ids-button>
-      <ids-button appearance="secondary">
-        <span>Secondary Button</span>
-      </ids-button>
-      <ids-button appearance="secondary">
-        <span>Secondary Button</span>
-      </ids-button>
-    </ids-layout-grid-cell>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Primary/Secondary Alignment</ids-text>
+    </ids-layout-grid>
 
-    <ids-layout-grid-cell col-span="4">
-      <ids-button appearance="secondary">
-        <span>Secondary Button</span>
-      </ids-button>
-      <ids-button appearance="secondary">
-        <span>Secondary Button</span>
-      </ids-button>
-    </ids-layout-grid-cell>
-    <ids-layout-grid-cell col-span="4">
-      <ids-button appearance="secondary">
-        <span>Secondary Button</span>
-      </ids-button>
-      <ids-button appearance="primary">
-        <span>Primary Button</span>
-      </ids-button>
-    </ids-layout-grid-cell>
-    <ids-layout-grid-cell col-span="4">
-      <ids-button appearance="primary">
-        <span>Primary Button</span>
-      </ids-button>
-      <ids-button appearance="primary">
-        <span>Primary Button</span>
-      </ids-button>
-    </ids-layout-grid-cell>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell col-span="4">
+        <ids-button appearance="primary">
+          <span>Primary Button</span>
+        </ids-button>
+        <ids-button appearance="primary">
+          <span>Primary Button</span>
+        </ids-button>
+        <ids-button appearance="primary">
+          <span>Primary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell col-span="4">
+        <ids-button appearance="primary" icon="refresh">
+          <span>Primary Button</span>
+        </ids-button>
+        <ids-button appearance="primary">
+          <span>Primary Button</span>
+        </ids-button>
+        <ids-button appearance="primary">
+          <span>Primary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell col-span="4">
+        <ids-button appearance="secondary">
+          <span>Secondary Button</span>
+        </ids-button>
+        <ids-button appearance="secondary">
+          <span>Secondary Button</span>
+        </ids-button>
+        <ids-button appearance="secondary">
+          <span>Secondary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell col-span="4">
+        <ids-button appearance="secondary" icon="refresh">
+          <span>Secondary Button</span>
+        </ids-button>
+        <ids-button appearance="secondary">
+          <span>Secondary Button</span>
+        </ids-button>
+        <ids-button appearance="secondary">
+          <span>Secondary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell col-span="4">
+        <ids-button appearance="secondary">
+          <span>Secondary Button</span>
+        </ids-button>
+        <ids-button appearance="secondary">
+          <span>Secondary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell col-span="4">
+        <ids-button appearance="secondary">
+          <span>Secondary Button</span>
+        </ids-button>
+        <ids-button appearance="primary">
+          <span>Primary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell col-span="4">
+        <ids-button appearance="primary">
+          <span>Primary Button</span>
+        </ids-button>
+        <ids-button appearance="primary">
+          <span>Primary Button</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Primary/Secondary/Tertiary Vertical Alignment</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-flex direction="column">
+        <ids-layout-flex-item>
+          <ids-button>Default</ids-button>
+        </ids-layout-flex-item>
+        <ids-layout-flex-item>
+          <ids-button appearance="tertiary">Tertiary</ids-button>
+        </ids-layout-flex-item>
+        <ids-layout-flex-item>
+          <ids-button appearance="primary">Primary</ids-button>
+        </ids-layout-flex-item>
+        <ids-layout-flex-item>
+          <ids-button appearance="secondary">Secondary</ids-button>
+        </ids-layout-flex-item>
+        <ids-layout-flex-item>
+          <ids-button icon="edit">Default Icon</ids-button>
+        </ids-layout-flex-item>
+        <ids-layout-flex-item>
+          <ids-button appearance="tertiary" icon="settings"
+            >Tertiary Icon</ids-button
+          >
+        </ids-layout-flex-item>
+        <ids-layout-flex-item>
+          <ids-button appearance="primary" icon="settings"
+            >Primary Icon</ids-button
+          >
+        </ids-layout-flex-item>
+        <ids-layout-flex-item>
+          <ids-button appearance="secondary" icon="settings"
+            >Secondary Icon</ids-button
+          >
+        </ids-layout-flex-item>
+      </ids-layout-flex>
+    </ids-layout-grid>
   </ids-container>
 </body>
 </html>

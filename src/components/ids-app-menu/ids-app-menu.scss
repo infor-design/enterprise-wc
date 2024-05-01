@@ -56,12 +56,16 @@
 
 // Style Sub Components
 :host {
+  position: absolute;
+  z-index: 600;
+
   // Buttons
   --ids-button-color-text-default: var(--ids-button-app-menu-color-text-default);
   --ids-button-tertiary-color-text-default: var(--ids-button-app-menu-color-text-default);
   --ids-button-tertiary-color-background-hover: var(--ids-button-app-menu-color-background-hover);
   --ids-button-tertiary-color-text-hover: var(--ids-button-app-menu-color-text-hover);
   --ids-button-tertiary-color-text-disabled: var(--ids-button-app-menu-color-text-disabled);
+  --ids-button-tertiary-color-border-hover:var(--ids-button-app-menu-color-background-hover);
 
   // Search Field
   --ids-search-field-header-color-icon-hover: var(--ids-button-app-menu-color-background-hover);
