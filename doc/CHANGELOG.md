@@ -16,6 +16,7 @@
 - `[BarChart]` Converted bar chart tests to playwright. ([#1919](https://github.com/infor-design/enterprise-wc/issues/1919))
 - `[BreadCrumb/Hyperlink]` Fix focus state on click bug. ([#2238](https://github.com/infor-design/enterprise-wc/issues/2238))
 - `[Editor]` Converted editor tests to playwright. ([#1931](https://github.com/infor-design/enterprise-wc/issues/1931))
+- `[Toolbar]` Fix so that menu-items in `IdsToolbarMoreActions` can be disabled. ([#2156](https://github.com/infor-design/enterprise-wc/issues/2156))
 
 ## 1.0.0
 
