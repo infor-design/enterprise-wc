@@ -15,11 +15,11 @@
   }
 
   .container {
-    margin-top: var(--ids-space-40);
-    padding: var(--ids-space-20);
+    margin-top: var(--ids-space-xs);
+    padding: var(--ids-space-xxxs);
     border: 1px solid var(--ids-upload-advanced-file-color-border-default);
     border-style: dashed;
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-border-radius-xxs);
 
     .file-row {
       align-items: center;
@@ -52,7 +52,7 @@
         @include flex-item-stable();
 
         display: block;
-        margin-inline-start: var(--ids-space-50);
+        margin-inline-start: var(--ids-space-12);
       }
 
       .progress-text {
@@ -79,15 +79,15 @@
       .btn-close {
         @include flex-item-stable();
 
-        padding-inline: var(--ids-space-20);
+        padding-inline: var(--ids-space-xxxs);
       }
     }
 
     .status .ids-alert,
     .status ids-alert {
       display: block;
-      padding: var(--ids-space-40);
-      padding-bottom: var(--ids-space-30);
+      padding: var(--ids-space-xs);
+      padding-bottom: var(--ids-space-xxs);
       margin: var(--ids-space-none);
     }
 
@@ -101,19 +101,19 @@
 
     .error-row,
     .progress-row {
-      padding-inline: var(--ids-space-50);
-      padding-bottom: var(--ids-space-30);
+      padding-inline: var(--ids-space-12);
+      padding-bottom: var(--ids-space-xxs);
     }
 
     .progress-row {
-      padding-inline: var(--ids-space-90);
+      padding-inline: var( --ids-space-24);
       align-items: center;
       display: flex;
       min-height: 28px;
 
       .progress-bar,
       .ids-progress-bar {
-        padding-inline-end: var(--ids-space-30);
+        padding-inline-end: var(--ids-space-xxs);
         flex-grow: 1;
         flex-shrink: 0;
       }
@@ -135,12 +135,12 @@
       }
 
       .progress-row {
-        padding-inline-start: var(--ids-space-90);
-        padding-inline-end: var(--ids-space-20);
+        padding-inline-start: var( --ids-space-24);
+        padding-inline-end: var(--ids-space-xxxs);
       }
 
       .progress-row .progress-bar {
-        padding-inline-end: var(--ids-space-20);
+        padding-inline-end: var(--ids-space-xxxs);
       }
 
       .progress-row .btn-start {

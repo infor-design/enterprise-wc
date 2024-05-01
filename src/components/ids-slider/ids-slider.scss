@@ -207,11 +207,11 @@
     justify-content: center;
     position: absolute;
     width: auto;
-    padding: var(--ids-space-10);
+    padding: var(--ids-space-xxxxs);
     height: auto;
     text-align: center;
     margin: auto;
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-border-radius-xxs);
     vertical-align: middle;
     line-height: 30px;
     max-width: 300px;
@@ -273,7 +273,7 @@
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    border-width: var(--ids-space-10);
+    border-width: var(--ids-space-xxxxs);
     border-style: solid;
     transition: transform $transition-length $transition-ease;
     transform: scale(0);
@@ -285,10 +285,10 @@
 
   .track-area {
     width: 100%; // horizontal
-    height: var(--ids-space-80); // horizontal
+    height: var(--ids-space-md); // horizontal
     &.vertical {
       height: 100%; // vert
-      width: var(--ids-space-80); // vert
+      width: var(--ids-space-md); // vert
     }
 
     background-color: transparent;
@@ -304,17 +304,17 @@
     display: flex;
     align-items: center; // horizontal
     justify-content: flex-start; // horizontal
-    height: var(--ids-space-30); // horizontal
+    height: var(--ids-space-xxs); // horizontal
     width: calc(100% - (var(--ids-slider-thumb-size) / 2)); // horizontal
     &.vertical {
       justify-content: center; // vertical
-      width: var(--ids-space-30); // vert
+      width: var(--ids-space-xxs); // vert
       height: calc(100% - (var(--ids-slider-thumb-size) / 2)); // vert
     }
 
     position: absolute;
     z-index: 30;
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-border-radius-xxs);
 
     .track-progress {
       height: inherit;

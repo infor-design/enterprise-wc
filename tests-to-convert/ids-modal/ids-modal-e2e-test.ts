@@ -1,7 +1,7 @@
 import checkForAxeViolations from '../helpers/check-for-axe-violations';
 import countObjects from '../helpers/count-objects';
 
-describe('Ids Modal e2e Tests', () => {
+describe('Ids Modal Tests', () => {
   const url = 'http://localhost:4444/ids-modal/visible.html';
 
   it.skip('should have its "OK" button focused when it opens', async () => {

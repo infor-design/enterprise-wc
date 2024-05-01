@@ -20,7 +20,7 @@
       color: var(--ids-breadcrumb-color-text-default);
       content: '\002F';
       font-weight: var(--ids-breadcrumb-font-weight);
-      padding-right: var(--ids-space-30);
+      padding-right: var(--ids-space-xxs);
       padding-left: var(--ids-space-none);
       text-decoration: none;
       display: inline-block;
@@ -41,7 +41,7 @@
   }
 
   nav {
-    padding: var(--ids-space-40);
+    padding: var(--ids-space-xs);
 
     &.truncate {
       &::before {
@@ -49,7 +49,7 @@
           width var(--ids-motion-duration) var(--ids-motion-ease),
           background var(--ids-motion-duration) var(--ids-motion-ease);
         background-color: transparent;
-        background-image: linear-gradient(to right, var(--ids-color-background-default), rgba(255 255 255 / 0));
+        background-image: var(--ids-breadcrumb-gradient);
         content: '';
         height: 100%;
         left: 0;
@@ -123,7 +123,7 @@ span.ids-breadcrumb-divider:not(:first-child)::before {
   color: inherit;
   content: '\002F';
   font-weight: normal;
-  padding: var(--ids-space-10) var(--ids-space-40) ;
+  padding: var(--ids-space-xxxxs) var(--ids-space-xs) ;
   text-decoration: none;
   display: inline-block;
   margin-inline-start: -3px;

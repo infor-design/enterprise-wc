@@ -1,1 +1,1 @@
-<ids-date-picker id="e2e-datepicker-value" label="Date Field" value="3/4/2016" tabbable="false" mask="true"></ids-date-picker>
+<ids-date-picker id="datepicker-value" label="Date Field" value="3/4/2016" tabbable="false" mask="true"></ids-date-picker>

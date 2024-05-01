@@ -29,12 +29,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Check Memory Limit
-      run:  node -e 'console.log(v8.getHeapStatistics().heap_size_limit/(1024*1024))'
+      run: node -e 'console.log(v8.getHeapStatistics().heap_size_limit/(1024*1024))'
 
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 10
+        swap-size-gb: 12
 
     - name: Cache multiple paths
       uses: actions/cache@v2

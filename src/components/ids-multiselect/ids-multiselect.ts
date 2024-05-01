@@ -41,6 +41,9 @@ class IdsMultiselect extends IdsDropdown {
     this.onEvent('slotchange.mulitselect', defaultSlot, () => {
       this.#populateSelected();
     });
+
+    const innerInput = this.shadowRoot?.querySelector('ids-trigger-field')?.shadowRoot?.querySelector('input');
+    innerInput?.style.setProperty('color', 'transparent');
   }
 
   internalSelectedList: Array<string> = [];

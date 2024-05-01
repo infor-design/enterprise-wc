@@ -9,6 +9,7 @@ import '../ids-icon/ids-icon';
 import '../ids-text/ids-text';
 
 import styles from './ids-image.scss';
+import { IdsColorValueCategories } from '../../utils/ids-color-utils/ids-color-utils';
 
 const Base = IdsEventsMixin(
   IdsElement
@@ -27,11 +28,6 @@ export default class IdsImage extends Base {
     super();
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    if (this.userStatus) this.userStatus = this.getAttribute('user-status');
-  }
-
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -40,6 +36,7 @@ export default class IdsImage extends Base {
     return [
       ...super.attributes,
       attributes.ALT,
+      attributes.COLOR,
       attributes.FALLBACK,
       attributes.INITIALS,
       attributes.PLACEHOLDER,
@@ -187,6 +184,25 @@ export default class IdsImage extends Base {
   }
 
   /**
+   * Set the alert color
+   * @param {IdsColorValueCategories} value The color to use between:
+   * 'red' | 'yellow' | 'orange' | 'green' | 'blue' | 'teal' | 'purple'| 'gray' | 'neutral' | 'white' | 'black';
+   */
+  set color(value: IdsColorValueCategories) {
+    if (value) {
+      this.setAttribute(attributes.COLOR, value);
+      if (value === 'neutral') value = 'grey';
+      (this.shadowRoot?.querySelector('.initials') as HTMLDivElement)?.style.setProperty('background-color', `var(--ids-color-accent-${value}-strong)`);
+    } else {
+      this.removeAttribute(attributes.COLOR);
+    }
+  }
+
+  get color(): IdsColorValueCategories {
+    return this.getAttribute(attributes.COLOR) as IdsColorValueCategories;
+  }
+
+  /**
    * Get one of the predefined sizes
    * @param {string} val size attribute value
    * @returns {'auto'|'sm'|'md'|'lg'} one of the predefined sizes
@@ -324,7 +340,7 @@ export default class IdsImage extends Base {
   #getStatusEl(status: string) {
     const element = document.createElement('div');
     element.classList.add('user-status', status);
-    element.innerHTML = `<ids-icon icon="user-status-${status}"></ids-icon>`;
+    element.innerHTML = `<ids-icon icon="user-status-${status}" fill="inherit"></ids-icon>`;
 
     return element;
   }

@@ -32,7 +32,7 @@
     padding: var(--ids-about-content-padding);
     margin-block-start: 0;
     margin-block-end: 24px;
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-border-radius-xxs);
     max-height: 199px;
     outline: 0;
     overflow: auto;
@@ -100,4 +100,10 @@ div.ids-modal {
   .ids-about .ids-modal-content {
     max-height: 400px;
   }
+}
+
+#copy-to-clipboard {
+  position: absolute;
+  right: 20px;
+  bottom: 6px;
 }

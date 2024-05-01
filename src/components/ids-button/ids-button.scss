@@ -7,6 +7,7 @@
 
 :host {
   display: inline-flex;
+  vertical-align: middle;
 
   ::slotted(span) {
     vertical-align: bottom;
@@ -15,6 +16,7 @@
   ::slotted(span),
   ::slotted(ids-text) {
     color: currentColor;
+    align-self: center;
   }
 
   ::slotted(ids-icon) {
@@ -42,11 +44,8 @@
 :host([system-button]) {
   button:hover {
     background-color: transparent;
+    border-color: transparent;
     color: var(--ids-button-system-color-text-hover);
-  }
-
-  .ripple-effect {
-    display: none;
   }
 }
 
@@ -79,11 +78,6 @@ button {
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
 
-  // Technically not valid
-  ::slotted(ids-icon:only-child) {
-    display: block;
-  }
-
   // Assign padding based on type/usage
   // ====================================================
   &:not(.no-padding) {
@@ -100,10 +94,16 @@ button {
   }
 }
 
+.ids-menu-button.is-active,
+.ids-menu-button.is-active:hover {
+  background-color: var(--ids-button-menu-background-color-active);
+  color: var(--ids-button-menu-color-text-active);
+}
+
 .ids-menu-button.formatter-width {
   &:not(.no-padding):not(.ids-icon-button) {
-    padding-inline-start: calc(var(--ids-space-40) - 1px);
-    padding-inline-end:calc(var(--ids-space-40) - 1px);
+    padding-inline-start: calc(var(--ids-space-xs) - 1px);
+    padding-inline-end:calc(var(--ids-space-xs) - 1px);
   }
 
   &:not(.formatter-width-percentage) {
@@ -111,7 +111,7 @@ button {
 
     .ids-icon {
       position: absolute;
-      inset-inline-end: var(--ids-space-30);
+      inset-inline-end: var(--ids-space-xxs);
     }
   }
 }
@@ -127,15 +127,19 @@ button {
   padding-block-end: var(--ids-button-icon-padding);
 
   &:not(.no-padding) {
-    // 34px / 34px
     padding-inline-start: var(--ids-button-icon-padding);
     padding-inline-end:var(--ids-button-icon-padding);
     padding-top: var(--ids-button-icon-padding);
     padding-bottom: var(--ids-button-icon-padding);
+
+    &:not(.ids-trigger-button) {
+      height: var(--ids-button-icon-height);
+      width: var(--ids-button-icon-width);
+    }
   }
 
   &:not(.square) {
-    border-radius: var(--ids-border-radius-03);
+    border-radius: var(--ids-button-radius);
   }
 
   &.square {
@@ -144,17 +148,13 @@ button {
 
   .ids-icon {
     display: block;
-    padding-inline-start: var(--ids-space-none);
+    padding-inline-start: 2px;
     font-size: 0;
+    padding-block-start: 2px;
   }
 
   span.audible {
     @include mixins.audible();
-  }
-
-  .ripple-effect {
-    height: var(--ids-size-70);
-    width: var(--ids-size-70);
   }
 
   &.no-margins {
@@ -176,8 +176,8 @@ button {
   @include ids-base-button-styles();
   @include ids-modal-button-color-defaults();
 
-  padding-block-start: var(--ids-space-50);
-  padding-block-end: var(--ids-space-50);
+  padding-block-start: var(--ids-space-12);
+  padding-block-end: var(--ids-space-12);
   display: block;
   font-weight: var(--ids-font-weight-semibold);
   justify-content: center;
@@ -191,7 +191,7 @@ button {
 
 // Adjusting hitbox for the modal close icon
 .ids-modal-icon-button {
-  padding: var(--ids-space-40);
+  padding: var(--ids-space-xs);
 }
 
 // ====================================================
@@ -199,7 +199,7 @@ button {
 .btn-swipe-action-left,
 .btn-swipe-action-right {
   display: block;
-  padding: 0 var(--ids-space-40) var(--ids-space-40);
+  padding: 0 var(--ids-space-xs) var(--ids-space-xs);
   height: 100%;
   margin: 0;
   white-space: inherit;
@@ -262,7 +262,7 @@ button {
     ::slotted(ids-icon[icon="insights-smart-panel"]) {
       display: none;
     }
-  
+
     .loading-dots {
       display: flex;
     }
@@ -282,12 +282,9 @@ button {
 .ids-menu-button:not(.ids-icon-button),
 .ids-modal-button:not(.ids-icon-button) {
   // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
-  ::slotted(ids-icon:not(:first-child)), // shadowroot + text + icon
-  ::slotted(span:not(.audible):nth-child(2):last-child), // shadowroot + icon + text
-  ::slotted(ids-text:not([audible]):nth-child(2):last-child),
-  ::slotted(span:not(.audible):nth-child(3):last-child), // shadowroot + icon + (audible text) + text
-  ::slotted(ids-text:not([audible]):nth-child(3):last-child) {
+  ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
     padding-inline-start: 5px;
+    padding-inline-end: 0;
   }
 
   // Padding rules for standalone CSS buttons (match the rules/style above)
@@ -301,7 +298,7 @@ button {
 // Adjustment for about close icon
 .ids-modal-button {
   ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
-    padding: var(--ids-space-20);
+    padding: var(--ids-space-xxxs);
   }
 }
 
@@ -350,4 +347,32 @@ button {
     left: 0;
     right: 0;
   }
+}
+
+// Color effects on toggle button
+:host(ids-toggle-button) {
+  --ids-button-tertiary-color-background-hover: var(--ids-button-toggle-color-background-hover-default);
+  --ids-button-tertiary-color-text-hover: var(--ids-button-toggle-color-text-hover-default);
+}
+
+:host(ids-toggle-button[pressed]) {
+  --ids-button-tertiary-color-text-default: var(--ids-button-toggle-color-text-pressed-default);
+}
+
+:host(ids-toggle-button[color='orange']) {
+  --ids-button-tertiary-color-background-hover: var(--ids-button-toggle-color-background-hover-orange);
+  --ids-button-tertiary-color-text-hover: var(--ids-button-toggle-color-text-hover-orange);
+}
+
+:host(ids-toggle-button[pressed][color='orange']) {
+  --ids-button-tertiary-color-text-default: var(--ids-button-toggle-color-text-pressed-orange);
+}
+
+:host(ids-toggle-button[color='red']) {
+  --ids-button-tertiary-color-background-hover: var(--ids-button-toggle-color-background-hover-red);
+  --ids-button-tertiary-color-text-hover: var(--ids-button-toggle-color-text-hover-red);
+}
+
+:host(ids-toggle-button[pressed][color='red']) {
+  --ids-button-tertiary-color-text-default: var(--ids-button-toggle-color-text-pressed-red);
 }

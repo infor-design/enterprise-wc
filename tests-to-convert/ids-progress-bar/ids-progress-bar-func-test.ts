@@ -26,7 +26,7 @@ describe('IdsProgressBar Component', () => {
     expect(el.value).toEqual('0');
   });
 
-  test('should renders as disabled', () => {
+  test('should render as disabled', () => {
     expect(el.getAttribute('disabled')).toEqual(null);
     let rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(rootEl.classList).not.toContain('disabled');

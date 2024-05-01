@@ -116,6 +116,10 @@
   display: block;
 }
 
+::slotted([slot='content']) {
+  position: relative;
+}
+
 .ids-accordion-panel {
   // ============================================
   // Color Variant Rules

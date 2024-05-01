@@ -144,8 +144,8 @@
     }
 
     &.is-disabled .day-text {
-      background-color: var(--ids-color-neutral-10);
-      color: var(--ids-color-neutral-30);
+      background-color: var(--ids-color-gray-10);
+      color: var(--ids-color-gray-30);
     }
 
     ids-text::part(text) {
@@ -408,7 +408,7 @@
       }
 
       &:hover::after {
-        opacity: 0.7;;
+        opacity: 0.7;
       }
     }
 

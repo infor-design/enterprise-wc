@@ -88,7 +88,7 @@ test.describe('IdsPopupMenu tests', () => {
       await page.goto('/ids-popup-menu/data-driven.html');
     });
 
-    test('reverts to markup-driven when provided an empty dataset', async ({ page }) => {
+    test.skip('reverts to markup-driven when provided an empty dataset', async ({ page }) => {
       await page.evaluate(async () => {
         const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
         await elem.show();

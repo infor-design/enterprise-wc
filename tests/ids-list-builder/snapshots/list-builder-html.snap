@@ -7,7 +7,7 @@
         <ids-icon icon="add"></ids-icon>
       </ids-button>
     
-          <ids-separator vertical=""></ids-separator>
+          <ids-separator vertical="true"></ids-separator>
           
       <ids-button list-builder-action="move-up" tooltip="Move Up" color-variant="alternate-formatter">
         <span class="audible">Move Up</span>
@@ -20,7 +20,7 @@
         <ids-icon icon="arrow-down"></ids-icon>
       </ids-button>
     
-          <ids-separator vertical=""></ids-separator>
+          <ids-separator vertical="true"></ids-separator>
           
       <ids-button list-builder-action="edit" tooltip="Edit" color-variant="alternate-formatter">
         <span class="audible">Edit</span>

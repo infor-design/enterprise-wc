@@ -62,5 +62,60 @@ test.describe('IdsAppMenu tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-app-menu-light');
     });
+
+    test('should match the visual snapshot in percy (with masthead)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+
+      await page.goto('/ids-app-menu/with-masthead.html');
+      await percySnapshot(page, 'ids-app-menu-masthead-light');
+    });
+  });
+
+  test.describe('appmenu component tests', () => {
+    test('should have default settings', async ({ page }) => {
+      const appmenu = await page.locator('ids-app-menu');
+      const appMenuType = await appmenu.evaluate((element: IdsAppMenu) => element.type);
+      const appMenuEdge = await appmenu.evaluate((element: IdsAppMenu) => element.edge);
+      expect(appMenuType).toBe('app-menu');
+      expect(appMenuEdge).toBe('start');
+    });
+
+    test('can convert inner accordions to use the "app-menu" color variant', async ({ page }) => {
+      const acc = await page.locator('ids-accordion');
+      await expect(acc).toBeDefined();
+    });
+
+    test('can close by pressing the escape key', async ({ page }) => {
+      await page.locator('#app-menu-trigger').click();
+      await expect(page.locator('#app-menu')).toHaveAttribute('visible');
+      await page.keyboard.press('Escape');
+      await expect(page.locator('#app-menu')).not.toHaveAttribute('visible');
+    });
+
+    test('should not close by pressing any key but escape', async ({ page }) => {
+      await page.locator('#app-menu-trigger').click();
+      await expect(page.locator('#app-menu')).toHaveAttribute('visible');
+      await page.keyboard.press('A');
+      await page.keyboard.press('0');
+      await page.keyboard.press('ArrowUp');
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('F12');
+      await expect(page.locator('#app-menu')).toHaveAttribute('visible');
+      await page.keyboard.press('Escape');
+      await expect(page.locator('#app-menu')).not.toHaveAttribute('visible');
+    });
+
+    test('can filter its navigation accordion when the search field is used', async ({ page }) => {
+      await page.locator('#app-menu-trigger').click();
+      await expect(page.locator('#app-menu')).toHaveAttribute('visible');
+      const sf = await page.locator('#search');
+      await expect(sf).toBeDefined();
+      await page.locator('.ids-input-field').fill('Second');
+      const acc = await page.locator('ids-accordion-header').first();
+      await expect(acc).toHaveAttribute('hidden-by-filter');
+      await page.locator('.ids-input-field').fill('');
+      await expect(acc).not.toHaveAttribute('hidden-by-filter');
+    });
   });
 });

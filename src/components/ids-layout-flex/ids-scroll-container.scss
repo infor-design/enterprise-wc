@@ -1,0 +1,7 @@
+/* Ids Scroll Container */
+:host {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  overflow: auto;
+}

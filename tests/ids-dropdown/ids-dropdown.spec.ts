@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { expect } from '@playwright/test';
+import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
@@ -177,6 +177,98 @@ test.describe('IdsDropdown tests', () => {
       });
       expect(values2[0]).toBeFalsy();
       expect(values2[1]).toBeNull();
+    });
+
+    test('can have blank value=""', async ({ page }) => {
+      const values = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown#dropdown-9')!;
+        return [dropdown?.allowBlank, dropdown.value];
+      });
+
+      const [allowBlank, value] = values;
+      expect(allowBlank).toBeFalsy();
+      expect(value).toEqual(null);
+
+      const newValue = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown#dropdown-9')!;
+        dropdown.options[2].click();
+        return dropdown.value;
+      });
+
+      expect(newValue).toBe('opt2');
+
+      const blankValue = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown#dropdown-9')!;
+        dropdown.options[0].click();
+        return dropdown.value;
+      });
+
+      expect(blankValue).toEqual('');
+    });
+
+    test('can view tooltips on dropdown and options', async ({ page }) => {
+      const dropdownLocator: Locator = await page.locator('#dropdown-6');
+
+      // Check tooltip for dropdown
+      await dropdownLocator.hover();
+      await expect(await page.locator('ids-tooltip')).toBeAttached();
+      await dropdownLocator.blur();
+
+      // Check tooltip for dropdown option
+      await dropdownLocator.locator('ids-trigger-button').click();
+      const dropdownFirstOptionLocator: Locator = await page.locator('#dropdown-6 ids-list-box ids-list-box-option').first();
+      await dropdownFirstOptionLocator.hover();
+      await expect(await page.locator('ids-tooltip')).toBeAttached();
+      await dropdownFirstOptionLocator.blur();
+
+      // Check tooltip for lazy loaded dropdown option
+      await page.evaluate(() => {
+        const asyncTooltipDropdown = document.createElement('ids-dropdown');
+        asyncTooltipDropdown.id = 'dropdown-async-tooltips';
+        asyncTooltipDropdown.innerHTML = '<ids-list-box></ids-list-box>';
+        (asyncTooltipDropdown as IdsDropdown).beforeShow = async function beforeShow() {
+          return new Promise((resolve) => {
+            resolve([
+              {
+                value: 'opt1',
+                label: 'Option One',
+                tooltip: 'Additional Info on Option One'
+              }
+            ]);
+          });
+        };
+
+        const lastDropdown = document.querySelector('ids-dropdown:last-of-type');
+        lastDropdown?.after(asyncTooltipDropdown);
+      });
+
+      const asyncDropdownLocator: Locator = await page.locator('#dropdown-async-tooltips');
+      await asyncDropdownLocator.locator('ids-trigger-button').click();
+      const asyncDropdownFirstOptionLocator: Locator = await page.locator('#dropdown-async-tooltips ids-list-box ids-list-box-option').first();
+      await asyncDropdownFirstOptionLocator.hover();
+      await expect(await page.locator('ids-tooltip')).toBeAttached();
+    });
+  });
+
+  test.describe('reattachment tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-dropdown/reattach.html');
+    });
+
+    test('popup functionality after reattachment', async ({ page }) => {
+      // reattach
+      await page.locator('ids-button#reattach').click();
+
+      // open dropdown
+      await page.locator('ids-dropdown').click();
+
+      // select another option
+      await page.locator('ids-list-box-option[value="opt4"]').click();
+
+      // expect new value to be selected and dropdown list to be hidden
+      const selected = await page.locator('ids-dropdown').evaluate((dropdown: IdsDropdown) => dropdown.value);
+      await expect(await page.locator('ids-dropdown ids-dropdown-list')).not.toBeVisible();
+      expect(selected).toEqual('opt4');
     });
   });
 });

@@ -10,13 +10,14 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
 import IdsDataSource from '../../core/ids-data-source';
-import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
+import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-card/ids-card';
 import '../ids-button/ids-button';
 import '../ids-list-view/ids-list-view';
 import '../ids-swappable/ids-swappable';
 
 import styles from './ids-swaplist.scss';
+import type IdsSwappable from '../ids-swappable/ids-swappable';
 
 const Base = IdsKeyboardMixin(
   IdsLocaleMixin(
@@ -53,11 +54,12 @@ export default class IdsSwapList extends Base {
 
   datasource = new IdsDataSource();
 
-  defaultTemplate = '';
+  state = {
+    defaultTemplate: ''
+  };
 
   connectedCallback() {
     super.connectedCallback();
-    this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     this.renderLists();
     this.attachEventHandlers();
   }
@@ -69,7 +71,8 @@ export default class IdsSwapList extends Base {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.COUNT
+      attributes.COUNT,
+      attributes.SEARCHABLE,
     ];
   }
 
@@ -85,6 +88,15 @@ export default class IdsSwapList extends Base {
   }
 
   get data(): any | null { return this?.datasource?.data || []; }
+
+  /**
+   * Set the internal template via JS
+   */
+  set defaultTemplate(value: any | null) {
+    this.state.defaultTemplate = value;
+  }
+
+  get defaultTemplate(): any | null { return this.state.defaultTemplate || this.querySelector('template')?.innerHTML; }
 
   /**
    * Swap the list item to the next list
@@ -105,6 +117,8 @@ export default class IdsSwapList extends Base {
     });
 
     this.#syncDatasource();
+
+    this.#resetSearch();
   }
 
   /**
@@ -126,6 +140,8 @@ export default class IdsSwapList extends Base {
     });
 
     this.#syncDatasource();
+
+    this.#resetSearch();
   }
 
   /**
@@ -133,7 +149,7 @@ export default class IdsSwapList extends Base {
    * @param {number}id list item id
    * @returns {IdsSwaplistDataItem} swaplist item data
    */
-  #getListItemById(id: number): IdsSwaplistDataItem {
+  getListItemById(id: number): IdsSwaplistDataItem {
     return this.datasource.data
       .map((list) => list.items)
       .flat()
@@ -148,6 +164,18 @@ export default class IdsSwapList extends Base {
    */
   get selectedItems(): any {
     return this.container?.querySelectorAll('ids-swappable-item[selected]');
+  }
+
+  /**
+   * Set searchable which allows list view to be filtered
+   * @param {string | boolean | null} value The value
+   */
+  set searchable(value: string | boolean | null) {
+    this.toggleAttribute(attributes.SEARCHABLE, stringToBool(value));
+  }
+
+  get searchable(): boolean {
+    return this.hasAttribute(attributes.SEARCHABLE);
   }
 
   /**
@@ -218,9 +246,11 @@ export default class IdsSwapList extends Base {
     const arr = Array(this.data.length).fill(0);
     const arrLen = arr.length;
     const data = this.data;
+    const searchTermCaseSensitive = this.hasAttribute(attributes.SEARCH_TERM_CASE_SENSITIVE) ? attributes.SEARCH_TERM_CASE_SENSITIVE : '';
+    const searchable = this.searchable ? `searchable ${searchTermCaseSensitive}` : '';
 
     return data.map((list: IdsSwaplistData, i: number) => {
-      const listTemplate = `<ids-card 
+      const listTemplate = `<ids-card
         class="list-card ${arrLen === i + 1 ? `card card-${i} card-last` : `card card-${i}`}"
         data-id="${list.id}"
         data-name="${list.name}">
@@ -231,7 +261,7 @@ export default class IdsSwapList extends Base {
           </div>
         </div>
         <div slot="card-content">
-          <ids-swappable selection="multiple">
+          <ids-swappable selection="multiple" ${searchable}>
             ${list.items.length > 0 ? list.items?.map(this.itemTemplateFunc()).join('') : ''}
           </ids-swappable>
         </div>
@@ -257,6 +287,17 @@ export default class IdsSwapList extends Base {
   }
 
   /**
+   * Reset search term in all lists
+   */
+  #resetSearch() {
+    const listCards = [...this.container!.querySelectorAll('ids-card.list-card')];
+    listCards.forEach((listCard) => {
+      const swappable = listCard.querySelector<IdsSwappable>('ids-swappable');
+      swappable?.resetSearch();
+    });
+  }
+
+  /**
    * Syncs UI list items with datasource
    * @private
    */
@@ -265,7 +306,7 @@ export default class IdsSwapList extends Base {
     const listItems = listCards.map((listCard) => {
       const items = [...listCard.querySelectorAll('ids-swappable-item')]
         .map((item: any) => Number(item.getAttribute('data-id')))
-        .map((itemId: any) => this.#getListItemById(itemId));
+        .map((itemId: any) => this.getListItemById(itemId));
       return items;
     });
 

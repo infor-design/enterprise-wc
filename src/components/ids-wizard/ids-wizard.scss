@@ -25,7 +25,7 @@
 
   .step.clickable:focus .step-label {
     border: 1px solid var(--ids-wizard-step-color-default);
-    border-radius: var(--ids-border-radius-01);
+    border-radius: var(--ids-border-radius-xxs);
     box-shadow: var(--ids-shadow-focus);
     outline: none;
     outline-color: transparent;
@@ -155,6 +155,28 @@
       fill: transparent;
       stroke: var(--ids-wizard-step-color-unvisited);
       stroke-width: 3px;
+    }
+  }
+
+  .step.disabled {
+    &:not(.visited) {
+      svg:first-child circle {
+        fill: none;
+        stroke: var(--ids-wizard-step-color-disabled-unvisited);
+        stroke-width: 3px;
+      }
+    }
+
+    &.visited {
+      svg:first-child circle {
+        fill: var(--ids-wizard-step-color-disabled);
+        stroke: none;
+        stroke-width: none;
+      }
+
+      .step-label ids-text::part(text) {
+        color: var(--ids-wizard-step-color-disabled);
+      }
     }
   }
 

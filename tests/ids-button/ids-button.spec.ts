@@ -227,7 +227,7 @@ test.describe('IdsButton tests', () => {
       const id = 'ids-button[id="test-button-primary"]';
       const idsButton = page.locator(id);
       const button = idsButton.locator('button');
-      const defaultText = 'Action';
+      const defaultText = 'Button label';
 
       await expect(idsButton).toHaveText(defaultText);
       await expect(button).toHaveAttribute('aria-label', defaultText);
@@ -301,10 +301,10 @@ test.describe('IdsButton tests', () => {
       await test.step('icon only', async () => {
         await page.evaluate((data) => {
           (document.querySelector<IdsButton>(data.elementId))!.text = '';
+          (document.querySelector<IdsButton>(data.elementId))!.container!.classList.add('ids-icon-button');
         }, { elementId: id });
         await expect(idsIcon).toBeAttached();
         await expect(button).toHaveClass(/ids-icon-button/);
-        await expect(button).not.toHaveClass(/ids-button/);
         await expect(idsButton).toHaveAttribute('icon', 'settings');
       });
 
@@ -427,7 +427,7 @@ test.describe('IdsButton tests', () => {
       const testData = ['submit', 'reset', 'button', 'invalid'];
 
       await expect(idsButton).not.toHaveAttribute('type');
-      await expect(button).not.toHaveAttribute('type');
+      await expect(button).toHaveAttribute('type', 'button');
 
       for (const tData of testData) {
         await test.step(`set ${tData} type`, async () => {

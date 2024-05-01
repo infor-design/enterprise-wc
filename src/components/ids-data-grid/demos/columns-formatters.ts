@@ -196,6 +196,7 @@ if (dataGrid) {
       resizable: true,
       formatter: dataGrid.formatters.alert,
       color: 'info',
+      icon: (row: number) => ((row % 2 === 0) ? 'error' : 'info'),
       cssPart: (row: number) => ((row % 2 === 0) ? 'custom-cell' : ''),
     });
     columns.push({
@@ -215,7 +216,8 @@ if (dataGrid) {
       sortable: true,
       resizable: true,
       formatter: dataGrid.formatters.icon,
-      color: 'success',
+      icon: (row: number) => ((row % 2 === 0) ? 'edit' : 'delete'),
+      // color: 'success',
     });
     columns.push({
       id: 'icon-text',
@@ -227,6 +229,7 @@ if (dataGrid) {
       resizable: true,
       formatter: dataGrid.formatters.icon,
       icon: 'user-profile',
+      text: 'custom text'
     });
     columns.push({
       id: 'image',
@@ -252,7 +255,12 @@ if (dataGrid) {
         console.info('Actions clicked', info);
       },
       text: 'Actions',
-      width: 56
+      width: 56,
+      menuId: 'actions-menu',
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      selected: (data: Record<string, unknown>, col: IdsDataGridColumn, e: CustomEvent) => {
+        console.info(`Item "${e.detail.elem.text}" was selected (id "${e.detail.elem.id}")`);
+      }
     });
     columns.push({
       id: 'custom',

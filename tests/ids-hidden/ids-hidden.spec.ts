@@ -63,4 +63,88 @@ test.describe('IdsHidden tests', () => {
       await percySnapshot(page, 'ids-hidden-light');
     });
   });
+
+  test.describe('functionality test', async () => {
+    test('can set/get hideDown attribute', async ({ page }) => {
+      const hidden = await page.locator('ids-hidden').first();
+
+      expect(await hidden.evaluate((element: IdsHidden) => {
+        element.hideDown = 'sm';
+        return element.hideDown;
+      })).toEqual('sm');
+      await expect(hidden).toHaveAttribute('hide-down', 'sm');
+      expect(await hidden.evaluate((element: IdsHidden) => {
+        element.hideDown = null;
+        return element.hideDown;
+      })).toBeNull();
+      await expect(hidden).not.toHaveAttribute('hide-down');
+    });
+
+    test('can set/get hideUp attribute', async ({ page }) => {
+      const hidden = await page.locator('ids-hidden').first();
+
+      expect(await hidden.evaluate((element: IdsHidden) => {
+        element.hideUp = 'ss';
+        return element.hideUp;
+      })).toEqual('ss');
+      await expect(hidden).toHaveAttribute('hide-up', 'ss');
+      expect(await hidden.evaluate((element: IdsHidden) => {
+        element.hideUp = null;
+        return element.hideDown;
+      })).toBeNull();
+      await expect(hidden).not.toHaveAttribute('hide-up');
+    });
+
+    test('can set/get visible attribute', async ({ page }) => {
+      const hidden = await page.locator('ids-hidden').first();
+
+      expect(await hidden.evaluate((element: IdsHidden) => element.visible)).toBeFalsy();
+      await expect(hidden).not.toHaveAttribute('visible');
+      expect(await hidden.evaluate((element: IdsHidden) => {
+        element.visible = true;
+        return element.visible;
+      })).toBeTruthy();
+      await expect(hidden).toHaveAttribute('visible');
+
+      expect(await hidden.evaluate((element: IdsHidden) => {
+        element.visible = null;
+        return element.visible;
+      })).toBeFalsy();
+      await expect(hidden).not.toHaveAttribute('visible');
+
+      expect(await hidden.evaluate((element: IdsHidden) => {
+        element.visible = true;
+        return element.visible;
+      })).toBeTruthy();
+      await expect(hidden).toHaveAttribute('visible');
+
+      expect(await hidden.evaluate((element: IdsHidden) => {
+        element.visible = false;
+        return element.visible;
+      })).toBeFalsy();
+      await expect(hidden).not.toHaveAttribute('visible');
+    });
+
+    test('can set/get value and condition attribute', async ({ page }) => {
+      const hidden = await page.locator('ids-hidden').first();
+
+      const testData = [
+        { value: 'test', condition: 'true', expected: true },
+        { value: 'test', condition: 'false', expected: false },
+        { value: 'false', condition: 'false', expected: true },
+        { value: 'test-1', condition: 'test-1', expected: true },
+        { value: 'test-1', condition: 'test-2', expected: false },
+        { value: 'true', condition: 'true', expected: true },
+        { value: 'true', condition: 'false', expected: false },
+        { value: '', condition: '', expected: true }
+      ];
+      for (const data of testData) {
+        expect(await hidden.evaluate((element: IdsHidden, tData) => {
+          element.value = tData.value;
+          element.condition = tData.condition;
+          return element.hidden;
+        }, data)).toEqual(data.expected);
+      }
+    });
+  });
 });

@@ -98,11 +98,23 @@ export default class IdsWizard extends Base {
    */
   isStepClickable(stepNumber: number): boolean {
     const stepEl = this.children[stepNumber - 1];
+    const isClickable = stepEl?.getAttribute(attributes.CLICKABLE) !== 'false';
+    const isDisabled = this.isStepDisabled(stepNumber);
 
     return (
-      (!this.clickable && (stepEl.getAttribute(attributes.CLICKABLE) !== 'false'))
-      || stepEl.getAttribute(attributes.CLICKABLE) !== 'false'
+      (!this.clickable && isClickable && !isDisabled)
+      || (isClickable && !isDisabled)
     );
+  }
+
+  /**
+   * Whether or not a step is disabled
+   * @param {number} stepNumber the step number to check
+   * @returns {boolean} whether or not the step is disabled
+   */
+  isStepDisabled(stepNumber: number): boolean {
+    const stepEl = this.children[stepNumber - 1];
+    return stepEl?.hasAttribute(attributes.DISABLED) && stepEl?.getAttribute(attributes.DISABLED) !== 'false';
   }
 
   /**
@@ -246,11 +258,13 @@ export default class IdsWizard extends Base {
       const isCurrentStep = stepIndex === i;
       const isVisitedStep = i <= stepIndex;
       const isClickable = this.isStepClickable(i + 1);
+      const isDisabled = this.isStepDisabled(i + 1);
       const label = stepEl.textContent;
       let stepClassName = 'step';
       stepClassName += isCurrentStep ? ' current' : '';
       stepClassName += isVisitedStep ? ' visited' : '';
       stepClassName += isClickable ? ' clickable' : '';
+      stepClassName += isDisabled ? ' disabled' : '';
 
       const pathSegmentHtml = (i >= this.children.length - 1) ? '' : (
         `<div
@@ -265,6 +279,7 @@ export default class IdsWizard extends Base {
         step-number=${i + 1}
       >
         <ids-text
+          disabled="${isDisabled}"
           overflow="ellipsis"
           size=18
           font-weight="${isCurrentStep ? 'bold' : 'normal'}"

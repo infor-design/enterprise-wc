@@ -1,5 +1,5 @@
 <ids-trigger-field id="trigger-field-1" size="sm" label="Date Field">
-          <ids-trigger-button slot="trigger-end">
+          <ids-trigger-button slot="trigger-end" class="sm">
             <ids-text audible="true">Date Field trigger</ids-text>
             <ids-icon icon="schedule"></ids-icon>
           </ids-trigger-button>

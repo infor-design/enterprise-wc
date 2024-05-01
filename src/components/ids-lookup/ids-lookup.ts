@@ -71,8 +71,6 @@ export default class IdsLookup extends Base {
 
   dataGrid?: IdsDataGrid | null;
 
-  modal?: IdsModal | null;
-
   listBox?: any;
 
   state = {
@@ -81,6 +79,10 @@ export default class IdsLookup extends Base {
     value: '',
     title: ''
   };
+
+  get modal(): IdsModal | null {
+    return this.querySelector('[slot="lookup-modal"]') || this.shadowRoot?.querySelector('ids-modal') || null;
+  }
 
   constructor() {
     super();
@@ -110,23 +112,27 @@ export default class IdsLookup extends Base {
     this.dataGrid = this.shadowRoot?.querySelector('ids-data-grid');
     this.dataGrid?.setAttribute(attributes.LIST_STYLE, 'true');
 
-    // Link the Modal to its trigger button (sets up click/focus events)
-    this.modal = this.querySelector('[slot="lookup-modal"]') || this.shadowRoot?.querySelector('ids-modal');
+    this
+      .#handleEvents()
+      .#handleKeys();
+  }
+
+  mountedCallback(): void {
     if (this.modal) {
+      // Link the Modal to its trigger button (sets up click/focus events)
       this.modal.target = this.triggerButton as IdsPopupElementRef;
       this.modal.triggerType = 'click';
     }
 
-    this
-      .#handleEvents()
-      .#handleKeys();
+    if (this.state.dataGridSettings) {
+      this.dataGridSettings = this.state.dataGridSettings;
+    }
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback?.();
 
     this.dataGrid = undefined;
-    this.modal = undefined;
     this.triggerField = undefined;
     this.triggerButton = undefined;
   }
@@ -142,6 +148,7 @@ export default class IdsLookup extends Base {
       attributes.CLEARABLE,
       attributes.DISABLED,
       attributes.FIELD,
+      attributes.ID,
       attributes.READONLY,
       attributes.SEARCHABLE,
       attributes.SEARCHFIELD_PLACEHOLDER,
@@ -176,7 +183,6 @@ export default class IdsLookup extends Base {
       <ids-trigger-button
         slot="trigger-end"
         part="trigger-lookup"
-        tabbable="${this.tabbable}"
         disabled="${this.disabled}"
         readonly="${this.readonly}">
         <ids-text audible="true">LookupTriggerButton</ids-text>
@@ -211,8 +217,14 @@ export default class IdsLookup extends Base {
    */
   set autocomplete(value: string | boolean | null) {
     const val = stringToBool(value);
-    if (val) this.setAttribute(attributes.AUTOCOMPLETE, '');
-    else this.removeAttribute(attributes.AUTOCOMPLETE);
+    if (val) {
+      this.setAttribute(attributes.AUTOCOMPLETE, '');
+      this.input?.setAttribute(attributes.AUTOCOMPLETE, '');
+      this.input?.setAttribute(attributes.SEARCH_FIELD, this.field);
+    } else {
+      this.removeAttribute(attributes.AUTOCOMPLETE);
+      this.input?.removeAttribute(attributes.AUTOCOMPLETE);
+    }
   }
 
   /**
@@ -484,6 +496,9 @@ export default class IdsLookup extends Base {
   set field(value: string) {
     if (value) {
       this.setAttribute(attributes.FIELD, value);
+      if (this.autocomplete) {
+        this.input?.setAttribute(attributes.SEARCH_FIELD, value);
+      }
     }
   }
 
@@ -590,6 +605,19 @@ export default class IdsLookup extends Base {
   get clearable(): boolean { return this.state.clearable || true; }
 
   /**
+   * Sets the id internally and externally
+   * @param {string} value id value
+   */
+  set id(value: string) {
+    this.shadowRoot?.querySelector('ids-trigger-field')?.setAttribute(attributes.ID, `${value}-trigger-field`);
+    this.setAttribute(attributes.ID, value);
+  }
+
+  get id(): string {
+    return this.getAttribute(attributes.ID) || 'none';
+  }
+
+  /**
    * Push field-height/compact to the container element
    * @param {string} val the new field height setting
    */
@@ -693,9 +721,13 @@ export default class IdsLookup extends Base {
       this.triggerEvent('rowdeselected', this, { detail: e.detail });
     }) as EventListener);
 
-    this.dataGrid?.addEventListener('selectionchanged', ((e: CustomEvent) => {
+    this.dataGrid?.addEventListener('selectionchanged', (async (e: CustomEvent) => {
       this.triggerEvent('selectionchanged', this, { detail: e.detail });
-    }) as EventListener);
+      if (this.dataGrid?.rowSelection === 'single' && e.detail.selectedRows?.length > 0) {
+        this.#setInputValue();
+        await this.modal?.hide();
+      }
+    }) as unknown as EventListener);
 
     return this;
   }

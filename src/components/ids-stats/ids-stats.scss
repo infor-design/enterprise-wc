@@ -5,13 +5,21 @@
   @include mixins.antialiased();
 
   box-sizing: border-box;
-  color: var(--ids-stats-color-text);
+  color: var(--ids-stats-color-text-default);
   height: var(--ids-stats-height);
   max-height: var(--ids-stats-height);
   max-width: var(--ids-stats-width);
   padding-block: var(--ids-stats-padding-block);
   padding-inline: var(--ids-stats-padding-inline);
   width: var(--ids-stats-width);
+
+  .main-label {
+    color: var(--ids-stats-color-text-secondary);
+  }
+
+  .subtitle {
+    color: var(--ids-stats-color-text-tertiary);
+  }
 
   .trend-label {
     font-weight: var(--ids-font-weight-semibold);
@@ -32,7 +40,7 @@
   }
 
   .kpi-label {
-    color: var(--ids-stats-kpi-label-color);
+    color: var(--ids-stats-color-text-default);
   }
 
   ids-layout-flex {

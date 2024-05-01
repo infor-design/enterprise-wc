@@ -52,16 +52,17 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
   set autocomplete(value: string | boolean | null) {
     const val = stringToBool(value);
 
-    if (!this.container) {
-      return;
-    }
-
     if (val) {
       this.setAttribute(attributes.AUTOCOMPLETE, '');
       this.container?.classList.add('autocomplete');
+      this.#attachPopup();
+      this.#addAria();
+      this.#attachEventListeners();
+      this.#attachKeyboardListeners();
     } else {
       this.removeAttribute(attributes.AUTOCOMPLETE);
       this.container?.classList.remove('autocomplete');
+      this.destroyAutocomplete();
     }
   }
 
@@ -110,7 +111,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {string} containing the searchField
    */
   get searchField(): string {
-    const fields = this.data && Object?.keys(this.data[0]);
+    const fields = this.data && Object?.keys(this.data[0] || {});
     return this.getAttribute(attributes.SEARCH_FIELD) || fields[0];
   }
 
@@ -241,8 +242,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   closePopup() {
-    this.popup.open = false;
-    this.popup.visible = false;
+    this.popup?.hide();
   }
 
   /**
@@ -250,8 +250,10 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   openPopup() {
-    this.popup.open = true;
-    this.popup.visible = true;
+    if (this.popup) {
+      this.popup!.visible = true;
+      this.popup?.show();
+    }
   }
 
   /**
@@ -310,7 +312,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
   }
 
   /**
-   * Configure and attach internal IdsPopup element.
+   * Configure internal IdsPopup element.
    * @returns {void}
    */
   #configurePopup() {
@@ -323,13 +325,29 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
   }
 
   /**
+   * Attach and configure internal IdsPopup element
+   * @returns {void}
+   */
+  #attachPopup() {
+    // Skip if popup already exists
+    if (this.popup) return;
+    this.container?.insertAdjacentHTML('beforeend', `
+      <ids-popup part="popup">
+        <ids-list-box slot="content"></ids-list-box>
+      </ids-popup>
+    `);
+    this.#configurePopup();
+  }
+
+  /**
    * Attach internal event handlers
    * @returns {void}
    */
   #attachEventListeners() {
-    this.onEvent('keydownend', this, this.displayMatches);
-    this.onEvent('mousedown', this.listBox, this.selectOption.bind(this));
-    this.onEvent('blur', this, this.closePopup);
+    this.#removeEventListeners();
+    this.onEvent('keydownend.autocomplete', this, this.displayMatches);
+    this.onEvent('mousedown.autocomplete', this.listBox, this.selectOption.bind(this));
+    this.onEvent('blur.autocomplete', this, this.closePopup);
   }
 
   /**
@@ -337,6 +355,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   #attachKeyboardListeners() {
+    this.#removeKeyboardListeners();
     this.listen(['ArrowDown'], this, (e: Event | any) => {
       e.stopPropagation();
       e.stopImmediatePropagation();
@@ -398,10 +417,22 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * Remove internal event handlers
    * @returns {void}
    */
+  #removeKeyboardListeners() {
+    this.unlisten('ArrowDown');
+    this.unlisten('ArrowUp');
+    this.unlisten(' ');
+    this.unlisten('Enter');
+    this.unlisten('Escape');
+  }
+
+  /**
+   * Remove internal event handlers
+   * @returns {void}
+   */
   #removeEventListeners() {
-    this.offEvent('keyup', this, this.displayMatches);
-    this.offEvent('change', this, this.displayMatches);
-    this.offEvent('blur', this, this.closePopup);
+    this.offEvent('keyup.autocomplete', this);
+    this.offEvent('change.autocomplete', this);
+    this.offEvent('blur.autocomplete', this);
   }
 
   /**
@@ -409,7 +440,9 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   destroyAutocomplete() {
+    this.popup?.remove();
     this.#removeEventListeners();
+    this.#removeKeyboardListeners();
   }
 };
 
