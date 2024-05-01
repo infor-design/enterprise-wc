@@ -16,6 +16,7 @@
 - `[BarChart]` Converted bar chart tests to playwright. ([#1919](https://github.com/infor-design/enterprise-wc/issues/1919))
 - `[BreadCrumb/Hyperlink]` Fix focus state on click bug. ([#2238](https://github.com/infor-design/enterprise-wc/issues/2238))
 - `[Editor]` Converted editor tests to playwright. ([#1931](https://github.com/infor-design/enterprise-wc/issues/1931))
+- `[Toolbar]` Fix so that menus and submenu popup positions are correct when using `IdsToolbar` inside `IdsAppMenu` (and `IdsHeader`). ([#1806](https://github.com/infor-design/enterprise-wc/issues/1806))
 
 ## 1.0.0
 
