@@ -91,11 +91,55 @@
               <ids-text font-size="14">With some extra information below</ids-text>
             </ids-toolbar-section>
             <ids-toolbar-section type="search" align="end">
-              <ids-search-field clearable color-variant="alternate" label-state="collapsed" id="header-search" no-margins placeholder="Type to Search"></ids-search-field>
+              <ids-layout-grid-cell>
+                <ids-search-field
+                  collapsible
+                  clearable
+                  id="search-field-collapsible-toolbar"
+                  label="Collapsible Search Bar"
+                  placeholder="Type to search"
+                  search-field="label"
+                  label-state="collapsed"
+                  no-margins
+                >
+                <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+              </ids-search-field>
             </ids-toolbar-section>
             <ids-theme-switcher mode="light"></ids-theme-switcher>
           </ids-toolbar>
         </ids-header>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Search Field - Collapsible</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" max-col-width="300px" gap="xl" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-search-field
+          collapsible
+          id="search-field-collapsible"
+          label="Collapsible - Always"
+          placeholder="Search..."
+          search-field="label"
+        >
+          <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+        </ids-search-field>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" max-col-width="300px" gap="xl" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-search-field
+          collapsible-responsive="md"
+          id="search-field-collapsible-responsive"
+          label="Collapsible - Responsive"
+          placeholder="Search..."
+          search-field="label"
+        >
+          <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+        </ids-search-field>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 

@@ -58,7 +58,6 @@
   transition:
     background-color var(--ids-motion-duration) var(--ids-motion-ease),
     border-color var(--ids-motion-duration) var(--ids-motion-ease),
-    box-shadow var(--ids-motion-duration) var(--ids-motion-ease),
     color var(--ids-motion-duration) var(--ids-motion-ease),
     opacity var(--ids-motion-duration) var(--ids-motion-ease);
   white-space: nowrap;
@@ -230,6 +229,12 @@
       color: var(--ids-button-primary-color-text-disabled);
       opacity: var(--ids-button-primary-opacity-disabled);
     }
+
+    &:active:not([disabled]) {
+      background-color: var(--ids-button-primary-color-background-pressed);
+      border-color: var(--ids-button-primary-color-border-pressed);
+      color: var(--ids-button-primary-color-text-pressed);
+    }
   }
 
   // ====================================================
@@ -318,6 +323,7 @@
     &:active,
     &.gen-ai-active {
       background: border-box var(--ids-button-ai-color-background-active);
+      color: var(--ids-button-ai-color-text-active);
     }
 
     &[disabled] {
@@ -500,7 +506,7 @@
     color: var(--ids-button-formatter-color-text-default);
     margin-top: 2px;
     height: var(--ids-button-formatter-size);
-    min-width:  var(--ids-button-formatter-size);
+    min-width: var(--ids-button-formatter-size);
 
     &:not(.hide-focus).is-active,
     &:not(.hide-focus):focus {

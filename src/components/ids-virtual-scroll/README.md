@@ -2,7 +2,7 @@
 
 ## Description
 
-Virtual scrolling shows up the visible dom elements to the user, as the user scrolls, the next list is displayed. This gives faster experience as the full list is not loaded at one go and only loaded as per the visibility on the screen.
+Virtual scrolling shows up the visible DOM elements to the user, as the user scrolls, the next list is displayed. This gives faster experience as the full list is not loaded at one go and only loaded as per the visibility on the screen.
 
 For this to work items must be fixed height. We set the item count and item template and then attach a dataset that will be used to render the templates plus a buffer of elements as we scroll up and down in the list.
 
@@ -15,7 +15,7 @@ For this to work items must be fixed height. We set the item count and item temp
 
 - **Template**: The html markup to render for each item
 - **Viewport**: The visible scroll area that may not equal all the visible elements
-- **Classification**:  How tags are labelled with colors and text
+- **Classification**: How tags are labelled with colors and text
 - **Disabled**: Tag can be disabled so it cannot be followed or clicked.
 
 ## Features (With Code Examples)
@@ -53,7 +53,7 @@ virtualScrollUl.data = dataset;
 ## Responsive Guidelines
 
 - The width is responsive to the parent
-- The height is responsive to the screensize by default, but can also be specified a fixed `height` i.e. `height="500px"`
+- The height is responsive to the screen size by default, but can also be specified a fixed `height` i.e. `height="500px"`
 
 ## Converting from Previous Versions
 
