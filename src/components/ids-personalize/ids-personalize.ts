@@ -13,6 +13,10 @@ class IdsPersonalization {
    */
   set color(value: string) {
     this.state.color = value;
+    if (value.toLowerCase() === '#fff' || value.toLowerCase() === '#ffffff') {
+      this.resetToDefault();
+      return;
+    }
     this.#appendStyleSheet();
   }
 
@@ -46,7 +50,7 @@ class IdsPersonalization {
     };
   }
 
-  /** Append a stylesheet for the color change */
+  /** Append the personalization stylesheet */
   #appendStyleSheet() {
     const colors = this.colorProgression(this.state.color);
     const themeStyles = `:root, :host {
@@ -62,23 +66,27 @@ class IdsPersonalization {
       --ids-color-primary-90: ${colors.primary90};
       --ids-color-primary-100: ${colors.primary100};
       --ids-header-input-color-border-hover: transparent;
-      --ids-header-color-background:  var(--ids-color-primary);
-      --ids-header-color-border-bottom:  var(--ids-color-primary-80);
+      --ids-header-color-background: var(--ids-color-primary);
+      --ids-header-color-border-bottom: var(--ids-color-primary-80);
       --ids-header-color-text: ${colors.contrast};
-      --ids-header-button-color-text-default: ${adjustColor(colors.contrast, 0.9)};
-      --ids-header-button-color-background-hover: rgba(0, 0, 0, .3);
-      --ids-header-button-color-border-hover: rgba(0, 0, 0, .3);
+      --ids-header-button-color-text-default: ${colors.contrast};
+      --ids-header-button-color-background-hover: ${colors.contrast === '#ffffff' ? 'rgba(255 255 255 / 0.2)' : 'rgba(0 0 0 / 0.1)'};
+      --ids-header-button-color-border-hover: transparent;
       --ids-header-button-color-text-hover: ${colors.contrast};
-      --ids-header-button-color-text-disabled: ${adjustColor(colors.contrast, 0.45)};
+      --ids-header-button-color-text-disabled: ${adjustColor(colors.contrast, -0.20)};
+      --ids-header-button-shadow-focus: 0px 0px 0px 1px var(--ids-color-primary), 0px 0px 0px 1px var(--ids-color-primary);
+      --ids-header-button-color-border-focus: ${colors.contrast};
+      --ids-header-button-color-background-pressed: ${colors.contrast === '#ffffff' ? 'rgba(255 255 255 / 0.2)' : 'rgba(0 0 0 / 0.1)'};
+      --ids-header-button-color-border-pressed: transparent;
       --ids-header-button-color-text-pressed: ${colors.contrast};
-      --ids-button-tertiary-color-background-pressed: ${colors.primary80};
-      --ids-button-tertiary-color-border-pressed: ${colors.primary80};
-      --ids-button-primary-color-background-default:  var(--ids-color-primary);
-      --ids-button-primary-color-border-default:  var(--ids-color-primary);
+      --ids-header-button-menu-color-background-active: ${colors.contrast === '#ffffff' ? 'rgba(255 255 255 / 0.2)' : 'rgba(0 0 0 / 0.1)'};
+      --ids-header-button-menu-color-active: ${colors.contrast};
+      --ids-button-primary-color-background-default: var(--ids-color-primary);
+      --ids-button-primary-color-border-default: var(--ids-color-primary);
       --ids-button-primary-color-background-hover: var(--ids-color-primary-80);
       --ids-button-primary-color-border-hover: var(--ids-color-primary-80);
       --ids-button-primary-color-background-disabled: var(--ids-color-primary);
-      --ids-button-primary-color-border-disabled:  var(--ids-color-primary);
+      --ids-button-primary-color-border-disabled: var(--ids-color-primary);
       --ids-button-primary-color-border-focus: var(--ids-color-primary);
       --ids-button-primary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
       --ids-button-secondary-color-border-default: var(--ids-color-primary);
@@ -88,9 +96,12 @@ class IdsPersonalization {
       --ids-button-secondary-color-background-hover: var(--ids-color-primary-10);
       --ids-button-secondary-color-border-hover: var(--ids-color-primary-70);
       --ids-button-secondary-color-text-hover: var(--ids-color-primary-70);
-      --ids-button-secondary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
+      --ids-button-secondary-color-background-pressed: var(--ids-color-primary-10);
+      --ids-button-secondary-color-border-pressed: var(--ids-color-primary-70);
+      --ids-button-secondary-color-text-pressed: var(--ids-color-primary-70);
+      --ids-button-secondary-shadow-focus: 0px 0px 0px 1px var(--ids-color-primary-80), 0px 0px 0px 1px var(--ids-color-primary-80);
       --ids-button-secondary-color-border-focus: var(--ids-color-primary-80);
-      --ids-button-tertiary-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-primary-80);
+      --ids-button-tertiary-shadow-focus: 0px 0px 0px 1px var(--ids-color-primary-80), 0px 0px 0px 1px var(--ids-color-primary-80);
       --ids-button-tertiary-color-border-focus: var(--ids-color-primary-80);
       --ids-checkbox-color-background-selected: var(--ids-color-primary);
       --ids-checkbox-color-border-selected: var(--ids-color-primary);
@@ -112,6 +123,12 @@ class IdsPersonalization {
     style.id = 'ids-personalization';
     style.setAttribute('nonce', (document as any).nonce);
     if (!styleElem) doc.appendChild(style);
+  }
+
+  /** Remove the personalization stylesheet and set to default color */
+  resetToDefault() {
+    const styleElem = document.querySelector('#ids-personalization');
+    if (styleElem) styleElem.remove();
   }
 }
 

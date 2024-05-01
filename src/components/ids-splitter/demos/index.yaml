@@ -17,6 +17,9 @@
   - link: tree-detail.html
     type: Tree Detail
     description: Shows the splitter component side by side with tree view
+  - link: expand-collapse.html
+    type: Example
+    description: Shows the splitter component expand/collapse functionality
   - link: sandbox.html
     type: Sandbox
     description: Shows additional splitter tests
