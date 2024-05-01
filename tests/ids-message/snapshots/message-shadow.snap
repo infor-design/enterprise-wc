@@ -1,9 +1,9 @@
-<ids-overlay></ids-overlay><ids-popup part="modal" class="ids-modal" type="modal" position-style="viewport" animation-style="scale-in" animated="" align="center" width="" height="">
+<ids-overlay></ids-overlay><ids-popup part="modal" class="ids-modal" type="modal" position-style="viewport" align="center" animation-style="none" width="" height="">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header ids-message-header"><ids-icon slot="icon" icon="error" class="ids-icon ids-message-status error"></ids-icon>
           <slot name="title"></slot>
         </div>
-        <div class="ids-modal-content ids-message-content">
+        <div class="ids-modal-content ids-message-content has-scrollbar">
           <slot></slot>
         </div>
         <div class="ids-modal-footer ids-message-footer">
