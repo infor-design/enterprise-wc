@@ -658,7 +658,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   onTriggerHover(): void {
-    if (!(this.target as any).disabled && !(this.target as any).hidden) {
+    if (!(this.target as any)?.disabled && !(this.target as any)?.hidden) {
       // Hide all submenus attached to parent menu items (except this one)
       if (this.parentMenuItem) {
         (this.parentMenuItem?.menu as IdsPopupMenu)?.hideSubmenus(this.target);
