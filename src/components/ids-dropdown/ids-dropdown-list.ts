@@ -283,8 +283,8 @@ export default class IdsDropdownList extends Base {
   configurePopup() {
     // External dropdown lists configured for "full" size need extra help
     // determining what size matches their target element.
-    if (this.size === 'full' && this.target && !this.parentElement?.classList.contains('ids-dropdown')) {
-      const targetWidth = `${this.target.clientWidth + 3}px`;
+    if (this.size === 'full' && this.target) {
+      const targetWidth = `${this.target.clientWidth + 1}px`;
       this.style.width = targetWidth;
       if (this.popup) {
         this.popup.style.maxWidth = targetWidth;
