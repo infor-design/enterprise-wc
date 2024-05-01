@@ -1367,6 +1367,16 @@ export default class IdsTree extends Base {
     return this.selectable === 'multiple';
   }
 
+  set showMultipleIcons(value: boolean) {
+    if (IdsTreeShared.isBool(value)) {
+      this.setAttribute(attributes.SHOW_MULTIPLE_ICONS, `${value}`);
+    } else {
+      this.removeAttribute(attributes.SHOW_MULTIPLE_ICONS);
+    }
+  }
+
+  get showMultipleIcons(): boolean { return IdsTreeShared.getBoolVal(this, attributes.SHOW_MULTIPLE_ICONS); }
+
   /**
    * Sets the tree group toggle collapse icon
    * @param {string|null} value The icon name

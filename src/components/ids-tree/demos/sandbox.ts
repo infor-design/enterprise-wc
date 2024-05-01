@@ -38,9 +38,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     treeTtNoIr.expandIcon = 'plusminus-folder-open';
     treeTtNoIr.toggleCollapseIcon = 'plusminus-folder-right';
     treeTtNoIr.toggleExpandIcon = 'plusminus-folder-down';
-    treeTtNoIr.expandTarget = 'icon';
+
     await getData((data: any) => {
       treeTtNoIr.data = data;
+    });
+  }
+
+  const treeMultiIcons: any = document.querySelector('#tree-multiple-icons');
+  if (treeMultiIcons) {
+    treeMultiIcons.toggleCollapseIcon = 'play-button-filled';
+    treeMultiIcons.toggleExpandIcon = 'play-button-filled';
+    treeMultiIcons.collapseIcon = 'chevron-right';
+    treeMultiIcons.expandIcon = 'chevron-down';
+    treeMultiIcons.icon = 'play-button-filled';
+    treeMultiIcons.expandTarget = 'icon';
+    treeMultiIcons.showMultipleIcons = true;
+
+    await getData((data: any) => {
+      treeMultiIcons.data = data;
     });
   }
 
