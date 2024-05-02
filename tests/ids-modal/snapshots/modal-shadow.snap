@@ -3,7 +3,7 @@
         <div class="ids-modal-header">
           <slot name="title"></slot>
         </div>
-        <div class="ids-modal-content has-scrollbar">
+        <div class="ids-modal-content">
           <slot></slot>
         </div>
         <div class="ids-modal-footer">

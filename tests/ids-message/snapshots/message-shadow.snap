@@ -3,7 +3,7 @@
         <div class="ids-modal-header ids-message-header"><ids-icon slot="icon" icon="error" class="ids-icon ids-message-status error"></ids-icon>
           <slot name="title"></slot>
         </div>
-        <div class="ids-modal-content ids-message-content has-scrollbar">
+        <div class="ids-modal-content ids-message-content">
           <slot></slot>
         </div>
         <div class="ids-modal-footer ids-message-footer">

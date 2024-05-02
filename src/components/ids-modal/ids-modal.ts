@@ -88,7 +88,7 @@ export default class IdsModal extends Base {
     this.state ??= {};
     this.state.fullsize = '';
     this.state.overlay = null;
-    this.state.scrollable = true;
+    this.state.scrollable = false;
     this.state.messageTitle = null;
   }
 
@@ -183,7 +183,7 @@ export default class IdsModal extends Base {
   private setScrollable() {
     const el = this.modalContentEl;
     if (!el) return;
-    if (el.scrollHeight > el.offsetHeight || el.scrollWidth > el.offsetWidth) this.modalContentEl?.classList.add('has-scrollbar');
+    if (el.scrollHeight > el.clientHeight || this.scrollable) this.modalContentEl?.classList.add('has-scrollbar');
   }
 
   /**
