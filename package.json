@@ -47,7 +47,8 @@
     "test:ui": "PERCY_LOGLEVEL=silent npx playwright test --ui",
     "test:vulnerabilities": "snyk test",
     "test:circular": "npx madge --circular --extensions ts ./",
-    "ncu": "npx ncu"
+    "ncu": "npx ncu",
+    "copy:tokens": "cp ./node_modules/ids-foundation/theme-soho/{core.scss,semantic-contrast.scss,semantic-light.scss,semantic-dark.scss,theme-colors.scss} ./src/themes/tokens"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.9.0",
