@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     treeMultiIcons.expandIcon = 'chevron-down';
     treeMultiIcons.icon = 'play-button-filled';
     treeMultiIcons.expandTarget = 'icon';
-    treeMultiIcons.showMultipleIcons = true;
+    treeMultiIcons.showExpandAndToggleIcons = true;
 
     await getData((data: any) => {
       treeMultiIcons.data = data;

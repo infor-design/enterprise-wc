@@ -1367,7 +1367,7 @@ export default class IdsTree extends Base {
     return this.selectable === 'multiple';
   }
 
-  set showMultipleIcons(value: boolean) {
+  set showExpandAndToggleIcons(value: boolean) {
     if (IdsTreeShared.isBool(value)) {
       this.setAttribute(attributes.SHOW_MULTIPLE_ICONS, `${value}`);
     } else {
@@ -1375,7 +1375,7 @@ export default class IdsTree extends Base {
     }
   }
 
-  get showMultipleIcons(): boolean { return IdsTreeShared.getBoolVal(this, attributes.SHOW_MULTIPLE_ICONS); }
+  get showExpandAndToggleIcons(): boolean { return IdsTreeShared.getBoolVal(this, attributes.SHOW_MULTIPLE_ICONS); }
 
   /**
    * Sets the tree group toggle collapse icon
