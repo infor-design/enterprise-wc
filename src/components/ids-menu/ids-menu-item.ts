@@ -281,8 +281,6 @@ export default class IdsMenuItem extends Base {
     this.tabIndex = 0;
     this.container?.classList.remove(attributes.DISABLED);
     if (currentAttr) {
-      this.shouldUpdate = false;
-      // this.removeAttribute(attributes.DISABLED);
       this.shouldUpdate = shouldUpdate;
     }
   }
