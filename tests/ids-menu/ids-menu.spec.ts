@@ -1,5 +1,5 @@
 import percySnapshot from '@percy/playwright';
-import { Locator, expect } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsMenu from '../../src/components/ids-menu/ids-menu';
@@ -8,8 +8,8 @@ import IdsMenuItem from '../../src/components/ids-menu/ids-menu-item';
 
 test.describe('IdsMenu tests', () => {
   const url = '/ids-menu/example.html';
-  let idsMenu: any;
-  let idsMenu2: any;
+  let idsMenu: Locator;
+  let idsMenu2: Locator;
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
@@ -60,35 +60,45 @@ test.describe('IdsMenu tests', () => {
   });
 
   test.describe('functionality tests', () => {
-    const getAllselectedItems = async (menu: IdsMenu) => {
-      const selected = await menu.evaluate(
-        (Menu: IdsMenu) => Menu.getSelectedItems(),
+    const getAllselectedItems = async (page: Page, iD: any) => {
+      const selected = await page.evaluate((id) => {
+        const Menu = document.querySelector<IdsMenu>(`${id}`)!;
+        return Menu.getSelectedItems();
+      }, iD);
+      return {
+        selected,
+        length: selected.length
+      };
+    };
+
+    const getselectedItems = async (page: Page, id: any, group: any) => {
+      const groupVal = group;
+      const idVal = id;
+      const selected = await page.evaluate(
+        (dataVal) => {
+          const Menu = document.querySelector<IdsMenu>(dataVal.idVal)!;
+          return Menu.getSelectedItems(document.querySelector(dataVal.groupVal));
+        },
+        {
+          groupVal,
+          idVal
+        }
       );
       return {
         selected,
         length: selected.length
       };
     };
-    const getselectedItems = async (menu: IdsMenu, group: any) => {
-      const selected = await menu.evaluate(
-        (Menu: IdsMenu, Group: any) => Menu.getSelectedItems(document.querySelector(Group)),
-        group
-      );
-      return {
-        selected,
-        length: selected.length
-      };
-    };
-    const getselectedValues = async (menu: IdsMenu) => {
+    const getselectedValues = async (menu: any) => {
       const selected = await menu.evaluate((Menu: IdsMenu) => Menu.getSelectedValues());
       return {
         selected,
         length: selected.length
       };
     };
-    const setselectedValue = async (menu: IdsMenu, values: any, menuGroup: any) => {
+    const setselectedValue = async (menu: any, values: any, menuGroup: any) => {
       await menu.evaluate(
-        (Menu: IdsMenu, value: any, menGroup: any) => Menu.setSelectedValues(value, menGroup),
+        (oMenu: IdsMenu, value: any, menGroup: any) => oMenu.setSelectedValues(value, menGroup),
         values,
         menuGroup
       );
@@ -106,8 +116,8 @@ test.describe('IdsMenu tests', () => {
       await idsMenu.evaluate((_menu: IdsMenu, el: any) => document.querySelector<IdsMenuItem>(el)?.select(), sel);
     };
 
-    const deselect = (sel: any) => {
-      idsMenu.evaluate((_menu: IdsMenu, el: any) => document.querySelector<IdsMenuItem>(el)?.deselect(), sel);
+    const deselect = async (sel: any) => {
+      await idsMenu.evaluate((_menu: IdsMenu, el: any) => document.querySelector<IdsMenuItem>(el)?.deselect(), sel);
     };
     test('can render', async ({ page }) => {
       await expect(idsMenu).toBeDefined();
@@ -182,7 +192,6 @@ test.describe('IdsMenu tests', () => {
 
     test('skips disabled items while navigating', async ({ page }) => {
       const item1 = await page.locator('#main-settings > ids-menu-item:nth-child(1)');
-      // FIXME PLS
       await item1.focus();
       await idsMenu2.evaluate((menu: IdsMenu) => {
         menu.items[1].focus();
@@ -198,13 +207,12 @@ test.describe('IdsMenu tests', () => {
 
     test('can select items (default)', async ({ page }) => {
       let value;
-      // FIXME PLS
       await page.evaluate(() => {
         const group1 = document.querySelector<IdsMenuGroup>('#simple-menu > ids-menu-group')!;
         group1.select = 'single';
       });
 
-      const getselected = async (menu: IdsMenu, item: any) => {
+      const getselected = async (menu: Locator, item: any) => {
         const selected = await menu.evaluate((Menu: IdsMenu, Item: any) => {
           Menu.selectItem(document.querySelector(Item));
           return Menu.getSelectedItems();
@@ -228,13 +236,12 @@ test.describe('IdsMenu tests', () => {
     });
 
     test('can select items (single)', async ({ page }) => {
-      // FIXME PLS
       let value;
       await page.evaluate(() => {
         const group1 = document.querySelector<IdsMenuGroup>('#simple-menu > ids-menu-group')!;
         group1.select = 'single';
       });
-      const getselected = async (menu: IdsMenu, item: any) => {
+      const getselected = async (menu: Locator, item: any) => {
         const selected = await menu.evaluate((Menu: IdsMenu, Item: any) => {
           Menu.selectItem(document.querySelector(Item));
           return Menu.getSelectedItems();
@@ -263,12 +270,11 @@ test.describe('IdsMenu tests', () => {
 
     test('can select items (multiple)', async ({ page }) => {
       let value;
-      // FIXME PLS
       await page.evaluate(() => {
         const group2 = document.querySelector<IdsMenuGroup>('#complex-menu > ids-menu-group')!;
         group2.select = 'multiple';
       });
-      const getselected = async (menu: IdsMenu, item: any) => {
+      const getselected = async (menu: Locator, item: any) => {
         const selected = await menu.evaluate((Menu: IdsMenu, Item: any) => {
           Menu.selectItem(document.querySelector(Item));
           return Menu.getSelectedItems();
@@ -297,7 +303,8 @@ test.describe('IdsMenu tests', () => {
 
       // Deselect Item 5
       await deselect('#complex-menu > ids-menu-group > ids-menu-item:nth-child(5)');
-      await expect((await getAllselectedItems(idsMenu2)).length).toEqual(1);
+      value = (await getAllselectedItems(page, '#complex-menu')).length;
+      await expect(value).toEqual(1);
       await expect(await Isselected('#complex-menu > ids-menu-group > ids-menu-item:nth-child(5)')).toBeFalsy();
       await expect(await Isselected('#complex-menu > ids-menu-group > ids-menu-item:nth-child(3)')).toBeTruthy();
     });
@@ -320,7 +327,6 @@ test.describe('IdsMenu tests', () => {
     });
 
     test('can select items by value (single)', async ({ page }) => {
-      // FIXME PLS
       let value;
       await page.evaluate(() => {
         const group2 = document.querySelector<IdsMenuGroup>('#complex-menu > ids-menu-group')!;
@@ -386,7 +392,7 @@ test.describe('IdsMenu tests', () => {
       await page.locator('ids-menu-item[value="more-actions"]').first().click();
       group2 = '#main-settings';
 
-      value = await getselectedItems(idsMenu2, group2);
+      value = await getselectedItems(page, '#complex-menu', group2);
       await expect(value.length).toEqual(2);
 
       // Only clear group 2
@@ -394,7 +400,7 @@ test.describe('IdsMenu tests', () => {
         group2 = document.querySelector<IdsMenuGroup>('#complex-menu > ids-menu-group')!;
         menu.clearSelectedItems(group2);
       });
-      value = await getAllselectedItems(idsMenu2);
+      value = await getAllselectedItems(page, '#complex-menu');
       await expect(value.length).toEqual(1);
     });
 
@@ -494,8 +500,7 @@ test.describe('IdsMenu tests', () => {
       const menuitem1 = await page.getByText('Mail');
       await menuitem1.click();
       await select('ids-menu-item[value="filter"]');
-
-      const selected = (await getAllselectedItems(idsMenu2)).selected.includes();
+      const selected = (await getAllselectedItems(page, '#complex-menu')).selected.includes();
       await expect(selected).toBeFalsy();
 
       const lastNavigated = await idsMenu2.evaluate((menu: IdsMenu) => menu.lastNavigated?.isEqualNode(document.querySelector('ids-menu-item[value="mail"]')));
@@ -503,7 +508,6 @@ test.describe('IdsMenu tests', () => {
     });
 
     test('can get reference to highlighted items at the menu level', async () => {
-      // FIXME PLS
       await idsMenu.evaluate(() => document.querySelector<IdsMenuItem>('#simple-menu > ids-menu-group > ids-menu-item:nth-child(1)')!.highlight());
       await idsMenu.evaluate(() => document.querySelector<IdsMenuItem>('#simple-menu > ids-menu-group > ids-menu-item:nth-child(2)')!.highlight());
       const highlighted = await idsMenu.evaluate((menu: IdsMenu) => {
@@ -574,7 +578,6 @@ test.describe('IdsMenu tests', () => {
     });
 
     test('can get the first available item in the list', async () => {
-      // FIXME PLS
       let FirstAvailableItem;
       FirstAvailableItem = await idsMenu2.evaluate((menu: IdsMenu) => menu.getFirstAvailableItem().isEqualNode(document.querySelector('ids-menu-item[value="mail"]')));
       await expect(FirstAvailableItem).toBeTruthy();
@@ -608,7 +611,7 @@ test.describe('IdsMenu tests', () => {
         };
       });
       const idsmenu = await page.locator('#complex-menu').first();
-      await expect(isDisabled.classList[1]).toContain('disabled');
+      await expect(isDisabled?.classList[1]).toContain('disabled');
       await expect(idsmenu).toHaveAttribute('disabled');
       await expect(isDisabled.item).toBeTruthy();
 
@@ -630,7 +633,7 @@ test.describe('IdsMenu tests', () => {
   });
 
   test.describe('IdsMenuItem functionality tests', () => {
-    const idsMenuItem = async (Menu: IdsMenu, sel: any) => {
+    const idsMenuItem = async (Menu: Locator, sel: any) => {
       const menuitem = await Menu.evaluate(
         (menu: IdsMenu, Sel: any) => {
           const item = menu.querySelector(Sel)!;
@@ -889,7 +892,6 @@ test.describe('IdsMenu tests', () => {
     });
 
     test('can explain what menu it exists within', async () => {
-      // FIXME PLS
       const item1 = 'ids-menu-item[value="mail"]';
       const thisMenu = await idsMenu2.evaluate((menu: IdsMenu, item: any) => {
         const menuitem = menu.querySelector(item)!;
