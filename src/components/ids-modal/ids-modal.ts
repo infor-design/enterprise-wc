@@ -181,7 +181,9 @@ export default class IdsModal extends Base {
   }
 
   private setScrollable() {
-    this.modalContentEl?.classList.add('has-scrollbar');
+    const el = this.modalContentEl;
+    if (!el) return;
+    if (el.scrollHeight > el.offsetHeight || el.scrollWidth > el.offsetWidth) this.modalContentEl?.classList.add('has-scrollbar');
   }
 
   /**

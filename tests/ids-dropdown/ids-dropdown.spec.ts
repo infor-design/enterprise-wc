@@ -79,6 +79,7 @@ test.describe('IdsDropdown tests', () => {
       await page.goto('/ids-dropdown/in-popup.html');
       await page.locator('#popup-trigger-btn').click();
       await page.locator('ids-dropdown').nth(1).click();
+      await page.waitForSelector('ids-popup[visible]');
       await percySnapshot(page, 'ids-dropdown-popup-light');
     });
   });
