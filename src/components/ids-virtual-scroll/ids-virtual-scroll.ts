@@ -8,7 +8,7 @@ import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 import styles from './ids-virtual-scroll.scss';
 import IdsDataSource from '../../core/ids-data-source';
 
-const DEFAULT_HEIGHT = '100vh';
+const DEFAULT_HEIGHT = '100dvh';
 const DEFAULT_ITEM_HEIGHT = 50;
 
 type OnAfterVirtualScrollArgs = {
