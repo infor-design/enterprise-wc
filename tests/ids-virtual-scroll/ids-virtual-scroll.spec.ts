@@ -72,12 +72,12 @@ test.describe('IdsVirtualScroll tests', () => {
     });
 
     test('can set/get height attribute', async () => {
-      const defHeight = '100vh';
+      const defHeight = '100dvh';
       const testData = [
         { data: '200px', expected: '200px', expectedCSS: '200px' },
         { data: 100, expected: '100', expectedCSS: '200px' }, // css dependent on previous item
         { data: null, expected: defHeight, expectedCSS: '200px' },
-        { data: '150vh', expected: '150vh', expectedCSS: '150vh' }
+        { data: '150dvh', expected: '150dvh', expectedCSS: '150dvh' }
       ];
       let actual = await idsScroll.evaluate((element: IdsVirtualScroll) => {
         const result = {
@@ -164,6 +164,7 @@ test.describe('IdsVirtualScroll tests', () => {
     });
 
     test('can get contentHeight', async () => {
+      await idsScroll.waitFor();
       expect(await idsScroll.evaluate((element: IdsVirtualScroll) => element.contentHeight)).toBeTruthy();
     });
 
@@ -180,6 +181,7 @@ test.describe('IdsVirtualScroll tests', () => {
     });
 
     test('can set/get data', async () => {
+      await idsScroll.waitFor();
       const defLen = 1000;
       let actual = await idsScroll.evaluate((element: IdsVirtualScroll) => element.data);
       expect(actual).toBeTruthy();
@@ -206,8 +208,32 @@ test.describe('IdsVirtualScroll tests', () => {
       }
     });
 
-    test('can scroll into view', async () => {
+    // https://github.com/infor-design/enterprise-wc/issues/2281
+    // probably validate by visual comparison
+    test.skip('can scroll into view', async () => {
+      await expect(idsScroll).toHaveAttribute('scroll-top', '0');
+    });
 
+    test('can scroll with mouse wheel', async ({ page }) => {
+      const target = await page.locator('ids-card').first().boundingBox();
+
+      await expect(idsScroll).toHaveAttribute('scroll-top', '0');
+      await page.mouse.move(target!.x + (target!.width / 2), target!.y + (target!.height / 2));
+      await page.mouse.wheel(0, 2000);
+      await expect(idsScroll).toHaveAttribute('scroll-top', '2000');
+    });
+
+    test('can render list items', async ({ page }) => {
+      await page.waitForLoadState();
+      await idsScroll.waitFor();
+      expect((await idsScroll.locator('div[part="list-item"]').all()).length).toBeGreaterThan(0);
+    });
+
+    test('can render row items', async ({ page }) => {
+      await page.waitForLoadState();
+      await page.waitForSelector('#virtual-scroll-2');
+      const idsScrollRows = await page.locator('#virtual-scroll-2 div.ids-data-grid-row').all();
+      expect(idsScrollRows.length).toBeGreaterThan(0);
     });
   });
 });
