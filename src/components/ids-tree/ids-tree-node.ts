@@ -129,8 +129,6 @@ export default class IdsTreeNode extends Base {
     const ariaSelected = ` aria-selected="${this.isSelected}"`;
     const tabindex = ` tabindex="${this.isTabbable ? '0' : '-1'}"`;
 
-    // console.log(this.expandIcon);
-
     if (isGroup) {
       const ariaExpanded = ` aria-expanded="${this.expanded}"`;
       const cssClass = `class="ids-tree-node ${this.toggleClass}"`;
