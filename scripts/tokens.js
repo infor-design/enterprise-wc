@@ -91,18 +91,18 @@ function parseThemeFile(filePath, tokenDependencies) {
    * @param {*} variableName - The name of the CSS variable
    * @returns {object} - The value of the CSS variable
    */
-  function findVariableValueRecursively(variableName) {
+  function findVariableValue(variableName) {
     /* eslint-disable */
     for (const tokens of tokenDependencies) {
-      if (tokens.some((token) => token.tokenName === variableName)) {
+    if (tokens.some((token) => token.tokenName === variableName)) {
         const token = tokens.find((token) => token.tokenName === variableName);
         if (token.tokenValue.match(/var\((.*?)\)/)) {
           const nestedVariableName = token.tokenValue.match(/var\((.*?)\)/)[1].trim();
-          const nestedValue = findVariableValueRecursively(nestedVariableName);
+          const nestedValue = findVariableValue(nestedVariableName);
           if (nestedValue) {
             return {
               tokenName: variableName,
-              tokenValue: nestedValue.tokenValue,
+              tokenValue: token.tokenValue,
               source: token.label,
               inherited: nestedValue
             };
@@ -125,22 +125,22 @@ function parseThemeFile(filePath, tokenDependencies) {
         const value = themeMatch[1].trim();
         if (value.match(/var\((.*?)\)/)) {
           const nestedVariableName = value.match(/var\((.*?)\)/)[1].trim();
-          const nestedValue = findVariableValueRecursively(nestedVariableName);
+          const nestedValue = findVariableValue(nestedVariableName);
           if (nestedValue) {
             return {
               tokenName: variableName,
-              tokenValue: nestedValue.tokenValue,
+              tokenValue: value,
               source: 'themeFile',
               inherited: nestedValue
             };
           }
         } else {
-            return {
-              tokenName: variableName,
-              tokenValue: value,
-              source: 'themeFile',
-              inherited: undefined
-            };
+          return {
+            tokenName: variableName,
+            tokenValue: value,
+            source: 'themeFile',
+            inherited: undefined
+          };
         }
       }
     }
@@ -164,7 +164,7 @@ function parseThemeFile(filePath, tokenDependencies) {
         inherited.tokenName = variableName;
 
         // Find the value of the inherited variable recursively
-        const inheritedValue = findVariableValueRecursively(variableName);
+        const inheritedValue = findVariableValue(variableName);
         if (inheritedValue) {
           inherited.tokenValue = inheritedValue.tokenValue;
           inherited.source = inheritedValue.source;
