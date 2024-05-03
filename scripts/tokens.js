@@ -23,7 +23,7 @@ const themeFiles = [
  * @param {*} label - The label for the SCSS file
  * @returns {object} - An object of token values
  */
-function readSCSSFile(filePath, label = '') {
+function generateTokenObjects(filePath, label = '') {
   const fileContent = fs.readFileSync(filePath, 'utf8');
   const lines = fileContent.split('\n');
 
@@ -46,27 +46,27 @@ function readSCSSFile(filePath, label = '') {
 
 // Core Tokens
 const coreTokensFile = tokenFiles.core;
-const coreTokens = readSCSSFile(coreTokensFile, 'coreTokens');
+const coreTokens = generateTokenObjects(coreTokensFile, 'coreTokens');
 // console.log(coreTokens);
 
 // Theme Color Tokens
 const themeColorTokensFile = tokenFiles.themeColors;
-const themeColorTokens = readSCSSFile(themeColorTokensFile, 'themeColorTokens');
+const themeColorTokens = generateTokenObjects(themeColorTokensFile, 'themeColorTokens');
 // console.log(themeColorTokens);
 
 // Semantic Light Tokens
 const semanticLightTokensFile = tokenFiles.semanticLight;
-const semanticLightTokens = readSCSSFile(semanticLightTokensFile, 'semanticLightTokens');
+const semanticLightTokens = generateTokenObjects(semanticLightTokensFile, 'semanticLightTokens');
 // console.log(semanticLightTokens);
 
 // Semantic Dark Tokens
 const semanticDarkTokensFile = tokenFiles.semanticDark;
-const semanticDarkTokens = readSCSSFile(semanticDarkTokensFile, 'semanticDarkTokens');
+const semanticDarkTokens = generateTokenObjects(semanticDarkTokensFile, 'semanticDarkTokens');
 // console.log(semanticDarkTokens);
 
 // Semantic Contrast Tokens
 const semanticContrastTokensFile = tokenFiles.semanticContrast;
-const semanticContrastTokens = readSCSSFile(semanticContrastTokensFile, 'semanticContrastTokens');
+const semanticContrastTokens = generateTokenObjects(semanticContrastTokensFile, 'semanticContrastTokens');
 // console.log(semanticContrastTokens);
 
 /**
@@ -159,7 +159,7 @@ function parseThemeFile(filePath, tokenDependencies) {
       // Check if the token value is a variable (e.g., var(--ids-color-orange-50))
       const variableMatch = tokenValue.match(/var\((.*?)\)/);
       if (variableMatch) {
-        const variableName = `${variableMatch[1].trim()}`; // Construct variable name
+        const variableName = `${variableMatch[1].trim()}`;
 
         inherited.tokenName = variableName;
 
@@ -185,10 +185,17 @@ function parseThemeFile(filePath, tokenDependencies) {
   return { themeName, themeTokens };
 }
 
-// Example usage
-const themeFilePath = './src/themes/default/ids-theme-default-core.scss';
-const themeTokens = parseThemeFile(themeFilePath, [coreTokens, themeColorTokens, semanticLightTokens]);
+// Core theme
+const coreThemeFilePath = themeFiles[0];
+const coreTheme = parseThemeFile(coreThemeFilePath, [coreTokens, themeColorTokens, semanticLightTokens]);
+fs.writeFileSync('./src/assets/data/themeData/coreTheme.json', JSON.stringify(coreTheme, null, 2));
 
-themeTokens.themeTokens.forEach((tokens) => {
-  console.log(tokens);
-});
+// Contrast theme
+const contrastThemeFilePath = themeFiles[1];
+const contrastTheme = parseThemeFile(contrastThemeFilePath, [coreTokens, themeColorTokens, semanticContrastTokens]);
+fs.writeFileSync('./src/assets/data/themeData/contrastTheme.json', JSON.stringify(contrastTheme, null, 2));
+
+// Darl theme
+const darkThemeFilePath = themeFiles[2];
+const darkTheme = parseThemeFile(darkThemeFilePath, [coreTokens, themeColorTokens, semanticDarkTokens]);
+fs.writeFileSync('./src/assets/data/themeData/darkTheme.json', JSON.stringify(darkTheme, null, 2));
