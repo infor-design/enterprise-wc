@@ -406,15 +406,15 @@ test.describe('IdsMenu tests', () => {
 
     test('can set menu item textAlign', async ({ page }) => {
       let item1;
-      item1 = await page.evaluate(() => document.querySelector('#simple-menu > ids-menu-group > ids-menu-item:nth-child(1)')?.textAlign);
+      item1 = await page.evaluate(() => document.querySelector<IdsMenuItem>('#simple-menu ids-menu-item')!.textAlign);
       await expect(item1).toBe(null);
 
       await page.evaluate(() => {
-        const item = document.querySelector('#simple-menu > ids-menu-group > ids-menu-item:nth-child(1)');
+        const item = document.querySelector<IdsMenuItem>('#simple-menu > ids-menu-group > ids-menu-item:nth-child(1)');
         item!.textAlign = 'start';
         item!.setAttribute('text-align', 'start');
       });
-      item1 = await page.evaluate(() => document.querySelector('#simple-menu > ids-menu-group > ids-menu-item:nth-child(1)')?.textAlign);
+      item1 = await page.evaluate(() => document.querySelector<IdsMenuItem>('#simple-menu > ids-menu-group > ids-menu-item:nth-child(1)')?.textAlign);
       const menuitem1 = await page.locator('#simple-menu > ids-menu-group > ids-menu-item:nth-child(1)');
       await expect(item1).toBe('start');
       await expect(menuitem1).toHaveAttribute('text-align');
@@ -422,7 +422,7 @@ test.describe('IdsMenu tests', () => {
 
     test('can navigate menu items using the keyboard', async ({ page }) => {
       await page.evaluate(() => {
-        const item = document.querySelector('#simple-menu > ids-menu-group > ids-menu-item:nth-child(1)');
+        const item = document.querySelector<IdsMenuItem>('#simple-menu > ids-menu-group > ids-menu-item:nth-child(1)');
         item?.focus();
       });
       const menuitem1 = await page.locator('#simple-menu > ids-menu-group > ids-menu-item:nth-child(1)');
@@ -443,7 +443,7 @@ test.describe('IdsMenu tests', () => {
 
     test('tab should not change navigation in the menu', async ({ page }) => {
       await page.evaluate(() => {
-        const item = document.querySelector('#complex-menu > ids-menu-group > ids-menu-item:nth-child(1)');
+        const item = document.querySelector<IdsMenuItem>('#complex-menu > ids-menu-group > ids-menu-item:nth-child(1)');
         item?.focus();
       });
       const menuitem1 = await page.getByText('Mail');
@@ -603,7 +603,7 @@ test.describe('IdsMenu tests', () => {
     test('can be disabled/enabled', async ({ page }) => {
       const isDisabled = await idsMenu2.evaluate((menu: IdsMenu) => {
         menu.disabled = true;
-        const classList = menu.container?.classList;
+        const classList = menu.container!.classList;
         const item = document.querySelector<IdsMenuItem>('ids-menu-item[value="mail"]')!.disabled;
         return {
           classList,
@@ -705,8 +705,8 @@ test.describe('IdsMenu tests', () => {
         const item1 = document.querySelector<IdsMenuItem>('ids-menu-item[value="mail"]')!;
         item1.disabled = true;
         const disabled = item1!.disabled;
-        const tabIndex = item1?.tabIndex;
-        const classList = item1.container?.classList;
+        const tabIndex = item1!.tabIndex;
+        const classList = item1.container!.classList;
         return {
           disabled,
           tabIndex,
