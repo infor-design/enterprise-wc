@@ -81,7 +81,7 @@ test.describe('IdsToast tests', () => {
       expect(errorLogs).toHaveLength(0);
     });
 
-    test('can set to put links in the toast message', async ({ page }) => {
+    test('can set to put links in the toast message', async () => {
       let allowLinkvalue;
       const allowLink = async (value: any) => {
         await toast.evaluate((toastEl: IdsToast, val: any) => {
@@ -109,7 +109,7 @@ test.describe('IdsToast tests', () => {
       await expect(allowLinkvalue).toEqual(DEFAULTS.allowLink);
     });
 
-    test('can set audible to toast message', async ({ page }) => {
+    test('can set audible to toast message', async () => {
       let isAudible;
       await expect(toast).not.toHaveAttribute('audible');
       const setAudible = async (value: any) => {
@@ -134,7 +134,7 @@ test.describe('IdsToast tests', () => {
       await expect(isAudible).toEqual(DEFAULTS.audible);
     });
 
-    test('can set to allows drag/drop the toast', async ({ page }) => {
+    test('can set to allows drag/drop the toast', async () => {
       let isDraggable;
       await expect(toast).not.toHaveAttribute('draggable');
       const setDraggable = async (value: any) => {
@@ -159,7 +159,7 @@ test.describe('IdsToast tests', () => {
       await expect(isDraggable).toEqual(DEFAULTS.draggable);
     });
 
-    test('can set position of the toast container in specific place', async ({ page }) => {
+    test('can set position of the toast container in specific place', async () => {
       let toastContainer;
       let toastPosition;
       await expect(toast).not.toHaveAttribute('draggable');
@@ -195,7 +195,7 @@ test.describe('IdsToast tests', () => {
       await expect(toastContainer).toEqual(true);
     });
 
-    test('can  set toast to progress bar', async ({ page }) => {
+    test('can  set toast to progress bar', async () => {
       let progressbar;
       const setProgressbar = async (value: any) => {
         await toast.evaluate((toastEl: IdsToast, val: any) => {
@@ -220,7 +220,7 @@ test.describe('IdsToast tests', () => {
       await expect(progressbar).toEqual(DEFAULTS.progressBar);
     });
 
-    test('can  set toast container to save position', async ({ page }) => {
+    test('can  set toast container to save position', async () => {
       let savePosition;
       const setsavePosition = async (value: any) => {
         await toast.evaluate((toastEl: IdsToast, val: any) => {
@@ -245,7 +245,7 @@ test.describe('IdsToast tests', () => {
       await expect(savePosition).toEqual(DEFAULTS.savePosition);
     });
 
-    test('can  set toast timeout', async ({ page }) => {
+    test('can  set toast timeout', async () => {
       let timeout;
       const settimeout = async (value: any) => {
         await toast.evaluate((toastEl: IdsToast, val: any) => {
@@ -266,7 +266,7 @@ test.describe('IdsToast tests', () => {
       await expect(timeout).toEqual(DEFAULTS.timeout);
     });
 
-    test('can  set toast uniqueId', async ({ page }) => {
+    test('can  set toast uniqueId', async () => {
       const uniqueId = 'some-uniqueid';
       let uId;
       const setuniqueId = async (value: any) => {
@@ -289,7 +289,7 @@ test.describe('IdsToast tests', () => {
       await expect(uId).toEqual(DEFAULTS.uniqueId);
     });
 
-    test('can  set to destroy after complete all the toasts', async ({ page }) => {
+    test('can  set to destroy after complete all the toasts', async () => {
       let destroyOnComplete;
       const setdestroyOnComplete = async (value: any) => {
         await toast.evaluate((toastEl: IdsToast, val: any) => {
@@ -315,7 +315,7 @@ test.describe('IdsToast tests', () => {
       await expect(destroyOnComplete).toEqual(DEFAULTS.destroyOnComplete);
     });
 
-    test('can  set toast message', async ({ page }) => {
+    test('can  set toast message', async () => {
       options = {
         ...options,
         allowLink: true,
@@ -387,7 +387,7 @@ test.describe('IdsToast tests', () => {
       await expect(localStorage.getItem(id(uniqueId))).toEqual(null);
     });
 
-    test('can  restore saved position', async ({ page }) => {
+    test('can  restore saved position', async () => {
       options = {
         title: 'Test',
         message: 'Some test text',
@@ -414,7 +414,7 @@ test.describe('IdsToast tests', () => {
       await toast.evaluate(async (el: IdsToast) => { el.clearPosition(uniqueId); });
     });
 
-    test('can  reset saved position', async ({ page }) => {
+    test('can  reset saved position', async () => {
       options = {
         title: 'Test',
         message: 'Some test text',
@@ -443,7 +443,7 @@ test.describe('IdsToast tests', () => {
       await toast.evaluate(async (el: IdsToast) => { el.clearPosition(uniqueId); });
     });
 
-    test('can  clear saved position', async ({ page }) => {
+    test('can  clear saved position', async () => {
       options = {
         title: 'Test',
         message: 'Some test text',
