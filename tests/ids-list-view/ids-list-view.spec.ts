@@ -204,7 +204,7 @@ test.describe('IdsListView tests', () => {
       { id: '7', subject: 'blackberry raspberry blueberry' }
     ];
 
-    test('renders the template without virtual scroll', async ({ page }) => {
+    test('renders the template without virtual scroll', async () => {
       await idsListView.evaluate((listview: IdsListView, dataSet: any) => { listview.data = dataSet; }, dataset);
       const lvData = await idsListView.evaluate((listview: IdsListView) => listview.data.length);
       const lvItem = await idsListView.evaluate((listview: IdsListView) => listview.items.length);
@@ -244,7 +244,7 @@ test.describe('IdsListView tests', () => {
       await expect(exceptions).toBeNull();
     });
 
-    test('removes the virtualScroll attribute when reset', async ({ page }) => {
+    test('removes the virtualScroll attribute when reset', async () => {
       let vsItems; let
         lvItems;
       await idsListView.evaluate((listView: IdsListView) => { listView.virtualScroll = true; });
@@ -259,7 +259,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvItems).toEqual(77);
     });
 
-    test('render with empty data', async ({ page }) => {
+    test('render with empty data', async () => {
       let lvItems;
       await idsListView.evaluate((listView: IdsListView) => { listView.data = null; });
       lvItems = await idsListView.evaluate((listview: IdsListView) => listview.items.length);
@@ -272,21 +272,21 @@ test.describe('IdsListView tests', () => {
       await expect(lvItems).toEqual(0);
     });
 
-    test('supports setting height', async ({ page }) => {
+    test('supports setting height', async () => {
       await idsListView.evaluate((listView: IdsListView) => { listView.height = '600px'; });
       await expect(idsListView).toHaveAttribute('height', '600px');
       await idsListView.evaluate((listView: IdsListView) => { listView.height = undefined; });
       await expect(idsListView).toHaveAttribute('height', '100%');
     });
 
-    test('supports setting itemHeight', async ({ page }) => {
+    test('supports setting itemHeight', async () => {
       await idsListView.evaluate((listView: IdsListView) => { listView.itemHeight = '40px'; });
       await expect(idsListView).toHaveAttribute('item-height', '40px');
       await idsListView.evaluate((listView: IdsListView) => { listView.itemHeight = undefined; });
       await expect(idsListView).not.toHaveAttribute('height');
     });
 
-    test('supports setting sortable', async ({ page }) => {
+    test('supports setting sortable', async () => {
       // TODO cannot set sortable
       await idsListView.evaluate((listView: IdsListView) => { listView.sortable = true; });
       await expect(idsListView).toHaveAttribute('sortable', 'true');
@@ -296,14 +296,14 @@ test.describe('IdsListView tests', () => {
       await expect(idsListView).not.toHaveAttribute('sortable');
     });
 
-    test('supports setting focus', async ({ page }) => {
+    test('supports setting focus', async () => {
       expect(await idsListView.evaluate((listview: IdsListView) => {
         listview.focus();
         return document.activeElement?.nodeName;
       })).toEqual('BODY');
     });
 
-    test('supports sorting', async ({ page }) => {
+    test('supports sorting', async () => {
       await idsListView.evaluate((listView: IdsListView) => { listView.sortable = true; });
       const sortable = await idsListView.evaluate((listView: IdsListView) => listView.items[0]?.sortable);
       await expect(sortable).toBeTruthy();
@@ -348,21 +348,21 @@ test.describe('IdsListView tests', () => {
 
       await idsListView.evaluate((listView: IdsListView) => { listView.selectable = 'single'; });
       selected = await idsListView.evaluate((listView: IdsListView) => listView.selected);
-      // await expect(await selected).toEqual(null);
+      await expect(await selected).toEqual(null);
       await page.locator(sel(0)).focus();
       await page.keyboard.press('Space');
       selected = await idsListView.evaluate((listView: IdsListView) => listView.selected);
-      // await expect(await selected).toEqual(expect.objectContaining({ index: 0 }));
+      await expect(await selected).toEqual(expect.objectContaining({ index: 0 }));
       await page.locator(sel(1)).focus();
       await page.keyboard.press('ArrowDown');
       await page.locator(sel(3)).focus();
       await page.keyboard.press('Space');
       selected = await idsListView.evaluate((listView: IdsListView) => listView.selected);
-      // await expect(await selected).toEqual(expect.objectContaining({ index: 2 }));
+      await expect(await selected).toEqual(expect.objectContaining({ index: 2 }));
       await page.locator(sel(3)).focus();
       await page.keyboard.press('Space');
       selected = await idsListView.evaluate((listView: IdsListView) => listView.selected);
-      // await expect(await selected).toEqual(null);
+      await expect(await selected).toEqual(null);
     });
 
     test('can mixed select with keyboard', async ({ page }) => {
@@ -372,11 +372,11 @@ test.describe('IdsListView tests', () => {
 
       await idsListView.evaluate((listView: IdsListView) => { listView.selectable = 'mixed'; });
       selected = await idsListView.evaluate((listView: IdsListView) => listView.selected as IdsListViewSelectedItem[]);
-      // await expect(await selected).toEqual(0);
+      await expect(await selected).toEqual(0);
       await page.locator(sel(1)).focus();
       await page.keyboard.press('Space');
       selected = await idsListView.evaluate((listView: IdsListView) => listView.selected as IdsListViewSelectedItem[]);
-      // await expect(await selected).toEqual(1);
+      await expect(await selected).toEqual(1);
     });
 
     test('can multiple select with keyboard', async ({ page }) => {
@@ -404,7 +404,7 @@ test.describe('IdsListView tests', () => {
       await expect(await selected).toEqual(1);
     });
 
-    test('can set the aria label text', async ({ page }) => {
+    test('can set the aria label text', async () => {
       let label;
       await expect(idsListView).not.toHaveAttribute('aria-label');
       await idsListView.evaluate((listView: IdsListView) => { listView.selectable = 'multiple'; });
@@ -420,7 +420,7 @@ test.describe('IdsListView tests', () => {
       await expect(await arialabel).toEqual(LIST_VIEW_DEFAULTS.label);
     });
 
-    test('can set the selectable setting', async ({ page }) => {
+    test('can set the selectable setting', async () => {
       await expect(idsListView).not.toHaveAttribute('selectable');
       await idsListView.evaluate((lView: IdsListView) => { lView.selectable = 'single'; });
       await expect(idsListView).toHaveAttribute('selectable', 'single');
@@ -432,7 +432,7 @@ test.describe('IdsListView tests', () => {
       await expect(idsListView).not.toHaveAttribute('selectable');
     });
 
-    test('can set the setting to allow deselect', async ({ page }) => {
+    test('can set the setting to allow deselect', async () => {
       // TODO
       let suppressDeselection;
       await idsListView.evaluate((lView: IdsListView) => { lView.selectable = 'single'; });
@@ -457,7 +457,7 @@ test.describe('IdsListView tests', () => {
       await expect(suppressDeselection).toEqual(LIST_VIEW_DEFAULTS.suppressDeselection); // Expected: true Received: false
     });
 
-    test('can set the setting to allow deactivate', async ({ page }) => {
+    test('can set the setting to allow deactivate', async () => {
       let suppressDeactivation;
       await idsListView.evaluate((lView: IdsListView) => { lView.selectable = 'mixed'; });
       await expect(idsListView).not.toHaveAttribute('suppress-deactivation');
@@ -481,7 +481,7 @@ test.describe('IdsListView tests', () => {
       await expect(suppressDeactivation).toEqual(LIST_VIEW_DEFAULTS.suppressDeactivation); // Expected: true Received: false
     });
 
-    test('can set the setting to hide checkboxes', async ({ page }) => {
+    test('can set the setting to hide checkboxes', async () => {
       let hideCheckboxes;
       await idsListView.evaluate((lView: IdsListView) => { lView.selectable = 'multiple'; });
       await expect(idsListView).not.toHaveAttribute('hide-checkboxes');
@@ -676,12 +676,12 @@ test.describe('IdsListView tests', () => {
       expect(listViewItems?.length).toBe(dataset.length);
     });
 
-    test('Has a default slot', async ({ page }) => {
+    test('Has a default slot', async () => {
       const slot = await idsListView.locator('slot:not([name])');
       await expect(slot).toBeTruthy();
     });
 
-    test('Ignores ids-list-view-item elements if IdsListView.data attribute is set', async ({ page }) => {
+    test('Ignores ids-list-view-item elements if IdsListView.data attribute is set', async () => {
       // TODO _idsDeepCloneUtils is not defined
       let childSlots = await idsListView.locator('slot[name^="slot-child"]').all();
       await expect(childSlots.length).toEqual(dataset.length);
@@ -695,7 +695,7 @@ test.describe('IdsListView tests', () => {
     test('Creates named slots for valid ids-list-view-item child elements', async ({ page }) => {
       // TODO  incorrect length and locator
       const listViewItems = await idsListView.locator('ids-list-view-item').all();
-      await expect(listViewItems?.length).toBe(dataset.length);
+      await expect(listViewItems?.length).toBe(dataset.length); // Expected: 100  Received: 77
       const childSlots = await idsListView.locator('slot[name^="slot-child"]').all();
       const numSlots = await childSlots?.length ?? 0;
       await expect(numSlots).toEqual(listViewItems?.length);
@@ -721,9 +721,9 @@ test.describe('IdsListView tests', () => {
     test('Removes named slots once ids-list-view-item is removed from DOM', async ({ page }) => {
       // TODO  child slot is not present
       const listViewItems = await idsListView.locator('ids-list-view-item').all();
-      // await expect(listViewItems?.length).toBe(dataset.length);
+      await expect(listViewItems?.length).toBe(dataset.length);
       let childSlots = await idsListView.locator('slot[name^="slot-child"]').all();
-      // await expect(childSlots?.length).toBe(dataset.length);
+      await expect(childSlots?.length).toBe(dataset.length);
       await page.evaluate(() => {
         const listviewItems = document.querySelector<IdsListView>('ids-list-view')?.shadowRoot?.querySelectorAll('ids-list-view-item') as any;
         listviewItems[0].remove();
@@ -734,7 +734,7 @@ test.describe('IdsListView tests', () => {
       await expect(childSlots?.length).toEqual(dataset.length - 3);
     });
 
-    test('Ignores child elements that are not valid ids-list-view-item elements', async ({ page }) => {
+    test('Ignores child elements that are not valid ids-list-view-item elements', async () => {
       // TODO  child slot is not present
       await idsListView.evaluate((listView: IdsListView) => {
         document.body.innerHTML = '';
@@ -758,7 +758,7 @@ test.describe('IdsListView tests', () => {
       const lvChild = await idsListView.evaluate((listview: IdsListView) => listview?.children?.length);
       await expect(lvChild).toBe(7);
       const defaultSlot = await idsListView.evaluate((listview: IdsListView) => listview?.container?.querySelector<HTMLSlotElement>('slot:not([name])')?.assignedElements() ?? []);
-      // await expect(defaultSlot.length).toEqual(4); // Expected: 4 Received: 7
+      await expect(defaultSlot.length).toEqual(4); // Expected: 4 Received: 7
       const childSlots = await idsListView.locator('slot[name^="slot-child"]').all();
       await expect(childSlots?.length).toBe(3);
     });
@@ -783,7 +783,7 @@ test.describe('IdsListView tests', () => {
       expect(listViewItems?.length).toBe(numBeefProducts.length);
     });
 
-    test('can set the searchable setting and renders search field', async ({ page }) => {
+    test('can set the searchable setting and renders search field', async () => {
       let searchable: any;
       await expect(idsListView).not.toHaveAttribute('searchable');
       searchable = await idsListView.evaluate((listview: IdsListView) => listview.searchable);
@@ -810,9 +810,8 @@ test.describe('IdsListView tests', () => {
       const searchfieldSlot = page.evaluate(async () => {
         const listView = document.createElement('ids-list-view') as IdsListView;
         document.body.innerHTML = '';
-        const html = '<ids-list-view><ids-search-field slot="search"></ids-search-field><template><ids-text type="h2">${subject}</ids-text></template></ids-list-view>'; //eslint-disable-line
 
-        // await createFromTemplate(listView, html, container);
+        await createFromTemplate(listView, html, container);
         return listView.querySelector('ids-search-field[slot="search"]');
       });
       await expect(searchfieldSlot).toBeTruthy();
@@ -838,7 +837,7 @@ test.describe('IdsListView tests', () => {
       await expect(searchfield).toBeFalsy();
     });
 
-    test('cant set the suppress highlight setting', async ({ page }) => {
+    test('cant set the suppress highlight setting', async () => {
       await expect(idsListView).not.toHaveAttribute('suppress-highlight');
       let suppressHighlight = await idsListView.evaluate((listview: IdsListView) => listview.suppressHighlight);
       await expect(suppressHighlight).toEqual(false);
@@ -852,7 +851,7 @@ test.describe('IdsListView tests', () => {
       await expect(suppressHighlight).toEqual(false);
     });
 
-    test('can set the search term case sensitive setting', async ({ page }) => {
+    test('can set the search term case sensitive setting', async () => {
       await expect(idsListView).not.toHaveAttribute('search-term-case-sensitive');
       let searchTermCaseSensitive = await idsListView.evaluate((listview: IdsListView) => listview.searchTermCaseSensitive);
       await expect(searchTermCaseSensitive).toEqual(false);
@@ -866,7 +865,7 @@ test.describe('IdsListView tests', () => {
       await expect(searchTermCaseSensitive).toEqual(false);
     });
 
-    test('can set the search term min size setting', async ({ page }) => {
+    test('can set the search term min size setting', async () => {
       const defaultVal = 1;
       await expect(idsListView).not.toHaveAttribute('search-term-min-size');
       let searchTermMinSize = await idsListView.evaluate((listview: IdsListView) => listview.searchTermMinSize);
@@ -881,7 +880,7 @@ test.describe('IdsListView tests', () => {
       await expect(searchTermMinSize).toEqual(defaultVal);
     });
 
-    test('can set the search filter mode setting', async ({ page }) => {
+    test('can set the search filter mode setting', async () => {
       const modes = ['contains', 'keyword', 'phrase-starts-with', 'word-starts-with'];
       const defaultMode = 'contains';
       await expect(idsListView).not.toHaveAttribute('search-filter-mode');
@@ -900,7 +899,7 @@ test.describe('IdsListView tests', () => {
       await expect(searchFilterMode).toEqual(defaultMode);
     });
 
-    test('can show searched list', async ({ page }) => {
+    test('can show searched list', async () => {
       const itemCountAll = 77;
       let searchfield = await idsListView.evaluate((listview: IdsListView) => listview.searchField);
       await expect(searchfield).toBeFalsy();
@@ -922,7 +921,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvitems).toEqual(itemCountAll);
     });
 
-    test('can show searched list without searchable text callback', async ({ page }) => {
+    test('can show searched list without searchable text callback', async () => {
       const itemCountAll = 77;
       await idsListView.evaluate((listview: IdsListView) => { listview.searchableTextCallback = null; });
       let searchfield = await idsListView.evaluate((listview: IdsListView) => listview.searchField);
@@ -992,7 +991,7 @@ test.describe('IdsListView tests', () => {
       await expect(item).toBeFalsy();
     });
 
-    test('can show searched list by case sensitive', async ({ page }) => {
+    test('can show searched list by case sensitive', async () => {
       await idsListView.evaluate((
         listView: IdsListView,
         dataSet: any
@@ -1022,7 +1021,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvitems).toEqual(1);
     });
 
-    test('can show searched list by matching the start of an entire phrase', async ({ page }) => {
+    test('can show searched list by matching the start of an entire phrase', async () => {
       await idsListView.evaluate((
         listView: IdsListView,
         dataSet: any
@@ -1055,7 +1054,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvitems).toEqual(0);
     });
 
-    test('can show searched list by matching the start of words in any place in a string', async ({ page }) => {
+    test('can show searched list by matching the start of words in any place in a string', async () => {
       const itemCountAll = 77;
       let searchfield = await idsListView.evaluate((listview: IdsListView) => listview.searchField);
       await expect(searchfield).toBeFalsy();
@@ -1087,7 +1086,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvitems).toEqual(10);
     });
 
-    test('can show searched list by checking for multiple keywords in each result', async ({ page }) => {
+    test('can show searched list by checking for multiple keywords in each result', async () => {
       await idsListView.evaluate((
         listView: IdsListView,
         dataSet: any
@@ -1119,7 +1118,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvitems).toEqual(4);
     });
 
-    test('can show searched list by search term min size', async ({ page }) => {
+    test('can show searched list by search term min size', async () => {
       const itemCountAll = 77;
       let searchfield = await idsListView.evaluate((listview: IdsListView) => listview.searchField);
       await expect(searchfield).toBeFalsy();
@@ -1157,8 +1156,8 @@ test.describe('IdsListView tests', () => {
       await expect(lvitems).toEqual(itemCountAll);
     });
 
-    test('can show searched list with custom filter', async ({ page }) => {
-      await idsListView.evaluate((listview: IdsListView) => { 
+    test('can show searched list with custom filter', async () => {
+      await idsListView.evaluate((listview: IdsListView) => {
         listview.searchFilterCallback = (term: string) => {
           const response = (item: any): boolean => {
             const lcTerm = (term || '').toLowerCase();
@@ -1200,7 +1199,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvitems).toEqual(itemCountAll);
     });
 
-    test('fires filtered event when apply or clear search', async ({ page }) => {
+    test('fires filtered event when apply or clear search', async () => {
       // TODO how to use mockcallback??
       const itemCountAll = 77;
 
