@@ -135,6 +135,7 @@ export default class IdsTreeNode extends Base {
       return `<li ${cssClass} part="group-node" role="none"${disabled}${selected}>
           <span class="node-container" part="node-container" role="treeitem"${tabindex}${disabled}${selected}${ariaDisabled}${ariaSelected}${ariaExpanded}>
             <ids-icon class="icon" icon="${this.nodeIcon}" part="icon"></ids-icon>
+            ${this.tree?.showExpandAndToggleIcons ? `<ids-icon class="icon" icon="${this.toggleIcon}" part="icon"></ids-icon>` : ''}
             ${this.toggleIconHtml}
             ${this.isMultiSelect ? `<ids-checkbox label="${this.label}" ${disabled}></ids-checkbox>` : ''}
             <slot name="badge" class="badge"></slot>
@@ -357,7 +358,7 @@ export default class IdsTreeNode extends Base {
    * @returns {string} The toggle icon
    */
   get toggleIcon(): string {
-    if (this.expandTarget === 'icon') {
+    if (this.expandTarget === 'icon' || this.tree?.showExpandAndToggleIcons) {
       return this.expanded
         ? (this.treeAttribute(attributes.TOGGLE_EXPAND_ICON)
           || IdsTreeShared.DEFAULTS.toggleExpandIcon)
