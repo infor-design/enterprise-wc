@@ -89,8 +89,9 @@ test.describe('IdsMenu tests', () => {
         length: selected.length
       };
     };
-    const getselectedValues = async (menu: any) => {
-      const selected = await menu.evaluate((Menu: IdsMenu) => Menu.getSelectedValues());
+    // Fix: always retrieves the first menu group with the given Menu object
+    const getselectedValues = async (menu: Locator) => {
+      const selected = await menu.evaluate((iMenu: IdsMenu) => iMenu.getSelectedValues(iMenu.querySelector('ids-menu-group')));
       return {
         selected,
         length: selected.length
@@ -148,11 +149,11 @@ test.describe('IdsMenu tests', () => {
       const isfocused = await idsMenu.evaluate((menu: IdsMenu) => menu.focused);
 
       // The component should be able to explain which of its items is focused
-      await expect(isfocused).toEqual(items[2]);
+      expect(isfocused).toEqual(items[2]);
       await idsMenu.evaluate((menu: IdsMenu) => menu.navigate(-1, true));
-      await expect(isfocused).toEqual(items[1]);
-      await idsMenu.evaluate((menu: IdsMenu) => menu.navigate('forward', true));
-      await expect(isfocused).toEqual(items[1]);
+      expect(isfocused).toEqual(items[1]);
+      await idsMenu.evaluate((menu: IdsMenu) => menu.navigate('forward' as any, true));
+      expect(isfocused).toEqual(items[1]);
     });
 
     test('navigates nowhere if no number of steps is provided', async ({ page }) => {
@@ -320,7 +321,7 @@ test.describe('IdsMenu tests', () => {
       await expect(length).toEqual(2);
 
       // Clear selected values
-      await idsMenu2.evaluate((menu: IdsMenu) => menu.clearSelectedItems());
+      await idsMenu2.evaluate((menu: IdsMenu) => menu.clearSelectedItems(menu.querySelector('ids-menu-group')));
       const newvalue = (await getselectedValues(idsMenu2)).length;
       await expect(newvalue).toEqual(0);
       await expect(await Isselected('ids-menu-item[value="mail"]')).toBeFalsy();
@@ -571,7 +572,7 @@ test.describe('IdsMenu tests', () => {
 
       // If a `lastHovered` property is set, this becomes the target
       const lastHovered = await idsMenu2.evaluate((menu: IdsMenu) => {
-        menu!.lastHovered = document.querySelector<IdsMenuItem>('ids-menu-item[value="long-no-icons"]');
+        menu.lastHovered = document.querySelector<IdsMenuItem>('ids-menu-item[value="long-no-icons"]')!;
         return menu.focusTarget.isEqualNode(document.querySelector('ids-menu-item[value="long-no-icons"]'));
       });
       await expect(lastHovered).toBeTruthy();
