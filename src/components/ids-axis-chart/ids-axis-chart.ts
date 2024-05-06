@@ -198,6 +198,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     this.initialized = true;
     this.#resetAxisLabelsText();
     this.#attachEventHandlers();
+    this.#attachResizeObserver();
     this.redraw();
   }
 
@@ -208,12 +209,6 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
     super.disconnectedCallback();
     this.#resizeObserver?.disconnect();
     this.#resizeObserver = undefined;
-    this.emptyMessage?.remove();
-    this.emptyMessage = undefined;
-    this.svg?.remove();
-    this.svg = undefined;
-    this.legend?.remove();
-    this.legend = undefined;
   }
 
   /**

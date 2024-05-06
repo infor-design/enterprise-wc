@@ -315,6 +315,10 @@ export default class IdsInput extends Base {
     return this.revealablePassword && this.type === TYPES.password;
   }
 
+  get collapsible(): boolean {
+    return this.hasAttribute(attributes.COLLAPSIBLE) || false;
+  }
+
   templateShowHide(): string {
     return this.isPasswordVisible
       ? `<ids-button id="show-hide-password" class="show-hide-password" no-padding text="${this.passwordVisible ? 'HIDE' : 'SHOW'}"></ids-button>`
