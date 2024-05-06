@@ -27,7 +27,7 @@ test.describe('IdsDataGrid filter tests', () => {
         });
         elem.applyFilter([{ columnId: 'integer', operator: 'equals', value: '200' }]);
       });
-      expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(2);
+      expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(1);
       expect(await page.evaluate(() => (window as any).filteredCount)).toBe(1);
       expect(await page.evaluate(() => (window as any).filteredType)).toBe('apply');
       await dataGrid.evaluate((elem: IdsDataGrid) => {
@@ -285,9 +285,9 @@ test.describe('IdsDataGrid filter tests', () => {
     expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(0);
     await setValue('200');
     await clickOnMenuItem('equals');
-    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(2);
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(1);
     await clickOnMenuItem('less-than');
-    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(5);
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(6);
   });
 
   test('should sets filter with click on menu button date filter type', async ({ page }) => {
@@ -347,7 +347,7 @@ test.describe('IdsDataGrid filter tests', () => {
       input?.setAttribute('value', '200.10');
       input?.dispatchEvent(new Event('keydownend'));
     });
-    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(2);
+    expect(await dataGrid.evaluate(getRowsCount, selector)).toBe(1);
   });
 
   test('should get column data by column id or column element', async ({ page }) => {
@@ -563,10 +563,10 @@ test.describe('IdsDataGrid filter tests', () => {
     await checkFilter([{ columnId: 'description', operator: 'does-not-start-with', value: '105' }], 8);
     await checkFilter([{ columnId: 'price', operator: 'is-empty', value: '' }], 2);
     await checkFilter([{ columnId: 'price', operator: 'is-not-empty', value: '' }], 7);
-    await checkFilter([{ columnId: 'integer', operator: 'less-than', value: '14' }], 3);
-    await checkFilter([{ columnId: 'integer', operator: 'less-equals', value: '14' }], 4);
-    await checkFilter([{ columnId: 'integer', operator: 'greater-than', value: '14' }], 3);
-    await checkFilter([{ columnId: 'integer', operator: 'greater-equals', value: '14' }], 4);
+    await checkFilter([{ columnId: 'integer', operator: 'less-than', value: '14' }], 4);
+    await checkFilter([{ columnId: 'integer', operator: 'less-equals', value: '14' }], 5);
+    await checkFilter([{ columnId: 'integer', operator: 'greater-than', value: '14' }], 2);
+    await checkFilter([{ columnId: 'integer', operator: 'greater-equals', value: '14' }], 3);
     await checkFilter([{ columnId: 'integer', operator: 'test', value: '14' }], 9);
     await checkFilter([{ columnId: 'test', operator: 'test', value: 'test' }], 9);
     await checkFilter([], 9);
