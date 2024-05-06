@@ -17,6 +17,7 @@
 - `[BarChart]` Converted bar chart tests to playwright. ([#1919](https://github.com/infor-design/enterprise-wc/issues/1919))
 - `[BreadCrumb/Hyperlink]` Fix focus state on click bug. ([#2238](https://github.com/infor-design/enterprise-wc/issues/2238))
 - `[Editor]` Converted editor tests to playwright. ([#1931](https://github.com/infor-design/enterprise-wc/issues/1931))
+- `[Menu]` Converted menu tests to playwright. ([#1953](https://github.com/infor-design/enterprise-wc/issues/1953))
 - `[Tree]` Fixed bug where redraw did not trigger when assigning an empty array. ([#2227](https://github.com/infor-design/enterprise-wc/issues/2227))
 - `[VirtualScroll]` Converted virtual scroll tests to playwright. ([#1992](https://github.com/infor-design/enterprise-wc/issues/1992))
 
@@ -41,7 +42,6 @@
 - `[Hierarchy]` Fixed the issue where a popup appeared behind the field. ([#2191](https://github.com/infor-design/enterprise-wc/issues/2191))
 - `[LayoutGrid]` Added fixes for background fill color in contrast mode. ([#2189](https://github.com/infor-design/enterprise-wc/issues/2189))
 - `[ListView]` Updated listview sortable styles. ([#1733](https://github.com/infor-design/enterprise-wc/issues/1733))
-- `[Menu]` Converted menu tests to playwright. ([#1953](https://github.com/infor-design/enterprise-wc/issues/1953))
 - `[Message]` Fixed mobile IdsMessage behavior. ([#2183](https://github.com/infor-design/enterprise-wc/issues/2183))
 - `[Modal]` Fixed invisible button in dark mode modals. ([#2197](https://github.com/infor-design/enterprise-wc/issues/2197))
 - `[NotificationBanner]` Fixed issue with the link attribute not being updated in the setter. ([#2209](https://github.com/infor-design/enterprise-wc/issues/2209))
