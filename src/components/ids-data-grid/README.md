@@ -1347,7 +1347,7 @@ Extra Extra Small (`row-height="xxs"`) - Row Height is 25. Header is 14px and bo
 
 ## Multiline Header Code Examples
 
-As mentioned in the settings columns section you can have a two line header in two variations. The first variation is simply to use it as a way to extend the text over two lines. To do this setup the column like this.
+As mentioned in the settings columns section you can have a two line header in two variations. The first variation is simply to use it as a way to extend the text over two lines. To do this setup the column like the following examples.
 
 ```js
 name: [
