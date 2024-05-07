@@ -1,5 +1,14 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.18.1
+
+### 1.0.0-beta.18.1 Fixes
+
+- `[Dropdown]` Prevent Enter key (and other meta keys) from opening the `IdsDropdown`. ([#1878](https://github.com/infor-design/enterprise-wc/issues/1878))
+- `[Datagrid]` Fix bug that causes duplicate `ids-dropdown-list` when data-grid data is reset. ([#1878](https://github.com/infor-design/enterprise-wc/issues/1878))
+- `[Datagrid]` Fix so that filter-types that use the integer formatter allow numbers with leading-zero and additional numbers after the leading-zeros. ([#1877](https://github.com/infor-design/enterprise-wc/issues/1877))
+- `[Dropdown/Datagrid]` Added style fixes to position the dropdown better next to the cell. ([#1770](https://github.com/infor-design/enterprise-wc/issues/1770))
+
 ## 1.0.0-beta.18
 
 ### 1.0.0-beta.18 Breaking Changes

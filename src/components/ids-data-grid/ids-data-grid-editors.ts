@@ -17,6 +17,8 @@ import type IdsTimePickerPopup from '../ids-time-picker/ids-time-picker-popup';
 import '../ids-time-picker/ids-time-picker';
 import '../ids-date-picker/ids-date-picker';
 import '../ids-lookup/ids-lookup';
+import { IdsValidationRule } from '../../mixins/ids-validation-mixin/ids-validation-mixin';
+
 
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
@@ -72,6 +74,22 @@ const applyEditorPopupFocus = (editor: IdsDataGridEditor) => {
   }
 };
 
+const applyEditorEndCellEdit = (cell: IdsDataGridCell, e: KeyboardEvent) => {
+  if (e.code === 'Escape') {
+    e.stopImmediatePropagation();
+    e.stopPropagation();
+    e.preventDefault();
+    cell?.cancelCellEdit();
+    cell?.focus();
+  }
+};
+
+const applyEditorValidation = (elem: any, validation?: Partial<IdsValidationRule>) => {
+  if (elem?.addValidationRule && validation) {
+    validation.type = 'error';
+    elem?.addValidationRule?.(validation);
+  }
+};
 export class InputEditor implements IdsDataGridEditor {
   /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type = 'input';
@@ -199,9 +217,10 @@ export class DropdownEditor implements IdsDataGridEditor {
   clickEvent?: MouseEvent;
 
   init(cell?: IdsDataGridCell): void {
-    this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? null;
+    this.#value = cell?.querySelector('[data-value]')?.getAttribute('data-value') ?? cell?.value ?? null;
     const isInline = cell?.column.editor?.inline;
     const settings = { ...cell?.column?.editor?.editorSettings };
+    const validation = { ...cell?.column?.editor?.editorValidation };
     const dataset = <any[]>settings?.options ?? [];
 
     this.input = <IdsDropdown>document.createElement('ids-dropdown');
@@ -214,6 +233,8 @@ export class DropdownEditor implements IdsDataGridEditor {
 
     cell!.innerHTML = '';
     cell!.appendChild(this.input);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
+
     cell!.appendChild(this.list);
     cell!.classList.add('is-focused');
     this.#cell = cell!;
@@ -231,27 +252,35 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.list.setAttribute('size', 'full');
     this.list.setAttribute('attachment', '.ids-data-grid-wrapper');
     this.list.appendToTargetParent();
-    this.list.popupOpenEventsTarget = document.body;
     if (this.list.popup) {
+      this.list.popup.popupOpenEventsTarget = document.body;
+      this.list.popup.positionStyle = 'fixed';
       this.list.popup.alignTarget = this.input;
       this.list.popup.type = 'dropdown';
       this.list.popup.container?.classList.add('dropdown');
       this.list.popup.onPlace = (popupRect: DOMRect) => {
-        popupRect.x -= 1;
-        const margin = cell?.dataGrid?.rowHeight === 'xxs' ? 3 : 0;
-        popupRect.y = (this.input?.getBoundingClientRect().bottom || 0) - margin;
+        const margin = cell?.dataGrid?.rowHeight === 'xxs' ? -3 : 0;
+        popupRect.y = (this.input?.getBoundingClientRect().bottom || 0) + margin;
+        popupRect.x = (this.input?.getBoundingClientRect().x || 0) - 1;
+        popupRect.width = 1000;
         return popupRect;
       };
     }
 
-    this.input.value = this.#value;
+    this.input.value = this.#value ?? '';
     this.input.size = 'full';
     this.input.labelState = 'collapsed';
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
-    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
+    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
     this.input.container?.querySelector<IdsTriggerField>('ids-trigger-field')?.focus();
 
+    // apply user validation
+    if (validation) {
+      applyEditorValidation(this.input.input, validation);
+    }
+
     this.#attchEventListeners();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.input?.open();
   }
 
@@ -277,6 +306,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.input?.onEvent('click', this.input, () => {
       const popup = this.list?.popup;
       if (popup) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         if (!popup.visible) this.input?.open();
         else this.input?.close();
       }
@@ -305,7 +335,7 @@ export class DropdownEditor implements IdsDataGridEditor {
       });
     }
 
-    this.list?.onEvent('keydown', this.list, (e) => {
+    this.input?.onEvent('keydown', this.list, (e) => {
       const key = e.key;
       if (key === 'Enter') {
         e.stopPropagation();

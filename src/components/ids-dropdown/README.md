@@ -130,7 +130,7 @@ For groups you should add `group-label` attribute to `ids-list-box-option` to in
 </ids-dropdown>
 ```
 
-In some situations, it may be preferrable to separate the IdsDropdownList element from its in-page parent element.  This can be done using the `list` attribute, and simply referencing the dropdown list by its `id` attribute.  This might be necessary for reasons such as breaking out of CSS stacking context.  Note that in this situation, it's necessary to also manually define the event handling and [Popup Interactions](../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin.ts) that cause the IdsDropdownList to activate, making this ideal for custom IdsDropdown configurations:
+In some situations, it may be preferable to separate the IdsDropdownList element from its in-page parent element.  This can be done using the `list` attribute, and simply referencing the dropdown list by its `id` attribute.  This might be necessary for reasons such as breaking out of CSS stacking context.  Note that in this situation, it's necessary to also manually define the event handling and [Popup Interactions](../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin.ts) that cause the IdsDropdownList to activate, making this ideal for custom IdsDropdown configurations:
 
 ```html
 <ids-dropdown id="dropdown-1" list="separate-list" label="Dropdown (list is adjacent)" value="blank" dirty-tracker="true" allow-blank="true"></ids-dropdown>
@@ -159,7 +159,7 @@ In some situations, it may be preferrable to separate the IdsDropdownList elemen
 - `maxlength` {number | string} Maximum characters allowed in textarea
 - `noMargins` {boolean} sets whether or not no-margins around the component.
 - `placeholder` {string} Sets the placeholder text
-- `size` {'sm ' | 'md' | 'lg' | 'full' | string} Sets the size (width)
+- `size` {'`sm`' | '`md`' | '`lg`' | '`full`' | string} Sets the size (width)
 - `readonly` {boolean} Sets to readonly state
 - `validate` {'required' | string} Sets the validation routine to use
 - `validationEvents` {'blur' | string} Sets the validation events to use

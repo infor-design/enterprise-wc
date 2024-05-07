@@ -6,7 +6,7 @@ export type IdsDropdownOption = {
   value: string,
   icon?: string,
   groupLabel?: boolean,
-  // ids-multiselect shared
+  tooltip?: string,
   selected?: boolean,
   index?: number
 };

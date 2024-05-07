@@ -206,7 +206,7 @@
 
     &:last-child {
       position: relative;
-      top: -9px;
+      top: -10px;
     }
   }
 
@@ -423,6 +423,10 @@ th.ids-data-grid-header-cell {
 
       > ids-icon:first-child {
         top: 3px;
+      }
+
+      ids-icon:last-child {
+        top: -11px;
       }
     }
 

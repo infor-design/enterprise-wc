@@ -13,6 +13,7 @@ import {
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 import type { IdsPopupElementRef, IdsPopupXYSwitchResult } from './ids-popup-attributes';
@@ -35,9 +36,11 @@ import {
 
 import styles from './ids-popup.scss';
 
-const Base = IdsLocaleMixin(
-  IdsEventsMixin(
-    IdsElement
+const Base = IdsPopupOpenEventsMixin(
+  IdsLocaleMixin(
+    IdsEventsMixin(
+      IdsElement
+    )
   )
 );
 
@@ -47,6 +50,7 @@ const Base = IdsLocaleMixin(
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
+ * @mixes IdsPopupOpenEventsMixin
  * @part popup - the popup outer element
  * @part arrow - the arrow element
  */
@@ -69,7 +73,6 @@ export default class IdsPopup extends Base {
     this.#alignEdge = ALIGNMENT_EDGES[0];
     this.#alignTarget = null;
     this.animated = false;
-    this.#animationStyle = ANIMATION_STYLES[0];
     this.#arrow = ARROW_TYPES[0];
     this.#arrowTarget = null;
     this.#bleed = false;
@@ -125,7 +128,7 @@ export default class IdsPopup extends Base {
    * @returns {string} The template
    */
   template(): string {
-    const animatedClass = this.animated ? ' animated' : '';
+    const animatedClass = this.animated ? ` animated animation-${this.animationStyle}` : '';
 
     return `<div class="ids-popup${animatedClass}" part="popup">
       <div class="arrow" part="arrow"></div>
@@ -610,18 +613,12 @@ export default class IdsPopup extends Base {
    * @returns {string} opposite align edge
    */
   #getOppositeEdge(currentEdge?: string): string {
-    switch (currentEdge) {
-      case 'left':
-        return 'right';
-      case 'right':
-        return 'left';
-      case 'top':
-        return 'bottom';
-      case 'bottom':
-        return 'top';
-      default:
-        return 'none';
-    }
+    return {
+      left: 'right',
+      right: 'left',
+      top: 'bottom',
+      bottom: 'top'
+    }[currentEdge ?? ''] || 'none';
   }
 
   /**
@@ -672,22 +669,12 @@ export default class IdsPopup extends Base {
   }
 
   /**
-   * @property {string} animationStyle the type of alignment to use on this component's
-   *  Y coordinate in relation to a parent element's Y coordinate
-   */
-  #animationStyle: string;
-
-  /**
    * @param {string} val the style of animation this popup uses to show/hide
    */
   set animationStyle(val: string) {
-    const currentVal = this.#animationStyle;
-    if (val !== currentVal && ANIMATION_STYLES.includes(val)) {
-      this.#animationStyle = val;
+    if (ANIMATION_STYLES.includes(val)) {
+      this.#refreshAnimationStyle(val);
       this.setAttribute(attributes.ANIMATION_STYLE, val);
-      this.#refreshAnimationStyle(currentVal, val);
-    } else {
-      this.#refreshAnimationStyle('', currentVal);
     }
   }
 
@@ -695,19 +682,25 @@ export default class IdsPopup extends Base {
    * @returns {string} the style of animation this popup uses to show/hide
    */
   get animationStyle(): string {
-    return this.#animationStyle;
+    const attrVal = this.getAttribute(attributes.ANIMATION_STYLE);
+
+    if (attrVal && ANIMATION_STYLES.includes(attrVal)) {
+      return attrVal;
+    }
+
+    return ANIMATION_STYLES[0];
   }
 
   /**
    * Changes the CSS class controlling the animation style of the Popup
-   * @param {string} currentStyle the type of animation
    * @param {string} newStyle the type of animation
    * @returns {void}
    */
-  #refreshAnimationStyle(currentStyle: string, newStyle: string) {
+  #refreshAnimationStyle(newStyle: string) {
     if (!this.container) return;
     const thisCl = this.container.classList;
-    if (currentStyle) thisCl.remove(`animation-${currentStyle}`);
+    const allStyles = ANIMATION_STYLES.map((item) => `animation-${item}`);
+    thisCl.remove(...allStyles);
     thisCl.add(`animation-${newStyle}`);
   }
 
@@ -1009,6 +1002,7 @@ export default class IdsPopup extends Base {
       } else {
         this.removeAttribute(attributes.VISIBLE);
       }
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.refreshVisibility();
     }
   }
@@ -1117,21 +1111,12 @@ export default class IdsPopup extends Base {
 
     // Fix location first
     this.place();
-
     this.placeArrow(this.#targetAlignEdge);
-
     this.removeAttribute('aria-hidden');
 
     // Change transparency/visibility
     this.container.classList.add('open');
     this.open = true;
-
-    if (this.animated) {
-      await waitForTransitionEnd(this.container, 'opacity');
-    }
-
-    // Unblur if needed
-    this.correct3dMatrix();
 
     this.triggerEvent('show', this, {
       bubbles: true,
@@ -1139,6 +1124,14 @@ export default class IdsPopup extends Base {
         elem: this
       }
     });
+
+    if (this.animated) {
+      await waitForTransitionEnd(this.container, 'opacity');
+    }
+
+    // Unblur if needed
+    this.correct3dMatrix();
+    this.addOpenEvents();
   }
 
   /**
@@ -1147,17 +1140,12 @@ export default class IdsPopup extends Base {
    * @returns {void}
    */
   async hide() {
-    if (this.visible || !this.container) {
-      return;
-    }
-
+    if (!this.visible && !this.open) return;
+    this.setAttribute('aria-hidden', 'true');
+    this.visible = false;
     this.open = false;
     this.#remove3dMatrix();
-    this.container.classList.remove('open');
-
-    if (this.animated) {
-      await waitForTransitionEnd(this.container, 'opacity');
-    }
+    this.container!.classList.remove('open');
 
     // Always fire the 'hide' event
     this.triggerEvent('hide', this, {
@@ -1167,7 +1155,25 @@ export default class IdsPopup extends Base {
       }
     });
 
-    this.setAttribute('aria-hidden', 'true');
+    if (this.animated) {
+      await waitForTransitionEnd(this.container!, 'opacity');
+    }
+
+    this.removeOpenEvents();
+  }
+
+  /**
+   * Inherited from the Popup Open Events Mixin.
+   * Runs when a click event is propagated to the window.
+   * @param {MouseEvent} e the original click event
+   * @returns {void}
+   */
+  onOutsideClick(e: MouseEvent): void {
+    if (!e?.target || this.contains(e.target as HTMLElement)) {
+      return;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.hide();
   }
 
   /**
@@ -1466,24 +1472,25 @@ export default class IdsPopup extends Base {
 
     // Gets the distance between an edge on the target element, and its opposing viewport border
     const getDistance = (dir: string) => {
-      let d = 0;
+      let distance = 0;
 
       switch (dir) {
         case 'left':
-          d = (bleed ? 0 : containerRect.left) - scrollX - targetRect.left + this.x;
+          distance = (bleed ? 0 : containerRect.left) - scrollX - targetRect.left + this.x;
           break;
         case 'right':
-          d = (bleed ? viewportWidth : containerRect.right) - scrollX - targetRect.right - this.x;
+          distance = (bleed ? viewportWidth : containerRect.right) - scrollX - targetRect.right - this.x;
           break;
         case 'top':
-          d = (bleed ? 0 : containerRect.top) - scrollY - targetRect.top + this.y;
+          distance = (bleed ? 0 : containerRect.top) - scrollY - targetRect.top + this.y;
           break;
-        default: // bottom
-          d = (bleed ? viewportHeight : containerRect.bottom) - scrollY - targetRect.bottom - this.y;
+        case 'bottom':
+        default:
+          distance = (bleed ? viewportHeight : containerRect.bottom) - scrollY - targetRect.bottom - this.y;
           break;
       }
 
-      return Math.abs(d);
+      return Math.abs(distance);
     };
 
     const currentDir = this.alignEdge;
@@ -1504,7 +1511,7 @@ export default class IdsPopup extends Base {
       return popupRect[measuredPopupDimension] <= dist;
     });
 
-    return edge || 'none';
+    return edge || 'right';
   }
 
   /**

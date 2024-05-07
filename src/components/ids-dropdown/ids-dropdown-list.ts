@@ -3,7 +3,7 @@ import { attributes } from '../../core/ids-attributes';
 import { checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import IdsPickerPopup from '../ids-picker-popup/ids-picker-popup';
+import IdsPickerPopup from '../ids-popup/ids-picker-popup';
 import IdsColorVariantMixin from '../../mixins/ids-color-variant-mixin/ids-color-variant-mixin';
 import IdsFieldHeightMixin from '../../mixins/ids-field-height-mixin/ids-field-height-mixin';
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
@@ -67,7 +67,7 @@ export default class IdsDropdownList extends Base {
   colorVariants: Array<string> = IdsDropdownColorVariants;
 
   template() {
-    return `<ids-popup class="ids-dropdown-list" type="menu" part="dropdown-list" y="-1">
+    return `<ids-popup class="ids-dropdown-list" type="dropdown" part="dropdown-list" y="-1">
       <slot slot="content"></slot>
     </ids-popup>`;
   }
@@ -80,6 +80,7 @@ export default class IdsDropdownList extends Base {
     this.configureListBox();
     this.configurePopup();
     this.attachEventHandlers();
+    this.#setPreselectedLabel();
   }
 
   disconnectedCallback() {
@@ -110,12 +111,25 @@ export default class IdsDropdownList extends Base {
     this.configureListBox();
     this.configurePopup();
     this.setAriaOnMenuOpen();
-    if (this.value) this.selectOption(this.value);
+
+    if (this.value || typeof this.value === 'string') this.selectOption(this.value);
   }
 
   onTargetChange() {
     const id = this.getAttribute(attributes.ID);
     if (id) this.target?.setAttribute(attributes.LIST, `#${id}`);
+  }
+
+  #setPreselectedLabel() {
+    if (!this.value) return;
+
+    const selectedOptionText = this.getOption(this.value)?.textContent;
+    const dropdownEl = this.dropdownEl;
+    const dropdownInput = dropdownEl?.input?.input;
+
+    if (selectedOptionText && dropdownEl && dropdownInput) {
+      dropdownInput.value = selectedOptionText;
+    }
   }
 
   private attachEventHandlers() {
@@ -148,7 +162,7 @@ export default class IdsDropdownList extends Base {
 
         if (target) {
           this.lastHovered = (target as IdsListBoxOption);
-          this.dropdownEl?.selectTooltip(this.lastHovered);
+          this.dropdownEl?.selectTooltip?.(this.lastHovered);
         }
       });
     }
@@ -159,8 +173,6 @@ export default class IdsDropdownList extends Base {
    * appending of some keyboard handlers
    */
   addOpenEvents() {
-    super.addOpenEvents();
-
     // Handles keyboard arrow navigation inside the list
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       e.stopPropagation();
@@ -218,7 +230,6 @@ export default class IdsDropdownList extends Base {
    * removal of some keyboard handlers
    */
   removeOpenEvents() {
-    super.removeOpenEvents();
     this.unlisten(' ');
     this.unlisten('Enter');
   }
@@ -272,7 +283,7 @@ export default class IdsDropdownList extends Base {
     // External dropdown lists configured for "full" size need extra help
     // determining what size matches their target element.
     if (this.size === 'full' && this.target && !this.parentElement?.classList.contains('ids-dropdown')) {
-      const targetWidth = `${this.target.clientWidth + 1}px`;
+      const targetWidth = `${this.target.clientWidth + 3}px`;
       this.style.width = targetWidth;
       if (this.popup) {
         this.popup.style.maxWidth = targetWidth;
@@ -281,7 +292,11 @@ export default class IdsDropdownList extends Base {
     }
 
     if (this.popup) {
+      if (!this.target) {
+        this.popup.alignTarget = this;
+      }
       this.popup.type = 'dropdown';
+      this.popup.container?.classList.add('dropdown');
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'none';
 
@@ -311,6 +326,17 @@ export default class IdsDropdownList extends Base {
       if (this.compact && !this.listBox?.hasAttribute(attributes.COMPACT)) {
         this.listBox.setAttribute(attributes.COMPACT, 'true');
       }
+
+      if (this.listBox.maxHeight && this.popup) {
+        this.popup.maxHeight = this.listBox.maxHeight;
+      }
+    }
+
+    if (this.listBox?.options?.length) {
+      this.listBox.options.forEach((option: IdsListBoxOption, index) => {
+        if (option.rowIndex >= 0) return;
+        option.rowIndex = index; // row-index used to keep track of the sort-order of options
+      });
     }
   }
 
@@ -406,7 +432,7 @@ export default class IdsDropdownList extends Base {
    */
   set value(value: string | null) {
     let selector = `ids-list-box-option[value="${value}"]`;
-    if (value === ' ' || !value) selector = `ids-list-box-option:not([value])`;
+    if (value === ' ' || value === null) selector = `ids-list-box-option:not([value])`;
     const elem = this.listBox?.querySelector<IdsListBoxOption>(selector);
     if (!elem) return;
 
@@ -459,10 +485,6 @@ export default class IdsDropdownList extends Base {
 
     if (targetOption.id) {
       this.listBox?.setAttribute('aria-activedescendant', targetOption.id);
-    }
-
-    if (typeof targetOption.scrollIntoView === 'function') {
-      targetOption.scrollIntoView({ block: 'center' });
     }
   }
 

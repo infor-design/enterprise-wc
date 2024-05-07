@@ -750,7 +750,7 @@ export default class IdsDataGridFilters {
       let triggerField = node?.querySelector('ids-trigger-field');
       const datePickerPopup = node?.querySelector('ids-date-picker-popup');
       const timePickerPopup = node?.querySelector('ids-time-picker-popup');
-      let menuAttachment = '.ids-data-grid-wrapper';
+      let menuAttachment = '.ids-data-grid';
 
       // Slotted filter only
       if (slot && (input || dropdown || datePicker || timePicker || btn)) {
@@ -869,6 +869,7 @@ export default class IdsDataGridFilters {
         input.mask = 'number';
         input.maskOptions = {
           allowDecimal: false,
+          allowLeadingZeros: true,
           allowNegative: true,
           allowThousandsSeparator: false
         };
@@ -878,6 +879,7 @@ export default class IdsDataGridFilters {
         input.mask = 'number';
         input.maskOptions = {
           allowDecimal: true,
+          allowLeadingZeros: true,
           allowNegative: true
         };
       }

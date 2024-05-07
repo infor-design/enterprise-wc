@@ -91,6 +91,15 @@ export interface IdsDataGridTooltipOptions {
   filterButtonY?: number;
 }
 
+export interface IdsDataGridEditorValidation {
+  /* Custom validation function */
+  check: (input: any) => boolean;
+  /* Validation error message */
+  message: string;
+  /* Validation rul id */
+  id: string;
+}
+
 export interface IdsDataGridColumn {
   /** The columns unique id */
   id: string;
@@ -228,7 +237,8 @@ export interface IdsDataGridColumn {
     type: 'input' | 'date' | 'time' | 'checkbox' | 'dropdown' | 'datepicker' | 'timepicker' | 'tree' | 'lookup',
     inline?: boolean,
     editor?: IdsDataGridEditor,
-    editorSettings?: Record<string, unknown>
+    editorSettings?: Record<string, unknown>,
+    editorValidation?: IdsDataGridEditorValidation
   }
   /** If a true will set the text to uppercase */
   uppercase?: boolean | 'true' | ((type: 'body-cell' | 'header-cell', col: IdsDataGridColumn, index?: number, value?: any, item?: Record<string, any>) => boolean);
