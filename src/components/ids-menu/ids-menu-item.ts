@@ -253,22 +253,22 @@ export default class IdsMenuItem extends Base {
    */
   set disabled(val) {
     // Handled as boolean attribute
-    const trueVal = stringToBool(val);
-    this.state.disabled = trueVal;
+    const shouldDisable = stringToBool(val);
+    this.state.disabled = shouldDisable;
 
     const a = this.a;
 
     if (!a) return;
 
     const shouldUpdate = this.shouldUpdate;
-    const currentAttr = this.hasAttribute(attributes.DISABLED);
+    const isCurrentlyDisabled = stringToBool(this.getAttribute(attributes.DISABLED));
 
-    if (trueVal) {
+    if (shouldDisable) {
       (a as any).disabled = true;
       a.setAttribute(attributes.DISABLED, '');
       this.tabIndex = -1;
       this.container?.classList.add(attributes.DISABLED);
-      if (!currentAttr) {
+      if (!isCurrentlyDisabled) {
         this.shouldUpdate = false;
         this.setAttribute(attributes.DISABLED, '');
         this.shouldUpdate = shouldUpdate;
@@ -280,7 +280,7 @@ export default class IdsMenuItem extends Base {
     a?.removeAttribute(attributes.DISABLED);
     this.tabIndex = 0;
     this.container?.classList.remove(attributes.DISABLED);
-    if (currentAttr) {
+    if (isCurrentlyDisabled) {
       this.shouldUpdate = false;
       this.removeAttribute(attributes.DISABLED);
       this.shouldUpdate = shouldUpdate;
