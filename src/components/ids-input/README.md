@@ -148,6 +148,7 @@ await setData();
 - `placeholder` {string} set the placeholder text to input.
 - `size` {string} set the input size, it will set `md` as defaults.
 - `search-field` when autocomplete is enabled can be set to a string of the field to be searched in the dataset.
+- `value-field` when autocomplete is enabled can be set to a string of the field to be returned as value in selected event details
 - `revealable-text` {boolean} sets whether the show/hide button is available for password fields must be paired with type='password'
 - `readonly` {boolean} sets the input's readonly state.
 - `text-align` {string} sets the text alignment (default is `left`).
