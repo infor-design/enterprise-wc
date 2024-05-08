@@ -253,8 +253,8 @@ export default class IdsMenuItem extends Base {
    */
   set disabled(val) {
     // Handled as boolean attribute
-    const value = stringToBool(this.getAttribute(attributes.DISABLED));
-    this.state.disabled = value;
+    const trueVal = stringToBool(val);
+    this.state.disabled = trueVal;
 
     const a = this.a;
 
@@ -263,7 +263,7 @@ export default class IdsMenuItem extends Base {
     const shouldUpdate = this.shouldUpdate;
     const currentAttr = this.hasAttribute(attributes.DISABLED);
 
-    if (value) {
+    if (trueVal) {
       (a as any).disabled = true;
       a.setAttribute(attributes.DISABLED, '');
       this.tabIndex = -1;
