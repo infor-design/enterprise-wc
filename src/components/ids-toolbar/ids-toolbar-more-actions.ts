@@ -15,6 +15,7 @@ import styles from './ids-toolbar-more-actions.scss';
 import type IdsMenuGroup from '../ids-menu/ids-menu-group';
 import type IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import type IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+import type IdsMenuItem from '../ids-menu/ids-menu-item';
 
 const MORE_ACTIONS_SELECTOR = `[${attributes.MORE_ACTIONS}]`;
 
@@ -207,10 +208,18 @@ export default class IdsToolbarMoreActions extends Base {
 
   /**
    * @readonly
-   * @returns {HTMLElement} the inner popup menu
+   * @returns {IdsPopupMenu | null} the inner popup menu
    */
   get menu(): IdsPopupMenu | null {
     return this.querySelector<IdsPopupMenu>('ids-popup-menu') || null;
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<IdsMenuItem>} get the menu-items inside this IdsToolbarMoreActions
+   */
+  get menuItems(): Array<IdsMenuItem> {
+    return [...this.querySelectorAll<IdsMenuItem>('ids-menu-item')];
   }
 
   /**
@@ -370,7 +379,7 @@ export default class IdsToolbarMoreActions extends Base {
 
     // Listen to show/hide events from the inner IdsPopupMenu and reflect the `visible` attribute
     this.onEvent('show', this.menu, () => {
-      this.visible = true;
+      this.visible = !!this.menuItems?.length;
     });
     this.onEvent('hide', this.menu, () => {
       this.visible = false;
@@ -408,7 +417,7 @@ export default class IdsToolbarMoreActions extends Base {
 
     if (this.button) {
       this.button.hidden = !this.hasVisibleActions();
-      this.button.disabled = !this.querySelectorAll('ids-menu-item')?.length;
+      this.button.disabled = !this.menuItems?.length;
       if (this.button.getAttribute(attributes.COLOR_VARIANT)) this.button.container?.classList.add(`color-variant-${this.button.getAttribute(attributes.COLOR_VARIANT)}`);
     }
 
