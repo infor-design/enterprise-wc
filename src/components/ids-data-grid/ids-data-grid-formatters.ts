@@ -285,6 +285,16 @@ export default class IdsDataGridFormatters {
     const isDisabled = this.#isDisabled(index, value, columnData, rowData);
     const disabled = isDisabled ? ' disabled' : '';
 
+    // Regular expression to match common color formats
+    const colorRegex = /^(#(?:[0-9a-fA-F]{3}){1,2}|(?:rgb|hsl)a?\((?:\s*\d+\s*,){2,3}\s*\d*\.*\d*\))$/;
+
+    // Check if the value is a color
+    const isColor = colorRegex.test(value);
+
+    if (!columnData.color && !isColor) {
+      return `<span class="text-ellipsis">-</span>`;
+    }
+
     if (!columnData.color && !value) return `<span class="text-ellipsis"><ids-color${disabled}></ids-color></span>`;
 
     const color = this.#color(index, value, columnData, rowData);

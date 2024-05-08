@@ -75,6 +75,121 @@ const semanticContrastTokens = generateTokenObjects(semanticContrastTokensFile, 
  * @param {Array} tokenDependencies - An array of token dependencies
  * @returns {Array<object>} - An array of objects with token information
  */
+// function parseThemeFile(filePath, tokenDependencies) {
+//   // Extract theme name from file path
+//   const themeName = path.basename(filePath, '.scss');
+
+//   const fileContent = fs.readFileSync(filePath, 'utf8');
+//   const lines = fileContent.split('\n');
+//   const themeTokens = [];
+
+//   // Regular expression to match CSS variable declarations
+//   const variableRegex = /--ids-(.*?):\s*(.*?)(?:\s*;|$)/;
+
+//   /**
+//    * Finds the value of a CSS variable
+//    * @param {*} variableName - The name of the CSS variable
+//    * @returns {object} - The value of the CSS variable
+//    */
+//   function findVariableValue(variableName) {
+//     /* eslint-disable */
+//     for (const tokens of tokenDependencies) {
+//     if (tokens.some((token) => token.tokenName === variableName)) {
+//         const token = tokens.find((token) => token.tokenName === variableName);
+//         if (token.tokenValue.match(/var\((.*?)\)/)) {
+//           const nestedVariableName = token.tokenValue.match(/var\((.*?)\)/)[1].trim();
+//           const nestedValue = findVariableValue(nestedVariableName);
+//           if (nestedValue) {
+//             return {
+//               tokenName: variableName,
+//               tokenValue: token.tokenValue,
+//               source: token.label,
+//               inherited: nestedValue
+//             };
+//           }
+//         } else {
+//           return {
+//             tokenName: variableName,
+//             tokenValue: token.tokenValue,
+//             source: token.label,
+//             inherited: undefined
+//           };
+//         }
+//       }
+//     }
+//     // If the variable is not found in token arrays, search within the theme file itself
+//     const themeVariableRegex = new RegExp(`${variableName}:\\s*(.*?)(?:\\s*;|$)`);
+//     for (const line of lines) {
+//       const themeMatch = line.trim().match(themeVariableRegex);
+//       if (themeMatch) {
+//         const value = themeMatch[1].trim();
+//         if (value.match(/var\((.*?)\)/)) {
+//           const nestedVariableName = value.match(/var\((.*?)\)/)[1].trim();
+//           const nestedValue = findVariableValue(nestedVariableName);
+//           if (nestedValue) {
+//             return {
+//               tokenName: variableName,
+//               tokenValue: value,
+//               source: 'themeFile',
+//               inherited: nestedValue
+//             };
+//           }
+//         } else {
+//           return {
+//             tokenName: variableName,
+//             tokenValue: value,
+//             source: 'themeFile',
+//             inherited: undefined
+//           };
+//         }
+//       }
+//     }
+//     /* eslint-enable */
+//     return null; // Variable not found
+//   }
+
+//   // Parse each line
+//   lines.forEach((line) => {
+//     const match = line.trim().match(variableRegex);
+//     if (match) {
+//       const tokenName = `--ids-${match[1].trim()}`;
+//       const tokenValue = match[2].trim();
+//       const inherited = { tokenName: '', tokenValue: '', source: '' };
+
+//       // Check if the token value is a variable (e.g., var(--ids-color-orange-50))
+//       const variableMatch = tokenValue.match(/var\((.*?)\)/);
+//       if (variableMatch) {
+//         const variableName = `${variableMatch[1].trim()}`;
+
+//         inherited.tokenName = variableName;
+
+//         // Find the value of the inherited variable recursively
+//         const inheritedValue = findVariableValue(variableName);
+//         if (inheritedValue) {
+//           inherited.tokenValue = inheritedValue.tokenValue;
+//           inherited.source = inheritedValue.source;
+//           inherited.inherited = inheritedValue.inherited;
+//         }
+//       }
+
+//       // Only push inherited field if it contains values
+//       if (inherited.tokenName && inherited.tokenValue) {
+//         themeTokens.push({ tokenName, tokenValue, inherited });
+//       } else {
+//         themeTokens.push({ tokenName, tokenValue });
+//       }
+//     }
+//   });
+
+//   // Add theme name to the returned object
+//   return { themeName, themeTokens };
+// }
+/**
+ * Reads a theme SCSS file and identifies the source of each CSS variable
+ * @param {string} filePath - The path to the theme SCSS file
+ * @param {Array} tokenDependencies - An array of token dependencies
+ * @returns {Array<object>} - An array of objects with token information
+ */
 function parseThemeFile(filePath, tokenDependencies) {
   // Extract theme name from file path
   const themeName = path.basename(filePath, '.scss');
@@ -104,7 +219,7 @@ function parseThemeFile(filePath, tokenDependencies) {
               tokenName: variableName,
               tokenValue: token.tokenValue,
               source: token.label,
-              inherited: nestedValue
+              children: [nestedValue]
             };
           }
         } else {
@@ -112,7 +227,7 @@ function parseThemeFile(filePath, tokenDependencies) {
             tokenName: variableName,
             tokenValue: token.tokenValue,
             source: token.label,
-            inherited: undefined
+            children: []
           };
         }
       }
@@ -131,7 +246,7 @@ function parseThemeFile(filePath, tokenDependencies) {
               tokenName: variableName,
               tokenValue: value,
               source: 'themeFile',
-              inherited: nestedValue
+              children: [nestedValue]
             };
           }
         } else {
@@ -139,7 +254,7 @@ function parseThemeFile(filePath, tokenDependencies) {
             tokenName: variableName,
             tokenValue: value,
             source: 'themeFile',
-            inherited: undefined
+            children: []
           };
         }
       }
@@ -168,13 +283,13 @@ function parseThemeFile(filePath, tokenDependencies) {
         if (inheritedValue) {
           inherited.tokenValue = inheritedValue.tokenValue;
           inherited.source = inheritedValue.source;
-          inherited.inherited = inheritedValue.inherited;
+          inherited.children = inheritedValue.children;
         }
       }
 
       // Only push inherited field if it contains values
       if (inherited.tokenName && inherited.tokenValue) {
-        themeTokens.push({ tokenName, tokenValue, inherited });
+        themeTokens.push({ tokenName, tokenValue, children: [inherited] });
       } else {
         themeTokens.push({ tokenName, tokenValue });
       }
@@ -184,6 +299,7 @@ function parseThemeFile(filePath, tokenDependencies) {
   // Add theme name to the returned object
   return { themeName, themeTokens };
 }
+
 
 // Core theme
 const coreThemeFilePath = themeFiles[0];
