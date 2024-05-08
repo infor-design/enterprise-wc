@@ -274,6 +274,7 @@ export default class IdsUpload extends Base {
     this.onEvent('focus', window, () => {
       if (this.isFilePickerOpened) {
         this.isFilePickerOpened = false;
+        this.trigger?.setAttribute(attributes.HIDE_FOCUS, 'true');
         // Need timeout because `focus` get before the `files` on fileInput
         setTimeout(() => {
           const files = this.fileInput?.files;
@@ -361,6 +362,7 @@ export default class IdsUpload extends Base {
    */
   handleTriggerClickEvent(): void {
     this.onEvent('click', this.trigger, () => {
+      this.trigger?.setAttribute(attributes.HIDE_FOCUS, 'false');
       this.open();
     });
   }
