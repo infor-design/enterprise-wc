@@ -1,9 +1,9 @@
 import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
 import '../../ids-data-grid/ids-data-grid';
 import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';
-import coreThemeJSON from '../../../assets/data/themeData/coreTheme.json';
-import darkThemeJSON from '../../../assets/data/themeData/darkTheme.json';
-import contrastThemeJSON from '../../../assets/data/themeData/contrastTheme.json';
+import coreThemeJSON from '../../../assets/data/themeData/ids-theme-default-core.json';
+import darkThemeJSON from '../../../assets/data/themeData/ids-theme-default-dark.json';
+import contrastThemeJSON from '../../../assets/data/themeData/ids-theme-default-contrast.json';
 import '../../ids-layout-flex/ids-layout-flex';
 import '../../ids-dropdown/ids-dropdown';
 
@@ -46,60 +46,6 @@ columns.push({
   width: 165,
   align: 'center'
 });
-
-// columns.push({
-//   id: 'inheritedName',
-//   name: 'Inherited Name',
-//   field: 'inherited.tokenName',
-//   formatter: dataGrid.formatters.text,
-//   sortable: false,
-//   resizable: true,
-// });
-
-// columns.push({
-//   id: 'inheritedValue',
-//   name: 'Inherited Value',
-//   field: 'inherited.tokenValue',
-//   formatter: dataGrid.formatters.text,
-//   sortable: false,
-//   resizable: true,
-// });
-
-// columns.push({
-//   id: 'inheritedInheritedName',
-//   name: 'Inherited Inherited Name',
-//   field: 'inherited.inherited.tokenName',
-//   formatter: dataGrid.formatters.text,
-//   sortable: false,
-//   resizable: true,
-// });
-
-// columns.push({
-//   id: 'inheritedInheritedValue',
-//   name: 'Inherited Inherited Value',
-//   field: 'inherited.inherited.tokenValue',
-//   formatter: dataGrid.formatters.text,
-//   sortable: false,
-//   resizable: true,
-// });
-
-// columns.push({
-//   id: 'inheritedInheritedInheritedName',
-//   name: 'Inherited Inherited Inherited Name',
-//   field: 'inherited.inherited.inherited.tokenName',
-//   formatter: dataGrid.formatters.text,
-//   sortable: false,
-//   resizable: true,
-// });
-
-// columns.push({
-//   id: 'inheritedInheritedInheritedValue',
-//   name: 'Inherited Inherited Inherited Value',
-//   field: 'inherited.inherited.inherited.tokenValue',
-//   formatter: dataGrid.formatters.text,
-//   sortable: false,
-//   resizable: true,
-// });
 
 dataGrid.columns = columns;
 
