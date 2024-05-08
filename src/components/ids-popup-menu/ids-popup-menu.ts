@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { getElementAtMouseLocation, parents, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
@@ -757,7 +758,8 @@ export default class IdsPopupMenu extends Base {
    */
   private configureSubmenuAlignment() {
     const isRTL = this.popup?.localeAPI?.isRTL() || false;
-    if (this.parentMenuItem) {
+    const parentMenuDisabled = stringToBool(this.parentMenuItem?.getAttribute('disabled'));
+    if (this.parentMenuItem && !parentMenuDisabled) {
       this.popupDelay = 200;
       this.target = this.parentMenuItem;
       this.triggerType = 'hover';

@@ -394,6 +394,8 @@ export default class IdsToolbarMoreActions extends Base {
    * @returns {void}
    */
   refreshOverflowedItems(): void {
+    if (!this.overflow) return;
+
     this.overflowMenuItems.forEach((item) => {
       const doHide = !this.isOverflowed(item.overflowTarget);
       item.hidden = doHide;
