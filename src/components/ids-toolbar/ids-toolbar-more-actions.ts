@@ -417,7 +417,7 @@ export default class IdsToolbarMoreActions extends Base {
 
     if (this.button) {
       this.button.hidden = !this.hasVisibleActions();
-      this.button.disabled = !this.menuItems?.length;
+      // this.button.disabled = !this.menuItems?.length;
       if (this.button.getAttribute(attributes.COLOR_VARIANT)) this.button.container?.classList.add(`color-variant-${this.button.getAttribute(attributes.COLOR_VARIANT)}`);
     }
 
