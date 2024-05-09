@@ -418,7 +418,7 @@ class IdsDataSource {
    */
   update(items: Array<Record<string, unknown>> = [], overwrite: boolean = false) {
     items.forEach((updatedRecord, index) => {
-      if (!updatedRecord.hasOwnProperty(this.primaryKey)) {
+      if (!(this.primaryKey in updatedRecord)) {
         updatedRecord[this.primaryKey] = index;
       }
       const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
