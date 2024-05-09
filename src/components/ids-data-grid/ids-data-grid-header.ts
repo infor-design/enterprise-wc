@@ -445,7 +445,17 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
     const expander = showHeaderExpander ? expanderTemplate : '';
 
     const selectionCheckbox = column.id !== 'selectionRadio' && column.id === 'selectionCheckbox';
-    const colName = escapeHTML(column.name);
+    let colName = '';
+    if (Array.isArray(column.name)) {
+      colName = `
+        ${escapeHTML(column.name[0].text)}
+        <br>
+        ${column.name[1].emphasis === 'subtle' ? '<small>' : ''}
+        ${escapeHTML(column.name[1].text)}
+        ${column.name[1].emphasis === 'subtle' ? '</small>' : ''}
+      `;
+    } else { colName = escapeHTML(column.name); }
+
     const headerContentTemplate = `
       ${selectionCheckbox ? selectionCheckBoxTemplate : ''}
       ${(column.id !== 'selectionRadio' && column.id !== 'selectionCheckbox' && colName) ? colName : ''}
