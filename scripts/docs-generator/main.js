@@ -227,6 +227,23 @@ const generateIndexPage = (path) => {
   });
 };
 
+const generateChangelogPage = (path) => {
+  const jsonTemplate = {
+    title: 'Infor Design System\'s Enterprise Changelog',
+    description: '',
+    body: '',
+    api: ''
+  };
+  const output = `./docs/docs/changelog.json`;
+  const fileContent = getFileContents(path);
+  jsonTemplate.body = marked.parse(fileContent);
+  fs.writeFileSync(output, JSON.stringify(jsonTemplate), (error) => {
+    if (error) {
+      throw error;
+    }
+  });
+};
+
 const populateApiDocs = () => new Promise((resolve, reject) => {
   const docFiles = fs.readdirSync('./docs/docs');
   const promises = [];
@@ -253,6 +270,7 @@ const populateApiDocs = () => new Promise((resolve, reject) => {
 createDocsDir(`${docsOutputDir}/docs`);
 generateDocs(componentsDir);
 generateIndexPage(`./README.md`);
+generateChangelogPage(`./doc/CHANGELOG.md`);
 generateApiDocs(componentPaths, apiDocsOutputDir)
   .then(() => {
     const promises = [];
