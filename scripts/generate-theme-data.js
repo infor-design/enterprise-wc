@@ -72,7 +72,7 @@ function parseThemeFile(filePath, tokenDependencies) {
   function findVariableValue(variableName) {
     /* eslint-disable */
     for (const tokens of tokenDependencies) {
-    if (tokens.some((token) => token.tokenName === variableName)) {
+      if (tokens.some((token) => token.tokenName === variableName)) {
         const token = tokens.find((token) => token.tokenName === variableName);
         if (token.tokenValue.match(/var\((.*?)\)/)) {
           const nestedVariableName = token.tokenValue.match(/var\((.*?)\)/)[1].trim();
@@ -169,12 +169,13 @@ const themeColorTokens = generateTokenObjects(tokenFiles.themeColors, 'themeColo
 const semanticLightTokens = generateTokenObjects(tokenFiles.semanticLight, 'semanticLightTokens');
 const semanticDarkTokens = generateTokenObjects(tokenFiles.semanticDark, 'semanticDarkTokens');
 const semanticContrastTokens = generateTokenObjects(tokenFiles.semanticContrast, 'semanticContrastTokens');
+const semanticCoreTheme = generateTokenObjects(themeFiles[0], 'semanticCoreTokens');
 
 // Theme parsing and writing to files
 const themes = [
   { filePath: themeFiles[0], tokenDependencies: [coreTokens, themeColorTokens, semanticLightTokens] },
-  { filePath: themeFiles[1], tokenDependencies: [coreTokens, themeColorTokens, semanticContrastTokens] },
-  { filePath: themeFiles[2], tokenDependencies: [coreTokens, themeColorTokens, semanticDarkTokens] }
+  { filePath: themeFiles[1], tokenDependencies: [coreTokens, themeColorTokens, semanticCoreTheme, semanticContrastTokens] },
+  { filePath: themeFiles[2], tokenDependencies: [coreTokens, themeColorTokens, semanticCoreTheme, semanticDarkTokens] }
 ];
 
 themes.forEach(({ filePath, tokenDependencies }, index) => {

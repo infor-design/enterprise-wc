@@ -30,6 +30,7 @@
     "build:stats": "npx rimraf build/dist/production && npx webpack --config ./webpack.config.dev.js --mode production",
     "copy-static:dev": "cp -f package-dist.json build/dist/development/package.json && cp -f README.md build/dist/development && cp -f LICENSE build/dist/development",
     "copy-static:prod": "cp -f package-dist.json build/dist/production/package.json && cp -f README.md build/dist/production && cp -f LICENSE build/dist/production",
+    "copy:tokens": "cp ./node_modules/ids-foundation/theme-soho/{core.scss,semantic-contrast.scss,semantic-light.scss,semantic-dark.scss,theme-colors.scss} ./src/themes/tokens",
     "start": "npx rimraf build/development && node --max-old-space-size=8192 node_modules/webpack/bin/webpack serve --live-reload --open --config ./webpack.config.dev.js",
     "start:filter:example": "npm --components=data-grid run start",
     "lint": "npx eslint src tests && npx stylelint src/**/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'src/**/*.html' && npx tsc",
@@ -47,8 +48,7 @@
     "test:ui": "PERCY_LOGLEVEL=silent npx playwright test --ui",
     "test:vulnerabilities": "snyk test",
     "test:circular": "npx madge --circular --extensions ts ./",
-    "ncu": "npx ncu",
-    "copy:tokens": "cp ./node_modules/ids-foundation/theme-soho/{core.scss,semantic-contrast.scss,semantic-light.scss,semantic-dark.scss,theme-colors.scss} ./src/themes/tokens"
+    "ncu": "npx ncu"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.9.0",
