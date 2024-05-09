@@ -169,13 +169,13 @@ const themeColorTokens = generateTokenObjects(tokenFiles.themeColors, 'themeColo
 const semanticLightTokens = generateTokenObjects(tokenFiles.semanticLight, 'semanticLightTokens');
 const semanticDarkTokens = generateTokenObjects(tokenFiles.semanticDark, 'semanticDarkTokens');
 const semanticContrastTokens = generateTokenObjects(tokenFiles.semanticContrast, 'semanticContrastTokens');
-const semanticCoreTheme = generateTokenObjects(themeFiles[0], 'semanticCoreTokens');
+const defaultCoreTheme = generateTokenObjects(themeFiles[0], 'defaultCoreTheme');
 
 // Theme parsing and writing to files
 const themes = [
   { filePath: themeFiles[0], tokenDependencies: [coreTokens, themeColorTokens, semanticLightTokens] },
-  { filePath: themeFiles[1], tokenDependencies: [coreTokens, themeColorTokens, semanticCoreTheme, semanticContrastTokens] },
-  { filePath: themeFiles[2], tokenDependencies: [coreTokens, themeColorTokens, semanticCoreTheme, semanticDarkTokens] }
+  { filePath: themeFiles[1], tokenDependencies: [coreTokens, themeColorTokens, defaultCoreTheme, semanticContrastTokens] },
+  { filePath: themeFiles[2], tokenDependencies: [coreTokens, themeColorTokens, defaultCoreTheme, semanticDarkTokens] }
 ];
 
 themes.forEach(({ filePath, tokenDependencies }, index) => {

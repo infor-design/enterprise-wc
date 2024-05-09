@@ -38,14 +38,24 @@ columns.push({
   resizable: true,
 });
 
-// columns.push({
-//   id: 'preview',
-//   name: 'Preview',
-//   field: 'tokenValue',
-//   formatter: dataGrid.formatters.color,
-//   width: 165,
-//   align: 'center'
-// });
+columns.push({
+  id: 'preview',
+  name: 'Preview',
+  field: 'tokenValue',
+  formatter: dataGrid.formatters.color,
+  width: 165,
+  align: 'center',
+  suppressColorTooltip: true,
+});
+
+columns.push({
+  id: 'source',
+  name: 'Source',
+  field: 'source',
+  formatter: dataGrid.formatters.text,
+  sortable: false,
+  resizable: true,
+});
 
 dataGrid.columns = columns;
 

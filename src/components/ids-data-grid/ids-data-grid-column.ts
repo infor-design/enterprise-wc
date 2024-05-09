@@ -171,6 +171,8 @@ export interface IdsDataGridColumn {
     format?: string;
     /** Placeholder to show for empty inputs */
     placeholder?: string;
+    /** Option to show empty field */
+    suppressColorTooltip?: boolean;
     /** Option to show today or not (for date type filters)  */
     showToday?: boolean;
     /** First day of the week (for date type filters) */

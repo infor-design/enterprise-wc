@@ -292,7 +292,7 @@ export default class IdsDataGridFormatters {
     const isColor = colorRegex.test(value);
 
     if (!columnData.color && !isColor) {
-      return `<span class="text-ellipsis">-</span>`;
+      return `<span class="text-ellipsis"><ids-icon icon="filter-is-empty" status-color="info"></ids-icon></span>`;
     }
 
     if (!columnData.color && !value) return `<span class="text-ellipsis"><ids-color${disabled}></ids-color></span>`;
@@ -302,8 +302,12 @@ export default class IdsDataGridFormatters {
     const hex = color || value || '#C2A1F1';
     const tooltip = !color && value ? ` tooltip="${value}"` : '';
 
-    return `
-      <span class="text-ellipsis">
+    return columnData.suppressColorTooltip ? 
+      `<span class="text-ellipsis">
+        <ids-color hex="${hex}"${disabled} suppress-tooltip></ids-color>
+      </span>` 
+      :
+      `<span class="text-ellipsis">
         <ids-color hex="${hex}"${tooltip}${disabled}></ids-color>
       </span>
     `;
