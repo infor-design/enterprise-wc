@@ -62,7 +62,7 @@ export default class IdsSplitterPane extends Base {
    * @param {boolean} value for the size in percent with the percent sign
    */
   set collapsed(value: boolean) {
-    const val = stringToBool(this.getAttribute(attributes.COLLAPSED));
+    const val = stringToBool(value);
     if (val) {
       this.state.collapsedSize = String(this.size) === '0%' ? this.state.collapsedSize : String(this.size);
       this.setAttribute(attributes.COLLAPSED, String(val));

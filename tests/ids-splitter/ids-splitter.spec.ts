@@ -295,6 +295,49 @@ test.describe('IdsSplitter tests', () => {
       expect(splitterSizes[1]).toEqual('70%');
     });
 
+    test('should set size', async ({ page }) => {
+      await page.evaluate(() => {
+        document.querySelector<IdsSplitterPane>('#p1')!.size = '20%';
+      });
+
+      const splitterSizes = await page.evaluate(() => [
+        document.querySelector<IdsSplitterPane>('#p1')!.style.width,
+        document.querySelector<IdsSplitterPane>('#p1')!.size,
+        document.querySelector<IdsSplitterPane>('#p2')!.style.width
+      ]);
+      expect(splitterSizes[0]).toEqual('20%');
+      expect(splitterSizes[1]).toEqual('20%');
+      expect(splitterSizes[2]).toEqual('80%');
+    });
+
+    test('should set collapsed', async ({ page }) => {
+      await page.evaluate(() => {
+        document.querySelector<IdsSplitterPane>('#p1')!.collapsed = true;
+      });
+
+      const splitterSizes = await page.evaluate(() => [
+        document.querySelector<IdsSplitterPane>('#p1')!.style.width,
+        document.querySelector<IdsSplitterPane>('#p1')!.size,
+        document.querySelector<IdsSplitterPane>('#p2')!.style.width
+      ]);
+      expect(splitterSizes[0]).toEqual('0%');
+      expect(splitterSizes[1]).toEqual('0%');
+      expect(splitterSizes[2]).toEqual('100%');
+
+      await page.evaluate(() => {
+        document.querySelector<IdsSplitterPane>('#p1')!.collapsed = false;
+      });
+
+      const splitterSizes2 = await page.evaluate(() => [
+        document.querySelector<IdsSplitterPane>('#p1')!.style.width,
+        document.querySelector<IdsSplitterPane>('#p1')!.size,
+        document.querySelector<IdsSplitterPane>('#p2')!.style.width
+      ]);
+      expect(splitterSizes2[0]).toEqual('30%');
+      expect(splitterSizes2[1]).toEqual('30%');
+      expect(splitterSizes2[2]).toEqual('70%');
+    });
+
     test('should set initial size and minimum size', async ({ page }) => {
       await page.evaluate(() => {
         document.body.innerHTML = `<ids-splitter id="test">
