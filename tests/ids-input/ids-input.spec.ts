@@ -934,6 +934,7 @@ test.describe('IdsInput tests', () => {
       const input = await page.locator('ids-input').first();
       expect(await input.getAttribute('autocomplete')).toBeNull();
       expect(await input.evaluate((elem: IdsInput) => elem.autocomplete)).toBeFalsy();
+      expect(await input.evaluate((elem: IdsInput) => elem.popup)).toBeNull();
       const datasource = new IdsDataSource();
       await input.evaluate((elem: any, arg) => {
         elem.autocomplete = true;
@@ -948,6 +949,7 @@ test.describe('IdsInput tests', () => {
       expect(await input.evaluate((elem: IdsInput) => elem.autocomplete)).toBeTruthy();
       expect(await input.evaluate((elem: IdsInput) => elem.data.length)).toEqual(59);
       expect(await input.evaluate((elem: IdsInput) => elem.searchField)).toEqual('value');
+      expect(await input.evaluate((elem: IdsInput) => elem.popup)).toBeDefined();
       await input.evaluate((elem: any) => {
         elem.searchField = 'label';
       });
@@ -992,6 +994,32 @@ test.describe('IdsInput tests', () => {
         const elem = document.querySelector<IdsInput>('ids-input');
         return !elem?.popup?.visible;
       });
+    });
+
+    test('should return value by value-field in selected  ', async ({ page }) => {
+      await page.goto('/ids-input/autocomplete.html');
+      const input = await page.locator('ids-input');
+      await page.evaluate(() => {
+        (window as any).eventResponse = null;
+        const elem = document.querySelector('ids-input') as IdsInput;
+        elem.addEventListener('selected', (e: any) => {
+          (window as any).eventResponse = e.detail.value;
+        });
+      });
+      await input.evaluate((elem: any) => {
+        elem.searchField = 'label';
+        elem.valueField = 'value';
+        elem.focus();
+      });
+      await page.keyboard.type('rida');
+      await page.waitForFunction(() => {
+        const elem = document.querySelector<IdsInput>('ids-input');
+        return elem?.popup?.visible;
+      });
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Enter');
+      expect(await input.evaluate((elem: IdsInput) => elem.value)).toEqual('Florida');
+      expect(await page.evaluate(() => (window as any).eventResponse)).toEqual('FL');
     });
   });
 });

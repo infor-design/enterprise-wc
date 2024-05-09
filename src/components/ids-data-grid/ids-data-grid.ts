@@ -3135,7 +3135,7 @@ export default class IdsDataGrid extends Base {
         xlColumns[gridCol.id] = {
           id: gridCol.id,
           field: gridCol.field,
-          name: gridCol.name,
+          name: Array.isArray(gridCol.name) ? `${gridCol.name[0]} ${gridCol.name[0].emphasis === 'subtle' ? '(' : ''}${gridCol.name[0]}${gridCol.name[0].emphasis === 'subtle' ? ')' : ''}` : gridCol.name,
           type: keepGridFormatting ? 'string' : this.determineColType(gridCol)
         };
       }

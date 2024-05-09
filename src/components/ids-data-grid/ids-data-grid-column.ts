@@ -101,15 +101,22 @@ export interface IdsDataGridEditorValidation {
   id: string;
 }
 
+export interface IdsDataGridHeaderTextName {
+  /** The header text for one line */
+  text: string;
+  /** The font style to use */
+  emphasis?: 'normal' | 'subtle';
+}
+
 export interface IdsDataGridColumn {
   /** The columns unique id */
   id: string;
   /** The columns name */
-  name?: string;
+  name?: string | Array<IdsDataGridHeaderTextName>;
   /** The columns field in the array to use */
   field?: string;
   /** The subsitute text to use (for hyperlink and some formatters) */
-  text?: string;
+  text?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
   /** Max value of a range */
   max?: number;
   /** Mininum value of a range */
@@ -205,7 +212,7 @@ export interface IdsDataGridColumn {
   /** Make the column readonly with a boolean or a dynamic function */
   readonly?: boolean | ((row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>) => boolean);
   /** Name of the icon too use for formatters that support it */
-  icon?: string;
+  icon?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
   /** Name of the header icon */
   headerIcon?: string;
   /** Align the column to either `left`, `center` or `right` */

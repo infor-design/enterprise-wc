@@ -27,7 +27,8 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
     return [
       ...(superclass as any).attributes,
       attributes.AUTOCOMPLETE,
-      attributes.SEARCH_FIELD
+      attributes.SEARCH_FIELD,
+      attributes.VALUE_FIELD,
     ];
   }
 
@@ -52,16 +53,17 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
   set autocomplete(value: string | boolean | null) {
     const val = stringToBool(value);
 
-    if (!this.container) {
-      return;
-    }
-
     if (val) {
       this.setAttribute(attributes.AUTOCOMPLETE, '');
       this.container?.classList.add('autocomplete');
+      this.#attachPopup();
+      this.#addAria();
+      this.#attachEventListeners();
+      this.#attachKeyboardListeners();
     } else {
       this.removeAttribute(attributes.AUTOCOMPLETE);
       this.container?.classList.remove('autocomplete');
+      this.destroyAutocomplete();
     }
   }
 
@@ -110,8 +112,27 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {string} containing the searchField
    */
   get searchField(): string {
-    const fields = this.data && Object?.keys(this.data[0]);
+    const fields = this.data && Object?.keys(this.data[0] || {});
     return this.getAttribute(attributes.SEARCH_FIELD) || fields[0];
+  }
+
+  /**
+   * Dataset field to use as value in selected event
+   * @param {string | null} value field from the dataset
+   */
+  set valueField(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.VALUE_FIELD, value);
+    } else {
+      this.removeAttribute(attributes.VALUE_FIELD);
+    }
+  }
+
+  /**
+   * @returns {string} value field or search field as fallback
+   */
+  get valueField(): string {
+    return this.getAttribute(attributes.VALUE_FIELD) || this.searchField;
   }
 
   /**
@@ -159,7 +180,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
   findMatches(value: string | RegExp, list: Array<any>): Array<any> | null {
     return list.filter((option) => {
       const regex = new RegExp(value, 'gi');
-      return option[this.searchField].toString()?.match(regex);
+      return option[this.searchField]?.toString()?.match(regex);
     });
   }
 
@@ -177,7 +198,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
     const results = resultsArr?.map((result) => {
       const regex = new RegExp(thisAsInput.value as string, 'gi');
       const optionText = result[this.searchField].toString()?.replace(regex, `<span class="highlight">${(thisAsInput.value as string)?.toLowerCase()}</span>`);
-      return this.#templatelistBoxOption(result[this.searchField], optionText);
+      return this.#templatelistBoxOption(result[this.searchField], optionText, result[this.valueField]);
     }).join('');
 
     if (thisAsInput.value) {
@@ -198,8 +219,9 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
   #populateListBox() {
     if (this.listBox) {
       this.listBox.innerHTML = this.data.map((d) => {
-        const value = d[this.searchField];
-        return this.#templatelistBoxOption(value, value);
+        const value = d[this.valueField];
+        const label = d[this.searchField];
+        return this.#templatelistBoxOption(label, label, value);
       });
     }
   }
@@ -208,10 +230,11 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * Create the list box option template.
    * @param {string | null} value sets the value attr of the option
    * @param {string | null} label sets the label of the option
+   * @param {string | null} selectedValue sets the selected value
    * @returns {string} ids-list-box-option template.
    */
-  #templatelistBoxOption(value: string | null, label: string | null): string {
-    return `<ids-list-box-option value="${value}">${label}</ids-list-box-option>`;
+  #templatelistBoxOption(value: string | null, label: string | null, selectedValue?: string | null): string {
+    return `<ids-list-box-option data-value="${selectedValue}" value="${value}">${label}</ids-list-box-option>`;
   }
 
   /**
@@ -249,8 +272,10 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   openPopup() {
-    this.popup!.visible = true;
-    this.popup?.show();
+    if (this.popup) {
+      this.popup!.visible = true;
+      this.popup?.show();
+    }
   }
 
   /**
@@ -263,13 +288,14 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
     }
 
     if (this.isSelected) {
-      (this as IdsInputInterface).value = this.isSelected.getAttribute('value');
+      (this as IdsInputInterface).value = this.isSelected.getAttribute(attributes.VALUE);
+      const selectedValue = this.isSelected.dataset?.value;
 
       this.triggerEvent('selected', this, {
         bubbles: true,
         detail: {
           elem: this,
-          value: (this as IdsInputInterface).value
+          value: selectedValue || (this as IdsInputInterface).value
         }
       });
     }
@@ -309,7 +335,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
   }
 
   /**
-   * Configure and attach internal IdsPopup element.
+   * Configure internal IdsPopup element.
    * @returns {void}
    */
   #configurePopup() {
@@ -322,13 +348,29 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
   }
 
   /**
+   * Attach and configure internal IdsPopup element
+   * @returns {void}
+   */
+  #attachPopup() {
+    // Skip if popup already exists
+    if (this.popup) return;
+    this.container?.insertAdjacentHTML('beforeend', `
+      <ids-popup part="popup">
+        <ids-list-box slot="content"></ids-list-box>
+      </ids-popup>
+    `);
+    this.#configurePopup();
+  }
+
+  /**
    * Attach internal event handlers
    * @returns {void}
    */
   #attachEventListeners() {
-    this.onEvent('keydownend', this, this.displayMatches);
-    this.onEvent('mousedown', this.listBox, this.selectOption.bind(this));
-    this.onEvent('blur', this, this.closePopup);
+    this.#removeEventListeners();
+    this.onEvent('keydownend.autocomplete', this, this.displayMatches);
+    this.onEvent('mousedown.autocomplete', this.listBox, this.selectOption.bind(this));
+    this.onEvent('blur.autocomplete', this, this.closePopup);
   }
 
   /**
@@ -336,6 +378,7 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   #attachKeyboardListeners() {
+    this.#removeKeyboardListeners();
     this.listen(['ArrowDown'], this, (e: Event | any) => {
       e.stopPropagation();
       e.stopImmediatePropagation();
@@ -397,10 +440,22 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * Remove internal event handlers
    * @returns {void}
    */
+  #removeKeyboardListeners() {
+    this.unlisten('ArrowDown');
+    this.unlisten('ArrowUp');
+    this.unlisten(' ');
+    this.unlisten('Enter');
+    this.unlisten('Escape');
+  }
+
+  /**
+   * Remove internal event handlers
+   * @returns {void}
+   */
   #removeEventListeners() {
-    this.offEvent('keyup', this, this.displayMatches);
-    this.offEvent('change', this, this.displayMatches);
-    this.offEvent('blur', this, this.closePopup);
+    this.offEvent('keyup.autocomplete', this);
+    this.offEvent('change.autocomplete', this);
+    this.offEvent('blur.autocomplete', this);
   }
 
   /**
@@ -408,7 +463,9 @@ const IdsAutoComplete = <T extends Constraints>(superclass: T) => class extends 
    * @returns {void}
    */
   destroyAutocomplete() {
+    this.popup?.remove();
     this.#removeEventListeners();
+    this.#removeKeyboardListeners();
   }
 };
 
