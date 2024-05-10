@@ -5,6 +5,7 @@ import { test } from '../base-fixture';
 
 import IdsNotificationBanner from '../../src/components/ids-notification-banner/ids-notification-banner';
 import type IdsAlert from '../../src/components/ids-alert/ids-alert';
+import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 test.describe('IdsNotificationBanner tests', () => {
   const url = '/ids-notification-banner/example.html';
@@ -110,6 +111,25 @@ test.describe('IdsNotificationBanner tests', () => {
       expect(attrValue).toBe('error');
       const iconAttrValue = await page.evaluate(() => (document.querySelector('ids-notification-banner')?.shadowRoot?.querySelector('ids-alert') as IdsAlert).icon);
       expect(iconAttrValue).toBe('error');
+    });
+
+    test('should handle link attribute', async ({ page }) => {
+      const notificationBanner = await page.locator('ids-notification-banner').first();
+      const newLink = 'https://www.example.com';
+      expect(await notificationBanner.getAttribute('link')).toBe('https://infor.com');
+      await notificationBanner.evaluate((elem: IdsNotificationBanner, arg: string) => {
+        elem.link = arg;
+      }, newLink);
+      expect(await notificationBanner.getAttribute('link')).toBe(newLink);
+      expect(await notificationBanner.evaluate((elem: IdsNotificationBanner) => elem.link)).toBe(newLink);
+      expect(await notificationBanner.evaluate((elem: IdsNotificationBanner) => elem.container?.querySelector<IdsHyperlink>('.ids-notification-banner-link ids-hyperlink')?.href)).toBe(newLink);
+      await notificationBanner.evaluate((elem: IdsNotificationBanner) => {
+        elem.link = null;
+      });
+      expect(await notificationBanner.getAttribute('link')).toBeNull();
+      expect(await notificationBanner.evaluate(
+        (elem: IdsNotificationBanner) => elem.container?.querySelector<HTMLElement>('.ids-notification-banner-link')?.hasAttribute('hidden')
+      )).toBeTruthy();
     });
   });
 });

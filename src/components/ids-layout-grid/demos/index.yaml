@@ -32,3 +32,6 @@
   - link: example-flow.html
     type: Flow Example
     description: Showing an example with different grid flows.
+  - link: min-height.html
+    type: Test the min-height and height attributes
+    description: Showing an example with min-height and height attributes on the layout grid cells

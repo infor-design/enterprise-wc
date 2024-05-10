@@ -143,7 +143,7 @@
   --ids-data-grid-header-color-icon-unsorted: var(--ids-color-gray-60);
   --ids-data-grid-header-color-icon-sorted: var(--ids-color-gray-100);
   --ids-data-grid-header-expander-color: var(--ids-color-gray-100);
-  --ids-data-grid-header-expander-color-active:  var(--ids-color-gray-100);
+  --ids-data-grid-header-expander-color-active: var(--ids-color-gray-100);
 
   // Data Grid (Filter)
   --ids-data-grid-filter-input-color-background-readonly: var(--ids-color-gray-50);
@@ -151,7 +151,7 @@
   // Data Grid (Rows)
   --ids-data-grid-row-color-background-selected: rgba(85 163 243 / 0.2);
   --ids-data-grid-row-alternating-color-background: var(--ids-color-gray-10);
-  --ids-data-grid-row-shadow-focus:  inset 0 0 0 1px var(--ids-color-primary-70), 0 1px 0 0 var(--ids-color-primary-70), 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-data-grid-row-shadow-focus: inset 0 0 0 1px var(--ids-color-primary-70), 0 1px 0 0 var(--ids-color-primary-70), 0 0 3px 2px rgb(54 138 192 / 0.3);
 
   // Dirty Indicator
   --ids-input-dirty-indicator-color-background-dirty: var(--ids-color-orange-50);
@@ -234,6 +234,8 @@
   --ids-modal-footer-color-border: var(--ids-color-gray-50);
   --ids-modal-button-color-default: var(--ids-color-primary);
   --ids-modal-button-color-hover: var(--ids-color-primary-90);
+  --ids-modal-button-secondary-color-default: var(--ids-color-grey-80);
+  --ids-modal-button-secondary-color-hover: var(--ids-color-grey-100);
   --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary);
 
   // Module Nav (Main)
@@ -324,13 +326,17 @@
   --ids-slider-tick-color-background-readonly: var(--ids-color-gray-80);
   --ids-slider-thumb-color-background-readonly: var(--ids-color-gray-80);
   --ids-slider-thumb-color-shadow-readonly: rgba(71 71 76 / 0.1);
-  --ids-slider-thumb-color-border-readonly:  var(--ids-color-gray-80);
+  --ids-slider-thumb-color-border-readonly: var(--ids-color-gray-80);
   --ids-slider-track-color-background-readonly: var(--ids-color-gray-60);
   --ids-slider-track-progress-color-background-readonly: var(--ids-color-gray-80);
 
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-gray-30);
   --ids-step-chart-color-background-complete: var(--ids-color-primary);
+
+  // Swap List
+  --ids-swaplist-search-color-text-default: var(--ids-color-gray-100);
+  --ids-swaplist-search-color-text-placeholder: var(--ids-color-gray-70);
 
   // Swipe Action
   --ids-swipe-action-color-background-right-active: var(--ids-color-blue-90);
@@ -385,4 +391,5 @@
   // Wizard
   --ids-wizard-step-color-default: var(--ids-color-primary);
   --ids-wizard-step-color-unvisited: var(--ids-color-gray-90);
+  --ids-wizard-step-color-disabled-unvisited: var(--ids-color-gray-40);
 }

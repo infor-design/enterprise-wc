@@ -17,7 +17,7 @@ ids-button::part(button) {
 }
 
 ids-button:not([selected]):not([disabled])::part(button) {
-  color:  var(--ids-hyperlink-color-text-default);
+  color: var(--ids-hyperlink-color-text-default);
 }
 
 ids-button[selected]::part(button) {

@@ -62,6 +62,12 @@ test.describe('IdsHeader tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-header-light');
     });
+
+    test('should match the visual snapshot in percy (for colors)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('ids-header/multiple-color.html');
+      await percySnapshot(page, 'ids-header-colors-light');
+    });
   });
 
   test.describe('functionality tests', () => {

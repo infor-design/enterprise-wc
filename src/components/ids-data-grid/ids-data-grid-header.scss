@@ -173,6 +173,11 @@
   text-overflow: ellipsis;
   user-select: none;
   white-space: nowrap;
+
+  small {
+    font-weight: var(--ids-font-weight-normal);
+    font-size: var(--ids-data-grid-font-size-sm);
+  }
 }
 
 .ids-data-grid-header-icon {
@@ -229,6 +234,10 @@
   &:hover {
     color: var(--ids-data-grid-header-expander-color-active);
   }
+}
+
+[data-row-height='xxs'] .header-expander {
+  top: 2px;
 }
 
 :host([show-header-expander]) .header-expander,

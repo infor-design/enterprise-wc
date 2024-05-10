@@ -98,6 +98,9 @@ export const attributes = {
   COL_START_XL: 'col-start-xl',
   COL_START_XS: 'col-start-xs',
   COL_START_XXL: 'col-start-xxl',
+  COLLAPSED: 'collapsed',
+  COLLAPSIBLE: 'collapsible',
+  COLLAPSIBLE_RESPONSIVE: 'collapsible-responsive',
   COLLAPSE_ICON: 'collapse-icon',
   COLOR: 'color',
   COLOR_VARIANT: 'color-variant',
@@ -431,6 +434,7 @@ export const attributes = {
   SHOW_LEGEND: 'show-legend',
   SHOW_LIST_ITEM_ICON: 'show-list-item-icon',
   SHOW_LOADING_INDICATOR: 'show-loading-indicator',
+  SHOW_EXPAND_AND_COLLAPSE_ICONS: 'show-expand-and-collapse-icons',
   SHOW_PICKLIST_MONTH: 'show-picklist-month',
   SHOW_PICKLIST_WEEK: 'show-picklist-week',
   SHOW_PICKLIST_YEAR: 'show-picklist-year',
@@ -528,8 +532,9 @@ export const attributes = {
   VALIDATION_ID: 'validation-id',
   VALIDATION_MESSAGE: 'validation-message',
   VALIDATION_TYPE: 'validation-type',
-  VALUE: 'value',
+  VALUE_FIELD: 'value-field',
   VALUE_SECONDARY: 'value-secondary',
+  VALUE: 'value',
   VERTICAL: 'vertical',
   VIEW: 'view',
   VIEW_PICKER: 'view-picker',
@@ -578,7 +583,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0-beta.23';
+export const version = '1.0.0';
 
 export enum IdsDirection {
   Up = 'up',

@@ -37,6 +37,7 @@ The current step number a wizard is showing has been traversed is denoted now on
 ## Settings and Attributes
 
 - `clickable` `{boolean}` If set, a user can click each step. Note that this is also settable within the `ids-wizard-step` children components to only enable specific step(s) to be clickable.
+- `disabled` `{boolean}` `ids-wizard-step` attribute makes the step disabled
 - `step-number` the current step number.
 
 ## Keyboard Guidelines

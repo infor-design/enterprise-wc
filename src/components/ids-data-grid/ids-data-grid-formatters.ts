@@ -61,6 +61,18 @@ export default class IdsDataGridFormatters {
     return typeof color === 'function' ? color(row, value, col, item) : color;
   }
 
+  /** Used to get the icon via the function or text */
+  #icon(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | null | undefined {
+    const icon = col.icon;
+    return typeof icon === 'function' ? icon(row, value, col, item) : icon;
+  }
+
+  /** Used to get the text via the function or text */
+  #text(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): string | null | undefined {
+    const text = col.text;
+    return typeof text === 'function' ? text(row, value, col, item) : text;
+  }
+
   #readonly(row: number, value: any, col: IdsDataGridColumn, item: Record<string, any>): boolean | undefined {
     const readonly = col.readonly;
 
@@ -255,7 +267,7 @@ export default class IdsDataGridFormatters {
     const value: any = this.#extractValue(rowData, columnData.field);
     if (!value && !columnData.icon) return '';
 
-    const icon = columnData.icon ?? 'alert';
+    const icon = this.#icon(index, value, columnData, rowData);
     const tooltip = value ? `tooltip="${value}"` : '';
     const isDisabled = this.#isDisabled(index, value, columnData, rowData);
     const disabled = isDisabled ? ' disabled' : '';
@@ -299,8 +311,10 @@ export default class IdsDataGridFormatters {
     let size = this.#size(index, value, columnData, rowData) || '';
     size = sizes.includes(size) ? size : 'large';
 
-    const icon = String(columnData.icon || value).replace('icon-', '');
-    const text = (columnData.icon && typeof value === typeof '') ? value : '';
+    let icon = this.#icon(index, value, columnData, rowData) || '';
+    icon = icon.replace('icon-', '');
+
+    const text = this.#text(index, value, columnData, rowData) || '';
     const isDisabled = this.#isDisabled(index, value, columnData, rowData);
     const disabled = isDisabled ? ' disabled' : '';
 
@@ -346,8 +360,6 @@ export default class IdsDataGridFormatters {
   */
   progress(rowData: Record<string, unknown>, columnData: IdsDataGridColumn, index: number): string {
     const value: any = parseFloat(this.#extractValue(rowData, columnData.field));
-    // const color = this.#color(index, value, columnData, rowData);
-
     const val = Number.isNaN(value) ? 0 : value;
     let max = columnData.max ?? 10;
     if (!columnData.max && value > 1) {
@@ -358,7 +370,6 @@ export default class IdsDataGridFormatters {
     const isDisabled = this.#isDisabled(index, val, columnData, rowData);
     const disabled = isDisabled ? ' disabled' : '';
 
-    // TODO: Fix label and label-audible attribute
     const label = `label="${columnData?.text || `${val} of ${max}`}" label-audible`;
 
     return `
@@ -471,7 +482,6 @@ export default class IdsDataGridFormatters {
       max = 10;
     }
 
-    // const label = columnData.text ?? `${val} of ${max} steps completed`;
     const completedSteps = Math.floor(val);
     const stepsInProgress = Math.ceil(val);
     const showStepsInProgress = completedSteps !== stepsInProgress;
