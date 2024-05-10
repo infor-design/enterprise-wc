@@ -225,7 +225,7 @@ export function checkOverflow(el?: HTMLElement | null) {
 }
 
 /**
- * Toggles a scrollbar on an element that should only display one if its contents are overflowed
+ * Toggles a scrollbar on an element that should only display if its contents are overflowed
  * NOTE: the element receiving the `has-scrollbar` class should have accompanying styles
  *   applied for generating the scrollbar via `overflow: scroll;` or related prop.
  * @param {HTMLElement} el target element

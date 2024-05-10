@@ -83,7 +83,8 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
 
   .ids-trigger-field-slot-trigger-end,
   ::slotted(*[slot='trigger-end']:last-of-type:not([inline]):not([compact]):not([field-height='xs'])) {
-    margin-inline-end: -3px;
+    margin-inline-end: -4px;
+    margin-block-start: -2px;
   }
 
   &.field-height-lg {
