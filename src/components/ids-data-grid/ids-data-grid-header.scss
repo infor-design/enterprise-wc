@@ -173,6 +173,11 @@
   text-overflow: ellipsis;
   user-select: none;
   white-space: nowrap;
+
+  small {
+    font-weight: var(--ids-font-weight-normal);
+    font-size: var(--ids-data-grid-font-size-sm);
+  }
 }
 
 .ids-data-grid-header-icon {
