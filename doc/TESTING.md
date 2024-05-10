@@ -81,7 +81,7 @@ The main goal is to convert all the tests in the `tests-to-convert` folder and i
     test('can set empty message description', async ({ page }) => {
 ```
 
-- A test step like `expect(dataGrid.getAttribute('suppress-empty-message')).toEqual(null);` is checking an attribute when checking something try to use [locators](https://playwright.dev/docs/locators) so the result would be something like `expect(await await page.locator('ids-data-grid').getAttribut('suppress-empty-message')).toEqual(null);`
+- A test step like `expect(dataGrid.getAttribute('suppress-empty-message')).toEqual(null);` is checking an attribute when checking something try to use [locators](https://playwright.dev/docs/locators) so the result would be something like `expect(await page.locator('ids-data-grid').getAttribut('suppress-empty-message')).toEqual(null);`
 - A test step like `dataGrid.suppressEmptyMessage = true;` means you need to run JS in the page using an evaluate so this will become
 
 ```js
