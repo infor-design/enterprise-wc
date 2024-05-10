@@ -559,7 +559,9 @@ test.describe('IdsDataGrid filter tests', () => {
     await checkFilter([{ columnId: 'description', operator: 'does-not-contain', value: '5' }], 8);
     await checkFilter([{ columnId: 'description', operator: 'end-with', value: '5' }], 1);
     await checkFilter([{ columnId: 'description', operator: 'does-not-end-with', value: '5' }], 8);
+    await checkFilter([{ columnId: 'description', operator: 'start-with', value: '10' }], 9);
     await checkFilter([{ columnId: 'description', operator: 'start-with', value: '105' }], 1);
+    await checkFilter([{ columnId: 'description', operator: 'start-with', value: '1' }], 9);
     await checkFilter([{ columnId: 'description', operator: 'does-not-start-with', value: '105' }], 8);
     await checkFilter([{ columnId: 'price', operator: 'is-empty', value: '' }], 2);
     await checkFilter([{ columnId: 'price', operator: 'is-not-empty', value: '' }], 7);
