@@ -503,8 +503,12 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
             this.offEvent(eventName, input);
           }
         } else {
-          this.onEvent(eventName, input, () => {
-            this.checkValidation();
+          this.offEvent(eventName, input);
+          // Defer the event attachment until after the initial setup phase
+          setTimeout(() => {
+            this.onEvent(eventName, input, () => {
+              this.checkValidation();
+            });
           });
         }
       });

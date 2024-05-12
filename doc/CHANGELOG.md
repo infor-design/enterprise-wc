@@ -21,6 +21,7 @@
 - `[BreadCrumb/Hyperlink]` Fix focus state on click bug. ([#2238](https://github.com/infor-design/enterprise-wc/issues/2238))
 - `[Dropdown]` Fixed dropdown positioning logic so it works on modals and popups, and better opens up if it does not fit. ([#2165](https://github.com/infor-design/enterprise-wc/issues/2165))
 - `[Editor]` Converted editor tests to playwright. ([#1931](https://github.com/infor-design/enterprise-wc/issues/1931))
+- `[Input]` Fixed required validation triggered when assigning an empty value on initial component mount in React and Angular examples. ([#2233](https://github.com/infor-design/enterprise-wc/issues/2233))
 - `[Menu]` Converted menu tests to playwright. ([#1953](https://github.com/infor-design/enterprise-wc/issues/1953))
 - `[Modal]` Removed zoom in animation on modal based on design feedback and technical constraints. ([#2165](https://github.com/infor-design/enterprise-wc/issues/2165))
 - `[Tree]` Add ability to have expandIcon and toggleIcon display together. ([#2151](https://github.com/infor-design/enterprise-wc/issues/2151))
