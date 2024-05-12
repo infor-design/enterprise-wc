@@ -63,4 +63,39 @@ test.describe('IdsUploadAdvanced tests', () => {
       await percySnapshot(page, 'ids-upload-advanced-light');
     });
   });
+
+  test.describe('reattachment tests', () => {
+    test('should not have errors after reattaching', async ({ page }) => {
+      page.on('pageerror', (err) => {
+        expect(err).toBeNull();
+      });
+
+      await page.evaluate(() => {
+        const lookupElem = document.querySelector('#elem-upload-advanced-basic')!;
+        const parentNode = lookupElem.parentNode!;
+
+        parentNode.removeChild(lookupElem);
+        parentNode.appendChild(lookupElem);
+      });
+    });
+
+    test('should not duplicate upload status banners after reattaching', async ({ page }) => {
+      const uploadAdvanced = await page.locator('#elem-upload-advanced-basic');
+      await page.locator('#elem-upload-advanced-basic .file-input').setInputFiles('src/assets/images/10.jpg');
+      expect(await uploadAdvanced.evaluate((elem: IdsUploadAdvanced) => elem.files.length)).toEqual(1);
+      expect(await uploadAdvanced.evaluate((elem: IdsUploadAdvanced) => elem.container?.querySelectorAll('ids-upload-advanced-file').length)).toEqual(1);
+
+      await page.evaluate(() => {
+        const lookupElem = document.querySelector('#elem-upload-advanced-basic')!;
+        const parentNode = lookupElem.parentNode!;
+
+        parentNode.removeChild(lookupElem);
+        parentNode.appendChild(lookupElem);
+      });
+
+      await page.locator('#elem-upload-advanced-basic .file-input').setInputFiles('src/assets/images/10.jpg');
+      expect(await uploadAdvanced.evaluate((elem: IdsUploadAdvanced) => elem.files.length)).toEqual(1);
+      expect(await uploadAdvanced.evaluate((elem: IdsUploadAdvanced) => elem.container?.querySelectorAll('ids-upload-advanced-file').length)).toEqual(1);
+    });
+  });
 });

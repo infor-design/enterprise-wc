@@ -46,10 +46,6 @@ const Base = IdsLocaleMixin(
 @customElement('ids-upload-advanced')
 @scss(styles)
 export default class IdsUploadAdvanced extends Base {
-  fileInput?: HTMLInputElement | null;
-
-  droparea?: HTMLElement | null;
-
   files: any[] = [];
 
   xhrHeaders?: any[] | null;
@@ -88,11 +84,14 @@ export default class IdsUploadAdvanced extends Base {
    */
   connectedCallback(): void {
     super.connectedCallback();
-    this.fileInput = this.shadowRoot?.querySelector('.file-input');
-    this.droparea = this.shadowRoot?.querySelector('.droparea');
-
     this.files = [];
     this.#attachEventHandlers();
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback?.();
+    this.#detachEventHandlers();
+    if (this.filesarea?.innerHTML) this.filesarea.innerHTML = '';
   }
 
   /**
@@ -133,7 +132,7 @@ export default class IdsUploadAdvanced extends Base {
         </div>
         <div class="has-browse-link${hiddenClass(!this.showBrowseLinkVal)}">
           <label>
-            <input type="file" class="file-input"${accept}"${multiple}${disabled} />
+            <input type="file" class="file-input"${accept}${multiple}${disabled} />
             <span class="droparea-label" part="label">${this.getDropareaLabel(true)}</span>
           </label>
         </div>
@@ -504,8 +503,6 @@ export default class IdsUploadAdvanced extends Base {
    * @returns {void}
    */
   handleFileUpload(files: any): void {
-    const filesarea = this.shadowRoot?.querySelector('.filesarea');
-
     for (let i = 0, l = files.length; i < l; i++) {
       const file = files[i];
       const validation = this.validation(file);
@@ -519,8 +516,8 @@ export default class IdsUploadAdvanced extends Base {
 
       this.files.push(args);
       const fileNode = this.files[this.files.length - 1];
-      filesarea?.insertAdjacentHTML('afterbegin', html);
-      const uiElem = filesarea?.querySelector<any>(`#${id}`);
+      this.filesarea?.insertAdjacentHTML('afterbegin', html);
+      const uiElem = this.filesarea?.querySelector<any>(`#${id}`);
       fileNode.uiElem = uiElem;
       this.handleFileEvent(uiElem);
 
@@ -574,6 +571,7 @@ export default class IdsUploadAdvanced extends Base {
       }
     } else {
       toolbarEl?.classList.add('before-remove-transition');
+      this.offEvent('transitionend', toolbarEl);
       this.onEvent('transitionend', toolbarEl, () => {
         toolbarEl?.remove();
       });
@@ -583,9 +581,10 @@ export default class IdsUploadAdvanced extends Base {
   /**
    * Handle slotchange event
    * @private
+   * @param {boolean} remove If true, will remove the event
    * @returns {void}
    */
-  handleSlotchangeEvent(): void {
+  handleSlotchangeEvent(remove = false): void {
     const dropareaLabelSlotsName = [
       'text-droparea',
       'text-droparea-with-browse',
@@ -593,13 +592,19 @@ export default class IdsUploadAdvanced extends Base {
     ];
     dropareaLabelSlotsName.forEach((slotName) => {
       const slot = this.shadowRoot?.querySelector(`slot[name="${slotName}"]`);
-      this.onEvent('slotchange', slot, () => {
-        this.setDropareaLabel();
-      });
+      if (remove) {
+        this.offEvent('slotchange.upload-advanced-slot', slot);
+      } else {
+        this.offEvent('slotchange.upload-advanced-slot', slot);
+        this.onEvent('slotchange.upload-advanced-slot', slot, () => {
+          this.setDropareaLabel();
+        });
+      }
     });
 
     const xhrHeadersSlot = this.shadowRoot?.querySelector(`slot[name="xhr-headers"]`);
-    this.onEvent('slotchange', xhrHeadersSlot, () => {
+    this.offEvent('slotchange.upload-advanced-xhr-slot', xhrHeadersSlot);
+    this.onEvent('slotchange.upload-advanced-xhr-slot', xhrHeadersSlot, () => {
       this.setXhrHeaders();
     });
   }
@@ -607,79 +612,114 @@ export default class IdsUploadAdvanced extends Base {
   /**
    * Handle label click event
    * @private
+   * @param {boolean} remove If true, will remove the event
    * @returns {void}
    */
-  handleLabelClickEvent(): void {
+  handleLabelClickEvent(remove = false): void {
     const label = this.shadowRoot?.querySelector('label');
-    this.onEvent('click', label, (e: any) => {
-      const hasClass = (c: any) => e.target?.classList?.contains(c);
-      if (!(hasClass('hyperlink') || hasClass('file-input'))) {
-        e.preventDefault();
-      }
-    });
+    if (remove) {
+      this.offEvent('click.upload-advanced-label', label);
+    } else {
+      this.offEvent('click.upload-advanced-label', label);
+      this.onEvent('click.upload-advanced-label', label, (e: any) => {
+        const hasClass = (c: any) => e.target?.classList?.contains(c);
+        if (!(hasClass('hyperlink') || hasClass('file-input'))) {
+          e.preventDefault();
+        }
+      });
+    }
     const errorarea = this.shadowRoot?.querySelector('.errorarea');
-    this.onEvent('click', errorarea, (e: any) => {
-      const id = e.target?.getAttribute('id');
-      if (id === 'btn-close-error') this.errorMessage({ remove: true });
-    });
+    if (remove) {
+      this.offEvent('click.upload-advanced-error-area', errorarea);
+    } else {
+      this.offEvent('click.upload-advanced-error-area', errorarea);
+      this.onEvent('click.upload-advanced-error-area', errorarea, (e: any) => {
+        const id = e.target?.getAttribute('id');
+        if (id === 'btn-close-error') this.errorMessage({ remove: true });
+      });
+    }
   }
 
   /**
    * Handle fileInput change event
    * @private
+   * @param {boolean} remove If true, will remove the event
    * @returns {void}
    */
-  handleFileInputChangeEvent(): void {
-    this.onEvent('change', this.fileInput, () => {
-      this.handleFileUpload(this.fileInput?.files);
-    });
+  handleFileInputChangeEvent(remove = false): void {
+    if (remove) {
+      this.offEvent('change.upload-advanced-input', this.fileInput);
+    } else {
+      this.offEvent('change.upload-advanced-input', this.fileInput);
+      this.onEvent('change.upload-advanced-input', this.fileInput, () => {
+        this.handleFileUpload(this.fileInput?.files);
+      });
+    }
   }
 
   /**
    * Handle droparea dragenter event
    * @private
+   * @param {boolean} remove If true, will remove the event
    * @returns {void}
    */
-  handleDropareaDragenterEvent(): void {
-    this.onEvent('dragenter', this.droparea, (e: any) => {
-      e.stopPropagation();
-      e.preventDefault();
-      if (this.disabled) {
-        return;
-      }
-      this.triggerEvent('filesdragenter', this, { detail: { elem: this } });
-      this.droparea?.classList.add('dragenter');
-    });
+  handleDropareaDragenterEvent(remove = false): void {
+    if (remove) {
+      this.offEvent('dragenter.upload-advanced-droparea', this.droparea);
+    } else {
+      this.offEvent('dragenter.upload-advanced-droparea', this.droparea);
+      this.onEvent('dragenter.upload-advanced-droparea', this.droparea, (e: any) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (this.disabled) {
+          return;
+        }
+        this.triggerEvent('filesdragenter', this, { detail: { elem: this } });
+        this.droparea?.classList.add('dragenter');
+      });
+    }
   }
 
   /**
    * Handle droparea dragover event
    * @private
+   * @param {boolean} remove If true, will remove the event
    * @returns {void}
    */
-  handleDropareaDragoverEvent(): void {
-    this.onEvent('dragover', this.droparea, (e: any) => {
-      e.stopPropagation();
-      e.preventDefault();
-    });
+  handleDropareaDragoverEvent(remove = false): void {
+    if (remove) {
+      this.offEvent('dragover.upload-advanced-droparea', this.droparea);
+    } else {
+      this.offEvent('dragover.upload-advanced-droparea', this.droparea);
+      this.onEvent('dragover.upload-advanced-droparea', this.droparea, (e: any) => {
+        e.stopPropagation();
+        e.preventDefault();
+      });
+    }
   }
 
   /**
    * Handle droparea drop event
    * @private
+   * @param {boolean} remove If true, will remove the event
    * @returns {void}
    */
-  handleDropareaDropEvent(): void {
-    this.onEvent('drop', this.droparea, (e: any) => {
-      e.preventDefault();
-      if (this.disabled) {
-        return;
-      }
-      this.droparea?.classList.remove('dragenter');
-      const files = e.dataTransfer.files;
-      this.triggerEvent('filesdrop', this, { detail: { elem: this, files } });
-      this.handleFileUpload(files);
-    });
+  handleDropareaDropEvent(remove = false): void {
+    if (remove) {
+      this.offEvent('drop.upload-advanced-droparea', this.droparea);
+    } else {
+      this.offEvent('drop.upload-advanced-droparea', this.droparea);
+      this.onEvent('drop.upload-advanced-droparea', this.droparea, (e: any) => {
+        e.preventDefault();
+        if (this.disabled) {
+          return;
+        }
+        this.droparea?.classList.remove('dragenter');
+        const files = e.dataTransfer.files;
+        this.triggerEvent('filesdrop', this, { detail: { elem: this, files } });
+        this.handleFileUpload(files);
+      });
+    }
   }
 
   /**
@@ -687,18 +727,28 @@ export default class IdsUploadAdvanced extends Base {
    * If the files are dropped outside the div, files will open in the browser window.
    * To avoid this prevent 'drop' event on document.
    * @private
+   * @param {boolean} remove If true, will remove the event
    * @returns {void}
    */
-  handleDocumentDragDropEvents(): void {
-    const events = ['dragenter', 'dragover', 'drop'];
+  handleDocumentDragDropEvents(remove = false): void {
+    const events = [
+      'dragenter.upload-advanced-document',
+      'dragover.upload-advanced-document',
+      'drop.upload-advanced-document'
+    ];
     events.forEach((eventName) => {
-      this.onEvent(eventName, document, (e: any) => {
-        e.stopPropagation();
-        e.preventDefault();
-        if (e.type === 'dragover') {
-          this.droparea?.classList.remove('dragenter');
-        }
-      });
+      if (remove) {
+        this.offEvent(eventName, document);
+      } else {
+        this.offEvent(eventName, document);
+        this.onEvent(eventName, document, (e: any) => {
+          e.stopPropagation();
+          e.preventDefault();
+          if (e.type === 'dragover') {
+            this.droparea?.classList.remove('dragenter');
+          }
+        });
+      }
     });
   }
 
@@ -709,8 +759,17 @@ export default class IdsUploadAdvanced extends Base {
    * @returns {void}
    */
   handleFileEvent(uiElem: any): void {
-    const events = ['error', 'complete', 'abort', 'cancel', 'start', 'closebuttonclick', 'startbuttonclick'];
+    const events = [
+      'error.upload-advanced-file',
+      'complete.upload-advanced-file',
+      'abort.upload-advanced-file',
+      'cancel.upload-advanced-file',
+      'start.upload-advanced-file',
+      'closebuttonclick.upload-advanced-file',
+      'startbuttonclick.upload-advanced-file'
+    ];
     events.forEach((eventName) => {
+      this.offEvent(eventName, uiElem);
       this.onEvent(eventName, uiElem, (e: any) => {
         const target: any = { node: {}, idx: -1 };
         for (let i = 0; i < this.files.length; i++) {
@@ -750,17 +809,23 @@ export default class IdsUploadAdvanced extends Base {
   /**
    * Handle toolbar events
    * @private
+   * @param {boolean} remove If true, will remove the event
    * @returns {void}
    */
-  handleToolbarEvents(): void {
-    this.onEvent('selected', this.container, (e: any) => {
-      const doAction = (action: string) => {
-        this.notStarted.forEach((fileNode: any) => fileNode.uiElem[action]());
-      };
-      const id = e?.detail?.elem?.getAttribute('id');
-      if (id === 'btn-start-all') doAction('start');
-      if (id === 'btn-cancel-all') doAction('cancel');
-    });
+  handleToolbarEvents(remove = false): void {
+    if (remove) {
+      this.offEvent('selected.upload-advanced-toolbar', this.container);
+    } else {
+      this.offEvent('selected.upload-advanced-toolbar', this.container);
+      this.onEvent('selected.upload-advanced-toolbar', this.container, (e: any) => {
+        const doAction = (action: string) => {
+          this.notStarted.forEach((fileNode: any) => fileNode.uiElem[action]());
+        };
+        const id = e?.detail?.elem?.getAttribute('id');
+        if (id === 'btn-start-all') doAction('start');
+        if (id === 'btn-cancel-all') doAction('cancel');
+      });
+    }
   }
 
   /**
@@ -781,6 +846,34 @@ export default class IdsUploadAdvanced extends Base {
     this.onLocaleChange = () => {
       this.setDropareaLabel();
     };
+  }
+
+  /**
+   * Detach all events
+   * @private
+   * @returns {void}
+   */
+  #detachEventHandlers(): void {
+    this.handleSlotchangeEvent(true);
+    this.handleLabelClickEvent(true);
+    this.handleFileInputChangeEvent(true);
+    this.handleDropareaDragenterEvent(true);
+    this.handleDropareaDragoverEvent(true);
+    this.handleDropareaDropEvent(true);
+    this.handleDocumentDragDropEvents(true);
+    this.handleToolbarEvents(true);
+  }
+
+  get fileInput(): HTMLInputElement | null {
+    return this.shadowRoot?.querySelector('.file-input') as HTMLInputElement || null;
+  }
+
+  get droparea(): HTMLElement | null {
+    return this.shadowRoot?.querySelector('.droparea') as HTMLElement || null;
+  }
+
+  get filesarea(): HTMLElement | null {
+    return this.shadowRoot?.querySelector('.filesarea') as HTMLElement || null;
   }
 
   /**
