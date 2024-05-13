@@ -283,6 +283,7 @@ test.describe('IdsSplitter tests', () => {
           <ids-splitter-pane id="p2"></ids-splitter-pane>
         </ids-splitter>`;
       });
+      await page.waitForLoadState();
 
       const splitterSizes = await page.evaluate(() => {
         const splitter = document.querySelector('#test')!;
@@ -291,6 +292,8 @@ test.describe('IdsSplitter tests', () => {
           splitter.querySelector<IdsSplitterPane>('#p2')!.style.width
         ];
       });
+      await page.waitForLoadState();
+
       expect(splitterSizes[0]).toEqual('30%');
       expect(splitterSizes[1]).toEqual('70%');
     });
@@ -345,6 +348,8 @@ test.describe('IdsSplitter tests', () => {
           <ids-splitter-pane id="p2"></ids-splitter-pane>
         </ids-splitter>`;
       });
+
+      await page.waitForLoadState();
 
       const splitterSizes = await page.evaluate(() => {
         const splitter = document.querySelector('#test')!;
