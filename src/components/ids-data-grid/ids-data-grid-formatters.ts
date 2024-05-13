@@ -302,15 +302,14 @@ export default class IdsDataGridFormatters {
     const hex = color || value || '#C2A1F1';
     const tooltip = !color && value ? ` tooltip="${value}"` : '';
 
-    return columnData.suppressColorTooltip ? 
-      `<span class="text-ellipsis">
-        <ids-color hex="${hex}"${disabled} suppress-tooltip></ids-color>
-      </span>` 
-      :
-      `<span class="text-ellipsis">
-        <ids-color hex="${hex}"${tooltip}${disabled}></ids-color>
-      </span>
-    `;
+    return columnData.suppressColorTooltip
+      ? `<span class="text-ellipsis">
+          <ids-color hex="${hex}"${disabled} suppress-tooltip></ids-color>
+        </span>`
+      : `<span class="text-ellipsis">
+          <ids-color hex="${hex}"${tooltip}${disabled}></ids-color>
+        </span>
+      `;
   }
 
   /* Shows the field value as an ids-icon. An `icon` and `size` option can be provided as overrides. */

@@ -87,6 +87,10 @@ export default class IdsColor extends Base {
     `;
   }
 
+  /**
+   *  Suppresses the tooltip for this color swatch
+   *  @param {boolean | string} value - true if tooltip should be suppressed
+   */
   set suppressTooltip(value: boolean | string) {
     if (stringToBool(value)) {
       this.setAttribute('suppress-tooltip', '');
@@ -95,7 +99,11 @@ export default class IdsColor extends Base {
     }
   }
 
-  get suppressTooltip() {
+  /**
+   * Gets the suppress-tooltip attribute
+   * @returns {boolean} - true if tooltip should be suppressed
+   */
+  get suppressTooltip(): boolean {
     return this.hasAttribute('suppress-tooltip');
   }
 

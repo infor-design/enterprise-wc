@@ -145,6 +145,8 @@ export interface IdsDataGridColumn {
   /** Get the color dynamically from a function or as text */
   // eslint-disable-next-line max-len
   color?: IdsColorValue | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
+  /** Suppress the ids-color tooltip */
+  suppressColorTooltip?: boolean;
   /** Get the size dynamically from a function or as text */
   size?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
   /** Options to pass to the formatter */
@@ -171,8 +173,6 @@ export interface IdsDataGridColumn {
     format?: string;
     /** Placeholder to show for empty inputs */
     placeholder?: string;
-    /** Option to show empty field */
-    suppressColorTooltip?: boolean;
     /** Option to show today or not (for date type filters)  */
     showToday?: boolean;
     /** First day of the week (for date type filters) */

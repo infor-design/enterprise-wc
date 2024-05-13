@@ -9,11 +9,11 @@ import '../../ids-dropdown/ids-dropdown';
 
 const dataGrid = document.querySelector<IdsDataGrid>('#data-theme')!;
 
-const themes = {
+const themes: any = {
   coreTheme: coreThemeJSON,
   contrastTheme: contrastThemeJSON,
   darkTheme: darkThemeJSON
-}
+};
 
 const columns: IdsDataGridColumn[] = [];
 
@@ -60,19 +60,20 @@ columns.push({
 dataGrid.columns = columns;
 
 const fetchData = async (url: string) => {
-  const res = await fetch(url);
-  return await res.json();
-}
+  const res: any = await fetch(url);
+  const data: any = await res.json();
+  return data;
+};
 
 const updateDataGrid = async (url: string) => {
-  const data = await fetchData(url);
+  const data: any = await fetchData(url);
   dataGrid.data = data.themeTokens;
-}
+};
 
 const dropdownHandler = async (e: any) => {
-  const url = themes[e.target.value];
+  const url: string = themes[e.target.value];
   await updateDataGrid(url);
-}
+};
 
 const dropdown: any = document.querySelector('#dropdown-themes');
 if (dropdown) {
