@@ -16,7 +16,7 @@ const scssFiles = [
     'theme-colors.scss'
 ];
 
-// Function to add /* styleline-disable */ to the top of a file
+// Function to add /* stylelint-disable */ to the top of a file
 function addStylelineDisable(filePath) {
   // Read the file
   fs.readFile(filePath, 'utf8', (err, data) => {
@@ -25,15 +25,15 @@ function addStylelineDisable(filePath) {
       return;
     }
 
-    // Add /* styleline-disable */ at the top of the file
-    const newData = '/* styleline-disable */\n' + data;
+    // Add /* stylelint-disable */ at the top of the file
+    const newData = '/* stylelint-disable */\n' + data;
 
     // Write the updated data back to the file
     fs.writeFile(filePath, newData, 'utf8', (err) => {
       if (err) {
         console.error('Error writing file:', err);
       } else {
-        console.log('Added /* styleline-disable */ to:', filePath);
+        console.log('Added /* stylelint-disable */ to:', filePath);
       }
     });
   });
@@ -50,7 +50,7 @@ scssFiles.forEach((file) => {
       console.error('Error copying file:', err);
     } else {
       console.log('Copied file:', file);
-      // Add /* styleline-disable */ to the copied file
+      // Add /* stylelint-disable */ to the copied file
       addStylelineDisable(destinationFilePath);
     }
   });
