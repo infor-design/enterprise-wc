@@ -88,7 +88,6 @@ export default class IdsPagerButton extends Base {
     super.attributeChangedCallback(name, oldValue, newValue);
 
     const shouldRerender = [
-      attributes.DISABLED,
       attributes.PAGE_NUMBER,
       attributes.PAGE_SIZE,
       attributes.STEP,
@@ -417,12 +416,12 @@ export default class IdsPagerButton extends Base {
     switch (this.type) {
       case attributes.FIRST:
       case attributes.PREVIOUS: {
-        isNavDisabled = this.pageNumber <= 1;
+        isNavDisabled = this.pageNumber <= 1 && this.total > 0;
         break;
       }
       case attributes.NEXT:
       case attributes.LAST: {
-        isNavDisabled = this.pageNumber >= (this.pageCount || 0);
+        isNavDisabled = this.pageNumber >= (this.pageCount || 0) && this.total > 0;
         break;
       }
       default: {
