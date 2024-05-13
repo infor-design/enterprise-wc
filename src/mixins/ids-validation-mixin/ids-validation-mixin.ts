@@ -505,7 +505,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         } else {
           this.offEvent(eventName, input);
           // Defer the event attachment until after the initial setup phase
-          setTimeout(() => {
+          requestAnimationFrame(() => {
             this.onEvent(eventName, input, () => {
               this.checkValidation();
             });
