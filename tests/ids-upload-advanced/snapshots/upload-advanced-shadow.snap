@@ -28,7 +28,7 @@
         </div>
         <div class="has-browse-link">
           <label>
-            <input type="file" class="file-input" "="" multiple="">
+            <input type="file" class="file-input" multiple="">
             <span class="droparea-label" part="label">
           <ids-text class="inline">Drag and drop here or </ids-text>
           <ids-hyperlink part="link" class="inline hyperlink" role="link">upload files</ids-hyperlink>
