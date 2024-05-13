@@ -571,8 +571,8 @@ export default class IdsUploadAdvanced extends Base {
       }
     } else {
       toolbarEl?.classList.add('before-remove-transition');
-      this.offEvent('transitionend', toolbarEl);
-      this.onEvent('transitionend', toolbarEl, () => {
+      this.offEvent('transitionend.upload-advanced-toolbar', toolbarEl);
+      this.onEvent('transitionend.upload-advanced-toolbar', toolbarEl, () => {
         toolbarEl?.remove();
       });
     }
