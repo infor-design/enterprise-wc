@@ -1,0 +1,22 @@
+<div class="ids-filter-field">
+      <label for="none">
+        <ids-text part="label" color-unset="">Text</ids-text>
+      </label>
+      <div class="field-container">
+        <ids-menu-button id="operator-button" menu="operator-menu" icon="filter-equals" dropdown-icon="dropdown" aria-controls="operator-menu" aria-haspopup="menu"><ids-icon icon="filter-equals" class="ids-icon"></ids-icon>
+          <span class="audible">Icon only button</span>
+        </ids-menu-button>
+        <ids-popup-menu id="operator-menu" target="opereator-button" trigger-type="click" hidden="">
+          <ids-menu-group select="single" role="group" aria-label="Menu group containing 7 item(s)">
+            <ids-menu-item value="equals" icon="filter-equals" selected=""><ids-icon slot="icon" icon="filter-equals" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Equals</ids-menu-item>
+            <ids-menu-item value="in-range" icon="filter-in-range"><ids-icon slot="icon" icon="filter-in-range" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>In Range</ids-menu-item>
+            <ids-menu-item value="does-not-equal" icon="filter-does-not-equal"><ids-icon slot="icon" icon="filter-does-not-equal" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Does Not Equal</ids-menu-item>
+            <ids-menu-item value="before" icon="filter-less-than"><ids-icon slot="icon" icon="filter-less-than" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Before</ids-menu-item>
+            <ids-menu-item value="on-or-before" icon="filter-less-equals"><ids-icon slot="icon" icon="filter-less-equals" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>On Or Before</ids-menu-item>
+            <ids-menu-item value="after" icon="filter-greater-than"><ids-icon slot="icon" icon="filter-greater-than" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>After</ids-menu-item>
+            <ids-menu-item value="on-or-after" icon="filter-greater-equals"><ids-icon slot="icon" icon="filter-greater-equals" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>On Or After</ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+        <slot id="input-slot"></slot>
+      </div>
+    </div>

@@ -20,16 +20,14 @@ type Constraints = IdsConstructor<LabelStateHandler>;
 const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   constructor(...args: any[]) {
     super(...args);
-
-    if (!this.state) {
-      this.state = {};
-    }
-    this.state.label = '';
+    this.state ??= {
+      label: '',
+      labelState: null
+    };
   }
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.state.labelState = null;
 
     if (this.hasAttribute(attributes.LABEL_STATE)) {
       this.labelState = this.getAttribute(attributes.LABEL_STATE) as IdsLabelStateMode;
@@ -49,20 +47,22 @@ const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class exten
    */
   set label(value: string) {
     const newValue = stripHTML(value);
-    const currentValue = this.label;
+    this.state.label = newValue;
 
-    if (newValue !== currentValue) {
-      if (this.state) this.state.label = newValue;
-      if (newValue) {
-        this.setAttribute(attributes.LABEL, `${newValue}`);
-      } else {
-        this.removeAttribute(attributes.LABEL);
-      }
-      this.setLabelText(newValue);
+    if (newValue) {
+      this.setAttribute(attributes.LABEL, `${newValue}`);
+      (this as IdsInputInterface).input?.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
+    } else {
+      this.removeAttribute(attributes.LABEL);
+      (this as IdsInputInterface).input?.removeAttribute(htmlAttributes.ARIA_LABEL);
     }
+
+    this.setLabelText(newValue);
   }
 
-  get label(): string { return this.state?.label || ''; }
+  get label(): string {
+    return this.state.label || this.getAttribute(attributes.LABEL) || '';
+  }
 
   /**
    * Used for setting the text contents of the shadowroot label

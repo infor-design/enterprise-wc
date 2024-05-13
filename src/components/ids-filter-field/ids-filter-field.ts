@@ -3,9 +3,9 @@ import { customElement, scss } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
-import IdsInput from '../ids-input/ids-input';
 import { IdsInputInterface } from '../ids-input/ids-input-attributes';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+import IdsMenuGroup from '../ids-menu/ids-menu-group';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import styles from './ids-filter-field.scss';
 
@@ -24,6 +24,12 @@ export const FilterFieldTypes = ['text', 'date', 'time', 'dropdown'];
 @scss(styles)
 export default class IdsFilterField extends Base {
   #operators: FilterFieldOperator[] = [];
+
+  #lastOperator = 'equals';
+
+  #lastValue = '';
+
+  #lastInputChange: Record<string, any> = {};
 
   constructor() {
     super();
@@ -47,12 +53,18 @@ export default class IdsFilterField extends Base {
         <ids-text part="label" color-unset>${this.label}</ids-text>
       </label>
       <div class="field-container">
-        <ids-menu-button id="operator-button" menu="operator-menu" icon="filter-equals" dropdown-icon value="equals">
+        <ids-menu-button id="operator-button" menu="operator-menu" icon="filter-equals" dropdown-icon>
           <span class="audible">Icon only button</span>
         </ids-menu-button>
         <ids-popup-menu id="operator-menu" target="opereator-button" trigger-type="click">
           <ids-menu-group select="single">
-            ${this.defaultOperatorsTemplate()}
+            <ids-menu-item value="equals" icon="filter-equals" selected="true">Equals</ids-menu-item>
+            <ids-menu-item value="in-range" icon="filter-in-range">In Range</ids-menu-item>
+            <ids-menu-item value="does-not-equal" icon="filter-does-not-equal">Does Not Equal</ids-menu-item>
+            <ids-menu-item value="before" icon="filter-less-than">Before</ids-menu-item>
+            <ids-menu-item value="on-or-before" icon="filter-less-equals">On Or Before</ids-menu-item>
+            <ids-menu-item value="after" icon="filter-greater-than">After</ids-menu-item>
+            <ids-menu-item value="on-or-after" icon="filter-greater-equals">On Or After</ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
         <slot id="input-slot"></slot>
@@ -60,23 +72,12 @@ export default class IdsFilterField extends Base {
     </div>`;
   }
 
-  defaultOperatorsTemplate(): string {
-    return this.operatorsTemplate([
-      { value: 'equals', text: 'Equals', icon: 'filter-equals' },
-      { value: 'in-range', text: 'In Range', icon: 'filter-in-range' },
-      { value: 'does-not-equal', text: 'Does Not Equal', icon: 'filter-does-not-equal' },
-      { value: 'before', text: 'Before', icon: 'filter-less-than' },
-      { value: 'on-or-before', text: 'On Or Before', icon: 'filter-less-equals' },
-      { value: 'after', text: 'After', icon: 'filter-greater-than' },
-      { value: 'on-or-after', text: 'On Or After', icon: 'filter-greater-equals' },
-    ]);
-  }
-
   #attachEventHandlers() {
     const inputSlot = this.container?.querySelector<HTMLSlotElement>('#input-slot');
     this.offEvent('slotchange', inputSlot);
     this.onEvent('slotchange', inputSlot, () => {
       this.#configureInputElement(this.inputElement);
+      this.#lastValue = (this.inputElement as IdsInputInterface).value;
       this.#attachInputChangeHandler(this.inputElement);
     });
 
@@ -84,6 +85,7 @@ export default class IdsFilterField extends Base {
     this.onEvent('selected.operators', this.menu, (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateOperatorIcon(evt.detail.elem.icon);
+      this.#lastOperator = evt.detail?.elem?.value;
       this.#triggerChangeEvent();
     });
   }
@@ -91,6 +93,8 @@ export default class IdsFilterField extends Base {
   #attachInputChangeHandler(inputElement?: Element) {
     this.onEvent('change.input', inputElement, (evt: CustomEvent) => {
       evt.stopPropagation();
+      this.#lastValue = (evt.target as IdsInputInterface)?.value;
+      this.#lastInputChange = { ...evt.detail };
       this.#triggerChangeEvent();
     });
   }
@@ -102,10 +106,26 @@ export default class IdsFilterField extends Base {
   #triggerChangeEvent() {
     this.triggerEvent('change', this, {
       detail: {
-        operator: this.menuButton?.value?.[0],
-        value: (this.inputElement as IdsInputInterface).value
+        operator: this.#lastOperator,
+        ...this.#lastInputChange,
+        value: this.#lastValue,
+        elem: this.inputElement
       }
     });
+  }
+
+  #syncInputLabel(inputElement: Element) {
+    const defaultId = 'filter-field-input';
+    const labelElem = this.container?.querySelector<HTMLElement>('label');
+
+    if (inputElement.id) {
+      labelElem?.setAttribute('for', inputElement.id);
+    } else {
+      inputElement.id = defaultId;
+      labelElem?.setAttribute('for', defaultId);
+    }
+
+    inputElement.setAttribute(attributes.LABEL, this.label ?? '');
   }
 
   #configureInputElement(inputElement?: Element) {
@@ -114,16 +134,20 @@ export default class IdsFilterField extends Base {
     inputElement.setAttribute(attributes.LABEL_STATE, 'collapsed');
     inputElement.setAttribute(attributes.SIZE, this.size);
     inputElement.toggleAttribute(attributes.SQUARE, true);
+    this.#syncInputLabel(inputElement);
   }
 
-  renderOperators(operators: FilterFieldOperator[]) {
+  #renderOperators(operators: FilterFieldOperator[]) {
     if (!operators.length || !this.isConnected) return;
 
-    const menuGroup = this.container?.querySelector('ids-menu-group');
-    if (menuGroup) menuGroup.innerHTML = this.operatorsTemplate(operators);
+    const menuGroup = this.container?.querySelector<IdsMenuGroup>('ids-menu-group');
+    if (menuGroup) {
+      menuGroup.innerHTML = this.#operatorsTemplate(operators);
+      menuGroup.refresh();
+    }
   }
 
-  operatorsTemplate(operators: FilterFieldOperator[]): string {
+  #operatorsTemplate(operators: FilterFieldOperator[]): string {
     return operators.map((operator) => {
       const value = `value="${operator.value}"`;
       const icon = `icon="${operator.icon}"`;
@@ -148,7 +172,9 @@ export default class IdsFilterField extends Base {
 
   set operators(val: FilterFieldOperator[]) {
     this.#operators = val;
-    this.renderOperators(this.#operators);
+    this.#renderOperators(this.#operators);
+    const selectedOperator = val.find((op) => op.selected)?.value || val[0].value;
+    this.menuButton?.setAttribute(attributes.VALUE, selectedOperator);
   }
 
   get operators(): FilterFieldOperator[] {
