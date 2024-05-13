@@ -302,7 +302,7 @@ export default class IdsDropdownList extends Base {
       this.popup.container?.classList.add('dropdown');
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'none';
-      this.popup.positionStyle = 'fixed';
+      this.popup.setAttribute('position-style', 'fixed');
 
       // Fix aria if the menu is closed
       if (!this.popup.visible) {

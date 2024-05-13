@@ -890,6 +890,7 @@ export default class IdsPopup extends Base {
    * @param {string} val the position style string
    */
   set positionStyle(val: string) {
+    console.log(val, POSITION_STYLES);
     const currentStyle = this.#positionStyle;
     if (POSITION_STYLES.includes(val)) {
       this.setAttribute(attributes.POSITION_STYLE, val);
