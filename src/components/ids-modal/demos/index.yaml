@@ -23,6 +23,9 @@
   - link: keep-open.html
     type: Example
     description: Demonstrates how to keep a Modal from closing when clicking outside
+  - link: scrollable.html
+    type: Example
+    description: Demonstrates scrolling in the content area
   - link: nested.html
     type: Example
     description: Showing a test page for nested modals

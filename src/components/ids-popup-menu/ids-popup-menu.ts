@@ -710,7 +710,7 @@ export default class IdsPopupMenu extends Base {
         this.popup.scrollParentElem = this.parentMenu?.popup?.wrapper;
         this.popup.onPlace = (popupRect: DOMRect): DOMRect => {
           const parentPopup = this.parentMenu && this.parentMenu.popup!;
-          if (this.container && parentPopup) {
+          if (this.container && parentPopup && this.container && this.container.scrollParentElem) {
             this.container.removeAttribute('style');
 
             // accounts for top/bottom padding + border thickness
