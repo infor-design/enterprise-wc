@@ -728,14 +728,6 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.getAttribute('field-height')).toEqual('lg');
   });
 
-  test('fixes itself with an empty container', () => {
-    dropdown = createFromTemplate(
-      `<ids-dropdown id="dropdown-1" label="Normal Dropdown">
-       </ids-dropdown>`
-    );
-    expect(dropdown.container).toBeTruthy();
-  });
-
   it.skip('should handle groups', async () => {
     dropdown.clearable = true;
     dropdown.value = '';
@@ -822,15 +814,6 @@ describe('IdsDropdown Component', () => {
     dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
     dropdown.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     expect(dropdown.value).toEqual('gr2opt1');
-  });
-
-  test('should handle placeholder attribute', () => {
-    dropdown.placeholder = 'select an item';
-    expect(dropdown.input.placeholder).toEqual('select an item');
-
-    dropdown.placeholder = null;
-    expect(dropdown.placeholder).toEqual('');
-    expect(dropdown.input.placeholder).toBeNull();
   });
 
   test('should select an option and update the value by keyboard input', async () => {
