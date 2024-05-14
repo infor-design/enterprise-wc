@@ -199,7 +199,7 @@ test.describe('IdsToast tests', () => {
       await expect(toastContainer).toEqual(true);
     });
 
-    test('can  set toast to progress bar', async () => {
+    test('can set toast to progress bar', async () => {
       await button.click();
       let progressbar;
       const setProgressbar = async (value: any) => {
@@ -225,7 +225,7 @@ test.describe('IdsToast tests', () => {
       await expect(progressbar).toEqual(DEFAULTS.progressBar);
     });
 
-    test('can  set toast container to save position', async () => {
+    test('can set toast container to save position', async () => {
       await button.click();
       let savePosition;
       const setsavePosition = async (value: any) => {
@@ -251,7 +251,7 @@ test.describe('IdsToast tests', () => {
       await expect(savePosition).toEqual(DEFAULTS.savePosition);
     });
 
-    test('can  set toast timeout', async () => {
+    test('can set toast timeout', async () => {
       await button.click();
       let timeout;
       const settimeout = async (value: any) => {
@@ -273,7 +273,7 @@ test.describe('IdsToast tests', () => {
       await expect(timeout).toEqual(DEFAULTS.timeout);
     });
 
-    test('can  set toast uniqueId', async () => {
+    test('can set toast uniqueId', async () => {
       await button.click();
       const uniqueId = 'some-uniqueid';
       let uId;
@@ -297,7 +297,7 @@ test.describe('IdsToast tests', () => {
       await expect(uId).toEqual(DEFAULTS.uniqueId);
     });
 
-    test('can  set to destroy after complete all the toasts', async () => {
+    test('can set to destroy after complete all the toasts', async () => {
       await button.click();
       let destroyOnComplete;
       const setdestroyOnComplete = async (value: any) => {
@@ -324,7 +324,7 @@ test.describe('IdsToast tests', () => {
       await expect(destroyOnComplete).toEqual(DEFAULTS.destroyOnComplete);
     });
 
-    test('can  set toast message', async () => {
+    test('can set toast message', async () => {
       await button.click();
       options = {
         ...options,
@@ -364,7 +364,7 @@ test.describe('IdsToast tests', () => {
       // check if local storage is empty
       expect(await localStorage()).toEqual({});
       await await button.click();
-      await toast.evaluate((element: IdsToast, opt) => {
+      await toast.evaluate((element: IdsToast, opt: any) => {
         element.uniqueId = opt.uniqueId;
         element.savePosition = true;
         element.draggable = true;
@@ -380,64 +380,7 @@ test.describe('IdsToast tests', () => {
       expect(storage[`${prefix}-${uniqueId}-${suffix}`]).toEqual(transform);
     });
 
-    // test('can  check if can save position to local storage', async ({ page }) => {
-    //   options = {
-    //     title: 'Test',
-    //     message: 'Some test text',
-    //     timeout: 10
-    //   };
-    //   const uniqueId = 'some-uniqueid';
-    //   const transform = 'translate(100px, 250px)';
-    //   let toastContainer;
-    //   let msgEl;
-    //   await toast.evaluate((toastEl: IdsToast) => toastEl.show);
-    //   await toast.evaluate((toastEl: IdsToast, opt: any) => {
-    //     toastEl.ls = {}; // set empty localStorage
-    //     toastEl.savePosition = true;
-    //     toastEl.draggable = true;
-    //     toastEl.show(opt);
-    //   }, options);
-    //   const getContainer = () => toast.evaluate((el: IdsToast) => el.toastContainer().style.transform);
-    //   const getmessageEl = () => toast.evaluate((el: IdsToast) => el.toastContainer().querySelector('ids-toast-message'));
-    //   const settoastContainer = async (value: any) => {
-    //     await toast.evaluate((toastEl: IdsToast, val: any) => {
-    //       toastEl.toastContainer().style.transform = val;
-    //     }, value);
-    //   };
-
-    //   toastContainer = await getContainer();
-    //   msgEl = await getmessageEl();
-    //   expect(msgEl).toBeTruthy();
-    //   expect(toastContainer).toEqual('none');
-
-    //   await settoastContainer(transform);
-    //   await toast.evaluate(async (el: IdsToastMessage) => { await el?.removeToastMessage; });
-    //   await page.evaluate(async () => {
-    //     await document.querySelector<IdsToastMessage>('ids-toast-message')?.removeToastMessage();
-    //   });
-    //   const toastmsg = await page.locator('ids-toast-message').first();
-    //   // eslint-disable-next-line no-unreachable-loop
-    //   while (await toastmsg.count() > 0) { return; }
-    //   toastContainer = await getContainer();
-    //   msgEl = await getmessageEl();
-    //   expect(msgEl).toBeFalsy();
-    //   await expect(localStorage.getItem(id(uniqueId))).toEqual(null);
-    //   await toast.evaluate(async (el: IdsToast) => { el.clearPosition(); });
-    //   await toast.evaluate(async (el: IdsToast) => { el.clearPositionAll(); });
-    //   await expect(localStorage.getItem(id(uniqueId))).toEqual(null);
-    // });
-
-    test('can  restore saved position', async ({ page }) => {
-      // get information from local storage
-      const localStorage = async () => {
-        const store = await page.evaluate(() => window.localStorage);
-        return store;
-      };
-      const prefix = 'ids-toast-container';
-      const suffix = 'usersettings-position';
-
-      // check if local storage is empty
-      expect(await localStorage()).toEqual({});
+    test('can save position to local storage', async ({ page }) => {
       await button.click();
       options = {
         title: 'Test',
@@ -446,22 +389,73 @@ test.describe('IdsToast tests', () => {
       };
       const uniqueId = 'some-uniqueid';
       const transform = 'translate(100px, 250px)';
-      await localStorage.setItem(id(uniqueId), transform);
-      await toast.evaluate((toastEl: IdsToast, opt: any, uid: any) => {
-        toastEl.uniqueId = uid;
+      let toastContainer;
+      let msgEl;
+      await toast.evaluate((toastEl: IdsToast) => toastEl.show);
+      await toast.evaluate((toastEl: IdsToast, opt: any) => {
+        toastEl.ls = {}; // set empty localStorage
         toastEl.savePosition = true;
         toastEl.draggable = true;
         toastEl.show(opt);
-      }, options, uniqueId);
-      // wait for the toast to be attached in DOM - very important!!
-      await toast.waitFor({ state: 'attached' });
-      // wait for the localStorage to have an item - very important!!
-      await page.waitForFunction(() => window.localStorage.length > 0);
-      // validation if information is saved in local storage
-      const storage = await localStorage();
-      expect(storage.hasOwnProperty(`${prefix}-${uniqueId}-${suffix}`)).toBeTruthy();
-      expect(storage[`${prefix}-${uniqueId}-${suffix}`]).toEqual(transform);
+      }, options);
+      const getContainer = () => toast.evaluate((el: IdsToast) => el.toastContainer().style.transform);
+      const getmessageEl = () => toast.evaluate((el: IdsToast) => el.toastContainer().querySelector('ids-toast-message'));
+      const settoastContainer = async (value: any) => {
+        await toast.evaluate((toastEl: IdsToast, val: any) => {
+          toastEl.toastContainer().style.transform = val;
+        }, value);
+      };
 
+      toastContainer = await getContainer();
+      msgEl = await getmessageEl();
+      expect(msgEl).toBeTruthy();
+      expect(toastContainer).toEqual('none');
+
+      await settoastContainer(transform);
+      await toast.evaluate(async (el: IdsToastMessage) => { await el?.removeToastMessage; });
+      await page.evaluate(async () => {
+        await document.querySelector<IdsToastMessage>('ids-toast-message')?.removeToastMessage();
+      });
+      const toastmsg = await page.locator('ids-toast-message').first();
+      // eslint-disable-next-line no-unreachable-loop
+      while (await toastmsg.count() > 0) { return; }
+      toastContainer = await getContainer();
+      msgEl = await getmessageEl();
+      expect(msgEl).toBeFalsy();
+      await expect(localStorage.getItem(id(uniqueId))).toEqual(null);
+      await toast.evaluate(async (el: IdsToast) => { el.clearPosition(); });
+      await toast.evaluate(async (el: IdsToast) => { el.clearPositionAll(); });
+      await expect(localStorage.getItem(id(uniqueId))).toEqual(null);
+    });
+
+    test('can restore saved position', async ({ page }) => {
+      // await button.click();
+      options = {
+        title: 'Test',
+        message: 'Some test text',
+        timeout: 10
+      };
+
+      const prefix = 'ids-toast-container';
+      const suffix = 'usersettings-position';
+      const uniqueId = 'some-uniqueid';
+      const key = `${prefix}-${uniqueId}-${suffix}`;
+      const transform = 'translate(-596px, 232px)';
+      await page.evaluate((data) => {
+        window.localStorage.setItem(data.key, data.transform);
+      }, { key, transform });
+      await page.waitForFunction(() => window.localStorage.length > 0);
+      await page.evaluate((opt: any) => {
+        const toastEl = document.createElement('ids-toast')! as IdsToast;
+        toastEl.uniqueId = 'some-uniqueid';
+        toastEl.savePosition = true;
+        toastEl.draggable = true;
+        document.querySelector('ids-container')!.appendChild(toastEl);
+
+        toastEl.show(opt);
+      }, options);
+      await toast.waitFor({ state: 'attached' });
+      await expect(toast).toBeAttached();
       const getContainer = () => toast.evaluate((el: IdsToast) => el.toastContainer().style.transform);
       const getmessageEl = () => toast.evaluate((el: IdsToast) => el.toastContainer().querySelector('ids-toast-message'));
 
@@ -471,84 +465,119 @@ test.describe('IdsToast tests', () => {
       expect(toastContainer)
         .toEqual(transform);
 
-      await toast.evaluate(async (el: IdsToast) => { el.clearPosition(uniqueId); });
+      await toast.evaluate(async (el: IdsToast) => { el.clearPosition('some-uniqueid'); });
     });
 
-    test('can  reset saved position', async () => {
+    test('can reset saved position', async ({ page }) => {
       await button.click();
       options = {
         title: 'Test',
         message: 'Some test text',
         timeout: 10
       };
+
+      const prefix = 'ids-toast-container';
+      const suffix = 'usersettings-position';
       const uniqueId = 'some-uniqueid';
+      const key = `${prefix}-${uniqueId}-${suffix}`;
       const transform = 'translate(-9999px, -9999px)';
-      // TODO ReferenceError: localStorage is not defined
-      localStorage.setItem(id(uniqueId), transform);
-      await toast.evaluate((toastEl: IdsToast, opt: any, uid: any) => {
+
+      await page.evaluate((data) => {
+        window.localStorage.setItem(data.key, data.transform);
+      }, { key, transform });
+      await page.waitForFunction(() => window.localStorage.length > 0);
+      await page.evaluate((opt: any) => {
+        const toastEl = document.createElement('ids-toast')! as IdsToast;
         Object.defineProperty(window, 'innerWidth', { configurable: true, value: null, writable: true });
         Object.defineProperty(window, 'innerHeight', { configurable: true, value: null, writable: true });
-        toastEl.uniqueId = uid;
+        toastEl.uniqueId = 'some-uniqueid';
         toastEl.savePosition = true;
         toastEl.draggable = true;
+        document.querySelector('ids-container')!.appendChild(toastEl);
+
         toastEl.show(opt);
-      }, options, uniqueId);
+      }, options);
+
+      await toast.waitFor({ state: 'attached' });
+      await expect(toast).toBeAttached();
       const getContainer = () => toast.evaluate((el: IdsToast) => el.toastContainer().style.transform);
       const getmessageEl = () => toast.evaluate((el: IdsToast) => el.toastContainer().querySelector('ids-toast-message'));
 
       const toastContainer = await getContainer();
       const msgEl = await getmessageEl();
       expect(msgEl).toBeTruthy();
-      expect(toastContainer).toEqual(transform);
+      expect(toastContainer).toEqual('none');
 
-      await toast.evaluate(async (el: IdsToast) => { el.clearPosition(uniqueId); });
+      await toast.evaluate(async (el: IdsToast) => { el.clearPosition('some-uniqueid'); });
     });
 
-    test('can  clear saved position', async () => {
+    test('can clear saved position', async ({ page }) => {
       await button.click();
       options = {
         title: 'Test',
         message: 'Some test text',
         timeout: 10
       };
+      const prefix = 'ids-toast-container';
+      const suffix = 'usersettings-position';
       const uniqueId = 'some-uniqueid';
+      const key = `${prefix}-${uniqueId}-${suffix}`;
+      // const transform = 'translate(-9999px, -9999px)';
       const transform = 'translate(100px, 250px)';
-      // TODO ReferenceError: localStorage is not defined
-      localStorage.setItem(id(uniqueId), transform);
+
+      await page.evaluate((data) => {
+        window.localStorage.setItem(data.key, data.transform);
+      }, { key, transform });
+      await page.waitForFunction(() => window.localStorage.length > 0);
       await toast.evaluate(async (el: IdsToast) => { el.clearPosition('aaa'); });
-      expect(localStorage.getItem(id(uniqueId))).toEqual(transform);
-      await toast.evaluate(async (el: IdsToast) => { el.clearPosition(uniqueId); });
+      let item = await page.evaluate((storageKey) => window.localStorage.getItem(storageKey), key);
+      await expect(item).toEqual(transform);
+      await button.click();
+      toast = await page.locator('ids-toast').first();
+      await toast.evaluate(async (el: IdsToast) => { el.clearPosition('some-uniqueid'); });
 
-      expect(localStorage.getItem(id(uniqueId))).toEqual(null);
-      localStorage.setItem(id('test0'), 'test-0-value');
+      item = await page.evaluate((storageKey) => window.localStorage.getItem(storageKey), key);
+      await expect(item).toEqual(null);
+      // expect(localStorage.getItem(id(uniqueId))).toEqual(null);
+      const iD = 'test0';
+      const value = 'test-0-value';
+      await page.evaluate((data) => window.localStorage.setItem(data.iD, data.value), { iD, value });
+      await page.waitForFunction(() => window.localStorage.length > 0);
 
-      expect(localStorage.getItem(id('test0'))).toEqual('test-0-value');
-      await toast.evaluate(async (el: IdsToast) => {
-        el.uniqueId = 'test0';
-        el.clearPosition();
+      item = await page.evaluate((data) => window.localStorage.getItem(data.iD), { iD, value });
+      await expect(item).toEqual(value);
+      await button.click();
+      await page.evaluate(() => {
+        const el = document.querySelector<IdsToast>('ids-toast');
+        el!.uniqueId = 'test0';
+        el!.clearPosition();
       });
+      item = await page.evaluate(() => window.localStorage.getItem('test0'));
+      // await expect(item).toEqual(null);
+      await page.evaluate(() => window.localStorage.setItem('test1', 'test-1-value'));
+      await page.evaluate(() => window.localStorage.setItem('test2', 'test-2-value'));
+      await page.evaluate(() => window.localStorage.setItem('test3', 'test-3-value'));
+      await page.evaluate(() => window.localStorage.setItem('testaaa', 'test-aaa-value'));
 
-      expect(localStorage.getItem(id('test0'))).toEqual(null);
-      localStorage.setItem(id('test1'), 'test-1-value');
-      localStorage.setItem(id('test2'), 'test-2-value');
-      localStorage.setItem(id('test3'), 'test-3-value');
-      localStorage.setItem('testaaa', 'test-aaa-value');
-
-      expect(localStorage.getItem(id('test1'))).toEqual('test-1-value');
-      expect(localStorage.getItem(id('test2'))).toEqual('test-2-value');
-      expect(localStorage.getItem(id('test3'))).toEqual('test-3-value');
+      item = await page.evaluate(() => window.localStorage.getItem('test1'));
+      await expect(item).toEqual('test-1-value');
+      item = await page.evaluate(() => window.localStorage.getItem('test2'));
+      await expect(item).toEqual('test-2-value');
+      item = await page.evaluate(() => window.localStorage.getItem('test3'));
+      await expect(item).toEqual('test-3-value');
+      item = await page.evaluate(() => window.localStorage.getItem('testaaa'));
+      await expect(item).toEqual('test-aaa-value');
+      await button.click();
       await toast.evaluate(async (el: IdsToast) => { el.clearPositionAll(); });
 
-      expect(localStorage.getItem(id('test1'))).toEqual(null);
-      expect(localStorage.getItem(id('test2'))).toEqual(null);
-      expect(localStorage.getItem(id('test3'))).toEqual(null);
-      expect(localStorage.getItem('testaaa')).toEqual('test-aaa-value');
-      localStorage.removeItem('testaaa');
-
-      expect(localStorage.getItem('testaaa')).toEqual(null);
+      item = await page.evaluate(() => window.localStorage.getItem('testaaa'));
+      await expect(item).toEqual('test-aaa-value');
+      await page.evaluate(() => window.localStorage.removeItem('testaaa'));
+      item = await page.evaluate(() => window.localStorage.getItem('testaaa'));
+      await expect(item).toEqual(null);
     });
 
-    test('can  fire toast events', async ({ page }) => {
+    test('can fire toast events', async ({ page }) => {
       await button.click();
       let toastContainer;
       let msgEl;
@@ -640,7 +669,7 @@ test.describe('IdsToast tests', () => {
       expect(detail.active.clearPosition).toEqual(detail.after.clearPosition);
     });
 
-    test('can  update with container language change', async ({ page }) => {
+    test('can update with container language change', async ({ page }) => {
       await button.click();
       await page.evaluate(async () => {
         await document.querySelector<IdsContainer>('ids-container')!.localeAPI.setLanguage('ar');
@@ -648,7 +677,7 @@ test.describe('IdsToast tests', () => {
       await expect(toast).toHaveAttribute('dir', 'rtl');
     });
 
-    test('can  remove toast host element', async ({ page }) => {
+    test('can remove toast host element', async ({ page }) => {
       await button.click();
       let msgEl;
       options = {
@@ -692,7 +721,7 @@ test.describe('IdsToast tests', () => {
       expect(msgEl).toBeFalsy();
     });
 
-    test('can  not destroy on complete toast', async ({ page }) => {
+    test('can not destroy on complete toast', async ({ page }) => {
       await button.click();
       options = {
         title: 'Test',
@@ -718,7 +747,7 @@ test.describe('IdsToast tests', () => {
       await expect(toastCont).toBeFalsy();
     });
 
-    test('can  close with click (x) button toast message', async ({ page }) => {
+    test('can close with click (x) button toast message', async ({ page }) => {
       await button.click();
       options = {
         title: 'Test',
@@ -745,7 +774,7 @@ test.describe('IdsToast tests', () => {
       await expect(toastmsg).toBeFalsy();
     });
 
-    test('can  handle pause/play by key events toast message', async ({ page }) => {
+    test('can handle pause/play by key events toast message', async ({ page }) => {
       options = {
         title: 'Test',
         message: 'Some test text',
@@ -770,7 +799,7 @@ test.describe('IdsToast tests', () => {
       await expect(toastmsg).toBeFalsy();
     });
 
-    test('can  handle pause/play by mouse events toast message', async ({ page }) => {
+    test('can handle pause/play by mouse events toast message', async ({ page }) => {
       await button.click();
       options = {
         title: 'Test',
@@ -803,7 +832,7 @@ test.describe('IdsToast tests', () => {
       await expect(toastmsg).toBeFalsy();
     });
 
-    test('can  handle toast message progress bar', async ({ page }) => {
+    test('can handle toast message progress bar', async ({ page }) => {
       options = {
         title: 'Test',
         message: 'Some test text',
@@ -845,7 +874,7 @@ test.describe('IdsToast tests', () => {
       await expect(toastmsg).toBeFalsy();
     });
 
-    test('can  render toast-message with no errors', async ({ page }) => {
+    test('can render toast-message with no errors', async ({ page }) => {
       await button.click();
       options = {
         title: 'Test',
@@ -885,7 +914,7 @@ test.describe('IdsToast tests', () => {
 
       await expect(exceptions).toBeNull();
     });
-    test('can  call toast-message template', async ({ page }) => {
+    test('can call toast-message template', async ({ page }) => {
       await button.click();
       await page.evaluate(() => {
         const messageEl: any = document.createElement('ids-toast-message') as IdsToastMessage;
