@@ -20,15 +20,18 @@ export interface FilterFieldOperator {
 
 export const FilterFieldTypes = ['text', 'date', 'time', 'dropdown'];
 
+/**
+ * IDS Filter Field Component
+ * @type {IdsFilterField}
+ * @mixes IdsEventsMixin
+ * @mixes IdsLabelStateMixin
+ */
 @customElement('ids-filter-field')
 @scss(styles)
 export default class IdsFilterField extends Base {
   #operators: FilterFieldOperator[] = [];
 
-  #lastOperator = 'equals';
-
-  #lastValue = '';
-
+  /** Cache last input change event data for next change event */
   #lastInputChange: Record<string, any> = {};
 
   constructor() {
@@ -38,7 +41,9 @@ export default class IdsFilterField extends Base {
   static get attributes(): string[] {
     return [
       ...super.attributes,
-      attributes.SIZE
+      attributes.OPERATOR,
+      attributes.SIZE,
+      attributes.VALUE
     ];
   }
 
@@ -77,7 +82,6 @@ export default class IdsFilterField extends Base {
     this.offEvent('slotchange', inputSlot);
     this.onEvent('slotchange', inputSlot, () => {
       this.#configureInputElement(this.inputElement);
-      this.#lastValue = (this.inputElement as IdsInputInterface).value;
       this.#attachInputChangeHandler(this.inputElement);
     });
 
@@ -85,17 +89,15 @@ export default class IdsFilterField extends Base {
     this.onEvent('selected.operators', this.menu, (evt: CustomEvent) => {
       evt.stopPropagation();
       this.#updateOperatorIcon(evt.detail.elem.icon);
-      this.#lastOperator = evt.detail?.elem?.value;
-      this.#triggerChangeEvent();
+      this.triggerChangeEvent();
     });
   }
 
   #attachInputChangeHandler(inputElement?: Element) {
     this.onEvent('change.input', inputElement, (evt: CustomEvent) => {
       evt.stopPropagation();
-      this.#lastValue = (evt.target as IdsInputInterface)?.value;
       this.#lastInputChange = { ...evt.detail };
-      this.#triggerChangeEvent();
+      this.triggerChangeEvent();
     });
   }
 
@@ -103,17 +105,21 @@ export default class IdsFilterField extends Base {
     this.menuButton?.setAttribute(attributes.ICON, icon);
   }
 
-  #triggerChangeEvent() {
+  triggerChangeEvent() {
     this.triggerEvent('change', this, {
       detail: {
-        operator: this.#lastOperator,
+        operator: this.operator,
         ...this.#lastInputChange,
-        value: this.#lastValue,
+        value: this.value,
         elem: this.inputElement
       }
     });
   }
 
+  /**
+   * Syncs slotted input element labels/id with filter field
+   * @param {Element} inputElement input element
+   */
   #syncInputLabel(inputElement: Element) {
     const defaultId = 'filter-field-input';
     const labelElem = this.container?.querySelector<HTMLElement>('label');
@@ -128,6 +134,10 @@ export default class IdsFilterField extends Base {
     inputElement.setAttribute(attributes.LABEL, this.label ?? '');
   }
 
+  /**
+   * Initial configuration of slotted input element
+   * @param {Element} inputElement input element
+   */
   #configureInputElement(inputElement?: Element) {
     if (!inputElement) return;
     inputElement.toggleAttribute(attributes.NO_MARGINS, true);
@@ -137,6 +147,10 @@ export default class IdsFilterField extends Base {
     this.#syncInputLabel(inputElement);
   }
 
+  /**
+   * Renders operators configuration in menu element
+   * @param {Array<FilterFieldOperator>} operators operators config
+   */
   #renderOperators(operators: FilterFieldOperator[]) {
     if (!operators.length || !this.isConnected) return;
 
@@ -158,18 +172,67 @@ export default class IdsFilterField extends Base {
     }).join('');
   }
 
+  /**
+   * Gets slotted input element
+   * @returns {HTMLElement} input element
+   */
   get inputElement() {
     return this.container?.querySelector<HTMLSlotElement>('#input-slot')?.assignedElements()[0];
   }
 
+  /**
+   * Gets operators menu button element
+   * @returns {IdsMenuButton}  operator menu button
+   */
   get menuButton() {
     return this.container?.querySelector<IdsMenuButton>('ids-menu-button');
   }
 
+  /**
+   * Gets operator menu
+   * @returns {IdsPopupMenu} operator menu
+   */
   get menu() {
     return this.container?.querySelector<IdsPopupMenu>('ids-popup-menu');
   }
 
+  /**
+   * Sets input element value
+   * @param {string} val input value
+   */
+  set value(val: string) {
+    this.inputElement?.setAttribute(attributes.VALUE, val);
+  }
+
+  /**
+   * Gets input element value
+   * @returns {string} input element value
+   */
+  get value() {
+    return (this.inputElement as IdsInputInterface)?.value || this.inputElement?.getAttribute(attributes.VALUE);
+  }
+
+  /**
+   * Sets operator
+   * @param {string} op operator id
+   */
+  set operator(op: string) {
+    this.setAttribute(attributes.OPERATOR, op);
+    this.menuButton?.setAttribute(attributes.VALUE, op);
+  }
+
+  /**
+   * Gets selected operator
+   * @returns {string} operator id
+   */
+  get operator(): string {
+    return Array.isArray(this.menuButton?.value) ? this.menuButton?.value[0] : this.menuButton?.value;
+  }
+
+  /**
+   * Sets operators config for menu button
+   * @param {Array<FilterFieldOperator>} val operators configuration
+   */
   set operators(val: FilterFieldOperator[]) {
     this.#operators = val;
     this.#renderOperators(this.#operators);
@@ -177,15 +240,27 @@ export default class IdsFilterField extends Base {
     this.menuButton?.setAttribute(attributes.VALUE, selectedOperator);
   }
 
+  /**
+   * Gets operators config
+   * @returns {Array<FilterFieldOperator>} operators configuration
+   */
   get operators(): FilterFieldOperator[] {
     return this.#operators;
   }
 
+  /**
+   * Sets size
+   * @param {string} val size
+   */
   set size(val: string) {
     this.setAttribute(attributes.SIZE, val);
     this.inputElement?.setAttribute(attributes.SIZE, val);
   }
 
+  /**
+   * Gets size
+   * @returns {string} size
+   */
   get size(): string {
     return this.getAttribute(attributes.SIZE) ?? 'md';
   }

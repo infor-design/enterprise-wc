@@ -62,4 +62,78 @@ test.describe('IdsFilterField tests', () => {
       await percySnapshot(page, 'ids-filter-field-light');
     });
   });
+
+  test.describe('IdsFilterField functionality tests', () => {
+    test('setting filter field value progamatically', async ({ page }) => {
+      const handle = await page.locator('ids-filter-field').first();
+      const value = await handle.evaluate((filterField: IdsFilterField) => {
+        filterField.value = 'Test Value';
+        return filterField.value;
+      });
+
+      expect(value).toEqual('Test Value');
+    });
+
+    test('setting filter field operator programitcally', async ({ page }) => {
+      const handle = await page.locator('ids-filter-field').first();
+      const operator = await handle.evaluate((filterField: IdsFilterField) => {
+        filterField.operator = 'does-not-equal';
+        return filterField.operator;
+      });
+
+      expect(operator).toEqual('does-not-equal');
+    });
+
+    test('setting custom filter field configuration', async ({ page }) => {
+      const handle = await page.locator('ids-filter-field').first();
+      const operatorsCount = await handle.evaluate((filterField: IdsFilterField) => {
+        filterField.operators = [
+          {
+            text: 'Equals',
+            value: 'equals',
+            icon: 'filter-equals',
+            selected: true
+          },
+          {
+            text: 'Does not equal',
+            value: 'does-not-equal',
+            icon: 'filter-does-not-equal',
+            selected: false
+          }
+        ];
+        return filterField.menuButton?.menuEl.querySelectorAll('ids-menu-item').length;
+      });
+
+      expect(operatorsCount).toEqual(2);
+    });
+
+    test('filter field change event', async ({ page }) => {
+      const handle = await page.locator('ids-filter-field').first();
+
+      // set input value
+      await handle.evaluate((filterField: IdsFilterField) => {
+        filterField.value = 'Test Value';
+        return filterField.value;
+      });
+
+      // set operator value
+      await page.locator('ids-filter-field ids-menu-button').first().click();
+      await page.locator('ids-filter-field ids-menu-item[value="does-not-equal"]').first().click();
+
+      // attach change event
+      const changeEvent: any = await handle.evaluate((filterField: IdsFilterField) => {
+        const p = new Promise((resolve) => {
+          filterField.addEventListener('change', ((evt: CustomEvent) => {
+            resolve(evt.detail);
+          }) as EventListener, { once: true });
+          filterField.triggerChangeEvent();
+        });
+
+        return p;
+      });
+
+      expect(changeEvent.value).toEqual('Test Value');
+      expect(changeEvent.operator).toEqual('does-not-equal');
+    });
+  });
 });

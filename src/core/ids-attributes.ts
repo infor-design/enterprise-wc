@@ -313,6 +313,7 @@ export const attributes = {
   NO_PADDING: 'no-padding',
   OFFSET_CONTENT: 'offset-content',
   OPACITY: 'opacity',
+  OPERATOR: 'operator',
   ORDER: 'order',
   ORDER_LG: 'order-lg',
   ORDER_MD: 'order-md',
