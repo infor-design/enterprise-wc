@@ -138,6 +138,45 @@
       </ids-layout-grid-cell>
       <!-- end app-menu-style nested accordion -->
     </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="md" padding-x="md" margin-y="md">
+      <!-- begin nested accordion -->
+      <ids-layout-grid-cell>
+        <ids-accordion id="keep-expander-placement-nested" keep-expander-placement>
+          <ids-accordion-panel>
+            <ids-accordion-header slot="header">
+              <ids-text font-size="16">Level 1</ids-text>
+            </ids-accordion-header>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header" icon="user">
+                <ids-text font-size="16">Level 2</ids-text>
+              </ids-accordion-header>
+              <ids-accordion-panel slot="content">
+                <ids-accordion-header slot="header">
+                  <ids-text font-size="16">Level 3</ids-text>
+                </ids-accordion-header>
+                <ids-accordion-panel slot="content">
+                  <ids-accordion-header slot="header">
+                    <ids-text font-size="16">Level 4</ids-text>
+                  </ids-accordion-header>
+                  <ids-accordion-panel slot="content">
+                    <ids-accordion-header slot="header">
+                      <ids-text font-size="16">Level 5</ids-text>
+                    </ids-accordion-header>
+                    <ids-accordion-panel slot="content">
+                      <ids-accordion-header slot="header">
+                        <ids-text font-size="16">Level 6</ids-text>
+                      </ids-accordion-header>
+                    </ids-accordion-panel>
+                  </ids-accordion-panel>
+                </ids-accordion-panel>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+          </ids-accordion-panel>
+        </ids-accordion>
+      </ids-layout-grid-cell>
+      <!-- end basic nested accordion -->
+    </ids-layout-grid>
   </ids-container>
 </body>
 </html>
