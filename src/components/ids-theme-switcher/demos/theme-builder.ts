@@ -247,7 +247,7 @@ if (dataGrid) {
       dataGrid.data = data;
     };
 
-    await await setData();
+    await setData();
   }());
 }
 
@@ -624,7 +624,7 @@ if (listBuilderEl) {
     const data = await res.json();
     listBuilderEl.data = data;
   };
-  await await setData();
+  await setData();
 }
 
 // =================================================================
@@ -640,7 +640,7 @@ if (listViewEl) {
     const data = await res.json();
     listViewEl.data = data;
   };
-  await await setData();
+  await setData();
 }
 
 // =================================================================
@@ -666,7 +666,7 @@ if (areaChartEl) {
     const data = await res.json();
     areaChartEl.data = data;
   };
-  await await setData();
+  await setData();
 }
 
 // =================================================================

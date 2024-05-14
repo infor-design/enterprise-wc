@@ -63,4 +63,42 @@ test.describe('IdsUploadAdvanced tests', () => {
       await percySnapshot(page, 'ids-upload-advanced-light');
     });
   });
+
+  test.describe('reattachment tests', () => {
+    test('should not have errors after reattaching', async ({ page }) => {
+      const elemId = '#elem-upload-advanced-basic';
+      page.on('pageerror', (err) => {
+        expect(err).toBeNull();
+      });
+
+      await page.evaluate((arg) => {
+        const elem = document.querySelector(arg)!;
+        const parentNode = elem.parentNode!;
+
+        parentNode.removeChild(elem);
+        parentNode.appendChild(elem);
+      }, elemId);
+    });
+
+    test('should not duplicate upload status banners after reattaching', async ({ page }) => {
+      const elemId = '#elem-upload-advanced-basic';
+      const filePath = 'src/assets/images/10.jpg';
+      const uploadAdvanced = await page.locator(elemId);
+      await page.locator('#elem-upload-advanced-basic .file-input').setInputFiles(filePath);
+      expect(await uploadAdvanced.evaluate((elem: IdsUploadAdvanced) => elem.files.length)).toEqual(1);
+      expect(await uploadAdvanced.evaluate((elem: IdsUploadAdvanced) => elem.container?.querySelectorAll('ids-upload-advanced-file').length)).toEqual(1);
+
+      await page.evaluate((arg) => {
+        const elem = document.querySelector(arg)!;
+        const parentNode = elem.parentNode!;
+
+        parentNode.removeChild(elem);
+        parentNode.appendChild(elem);
+      }, elemId);
+
+      await page.locator('#elem-upload-advanced-basic .file-input').setInputFiles(filePath);
+      expect(await uploadAdvanced.evaluate((elem: IdsUploadAdvanced) => elem.files.length)).toEqual(1);
+      expect(await uploadAdvanced.evaluate((elem: IdsUploadAdvanced) => elem.container?.querySelectorAll('ids-upload-advanced-file').length)).toEqual(1);
+    });
+  });
 });
