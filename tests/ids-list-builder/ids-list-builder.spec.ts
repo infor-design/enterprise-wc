@@ -50,6 +50,8 @@ test.describe('IdsListBuilder tests', () => {
 
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
+      await page.goto(url);
+      await page.waitForLoadState();
       await percySnapshot(page, 'ids-list-builder-light');
     });
   });

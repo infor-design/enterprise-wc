@@ -548,7 +548,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `resetDirtyCells` Clears all dirty cell indicators.
 - `dirtyCells` Gives a list of all currently dirty cells.
 - `exportToExcel(format: 'csv' | 'xlsx', filename: string, keepGridFormatting: boolean)` Export datagrid datasource to an excel file. This keeps grid formatting by default.
-- `collapseAll()` Collapse all expandable or tree rows.
+- `collapseAll(triggerAllRowsEvent: boolean, triggerRowEvent: boolean)` Collapse all expandable or tree rows. Argument `triggerAllRowsEvent` defaults to true, when enabled `rowcollapsed` triggered with once with `allRows` detail param. Argument `triggerRowEvent` defaults to false, when enabled each individual collapsed row event will be triggered
 - `expandAll()` Expand all expandable or tree rows.
 - `toggleAll(opt: boolean)` Toggle collapse/expand all expandable or tree rows. `opt false`: will expand all, `opt: true`: will collapse all
 - `refreshRow` IdsDataGridRow method to refresh row element and its cells.

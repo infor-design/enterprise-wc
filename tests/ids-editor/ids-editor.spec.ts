@@ -547,5 +547,22 @@ test.describe('IdsEditor tests', () => {
       await idsEditor.locator('#editor-container').first().fill('another test');
       await expect(idsEditor.locator('ids-icon.icon-dirty')).toBeAttached();
     });
+
+    test('setting text in textarea', async ({ page }) => {
+      const htmlTextareaHandle = await page.locator('ids-editor #source-textarea').first();
+
+      // switch to html editor
+      await page.locator('ids-editor ids-button[editor-action="sourcemode"]').first().click();
+
+      // set html text value
+      await htmlTextareaHandle.evaluate((textarea: HTMLTextAreaElement) => {
+        textarea.value = '<p>Test this is stored</p>';
+      });
+
+      // switch to visual editor
+      await page.locator('ids-editor ids-button[editor-action="editormode"]').first().click();
+
+      await expect(await page.getByText('Test this is stored')).toBeVisible();
+    });
   });
 });
