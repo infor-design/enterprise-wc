@@ -78,9 +78,9 @@ export class CustomEventTest {
    */
   async isEventTriggered(selectorString: string, eventName: string): Promise<boolean> {
     if (!this.isInitialized) throw new Error('Initialize is not called');
-    const eventList = await this.getEvents();
+    const eventList = await this.getElementEvents(selectorString);
     for (const event of eventList) {
-      if (event.selector === selectorString && event.eventName === eventName && event.triggeredCount > 0) return true;
+      if (event.eventName === eventName && event.triggeredCount > 0) return true;
     }
     return false;
   }
@@ -93,18 +93,33 @@ export class CustomEventTest {
    */
   async getEventCount(selectorString: string, eventName: string): Promise<number> {
     if (!this.isInitialized) throw new Error('Initialize is not called');
-    const eventList = await this.getEvents();
+    const eventList = await this.getElementEvents(selectorString);
     for (const event of eventList) {
-      if (event.selector === selectorString && event.eventName === eventName) return event.triggeredCount;
+      if (event.eventName === eventName) return event.triggeredCount;
     }
     return 0;
   }
 
   /**
-   * Get the list of events triggered per element
-   * @returns {Promise<[{ selector: string, eventName: string; triggeredCount: number; }]>} Array of element's events
+   * Get events list of an element
+   * @param {string} selectorString element selector string
+   * @returns {Promise<{ selector: string, eventName: string; triggeredCount: number; }[]>} Details of element's events
    */
-  async getEvents(): Promise<[{ selector: string, eventName: string; triggeredCount: number; }]> {
+  async getElementEvents(selectorString: string):
+  Promise<{
+    selector: string,
+    eventName: string;
+    triggeredCount: number; }[]> {
+    if (!this.isInitialized) throw new Error('Initialize is not called');
+    const eventList = await this.getAllEvents();
+    return eventList.filter((item) => item.selector === selectorString);
+  }
+
+  /**
+   * Get the list of events triggered per element
+   * @returns {Promise<{ selector: string, eventName: string; triggeredCount: number; }[]>} Details of all events
+   */
+  async getAllEvents(): Promise<{ selector: string, eventName: string; triggeredCount: number; }[]> {
     if (!this.isInitialized) throw new Error('Initialize is not called');
     const result = await this.page.evaluate(() => (window as any).eventsList);
     return result;
