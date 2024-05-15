@@ -3,12 +3,13 @@ const path = require('path');
 
 // Constants
 const basePath = `./src/themes`;
+const tokenPath = `./node_modules/ids-foundation/`;
 const tokenFiles = {
-  core: `${basePath}/tokens/core.scss`,
-  semanticContrast: `${basePath}/tokens/semantic-contrast.scss`,
-  semanticLight: `${basePath}/tokens/semantic-light.scss`,
-  semanticDark: `${basePath}/tokens/semantic-dark.scss`,
-  themeColors: `${basePath}/tokens/theme-colors.scss`
+  core: `${tokenPath}/theme-soho/core.scss`,
+  semanticContrast: `${tokenPath}/theme-soho/semantic-contrast.scss`,
+  semanticLight: `${tokenPath}/theme-soho/semantic-light.scss`,
+  semanticDark: `${tokenPath}/theme-soho/semantic-dark.scss`,
+  themeColors: `${tokenPath}/theme-soho/theme-colors.scss`
 };
 const themeFiles = [
   `${basePath}/default/ids-theme-default-core.scss`,
@@ -17,16 +18,17 @@ const themeFiles = [
 ];
 
 // Utilities
-const readFileSync = (filePath) => fs.readFileSync(filePath, 'utf8');
+// const readFileSync = (filePath) => fs.readFileSync(filePath, 'utf8');
 const writeFileSync = (filePath, data) => fs.writeFileSync(filePath, data, 'utf8');
 
 /**
  * Reads a SCSS file and returns an object of token values
  * @param {*} filePath - The path to the SCSS file
+ * @param {*} type - The type for the SCSS file
  * @param {*} label - The label for the SCSS file
  * @returns {object} - An object of token values
  */
-function generateTokenObjects(filePath, label = '') {
+function generateTokenObjects(filePath, type = '', label = '') {
   const fileContent = fs.readFileSync(filePath, 'utf8');
   const lines = fileContent.split('\n');
 
@@ -40,7 +42,9 @@ function generateTokenObjects(filePath, label = '') {
     if (matches && matches.length === 3) {
       const tokenName = `--ids-${matches[1].trim()}`; // Token name
       const tokenValue = matches[2].trim(); // Token value
-      tokenObjects.push({ tokenName, tokenValue, label });
+      tokenObjects.push({
+        tokenName, tokenValue, type, label
+      });
     }
   });
 
@@ -81,6 +85,7 @@ function parseThemeFile(filePath, tokenDependencies) {
             return {
               tokenName: variableName,
               tokenValue: token.tokenValue,
+              type: token?.type,
               source: token.label,
               children: [nestedValue]
             };
@@ -89,6 +94,7 @@ function parseThemeFile(filePath, tokenDependencies) {
           return {
             tokenName: variableName,
             tokenValue: token.tokenValue,
+            type: token?.type,
             source: token.label,
             children: []
           };
@@ -108,6 +114,7 @@ function parseThemeFile(filePath, tokenDependencies) {
             return {
               tokenName: variableName,
               tokenValue: value,
+              type: 'Semantic',
               source: 'themeFile',
               children: [nestedValue]
             };
@@ -116,6 +123,7 @@ function parseThemeFile(filePath, tokenDependencies) {
           return {
             tokenName: variableName,
             tokenValue: value,
+            type: 'Semantic',
             source: 'themeFile',
             children: []
           };
@@ -132,7 +140,12 @@ function parseThemeFile(filePath, tokenDependencies) {
     if (match) {
       const tokenName = `--ids-${match[1].trim()}`;
       const tokenValue = match[2].trim();
-      const inherited = { tokenName: '', tokenValue: '', source: '' };
+      const inherited = {
+        tokenName: '',
+        tokenValue: '',
+        type: '',
+        source: '',
+      };
 
       // Check if the token value is a variable (e.g., var(--ids-color-orange-50))
       const variableMatch = tokenValue.match(/var\((.*?)\)/);
@@ -145,6 +158,7 @@ function parseThemeFile(filePath, tokenDependencies) {
         const inheritedValue = findVariableValue(variableName);
         if (inheritedValue) {
           inherited.tokenValue = inheritedValue.tokenValue;
+          inherited.type = inheritedValue.type;
           inherited.source = inheritedValue.source;
           inherited.children = inheritedValue.children;
         }
@@ -164,21 +178,30 @@ function parseThemeFile(filePath, tokenDependencies) {
 }
 
 // Token Generation
-const coreTokens = generateTokenObjects(tokenFiles.core, 'coreTokens');
-const themeColorTokens = generateTokenObjects(tokenFiles.themeColors, 'themeColorTokens');
-const semanticLightTokens = generateTokenObjects(tokenFiles.semanticLight, 'semanticLightTokens');
-const semanticDarkTokens = generateTokenObjects(tokenFiles.semanticDark, 'semanticDarkTokens');
-const semanticContrastTokens = generateTokenObjects(tokenFiles.semanticContrast, 'semanticContrastTokens');
-const defaultCoreTheme = generateTokenObjects(themeFiles[0], 'defaultCoreTheme');
+const coreTokens = generateTokenObjects(tokenFiles.core, 'Core', 'coreTokens');
+const themeColorTokens = generateTokenObjects(tokenFiles.themeColors, 'Semantic', 'themeColorTokens');
+const semanticLightTokens = generateTokenObjects(tokenFiles.semanticLight, 'Semantic', 'semanticLightTokens');
+const semanticDarkTokens = generateTokenObjects(tokenFiles.semanticDark, 'Semantic', 'semanticDarkTokens');
+const semanticContrastTokens = generateTokenObjects(tokenFiles.semanticContrast, 'Semantic', 'semanticContrastTokens');
+const defaultCoreTheme = generateTokenObjects(themeFiles[0], 'Core', 'defaultCoreTheme');
 
 // Theme parsing and writing to files
 const themes = [
-  { filePath: themeFiles[0], tokenDependencies: [coreTokens, themeColorTokens, semanticLightTokens] },
-  { filePath: themeFiles[1], tokenDependencies: [coreTokens, themeColorTokens, defaultCoreTheme, semanticContrastTokens] },
-  { filePath: themeFiles[2], tokenDependencies: [coreTokens, themeColorTokens, defaultCoreTheme, semanticDarkTokens] }
+  {
+    filePath: themeFiles[0],
+    tokenDependencies: [coreTokens, themeColorTokens, semanticLightTokens]
+  },
+  {
+    filePath: themeFiles[1],
+    tokenDependencies: [coreTokens, themeColorTokens, defaultCoreTheme, semanticContrastTokens]
+  },
+  {
+    filePath: themeFiles[2],
+    tokenDependencies: [coreTokens, themeColorTokens, defaultCoreTheme, semanticDarkTokens]
+  }
 ];
 
-themes.forEach(({ filePath, tokenDependencies }, index) => {
+themes.forEach(({ filePath, tokenDependencies }) => {
   const theme = parseThemeFile(filePath, tokenDependencies);
   writeFileSync(`./src/assets/data/themeData/${theme.themeName}.json`, JSON.stringify(theme, null, 2));
 });

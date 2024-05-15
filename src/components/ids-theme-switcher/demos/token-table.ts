@@ -18,6 +18,17 @@ const themes: any = {
 const columns: IdsDataGridColumn[] = [];
 
 columns.push({
+  id: 'type',
+  name: 'Type',
+  field: 'type',
+  formatter: dataGrid.formatters.text,
+  sortable: false,
+  resizable: true,
+  width: 165,
+  // filterType: dataGrid.filters.text
+});
+
+columns.push({
   id: 'tokenName',
   name: 'Token Name',
   field: 'tokenName',
@@ -36,6 +47,7 @@ columns.push({
   formatter: dataGrid.formatters.text,
   sortable: false,
   resizable: true,
+  // filterType: dataGrid.filters.text
 });
 
 columns.push({
@@ -55,6 +67,7 @@ columns.push({
   formatter: dataGrid.formatters.text,
   sortable: false,
   resizable: true,
+  // filterType: dataGrid.filters.text
 });
 
 dataGrid.columns = columns;
