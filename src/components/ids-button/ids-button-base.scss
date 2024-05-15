@@ -154,8 +154,12 @@
   color: var(--ids-button-tertiary-color-text-default);
 
   &:not(.hide-focus).is-active,
-  &:not(.hide-focus):focus {
-    border-color: var(--ids-button-tertiary-color-border-focus);
+  &:not(.hide-focus).is-focused,
+  &:not(.hide-focus):focus,
+  &:not(.hide-focus):focus-within {
+    &:not([readonly]) {
+      border-color: var(--ids-button-tertiary-color-border-focus);
+    }
   }
 
   &:hover {
@@ -185,6 +189,8 @@
     color: var(--ids-button-destructive-tertiary-color-text-default);
 
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       border-color: var(--ids-button-destructive-tertiary-color-border-focus);
     }
@@ -214,6 +220,8 @@
     padding-top: calc(var(--ids-space-xs) - 2px);
 
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       border-color: var(--ids-button-primary-color-border-focus);
     }
@@ -246,6 +254,8 @@
     color: var(--ids-button-destructive-color-text-default);
 
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       border-color: var(--ids-button-destructive-color-border-focus);
     }
@@ -425,6 +435,8 @@
     color: var(--ids-button-secondary-color-text-default);
 
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       background-color: var(--ids-button-secondary-color-background-focus);
       border-color: var(--ids-button-secondary-color-border-focus);
@@ -481,6 +493,8 @@
     opacity: 0.8;
 
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       border-color: var(--ids-button-formatter-color-border-focus);
       opacity: 1;
@@ -509,6 +523,8 @@
     min-width: var(--ids-button-formatter-size);
 
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       border-color: var(--ids-color-border-focus);
     }
@@ -565,12 +581,18 @@
     // ====================================================
     // Default/Tertiary Default/Light Mode
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
-      box-shadow: var(--ids-button-tertiary-shadow-focus);
+      &:not([readonly]) {
+        box-shadow: var(--ids-button-tertiary-shadow-focus);
+      }
     }
 
     &.color-variant-alternate {
       &:not(.hide-focus).is-active,
+      &:not(.hide-focus).is-focused,
+      &:not(.hide-focus).focus-within,
       &:not(.hide-focus):focus {
         box-shadow: var(--ids-box-shadow-inverse);
       }
@@ -578,6 +600,8 @@
 
     &.color-variant-alternate-formatter {
       &:not(.hide-focus).is-active,
+      &:not(.hide-focus).is-focused,
+      &:not(.hide-focus).focus-within,
       &:not(.hide-focus):focus {
         box-shadow: var(--ids-shadow-20);
       }
@@ -586,6 +610,8 @@
 
   &.btn-tertiary-destructive {
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       box-shadow: var(--ids-button-destructive-tertiary-shadow-focus);
     }
@@ -595,12 +621,16 @@
     // ====================================================
     // Primary Default/Light Mode
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       box-shadow: var(--ids-button-primary-shadow-focus);
     }
 
     &.color-variant-alternate {
       &:not(.hide-focus).is-active,
+      &:not(.hide-focus).is-focused,
+      &:not(.hide-focus).focus-within,
       &:not(.hide-focus):focus {
         @include outset-button-shadow(
           var(--ids-color-primary-70),
@@ -614,6 +644,8 @@
     // ====================================================
     // Primary Destructive Default/Light Mode
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       @include outset-button-shadow(
         var(--ids-color-background-default),
@@ -626,6 +658,8 @@
     // ====================================================
     // Secondary Default/Light Mode
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       box-shadow: var(--ids-button-secondary-shadow-focus);
     }
@@ -633,6 +667,8 @@
 
   &.btn-primary-generative-ai {
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       box-shadow: var(--ids-button-ai-shadow-focus);
       border-color: transparent;
@@ -641,6 +677,8 @@
 
   &.btn-tertiary-generative-ai {
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       box-shadow: var(--ids-button-tertiary-ai-shadow-focus);
       border-color: var(--ids-button-ai-color-icon-secondary-hover);
@@ -656,6 +694,8 @@
     color: var(--ids-modal-button-color-default);
 
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       @include modal-button-shadow();
     }
@@ -678,6 +718,8 @@
     color: var(--ids-modal-button-secondary-color-default);
 
     &:not(.hide-focus).is-active,
+    &:not(.hide-focus).is-focused,
+    &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       @include modal-button-shadow();
     }

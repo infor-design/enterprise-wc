@@ -1,6 +1,9 @@
 import type { IdsPopupElementRef } from '../../components/ids-popup/ids-popup-attributes';
 import { IdsConstructor } from '../../core/ids-element';
+import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
+import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
+import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 interface PopupOpener {
   onOutsideClick?(e: Event): void;
@@ -54,7 +57,7 @@ const IdsPopupOpenEventsMixin = <T extends Constraints>(superclass: T) => class 
    * @returns {void}
    */
   addOpenEvents() {
-    window.requestAnimationFrame(() => {
+    requestAnimationTimeout(() => {
       // Attach a click handler to the window for detecting clicks outside the popup.
       // If these aren't captured by a popup, the menu will close.
       this.popupOpenEventsTarget ??= document.body;
@@ -62,9 +65,16 @@ const IdsPopupOpenEventsMixin = <T extends Constraints>(superclass: T) => class 
       this.onEvent('click.toplevel', this.popupOpenEventsTarget, (e: Event) => {
         this.onOutsideClick?.(e);
       });
+
+      const scrollContainer = getClosest(this, 'ids-scrollable-area') || getClosest(this, '.scrollable');
+      if (scrollContainer) {
+        this.onEvent('scroll.toplevel', scrollContainer, debounce((e: Event) => {
+          this.onOutsideClick?.(e);
+        }, 50));
+      }
       this.hasOpenEvents = true;
       this.#currentPopupOpenEventsTarget = this.popupOpenEventsTarget;
-    });
+    }, 100);
   }
 
   /**

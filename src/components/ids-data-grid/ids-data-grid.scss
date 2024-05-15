@@ -25,7 +25,6 @@
   box-sizing: border-box;
   overflow: auto;
   width: 100%;
-  min-height: var(--ids-data-grid-height-min);
 
   // Needed so sticky header works in safari
   display: inline-grid;
@@ -381,6 +380,17 @@ ids-empty-message:not([hidden]),
   align-items: center;
   top: 0;
   pointer-events: none;
+  margin-top: 16px;
+}
+
+// Adjust for filter row
+ids-empty-message.has-filter-row:not([hidden]),
+::slotted(ids-empty-message.has-filter-row:not([hidden])) {
+  margin-block-start: 35px;
+}
+
+.has-empty-message .ids-data-grid {
+  min-height: var(--ids-data-grid-height-min);
 }
 
 // Loading Indicator
