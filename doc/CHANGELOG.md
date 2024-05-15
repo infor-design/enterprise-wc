@@ -33,7 +33,6 @@
 - `[Upload Advanced]` Fixed duplicated upload status banners after reattach. ([#2073](https://github.com/infor-design/enterprise-wc/issues/2073))
 - `[VirtualScroll]` Converted virtual scroll tests to playwright. ([#1992](https://github.com/infor-design/enterprise-wc/issues/1992))
 
-
 ## 1.0.0
 
 ### 1.0.0 Features
