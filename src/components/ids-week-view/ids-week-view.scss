@@ -15,7 +15,7 @@ $hour-row-height: var(--ids-week-view-row-height);
 
   // Make the component fit to the height of the viewport
   // excluding component top offset
-  max-height: calc(100vh - 25px);
+  max-height: calc(100dvh - 25px);
 
   .week-view-table-header {
     th {

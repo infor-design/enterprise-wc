@@ -99,7 +99,7 @@
     </ids-menu-item>
           </ids-menu-group>
         </ids-popup-menu>
-    </ids-menu-item><ids-menu-item icon="settings" hidden=""><ids-icon slot="icon" icon="settings" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+    </ids-menu-item><ids-menu-item disabled="" icon="settings" hidden=""><ids-icon slot="icon" icon="settings" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Settings
       
     </ids-menu-item><ids-menu-item icon="delete" hidden=""><ids-icon slot="icon" icon="delete" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
@@ -109,8 +109,8 @@
       More Actions Button
       <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
           <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
-            <ids-menu-item>
-      Option One
+            <ids-menu-item disabled="">
+      Option One (disabled)
       
     </ids-menu-item><ids-menu-item>
       Option Two
@@ -125,8 +125,8 @@
             <ids-menu-item>
       Option Four
       
-    </ids-menu-item><ids-menu-item>
-      Option Five
+    </ids-menu-item><ids-menu-item disabled="">
+      Option Five (disabled)
       
     </ids-menu-item><ids-menu-item>
       Option Six
@@ -139,14 +139,14 @@
         </ids-popup-menu>
     </ids-menu-item>
     </ids-menu-group><ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
-              <ids-menu-item value="1">Option One</ids-menu-item>
+              <ids-menu-item value="1" disabled="">Option One (disabled)</ids-menu-item>
               <ids-menu-item value="2">Option Two</ids-menu-item>
               <ids-menu-item value="3">Option Three</ids-menu-item>
               <ids-menu-item>More Options
                 <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
                   <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
                     <ids-menu-item value="4">Option Four</ids-menu-item>
-                    <ids-menu-item value="5">Option Five</ids-menu-item>
+                    <ids-menu-item value="5" disabled="">Option Five (disabled)</ids-menu-item>
                     <ids-menu-item value="6">Option Six</ids-menu-item>
                   </ids-menu-group>
                 </ids-popup-menu>

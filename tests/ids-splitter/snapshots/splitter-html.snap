@@ -1,4 +1,4 @@
 <ids-splitter role="group">
-          <ids-splitter-pane id="p1" style="width: 50%;"></ids-splitter-pane>
-          <ids-splitter-pane id="p2" style="width: 50%;"></ids-splitter-pane>
+          <ids-splitter-pane id="p1" size="30%" style="width: 30%;"></ids-splitter-pane>
+          <ids-splitter-pane id="p2" style="width: 70%;"></ids-splitter-pane>
         </ids-splitter>

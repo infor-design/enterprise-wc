@@ -63,6 +63,7 @@
   --ids-action-panel-header-color-background: var(--ids-color-gray-80);
   --ids-action-panel-header-color-border: var(--ids-color-gray-90);
   --ids-action-panel-content-background-color: var(--ids-color-gray-100);
+  --ids-action-panel-button-color-background-hover: var(--ids-color-gray-90);
 
   // Action Sheet
   --ids-action-sheet-color-background: var(--ids-color-gray-70);
@@ -97,9 +98,9 @@
   --ids-button-system-color-text-hover: var(--ids-color-white-100);
 
   // Button (Generative AI)
-  --ids-button-ai-color-background-color-disabled: #FFF;
-  --ids-button-ai-color-icon-primary-hover: #1A3362;
-  --ids-button-ai-color-icon-secondary-hover: #0B9789;
+  --ids-button-ai-color-border-hover: transparent;
+  --ids-button-ai-color-background-default: linear-gradient(107deg, #254A92 9.32%, #10B7A6 85.32%);
+  --ids-button-ai-color-background-hover: linear-gradient(107deg, #1F405C 5.32%, #0EAA9B 75.32%);
 
   // Button (Tertiary)
   --ids-button-tertiary-color-background-hover: var(--ids-color-accent-gray-weaker);
@@ -155,7 +156,7 @@
   --ids-data-grid-header-color-icon-unsorted: var(--ids-color-gray-30);
   --ids-data-grid-header-color-icon-sorted: var(--ids-color-gray-10);
   --ids-data-grid-header-expander-color: var(--ids-color-gray-40);
-  --ids-data-grid-header-expander-color-active:  var(--ids-color-gray-20);
+  --ids-data-grid-header-expander-color-active: var(--ids-color-gray-20);
 
   // Data Grid (Filter)
   --ids-data-grid-filter-icon-color: var(--ids-color-gray-10);
@@ -230,10 +231,11 @@
   --ids-empty-message-color-icon-fill: transparent;
 
   // Headers
-  --ids-header-color-border-bottom: var(--ids-color-gray-100);
-  --ids-header-color-background: var(--ids-color-gray-70);
-  --ids-header-gradient-opacity-none: rgb(0 114 237 / 1);
-  --ids-header-gradient-opacity-full: rgb(0 114 237 / 0);
+  --ids-header-color-border-bottom: var(--ids-color-gray-80);
+  --ids-header-color-background: var(--ids-color-gray-90);
+  --ids-header-gradient-opacity-none: rgb(40 40 42 / 1);
+  --ids-header-gradient-opacity-full: rgb(40 40 42 / 0);
+  --ids-header-breadcrumb-gradient: linear-gradient(to right, var(--ids-color-gray-90), rgba(255 255 255 / 0));
 
   // Hierarchy
   --ids-hierarchy-item-leaf-color-border: var(--ids-color-gray-70);

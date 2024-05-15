@@ -8,10 +8,13 @@ if (autocomplete) {
     const res = await fetch(url);
     const data = await res.json();
     autocomplete.data = data;
+    autocomplete.autocomplete = true;
   };
 
   await setData();
 }
+
+autocomplete?.addEventListener('selected', (e: any) => console.info('autocomplete selected event', e));
 
 const categories = ['Images', 'Documents', 'Audio', 'Video'];
 

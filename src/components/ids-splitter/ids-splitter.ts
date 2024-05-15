@@ -206,7 +206,9 @@ export default class IdsSplitter extends Base {
       const { pane, idx } = pair.start;
       const before = this.#sizes[idx];
       const hasSize = this.#sizes[idx] > this.#minSizes[idx];
+
       (this.#expandSizes as any)[idx] = hasSize ? this.#sizes[idx] : this.#defaultsSize;
+
       if (hasSize) {
         const diff = this.#minSizes[idx] - this.#sizes[idx];
         const pixelDiff = this.#toPixel(diff);
@@ -353,20 +355,33 @@ export default class IdsSplitter extends Base {
    */
   #resizeObserver = new ResizeObserver(() => this.resize());
 
+  initialized: boolean = false;
+
   /**
    * Attach the initialize observer.
    * @private
    */
   #initObserverCallback() {
+    this.initialized = false;
     this.#destroy();
     this.#setProp();
     this.#setContainer();
-    this.#initialSizes();
+    this.#updateSizes();
     this.#addSplitBars();
     this.#setPairs();
     this.#positionSplitBars();
     this.#attachEventHandlers();
     this.#setInitialCollapsed();
+    this.initialized = true;
+  }
+
+  /**
+   * Refresh the sizes
+   * @private
+   */
+  refreshSizes() {
+    this.#updateSizes();
+    this.#positionSplitBars();
   }
 
   /**
@@ -409,7 +424,7 @@ export default class IdsSplitter extends Base {
    * @param {string} prefix Optional prefix string to make the id more unique.
    * @returns {string} The id.
    */
-  idTobeUse = this.#ls.idTobeUse.bind(this.#ls);
+  idTobeUsed = this.#ls.idTobeUsed.bind(this.#ls);
 
   /**
    * Initialize the component
@@ -484,13 +499,18 @@ export default class IdsSplitter extends Base {
     return this;
   }
 
+  get splitterPanes() {
+    return [...this.childNodes].filter((n) => n instanceof IdsSplitterPane) as Array<any>;
+  }
+
   /**
    * Set initial sizes, min-sizes and pane elements
    * @private
    * @returns {object} This API object for chaining
    */
-  #initialSizes(): object {
-    const panes = [...this.childNodes].filter((n) => n instanceof IdsSplitterPane) as Array<any>;
+  #updateSizes(): object {
+    this.initialized = false;
+    const panes = this.splitterPanes;
     const defaults = { minSize: 0, size: (100 / panes.length) };
     const initial = {
       adjustable: { minSizes: [], sizes: [] },
@@ -652,6 +672,7 @@ export default class IdsSplitter extends Base {
 
     this.#defaultsSize = defaults.size;
     this.#expandSizes = [...this.#sizes];
+    this.initialized = true;
     return this;
   }
 
@@ -934,7 +955,7 @@ export default class IdsSplitter extends Base {
   #move(pair: any): void {
     this.#moveStart(pair);
     if (this.#moving.isMoving) {
-      let diff = this.#adjustDiff({ ...pair, diff: this.#toPercentage(pair.diff) });
+      let diff = this.adjustDiff({ ...pair, diff: this.#toPercentage(pair.diff) });
       diff *= this.#prop.useRTL ? -1 : 1;
       this.#moveEnd({ ...pair, diff });
       if (diff) {
@@ -955,7 +976,7 @@ export default class IdsSplitter extends Base {
    * @param {object} pair The start object in pair.
    * @returns {number} The adjusted difference.
    */
-  #adjustDiff(pair: any): number {
+  adjustDiff(pair: any): number {
     const { startSize, endSize, pad, max, isMoving } = this.#moving; // eslint-disable-line
     const { useRTL, barPercentage } = this.#prop;
     const { start, end, diff } = pair;
@@ -986,9 +1007,10 @@ export default class IdsSplitter extends Base {
    * @param {object} pair The pair.
    * @returns {object} new updated size
    */
-  #updateSize(pair: any): object {
+  updateSize(pair: any): object {
+    this.initialized = false;
     const { start, end } = pair;
-    const newSize: any = { diff: this.#adjustDiff(pair) };
+    const newSize: any = { diff: this.adjustDiff(pair) };
     newSize.start = start.size + newSize.diff;
     newSize.end = end.size - newSize.diff;
 
@@ -996,6 +1018,13 @@ export default class IdsSplitter extends Base {
     end.pane.style[this.#prop.dimension] = `${newSize.end}%`;
     start.pane.setAttribute(attributes.SIZE, `${newSize.start}%`);
     end.pane.setAttribute(attributes.SIZE, `${newSize.end}%`);
+    if (newSize.start === 0) {
+      start.pane.setAttribute(COLLAPSED, '');
+    }
+    if (newSize.end === 0) {
+      end.pane.setAttribute(COLLAPSED, '');
+    }
+    this.initialized = true;
     return newSize;
   }
 
@@ -1036,7 +1065,7 @@ export default class IdsSplitter extends Base {
     const { start, end, idx, diff } = pair; // eslint-disable-line
 
     // Update and get new updated size
-    const newSize: any = this.#updateSize({ start, end, diff });
+    const newSize: any = this.updateSize({ start, end, diff });
     this.#sizes[start.idx] = newSize.start;
     this.#sizes[end.idx] = newSize.end;
     start.size = newSize.start;
@@ -1161,7 +1190,7 @@ export default class IdsSplitter extends Base {
         this.#moveDragHandle(e.detail);
         if (!this.disabled && !this.resizeOnDragEnd && this.#moving.isMoving) {
           const diff = this.#toPercentage(e.detail[this.#prop.delta]);
-          this.#updateSize({ ...pair, diff });
+          this.updateSize({ ...pair, diff });
         }
       });
 
@@ -1289,7 +1318,7 @@ export default class IdsSplitter extends Base {
     }
   }
 
-  get axis(): string { return this.state.axis; }
+  get axis(): string { return this.state.axis || 'x'; }
 
   /**
    * Sets the splitter to disabled
