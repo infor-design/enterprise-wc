@@ -49,11 +49,11 @@ A normal skip link element as a custom element. That will link to a section with
 
 ## Converting from Previous Versions (Breaking Changes)
 
-**3.x to 4.x**
+### 3.x to 4.x
 
 Skip link is a CSS-only component applied to `<a>` tags.
 
-**4.x to 5.x**
+### 4.x to 5.x
 
 - Skip Link is now a standalone custom element `<ids-skip-link><ids-skip-link>`
 
