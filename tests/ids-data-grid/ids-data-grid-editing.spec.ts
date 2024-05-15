@@ -4,7 +4,7 @@ import { test } from '../base-fixture';
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridCell from '../../src/components/ids-data-grid/ids-data-grid-cell';
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
-import type IdsInput from '../../src/components/ids-input/ids-input';
+import IdsInput from '../../src/components/ids-input/ids-input';
 import type IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 
 test.describe('IdsDataGrid editing tests', () => {
@@ -667,5 +667,16 @@ test.describe('IdsDataGrid editing tests', () => {
       // check cell is marked as invalid
       expect(await idCell.evaluate((cell: IdsDataGridCell) => cell.classList.contains('is-invalid'))).toBeTruthy();
     });
+  });
+
+  test('editable IdsInput width is full width', async ({ page }) => {
+    const results = await page.evaluate(() => {
+      const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+      const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
+      editableCell?.click();
+      return editableCell?.querySelector<IdsInput>('ids-input')?.getAttribute('size');
+    });
+
+    expect(results).toBe('full');
   });
 });
