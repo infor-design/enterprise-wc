@@ -82,7 +82,7 @@ export default class IdsAccordion extends Base {
     return [
       ...super.attributes,
       attributes.ALLOW_ONE_PANE,
-      attributes.DISABLED,
+      attributes.DISABLED
     ];
   }
 
