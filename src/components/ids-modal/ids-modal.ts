@@ -11,7 +11,7 @@ import IdsXssMixin from '../../mixins/ids-xss-mixin/ids-xss-mixin';
 import IdsElement from '../../core/ids-element';
 
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { toggleScrollbar, waitForTransitionEnd, getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { waitForTransitionEnd, getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import '../ids-popup/ids-popup';
@@ -88,7 +88,7 @@ export default class IdsModal extends Base {
     this.state ??= {};
     this.state.fullsize = '';
     this.state.overlay = null;
-    this.state.scrollable = true;
+    this.state.scrollable = false;
     this.state.messageTitle = null;
   }
 
@@ -109,8 +109,8 @@ export default class IdsModal extends Base {
 
     if (this.popup) {
       this.popup.setAttribute(attributes.TYPE, 'modal');
-      this.popup.setAttribute(attributes.ANIMATED, '');
-      this.popup.setAttribute(attributes.ANIMATION_STYLE, 'scale-in');
+      this.popup.setAttribute(attributes.ANIMATED, 'false');
+      this.popup.setAttribute(attributes.ANIMATION_STYLE, 'none');
       this.popup.onOutsideClick = () => {};
     }
 
@@ -151,9 +151,7 @@ export default class IdsModal extends Base {
     return `<ids-popup part="modal"
       class="ids-modal"
       type="modal"
-      position-style="viewport"
-      animated="true"
-      animation-style="scale-in">
+      position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header${extraHeaderClass}">
           <slot name="title"></slot>
@@ -183,8 +181,9 @@ export default class IdsModal extends Base {
   }
 
   private setScrollable() {
-    const modalContentEl = this.modalContentEl;
-    if (modalContentEl) toggleScrollbar(this, modalContentEl);
+    const el = this.modalContentEl;
+    if (!el) return;
+    if (el.scrollHeight > el.clientHeight || this.scrollable) this.modalContentEl?.classList.add('has-scrollbar');
   }
 
   /**
@@ -532,7 +531,7 @@ export default class IdsModal extends Base {
 
     const popupElem = this.popup;
 
-    if (popupElem) popupElem.animated = true;
+    if (popupElem && popupElem.getAttribute('animated') === 'true') popupElem.animated = true;
 
     this.removeOpenEvents();
     if (this.overlay) this.overlay.visible = false;

@@ -1369,6 +1369,26 @@ export default class IdsTree extends Base {
   }
 
   /**
+   * Sets the tree to show expand and collapse icons
+   * @param {boolean} value If true will set
+   */
+  set showExpandAndToggleIcons(value: boolean) {
+    if (IdsTreeShared.isBool(value)) {
+      this.setAttribute(attributes.SHOW_EXPAND_AND_COLLAPSE_ICONS, `${value}`);
+    } else {
+      this.removeAttribute(attributes.SHOW_EXPAND_AND_COLLAPSE_ICONS);
+    }
+  }
+
+  /**
+   * Get the tree to show expand and collapse icons
+   * @returns {boolean} true if the tree show expand and collapse icons
+   */
+  get showExpandAndToggleIcons(): boolean {
+    return IdsTreeShared.getBoolVal(this, attributes.SHOW_EXPAND_AND_COLLAPSE_ICONS);
+  }
+
+  /**
    * Sets the tree group toggle collapse icon
    * @param {string|null} value The icon name
    */

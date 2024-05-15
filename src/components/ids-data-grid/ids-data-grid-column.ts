@@ -101,11 +101,18 @@ export interface IdsDataGridEditorValidation {
   id: string;
 }
 
+export interface IdsDataGridHeaderTextName {
+  /** The header text for one line */
+  text: string;
+  /** The font style to use */
+  emphasis?: 'normal' | 'subtle';
+}
+
 export interface IdsDataGridColumn {
   /** The columns unique id */
   id: string;
   /** The columns name */
-  name?: string;
+  name?: string | Array<IdsDataGridHeaderTextName>;
   /** The columns field in the array to use */
   field?: string;
   /** The subsitute text to use (for hyperlink and some formatters) */
