@@ -144,6 +144,7 @@ export default class IdsFilterField extends Base {
     inputElement.setAttribute(attributes.LABEL_STATE, 'collapsed');
     inputElement.setAttribute(attributes.SIZE, this.size);
     inputElement.toggleAttribute(attributes.SQUARE, true);
+    (inputElement as IdsInputInterface)?.input.toggleAttribute('square', true);
     this.#syncInputLabel(inputElement);
   }
 
