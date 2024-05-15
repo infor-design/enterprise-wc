@@ -76,25 +76,10 @@ If you'd like to submit a pull request you'll need to do the following:
     ```
   - Repeat Steps 3 and 4 as many times as necessary to refine your code. Please try to stick to our coding standards and patterns that already exist in the code.
 1. **[Pull & Rebase](https://help.github.com/articles/about-pull-request-merges/#rebase-and-merge-your-pull-request-commits) to the latest version of the controls before you submit.**
-  - If enough time passes between your original clone and the completion of your changes, the main repository may have changed and some files you've edited may be out of sync.
-  - To re-sync your remote branch and clone, use the following after committing your changes:
-
-    ```bash
-    git pull --rebase {remote}/{branch}
-    ```
-
-    Note: You may need to merge some files or fix some conflicts.
 1. **Push your changes to your remote repository.**  Use `git push {remote} {branch}` to push your changes to your branch on the remote repository.
 1. **[Create a pull request](https://help.github.com/articles/creating-a-pull-request/)**
-  1. Request to the proper branch
-    - Normal changes get merged into `main`
-    - Version specific changes need to go into that specific version branch
-  1. The pull request title should follow this format:
-    - `{Issue Number} - Brief description of fix`
-    - e.g. `100 - Fixed a typo for such and such`
-  1. If you are doing a patch and requesting into a version branch, the title should look like
-    - `{Issue Number} - Brief description of fix`
-    - e.g. `100 - Fixed a type for such and such`
+  - Create a request to get merged into `main`
+  - The pull request title should follow this format `100 - Fixed a typo for such and such`
 
 See [help.github.com](https://help.github.com/) for further information on github.
 
