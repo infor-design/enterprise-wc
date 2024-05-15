@@ -4,6 +4,7 @@
 
 ### 1.1.0 Features
 
+- `[Accordion|Lookup]` Fix bug where `IdsLookup` modal was not appearing fully within `IdsAccordion`. ([#2212](https://github.com/infor-design/enterprise-wc/issues/2212))
 - `[Autocomplete]` Added `value-field` attribute to indicate what field from the dataset to return in selected event details. ([#1817](https://github.com/infor-design/enterprise-wc/issues/1817))
 - `[Datagrid]` Added the ability to dynamically set the `icon` and `text` column options on some formatters. ([#2122](https://github.com/infor-design/enterprise-wc/issues/2122))
 - `[Datagrid]` Added the ability to create multiline header text [see docs](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-data-grid#multiline-header-code-examples) for details. ([#1793](https://github.com/infor-design/enterprise-wc/issues/1793))
