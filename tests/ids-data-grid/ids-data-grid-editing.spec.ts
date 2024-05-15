@@ -4,7 +4,7 @@ import { test } from '../base-fixture';
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridCell from '../../src/components/ids-data-grid/ids-data-grid-cell';
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
-import IdsInput from '../../src/components/ids-input/ids-input';
+import type IdsInput from '../../src/components/ids-input/ids-input';
 import type IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 
 test.describe('IdsDataGrid editing tests', () => {
