@@ -9,7 +9,6 @@ import IdsVirtualScroll from '../../src/components/ids-virtual-scroll/ids-virtua
 import dataset from '../../src/assets/data/products-100.json';
 import datasetProducts from '../../src/assets/data/products.json';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
-import IdsContainer from '../../src/components/ids-container/ids-container';
 // import createFromTemplate from '../helpers/create-from-template';
 
 test.describe('IdsListView tests', () => {
@@ -26,7 +25,6 @@ test.describe('IdsListView tests', () => {
   };
   const url = '/ids-list-view/example.html';
   let idsListView: any;
-  let container: IdsContainer;
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
     idsListView = await page.locator('ids-list-view').first();
