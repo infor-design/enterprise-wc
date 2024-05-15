@@ -19,6 +19,7 @@
 - `[Container]` Switch from `vh` to `dvh` units. ([#2268](https://github.com/infor-design/enterprise-wc/issues/2268))
 - `[Datagrid]` Fixed row expanded/collapsed events triggering with the `allowOneExpandedRow` option. ([#2275](https://github.com/infor-design/enterprise-wc/issues/2275))
 - `[Dropdown]` Fixed issues using typeahead in a compiled script. ([#2249](https://github.com/infor-design/enterprise-wc/issues/2249))
+- `[Dropdown]` Fixed hover color on items in dark mode. ([#2293](https://github.com/infor-design/enterprise-wc/issues/2293))
 - `[Header]` Fixed inconsistency on header background color. ([#2242](https://github.com/infor-design/enterprise-wc/issues/2242))
 - `[BarChart]` Converted bar chart tests to playwright. ([#1919](https://github.com/infor-design/enterprise-wc/issues/1919))
 - `[BreadCrumb/Hyperlink]` Fix focus state on click bug. ([#2238](https://github.com/infor-design/enterprise-wc/issues/2238))
