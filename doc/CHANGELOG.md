@@ -30,6 +30,7 @@
 - `[Modal]` Removed zoom in animation on modal based on design feedback and technical constraints. ([#2165](https://github.com/infor-design/enterprise-wc/issues/2165))
 - `[Tree]` Add ability to have expandIcon and toggleIcon display together. ([#2151](https://github.com/infor-design/enterprise-wc/issues/2151))
 - `[Tree]` Fixed bug where redraw did not trigger when assigning an empty array. ([#2227](https://github.com/infor-design/enterprise-wc/issues/2227))
+- `[Tree]` Converted tree tests to playwright. ([#1986](https://github.com/infor-design/enterprise-wc/issues/1986))
 - `[TriggerButton]` Converted trigger button tests to playwright. ([#1988](https://github.com/infor-design/enterprise-wc/issues/1988))
 - `[TriggerField]` Converted trigger field tests to playwright. ([#1989](https://github.com/infor-design/enterprise-wc/issues/1989))
 - `[Upload]` Fixed trigger-button focus state. ([#2186](https://github.com/infor-design/enterprise-wc/issues/2186))
