@@ -173,6 +173,9 @@
   - link: pagination-standalone.html
     type: Example
     description: Shows a data grid with standalone pagination
+  - link: pagination-lazy-load.html
+    type: Example
+    description: Shows a data grid with lazy-loaded pagination
   - link: row-height.html
     type: Example
     description: Shows a data grid with different row height sizes
