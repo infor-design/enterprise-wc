@@ -2,7 +2,7 @@
 
 ## Publishing a package to NPM
 
-- Search for `1.1.0-beta.n` (current version) and replace with new version (currently `1.1.0`), It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js` and this file (but not the change log)
+- Search for `1.1.0` (current version) and replace with new version (currently `1.1.0`), It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js` and this file (but not the change log)
 - Commit and push
 - Make and push a tag with `git tag 1.1.0 && git push origin --tags`
 - Run command `npm run publish:dry-run` to test first if you wish
@@ -11,7 +11,7 @@
 - Run command `gh release create 1.1.0 --title "1.1.0" --notes-file "doc/CHANGELOG.md"`
 - Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents to just the current release and if needed and make it pre-release
 - Commit and push (direct to repo or PR)
-- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-beta-22`
+- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-110`
 - Post in announcements section following other similar link
 - (Run the docs generator (TBD) for `https://design.infor.com/web-components/` by running `scripts/docs-generator/main.js`
 
