@@ -440,7 +440,7 @@ test.describe('IdsToast tests', () => {
       const suffix = 'usersettings-position';
       const uniqueId = 'some-uniqueid';
       const key = `${prefix}-${uniqueId}-${suffix}`;
-      const transform = 'translate(-596px, 232px)';
+      const transform = 'translate(-590px, 230px)';
       await page.evaluate((data) => {
         window.localStorage.setItem(data.key, data.transform);
       }, { key, transform });
@@ -579,8 +579,6 @@ test.describe('IdsToast tests', () => {
 
     test('can fire toast events', async ({ page }) => {
       await button.click();
-      let toastContainer;
-      let msgEl;
       options = {
         title: 'Test',
         message: 'Some test text',
@@ -609,64 +607,79 @@ test.describe('IdsToast tests', () => {
         }
       };
 
-      await page.evaluate((event) => {
-        const el: any = document.createElement('ids-toast') as IdsToast;
-
-        el.addEventListener(event.addMessage, (e: any) => {
-          detail.active.addMessage = e.detail?.messageId;
-        });
-        el.addEventListener(event.removeMessage, (e: any) => {
-          detail.active.removeMessage = e.detail?.messageId;
-        });
-        el.addEventListener(event.savePosition, (e: any) => {
-          detail.active.savePosition = e.detail?.uniqueId;
-        });
-        el.addEventListener(event.clearPosition, (e: any) => {
-          detail.active.clearPosition = e.detail?.clearIds[0];
-        });
-      }, EVENTS);
+      // await page.evaluate((event) => {
+      //   const el: any = document.createElement('ids-toast') as IdsToast;
+      //   (window as any).toastEvents = {
+      //     addMessage: false,
+      //     removeMessage: false,
+      //     savePostition: false,
+      //     clearPosition: false,
+      //   };
+      //   el.addEventListener(event.addMessage, () => {
+      //     (window as any).toastEvents.addMessage = true;
+      //   });
+      //   el.addEventListener(event.removeMessage, () => {
+      //     (window as any).toastEvents.removeMessage = true;
+      //   });
+      //   el.addEventListener(event.savePosition, () => {
+      //     (window as any).toastEvents.savePosition = true;
+      //   });
+      //   el.addEventListener(event.clearPosition, () => {
+      //     (window as any).toastEvents.clearPosition = true;
+      //   });
+      // }, EVENTS);
       expect(detail.active.addMessage).toEqual(detail.before.addMessage);
       expect(detail.active.removeMessage).toEqual(detail.before.removeMessage);
       expect(detail.active.savePosition).toEqual(detail.before.savePosition);
       expect(detail.active.clearPosition).toEqual(detail.before.clearPosition);
-      await toast.evaluate((toastEl: IdsToast, opt: any, uid: any) => {
-        toastEl.uniqueId = uid;
+      await toast.evaluate((toastEl: IdsToast, details: any) => {
+        (window as any).toastEvents = {
+          addMessage: false,
+          removeMessage: false,
+          savePosition: false,
+          clearPosition: false,
+        };
+        toastEl.addEventListener('add-message', () => {
+          (window as any).toastEvents.addMessage = true;
+        });
+        toastEl.addEventListener('remove-message', () => {
+          (window as any).toastEvents.removeMessage = true;
+        });
+        toastEl.addEventListener('save-position', () => {
+          (window as any).toastEvents.savePosition = true;
+        });
+        toastEl.addEventListener('clear-position', () => {
+          (window as any).toastEvents.clearPosition = true;
+        });
+        toastEl.uniqueId = details.uid;
         toastEl.savePosition = true;
         toastEl.draggable = true;
-        toastEl.show(opt);
-      }, options, uniqueId);
-      const getContainer = () => toast.evaluate((el: IdsToast) => el.toastContainer().style.transform);
-      const getmessageEl = () => toast.evaluate((el: IdsToast) => el.toastContainer().querySelector('ids-toast-message'));
-      const settoastContainer = async (value: any) => {
-        await toast.evaluate((el: IdsToast, trans: any) => { el.toastContainer().style.transform = trans; }, value);
-      };
-      msgEl = await getmessageEl();
-      expect(msgEl).toBeTruthy();
-      toastContainer = await getContainer();
-      expect(toastContainer).toEqual('none');
-      await settoastContainer(transform);
-      toastContainer = await getContainer();
-      await expect(toastContainer).toEqual(transform);
-      await page.evaluate(async () => {
-        await document.querySelector<IdsToastMessage>('ids-toast-message')?.removeToastMessage();
+        toastEl.show(details.options);
+        toastEl.toastContainer().querySelector('ids-toast-message')!.setAttribute('id', 'toastMessage');
+      }, { options, uniqueId, EVENTS });
+      await expect(toast.locator('#toastMessage')).toBeAttached();
+      const container = await toast.locator('.toast-container');
+      await expect(container).toHaveCSS('transform', 'none');
+      await toast.evaluate((el: IdsToast, trans: any) => { el.toastContainer().style.transform = trans; }, transform);
+      const newCont = await toast.evaluate((el: IdsToast) => el.toastContainer().style.transform);
+      await expect(newCont).toEqual(transform);
+
+      let events = await toast.evaluate(() => (window as any).toastEvents);
+      expect(events.addMessage).toBeTruthy();
+      expect(events.savePosition).toBeFalsy();
+      expect(events.removeMessage).toBeFalsy();
+      expect(events.clearPosition).toBeFalsy();
+      await toast.evaluate(async (toastEl: IdsToast) => {
+        await toastEl.toastContainer().querySelector<IdsToastMessage>('ids-toast-message')!.removeToastMessage();
       });
-      const toastmsg = await page.locator('ids-toast-message').first();
-      // eslint-disable-next-line no-unreachable-loop
-      while (await toastmsg.count() > 0) { return; }
-      msgEl = await getmessageEl();
-      expect(msgEl).toBeFalsy();
+      await page.waitForFunction(() => document.querySelector('#toastMessage') === null);
+      await expect(toast.locator('#toastMessage')).not.toBeAttached();
 
-      expect(detail.active.addMessage).toEqual(detail.after.addMessage);
-      expect(detail.active.removeMessage).toEqual(detail.after.removeMessage);
-      expect(detail.active.savePosition).toEqual(detail.after.savePosition);
-      expect(detail.active.clearPosition).toEqual(detail.before.clearPosition);
-
-      expect(localStorage.getItem(id(uniqueId))).toEqual(transform);
-
-      expect(detail.active.addMessage).toEqual(detail.after.addMessage);
-      expect(detail.active.removeMessage).toEqual(detail.after.removeMessage);
-      expect(detail.active.savePosition).toEqual(detail.after.savePosition);
-      expect(detail.active.clearPosition).toEqual(detail.after.clearPosition);
+      events = await page.evaluate(() => (window as any).toastEvents);
+      expect(events.addMessage).toBeTruthy();
+      expect(events.savePosition).toBeTruthy();
+      expect(events.removeMessage).toBeTruthy();
+      expect(events.clearPosition).toBeFalsy();
     });
 
     test('can update with container language change', async ({ page }) => {
