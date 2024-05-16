@@ -19,6 +19,7 @@
 - `[ActionPanel]` Fixed a bug that clicking the header closed the panel, also added a new hover state. ([#2294](https://github.com/infor-design/enterprise-wc/issues/2294))
 - `[AxisChart]` Fix `IdsAxisChart` so that it properly reloads when removed from the DOM and then reattached. ([#2111](https://github.com/infor-design/enterprise-wc/issues/2111))
 - `[Button]` Updated focus state on tertiary buttons. ([#2239](https://github.com/infor-design/enterprise-wc/issues/2239))
+- `[Breadcrumb]` Fixed truncating to work better when parent size is set. ([#2317](https://github.com/infor-design/enterprise-wc/issues/2317))
 - `[Container]` Switch from `vh` to `dvh` units. ([#2268](https://github.com/infor-design/enterprise-wc/issues/2268))
 - `[Datagrid]` Fixed row expanded/collapsed events triggering with the `allowOneExpandedRow` option. ([#2275](https://github.com/infor-design/enterprise-wc/issues/2275))
 - `[Datagrid]` Fixed internal width of the input element in an editable input cell. ([#2265](https://github.com/infor-design/enterprise-wc/issues/2265))
