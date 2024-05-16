@@ -68,7 +68,7 @@ export default class IdsSplitterLocalStorage {
       });
 
       // Save to local storage
-      localStorage.setItem(this.idTobeUse(this.root.uniqueId), JSON.stringify(saveObj));
+      localStorage.setItem(this.idTobeUsed(this.root.uniqueId), JSON.stringify(saveObj));
       this.root.triggerEvent('save-position', this.root, {
         detail: { elem: this.root, uniqueId: this.root.uniqueId, value: saveObj }
       });
@@ -84,7 +84,7 @@ export default class IdsSplitterLocalStorage {
     if (!this.#canSavePosition()) return null;
 
     let saveObj: IdsSplitterSaved = {};
-    const savedStr = localStorage.getItem(this.idTobeUse(this.root.uniqueId));
+    const savedStr = localStorage.getItem(this.idTobeUsed(this.root.uniqueId));
     if (typeof savedStr === 'string' && savedStr !== '') {
       saveObj = { ...JSON.parse(savedStr), canRestore: false };
       const len = saveObj?.sizes?.length;
@@ -108,7 +108,7 @@ export default class IdsSplitterLocalStorage {
     const clearIds = [];
     if (this.#canUseLocalStorage()) {
       const removeId = uniqueId || this.root.uniqueId;
-      const savedKay = this.idTobeUse(removeId);
+      const savedKay = this.idTobeUsed(removeId);
       const found = Object.keys(localStorage).some((key) => key === savedKay);
       if (found) {
         localStorage.removeItem(savedKay);
@@ -130,7 +130,7 @@ export default class IdsSplitterLocalStorage {
       const keys = Object.keys(localStorage);
       keys.forEach((key) => {
         const temp = '{idstempclearstorage}';
-        const tempId = this.idTobeUse(temp);
+        const tempId = this.idTobeUsed(temp);
         // from: 'ids-splitter-{idstempclearstorage}-usersettings-position'
         // to: '^ids-splitter-(.+)-usersettings-position$'
         const regexFound = new RegExp(`^${tempId.replace(temp, '(.+)')}$`, 'g');
@@ -157,7 +157,7 @@ export default class IdsSplitterLocalStorage {
    * @param {string} prefix Optional prefix string to make the id more unique.
    * @returns {string} The id.
    */
-  idTobeUse(uniqueId?: any, suffix?: string, prefix?: string): string {
+  idTobeUsed(uniqueId?: any, suffix?: string, prefix?: string): string {
     const defaults: any = { uniqueId: '', prefix: 'ids-splitter', suffix: 'usersettings-position' };
     const hasValue = [uniqueId, suffix, prefix].some((x) => (x !== undefined && x !== null));
     let returnId = defaults.prefix;

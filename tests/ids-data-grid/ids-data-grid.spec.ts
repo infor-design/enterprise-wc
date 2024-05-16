@@ -163,6 +163,14 @@ test.describe('IdsDataGrid tests', () => {
       await page.goto('/ids-data-grid/loading-indicator.html');
       await percySnapshot(page, 'ids-data-grid-loading-indicator-light');
     });
+
+    test('should not have visual regressions in percy (header-multiline)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-data-grid/header-multiline.html');
+      await page.waitForLoadState();
+      await page.waitForSelector('ids-data-grid-row[row-index="9"]');
+      await percySnapshot(page, 'ids-data-grid-header-multiline-light');
+    });
   });
 
   test.describe('event tests', () => {

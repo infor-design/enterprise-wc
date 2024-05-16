@@ -120,6 +120,10 @@ export function showEmptyMessage(this: IdsDataGrid): void {
   const isFiltered = (this.datasource as any).filtered;
   emDescContainer?.toggleAttribute('hidden', !isFiltered);
   emDesc?.toggleAttribute('hidden', !isFiltered);
+  if (this.filterable) {
+    const hasFilters = this.container?.querySelector('.ids-data-grid-header-cell-filter-wrapper');
+    if (hasFilters) em?.classList.add('has-filter-row');
+  }
 
   // Hide button is one isn't provided
   const slottedBtn = emBtnContainer?.querySelector<HTMLSlotElement>('slot[name="button"]')?.assignedElements();

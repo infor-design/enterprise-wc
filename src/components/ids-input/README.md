@@ -148,6 +148,7 @@ await setData();
 - `placeholder` {string} set the placeholder text to input.
 - `size` {string} set the input size, it will set `md` as defaults.
 - `search-field` when autocomplete is enabled can be set to a string of the field to be searched in the dataset.
+- `value-field` when autocomplete is enabled can be set to a string of the field to be returned as value in selected event details
 - `revealable-text` {boolean} sets whether the show/hide button is available for password fields must be paired with type='password'
 - `readonly` {boolean} sets the input's readonly state.
 - `text-align` {string} sets the text alignment (default is `left`).
@@ -155,7 +156,7 @@ await setData();
 - `type` {string} set the input type, (default is `text`)
 - `required` {string} sets visible required indicator no matter what the validate is set to
 - `format` {string} if the validation rules include date/time, use the setting to set custom date/time format
-- `validationEvents` {string} set the input validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
+- `validationEvents` {string} set the events that fire for validation, use `space` to add multiple validation rules. We use `blur` as default. For example if you wanted to validate on keypress you could use `validation-events="keydown blur change"`. Use any JS event here.
 - `value` {string} sets the input value.
 - `maxlength` {number}  sets the input's `maxlength` property to the max characters you can type
 - `uppercase` {boolean} sets the input editor's to all uppercase
