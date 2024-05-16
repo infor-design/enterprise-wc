@@ -244,8 +244,6 @@ function parseThemeFile(filePath, tokenDependencies) {
 
   // Regular expression to match CSS variable declarations
   const variableRegex = /--ids-(.*?):\s*(.*?)(?:\s*;|$)/;
-  // Regular expression to match comments
-  const commentRegex = /^\/\/\s*@(\w+)/;
 
   /**
    * Finds the value of a CSS variable
@@ -314,7 +312,7 @@ function parseThemeFile(filePath, tokenDependencies) {
   }
 
   // Parse each line
-  // Parse each line
+  let type = '';
   lines.forEach((line) => {
     // Check for comments that indicate the type
     const commentMatch = line.trim().match(/^\/\/\s*@(\w+)/);
@@ -357,7 +355,12 @@ function parseThemeFile(filePath, tokenDependencies) {
 
       // Only push inherited field if it contains values
       if (inherited.tokenName && inherited.tokenValue) {
-        themeTokens.push({ tokenName, tokenValue, children: [inherited], type });
+        themeTokens.push({
+          tokenName,
+          tokenValue,
+          children: [inherited],
+          type
+        });
       } else {
         themeTokens.push({ tokenName, tokenValue, type });
       }

@@ -23,8 +23,8 @@ columns.push({
   field: 'type',
   formatter: dataGrid.formatters.text,
   sortable: false,
-  resizable: true,
-  width: 165,
+  resizable: false,
+  width: 200,
   filterType: dataGrid.filters.text
 });
 
@@ -38,6 +38,7 @@ columns.push({
   },
   sortable: false,
   resizable: true,
+  filterType: dataGrid.filters.text
 });
 
 columns.push({
@@ -47,7 +48,7 @@ columns.push({
   formatter: dataGrid.formatters.text,
   sortable: false,
   resizable: true,
-  // filterType: dataGrid.filters.text
+  filterType: dataGrid.filters.text
 });
 
 columns.push({
@@ -57,18 +58,9 @@ columns.push({
   formatter: dataGrid.formatters.color,
   width: 165,
   align: 'center',
+  resizable: false,
   suppressColorTooltip: true,
 });
-
-// columns.push({
-//   id: 'source',
-//   name: 'Source',
-//   field: 'source',
-//   formatter: dataGrid.formatters.text,
-//   sortable: false,
-//   resizable: true,
-//   // filterType: dataGrid.filters.text
-// });
 
 dataGrid.columns = columns;
 
