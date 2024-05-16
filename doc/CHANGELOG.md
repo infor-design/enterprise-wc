@@ -12,6 +12,7 @@
 
 ### 1.1.0 Fixes
 
+- `[Accordion]` Added setting to keep the default expander type for sub-level accordion headers. ([#2290](https://github.com/infor-design/enterprise-wc/issues/2290))
 - `[Autocomplete]` Fixed the popup is not attached when using the `autocomplete` attribute to set it. ([#2173](https://github.com/infor-design/enterprise-wc/issues/2173))
 - `[ActionPanel]` Fixed a bug that clicking the header closed the panel, also added a new hover state. ([#2294](https://github.com/infor-design/enterprise-wc/issues/2294))
 - `[AxisChart]` Fix `IdsAxisChart` so that it properly reloads when removed from the DOM and then reattached. ([#2111](https://github.com/infor-design/enterprise-wc/issues/2111))
