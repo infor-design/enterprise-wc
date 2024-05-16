@@ -642,7 +642,7 @@ export default class IdsDropdown extends Base {
       return;
     }
 
-    // Trigger an async callback for contents
+    // Trigger an async callback for contents and refresh data
     if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
       if (stuff) {
@@ -651,6 +651,8 @@ export default class IdsDropdown extends Base {
           this.#optionsData = stuff;
         }
       }
+    } else {
+      this.#setOptionsData();
     }
 
     if (this.value) {

@@ -18,6 +18,8 @@
 }
 
 ::slotted(ids-toolbar) {
+  --ids-button-tertiary-color-background-hover: var(--ids-action-panel-button-color-background-hover);
+
   padding-inline: var(--ids-action-panel-header-padding) 0;
   height: 100%;
 }
