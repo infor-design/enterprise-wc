@@ -668,4 +668,15 @@ test.describe('IdsDataGrid editing tests', () => {
       expect(await idCell.evaluate((cell: IdsDataGridCell) => cell.classList.contains('is-invalid'))).toBeTruthy();
     });
   });
+
+  test('editable IdsInput width is full width', async ({ page }) => {
+    const results = await page.evaluate(() => {
+      const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+      const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
+      editableCell?.click();
+      return editableCell?.querySelector<IdsInput>('ids-input')?.getAttribute('size');
+    });
+
+    expect(results).toBe('full');
+  });
 });
