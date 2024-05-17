@@ -21,7 +21,7 @@ columns.push({
   id: 'type',
   name: 'Type',
   field: 'type',
-  sortable: false,
+  sortable: true,
   resizable: false,
   width: 200,
   formatter: dataGrid.formatters.text,
