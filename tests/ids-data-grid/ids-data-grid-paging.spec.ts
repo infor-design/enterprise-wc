@@ -343,6 +343,75 @@ test.describe('IdsDataGrid paging tests', () => {
       expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.pageNumber)).toEqual(2);
     });
 
+    test('always shows correct rows with pageTotal', async ({ page }) => {
+      const dataGrid = await page.locator('ids-data-grid');
+      await dataGrid.evaluate((elem: IdsDataGrid) => {
+        const caseTableData = {
+          headers: ['Column1', 'Column2'],
+          rows: [
+            ['A', 'A'],
+            ['B', 'B'],
+            ['C', 'C'],
+          ],
+        };
+
+        elem.columns = caseTableData.headers.map((row) => ({
+          id: row,
+          name: row,
+          field: row,
+          sortable: true,
+          resizable: true,
+          filterType: elem.filters.text,
+        }));
+        elem.data = caseTableData.rows.map((rows) => rows.reduce((prev, current, currentIndex) => {
+          // @ts-expect-error name is there
+          prev[caseTableData?.headers[currentIndex]] = current;
+          return prev;
+        }, {}));
+        elem.listStyle = true;
+        elem.autoFit = true;
+        elem.pagination = 'client-side';
+        elem.pageNumber = 1;
+        elem.pageSize = 10;
+        elem.rowSelection = 'single';
+        elem.pageTotal = caseTableData.rows.length;
+
+        elem.redraw();
+      });
+
+      const values = await page.evaluate(() => {
+        const dataGridEl = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        return [
+          dataGridEl.data,
+        ];
+      });
+
+      const caseTableData = {
+        headers: ['Column1', 'Column2'],
+        rows: [
+          ['A', 'A'],
+          ['B', 'B'],
+          ['C', 'C'],
+        ],
+      };
+      const expectedData = caseTableData.rows.map((rows) => rows.reduce((prev, current, currentIndex) => {
+        // @ts-expect-error name is there
+        prev[caseTableData?.headers[currentIndex]] = current;
+        return prev;
+      }, {}));
+
+      values[0].forEach((row: any, index: number) => {
+        // @ts-expect-error name is there
+        const expectedRow : {
+          Column1: string;
+          Column2: string;
+        } = expectedData?.[index];
+
+        expect(row.Column1).toEqual(expectedRow?.Column1);
+        expect(row.Column2).toEqual(expectedRow?.Column2);
+      });
+    });
+
     test.skip('always shows correct page number in pager input field', async ({ page }) => {
       const dataGrid = await page.locator('ids-data-grid');
       await dataGrid.evaluate((elem: IdsDataGrid) => {

@@ -329,11 +329,20 @@ export default class IdsAccordionHeader extends Base {
     }
   }
 
+  get accordion(): HTMLElement | null {
+    let currentElement: HTMLElement | null = this.parentElement;
+    while (currentElement && currentElement.tagName !== 'IDS-ACCORDION') {
+      currentElement = currentElement.parentElement;
+    }
+    return currentElement;
+  }
+
   /**
    * Renders the expander icon, either adding it to the DOM or updating if it exists.
    */
   #showExpanderIcon(): void {
-    const appendLocation = this.panel.hasParentPanel ? 'afterbegin' : 'beforeend';
+    const keepExpanderPlacement = this.accordion?.hasAttribute(attributes.KEEP_EXPANDER_PLACEMENT);
+    const appendLocation = this.panel.hasParentPanel && !keepExpanderPlacement ? 'afterbegin' : 'beforeend';
     const expander = this.container?.querySelector('.ids-accordion-expander-icon');
 
     if (!expander) {

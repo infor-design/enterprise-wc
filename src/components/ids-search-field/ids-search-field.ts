@@ -398,8 +398,8 @@ export default class IdsSearchField extends IdsTriggerField {
   /**
    * @returns {string | null} - gets the value of the collapsibleResponsive attribute
    */
-  get collapsibleResponsive(): string | null {
-    return this.getAttribute(attributes.COLLAPSIBLE_RESPONSIVE);
+  get collapsibleResponsive(): string {
+    return this.getAttribute(attributes.COLLAPSIBLE_RESPONSIVE) || '';
   }
 
   /**

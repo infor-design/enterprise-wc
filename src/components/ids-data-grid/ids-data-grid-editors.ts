@@ -105,7 +105,7 @@ export class InputEditor implements IdsDataGridEditor {
     const isInline = cell?.column.editor?.inline;
     this.input = <IdsInput> document.createElement('ids-input');
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
-    this.input.size = isInline ? 'full' : '';
+    this.input.size = 'full';
     this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
     this.input.labelState = 'collapsed';
 
