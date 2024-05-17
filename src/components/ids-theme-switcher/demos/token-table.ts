@@ -21,10 +21,10 @@ columns.push({
   id: 'type',
   name: 'Type',
   field: 'type',
-  formatter: dataGrid.formatters.text,
   sortable: false,
   resizable: false,
   width: 200,
+  formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
 });
 
@@ -32,12 +32,12 @@ columns.push({
   id: 'tokenName',
   name: 'Token Name',
   field: 'tokenName',
-  formatter: dataGrid.formatters.tree,
   click: (info: any) => {
     console.info('Tree Expander Clicked', info);
   },
   sortable: false,
   resizable: true,
+  formatter: dataGrid.formatters.tree,
   filterType: dataGrid.filters.text
 });
 
@@ -45,9 +45,9 @@ columns.push({
   id: 'tokenValue',
   name: 'Token Value',
   field: 'tokenValue',
-  formatter: dataGrid.formatters.text,
   sortable: false,
   resizable: true,
+  formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
 });
 
@@ -55,10 +55,10 @@ columns.push({
   id: 'preview',
   name: 'Preview',
   field: 'tokenValue',
-  formatter: dataGrid.formatters.color,
   width: 165,
   align: 'center',
   resizable: false,
+  formatter: dataGrid.formatters.color,
   suppressColorTooltip: true,
 });
 
