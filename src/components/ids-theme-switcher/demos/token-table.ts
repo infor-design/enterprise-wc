@@ -12,7 +12,7 @@ const dataGrid = document.querySelector<IdsDataGrid>('#data-theme')!;
 const themes: any = {
   coreTheme: coreThemeJSON,
   contrastTheme: contrastThemeJSON,
-  darkTheme: darkThemeJSON
+  darkTheme: darkThemeJSON,
 };
 
 const columns: IdsDataGridColumn[] = [];
