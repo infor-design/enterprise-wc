@@ -167,6 +167,8 @@ test.describe('IdsDataGrid tests', () => {
     test('should not have visual regressions in percy (header-multiline)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await page.goto('/ids-data-grid/header-multiline.html');
+      await page.waitForLoadState();
+      await page.waitForSelector('ids-data-grid-row[row-index="9"]');
       await percySnapshot(page, 'ids-data-grid-header-multiline-light');
     });
   });

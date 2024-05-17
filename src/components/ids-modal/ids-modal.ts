@@ -681,7 +681,7 @@ export default class IdsModal extends Base {
   async handleButtonClick(e: any): Promise<void> {
     await cssTransitionTimeout(200);
 
-    if (typeof this.onButtonClick === 'function') {
+    if (typeof this.onButtonClick === 'function' && (e.target.nodeName === 'IDS-BUTTON' || e.target.nodeName === 'IDS-MODAL-BUTTON')) {
       this.onButtonClick(e.target);
     }
 

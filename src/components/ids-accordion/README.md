@@ -148,6 +148,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - `panels` {Array<IdsAccordionPanel>} Reference to all inner Accordion Panels.
 - `focused` {HTMLElement} Reference to the currently-focused element within the accordion, if applicable.
 - `allowOnePane` {boolean} Sets Accordion to allow only one inner Accordion Panel to be expanded at a time.
+- `keepExpanderPlacement` {boolean} Sets the Accordion to display sub-level expander icons as carets.
 
 ## Events
 
