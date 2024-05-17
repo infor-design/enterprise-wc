@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.2.0
+
+### 1.2.0 Fixes
+
+- `[Popupmenu]` Changed the `position-style` default to `fixed` this causes better placement in scroll containers. ([#2289](https://github.com/infor-design/enterprise-wc/issues/2289))
+
 ## 1.1.0
 
 ### 1.1.0 Features
