@@ -4,6 +4,8 @@ import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
+import IdsToolbarSection from '../../src/components/ids-toolbar/ids-toolbar-section';
+import IdsToolbarMoreActions from '../../src/components/ids-toolbar/ids-toolbar-more-actions';
 
 test.describe('IdsToolbar tests', () => {
   const url = '/ids-toolbar/example.html';
@@ -122,6 +124,7 @@ test.describe('IdsToolbar tests', () => {
         return { items: it, nodeNames: it.map((item) => item!.nodeName.toLowerCase()) };
       });
       expect(items.items).toBeTruthy();
+      expect(items.items.length).toBeGreaterThan(0);
       items.nodeNames.forEach((name) => expect(name).toContain('ids'));
     });
 
@@ -341,6 +344,411 @@ test.describe('IdsToolbar tests', () => {
       await page.keyboard.press('ArrowLeft');
       await expect(button).not.toBeFocused();
       await expect(delBtn).not.toBeFocused();
+    });
+  });
+
+  test.describe('IdsToolbarSection functionality test', () => {
+    let idsToolbar: Locator;
+    let idsButtonSection: Locator;
+    let idsTitleSection: Locator;
+
+    test.beforeEach(async ({ page }) => {
+      idsToolbar = await page.locator('#my-toolbar');
+      await idsToolbar.evaluate((
+        node
+      ) => {
+        node.querySelector('ids-toolbar-section[type="title"]')!.setAttribute('id', 'title-section-test');
+        node.querySelector('ids-toolbar-section[type="buttonset"]')!.setAttribute('id', 'button-section-test');
+      });
+      idsTitleSection = await idsToolbar.locator('#title-section-test');
+      idsButtonSection = await idsToolbar.locator('#button-section-test');
+    });
+
+    test('can get attributes', async () => {
+      expect(await idsButtonSection.evaluate((element: IdsToolbarSection) => element.attributes)).toBeTruthy();
+    });
+
+    test('can get list of items', async () => {
+      const tagNames = [
+        'ids-button',
+        'ids-checkbox',
+        'ids-input',
+        'ids-menu-button',
+        'ids-radio',
+        'ids-toolbar-more-actions'
+      ];
+      const items = await idsButtonSection.evaluate((element: IdsToolbarSection) => {
+        const it = element.items;
+        return { items: it, nodeNames: it.map((item) => item!.nodeName.toLowerCase()) };
+      });
+      expect(items.items).toBeTruthy();
+      expect(items.items.length).toBeGreaterThan(0);
+      items.nodeNames.forEach((name) => expect(tagNames.includes(name)).toBeTruthy());
+    });
+
+    test('can get list of textElems', async () => {
+      const tagNames = ['ids-text'];
+      const items = await idsTitleSection.evaluate((element: IdsToolbarSection) => {
+        const it = element.textElems;
+        return { items: it, nodeNames: it.map((item) => item!.nodeName.toLowerCase()) };
+      });
+      expect(items.items).toBeTruthy();
+      expect(items.items.length).toBeGreaterThan(0);
+      items.nodeNames.forEach((name) => expect(tagNames.includes(name)).toBeTruthy());
+    });
+
+    test('can get list of separators', async () => {
+      const tagNames = ['ids-separator'];
+      const items = await idsTitleSection.evaluate((element: IdsToolbarSection) => {
+        element.insertAdjacentHTML('afterbegin', '<ids-separator vertical="true"></ids-separator>');
+        element.insertAdjacentHTML('beforeend', '<ids-separator></ids-separator>');
+        const it = element.separators;
+        return { items: it, nodeNames: it.map((item) => item!.nodeName.toLowerCase()) };
+      });
+      expect(items.items).toBeTruthy();
+      expect(items.items.length).toBeGreaterThan(0);
+      items.nodeNames.forEach((name) => expect(tagNames.includes(name)).toBeTruthy());
+    });
+
+    test('can get toolbar parent', async () => {
+      expect(await idsTitleSection.evaluate((element: IdsToolbarSection) => element.toolbar)).toBeTruthy();
+      expect(await idsButtonSection.evaluate((element: IdsToolbarSection) => element.toolbar)).toBeTruthy();
+    });
+
+    test('can set/get align', async () => {
+      const defAlign = 'start';
+      const testData = [
+        { data: 'center', expected: 'center' },
+        { data: 'align-center-even', expected: defAlign },
+        { data: 5, expected: defAlign },
+        { data: 'start', expected: 'start' },
+        { data: '', expected: defAlign },
+        { data: null, expected: defAlign }
+      ];
+
+      expect(await idsTitleSection.evaluate((element: IdsToolbarSection) => element.align)).toEqual(defAlign);
+      await expect(idsTitleSection).not.toHaveAttribute('align');
+
+      for (const data of testData) {
+        expect(await idsTitleSection.evaluate((element: IdsToolbarSection, tData) => {
+          element.align = tData as any;
+          return element.align;
+        }, data.data)).toEqual(data.expected);
+        if (data.data && [defAlign, 'center', 'center-even', 'end'].includes(data.data.toString())) {
+          await expect(idsTitleSection).toHaveAttribute('align', data.expected);
+        } else {
+          await expect(idsTitleSection).not.toHaveAttribute('align');
+        }
+      }
+    });
+
+    test('can set/get favor', async () => {
+      const container = await idsTitleSection.locator('div[part="container"]');
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsTitleSection.evaluate((element: IdsToolbarSection) => element.favor)).toBeTruthy();
+      await expect(idsTitleSection).toHaveAttribute('favor');
+      await expect(container).toHaveClass(/favor/);
+
+      for (const data of testData) {
+        expect(await idsTitleSection.evaluate((element: IdsToolbarSection, tData) => {
+          element.favor = tData as any;
+          return element.favor;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsTitleSection).toHaveAttribute('favor');
+          await expect(container).toHaveClass(/favor/);
+        } else {
+          await expect(idsTitleSection).not.toHaveAttribute('favor');
+          await expect(container).not.toHaveClass(/favor/);
+        }
+      }
+    });
+
+    test('can set/get inactive', async () => {
+      const container = await idsTitleSection.locator('div[part="container"]');
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsTitleSection.evaluate((element: IdsToolbarSection) => element.inactive)).toBeFalsy();
+      await expect(idsTitleSection).not.toHaveAttribute('inactive');
+      await expect(container).not.toHaveClass(/inactive/);
+
+      for (const data of testData) {
+        expect(await idsTitleSection.evaluate((element: IdsToolbarSection, tData) => {
+          element.inactive = tData as any;
+          return element.inactive;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsTitleSection).toHaveAttribute('inactive');
+          await expect(container).toHaveClass(/inactive/);
+        } else {
+          await expect(idsTitleSection).not.toHaveAttribute('inactive');
+          await expect(container).not.toHaveClass(/inactive/);
+        }
+      }
+    });
+
+    test('can set/get type', async () => {
+      const container = await idsTitleSection.locator('div[part="container"]');
+      const defType = 'static';
+      const testData = [
+        { data: 'fluid', expected: 'fluid' },
+        { data: 'junk', expected: defType },
+        { data: 'more', expected: 'more' },
+        { data: '', expected: defType },
+        { data: 'button', expected: 'button' },
+        { data: null, expected: defType },
+        { data: 'buttonset', expected: 'buttonset' },
+        { data: 6, expected: defType },
+      ];
+
+      expect(await idsTitleSection.evaluate((element: IdsToolbarSection) => element.type)).toEqual('title');
+      await expect(idsTitleSection).toHaveAttribute('type', 'title');
+      await expect(container).toHaveClass(/title/);
+
+      for (const data of testData) {
+        expect(await idsTitleSection.evaluate((element: IdsToolbarSection, tData) => {
+          element.type = tData as any;
+          return element.type;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsTitleSection).toHaveAttribute('type', data.expected);
+        await expect(container).toHaveClass(new RegExp(data.expected, 'g'));
+      }
+    });
+
+    test('can set/get toolbarType', async () => {
+      const container = await idsTitleSection.locator('div[part="container"]');
+      const testData = [
+        { data: 'formatter', expected: 'formatter' },
+        { data: '', expected: null },
+        { data: 'start', expected: null },
+        { data: null, expected: null }
+      ];
+
+      expect(await idsTitleSection.evaluate((element: IdsToolbarSection) => element.toolbarType)).toBeNull();
+      await expect(idsTitleSection).not.toHaveAttribute('toolbar-type');
+      await expect(container).not.toHaveClass(/formatter/);
+
+      for (const data of testData) {
+        expect(await idsTitleSection.evaluate((element: IdsToolbarSection, tData) => {
+          element.toolbarType = tData as any;
+          return element.toolbarType;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsTitleSection).toHaveAttribute('toolbar-type', data.expected);
+          await expect(container).toHaveClass(new RegExp(data.expected, 'g'));
+        } else {
+          await expect(idsTitleSection).not.toHaveAttribute('toolbar-type');
+        }
+      }
+    });
+  });
+
+  test.describe('IdsToolbarMoreActions functionality test', () => {
+    let idsToolbar: Locator;
+    let idsMoreAction: Locator;
+
+    test.beforeEach(async ({ page }) => {
+      idsToolbar = await page.locator('#my-toolbar');
+      idsMoreAction = await idsToolbar.locator('ids-toolbar-more-actions').first();
+    });
+
+    test('can get button', async () => {
+      const button = await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => {
+        const node = element.button;
+        return { node, nodeName: node!.nodeName.toLowerCase() };
+      });
+      expect(button).toBeTruthy();
+      expect(button.nodeName).toEqual('ids-menu-button');
+    });
+
+    test('can get menu', async () => {
+      const menu = await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => {
+        const node = element.menu;
+        return { node, nodeName: node!.nodeName.toLowerCase() };
+      });
+      expect(menu).toBeTruthy();
+      expect(menu.nodeName).toEqual('ids-popup-menu');
+    });
+
+    test('can get menuItems', async () => {
+      const menuItems = await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => {
+        const nodes = element.menuItems;
+        return { nodes, nodeName: nodes!.map((node) => node!.nodeName.toLowerCase()) };
+      });
+      expect(menuItems).toBeTruthy();
+      menuItems.nodeName.forEach((name) => expect(name).toEqual('ids-menu-item'));
+    });
+
+    test('can get predefinedMenuItems', async () => {
+      const menuItems = await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => {
+        const nodes = element.predefinedMenuItems;
+        return { nodes, nodeName: nodes!.map((node) => node!.nodeName.toLowerCase()) };
+      });
+      expect(menuItems).toBeTruthy();
+      menuItems.nodeName.forEach((name) => expect(name).toEqual('ids-menu-item'));
+      expect(menuItems.nodes).toHaveLength(4);
+    });
+
+    test('can get overflowMenuItems', async () => {
+      const menuItems = await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => {
+        const nodes = element.overflowMenuItems;
+        return { nodes, nodeName: nodes!.map((node) => node!.nodeName.toLowerCase()) };
+      });
+      expect(menuItems).toBeTruthy();
+      menuItems.nodeName.forEach((name) => expect(name).toEqual('ids-menu-item'));
+      expect(menuItems.nodes).toHaveLength(8);
+    });
+
+    test('can get toolbar', async () => {
+      const toolbar = await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => {
+        const node = element.toolbar;
+        return { node, nodeName: node!.nodeName.toLowerCase() };
+      });
+      expect(toolbar.node).toBeTruthy();
+      expect(toolbar.nodeName).toEqual('ids-toolbar');
+    });
+
+    test('can set/get disabled', async () => {
+      const button = await idsMoreAction.locator('ids-menu-button').first();
+      const container = await idsMoreAction.locator('div.ids-toolbar-more-actions').first();
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => element.disabled)).toBeFalsy();
+      await expect(idsMoreAction).not.toHaveAttribute('disabled');
+      await expect(button).not.toHaveAttribute('disabled');
+      await expect(container).not.toHaveClass(/disabled/);
+
+      for (const data of testData) {
+        expect(await idsMoreAction.evaluate((element: IdsToolbarMoreActions, tData) => {
+          element.disabled = tData as any;
+          return element.disabled;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsMoreAction).toHaveAttribute('disabled');
+          await expect(button).toHaveAttribute('disabled');
+          await expect(container).toHaveClass(/disabled/);
+        } else {
+          await expect(idsMoreAction).not.toHaveAttribute('disabled');
+          await expect(button).not.toHaveAttribute('disabled');
+          await expect(container).not.toHaveClass(/disabled/);
+        }
+      }
+    });
+
+    test('can set/get overflow', async () => {
+      const testData = [
+        { data: 'false', expected: false },
+        { data: true, expected: true },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => element.overflow)).toBeTruthy();
+      await expect(idsMoreAction).toHaveAttribute('overflow');
+
+      for (const data of testData) {
+        expect(await idsMoreAction.evaluate((element: IdsToolbarMoreActions, tData) => {
+          element.overflow = tData as any;
+          return element.overflow;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsMoreAction).toHaveAttribute('overflow');
+        } else {
+          await expect(idsMoreAction).not.toHaveAttribute('overflow');
+        }
+      }
+    });
+
+    test('can set/get toolbarType', async () => {
+      const container = await idsMoreAction.locator('div.ids-toolbar-more-actions').first();
+      const testData = [
+        { data: 'formatter', expected: 'formatter' },
+        { data: '', expected: null },
+        { data: 'start', expected: null },
+        { data: null, expected: null }
+      ];
+
+      expect(await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => element.toolbarType)).toBeNull();
+      await expect(idsMoreAction).not.toHaveAttribute('toolbar-type');
+      await expect(container).not.toHaveClass(/formatter/);
+
+      for (const data of testData) {
+        expect(await idsMoreAction.evaluate((element: IdsToolbarMoreActions, tData) => {
+          element.toolbarType = tData as any;
+          return element.toolbarType;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsMoreAction).toHaveAttribute('toolbar-type', data.expected);
+          await expect(container).toHaveClass(new RegExp(data.expected, 'g'));
+        } else {
+          await expect(idsMoreAction).not.toHaveAttribute('toolbar-type');
+        }
+      }
+    });
+
+    test('can set/get type', async () => {
+      expect(await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => {
+        element.type = 'test';
+        return element.type;
+      })).toEqual('more');
+    });
+
+    test('can set/get visible', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => element.visible)).toBeFalsy();
+      await expect(idsMoreAction).not.toHaveAttribute('visible');
+
+      for (const data of testData) {
+        // Needs two different evalaute for set and get due to timing issue (opening of menu delay)
+        // if not, a waiting logic must be implemented before returing the visible value
+        await idsMoreAction.evaluate((
+          element: IdsToolbarMoreActions,
+          tData
+        ) => { element.visible = tData as any; }, data.data);
+        expect(await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => element.visible)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsMoreAction).toHaveAttribute('visible');
+        } else {
+          await expect(idsMoreAction).not.toHaveAttribute('visible');
+        }
+      }
+    });
+
+    test('can trigger events on pop up menu', async ({ eventsTest }) => {
+      await eventsTest.onEvent('#more-actions-menu', 'selected');
+      await eventsTest.onEvent('#more-actions-menu', 'show');
+      await eventsTest.onEvent('#more-actions-menu', 'hide');
+      await idsMoreAction.locator('button').dispatchEvent('click');
+      await idsMoreAction.locator('ids-menu-item[value="2"]').dispatchEvent('click');
+      expect(await eventsTest.isEventTriggered('#more-actions-menu', 'selected')).toBeTruthy();
+      expect(await eventsTest.isEventTriggered('#more-actions-menu', 'show')).toBeTruthy();
+      expect(await eventsTest.isEventTriggered('#more-actions-menu', 'hide')).toBeTruthy();
+    });
+
+    test('can call hasEnabledActions', async () => {
+      expect(await idsMoreAction.evaluate((element: IdsToolbarMoreActions) => element.hasEnabledActions())).toBeTruthy();
     });
   });
 });
