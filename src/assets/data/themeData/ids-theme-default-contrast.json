@@ -10,18 +10,21 @@
           "tokenValue": "var(--ids-color-theme-90)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-theme-90",
               "tokenValue": "var(--ids-color-blue-90)",
               "type": "Semantic",
               "source": "themeColorTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-90",
                   "tokenValue": "#004a99",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -29,7 +32,8 @@
           ]
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-on-primary",
@@ -40,10 +44,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-background-default",
@@ -54,10 +60,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-inverse",
@@ -68,10 +76,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-subtle",
@@ -82,10 +92,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-data",
@@ -96,10 +108,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-disabled",
@@ -110,10 +124,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-error",
@@ -124,10 +140,12 @@
           "tokenValue": "#a30d11",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-info",
@@ -138,20 +156,24 @@
           "tokenValue": "#0054b1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-success",
       "tokenValue": "var(--ids-color-success-weak0)",
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-warning",
       "tokenValue": "var(--ids-color-warning-weak0)",
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-error-weak",
@@ -162,10 +184,12 @@
           "tokenValue": "#f5c3c4",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-red-30",
@@ -176,10 +200,12 @@
           "tokenValue": "#e66467",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-on-warning",
@@ -190,10 +216,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-warning-weak",
@@ -204,10 +232,12 @@
           "tokenValue": "#fddfbd",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-orange-30",
@@ -218,10 +248,12 @@
           "tokenValue": "#fbaf50",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-on-caution",
@@ -232,10 +264,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-caution-weak",
@@ -246,10 +280,12 @@
           "tokenValue": "#fddfbd",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-yellow-30",
@@ -260,10 +296,12 @@
           "tokenValue": "#fbaf50",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-caution-default",
@@ -274,10 +312,12 @@
           "tokenValue": "#df6f00",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-text-on-success",
@@ -288,10 +328,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-success-weak",
@@ -302,10 +344,12 @@
           "tokenValue": "#cbefdc",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-green-30",
@@ -316,10 +360,12 @@
           "tokenValue": "#78d8a3",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-info-weak",
@@ -330,18 +376,21 @@
           "tokenValue": "var(--ids-color-theme-20)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-theme-20",
               "tokenValue": "var(--ids-color-blue-20)",
               "type": "Semantic",
               "source": "themeColorTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-20",
                   "tokenValue": "#bedcfa",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -349,7 +398,8 @@
           ]
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-blue-30",
@@ -360,18 +410,21 @@
           "tokenValue": "var(--ids-color-theme-40)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-theme-40",
               "tokenValue": "var(--ids-color-blue-40)",
               "type": "Semantic",
               "source": "themeColorTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-40",
                   "tokenValue": "#55a3f3",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -379,7 +432,8 @@
           ]
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-color-border-focus",
@@ -390,53 +444,63 @@
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "color"
     },
     {
       "tokenName": "--ids-shadow-none",
       "tokenValue": "0 0 3px 2px rgba(0 114 237 / 0)",
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "shadow"
     },
     {
       "tokenName": "--ids-box-shadow-inverse",
       "tokenValue": "0 0 3px 1px rgba(255 255 255 / 0.3)",
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "box"
     },
     {
       "tokenName": "--ids-shadow-10",
       "tokenValue": "0 0 3px 1px rgb(0 114 237 / 0.3)",
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "shadow"
     },
     {
       "tokenName": "--ids-shadow-20",
       "tokenValue": "0 0 3px 2px rgb(0 114 237 / 0.30)",
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "shadow"
     },
     {
       "tokenName": "--ids-shadow-30",
       "tokenValue": "0 0 4px 3px rgb(0 114 237 / 0.3)",
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "shadow"
     },
     {
       "tokenName": "--ids-scroll-shadow",
       "tokenValue": "0 -1px 3px -1px rgba(0  0  0 / 0.30)",
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "scroll"
     },
     {
       "tokenName": "--ids-scroll-color-border-top",
       "tokenValue": "1px solid rgba(215 215 216 / 1)",
-      "type": "Semantic"
+      "type": "Semantic",
+      "component": "scroll"
     },
     {
       "tokenName": "--ids-accordion-header-color-border-bottom",
@@ -447,10 +511,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "accordion"
     },
     {
       "tokenName": "--ids-accordion-header-color-border-disabled",
@@ -461,10 +527,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "accordion"
     },
     {
       "tokenName": "--ids-accordion-header-color-text-disabled",
@@ -475,10 +543,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "accordion"
     },
     {
       "tokenName": "--ids-accordion-header-color-icon",
@@ -489,10 +559,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "accordion"
     },
     {
       "tokenName": "--ids-app-menu-accordion-header-color-background-disabled",
@@ -503,10 +575,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "app"
     },
     {
       "tokenName": "--ids-app-menu-accordion-header-color-border-disabled",
@@ -517,10 +591,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "app"
     },
     {
       "tokenName": "--ids-app-menu-accordion-header-color-text-disabled",
@@ -531,10 +607,12 @@
           "tokenValue": "#525257",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "app"
     },
     {
       "tokenName": "--ids-app-menu-accordion-header-color-background-default",
@@ -545,10 +623,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "app"
     },
     {
       "tokenName": "--ids-app-menu-accordion-header-filter-match-color-text",
@@ -559,10 +639,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "app"
     },
     {
       "tokenName": "--ids-app-menu-accordion-header-color-border-focus",
@@ -573,10 +655,12 @@
           "tokenValue": "#55a3f3",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "app"
     },
     {
       "tokenName": "--ids-action-panel-header-color-background",
@@ -587,10 +671,12 @@
           "tokenValue": "#f5f5f5",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "action"
     },
     {
       "tokenName": "--ids-action-panel-header-color-border",
@@ -601,10 +687,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "action"
     },
     {
       "tokenName": "--ids-action-sheet-color-background",
@@ -615,10 +703,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "action"
     },
     {
       "tokenName": "--ids-action-sheet-color-border",
@@ -629,10 +719,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "action"
     },
     {
       "tokenName": "--ids-alert-color-progress-default",
@@ -643,10 +735,12 @@
           "tokenValue": "#4e1a91",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "alert"
     },
     {
       "tokenName": "--ids-alert-color-progress-disabled",
@@ -657,10 +751,12 @@
           "tokenValue": "#8d4be5",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "alert"
     },
     {
       "tokenName": "--ids-axis-chart-grid-color",
@@ -671,10 +767,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "axis"
     },
     {
       "tokenName": "--ids-axis-chart-last-line-color-border",
@@ -685,10 +783,12 @@
           "tokenValue": "#3b3b3f",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "axis"
     },
     {
       "tokenName": "--ids-axis-chart-color-text",
@@ -699,10 +799,12 @@
           "tokenValue": "#525257",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "axis"
     },
     {
       "tokenName": "--ids-block-grid-item-color-background-selectable-hover",
@@ -713,10 +815,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "block"
     },
     {
       "tokenName": "--ids-block-grid-item-selectable-container-focus",
@@ -727,18 +831,21 @@
           "tokenValue": "var(--ids-space-01)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
+          "component": "space",
           "children": [
             {
               "tokenName": "--ids-space-01",
               "tokenValue": "1px",
               "type": "Core",
               "source": "coreTokens",
+              "component": "space",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "block"
     },
     {
       "tokenName": "--ids-block-grid-item-outline-selected",
@@ -749,18 +856,21 @@
           "tokenValue": "var(--ids-space-02)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
+          "component": "space",
           "children": [
             {
               "tokenName": "--ids-space-02",
               "tokenValue": "2px",
               "type": "Core",
               "source": "coreTokens",
+              "component": "space",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "block"
     },
     {
       "tokenName": "--ids-calendar-toolbar-color-border",
@@ -771,10 +881,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "calendar"
     },
     {
       "tokenName": "--ids-calendar-event-color-border-accent-bluet-blue",
@@ -785,10 +897,12 @@
           "tokenValue": "#003876",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "calendar"
     },
     {
       "tokenName": "--ids-calendar-event-color-border-default",
@@ -799,10 +913,12 @@
           "tokenValue": "#a14100",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "calendar"
     },
     {
       "tokenName": "--ids-calendar-event-color-border-focus",
@@ -813,10 +929,12 @@
           "tokenValue": "#003876",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "calendar"
     },
     {
       "tokenName": "--ids-card-divider-color-border",
@@ -827,10 +945,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "card"
     },
     {
       "tokenName": "--ids-button-tertiary-color-background-hover",
@@ -841,10 +961,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "button"
     },
     {
       "tokenName": "--ids-button-formatter-color-text-hover",
@@ -855,10 +977,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "button"
     },
     {
       "tokenName": "--ids-button-formatter-color-text-disabled",
@@ -869,10 +993,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "button"
     },
     {
       "tokenName": "--ids-button-formatter-color-background-hover",
@@ -883,10 +1009,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "button"
     },
     {
       "tokenName": "--ids-button-formatter-color-active",
@@ -897,18 +1025,21 @@
           "tokenValue": "var(--ids-color-theme-90)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-theme-90",
               "tokenValue": "var(--ids-color-blue-90)",
               "type": "Semantic",
               "source": "themeColorTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-90",
                   "tokenValue": "#004a99",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -916,7 +1047,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "button"
     },
     {
       "tokenName": "--ids-button-formatter-color-text-default",
@@ -927,10 +1059,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "button"
     },
     {
       "tokenName": "--ids-chart-legend-color-text",
@@ -941,18 +1075,21 @@
           "tokenValue": "var(--ids-color-foreground-default-default)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-foreground-default-default",
               "tokenValue": "var(--ids-color-black-100)",
               "type": "Semantic",
               "source": "semanticContrastTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-black-100",
                   "tokenValue": "#000000",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -960,7 +1097,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "chart"
     },
     {
       "tokenName": "--ids-data-grid-color-background",
@@ -971,10 +1109,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-cell-color-background-default",
@@ -985,15 +1125,18 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-cell-color-background-readonly",
       "tokenValue": "rgba(0 0 0 / 0.08)",
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-cell-color-border",
@@ -1004,10 +1147,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-cell-checkbox-color-border",
@@ -1018,10 +1163,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-cell-color-text-default",
@@ -1032,10 +1179,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-cell-color-text-disabled",
@@ -1046,15 +1195,18 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-cell-color-background-error",
       "tokenValue": "rgba(232 79 79 / 0.1)",
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-list-cell-color-border",
@@ -1065,10 +1217,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-list-header-color-border",
@@ -1079,10 +1233,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-list-header-color-background",
@@ -1093,10 +1249,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-list-header-color-text",
@@ -1107,10 +1265,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-list-header-color-icon-unsorted",
@@ -1121,10 +1281,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-list-header-color-icon-sorted",
@@ -1135,10 +1297,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-list-header-checkbox-color-background",
@@ -1149,10 +1313,12 @@
           "tokenValue": "#525257",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-color-border",
@@ -1163,10 +1329,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-color-background-default",
@@ -1177,10 +1345,12 @@
           "tokenValue": "#f5f5f5",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-color-background-hover",
@@ -1191,10 +1361,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-checkbox-color-background",
@@ -1205,10 +1377,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-checkbox-color-border",
@@ -1219,10 +1393,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-color-icon",
@@ -1233,10 +1409,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-drag-background-color",
@@ -1247,10 +1425,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-drag-arrow-color-background",
@@ -1261,10 +1441,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-color-background-default-placeholder-dragging",
@@ -1275,10 +1457,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-color-text",
@@ -1289,10 +1473,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-color-icon-unsorted",
@@ -1303,10 +1489,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-color-icon-sorted",
@@ -1317,10 +1505,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-expander-color",
@@ -1331,10 +1521,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-header-expander-color-active",
@@ -1345,10 +1537,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-filter-input-color-background-readonly",
@@ -1359,15 +1553,18 @@
           "tokenValue": "#8e8e95",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-row-color-background-selected",
       "tokenValue": "rgba(85 163 243 / 0.2)",
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-row-alternating-color-background",
@@ -1378,10 +1575,12 @@
           "tokenValue": "#f5f5f5",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-data-grid-row-shadow-focus",
@@ -1392,18 +1591,21 @@
           "tokenValue": "var(--ids-color-theme-70)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-theme-70",
               "tokenValue": "var(--ids-color-blue-70)",
               "type": "Semantic",
               "source": "themeColorTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-70",
                   "tokenValue": "#0066d4",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -1411,7 +1613,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "data"
     },
     {
       "tokenName": "--ids-input-dirty-indicator-color-background-dirty",
@@ -1422,10 +1625,12 @@
           "tokenValue": "#fa9601",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "input"
     },
     {
       "tokenName": "--ids-drawer-app-menu-color-text",
@@ -1436,10 +1641,12 @@
           "tokenValue": "#f5f5f5",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "drawer"
     },
     {
       "tokenName": "--ids-dropdown-color-background-default",
@@ -1450,18 +1657,21 @@
           "tokenValue": "var(--ids-color-background-elevated)",
           "type": "Component",
           "source": "defaultCoreTheme",
+          "component": "popup",
           "children": [
             {
               "tokenName": "--ids-color-background-elevated",
               "tokenValue": "var(--ids-color-white-100)",
               "type": "Semantic",
               "source": "semanticContrastTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-white-100",
                   "tokenValue": "#ffffff",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -1469,7 +1679,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "dropdown"
     },
     {
       "tokenName": "--ids-dropdown-color-border",
@@ -1480,18 +1691,21 @@
           "tokenValue": "var(--ids-color-primary)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-primary",
               "tokenValue": "var(--ids-color-blue-60)",
               "type": "Semantic",
               "source": "defaultCoreTheme",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-60",
                   "tokenValue": "#0072ed",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -1499,7 +1713,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "dropdown"
     },
     {
       "tokenName": "--ids-dropdown-attached-color-border",
@@ -1510,10 +1725,12 @@
           "tokenValue": "#8e8e95",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "dropdown"
     },
     {
       "tokenName": "--ids-dropdown-color-text-selected",
@@ -1524,10 +1741,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "dropdown"
     },
     {
       "tokenName": "--ids-dropdown-color-background-selected",
@@ -1538,18 +1757,21 @@
           "tokenValue": "var(--ids-color-theme-90)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-theme-90",
               "tokenValue": "var(--ids-color-blue-90)",
               "type": "Semantic",
               "source": "themeColorTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-90",
                   "tokenValue": "#004a99",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -1557,7 +1779,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "dropdown"
     },
     {
       "tokenName": "--ids-dropdown-group-color-text",
@@ -1568,10 +1791,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "dropdown"
     },
     {
       "tokenName": "--ids-dropdown-group-color-border",
@@ -1582,10 +1807,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "dropdown"
     },
     {
       "tokenName": "--ids-editor-background-color",
@@ -1596,10 +1823,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-color-border-default",
@@ -1610,10 +1839,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-color-border-hover",
@@ -1624,10 +1855,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-color-border-focus",
@@ -1638,18 +1871,21 @@
           "tokenValue": "var(--ids-color-primary)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-primary",
               "tokenValue": "var(--ids-color-blue-60)",
               "type": "Semantic",
               "source": "defaultCoreTheme",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-60",
                   "tokenValue": "#0072ed",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -1657,7 +1893,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-shadow-border-focus",
@@ -1668,10 +1905,12 @@
           "tokenValue": "0px 0px 8px 0px rgba(0 114 237 / 0.50)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "shadow",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-color-border-error",
@@ -1682,18 +1921,21 @@
           "tokenValue": "var(--ids-color-red-80)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-red-80",
               "tokenValue": "#a30d11",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-color-text-error",
@@ -1704,18 +1946,21 @@
           "tokenValue": "var(--ids-color-red-80)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-red-80",
               "tokenValue": "#a30d11",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-shadow-error",
@@ -1726,10 +1971,12 @@
           "tokenValue": "0 0 3px 2px rgb(218 18 23 / 0.30)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "shadow",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-color-background-readonly",
@@ -1740,10 +1987,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-color-border-readonly",
@@ -1754,10 +2003,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-source-color-background-readonly",
@@ -1768,10 +2019,12 @@
           "tokenValue": "#f5f5f5",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-color-border-disabled",
@@ -1782,18 +2035,21 @@
           "tokenValue": "var(--ids-color-gray-30)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-gray-30",
               "tokenValue": "#c5c5c9",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-color-text-disabled",
@@ -1804,10 +2060,12 @@
           "tokenValue": "#8e8e95",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-link-color-text-link",
@@ -1818,18 +2076,21 @@
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-link-color-text-hover",
@@ -1840,18 +2101,21 @@
           "tokenValue": "var(--ids-color-theme-100)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-theme-100",
               "tokenValue": "var(--ids-color-blue-100)",
               "type": "Semantic",
               "source": "themeColorTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-100",
                   "tokenValue": "#003876",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -1859,7 +2123,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-link-color-border-focus",
@@ -1870,18 +2135,21 @@
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-shadow-focus",
@@ -1892,10 +2160,12 @@
           "tokenValue": "0px 0px 8px 0px rgba(0 114 237 / 0.50)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "shadow",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-source-color-background-default",
@@ -1906,10 +2176,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-source-line-color-text",
@@ -1920,15 +2192,18 @@
           "tokenValue": "#525257",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-textarea-color-background",
       "tokenValue": "transparent",
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-editor-source-color-text",
@@ -1939,18 +2214,21 @@
           "tokenValue": "var(--ids-color-gray-100)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-gray-100",
               "tokenValue": "#161618",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "editor"
     },
     {
       "tokenName": "--ids-expandable-area-border-bottom",
@@ -1961,25 +2239,30 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "expandable"
     },
     {
       "tokenName": "--ids-header-gradient-opacity-none",
       "tokenValue": "rgb(0 74 153 / 1)",
-      "type": "Component"
+      "type": "Component",
+      "component": "header"
     },
     {
       "tokenName": "--ids-header-gradient-opacity-full",
       "tokenValue": "rgb(0 114 237 / 0)",
-      "type": "Component"
+      "type": "Component",
+      "component": "header"
     },
     {
       "tokenName": "--ids-icon-color-default",
       "tokenValue": "currentColor",
-      "type": "Component"
+      "type": "Component",
+      "component": "icon"
     },
     {
       "tokenName": "--ids-link-list-title-color-text-default",
@@ -1990,10 +2273,12 @@
           "tokenValue": "#000000",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "link"
     },
     {
       "tokenName": "--ids-layout-grid-color-background",
@@ -2004,10 +2289,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "layout"
     },
     {
       "tokenName": "--ids-layout-grid-color-text",
@@ -2018,18 +2305,21 @@
           "tokenValue": "var(--ids-color-foreground-default-default)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-foreground-default-default",
               "tokenValue": "var(--ids-color-black-100)",
               "type": "Semantic",
               "source": "semanticContrastTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-black-100",
                   "tokenValue": "#000000",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -2037,7 +2327,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "layout"
     },
     {
       "tokenName": "--ids-list-view-item-color-border-top",
@@ -2048,10 +2339,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "list"
     },
     {
       "tokenName": "--ids-list-view-item-color-border-focus",
@@ -2062,15 +2355,18 @@
           "tokenValue": "#0066d4",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "list"
     },
     {
       "tokenName": "--ids-list-view-item-shadow-focus",
       "tokenValue": "0 0 4px 1px rgb(54 138 192 / 0.3)",
-      "type": "Component"
+      "type": "Component",
+      "component": "list"
     },
     {
       "tokenName": "--ids-list-view-item-top-color-border-disabled-focus",
@@ -2081,10 +2377,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "list"
     },
     {
       "tokenName": "--ids-list-view-color-background-selected",
@@ -2095,10 +2393,12 @@
           "tokenValue": "#bedcfa",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "list"
     },
     {
       "tokenName": "--ids-loading-indicator-circle-color",
@@ -2109,10 +2409,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "loading"
     },
     {
       "tokenName": "--ids-loading-indicator-primary-progress-color-border",
@@ -2123,10 +2425,12 @@
           "tokenValue": "#003876",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "loading"
     },
     {
       "tokenName": "--ids-loading-indicator-primary-color-border",
@@ -2137,10 +2441,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "loading"
     },
     {
       "tokenName": "--ids-loading-indicator-primary-destructive-progress-color-border",
@@ -2151,18 +2457,21 @@
           "tokenValue": "var(--ids-color-red-10)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-red-10",
               "tokenValue": "#fbe7e8",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "loading"
     },
     {
       "tokenName": "--ids-loading-indicator-primary-destructive-overall-color-border",
@@ -2173,10 +2482,12 @@
           "tokenValue": "#df3539",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "loading"
     },
     {
       "tokenName": "--ids-loading-indicator-destructive-progress-color-border",
@@ -2187,18 +2498,21 @@
           "tokenValue": "var(--ids-color-red-80)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-red-80",
               "tokenValue": "#a30d11",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "loading"
     },
     {
       "tokenName": "--ids-loading-indicator-tertiary-destructive-color-border",
@@ -2209,10 +2523,12 @@
           "tokenValue": "#f5c3c4",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "loading"
     },
     {
       "tokenName": "--ids-masthead-color-background",
@@ -2223,10 +2539,12 @@
           "tokenValue": "#3b3b3f",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "masthead"
     },
     {
       "tokenName": "--ids-masthead-color-text",
@@ -2237,20 +2555,24 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "masthead"
     },
     {
       "tokenName": "--ids-modal-color-border",
       "tokenValue": "var(--ids-popup-color-60)",
-      "type": "Component"
+      "type": "Component",
+      "component": "modal"
     },
     {
       "tokenName": "--ids-modal-shadow-default",
       "tokenValue": "0 2px 5px rgb(239 239 240 / 0.2)",
-      "type": "Component"
+      "type": "Component",
+      "component": "modal"
     },
     {
       "tokenName": "--ids-modal-footer-color-border",
@@ -2261,10 +2583,12 @@
           "tokenValue": "#8e8e95",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "modal"
     },
     {
       "tokenName": "--ids-modal-button-color-default",
@@ -2275,18 +2599,21 @@
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "modal"
     },
     {
       "tokenName": "--ids-modal-button-color-hover",
@@ -2297,18 +2624,21 @@
           "tokenValue": "var(--ids-color-theme-90)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-theme-90",
               "tokenValue": "var(--ids-color-blue-90)",
               "type": "Semantic",
               "source": "themeColorTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-90",
                   "tokenValue": "#004a99",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -2316,17 +2646,20 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "modal"
     },
     {
       "tokenName": "--ids-modal-button-secondary-color-default",
       "tokenValue": "var(--ids-color-grey-80)",
-      "type": "Component"
+      "type": "Component",
+      "component": "modal"
     },
     {
       "tokenName": "--ids-modal-button-secondary-color-hover",
       "tokenValue": "var(--ids-color-grey-100)",
-      "type": "Component"
+      "type": "Component",
+      "component": "modal"
     },
     {
       "tokenName": "--ids-modal-shadow-focus",
@@ -2337,18 +2670,21 @@
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "modal"
     },
     {
       "tokenName": "--ids-module-nav-background-color",
@@ -2359,10 +2695,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-border-color",
@@ -2373,10 +2711,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-text-color",
@@ -2387,10 +2727,12 @@
           "tokenValue": "#525257",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-detail-background-color",
@@ -2401,10 +2743,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-separator-color",
@@ -2415,10 +2759,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-input-bg-color",
@@ -2429,10 +2775,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-input-border-color",
@@ -2443,10 +2791,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-input-text-color",
@@ -2457,10 +2807,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-input-focus-bg-color",
@@ -2471,10 +2823,12 @@
           "tokenValue": "#f5f5f5",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-input-hover-bg-color",
@@ -2485,10 +2839,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-item-text-color",
@@ -2499,10 +2855,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-item-hover-bg-color",
@@ -2513,10 +2871,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-item-hover-text-color",
@@ -2527,10 +2887,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-item-selected-bg-color",
@@ -2541,10 +2903,12 @@
           "tokenValue": "#bedcfa",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-item-selected-text-color",
@@ -2555,10 +2919,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-switcher-dropdown-bg-color",
@@ -2569,10 +2935,12 @@
           "tokenValue": "#f5f5f5",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-switcher-dropdown-item-focus-bg-color",
@@ -2583,10 +2951,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-switcher-dropdown-item-text-color",
@@ -2597,10 +2967,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-search-input-bg-color",
@@ -2611,10 +2983,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-search-input-text-color",
@@ -2625,10 +2999,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-search-input-focused-bg-color",
@@ -2639,10 +3015,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-search-input-focused-text-color",
@@ -2653,10 +3031,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-search-input-placeholder-text-color",
@@ -2667,10 +3047,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-search-input-focused-placeholder-text-color",
@@ -2681,15 +3063,18 @@
           "tokenValue": "#8e8e95",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-settings-menu-box-shadow",
       "tokenValue": "0 0 8px 1px rgba(0 0 0 / 0.08)",
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-settings-menu-item-text-color",
@@ -2700,10 +3085,12 @@
           "tokenValue": "#525257",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-settings-menu-item-icon-color",
@@ -2714,10 +3101,12 @@
           "tokenValue": "#525257",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-module-nav-settings-menu-separator-color",
@@ -2728,10 +3117,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "module"
     },
     {
       "tokenName": "--ids-popup-menu-color-text-default",
@@ -2742,10 +3133,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "popup"
     },
     {
       "tokenName": "--ids-menu-header-color-text",
@@ -2756,10 +3149,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "menu"
     },
     {
       "tokenName": "--ids-menu-item-color-text-disabled",
@@ -2770,10 +3165,12 @@
           "tokenValue": "#8e8e95",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "menu"
     },
     {
       "tokenName": "--ids-menu-item-highlight-color",
@@ -2784,10 +3181,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "menu"
     },
     {
       "tokenName": "--ids-menu-item-check-color",
@@ -2798,10 +3197,12 @@
           "tokenValue": "#0054b1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "menu"
     },
     {
       "tokenName": "--ids-calendar-month-view-color-border",
@@ -2812,15 +3213,18 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "calendar"
     },
     {
       "tokenName": "--ids-calendar-month-view-color-background-hover",
       "tokenValue": "rgba(74 74 74 / 0.1)",
-      "type": "Component"
+      "type": "Component",
+      "component": "calendar"
     },
     {
       "tokenName": "--ids-calendar-month-view-color-background-selected",
@@ -2831,10 +3235,12 @@
           "tokenValue": "#f5f5f5",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "calendar"
     },
     {
       "tokenName": "--ids-calendar-month-view-color-background-disabled",
@@ -2845,10 +3251,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "calendar"
     },
     {
       "tokenName": "--ids-chart-pie-color-text",
@@ -2859,18 +3267,21 @@
           "tokenValue": "var(--ids-color-foreground-default-default)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-foreground-default-default",
               "tokenValue": "var(--ids-color-black-100)",
               "type": "Semantic",
               "source": "semanticContrastTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-black-100",
                   "tokenValue": "#000000",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -2878,7 +3289,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "chart"
     },
     {
       "tokenName": "--ids-progress-chart-label-color-text",
@@ -2889,10 +3301,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "progress"
     },
     {
       "tokenName": "--ids-progress-chart-total-color-background",
@@ -2903,10 +3317,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "progress"
     },
     {
       "tokenName": "--ids-progress-chart-bar-progress-color-background",
@@ -2917,10 +3333,12 @@
           "tokenValue": "#004a99",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "progress"
     },
     {
       "tokenName": "--ids-scroll-view-color-icon-default",
@@ -2931,10 +3349,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "scroll"
     },
     {
       "tokenName": "--ids-scroll-view-color-icon-selected",
@@ -2945,18 +3365,21 @@
           "tokenValue": "var(--ids-color-theme-90)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-theme-90",
               "tokenValue": "var(--ids-color-blue-90)",
               "type": "Semantic",
               "source": "themeColorTokens",
+              "component": "color",
               "children": [
                 {
                   "tokenName": "--ids-color-blue-90",
                   "tokenValue": "#004a99",
                   "type": "Core",
                   "source": "coreTokens",
+                  "component": "color",
                   "children": []
                 }
               ]
@@ -2964,7 +3387,8 @@
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "scroll"
     },
     {
       "tokenName": "--ids-slider-tick-color-background-default",
@@ -2975,10 +3399,12 @@
           "tokenValue": "#0072ed",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-thumb-color-background-default",
@@ -2989,15 +3415,18 @@
           "tokenValue": "#0072ed",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-thumb-color-shadow-default",
       "tokenValue": "rgba(0 74 153 / 0.1)",
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-thumb-color-border-default",
@@ -3008,10 +3437,12 @@
           "tokenValue": "#0072ed",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-track-color-background-default",
@@ -3022,10 +3453,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-track-color-background-progress",
@@ -3036,10 +3469,12 @@
           "tokenValue": "#0072ed",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-tooltip-color-background",
@@ -3050,10 +3485,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-color-disabled",
@@ -3064,10 +3501,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-tick-color-background-disabled",
@@ -3078,10 +3517,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-thumb-color-background-disabled",
@@ -3092,10 +3533,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-track-color-background-disabled",
@@ -3106,10 +3549,12 @@
           "tokenValue": "#8e8e95",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-track-color-background-progress-disabled",
@@ -3120,10 +3565,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-color-readonly",
@@ -3134,10 +3581,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-tick-color-background-readonly",
@@ -3148,10 +3597,12 @@
           "tokenValue": "#3b3b3f",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-thumb-color-background-readonly",
@@ -3162,15 +3613,18 @@
           "tokenValue": "#3b3b3f",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-thumb-color-shadow-readonly",
       "tokenValue": "rgba(71 71 76 / 0.1)",
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-thumb-color-border-readonly",
@@ -3181,10 +3635,12 @@
           "tokenValue": "#3b3b3f",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-track-color-background-readonly",
@@ -3195,10 +3651,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-slider-track-progress-color-background-readonly",
@@ -3209,10 +3667,12 @@
           "tokenValue": "#3b3b3f",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "slider"
     },
     {
       "tokenName": "--ids-step-chart-color-background-default",
@@ -3223,10 +3683,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "step"
     },
     {
       "tokenName": "--ids-step-chart-color-background-complete",
@@ -3237,18 +3699,21 @@
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "step"
     },
     {
       "tokenName": "--ids-swaplist-search-color-text-default",
@@ -3259,10 +3724,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "swaplist"
     },
     {
       "tokenName": "--ids-swaplist-search-color-text-placeholder",
@@ -3273,10 +3740,12 @@
           "tokenValue": "#525257",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "swaplist"
     },
     {
       "tokenName": "--ids-swipe-action-color-background-right-active",
@@ -3287,10 +3756,12 @@
           "tokenValue": "#004a99",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "swipe"
     },
     {
       "tokenName": "--ids-swipe-action-color-background-right",
@@ -3301,10 +3772,12 @@
           "tokenValue": "#0066d4",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "swipe"
     },
     {
       "tokenName": "--ids-swipe-action-color-background-right-hover",
@@ -3315,10 +3788,12 @@
           "tokenValue": "#004a99",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "swipe"
     },
     {
       "tokenName": "--ids-time-picker-popup-button-color-border",
@@ -3329,10 +3804,12 @@
           "tokenValue": "#6f6f76",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "time"
     },
     {
       "tokenName": "--ids-time-picker-popup-button-color-text-default",
@@ -3343,10 +3820,12 @@
           "tokenValue": "#004a99",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "time"
     },
     {
       "tokenName": "--ids-time-picker-popup-colons-color-text",
@@ -3357,10 +3836,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "time"
     },
     {
       "tokenName": "--ids-toolbar-formatter-color-background",
@@ -3371,10 +3852,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "toolbar"
     },
     {
       "tokenName": "--ids-toolbar-formatter-color-border-bottom",
@@ -3385,10 +3868,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "toolbar"
     },
     {
       "tokenName": "--ids-trigger-field-icon-color",
@@ -3399,10 +3884,12 @@
           "tokenValue": "#3b3b3f",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "trigger"
     },
     {
       "tokenName": "--ids-tree-node-color-text-disabled",
@@ -3413,10 +3900,12 @@
           "tokenValue": "#8e8e95",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-tree-node-color-border-focus",
@@ -3427,15 +3916,18 @@
           "tokenValue": "#004a99",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-tree-node-shadow-focus",
       "tokenValue": "0 0 4px 2px rgb(41  41 41 / 0.3)",
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-tree-node-color-border-hover",
@@ -3446,10 +3938,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-tree-node-color-text-hover",
@@ -3460,10 +3954,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-tree-node-color-background-selected",
@@ -3474,10 +3970,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-tree-node-color-text-selected",
@@ -3488,10 +3986,12 @@
           "tokenValue": "#161618",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-tree-node-color-text-default",
@@ -3502,10 +4002,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-tree-treemap-color-border",
@@ -3516,10 +4018,12 @@
           "tokenValue": "#f5f5f5",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-tree-treemap-title-color-background",
@@ -3530,10 +4034,12 @@
           "tokenValue": "#3b3b3f",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-tree-treemap-title-color-text",
@@ -3544,10 +4050,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "tree"
     },
     {
       "tokenName": "--ids-upload-advanced-color-background-default",
@@ -3558,10 +4066,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "upload"
     },
     {
       "tokenName": "--ids-upload-advanced-color-background-hover",
@@ -3572,10 +4082,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "upload"
     },
     {
       "tokenName": "--ids-upload-advanced-color-border-hover",
@@ -3586,10 +4098,12 @@
           "tokenValue": "#8e8e95",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "upload"
     },
     {
       "tokenName": "--ids-upload-advanced-color-text-hover",
@@ -3600,10 +4114,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "upload"
     },
     {
       "tokenName": "--ids-week-view-color-background",
@@ -3614,10 +4130,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "week"
     },
     {
       "tokenName": "--ids-week-view-color-border",
@@ -3628,10 +4146,12 @@
           "tokenValue": "#c5c5c9",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "week"
     },
     {
       "tokenName": "--ids-week-view-header-color-background",
@@ -3642,10 +4162,12 @@
           "tokenValue": "#ffffff",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "week"
     },
     {
       "tokenName": "--ids-week-view-row-odd-color-border",
@@ -3656,10 +4178,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "week"
     },
     {
       "tokenName": "--ids-widget-header-title-color",
@@ -3670,10 +4194,12 @@
           "tokenValue": "#000000",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "widget"
     },
     {
       "tokenName": "--ids-widget-color-border-hover",
@@ -3684,15 +4210,18 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "widget"
     },
     {
       "tokenName": "--ids-widget-color-shadow-hover",
       "tokenValue": "0 2px 4px 1px rgba(0 0 0 / 0.15)",
-      "type": "Component"
+      "type": "Component",
+      "component": "widget"
     },
     {
       "tokenName": "--ids-widget-search-field-color-background",
@@ -3703,10 +4232,12 @@
           "tokenValue": "#e0e0e1",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "widget"
     },
     {
       "tokenName": "--ids-wizard-step-color-default",
@@ -3717,18 +4248,21 @@
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
           "source": "defaultCoreTheme",
+          "component": "color",
           "children": [
             {
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
               "source": "coreTokens",
+              "component": "color",
               "children": []
             }
           ]
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "wizard"
     },
     {
       "tokenName": "--ids-wizard-step-color-unvisited",
@@ -3739,10 +4273,12 @@
           "tokenValue": "#28282a",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "wizard"
     },
     {
       "tokenName": "--ids-wizard-step-color-disabled-unvisited",
@@ -3753,10 +4289,12 @@
           "tokenValue": "#bbbbbf",
           "type": "Core",
           "source": "coreTokens",
+          "component": "color",
           "children": []
         }
       ],
-      "type": "Component"
+      "type": "Component",
+      "component": "wizard"
     }
   ]
 }

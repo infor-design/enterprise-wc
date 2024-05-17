@@ -29,6 +29,17 @@ columns.push({
 });
 
 columns.push({
+  id: 'component',
+  name: 'Component',
+  field: 'component',
+  sortable: true,
+  resizable: false,
+  width: 200,
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text
+});
+
+columns.push({
   id: 'tokenName',
   name: 'Token Name',
   field: 'tokenName',
