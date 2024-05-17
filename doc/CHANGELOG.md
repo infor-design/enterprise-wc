@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.2.0
+
+### 1.2.0 Fixes
+
+- `[Masthead]` Converted masthead tests to playwright. ([#1951](https://github.com/infor-design/enterprise-wc/issues/1951))
+
 ## 1.1.0
 
 ### 1.1.0 Features
