@@ -62,5 +62,18 @@ test.describe('IdsExpandableArea tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-expandable-area-light');
     });
+
+    test('can change its type property', async ({ page }) => {
+      const ea = await page.locator('ids-expandable-area').first();
+      expect(await ea.evaluate((element: IdsExpandableArea) => {
+        element.type = '';
+        return element.type;
+      })).toEqual('');
+      await expect(ea).toHaveAttribute('type', '');
+      await ea.evaluate((element: IdsExpandableArea) => { element.type = 'partial'; });
+      await expect(ea).toHaveAttribute('type', 'partial');
+      await ea.evaluate((element: IdsExpandableArea) => { element.type = null; });
+      await expect(ea).toHaveAttribute('type', '');
+    });
   });
 });
