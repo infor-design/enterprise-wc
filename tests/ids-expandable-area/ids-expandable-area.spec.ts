@@ -75,5 +75,18 @@ test.describe('IdsExpandableArea tests', () => {
       await ea.evaluate((element: IdsExpandableArea) => { element.type = null; });
       await expect(ea).toHaveAttribute('type', '');
     });
+
+    test('can change its expanded property', async ({ page }) => {
+      const ea = await page.locator('ids-expandable-area').first();
+      expect(await ea.evaluate((element: IdsExpandableArea) => {
+        element.expanded = '';
+        return element.expanded;
+      })).toEqual('');
+      await expect(ea).toHaveAttribute('expanded', '');
+      await ea.evaluate((element: IdsExpandableArea) => { element.type = 'partial'; });
+      await expect(ea).toHaveAttribute('expanded', 'partial');
+      await ea.evaluate((element: IdsExpandableArea) => { element.type = null; });
+      await expect(ea).toHaveAttribute('expanded', '');
+    });
   });
 });
