@@ -67,16 +67,24 @@
   --ids-outline-none: 0;
 
   // Fonts
-  --ids-font-family-default: source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-ar: 'Mada', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-he: 'Assistant', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-hi: 'Noto Sans', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-ja: 'Noto Sans JP', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-ko: 'Noto Sans KR', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-th: 'Noto Sans Thai', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-zh-hans: 'Noto Sans SC', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-zh-hant: 'Noto Sans TC', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-mono: source code pro, monospace;
+  @font-face {
+    font-family: 'Source Sans 3';
+    font-weight: 300 800;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('/assets/fonts/source-sans-3-variable-wght.ttf') format('ttf'),
+  }
+
+  --ids-font-family-default: 'Source Sans 3', -apple-system, helvetica, arial;
+  --ids-font-family-ar: 'Mada', 'Source Sans 3', -apple-system, helvetica, arial;
+  --ids-font-family-he: 'Assistant', 'Source Sans 3', -apple-system, helvetica, arial;
+  --ids-font-family-hi: 'Noto Sans', 'Source Sans 3', -apple-system, helvetica, arial;
+  --ids-font-family-ja: 'Noto Sans JP', 'Source Sans 3', -apple-system, helvetica, arial;
+  --ids-font-family-ko: 'Noto Sans KR', 'Source Sans 3', -apple-system, helvetica, arial;
+  --ids-font-family-th: 'Noto Sans Thai', 'Source Sans 3', -apple-system, helvetica, arial;
+  --ids-font-family-zh-hans: 'Noto Sans SC', 'Source Sans 3', -apple-system, helvetica, arial;
+  --ids-font-family-zh-hant: 'Noto Sans TC', 'Source Sans 3', -apple-system, helvetica, arial;
+  --ids-font-family-mono: monospace;
   --ids-font-weight-light: 300;
   --ids-font-weight-normal: 400;
   --ids-font-weight-semibold: 600;

@@ -143,6 +143,15 @@ module.exports = {
           }
         },
         {
+          from: './src/assets/fonts/*',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            const folders = path.dirname(absoluteFilename).split(path.sep);
+            const filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
+            return filePath;
+          }
+        },
+        {
           from: './src/themes/**/*.scss',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
