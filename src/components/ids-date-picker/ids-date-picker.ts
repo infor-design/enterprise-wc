@@ -373,7 +373,7 @@ class IdsDatePicker extends Base {
     // Input value change
     this.offEvent('change.date-picker-input');
     this.onEvent('change', this.triggerField, (e) => {
-      if (isValidDate(this.getDateValue(e.detail.value) && !this.useRange)) {
+      if (!this.useRange && isValidDate(this.getDateValue(e.detail.value))) {
         this.setAttribute(attributes.VALUE, e.detail.value);
       }
     });
