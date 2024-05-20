@@ -18,28 +18,6 @@ const themes: any = {
 const columns: IdsDataGridColumn[] = [];
 
 columns.push({
-  id: 'type',
-  name: 'Type',
-  field: 'type',
-  sortable: true,
-  resizable: false,
-  width: 200,
-  formatter: dataGrid.formatters.text,
-  filterType: dataGrid.filters.text
-});
-
-columns.push({
-  id: 'component',
-  name: 'Component',
-  field: 'component',
-  sortable: true,
-  resizable: false,
-  width: 200,
-  formatter: dataGrid.formatters.text,
-  filterType: dataGrid.filters.text
-});
-
-columns.push({
   id: 'tokenName',
   name: 'Token Name',
   field: 'tokenName',
@@ -58,6 +36,28 @@ columns.push({
   field: 'tokenValue',
   sortable: false,
   resizable: true,
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text
+});
+
+columns.push({
+  id: 'type',
+  name: 'Type',
+  field: 'type',
+  sortable: true,
+  resizable: false,
+  width: 200,
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text
+});
+
+columns.push({
+  id: 'component',
+  name: 'Component',
+  field: 'component',
+  sortable: true,
+  resizable: false,
+  width: 200,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
 });
@@ -103,6 +103,8 @@ const initializeData = async () => {
 };
 
 await initializeData();
+
+dataGrid.collapseAll();
 
 dataGrid.addEventListener('rowexpanded', (e: Event) => {
   console.info(`Row Expanded`, (<CustomEvent>e).detail);
