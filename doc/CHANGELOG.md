@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.2.0
+
+### 1.2.0 Fixes
+
+- `[DatePicker]` Fix datepicker value syncing with manual input changes. ([#2207](https://github.com/infor-design/enterprise-wc/issues/2207))
+
 ## 1.1.0
 
 ### 1.1.0 Features
