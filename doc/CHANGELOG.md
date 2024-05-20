@@ -3,6 +3,8 @@
 ## 1.2.0
 
 ### 1.2.0 Fixes
+
+- `[Dropdown]` Added additional fixes so that typeahead works in the angular examples. ([#2249](https://github.com/infor-design/enterprise-wc/issues/2249))
 - `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
 
 ## 1.1.0
