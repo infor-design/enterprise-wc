@@ -1622,7 +1622,7 @@ export default class IdsPopup extends Base {
           }
 
           // Remove relative parents' coordinates from the calculation
-          if (parentStyle.position === 'relative') {
+          if (parentStyle.position === 'relative' && this.positionStyle !== 'fixed') {
             elemRect.x -= parentRect.x;
             elemRect.y -= parentRect.y;
             foundRelativeParent = true;
