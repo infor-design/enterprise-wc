@@ -83,10 +83,10 @@ const IdsAttachmentMixin = <T extends IdsBaseConstructor>(superclass: T) => clas
       /**
        * Remove Child if there are more than one instance of the component
        */
-      const existingComponent = this.attachmentParentElement.querySelectorAll(`#${this.id}`);
-      if (existingComponent.length > 1) {
-        existingComponent.forEach((elem, index) => {
-          if (index > 0) elem.remove();
+      const [first, ...others] = [...this.attachmentParentElement.querySelectorAll(`#${this.id}`)];
+      if (first && others.length) {
+        others.forEach((elem) => {
+          elem.remove();
         });
       }
     }
