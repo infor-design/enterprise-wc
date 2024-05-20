@@ -71,4 +71,4 @@ const setData = async () => {
   dataGrid.data = data;
 };
 
-await await setData();
+await setData();

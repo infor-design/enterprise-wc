@@ -156,7 +156,7 @@ await setData();
 - `type` {string} set the input type, (default is `text`)
 - `required` {string} sets visible required indicator no matter what the validate is set to
 - `format` {string} if the validation rules include date/time, use the setting to set custom date/time format
-- `validationEvents` {string} set the input validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
+- `validationEvents` {string} set the events that fire for validation, use `space` to add multiple validation rules. We use `blur` as default. For example if you wanted to validate on keypress you could use `validation-events="keydown blur change"`. Use any JS event here.
 - `value` {string} sets the input value.
 - `maxlength` {number}  sets the input's `maxlength` property to the max characters you can type
 - `uppercase` {boolean} sets the input editor's to all uppercase

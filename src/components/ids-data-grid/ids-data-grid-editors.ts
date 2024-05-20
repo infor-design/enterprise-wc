@@ -105,7 +105,7 @@ export class InputEditor implements IdsDataGridEditor {
     const isInline = cell?.column.editor?.inline;
     this.input = <IdsInput> document.createElement('ids-input');
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
-    this.input.size = isInline ? 'full' : '';
+    this.input.size = 'full';
     this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
     this.input.labelState = 'collapsed';
 
@@ -259,14 +259,16 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.list.appendToTargetParent();
     if (this.list.popup) {
       this.list.popup.popupOpenEventsTarget = document.body;
-      this.list.popup.positionStyle = 'fixed';
+      this.list.popup.setAttribute('position-style', 'fixed');
       this.list.popup.alignTarget = this.input;
       this.list.popup.type = 'dropdown';
       this.list.popup.container?.classList.add('dropdown');
       this.list.popup.onPlace = (popupRect: DOMRect) => {
         const margin = cell?.dataGrid?.rowHeight === 'xxs' ? -3 : 0;
-        popupRect.y = (this.input?.getBoundingClientRect().bottom || 0) + margin;
-        popupRect.x = (this.input?.getBoundingClientRect().x || 0) - 1;
+        const x = (this.input?.getBoundingClientRect().x || 0) - 1;
+        const y = (this.input?.getBoundingClientRect().bottom || 0) + margin;
+        popupRect.x = x;
+        popupRect.y = y;
         popupRect.width = 1000;
         return popupRect;
       };
@@ -284,7 +286,7 @@ export class DropdownEditor implements IdsDataGridEditor {
       applyEditorValidation(this.input.input, validation);
     }
 
-    this.#attchEventListeners();
+    this.#attachEventListeners();
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.input?.open();
   }
@@ -305,17 +307,9 @@ export class DropdownEditor implements IdsDataGridEditor {
   /**
    * Attach dropdown event handlers
    */
-  #attchEventListeners() {
+  #attachEventListeners() {
     this.input?.onEvent('change', this.input, (evt) => { this.#value = evt.detail.value; });
     this.input?.onEvent('focusout', this.input, this.#stopPropagationCb);
-    this.input?.onEvent('click', this.input, () => {
-      const popup = this.list?.popup;
-      if (popup) {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        if (!popup.visible) this.input?.open();
-        else this.input?.close();
-      }
-    });
     if (this.list) {
       this.list.onOutsideClick = (e: MouseEvent) => {
         if (!e.composedPath().includes(this.list!)) {
