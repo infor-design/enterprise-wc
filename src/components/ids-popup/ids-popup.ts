@@ -556,10 +556,10 @@ export default class IdsPopup extends Base {
     const val = validMaxHeight(value);
     if (val) {
       this.setAttribute(attributes.MAX_HEIGHT, val);
+      this.#updateMaxHeightProp(val);
     } else {
       this.removeAttribute(attributes.MAX_HEIGHT);
     }
-    this.#updateMaxHeightProp(val);
   }
 
   /**
