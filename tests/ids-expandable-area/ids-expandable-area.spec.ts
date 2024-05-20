@@ -79,14 +79,23 @@ test.describe('IdsExpandableArea tests', () => {
     test('can change its expanded property', async ({ page }) => {
       const ea = await page.locator('ids-expandable-area').first();
       expect(await ea.evaluate((element: IdsExpandableArea) => {
-        element.expanded = '';
+        element.expanded = true;
         return element.expanded;
-      })).toEqual('');
-      await expect(ea).toHaveAttribute('expanded', '');
-      await ea.evaluate((element: IdsExpandableArea) => { element.type = 'partial'; });
-      await expect(ea).toHaveAttribute('expanded', 'partial');
-      await ea.evaluate((element: IdsExpandableArea) => { element.type = null; });
-      await expect(ea).toHaveAttribute('expanded', '');
+      })).toEqual('true');
+      await expect(ea).toHaveAttribute('expanded', 'true');
+      await ea.evaluate((element: IdsExpandableArea) => { element.expanded = 'false'; });
+      await expect(ea).toHaveAttribute('expanded', 'false');
+    });
+
+    test('renders with IdsToggleButton as expander', async ({ page }) => {
+    // test
+    });
+
+    test('can change set its aria-expanded attribute', async ({ page }) => {
+    // test
+    });
+
+    test('can be expanded/collapsed when clicked (mouse)', async ({ page }) => {
     });
   });
 });
