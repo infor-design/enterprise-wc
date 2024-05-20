@@ -67,6 +67,9 @@ const IdsAttachmentMixin = <T extends IdsBaseConstructor>(superclass: T) => clas
     const containerNode = getClosestContainerNode(this);
     const parentElem = containerNode.querySelector<HTMLElement | SVGElement>(`${val}`);
     this.attachmentParentElement = parentElem;
+    if (val === 'body') {
+      this.attachmentParentElement = document.querySelector('body');
+    }
   }
 
   /**

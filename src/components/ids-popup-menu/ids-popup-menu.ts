@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { getElementAtMouseLocation, parents, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
@@ -79,7 +80,10 @@ export default class IdsPopupMenu extends Base {
     if (this.hasAttribute(attributes.WIDTH)) {
       this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
-    this.#configurePopup();
+    // Defer the popup placement until after the initial setup phase
+    requestAnimationFrame(() => {
+      this.#configurePopup();
+    });
   }
 
   #configurePopup() {
@@ -658,7 +662,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   onTriggerHover(): void {
-    if (!(this.target as any).disabled && !(this.target as any).hidden) {
+    if (!(this.target as any)?.disabled && !(this.target as any)?.hidden) {
       // Hide all submenus attached to parent menu items (except this one)
       if (this.parentMenuItem) {
         (this.parentMenuItem?.menu as IdsPopupMenu)?.hideSubmenus(this.target);
@@ -709,7 +713,7 @@ export default class IdsPopupMenu extends Base {
         this.popup.scrollParentElem = this.parentMenu?.popup?.wrapper;
         this.popup.onPlace = (popupRect: DOMRect): DOMRect => {
           const parentPopup = this.parentMenu && this.parentMenu.popup!;
-          if (this.container && parentPopup) {
+          if (this.container && parentPopup && this.container && this.container.scrollParentElem) {
             this.container.removeAttribute('style');
 
             // accounts for top/bottom padding + border thickness
@@ -757,7 +761,8 @@ export default class IdsPopupMenu extends Base {
    */
   private configureSubmenuAlignment() {
     const isRTL = this.popup?.localeAPI?.isRTL() || false;
-    if (this.parentMenuItem) {
+    const parentMenuDisabled = stringToBool(this.parentMenuItem?.getAttribute('disabled'));
+    if (this.parentMenuItem && !parentMenuDisabled) {
       this.popupDelay = 200;
       this.target = this.parentMenuItem;
       this.triggerType = 'hover';

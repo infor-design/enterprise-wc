@@ -20,10 +20,15 @@
   - link: groups.html
     type: Example
     description: Showing a dropdown with grouping functionality
+  - link: in-popup.html
+    type: Example
+    description: Showing a dropdown in a popup
+  - link: in-modal.html
+    type: Example
+    description: Showing a dropdown in a modal
   - link: reattach.html
     type: Example
     description: Test dropdown after reattaching
-  - link: sandbox.html    
   - link: sizes.html
     type: Example
     description: Showing width and height size variations
