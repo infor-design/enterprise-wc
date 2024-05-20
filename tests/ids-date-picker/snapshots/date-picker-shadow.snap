@@ -7,6 +7,6 @@
             <ids-icon part="icon" icon="schedule"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-        <ids-date-picker-popup id="popup-datepicker-value" show-today="true" show-week-numbers="false" first-day-of-week="0" year="2016" month="2" day="4" trigger-type="click" target="#datepicker-value" trigger-elem="#triggerBtn-datepicker-value" format="M/d/yyyy" value="3/4/2016"></ids-date-picker-popup>
+        <ids-date-picker-popup id="popup-datepicker-value" show-today="true" show-week-numbers="false" first-day-of-week="0" year="2016" month="2" day="4" value="3/4/2016" trigger-type="click" target="#datepicker-value" trigger-elem="#triggerBtn-datepicker-value" format="M/d/yyyy"></ids-date-picker-popup>
       </div>
     
