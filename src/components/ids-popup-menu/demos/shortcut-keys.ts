@@ -75,29 +75,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           </ids-popup-menu>
         </ids-menu-item>`
       );
-
-      menuGroupEl.insertAdjacentHTML(
-        'beforeend',
-        `<ids-menu-item id="contains-submenu"${iconAttr}>
-          Shortcut Options...
-          <ids-popup-menu>
-            <ids-menu-group>
-              <ids-menu-item shortcut-keys="CTRL+6">
-                <span slot="shortcuts" class="shortcuts">CTRL+6</span>
-                Print
-              </ids-menu-item>
-              <ids-menu-item id="related-option-panel-11" shortcut-keys="CTRL+11" value="relatedOptionsPanel;11;CTRL+11">
-                <span slot="shortcuts" class="shortcuts">CTRL+11</span>
-                Lines
-              </ids-menu-item>
-              <ids-menu-item id="related-option-panel-10" shortcut-keys="CTRL+11" value="relatedOptionsPanel;11;CTRL+11">
-                <span slot="shortcuts" class="shortcuts">CTRL+11</span>
-                Drill
-              </ids-menu-item>     
-            </ids-menu-group>
-          </ids-popup-menu>
-        </ids-menu-item>`
-      );
     }
   });
 });
