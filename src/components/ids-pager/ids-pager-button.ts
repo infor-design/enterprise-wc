@@ -113,7 +113,7 @@ export default class IdsPagerButton extends Base {
       this.disabled = this.pager.disabled;
       this.pageNumber = this.pager.pageNumber;
       this.pageSize = this.pager.pageSize;
-      this.total = this.pager.total;
+      this.total = this.pager?.total ?? 0;
     }
 
     this.#updateNavDisabled();
@@ -207,7 +207,7 @@ export default class IdsPagerButton extends Base {
    */
   set total(value: number) {
     let val = stringToNumber(value);
-    if (Number.isNaN(val) || val < 1) val = 1;
+    if (Number.isNaN(val) || val < 1) val = 0;
     this.setAttribute(attributes.TOTAL, String(val));
 
     this.#updateNavDisabled();
