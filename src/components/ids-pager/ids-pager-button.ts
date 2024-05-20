@@ -136,7 +136,7 @@ export default class IdsPagerButton extends Base {
    */
   get pageCount(): number | null {
     const val = this.hasAttribute(attributes.TOTAL)
-      ? Math.ceil(this.total / this.pageSize)
+      ? Math.max(Math.ceil(this.total / this.pageSize), 1)
       : null;
     return this.pager?.pageCount ?? val;
   }
