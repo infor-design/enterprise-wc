@@ -1,5 +1,10 @@
 # What's New with Enterprise Web Components
 
+## 1.2.0
+
+### 1.2.0 Fixes
+- `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
+
 ## 1.1.0
 
 ### 1.1.0 Features
