@@ -1,5 +1,10 @@
 # What's New with Enterprise Web Components
 
+## 1.2.0
+
+### 1.2.0 Fixes
+- `[Hierarchy]` Converted hierarchy tests to playwright. ([#1939](https://github.com/infor-design/enterprise-wc/issues/1939))
+
 ## 1.1.0
 
 ### 1.1.0 Features
