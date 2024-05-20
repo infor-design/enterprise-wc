@@ -26,6 +26,9 @@
   - link: trigger-immediate.html
     type: Test
     description: Showing a Popup Menu invoked on demand
+  - link: position-style.html
+    type: Test
+    description: Shows the effect of changing position style
   - link: side-by-side.html
     type: Side-by-Side
     description: Showing a Popup Menu side by side with 4.x
