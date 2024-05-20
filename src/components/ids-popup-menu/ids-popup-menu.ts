@@ -80,7 +80,10 @@ export default class IdsPopupMenu extends Base {
     if (this.hasAttribute(attributes.WIDTH)) {
       this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
-    this.#configurePopup();
+    // Defer the popup placement until after the initial setup phase
+    requestAnimationFrame(() => {
+      this.#configurePopup();
+    });
   }
 
   #configurePopup() {
