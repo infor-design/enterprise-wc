@@ -5,6 +5,14 @@
   contain: content;
 }
 
+.ids-modal {
+  &.ids-about {
+    .ids-modal-content.has-scrollbar {
+      overflow: auto;
+    }
+  }
+}
+
 .ids-about {
   .ids-modal-container {
     max-width: var(--ids-about-width-max);
@@ -35,7 +43,7 @@
     border-radius: var(--ids-border-radius-xxs);
     max-height: 199px;
     outline: 0;
-    overflow: auto !important;
+    overflow: auto;
     text-align: left;
     scroll-behavior: smooth;
 
