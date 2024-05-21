@@ -1,6 +1,6 @@
-<div class="ids-popup animated animation-fade has-maxheight position-absolute menu" part="popup" style="--ids-popup-maxheight: 0px;">
+<div class="ids-popup animated animation-fade position-absolute menu" part="popup">
       <div class="arrow right" part="arrow-right"></div>
-      <div class="content-wrapper" tabindex="0">
+      <div class="content-wrapper">
         <slot name="content"></slot>
       </div>
     </div>

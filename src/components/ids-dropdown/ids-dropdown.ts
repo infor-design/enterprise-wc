@@ -634,6 +634,19 @@ export default class IdsDropdown extends Base {
   }
 
   /**
+   * Attach events for typeahead
+   */
+  #attachTypeaheadEvents() {
+    this.onEvent('input.dropdown', this.input?.input, (e: any) => {
+      if (this.typeahead) {
+        this.#typeAhead(e.target?.value);
+      } else {
+        this.#selectMatch(e.target?.value);
+      }
+    });
+  }
+
+  /**
    * Open the dropdown list
    * @param {boolean} shouldSelect whether or not the input text should be selected
    */
@@ -669,6 +682,7 @@ export default class IdsDropdown extends Base {
 
     // Focus and select input when typeahead is enabled
     if (this.typeahead) {
+      this.#attachTypeaheadEvents();
       this.input?.removeAttribute(attributes.READONLY);
       this.input?.focus();
     }
@@ -962,14 +976,6 @@ export default class IdsDropdown extends Base {
 
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.open(true);
-      }
-    });
-
-    this.onEvent('input.dropdown', this.input?.input, (e: any) => {
-      if (this.typeahead) {
-        this.#typeAhead(e.target?.value);
-      } else {
-        this.#selectMatch(e.target?.value);
       }
     });
 
