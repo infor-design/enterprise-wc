@@ -215,7 +215,7 @@ export default class IdsPagerInput extends Base {
   /** @param {string|number} value The number of items to track */
   set total(value: string | number) {
     let val = stringToNumber(value);
-    if (Number.isNaN(val) || val < 1) val = 1;
+    if (Number.isNaN(val) || val < 1) val = 0;
     this.setAttribute(attributes.TOTAL, String(val));
     this.#updatePageCountShown();
   }
@@ -229,7 +229,7 @@ export default class IdsPagerInput extends Base {
   /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount(): number | null {
     const val = this.hasAttribute(attributes.TOTAL)
-      ? Math.ceil(this.total / this.pageSize)
+      ? Math.max(Math.ceil(this.total / this.pageSize), 1)
       : null;
     return this.pager?.pageCount ?? val;
   }
@@ -316,7 +316,7 @@ export default class IdsPagerInput extends Base {
   /** Updates text found in page-count within ids-text span */
   #updatePageCountShown(): void {
     const pageCount = this.pageCount;
-    const pageCountShown = (pageCount === null) ? 'N/A' : pageCount;
+    const pageCountShown = (pageCount === null || Number.isNaN(pageCount)) ? 'N/A' : pageCount;
     const pageCountElem = this.shadowRoot?.querySelector('span.page-count');
     if (pageCountElem) {
       pageCountElem.textContent = String(pageCountShown);
