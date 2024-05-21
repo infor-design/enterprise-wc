@@ -88,7 +88,6 @@ export default class IdsPagerButton extends Base {
     super.attributeChangedCallback(name, oldValue, newValue);
 
     const shouldRerender = [
-      attributes.DISABLED,
       attributes.PAGE_NUMBER,
       attributes.PAGE_SIZE,
       attributes.STEP,
@@ -114,7 +113,7 @@ export default class IdsPagerButton extends Base {
       this.disabled = this.pager.disabled;
       this.pageNumber = this.pager.pageNumber;
       this.pageSize = this.pager.pageSize;
-      this.total = this.pager.total;
+      this.total = this.pager?.total ?? 0;
     }
 
     this.#updateNavDisabled();
@@ -137,7 +136,7 @@ export default class IdsPagerButton extends Base {
    */
   get pageCount(): number | null {
     const val = this.hasAttribute(attributes.TOTAL)
-      ? Math.ceil(this.total / this.pageSize)
+      ? Math.max(Math.ceil(this.total / this.pageSize), 1)
       : null;
     return this.pager?.pageCount ?? val;
   }
@@ -208,7 +207,7 @@ export default class IdsPagerButton extends Base {
    */
   set total(value: number) {
     let val = stringToNumber(value);
-    if (Number.isNaN(val) || val < 1) val = 1;
+    if (Number.isNaN(val) || val < 1) val = 0;
     this.setAttribute(attributes.TOTAL, String(val));
 
     this.#updateNavDisabled();
@@ -417,12 +416,12 @@ export default class IdsPagerButton extends Base {
     switch (this.type) {
       case attributes.FIRST:
       case attributes.PREVIOUS: {
-        isNavDisabled = this.pageNumber <= 1;
+        isNavDisabled = this.pageNumber <= 1 && this.total > 0;
         break;
       }
       case attributes.NEXT:
       case attributes.LAST: {
-        isNavDisabled = this.pageNumber >= (this.pageCount || 0);
+        isNavDisabled = this.pageNumber >= (this.pageCount || 0) && this.total > 0;
         break;
       }
       default: {
