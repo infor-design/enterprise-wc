@@ -925,6 +925,7 @@ test.describe('IdsInput tests', () => {
         document.querySelector<IdsInput>('ids-input')!.value = 'x';
         document.querySelector<IdsInput>('ids-input')!.value = '';
       });
+      await page.locator('#test-input-internal-error').waitFor({ state: 'attached' });
       await expect(await page.locator('#test-input-internal-error')).toBeVisible();
     });
   });
