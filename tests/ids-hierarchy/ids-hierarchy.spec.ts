@@ -180,7 +180,6 @@ test.describe('IdsHierarchy tests', () => {
       const hierarchy = await page.locator('ids-hierarchy-item').first();
       const container = await hierarchy.locator('div.has-nested-items').first();
 
-      await hierarchy.waitFor();
       await expect(container).toBeAttached();
     });
 
