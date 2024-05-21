@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { expect } from '@playwright/test';
+import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
@@ -104,6 +104,100 @@ test.describe('IdsPopup tests', () => {
       });
       expect(await locator.getAttribute('visible')).toBeFalsy();
       expect(await locator.getAttribute('aria-hidden')).toBe('true');
+    });
+  });
+
+  test.describe('IdsPopUp functionality test', () => {
+    let idsPopup: Locator;
+
+    test.beforeEach(async ({ page }) => {
+      idsPopup = await page.locator('#popup-1');
+    });
+
+    test('can set/get alignTarget', async ({ page }) => {
+      const idsTextElement = await page.locator('ids-text').first().evaluateHandle((node) => node);
+      const idsButtonElement = await page.locator('#popup-trigger-btn').evaluateHandle((node) => node);
+
+      // default alignment at ids-button
+      expect(await idsPopup.evaluate((
+        element: IdsPopup,
+        handle
+      ) => element.alignTarget!.isSameNode(handle), idsButtonElement)).toBeTruthy();
+
+      // changed to ids-text
+      expect(await idsPopup.evaluate((
+        element: IdsPopup,
+        handle
+      ) => {
+        element.alignTarget = handle;
+        return element.alignTarget!.isSameNode(handle);
+      }, idsTextElement)).toBeTruthy();
+
+      // change again to button via selector string
+      expect(await idsPopup.evaluate((
+        element: IdsPopup,
+        handle
+      ) => {
+        element.alignTarget = '#popup-trigger-btn';
+        return element.alignTarget!.isSameNode(handle);
+      }, idsButtonElement)).toBeTruthy();
+    });
+
+    test('can set/get align', async () => {
+      const defAlign = 'center';
+      const testData = [
+        { data: 'bottom', expected: 'bottom' },
+        { data: 5, expected: defAlign },
+        { data: 'left, top', expected: 'left, top' },
+        { data: 'left, right', expected: 'left, top' }, // retains previous state
+        { data: null, expected: defAlign },
+        { data: 'right, left', expected: 'left' }
+      ];
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.align)).toEqual('right');
+      await expect(idsPopup).toHaveAttribute('align', 'right');
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData) => {
+          element.align = tData as any;
+          return element.align;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsPopup).toHaveAttribute('align', data.expected);
+      }
+    });
+
+    test('can set/get alignX', async () => {
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.alignX)).toEqual('right');
+      await expect(idsPopup).not.toHaveAttribute('align-x');
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => {
+        element.alignX = 'left';
+        return element.alignX;
+      })).toEqual('left');
+      await expect(idsPopup).not.toHaveAttribute('align-x');
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => {
+        element.alignX = 'test';
+        return element.alignX;
+      })).toEqual('center');
+      await expect(idsPopup).not.toHaveAttribute('align-x');
+    });
+
+    test('can set/get alignY', async () => {
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.alignY)).toEqual('center');
+      await expect(idsPopup).not.toHaveAttribute('align-y');
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => {
+        element.alignY = 'top';
+        return element.alignY;
+      })).toEqual('top');
+      await expect(idsPopup).not.toHaveAttribute('align-y');
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => {
+        element.alignY = 'test';
+        return element.alignY;
+      })).toEqual('center');
+      await expect(idsPopup).not.toHaveAttribute('align-y');
     });
   });
 });

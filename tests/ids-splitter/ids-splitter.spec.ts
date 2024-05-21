@@ -284,6 +284,7 @@ test.describe('IdsSplitter tests', () => {
         </ids-splitter>`;
       });
       await page.waitForLoadState();
+      await page.locator('#test').waitFor({ state: 'attached' });
 
       const splitterSizes = await page.evaluate(() => {
         const splitter = document.querySelector('#test')!;
@@ -350,6 +351,7 @@ test.describe('IdsSplitter tests', () => {
       });
 
       await page.waitForLoadState();
+      await page.locator('#test').waitFor({ state: 'attached' });
 
       const splitterSizes = await page.evaluate(() => {
         const splitter = document.querySelector('#test')!;
@@ -434,6 +436,7 @@ test.describe('IdsSplitter tests', () => {
           <ids-splitter-pane></ids-splitter-pane>
         </ids-splitter>`;
       });
+      await page.locator('#splitter-1').waitFor({ state: 'attached' });
 
       await page.evaluate(() => {
         const splitter = document.querySelector('#splitter-1') as any;
@@ -445,7 +448,7 @@ test.describe('IdsSplitter tests', () => {
     test.skip('should be able to set multiple splits', async ({ page }) => {
       await page.evaluate(() => {
         document.body.innerHTML = `
-        <ids-splitter>
+        <ids-splitter id="splitter">
           <ids-splitter-pane></ids-splitter-pane>
           <ids-splitter-pane></ids-splitter-pane>
           <ids-splitter-pane></ids-splitter-pane>
@@ -470,6 +473,7 @@ test.describe('IdsSplitter tests', () => {
       });
 
       await page.waitForLoadState();
+      await page.locator('#nested-splitter-pane').waitFor({ state: 'attached' });
 
       const values = await page.evaluate(() => {
         const elem = document.querySelector('ids-splitter')!.querySelector('#nested-splitter-pane ids-splitter') as any;
@@ -496,17 +500,19 @@ test.describe('IdsSplitter tests', () => {
         </ids-splitter>`;
       });
       await page.waitForLoadState();
+      await page.locator('#test').waitFor({ state: 'attached' });
 
       expect(await page.locator('#p1').first().getAttribute('collapsed')).toEqual('true');
     });
 
     test('should render collapsed and disabled', async ({ page }) => {
       await page.evaluate(() => {
-        document.body.innerHTML = `<ids-splitter disabled>
+        document.body.innerHTML = `<ids-splitter id="test" disabled>
           <ids-splitter-pane id="p1" collapsed></ids-splitter-pane>
           <ids-splitter-pane id="p2"></ids-splitter-pane>
         </ids-splitter>`;
       });
+      await page.locator('#test').waitFor({ state: 'attached' });
 
       await page.waitForLoadState();
       const value = await page.evaluate(() => {
