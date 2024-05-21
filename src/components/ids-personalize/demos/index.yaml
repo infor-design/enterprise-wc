@@ -11,3 +11,6 @@
   - link: using-ids-global.html
     type: Ids Global Example
     description: Showing accessing personalize through IdsGlobal
+  - link: theme-table.html
+    type: Theme table
+    description: Displaying the themes token values in a table

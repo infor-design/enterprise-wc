@@ -1,11 +1,12 @@
 import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
 import '../../ids-data-grid/ids-data-grid';
 import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';
+import '../../ids-container/ids-container';
+// import '../../ids-layout-flex/ids-layout-flex';
+// import '../../ids-dropdown/ids-dropdown';
 import coreThemeJSON from '../../../assets/data/themeData/ids-theme-default-core.json';
 import darkThemeJSON from '../../../assets/data/themeData/ids-theme-default-dark.json';
 import contrastThemeJSON from '../../../assets/data/themeData/ids-theme-default-contrast.json';
-import '../../ids-layout-flex/ids-layout-flex';
-import '../../ids-dropdown/ids-dropdown';
 
 const dataGrid = document.querySelector<IdsDataGrid>('#data-theme')!;
 
@@ -25,7 +26,7 @@ columns.push({
     console.info('Tree Expander Clicked', info);
   },
   sortable: false,
-  resizable: true,
+  resizable: false,
   formatter: dataGrid.formatters.tree,
   filterType: dataGrid.filters.text
 });
@@ -35,7 +36,7 @@ columns.push({
   name: 'Token Value',
   field: 'tokenValue',
   sortable: false,
-  resizable: true,
+  resizable: false,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
 });
@@ -44,11 +45,16 @@ columns.push({
   id: 'type',
   name: 'Type',
   field: 'type',
-  sortable: true,
+  sortable: false,
   resizable: false,
   width: 200,
   formatter: dataGrid.formatters.text,
-  filterType: dataGrid.filters.text
+  filterType: dataGrid.filters.dropdown,
+  filterConditions: [
+    // { value: 'Core', label: 'Core' },
+    { value: 'Semantic', label: 'Semantic' },
+    { value: 'Component', label: 'Component' },
+  ]
 });
 
 columns.push({
@@ -89,6 +95,7 @@ const updateDataGrid = async (url: string) => {
 const dropdownHandler = async (e: any) => {
   const url: string = themes[e.target.value];
   await updateDataGrid(url);
+  dataGrid.collapseAll();
 };
 
 const dropdown: any = document.querySelector('#dropdown-themes');
@@ -103,7 +110,6 @@ const initializeData = async () => {
 };
 
 await initializeData();
-
 dataGrid.collapseAll();
 
 dataGrid.addEventListener('rowexpanded', (e: Event) => {

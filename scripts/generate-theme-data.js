@@ -4,6 +4,8 @@ const path = require('path');
 // Constants
 const basePath = `./src/themes`;
 const tokenPath = `./node_modules/ids-foundation/`;
+const outputPath = `./src/assets/data/themeData/`;
+
 const tokenFiles = {
   core: `${tokenPath}/theme-soho/core.scss`,
   semanticContrast: `${tokenPath}/theme-soho/semantic-contrast.scss`,
@@ -270,5 +272,5 @@ const themes = [
 
 themes.forEach(({ filePath, tokenDependencies }) => {
   const theme = parseThemeFile(filePath, tokenDependencies);
-  writeFileSync(`./src/assets/data/themeData/${theme.themeName}.json`, JSON.stringify(theme, null, 2));
+  writeFileSync(`${outputPath}${theme.themeName}.json`, JSON.stringify(theme, null, 2));
 });

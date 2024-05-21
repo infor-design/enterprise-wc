@@ -23,9 +23,6 @@
   - link: theme-builder-minimal.html
     type: Example
     description: Showing a theme builder example with just what changes
-  - link: token-table.html
-    type: Token table
-    description: Displaying a the theme tokens in a table
   - link: use-link.html
     type: Example
     description: Showing using a link for the css files
