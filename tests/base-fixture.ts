@@ -8,6 +8,7 @@ import {
   expect as baseExpect,
   Locator
 } from '@playwright/test';
+import { CustomEventTest } from './helper-fixture';
 
 const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output');
 
@@ -19,10 +20,14 @@ export function generateUUID(): string {
   return crypto.randomBytes(16).toString('hex');
 }
 
+interface CustomParameters {
+  eventsTest: CustomEventTest;
+}
+
 /**
  * Extends the test command in playwright
  */
-export const test = baseTest.extend({
+export const test = baseTest.extend<CustomParameters>({
   context: async ({ context }, use) => {
     await context.addInitScript(() => window.addEventListener('beforeunload', () => (window as any).collectIstanbulCoverage(JSON.stringify((window as any).__coverage__))),);
     await fs.promises.mkdir(istanbulCLIOutput, { recursive: true });
@@ -33,6 +38,11 @@ export const test = baseTest.extend({
     for (const page of context.pages()) {
       await page.evaluate(() => (window as any).collectIstanbulCoverage(JSON.stringify((window as any).__coverage__)));
     }
+  },
+  eventsTest: async ({ page }, use) => {
+    const eventTest = new CustomEventTest(page);
+    await eventTest.initialize();
+    await use(eventTest);
   }
 });
 
