@@ -138,6 +138,8 @@ export default class IdsText extends Base {
       this.onLanguageChange = async () => {
         await this.#translateAsync();
       };
+
+      this.translateText = this.translateText;
     }
   }
 
