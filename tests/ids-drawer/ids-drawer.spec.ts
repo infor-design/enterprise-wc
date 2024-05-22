@@ -4,7 +4,6 @@ import { test } from '../base-fixture';
 
 import IdsDrawer from '../../src/components/ids-drawer/ids-drawer';
 import IdsContainer from '../../src/components/ids-container/ids-container';
-// import createFromTemplate from '../helpers/create-from-template';
 
 test.describe('IdsDrawer tests', () => {
   const url = '/ids-drawer/example.html';
@@ -65,12 +64,6 @@ test.describe('IdsDrawer tests', () => {
   test.describe('functionality tests', () => {
     test('must have an edge', async () => {
       let container = await drawer.evaluate((idsDrawer: IdsDrawer) => {
-        // idsDrawer = createFromTemplate(
-        //   idsDrawer,
-        //   `<ids-drawer>
-        //     <div>Content</div>
-        //   </ids-drawer>`
-        // );
         idsDrawer.edge = 'start';
         return idsDrawer.container?.classList;
       });
