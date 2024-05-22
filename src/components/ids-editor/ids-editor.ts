@@ -1260,6 +1260,18 @@ export default class IdsEditor extends Base {
       this.#unActiveToolbarButtons();
     });
 
+    // Textarea
+    this.onEvent('input.editor-textarea', this.#elems.textarea, (evt) => {
+      evt.stopPropagation();
+      this.#adjustSourceLineNumbers();
+      (debounce(() => {
+        if (!this.#elems.reqviewchange) this.#triggerEvent('change', this.#elems.textarea);
+      }, 400) as any)();
+    });
+    this.onEvent('change.editor-textarea', this.#elems.textarea, () => {
+      this.#triggerEvent('change');
+    });
+
     // Editor container
     this.onEvent('input.editor-editcontainer', this, debounce(() => {
       if (!this.#elems.reqviewchange) {
@@ -1272,17 +1284,6 @@ export default class IdsEditor extends Base {
     });
     this.onEvent('paste.editor-editcontainer', this, (e: ClipboardEvent) => {
       this.#onPasteEditorContainer(e);
-    });
-
-    // Textarea
-    this.onEvent('input.editor-textarea', this.#elems.textarea, () => {
-      this.#adjustSourceLineNumbers();
-      (debounce(() => {
-        if (!this.#elems.reqviewchange) this.#triggerEvent('change', this.#elems.textarea);
-      }, 400) as any)();
-    });
-    this.onEvent('change.editor-textarea', this.#elems.textarea, () => {
-      this.#triggerEvent('change');
     });
 
     // Other events

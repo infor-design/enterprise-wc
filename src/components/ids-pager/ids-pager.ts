@@ -254,7 +254,7 @@ export default class IdsPager extends IdsEventsMixin(IdsElement) {
   /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount(): number | null {
     return (this.total !== null && !Number.isNaN(this.total))
-      ? Math.ceil(this.total / this.pageSize)
+      ? Math.max(Math.ceil(this.total / this.pageSize), 1)
       : null;
   }
 
@@ -280,7 +280,7 @@ export default class IdsPager extends IdsEventsMixin(IdsElement) {
   /** @param {number} value The number of items to track */
   set total(value) {
     let val = stringToNumber(value);
-    if (Number.isNaN(val) || val < 1) val = 1;
+    if (Number.isNaN(val) || val < 1) val = 0;
     this.setAttribute(attributes.TOTAL, String(val));
     this.#keepPageNumberInBounds();
   }

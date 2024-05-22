@@ -556,10 +556,10 @@ export default class IdsPopup extends Base {
     const val = validMaxHeight(value);
     if (val) {
       this.setAttribute(attributes.MAX_HEIGHT, val);
+      this.#updateMaxHeightProp(val);
     } else {
       this.removeAttribute(attributes.MAX_HEIGHT);
     }
-    this.#updateMaxHeightProp(val);
   }
 
   /**
@@ -1622,7 +1622,7 @@ export default class IdsPopup extends Base {
           }
 
           // Remove relative parents' coordinates from the calculation
-          if (parentStyle.position === 'relative') {
+          if (parentStyle.position === 'relative' && this.positionStyle !== 'fixed') {
             elemRect.x -= parentRect.x;
             elemRect.y -= parentRect.y;
             foundRelativeParent = true;
