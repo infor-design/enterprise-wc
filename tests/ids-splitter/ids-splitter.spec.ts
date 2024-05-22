@@ -544,6 +544,7 @@ test.describe('IdsSplitter tests', () => {
       });
 
       await page.locator('#splitter').waitFor({ state: 'attached' });
+      await page.locator('#split-1').waitFor({ state: 'attached' });
 
       await page.waitForLoadState();
       expect(await page.locator('.splitter-dragger').count()).toEqual(1);
@@ -554,6 +555,7 @@ test.describe('IdsSplitter tests', () => {
         document.querySelector<IdsSplitter>('ids-splitter')!.appendChild(template.content.cloneNode(true));
       });
       await page.locator('#splitter-pane').waitFor({ state: 'attached' });
+      await page.locator('#split-2').waitFor({ state: 'attached' });
 
       await page.waitForLoadState();
       expect(await page.locator('.splitter-dragger').count()).toEqual(2);
