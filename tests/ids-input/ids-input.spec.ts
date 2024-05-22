@@ -921,11 +921,9 @@ test.describe('IdsInput tests', () => {
       await page.goto('/ids-input/reattach.html');
       expect(await page.locator('#test-input-internal-error').count()).toBe(0);
       await page.locator('#reattach').click();
-      await page.evaluate(() => {
-        document.querySelector<IdsInput>('ids-input')!.value = 'x';
-        document.querySelector<IdsInput>('ids-input')!.value = '';
-      });
-      await page.locator('#test-input-internal-error').waitFor({ state: 'attached' });
+      await page.locator('#test-input-internal').waitFor({ state: 'attached' });
+      await page.locator('#test-input-internal').focus();
+      await page.keyboard.press('Tab');
       await expect(await page.locator('#test-input-internal-error')).toBeVisible();
     });
   });

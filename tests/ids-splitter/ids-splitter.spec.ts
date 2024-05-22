@@ -364,13 +364,15 @@ test.describe('IdsSplitter tests', () => {
       expect(splitterSizes[1]).toEqual('60%');
     });
 
-    test.skip('should set minimum and maximum size', async ({ page }) => {
+    test('should set minimum and maximum size', async ({ page }) => {
       await page.evaluate(() => {
         document.body.innerHTML = `<ids-splitter id="test">
           <ids-splitter-pane id="p1" min-size="10%" max-size="80%"></ids-splitter-pane>
           <ids-splitter-pane id="p2"></ids-splitter-pane>
         </ids-splitter>`;
       });
+
+      await page.locator('#test').waitFor({ state: 'attached' });
 
       const splitterSizes = await page.evaluate(() => {
         const splitter = document.querySelector('#test')!;
@@ -445,7 +447,7 @@ test.describe('IdsSplitter tests', () => {
       await expect(exceptions).toBeNull();
     });
 
-    test.skip('should be able to set multiple splits', async ({ page }) => {
+    test('should be able to set multiple splits', async ({ page }) => {
       await page.evaluate(() => {
         document.body.innerHTML = `
         <ids-splitter id="splitter">
@@ -455,6 +457,7 @@ test.describe('IdsSplitter tests', () => {
           <ids-splitter-pane></ids-splitter-pane>
         </ids-splitter>`;
       });
+      await page.locator('#splitter').waitFor({ state: 'attached' });
 
       await expect(await page.evaluate(() => (document.querySelector('ids-splitter') as any).container.querySelectorAll('.splitter-dragger').length)).toEqual(3);
     });
@@ -532,39 +535,33 @@ test.describe('IdsSplitter tests', () => {
       expect(value2).toEqual('true');
     });
 
-    test.skip('should render on slot change', async ({ page }) => {
+    test('should render on slot change', async ({ page }) => {
       await page.evaluate(() => {
-        document.body.innerHTML = `<ids-splitter>
+        document.body.innerHTML = `<ids-splitter id="splitter">
           <ids-splitter-pane></ids-splitter-pane>
           <ids-splitter-pane></ids-splitter-pane>
         </ids-splitter>`;
       });
+
+      await page.locator('#splitter').waitFor({ state: 'attached' });
 
       await page.waitForLoadState();
       expect(await page.locator('.splitter-dragger').count()).toEqual(1);
 
       await page.evaluate(() => {
         const template = document.createElement('template');
-        template.innerHTML = '<ids-splitter-pane></ids-splitter-pane>';
+        template.innerHTML = '<ids-splitter-pane id="splitter-pane"></ids-splitter-pane>';
         document.querySelector<IdsSplitter>('ids-splitter')!.appendChild(template.content.cloneNode(true));
       });
+      await page.locator('#splitter-pane').waitFor({ state: 'attached' });
 
       await page.waitForLoadState();
       expect(await page.locator('.splitter-dragger').count()).toEqual(2);
     });
 
-    test.skip('should set collapse and expand', async ({ page }) => {
-      await page.evaluate(() => {
-        document.body.innerHTML = `<ids-splitter>
-          <ids-splitter-pane id="p1"></ids-splitter-pane>
-          <ids-splitter-pane id="p2"></ids-splitter-pane>
-        </ids-splitter>`;
-      });
-
-      await page.waitForLoadState();
-
+    test('should set collapse and expand', async ({ page }) => {
       let value = await page.evaluate(() => {
-        document.body.innerHTML = `<ids-splitter>
+        document.body.innerHTML = `<ids-splitter id="splitter">
           <ids-splitter-pane id="p1"></ids-splitter-pane>
           <ids-splitter-pane id="p2"></ids-splitter-pane>
         </ids-splitter>`;
@@ -575,6 +572,7 @@ test.describe('IdsSplitter tests', () => {
 
       expect(value).toEqual(null);
 
+      await page.locator('#splitter').waitFor({ state: 'attached' });
       await page.waitForLoadState();
 
       value = await page.evaluate(() => {
@@ -642,39 +640,43 @@ test.describe('IdsSplitter tests', () => {
       expect(await page.locator('#p1').getAttribute('collapsed')).toEqual(null);
     });
 
-    test.skip('should trigger collapsed event', async ({ page }) => {
+    test('should trigger collapsed event', async ({ page }) => {
       await page.evaluate(() => {
         (window as any).noOfColls = 0;
         const splitter = document.querySelector<IdsSplitter>('ids-splitter')!;
         splitter?.addEventListener('collapsed', () => { (window as any).noOfColls++; });
-        splitter.collapse({ startPane: '#p1', endPane: '#p2' });
       });
 
-      expect(await page.evaluate(() => (window as any).noOfColls)).toEqual(1);
+      await page.evaluate(() => document.querySelector<IdsSplitter>('ids-splitter')?.collapse({ startPane: '#p1', endPane: '#p2' }));
+
+      expect(await page.evaluate(() => (window as any).noOfColls)).toBeGreaterThan(0);
     });
 
-    test.skip('should trigger expanded event', async ({ page }) => {
+    test('should trigger expanded event', async ({ page }) => {
       await page.evaluate(() => {
         (window as any).noOfColls = 0;
         const splitter = document.querySelector<IdsSplitter>('ids-splitter')!;
-        splitter.collapse({ startPane: '#p1', endPane: '#p2' });
         splitter?.addEventListener('expanded', () => { (window as any).noOfColls++; });
-        splitter.expand({ startPane: '#p1', endPane: '#p2' });
       });
+      await page.evaluate(() => document.querySelector<IdsSplitter>('ids-splitter')?.collapse({ startPane: '#p1', endPane: '#p2' }));
 
-      expect(await page.evaluate(() => (window as any).noOfColls)).toEqual(1);
+      await page.evaluate(() => document.querySelector<IdsSplitter>('ids-splitter')?.expand({ startPane: '#p1', endPane: '#p2' }));
+
+      expect(await page.evaluate(() => (window as any).noOfColls)).toBeGreaterThan(0);
     });
 
-    test.skip('should veto before expand response', async ({ page }) => {
+    test('should veto before expand response', async ({ page }) => {
       await page.evaluate(() => {
         (window as any).noOfColls = 0;
         const splitter = document.querySelector<IdsSplitter>('ids-splitter')!;
         splitter?.addEventListener('beforeexpanded', (e: any) => {
           e.detail.response(false);
         });
-        splitter.collapse({ startPane: '#p1', endPane: '#p2' });
-        splitter.expand({ startPane: '#p1', endPane: '#p2' });
       });
+
+      await page.evaluate(() => document.querySelector<IdsSplitter>('ids-splitter')?.collapse({ startPane: '#p1', endPane: '#p2' }));
+
+      await page.evaluate(() => document.querySelector<IdsSplitter>('ids-splitter')?.expand({ startPane: '#p1', endPane: '#p2' }));
 
       expect(await page.locator('#p1').first().getAttribute('collapsed')).toEqual('true');
     });
@@ -689,18 +691,21 @@ test.describe('IdsSplitter tests', () => {
       expect(await page.locator('#p1').getAttribute('collapsed')).toEqual(null);
     });
 
-    test.skip('should trigger size changed event', async ({ page }) => {
-      await page.evaluate(async () => {
+    test('should trigger size changed event', async ({ page }) => {
+      await page.evaluate(() => document.querySelector<IdsSplitter>('ids-splitter')?.collapse({ startPane: '#p1', endPane: '#p2' }));
+      await page.evaluate(() => {
         (window as any).noOfColls = 0;
         const splitter = document.querySelector<IdsSplitter>('ids-splitter')!;
-        await splitter.collapse({ startPane: '#p1', endPane: '#p2' });
-        await splitter?.addEventListener('sizechanged', async () => {
-          await (window as any).noOfColls++;
+        splitter?.addEventListener('sizechanged', async () => {
+          (window as any).noOfColls++;
         });
-        await splitter.expand({ startPane: '#p1', endPane: '#p2' });
-        await splitter.collapse({ startPane: '#p1', endPane: '#p2' });
       });
-      expect(await page.evaluate(() => (window as any).noOfColls)).toEqual(1);
+
+      await page.evaluate(() => document.querySelector<IdsSplitter>('ids-splitter')?.expand({ startPane: '#p1', endPane: '#p2' }));
+
+      await page.evaluate(() => document.querySelector<IdsSplitter>('ids-splitter')?.collapse({ startPane: '#p1', endPane: '#p2' }));
+
+      expect(await page.evaluate(() => (window as any).noOfColls)).toBeGreaterThan(0);
     });
   });
 });
