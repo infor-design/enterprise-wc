@@ -240,7 +240,7 @@ test.describe('IdsPager tests', () => {
       const testData = [
         { data: 100, expected: 100 },
         { data: '50', expected: 50 },
-        { data: 'ACE', expected: 1 }
+        { data: 'ACE', expected: 0 }
       ];
 
       expect(await idsPager.evaluate((element: IdsPager) => element.total)).toEqual(200);

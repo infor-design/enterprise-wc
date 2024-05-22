@@ -151,7 +151,7 @@ export default class IdsPagerNumberList extends Base {
   /** @param {number} value The number of items to track */
   set total(value: number) {
     let val = stringToNumber(value);
-    if (Number.isNaN(val) || val < 1) val = 1;
+    if (Number.isNaN(val) || val < 1) val = 0;
     this.setAttribute(attributes.TOTAL, String(val));
   }
 
@@ -164,7 +164,7 @@ export default class IdsPagerNumberList extends Base {
   /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount(): number | null {
     const val = this.hasAttribute(attributes.TOTAL)
-      ? Math.ceil(this.total / this.pageSize)
+      ? Math.max(Math.ceil(this.total / this.pageSize), 1)
       : null;
     return this.pager?.pageCount ?? val;
   }

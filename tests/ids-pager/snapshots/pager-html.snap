@@ -1,6 +1,6 @@
 <ids-pager page-number="1" page-size="20" total="200" id="ids-pager-example">
-          <ids-pager-button first="" page-number="1" nav-disabled="" page-size="20" total="200"></ids-pager-button>
-          <ids-pager-button previous="" page-number="1" nav-disabled="" page-size="20" total="200"></ids-pager-button>
+          <ids-pager-button first="" page-number="1" page-size="20" total="200" nav-disabled=""></ids-pager-button>
+          <ids-pager-button previous="" page-number="1" page-size="20" total="200" nav-disabled=""></ids-pager-button>
           <ids-pager-input page-size="20" total="200" page-number="1"></ids-pager-input>
           <ids-pager-button next="" page-number="1" page-size="20" total="200"></ids-pager-button>
           <ids-pager-button last="" page-number="1" page-size="20" total="200"></ids-pager-button>
