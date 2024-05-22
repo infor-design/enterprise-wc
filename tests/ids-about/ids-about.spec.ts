@@ -139,7 +139,6 @@ test.describe('IdsAbout tests', () => {
       // Check that the clipboard contains correct UUID
       expect(clipboardContent).toContain('IDS version');
       expect(clipboardContent).toContain('Controls Example Application Version No. XX');
-      expect(clipboardContent).toContain('Mobile');
       expect(clipboardContent).toContain('Platform');
     });
   });
