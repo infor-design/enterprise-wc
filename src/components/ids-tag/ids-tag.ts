@@ -43,9 +43,7 @@ export default class IdsTag extends Base {
     this.#attachKeyboardListeners();
     this.#setContainerColor(this.color || '');
 
-    if ((checkOverflow(this.container))) {
-      this.container?.classList.add('ellipsis');
-    }
+    this.container?.classList.toggle('ellipsis', checkOverflow(this.container));
   }
 
   /**
