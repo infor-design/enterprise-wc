@@ -8,6 +8,7 @@ import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 import styles from './ids-tag.scss';
 import { IdsColorValue, IdsColorValueCategories } from '../../utils/ids-color-utils/ids-color-utils';
+import { checkOverflow } from '../../utils/ids-dom-utils/ids-dom-utils';
 
 const Base = IdsLocaleMixin(
   IdsKeyboardMixin(
@@ -41,6 +42,10 @@ export default class IdsTag extends Base {
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#setContainerColor(this.color || '');
+
+    if ((checkOverflow(this.container))) {
+      this.container?.classList.add('ellipsis');
+    }
   }
 
   /**
