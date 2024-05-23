@@ -586,6 +586,15 @@ test.describe('IdsDatePicker tests', () => {
       expect(datePickerValue.dayUnset).toEqual((new Date()).getDate());
     });
 
+    test('setting input value should reflect in datepicker value', async ({ page }) => {
+      const datePickerHandle = page.locator('ids-date-picker').first();
+      const datePikcerValue = await datePickerHandle.evaluate((datePicker: IdsDatePicker) => {
+        datePicker.triggerField.value = '4/21/1990';
+        return datePicker.value;
+      });
+      expect(datePikcerValue).toEqual('4/21/1990');
+    });
+
     test('should set focus', async ({ page }) => {
       const hasFocus = await page.evaluate(() => {
         const component = document.querySelector<IdsDatePicker>('ids-date-picker')!;
