@@ -31,6 +31,7 @@ ids-trigger-field {
       &::part(input) {
         padding: 0;
         flex: 1;
+        visibility: hidden;
 
         &::selection {
           color: transparent;
