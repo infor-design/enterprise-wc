@@ -4,6 +4,7 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsExpandableArea from '../../src/components/ids-expandable-area/ids-expandable-area';
+import { CustomEventTest } from '../helper-fixture';
 
 test.describe('IdsExpandableArea tests', () => {
   const url = '/ids-expandable-area/example.html';
@@ -62,7 +63,17 @@ test.describe('IdsExpandableArea tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-expandable-area-light');
     });
+  });
 
+  test.describe('expandable area functional tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.evaluate(() => {
+        document.querySelector('ids-expandable-area:first-child')!.setAttribute('id', 'ea-1');
+        document.querySelector('ids-expandable-area:nth-child(2)')!.setAttribute('id', 'ea-2');
+        document.querySelector('ids-expandable-area:nth-child(3)')!.setAttribute('id', 'ea-3');
+        document.querySelector('ids-expandable-area:nth-child(4)')!.setAttribute('id', 'ea-4');
+      });
+    });
     test('can change its type property', async ({ page }) => {
       const ea = await page.locator('ids-expandable-area').first();
       expect(await ea.evaluate((element: IdsExpandableArea) => {
@@ -96,6 +107,56 @@ test.describe('IdsExpandableArea tests', () => {
     });
 
     test('can be expanded/collapsed when clicked (mouse)', async ({ page }) => {
+    });
+
+    test('wont error caling api with no panel', async ({ page }) => {
+      const ea = await page.locator('ids-expandable-area').first();
+      expect(await ea.evaluate((element: IdsExpandableArea) => {
+        element.pane = '';
+        return element.pane;
+      })).toEqual('');
+    });
+
+    test('can triggers expand/collapse events', async ({ page, eventsTest }) => {
+      const ea = await page.locator('#ea-1');
+      const expander = await ea.locator('ids-hyperlink[slot="expander-default"]');
+      const collapse = await ea.locator('ids-hyperlink[slot="expander-expanded"]');
+      await eventsTest.onEvent('#ea-1', 'expand');
+      await eventsTest.onEvent('#ea-1', 'collapse');
+      await expander.dispatchEvent('click');
+      expect(await eventsTest.isEventTriggered('#ea-1', 'expand')).toBeTruthy();
+      expect(await eventsTest.isEventTriggered('#ea-1', 'collapse')).toBeFalsy();
+      await collapse.dispatchEvent('click');
+      expect(await eventsTest.isEventTriggered('#ea-1', 'expand')).toBeTruthy();
+      expect(await eventsTest.isEventTriggered('#ea-1', 'collapse')).toBeTruthy();
+    });
+
+    test('can be expanded/collapsed when touched', async ({ browser }) => {
+      const newPage = await browser.newPage({
+        hasTouch: true,
+        isMobile: true,
+        viewport: {
+          width: 430,
+          height: 932
+        }
+      });
+      await newPage.goto('/ids-expandable-area/example.html');
+      const eventsTest = new CustomEventTest(newPage);
+      await eventsTest.initialize();
+      const ea = await newPage.locator('ids-expandable-area').first();
+      const expander = await ea.locator('ids-hyperlink[slot="expander-default"]');
+      const box = await expander.boundingBox();
+      const collapse = await ea.locator('ids-hyperlink[slot="expander-expanded"]');
+      await eventsTest.onEvent('ids-expandable-area:first-child', 'expand');
+      await eventsTest.onEvent('ids-expandable-area:first-child', 'collapse');
+      await eventsTest.onEvent('ids-expandable-area:first-child', 'touchstart');
+      // await expander.dispatchEvent('touchstart');
+      await newPage.touchscreen.tap(box!.x + box!.width / 2, box!.y + box!.height / 2);
+      expect(await eventsTest.isEventTriggered('ids-expandable-area:first-child', 'expand')).toBeTruthy();
+      expect(await eventsTest.isEventTriggered('ids-expandable-area:first-child', 'collapse')).toBeFalsy();
+      // await collapse.dispatchEvent('click');
+      // expect(await eventsTest.isEventTriggered('#ea-1', 'expand')).toBeTruthy();
+      // expect(await eventsTest.isEventTriggered('#ea-1', 'collapse')).toBeTruthy();
     });
   });
 });
