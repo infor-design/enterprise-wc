@@ -115,6 +115,7 @@ test.describe('IdsPopup tests', () => {
     });
 
     test('can set/get alignTarget', async ({ page }) => {
+      // retrieve elements using evaluateHandle
       const idsTextElement = await page.locator('ids-text').first().evaluateHandle((node) => node);
       const idsButtonElement = await page.locator('#popup-trigger-btn').evaluateHandle((node) => node);
 
@@ -141,6 +142,18 @@ test.describe('IdsPopup tests', () => {
         element.alignTarget = '#popup-trigger-btn';
         return element.alignTarget!.isSameNode(handle);
       }, idsButtonElement)).toBeTruthy();
+
+      // remove alignTarget
+      expect(await idsPopup.evaluate((element: IdsPopup) => {
+        element.alignTarget = null;
+        return element.alignTarget;
+      }, idsButtonElement)).toBeFalsy();
+
+      // invalid alignTarget
+      expect(await idsPopup.evaluate((element: IdsPopup) => {
+        element.alignTarget = '#invalid-test';
+        return element.alignTarget;
+      }, idsButtonElement)).toBeFalsy();
     });
 
     test('can set/get align', async () => {
@@ -198,6 +211,275 @@ test.describe('IdsPopup tests', () => {
         return element.alignY;
       })).toEqual('center');
       await expect(idsPopup).not.toHaveAttribute('align-y');
+    });
+
+    test('can set/get alignEdge', async () => {
+      // data sequence is important here
+      const testData = [
+        {
+          data: 'top',
+          expected: {
+            align: 'top, right',
+            alignX: 'right',
+            alignY: 'top',
+            alignEdge: 'top'
+          }
+        },
+        {
+          data: 'right',
+          expected: {
+            align: 'right, top',
+            alignX: 'right',
+            alignY: 'top',
+            alignEdge: 'right'
+          }
+        },
+        {
+          data: 'center',
+          expected: {
+            align: 'center',
+            alignX: 'center',
+            alignY: 'center',
+            alignEdge: 'center'
+          }
+        },
+        {
+          data: 'junk',
+          expected: {
+            align: 'center',
+            alignX: 'center',
+            alignY: 'center',
+            alignEdge: 'center'
+          }
+        },
+        {
+          data: 1,
+          expected: {
+            align: 'center',
+            alignX: 'center',
+            alignY: 'center',
+            alignEdge: 'center'
+          }
+        }
+      ];
+
+      const aligns = async () => {
+        const ret = await idsPopup.evaluate((element: IdsPopup) => {
+          const res = {
+            align: element.align,
+            alignX: element.alignX,
+            alignY: element.alignY,
+            alignEdge: element.alignEdge
+          };
+          return res;
+        });
+        return ret;
+      };
+
+      expect(await aligns()).toEqual({
+        align: 'right',
+        alignX: 'right',
+        alignY: 'center',
+        alignEdge: 'right'
+      });
+
+      for (const data of testData) {
+        await idsPopup.evaluate((element: IdsPopup, tData) => { element.alignEdge = tData as any; }, data.data);
+        expect(await aligns()).toEqual(data.expected);
+      }
+    });
+
+    test('can set align-edge via setAttribute', async () => {
+      // data sequence is important here
+      const testData = [
+        {
+          data: 'top',
+          expected: {
+            align: 'top, right',
+            alignX: 'right',
+            alignY: 'top',
+            alignEdge: 'top'
+          }
+        },
+        {
+          data: 'right',
+          expected: {
+            align: 'right, top',
+            alignX: 'right',
+            alignY: 'top',
+            alignEdge: 'right'
+          }
+        },
+        {
+          data: 'center',
+          expected: {
+            align: 'center',
+            alignX: 'center',
+            alignY: 'center',
+            alignEdge: 'center'
+          }
+        },
+        {
+          data: 'junk',
+          expected: {
+            align: 'center',
+            alignX: 'center',
+            alignY: 'center',
+            alignEdge: 'center'
+          }
+        },
+        {
+          data: 1,
+          expected: {
+            align: 'center',
+            alignX: 'center',
+            alignY: 'center',
+            alignEdge: 'center'
+          }
+        }
+      ];
+
+      const aligns = async () => {
+        const ret = await idsPopup.evaluate((element: IdsPopup) => {
+          const res = {
+            align: element.align,
+            alignX: element.alignX,
+            alignY: element.alignY,
+            alignEdge: element.alignEdge
+          };
+          return res;
+        });
+        return ret;
+      };
+
+      expect(await aligns()).toEqual({
+        align: 'right',
+        alignX: 'right',
+        alignY: 'center',
+        alignEdge: 'right'
+      });
+
+      for (const data of testData) {
+        await idsPopup.evaluate((element: IdsPopup, tData) => { element.setAttribute('align-edge', tData.toString()); }, data.data);
+        expect(await aligns()).toEqual(data.expected);
+      }
+    });
+
+    test('can get oppositeAlignEdge', async () => {
+      const testData = [
+        { data: 'top', expected: 'bottom' },
+        { data: 'bottom', expected: 'top' },
+        { data: 'left', expected: 'right' },
+        { data: 'right', expected: 'left' },
+        { data: 'center', expected: 'none' }
+      ];
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData) => {
+          element.align = tData;
+          return element.oppositeAlignEdge;
+        }, data.data)).toEqual(data.expected);
+      }
+    });
+
+    test('can set/get maxHeight', async () => {
+      const testData = [
+        { data: 200, expected: '200px' },
+        { data: 'test', expected: null },
+        { data: '300', expected: '300px' },
+        { data: null, expected: null }
+      ];
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.maxHeight)).toBeNull();
+      await expect(idsPopup).not.toHaveAttribute('max-height');
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData) => {
+          element.maxHeight = tData as any;
+          return element.maxHeight;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsPopup).toHaveAttribute('max-height', data.expected);
+        } else {
+          await expect(idsPopup).not.toHaveAttribute('max-height');
+        }
+      }
+    });
+
+    test('can set/get animated', async () => {
+      const testData = [
+        { data: 'false', expected: false },
+        { data: true, expected: true },
+        { data: null, expected: false },
+        { data: '', expected: true }
+      ];
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.animated)).toBeTruthy();
+      await expect(idsPopup).toHaveAttribute('animated');
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData) => {
+          element.animated = tData as any;
+          return element.animated;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsPopup).toHaveAttribute('animated');
+        } else {
+          await expect(idsPopup).not.toHaveAttribute('animated');
+        }
+      }
+    });
+
+    test('can set/get animationStyle', async () => {
+      // data sequence is important
+      const testData = [
+        { data: 'scale-in', expected: 'scale-in' },
+        { data: 'test', expected: 'scale-in' },
+        { data: 'slide-from-bottom', expected: 'slide-from-bottom' },
+      ];
+      const container = await idsPopup.locator('div[part="popup"]').first();
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.animationStyle)).toEqual('fade');
+      await expect(idsPopup).toHaveAttribute('animation-style', 'fade');
+      await expect(container).toHaveClass(/animation-fade/);
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData) => {
+          element.animationStyle = tData as any;
+          return element.animationStyle;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsPopup).toHaveAttribute('animation-style', data.expected);
+        await expect(container).toHaveClass(new RegExp(`animation-${data.expected}`, 'g'));
+      }
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => {
+        element.removeAttribute('animation-style');
+        return element.animationStyle;
+      })).toEqual('fade');
+    });
+
+    test('can set/get bleed', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.bleed)).toBeFalsy();
+      await expect(idsPopup).not.toHaveAttribute('bleed');
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData: any) => {
+          element.bleed = tData;
+          return element.bleed;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsPopup).toHaveAttribute('bleed');
+        } else {
+          await expect(idsPopup).not.toHaveAttribute('bleed');
+        }
+      }
     });
   });
 });

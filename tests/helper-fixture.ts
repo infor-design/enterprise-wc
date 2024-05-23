@@ -119,7 +119,7 @@ export class CustomEventTest {
     triggeredCount: number; }[]> {
     if (!this.isInitialized) throw new Error('Initialize is not called');
     const eventList = await this.getAllEvents();
-    return eventList.filter((item) => item.selector === selectorString) ?? [];
+    return eventList ? eventList.filter((item) => item.selector === selectorString) : [];
   }
 
   /**
