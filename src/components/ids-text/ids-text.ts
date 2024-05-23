@@ -139,6 +139,7 @@ export default class IdsText extends Base {
         await this.#translateAsync();
       };
 
+      this.setAttribute('translation-key', this.textContent ?? '');
       this.translateText = this.translateText;
     }
   }
