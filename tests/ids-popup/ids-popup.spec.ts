@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { Locator, expect } from '@playwright/test';
-import { test } from '../base-fixture';
+import { Locator } from '@playwright/test';
+import { test, expect } from '../base-fixture';
 
 import IdsPopup from '../../src/components/ids-popup/ids-popup';
 
@@ -480,6 +480,250 @@ test.describe('IdsPopup tests', () => {
           await expect(idsPopup).not.toHaveAttribute('bleed');
         }
       }
+    });
+
+    test('can set/get containingElem', async ({ page }) => {
+      // add another ids-container
+      await page.evaluate(() => {
+        document.querySelector('ids-container')!.setAttribute('id', 'old-container');
+        const idsContainer = document.createElement('ids-container')!;
+        idsContainer.setAttribute('id', 'new-container');
+        document.body.appendChild(idsContainer);
+      });
+      await page.locator('#new-container').waitFor({ state: 'attached' });
+      const oldContHandle = await page.locator('#old-container').evaluateHandle((node) => node);
+      const newContHandle = await page.locator('#new-container').evaluateHandle((node) => node);
+
+      // get current containingElem
+      expect(await idsPopup.evaluate((
+        element: IdsPopup,
+        handle
+      ) => element.containingElem!.isSameNode(handle), oldContHandle)).toBeTruthy();
+
+      // set new containingElem
+      expect(await idsPopup.evaluate((
+        element: IdsPopup,
+        handle
+      ) => {
+        element.containingElem = handle;
+        return element.containingElem!.isSameNode(handle);
+      }, newContHandle)).toBeTruthy();
+
+      // set invalid containingElem
+      expect(await idsPopup.evaluate((
+        element: IdsPopup,
+        handle
+      ) => {
+        element.containingElem = 'invalid' as any;
+        return element.containingElem!.isSameNode(handle);
+      }, newContHandle)).toBeTruthy();
+    });
+
+    test('can set/get arrow', async () => {
+      const defArrow = 'none';
+      const testData = [
+        { data: 'bottom', expected: 'bottom' },
+        { data: '', expected: defArrow },
+        { data: 'top', expected: 'top' },
+        { data: 'invalid', expected: defArrow },
+        { data: null, expected: defArrow }
+      ];
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.arrow)).toEqual('right');
+      await expect(idsPopup).toHaveAttribute('arrow', 'right');
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData) => {
+          element.arrow = tData as any;
+          return element.arrow;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected !== 'none') {
+          await expect(idsPopup).toHaveAttribute('arrow', data.expected);
+        } else {
+          await expect(idsPopup).not.toHaveAttribute('arrow');
+        }
+      }
+    });
+
+    test('can set/get arrowTarget', async ({ page }) => {
+      const container = await page.locator('ids-container').evaluateHandle((node) => node);
+      const button = await page.locator('#popup-trigger-btn').evaluateHandle((node) => node);
+
+      expect(await idsPopup.evaluate((
+        element: IdsPopup,
+        handle
+      ) => element.arrowTarget!.isSameNode(handle), button)).toBeTruthy();
+
+      expect(await idsPopup.evaluate((
+        element: IdsPopup,
+        handle
+      ) => {
+        element.arrowTarget = handle;
+        return element.arrowTarget!.isSameNode(handle);
+      }, container)).toBeTruthy();
+
+      expect(await idsPopup.evaluate((
+        element: IdsPopup,
+        handle
+      ) => {
+        element.arrowTarget = '#popup-trigger-btn';
+        return element.arrowTarget!.isSameNode(handle);
+      }, button)).toBeTruthy();
+
+      expect(await idsPopup.evaluate((
+        element: IdsPopup,
+        handle
+      ) => {
+        element.arrowTarget = '#invalid';
+        return element.arrowTarget!.isSameNode(handle);
+      }, button)).toBeTruthy();
+    });
+
+    test('can set/get positionStyle', async () => {
+      const container = await idsPopup.locator('div[part="popup"]').first();
+      // data sequence is important
+      const testData = [
+        { data: 'viewport', expected: 'viewport' },
+        { data: 'fixed', expected: 'fixed' },
+        { data: 'invalid', expected: 'fixed' },
+        { data: null, expected: 'fixed' }
+      ];
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.positionStyle)).toEqual('absolute');
+      await expect(idsPopup).toHaveAttribute('position-style', 'absolute');
+      await expect(container).toHaveClass(/position-absolute/);
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData) => {
+          element.positionStyle = tData as any;
+          return element.positionStyle;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsPopup).toHaveAttribute('position-style', data.expected);
+        await expect(container).toHaveClass(new RegExp(`position-${data.expected}`, 'g'));
+      }
+    });
+
+    test('can set/get type', async () => {
+      const container = await idsPopup.locator('div[part="popup"]').first();
+      // data sequence is important
+      const testData = [
+        { data: 'none', expected: 'none' },
+        { data: 'modal', expected: 'modal' },
+        { data: 'tooltip', expected: 'tooltip' },
+        { data: 'custom', expected: 'custom' },
+        { data: 'dropdown', expected: 'dropdown' },
+        { data: 'module-nav', expected: 'module-nav' },
+        { data: 'invalid', expected: 'module-nav' },
+        { data: null, expected: 'module-nav' }
+      ];
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.type)).toEqual('menu');
+      await expect(idsPopup).toHaveAttribute('type', 'menu');
+      await expect(container).toHaveClass(/menu/);
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData) => {
+          element.type = tData as any;
+          return element.type;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsPopup).toHaveAttribute('type', data.expected);
+        await expect(container).toHaveClass(new RegExp(`${data.expected}`, 'g'));
+      }
+    });
+
+    test('can set/get visible', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.visible)).toBeFalsy();
+      await expect(idsPopup).not.toHaveAttribute('visible');
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData: any) => {
+          element.visible = tData;
+          return element.visible;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsPopup).toHaveAttribute('visible');
+          await expect(idsPopup).not.toHaveAttribute('aria-hidden');
+        } else {
+          await expect(idsPopup).not.toHaveAttribute('visible');
+          await expect(idsPopup).toHaveAttribute('aria-hidden');
+        }
+      }
+    });
+
+    test('can set/get x coordinate', async () => {
+      const testData = [
+        { data: 30, expected: 30 },
+        { data: -10, expected: -10 },
+        { data: 'test', expected: 0 },
+        { data: '100', expected: 100 },
+        { data: null, expected: 0 }
+      ];
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.x)).toEqual(15);
+      await expect(idsPopup).toHaveAttribute('x', '15');
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData) => {
+          element.x = tData as any;
+          return element.x;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsPopup).toHaveAttribute('x', data.expected.toString());
+      }
+    });
+
+    test('can set/get y coordinate', async () => {
+      const testData = [
+        { data: 30, expected: 30 },
+        { data: -10, expected: -10 },
+        { data: 'test', expected: 0 },
+        { data: '100', expected: 100 },
+        { data: null, expected: 0 }
+      ];
+      expect(await idsPopup.evaluate((element: IdsPopup) => element.y)).toEqual(0);
+      await expect(idsPopup).toHaveAttribute('y', '0');
+
+      for (const data of testData) {
+        expect(await idsPopup.evaluate((element: IdsPopup, tData) => {
+          element.y = tData as any;
+          return element.y;
+        }, data.data)).toEqual(data.expected);
+        await expect(idsPopup).toHaveAttribute('y', data.expected.toString());
+      }
+    });
+
+    test('can set position', async ({ page }) => {
+      const changeX = 300;
+      const changeY = 300;
+      const popupHandle = await idsPopup.evaluateHandle((node) => node);
+
+      await idsPopup.evaluate((element: IdsPopup) => element.setPosition(0, 0, true, true));
+      await idsPopup.waitFor();
+      let popupBox = await idsPopup.boundingBox();
+      const defXPos = popupBox!.x;
+      const defYPos = popupBox!.y;
+      const expectedX = defXPos + changeX;
+      const expectedY = defYPos + changeY;
+
+      // change position via setPosition
+      await idsPopup.evaluate((
+        element: IdsPopup,
+        data
+      ) => element.setPosition(data.changeX, data.changeY, true, true), { changeX, changeY });
+      await idsPopup.waitFor();
+      await page.waitForFunction((data) => {
+        const box = data.popupHandle.getBoundingClientRect();
+        return (box.x >= data.xPos - 20 && box.x <= data.xPos + 20)
+        && (box.y >= data.yPos - 20 && box.y <= data.yPos + 20);
+      }, { popupHandle, xPos: expectedX, yPos: expectedY });
+      popupBox = await idsPopup.boundingBox();
+      expect(popupBox!.x).toBeInAllowedBounds(expectedX, 20);
+      expect(popupBox!.y).toBeInAllowedBounds(expectedY, 20);
     });
   });
 });
