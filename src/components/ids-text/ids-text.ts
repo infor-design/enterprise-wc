@@ -140,7 +140,8 @@ export default class IdsText extends Base {
       };
 
       this.setAttribute('translation-key', this.textContent ?? '');
-      this.translateText = this.translateText;
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.#translateAsync();
     }
   }
 
@@ -444,7 +445,6 @@ export default class IdsText extends Base {
     const val = stringToBool(value);
     if (val && !this.getAttribute('translation-key')) {
       this.setAttribute(attributes.TRANSLATE_TEXT, val.toString());
-      this.setAttribute('translation-key', this.textContent ?? '');
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#translateAsync();
     }
