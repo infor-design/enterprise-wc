@@ -93,7 +93,8 @@ test.describe('IdsThemeSwitcher tests', () => {
 
     test('sync color variant with the container', async () => {
       await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => { idsSwitcher.colorVariant = 'alternate'; idsSwitcher.onColorVariantRefresh(); });
-      const colorVariant = await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => idsSwitcher!.container!.colorVariant);
+      // eslint-disable-next-line max-len
+      const colorVariant = await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => (idsSwitcher!.container as any).colorVariant);
       await expect(colorVariant).toEqual('alternate');
     });
 
