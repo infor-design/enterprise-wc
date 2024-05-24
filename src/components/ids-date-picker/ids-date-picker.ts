@@ -871,12 +871,12 @@ class IdsDatePicker extends Base {
       this.setAttribute(attributes.VALIDATE, val);
       this.triggerField?.setAttribute(attributes.VALIDATE, val);
       this.triggerField?.setAttribute(attributes.VALIDATION_EVENTS, this.validationEvents);
-      this.triggerField?.handleValidation();
+      this.triggerField?.handleValidation?.();
     } else {
       this.removeAttribute(attributes.VALIDATE);
       this.triggerField?.removeAttribute(attributes.VALIDATE);
       this.triggerField?.removeAttribute(attributes.VALIDATION_EVENTS);
-      this.triggerField?.handleValidation();
+      this.triggerField?.handleValidation?.();
     }
 
     this.#setAvailableDateValidation();

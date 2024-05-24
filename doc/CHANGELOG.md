@@ -8,6 +8,7 @@
 - `[DatePicker]` Fix datepicker value syncing with manual input changes. ([#2207](https://github.com/infor-design/enterprise-wc/issues/2207))
 - `[Drawer]` Converted drawer tests to playwright. ([#1930](https://github.com/infor-design/enterprise-wc/issues/1930))
 - `[Dropdown]` Added additional fixes so that typeahead works in the angular examples. ([#2249](https://github.com/infor-design/enterprise-wc/issues/2249))
+- `[Form]` Fixed the issue where submit event not being attached in the angular examples. ([#2022](https://github.com/infor-design/enterprise-wc/issues/2022))
 - `[Hierarchy]` Converted hierarchy tests to playwright. ([#1939](https://github.com/infor-design/enterprise-wc/issues/1939))
 - `[Hyperlink]` Converted hyperlink tests to playwright. ([#1941](https://github.com/infor-design/enterprise/issues/1941))
 - `[Masthead]` Converted masthead tests to playwright. ([#1951](https://github.com/infor-design/enterprise-wc/issues/1951))
