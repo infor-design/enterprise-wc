@@ -6,6 +6,7 @@
 // --ids-checkbox-color-border-focus
 :host,
 :root {
+  // @semantic
   // Primary Color
   --ids-color-primary: var(--ids-color-blue-60);
   --ids-color-text-on-primary: var(--ids-color-white-100);
@@ -130,7 +131,7 @@
   // Z Indexes (purpose-driven)
   --ids-z-index-top-level-container: var(--ids-z-index-20);
 
-  /// --- Component Tokens ---- ///
+  // @component
   // About
   --ids-about-width-max: 560px;
   --ids-about-width-min: 300px;
