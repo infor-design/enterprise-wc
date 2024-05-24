@@ -6,10 +6,13 @@
  keywords: tab, tabs, sections
  examples:
   - link: app-example.html
-    type: Main Example
+    type: Example
     description: Shows module tabs with masthead and app menu
+  - link: overflow.html
+    type: Example
+    description: Shows enough tabs for an overflow menu
   - link: example.html
-    type: Main Example
+    type: Example
     description: Shows a basic ids-tabs example
   - link: counts.html
     type: Example
