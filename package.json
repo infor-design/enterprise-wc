@@ -28,6 +28,7 @@
     "build:demos:verbose": "npx webpack --config ./webpack.config.dev.js --progress profile",
     "build:schemas": "npx cem analyze",
     "build:stats": "npx rimraf build/dist/production && npx webpack --config ./webpack.config.dev.js --mode production",
+    "build:themeData": "node ./scripts/generate-theme-data.js",
     "copy-static:dev": "cp -f package-dist.json build/dist/development/package.json && cp -f README.md build/dist/development && cp -f LICENSE build/dist/development",
     "copy-static:prod": "cp -f package-dist.json build/dist/production/package.json && cp -f README.md build/dist/production && cp -f LICENSE build/dist/production",
     "start": "npx rimraf build/development && node --max-old-space-size=8192 node_modules/webpack/bin/webpack serve --live-reload --open --config ./webpack.config.dev.js",
