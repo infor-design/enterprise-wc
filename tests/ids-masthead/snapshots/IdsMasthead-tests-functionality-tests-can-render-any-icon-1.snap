@@ -1,0 +1,26 @@
+
+      <ids-toolbar class="ids-masthead" tabbable="true">
+        <ids-toolbar-section id="start" align="start" type="fluid">
+          <span id="logo-wrapper">
+        <ids-button id="logo" class="icon-info" color-variant="alternate" square="true">
+          <ids-icon icon="info"></ids-icon>
+          <ids-text audible="true">Masthead logo</ids-text>
+        </ids-button>
+      </span>
+          <ids-text id="title" color-variant="alternate" font-size="14" font-weight="semi-bold">Infor Application</ids-text>
+          <slot name="start"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section id="center" align="center" type="fluid">
+          <slot name="center"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section id="end" align="end" type="fluid">
+          <slot name="end"></slot>
+        </ids-toolbar-section>
+
+        <ids-toolbar-more-actions id="more" icon="expand-app-tray" class="hidden">
+          <slot name="more"></slot>
+        </ids-toolbar-more-actions>
+      </ids-toolbar>
+    
