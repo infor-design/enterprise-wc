@@ -1,5 +1,4 @@
-
-      <span class="text-ellipsis">
-        <ids-color hex="#35d783" tooltip="#35d783"></ids-color>
-      </span>
-    
+<span class="text-ellipsis">
+          <ids-color hex="#35d783" tooltip="#35d783"></ids-color>
+        </span>
+      

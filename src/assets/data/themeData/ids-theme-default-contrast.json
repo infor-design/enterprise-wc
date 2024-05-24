@@ -1,0 +1,4838 @@
+{
+  "themeName": "ids-theme-default-contrast",
+  "themeTokens": [
+    {
+      "id": "id-1716231213089-6826",
+      "tokenName": "--ids-color-primary",
+      "tokenValue": "var(--ids-color-primary-90)",
+      "children": [
+        {
+          "id": "id-1716231213089-6822",
+          "tokenName": "--ids-color-primary-90",
+          "tokenValue": "var(--ids-color-theme-90)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213089-6824",
+              "tokenName": "--ids-color-theme-90",
+              "tokenValue": "var(--ids-color-blue-90)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213089-6823",
+                  "tokenName": "--ids-color-blue-90",
+                  "tokenValue": "#004a99",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6829",
+      "tokenName": "--ids-color-text-on-primary",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213089-6827",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6832",
+      "tokenName": "--ids-color-background-default",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213089-6830",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6835",
+      "tokenName": "--ids-color-text-inverse",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213089-6833",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6838",
+      "tokenName": "--ids-color-text-subtle",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213089-6836",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6841",
+      "tokenName": "--ids-color-text-data",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213089-6839",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6844",
+      "tokenName": "--ids-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213089-6842",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6847",
+      "tokenName": "--ids-color-text-error",
+      "tokenValue": "var(--ids-color-red-80)",
+      "children": [
+        {
+          "id": "id-1716231213089-6845",
+          "tokenName": "--ids-color-red-80",
+          "tokenValue": "#a30d11",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6850",
+      "tokenName": "--ids-color-text-info",
+      "tokenValue": "var(--ids-color-blue-80)",
+      "children": [
+        {
+          "id": "id-1716231213089-6848",
+          "tokenName": "--ids-color-blue-80",
+          "tokenValue": "#0054b1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6852",
+      "tokenName": "--ids-color-text-success",
+      "tokenValue": "var(--ids-color-success-weak0)",
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6854",
+      "tokenName": "--ids-color-text-warning",
+      "tokenValue": "var(--ids-color-warning-weak0)",
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6857",
+      "tokenName": "--ids-color-error-weak",
+      "tokenValue": "var(--ids-color-red-20)",
+      "children": [
+        {
+          "id": "id-1716231213089-6855",
+          "tokenName": "--ids-color-red-20",
+          "tokenValue": "#f5c3c4",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6860",
+      "tokenName": "--ids-color-red-30",
+      "tokenValue": "var(--ids-color-red-40)",
+      "children": [
+        {
+          "id": "id-1716231213089-6858",
+          "tokenName": "--ids-color-red-40",
+          "tokenValue": "#e66467",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6863",
+      "tokenName": "--ids-color-text-on-warning",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213089-6861",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6866",
+      "tokenName": "--ids-color-warning-weak",
+      "tokenValue": "var(--ids-color-orange-20)",
+      "children": [
+        {
+          "id": "id-1716231213089-6864",
+          "tokenName": "--ids-color-orange-20",
+          "tokenValue": "#fddfbd",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6869",
+      "tokenName": "--ids-color-orange-30",
+      "tokenValue": "var(--ids-color-orange-40)",
+      "children": [
+        {
+          "id": "id-1716231213089-6867",
+          "tokenName": "--ids-color-orange-40",
+          "tokenValue": "#fbaf50",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6872",
+      "tokenName": "--ids-color-text-on-caution",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213089-6870",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6875",
+      "tokenName": "--ids-color-caution-weak",
+      "tokenValue": "var(--ids-color-orange-20)",
+      "children": [
+        {
+          "id": "id-1716231213089-6873",
+          "tokenName": "--ids-color-orange-20",
+          "tokenValue": "#fddfbd",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6878",
+      "tokenName": "--ids-color-yellow-30",
+      "tokenValue": "var(--ids-color-orange-40)",
+      "children": [
+        {
+          "id": "id-1716231213089-6876",
+          "tokenName": "--ids-color-orange-40",
+          "tokenValue": "#fbaf50",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6881",
+      "tokenName": "--ids-color-caution-default",
+      "tokenValue": "var(--ids-color-orange-70)",
+      "children": [
+        {
+          "id": "id-1716231213089-6879",
+          "tokenName": "--ids-color-orange-70",
+          "tokenValue": "#df6f00",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6884",
+      "tokenName": "--ids-color-text-on-success",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213089-6882",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6887",
+      "tokenName": "--ids-color-success-weak",
+      "tokenValue": "var(--ids-color-green-20)",
+      "children": [
+        {
+          "id": "id-1716231213089-6885",
+          "tokenName": "--ids-color-green-20",
+          "tokenValue": "#cbefdc",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6890",
+      "tokenName": "--ids-color-green-30",
+      "tokenValue": "var(--ids-color-green-40)",
+      "children": [
+        {
+          "id": "id-1716231213089-6888",
+          "tokenName": "--ids-color-green-40",
+          "tokenValue": "#78d8a3",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6895",
+      "tokenName": "--ids-color-info-weak",
+      "tokenValue": "var(--ids-color-primary-20)",
+      "children": [
+        {
+          "id": "id-1716231213089-6891",
+          "tokenName": "--ids-color-primary-20",
+          "tokenValue": "var(--ids-color-theme-20)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213089-6893",
+              "tokenName": "--ids-color-theme-20",
+              "tokenValue": "var(--ids-color-blue-20)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213089-6892",
+                  "tokenName": "--ids-color-blue-20",
+                  "tokenValue": "#bedcfa",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6900",
+      "tokenName": "--ids-color-blue-30",
+      "tokenValue": "var(--ids-color-primary-40)",
+      "children": [
+        {
+          "id": "id-1716231213089-6896",
+          "tokenName": "--ids-color-primary-40",
+          "tokenValue": "var(--ids-color-theme-40)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213089-6898",
+              "tokenName": "--ids-color-theme-40",
+              "tokenValue": "var(--ids-color-blue-40)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213089-6897",
+                  "tokenName": "--ids-color-blue-40",
+                  "tokenValue": "#55a3f3",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6904",
+      "tokenName": "--ids-color-border-focus",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1716231213089-6901",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213089-6902",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Semantic",
+      "component": "color"
+    },
+    {
+      "id": "id-1716231213089-6906",
+      "tokenName": "--ids-shadow-none",
+      "tokenValue": "0 0 3px 2px rgba(0 114 237 / 0)",
+      "type": "Semantic",
+      "component": "shadow"
+    },
+    {
+      "id": "id-1716231213089-6908",
+      "tokenName": "--ids-box-shadow-inverse",
+      "tokenValue": "0 0 3px 1px rgba(255 255 255 / 0.3)",
+      "type": "Semantic",
+      "component": "box"
+    },
+    {
+      "id": "id-1716231213089-6910",
+      "tokenName": "--ids-shadow-10",
+      "tokenValue": "0 0 3px 1px rgb(0 114 237 / 0.3)",
+      "type": "Semantic",
+      "component": "shadow"
+    },
+    {
+      "id": "id-1716231213089-6912",
+      "tokenName": "--ids-shadow-20",
+      "tokenValue": "0 0 3px 2px rgb(0 114 237 / 0.30)",
+      "type": "Semantic",
+      "component": "shadow"
+    },
+    {
+      "id": "id-1716231213089-6914",
+      "tokenName": "--ids-shadow-30",
+      "tokenValue": "0 0 4px 3px rgb(0 114 237 / 0.3)",
+      "type": "Semantic",
+      "component": "shadow"
+    },
+    {
+      "id": "id-1716231213089-6916",
+      "tokenName": "--ids-scroll-shadow",
+      "tokenValue": "0 -1px 3px -1px rgba(0  0  0 / 0.30)",
+      "type": "Semantic",
+      "component": "scroll"
+    },
+    {
+      "id": "id-1716231213089-6918",
+      "tokenName": "--ids-scroll-color-border-top",
+      "tokenValue": "1px solid rgba(215 215 216 / 1)",
+      "type": "Semantic",
+      "component": "scroll"
+    },
+    {
+      "id": "id-1716231213089-6921",
+      "tokenName": "--ids-accordion-header-color-border-bottom",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213089-6919",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "accordion"
+    },
+    {
+      "id": "id-1716231213089-6924",
+      "tokenName": "--ids-accordion-header-color-border-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213089-6922",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "accordion"
+    },
+    {
+      "id": "id-1716231213089-6927",
+      "tokenName": "--ids-accordion-header-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213089-6925",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "accordion"
+    },
+    {
+      "id": "id-1716231213089-6930",
+      "tokenName": "--ids-accordion-header-color-icon",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213089-6928",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "accordion"
+    },
+    {
+      "id": "id-1716231213089-6933",
+      "tokenName": "--ids-app-menu-accordion-header-color-background-disabled",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213089-6931",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "app"
+    },
+    {
+      "id": "id-1716231213089-6936",
+      "tokenName": "--ids-app-menu-accordion-header-color-border-disabled",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213089-6934",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "app"
+    },
+    {
+      "id": "id-1716231213089-6939",
+      "tokenName": "--ids-app-menu-accordion-header-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1716231213089-6937",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "app"
+    },
+    {
+      "id": "id-1716231213089-6942",
+      "tokenName": "--ids-app-menu-accordion-header-color-background-default",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213089-6940",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "app"
+    },
+    {
+      "id": "id-1716231213089-6945",
+      "tokenName": "--ids-app-menu-accordion-header-filter-match-color-text",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213089-6943",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "app"
+    },
+    {
+      "id": "id-1716231213089-6948",
+      "tokenName": "--ids-app-menu-accordion-header-color-border-focus",
+      "tokenValue": "var(--ids-color-blue-40)",
+      "children": [
+        {
+          "id": "id-1716231213089-6946",
+          "tokenName": "--ids-color-blue-40",
+          "tokenValue": "#55a3f3",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "app"
+    },
+    {
+      "id": "id-1716231213089-6951",
+      "tokenName": "--ids-action-panel-header-color-background",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1716231213089-6949",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "action"
+    },
+    {
+      "id": "id-1716231213089-6954",
+      "tokenName": "--ids-action-panel-header-color-border",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213089-6952",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "action"
+    },
+    {
+      "id": "id-1716231213089-6957",
+      "tokenName": "--ids-action-sheet-color-background",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213089-6955",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "action"
+    },
+    {
+      "id": "id-1716231213089-6960",
+      "tokenName": "--ids-action-sheet-color-border",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213089-6958",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "action"
+    },
+    {
+      "id": "id-1716231213089-6963",
+      "tokenName": "--ids-alert-color-progress-default",
+      "tokenValue": "var(--ids-color-purple-90)",
+      "children": [
+        {
+          "id": "id-1716231213089-6961",
+          "tokenName": "--ids-color-purple-90",
+          "tokenValue": "#4e1a91",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "alert"
+    },
+    {
+      "id": "id-1716231213089-6966",
+      "tokenName": "--ids-alert-color-progress-disabled",
+      "tokenValue": "var(--ids-color-purple-50)",
+      "children": [
+        {
+          "id": "id-1716231213089-6964",
+          "tokenName": "--ids-color-purple-50",
+          "tokenValue": "#8d4be5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "alert"
+    },
+    {
+      "id": "id-1716231213089-6969",
+      "tokenName": "--ids-axis-chart-grid-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213089-6967",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "axis"
+    },
+    {
+      "id": "id-1716231213090-6972",
+      "tokenName": "--ids-axis-chart-last-line-color-border",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1716231213090-6970",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "axis"
+    },
+    {
+      "id": "id-1716231213090-6975",
+      "tokenName": "--ids-axis-chart-color-text",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1716231213090-6973",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "axis"
+    },
+    {
+      "id": "id-1716231213090-6978",
+      "tokenName": "--ids-block-grid-item-color-background-selectable-hover",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-6976",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "block"
+    },
+    {
+      "id": "id-1716231213090-6982",
+      "tokenName": "--ids-block-grid-item-selectable-container-focus",
+      "tokenValue": "var(--ids-space-xxxxs) solid var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1716231213090-6979",
+          "tokenName": "--ids-space-xxxxs",
+          "tokenValue": "var(--ids-space-01)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "space",
+          "children": [
+            {
+              "id": "id-1716231213090-6980",
+              "tokenName": "--ids-space-01",
+              "tokenValue": "1px",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "space",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "block"
+    },
+    {
+      "id": "id-1716231213090-6986",
+      "tokenName": "--ids-block-grid-item-outline-selected",
+      "tokenValue": "var(--ids-space-xxxs) solid var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1716231213090-6983",
+          "tokenName": "--ids-space-xxxs",
+          "tokenValue": "var(--ids-space-02)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "space",
+          "children": [
+            {
+              "id": "id-1716231213090-6984",
+              "tokenName": "--ids-space-02",
+              "tokenValue": "2px",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "space",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "block"
+    },
+    {
+      "id": "id-1716231213090-6989",
+      "tokenName": "--ids-calendar-toolbar-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213090-6987",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "calendar"
+    },
+    {
+      "id": "id-1716231213090-6992",
+      "tokenName": "--ids-calendar-event-color-border-accent-bluet-blue",
+      "tokenValue": "var(--ids-color-blue-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-6990",
+          "tokenName": "--ids-color-blue-100",
+          "tokenValue": "#003876",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "calendar"
+    },
+    {
+      "id": "id-1716231213090-6995",
+      "tokenName": "--ids-calendar-event-color-border-default",
+      "tokenValue": "var(--ids-color-orange-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-6993",
+          "tokenName": "--ids-color-orange-100",
+          "tokenValue": "#a14100",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "calendar"
+    },
+    {
+      "id": "id-1716231213090-6998",
+      "tokenName": "--ids-calendar-event-color-border-focus",
+      "tokenValue": "var(--ids-color-blue-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-6996",
+          "tokenName": "--ids-color-blue-100",
+          "tokenValue": "#003876",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "calendar"
+    },
+    {
+      "id": "id-1716231213090-7001",
+      "tokenName": "--ids-card-divider-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213090-6999",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "card"
+    },
+    {
+      "id": "id-1716231213090-7004",
+      "tokenName": "--ids-button-tertiary-color-background-hover",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213090-7002",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "button"
+    },
+    {
+      "id": "id-1716231213090-7007",
+      "tokenName": "--ids-button-formatter-color-text-hover",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7005",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "button"
+    },
+    {
+      "id": "id-1716231213090-7010",
+      "tokenName": "--ids-button-formatter-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213090-7008",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "button"
+    },
+    {
+      "id": "id-1716231213090-7013",
+      "tokenName": "--ids-button-formatter-color-background-hover",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213090-7011",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "button"
+    },
+    {
+      "id": "id-1716231213090-7018",
+      "tokenName": "--ids-button-formatter-color-active",
+      "tokenValue": "var(--ids-color-primary-90)",
+      "children": [
+        {
+          "id": "id-1716231213090-7014",
+          "tokenName": "--ids-color-primary-90",
+          "tokenValue": "var(--ids-color-theme-90)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7016",
+              "tokenName": "--ids-color-theme-90",
+              "tokenValue": "var(--ids-color-blue-90)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213090-7015",
+                  "tokenName": "--ids-color-blue-90",
+                  "tokenValue": "#004a99",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "button"
+    },
+    {
+      "id": "id-1716231213090-7021",
+      "tokenName": "--ids-button-formatter-color-text-default",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7019",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "button"
+    },
+    {
+      "id": "id-1716231213090-7026",
+      "tokenName": "--ids-chart-legend-color-text",
+      "tokenValue": "var(--ids-color-text-default)",
+      "children": [
+        {
+          "id": "id-1716231213090-7022",
+          "tokenName": "--ids-color-text-default",
+          "tokenValue": "var(--ids-color-foreground-default-default)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7024",
+              "tokenName": "--ids-color-foreground-default-default",
+              "tokenValue": "var(--ids-color-black-100)",
+              "type": "Semantic",
+              "source": "semanticContrastTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213090-7023",
+                  "tokenName": "--ids-color-black-100",
+                  "tokenValue": "#000000",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "chart"
+    },
+    {
+      "id": "id-1716231213090-7029",
+      "tokenName": "--ids-data-grid-color-background",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7027",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7032",
+      "tokenName": "--ids-data-grid-cell-color-background-default",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7030",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7034",
+      "tokenName": "--ids-data-grid-cell-color-background-readonly",
+      "tokenValue": "rgba(0 0 0 / 0.08)",
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7037",
+      "tokenName": "--ids-data-grid-cell-color-border",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213090-7035",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7040",
+      "tokenName": "--ids-data-grid-cell-checkbox-color-border",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213090-7038",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7043",
+      "tokenName": "--ids-data-grid-cell-color-text-default",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7041",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7046",
+      "tokenName": "--ids-data-grid-cell-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213090-7044",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7048",
+      "tokenName": "--ids-data-grid-cell-color-background-error",
+      "tokenValue": "rgba(232 79 79 / 0.1)",
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7051",
+      "tokenName": "--ids-data-grid-list-cell-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213090-7049",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7054",
+      "tokenName": "--ids-data-grid-list-header-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213090-7052",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7057",
+      "tokenName": "--ids-data-grid-list-header-color-background",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213090-7055",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7060",
+      "tokenName": "--ids-data-grid-list-header-color-text",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7058",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7063",
+      "tokenName": "--ids-data-grid-list-header-color-icon-unsorted",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213090-7061",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7066",
+      "tokenName": "--ids-data-grid-list-header-color-icon-sorted",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213090-7064",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7069",
+      "tokenName": "--ids-data-grid-list-header-checkbox-color-background",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1716231213090-7067",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7072",
+      "tokenName": "--ids-data-grid-header-color-border",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213090-7070",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7075",
+      "tokenName": "--ids-data-grid-header-color-background-default",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1716231213090-7073",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7078",
+      "tokenName": "--ids-data-grid-header-color-background-hover",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213090-7076",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7081",
+      "tokenName": "--ids-data-grid-header-checkbox-color-background",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7079",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7084",
+      "tokenName": "--ids-data-grid-header-checkbox-color-border",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213090-7082",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7087",
+      "tokenName": "--ids-data-grid-header-color-icon",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7085",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7090",
+      "tokenName": "--ids-data-grid-header-drag-background-color",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213090-7088",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7093",
+      "tokenName": "--ids-data-grid-header-drag-arrow-color-background",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213090-7091",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7096",
+      "tokenName": "--ids-data-grid-header-color-background-default-placeholder-dragging",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7094",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7099",
+      "tokenName": "--ids-data-grid-header-color-text",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7097",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7102",
+      "tokenName": "--ids-data-grid-header-color-icon-unsorted",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213090-7100",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7105",
+      "tokenName": "--ids-data-grid-header-color-icon-sorted",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7103",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7108",
+      "tokenName": "--ids-data-grid-header-expander-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7106",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7111",
+      "tokenName": "--ids-data-grid-header-expander-color-active",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7109",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7114",
+      "tokenName": "--ids-data-grid-filter-input-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1716231213090-7112",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7116",
+      "tokenName": "--ids-data-grid-row-color-background-selected",
+      "tokenValue": "rgba(85 163 243 / 0.2)",
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7119",
+      "tokenName": "--ids-data-grid-row-alternating-color-background",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1716231213090-7117",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7124",
+      "tokenName": "--ids-data-grid-row-shadow-focus",
+      "tokenValue": "inset 0 0 0 1px var(--ids-color-primary-70), 0 1px 0 0 var(--ids-color-primary-70), 0 0 3px 2px rgb(54 138 192 / 0.3)",
+      "children": [
+        {
+          "id": "id-1716231213090-7120",
+          "tokenName": "--ids-color-primary-70",
+          "tokenValue": "var(--ids-color-theme-70)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7122",
+              "tokenName": "--ids-color-theme-70",
+              "tokenValue": "var(--ids-color-blue-70)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213090-7121",
+                  "tokenName": "--ids-color-blue-70",
+                  "tokenValue": "#0066d4",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "data"
+    },
+    {
+      "id": "id-1716231213090-7127",
+      "tokenName": "--ids-input-dirty-indicator-color-background-dirty",
+      "tokenValue": "var(--ids-color-orange-50)",
+      "children": [
+        {
+          "id": "id-1716231213090-7125",
+          "tokenName": "--ids-color-orange-50",
+          "tokenValue": "#fa9601",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "input"
+    },
+    {
+      "id": "id-1716231213090-7130",
+      "tokenName": "--ids-drawer-app-menu-color-text",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1716231213090-7128",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "drawer"
+    },
+    {
+      "id": "id-1716231213090-7135",
+      "tokenName": "--ids-dropdown-color-background-default",
+      "tokenValue": "var(--ids-popup-color-background)",
+      "children": [
+        {
+          "id": "id-1716231213090-7131",
+          "tokenName": "--ids-popup-color-background",
+          "tokenValue": "var(--ids-color-background-elevated)",
+          "type": "Component",
+          "source": "defaultCoreTheme",
+          "component": "popup",
+          "children": [
+            {
+              "id": "id-1716231213090-7133",
+              "tokenName": "--ids-color-background-elevated",
+              "tokenValue": "var(--ids-color-white-100)",
+              "type": "Semantic",
+              "source": "semanticContrastTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213090-7132",
+                  "tokenName": "--ids-color-white-100",
+                  "tokenValue": "#ffffff",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "dropdown"
+    },
+    {
+      "id": "id-1716231213090-7140",
+      "tokenName": "--ids-dropdown-color-border",
+      "tokenValue": "var(--ids-color-border-focus)",
+      "children": [
+        {
+          "id": "id-1716231213090-7136",
+          "tokenName": "--ids-color-border-focus",
+          "tokenValue": "var(--ids-color-primary)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7138",
+              "tokenName": "--ids-color-primary",
+              "tokenValue": "var(--ids-color-blue-60)",
+              "type": "Semantic",
+              "source": "defaultCoreTheme",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213090-7137",
+                  "tokenName": "--ids-color-blue-60",
+                  "tokenValue": "#0072ed",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "dropdown"
+    },
+    {
+      "id": "id-1716231213090-7143",
+      "tokenName": "--ids-dropdown-attached-color-border",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1716231213090-7141",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "dropdown"
+    },
+    {
+      "id": "id-1716231213090-7146",
+      "tokenName": "--ids-dropdown-color-text-selected",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7144",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "dropdown"
+    },
+    {
+      "id": "id-1716231213090-7151",
+      "tokenName": "--ids-dropdown-color-background-selected",
+      "tokenValue": "var(--ids-color-primary-90)",
+      "children": [
+        {
+          "id": "id-1716231213090-7147",
+          "tokenName": "--ids-color-primary-90",
+          "tokenValue": "var(--ids-color-theme-90)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7149",
+              "tokenName": "--ids-color-theme-90",
+              "tokenValue": "var(--ids-color-blue-90)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213090-7148",
+                  "tokenName": "--ids-color-blue-90",
+                  "tokenValue": "#004a99",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "dropdown"
+    },
+    {
+      "id": "id-1716231213090-7154",
+      "tokenName": "--ids-dropdown-group-color-text",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7152",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "dropdown"
+    },
+    {
+      "id": "id-1716231213090-7157",
+      "tokenName": "--ids-dropdown-group-color-border",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213090-7155",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "dropdown"
+    },
+    {
+      "id": "id-1716231213090-7160",
+      "tokenName": "--ids-editor-background-color",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7158",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7163",
+      "tokenName": "--ids-editor-color-border-default",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213090-7161",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7166",
+      "tokenName": "--ids-editor-color-border-hover",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213090-7164",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7171",
+      "tokenName": "--ids-editor-color-border-focus",
+      "tokenValue": "var(--ids-color-border-focus)",
+      "children": [
+        {
+          "id": "id-1716231213090-7167",
+          "tokenName": "--ids-color-border-focus",
+          "tokenValue": "var(--ids-color-primary)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7169",
+              "tokenName": "--ids-color-primary",
+              "tokenValue": "var(--ids-color-blue-60)",
+              "type": "Semantic",
+              "source": "defaultCoreTheme",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213090-7168",
+                  "tokenName": "--ids-color-blue-60",
+                  "tokenValue": "#0072ed",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7174",
+      "tokenName": "--ids-editor-shadow-border-focus",
+      "tokenValue": "var(--ids-shadow-focus)",
+      "children": [
+        {
+          "id": "id-1716231213090-7172",
+          "tokenName": "--ids-shadow-focus",
+          "tokenValue": "0px 0px 8px 0px rgba(0 114 237 / 0.50)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "shadow",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7178",
+      "tokenName": "--ids-editor-color-border-error",
+      "tokenValue": "var(--ids-color-error-default)",
+      "children": [
+        {
+          "id": "id-1716231213090-7175",
+          "tokenName": "--ids-color-error-default",
+          "tokenValue": "var(--ids-color-red-80)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7176",
+              "tokenName": "--ids-color-red-80",
+              "tokenValue": "#a30d11",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7182",
+      "tokenName": "--ids-editor-color-text-error",
+      "tokenValue": "var(--ids-color-error-default)",
+      "children": [
+        {
+          "id": "id-1716231213090-7179",
+          "tokenName": "--ids-color-error-default",
+          "tokenValue": "var(--ids-color-red-80)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7180",
+              "tokenName": "--ids-color-red-80",
+              "tokenValue": "#a30d11",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7185",
+      "tokenName": "--ids-editor-shadow-error",
+      "tokenValue": "var(--ids-shadow-error)",
+      "children": [
+        {
+          "id": "id-1716231213090-7183",
+          "tokenName": "--ids-shadow-error",
+          "tokenValue": "0 0 3px 2px rgb(218 18 23 / 0.30)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "shadow",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7188",
+      "tokenName": "--ids-editor-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213090-7186",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7191",
+      "tokenName": "--ids-editor-color-border-readonly",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213090-7189",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7194",
+      "tokenName": "--ids-editor-source-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1716231213090-7192",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7198",
+      "tokenName": "--ids-editor-color-border-disabled",
+      "tokenValue": "var(--ids-color-text-disabled)",
+      "children": [
+        {
+          "id": "id-1716231213090-7195",
+          "tokenName": "--ids-color-text-disabled",
+          "tokenValue": "var(--ids-color-gray-30)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7196",
+              "tokenName": "--ids-color-gray-30",
+              "tokenValue": "#c5c5c9",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7201",
+      "tokenName": "--ids-editor-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1716231213090-7199",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7205",
+      "tokenName": "--ids-editor-link-color-text-link",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1716231213090-7202",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7203",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7210",
+      "tokenName": "--ids-editor-link-color-text-hover",
+      "tokenValue": "var(--ids-color-primary-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7206",
+          "tokenName": "--ids-color-primary-100",
+          "tokenValue": "var(--ids-color-theme-100)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7208",
+              "tokenName": "--ids-color-theme-100",
+              "tokenValue": "var(--ids-color-blue-100)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213090-7207",
+                  "tokenName": "--ids-color-blue-100",
+                  "tokenValue": "#003876",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7214",
+      "tokenName": "--ids-editor-link-color-border-focus",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1716231213090-7211",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7212",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7217",
+      "tokenName": "--ids-editor-shadow-focus",
+      "tokenValue": "var(--ids-shadow-focus)",
+      "children": [
+        {
+          "id": "id-1716231213090-7215",
+          "tokenName": "--ids-shadow-focus",
+          "tokenValue": "0px 0px 8px 0px rgba(0 114 237 / 0.50)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "shadow",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7220",
+      "tokenName": "--ids-editor-source-color-background-default",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213090-7218",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7223",
+      "tokenName": "--ids-editor-source-line-color-text",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1716231213090-7221",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7225",
+      "tokenName": "--ids-editor-textarea-color-background",
+      "tokenValue": "transparent",
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7229",
+      "tokenName": "--ids-editor-source-color-text",
+      "tokenValue": "var(--ids-color-text-data)",
+      "children": [
+        {
+          "id": "id-1716231213090-7226",
+          "tokenName": "--ids-color-text-data",
+          "tokenValue": "var(--ids-color-gray-100)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7227",
+              "tokenName": "--ids-color-gray-100",
+              "tokenValue": "#161618",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "editor"
+    },
+    {
+      "id": "id-1716231213090-7232",
+      "tokenName": "--ids-expandable-area-border-bottom",
+      "tokenValue": "1px solid var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213090-7230",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "expandable"
+    },
+    {
+      "id": "id-1716231213090-7234",
+      "tokenName": "--ids-header-gradient-opacity-none",
+      "tokenValue": "rgb(0 74 153 / 1)",
+      "type": "Component",
+      "component": "header"
+    },
+    {
+      "id": "id-1716231213090-7236",
+      "tokenName": "--ids-header-gradient-opacity-full",
+      "tokenValue": "rgb(0 114 237 / 0)",
+      "type": "Component",
+      "component": "header"
+    },
+    {
+      "id": "id-1716231213090-7238",
+      "tokenName": "--ids-icon-color-default",
+      "tokenValue": "currentColor",
+      "type": "Component",
+      "component": "icon"
+    },
+    {
+      "id": "id-1716231213090-7241",
+      "tokenName": "--ids-link-list-title-color-text-default",
+      "tokenValue": "var(--ids-color-black-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7239",
+          "tokenName": "--ids-color-black-100",
+          "tokenValue": "#000000",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "link"
+    },
+    {
+      "id": "id-1716231213090-7244",
+      "tokenName": "--ids-layout-grid-color-background",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213090-7242",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "layout"
+    },
+    {
+      "id": "id-1716231213090-7249",
+      "tokenName": "--ids-layout-grid-color-text",
+      "tokenValue": "var(--ids-color-text-default)",
+      "children": [
+        {
+          "id": "id-1716231213090-7245",
+          "tokenName": "--ids-color-text-default",
+          "tokenValue": "var(--ids-color-foreground-default-default)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213090-7247",
+              "tokenName": "--ids-color-foreground-default-default",
+              "tokenValue": "var(--ids-color-black-100)",
+              "type": "Semantic",
+              "source": "semanticContrastTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213090-7246",
+                  "tokenName": "--ids-color-black-100",
+                  "tokenValue": "#000000",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "layout"
+    },
+    {
+      "id": "id-1716231213090-7252",
+      "tokenName": "--ids-list-view-item-color-border-top",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213090-7250",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "list"
+    },
+    {
+      "id": "id-1716231213090-7255",
+      "tokenName": "--ids-list-view-item-color-border-focus",
+      "tokenValue": "var(--ids-color-blue-70)",
+      "children": [
+        {
+          "id": "id-1716231213090-7253",
+          "tokenName": "--ids-color-blue-70",
+          "tokenValue": "#0066d4",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "list"
+    },
+    {
+      "id": "id-1716231213090-7257",
+      "tokenName": "--ids-list-view-item-shadow-focus",
+      "tokenValue": "0 0 4px 1px rgb(54 138 192 / 0.3)",
+      "type": "Component",
+      "component": "list"
+    },
+    {
+      "id": "id-1716231213090-7260",
+      "tokenName": "--ids-list-view-item-top-color-border-disabled-focus",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213090-7258",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "list"
+    },
+    {
+      "id": "id-1716231213090-7263",
+      "tokenName": "--ids-list-view-color-background-selected",
+      "tokenValue": "var(--ids-color-blue-20)",
+      "children": [
+        {
+          "id": "id-1716231213090-7261",
+          "tokenName": "--ids-color-blue-20",
+          "tokenValue": "#bedcfa",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "list"
+    },
+    {
+      "id": "id-1716231213090-7266",
+      "tokenName": "--ids-loading-indicator-circle-color",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213090-7264",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "loading"
+    },
+    {
+      "id": "id-1716231213090-7269",
+      "tokenName": "--ids-loading-indicator-primary-progress-color-border",
+      "tokenValue": "var(--ids-color-blue-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7267",
+          "tokenName": "--ids-color-blue-100",
+          "tokenValue": "#003876",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "loading"
+    },
+    {
+      "id": "id-1716231213090-7272",
+      "tokenName": "--ids-loading-indicator-primary-color-border",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213090-7270",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "loading"
+    },
+    {
+      "id": "id-1716231213091-7276",
+      "tokenName": "--ids-loading-indicator-primary-destructive-progress-color-border",
+      "tokenValue": "var(--ids-color-error-weak)",
+      "children": [
+        {
+          "id": "id-1716231213090-7273",
+          "tokenName": "--ids-color-error-weak",
+          "tokenValue": "var(--ids-color-red-10)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213091-7274",
+              "tokenName": "--ids-color-red-10",
+              "tokenValue": "#fbe7e8",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "loading"
+    },
+    {
+      "id": "id-1716231213091-7279",
+      "tokenName": "--ids-loading-indicator-primary-destructive-overall-color-border",
+      "tokenValue": "var(--ids-color-red-50)",
+      "children": [
+        {
+          "id": "id-1716231213091-7277",
+          "tokenName": "--ids-color-red-50",
+          "tokenValue": "#df3539",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "loading"
+    },
+    {
+      "id": "id-1716231213091-7283",
+      "tokenName": "--ids-loading-indicator-destructive-progress-color-border",
+      "tokenValue": "var(--ids-color-error-default)",
+      "children": [
+        {
+          "id": "id-1716231213091-7280",
+          "tokenName": "--ids-color-error-default",
+          "tokenValue": "var(--ids-color-red-80)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213091-7281",
+              "tokenName": "--ids-color-red-80",
+              "tokenValue": "#a30d11",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "loading"
+    },
+    {
+      "id": "id-1716231213091-7286",
+      "tokenName": "--ids-loading-indicator-tertiary-destructive-color-border",
+      "tokenValue": "var(--ids-color-red-20)",
+      "children": [
+        {
+          "id": "id-1716231213091-7284",
+          "tokenName": "--ids-color-red-20",
+          "tokenValue": "#f5c3c4",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "loading"
+    },
+    {
+      "id": "id-1716231213091-7289",
+      "tokenName": "--ids-masthead-color-background",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1716231213091-7287",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "masthead"
+    },
+    {
+      "id": "id-1716231213091-7292",
+      "tokenName": "--ids-masthead-color-text",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213091-7290",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "masthead"
+    },
+    {
+      "id": "id-1716231213091-7294",
+      "tokenName": "--ids-modal-color-border",
+      "tokenValue": "var(--ids-popup-color-60)",
+      "type": "Component",
+      "component": "modal"
+    },
+    {
+      "id": "id-1716231213091-7296",
+      "tokenName": "--ids-modal-shadow-default",
+      "tokenValue": "0 2px 5px rgb(239 239 240 / 0.2)",
+      "type": "Component",
+      "component": "modal"
+    },
+    {
+      "id": "id-1716231213091-7299",
+      "tokenName": "--ids-modal-footer-color-border",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1716231213091-7297",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "modal"
+    },
+    {
+      "id": "id-1716231213091-7303",
+      "tokenName": "--ids-modal-button-color-default",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1716231213091-7300",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213091-7301",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "modal"
+    },
+    {
+      "id": "id-1716231213091-7308",
+      "tokenName": "--ids-modal-button-color-hover",
+      "tokenValue": "var(--ids-color-primary-90)",
+      "children": [
+        {
+          "id": "id-1716231213091-7304",
+          "tokenName": "--ids-color-primary-90",
+          "tokenValue": "var(--ids-color-theme-90)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213091-7306",
+              "tokenName": "--ids-color-theme-90",
+              "tokenValue": "var(--ids-color-blue-90)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213091-7305",
+                  "tokenName": "--ids-color-blue-90",
+                  "tokenValue": "#004a99",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "modal"
+    },
+    {
+      "id": "id-1716231213091-7310",
+      "tokenName": "--ids-modal-button-secondary-color-default",
+      "tokenValue": "var(--ids-color-grey-80)",
+      "type": "Component",
+      "component": "modal"
+    },
+    {
+      "id": "id-1716231213091-7312",
+      "tokenName": "--ids-modal-button-secondary-color-hover",
+      "tokenValue": "var(--ids-color-grey-100)",
+      "type": "Component",
+      "component": "modal"
+    },
+    {
+      "id": "id-1716231213091-7316",
+      "tokenName": "--ids-modal-shadow-focus",
+      "tokenValue": "0 0 3px 1px var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1716231213091-7313",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213091-7314",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "modal"
+    },
+    {
+      "id": "id-1716231213091-7319",
+      "tokenName": "--ids-module-nav-background-color",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213091-7317",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7322",
+      "tokenName": "--ids-module-nav-border-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213091-7320",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7325",
+      "tokenName": "--ids-module-nav-text-color",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1716231213091-7323",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7328",
+      "tokenName": "--ids-module-nav-detail-background-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213091-7326",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7331",
+      "tokenName": "--ids-module-nav-separator-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213091-7329",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7334",
+      "tokenName": "--ids-module-nav-input-bg-color",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213091-7332",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7337",
+      "tokenName": "--ids-module-nav-input-border-color",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213091-7335",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7340",
+      "tokenName": "--ids-module-nav-input-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213091-7338",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7343",
+      "tokenName": "--ids-module-nav-input-focus-bg-color",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1716231213091-7341",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7346",
+      "tokenName": "--ids-module-nav-input-hover-bg-color",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213091-7344",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7349",
+      "tokenName": "--ids-module-nav-item-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213091-7347",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7352",
+      "tokenName": "--ids-module-nav-item-hover-bg-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213091-7350",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7355",
+      "tokenName": "--ids-module-nav-item-hover-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213091-7353",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7358",
+      "tokenName": "--ids-module-nav-item-selected-bg-color",
+      "tokenValue": "var(--ids-color-blue-20)",
+      "children": [
+        {
+          "id": "id-1716231213091-7356",
+          "tokenName": "--ids-color-blue-20",
+          "tokenValue": "#bedcfa",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7361",
+      "tokenName": "--ids-module-nav-item-selected-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213091-7359",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7364",
+      "tokenName": "--ids-module-nav-switcher-dropdown-bg-color",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1716231213091-7362",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7367",
+      "tokenName": "--ids-module-nav-switcher-dropdown-item-focus-bg-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213091-7365",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7370",
+      "tokenName": "--ids-module-nav-switcher-dropdown-item-text-color",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213091-7368",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7373",
+      "tokenName": "--ids-module-nav-search-input-bg-color",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213091-7371",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7376",
+      "tokenName": "--ids-module-nav-search-input-text-color",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213091-7374",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7379",
+      "tokenName": "--ids-module-nav-search-input-focused-bg-color",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213091-7377",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7382",
+      "tokenName": "--ids-module-nav-search-input-focused-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213091-7380",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7385",
+      "tokenName": "--ids-module-nav-search-input-placeholder-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213091-7383",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7388",
+      "tokenName": "--ids-module-nav-search-input-focused-placeholder-text-color",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1716231213091-7386",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7390",
+      "tokenName": "--ids-module-nav-settings-menu-box-shadow",
+      "tokenValue": "0 0 8px 1px rgba(0 0 0 / 0.08)",
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7393",
+      "tokenName": "--ids-module-nav-settings-menu-item-text-color",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1716231213091-7391",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7396",
+      "tokenName": "--ids-module-nav-settings-menu-item-icon-color",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1716231213091-7394",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7399",
+      "tokenName": "--ids-module-nav-settings-menu-separator-color",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213091-7397",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "module"
+    },
+    {
+      "id": "id-1716231213091-7402",
+      "tokenName": "--ids-popup-menu-color-text-default",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213091-7400",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "popup"
+    },
+    {
+      "id": "id-1716231213091-7405",
+      "tokenName": "--ids-menu-header-color-text",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213091-7403",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "menu"
+    },
+    {
+      "id": "id-1716231213091-7408",
+      "tokenName": "--ids-menu-item-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1716231213091-7406",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "menu"
+    },
+    {
+      "id": "id-1716231213091-7411",
+      "tokenName": "--ids-menu-item-highlight-color",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213091-7409",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "menu"
+    },
+    {
+      "id": "id-1716231213091-7414",
+      "tokenName": "--ids-menu-item-check-color",
+      "tokenValue": "var(--ids-color-blue-80)",
+      "children": [
+        {
+          "id": "id-1716231213091-7412",
+          "tokenName": "--ids-color-blue-80",
+          "tokenValue": "#0054b1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "menu"
+    },
+    {
+      "id": "id-1716231213091-7417",
+      "tokenName": "--ids-calendar-month-view-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213091-7415",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "calendar"
+    },
+    {
+      "id": "id-1716231213091-7419",
+      "tokenName": "--ids-calendar-month-view-color-background-hover",
+      "tokenValue": "rgba(74 74 74 / 0.1)",
+      "type": "Component",
+      "component": "calendar"
+    },
+    {
+      "id": "id-1716231213091-7422",
+      "tokenName": "--ids-calendar-month-view-color-background-selected",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1716231213091-7420",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "calendar"
+    },
+    {
+      "id": "id-1716231213091-7425",
+      "tokenName": "--ids-calendar-month-view-color-background-disabled",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213091-7423",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "calendar"
+    },
+    {
+      "id": "id-1716231213091-7430",
+      "tokenName": "--ids-chart-pie-color-text",
+      "tokenValue": "var(--ids-color-text-label)",
+      "children": [
+        {
+          "id": "id-1716231213091-7426",
+          "tokenName": "--ids-color-text-label",
+          "tokenValue": "var(--ids-color-foreground-default-default)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213091-7428",
+              "tokenName": "--ids-color-foreground-default-default",
+              "tokenValue": "var(--ids-color-black-100)",
+              "type": "Semantic",
+              "source": "semanticContrastTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213091-7427",
+                  "tokenName": "--ids-color-black-100",
+                  "tokenValue": "#000000",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "chart"
+    },
+    {
+      "id": "id-1716231213091-7433",
+      "tokenName": "--ids-progress-chart-label-color-text",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213091-7431",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "progress"
+    },
+    {
+      "id": "id-1716231213091-7436",
+      "tokenName": "--ids-progress-chart-total-color-background",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213091-7434",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "progress"
+    },
+    {
+      "id": "id-1716231213091-7439",
+      "tokenName": "--ids-progress-chart-bar-progress-color-background",
+      "tokenValue": "var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1716231213091-7437",
+          "tokenName": "--ids-color-blue-90",
+          "tokenValue": "#004a99",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "progress"
+    },
+    {
+      "id": "id-1716231213091-7442",
+      "tokenName": "--ids-scroll-view-color-icon-default",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213091-7440",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "scroll"
+    },
+    {
+      "id": "id-1716231213091-7447",
+      "tokenName": "--ids-scroll-view-color-icon-selected",
+      "tokenValue": "var(--ids-color-primary-90)",
+      "children": [
+        {
+          "id": "id-1716231213091-7443",
+          "tokenName": "--ids-color-primary-90",
+          "tokenValue": "var(--ids-color-theme-90)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213091-7445",
+              "tokenName": "--ids-color-theme-90",
+              "tokenValue": "var(--ids-color-blue-90)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "color",
+              "children": [
+                {
+                  "id": "id-1716231213091-7444",
+                  "tokenName": "--ids-color-blue-90",
+                  "tokenValue": "#004a99",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "color",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "scroll"
+    },
+    {
+      "id": "id-1716231213091-7450",
+      "tokenName": "--ids-slider-tick-color-background-default",
+      "tokenValue": "var(--ids-color-blue-60)",
+      "children": [
+        {
+          "id": "id-1716231213091-7448",
+          "tokenName": "--ids-color-blue-60",
+          "tokenValue": "#0072ed",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7453",
+      "tokenName": "--ids-slider-thumb-color-background-default",
+      "tokenValue": "var(--ids-color-blue-60)",
+      "children": [
+        {
+          "id": "id-1716231213091-7451",
+          "tokenName": "--ids-color-blue-60",
+          "tokenValue": "#0072ed",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7455",
+      "tokenName": "--ids-slider-thumb-color-shadow-default",
+      "tokenValue": "rgba(0 74 153 / 0.1)",
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7458",
+      "tokenName": "--ids-slider-thumb-color-border-default",
+      "tokenValue": "var(--ids-color-blue-60)",
+      "children": [
+        {
+          "id": "id-1716231213091-7456",
+          "tokenName": "--ids-color-blue-60",
+          "tokenValue": "#0072ed",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7461",
+      "tokenName": "--ids-slider-track-color-background-default",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213091-7459",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7464",
+      "tokenName": "--ids-slider-track-color-background-progress",
+      "tokenValue": "var(--ids-color-blue-60)",
+      "children": [
+        {
+          "id": "id-1716231213091-7462",
+          "tokenName": "--ids-color-blue-60",
+          "tokenValue": "#0072ed",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7467",
+      "tokenName": "--ids-slider-tooltip-color-background",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213091-7465",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7470",
+      "tokenName": "--ids-slider-color-disabled",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213091-7468",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7473",
+      "tokenName": "--ids-slider-tick-color-background-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213091-7471",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7476",
+      "tokenName": "--ids-slider-thumb-color-background-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213091-7474",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7479",
+      "tokenName": "--ids-slider-track-color-background-disabled",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1716231213091-7477",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213091-7482",
+      "tokenName": "--ids-slider-track-color-background-progress-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213091-7480",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213092-7485",
+      "tokenName": "--ids-slider-color-readonly",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213091-7483",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213092-7488",
+      "tokenName": "--ids-slider-tick-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1716231213092-7486",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213092-7491",
+      "tokenName": "--ids-slider-thumb-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1716231213092-7489",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213092-7493",
+      "tokenName": "--ids-slider-thumb-color-shadow-readonly",
+      "tokenValue": "rgba(71 71 76 / 0.1)",
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213092-7496",
+      "tokenName": "--ids-slider-thumb-color-border-readonly",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1716231213092-7494",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213092-7499",
+      "tokenName": "--ids-slider-track-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213092-7497",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213092-7502",
+      "tokenName": "--ids-slider-track-progress-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1716231213092-7500",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "slider"
+    },
+    {
+      "id": "id-1716231213092-7505",
+      "tokenName": "--ids-step-chart-color-background-default",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213092-7503",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "step"
+    },
+    {
+      "id": "id-1716231213092-7509",
+      "tokenName": "--ids-step-chart-color-background-complete",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1716231213092-7506",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213092-7507",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "step"
+    },
+    {
+      "id": "id-1716231213092-7512",
+      "tokenName": "--ids-swaplist-search-color-text-default",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213092-7510",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "swaplist"
+    },
+    {
+      "id": "id-1716231213092-7515",
+      "tokenName": "--ids-swaplist-search-color-text-placeholder",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1716231213092-7513",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "swaplist"
+    },
+    {
+      "id": "id-1716231213092-7518",
+      "tokenName": "--ids-swipe-action-color-background-right-active",
+      "tokenValue": "var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1716231213092-7516",
+          "tokenName": "--ids-color-blue-90",
+          "tokenValue": "#004a99",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "swipe"
+    },
+    {
+      "id": "id-1716231213092-7521",
+      "tokenName": "--ids-swipe-action-color-background-right",
+      "tokenValue": "var(--ids-color-blue-70)",
+      "children": [
+        {
+          "id": "id-1716231213092-7519",
+          "tokenName": "--ids-color-blue-70",
+          "tokenValue": "#0066d4",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "swipe"
+    },
+    {
+      "id": "id-1716231213092-7524",
+      "tokenName": "--ids-swipe-action-color-background-right-hover",
+      "tokenValue": "var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1716231213092-7522",
+          "tokenName": "--ids-color-blue-90",
+          "tokenValue": "#004a99",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "swipe"
+    },
+    {
+      "id": "id-1716231213092-7527",
+      "tokenName": "--ids-time-picker-popup-button-color-border",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1716231213092-7525",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "time"
+    },
+    {
+      "id": "id-1716231213092-7530",
+      "tokenName": "--ids-time-picker-popup-button-color-text-default",
+      "tokenValue": "var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1716231213092-7528",
+          "tokenName": "--ids-color-blue-90",
+          "tokenValue": "#004a99",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "time"
+    },
+    {
+      "id": "id-1716231213092-7533",
+      "tokenName": "--ids-time-picker-popup-colons-color-text",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213092-7531",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "time"
+    },
+    {
+      "id": "id-1716231213092-7536",
+      "tokenName": "--ids-toolbar-formatter-color-background",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213092-7534",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "toolbar"
+    },
+    {
+      "id": "id-1716231213092-7539",
+      "tokenName": "--ids-toolbar-formatter-color-border-bottom",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213092-7537",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "toolbar"
+    },
+    {
+      "id": "id-1716231213092-7542",
+      "tokenName": "--ids-trigger-field-icon-color",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1716231213092-7540",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "trigger"
+    },
+    {
+      "id": "id-1716231213092-7545",
+      "tokenName": "--ids-tree-node-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1716231213092-7543",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7548",
+      "tokenName": "--ids-tree-node-color-border-focus",
+      "tokenValue": "var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1716231213092-7546",
+          "tokenName": "--ids-color-blue-90",
+          "tokenValue": "#004a99",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7550",
+      "tokenName": "--ids-tree-node-shadow-focus",
+      "tokenValue": "0 0 4px 2px rgb(41  41 41 / 0.3)",
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7553",
+      "tokenName": "--ids-tree-node-color-border-hover",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213092-7551",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7556",
+      "tokenName": "--ids-tree-node-color-text-hover",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213092-7554",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7559",
+      "tokenName": "--ids-tree-node-color-background-selected",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213092-7557",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7562",
+      "tokenName": "--ids-tree-node-color-text-selected",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1716231213092-7560",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7565",
+      "tokenName": "--ids-tree-node-color-text-default",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213092-7563",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7568",
+      "tokenName": "--ids-tree-treemap-color-border",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1716231213092-7566",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7571",
+      "tokenName": "--ids-tree-treemap-title-color-background",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1716231213092-7569",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7574",
+      "tokenName": "--ids-tree-treemap-title-color-text",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213092-7572",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "tree"
+    },
+    {
+      "id": "id-1716231213092-7577",
+      "tokenName": "--ids-upload-advanced-color-background-default",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213092-7575",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "upload"
+    },
+    {
+      "id": "id-1716231213092-7580",
+      "tokenName": "--ids-upload-advanced-color-background-hover",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213092-7578",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "upload"
+    },
+    {
+      "id": "id-1716231213092-7583",
+      "tokenName": "--ids-upload-advanced-color-border-hover",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1716231213092-7581",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "upload"
+    },
+    {
+      "id": "id-1716231213092-7586",
+      "tokenName": "--ids-upload-advanced-color-text-hover",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213092-7584",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "upload"
+    },
+    {
+      "id": "id-1716231213092-7589",
+      "tokenName": "--ids-week-view-color-background",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213092-7587",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "week"
+    },
+    {
+      "id": "id-1716231213092-7592",
+      "tokenName": "--ids-week-view-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1716231213092-7590",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "week"
+    },
+    {
+      "id": "id-1716231213092-7595",
+      "tokenName": "--ids-week-view-header-color-background",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1716231213092-7593",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "week"
+    },
+    {
+      "id": "id-1716231213092-7598",
+      "tokenName": "--ids-week-view-row-odd-color-border",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213092-7596",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "week"
+    },
+    {
+      "id": "id-1716231213092-7601",
+      "tokenName": "--ids-widget-header-title-color",
+      "tokenValue": "var(--ids-color-black-100)",
+      "children": [
+        {
+          "id": "id-1716231213092-7599",
+          "tokenName": "--ids-color-black-100",
+          "tokenValue": "#000000",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "widget"
+    },
+    {
+      "id": "id-1716231213092-7604",
+      "tokenName": "--ids-widget-color-border-hover",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213092-7602",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "widget"
+    },
+    {
+      "id": "id-1716231213092-7606",
+      "tokenName": "--ids-widget-color-shadow-hover",
+      "tokenValue": "0 2px 4px 1px rgba(0 0 0 / 0.15)",
+      "type": "Component",
+      "component": "widget"
+    },
+    {
+      "id": "id-1716231213092-7609",
+      "tokenName": "--ids-widget-search-field-color-background",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1716231213092-7607",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "widget"
+    },
+    {
+      "id": "id-1716231213092-7613",
+      "tokenName": "--ids-wizard-step-color-default",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1716231213092-7610",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "color",
+          "children": [
+            {
+              "id": "id-1716231213092-7611",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "color",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "type": "Component",
+      "component": "wizard"
+    },
+    {
+      "id": "id-1716231213092-7616",
+      "tokenName": "--ids-wizard-step-color-unvisited",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1716231213092-7614",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "wizard"
+    },
+    {
+      "id": "id-1716231213092-7619",
+      "tokenName": "--ids-wizard-step-color-disabled-unvisited",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1716231213092-7617",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "color",
+          "children": []
+        }
+      ],
+      "type": "Component",
+      "component": "wizard"
+    }
+  ]
+}
