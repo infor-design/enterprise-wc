@@ -2,6 +2,7 @@
 @import '../../../node_modules/ids-foundation/theme-soho/semantic-dark';
 
 :root {
+  // @semantic
   // Primary Color
   --ids-color-primary: var(--ids-color-gray-90);
   --ids-color-text-on-primary: var(--ids-color-gray-10);
@@ -40,7 +41,7 @@
   // Focus
   --ids-color-border-focus: var(--ids-color-primary-50);
 
-  /// --- Component Tokens ---- ///
+  // @component
   // Accordion
   --ids-accordion-header-color-border-bottom: var(--ids-color-gray-70);
   --ids-accordion-header-color-border-disabled: var(--ids-color-gray-50);
