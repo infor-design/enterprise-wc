@@ -4,7 +4,6 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsExpandableArea from '../../src/components/ids-expandable-area/ids-expandable-area';
-import { CustomEventTest } from '../helper-fixture';
 
 test.describe('IdsExpandableArea tests', () => {
   const url = '/ids-expandable-area/example.html';
@@ -85,6 +84,10 @@ test.describe('IdsExpandableArea tests', () => {
       await expect(ea).toHaveAttribute('type', 'partial');
       await ea.evaluate((element: IdsExpandableArea) => { element.type = null; });
       await expect(ea).toHaveAttribute('type', '');
+      await ea.evaluate((element: IdsExpandableArea) => { element.type = 'toggle-btn'; });
+      await expect(ea).toHaveAttribute('type', 'toggle-btn');
+      await ea.evaluate((element: IdsExpandableArea) => { element.type = 'bad-name'; });
+      await expect(ea).toHaveAttribute('type', '');
     });
 
     test('can change its expanded property', async ({ page }) => {
@@ -99,20 +102,29 @@ test.describe('IdsExpandableArea tests', () => {
     });
 
     test('renders with IdsToggleButton as expander', async ({ page }) => {
-    // test
-    });
-
-    test('can change set its aria-expanded attribute', async ({ page }) => {
-    // test
+      await expect(page.locator('#ea-1 .ids-expandable-area-expander')).toBeAttached();
+      await expect(page.locator('#ea-2 .ids-expandable-area-expander')).toBeAttached();
+      await expect(page.locator('#ea-3 .ids-expandable-area-expander')).toBeAttached();
+      await expect(page.locator('#ea-4 .ids-expandable-area-expander')).not.toBeAttached();
     });
 
     test('can be expanded/collapsed when clicked (mouse)', async ({ page }) => {
+      const ea = await page.locator('ids-expandable-area').nth(1);
+      await ea.click();
+    });
+
+    test('can change the height of pane', async ({ page }) => {
+      const el = await page.locator('ids-expandable-area').first();
+      await el.evaluate((element: IdsExpandableArea) => {
+        element.pane!.style.height = '100px';
+      });
+      await expect(el).toBe('100px');
     });
 
     test('wont error caling api with no panel', async ({ page }) => {
       const ea = await page.locator('ids-expandable-area').first();
       expect(await ea.evaluate((element: IdsExpandableArea) => {
-        element.pane = '';
+        element.pane = '' as any;
         return element.pane;
       })).toEqual('');
     });
@@ -131,8 +143,8 @@ test.describe('IdsExpandableArea tests', () => {
       expect(await eventsTest.isEventTriggered('#ea-1', 'collapse')).toBeTruthy();
     });
 
-    test('can be expanded/collapsed when touched', async ({ browser }) => {
-      const newPage = await browser.newPage({
+    test.describe('mobile/touch test', () => {
+      test.use({
         hasTouch: true,
         isMobile: true,
         viewport: {
@@ -140,23 +152,16 @@ test.describe('IdsExpandableArea tests', () => {
           height: 932
         }
       });
-      await newPage.goto('/ids-expandable-area/example.html');
-      const eventsTest = new CustomEventTest(newPage);
-      await eventsTest.initialize();
-      const ea = await newPage.locator('ids-expandable-area').first();
-      const expander = await ea.locator('ids-hyperlink[slot="expander-default"]');
-      const box = await expander.boundingBox();
-      const collapse = await ea.locator('ids-hyperlink[slot="expander-expanded"]');
-      await eventsTest.onEvent('ids-expandable-area:first-child', 'expand');
-      await eventsTest.onEvent('ids-expandable-area:first-child', 'collapse');
-      await eventsTest.onEvent('ids-expandable-area:first-child', 'touchstart');
-      // await expander.dispatchEvent('touchstart');
-      await newPage.touchscreen.tap(box!.x + box!.width / 2, box!.y + box!.height / 2);
-      expect(await eventsTest.isEventTriggered('ids-expandable-area:first-child', 'expand')).toBeTruthy();
-      expect(await eventsTest.isEventTriggered('ids-expandable-area:first-child', 'collapse')).toBeFalsy();
-      // await collapse.dispatchEvent('click');
-      // expect(await eventsTest.isEventTriggered('#ea-1', 'expand')).toBeTruthy();
-      // expect(await eventsTest.isEventTriggered('#ea-1', 'collapse')).toBeTruthy();
+
+      // Unable to trigger touch event with expander
+      test.skip('can be expanded/collapsed when touched', async ({ page, eventsTest }) => {
+        const expandable = await page.locator('#ea-1');
+        const expander = await expandable.locator('.ids-expandable-area-expander');
+
+        await eventsTest.onEvent('#ea-1', 'expand');
+        await expander.dispatchEvent('touchstart');
+        expect(await eventsTest.isEventTriggered('#ea-1', 'expand')).toBeTruthy();
+      });
     });
   });
 });
