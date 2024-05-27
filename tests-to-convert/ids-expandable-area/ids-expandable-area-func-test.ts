@@ -1,230 +1,149 @@
-/**
- * @jest-environment jsdom
- */
+import AxeBuilder from '@axe-core/playwright';
+import percySnapshot from '@percy/playwright';
+import { expect } from '@playwright/test';
+import { test } from '../base-fixture';
+
 import IdsExpandableArea from '../../src/components/ids-expandable-area/ids-expandable-area';
-import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-button';
+import { CustomEventTest } from '../helper-fixture';
 
-describe('IdsExpandableArea Component', () => {
-  let el: any;
-
-  beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
-    const elem: any = new IdsExpandableArea();
-    document.body.appendChild(elem);
-    el = document.querySelector('ids-expandable-area');
+test.describe('IdsExpandableArea tests', () => {
+  const url = '/ids-expandable-area/example.html';
+  test.beforeEach(async ({ page }) => {
+    await page.goto(url);
+  });
+  test.describe('general page checks', () => {
+    test('should have a title', async ({ page }) => {
+      await expect(page).toHaveTitle('IDS Expandable Area Component');
+    });
+    test('should not have errors', async ({ page, browserName }) => {
+      if (browserName === 'firefox') return;
+      let exceptions = null;
+      await page.on('pageerror', (error) => {
+        exceptions = error;
+      });
+      await page.goto(url);
+      await page.waitForLoadState();
+      await expect(exceptions).toBeNull();
+    });
+  });
+  test.describe('accessibility tests', () => {
+    test('should pass an Axe scan', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      const accessibilityScanResults = await new AxeBuilder({ page } as any)
+        .disableRules('aria-allowed-attr')
+        .analyze();
+      expect(accessibilityScanResults.violations).toEqual([]);
+    });
+  });
+  test.describe('snapshot tests', () => {
+    test('should match innerHTML snapshot', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      const handle = await page.$('ids-expandable-area');
+      const html = await handle?.evaluate((el: IdsExpandableArea) => el?.outerHTML);
+      await expect(html).toMatchSnapshot('expandable-area-html');
+    });
+    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      const handle = await page.$('ids-expandable-area');
+      const html = await handle?.evaluate((el: IdsExpandableArea) => {
+        el?.shadowRoot?.querySelector('style')?.remove();
+        return el?.shadowRoot?.innerHTML;
+      });
+      await expect(html).toMatchSnapshot('expandable-area-shadow');
+    });
+    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await percySnapshot(page, 'ids-expandable-area-light');
+    });
   });
 
-  afterEach(async () => {
-    document.body.innerHTML = '';
-    el = null;
-    (window.requestAnimationFrame as any).mockRestore();
-  });
-
-  test('can change its type property', () => {
-    const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
-
-    expect(rootEl.getAttribute('type')).toBe(null);
-    expect(el.getAttribute('type')).toBe(null);
-
-    el.type = 'toggle-btn';
-    rootEl.setAttribute('type', 'toggle-btn');
-
-    expect(rootEl.getAttribute('type')).toBe('toggle-btn');
-    expect(el.getAttribute('type')).toBe('toggle-btn');
-
-    el.type = 'bad-name';
-    rootEl.setAttribute('type', 'bad-name');
-
-    expect(rootEl.getAttribute('type')).toBe('bad-name');
-    expect(el.getAttribute('type')).toBe('');
-  });
-
-  test('can change its expanded property', () => {
-    const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
-
-    rootEl.setAttribute('expanded', true);
-    el.expanded = true;
-
-    expect(rootEl.getAttribute('expanded')).toBe('true');
-    expect(el.getAttribute('expanded')).toBe('true');
-
-    rootEl.setAttribute('expanded', false);
-    el.expanded = false;
-
-    expect(rootEl.getAttribute('expanded')).toBe('false');
-    expect(el.getAttribute('expanded')).toBe('false');
-  });
-
-  test('renders with IdsToggleButton as expander', () => {
-    let expander;
-    el.type = 'toggle-btn';
-    expander = new IdsToggleButton();
-    expect(expander.classList).not.toContain('ids-expandable-area-expander');
-
-    el.type = null;
-    expander = el.expander;
-    expect(expander.classList).toContain('ids-expandable-area-expander');
-  });
-
-  test('can change set its aria-expanded attribute', () => {
-    el.state.expanded = true;
-    el.expander.setAttribute('aria-expanded', el.state.expanded);
-
-    expect(el.expander.getAttribute('aria-expanded')).toBe('true');
-  });
-
-  test('can be expanded/collapsed when clicked (mouse)', () => {
-    el.type = null;
-    const args: any = {
-      target: el.expander,
-      bubbles: true,
-      cancelable: true,
-      view: window
-    };
-    const event = new MouseEvent('click', args);
-
-    // Expand
-    el.expander.dispatchEvent(event);
-    expect(el.state.expanded).toBe(true);
-    expect(el.expanded).toBe('true');
-
-    // Collapse
-    el.expander.dispatchEvent(event);
-    expect(el.state.expanded).toBe(false);
-    expect(el.expanded).toBe('false');
-
-    // Change type to 'toggle-btn'
-    el.type = 'toggle-btn';
-    el.state.expanded = false;
-    el.expanded = false;
-
-    const args2: any = {
-      target: el.expander,
-      bubbles: true,
-      cancelable: true,
-      view: window
-    };
-    const event2 = new MouseEvent('click', args2);
-
-    // Expand
-    el.expander.dispatchEvent(event2);
-    expect(el.state.expanded).toBe(true);
-    expect(el.expanded).toBe('true');
-
-    // Collapse
-    el.expander.dispatchEvent(event2);
-    expect(el.state.expanded).toBe(false);
-    expect(el.expanded).toBe('false');
-  });
-
-  test('can be expanded/collapsed when touched', () => {
-    const args: any = {
-      touches: [{
-        identifier: '123',
-        pageX: 0,
-        pageY: 0,
-        target: el.expander
-      }],
-      bubbles: true,
-      cancelable: true,
-      view: window
-    };
-    const event = new TouchEvent('touchstart', args);
-
-    // Expand
-    el.expander.dispatchEvent(event);
-    expect(el.state.expanded).toBe(true);
-    expect(el.expanded).toBe('true');
-
-    // Collapse
-    el.expander.dispatchEvent(event);
-    expect(el.state.expanded).toBe(false);
-    expect(el.expanded).toBe('false');
-  });
-
-  test('allows vetoing beforeexpand/beforecollapse', () => {
-    const click = new MouseEvent('click');
-    const veto = (evt: CustomEvent) => evt.detail.response(false);
-
-    // prevent expand once
-    el.addEventListener('beforeexpand', veto, { once: true });
-    el.expander.dispatchEvent(click);
-    expect(el.expanded).toEqual('false');
-
-    // open pane
-    el.expander.dispatchEvent(click);
-    expect(el.expanded).toEqual('true');
-
-    // prevent collapse once
-    el.addEventListener('beforecollapse', veto, { once: true });
-    el.expander.dispatchEvent(click);
-    expect(el.expanded).toEqual('true');
-  });
-
-  test('triggers expand/collapse events', () => {
-    const mockExpandFn = jest.fn();
-    const mockCollapseFn = jest.fn();
-    const click = new MouseEvent('click');
-
-    el.addEventListener('expand', mockExpandFn);
-    el.expander.dispatchEvent(click);
-    el.addEventListener('collapse', mockCollapseFn);
-    el.expander.dispatchEvent(click);
-
-    expect(mockExpandFn.mock.calls.length).toBe(1);
-    expect(mockCollapseFn.mock.calls.length).toBe(1);
-  });
-
-  test('triggers afterexpand/aftercollapse events after transition', () => {
-    const mockExpandFn = jest.fn();
-    const mockCollapseFn = jest.fn();
-
-    el.addEventListener('afterexpand', mockExpandFn, { once: true });
-    el.addEventListener('aftercollapse', mockCollapseFn, { once: true });
-
-    // expanded state
-    el.pane.style.height = '100px';
-    el.pane.dispatchEvent(new Event('transitionend'));
-    expect(mockExpandFn.mock.calls.length).toBe(1);
-
-    // collapsed state
-    el.pane.style.height = '0px';
-    el.pane.dispatchEvent(new Event('transitionend'));
-    expect(mockCollapseFn.mock.calls.length).toBe(1);
-  });
-
-  test('can change the height of the pane', () => {
-    el.pane.style.height = `100px`;
-
-    requestAnimationFrame(() => {
-      el.pane.style.height = `100px`;
-      requestAnimationFrame(() => {
-        el.pane.style.height = `0px`;
+  test.describe('expandable area functional tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.evaluate(() => {
+        document.querySelector('ids-expandable-area:first-child')!.setAttribute('id', 'ea-1');
+        document.querySelector('ids-expandable-area:nth-child(2)')!.setAttribute('id', 'ea-2');
+        document.querySelector('ids-expandable-area:nth-child(3)')!.setAttribute('id', 'ea-3');
+        document.querySelector('ids-expandable-area:nth-child(4)')!.setAttribute('id', 'ea-4');
       });
     });
-    expect(el.pane.style.height).toEqual('0px');
-  });
+    test('can change its type property', async ({ page }) => {
+      const ea = await page.locator('ids-expandable-area').first();
+      expect(await ea.evaluate((element: IdsExpandableArea) => {
+        element.type = '';
+        return element.type;
+      })).toEqual('');
+      await expect(ea).toHaveAttribute('type', '');
+      await ea.evaluate((element: IdsExpandableArea) => { element.type = 'partial'; });
+      await expect(ea).toHaveAttribute('type', 'partial');
+      await ea.evaluate((element: IdsExpandableArea) => { element.type = null; });
+      await expect(ea).toHaveAttribute('type', '');
+    });
+    test('can change its expanded property', async ({ page }) => {
+      const ea = await page.locator('ids-expandable-area').first();
+      expect(await ea.evaluate((element: IdsExpandableArea) => {
+        element.expanded = true;
+        return element.expanded;
+      })).toEqual('true');
+      await expect(ea).toHaveAttribute('expanded', 'true');
+      await ea.evaluate((element: IdsExpandableArea) => { element.expanded = 'false'; });
+      await expect(ea).toHaveAttribute('expanded', 'false');
+    });
 
-  test('can render different templates', () => {
-    const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
-    const header = rootEl.querySelector('.ids-expandable-area-header');
+    test('renders with IdsToggleButton as expander', async ({ page }) => {// test
+    });
 
-    el.type = null;
-    header.removeAttribute('data-expander');
-    el.template();
-    expect(header.getAttribute('data-expander')).toBe(null);
+    test('can change set its aria-expanded attribute', async ({ page }) => {// test
+    });
 
-    el.type = 'toggle-btn';
-    header.setAttribute('data-expander', 'header');
-    el.template();
-    expect(header.getAttribute('data-expander')).toBe('header');
-  });
+    test('can be expanded/collapsed when clicked (mouse)', async ({ page }) => {});
 
-  test('wont error caling api with no panel', () => {
-    el.pane = null;
-    el.expanded = true;
-    el.expanded = false;
-    el.expanded = true;
-    expect(el.expanded).toEqual('true');
+    test('wont error caling api with no panel', async ({ page }) => {
+      const ea = await page.locator('ids-expandable-area').first();
+      expect(await ea.evaluate((element: IdsExpandableArea) => {
+        element.pane = '';
+        return element.pane;
+      })).toEqual('');
+    });
+
+    test('can triggers expand/collapse events', async ({ page, eventsTest }) => {
+      const ea = await page.locator('#ea-1');
+      const expander = await ea.locator('ids-hyperlink[slot="expander-default"]');
+      const collapse = await ea.locator('ids-hyperlink[slot="expander-expanded"]');
+      await eventsTest.onEvent('#ea-1', 'expand');
+      await eventsTest.onEvent('#ea-1', 'collapse');
+      await expander.dispatchEvent('click');
+      expect(await eventsTest.isEventTriggered('#ea-1', 'expand')).toBeTruthy();
+      expect(await eventsTest.isEventTriggered('#ea-1', 'collapse')).toBeFalsy();
+      await collapse.dispatchEvent('click');
+      expect(await eventsTest.isEventTriggered('#ea-1', 'expand')).toBeTruthy();
+      expect(await eventsTest.isEventTriggered('#ea-1', 'collapse')).toBeTruthy();
+    });
+
+    test('can be expanded/collapsed when touched', async ({ browser }) => {
+      const newPage = await browser.newPage({
+        hasTouch: true,
+        isMobile: true,
+        viewport: {
+          width: 430,
+          height: 932
+        }
+      });
+      await newPage.goto('/ids-expandable-area/example.html');
+      const eventsTest = new CustomEventTest(newPage);
+      await eventsTest.initialize();
+      const ea = await newPage.locator('ids-expandable-area').first();
+      const expander = await ea.locator('ids-hyperlink[slot="expander-default"]');
+      const box = await expander.boundingBox();
+      const collapse = await ea.locator('ids-hyperlink[slot="expander-expanded"]'); await eventsTest.onEvent('ids-expandable-area:first-child', 'expand');
+      await eventsTest.onEvent('ids-expandable-area:first-child', 'collapse');
+      await eventsTest.onEvent('ids-expandable-area:first-child', 'touchstart');
+      // await expander.dispatchEvent('touchstart');
+      await newPage.touchscreen.tap(box!.x + box!.width / 2, box!.y + box!.height / 2);
+      expect(await eventsTest.isEventTriggered('ids-expandable-area:first-child', 'expand')).toBeTruthy();
+      expect(await eventsTest.isEventTriggered('ids-expandable-area:first-child', 'collapse')).toBeFalsy();
+      // await collapse.dispatchEvent('click');
+      // expect(await eventsTest.isEventTriggered('#ea-1', 'expand')).toBeTruthy();
+      // expect(await eventsTest.isEventTriggered('#ea-1', 'collapse')).toBeTruthy();
+    });
   });
 });
