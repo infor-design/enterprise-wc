@@ -79,7 +79,10 @@ test.describe('IdsThemeSwitcher tests', () => {
     });
 
     test('can set mode and then clear it to default', async () => {
-      await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => { idsSwitcher.mode = 'dark'; idsSwitcher.mode = ''; });
+      await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => {
+        idsSwitcher.mode = 'dark';
+        idsSwitcher.mode = '';
+      });
       const mode = await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => idsSwitcher.mode);
       await expect(mode).toEqual('light');
       await expect(switcher).not.toHaveAttribute('mode');
@@ -92,9 +95,17 @@ test.describe('IdsThemeSwitcher tests', () => {
     });
 
     test('sync color variant with the container', async () => {
-      await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => { idsSwitcher.colorVariant = 'alternate'; idsSwitcher.onColorVariantRefresh(); });
+      // await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => { idsSwitcher.colorVariant = 'alternate'; idsSwitcher.onColorVariantRefresh(); });
       // eslint-disable-next-line max-len
-      const colorVariant = await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => (idsSwitcher!.container as any).colorVariant);
+      // const colorVariant = await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => (idsSwitcher!.container as any).colorVariant);
+      await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => {
+        idsSwitcher.colorVariant = 'alternate';
+        idsSwitcher.onColorVariantRefresh();
+      });
+
+      const colorVariant = await switcher.evaluate((
+        idsSwitcher: IdsThemeSwitcher
+      ) => (idsSwitcher!.container as any).colorVariant);
       await expect(colorVariant).toEqual('alternate');
     });
 
