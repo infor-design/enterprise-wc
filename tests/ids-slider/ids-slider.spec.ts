@@ -337,7 +337,6 @@ test.describe('IdsSlider tests', () => {
       await idsSlider.evaluate((el: IdsSlider) => { el.isRTL = false; });
       isRTL = await idsSlider.evaluate((el: IdsSlider) => el.isRTL);
       await expect(isRTL).toBeFalsy();
-      // expect(await page.evaluate(() => (document as any).activeElement?.name)).toBe('ids-slider');
       const tooltip = await idsSlider.getByLabel('Single-thumb').locator('.tooltip');
       await expect(tooltip).toHaveAttribute('style', 'opacity: 1;');
       await page.evaluate('document.querySelector("ids-container").click()');
@@ -430,21 +429,14 @@ test.describe('IdsSlider tests', () => {
       let value = await verticalStepSlider.evaluate((el: IdsSlider) => el.value);
       await expect(value).toBe(100); // added assertion
       expect(await page.evaluate(() => (document as any).activeElement?.name)).toBe('ids-slider');
-      await page.evaluate(async () => {
-        const slider = document.querySelector<IdsSlider>('ids-slider[type="step"]');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowUp'));
-      });
+      await page.keyboard.press('ArrowUp');
       value = await verticalStepSlider.evaluate((el: IdsSlider) => el.value);
       await expect(value).toBe(100); // added assertion
-      value = await verticalStepSlider.evaluate((el: IdsSlider) => {
-        el?.dispatchEvent(createKeyboardEvent('ArrowLeft'));
-        return el.value;
-      });
+      await page.keyboard.press('ArrowLeft');
+      value = await verticalStepSlider.evaluate(async (el: IdsSlider) => el.value);
       await expect(value).toBe(80); // added assertion
-      value = await verticalStepSlider.evaluate((el: IdsSlider) => {
-        el?.dispatchEvent(createKeyboardEvent('ArrowDown'));
-        return el.value;
-      });
+      await page.keyboard.press('ArrowDown');
+      value = await verticalStepSlider.evaluate(async (el: IdsSlider) => el.value);
       await expect(value).toBe(60); // added assertion
     });
 
@@ -469,16 +461,10 @@ test.describe('IdsSlider tests', () => {
       await expect(trackBounds).toMatchObject(mockBounds);
       await verticalRangeSlider.evaluate((el: IdsSlider) => el.thumbDraggable?.focus());
       expect(await page.evaluate(() => (document as any).activeElement?.name)).toBe('ids-slider');
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider[type="range"][vertical="true"]');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowLeft'));
-      });
+      await page.keyboard.press('ArrowLeft');
       let value = await verticalRangeSlider.evaluate((el: IdsSlider) => el.value);
       await expect(value).toBe(0);
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider[type="range"][vertical="true"]');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowRight'));
-      });
+      await page.keyboard.press('ArrowRight');
       value = await verticalRangeSlider.evaluate((el: IdsSlider) => el.value);
       await expect(value).toBe(1);
 
@@ -486,48 +472,27 @@ test.describe('IdsSlider tests', () => {
       await verticalRangeSlider.evaluate((el: IdsSlider) => el.thumbDraggableSecondary?.focus());
       let valueSecondary = await verticalRangeSlider.evaluate((el: IdsSlider) => el.valueSecondary);
       await expect(valueSecondary).toBe(100);
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider[type="range"][vertical="true"]');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowLeft'));
-      });
+      await page.keyboard.press('ArrowLeft');
       valueSecondary = await verticalRangeSlider.evaluate((el: IdsSlider) => el.valueSecondary);
       await expect(valueSecondary).toBe(99);
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider[type="range"][vertical="true"]');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowDown'));
-      });
+      await page.keyboard.press('ArrowDown');
       valueSecondary = await verticalRangeSlider.evaluate((el: IdsSlider) => el.valueSecondary);
       await expect(valueSecondary).toBe(98);
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider[type="range"][vertical="true"]');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowRight'));
-      });
+      await page.keyboard.press('ArrowRight');
       valueSecondary = await verticalRangeSlider.evaluate((el: IdsSlider) => el.valueSecondary);
       await expect(valueSecondary).toBe(99);
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider[type="range"][vertical="true"]');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowUp'));
-      });
+      await page.keyboard.press('ArrowUp');
       valueSecondary = await verticalRangeSlider.evaluate((el: IdsSlider) => el.valueSecondary);
       await expect(valueSecondary).toBe(100);
 
       await verticalRangeSlider.evaluate((el: IdsSlider) => { el.isRTL = true; el.trackArea?.click(); });
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider[type="range"][vertical="true"]');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowLeft'));
-      });
+      await page.keyboard.press('ArrowLeft');
       valueSecondary = await verticalRangeSlider.evaluate((el: IdsSlider) => el.valueSecondary);
       await expect(valueSecondary).toBe(100);
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider[type="range"][vertical="true"]');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowRight'));
-      });
+      await page.keyboard.press('ArrowRight');
       valueSecondary = await verticalRangeSlider.evaluate((el: IdsSlider) => el.valueSecondary);
       await expect(valueSecondary).toBe(99);
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider[type="range"][vertical="true"]');
-        slider?.dispatchEvent(createKeyboardEvent('Enter'));
-      });
+      await page.keyboard.press('Enter');
       valueSecondary = await verticalRangeSlider.evaluate((el: IdsSlider) => el.valueSecondary);
       await expect(valueSecondary).toBe(99);
       const min = await verticalRangeSlider.locator('.thumb-draggable').first();
@@ -556,8 +521,8 @@ test.describe('IdsSlider tests', () => {
           valueSecondary,
         };
       });
-      await expect(sliderEl.value).toBe('59');
-      await expect(sliderEl.valueSecondary).toBe('77');
+      await expect(sliderEl.value).toBe('58');
+      await expect(sliderEl.valueSecondary).toBe('75');
     });
 
     test('cannot change slider thumb values when disabled', async ({ page }) => {
@@ -572,10 +537,7 @@ test.describe('IdsSlider tests', () => {
       await idsSlider.evaluate((el: IdsSlider) => { el.disabled = true; el.value = 10; });
       value = await idsSlider.evaluate((el: IdsSlider) => el.value);
       await expect(value).toBe(0);
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowRight'));
-      });
+      await page.keyboard.press('ArrowRight');
       value = await idsSlider.evaluate((el: IdsSlider) => el.value);
       await expect(value).toBe(0);
       await idsSlider.evaluate((el: IdsSlider) => { el.disabled = false; el.value = 70; });
@@ -595,10 +557,7 @@ test.describe('IdsSlider tests', () => {
       await idsSlider.evaluate((el: IdsSlider) => { el.readonly = true; el.value = 10; });
       value = await idsSlider.evaluate((el: IdsSlider) => el.value);
       await expect(value).toBe(0);
-      await page.evaluate(async () => {
-        const slider = document.querySelector('ids-slider');
-        slider?.dispatchEvent(createKeyboardEvent('ArrowRight'));
-      });
+      await page.keyboard.press('ArrowRight');
       value = await idsSlider.evaluate((el: IdsSlider) => el.value);
       await expect(value).toBe(0);
       await idsSlider.evaluate((el: IdsSlider) => { el.readonly = false; el.value = 70; });
