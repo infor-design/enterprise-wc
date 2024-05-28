@@ -85,7 +85,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   columns.push({
     id: 'publishTime',
     name: 'Pub. Time',
-    field: 'publishDate',
+    field: 'publishTime',
     resizable: true,
     reorderable: true,
     formatter: dataGrid.formatters.time,
@@ -163,9 +163,9 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     formatter: dataGrid.formatters.text
   });
   columns.push({
-    id: 'integer',
+    id: 'roundPrice',
     name: 'Price (Int)',
-    field: 'price',
+    field: 'roundPrice',
     formatter: dataGrid.formatters.integer,
     formatOptions: { locale: 'en-US' }, // Data Values are in en-US
     editor: {
