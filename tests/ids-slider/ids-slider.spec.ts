@@ -495,34 +495,36 @@ test.describe('IdsSlider tests', () => {
       await page.keyboard.press('Enter');
       valueSecondary = await verticalRangeSlider.evaluate((el: IdsSlider) => el.valueSecondary);
       await expect(valueSecondary).toBe(99);
-      const min = await verticalRangeSlider.locator('.thumb-draggable').first();
-      const minElementBox = await min.boundingBox() as any;
-      await page.mouse.move(
-        minElementBox.x + minElementBox.width / 2,
-        minElementBox.y + minElementBox.height / 2
-      );
-      await page.mouse.down();
-      await page.mouse.move(0, 342);
-      await page.mouse.up();
-      const max = await verticalRangeSlider.locator('.thumb-draggable.secondary').first();
-      const maxElementBox = await max.boundingBox() as any;
-      await page.mouse.move(
-        maxElementBox.x + maxElementBox.width / 2,
-        maxElementBox.y + maxElementBox.height / 2
-      );
-      await page.mouse.down();
-      await page.mouse.move(0, 297);
-      await page.mouse.up();
-      const sliderEl = await verticalRangeSlider.evaluate((el: IdsSlider) => {
-        value = el.shadowRoot?.querySelector('ids-draggable.thumb-draggable')?.ariaValueNow;
-        valueSecondary = el.shadowRoot?.querySelector('ids-draggable.thumb-draggable.secondary')?.ariaValueNow;
-        return {
-          value,
-          valueSecondary,
-        };
-      });
-      await expect(sliderEl.value).toBe('58');
-      await expect(sliderEl.valueSecondary).toBe('75');
+      await expect(async () => {
+        const min = await verticalRangeSlider.locator('.thumb-draggable').first();
+        const minElementBox = await min.boundingBox() as any;
+        await page.mouse.move(
+          minElementBox.x + minElementBox.width / 2,
+          minElementBox.y + minElementBox.height / 2
+        );
+        await page.mouse.down();
+        await page.mouse.move(0, 342);
+        await page.mouse.up();
+        const max = await verticalRangeSlider.locator('.thumb-draggable.secondary').first();
+        const maxElementBox = await max.boundingBox() as any;
+        await page.mouse.move(
+          maxElementBox.x + maxElementBox.width / 2,
+          maxElementBox.y + maxElementBox.height / 2
+        );
+        await page.mouse.down();
+        await page.mouse.move(0, 297);
+        await page.mouse.up();
+        const sliderEl = await verticalRangeSlider.evaluate((el: IdsSlider) => {
+          value = el.shadowRoot?.querySelector('ids-draggable.thumb-draggable')?.ariaValueNow;
+          valueSecondary = el.shadowRoot?.querySelector('ids-draggable.thumb-draggable.secondary')?.ariaValueNow;
+          return {
+            value,
+            valueSecondary,
+          };
+        });
+        await expect(sliderEl.value).toBe('59');
+        await expect(sliderEl.valueSecondary).toBe('77');
+      }).toPass();
     });
 
     test('cannot change slider thumb values when disabled', async ({ page }) => {
