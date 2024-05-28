@@ -318,10 +318,13 @@ export default class IdsDropdownList extends Base {
         }
 
         this.popup.onPlace = (popupRect: any, domElement: HTMLElement) => {
-          if (getClosest(this.popup, 'ids-modal')) {
+          const modalParent = getClosest(this.popup, 'ids-modal');
+          if (modalParent) {
             popupRect.x = 'unset';
             popupRect.y = 'unset';
             domElement.style.marginTop = '-17px';
+            const scrollTop = modalParent.container?.querySelector('.ids-modal-content').scrollTop || 0;
+            if (scrollTop && scrollTop > 0) domElement.style.marginTop = `-${17 + scrollTop}px`;
             return popupRect;
           }
           popupRect.y = y;

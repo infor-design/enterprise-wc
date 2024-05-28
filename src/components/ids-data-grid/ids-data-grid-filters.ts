@@ -760,7 +760,7 @@ export default class IdsDataGridFilters {
       let triggerField = node?.querySelector('ids-trigger-field');
       const datePickerPopup = node?.querySelector('ids-date-picker-popup');
       const timePickerPopup = node?.querySelector('ids-time-picker-popup');
-      let menuAttachment = '.ids-data-grid';
+      let menuAttachment = '.ids-data-grid-wrapper';
 
       // Slotted filter only
       if (slot && (input || dropdown || datePicker || timePicker || btn)) {

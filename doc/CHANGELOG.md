@@ -4,8 +4,21 @@
 
 ### 1.2.0 Fixes
 
+- `[About]` Removed mobile info from about page. ([#8502](https://github.com/infor-design/enterprise/issues/8502))
+- `[DatePicker]` Fix datepicker value syncing with manual input changes. ([#2207](https://github.com/infor-design/enterprise-wc/issues/2207))
+- `[Drawer]` Converted drawer tests to playwright. ([#1930](https://github.com/infor-design/enterprise-wc/issues/1930))
+- `[Dropdown]` Added additional fixes so that typeahead works in the angular examples. ([#2249](https://github.com/infor-design/enterprise-wc/issues/2249))
+- `[Hierarchy]` Converted hierarchy tests to playwright. ([#1939](https://github.com/infor-design/enterprise-wc/issues/1939))
+- `[Hyperlink]` Converted hyperlink tests to playwright. ([#1941](https://github.com/infor-design/enterprise/issues/1941))
+- `[Masthead]` Converted masthead tests to playwright. ([#1951](https://github.com/infor-design/enterprise-wc/issues/1951))
+- `[Pager]` Fix `ids-pager-button` so that it can be enabled if `page-total` is unknown or not provided. ([#1506](https://github.com/infor-design/enterprise-wc/issues/1506))
+- `[PopupMenu]` Fix popupmenu truncation bug for menu items with shortcuts. ([#2250](https://github.com/infor-design/enterprise-wc/issues/2250))
 - `[Popupmenu]` Changed the `position-style` default to `fixed` this causes better placement in scroll containers. ([#2289](https://github.com/infor-design/enterprise-wc/issues/2289))
+- `[Process Indicator]` Converted process indicator tests to playwright. ([#1963](https://github.com/infor-design/enterprise-wc/issues/1963))
+- `[SkipLink]` Converted skiplink tests to playwright. ([#1970](https://github.com/infor-design/enterprise-wc/issues/1970))
+- `[Tabs]` Fixed position of more menu in production/angular build. ([#2352](https://github.com/infor-design/enterprise-wc/issues/2352))
 - `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
+- `[Text]` Fixed lifecycle issues with text translation in angular.. ([#2324](https://github.com/infor-design/enterprise-wc/issues/2324))
 
 ## 1.1.0
 
@@ -17,6 +30,7 @@
 - `[Datagrid]` Added the ability to create multiline header text [see docs](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-data-grid#multiline-header-code-examples) for details. ([#1793](https://github.com/infor-design/enterprise-wc/issues/1793))
 - `[Datagrid]` Fix problem with datagrid pagination where setting the `pageTotal` property causes some of the rows to be incorrectly sorted. ([#2232](https://github.com/infor-design/enterprise-wc/issues/2232))
 - `[Datagrid]` Fixed bugged where adding `pageTotal` to datagrid messed up data order. ([#2232](https://github.com/infor-design/enterprise-wc/issues/2232))
+- `[Datagrid]` Fix grid popup alignment issues, by removing children if there are more than one instance of the child. ([#2246](https://github.com/infor-design/enterprise-wc/issues/2246))
 - `[Splitter]` If the panel is resized to 0, it will have `collapsed` attribute, enabling it to expand to its original position. ([#2083](https://github.com/infor-design/enterprise-wc/issues/2083))
 
 ### 1.1.0 Fixes

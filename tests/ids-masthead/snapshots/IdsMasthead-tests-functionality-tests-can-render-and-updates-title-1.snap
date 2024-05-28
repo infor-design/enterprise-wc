@@ -1,9 +1,9 @@
 
-      <ids-toolbar class="ids-masthead" tabbable="true" role="toolbar">
+      <ids-toolbar class="ids-masthead" tabbable="true">
         <ids-toolbar-section id="start" align="start" type="fluid">
           <span id="logo-wrapper">
         <ids-button id="logo" class="icon-logo" color-variant="alternate" square="true">
-          <ids-icon icon="logo" viewbox="0 0 32 34" width="32" height="32" style="--ids-icon-height-default: 32px; --ids-icon-width-default: 32px;"></ids-icon>
+          <ids-icon icon="logo" viewbox="0 0 32 34" width="32" height="32"></ids-icon>
           <ids-text audible="true">Masthead logo</ids-text>
         </ids-button>
       </span>
@@ -19,11 +19,7 @@
           <slot name="end"></slot>
         </ids-toolbar-section>
 
-        <ids-toolbar-more-actions id="more" icon="expand-app-tray" class="hidden"><ids-menu-button tooltip="More" id="more-actions" menu="more-actions-menu" aria-controls="more-actions-menu" color-variant="alternate" type="button" aria-haspopup="menu">
-        <ids-icon icon="expand-app-tray"></ids-icon>
-        <span class="audible">More Actions Button</span>
-      </ids-menu-button>
-      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" hidden=""></ids-popup-menu>
+        <ids-toolbar-more-actions id="more" icon="expand-app-tray" class="hidden">
           <slot name="more"></slot>
         </ids-toolbar-more-actions>
       </ids-toolbar>
