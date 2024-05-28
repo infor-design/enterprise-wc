@@ -57,7 +57,6 @@ export default class IdsToolbarMoreActions extends Base {
     }
     this.#refresh();
     this.#attachEventHandlers();
-    this.button?.configureMenu?.();
 
     // wait for parent toolbar to finish rendering
     requestAnimationFrame(() => {
@@ -362,6 +361,7 @@ export default class IdsToolbarMoreActions extends Base {
         detail: e.detail
       });
 
+      this.button?.configureMenu?.();
       this.refreshOverflowedItems();
     });
 
