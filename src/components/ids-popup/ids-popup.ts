@@ -717,7 +717,7 @@ export default class IdsPopup extends Base {
   set bleed(val: string | boolean) {
     const trueVal = stringToBool(val);
     if (this.#bleed !== trueVal) {
-      this.#bleed = (val as boolean);
+      this.#bleed = trueVal;
       if (trueVal) {
         this.setAttribute(attributes.BLEED, '');
       } else {
