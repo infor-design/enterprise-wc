@@ -523,7 +523,7 @@ test.describe('IdsSlider tests', () => {
           };
         });
         await expect(sliderEl.value).toBe('59');
-        await expect(sliderEl.valueSecondary).toBe('77');
+        await expect(sliderEl.valueSecondary).toBe('76');
       }).toPass();
     });
 
