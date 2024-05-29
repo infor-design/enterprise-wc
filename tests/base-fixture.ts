@@ -40,8 +40,7 @@ export const test = baseTest.extend<CustomParameters>({
     }
   },
   eventsTest: async ({ page }, use) => {
-    const eventTest = new CustomEventTest(page);
-    await eventTest.initialize();
+    const eventTest = await (new CustomEventTest(page)).initialize();
     await use(eventTest);
   }
 });
