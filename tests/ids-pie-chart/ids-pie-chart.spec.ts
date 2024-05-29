@@ -423,14 +423,16 @@ test.describe('IdsPieChart tests', () => {
     });
 
     test('can get/set selected by api', async () => {
-      await pieChart.evaluate((pie:IdsPieChart) => pie.setSelected());
+      const val: any = 2;
+      const newVal: any = 'Test';
+      await pieChart.evaluate((pie:IdsPieChart, value: any) => pie.setSelected(value), val);
       let selected = await pieChart.evaluate((pie:IdsPieChart) => pie.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected')).length);
       await expect(selected).toEqual(0);
       let getSelected = await pieChart.evaluate((pie:IdsPieChart) => pie.getSelected());
       await expect(getSelected).toEqual({});
       await pieChart.evaluate((pie:IdsPieChart) => { pie.selectable = true; });
 
-      await pieChart.evaluate((pie:IdsPieChart) => pie.setSelected('test'));
+      await pieChart.evaluate((pie:IdsPieChart, value: any) => pie.setSelected(value), newVal);
       getSelected = await pieChart.evaluate((pie:IdsPieChart) => pie.getSelected());
       await expect(getSelected).toEqual({});
       selected = await pieChart.evaluate((pie:IdsPieChart) => pie.selectionElements.filter((el: SVGElement) => el.hasAttribute('selected')).length);
