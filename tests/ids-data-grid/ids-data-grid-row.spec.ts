@@ -1,6 +1,7 @@
 import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
+import IdsButton from '../../src/components/ids-button/ids-button';
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridRow from '../../src/components/ids-data-grid/ids-data-grid-row';
 
@@ -352,6 +353,47 @@ test.describe('IdsDataGridRow tests', () => {
         });
         expect(await expandable.evaluate(() => (window as any).collapsedEventCount)).toBe(0);
       });
+    });
+  });
+});
+
+test.describe('IdsDataGridRow add tests', () => {
+  const url = '/ids-data-grid/add-row.html';
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(url);
+  });
+
+  test.describe('add/remove row tests', () => {
+    test('can add/remove rows, and row-data maintains the correct order', async ({ page }) => {
+      const data = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        const addRowButton = document.querySelector<IdsButton>('ids-button#add-row')!;
+        const deleteRowButton = document.querySelector<IdsButton>('ids-button#delete-row')!;
+        addRowButton.dispatchEvent(new MouseEvent('click'));
+        dataGrid.rows[0]?.cellByIndex(1)?.editor?.change('FIRST');
+
+        addRowButton.dispatchEvent(new MouseEvent('click'));
+        dataGrid.rows[1]?.cellByIndex(1)?.editor?.change('SECOND');
+
+        addRowButton.dispatchEvent(new MouseEvent('click'));
+        dataGrid.rows[2]?.cellByIndex(1)?.editor?.change('THIRD');
+
+        addRowButton.dispatchEvent(new MouseEvent('click'));
+        dataGrid.rows[3]?.cellByIndex(1)?.editor?.change('FOURTH');
+
+        addRowButton.dispatchEvent(new MouseEvent('click'));
+
+        dataGrid.rows[1]?.cellByIndex(0)?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        deleteRowButton.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+        return dataGrid.data;
+      });
+
+      expect(data.length).toBe(4);
+      expect(data[0].description).toBe('FIRST');
+      expect(data[1].description).toBe('THIRD');
+      expect(data[2].description).toBe('FOURTH');
     });
   });
 });
