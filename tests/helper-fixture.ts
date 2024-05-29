@@ -15,12 +15,23 @@ export class CustomEventTest {
 
   /**
    * Initialize the window variable to be used.
+   * @returns {CustomEventTest} returns CustomeEventTest
    */
-  async initialize() {
+  async initialize(): Promise<CustomEventTest> {
     await this.page.evaluate(() => {
       (window as any).eventsList = [];
     });
     this.isInitialized = true;
+    return this;
+  }
+
+  /**
+   * Set the page object where the events list is stored and validated.
+   * @param {Page} page page object
+   */
+  async setPage(page: Page) {
+    this.page = page;
+    await this.initialize();
   }
 
   /**
@@ -108,7 +119,7 @@ export class CustomEventTest {
     triggeredCount: number; }[]> {
     if (!this.isInitialized) throw new Error('Initialize is not called');
     const eventList = await this.getAllEvents();
-    return eventList.filter((item) => item.selector === selectorString);
+    return eventList ? eventList.filter((item) => item.selector === selectorString) : [];
   }
 
   /**
