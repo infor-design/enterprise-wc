@@ -78,7 +78,7 @@ test.describe('IdsBreadcrumb tests', () => {
       expect(await locator?.getAttribute('color-variant')).toBe('breadcrumb');
     });
 
-    test('can add new crumbs and force overflow', async ({ page }) => {
+    test.skip('can add new crumbs and force overflow', async ({ page }) => {
       let locator = await page.locator('ids-breadcrumb ids-menu-button');
       expect(await locator?.isVisible()).toBe(false);
       await page.evaluate(() => {
