@@ -367,23 +367,29 @@ test.describe('IdsDataGridRow add tests', () => {
   test.describe('add/remove row tests', () => {
     test('can add/remove rows, and row-data maintains the correct order', async ({ page }) => {
       const data = await page.evaluate(() => {
+        const CHECKBOX_COLUMN = 0;
+        const DESCRIPTION_COLUMN = 1;
+
         const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
         const addRowButton = document.querySelector<IdsButton>('ids-button#add-row')!;
         const deleteRowButton = document.querySelector<IdsButton>('ids-button#delete-row')!;
-        addRowButton.dispatchEvent(new MouseEvent('click'));
-        dataGrid.rows[0]?.cellByIndex(1)?.editor?.change('FIRST');
 
-        addRowButton.dispatchEvent(new MouseEvent('click'));
-        dataGrid.rows[1]?.cellByIndex(1)?.editor?.change('SECOND');
+        const mouseClick = new MouseEvent('click', { bubbles: true });
 
-        addRowButton.dispatchEvent(new MouseEvent('click'));
-        dataGrid.rows[2]?.cellByIndex(1)?.editor?.change('THIRD');
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[0]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('FIRST');
 
-        addRowButton.dispatchEvent(new MouseEvent('click'));
-        dataGrid.rows[3]?.cellByIndex(1)?.editor?.change('FOURTH');
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[1]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('SECOND');
 
-        dataGrid.rows[1]?.cellByIndex(0)?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-        deleteRowButton.dispatchEvent(new MouseEvent('click'));
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[2]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('THIRD');
+
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[3]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('FOURTH');
+
+        dataGrid.rows[1]?.cellByIndex(CHECKBOX_COLUMN)?.dispatchEvent(mouseClick);
+        deleteRowButton.dispatchEvent(mouseClick);
 
         return dataGrid.data;
       });
