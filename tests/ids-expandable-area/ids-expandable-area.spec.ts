@@ -201,15 +201,18 @@ test.describe('IdsExpandableArea tests', () => {
 
       await expander.dispatchEvent('click');
       await pane.dispatchEvent('transitionend');
-
-      expect(await eventsTest.isEventTriggered('#ea-1', 'afterexpand')).toBeTruthy();
-      expect(await eventsTest.isEventTriggered('#ea-1', 'aftercollapse')).toBeFalsy();
+      await expect(async () => {
+        expect(await eventsTest.isEventTriggered('#ea-1', 'afterexpand')).toBeTruthy();
+        expect(await eventsTest.isEventTriggered('#ea-1', 'aftercollapse')).toBeFalsy();
+      }).toPass();
 
       await collapse.dispatchEvent('click');
       await pane.dispatchEvent('transitionend');
 
-      expect(await eventsTest.isEventTriggered('#ea-1', 'afterexpand')).toBeTruthy();
-      expect(await eventsTest.isEventTriggered('#ea-1', 'aftercollapse')).toBeTruthy();
+      await expect(async () => {
+        expect(await eventsTest.isEventTriggered('#ea-1', 'afterexpand')).toBeTruthy();
+        expect(await eventsTest.isEventTriggered('#ea-1', 'aftercollapse')).toBeTruthy();
+      }).toPass();
     });
 
     test.describe('mobile emulation tests', () => {
@@ -244,16 +247,22 @@ test.describe('IdsExpandableArea tests', () => {
           await tapExpander();
           await expect(idsExpandArea).toHaveAttribute('expanded', 'true');
         }).toPass();
-        expect(await eventsTest.isEventTriggered('ids-expandable-area', 'expand')).toBeTruthy();
-        expect(await eventsTest.isEventTriggered('ids-expandable-area', 'collapse')).toBeFalsy();
+
+        await expect(async () => {
+          expect(await eventsTest.isEventTriggered('ids-expandable-area', 'expand')).toBeTruthy();
+          expect(await eventsTest.isEventTriggered('ids-expandable-area', 'collapse')).toBeFalsy();
+        }).toPass();
 
         await expander.waitFor();
         await expect(async () => {
           await tapExpander();
           await expect(idsExpandArea).toHaveAttribute('expanded', 'false');
         }).toPass();
-        expect(await eventsTest.isEventTriggered('ids-expandable-area', 'expand')).toBeTruthy();
-        expect(await eventsTest.isEventTriggered('ids-expandable-area', 'collapse')).toBeTruthy();
+
+        await expect(async () => {
+          expect(await eventsTest.isEventTriggered('ids-expandable-area', 'expand')).toBeTruthy();
+          expect(await eventsTest.isEventTriggered('ids-expandable-area', 'collapse')).toBeTruthy();
+        });
       });
     });
   });

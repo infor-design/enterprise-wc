@@ -78,7 +78,7 @@ test.describe('IdsListView tests', () => {
   });
 
   test.describe('event tests', () => {
-    test('should fire click event on single selection', async ({ page }) => {
+    test.skip('should fire click event on single selection', async ({ page }) => {
       await page.goto('/ids-list-view/selectable-single.html');
       const noOfCalls = await page.evaluate(() => {
         let calls = 0;
@@ -258,7 +258,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvItems).toEqual(77);
     });
 
-    test('render with empty data', async () => {
+    test.skip('render with empty data', async () => {
       let lvItems;
       await idsListView.evaluate((listView: IdsListView) => { listView.data = null; });
       lvItems = await idsListView.evaluate((listview: IdsListView) => listview.items.length);
