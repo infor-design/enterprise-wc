@@ -5,6 +5,7 @@
 ### 1.2.0 Fixes
 
 - `[About]` Removed mobile info from about page. ([#8502](https://github.com/infor-design/enterprise/issues/8502))
+- `[Datagrid]` Wrong value being used when adding rows. This was already fixed in WC #1506. Added test and demo. ([#2253](https://github.com/infor-design/enterprise-wc/issues/2253))
 - `[DatePicker]` Fix datepicker value syncing with manual input changes. ([#2207](https://github.com/infor-design/enterprise-wc/issues/2207))
 - `[Drawer]` Converted drawer tests to playwright. ([#1930](https://github.com/infor-design/enterprise-wc/issues/1930))
 - `[Dropdown]` Added additional fixes so that typeahead works in the angular examples. ([#2249](https://github.com/infor-design/enterprise-wc/issues/2249))
