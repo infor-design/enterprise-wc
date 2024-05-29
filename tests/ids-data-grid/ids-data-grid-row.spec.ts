@@ -382,15 +382,13 @@ test.describe('IdsDataGridRow add tests', () => {
         addRowButton.dispatchEvent(new MouseEvent('click'));
         dataGrid.rows[3]?.cellByIndex(1)?.editor?.change('FOURTH');
 
-        addRowButton.dispatchEvent(new MouseEvent('click'));
-
         dataGrid.rows[1]?.cellByIndex(0)?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-        deleteRowButton.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        deleteRowButton.dispatchEvent(new MouseEvent('click'));
 
         return dataGrid.data;
       });
 
-      expect(data.length).toBe(4);
+      expect(data.length).toBe(3);
       expect(data[0].description).toBe('FIRST');
       expect(data[1].description).toBe('THIRD');
       expect(data[2].description).toBe('FOURTH');
