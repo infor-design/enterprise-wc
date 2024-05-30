@@ -4,6 +4,9 @@ import { ElementHandle, Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
+import IdsMenuItem from '../../src/components/ids-menu/ids-menu-item';
+
+import arrayDataset from '../../src/assets/data/menu-array.json';
 
 test.describe('IdsPopupMenu tests', () => {
   const url = '/ids-popup-menu/example.html';
@@ -84,8 +87,31 @@ test.describe('IdsPopupMenu tests', () => {
   });
 
   test.describe('data drive tests', () => {
+    let idsPopupMenu: Locator;
+
     test.beforeEach(async ({ page }) => {
-      await page.goto('/ids-popup-menu/data-driven.html');
+      await page.evaluate(() => {
+        document.querySelector('ids-container')!.innerHTML = '';
+        const elem = document.createElement('ids-popup-menu') as IdsPopupMenu;
+        elem.id = 'popup-menu-data-test';
+        document.querySelector('ids-container')!.appendChild(elem);
+      });
+      idsPopupMenu = await page.locator('#popup-menu-data-test');
+      await idsPopupMenu.waitFor({ state: 'attached' });
+    });
+
+    test('can accept array as data', async ({ pageErrorsTest }) => {
+      const menuSize = arrayDataset[0].items.length;
+      let menuItems = await idsPopupMenu.locator(':scope > ids-menu-group > ids-menu-item').all();
+
+      expect(menuItems).toHaveLength(0);
+      await idsPopupMenu.evaluate((element: IdsPopupMenu, tData) => {
+        element.data = tData;
+      }, arrayDataset);
+      menuItems = await idsPopupMenu.locator(':scope > ids-menu-group > ids-menu-item').all();
+      expect(menuItems).toHaveLength(menuSize);
+
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
     });
 
     test.skip('reverts to markup-driven when provided an empty dataset', async ({ page }) => {
@@ -112,6 +138,39 @@ test.describe('IdsPopupMenu tests', () => {
 
     test.beforeEach(async ({ page }) => {
       idsPopupMenu = await page.locator('#popupmenu');
+    });
+
+    test('can append early to DOM', async ({ page, pageErrorsTest }) => {
+      await page.evaluate(() => {
+        const elem = document.createElement('ids-popup-menu')! as IdsPopupMenu;
+        document.querySelector('ids-container')!.appendChild(elem);
+        elem.setAttribute('id', 'popup-menu-test');
+        elem.arrow = 'bottom';
+      });
+      await expect(page.locator('#popup-menu-test')).toBeAttached();
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
+    test('can append late to DOM', async ({ page, pageErrorsTest }) => {
+      await page.evaluate(() => {
+        const elem = document.createElement('ids-popup-menu')! as IdsPopupMenu;
+        elem!.setAttribute('id', 'popup-menu-test');
+        elem!.arrow = 'bottom';
+        document.querySelector('ids-container')!.appendChild(elem);
+      });
+      await expect(page.locator('#popup-menu-test')).toBeAttached();
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
+    test('can append via insertAdjacentHLTM to DOM', async ({ page, pageErrorsTest }) => {
+      await page.evaluate(() => {
+        const html = '<ids-popup-menu id="popup-menu-test"></ids-popup-menu>';
+        document.querySelector('ids-container')!.insertAdjacentHTML('beforeend', html);
+      });
+      await expect(page.locator('#popup-menu-test')).toBeAttached();
+      await page.locator('#popup-menu-test').evaluate((element: IdsPopupMenu) => { element.width = '100px'; });
+      await expect(page.locator('#popup-menu-test')).toHaveAttribute('width', '100px');
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
     });
 
     test('can set/get align', async () => {
@@ -364,7 +423,7 @@ test.describe('IdsPopupMenu tests', () => {
 
     test('can show submenu via selectItem', async () => {
       const menuFive = await idsPopupMenu.locator('#item-five');
-      const menuFiveHandle = await menuFive.evaluateHandle((node) => node);
+      const menuFiveHandle = await menuFive.elementHandle();
       const subMenuFive = await menuFive.locator('ids-popup-menu').first();
 
       await expect(idsPopupMenu).toHaveAttribute('hidden');
@@ -381,7 +440,7 @@ test.describe('IdsPopupMenu tests', () => {
 
     test('can focus on menu item when shown', async () => {
       const menuOne = await idsPopupMenu.locator('ids-menu-item').first();
-      const menuOneHandle = await menuOne.evaluateHandle((node) => node);
+      const menuOneHandle = await menuOne.elementHandle();
 
       await expect(menuOne).not.toHaveAttribute('highlighted');
       const actual = await idsPopupMenu.evaluate(async (element: IdsPopupMenu, handle) => {
@@ -488,9 +547,9 @@ test.describe('IdsPopupMenu tests', () => {
         return res ?? false;
       };
       const firstLevelMenus = await idsPopupMenu.locator(':scope > ids-menu-group > ids-menu-item').all();
-      const handles: ElementHandle[] = [];
+      const handles: any[] = [];
       for (let i = 0; i < firstLevelMenus.length; i++) {
-        const handle = await firstLevelMenus[i].evaluateHandle((node) => node);
+        const handle = await firstLevelMenus[i].elementHandle();
         handles.push(handle);
       }
 
@@ -535,16 +594,17 @@ test.describe('IdsPopupMenu tests', () => {
     });
 
     test('can navigate submenu with keyboard up and down keys', async ({ page }) => {
-      const isActiveElement = async (node: ElementHandle) => {
+      const isActiveElement = async (node: any) => {
+        if (!node) return false;
         const res = await page.evaluate((elem) => document.activeElement!.isSameNode(elem), node);
         return res ?? false;
       };
       const menuFive = await idsPopupMenu.locator('#item-five');
-      const fiveHandle = await menuFive.evaluateHandle((node) => node);
+      const fiveHandle = await menuFive.elementHandle()!;
       const fiveSubMenus = await menuFive.locator(':scope > ids-popup-menu > ids-menu-group > ids-menu-item').all();
-      const subHandles = [];
+      const subHandles: any[] = [];
       for (let i = 0; i < fiveSubMenus.length; i++) {
-        const handle = await fiveSubMenus[i].evaluateHandle((node) => node);
+        const handle = await fiveSubMenus[i].elementHandle()!;
         subHandles.push(handle);
       }
 
@@ -553,7 +613,7 @@ test.describe('IdsPopupMenu tests', () => {
 
       await idsPopupMenu.evaluate(async (element: IdsPopupMenu, target) => {
         await element.show();
-        target.focus();
+        target!.focus();
       }, fiveHandle);
 
       // press right to open and navigate to the sub menu
@@ -589,6 +649,111 @@ test.describe('IdsPopupMenu tests', () => {
       await page.keyboard.press('Escape', { delay: 30 });
       await expect(idsPopupMenu).toHaveAttribute('hidden');
       expect(await isPopupVisible(idsPopupMenu)).toBeFalsy();
+    });
+
+    test('can hide all submenus', async () => {
+      const fiveMenu = await idsPopupMenu.locator('#item-five');
+      const sixMenu = await idsPopupMenu.locator('#item-six');
+      const sevenMenu = await idsPopupMenu.locator('#contains-submenu');
+
+      await expect(fiveMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+      await expect(sixMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+      await expect(sevenMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+
+      // show all submenus
+      await idsPopupMenu.evaluate(async (element: IdsPopupMenu, handles) => {
+        await element.show();
+        await ((handles.fiveHandle as IdsMenuItem).submenu as IdsPopupMenu)!.show();
+        await ((handles.sixHandle as IdsMenuItem).submenu as IdsPopupMenu)!.show();
+        await ((handles.sevenHandle as IdsMenuItem).submenu as IdsPopupMenu)!.show();
+      }, {
+        fiveHandle: await fiveMenu.elementHandle(),
+        sixHandle: await sixMenu.elementHandle(),
+        sevenHandle: await sevenMenu.elementHandle()
+      });
+
+      await expect(fiveMenu.locator(':scope > ids-popup-menu')).not.toHaveAttribute('hidden');
+      await expect(sixMenu.locator(':scope > ids-popup-menu')).not.toHaveAttribute('hidden');
+      await expect(sevenMenu.locator(':scope > ids-popup-menu')).not.toHaveAttribute('hidden');
+
+      // hide all submenus
+      await idsPopupMenu.evaluate((element: IdsPopupMenu) => element.hideSubmenus());
+
+      await expect(fiveMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+      await expect(sixMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+      await expect(sevenMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+    });
+
+    test('can exempt submenu from hiding', async () => {
+      const fiveMenu = await idsPopupMenu.locator('#item-five');
+      const sixMenu = await idsPopupMenu.locator('#item-six');
+      const sevenMenu = await idsPopupMenu.locator('#contains-submenu');
+
+      await expect(fiveMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+      await expect(sixMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+      await expect(sevenMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+
+      // show all submenus
+      await idsPopupMenu.evaluate(async (element: IdsPopupMenu, handles) => {
+        await element.show();
+        await ((handles.fiveHandle as IdsMenuItem).submenu as IdsPopupMenu)!.show();
+        await ((handles.sixHandle as IdsMenuItem).submenu as IdsPopupMenu)!.show();
+        await ((handles.sevenHandle as IdsMenuItem).submenu as IdsPopupMenu)!.show();
+      }, {
+        fiveHandle: await fiveMenu.elementHandle(),
+        sixHandle: await sixMenu.elementHandle(),
+        sevenHandle: await sevenMenu.elementHandle()
+      });
+
+      await expect(fiveMenu.locator(':scope > ids-popup-menu')).not.toHaveAttribute('hidden');
+      await expect(sixMenu.locator(':scope > ids-popup-menu')).not.toHaveAttribute('hidden');
+      await expect(sevenMenu.locator(':scope > ids-popup-menu')).not.toHaveAttribute('hidden');
+
+      // hide all submenus except for the 6th
+      await idsPopupMenu.evaluate((
+        element: IdsPopupMenu,
+        menu: any
+      ) => element.hideSubmenus(menu.sixHandle), { sixHandle: await sixMenu.elementHandle() });
+
+      await expect(fiveMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+      await expect(sixMenu.locator(':scope > ids-popup-menu')).not.toHaveAttribute('hidden');
+      await expect(sevenMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+    });
+
+    test('can open submenu when hovered on menu item', async ({ page }) => {
+      const sixMenu = await idsPopupMenu.locator('#item-six');
+
+      await expect(idsPopupMenu).toHaveAttribute('hidden');
+      expect(await isPopupVisible(idsPopupMenu)).toBeFalsy();
+
+      await page.mouse.click(100, 100, { button: 'right', delay: 30 });
+      await expect(idsPopupMenu).not.toHaveAttribute('hidden');
+      expect(await isPopupVisible(idsPopupMenu)).toBeTruthy();
+
+      await expect(sixMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+
+      await expect(async () => {
+        await sixMenu.hover();
+        await expect(sixMenu.locator(':scope > ids-popup-menu')).not.toHaveAttribute('hidden');
+      }).toPass();
+    });
+
+    test('can open submenu when clicked on menu item', async ({ page }) => {
+      const sixMenu = await idsPopupMenu.locator('#item-six');
+
+      await expect(idsPopupMenu).toHaveAttribute('hidden');
+      expect(await isPopupVisible(idsPopupMenu)).toBeFalsy();
+
+      await page.mouse.click(100, 100, { button: 'right', delay: 30 });
+      await expect(idsPopupMenu).not.toHaveAttribute('hidden');
+      expect(await isPopupVisible(idsPopupMenu)).toBeTruthy();
+
+      await expect(sixMenu.locator(':scope > ids-popup-menu')).toHaveAttribute('hidden');
+
+      await expect(async () => {
+        await sixMenu.click();
+        await expect(sixMenu.locator(':scope > ids-popup-menu')).not.toHaveAttribute('hidden');
+      }).toPass();
     });
   });
 });
