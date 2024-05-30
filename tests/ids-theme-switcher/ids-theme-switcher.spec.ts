@@ -7,9 +7,11 @@ import IdsThemeSwitcher from '../../src/components/ids-theme-switcher/ids-theme-
 
 test.describe('IdsThemeSwitcher tests', () => {
   const url = '/ids-theme-switcher/example.html';
+  let switcher: any;
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
+    switcher = await page.locator('ids-theme-switcher').first();
   });
 
   test.describe('general page checks', () => {
@@ -61,6 +63,54 @@ test.describe('IdsThemeSwitcher tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-theme-switcher-light');
+    });
+  });
+
+  test.describe('functionality tests', () => {
+    test('handles selected from the ids-popup-menu', async () => {
+      await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => {
+        const event = new CustomEvent('selected', { detail: { elem: { value: 'classic' } } });
+        idsSwitcher?.shadowRoot?.querySelector('ids-popup-menu')?.dispatchEvent(event);
+        event.detail.elem.value = 'contrast';
+        idsSwitcher?.shadowRoot?.querySelector('ids-popup-menu')?.dispatchEvent(event);
+      });
+      const mode = await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => idsSwitcher.mode);
+      await expect(mode).toEqual('contrast');
+    });
+
+    test('can set mode and then clear it to default', async () => {
+      await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => {
+        idsSwitcher.mode = 'dark';
+        idsSwitcher.mode = '';
+      });
+      const mode = await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => idsSwitcher.mode);
+      await expect(mode).toEqual('light');
+      await expect(switcher).not.toHaveAttribute('mode');
+    });
+
+    test('supports setting color variants', async () => {
+      await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => { idsSwitcher.colorVariant = 'alternate'; });
+      const colorVariant = await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => idsSwitcher!.colorVariant);
+      await expect(colorVariant).toEqual('alternate');
+    });
+
+    test('sync color variant with the container', async () => {
+      await switcher.evaluate((idsSwitcher: IdsThemeSwitcher) => {
+        idsSwitcher.colorVariant = 'alternate';
+        idsSwitcher.onColorVariantRefresh();
+      });
+
+      const colorVariant = await switcher.evaluate((
+        idsSwitcher: IdsThemeSwitcher
+      ) => (idsSwitcher!.container as any).colorVariant);
+      await expect(colorVariant).toEqual('alternate');
+    });
+
+    test('can change language', async ({ page }) => {
+      await page.evaluate(async () => {
+        await window?.IdsGlobal?.locale?.setLanguage('ar');
+      });
+      await expect(switcher).toHaveAttribute('dir', 'rtl');
     });
   });
 });

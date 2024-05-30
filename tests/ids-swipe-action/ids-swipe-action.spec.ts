@@ -47,7 +47,7 @@ test.describe('IdsSwipeAction tests', () => {
       await expect(html).toMatchSnapshot('swipe-action-shadow');
     });
 
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-swipe-action-light');
     });

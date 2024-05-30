@@ -1,6 +1,7 @@
 import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
+import IdsButton from '../../src/components/ids-button/ids-button';
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridRow from '../../src/components/ids-data-grid/ids-data-grid-row';
 
@@ -352,6 +353,51 @@ test.describe('IdsDataGridRow tests', () => {
         });
         expect(await expandable.evaluate(() => (window as any).collapsedEventCount)).toBe(0);
       });
+    });
+  });
+});
+
+test.describe('IdsDataGridRow add tests', () => {
+  const url = '/ids-data-grid/add-row.html';
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(url);
+  });
+
+  test.describe('add/remove row tests', () => {
+    test('can add/remove rows, and row-data maintains the correct order', async ({ page }) => {
+      const data = await page.evaluate(() => {
+        const CHECKBOX_COLUMN = 0;
+        const DESCRIPTION_COLUMN = 1;
+
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        const addRowButton = document.querySelector<IdsButton>('ids-button#add-row')!;
+        const deleteRowButton = document.querySelector<IdsButton>('ids-button#delete-row')!;
+
+        const mouseClick = new MouseEvent('click', { bubbles: true });
+
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[0]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('FIRST');
+
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[1]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('SECOND');
+
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[2]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('THIRD');
+
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[3]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('FOURTH');
+
+        dataGrid.rows[1]?.cellByIndex(CHECKBOX_COLUMN)?.dispatchEvent(mouseClick);
+        deleteRowButton.dispatchEvent(mouseClick);
+
+        return dataGrid.data;
+      });
+
+      expect(data.length).toBe(3);
+      expect(data[0].description).toBe('FIRST');
+      expect(data[1].description).toBe('THIRD');
+      expect(data[2].description).toBe('FOURTH');
     });
   });
 });
