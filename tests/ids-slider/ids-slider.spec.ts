@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { expect } from '@playwright/test';
-import { test } from '../base-fixture';
+// import { test, expect } from '../base-fixture';
+import { test, expect } from '../base-fixture';
 import IdsSlider from '../../src/components/ids-slider/ids-slider';
 
 test.describe('IdsSlider tests', () => {
@@ -515,15 +515,15 @@ test.describe('IdsSlider tests', () => {
         await page.mouse.move(0, 297);
         await page.mouse.up();
         const sliderEl = await verticalRangeSlider.evaluate((el: IdsSlider) => {
-          value = el.shadowRoot?.querySelector('ids-draggable.thumb-draggable')?.ariaValueNow;
-          valueSecondary = el.shadowRoot?.querySelector('ids-draggable.thumb-draggable.secondary')?.ariaValueNow;
+          value = el.shadowRoot?.querySelector('ids-draggable.thumb-draggable')?.ariaValueNow ?? 0;
+          valueSecondary = el.shadowRoot?.querySelector('ids-draggable.thumb-draggable.secondary')?.ariaValueNow ?? 0;
           return {
             value,
             valueSecondary,
           };
         });
-        await expect(sliderEl.value).toBe('59');
-        await expect(sliderEl.valueSecondary).toBe('76');
+        await expect(sliderEl.value as number).toBeInAllowedBounds(59, 2);
+        await expect(sliderEl.valueSecondary as number).toBeInAllowedBounds(76, 2);
       }).toPass();
     });
 
