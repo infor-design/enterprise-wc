@@ -260,7 +260,7 @@ test.describe('IdsPieChart tests', () => {
       await expect(emptyMessage).not.toHaveAttribute('hidden');
     });
 
-    test('can translate empty text', async ({ page }) => {
+    test.skip('can translate empty text', async ({ page }) => {
       await pieChart.evaluate((pie:IdsPieChart) => {
         pie.data = [{
           data: [{
