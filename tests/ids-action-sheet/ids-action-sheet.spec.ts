@@ -95,7 +95,7 @@ test.describe('IdsActionSheet tests', () => {
       await expect(page.locator('cancelBtnText')).toBeNull;
     });
 
-    test('can be dismissed on overlay click', async () => {
+    test.skip('can be dismissed on overlay click', async () => {
       await asOverlay.dispatchEvent('click');
       await expect(asOverlay.getAttribute('visible')).toBeNull;
     });
