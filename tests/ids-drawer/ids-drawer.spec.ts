@@ -140,7 +140,7 @@ test.describe('IdsDrawer tests', () => {
       await btn.click();
       await expect(await eventsTest.isEventTriggered('ids-drawer', 'show')).toBeTruthy();
       await eventsTest.onEvent('ids-drawer', 'hide');
-      await btn.click();
+      await btn.dispatchEvent('click');
       await drawer.evaluate(() => {
         const elem: any = document.querySelector('ids-drawer');
         elem.onOutsideClick({ target: document.body });
