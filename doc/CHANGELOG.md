@@ -21,6 +21,7 @@
 - `[Progress Bar]` Converted progress bar tests to playwright. ([#1964](https://github.com/infor-design/enterprise-wc/issues/1964))
 - `[Progress Chart]` Converted progress chart tests to playwright. ([#1965](https://github.com/infor-design/enterprise-wc/issues/1965))
 - `[SkipLink]` Converted skiplink tests to playwright. ([#1970](https://github.com/infor-design/enterprise-wc/issues/1970))
+- `[Swappable]` Converted swappable tests to playwright. ([#1975](https://github.com/infor-design/enterprise-wc/issues/1975))
 - `[Tabs]` Fixed position of more menu in production/angular build. ([#2352](https://github.com/infor-design/enterprise-wc/issues/2352))
 - `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
 - `[Text]` Fixed lifecycle issues with text translation in angular.. ([#2324](https://github.com/infor-design/enterprise-wc/issues/2324))
