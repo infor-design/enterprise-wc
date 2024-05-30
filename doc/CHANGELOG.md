@@ -15,6 +15,7 @@
 - `[Hyperlink]` Converted hyperlink tests to playwright. ([#1941](https://github.com/infor-design/enterprise/issues/1941))
 - `[Masthead]` Converted masthead tests to playwright. ([#1951](https://github.com/infor-design/enterprise-wc/issues/1951))
 - `[Pager]` Fix `ids-pager-button` so that it can be enabled if `page-total` is unknown or not provided. ([#1506](https://github.com/infor-design/enterprise-wc/issues/1506))
+- `[Pie Chart]` Converted pie chart tests to playwright. ([#1960](https://github.com/infor-design/enterprise-wc/issues/1960))
 - `[Popup]` Fix return of `bleed` property. ([#2360][https://github.com/infor-design/enterprise-wc/issues/2360])
 - `[Popup]` Converted popup test to playwright. ([#1962][https://github.com/infor-design/enterprise-wc/issues/1962])
 - `[PopupMenu]` Fix popupmenu truncation bug for menu items with shortcuts. ([#2250](https://github.com/infor-design/enterprise-wc/issues/2250))
