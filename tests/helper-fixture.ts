@@ -149,7 +149,7 @@ export class PageErrorsTest {
    * Set the page object.
    * @param {Page} page page object
    */
-  async setPage(page: Page) {
+  setPage(page: Page) {
     this.page = page;
     this.errors = [];
     this.#initialize();

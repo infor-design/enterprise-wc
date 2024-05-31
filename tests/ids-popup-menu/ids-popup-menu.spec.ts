@@ -6,7 +6,9 @@ import { test } from '../base-fixture';
 import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
 import IdsMenuItem from '../../src/components/ids-menu/ids-menu-item';
 
+import defaultDataset from '../../src/assets/data/menu-contents.json';
 import arrayDataset from '../../src/assets/data/menu-array.json';
+import shortcutDataset from '../../src/assets/data/menu-shortcuts.json';
 
 test.describe('IdsPopupMenu tests', () => {
   const url = '/ids-popup-menu/example.html';
@@ -89,42 +91,234 @@ test.describe('IdsPopupMenu tests', () => {
   test.describe('data drive tests', () => {
     let idsPopupMenu: Locator;
 
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page, pageErrorsTest }) => {
       await page.evaluate(() => {
         document.querySelector('ids-container')!.innerHTML = '';
         const elem = document.createElement('ids-popup-menu') as IdsPopupMenu;
-        elem.id = 'popup-menu-data-test';
+        elem.id = 'popup-menu';
         document.querySelector('ids-container')!.appendChild(elem);
       });
-      idsPopupMenu = await page.locator('#popup-menu-data-test');
+      idsPopupMenu = await page.locator('#popup-menu');
       await idsPopupMenu.waitFor({ state: 'attached' });
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
     });
 
-    test('can accept array as data', async ({ pageErrorsTest }) => {
+    test('can accept sourced data', async () => {
+      let menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+      expect(menuItems).toHaveLength(0);
+
+      await idsPopupMenu.evaluate((element: IdsPopupMenu, tData) => {
+        element.data = tData as any;
+      }, defaultDataset);
+
+      await expect(async () => {
+        menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+        expect(menuItems.length).toBeGreaterThan(0);
+      }).toPass();
+    });
+
+    test('can accept array as data', async () => {
       const menuSize = arrayDataset[0].items.length;
       let menuItems = await idsPopupMenu.locator(':scope > ids-menu-group > ids-menu-item').all();
-
       expect(menuItems).toHaveLength(0);
+
       await idsPopupMenu.evaluate((element: IdsPopupMenu, tData) => {
         element.data = tData;
       }, arrayDataset);
       menuItems = await idsPopupMenu.locator(':scope > ids-menu-group > ids-menu-item').all();
-      expect(menuItems).toHaveLength(menuSize);
 
-      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+      expect(menuItems).toHaveLength(menuSize);
+      for (let i = 0; i < menuItems.length; i++) {
+        const expected = arrayDataset[0].items[i].text;
+        await expect(menuItems[i]).toHaveText(expected);
+      }
     });
 
-    test.skip('reverts to markup-driven when provided an empty dataset', async ({ page }) => {
-      await page.evaluate(async () => {
-        const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
-        await elem.show();
+    test('can accept data with shortcut keys', async () => {
+      const contents = shortcutDataset.contents[0].items.filter((item) => Object.hasOwn(item, 'shortcutKeys'));
+      let shortcuts = await idsPopupMenu.locator('span.shortcuts').all();
+      expect(shortcuts).toHaveLength(0);
+
+      await idsPopupMenu.evaluate((element: IdsPopupMenu, tData) => {
+        element.data = tData as any;
+        element.id = 'popup-menu';
+      }, shortcutDataset);
+
+      await expect(async () => {
+        shortcuts = await idsPopupMenu.locator('span.shortcuts').all();
+        expect(shortcuts).toHaveLength(contents.length);
+      }).toPass();
+
+      for (let i = 0; i < shortcuts.length; i++) {
+        await expect(shortcuts[i]).toHaveText(contents[i].shortcutKeys!);
+        // refer to the parent of the span element - ids-menu-item
+        await expect(shortcuts[i].locator('xpath=./parent::ids-menu-item')).toHaveAttribute('shortcut-keys', contents[i].shortcutKeys!);
+      }
+    });
+
+    test('can accept empty data with no errors', async () => {
+      let menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+      expect(menuItems).toHaveLength(0);
+
+      await idsPopupMenu.evaluate((element: IdsPopupMenu, tData) => {
+        element.data = tData as any;
+      }, defaultDataset);
+
+      await expect(async () => {
+        menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+        expect(menuItems.length).toBeGreaterThan(0);
+      }).toPass();
+
+      const data = await idsPopupMenu.evaluate((element: IdsPopupMenu) => {
+        element.data = {};
+        return element.data;
       });
-      await page.waitForFunction(() => document.querySelector<IdsPopupMenu>('ids-popup-menu')?.visible === true);
-      const markup: string = await page.evaluate(() => {
-        const elem = document.querySelector<IdsPopupMenu>('ids-popup-menu')!;
-        return elem.innerHTML;
+
+      await expect(async () => {
+        menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+        expect(menuItems.length).toBeGreaterThan(0);
+      }).toPass();
+
+      expect(data).toEqual(defaultDataset.contents);
+    });
+
+    test('won\'t render contents if the contents property is not valid', async () => {
+      let menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+      expect(menuItems).toHaveLength(0);
+
+      await idsPopupMenu.evaluate((element: IdsPopupMenu, tData) => {
+        element.data = tData as any;
+      }, defaultDataset);
+
+      await expect(async () => {
+        menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+        expect(menuItems.length).toBeGreaterThan(0);
+      }).toPass();
+
+      const data = await idsPopupMenu.evaluate((element: IdsPopupMenu) => {
+        element.data = {
+          contents: 'cake'
+        } as any;
+        return element.data;
       });
-      expect(markup).toContain(' Sub Sub Menu 1');
+
+      await expect(async () => {
+        menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+        expect(menuItems.length).toBeGreaterThan(0);
+      }).toPass();
+
+      expect(data).toEqual(defaultDataset.contents);
+    });
+
+    test('won\'t render a group if it has no `items` property', async () => {
+      let menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+      expect(menuItems).toHaveLength(0);
+
+      await idsPopupMenu.evaluate((element: IdsPopupMenu) => {
+        element.data = {
+          contents: [
+            {
+              type: 'group',
+              id: 'empty-group'
+            }
+          ]
+        } as any;
+        return element.data;
+      });
+
+      await expect(async () => {
+        menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+        expect(menuItems).toHaveLength(0);
+      }).toPass();
+    });
+
+    test('won\'t render a group if its `items` property has no items present', async () => {
+      let menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+      expect(menuItems).toHaveLength(0);
+
+      await idsPopupMenu.evaluate((element: IdsPopupMenu) => {
+        element.data = {
+          contents: [
+            {
+              type: 'group',
+              id: 'empty-group',
+              items: []
+            }
+          ]
+        } as any;
+        return element.data;
+      });
+
+      await expect(async () => {
+        menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+        expect(menuItems).toHaveLength(0);
+      }).toPass();
+    });
+
+    test('won\'t render an item\'s submenu if the submenu has no `contents` property', async () => {
+      let menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+      expect(menuItems).toHaveLength(0);
+
+      await idsPopupMenu.evaluate((element: IdsPopupMenu) => {
+        element.data = {
+          contents: [
+            {
+              type: 'group',
+              id: 'empty-group',
+              items: [
+                {
+                  id: 'my-item',
+                  text: 'My Menu Item',
+                  submenu: {
+                    id: 'my-submenu'
+                  }
+                }
+              ]
+            }
+          ]
+        } as any;
+        return element.data;
+      });
+
+      await expect(async () => {
+        menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+        expect(menuItems).toHaveLength(1);
+      }).toPass();
+    });
+
+    test('won\'t render an item\'s submenu if the submenu\'s `contents` property is invalid', async () => {
+      let menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+      expect(menuItems).toHaveLength(0);
+
+      await idsPopupMenu.evaluate((element: IdsPopupMenu) => {
+        element.data = {
+          contents: [
+            {
+              type: 'group',
+              id: 'empty-group',
+              items: [
+                {
+                  id: 'my-item',
+                  text: 'My Menu Item',
+                  submenu: {
+                    id: 'my-submenu'
+                  }
+                }
+              ]
+            }
+          ]
+        } as any;
+        return element.data;
+      });
+
+      await expect(async () => {
+        menuItems = await idsPopupMenu.locator('ids-menu-item').all();
+        expect(menuItems).toHaveLength(1);
+      }).toPass();
+    });
+
+    test.afterEach(async ({ pageErrorsTest }) => {
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
     });
   });
 
