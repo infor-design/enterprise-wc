@@ -40,10 +40,6 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     ::slotted(ids-menu-button:not(:first-child)) {
       margin-inline-start: 0;
     }
-
-    ::slotted(ids-separator[vertical]) {
-      margin-inline-end: -4px;
-    }
   }
 
   // Formatter toolbar (editor)

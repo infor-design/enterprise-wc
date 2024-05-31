@@ -236,7 +236,7 @@ export default class IdsAccordionPanel extends Base {
       this.collapsePane();
     } else {
       this.expandPane();
-      if (this.accordion.allowOnePane) {
+      if (this.accordion?.allowOnePane) {
         this.#collapseSiblingPanels();
       }
     }

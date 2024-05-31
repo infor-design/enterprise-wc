@@ -1,17 +1,82 @@
 # What's New with Enterprise Web Components
 
-## 1.0.1
+## 1.2.0
 
-### 1.0.1 Features
+### 1.2.0 Fixes
 
+- `[About]` Removed mobile info from about page. ([#8502](https://github.com/infor-design/enterprise/issues/8502))
+- `[AppMenu]` Added background color to selected item. ([#2048](https://github.com/infor-design/enterprise/issues/2048))
+- `[Datagrid]` Wrong value being used when adding rows. This was already fixed in WC #1506. Added test and demo. ([#2253](https://github.com/infor-design/enterprise-wc/issues/2253))
+- `[DatePicker]` Fix datepicker value syncing with manual input changes. ([#2207](https://github.com/infor-design/enterprise-wc/issues/2207))
+- `[Drawer]` Converted drawer tests to playwright. ([#1930](https://github.com/infor-design/enterprise-wc/issues/1930))
+- `[Dropdown]` Added additional fixes so that typeahead works in the angular examples. ([#2249](https://github.com/infor-design/enterprise-wc/issues/2249))
+- `[ExpandableArea]` Converted expandable area tests to playwright. ([#1935](https://github.com/infor-design/enterprise/issues/1935))
+- `[Hierarchy]` Converted hierarchy tests to playwright. ([#1939](https://github.com/infor-design/enterprise-wc/issues/1939))
+- `[Hyperlink]` Converted hyperlink tests to playwright. ([#1941](https://github.com/infor-design/enterprise/issues/1941))
+- `[Masthead]` Converted masthead tests to playwright. ([#1951](https://github.com/infor-design/enterprise-wc/issues/1951))
+- `[Pager]` Fix `ids-pager-button` so that it can be enabled if `page-total` is unknown or not provided. ([#1506](https://github.com/infor-design/enterprise-wc/issues/1506))
+- `[Pie Chart]` Converted pie chart tests to playwright. ([#1960](https://github.com/infor-design/enterprise-wc/issues/1960))
+- `[Popup]` Fix return of `bleed` property. ([#2360][https://github.com/infor-design/enterprise-wc/issues/2360])
+- `[Popup]` Converted popup test to playwright. ([#1962][https://github.com/infor-design/enterprise-wc/issues/1962])
+- `[PopupMenu]` Fix popupmenu truncation bug for menu items with shortcuts. ([#2250](https://github.com/infor-design/enterprise-wc/issues/2250))
+- `[Popupmenu]` Changed the `position-style` default to `fixed` this causes better placement in scroll containers. ([#2289](https://github.com/infor-design/enterprise-wc/issues/2289))
+- `[Process Indicator]` Converted process indicator tests to playwright. ([#1963](https://github.com/infor-design/enterprise-wc/issues/1963))
+- `[Progress Bar]` Converted progress bar tests to playwright. ([#1964](https://github.com/infor-design/enterprise-wc/issues/1964))
+- `[Progress Chart]` Converted progress chart tests to playwright. ([#1965](https://github.com/infor-design/enterprise-wc/issues/1965))
+- `[SkipLink]` Converted skiplink tests to playwright. ([#1970](https://github.com/infor-design/enterprise-wc/issues/1970))
+- `[Step chart]` Converted skiplink tests to playwright. ([#1973](https://github.com/infor-design/enterprise-wc/issues/1973))
+- `[Slider]` Converted slider tests to playwright. ([#1971](https://github.com/infor-design/enterprise-wc/issues/1971))
+- `[Theme Switcher]` Converted theme switcher tests to playwright. ([#1981](https://github.com/infor-design/enterprise-wc/issues/1981))
+- `[Tabs]` Fixed position of more menu in production/angular build. ([#2352](https://github.com/infor-design/enterprise-wc/issues/2352))
+- `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
+- `[Text]` Fixed lifecycle issues with text translation in angular.. ([#2324](https://github.com/infor-design/enterprise-wc/issues/2324))
+
+## 1.1.0
+
+### 1.1.0 Features
+
+- `[Accordion|Lookup]` Fix bug where `IdsLookup` modal was not appearing fully within `IdsAccordion`. ([#2212](https://github.com/infor-design/enterprise-wc/issues/2212))
+- `[Autocomplete]` Added `value-field` attribute to indicate what field from the dataset to return in selected event details. ([#1817](https://github.com/infor-design/enterprise-wc/issues/1817))
 - `[Datagrid]` Added the ability to dynamically set the `icon` and `text` column options on some formatters. ([#2122](https://github.com/infor-design/enterprise-wc/issues/2122))
+- `[Datagrid]` Added the ability to create multiline header text [see docs](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-data-grid#multiline-header-code-examples) for details. ([#1793](https://github.com/infor-design/enterprise-wc/issues/1793))
+- `[Datagrid]` Fix problem with datagrid pagination where setting the `pageTotal` property causes some of the rows to be incorrectly sorted. ([#2232](https://github.com/infor-design/enterprise-wc/issues/2232))
+- `[Datagrid]` Fixed bugged where adding `pageTotal` to datagrid messed up data order. ([#2232](https://github.com/infor-design/enterprise-wc/issues/2232))
+- `[Datagrid]` Fix grid popup alignment issues, by removing children if there are more than one instance of the child. ([#2246](https://github.com/infor-design/enterprise-wc/issues/2246))
 - `[Splitter]` If the panel is resized to 0, it will have `collapsed` attribute, enabling it to expand to its original position. ([#2083](https://github.com/infor-design/enterprise-wc/issues/2083))
 
-### 1.0.1 Fixes
+### 1.1.0 Fixes
 
+- `[Accordion]` Added setting to keep the default expander type for sub-level accordion headers. ([#2290](https://github.com/infor-design/enterprise-wc/issues/2290))
 - `[Autocomplete]` Fixed the popup is not attached when using the `autocomplete` attribute to set it. ([#2173](https://github.com/infor-design/enterprise-wc/issues/2173))
+- `[ActionPanel]` Fixed a bug that clicking the header closed the panel, also added a new hover state. ([#2294](https://github.com/infor-design/enterprise-wc/issues/2294))
 - `[AxisChart]` Fix `IdsAxisChart` so that it properly reloads when removed from the DOM and then reattached. ([#2111](https://github.com/infor-design/enterprise-wc/issues/2111))
+- `[Button]` Updated focus state on tertiary buttons. ([#2239](https://github.com/infor-design/enterprise-wc/issues/2239))
+- `[Breadcrumb]` Fixed truncating to work better when parent size is set. ([#2317](https://github.com/infor-design/enterprise-wc/issues/2317))
+- `[Container]` Switch from `vh` to `dvh` units. ([#2268](https://github.com/infor-design/enterprise-wc/issues/2268))
+- `[Datagrid]` Fixed row expanded/collapsed events triggering with the `allowOneExpandedRow` option. ([#2275](https://github.com/infor-design/enterprise-wc/issues/2275))
+- `[Datagrid]` Fixed internal width of the input element in an editable input cell. ([#2265](https://github.com/infor-design/enterprise-wc/issues/2265))
+- `[Dropdown]` Fixed issues using typeahead in a compiled script. ([#2249](https://github.com/infor-design/enterprise-wc/issues/2249))
+- `[Dropdown]` Fixed hover color on items in dark mode. ([#2293](https://github.com/infor-design/enterprise-wc/issues/2293))
+- `[Header]` Fixed inconsistency on header background color. ([#2242](https://github.com/infor-design/enterprise-wc/issues/2242))
 - `[BarChart]` Converted bar chart tests to playwright. ([#1919](https://github.com/infor-design/enterprise-wc/issues/1919))
+- `[BreadCrumb/Hyperlink]` Fix focus state on click bug. ([#2238](https://github.com/infor-design/enterprise-wc/issues/2238))
+- `[Dropdown]` Fixed dropdown positioning logic so it works on modals and popups, and better opens up if it does not fit. ([#2165](https://github.com/infor-design/enterprise-wc/issues/2165))
+- `[Editor]` Converted editor tests to playwright. ([#1931](https://github.com/infor-design/enterprise-wc/issues/1931))
+- `[Listview]` Converted listview tests to playwright. ([#1947](https://github.com/infor-design/enterprise-wc/issues/1947))
+- `[Toast]` Converted toast tests to playwright. ([#1983](https://github.com/infor-design/enterprise-wc/issues/1983))
+- `[Editor]` Fix bug where html editor edits weren't being stored. ([#2261](https://github.com/infor-design/enterprise-wc/issues/2261))
+- `[Input]` Fixed required validation triggered when assigning an empty value on initial component mount in React and Angular examples. ([#2233](https://github.com/infor-design/enterprise-wc/issues/2233))
+- `[Menu]` Converted menu tests to playwright. ([#1953](https://github.com/infor-design/enterprise-wc/issues/1953))
+- `[Modal]` Removed zoom in animation on modal based on design feedback and technical constraints. ([#2165](https://github.com/infor-design/enterprise-wc/issues/2165))
+- `[PopupMenu]` Fixed an issue where a submenu is in the wrong position when using production build on a html page ([#2216](https://github.com/infor-design/enterprise-wc/issues/2216))
+- `[Tree]` Add ability to have expandIcon and toggleIcon display together. ([#2151](https://github.com/infor-design/enterprise-wc/issues/2151))
+- `[Tree]` Fixed bug where redraw did not trigger when assigning an empty array. ([#2227](https://github.com/infor-design/enterprise-wc/issues/2227))
+- `[Tree]` Converted tree tests to playwright. ([#1986](https://github.com/infor-design/enterprise-wc/issues/1986))
+- `[TriggerButton]` Converted trigger button tests to playwright. ([#1988](https://github.com/infor-design/enterprise-wc/issues/1988))
+- `[TriggerField]` Converted trigger field tests to playwright. ([#1989](https://github.com/infor-design/enterprise-wc/issues/1989))
+- `[Upload]` Fixed trigger-button focus state. ([#2186](https://github.com/infor-design/enterprise-wc/issues/2186))
+- `[Upload Advanced]` Fixed duplicated upload status banners after reattach. ([#2073](https://github.com/infor-design/enterprise-wc/issues/2073))
+- `[VirtualScroll]` Converted virtual scroll tests to playwright. ([#1992](https://github.com/infor-design/enterprise-wc/issues/1992))
 
 ## 1.0.0
 
@@ -791,7 +856,7 @@ For more details on breaking changes see each component in the individual README
 - `[Textarea]` The Textarea component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-time-picker/README.md#converting-from-previous-versions-breaking-changes) for details. ([#162](https://github.com/infor-design/enterprise-wc/issues/162))
 - `[Time Picker]` The Time Picker component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-time-picker/README.md#converting-from-previous-versions-breaking-changes) for details. ([#151](https://github.com/infor-design/enterprise-wc/issues/151))
 - `[Toast]` The Toast component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-toast/README.md#converting-from-previous-versions-breaking-changes) for details. ([#129](https://github.com/infor-design/enterprise-wc/issues/129))
-- `[Toolbar]` The Toolbar component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-toolbar/README.md#converting-from-previous-versions-breaking-changes) for details. ([#163](https://github.com/infor-design/enterprise-wc/issues/163))
+- `[Toolbar]` Fix so that menu-items in `IdsToolbarMoreActions` can be disabled. ([#2156](https://github.com/infor-design/enterprise-wc/issues/2156))
 - `[Tooltip]` The Tooltip component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-tooltip/README.md#converting-from-previous-versions-breaking-changes) for details. ([#124](https://github.com/infor-design/enterprise-wc/issues/124))
 - `[Tree]` The Tree component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#235](https://github.com/infor-design/enterprise-wc/issues/235))
 - `[Treemap]` The Treemap component was converted. See the [README](https://github.com/infor-design/enterprise-wc/tree/main/src/components/ids-treemap/README.md#converting-from-previous-versions-breaking-changes) for details. ([#369](https://github.com/infor-design/enterprise-wc/issues/369))

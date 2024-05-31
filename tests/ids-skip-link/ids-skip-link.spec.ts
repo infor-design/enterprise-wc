@@ -57,4 +57,21 @@ test.describe('IdsSkipLink tests', () => {
       await expect(html).toMatchSnapshot('skip-link-shadow');
     });
   });
+
+  test.describe('functionality test', async () => {
+    test('renders href setting then removes it', async ({ page }) => {
+      const skiplink = await page.locator('ids-skip-link').first();
+      expect(await skiplink.evaluate((element: IdsSkipLink) => {
+        element.href = 'href';
+        return element.href;
+      })).toEqual('href');
+      await expect(skiplink).toHaveAttribute('href');
+
+      expect(await skiplink.evaluate((element: IdsSkipLink) => {
+        element.href = null;
+        return element.href;
+      })).toBeNull();
+      await expect(skiplink).not.toHaveAttribute('href');
+    });
+  });
 });

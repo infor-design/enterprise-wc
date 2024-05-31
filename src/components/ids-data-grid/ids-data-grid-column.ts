@@ -101,11 +101,18 @@ export interface IdsDataGridEditorValidation {
   id: string;
 }
 
+export interface IdsDataGridHeaderTextName {
+  /** The header text for one line */
+  text: string;
+  /** The font style to use */
+  emphasis?: 'normal' | 'subtle';
+}
+
 export interface IdsDataGridColumn {
   /** The columns unique id */
   id: string;
   /** The columns name */
-  name?: string;
+  name?: string | Array<IdsDataGridHeaderTextName>;
   /** The columns field in the array to use */
   field?: string;
   /** The subsitute text to use (for hyperlink and some formatters) */
@@ -145,6 +152,8 @@ export interface IdsDataGridColumn {
   /** Get the color dynamically from a function or as text */
   // eslint-disable-next-line max-len
   color?: IdsColorValue | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
+  /** Suppress the ids-color tooltip */
+  suppressColorTooltip?: boolean;
   /** Get the size dynamically from a function or as text */
   size?: string | ((row: number, value: any, column: IdsDataGridColumn, index: Record<string, any>) => string | undefined);
   /** Options to pass to the formatter */

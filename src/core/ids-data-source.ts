@@ -417,7 +417,10 @@ class IdsDataSource {
    * @param {boolean} overwrite true if the record should be completely overwritten as opposed to augmented
    */
   update(items: Array<Record<string, unknown>> = [], overwrite: boolean = false) {
-    items.forEach((updatedRecord) => {
+    items.forEach((updatedRecord, index) => {
+      if (!(this.primaryKey in updatedRecord)) {
+        updatedRecord[this.primaryKey] = index;
+      }
       const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
       if (i > -1) {
         const newRecord = overwrite ? updatedRecord : { ...this.#currentData[i], ...updatedRecord };

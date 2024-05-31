@@ -228,10 +228,6 @@
     }
   }
 
-  &:not(.animated) {
-    transform: none;
-  }
-
   // style: "none" (temporary)
   // maybe makes sense to be "custom"?
   &.none {
@@ -511,15 +507,16 @@
     outline: none;
     border-top-color: var(--ids-dropdown-attached-color-border);
 
+    &.open {
+      border: 1px solid var(--ids-dropdown-color-border);
+      border-top-color: var(--ids-dropdown-attached-color-border);
+    }
+
     &.flipped {
       border-radius: var(--ids-dropdown-border-radius-opened-up);
       border-bottom-color: var(--ids-dropdown-attached-color-border);
       border-top-color: var(--ids-dropdown-color-border);
       box-shadow: var(--ids-dropdown-shadow-opened-up);
-    }
-
-    &.open {
-      border: 1px solid var(--ids-dropdown-color-border);
     }
   }
 
@@ -546,6 +543,7 @@
 }
 
 .content-wrapper {
+  overflow: hidden;
   position: static;
   height: 100%;
   width: 100%;

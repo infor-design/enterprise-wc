@@ -236,6 +236,7 @@ export const attributes = {
   JUSTIFY: 'justify',
   JUSTIFY_CONTENT: 'justify-content',
   KEEP_OPEN: 'keep-open',
+  KEEP_EXPANDER_PLACEMENT: 'keep-expander-placement',
   KPI: 'kpi',
   KPI_FORMAT: 'kpi-format',
   LABEL: 'label',
@@ -279,6 +280,7 @@ export const attributes = {
   MAX_FILES_IN_PROCESS: 'max-files-in-process',
   MAX_HEIGHT: 'max-height',
   MAX_ROW_HEIGHT: 'max-row-height',
+  MAX_SIZE: 'max-size',
   MAX_TRANSFORM_X: 'max-transform-x',
   MAX_TRANSFORM_Y: 'max-transform-y',
   MAX_WIDTH: 'max-width',
@@ -433,6 +435,7 @@ export const attributes = {
   SHOW_LEGEND: 'show-legend',
   SHOW_LIST_ITEM_ICON: 'show-list-item-icon',
   SHOW_LOADING_INDICATOR: 'show-loading-indicator',
+  SHOW_EXPAND_AND_COLLAPSE_ICONS: 'show-expand-and-collapse-icons',
   SHOW_PICKLIST_MONTH: 'show-picklist-month',
   SHOW_PICKLIST_WEEK: 'show-picklist-week',
   SHOW_PICKLIST_YEAR: 'show-picklist-year',
@@ -530,8 +533,9 @@ export const attributes = {
   VALIDATION_ID: 'validation-id',
   VALIDATION_MESSAGE: 'validation-message',
   VALIDATION_TYPE: 'validation-type',
-  VALUE: 'value',
+  VALUE_FIELD: 'value-field',
   VALUE_SECONDARY: 'value-secondary',
+  VALUE: 'value',
   VERTICAL: 'vertical',
   VIEW: 'view',
   VIEW_PICKER: 'view-picker',
@@ -580,7 +584,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0';
+export const version = '1.1.0';
 
 export enum IdsDirection {
   Up = 'up',

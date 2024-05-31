@@ -154,10 +154,10 @@ Save splitter position to local storage.
 
 ## Settings and Attributes (Splitter Pane)
 
-- `size` {string|number} Sets initially the pane size
-- `minSize` {string|number} Sets initially the pane minimum size
-- `maxSize` {string|number} Sets initially the pane maximum size
-- `collapsed` {boolean} Sets initially the pane to collapsed state
+- `size` {string|number} Sets the pane size
+- `minSize` {string|number} Sets the pane minimum size
+- `maxSize` {string|number} Sets the pane maximum size
+- `collapsed` {boolean} Set the pane(s) to collapsed state or can use `collapse` on the `ids-splitter`
 
 ## Theme-able Parts (Splitter)
 
@@ -188,7 +188,7 @@ Save splitter position to local storage.
 - `expand(options: { startPane: HTMLElement|string, endPane: HTMLElement|string }): void` Expand start pane size for given start/end panes or panes CSS selector
 - `getAllPairs(): Array<object>` Get list of splitter pairs
 - `getPair(options: { startPane: HTMLElement|string, endPane: HTMLElement|string }): object` Get a splitter pair by given start/end panes or panes CSS selector
-- `idTobeUse(uniqueId?: string, suffix?: string, prefix?: string): string` Get the id to be use
+- `idTobeUsed(uniqueId?: string, suffix?: string, prefix?: string): string` Get the id to be use
 - `isHorizontal(): boolean` Get true if current orientation is horizontal
 - `sizes(): Array<number>` Get list of current sizes
 - `minSizes(): Array<number>` Get list of current minimum sizes

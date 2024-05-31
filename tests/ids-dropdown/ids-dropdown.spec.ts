@@ -43,17 +43,20 @@ test.describe('IdsDropdown tests', () => {
   test.describe('snapshot tests', () => {
     test('should match innerHTML snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-dropdown');
-      const html = await handle?.evaluate((el: IdsDropdown) => el?.outerHTML);
+      const html = await page.evaluate(() => {
+        const elem = document.querySelector('ids-dropdown')!;
+        elem.shadowRoot?.querySelector('style')?.remove();
+        return elem?.outerHTML;
+      });
       await expect(html).toMatchSnapshot('dropdown-html');
     });
 
     test('should match shadowRoot snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-dropdown');
-      const html = await handle?.evaluate((el: IdsDropdown) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
+      const html = await page.evaluate(() => {
+        const elem = document.querySelector('ids-dropdown')!;
+        elem.shadowRoot?.querySelector('style')?.remove();
+        return elem.shadowRoot?.innerHTML;
       });
       await expect(html).toMatchSnapshot('dropdown-shadow');
     });
@@ -61,6 +64,23 @@ test.describe('IdsDropdown tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-dropdown-light');
+    });
+
+    test('should match the visual snapshot in percy (in a modal)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-dropdown/in-modal.html');
+      await page.locator('#modal-trigger-btn').click();
+      await page.locator('ids-dropdown').nth(2).click();
+      await percySnapshot(page, 'ids-dropdown-modal-light');
+    });
+
+    test('should match the visual snapshot in percy (in a popup)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-dropdown/in-popup.html');
+      await page.locator('#popup-trigger-btn').click();
+      await page.locator('ids-dropdown').nth(1).click();
+      await page.waitForSelector('ids-popup[visible]');
+      await percySnapshot(page, 'ids-dropdown-popup-light');
     });
   });
 
@@ -91,6 +111,31 @@ test.describe('IdsDropdown tests', () => {
   });
 
   test.describe('functionality tests', () => {
+    test('renders with empty container', async ({ page }) => {
+      const exists = await page.evaluate(() => {
+        document.body.insertAdjacentHTML('beforeend', `<ids-dropdown id="dropdown-test-1" label="Normal Dropdown"></ids-dropdown>`);
+        const dropdown = document.querySelector<IdsDropdown>('#dropdown-test-1')!;
+        return dropdown?.container !== undefined;
+      });
+      await expect(exists).toBe(true);
+    });
+
+    test('can set the placeholder attribute', async ({ page }) => {
+      const value = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.placeholder = 'select an item';
+        return dropdown.input!.placeholder;
+      });
+      expect(value).toBe('select an item');
+
+      const value2 = await page.evaluate(() => {
+        const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;
+        dropdown.placeholder = '';
+        return dropdown.input!.placeholder;
+      });
+      expect(value2).toBe(null);
+    });
+
     test('can set the readonly attribute', async ({ page }) => {
       const isReadonly = await page.evaluate(() => {
         const dropdown = document.querySelector<IdsDropdown>('ids-dropdown')!;

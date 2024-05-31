@@ -37,7 +37,7 @@
     "selector-pseudo-element-no-unknown": [true, {
       "ignorePseudoElements": ["root", "host", "unresolved", "part", "::part"]
     }],
-    "selector-type-no-unknown":  [true, {
+    "selector-type-no-unknown": [true, {
       "ignore": ["custom-elements"]
     }],
     "selector-not-notation": null,

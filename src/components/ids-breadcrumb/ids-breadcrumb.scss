@@ -6,6 +6,7 @@
 
   align-items: center;
   display: flex;
+  width: 100%;
 
   [text-decoration] {
     text-decoration: attr(text-decoration);
@@ -49,7 +50,7 @@
           width var(--ids-motion-duration) var(--ids-motion-ease),
           background var(--ids-motion-duration) var(--ids-motion-ease);
         background-color: transparent;
-        background-image: linear-gradient(to right, var(--ids-color-background-default), rgba(255 255 255 / 0));
+        background-image: var(--ids-breadcrumb-gradient);
         content: '';
         height: 100%;
         left: 0;
