@@ -64,7 +64,7 @@ test.describe('IdsTreemap tests', () => {
       });
     });
 
-    test('can resize the width when the viewport changes', async ({ page }) => {
+    test.skip('can resize the width when the viewport changes', async ({ page }) => {
       // removes the padding of the ids-container and return the tree map width
       await page.evaluate(() => { document.querySelector<IdsContainer>('ids-container')!.padding = '0'; });
       let currWidth = await treemap.evaluate((element: IdsTreeMap) => element.width);

@@ -237,6 +237,7 @@ export const attributes = {
   JUSTIFY: 'justify',
   JUSTIFY_CONTENT: 'justify-content',
   KEEP_OPEN: 'keep-open',
+  KEEP_EXPANDER_PLACEMENT: 'keep-expander-placement',
   KPI: 'kpi',
   KPI_FORMAT: 'kpi-format',
   LABEL: 'label',
@@ -585,7 +586,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.0.0';
+export const version = '1.1.0';
 
 export enum IdsDirection {
   Up = 'up',

@@ -208,6 +208,27 @@ export default class IdsAccordion extends Base {
   }
 
   /**
+   * Sets keepExpanderPlacement property
+   * @param {boolean|string} value true/false
+   */
+  set keepExpanderPlacement(value: boolean) {
+    if (value) {
+      this.setAttribute(attributes.KEEP_EXPANDER_PLACEMENT, '');
+    } else {
+      this.removeAttribute(attributes.KEEP_EXPANDER_PLACEMENT);
+    }
+  }
+
+  /**
+   * Gets keepExpanderPlacement
+   * @readonly
+   * @returns {boolean} true if accordion set to keepExpanderPlacement
+   */
+  get keepExpanderPlacement(): boolean {
+    return this.hasAttribute(attributes.KEEP_EXPANDER_PLACEMENT);
+  }
+
+  /**
    * Labels Headers and Panels with styling information that is
    * dependent on how deeply-nested they are within the Accordion tree.
    * @param {HTMLElement} element the element to check
@@ -268,8 +289,8 @@ export default class IdsAccordion extends Base {
         // this.header.language = this.language?.name;
 
         // Assign Expander Type
-        // (Use Plus/Minus-style expander on any nested panels)
-        if (hasChildPanels && doExpanderType) {
+        // (Use Plus/Minus-style expander on any nested panels unless keepExpanderPlacement is set)
+        if (hasChildPanels && doExpanderType && !this.keepExpanderPlacement) {
           const expanderType = subLevelDepth ? 'plus-minus' : 'caret';
           this.header.expanderType = expanderType;
         }

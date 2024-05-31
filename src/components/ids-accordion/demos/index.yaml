@@ -10,13 +10,16 @@
     description: Shows a basic accordion
   - link: disabled.html
     type: Example
-    description: Shows a accordion with disabled sections
+    description: Shows an accordion with disabled sections
   - link: icon.html
     type: Example
-    description: Shows a accordion with icons
+    description: Shows an accordion with icons
+  - link: lookup.html
+    type: Example
+    description: Shows an accordion with a lookup
   - link: nested.html
     type: Test
-    description: Shows a accordion with nest variant
+    description: Shows an accordion with nest variant
   - link: side-by-side.html
     type: Side by Side
     description: Showing side by side with 4.x

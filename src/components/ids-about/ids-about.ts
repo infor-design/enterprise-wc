@@ -193,7 +193,6 @@ export default class IdsAbout extends Base {
       const specs = getSpecs();
       const element = `<ids-text slot="device" type="p">
         <span>${this.localeAPI?.translate('Platform')} : ${specs.platform}</span><br/>
-        <span>${this.localeAPI?.translate('Mobile')} : ${specs.isMobile}</span><br/>
         <span>${this.localeAPI?.translate('Browser')} : ${specs.browser} (${specs.browserVersion})</span><br/>
         <span>${this.localeAPI?.translate('Locale')} : ${this.localeAPI?.locale.name || 'en-US'}</span><br/>
         <span>${this.localeAPI?.translate('Language')} : ${this.localeAPI?.language.name || 'en'}</span><br/>

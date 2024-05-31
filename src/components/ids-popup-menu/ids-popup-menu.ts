@@ -50,6 +50,7 @@ export default class IdsPopupMenu extends Base {
       attributes.ALIGN,
       attributes.ARROW,
       attributes.MAX_HEIGHT,
+      attributes.POSITION_STYLE,
       attributes.WIDTH,
       attributes.X,
       attributes.Y
@@ -80,7 +81,10 @@ export default class IdsPopupMenu extends Base {
     if (this.hasAttribute(attributes.WIDTH)) {
       this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
-    this.#configurePopup();
+    // Defer the popup placement until after the initial setup phase
+    requestAnimationFrame(() => {
+      this.#configurePopup();
+    });
   }
 
   #configurePopup() {
@@ -347,6 +351,7 @@ export default class IdsPopupMenu extends Base {
     this.hideSubmenus();
 
     // Show the popup and do placement
+    this.popup!.positionStyle = this.positionStyle;
     this.popup?.setAttribute('visible', 'true');
 
     this.triggerEvent('aftershow', this, {
@@ -502,13 +507,6 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
-   * @returns {string | null} The max height value
-   */
-  get maxHeight(): string | null {
-    return this.getAttribute(attributes.MAX_HEIGHT);
-  }
-
-  /**
    * Set the max height value
    * @param {string | number | null} value The value
    */
@@ -521,6 +519,33 @@ export default class IdsPopupMenu extends Base {
       this.removeAttribute(attributes.MAX_HEIGHT);
       this.popup?.removeAttribute(attributes.MAX_HEIGHT);
     }
+  }
+
+  /**
+   * @returns {string | null} The max height value
+   */
+  get maxHeight(): string | null {
+    return this.getAttribute(attributes.MAX_HEIGHT);
+  }
+
+  /**
+   * @param {string} value the position style string
+   */
+  set positionStyle(value: string) {
+    if (value) {
+      this.setAttribute(attributes.POSITION_STYLE, value);
+      this.popup?.setAttribute(attributes.POSITION_STYLE, value);
+    } else {
+      this.removeAttribute(attributes.POSITION_STYLE);
+      this.popup?.removeAttribute(attributes.POSITION_STYLE);
+    }
+  }
+
+  /**
+   * @returns {string} the current position style
+   */
+  get positionStyle(): string {
+    return this.getAttribute(attributes.POSITION_STYLE) || 'fixed';
   }
 
   /**
@@ -718,11 +743,15 @@ export default class IdsPopupMenu extends Base {
 
             if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
             // adjusts for nested `relative` positioned offsets, and scrolled containers
-            const xAdjust = (parentPopup.offsetLeft || 0)
+            let xAdjust = (parentPopup.offsetLeft || 0)
               - this.container!.scrollParentElem!.scrollLeft;
-            const yAdjust = (parentPopup.offsetTop || 0)
+            let yAdjust = (parentPopup.offsetTop || 0)
               - this.container!.scrollParentElem!.scrollTop + extra;
 
+            if (this.positionStyle === 'fixed') {
+              xAdjust = this.container!.scrollParentElem!.scrollLeft > 0 ? xAdjust : 0;
+              yAdjust = this.container!.scrollParentElem!.scrollTop > 0 ? yAdjust - 20 : 0;
+            }
             popupRect.x -= xAdjust;
             popupRect.y -= yAdjust;
           }

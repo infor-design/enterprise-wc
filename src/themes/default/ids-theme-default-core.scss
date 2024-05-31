@@ -6,6 +6,7 @@
 // --ids-checkbox-color-border-focus
 :host,
 :root {
+  // @semantic
   // Primary Color
   --ids-color-primary: var(--ids-color-blue-60);
   --ids-color-text-on-primary: var(--ids-color-white-100);
@@ -130,7 +131,7 @@
   // Z Indexes (purpose-driven)
   --ids-z-index-top-level-container: var(--ids-z-index-20);
 
-  /// --- Component Tokens ---- ///
+  // @component
   // About
   --ids-about-width-max: 560px;
   --ids-about-width-min: 300px;
@@ -188,6 +189,7 @@
   --ids-app-menu-accordion-header-filter-color-text: var(--ids-color-text-default);
   --ids-app-menu-accordion-header-color-text-focus: var(--ids-color-white-100);
   --ids-app-menu-accordion-header-color-border-focus: var(--ids-color-primary-70);
+  --ids-app-menu-accordion-header-selected-bg-color: var(--ids-color-primary-60);
   --ids-app-menu-header-color-background-hover: var(--ids-color-gray-90);
   --ids-app-menu-header-color-border-hover: var(--ids-color-gray-90);
   --ids-app-menu-accordion-header-color-text-selected: var(--ids-color-white-100);
