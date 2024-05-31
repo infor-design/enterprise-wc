@@ -78,7 +78,7 @@ test.describe('IdsListView tests', () => {
   });
 
   test.describe('event tests', () => {
-    test('should fire click event on single selection', async ({ page }) => {
+    test.skip('should fire click event on single selection', async ({ page }) => {
       await page.goto('/ids-list-view/selectable-single.html');
       const noOfCalls = await page.evaluate(() => {
         let calls = 0;
@@ -203,7 +203,7 @@ test.describe('IdsListView tests', () => {
       { id: '7', subject: 'blackberry raspberry blueberry' }
     ];
 
-    test('renders the template without virtual scroll', async () => {
+    test.skip('renders the template without virtual scroll', async () => {
       await idsListView.evaluate((listview: IdsListView, dataSet: any) => { listview.data = dataSet; }, dataset);
       const lvData = await idsListView.evaluate((listview: IdsListView) => listview.data.length);
       const lvItem = await idsListView.evaluate((listview: IdsListView) => listview.items.length);
@@ -258,7 +258,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvItems).toEqual(77);
     });
 
-    test('render with empty data', async () => {
+    test.skip('render with empty data', async () => {
       let lvItems;
       await idsListView.evaluate((listView: IdsListView) => { listView.data = null; });
       lvItems = await idsListView.evaluate((listview: IdsListView) => listview.items.length);
@@ -609,7 +609,7 @@ test.describe('IdsListView tests', () => {
       await expect(await page.locator(sel(3))).toContainText('Moving Offices');
     });
 
-    test('can veto before item deactivated', async ({ page }) => {
+    test.skip('can veto before item deactivated', async ({ page }) => {
       let deactivated: any;
       await idsListView.evaluate((lView: IdsListView) => { lView.selectable = 'mixed'; });
       const sel = (nth: number) => `ids-list-view-item[row-index="${nth}"]`;

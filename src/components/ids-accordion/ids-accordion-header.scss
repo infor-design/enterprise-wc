@@ -54,6 +54,7 @@
 
   &.selected {
     color: var(--ids-app-menu-accordion-header-color-text-selected);
+    background-color: var(--ids-app-menu-accordion-header-selected-bg-color);
   }
 
   &[disabled] {

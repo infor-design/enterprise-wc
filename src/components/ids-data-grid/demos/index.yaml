@@ -98,6 +98,9 @@
   - link: double-click.html
     type: Example
     description: Shows a data grid with double click event
+  - link: add-row.html
+    type: Example
+    description: Shows a data grid with ability to add rows
   - link: editable.html
     type: Example
     description: Shows a data grid with editable cells
