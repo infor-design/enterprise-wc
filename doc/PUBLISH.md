@@ -11,7 +11,7 @@
 - Run command `gh release create 1.2.0 --title "1.2.0" --notes-file "doc/CHANGELOG.md"`
 - Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents to just the current release and if needed and make it pre-release
 - Commit and push (direct to repo or PR)
-- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-110`
+- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-120`
 - Post in announcements section following other similar link
 - (Run the docs generator (TBD) for `https://design.infor.com/web-components/` by running `scripts/docs-generator/main.js`
 
