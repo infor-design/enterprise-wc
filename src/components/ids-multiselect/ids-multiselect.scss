@@ -11,6 +11,7 @@ ids-trigger-field {
     display: flex;
     margin-top: 4px;
     margin-inline-start: 4px;
+    max-width: 100%;
 
     &[disabled]::part(tag) {
       cursor: var(--ids-cursor-default);
@@ -30,6 +31,7 @@ ids-trigger-field {
       &::part(input) {
         padding: 0;
         flex: 1;
+        visibility: hidden;
 
         &::selection {
           color: transparent;
