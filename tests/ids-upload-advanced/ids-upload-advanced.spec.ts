@@ -371,7 +371,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       })).toEqual({ labelEvent: true, hyperlinkEvent: true });
     });
 
-    test('can update slot value', async ({ page }) => {
+    test('can update slot value', async () => {
       await uploadAdvance.evaluate((el: IdsUploadAdvanced) => {
         const span1 = document.createElement('span');
         const span2 = document.createElement('span');
@@ -406,7 +406,7 @@ test.describe('IdsUploadAdvanced tests', () => {
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
       ];
       await uploadAdvance.evaluate((el: IdsUploadAdvanced) => {
-        el.send = (formData: any, uiElem: any) => {}; // eslint-disable-line
+        el.send = () => {}; // eslint-disable-line
       });
       await uploadAdvance.evaluate((el: IdsUploadAdvanced, file: any) => { el.handleFileUpload([...file]); }, files);
       const fileElems = await page.locator('ids-upload-advanced-file').all();
@@ -505,7 +505,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(rootEl).toHaveClass(/disabled/);
     });
 
-    test('can auto start', async ({ page }) => {
+    test('can auto start', async () => {
       await expect(uploadAdvance).not.toHaveAttribute('auto-start');
       let autoStart = await uploadAdvance.evaluate((el: IdsUploadAdvanced) => el.autoStart);
       await expect(autoStart).toEqual(true);
@@ -523,7 +523,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(autoStart).toEqual(true);
     });
 
-    test('can set arbitrary error message on file', async ({ page }) => {
+    test('can set arbitrary error message on file', async () => {
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -555,7 +555,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(status).toEqual(['errored', 'errored']);
     });
 
-    test('can set arbitrary error message on single file by ui element', async ({ page }) => {
+    test('can set arbitrary error message on single file by ui element', async () => {
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -587,7 +587,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(status).toEqual(['errored', 'errored']);
     });
 
-    test('can manually start upload single file', async ({ page }) => {
+    test('can manually start upload single file', async () => {
       // TODO status is errored
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
@@ -635,7 +635,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(status).toEqual(['in-process', 'in-process']);
     });
 
-    test('can manually start upload all files', async ({ page }) => {
+    test('can manually start upload all files', async () => {
       // TODO status is errored
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
@@ -676,7 +676,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(toolbararea).not.toBeAttached();
     });
 
-    test('can cancel upload single file', async ({ page }) => {
+    test('can cancel upload single file', async () => {
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -711,7 +711,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(status).toEqual('not-started');
     });
 
-    test('can cancel upload all file', async ({ page }) => {
+    test('can cancel upload all file', async () => {
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -740,7 +740,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       expect(fileNodes.length).toEqual(0);
     });
 
-    test('can remove if existing in files', async ({ page }) => {
+    test('can remove if existing in files', async () => {
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -756,14 +756,6 @@ test.describe('IdsUploadAdvanced tests', () => {
         fileElems.start();
       });
 
-      const status = await uploadAdvance.evaluate((el: IdsUploadAdvanced) => {
-        const stats: any[] = [];
-        const node = el.shadowRoot?.querySelectorAll('ids-upload-advanced-file');
-        node?.forEach((fileNode: any) => {
-          stats.push(fileNode.status);
-        });
-        return stats;
-      });
       // await expect(status).toEqual(['in-process', 'not-started']); // status is errored
       fileNodes = await uploadAdvance.locator('ids-upload-advanced-file').all();
       allItems = await uploadAdvance.evaluate((el: IdsUploadAdvanced) => el.files.length);
@@ -782,7 +774,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       expect(fileNodes.length).toEqual(2);
     });
 
-    test('can set abort handler', async ({ page }) => {
+    test('can set abort handler', async () => {
       // TODO status is errored instead of in-process
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
@@ -812,7 +804,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(status).toEqual('aborted');
     });
 
-    test('can set progress handle', async ({ page }) => {
+    test('can set progress handle', async () => {
       // TODO status is errored instead of in-process
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
@@ -833,7 +825,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(value).toEqual('35');
     });
 
-    test('can set status', async ({ page }) => {
+    test('can set status', async () => {
       // TODO status is errored instead of in-process
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
@@ -858,7 +850,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(UploadAdvancedFile).toHaveAttribute('status', 'in-process');
     });
 
-    test('can set complete handler', async ({ page }) => {
+    test('can set complete handler', async () => {
       // TODO status is errored instead of in-process
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
@@ -888,7 +880,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(status).toEqual('completed');
     });
 
-    test('can set complete handler with error', async ({ page }) => {
+    test('can set complete handler with error', async () => {
       // TODO status is errored instead of in-process
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
@@ -935,7 +927,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(status).toEqual('errored');
     });
 
-    test('can set error handler', async ({ page }) => {
+    test('can set error handler', async () => {
       // TODO status is errored instead of in-process
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
@@ -991,7 +983,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.errorHandler(false); });
     });
 
-    test('can set file name', async ({ page }) => {
+    test('can set file name', async () => {
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -1010,7 +1002,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(UploadAdvancedFile).not.toHaveAttribute('file-name');
     });
 
-    test('can set file size', async ({ page }) => {
+    test('can set file size', async () => {
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
@@ -1029,7 +1021,7 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(UploadAdvancedFile).not.toHaveAttribute('size');
     });
 
-    test('can set progress bar value', async ({ page }) => {
+    test('can set progress bar value', async () => {
       // TODO cannot change value
       const files = [
         { size: 1000, type: 'image/jpg', name: 'myfile1.jpg' },
@@ -1073,15 +1065,15 @@ test.describe('IdsUploadAdvanced tests', () => {
       await expect(UploadAdvancedFile).not.toHaveAttribute('value');
     });
 
-    test('can render template of file items', async ({ page }) => {
+    test('can render template of file items', async () => {
       await uploadAdvance.evaluate(() => {
         const el = document.createElement('ids-upload-advanced-file');
         const parentEl = document.querySelector('#elem-upload-advanced-basic') as any;
         el.setAttribute('disabled', 'true');
         parentEl?.container.appendChild(el);
       });
-      const isdisabled = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.disabled);
-      await expect(isdisabled).toEqual('true');
+      const isDisabled = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.disabled);
+      await expect(isDisabled).toBe('true');
       const rootEl = await UploadAdvancedFile.locator('.ids-upload-advanced-file');
       await expect(rootEl).toHaveClass(/disabled/);
     });
