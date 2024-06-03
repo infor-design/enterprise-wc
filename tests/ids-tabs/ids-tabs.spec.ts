@@ -130,6 +130,12 @@ test.describe('IdsTabs tests', () => {
       expect(await locator.getAttribute('aria-label')).toEqual('Contracts');
     });
 
+    test('should set an aria-label', async ({ page }) => {
+      const locator = await page.locator('ids-tab').first();
+      await locator.evaluate((element: IdsTabs) => element.setAttribute('aria-label', 'Hello'));
+      expect(await locator.getAttribute('aria-label')).toEqual('Hello');
+    });
+
     test('should be able to select a tab', async ({ page }) => {
       expect(await page.locator('ids-tab[selected]').getAttribute('aria-selected')).toEqual('true');
       expect(await page.locator('ids-tab[selected]').getAttribute('value')).toEqual('contracts');
@@ -154,8 +160,19 @@ test.describe('IdsTabs tests', () => {
     test('can set/get color-variant', async ({ page }) => {
       const tab = await page.locator('ids-tab').first();
       await expect(tab).toBeAttached();
-      // await tab.evaluate((element: IdsTabs) => { element.colorVariant = '20'; });
-      await expect(tab).toHaveAttribute('color-variant');
+      await tab.evaluate((element: IdsTab) => { element.colorVariant = '20'; });
+      //await tab.evaluate((element: IdsTabs) => element.setAttribute('color-variant', '20'));
+      await expect(tab).toHaveAttribute('color-variant', '20');
+    });
+
+    test('sets the ids-tab-content value directly', async ({ page }) => {
+      const tab = await page.locator('ids-tab').first();
+      await page.evaluate(() => {
+        document.querySelector('ids-tab-content')!.setAttribute('value', '2');
+      })
+      //await expect(tab).toBeAttached();
+      //await tab.evaluate((element: IdsTabs) => element.setAttribute('ids-tab-content', '20'));
+      await expect(tab).toHaveAttribute('ids-tab-content', '20');
     });
   });
 });
