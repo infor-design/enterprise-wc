@@ -1,1 +1,1 @@
-<span class="ids-tag" part="tag"><slot></slot></span>
+<span class="ids-tag" part="tag" style=""><slot></slot></span>

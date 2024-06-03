@@ -36,6 +36,7 @@ export default class IdsForm extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.attachSubmitButtonListener();
   }
 
   /**
@@ -46,6 +47,33 @@ export default class IdsForm extends Base {
     let formAttribs = '';
     formAttribs += this.name ? ` name="${this.name}"` : '';
     return `<form${formAttribs} part="form"><slot></slot></form>`;
+  }
+
+  /**
+   * Attach event listener to the submit button
+   */
+  private attachSubmitButtonListener() {
+    if (this.submitButton) {
+      const button = this.querySelector(`#${this.submitButton}`);
+      this.offEvent('click.form-submit');
+      if (button) {
+        this.onEvent('click.form-submit', button, () => {
+          const formElems: Element[] = this.formComponents;
+          const formValues: object[] = [];
+          formElems.forEach((el: any) => formValues.push({
+            nodeName: el.nodeName,
+            value: ['IDS-CHECKBOX', 'IDS-SWITCH'].includes(el.nodeName) ? el.checked : el.value,
+            id: el.id,
+            name: el.name,
+            isDirty: el.isDirty,
+            isValid: el.isValid,
+            originalValue: el.dirty?.original,
+            validationMessages: el.validationMessages
+          }));
+          this.triggerEvent('submit', this, { bubbles: true, composed: true, detail: { components: formValues } });
+        });
+      }
+    }
   }
 
   /**
@@ -86,31 +114,16 @@ export default class IdsForm extends Base {
   }
 
   /**
-   * Attached a button to the form to submit the form.
-   * @param {string} value string value for title
+   * Set the id of the submit button
+   * @param {string | null} value id of the button to attach event listener
    */
-  set submitButton(value: string) {
+  set submitButton(value: string | null) {
     if (value) {
       this.setAttribute(attributes.SUBMIT_BUTTON, value);
-      this.offEvent('click.submit');
-      this.onEvent('click.submit', this.querySelector(`#${value}`), () => {
-        const formElems: Element[] = this.formComponents;
-        const formValues: object[] = [];
-        formElems.forEach((el: any) => formValues.push({
-          nodeName: el.nodeName,
-          value: ['IDS-CHECKBOX', 'IDS-SWITCH'].includes(el.nodeName) ? el.checked : el.value,
-          id: el.id,
-          name: el.name,
-          isDirty: el.isDirty,
-          isValid: el.isValid,
-          originalValue: el.dirty?.original,
-          validationMessages: el.validationMessages
-        }));
-        this.triggerEvent('submit', this, { bubbles: true, detail: { components: formValues } });
-      });
+      this.attachSubmitButtonListener();
       return;
     }
-    this.offEvent('click.submit');
+    this.offEvent('click.form-submit');
     this.removeAttribute(attributes.SUBMIT_BUTTON);
   }
 
