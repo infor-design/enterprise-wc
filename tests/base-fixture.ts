@@ -8,7 +8,7 @@ import {
   expect as baseExpect,
   Locator
 } from '@playwright/test';
-import { CustomEventTest } from './helper-fixture';
+import { CustomEventTest, PageErrorsTest } from './helper-fixture';
 
 const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output');
 
@@ -22,6 +22,7 @@ export function generateUUID(): string {
 
 interface CustomParameters {
   eventsTest: CustomEventTest;
+  pageErrorsTest: PageErrorsTest;
 }
 
 /**
@@ -42,6 +43,10 @@ export const test = baseTest.extend<CustomParameters>({
   eventsTest: async ({ page }, use) => {
     const eventTest = await (new CustomEventTest(page)).initialize();
     await use(eventTest);
+  },
+  pageErrorsTest: async ({ page }, use) => {
+    const errorTest = new PageErrorsTest(page);
+    await use(errorTest);
   }
 });
 
