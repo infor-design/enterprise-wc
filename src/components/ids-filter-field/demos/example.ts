@@ -60,32 +60,6 @@ const initLookup = async () => {
 
   lookup.columns = columns;
 
-  const addEventListeners = () => {
-    lookup.addEventListener('change', () => {
-      console.info(`Value Changed`, lookup.dataGrid?.selectedRows, lookup.value);
-    });
-
-    lookup.addEventListener('rowselected(', ((e: CustomEvent) => {
-      console.info(`Row Selected`, e.detail);
-    }) as EventListener);
-
-    lookup.addEventListener('beforerowdeselected', ((e: CustomEvent) => {
-      console.info(`Before Row DeSelected`, e.detail);
-    }) as EventListener);
-
-    lookup.addEventListener('rowdeselected(', ((e: CustomEvent) => {
-      console.info(`Row DeSelected`, e.detail);
-    }) as EventListener);
-
-    lookup.addEventListener('selectionchanged(', ((e: CustomEvent) => {
-      console.info(`Selection Changed`, e.detail);
-    }) as EventListener);
-  };
-
-  lookup.dataGridSettings = {
-    rowSelection: 'multiple'
-  };
-
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
@@ -94,13 +68,15 @@ const initLookup = async () => {
   };
 
   await setData();
-  addEventListeners();
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
   const filterFields = document.querySelectorAll<IdsFilterField>('ids-filter-field');
   filterFields.forEach((filterField) => {
-    filterField?.addEventListener('change', console.info);
+    filterField?.addEventListener('change', ((evt: CustomEvent) => {
+      const updatedField = evt.detail.elem;
+      console.info(`Filter Field ${updatedField.label}`, evt.detail);
+    }) as EventListener);
   });
 
   await initLookup();
