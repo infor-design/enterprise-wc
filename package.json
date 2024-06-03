@@ -80,7 +80,7 @@
     "html-loader": "^5.0.0",
     "html-webpack-plugin": "^5.6.0",
     "htmlhint": "^1.1.4",
-    "ids-foundation": "1.0.1",
+    "ids-foundation": "1.0.3",
     "loglevel": "^1.9.1",
     "mini-css-extract-plugin": "^2.9.0",
     "mutationobserver-shim": "^0.3.7",
