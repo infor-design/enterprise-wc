@@ -29,6 +29,7 @@
 - `[Theme Switcher]` Converted theme switcher tests to playwright. ([#1981](https://github.com/infor-design/enterprise-wc/issues/1981))
 - `[Tabs]` Fixed position of more menu in production/angular build. ([#2352](https://github.com/infor-design/enterprise-wc/issues/2352))
 - `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
+- `[Upload Advance]` Converted upload advance tests to playwright. ([#1990](https://github.com/infor-design/enterprise-wc/issues/1990))
 - `[Text]` Fixed lifecycle issues with text translation in angular.. ([#2324](https://github.com/infor-design/enterprise-wc/issues/2324))
 
 ## 1.1.0
