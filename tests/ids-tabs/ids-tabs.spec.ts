@@ -167,7 +167,7 @@ test.describe('IdsTabs tests', () => {
       })).toEqual('module');
       await expect(tab).toHaveAttribute('color-variant', 'module');
       expect(await tab.evaluate((element: IdsTab) => {
-        element.colorVariant = '20'; 
+        element.colorVariant = '20';
         return element.colorVariant;
       })).toBeNull();
       await expect(tab).not.toHaveAttribute('color-variant');
@@ -187,7 +187,7 @@ test.describe('IdsTabs tests', () => {
         element.value = 'a';
         return element.value;
       })).toEqual('a');
-      await expect(tab).toHaveAttribute('value','a');
+      await expect(tab).toHaveAttribute('value', 'a');
     });
   });
 });
