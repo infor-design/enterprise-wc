@@ -111,6 +111,9 @@ if (mode === 'production') {
   });
 }
 
+// Copy Fonts
+fs.cpSync('./node_modules/ids-foundation/fonts', `${outDir}/fonts`, { recursive: true });
+
 // Create Stats File
 // Can view this file at https://esbuild.github.io/analyze/
 fs.writeFileSync('build-stats.json', JSON.stringify(result.metafile));
