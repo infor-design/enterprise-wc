@@ -187,7 +187,7 @@ test.describe('IdsTabs tests', () => {
         element.value = 'a';
         return element.value;
       })).toEqual('a');
-      await expect(tab).toHaveAttribute('value', 'a');
+      await expect(tab).toHaveAttribute('value' , 'a');
     });
   });
 });
