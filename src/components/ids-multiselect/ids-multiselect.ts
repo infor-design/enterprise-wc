@@ -321,7 +321,9 @@ class IdsMultiselect extends IdsDropdown {
           data-value="${item.value}"
           dismissible="true"
           ${disabled}
-        >${item.label}</ids-tag>`;
+        >
+          <ids-text overflow="ellipsis" tooltip="true">${item.label}</ids-text>
+        </ids-tag>`;
       }).join('');
       this.input?.insertAdjacentHTML('afterbegin', tags);
     } else {

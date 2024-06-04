@@ -1,4 +1,5 @@
-import { Page } from '@playwright/test';
+/* eslint-disable max-classes-per-file */
+import { Page, ElementHandle } from '@playwright/test';
 
 /**
  * Helper object for custom event validation
@@ -36,14 +37,31 @@ export class CustomEventTest {
 
   /**
    * Add an event to monitor trigger count under the given selector
+   *
+   * **Usage**
+   *
+   * ```ts
+   * const theButton = page.locator('button.clickable');
+   * await eventsTest.onEvent('button.clickable', 'click');
+   * // if the element needs to be accessed via shadowRoot, pass the `ElementHandle` object
+   * await eventsTest.onEvent('button.clickable', 'click', await theButton.elementHandle());
+   * ```
    * @param {string} selectorString element selector string like `button.bold`, `#theId`
    * @param {string} eventName event name to listen like `click`, `selected`, `beforeclick`
+   * @param {ElementHandle} elementHandle Playwright's element handle like `await button.elementHandle()`
    * @throws error when {@link initialize()} method is not called initially
+   * @throws error when either the `selectorString` or `elementHandle` yielded null object
    */
-  async onEvent(selectorString: string, eventName: string): Promise<void> {
+  async onEvent(
+    selectorString: string,
+    eventName: string,
+    elementHandle?: ElementHandle
+  ): Promise<void> {
     if (!this.isInitialized) throw new Error('Initialize is not called');
-    await this.page.evaluate((details) => {
-      const node = document.querySelector(details.selectorString)!;
+    const result = await this.page.evaluate((details) => {
+      const node = (details.elementHandle !== undefined)
+        ? details.elementHandle : document.querySelector(details.selectorString);
+      if (node === null) return false;
       node.addEventListener(details.eventName, () => {
         let isExisting = false;
         for (const event of (window as any).eventsList) {
@@ -56,12 +74,15 @@ export class CustomEventTest {
         if (!isExisting) {
           (window as any).eventsList.push({
             selector: details.selectorString,
+            ref: node,
             eventName: details.eventName,
             triggeredCount: 1
           });
         }
       });
-    }, { selectorString, eventName });
+      return true;
+    }, { selectorString, eventName, elementHandle });
+    if (!result) throw new Error('Unable to add an event listener to a null object. Check reference element.');
   }
 
   /**
@@ -130,5 +151,47 @@ export class CustomEventTest {
     if (!this.isInitialized) throw new Error('Initialize is not called');
     const result = await this.page.evaluate(() => (window as any).eventsList);
     return result;
+  }
+}
+
+export class PageErrorsTest {
+  private page: Page;
+
+  private errors: any[];
+
+  constructor(page: Page) {
+    this.page = page;
+    this.errors = [];
+    this.#initialize();
+  }
+
+  /**
+   * Set the page object.
+   * @param {Page} page page object
+   */
+  setPage(page: Page) {
+    this.page = page;
+    this.errors = [];
+    this.#initialize();
+  }
+
+  #initialize() {
+    this.page.on('pageerror', (err) => this.errors.push(err.message));
+    this.page.on('console', (msg) => { if (msg.type() === 'error') this.errors.push(msg.text); });
+  }
+
+  /**
+   * Check if any error is logged
+   * @returns {boolean} `true` if there is atleast 1 error
+   */
+  hasErrors(): boolean {
+    return (this.errors.length > 0);
+  }
+
+  /**
+   * Clear the error list
+   */
+  clearErrors() {
+    this.errors = [];
   }
 }

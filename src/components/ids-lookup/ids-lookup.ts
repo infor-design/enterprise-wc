@@ -448,12 +448,12 @@ export default class IdsLookup extends Base {
       this.setAttribute(attributes.VALIDATE, value.toString());
       this.triggerField?.setAttribute(attributes.VALIDATE, value.toString());
       this.triggerField?.setAttribute(attributes.VALIDATION_EVENTS, this.validationEvents);
-      this.triggerField?.handleValidation();
+      this.triggerField?.handleValidation?.();
     } else {
       this.removeAttribute(attributes.VALIDATE);
       this.triggerField?.removeAttribute(attributes.VALIDATE);
       this.triggerField?.removeAttribute(attributes.VALIDATION_EVENTS);
-      this.triggerField?.handleValidation();
+      this.triggerField?.handleValidation?.();
     }
   }
 
