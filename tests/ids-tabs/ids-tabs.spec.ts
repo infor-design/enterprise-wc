@@ -5,6 +5,7 @@ import { test } from '../base-fixture';
 
 import IdsTabs from '../../src/components/ids-tabs/ids-tabs';
 import IdsTab from '../../src/components/ids-tabs/ids-tab';
+import IdsTabContent from '../../src/components/ids-tabs/ids-tab-content';
 
 test.describe('IdsTabs tests', () => {
   const url = '/ids-tabs/example.html';
@@ -160,19 +161,34 @@ test.describe('IdsTabs tests', () => {
     test('can set/get color-variant', async ({ page }) => {
       const tab = await page.locator('ids-tab').first();
       await expect(tab).toBeAttached();
-      await tab.evaluate((element: IdsTab) => { element.colorVariant = '20'; });
-      //await tab.evaluate((element: IdsTabs) => element.setAttribute('color-variant', '20'));
-      await expect(tab).toHaveAttribute('color-variant', '20');
+      expect(await tab.evaluate((element: IdsTab) => { 
+        element.colorVariant = 'module'; 
+        return element.colorVariant;
+      })).toEqual('module');
+      await expect(tab).toHaveAttribute('color-variant', 'module');
+      
+      expect(await tab.evaluate((element: IdsTab) => { 
+        element.colorVariant = '20'; 
+        return element.colorVariant;
+      })).toBeNull();
+      await expect(tab).not.toHaveAttribute('color-variant');
     });
 
-    test('sets the ids-tab-content value directly', async ({ page }) => {
+    test('sets / gets the ids-tab-content value directly', async ({ page }) => {
+      const tab = await page.locator('ids-tab-content').first();
+      expect(await tab.evaluate((element: IdsTabContent) => { 
+        element.value = 'random'; 
+        return element.value;
+      })).toEqual('random');
+    });
+
+    test('gets/sets the value of ids-tabs-context reliably', async ({ page }) => {
       const tab = await page.locator('ids-tab').first();
-      await page.evaluate(() => {
-        document.querySelector('ids-tab-content')!.setAttribute('value', '2');
-      })
-      //await expect(tab).toBeAttached();
-      //await tab.evaluate((element: IdsTabs) => element.setAttribute('ids-tab-content', '20'));
-      await expect(tab).toHaveAttribute('ids-tab-content', '20');
+      expect(await tab.evaluate((element: IdsTab) => { 
+        element.value = 'a'; 
+        return element.value;
+      })).toEqual('a');
+      await expect(tab).toHaveAttribute('value','a');
     });
   });
 });
