@@ -25,6 +25,7 @@ columns.push({
   },
   sortable: false,
   resizable: false,
+  width: 400,
   formatter: dataGrid.formatters.tree,
   filterType: dataGrid.filters.text
 });
@@ -35,17 +36,17 @@ columns.push({
   field: 'tokenValue',
   sortable: false,
   resizable: false,
+  width: 400,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
 });
 
 columns.push({
   id: 'type',
-  name: 'Type',
+  name: 'Tier',
   field: 'type',
   sortable: false,
   resizable: false,
-  width: 200,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.dropdown,
   filterConditions: [
@@ -61,7 +62,6 @@ columns.push({
   field: 'component',
   sortable: true,
   resizable: false,
-  width: 200,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
 });
