@@ -78,7 +78,7 @@ test.describe('IdsToolbar tests', () => {
       page.on('pageerror', (err) => errors.push(err.message));
       page.on('console', (msg) => { if (msg.type() === 'error') errors.push(msg.text); });
       await page.evaluate(() => {
-        const elem = document.querySelector('ids-toolbar')! as IdsToolbar;
+        const elem = document.createElement('ids-toolbar')! as IdsToolbar;
         document.querySelector('ids-container')!.appendChild(elem);
         elem.setAttribute('id', 'toolbar-test');
         elem.tabbable = true;
@@ -92,7 +92,7 @@ test.describe('IdsToolbar tests', () => {
       page.on('pageerror', (err) => errors.push(err.message));
       page.on('console', (msg) => { if (msg.type() === 'error') errors.push(msg.text); });
       await page.evaluate(() => {
-        const elem = document.querySelector('ids-toolbar')! as IdsToolbar;
+        const elem = document.createElement('ids-toolbar')! as IdsToolbar;
         elem.setAttribute('id', 'toolbar-test');
         elem.tabbable = true;
         document.querySelector('ids-container')!.appendChild(elem);
