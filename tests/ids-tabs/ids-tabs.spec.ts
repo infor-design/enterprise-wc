@@ -161,13 +161,12 @@ test.describe('IdsTabs tests', () => {
     test('can set/get color-variant', async ({ page }) => {
       const tab = await page.locator('ids-tab').first();
       await expect(tab).toBeAttached();
-      expect(await tab.evaluate((element: IdsTab) => { 
-        element.colorVariant = 'module'; 
+      expect(await tab.evaluate((element: IdsTab) => {
+        element.colorVariant = 'module';
         return element.colorVariant;
       })).toEqual('module');
       await expect(tab).toHaveAttribute('color-variant', 'module');
-      
-      expect(await tab.evaluate((element: IdsTab) => { 
+      expect(await tab.evaluate((element: IdsTab) => {
         element.colorVariant = '20'; 
         return element.colorVariant;
       })).toBeNull();
@@ -176,16 +175,16 @@ test.describe('IdsTabs tests', () => {
 
     test('sets / gets the ids-tab-content value directly', async ({ page }) => {
       const tab = await page.locator('ids-tab-content').first();
-      expect(await tab.evaluate((element: IdsTabContent) => { 
-        element.value = 'random'; 
+      expect(await tab.evaluate((element: IdsTabContent) => {
+        element.value = 'random';
         return element.value;
       })).toEqual('random');
     });
 
     test('gets/sets the value of ids-tabs-context reliably', async ({ page }) => {
       const tab = await page.locator('ids-tab').first();
-      expect(await tab.evaluate((element: IdsTab) => { 
-        element.value = 'a'; 
+      expect(await tab.evaluate((element: IdsTab) => {
+        element.value = 'a';
         return element.value;
       })).toEqual('a');
       await expect(tab).toHaveAttribute('value','a');
