@@ -16,11 +16,10 @@ c) In some countries google links may be banned (such as china)
 
 For this reason we recommend you serve the files with your application. All the needed fonts can be found in this folder
 
-1. Serve all the `woff2` files in a folder on the server thats available to the app. These fonts can use caching if possible. Note that there are a lot of files because Source Sans is not available in some languages so alternatives are used as noted on [this page](https://github.com/infor-design/enterprise/blob/main/src/components/typography/_typography-new.scss#L6)
-
-1. The OFL.txt is the license
-1. The README.md is this file
-1. Then include font-face.css in the page before the `theme-light-new.css` (or whatever soho css file)
+a) Serve all the `woff2` files in a folder on the server thats available to the app. These fonts can use caching if possible. Note that there are a lot of files because Source Sans is not available in some languages so alternatives are used as noted on [this page](https://github.com/infor-design/enterprise/blob/main/src/components/typography/_typography-new.scss#L6)
+b) The OFL.txt is the license
+c) The README.md is this file
+d) Then include font-face.css in the page before the `theme-light-new.css` (or whatever soho css file)
 
 ```html
   <link rel="stylesheet" id="font-face" href="/css/font-face.css" type="text/css" />
