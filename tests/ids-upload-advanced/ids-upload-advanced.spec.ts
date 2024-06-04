@@ -10,12 +10,12 @@ import IdsUploadAdvancedFile from '../../src/components/ids-upload-advanced/ids-
 test.describe('IdsUploadAdvanced tests', () => {
   const url = '/ids-upload-advanced/example.html';
   let uploadAdvance : any;
-  let UploadAdvancedFile : any;
+  let uploadAdvancedFile : any;
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
     uploadAdvance = await page.locator('#elem-upload-advanced-basic');
-    UploadAdvancedFile = await page.locator('ids-upload-advanced-file').first();
+    uploadAdvancedFile = await page.locator('ids-upload-advanced-file').first();
   });
 
   test.describe('general page checks', () => {
@@ -781,26 +781,26 @@ test.describe('IdsUploadAdvanced tests', () => {
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
       ];
       await uploadAdvance.evaluate((el: IdsUploadAdvanced, file: any) => { el.handleFileUpload([...file]); }, files);
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         el.setAttribute('file-name', 'test');
         el.setAttribute('size', '1000');
       });
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
-      let status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
+      let status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.abortHandler(); });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.abortHandler(); });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('aborted');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.setStatus(); });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.setStatus(); });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('aborted');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.status = 'in-process'; el.value = 10; });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.status = 'in-process'; el.value = 10; });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate(
+      await uploadAdvancedFile.evaluate(
         (el: IdsUploadAdvancedFile) => { el.abortHandler({ loaded: 10, total: 100, abort: true }); }
       );
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('aborted');
     });
 
@@ -811,17 +811,17 @@ test.describe('IdsUploadAdvanced tests', () => {
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
       ];
       await uploadAdvance.evaluate((el: IdsUploadAdvanced, file: any) => { el.handleFileUpload([...file]); }, files);
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         el.setAttribute('file-name', 'test');
         el.setAttribute('size', '1000');
       });
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
-      let status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
+      let status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.progressHandler({ loaded: 35, total: 100 }); });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.progressHandler({ loaded: 35, total: 100 }); });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      const value = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
+      const value = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
       await expect(value).toEqual('35');
     });
 
@@ -832,22 +832,22 @@ test.describe('IdsUploadAdvanced tests', () => {
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
       ];
       await uploadAdvance.evaluate((el: IdsUploadAdvanced, file: any) => { el.handleFileUpload([...file]); }, files);
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         el.setAttribute('file-name', 'test');
         el.setAttribute('size', '1000');
       });
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
-      await expect(UploadAdvancedFile).toHaveAttribute('status', 'errored');
-      let status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
+      await expect(uploadAdvancedFile).toHaveAttribute('status', 'errored');
+      let status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('errored');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.status = 'not-started'; });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.status = 'not-started'; });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('not-started');
-      await expect(UploadAdvancedFile).toHaveAttribute('status', 'not-started');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.status = null; });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await expect(uploadAdvancedFile).toHaveAttribute('status', 'not-started');
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.status = null; });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await expect(UploadAdvancedFile).toHaveAttribute('status', 'in-process');
+      await expect(uploadAdvancedFile).toHaveAttribute('status', 'in-process');
     });
 
     test('can set complete handler', async () => {
@@ -857,15 +857,15 @@ test.describe('IdsUploadAdvanced tests', () => {
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
       ];
       await uploadAdvance.evaluate((el: IdsUploadAdvanced, file: any) => { el.handleFileUpload([...file]); }, files);
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         el.setAttribute('file-name', 'test');
         el.setAttribute('size', '1000');
       });
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
-      await expect(UploadAdvancedFile).toHaveAttribute('status', 'in-process');
-      let status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
+      await expect(uploadAdvancedFile).toHaveAttribute('status', 'in-process');
+      let status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         const event = {
           loaded: 100,
           total: 100,
@@ -876,7 +876,7 @@ test.describe('IdsUploadAdvanced tests', () => {
         };
         el.completeHandler(event);
       });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('completed');
     });
 
@@ -887,15 +887,15 @@ test.describe('IdsUploadAdvanced tests', () => {
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
       ];
       await uploadAdvance.evaluate((el: IdsUploadAdvanced, file: any) => { el.handleFileUpload([...file]); }, files);
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         el.setAttribute('file-name', 'test');
         el.setAttribute('size', '1000');
       });
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
-      await expect(UploadAdvancedFile).toHaveAttribute('status', 'in-process');
-      let status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
+      await expect(uploadAdvancedFile).toHaveAttribute('status', 'in-process');
+      let status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         const event = {
           loaded: 100,
           total: 100,
@@ -906,13 +906,13 @@ test.describe('IdsUploadAdvanced tests', () => {
         };
         el.completeHandler(event);
       });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('errored');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.error = null; });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.error = null; });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 100; });
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 100; });
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         const event = {
           loaded: 100,
           total: 100,
@@ -923,7 +923,7 @@ test.describe('IdsUploadAdvanced tests', () => {
         };
         el.completeHandler(event);
       });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('errored');
     });
 
@@ -934,15 +934,15 @@ test.describe('IdsUploadAdvanced tests', () => {
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
       ];
       await uploadAdvance.evaluate((el: IdsUploadAdvanced, file: any) => { el.handleFileUpload([...file]); }, files);
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         el.setAttribute('file-name', 'test');
         el.setAttribute('size', '1000');
       });
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
-      await expect(UploadAdvancedFile).toHaveAttribute('status', 'in-process');
-      let status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
+      await expect(uploadAdvancedFile).toHaveAttribute('status', 'in-process');
+      let status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         const event = {
           loaded: 10,
           total: 100,
@@ -954,33 +954,33 @@ test.describe('IdsUploadAdvanced tests', () => {
         };
         el.errorHandler(event);
       });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('errored');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.error = null; });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.error = null; });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.errorHandler('some-error-text'); });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.errorHandler('some-error-text'); });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('errored');
-      const errMsg = await UploadAdvancedFile.locator('.error-msg');
+      const errMsg = await uploadAdvancedFile.locator('.error-msg');
       await expect(errMsg).toHaveText('some-error-text');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.error = null; });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.error = null; });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.errorHandler(false); });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.errorHandler(false); });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('errored');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.error = null; });
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.error = null; });
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = -5; });
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = -5; });
       await expect(errMsg).toHaveText('Failed to upload, server issue');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         const errorMsgEl = el?.shadowRoot?.querySelector('.error-row .error-msg');
         errorMsgEl?.classList.remove('error-msg');
       });
       await expect(errMsg).not.toBeAttached();
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.errorHandler(false); });
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.errorHandler(false); });
     });
 
     test('can set file name', async () => {
@@ -989,17 +989,17 @@ test.describe('IdsUploadAdvanced tests', () => {
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
       ];
       await uploadAdvance.evaluate((el: IdsUploadAdvanced, file: any) => { el.handleFileUpload([...file]); }, files);
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         el.setAttribute('file-name', 'test');
         el.setAttribute('size', '1000');
       });
-      let filename = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.fileName);
+      let filename = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.fileName);
       await expect(filename).toEqual('test');
-      await expect(UploadAdvancedFile).toHaveAttribute('file-name', 'test');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.fileName = null; });
-      filename = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.fileName);
+      await expect(uploadAdvancedFile).toHaveAttribute('file-name', 'test');
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.fileName = null; });
+      filename = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.fileName);
       await expect(filename).toEqual('');
-      await expect(UploadAdvancedFile).not.toHaveAttribute('file-name');
+      await expect(uploadAdvancedFile).not.toHaveAttribute('file-name');
     });
 
     test('can set file size', async () => {
@@ -1008,17 +1008,17 @@ test.describe('IdsUploadAdvanced tests', () => {
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
       ];
       await uploadAdvance.evaluate((el: IdsUploadAdvanced, file: any) => { el.handleFileUpload([...file]); }, files);
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         el.setAttribute('file-name', 'test');
         el.setAttribute('size', '1000');
       });
-      let size = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.size);
+      let size = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.size);
       await expect(size).toEqual('1000');
-      await expect(UploadAdvancedFile).toHaveAttribute('size', '1000');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.size = null; });
-      size = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.size);
+      await expect(uploadAdvancedFile).toHaveAttribute('size', '1000');
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.size = null; });
+      size = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.size);
       await expect(size).toBeNull();
-      await expect(UploadAdvancedFile).not.toHaveAttribute('size');
+      await expect(uploadAdvancedFile).not.toHaveAttribute('size');
     });
 
     test('can set progress bar value', async () => {
@@ -1028,41 +1028,41 @@ test.describe('IdsUploadAdvanced tests', () => {
         { size: 5000, type: 'image/jpg', name: 'myfile2.jpg' }
       ];
       await uploadAdvance.evaluate((el: IdsUploadAdvanced, file: any) => { el.handleFileUpload([...file]); }, files);
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => {
         el.setAttribute('file-name', 'test');
         el.setAttribute('size', '1000');
       });
-      let value = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
+      let value = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
       await expect(value).toBe('0');
-      await expect(UploadAdvancedFile).toHaveAttribute('value', '0');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
-      value = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
+      await expect(uploadAdvancedFile).toHaveAttribute('value', '0');
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 10; });
+      value = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
       await expect(value).toEqual('10');
-      await expect(UploadAdvancedFile).toHaveAttribute('value', '10');
-      let status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await expect(uploadAdvancedFile).toHaveAttribute('value', '10');
+      let status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 20; });
-      value = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 20; });
+      value = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
       await expect(value).toEqual('20');
-      await expect(UploadAdvancedFile).toHaveAttribute('value', '20');
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await expect(uploadAdvancedFile).toHaveAttribute('value', '20');
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('in-process');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.error = 'some-error'; });
-      value = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.error = 'some-error'; });
+      value = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
       await expect(value).toEqual('20');
-      await expect(UploadAdvancedFile).toHaveAttribute('value', '20');
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await expect(uploadAdvancedFile).toHaveAttribute('value', '20');
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('errored');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 30; });
-      value = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = 30; });
+      value = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
       await expect(value).toEqual('20');
-      await expect(UploadAdvancedFile).toHaveAttribute('value', '20');
-      status = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
+      await expect(uploadAdvancedFile).toHaveAttribute('value', '20');
+      status = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.status);
       await expect(status).toEqual('errored');
-      await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = null; });
-      value = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
+      await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => { el.value = null; });
+      value = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.value);
       await expect(value).toBeNull();
-      await expect(UploadAdvancedFile).not.toHaveAttribute('value');
+      await expect(uploadAdvancedFile).not.toHaveAttribute('value');
     });
 
     test('can render template of file items', async () => {
@@ -1072,9 +1072,9 @@ test.describe('IdsUploadAdvanced tests', () => {
         el.setAttribute('disabled', 'true');
         parentEl?.container.appendChild(el);
       });
-      const isDisabled = await UploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.disabled);
+      const isDisabled = await uploadAdvancedFile.evaluate((el: IdsUploadAdvancedFile) => el.disabled);
       await expect(isDisabled).toBe('true');
-      const rootEl = await UploadAdvancedFile.locator('.ids-upload-advanced-file');
+      const rootEl = await uploadAdvancedFile.locator('.ids-upload-advanced-file');
       await expect(rootEl).toHaveClass(/disabled/);
     });
   });
