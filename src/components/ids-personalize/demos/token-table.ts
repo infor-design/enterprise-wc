@@ -50,7 +50,6 @@ columns.push({
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.dropdown,
   filterConditions: [
-    // { value: 'Core', label: 'Core' },
     { value: 'Semantic', label: 'Semantic' },
     { value: 'Component', label: 'Component' },
   ]
