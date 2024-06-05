@@ -31,6 +31,28 @@ function generateUniqueId() {
 }
 
 /**
+ * Checks if a value is a color
+ * @param {string} value - The value to check
+ * @returns {boolean} - Whether the value is a color
+ */
+function isColor(value) {
+  const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+  const rgbColorRegex = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/;
+  // const rgbaColorRegex = /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(0|1|0?\.\d+)\)$/;
+  const rgbaColorRegex = /^rgba\((\d{1,3}\s*,){3}\s*(0|1|0?\.\d+)\s*(\/\s*\d*\.*\d*)?\)$/;
+  const hslColorRegex = /^hsl\(\s*(\d{1,3}),\s*(\d{1,3})%,\s*(\d{1,3})%\s*\)$/;
+  const hslaColorRegex = /^hsla\(\s*(\d{1,3}),\s*(\d{1,3})%,\s*(\d{1,3})%,\s*(0|1|0?\.\d+)\s*\)$/;
+  const colorNames = ['black', 'white', 'red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'grey', 'gray', 'orange', 'purple', 'brown', 'pink', 'lime', 'olive', 'navy', 'teal', 'aqua', 'maroon', 'fuchsia', 'silver'];
+
+  return hexColorRegex.test(value)
+    || rgbColorRegex.test(value)
+    || rgbaColorRegex.test(value)
+    || hslColorRegex.test(value)
+    || hslaColorRegex.test(value)
+    || colorNames.includes(value.toLowerCase());
+}
+
+/**
  * Extracts the component name from the variable name
  * @param {string} tokenName - The CSS variable name
  * @returns {string} - The component name
@@ -75,7 +97,8 @@ function generateTokenObjects(filePath, type = '', label = '') {
         tokenValue,
         type: currentType,
         label,
-        component
+        component,
+        colorValue: isColor(tokenValue) ? tokenValue : null
       });
     }
   });
@@ -121,7 +144,8 @@ function parseThemeFile(filePath, tokenDependencies) {
               type: token?.type,
               source: token.label,
               component: token.component,
-              children: [nestedValue]
+              children: [nestedValue],
+              colorValue: nestedValue.colorValue
             };
           }
         } else {
@@ -132,7 +156,8 @@ function parseThemeFile(filePath, tokenDependencies) {
             type: token?.type,
             source: token.label,
             component: token.component,
-            children: []
+            children: [],
+            colorValue: isColor(token.tokenValue) ? token.tokenValue : null
           };
         }
       }
@@ -154,7 +179,8 @@ function parseThemeFile(filePath, tokenDependencies) {
               type: 'Semantic',
               source: 'themeFile',
               component: extractComponentName(variableName),
-              children: [nestedValue]
+              children: [nestedValue],
+              colorValue: nestedValue.colorValue
             };
           }
         } else {
@@ -165,7 +191,8 @@ function parseThemeFile(filePath, tokenDependencies) {
             type: 'Semantic',
             source: 'themeFile',
             component: extractComponentName(variableName),
-            children: []
+            children: [],
+            colorValue: isColor(value) ? value : null
           };
         }
       }
@@ -217,6 +244,7 @@ function parseThemeFile(filePath, tokenDependencies) {
           inherited.source = inheritedValue.source;
           inherited.component = inheritedValue.component;
           inherited.children = inheritedValue.children;
+          inherited.colorValue = inheritedValue.colorValue;
         }
       }
 
@@ -228,7 +256,8 @@ function parseThemeFile(filePath, tokenDependencies) {
           tokenValue,
           children: [inherited],
           type,
-          component
+          component,
+          colorValue: isColor(tokenValue) ? tokenValue : inherited.colorValue
         });
       } else {
         themeTokens.push({
@@ -236,7 +265,8 @@ function parseThemeFile(filePath, tokenDependencies) {
           tokenName,
           tokenValue,
           type,
-          component
+          component,
+          colorValue: isColor(tokenValue) ? tokenValue : null
         });
       }
     }

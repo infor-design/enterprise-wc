@@ -71,7 +71,7 @@ columns.push({
 columns.push({
   id: 'preview',
   name: 'Preview',
-  field: 'tokenValue',
+  field: 'colorValue',
   width: 165,
   align: 'center',
   resizable: false,

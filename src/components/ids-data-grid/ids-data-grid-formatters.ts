@@ -292,7 +292,7 @@ export default class IdsDataGridFormatters {
     const isColor = colorRegex.test(value);
 
     if (!columnData.color && !isColor) {
-      return `<span class="text-ellipsis"><ids-color${disabled} suppress-tooltip></ids-color></span>`;
+      return `<span class="text-ellipsis">&mdash;</span>`;
     }
 
     if (!columnData.color && !value) return `<span class="text-ellipsis"><ids-color${disabled}></ids-color></span>`;
