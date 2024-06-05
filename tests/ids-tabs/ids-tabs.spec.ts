@@ -4,6 +4,8 @@ import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsTabs from '../../src/components/ids-tabs/ids-tabs';
+import IdsTab from '../../src/components/ids-tabs/ids-tab';
+import IdsTabContent from '../../src/components/ids-tabs/ids-tab-content';
 
 test.describe('IdsTabs tests', () => {
   const url = '/ids-tabs/example.html';
@@ -129,12 +131,69 @@ test.describe('IdsTabs tests', () => {
       expect(await locator.getAttribute('aria-label')).toEqual('Contracts');
     });
 
+    test('should set an aria-label', async ({ page }) => {
+      const locator = await page.locator('ids-tab').first();
+      await locator.evaluate((element: IdsTabs) => element.setAttribute('aria-label', 'Hello'));
+      expect(await locator.getAttribute('aria-label')).toEqual('Hello');
+    });
+
     test('should be able to select a tab', async ({ page }) => {
       expect(await page.locator('ids-tab[selected]').getAttribute('aria-selected')).toEqual('true');
       expect(await page.locator('ids-tab[selected]').getAttribute('value')).toEqual('contracts');
       await page.goto('/ids-tabs/selected.html');
       expect(await page.locator('ids-tab[selected]').getAttribute('aria-selected')).toEqual('true');
       expect(await page.locator('ids-tab[selected]').getAttribute('value')).toEqual('opportunities');
+    });
+
+    test('sets count attribute on the ids-tab component predictably', async ({ page }) => {
+      const tab = await page.locator('ids-tab').first();
+      await expect(tab).toBeAttached();
+      await tab.evaluate((element: IdsTab) => { element.count = '20'; });
+      await expect(tab).toHaveAttribute('count', '20');
+      await tab.evaluate((element: IdsTab) => { element.count = ''; });
+      await expect(tab).not.toHaveAttribute('count');
+      await tab.evaluate((element: IdsTab) => { element.count = '20'; });
+      await expect(tab).toHaveAttribute('count', '20');
+      await tab.evaluate((element: IdsTab) => { element.count = 'z20z'; });
+      await expect(tab).toHaveAttribute('count', '20');
+    });
+
+    test('can set/get color-variant', async ({ page }) => {
+      const tab = await page.locator('ids-tab').first();
+      await expect(tab).toBeAttached();
+      expect(await tab.evaluate((element: IdsTab) => {
+        element.colorVariant = 'module';
+        return element.colorVariant;
+      })).toEqual('module');
+      await expect(tab).toHaveAttribute('color-variant', 'module');
+      expect(await tab.evaluate((element: IdsTab) => {
+        element.colorVariant = '20';
+        return element.colorVariant;
+      })).toBeNull();
+      await expect(tab).not.toHaveAttribute('color-variant');
+    });
+
+    test('can sets / gets the ids-tab-content value directly', async ({ page }) => {
+      const tab = await page.locator('ids-tab-content').first();
+      expect(await tab.evaluate((element: IdsTabContent) => {
+        element.value = 'random';
+        return element.value;
+      })).toEqual('random');
+    });
+
+    test('can gets/sets the value of ids-tabs-context reliably', async ({ page }) => {
+      const tab = await page.locator('ids-tab').first();
+      expect(await tab.evaluate((element: IdsTab) => {
+        element.value = 'a';
+        return element.value;
+      })).toEqual('a');
+      await expect(tab).toHaveAttribute('value', 'a');
+    });
+
+    test('can click on an unselected tab and ids-tabs detects tabselect', async ({ page }) => {
+      const tab = await page.locator('ids-tab').first();
+      await page.getByLabel('Contracts').click();
+      await expect(tab).toHaveAttribute('selected');
     });
   });
 });
