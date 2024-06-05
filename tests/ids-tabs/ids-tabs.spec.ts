@@ -174,7 +174,7 @@ test.describe('IdsTabs tests', () => {
       await expect(tab).not.toHaveAttribute('color-variant');
     });
 
-    test('sets / gets the ids-tab-content value directly', async ({ page }) => {
+    test('can sets / gets the ids-tab-content value directly', async ({ page }) => {
       const tab = await page.locator('ids-tab-content').first();
       expect(await tab.evaluate((element: IdsTabContent) => {
         element.value = 'random';
@@ -182,7 +182,7 @@ test.describe('IdsTabs tests', () => {
       })).toEqual('random');
     });
 
-    test('gets/sets the value of ids-tabs-context reliably', async ({ page }) => {
+    test('can gets/sets the value of ids-tabs-context reliably', async ({ page }) => {
       const tab = await page.locator('ids-tab').first();
       expect(await tab.evaluate((element: IdsTab) => {
         element.value = 'a';
@@ -191,7 +191,7 @@ test.describe('IdsTabs tests', () => {
       await expect(tab).toHaveAttribute('value', 'a');
     });
 
-    test('clicks on an unselected tab and ids-tabs detects tabselect', async ({ page }) => {
+    test('can click on an unselected tab and ids-tabs detects tabselect', async ({ page }) => {
       const tab = await page.locator('ids-tab').first();
       await page.getByLabel('Contracts').click();
       await expect(tab).toHaveAttribute('selected');
