@@ -116,6 +116,12 @@ test.describe('IdsAbout tests', () => {
 
     test('content should be translated when switching languages', async ({ page }) => {
       // set language to spanish
+      await page.evaluate(async () => {
+        await window.IdsGlobal.locale?.setLocale('es-ES');
+        await window.IdsGlobal.locale?.setLanguage('es');
+        return window.IdsGlobal.locale?.loadedLanguages.get('es').Platform.value;
+      });
+
       const platformInSpanish = await page.evaluate(async () => {
         await window.IdsGlobal.locale?.setLocale('es-ES');
         await window.IdsGlobal.locale?.setLanguage('es');
