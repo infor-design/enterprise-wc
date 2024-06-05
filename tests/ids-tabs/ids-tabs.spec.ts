@@ -6,6 +6,7 @@ import { test } from '../base-fixture';
 import IdsTabs from '../../src/components/ids-tabs/ids-tabs';
 import IdsTab from '../../src/components/ids-tabs/ids-tab';
 import IdsTabContent from '../../src/components/ids-tabs/ids-tab-content';
+import IdsTabsContext from '../../src/components/ids-tabs/ids-tabs-context';
 
 test.describe('IdsTabs tests', () => {
   const url = '/ids-tabs/example.html';
@@ -188,6 +189,12 @@ test.describe('IdsTabs tests', () => {
         return element.value;
       })).toEqual('a');
       await expect(tab).toHaveAttribute('value', 'a');
+    });
+
+    test('clicks on an unselected tab and ids-tabs detects tabselect', async ({ page }) => {
+      const tab = await page.locator('ids-tab').first();
+      await page.getByLabel('Contracts').click();
+      await expect(tab).toHaveAttribute('selected');
     });
   });
 });
