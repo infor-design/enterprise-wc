@@ -54,7 +54,7 @@
   --ids-cursor-resize-y: ns-resize;
 
   // Elevations (Box Shadows)
-  --ids-shadow-color: rgb(54, 138, 192, 0.3);
+  --ids-shadow-color: rgb(54 138 192 / 0.3);
   --ids-shadow-none: 0 0 3px 2px rgba(54 138 192 / 0);
   --ids-shadow-error: 0 0 3px 2px rgb(218 18 23 / 0.30);
   --ids-box-shadow-inverse: 0 0 3px 1px rgba(255 255 255 / 0.3);
