@@ -20,6 +20,7 @@
 - `[Form]` Fixed the issue where submit event not being attached in the angular examples. ([#2022](https://github.com/infor-design/enterprise-wc/issues/2022))
 - `[Hierarchy]` Converted hierarchy tests to playwright. ([#1939](https://github.com/infor-design/enterprise-wc/issues/1939))
 - `[Hyperlink]` Converted hyperlink tests to playwright. ([#1941](https://github.com/infor-design/enterprise/issues/1941))
+- `[Input|Textarea]` Fixed bug where `ids-input` and `ids-textarea` DOM values were not updating on change. ([#2028](https://github.com/infor-design/enterprise/issues/2028))
 - `[Masthead]` Converted masthead tests to playwright. ([#1951](https://github.com/infor-design/enterprise-wc/issues/1951))
 - `[MenuButton]` Fix popup aligned edge position on open. ([#2285](https://github.com/infor-design/enterprise-wc/issues/2285))
 - `[Multiselect]` Fix so that options with long text will now show tooltip and also fit properly inside input-field. ([#2264](https://github.com/infor-design/enterprise-wc/issues/2264))
