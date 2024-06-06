@@ -66,6 +66,8 @@ npm i
 npm run start
 ```
 
+Also include the [Source Sans Pro Font](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md) in your project and app pages.
+
 ## Using Code Hinting
 
 The npm package ships with a file called `vscode.html-custom-data.json`. The file describes the custom elements and their settings for use in Visual Studio Code to provide “IntelliSense”. To enable it, you just need to tell VS Code where the file is.

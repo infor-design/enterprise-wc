@@ -8278,7 +8278,7 @@
     {
       "id": "id-1717689404007-3323",
       "tokenName": "--ids-chart-color-accent-01",
-      "tokenValue": "var(--ids-data-viz-color-sequential-01)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-01)",
       "children": [
         {
           "id": "id-1717689404007-3320",
@@ -8309,7 +8309,7 @@
     {
       "id": "id-1717689404007-3327",
       "tokenName": "--ids-chart-color-accent-02",
-      "tokenValue": "var(--ids-data-viz-color-sequential-02)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-02)",
       "children": [
         {
           "id": "id-1717689404007-3324",
@@ -8340,7 +8340,7 @@
     {
       "id": "id-1717689404007-3331",
       "tokenName": "--ids-chart-color-accent-03",
-      "tokenValue": "var(--ids-data-viz-color-sequential-03)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-03)",
       "children": [
         {
           "id": "id-1717689404007-3328",
@@ -8371,7 +8371,7 @@
     {
       "id": "id-1717689404007-3335",
       "tokenName": "--ids-chart-color-accent-04",
-      "tokenValue": "var(--ids-data-viz-color-sequential-04)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-04)",
       "children": [
         {
           "id": "id-1717689404007-3332",
@@ -8402,7 +8402,7 @@
     {
       "id": "id-1717689404007-3339",
       "tokenName": "--ids-chart-color-accent-05",
-      "tokenValue": "var(--ids-data-viz-color-sequential-05)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-05)",
       "children": [
         {
           "id": "id-1717689404007-3336",
@@ -8433,7 +8433,7 @@
     {
       "id": "id-1717689404007-3343",
       "tokenName": "--ids-chart-color-accent-06",
-      "tokenValue": "var(--ids-data-viz-color-sequential-06)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-06)",
       "children": [
         {
           "id": "id-1717689404007-3340",
@@ -8464,7 +8464,7 @@
     {
       "id": "id-1717689404007-3347",
       "tokenName": "--ids-chart-color-accent-07",
-      "tokenValue": "var(--ids-data-viz-color-sequential-07)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-07)",
       "children": [
         {
           "id": "id-1717689404007-3344",
@@ -8495,7 +8495,7 @@
     {
       "id": "id-1717689404007-3351",
       "tokenName": "--ids-chart-color-accent-08",
-      "tokenValue": "var(--ids-data-viz-color-sequential-08)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-08)",
       "children": [
         {
           "id": "id-1717689404007-3348",
@@ -8526,7 +8526,7 @@
     {
       "id": "id-1717689404007-3355",
       "tokenName": "--ids-chart-color-accent-09",
-      "tokenValue": "var(--ids-data-viz-color-sequential-09)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-09)",
       "children": [
         {
           "id": "id-1717689404007-3352",
@@ -8557,7 +8557,7 @@
     {
       "id": "id-1717689404007-3359",
       "tokenName": "--ids-chart-color-accent-10",
-      "tokenValue": "var(--ids-data-viz-color-sequential-10)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-10)",
       "children": [
         {
           "id": "id-1717689404007-3356",
@@ -8588,7 +8588,7 @@
     {
       "id": "id-1717689404007-3363",
       "tokenName": "--ids-chart-color-accent-11",
-      "tokenValue": "var(--ids-data-viz-color-sequential-11)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-11)",
       "children": [
         {
           "id": "id-1717689404007-3360",
@@ -8619,7 +8619,7 @@
     {
       "id": "id-1717689404007-3367",
       "tokenName": "--ids-chart-color-accent-12",
-      "tokenValue": "var(--ids-data-viz-color-sequential-12)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-12)",
       "children": [
         {
           "id": "id-1717689404007-3364",
@@ -8650,7 +8650,7 @@
     {
       "id": "id-1717689404007-3371",
       "tokenName": "--ids-chart-color-accent-13",
-      "tokenValue": "var(--ids-data-viz-color-sequential-13)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-13)",
       "children": [
         {
           "id": "id-1717689404007-3368",
@@ -8681,7 +8681,7 @@
     {
       "id": "id-1717689404007-3375",
       "tokenName": "--ids-chart-color-accent-14",
-      "tokenValue": "var(--ids-data-viz-color-sequential-14)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-14)",
       "children": [
         {
           "id": "id-1717689404007-3372",
@@ -8712,7 +8712,7 @@
     {
       "id": "id-1717689404007-3379",
       "tokenName": "--ids-chart-color-accent-15",
-      "tokenValue": "var(--ids-data-viz-color-sequential-15)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-15)",
       "children": [
         {
           "id": "id-1717689404007-3376",
@@ -8743,7 +8743,7 @@
     {
       "id": "id-1717689404007-3383",
       "tokenName": "--ids-chart-color-accent-16",
-      "tokenValue": "var(--ids-data-viz-color-sequential-16)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-16)",
       "children": [
         {
           "id": "id-1717689404007-3380",
@@ -8774,7 +8774,7 @@
     {
       "id": "id-1717689404007-3387",
       "tokenName": "--ids-chart-color-accent-17",
-      "tokenValue": "var(--ids-data-viz-color-sequential-17)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-17)",
       "children": [
         {
           "id": "id-1717689404007-3384",
@@ -8805,7 +8805,7 @@
     {
       "id": "id-1717689404007-3391",
       "tokenName": "--ids-chart-color-accent-18",
-      "tokenValue": "var(--ids-data-viz-color-sequential-18)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-18)",
       "children": [
         {
           "id": "id-1717689404007-3388",
@@ -8836,7 +8836,7 @@
     {
       "id": "id-1717689404008-3395",
       "tokenName": "--ids-chart-color-accent-19",
-      "tokenValue": "var(--ids-data-viz-color-sequential-19)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-19)",
       "children": [
         {
           "id": "id-1717689404008-3392",
@@ -8867,7 +8867,7 @@
     {
       "id": "id-1717689404008-3399",
       "tokenName": "--ids-chart-color-accent-20",
-      "tokenValue": "var(--ids-data-viz-color-sequential-20)",
+      "tokenValue": "var(--ids-dataviz-color-sequential-20)",
       "children": [
         {
           "id": "id-1717689404008-3396",
