@@ -177,5 +177,46 @@ test.describe('IdsMessage tests', () => {
       await idsMessage.evaluate(async (element: IdsMessage) => { await element.hide(); });
       await expect(idsMessage).not.toHaveAttribute('visible');
     });
+
+    test('can trigger beforeshow event to prevent showing of message', async () => {
+      await expect(idsMessage).not.toHaveAttribute('visible');
+
+      await idsMessage.evaluate(async (element: IdsMessage) => {
+        (window as any).eventCounter = 0;
+        element.addEventListener('beforeshow', (event: any) => {
+          event.detail.response(false);
+          (window as any).eventCounter++;
+        });
+        await element.show();
+      });
+
+      await expect(idsMessage).not.toHaveAttribute('visible');
+    });
+
+    test('can trigger beforehide event to prevent hiding of message', async () => {
+      await expect(idsMessage).not.toHaveAttribute('visible');
+
+      await idsMessage.evaluate(async (element: IdsMessage) => {
+        (window as any).eventCounter = 0;
+        element.addEventListener('beforehide', (event: any) => {
+          event.detail.response(false);
+          (window as any).eventCounter++;
+        });
+        await element.show();
+        await element.hide();
+      });
+
+      await expect(idsMessage).toHaveAttribute('visible');
+    });
+
+    test('can close message with escape key', async ({ page }) => {
+      await expect(idsMessage).not.toHaveAttribute('visible');
+
+      await idsMessage.evaluate(async (element: IdsMessage) => { await element.show(); });
+      await expect(idsMessage).toHaveAttribute('visible');
+
+      await page.keyboard.press('Escape');
+      await expect(idsMessage).not.toHaveAttribute('visible');
+    });
   });
 });
