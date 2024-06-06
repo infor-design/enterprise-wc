@@ -42,8 +42,7 @@ const htmlExamples = htmlTemplates.map((template) => {
       'http-equiv': 'Content-Security-Policy',
       content: `
         script-src 'self' https://unpkg.com/ 'unsafe-eval';
-        style-src 'self' https://fonts.googleapis.com 'nonce-0a59a005';
-        font-src 'self' data: https://fonts.gstatic.com;
+        style-src 'self' 'nonce-0a59a005';
       `
     };
   }
@@ -59,7 +58,7 @@ const htmlExamples = htmlTemplates.map((template) => {
         chunks: chunkFileName === 'utils.html' ? ['ids-hyperlink', 'ids-demo-app-utils'] : [],
         favicon: './src/assets/images/favicon.ico',
         meta: metaTags,
-        font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&amp;amp;display=swap" rel="stylesheet">'
+        font: '<link href="/fonts/font-face.css" rel="stylesheet">'
       });
     }
 
@@ -75,7 +74,7 @@ const htmlExamples = htmlTemplates.map((template) => {
       favicon: './src/assets/images/favicon.ico',
       scriptLoading: 'module',
       meta: metaTags,
-      font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&amp;amp;display=swap" rel="stylesheet">'
+      font: '<link href="/fonts/font-face.css" rel="stylesheet">'
     });
   }
 
@@ -94,7 +93,7 @@ const htmlExamples = htmlTemplates.map((template) => {
     favicon: './src/assets/images/favicon.ico',
     scriptLoading: 'module',
     meta: metaTags,
-    font: '<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&amp;amp;display=swap" rel="stylesheet">'
+    font: '<link href="/fonts/font-face.css" rel="stylesheet">'
   });
 });
 
