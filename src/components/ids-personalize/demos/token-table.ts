@@ -24,7 +24,8 @@ columns.push({
     console.info('Tree Expander Clicked', info);
   },
   sortable: false,
-  resizable: false,
+  resizable: true,
+  minWidth: 400,
   width: 400,
   formatter: dataGrid.formatters.tree,
   filterType: dataGrid.filters.text
@@ -35,7 +36,8 @@ columns.push({
   name: 'Token Value',
   field: 'tokenValue',
   sortable: false,
-  resizable: false,
+  resizable: true,
+  minWidth: 400,
   width: 400,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
