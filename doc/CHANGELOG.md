@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.3.0
+
+### 1.3.0 Fixes
+
+- `[Message]` Converted message tests to playwright. ([#1954](https://github.com/infor-design/enterprise-wc/issues/1954))
+
 ## 1.2.0
 
 ### 1.2.0 Fixes
