@@ -22,10 +22,11 @@ const themeFiles = [
 // Utilities
 const writeFileSync = (filePath, data) => fs.writeFileSync(filePath, data, 'utf8');
 
+let idCounter = 0;
 /**
  * Simple unique ID generator
+ * @returns {string} unique id
  */
-let idCounter = 0;
 function generateUniqueId() {
   return `id-${Date.now()}-${idCounter++}`;
 }

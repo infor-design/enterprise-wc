@@ -2,18 +2,16 @@ import type IdsDataGrid from '../../ids-data-grid/ids-data-grid';
 import '../../ids-data-grid/ids-data-grid';
 import type { IdsDataGridColumn } from '../../ids-data-grid/ids-data-grid-column';
 import '../../ids-container/ids-container';
-// import '../../ids-layout-flex/ids-layout-flex';
-// import '../../ids-dropdown/ids-dropdown';
-import coreThemeJSON from '../../../assets/data/themeData/ids-theme-default-core.json';
-import darkThemeJSON from '../../../assets/data/themeData/ids-theme-default-dark.json';
-import contrastThemeJSON from '../../../assets/data/themeData/ids-theme-default-contrast.json';
+import coreModeJSON from '../../../assets/data/themeData/ids-theme-default-core.json';
+import darkModeJSON from '../../../assets/data/themeData/ids-theme-default-dark.json';
+import contrastModeJSON from '../../../assets/data/themeData/ids-theme-default-contrast.json';
 
-const dataGrid = document.querySelector<IdsDataGrid>('#data-theme')!;
+const dataGrid = document.querySelector<IdsDataGrid>('#data-tokens')!;
 
-const themes: any = {
-  coreTheme: coreThemeJSON,
-  contrastTheme: contrastThemeJSON,
-  darkTheme: darkThemeJSON,
+const modes: any = {
+  coreMode: coreModeJSON,
+  contrastMode: contrastModeJSON,
+  darkMode: darkModeJSON,
 };
 
 const columns: IdsDataGridColumn[] = [];
@@ -27,6 +25,7 @@ columns.push({
   },
   sortable: false,
   resizable: false,
+  width: 400,
   formatter: dataGrid.formatters.tree,
   filterType: dataGrid.filters.text
 });
@@ -37,21 +36,20 @@ columns.push({
   field: 'tokenValue',
   sortable: false,
   resizable: false,
+  width: 400,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
 });
 
 columns.push({
   id: 'type',
-  name: 'Type',
+  name: 'Tier',
   field: 'type',
   sortable: false,
   resizable: false,
-  width: 200,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.dropdown,
   filterConditions: [
-    // { value: 'Core', label: 'Core' },
     { value: 'Semantic', label: 'Semantic' },
     { value: 'Component', label: 'Component' },
   ]
@@ -63,7 +61,6 @@ columns.push({
   field: 'component',
   sortable: true,
   resizable: false,
-  width: 200,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
 });
@@ -93,19 +90,19 @@ const updateDataGrid = async (url: string) => {
 };
 
 const dropdownHandler = async (e: any) => {
-  const url: string = themes[e.target.value];
+  const url: string = modes[e.target.value];
   await updateDataGrid(url);
   dataGrid.collapseAll();
 };
 
-const dropdown: any = document.querySelector('#dropdown-themes');
+const dropdown: any = document.querySelector('#dropdown-modes');
 if (dropdown) {
   dropdown.addEventListener('change', dropdownHandler);
 }
 
 const initializeData = async () => {
-  const defaultValue = dropdown ? dropdown.value : 'coreTheme';
-  const defaultUrl = themes[defaultValue];
+  const defaultValue = dropdown ? dropdown.value : 'coreMode';
+  const defaultUrl = modes[defaultValue];
   await updateDataGrid(defaultUrl);
 };
 
