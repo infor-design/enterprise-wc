@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { expect } from '@playwright/test';
+import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsMessage from '../../src/components/ids-message/ids-message';
@@ -62,6 +62,161 @@ test.describe('IdsMessage tests', () => {
       if (browserName !== 'chromium') return;
       await page.locator('#message-example-error-trigger').click();
       await percySnapshot(page, 'ids-message-light');
+    });
+  });
+
+  test.describe('functionality tests', () => {
+    let idsMessage: Locator;
+
+    test.beforeEach(async ({ page }) => {
+      idsMessage = await page.locator('#message-example-error');
+    });
+
+    test('can create component without error', async ({ page, pageErrorsTest }) => {
+      await page.evaluate(() => {
+        const message = document.createElement('ids-message') as IdsMessage;
+        message.id = 'new-message-test';
+        message.status = 'info';
+        document.querySelector('ids-container')!.appendChild(message);
+      });
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
+    test('can set/get message', async () => {
+      const defText = 'This application has experienced a system error due to the lack of internet access.'
+      + ' Please restart the\n        application in order to proceed.';
+      const testData = [
+        { data: 'Another\n message.', expected: 'Another\n message.' },
+        { data: '<svg></svg>', expected: '' },
+        { data: null, expected: '' }
+      ];
+
+      expect(await idsMessage.evaluate((element: IdsMessage) => element.message)).toEqual(defText);
+
+      for (const data of testData) {
+        expect(await idsMessage.evaluate((element: IdsMessage, tData) => {
+          element.message = tData as any;
+          return element.message;
+        }, data.data)).toEqual(data.expected);
+      }
+    });
+
+    test('can set/get opacity', async () => {
+      // data sequence is important
+      const testData = [
+        { data: '0.1', expected: '0.1' },
+        { data: '0.5', expected: '0.5' },
+        { data: null, expected: '0.5' },
+        { data: '1', expected: '1' }
+      ];
+
+      expect(await idsMessage.evaluate((element: IdsMessage) => element.opacity)).toBeUndefined();
+
+      for (const data of testData) {
+        expect(await idsMessage.evaluate((element: IdsMessage, tData) => {
+          element.opacity = tData as any;
+          return element.opacity;
+        }, data.data)).toEqual(data.expected);
+      }
+    });
+
+    test('can set/get status', async () => {
+      const defStatus = 'none';
+      const testData = [
+        { data: 'alert', expected: 'alert' },
+        { data: 'invalid', expected: defStatus },
+        { data: 'success', expected: 'success' },
+        { data: 1, expected: defStatus },
+        { data: 'warning', expected: 'warning' },
+        { data: null, expected: defStatus },
+      ];
+      expect(await idsMessage.evaluate((element: IdsMessage) => element.status)).toEqual('error');
+      await expect(idsMessage).toHaveAttribute('status', 'error');
+
+      // check getter default
+      expect(await idsMessage.evaluate((element: IdsMessage) => {
+        element.state.status = null;
+        return element.status;
+      })).toEqual('default');
+
+      for (const data of testData) {
+        const result = await idsMessage.evaluate((element: IdsMessage, tData) => {
+          element.status = tData as any;
+          return { status: element.status, ariaLabel: element.ariaLabelContent };
+        }, data.data);
+        expect(result.status).toEqual(data.expected);
+        if (data.expected !== 'none') {
+          await expect(idsMessage).toHaveAttribute('status', data.expected);
+          expect(result.ariaLabel).toContain(data.expected);
+        } else {
+          await expect(idsMessage).not.toHaveAttribute('status');
+          expect(result.ariaLabel).not.toContain(data.expected);
+        }
+      }
+    });
+
+    test('can get buttons', async () => {
+      const result = await idsMessage.evaluate((element: IdsMessage) => {
+        const butts = element.buttons;
+        const ret = {
+          nodeNames: [...butts].map((node) => node.nodeName.toLowerCase()),
+          buttons: butts
+        };
+        return ret;
+      });
+      expect(result.buttons).toBeTruthy();
+      expect(result.nodeNames).toEqual(['ids-modal-button', 'ids-modal-button']);
+    });
+
+    test('can show/hide message', async () => {
+      await expect(idsMessage).not.toHaveAttribute('visible');
+
+      await idsMessage.evaluate(async (element: IdsMessage) => { await element.show(); });
+      await expect(idsMessage).toHaveAttribute('visible');
+
+      await idsMessage.evaluate(async (element: IdsMessage) => { await element.hide(); });
+      await expect(idsMessage).not.toHaveAttribute('visible');
+    });
+
+    test('can trigger beforeshow event to prevent showing of message', async () => {
+      await expect(idsMessage).not.toHaveAttribute('visible');
+
+      await idsMessage.evaluate(async (element: IdsMessage) => {
+        (window as any).eventCounter = 0;
+        element.addEventListener('beforeshow', (event: any) => {
+          event.detail.response(false);
+          (window as any).eventCounter++;
+        });
+        await element.show();
+      });
+
+      await expect(idsMessage).not.toHaveAttribute('visible');
+    });
+
+    test('can trigger beforehide event to prevent hiding of message', async () => {
+      await expect(idsMessage).not.toHaveAttribute('visible');
+
+      await idsMessage.evaluate(async (element: IdsMessage) => {
+        (window as any).eventCounter = 0;
+        element.addEventListener('beforehide', (event: any) => {
+          event.detail.response(false);
+          (window as any).eventCounter++;
+        });
+        await element.show();
+        await element.hide();
+      });
+
+      await expect(idsMessage).toHaveAttribute('visible');
+    });
+
+    test('can close message with escape key', async ({ page }) => {
+      await expect(idsMessage).not.toHaveAttribute('visible');
+
+      await idsMessage.evaluate(async (element: IdsMessage) => { await element.show(); });
+      await expect(idsMessage).toHaveAttribute('visible');
+
+      await page.keyboard.press('Escape');
+      await expect(idsMessage).not.toHaveAttribute('visible');
     });
   });
 });
