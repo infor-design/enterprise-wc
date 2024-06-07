@@ -322,6 +322,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
 - `columns` {Array<object>} Sets the columns array of the data grid. See column settings.
 - `columnGroups` {Array<object>} Allows you to group columns together in logical sets. See section below for details.
+- `disableRowHighlight` {boolean} Disables row highlighting when a row is hovered.
 - `rowHeight` {string | `'xxs'` | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height and padding of each row. In smaller row heights the font is lowered.
 - `data` {Array<object>} Sets the data to show in the data grid. This can be a JSON Array.
 - `disableClientFilter` {boolean} Disables the filter logic client side in situations you want to filter server side.
