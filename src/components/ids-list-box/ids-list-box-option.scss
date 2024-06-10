@@ -25,6 +25,11 @@
     margin-inline-start: var(--ids-dropdown-space-text);
   }
 }
+:host([disabled]) {
+  cursor: var(--ids-cursor-not-allowed);
+  opacity: 0.5;
+  pointer-events: none;
+}
 
 :host(.is-selected:not(.multiselect-option)) {
   background-color: var(--ids-dropdown-color-background-selected);

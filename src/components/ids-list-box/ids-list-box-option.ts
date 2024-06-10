@@ -41,6 +41,7 @@ export default class IdsListBoxOption extends Base {
   static get attributes(): Array<any> {
     return [
       ...super.attributes,
+      attributes.DISABLED,
       attributes.GROUP_LABEL,
       attributes.ROW_INDEX,
       attributes.SELECTED,
@@ -134,4 +135,26 @@ export default class IdsListBoxOption extends Base {
    * @returns {number} the row-index
    */
   get rowIndex(): number { return Number(this.getAttribute(attributes.ROW_INDEX) ?? -1); }
+
+  /**
+   * Sets the disabled attribute
+   * @param {string|boolean} value string value from the disabled attribute
+   */
+  set disabled(value) {
+    if (stringToBool(value)) {
+      this.setAttribute('aria-disabled', 'true');
+      this.setAttribute('disabled', 'true');
+    } else {
+      this.removeAttribute('aria-disabled');
+      this.removeAttribute('disabled');
+    }
+  }
+
+  /**
+   * Get the disabled on the list-box-option
+   */
+
+  get disabled() {
+    return this.hasAttribute('disabled');
+  }
 }
