@@ -30,9 +30,6 @@
 - `[MenuButton]` Fix popup aligned edge position on open. ([#2285](https://github.com/infor-design/enterprise-wc/issues/2285))
 - `[Multiselect]` Fix so that options with long text will now show tooltip and also fit properly inside input-field. ([#2264](https://github.com/infor-design/enterprise-wc/issues/2264))
 - `[Pager]` Fix `ids-pager-button` so that it can be enabled if `page-total` is unknown or not provided. ([#1506](https://github.com/infor-design/enterprise-wc/issues/1506))
-- `[Personalize]` Update the token table labels to be Modes instead of Themes. ([#2415](https://github.com/infor-design/enterprise-wc/issues/2415))
-- `[Personalize]` Use fixed with on the token value and token name columns in the token table. ([#2400](https://github.com/infor-design/enterprise-wc/issues/2400))
-- `[Personalize]` Rename the Type column to Tier. ([#2397](https://github.com/infor-design/enterprise-wc/issues/2397))
 - `[Pie Chart]` Converted pie chart tests to playwright. ([#1960](https://github.com/infor-design/enterprise-wc/issues/1960))
 - `[Popup]` Fix return of `bleed` property. ([#2360][https://github.com/infor-design/enterprise-wc/issues/2360])
 - `[Popup]` Converted popup test to playwright. ([#1962][https://github.com/infor-design/enterprise-wc/issues/1962])
@@ -53,6 +50,11 @@
 - `[Text]` Fixed lifecycle issues with text translation in angular.. ([#2324](https://github.com/infor-design/enterprise-wc/issues/2324))
 - `[Upload]` Converted upload tests to playwright. ([#1991](https://github.com/infor-design/enterprise-wc/issues/1991))
 - `[Theme Switcher]` Converted theme switcher tests to playwright. ([#1981](https://github.com/infor-design/enterprise-wc/issues/1981))
+- `[TokenTable]` Update the table to show color previews at all tiers. ([#2420](https://github.com/infor-design/enterprise-wc/issues/2420))
+- `[TokenTable]` Update the token table labels to be Modes instead of Themes. ([#2415](https://github.com/infor-design/enterprise-wc/issues/2415))
+- `[TokenTable]` Use fixed with on the token value and token name columns in the token table. ([#2400](https://github.com/infor-design/enterprise-wc/issues/2400))
+- `[TokenTable]` Rename the Type column to Tier. ([#2397](https://github.com/infor-design/enterprise-wc/issues/2397))
+- `[TokenTable]` Fix bug where component names were incomplete in the table. ([#2401](https://github.com/infor-design/enterprise-wc/issues/2401))
 - `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
 
 ## 1.1.0

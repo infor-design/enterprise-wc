@@ -286,13 +286,14 @@ export default class IdsDataGridFormatters {
     const disabled = isDisabled ? ' disabled' : '';
 
     // Regular expression to match common color formats
-    const colorRegex = /^(#(?:[0-9a-fA-F]{3}){1,2}|(?:rgb|hsl)a?\((?:\s*\d+\s*,){2,3}\s*\d*\.*\d*\))$/;
+    // const colorRegex = /^(#(?:[0-9a-fA-F]{3}){1,2}|(?:rgb|hsl)a?\((?:\s*\d+\s*,){2,3}\s*\d*\.*\d*\))$/;
+    const colorRegex = /^(#(?:[0-9a-fA-F]{3}){1,2}|(?:rgb|hsl)a?\(\s*(?:\d{1,3}\s+){2}\d{1,3}\s*(\/\s*(0|1|0?\.\d+))?\s*\))$/;
 
     // Check if the value is a color
     const isColor = colorRegex.test(value);
 
     if (!columnData.color && !isColor) {
-      return `<span class="text-ellipsis"><ids-color${disabled} suppress-tooltip></ids-color></span>`;
+      return `<span class="text-ellipsis">&ndash;</span>`;
     }
 
     if (!columnData.color && !value) return `<span class="text-ellipsis"><ids-color${disabled}></ids-color></span>`;
