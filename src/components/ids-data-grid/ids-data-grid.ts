@@ -212,6 +212,7 @@ export default class IdsDataGrid extends Base {
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
       attributes.DISABLE_CLIENT_FILTER,
+      attributes.DISABLE_ROW_HIGHLIGHT,
       attributes.EMPTY_MESSAGE_DESCRIPTION,
       attributes.EMPTY_MESSAGE_ICON,
       attributes.EMPTY_MESSAGE_LABEL,
@@ -1207,6 +1208,19 @@ export default class IdsDataGrid extends Base {
 
   get alternateRowShading() {
     return stringToBool(this.getAttribute(attributes.ALTERNATE_ROW_SHADING)) || false;
+  }
+
+  /**
+   * Setting for toggling row highlighting
+   * @param {boolean|string|null} val If true, disables row highlighting
+   */
+  set disableRowHighlight(val: boolean | string | null) {
+    const disabled = stringToBool(val);
+    this.toggleAttribute(attributes.DISABLE_ROW_HIGHLIGHT, disabled);
+  }
+
+  get disableRowHighlight(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLE_ROW_HIGHLIGHT));
   }
 
   /**
