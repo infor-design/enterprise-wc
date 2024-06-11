@@ -85,11 +85,7 @@ export default class IdsListBox extends IdsElement {
    * @param {string|boolean} value string value from the disabled attribute
    */
   set disabled(value) {
-    if (stringToBool(value)) {
-      this.setAttribute('disabled', 'true');
-    } else {
-      this.removeAttribute('disabled');
-    }
+    this.toggleAttribute(attributes.DISABLED, stringToBool(value));
   }
 
   /**
@@ -97,7 +93,7 @@ export default class IdsListBox extends IdsElement {
    */
 
   get disabled() {
-    return this.hasAttribute('disabled');
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   #configureListBoxOptions() {

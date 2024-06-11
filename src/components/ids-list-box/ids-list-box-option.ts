@@ -143,10 +143,10 @@ export default class IdsListBoxOption extends Base {
   set disabled(value) {
     if (stringToBool(value)) {
       this.setAttribute('aria-disabled', 'true');
-      this.setAttribute('disabled', 'true');
+      this.setAttribute(attributes.DISABLED, 'true');
     } else {
       this.removeAttribute('aria-disabled');
-      this.removeAttribute('disabled');
+      this.removeAttribute(attributes.DISABLED);
     }
   }
 
@@ -155,6 +155,6 @@ export default class IdsListBoxOption extends Base {
    */
 
   get disabled() {
-    return this.hasAttribute('disabled');
+    return this.hasAttribute(attributes.DISABLED);
   }
 }
