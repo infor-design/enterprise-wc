@@ -32,13 +32,34 @@ function generateUniqueId() {
 }
 
 /**
- * Extracts the component name from the variable name
- * @param {string} tokenName - The CSS variable name
+ * Checks if a value is a color
+ * @param {string} value - The value to check
+ * @returns {boolean} - Whether the value is a color
+ */
+function isColor(value) {
+  const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+  const rgbColorRegex = /^rgb\(\s*(\d{1,3}\s+){2}\d{1,3}\s*(\/\s*\d*\.*\d*)?\s*\)$/;
+  const rgbaColorRegex = /^rgba\(\s*(\d{1,3}\s+){3}(\/\s*(0|1|0?\.\d+))?\s*\)$/;
+  const hslColorRegex = /^hsl\(\s*(\d{1,3}),\s*(\d{1,3})%,\s*(\d{1,3})%\s*\)$/;
+  const hslaColorRegex = /^hsla\(\s*(\d{1,3}),\s*(\d{1,3})%,\s*(\d{1,3})%,\s*(0|1|0?\.\d+)\s*\)$/;
+  const colorNames = ['black', 'white', 'red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'grey', 'gray', 'orange', 'purple', 'brown', 'pink', 'lime', 'olive', 'navy', 'teal', 'aqua', 'maroon', 'fuchsia', 'silver'];
+
+  return hexColorRegex.test(value)
+    || rgbColorRegex.test(value)
+    || rgbaColorRegex.test(value)
+    || hslColorRegex.test(value)
+    || hslaColorRegex.test(value)
+    || colorNames.includes(value.toLowerCase());
+}
+
+/**
+ * Extracts the component name from the comment
+ * @param {string} comment - The comment line
  * @returns {string} - The component name
  */
-function extractComponentName(tokenName) {
-  const match = tokenName.match(/^--ids-([^:]*?)-/);
-  return match ? match[1] : '';
+function extractComponentName(comment) {
+  const match = comment.match(/^\/\/\s*([a-zA-Z\s]*)/);
+  return match ? match[1].trim() : '';
 }
 
 /**
@@ -57,11 +78,24 @@ function generateTokenObjects(filePath, type = '', label = '') {
 
   // Parse each line
   let currentType = type;
+  let currentComponent = '';
+
   lines.forEach((line) => {
-    // Check if the line contains a comment that sets the type
-    const commentMatch = line.trim().match(/^\/\/\s*@(\w+)/);
-    if (commentMatch) {
-      currentType = commentMatch[1].charAt(0).toUpperCase() + commentMatch[1].slice(1);
+    // Check if the line contains a comment that sets the component
+    const componentCommentMatch = line.trim().match(/^\/\/\s*([a-zA-Z\s]*)/);
+    if (componentCommentMatch && !componentCommentMatch[1].startsWith('@')) {
+      [, currentComponent] = componentCommentMatch;
+    }
+
+    // Check for comments that indicate the type
+    const typeCommentMatch = line.trim().match(/^\/\/\s*@(\w+)/);
+    if (typeCommentMatch) {
+      const comment = typeCommentMatch[1];
+      if (comment === 'semantic') {
+        currentType = 'Semantic'; // Update type to 'Semantic'
+      } else if (comment === 'component') {
+        currentType = 'Component'; // Update type to 'Component'
+      }
     }
 
     // Check if the line contains a CSS variable declaration
@@ -69,14 +103,15 @@ function generateTokenObjects(filePath, type = '', label = '') {
     if (matches && matches.length === 3) {
       const tokenName = `--ids-${matches[1].trim()}`; // Token name
       const tokenValue = matches[2].trim(); // Token value
-      const component = extractComponentName(tokenName); // Extract component name
+      // const component = extractComponentName(tokenName); // Extract component name
       tokenObjects.push({
         id: generateUniqueId(),
         tokenName,
         tokenValue,
         type: currentType,
         label,
-        component
+        component: currentComponent,
+        colorValue: isColor(tokenValue) ? tokenValue : null
       });
     }
   });
@@ -122,7 +157,8 @@ function parseThemeFile(filePath, tokenDependencies) {
               type: token?.type,
               source: token.label,
               component: token.component,
-              children: [nestedValue]
+              children: [nestedValue],
+              colorValue: nestedValue.colorValue
             };
           }
         } else {
@@ -133,7 +169,8 @@ function parseThemeFile(filePath, tokenDependencies) {
             type: token?.type,
             source: token.label,
             component: token.component,
-            children: []
+            children: [],
+            colorValue: isColor(token.tokenValue) ? token.tokenValue : null
           };
         }
       }
@@ -154,8 +191,9 @@ function parseThemeFile(filePath, tokenDependencies) {
               tokenValue: value,
               type: 'Semantic',
               source: 'themeFile',
-              component: extractComponentName(variableName),
-              children: [nestedValue]
+              component: extractComponentName(line),
+              children: [nestedValue],
+              colorValue: nestedValue.colorValue
             };
           }
         } else {
@@ -165,8 +203,9 @@ function parseThemeFile(filePath, tokenDependencies) {
             tokenValue: value,
             type: 'Semantic',
             source: 'themeFile',
-            component: extractComponentName(variableName),
-            children: []
+            component: extractComponentName(line),
+            children: [],
+            colorValue: isColor(value) ? value : null
           };
         }
       }
@@ -177,11 +216,12 @@ function parseThemeFile(filePath, tokenDependencies) {
 
   // Parse each line
   let type = '';
+  let currentComponent = '';
   lines.forEach((line) => {
-    // Check for comments that indicate the type
-    const commentMatch = line.trim().match(/^\/\/\s*@(\w+)/);
-    if (commentMatch) {
-      const comment = commentMatch[1];
+    // Check for comments that indicate the type or component
+    const typeCommentMatch = line.trim().match(/^\/\/\s*@(\w+)/);
+    if (typeCommentMatch) {
+      const comment = typeCommentMatch[1];
       if (comment === 'semantic') {
         type = 'Semantic'; // Update type to 'Semantic'
       } else if (comment === 'component') {
@@ -189,11 +229,17 @@ function parseThemeFile(filePath, tokenDependencies) {
       }
     }
 
+    // Check for comments that indicate the component
+    const componentCommentMatch = line.trim().match(/^\/\/\s*([a-zA-Z\s]*)/);
+    if (componentCommentMatch && !componentCommentMatch[1].startsWith('@')) {
+      [, currentComponent] = componentCommentMatch;
+    }
+
     const match = line.trim().match(variableRegex);
     if (match) {
       const tokenName = `--ids-${match[1].trim()}`;
       const tokenValue = match[2].trim();
-      const component = extractComponentName(tokenName); // Extract component name
+      const component = currentComponent; // Extract component name
       const inherited = {
         id: generateUniqueId(),
         tokenName: '',
@@ -218,6 +264,7 @@ function parseThemeFile(filePath, tokenDependencies) {
           inherited.source = inheritedValue.source;
           inherited.component = inheritedValue.component;
           inherited.children = inheritedValue.children;
+          inherited.colorValue = inheritedValue.colorValue;
         }
       }
 
@@ -229,7 +276,8 @@ function parseThemeFile(filePath, tokenDependencies) {
           tokenValue,
           children: [inherited],
           type,
-          component
+          component,
+          colorValue: isColor(tokenValue) ? tokenValue : inherited.colorValue
         });
       } else {
         themeTokens.push({
@@ -237,7 +285,8 @@ function parseThemeFile(filePath, tokenDependencies) {
           tokenName,
           tokenValue,
           type,
-          component
+          component,
+          colorValue: isColor(tokenValue) ? tokenValue : null
         });
       }
     }
