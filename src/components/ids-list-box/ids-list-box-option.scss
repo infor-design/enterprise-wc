@@ -26,7 +26,7 @@
   }
 }
 
-:host([disabled]) {
+:host([disabled]:not([disabled='false'])) {
   cursor: var(--ids-cursor-not-allowed);
   opacity: 0.5;
   pointer-events: none;
