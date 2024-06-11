@@ -190,6 +190,10 @@
     overflow: visible;
   }
 
+  &.is-editing.is-inline ids-input {
+    z-index: 9999;
+  }
+
   // Dropdown Editable Cell
   &.is-editable.is-dropdown {
     .dropdown-cell-value {

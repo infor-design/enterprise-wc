@@ -322,7 +322,8 @@ export default class IdsDataGridCell extends IdsElement {
       });
     } else {
       this.editor.input?.onEvent('focusout', this.editor.input, () => {
-        this.endCellEdit();
+        this.editor?.save(this);
+        // this.endCellEdit();
       });
     }
 
