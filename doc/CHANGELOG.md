@@ -8,6 +8,7 @@
 
 ### 1.3.0 Fixes
 
+- `[LoadingIndicator]` Added fixes to some properties that could not be set on the fly. ([#2429](https://github.com/infor-design/enterprise-wc/issues/2429))
 - `[Message]` Converted message tests to playwright. ([#1954](https://github.com/infor-design/enterprise-wc/issues/1954))
 
 ## 1.2.0
