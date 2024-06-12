@@ -10,10 +10,11 @@
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">IdsFilterField Example</ids-text>
     </ids-layout-grid>
+
     <ids-layout-grid cols="1" gap="md" padding-x="md" padding-y="sm">
       <ids-layout-grid-cell>
-        <ids-filter-field label="Text">
-          <ids-input></ids-input>
+        <ids-filter-field id="text-filter-field" label="Text">
+          <ids-input id="filter-input"></ids-input>
         </ids-filter-field>
       </ids-layout-grid-cell>
     </ids-layout-grid>
@@ -21,7 +22,7 @@
     <ids-layout-grid cols="1" gap="md" padding-x="md" padding-y="sm">
       <ids-layout-grid-cell>
         <ids-filter-field label="Date">
-          <ids-date-picker></ids-date-picker>
+          <ids-date-picker id="filter-date"></ids-date-picker>
         </ids-filter-field>
       </ids-layout-grid-cell>
     </ids-layout-grid>
@@ -29,7 +30,7 @@
     <ids-layout-grid cols="1" gap="md" padding-x="md" padding-y="sm">
       <ids-layout-grid-cell>
         <ids-filter-field label="Time">
-          <ids-time-picker></ids-time-picker>
+          <ids-time-picker id="filter-time"></ids-time-picker>
         </ids-filter-field>
       </ids-layout-grid-cell>
     </ids-layout-grid>
@@ -37,7 +38,7 @@
     <ids-layout-grid cols="1" gap="md" padding-x="md" padding-y="sm">
       <ids-layout-grid-cell>
         <ids-filter-field label="Dropdown">
-          <ids-dropdown value="opt2">
+          <ids-dropdown value="opt2" id="filter-dropdown">
             <ids-list-box>
               <ids-list-box-option value="opt1">Option One</ids-list-box-option>
               <ids-list-box-option value="opt2">Option Two</ids-list-box-option>
@@ -54,7 +55,7 @@
     <ids-layout-grid cols="1" gap="md" padding-x="md" padding-y="sm">
       <ids-layout-grid-cell>
         <ids-filter-field label="Lookup">
-          <ids-lookup title="Select an Item" field="description" value="102,103"></ids-lookup>
+          <ids-lookup id="filter-lookup" title="Select an Item" field="description" value="102,103"></ids-lookup>
         </ids-filter-field>
       </ids-layout-grid-cell>
     </ids-layout-grid>

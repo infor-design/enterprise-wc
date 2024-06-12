@@ -71,6 +71,7 @@ const initLookup = async () => {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Handle filter field change events
   const filterFields = document.querySelectorAll<IdsFilterField>('ids-filter-field');
   filterFields.forEach((filterField) => {
     filterField?.addEventListener('change', ((evt: CustomEvent) => {
@@ -78,6 +79,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.info(`Filter Field ${updatedField.label}`, evt.detail);
     }) as EventListener);
   });
+
+  // Customize text filter field operators
+  const textFilterField = document.querySelector<IdsFilterField>('#text-filter-field');
+  textFilterField!.operators = [
+    {
+      value: 'equals',
+      text: 'Equals',
+      icon: 'filter-equals',
+      selected: true,
+    },
+    {
+      value: 'does-not-equal',
+      text: 'Does Not Equal',
+      icon: 'filter-does-not-equal'
+    }
+  ];
 
   await initLookup();
 });

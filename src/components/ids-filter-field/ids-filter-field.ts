@@ -2,14 +2,14 @@ import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsLabelStateMixin from '../../mixins/ids-label-state-mixin/ids-label-state-mixin';
+import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { IdsInputInterface } from '../ids-input/ids-input-attributes';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import IdsMenuGroup from '../ids-menu/ids-menu-group';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import styles from './ids-filter-field.scss';
 
-const Base = IdsLabelStateMixin(IdsEventsMixin(IdsElement));
+const Base = IdsEventsMixin(IdsElement);
 
 export interface FilterFieldOperator {
   value: string;
@@ -34,6 +34,9 @@ export default class IdsFilterField extends Base {
   /** Cache last input change event data for next change event */
   #lastInputChange: Record<string, any> = {};
 
+  /** Flag to prevent change event from triggering */
+  #suppressChangeEvent = false;
+
   constructor() {
     super();
   }
@@ -41,6 +44,7 @@ export default class IdsFilterField extends Base {
   static get attributes(): string[] {
     return [
       ...super.attributes,
+      attributes.LABEL,
       attributes.OPERATOR,
       attributes.SIZE,
       attributes.VALUE
@@ -54,9 +58,6 @@ export default class IdsFilterField extends Base {
 
   template() {
     return `<div class="ids-filter-field">
-      <label>
-        <ids-text part="label" color-unset>${this.label}</ids-text>
-      </label>
       <div class="field-container">
         <ids-menu-button id="operator-button" menu="operator-menu" icon="filter-equals" dropdown-icon>
           <span class="audible">Icon only button</span>
@@ -106,6 +107,8 @@ export default class IdsFilterField extends Base {
   }
 
   triggerChangeEvent() {
+    if (this.#suppressChangeEvent) return;
+
     this.triggerEvent('change', this, {
       detail: {
         operator: this.operator,
@@ -118,20 +121,19 @@ export default class IdsFilterField extends Base {
 
   /**
    * Syncs slotted input element labels/id with filter field
-   * @param {Element} inputElement input element
+   * @param {string} label label string
    */
-  #syncInputLabel(inputElement: Element) {
-    const defaultId = 'filter-field-input';
-    const labelElem = this.container?.querySelector<HTMLElement>('label');
+  #syncInputLabel(label: string | null) {
+    const inputElement = this.inputElement;
+    const safeLabel = stripHTML(label ?? '');
 
-    if (inputElement.id) {
-      labelElem?.setAttribute('for', inputElement.id);
+    if (inputElement && safeLabel) {
+      this.setAttribute(attributes.LABEL, safeLabel);
+      this.inputElement?.setAttribute(attributes.LABEL, safeLabel);
     } else {
-      inputElement.id = defaultId;
-      labelElem?.setAttribute('for', defaultId);
+      this.removeAttribute(attributes.LABEL);
+      this.inputElement.removeAttribute(attributes.LABEL);
     }
-
-    inputElement.setAttribute(attributes.LABEL, this.label ?? '');
   }
 
   /**
@@ -140,12 +142,15 @@ export default class IdsFilterField extends Base {
    */
   #configureInputElement(inputElement?: Element) {
     if (!inputElement) return;
+    const inputLabel = this.inputElementLabel;
+    const operatorBtn = this.container?.querySelector('ids-menu-button');
+
+    inputLabel?.style.setProperty('margin-inline-start', `-${operatorBtn?.clientWidth || 52}px`);
     inputElement.toggleAttribute(attributes.NO_MARGINS, true);
-    inputElement.setAttribute(attributes.LABEL_STATE, 'collapsed');
     inputElement.setAttribute(attributes.SIZE, this.size);
     inputElement.toggleAttribute(attributes.SQUARE, true);
     (inputElement as IdsInputInterface)?.input.toggleAttribute('square', true);
-    this.#syncInputLabel(inputElement);
+    this.#syncInputLabel((inputElement as any).label || this.label);
   }
 
   /**
@@ -178,7 +183,18 @@ export default class IdsFilterField extends Base {
    * @returns {HTMLElement} input element
    */
   get inputElement() {
-    return this.container?.querySelector<HTMLSlotElement>('#input-slot')?.assignedElements()[0];
+    return this.container?.querySelector<HTMLSlotElement>('#input-slot')?.assignedElements()[0] as HTMLElement || null;
+  }
+
+  get inputElementLabel() {
+    const inputElement = this.inputElement;
+
+    if (inputElement.tagName === 'IDS-INPUT') {
+      return inputElement.shadowRoot?.querySelector<HTMLLabelElement>('label');
+    }
+
+    const inputTriggerField = inputElement.shadowRoot?.querySelector('ids-trigger-field');
+    return inputTriggerField?.shadowRoot?.querySelector<HTMLLabelElement>('label');
   }
 
   /**
@@ -235,10 +251,14 @@ export default class IdsFilterField extends Base {
    * @param {Array<FilterFieldOperator>} val operators configuration
    */
   set operators(val: FilterFieldOperator[]) {
-    this.#operators = val;
-    this.#renderOperators(this.#operators);
-    const selectedOperator = val.find((op) => op.selected)?.value || val[0].value;
-    this.menuButton?.setAttribute(attributes.VALUE, selectedOperator);
+    this.#suppressChangeEvent = true;
+    if (val?.length) {
+      this.#operators = val;
+      this.#renderOperators(this.#operators);
+      const selectedOperator = val.find((op) => op.selected)?.value || val[0].value;
+      this.menuButton?.setAttribute(attributes.VALUE, selectedOperator);
+    }
+    this.#suppressChangeEvent = false;
   }
 
   /**
@@ -247,6 +267,30 @@ export default class IdsFilterField extends Base {
    */
   get operators(): FilterFieldOperator[] {
     return this.#operators;
+  }
+
+  /**
+   * Sets label of input component
+   * @param {string|null} val label string
+   */
+  set label(val: string | null) {
+    const safeLabel = stripHTML(val ?? '');
+
+    if (safeLabel) {
+      this.setAttribute(attributes.LABEL, safeLabel);
+    } else {
+      this.removeAttribute(attributes.LABEL);
+    }
+
+    this.#syncInputLabel(safeLabel);
+  }
+
+  /**
+   * Gets label of input component
+   * @returns {string|null} label string
+   */
+  get label() {
+    return this.getAttribute(attributes.LABEL);
   }
 
   /**

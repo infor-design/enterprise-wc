@@ -1,18 +1,18 @@
 .ids-filter-field {
-  label {
-    display: inline-block;
-    padding: 4px;
-  }
-
   .field-container {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
 
     ids-menu-button {
       display: block;
       border: 1px solid var(--ids-input-color-border-default);
-      //border-inline-end: none;
       border-radius: 0;
+
+      &:focus {
+        border-color: var(--ids-input-color-border-focus);
+        box-shadow: var(--ids-input-color-border-shadow);
+        z-index: 1;
+      }
   
       &::part(button) {
         margin: 0;
@@ -23,12 +23,6 @@
         border-inline-end-color: transparent;
       }
     }
-  }
-
-  ids-menu-button:focus {
-    border-color: var(--ids-input-color-border-focus);
-    box-shadow: var(--ids-input-color-border-shadow);
-    z-index: 1;
   }
 }
 
