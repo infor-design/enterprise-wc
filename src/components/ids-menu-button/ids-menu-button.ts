@@ -50,13 +50,9 @@ export default class IdsMenuButton extends IdsButton {
     super.connectedCallback();
     if (this.hasAttribute(attributes.DROPDOWN_ICON)) {
       this.#configureDropdownIcon(true);
+      this.setPopupArrow();
     }
     this.#initMenuPopup();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    this.dropdownIcon = null;
   }
 
   /**

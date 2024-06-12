@@ -29,6 +29,7 @@
 - `[ListBox]` Adding support for `disabled` attribute to `ids-list-box-option` element. ([#2389](https://github.com/infor-design/enterprise-wc/issues/2389))
 - `[Masthead]` Converted masthead tests to playwright. ([#1951](https://github.com/infor-design/enterprise-wc/issues/1951))
 - `[MenuButton]` Fix popup aligned edge position on open. ([#2285](https://github.com/infor-design/enterprise-wc/issues/2285))
+- `[MenuButton]` Fix reattachment issue (down-arrow disappeared and wedge positioned out of place). ([#2136](https://github.com/infor-design/enterprise-wc/issues/2136))
 - `[Multiselect]` Fix so that options with long text will now show tooltip and also fit properly inside input-field. ([#2264](https://github.com/infor-design/enterprise-wc/issues/2264))
 - `[Pager]` Fix `ids-pager-button` so that it can be enabled if `page-total` is unknown or not provided. ([#1506](https://github.com/infor-design/enterprise-wc/issues/1506))
 - `[Pie Chart]` Converted pie chart tests to playwright. ([#1960](https://github.com/infor-design/enterprise-wc/issues/1960))
