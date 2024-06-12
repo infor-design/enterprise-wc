@@ -24,7 +24,6 @@ export const FilterFieldTypes = ['text', 'date', 'time', 'dropdown'];
  * IDS Filter Field Component
  * @type {IdsFilterField}
  * @mixes IdsEventsMixin
- * @mixes IdsLabelStateMixin
  */
 @customElement('ids-filter-field')
 @scss(styles)
