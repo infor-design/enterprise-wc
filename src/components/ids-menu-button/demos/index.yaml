@@ -11,9 +11,6 @@
   - link: disabled.html
     type: Example
     description: Shows a disabled menu button's state
-  - link: disabled-partially.html
-    type: Example
-    description: Shows a partially disabled menu button's state
   - link: display-selected.html
     type: Example
     description: Demonstrates how to update the text value of the menu button on selection
