@@ -26,6 +26,7 @@
 - `[Hierarchy]` Converted hierarchy tests to playwright. ([#1939](https://github.com/infor-design/enterprise-wc/issues/1939))
 - `[Hyperlink]` Converted hyperlink tests to playwright. ([#1941](https://github.com/infor-design/enterprise/issues/1941))
 - `[Input|Textarea]` Fixed bug where `ids-input` and `ids-textarea` DOM values were not updating on change. ([#2028](https://github.com/infor-design/enterprise/issues/2028))
+- `[ListBox]` Adding support for `disabled` attribute to `ids-list-box-option` element. ([#2389](https://github.com/infor-design/enterprise-wc/issues/2389))
 - `[Masthead]` Converted masthead tests to playwright. ([#1951](https://github.com/infor-design/enterprise-wc/issues/1951))
 - `[MenuButton]` Fix popup aligned edge position on open. ([#2285](https://github.com/infor-design/enterprise-wc/issues/2285))
 - `[MenuButton]` Fix reattachment issue (down-arrow disappeared and wedge positioned out of place). ([#2136](https://github.com/infor-design/enterprise-wc/issues/2136))

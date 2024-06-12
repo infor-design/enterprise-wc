@@ -26,6 +26,12 @@
   }
 }
 
+:host([disabled]:not([disabled='false'])) {
+  cursor: var(--ids-cursor-default);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 :host(.is-selected:not(.multiselect-option)) {
   background-color: var(--ids-dropdown-color-background-selected);
   color: var(--ids-dropdown-color-text-selected);
