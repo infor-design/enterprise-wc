@@ -11,7 +11,7 @@
     ids-menu-button {
       display: block;
       border: 1px solid var(--ids-input-color-border-default);
-      border-inline-end: none;
+      //border-inline-end: none;
       border-radius: 0;
   
       &::part(button) {
@@ -24,4 +24,14 @@
       }
     }
   }
+
+  ids-menu-button:focus {
+    border-color: var(--ids-input-color-border-focus);
+    box-shadow: var(--ids-input-color-border-shadow);
+    z-index: 1;
+  }
+}
+
+::slotted(*) {
+  margin-inline-start: -1px;
 }
