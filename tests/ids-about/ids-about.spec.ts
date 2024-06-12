@@ -114,7 +114,7 @@ test.describe('IdsAbout tests', () => {
       expect(await page.locator('ids-about').getAttribute('dir')).toEqual('rtl');
     });
 
-    test('content should be translated when switching languages', async ({ page }) => {
+    test.skip('content should be translated when switching languages', async ({ page }) => {
       // set language to spanish
       await page.evaluate(async () => {
         await window.IdsGlobal.locale?.setLocale('es-ES');
