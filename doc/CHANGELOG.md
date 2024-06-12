@@ -1,11 +1,22 @@
 # What's New with Enterprise Web Components
 
+## 1.3.0
+
+### 1.3.0 Features
+
+- `[Fonts]` The source sans pro font should no longer be used in googleapis instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
+
+### 1.3.0 Fixes
+
+- `[Message]` Converted message tests to playwright. ([#1954](https://github.com/infor-design/enterprise-wc/issues/1954))
+
 ## 1.2.0
 
 ### 1.2.0 Fixes
 
 - `[About]` Removed mobile info from about page. ([#8502](https://github.com/infor-design/enterprise/issues/8502))
 - `[AppMenu]` Added background color to selected item. ([#2048](https://github.com/infor-design/enterprise/issues/2048))
+- `[Datagrid]` Add row highlight background on hover with setting to disable. ([#2169](https://github.com/infor-design/enterprise-wc/issues/2169))
 - `[Datagrid]` Wrong value being used when adding rows. This was already fixed in WC #1506. Added test and demo. ([#2253](https://github.com/infor-design/enterprise-wc/issues/2253))
 - `[DatePicker]` Fix datepicker value syncing with manual input changes. ([#2207](https://github.com/infor-design/enterprise-wc/issues/2207))
 - `[Drawer]` Converted drawer tests to playwright. ([#1930](https://github.com/infor-design/enterprise-wc/issues/1930))
@@ -14,7 +25,9 @@
 - `[Form]` Fixed the issue where submit event not being attached in the angular examples. ([#2022](https://github.com/infor-design/enterprise-wc/issues/2022))
 - `[Hierarchy]` Converted hierarchy tests to playwright. ([#1939](https://github.com/infor-design/enterprise-wc/issues/1939))
 - `[Hyperlink]` Converted hyperlink tests to playwright. ([#1941](https://github.com/infor-design/enterprise/issues/1941))
+- `[Input|Textarea]` Fixed bug where `ids-input` and `ids-textarea` DOM values were not updating on change. ([#2028](https://github.com/infor-design/enterprise/issues/2028))
 - `[Masthead]` Converted masthead tests to playwright. ([#1951](https://github.com/infor-design/enterprise-wc/issues/1951))
+- `[MenuButton]` Fix popup aligned edge position on open. ([#2285](https://github.com/infor-design/enterprise-wc/issues/2285))
 - `[Multiselect]` Fix so that options with long text will now show tooltip and also fit properly inside input-field. ([#2264](https://github.com/infor-design/enterprise-wc/issues/2264))
 - `[Pager]` Fix `ids-pager-button` so that it can be enabled if `page-total` is unknown or not provided. ([#1506](https://github.com/infor-design/enterprise-wc/issues/1506))
 - `[Pie Chart]` Converted pie chart tests to playwright. ([#1960](https://github.com/infor-design/enterprise-wc/issues/1960))
@@ -31,9 +44,17 @@
 - `[Step chart]` Converted skiplink tests to playwright. ([#1973](https://github.com/infor-design/enterprise-wc/issues/1973))
 - `[Swappable]` Converted swappable tests to playwright. ([#1975](https://github.com/infor-design/enterprise-wc/issues/1975))
 - `[Tabs]` Fixed position of more menu in production/angular build. ([#2352](https://github.com/infor-design/enterprise-wc/issues/2352))
+- `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
+- `[Upload Advance]` Converted upload advance tests to playwright. ([#1990](https://github.com/infor-design/enterprise-wc/issues/1990))
 - `[Tabs]` Converted Tabs tests to playwright. ([#1979](https://github.com/infor-design/enterprise-wc/issues/1979))
 - `[Text]` Fixed lifecycle issues with text translation in angular.. ([#2324](https://github.com/infor-design/enterprise-wc/issues/2324))
+- `[Upload]` Converted upload tests to playwright. ([#1991](https://github.com/infor-design/enterprise-wc/issues/1991))
 - `[Theme Switcher]` Converted theme switcher tests to playwright. ([#1981](https://github.com/infor-design/enterprise-wc/issues/1981))
+- `[TokenTable]` Update the table to show color previews at all tiers. ([#2420](https://github.com/infor-design/enterprise-wc/issues/2420))
+- `[TokenTable]` Update the token table labels to be Modes instead of Themes. ([#2415](https://github.com/infor-design/enterprise-wc/issues/2415))
+- `[TokenTable]` Use fixed with on the token value and token name columns in the token table. ([#2400](https://github.com/infor-design/enterprise-wc/issues/2400))
+- `[TokenTable]` Rename the Type column to Tier. ([#2397](https://github.com/infor-design/enterprise-wc/issues/2397))
+- `[TokenTable]` Fix bug where component names were incomplete in the table. ([#2401](https://github.com/infor-design/enterprise-wc/issues/2401))
 - `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
 
 ## 1.1.0

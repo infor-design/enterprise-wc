@@ -642,6 +642,7 @@ export default class IdsInput extends Base {
      */
     this.onEvent('input', this?.input, () => {
       this.#updateTooltip();
+      this.#updateValue();
     });
 
     /**
@@ -650,6 +651,12 @@ export default class IdsInput extends Base {
     this.onEvent('mouseenter', this, () => {
       this.#updateTooltip();
     });
+  }
+
+  #updateValue(): void {
+    if (this?.getAttribute(attributes.VALUE) !== this.input?.value) {
+      this.setAttribute(attributes.VALUE, this.input?.value || '');
+    }
   }
 
   /**

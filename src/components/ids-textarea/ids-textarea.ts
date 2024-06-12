@@ -496,6 +496,19 @@ export default class IdsTextarea extends Base {
     this.handleAutogrow();
     this.handleSlotchangeEvent();
     this.handleNativeEvents();
+
+    this.onEvent('input', this?.input, () => {
+      this.#updateValue();
+    });
+  }
+
+  /**
+   * Update Value attribute
+   */
+  #updateValue(): void {
+    if (this?.getAttribute(attributes.VALUE) !== this.input?.value) {
+      this.setAttribute(attributes.VALUE, this.input?.value || '');
+    }
   }
 
   /**

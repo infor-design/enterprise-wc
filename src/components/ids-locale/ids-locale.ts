@@ -190,7 +190,7 @@ class IdsLocale {
    */
   #notifyElementsLanguage() {
     querySelectorAllShadowRoot('*').forEach((elem: any) => {
-      if (this.previousLanguage !== this.language.name && elem.nodeName.substring(0, 4) === 'IDS-' && elem.localeAPI) {
+      if (elem.getAttribute('language') !== this.language.name && elem.nodeName.substring(0, 4) === 'IDS-' && elem.localeAPI) {
         elem.setAttribute('language', this.language.name);
         if (typeof elem.onLanguageChange === 'function') {
           elem.onLanguageChange(this);
@@ -246,9 +246,6 @@ class IdsLocale {
     elem.removeAttribute('dir');
   }
 
-  /** Holds the last set language */
-  previousLanguage = 'en';
-
   /**
    * Set the language for a component and wait for it to finish (async)
    * @param {string} value The language string value
@@ -259,14 +256,12 @@ class IdsLocale {
     if (this.state.language !== lang) {
       this.state.language = lang;
     }
-    if (this.previousLanguage === value) return;
 
     if (this.state.language === lang && !this.loadedLanguages.get(this.state.language)) {
       await this.loadLanguageScript(lang);
     }
     this.setDocumentLangAttribute(lang);
     if (notify) this.#notifyElementsLanguage();
-    this.previousLanguage = value;
   }
 
   /**
