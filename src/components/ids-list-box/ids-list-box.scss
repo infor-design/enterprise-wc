@@ -30,7 +30,7 @@ $border-input-field-height-lg: calc(var(--ids-input-height-40) - 2px);
 }
 
 :host([disabled]:not([disabled='false'])) {
-  cursor: var(--ids-cursor-not-allowed);
+  cursor: var(--ids-cursor-default);
   opacity: 0.5;
   pointer-events: none;
 }
