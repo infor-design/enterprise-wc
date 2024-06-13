@@ -51,10 +51,8 @@ const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class exten
 
     if (newValue) {
       this.setAttribute(attributes.LABEL, `${newValue}`);
-      (this as IdsInputInterface).input?.setAttribute(htmlAttributes.ARIA_LABEL, this.label);
     } else {
       this.removeAttribute(attributes.LABEL);
-      (this as IdsInputInterface).input?.removeAttribute(htmlAttributes.ARIA_LABEL);
     }
 
     this.setLabelText(newValue);
