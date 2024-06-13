@@ -20,14 +20,16 @@ type Constraints = IdsConstructor<LabelStateHandler>;
 const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class extends superclass {
   constructor(...args: any[]) {
     super(...args);
-    this.state ??= {
-      label: '',
-      labelState: null
-    };
+
+    if (!this.state) {
+      this.state = {};
+    }
+    this.state.label = '';
   }
 
   connectedCallback() {
     super.connectedCallback?.();
+    this.state.labelState = null;
 
     if (this.hasAttribute(attributes.LABEL_STATE)) {
       this.labelState = this.getAttribute(attributes.LABEL_STATE) as IdsLabelStateMode;
@@ -47,20 +49,20 @@ const IdsLabelStateMixin = <T extends Constraints>(superclass: T) => class exten
    */
   set label(value: string) {
     const newValue = stripHTML(value);
-    this.state.label = newValue;
+    const currentValue = this.label;
 
-    if (newValue) {
-      this.setAttribute(attributes.LABEL, `${newValue}`);
-    } else {
-      this.removeAttribute(attributes.LABEL);
+    if (newValue !== currentValue) {
+      if (this.state) this.state.label = newValue;
+      if (newValue) {
+        this.setAttribute(attributes.LABEL, `${newValue}`);
+      } else {
+        this.removeAttribute(attributes.LABEL);
+      }
+      this.setLabelText(newValue);
     }
-
-    this.setLabelText(newValue);
   }
 
-  get label(): string {
-    return this.state.label || this.getAttribute(attributes.LABEL) || '';
-  }
+  get label(): string { return this.state?.label || ''; }
 
   /**
    * Used for setting the text contents of the shadowroot label
