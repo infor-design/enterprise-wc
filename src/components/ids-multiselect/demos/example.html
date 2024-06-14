@@ -14,7 +14,7 @@
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
 
-        <ids-multiselect id="dropdown-1" label="Multiselect (with max 3 choices and dirty tracker)" max="3" dirty-tracker="true">
+        <ids-multiselect id="multiselect-1" label="Multiselect (with max 3 choices and dirty tracker)" max="3" dirty-tracker="true">
           <ids-list-box>
             <ids-list-box-option id="al1" value="al" tooltip="The State of Alabama"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="ak1" value="ak" tooltip="The State of Alaska"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
@@ -26,8 +26,9 @@
           </ids-list-box>
         </ids-multiselect>
 
-        <ids-multiselect id="dropdown-2" tags="true" label="Multiselect (with tags and max 4 choices)" max="4" dirty-tracker="true">
+        <ids-multiselect id="multiselect-2" tags="true" label="Multiselect (with tags and max 4 choices)" max="4" dirty-tracker="true">
           <ids-list-box>
+            <ids-list-box-option id="long-text" value="long-text" tooltip="An option with long-text to test it fits dropdown and selected area"><ids-checkbox label="An option with long-text to test it fits dropdown and selected area"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="al2" value="al"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="ak2" value="ak"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="az2" value="az"><ids-checkbox label="Arizona"></ids-checkbox></ids-list-box-option>
@@ -43,7 +44,7 @@
           </ids-list-box>
         </ids-multiselect>
 
-        <ids-multiselect id="dropdown-3" tags="true" label="Multiselect (with icons)" max="4" dirty-tracker="false">
+        <ids-multiselect id="multiselect-3" tags="true" label="Multiselect (with icons)" max="4" dirty-tracker="false">
           <ids-list-box>
             <ids-list-box-option value="opt1" id="opt1-d5">
               <ids-icon icon="user-profile"></ids-icon>
@@ -71,7 +72,7 @@
           </ids-list-box>
         </ids-multiselect>
 
-        <ids-multiselect id="dropdown-4" tags="true" disabled="true" label="Disabled Multiselect" max="3" dirty-tracker="true">
+        <ids-multiselect id="multiselect-4" tags="true" disabled="true" label="Disabled Multiselect" max="3" dirty-tracker="true">
           <ids-list-box>
             <ids-list-box-option id="al4" value="al"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="ak4" value="ak"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
@@ -80,6 +81,12 @@
             <ids-list-box-option id="ca4" value="ca"><ids-checkbox label="California"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="co4" value="co"><ids-checkbox label="Colorado"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="nj4" value="nj" selected><ids-checkbox label="New Jersey"></ids-checkbox></ids-list-box-option>
+          </ids-list-box>
+        </ids-multiselect>
+
+        <ids-multiselect id="multiselect-ajax" label="Multiselect Using Ajax (with max 3 choices)" max="3" value="ak">
+          <ids-list-box>
+            <ids-list-box-option value="ak">Alaska</ids-list-box-option>
           </ids-list-box>
         </ids-multiselect>
 

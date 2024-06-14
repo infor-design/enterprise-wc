@@ -98,6 +98,9 @@
   - link: double-click.html
     type: Example
     description: Shows a data grid with double click event
+  - link: add-row.html
+    type: Example
+    description: Shows a data grid with ability to add rows
   - link: editable.html
     type: Example
     description: Shows a data grid with editable cells
@@ -134,6 +137,9 @@
   - link: filter.html
     type: Example
     description: Shows a filter row
+  - link: header-multiline.html
+    type: Example
+    description: Shows a two line header
   - link: in-modal.html
     type: Example
     description: Shows a data grid in a modal
@@ -170,6 +176,9 @@
   - link: pagination-standalone.html
     type: Example
     description: Shows a data grid with standalone pagination
+  - link: pagination-lazy-load.html
+    type: Example
+    description: Shows a data grid with lazy-loaded pagination
   - link: row-height.html
     type: Example
     description: Shows a data grid with different row height sizes

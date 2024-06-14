@@ -1,6 +1,7 @@
-import { expect } from '@playwright/test';
+import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
+import IdsButton from '../../src/components/ids-button/ids-button';
 import IdsDataGrid from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsDataGridRow from '../../src/components/ids-data-grid/ids-data-grid-row';
 
@@ -250,6 +251,153 @@ test.describe('IdsDataGridRow tests', () => {
       expect(results.activatedRow2.index).not.toBeDefined();
       expect(results.activatedRow3.index).toBe(2);
       expect(results.activatedRow4.index).toBe(2);
+    });
+
+    test.describe('event tests', () => {
+      test('should fire rowcollapsed/rowexpanded event', async ({ page }) => {
+        await page.goto('/ids-data-grid/expandable-row.html');
+        const expandable = await page.locator('#data-grid-expandable-row');
+        const expandableAllowOne = await page.locator('#data-grid-expandable-row-allow-one');
+        await expandable.evaluate((elem: IdsDataGrid) => {
+          (window as any).expandedEventCount = 0;
+          (window as any).collapsedEventCount = 0;
+          (window as any).expandedRowIndex = null;
+          (window as any).collapsedRowIndex = null;
+          elem.addEventListener('rowexpanded', (e: any) => {
+            (window as any).expandedRowIndex = e.detail.row;
+            (window as any).expandedEventCount++;
+          });
+          elem.addEventListener('rowcollapsed', (e: any) => {
+            (window as any).collapsedRowIndex = e.detail.row;
+            (window as any).collapsedEventCount++;
+          });
+        });
+        await expandableAllowOne.evaluate((elem: IdsDataGrid) => {
+          (window as any).expandedRowIndexAllowOne = null;
+          (window as any).collapsedRowIndexAllowOne = null;
+          elem.addEventListener('rowexpanded', (e: any) => {
+            (window as any).expandedRowIndexAllowOne = e.detail.row;
+            (window as any).expandedEventCountAllowOne++;
+          });
+          elem.addEventListener('rowcollapsed', (e: any) => {
+            (window as any).collapsedRowIndexAllowOne = e.detail.row;
+            (window as any).collapsedEventCountAllowOne++;
+          });
+        });
+        const clickOnRow = async (rowIndex: number, grid: Locator) => {
+          await grid.evaluate((elem: IdsDataGrid, index: number) => {
+            elem?.rowByIndex(index)?.querySelector<HTMLElement>('.expand-button')?.click();
+          }, rowIndex);
+        };
+        // Expandable row tests
+        await clickOnRow(0, expandable);
+        expect(await expandable.evaluate(() => (window as any).expandedRowIndex)).toBe(0);
+        expect(await expandable.evaluate(() => (window as any).collapsedRowIndex)).toBeNull();
+        await clickOnRow(1, expandable);
+        expect(await expandable.evaluate(() => (window as any).expandedRowIndex)).toBe(1);
+        expect(await expandable.evaluate(() => (window as any).collapsedRowIndex)).toBeNull();
+        await clickOnRow(3, expandable);
+        expect(await expandable.evaluate(() => (window as any).expandedRowIndex)).toBe(3);
+        expect(await expandable.evaluate(() => (window as any).collapsedRowIndex)).toBeNull();
+        await clickOnRow(0, expandable);
+        expect(await expandable.evaluate(() => (window as any).expandedRowIndex)).toBe(3);
+        expect(await expandable.evaluate(() => (window as any).collapsedRowIndex)).toBe(0);
+        await clickOnRow(1, expandable);
+        expect(await expandable.evaluate(() => (window as any).expandedRowIndex)).toBe(3);
+        expect(await expandable.evaluate(() => (window as any).collapsedRowIndex)).toBe(1);
+        await clickOnRow(3, expandable);
+        expect(await expandable.evaluate(() => (window as any).expandedRowIndex)).toBe(3);
+        expect(await expandable.evaluate(() => (window as any).collapsedRowIndex)).toBe(3);
+
+        // Expandable row allow one tests
+        await clickOnRow(0, expandableAllowOne);
+        expect(await expandableAllowOne.evaluate(() => (window as any).collapsedRowIndexAllowOne)).toBeNull();
+        expect(await expandableAllowOne.evaluate(() => (window as any).expandedRowIndexAllowOne)).toBe(0);
+        await clickOnRow(1, expandableAllowOne);
+        expect(await expandableAllowOne.evaluate(() => (window as any).collapsedRowIndexAllowOne)).toBe(0);
+        expect(await expandableAllowOne.evaluate(() => (window as any).expandedRowIndexAllowOne)).toBe(1);
+        await clickOnRow(1, expandableAllowOne);
+        expect(await expandableAllowOne.evaluate(() => (window as any).collapsedRowIndexAllowOne)).toBe(1);
+        expect(await expandableAllowOne.evaluate(() => (window as any).expandedRowIndexAllowOne)).toBe(1);
+        await clickOnRow(2, expandableAllowOne);
+        expect(await expandableAllowOne.evaluate(() => (window as any).collapsedRowIndexAllowOne)).toBe(1);
+        expect(await expandableAllowOne.evaluate(() => (window as any).expandedRowIndexAllowOne)).toBe(2);
+        await clickOnRow(0, expandableAllowOne);
+        expect(await expandableAllowOne.evaluate(() => (window as any).collapsedRowIndexAllowOne)).toBe(2);
+        expect(await expandableAllowOne.evaluate(() => (window as any).expandedRowIndexAllowOne)).toBe(0);
+
+        // Expand all/collapse all tests
+        await expandable.evaluate((elem: IdsDataGrid) => {
+          (window as any).expandedEventCount = 0;
+          (window as any).collapsedEventCount = 0;
+          elem.expandAll();
+        });
+        expect(await expandable.evaluate(() => (window as any).expandedEventCount)).toBe(1);
+        await expandable.evaluate((elem: IdsDataGrid) => {
+          elem.collapseAll(true, false);
+        });
+        expect(await expandable.evaluate(() => (window as any).collapsedEventCount)).toBe(1);
+        const rowsCount = await expandable.evaluate((elem: IdsDataGrid) => elem.rows.length);
+        await expandable.evaluate((elem: IdsDataGrid) => {
+          (window as any).collapsedEventCount = 0;
+          elem.expandAll();
+          // trigger event for each row
+          elem.collapseAll(false, true);
+        });
+        expect(await expandable.evaluate(() => (window as any).collapsedEventCount)).toBe(rowsCount);
+        await expandable.evaluate((elem: IdsDataGrid) => {
+          (window as any).collapsedEventCount = 0;
+          elem.expandAll();
+          // doesn't trigger the event at all
+          elem.collapseAll(false, false);
+        });
+        expect(await expandable.evaluate(() => (window as any).collapsedEventCount)).toBe(0);
+      });
+    });
+  });
+});
+
+test.describe('IdsDataGridRow add tests', () => {
+  const url = '/ids-data-grid/add-row.html';
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(url);
+  });
+
+  test.describe('add/remove row tests', () => {
+    test('can add/remove rows, and row-data maintains the correct order', async ({ page }) => {
+      const data = await page.evaluate(() => {
+        const CHECKBOX_COLUMN = 0;
+        const DESCRIPTION_COLUMN = 1;
+
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        const addRowButton = document.querySelector<IdsButton>('ids-button#add-row')!;
+        const deleteRowButton = document.querySelector<IdsButton>('ids-button#delete-row')!;
+
+        const mouseClick = new MouseEvent('click', { bubbles: true });
+
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[0]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('FIRST');
+
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[1]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('SECOND');
+
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[2]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('THIRD');
+
+        addRowButton.dispatchEvent(mouseClick);
+        dataGrid.rows[3]?.cellByIndex(DESCRIPTION_COLUMN)?.editor?.change('FOURTH');
+
+        dataGrid.rows[1]?.cellByIndex(CHECKBOX_COLUMN)?.dispatchEvent(mouseClick);
+        deleteRowButton.dispatchEvent(mouseClick);
+
+        return dataGrid.data;
+      });
+
+      expect(data.length).toBe(3);
+      expect(data[0].description).toBe('FIRST');
+      expect(data[1].description).toBe('THIRD');
+      expect(data[2].description).toBe('FOURTH');
     });
   });
 });

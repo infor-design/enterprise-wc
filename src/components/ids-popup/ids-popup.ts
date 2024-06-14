@@ -13,6 +13,7 @@ import {
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
+import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
 import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 import IdsElement from '../../core/ids-element';
 
@@ -36,10 +37,12 @@ import {
 
 import styles from './ids-popup.scss';
 
-const Base = IdsPopupOpenEventsMixin(
-  IdsLocaleMixin(
-    IdsEventsMixin(
-      IdsElement
+const Base = IdsAttachmentMixin(
+  IdsPopupOpenEventsMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
     )
   )
 );
@@ -58,8 +61,6 @@ const Base = IdsPopupOpenEventsMixin(
 @scss(styles)
 export default class IdsPopup extends Base {
   shouldUpdate = false;
-
-  isFlipped = false;
 
   scrollParentElem?: HTMLElement | null;
 
@@ -555,10 +556,10 @@ export default class IdsPopup extends Base {
     const val = validMaxHeight(value);
     if (val) {
       this.setAttribute(attributes.MAX_HEIGHT, val);
+      this.#updateMaxHeightProp(val);
     } else {
       this.removeAttribute(attributes.MAX_HEIGHT);
     }
-    this.#updateMaxHeightProp(val);
   }
 
   /**
@@ -716,7 +717,7 @@ export default class IdsPopup extends Base {
   set bleed(val: string | boolean) {
     const trueVal = stringToBool(val);
     if (this.#bleed !== trueVal) {
-      this.#bleed = (val as boolean);
+      this.#bleed = trueVal;
       if (trueVal) {
         this.setAttribute(attributes.BLEED, '');
       } else {
@@ -1240,7 +1241,7 @@ export default class IdsPopup extends Base {
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
-      popupRect = this.onPlace(popupRect);
+      popupRect = this.onPlace(popupRect, this);
     }
 
     // Correct RTL
@@ -1376,7 +1377,7 @@ export default class IdsPopup extends Base {
 
     // Make user-defined adjustments, if applicable
     if (typeof this.onPlace === 'function') {
-      popupRect = this.onPlace(popupRect);
+      popupRect = this.onPlace(popupRect, this);
     }
 
     if (this.containingElem?.classList?.contains('app-menu-is-open')) {
@@ -1403,9 +1404,11 @@ export default class IdsPopup extends Base {
    * Optional callback that can be used to adjust the Popup's placement
    * after all internal adjustments are made.
    * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
+   * @param {HTMLElement} DOMElement the actual dom element for more adjusting
    * @returns {object} an adjusted Rect object with "nudged" coordinates.
    */
-  onPlace(popupRect: DOMRect): DOMRect {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onPlace(popupRect: DOMRect, DOMElement: HTMLElement): DOMRect {
     return popupRect;
   }
 
@@ -1627,7 +1630,7 @@ export default class IdsPopup extends Base {
           }
 
           // Remove relative parents' coordinates from the calculation
-          if (parentStyle.position === 'relative') {
+          if (parentStyle.position === 'relative' && this.positionStyle !== 'fixed') {
             elemRect.x -= parentRect.x;
             elemRect.y -= parentRect.y;
             foundRelativeParent = true;

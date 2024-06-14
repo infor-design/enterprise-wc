@@ -6,6 +6,7 @@
 // --ids-checkbox-color-border-focus
 :host,
 :root {
+  // @semantic
   // Primary Color
   --ids-color-primary: var(--ids-color-blue-60);
   --ids-color-text-on-primary: var(--ids-color-white-100);
@@ -130,7 +131,7 @@
   // Z Indexes (purpose-driven)
   --ids-z-index-top-level-container: var(--ids-z-index-20);
 
-  /// --- Component Tokens ---- ///
+  // @component
   // About
   --ids-about-width-max: 560px;
   --ids-about-width-min: 300px;
@@ -154,6 +155,7 @@
   --ids-action-panel-header-color-background: var(--ids-color-gray-10);
   --ids-action-panel-header-color-border: var(--ids-color-gray-20);
   --ids-action-panel-content-background-color: var(--ids-color-white-100);
+  --ids-action-panel-button-color-background-hover: var(--ids-color-gray-20);
 
   // Action Sheet
   --ids-action-sheet-border-radius: var(--ids-border-radius-md);
@@ -187,6 +189,7 @@
   --ids-app-menu-accordion-header-filter-color-text: var(--ids-color-text-default);
   --ids-app-menu-accordion-header-color-text-focus: var(--ids-color-white-100);
   --ids-app-menu-accordion-header-color-border-focus: var(--ids-color-primary-70);
+  --ids-app-menu-accordion-header-selected-bg-color: var(--ids-color-primary-60);
   --ids-app-menu-header-color-background-hover: var(--ids-color-gray-90);
   --ids-app-menu-header-color-border-hover: var(--ids-color-gray-90);
   --ids-app-menu-accordion-header-color-text-selected: var(--ids-color-white-100);
@@ -486,26 +489,26 @@
   --ids-chart-legend-color-text: var(--ids-color-text-label);
 
   // Charts - Color Progression
-  --ids-chart-color-accent-01: var(--ids-data-viz-color-sequential-01);
-  --ids-chart-color-accent-02: var(--ids-data-viz-color-sequential-02);
-  --ids-chart-color-accent-03: var(--ids-data-viz-color-sequential-03);
-  --ids-chart-color-accent-04: var(--ids-data-viz-color-sequential-04);
-  --ids-chart-color-accent-05: var(--ids-data-viz-color-sequential-05);
-  --ids-chart-color-accent-06: var(--ids-data-viz-color-sequential-06);
-  --ids-chart-color-accent-07: var(--ids-data-viz-color-sequential-07);
-  --ids-chart-color-accent-08: var(--ids-data-viz-color-sequential-08);
-  --ids-chart-color-accent-09: var(--ids-data-viz-color-sequential-09);
-  --ids-chart-color-accent-10: var(--ids-data-viz-color-sequential-10);
-  --ids-chart-color-accent-11: var(--ids-data-viz-color-sequential-11);
-  --ids-chart-color-accent-12: var(--ids-data-viz-color-sequential-12);
-  --ids-chart-color-accent-13: var(--ids-data-viz-color-sequential-13);
-  --ids-chart-color-accent-14: var(--ids-data-viz-color-sequential-14);
-  --ids-chart-color-accent-15: var(--ids-data-viz-color-sequential-15);
-  --ids-chart-color-accent-16: var(--ids-data-viz-color-sequential-16);
-  --ids-chart-color-accent-17: var(--ids-data-viz-color-sequential-17);
-  --ids-chart-color-accent-18: var(--ids-data-viz-color-sequential-18);
-  --ids-chart-color-accent-19: var(--ids-data-viz-color-sequential-19);
-  --ids-chart-color-accent-20: var(--ids-data-viz-color-sequential-20);
+  --ids-chart-color-accent-01: var(--ids-dataviz-color-sequential-01);
+  --ids-chart-color-accent-02: var(--ids-dataviz-color-sequential-02);
+  --ids-chart-color-accent-03: var(--ids-dataviz-color-sequential-03);
+  --ids-chart-color-accent-04: var(--ids-dataviz-color-sequential-04);
+  --ids-chart-color-accent-05: var(--ids-dataviz-color-sequential-05);
+  --ids-chart-color-accent-06: var(--ids-dataviz-color-sequential-06);
+  --ids-chart-color-accent-07: var(--ids-dataviz-color-sequential-07);
+  --ids-chart-color-accent-08: var(--ids-dataviz-color-sequential-08);
+  --ids-chart-color-accent-09: var(--ids-dataviz-color-sequential-09);
+  --ids-chart-color-accent-10: var(--ids-dataviz-color-sequential-10);
+  --ids-chart-color-accent-11: var(--ids-dataviz-color-sequential-11);
+  --ids-chart-color-accent-12: var(--ids-dataviz-color-sequential-12);
+  --ids-chart-color-accent-13: var(--ids-dataviz-color-sequential-13);
+  --ids-chart-color-accent-14: var(--ids-dataviz-color-sequential-14);
+  --ids-chart-color-accent-15: var(--ids-dataviz-color-sequential-15);
+  --ids-chart-color-accent-16: var(--ids-dataviz-color-sequential-16);
+  --ids-chart-color-accent-17: var(--ids-dataviz-color-sequential-17);
+  --ids-chart-color-accent-18: var(--ids-dataviz-color-sequential-18);
+  --ids-chart-color-accent-19: var(--ids-dataviz-color-sequential-19);
+  --ids-chart-color-accent-20: var(--ids-dataviz-color-sequential-20);
 
   // Checkbox
   --ids-checkbox-color-border-default: var(--ids-color-border-default);
@@ -612,6 +615,7 @@
   --ids-data-grid-row-height-lg: 50px;
   --ids-data-grid-padding-lg: var(--ids-space-sm);
   --ids-data-grid-row-color-background-selected: rgba(85 163 243 / 0.10);
+  --ids-data-grid-row-color-background-hover: var(--ids-data-grid-row-color-background-selected);
   --ids-data-grid-row-alternating-color-background: var(--ids-color-gray-10);
   --ids-data-grid-row-shadow-focus: inset 0 0 0 1px var(--ids-color-primary-40), 0 1px 0 0 var(--ids-color-primary-40), 0 0 3px 2px rgb(54 138 192 / 0.3);
 

@@ -8,3 +8,6 @@
   - link: example.html
     type: Main Example
     description: Shows a list box markup
+  - link: disabled.html
+    type: Main Example
+    description: Shows a disabled list box

@@ -19,11 +19,11 @@
           <slot name="end"></slot>
         </ids-toolbar-section>
 
-        <ids-toolbar-more-actions id="more" icon="expand-app-tray" class="hidden"><ids-menu-button tooltip="More" id="more-actions" menu="more-actions-menu" aria-controls="more-actions-menu" aria-haspopup="menu" color-variant="alternate" type="button" hidden="" disabled="">
+        <ids-toolbar-more-actions id="more" icon="expand-app-tray" class="hidden"><ids-menu-button tooltip="More" id="more-actions" menu="more-actions-menu" aria-controls="more-actions-menu" color-variant="alternate" type="button" aria-haspopup="menu">
         <ids-icon icon="expand-app-tray"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
-      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" hidden="" disabled=""></ids-popup-menu>
+      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" hidden=""></ids-popup-menu>
           <slot name="more"></slot>
         </ids-toolbar-more-actions>
       </ids-toolbar>

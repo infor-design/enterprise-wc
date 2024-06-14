@@ -1,0 +1,35 @@
+<style nonce="0a59a005">@media (min-width: 360px) {
+  :host .xs-header {
+    display: flex;
+    position: absolute;
+  }
+  :host .xs-header .label {
+    margin-left: var(--ids-space-xxs);
+  }
+}
+@media (min-width: 840px) {
+  :host .xs-header {
+    display: none;
+    position: unset;
+  }
+}
+
+.ids-process-indicator {
+  width: 100%;
+  height: auto;
+}
+.ids-process-indicator .step-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}</style>
+    <div class="ids-process-indicator">
+      <span class="step-container">
+        <div class="xs-header">
+          <ids-text>Current: </ids-text>
+          <ids-text class="label" font-weight="semi-bold"></ids-text>
+        </div>
+        <slot></slot>
+      </span>
+    </div>
+    

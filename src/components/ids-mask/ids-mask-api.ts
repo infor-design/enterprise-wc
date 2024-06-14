@@ -8,6 +8,12 @@ import {
 } from './ids-mask-common';
 
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
+import {
+  dateMask,
+  numberMask,
+  rangeDateMask,
+  autoCorrectedDatePipe
+} from './ids-masks';
 
 /**
  * @param {any} value the item to check for string
@@ -139,6 +145,13 @@ class MaskAPI {
 
     return processResult;
   }
+
+  public masks = {
+    dateMask,
+    numberMask,
+    rangeDateMask,
+    autoCorrectedDatePipe
+  };
 
   /**
    * Processes a raw string value against a masking algorithm and removes unfavorable chracters.

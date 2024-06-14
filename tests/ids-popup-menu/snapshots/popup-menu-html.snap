@@ -1,5 +1,5 @@
 <ids-popup-menu id="popupmenu" hidden="">
-      <ids-menu-group role="group" aria-label="Menu group containing 6 item(s)">
+      <ids-menu-group role="group" aria-label="Menu group containing 7 item(s)">
         <ids-menu-item>Item One</ids-menu-item>
         <ids-menu-item>Item Two</ids-menu-item>
         <ids-menu-item>Item Three</ids-menu-item>
@@ -32,6 +32,25 @@
               </ids-menu-item>
               <ids-menu-item icon="mail"><ids-icon slot="icon" icon="mail" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Send Mail</ids-menu-item>
               <ids-menu-item icon="filter"><ids-icon slot="icon" icon="filter" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>Filter Content</ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+        </ids-menu-item>
+        <ids-menu-item id="contains-submenu">
+          Shortcut Options
+          <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
+            <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
+              <ids-menu-item shortcut-keys="CTRL+6">
+                <span slot="shortcuts" class="shortcuts">CTRL+6</span>
+                Print
+              </ids-menu-item>
+              <ids-menu-item id="related-option-panel-11" shortcut-keys="CTRL+11" value="relatedOptionsPanel;11;CTRL+11">
+                <span slot="shortcuts" class="shortcuts">CTRL+11</span>
+                Lines
+              </ids-menu-item>
+              <ids-menu-item id="related-option-panel-10" shortcut-keys="CTRL+11" value="relatedOptionsPanel;11;CTRL+11">
+                <span slot="shortcuts" class="shortcuts">CTRL+11</span>
+                Drill
+              </ids-menu-item>     
             </ids-menu-group>
           </ids-popup-menu>
         </ids-menu-item>

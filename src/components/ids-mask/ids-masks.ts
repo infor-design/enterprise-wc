@@ -342,7 +342,7 @@ export function dateMask(rawValue = '', options: IdsMaskOptions = {}): IdsMaskGe
       let am = 'AM';
       let pm = 'PM';
 
-      if (options.locale.calendar()) {
+      if (options?.locale?.calendar()) {
         am = options.locale.calendar().dayPeriods[0];
         pm = options.locale.calendar().dayPeriods[1];
         const apRegex = [];

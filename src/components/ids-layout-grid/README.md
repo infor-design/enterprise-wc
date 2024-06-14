@@ -34,7 +34,7 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **MaxColWidth**: Specifies the maximum width of a column in a grid.
 - **MinRowHeight**: Specifies the minimum height of a row in a grid.
 - **MaxRowHeight**: Specifies the maximum height of a row in a grid.
-- **Gap**: Specifies the size of the gap between cells in a grid. If not assigned defaults to `md`.
+- **Gap**: Specifies the size of the gap between cells in a grid. If not assigned defaults to `md`. Valid values are `none, sm, md, lg, xl`
 - **Margin**: Specifies the amount of space between a grid and its outer border.
 - **MarginY**: Specifies the amount of vertical space between a grid and its outer border.
 - **MaxWidth**: Specifies the maximum width of a grid and its outer border. Allows for setting the max-width attribute with predefined values (see Breakpoints) or custom values that end with 'px', providing flexibility for styling and dynamic updates.

@@ -1,6 +1,6 @@
 {
   "name": "ids-enterprise-wc",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "The Web Component version of the IDS Enterprise component library",
   "repository": {
     "type": "git",

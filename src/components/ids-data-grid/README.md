@@ -322,6 +322,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 - `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
 - `columns` {Array<object>} Sets the columns array of the data grid. See column settings.
 - `columnGroups` {Array<object>} Allows you to group columns together in logical sets. See section below for details.
+- `disableRowHighlight` {boolean} Disables row highlighting when a row is hovered.
 - `rowHeight` {string | `'xxs'` | `'xs'` | `'sm'` | `'md'` | `'lg'`} Sets the height and padding of each row. In smaller row heights the font is lowered.
 - `data` {Array<object>} Sets the data to show in the data grid. This can be a JSON Array.
 - `disableClientFilter` {boolean} Disables the filter logic client side in situations you want to filter server side.
@@ -364,7 +365,7 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |Setting|Type|Description|
 |---|---|---|
 |`id` | {string} | The unique id of the column. Each column in the grid should have some unique id.|
-|`name` | {string} | The text to show on the header.|
+|`name` | {string |  Array<IdsDataGridHeaderTextName> } | The text to show on the header. For multiline header can take an object with text and an emphasis option. See Multi line header example. |
 |`field` | {string} | The name of the field (column) in the data array attached to the grid for example `description`. This can also be nested in an object for example `children.name`. |
 |`showHeaderExpander` | {boolean} | If true, an expand/collapse icon will appear on the column's header.|
 |`sortable` | {boolean} | If false, the column cannot be sorted. When completed a `sorted` event will fire.|
@@ -548,7 +549,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `resetDirtyCells` Clears all dirty cell indicators.
 - `dirtyCells` Gives a list of all currently dirty cells.
 - `exportToExcel(format: 'csv' | 'xlsx', filename: string, keepGridFormatting: boolean)` Export datagrid datasource to an excel file. This keeps grid formatting by default.
-- `collapseAll()` Collapse all expandable or tree rows.
+- `collapseAll(triggerAllRowsEvent: boolean, triggerRowEvent: boolean)` Collapse all expandable or tree rows. Argument `triggerAllRowsEvent` defaults to true, when enabled `rowcollapsed` triggered with once with `allRows` detail param. Argument `triggerRowEvent` defaults to false, when enabled each individual collapsed row event will be triggered
 - `expandAll()` Expand all expandable or tree rows.
 - `toggleAll(opt: boolean)` Toggle collapse/expand all expandable or tree rows. `opt false`: will expand all, `opt: true`: will collapse all
 - `refreshRow` IdsDataGridRow method to refresh row element and its cells.
@@ -1160,7 +1161,7 @@ ids-data-grid::part(red-tooltip-popup) {
 }
 ```
 
-## context menu Code Examples
+## Context Menu Code Examples
 
 The context menus can be set via the dataset.
 
@@ -1290,7 +1291,7 @@ columns.push({
 
 Then just add an `<ids-popup-menu id="actions-menu"></ids-popup-menu>` with any structure you like to the page and it will open when pressing the button. When an item is selected the callback will fire for `selected`
 
-## Empty Message
+## Empty Message Code Examples
 
 Set empty message thru slot (markup).
 
@@ -1329,7 +1330,7 @@ dataGrid.emptyMessageLabel = 'No Data';
 dataGrid.emptyMessageDescription = 'There is No data available.';
 ```
 
-## Row Height
+## Row Height Code Examples
 
 As mentioned in the settings section you can change the row height by setting the rowHeight option.
 
@@ -1344,6 +1345,35 @@ Medium (`row-height="md"`) - Row Height is 40. Header is 16px and body cells are
 Small (`row-height="sm"`) - Row Height is 35. Header is 16px and body cells are 16px. 8px padding on cells and header. This is the smallest option that is recommended for readability and spacing.
 Extra Small (`row-height="xs"`) - Row Height is 30. Header is 14px and body cells are 14px. 8px padding on cells and header. If you need a very compressed data grid with a lot of data you can use this option. But there is a trade off of bad readability and spacing.
 Extra Extra Small (`row-height="xxs"`) - Row Height is 25. Header is 14px and body cells are 14px. 2px padding on cells and header. Avoid this option as it is very crowded but it is included for edge cases.
+
+## Multiline Header Code Examples
+
+As mentioned in the settings columns section you can have a two line header in two variations. The first variation is simply to use it as a way to extend the text over two lines. To do this setup the column like the following examples.
+
+```js
+name: [
+  { text: 'Product Name' },
+  { text: 'with long description' },
+],
+```
+
+The second way to setup the text so the second line is de-emphasized a use case might be to show a unit or related info thats not part of the above name.
+
+```js
+name: [
+  { text: 'Product Name' },
+  { text: 'String', emphasis: 'subtle' },
+],
+```
+
+Technically this is also possible but not sure if there is a use case.
+
+```js
+name: [
+  { text: 'Something subtle', emphasis: 'subtle' },
+  { text: 'Name', emphasis: 'subtle' },
+],
+```
 
 ## States and Variations
 

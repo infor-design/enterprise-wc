@@ -50,13 +50,9 @@ export default class IdsMenuButton extends IdsButton {
     super.connectedCallback();
     if (this.hasAttribute(attributes.DROPDOWN_ICON)) {
       this.#configureDropdownIcon(true);
+      this.setPopupArrow();
     }
     this.#initMenuPopup();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    this.dropdownIcon = null;
   }
 
   /**
@@ -220,7 +216,6 @@ export default class IdsMenuButton extends IdsButton {
 
     if (this.menuEl.popup) {
       this.menuEl.popup.align = 'bottom, left';
-      this.menuEl.popup.alignEdge = 'top';
       this.menuEl.popup.y = 8;
       this.setPopupArrow();
     }

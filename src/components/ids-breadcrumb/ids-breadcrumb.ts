@@ -67,7 +67,7 @@ export default class IdsBreadcrumb extends Base {
    * @private
    * @type {number}
    */
-  #resizeObserver = new ResizeObserver(() => this.#resize());
+  #resizeObserver = new ResizeObserver(() => this.resize());
 
   /**
    * @returns {Array<string>} List of available color variants for this component
@@ -159,7 +159,7 @@ export default class IdsBreadcrumb extends Base {
    * @private
    * @returns {object} This API object for chaining
    */
-  #resize(): any {
+  resize(): any {
     this.#refreshOverflow();
     return this;
   }
@@ -306,7 +306,7 @@ export default class IdsBreadcrumb extends Base {
   #enableTruncation(): void {
     // Set observer for resize
     this.#resizeObserver.disconnect();
-    if (this.container) this.#resizeObserver.observe(this.container);
+    if (this.container) this.#resizeObserver.observe(this);
     this.#buildOverflowMenu();
     this.#showBreadCrumbMenu();
     this.container?.classList.add('can-truncate');

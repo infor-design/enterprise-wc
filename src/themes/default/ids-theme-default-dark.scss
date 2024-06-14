@@ -2,6 +2,7 @@
 @import '../../../node_modules/ids-foundation/theme-soho/semantic-dark';
 
 :root {
+  // @semantic
   // Primary Color
   --ids-color-primary: var(--ids-color-gray-90);
   --ids-color-text-on-primary: var(--ids-color-gray-10);
@@ -40,7 +41,7 @@
   // Focus
   --ids-color-border-focus: var(--ids-color-primary-50);
 
-  /// --- Component Tokens ---- ///
+  // @component
   // Accordion
   --ids-accordion-header-color-border-bottom: var(--ids-color-gray-70);
   --ids-accordion-header-color-border-disabled: var(--ids-color-gray-50);
@@ -63,6 +64,7 @@
   --ids-action-panel-header-color-background: var(--ids-color-gray-80);
   --ids-action-panel-header-color-border: var(--ids-color-gray-90);
   --ids-action-panel-content-background-color: var(--ids-color-gray-100);
+  --ids-action-panel-button-color-background-hover: var(--ids-color-gray-90);
 
   // Action Sheet
   --ids-action-sheet-color-background: var(--ids-color-gray-70);
@@ -201,7 +203,7 @@
   --ids-dropdown-color-icon: var(--ids-color-gray-10);
   --ids-dropdown-typeahead-color-background: var(--ids-color-gray-30);
   --ids-dropdown-color-text-default: var(--ids-color-white-100);
-  --ids-dropdown-color-background-hover: var(--ids-color-gray-90);
+  --ids-dropdown-color-background-hover: var(--ids-color-gray-80);
   --ids-dropdown-group-color-text: var(--ids-color-gray-20);
   --ids-dropdown-group-color-border: var(--ids-color-gray-50);
 

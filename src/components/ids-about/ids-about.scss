@@ -5,6 +5,14 @@
   contain: content;
 }
 
+.ids-modal {
+  &.ids-about {
+    .ids-modal-content.has-scrollbar {
+      overflow: auto;
+    }
+  }
+}
+
 .ids-about {
   .ids-modal-container {
     max-width: var(--ids-about-width-max);

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+   <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <div class="position-viewport">
+          <ids-menu-button id="menu-btn" menu="menu" appearance="icon" icon="more"></ids-menu-button>
+            <ids-popup-menu id="menu" target="menu-btn">
+              <ids-menu-group>
+                <ids-menu-item value="1">Item One</ids-menu-item>
+                <ids-menu-item value="2">Item Two</ids-menu-item>
+                <ids-menu-item value="3">Item Three</ids-menu-item>
+                <ids-menu-item value="4">Item Four</ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+          </div>
+      </div>
+      <ids-text>The gray container has position: relative</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

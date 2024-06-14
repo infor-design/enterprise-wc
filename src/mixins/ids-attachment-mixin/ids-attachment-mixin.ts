@@ -67,6 +67,9 @@ const IdsAttachmentMixin = <T extends IdsBaseConstructor>(superclass: T) => clas
     const containerNode = getClosestContainerNode(this);
     const parentElem = containerNode.querySelector<HTMLElement | SVGElement>(`${val}`);
     this.attachmentParentElement = parentElem;
+    if (val === 'body') {
+      this.attachmentParentElement = document.querySelector('body');
+    }
   }
 
   /**
@@ -75,6 +78,19 @@ const IdsAttachmentMixin = <T extends IdsBaseConstructor>(superclass: T) => clas
    */
   appendToTargetParent(): void {
     if (!this.attachmentParentElement) return;
+
+    if (this.id) {
+      /**
+       * Remove Child if there are more than one instance of the component
+       */
+      const [first, ...others] = this.attachmentParentElement.querySelectorAll(`#${this.id}`);
+      if (first && others.length) {
+        others.forEach((elem) => {
+          elem.remove();
+        });
+      }
+    }
+
     this.attachmentParentElement.append(this);
   }
 

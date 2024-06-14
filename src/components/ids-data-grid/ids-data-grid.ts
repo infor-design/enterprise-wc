@@ -212,6 +212,7 @@ export default class IdsDataGrid extends Base {
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
       attributes.DISABLE_CLIENT_FILTER,
+      attributes.DISABLE_ROW_HIGHLIGHT,
       attributes.EMPTY_MESSAGE_DESCRIPTION,
       attributes.EMPTY_MESSAGE_ICON,
       attributes.EMPTY_MESSAGE_LABEL,
@@ -294,13 +295,11 @@ export default class IdsDataGrid extends Base {
 
   /**
    * Collapse all expandable or tree rows.
+   * @param {boolean} triggerAllRowsEvent If true, will trigger the event once for all rows
+   * @param {boolean} triggerRowEvent If true, will trigger row event for each row
    * @returns {void}
    */
-  collapseAll() {
-    this.data.forEach((rowData, rowIndex) => {
-      this.updateDataset(rowIndex, { rowExpanded: false, rowHidden: !!rowData.parentElement });
-    });
-
+  collapseAll(triggerAllRowsEvent = true, triggerRowEvent = false) {
     this.header?.closeExpanderIcons();
 
     const rows: any[] = [];
@@ -308,13 +307,29 @@ export default class IdsDataGrid extends Base {
       .forEach((row: IdsDataGridRow) => {
         const rowIndex = row.rowIndex;
         rows.push({ row: rowIndex, data: this.data[rowIndex] });
+        if (row.isExpanded() && triggerRowEvent) {
+          this.triggerEvent(`rowcollapsed`, this, {
+            bubbles: true,
+            detail: {
+              elem: this,
+              row: rowIndex,
+              data: this.data[rowIndex],
+            }
+          });
+        }
         row.doCollapse();
       });
 
-    this.triggerEvent(`rowcollapsed`, this, {
-      bubbles: true,
-      detail: { elem: this, rows, allRows: true }
+    this.data.forEach((rowData, rowIndex) => {
+      this.updateDataset(rowIndex, { rowExpanded: false, rowHidden: !!rowData.parentElement });
     });
+
+    if (triggerAllRowsEvent) {
+      this.triggerEvent(`rowcollapsed`, this, {
+        bubbles: true,
+        detail: { elem: this, rows, allRows: true }
+      });
+    }
   }
 
   /**
@@ -690,9 +705,10 @@ export default class IdsDataGrid extends Base {
         if (this.allowOneExpandedRow) {
           const isExpanded = row.isExpanded();
           const isCollapsed = !isExpanded;
-          this.collapseAll();
-          if (isExpanded) row.doCollapse();
-          if (isCollapsed) row.doExpand();
+          if (isCollapsed) {
+            this.collapseAll(false, true);
+          }
+          row.toggleExpandCollapse();
         } else {
           row.toggleExpandCollapse();
         }
@@ -1192,6 +1208,19 @@ export default class IdsDataGrid extends Base {
 
   get alternateRowShading() {
     return stringToBool(this.getAttribute(attributes.ALTERNATE_ROW_SHADING)) || false;
+  }
+
+  /**
+   * Setting for toggling row highlighting
+   * @param {boolean|string|null} val If true, disables row highlighting
+   */
+  set disableRowHighlight(val: boolean | string | null) {
+    const disabled = stringToBool(val);
+    this.toggleAttribute(attributes.DISABLE_ROW_HIGHLIGHT, disabled);
+  }
+
+  get disableRowHighlight(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLE_ROW_HIGHLIGHT));
   }
 
   /**
@@ -3135,7 +3164,7 @@ export default class IdsDataGrid extends Base {
         xlColumns[gridCol.id] = {
           id: gridCol.id,
           field: gridCol.field,
-          name: gridCol.name,
+          name: Array.isArray(gridCol.name) ? `${gridCol.name[0]} ${gridCol.name[0].emphasis === 'subtle' ? '(' : ''}${gridCol.name[0]}${gridCol.name[0].emphasis === 'subtle' ? ')' : ''}` : gridCol.name,
           type: keepGridFormatting ? 'string' : this.determineColType(gridCol)
         };
       }

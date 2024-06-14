@@ -317,6 +317,7 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
+    value = (Array.isArray(value) ? value[0] : value) || '';
     const labels = this.labels;
     const label = String(value);
     if (labels.includes(label)) {
@@ -633,6 +634,19 @@ export default class IdsDropdown extends Base {
   }
 
   /**
+   * Attach events for typeahead
+   */
+  #attachTypeaheadEvents() {
+    this.onEvent('input.dropdown', this.input?.input, (e: any) => {
+      if (this.typeahead) {
+        this.#typeAhead(e.target?.value);
+      } else {
+        this.#selectMatch(e.target?.value);
+      }
+    });
+  }
+
+  /**
    * Open the dropdown list
    * @param {boolean} shouldSelect whether or not the input text should be selected
    */
@@ -641,13 +655,17 @@ export default class IdsDropdown extends Base {
       return;
     }
 
-    // Trigger an async callback for contents
+    // Trigger an async callback for contents and refresh data
     if (typeof this.state.beforeShow === 'function') {
       const stuff = await this.state.beforeShow();
-      this.loadDataSet(stuff);
-      if (this.typeahead) {
-        this.#optionsData = stuff;
+      if (stuff) {
+        this.loadDataSet(stuff);
+        if (this.typeahead) {
+          this.#optionsData = stuff;
+        }
       }
+    } else {
+      this.#setOptionsData();
     }
 
     if (this.value) {
@@ -664,6 +682,7 @@ export default class IdsDropdown extends Base {
 
     // Focus and select input when typeahead is enabled
     if (this.typeahead) {
+      this.#attachTypeaheadEvents();
       this.input?.removeAttribute(attributes.READONLY);
       this.input?.focus();
     }
@@ -957,14 +976,6 @@ export default class IdsDropdown extends Base {
 
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.open(true);
-      }
-    });
-
-    this.onEvent('input.dropdown', this.input?.input, (e: any) => {
-      if (this.typeahead) {
-        this.#typeAhead(e.target?.value);
-      } else {
-        this.#selectMatch(e.target?.value);
       }
     });
 

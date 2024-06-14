@@ -37,7 +37,6 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
     super.connectedCallback();
     this.#attachMoreMenuEvents();
     this.renderOverflowedItems();
-    this.#configureMenu();
   }
 
   /**
@@ -359,6 +358,7 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
   }
 
   #configureMenu() {
+    if (!this.menu || !this.menu.popup) return;
     this.menu.target = this;
     this.menu.triggerType = 'click';
 
@@ -382,6 +382,7 @@ export default class IdsTabMore extends IdsLocaleMixin(IdsTab) {
         detail: e.detail
       });
 
+      this.#configureMenu();
       this.refreshOverflowedItems();
     });
 
