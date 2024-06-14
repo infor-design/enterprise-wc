@@ -9,6 +9,7 @@
 ### 1.3.0 Fixes
 
 - `[Message]` Converted message tests to playwright. ([#1954](https://github.com/infor-design/enterprise-wc/issues/1954))
+- `[PopupMenu]` Removed timer and redundent flag for production issue. ([#2457](https://github.com/infor-design/enterprise-wc/issues/2457))
 - `[WeekView]` Added more input handling for `startHour`, `endHour`, and `timelineInterval`. ([#2446](https://github.com/infor-design/enterprise-wc/issues/2446))
 - `[WeekView]` Converted week view tests to playwright. ([#1993](https://github.com/infor-design/enterprise-wc/issues/1993))
 
