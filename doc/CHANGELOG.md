@@ -47,6 +47,7 @@
 - `[Slider]` Converted slider tests to playwright. ([#1971](https://github.com/infor-design/enterprise-wc/issues/1971))
 - `[Step chart]` Converted skiplink tests to playwright. ([#1973](https://github.com/infor-design/enterprise-wc/issues/1973))
 - `[Swappable]` Converted swappable tests to playwright. ([#1975](https://github.com/infor-design/enterprise-wc/issues/1975))
+- `[Tabs]` Fixed an issue where first tab is not being selected when using production build on a html page. ([#2338](https://github.com/infor-design/enterprise-wc/issues/2338))
 - `[Tabs]` Fixed position of more menu in production/angular build. ([#2352](https://github.com/infor-design/enterprise-wc/issues/2352))
 - `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
 - `[Upload Advance]` Converted upload advance tests to playwright. ([#1990](https://github.com/infor-design/enterprise-wc/issues/1990))
