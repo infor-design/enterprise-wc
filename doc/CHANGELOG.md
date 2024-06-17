@@ -101,6 +101,7 @@
 - `[Menu]` Converted menu tests to playwright. ([#1953](https://github.com/infor-design/enterprise-wc/issues/1953))
 - `[Modal]` Removed zoom in animation on modal based on design feedback and technical constraints. ([#2165](https://github.com/infor-design/enterprise-wc/issues/2165))
 - `[PopupMenu]` Fixed an issue where a submenu is in the wrong position when using production build on a html page ([#2216](https://github.com/infor-design/enterprise-wc/issues/2216))
+- `[Toolbar]` Fix so that menus and submenu popup positions are correct when using `IdsToolbar` inside `IdsAppMenu` (and `IdsHeader`). ([#1806](https://github.com/infor-design/enterprise-wc/issues/1806))
 - `[Tree]` Add ability to have expandIcon and toggleIcon display together. ([#2151](https://github.com/infor-design/enterprise-wc/issues/2151))
 - `[Tree]` Fixed bug where redraw did not trigger when assigning an empty array. ([#2227](https://github.com/infor-design/enterprise-wc/issues/2227))
 - `[Tree]` Converted tree tests to playwright. ([#1986](https://github.com/infor-design/enterprise-wc/issues/1986))
