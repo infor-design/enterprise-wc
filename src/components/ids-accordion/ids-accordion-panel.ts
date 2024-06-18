@@ -441,6 +441,7 @@ export default class IdsAccordionPanel extends Base {
     // listen to header slot changes
     this.offEvent('slotchange.header-slotchange');
     this.onEvent('slotchange.header-slotchange', this.container?.querySelector('slot[name="header"]'), () => {
+      this.header?.setAttribute('aria-expanded', `${this.expanded}`);
       this.#toggleExpanderDisplay();
     });
 
