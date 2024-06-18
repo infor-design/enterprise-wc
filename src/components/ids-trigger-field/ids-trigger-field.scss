@@ -11,6 +11,11 @@
   &.compact .field-container {
     height: var( --ids-input-height-10);
   }
+
+  .field-container.square,
+  .filter-container.square {
+    border-radius: 0;
+  }
 }
 
 .ids-trigger-field-slot-trigger-start,
