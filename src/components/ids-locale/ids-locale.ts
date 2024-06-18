@@ -14,6 +14,8 @@ class IdsLocale {
 
   localeDataPath = '../locale-data/';
 
+  twoDigitYearCutoff = 39;
+
   constructor() {
     this.loadedLocales.set('en-US', localeEn);
     this.loadedLanguages.set('en', messagesEn);
@@ -629,10 +631,10 @@ class IdsLocale {
    */
   twoToFourDigitYear(twoDigitYear: any) {
     if (twoDigitYear.length === 2) {
-      return parseInt((twoDigitYear > 39 ? '19' : '20') + twoDigitYear, 10);
+      return parseInt((twoDigitYear > this.twoDigitYearCutoff ? '19' : '20') + twoDigitYear, 10);
     }
     if (twoDigitYear.length === 3) {
-      return parseInt((twoDigitYear.substr(1, 3) > 39 ? '19' : '20') + twoDigitYear.substr(1, 3), 10);
+      return parseInt((twoDigitYear.substr(1, 3) > this.twoDigitYearCutoff ? '19' : '20') + twoDigitYear.substr(1, 3), 10);
     }
     return twoDigitYear;
   }

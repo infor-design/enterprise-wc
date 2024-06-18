@@ -14,3 +14,6 @@
   - link: dropdown.html
     type: Example
     description: Shows two different language dropdowns
+  - link: two-digit-year.html
+    type: Test
+    description: Shows two digit year and cut off setting
