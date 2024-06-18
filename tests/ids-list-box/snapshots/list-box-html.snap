@@ -1,5 +1,6 @@
 <ids-list-box role="listbox">
         <ids-list-box-option role="option" tabindex="-1" row-index="0">Option One</ids-list-box-option>
-        <ids-list-box-option role="option" tabindex="-1" row-index="1">Option Two</ids-list-box-option>
-        <ids-list-box-option role="option" tabindex="-1" row-index="2">Option Three</ids-list-box-option>
+        <ids-list-box-option disabled="true" aria-disabled="true" role="option" tabindex="-1" row-index="1">Option Two</ids-list-box-option>
+        <ids-list-box-option disabled="true" aria-disabled="true" role="option" tabindex="-1" row-index="2">Option Three</ids-list-box-option>
+        <ids-list-box-option role="option" tabindex="-1" row-index="3">Option Four</ids-list-box-option>
       </ids-list-box>

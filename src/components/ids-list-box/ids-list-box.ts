@@ -6,6 +6,7 @@ import type IdsListBoxOption from './ids-list-box-option';
 import './ids-list-box-option';
 
 import styles from './ids-list-box.scss';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * IDS List Box Component
@@ -26,6 +27,7 @@ export default class IdsListBox extends IdsElement {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.DISABLED,
       attributes.MAX_HEIGHT,
     ];
   }
@@ -76,6 +78,22 @@ export default class IdsListBox extends IdsElement {
     } else {
       this.removeAttribute(attributes.MAX_HEIGHT);
     }
+  }
+
+  /**
+   * Sets the disabled attribute
+   * @param {string|boolean} value string value from the disabled attribute
+   */
+  set disabled(value) {
+    this.toggleAttribute(attributes.DISABLED, stringToBool(value));
+  }
+
+  /**
+   * Get the disabled on the list-box-option
+   */
+
+  get disabled() {
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   #configureListBoxOptions() {

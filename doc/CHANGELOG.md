@@ -9,6 +9,10 @@
 ### 1.3.0 Fixes
 
 - `[Message]` Converted message tests to playwright. ([#1954](https://github.com/infor-design/enterprise-wc/issues/1954))
+- `[Tabs]` Fix tab content visible state when added dynamically. ([#2393](https://github.com/infor-design/enterprise-wc/issues/2393))
+- `[WeekView]` Added more input handling for `startHour`, `endHour`, and `timelineInterval`. ([#2446](https://github.com/infor-design/enterprise-wc/issues/2446))
+- `[WeekView]` Converted week view tests to playwright. ([#1993](https://github.com/infor-design/enterprise-wc/issues/1993))
+- `[MonthView]` Converted month view tests to playwright. ([#1956](https://github.com/infor-design/enterprise-wc/issues/1956))
 
 ## 1.2.0
 
@@ -26,6 +30,7 @@
 - `[Hierarchy]` Converted hierarchy tests to playwright. ([#1939](https://github.com/infor-design/enterprise-wc/issues/1939))
 - `[Hyperlink]` Converted hyperlink tests to playwright. ([#1941](https://github.com/infor-design/enterprise/issues/1941))
 - `[Input|Textarea]` Fixed bug where `ids-input` and `ids-textarea` DOM values were not updating on change. ([#2028](https://github.com/infor-design/enterprise/issues/2028))
+- `[ListBox]` Adding support for `disabled` attribute to `ids-list-box-option` element. ([#2389](https://github.com/infor-design/enterprise-wc/issues/2389))
 - `[Masthead]` Converted masthead tests to playwright. ([#1951](https://github.com/infor-design/enterprise-wc/issues/1951))
 - `[MenuButton]` Fix popup aligned edge position on open. ([#2285](https://github.com/infor-design/enterprise-wc/issues/2285))
 - `[MenuButton]` Fix reattachment issue (down-arrow disappeared and wedge positioned out of place). ([#2136](https://github.com/infor-design/enterprise-wc/issues/2136))
@@ -45,6 +50,7 @@
 - `[Slider]` Converted slider tests to playwright. ([#1971](https://github.com/infor-design/enterprise-wc/issues/1971))
 - `[Step chart]` Converted skiplink tests to playwright. ([#1973](https://github.com/infor-design/enterprise-wc/issues/1973))
 - `[Swappable]` Converted swappable tests to playwright. ([#1975](https://github.com/infor-design/enterprise-wc/issues/1975))
+- `[Tabs]` Fixed an issue where first tab is not being selected when using production build on a html page. ([#2338](https://github.com/infor-design/enterprise-wc/issues/2338))
 - `[Tabs]` Fixed position of more menu in production/angular build. ([#2352](https://github.com/infor-design/enterprise-wc/issues/2352))
 - `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
 - `[Upload Advance]` Converted upload advance tests to playwright. ([#1990](https://github.com/infor-design/enterprise-wc/issues/1990))
@@ -70,6 +76,7 @@
 - `[Datagrid]` Fix problem with datagrid pagination where setting the `pageTotal` property causes some of the rows to be incorrectly sorted. ([#2232](https://github.com/infor-design/enterprise-wc/issues/2232))
 - `[Datagrid]` Fixed bugged where adding `pageTotal` to datagrid messed up data order. ([#2232](https://github.com/infor-design/enterprise-wc/issues/2232))
 - `[Datagrid]` Fix grid popup alignment issues, by removing children if there are more than one instance of the child. ([#2246](https://github.com/infor-design/enterprise-wc/issues/2246))
+- `[FilterField]` Added `IdsFilterField` component. ([#1906](https://github.com/infor-design/enterprise-wc/issues/1906))
 - `[Splitter]` If the panel is resized to 0, it will have `collapsed` attribute, enabling it to expand to its original position. ([#2083](https://github.com/infor-design/enterprise-wc/issues/2083))
 
 ### 1.1.0 Fixes
@@ -97,6 +104,7 @@
 - `[Menu]` Converted menu tests to playwright. ([#1953](https://github.com/infor-design/enterprise-wc/issues/1953))
 - `[Modal]` Removed zoom in animation on modal based on design feedback and technical constraints. ([#2165](https://github.com/infor-design/enterprise-wc/issues/2165))
 - `[PopupMenu]` Fixed an issue where a submenu is in the wrong position when using production build on a html page ([#2216](https://github.com/infor-design/enterprise-wc/issues/2216))
+- `[Toolbar]` Fix so that menus and submenu popup positions are correct when using `IdsToolbar` inside `IdsAppMenu` (and `IdsHeader`). ([#1806](https://github.com/infor-design/enterprise-wc/issues/1806))
 - `[Tree]` Add ability to have expandIcon and toggleIcon display together. ([#2151](https://github.com/infor-design/enterprise-wc/issues/2151))
 - `[Tree]` Fixed bug where redraw did not trigger when assigning an empty array. ([#2227](https://github.com/infor-design/enterprise-wc/issues/2227))
 - `[Tree]` Converted tree tests to playwright. ([#1986](https://github.com/infor-design/enterprise-wc/issues/1986))

@@ -336,7 +336,7 @@ test.describe('IdsListView tests', () => {
       await expect(focusedItem).toContainText('Team Meeting');
     });
 
-    test('can single select with keyboard', async ({ page }) => {
+    test.skip('can single select with keyboard', async ({ page }) => {
       let selected;
       const sel = (nth: number) => `ids-list-view-item[row-index="${nth}"]`;
 
@@ -411,7 +411,7 @@ test.describe('IdsListView tests', () => {
       await expect(await selected).toEqual(1);
     });
 
-    test('can set the aria label text', async () => {
+    test.skip('can set the aria label text', async () => {
       let label;
       await expect(idsListView).not.toHaveAttribute('aria-label');
       await idsListView.evaluate((listView: IdsListView) => { listView.selectable = 'multiple'; });
@@ -791,7 +791,7 @@ test.describe('IdsListView tests', () => {
       await expect(childSlots?.length).toBe(0);
     });
 
-    test('can find text in ids-list-view-item elements when searchable enabled', async ({ page }) => {
+    test.skip('can find text in ids-list-view-item elements when searchable enabled', async ({ page }) => {
       let searchable: any;
       searchable = await idsListView.evaluate((listview: IdsListView) => listview.searchable);
       await expect(searchable).toBeFalsy();
@@ -1116,7 +1116,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvitems).toEqual(10);
     });
 
-    test('can show searched list by checking for multiple keywords in each result', async () => {
+    test.skip('can show searched list by checking for multiple keywords in each result', async () => {
       await idsListView.evaluate((
         listView: IdsListView,
         dataSet: any

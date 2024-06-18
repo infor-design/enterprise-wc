@@ -166,5 +166,35 @@ export const expect = baseExpect.extend({
       + `\nActual      : ${actual}`,
       pass: false
     };
+  },
+  /**
+   * **CUSTOM ASSERTION - NOT PLAYWRIGHT NATIVE**
+   *
+   * Check if the actual is a valid date
+   *
+   * **USAGE**
+   *
+   * ```js
+   * expect('Invalid Date').toBeValidDate(); // failed
+   * expect('11/11/2011').toBeValidDate(); // passed
+   * expect(new Date()).toBeValidDate(); // passed
+   * ```
+   * @param {any} actual data to be checked if a date
+   * @returns {void}
+   */
+  toBeValidDate(actual: any): { message: () => string; pass: true; } | { message: () => string; pass: false; } {
+    const isValidDate = actual instanceof Date
+      && !Number.isNaN(actual)
+      && actual.toString() !== 'Invalid Date';
+    if (isValidDate) {
+      return {
+        message: () => 'passed',
+        pass: true
+      };
+    }
+    return {
+      message: () => `Actual is not a date\n Actual:  ${actual}`,
+      pass: false
+    };
   }
 });
