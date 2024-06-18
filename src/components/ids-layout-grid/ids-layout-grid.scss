@@ -44,6 +44,7 @@ $max-width: var(--max-width);
   grid-gap: $grid-gap;
   justify-content: start;
   box-sizing: border-box;
+  container-type: inline-size;
 }
 
 :host([gap='none']),
@@ -610,7 +611,11 @@ $align-content-list: start center space-between space-around space-evenly end;
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
+  }
+}
 
+@container (min-width: #{$breakpoint-xs}) {
+  @for $i from 1 through $grid-cols {
     :host(.#{$prefix}) > ::slotted([col-span-xs='#{$i}']),
     .#{$prefix} > .#{$prefix}-col-span-xs-#{$i} {
       grid-column: span $i / span $i;
@@ -658,7 +663,11 @@ $align-content-list: start center space-between space-around space-evenly end;
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
+  }
+}
 
+@container (min-width: #{$breakpoint-sm}) {
+  @for $i from 1 through $grid-cols {
     :host(.#{$prefix}) > ::slotted([col-span-sm='#{$i}']),
     .#{$prefix} > .#{$prefix}-col-span-sm-#{$i} {
       grid-column: span $i / span $i;
@@ -707,7 +716,11 @@ $align-content-list: start center space-between space-around space-evenly end;
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
+  }
+}
 
+@container (min-width: #{$breakpoint-md}) {
+  @for $i from 1 through $grid-cols {
     :host(.#{$prefix}) > ::slotted([col-span-md='#{$i}']),
     .#{$prefix} > .#{$prefix}-col-span-md-#{$i} {
       grid-column: span $i / span $i;
@@ -755,7 +768,11 @@ $align-content-list: start center space-between space-around space-evenly end;
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
+  }
+}
 
+@container (min-width: #{$breakpoint-lg}) {
+  @for $i from 1 through $grid-cols {
     :host(.#{$prefix}) > ::slotted([col-span-lg='#{$i}']),
     .#{$prefix} > .#{$prefix}-col-span-lg-#{$i} {
       grid-column: span $i / span $i;
@@ -803,7 +820,11 @@ $align-content-list: start center space-between space-around space-evenly end;
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
+  }
+}
 
+@container (min-width: #{$breakpoint-xl}) {
+  @for $i from 1 through $grid-cols {
     :host(.#{$prefix}) > ::slotted([col-span-xl='#{$i}']),
     .#{$prefix} > .#{$prefix}-col-span-xl-#{$i} {
       grid-column: span $i / span $i;
@@ -851,7 +872,11 @@ $align-content-list: start center space-between space-around space-evenly end;
       width: 100%;
       grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
     }
+  }
+}
 
+@container (min-width: #{$breakpoint-xxl}) {
+  @for $i from 1 through $grid-cols {
     :host(.#{$prefix}) > ::slotted([col-span-xxl='#{$i}']),
     .#{$prefix} > .#{$prefix}-col-span-xxl-#{$i} {
       grid-column: span $i / span $i;

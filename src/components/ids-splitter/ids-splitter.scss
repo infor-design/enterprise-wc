@@ -124,4 +124,6 @@
 ::slotted(ids-splitter-pane) {
   display: grid;
   overflow: auto;
+  container-type: inline-size;
+  container-name: ids-splitter-pane;
 }
