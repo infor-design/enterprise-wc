@@ -44,6 +44,7 @@ export default class IdsAccordionPanel extends Base {
     this.#attachEventHandlers();
     this.#refreshContentAlignment(this.contentAlignment);
     this.#toggleExpanderDisplay();
+    this.pane?.style.setProperty('height', this.expanded ? 'auto' : '0px');
   }
 
   /**
@@ -377,22 +378,27 @@ export default class IdsAccordionPanel extends Base {
     requestAnimationFrame(() => {
       this.container?.classList.add('expanded');
 
+      if (!this.pane) return;
+
+      // Expand header component
       if (this.header) {
         this.header.expanded = true;
       }
 
       // Setting height kicks off animation
-      if (this.pane) {
+      // Set static height if panel isn't already .expanded and set to 'auto'
+      if (this.pane.style.height !== 'auto') {
         this.pane.style.height = `${this.pane.scrollHeight}px`;
-        this.paneOpenListener = () => {
-          // NOTE: `auto` height allows for nested accordions to expand
-          // when their content is displayed
-          if (this.pane) {
-            this.pane.style.height = 'auto';
-          }
-        };
-        this.pane.addEventListener('transitionend', this.paneOpenListener, { once: true });
       }
+
+      this.paneOpenListener = () => {
+        // NOTE: `auto` height allows for nested accordions to expand
+        // when their content is displayed
+        if (this.pane) {
+          this.pane.style.height = 'auto';
+        }
+      };
+      this.pane.addEventListener('transitionend', this.paneOpenListener, { once: true });
     });
   }
 
