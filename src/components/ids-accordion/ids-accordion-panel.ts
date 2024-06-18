@@ -44,7 +44,6 @@ export default class IdsAccordionPanel extends Base {
     this.#attachEventHandlers();
     this.#refreshContentAlignment(this.contentAlignment);
     this.#toggleExpanderDisplay();
-    this.#toggleExpanded(this.expanded);
   }
 
   /**
@@ -191,26 +190,26 @@ export default class IdsAccordionPanel extends Base {
     const isValueTruthy = stringToBool(value);
     const currentValue = this.#expanded;
 
-    if (currentValue !== isValueTruthy) {
-      if (isValueTruthy) {
-        const canExpand = this.triggerVetoableEvent('beforeexpanded', this);
-        if (!canExpand) {
-          this.removeAttribute(attributes.EXPANDED);
-          return;
-        }
-        this.#expanded = true;
-        this.setAttribute(attributes.EXPANDED, `${value}`);
-        this.#toggleExpanded(true);
-      } else {
-        const canCollapse = this.triggerVetoableEvent('beforecollapsed', this);
-        if (!canCollapse) {
-          this.setAttribute(attributes.EXPANDED, `true`);
-          return;
-        }
-        this.#expanded = false;
+    if (currentValue === isValueTruthy) return;
+
+    if (isValueTruthy) {
+      const canExpand = this.triggerVetoableEvent('beforeexpanded', this);
+      if (!canExpand) {
         this.removeAttribute(attributes.EXPANDED);
-        this.#toggleExpanded(false);
+        return;
       }
+      this.#expanded = true;
+      this.setAttribute(attributes.EXPANDED, `${value}`);
+      this.#toggleExpanded(true);
+    } else {
+      const canCollapse = this.triggerVetoableEvent('beforecollapsed', this);
+      if (!canCollapse) {
+        this.setAttribute(attributes.EXPANDED, `true`);
+        return;
+      }
+      this.#expanded = false;
+      this.removeAttribute(attributes.EXPANDED);
+      this.#toggleExpanded(false);
     }
   }
 
@@ -431,8 +430,14 @@ export default class IdsAccordionPanel extends Base {
       passive: true
     });
 
-    this.onEvent('slotchange', this, () => {
+    // listen to header slot changes
+    this.onEvent('slotchange.header-slotchange', this.container?.querySelector('slot[name="header"]'), () => {
       this.#toggleExpanderDisplay();
+    });
+
+    // listen to content slot change
+    this.onEvent('slotchange.content-slotchange', this.container?.querySelector('slot[name="content"]'), () => {
+      this.#toggleExpanded(this.expanded);
     });
   }
 
