@@ -240,7 +240,17 @@ The formatDate function accepts a date object and formatting options including a
 
 ### Two Digit Year
 
-Two digit years like `dd/MM/yy` should be avoided entirely because it can be confusing to understand if the date is in the 1900 or 2000s and only 200 years can be used. But it will work in some cases for legacy applications. Note that any year over 40 is considered in the 1900s and any year under 39 is considered in the 2000s. For example: `21/07/39 = 21/07/2039` and `21/07/40 = 21/07/1940`.
+Two digit years like `dd/MM/yy` should be avoided because it can be confusing to understand if the date is in the 1900 or 2000s and only 100 years can be used. But this is supported for legacy applications. Note that any year over 40 is considered in the 1900s and any year under 39 is considered in the 2000s. This is controlled by the `twoDigitYearCutoff` setting. By default this is `39` this means > 38 will produce `2038` and < 39 will produce `1938`. You can configure this globally with the setting `Locale.twoDigitYearCutoff`.
+
+```js
+localeAPI.twoToFourDigitYear(39) // 2039
+localeAPI.twoToFourDigitYear(40) // 1940
+
+// Change cut over
+localeAPI.twoDigitYearCutoff = 75;
+localeAPI.twoToFourDigitYear(74) // 2074
+localeAPI.twoToFourDigitYear(77) // 1977
+```
 
 #### Converting from Previous Versions (formatDate)
 
