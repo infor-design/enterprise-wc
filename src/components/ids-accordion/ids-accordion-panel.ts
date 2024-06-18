@@ -402,6 +402,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {void}
    */
   #attachEventHandlers(): void {
+    this.offEvent('click', this.expander);
     this.onEvent('click', this.expander, () => {
       if (!this.disabled) {
         this.#selectAndToggle();
@@ -422,6 +423,7 @@ export default class IdsAccordionPanel extends Base {
       }
     });
 
+    this.offEvent('touchend', this.expander);
     this.onEvent('touchend', this.expander, (e: { touches: string | any[]; }) => {
       if (e.touches && e.touches.length > 0) {
         this.#selectAndToggle();
@@ -431,11 +433,13 @@ export default class IdsAccordionPanel extends Base {
     });
 
     // listen to header slot changes
+    this.offEvent('slotchange.header-slotchange');
     this.onEvent('slotchange.header-slotchange', this.container?.querySelector('slot[name="header"]'), () => {
       this.#toggleExpanderDisplay();
     });
 
     // listen to content slot change
+    this.offEvent('slotchange.content-slotchange');
     this.onEvent('slotchange.content-slotchange', this.container?.querySelector('slot[name="content"]'), () => {
       this.#toggleExpanded(this.expanded);
     });
