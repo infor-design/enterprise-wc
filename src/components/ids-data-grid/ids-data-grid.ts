@@ -175,14 +175,12 @@ export default class IdsDataGrid extends Base {
   }
 
   connectedCallback() {
+    if (this.initialized) this.restoreAllSettings?.();
+
     super.connectedCallback();
     this.#attachEventHandlers();
     this.#attachKeyboardListeners();
     this.#attachScrollEvents();
-  }
-
-  mountedCallback(): void {
-    super.mountedCallback();
   }
 
   disconnectedCallback() {
