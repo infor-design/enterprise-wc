@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="0" hidden>
+    <ids-app-menu id="app-menu">
+      <!-- Avatar/Username Area -->
+      <img slot="avatar" id="avatar" alt="Picture of Richard Fairbanks" />
+      <ids-text slot="username" font-size="24" font-weight="semi-bold">Richard Fairbanks</ids-text>
+
+      <!-- Header Toolbar -->
+      <ids-toolbar slot="header">
+        <ids-toolbar-section align="center-even" type="fluid">
+          <ids-button id="header-btn-download" icon="download">
+            <ids-text audible>Download</ids-text>
+          </ids-button>
+          <ids-button id="header-btn-print" icon="print">
+            <ids-text audible>Print</ids-text>
+          </ids-button>
+          <ids-button id="header-btn-purchasing" icon="purchasing">
+            <ids-text audible>Purchasing</ids-text>
+          </ids-button>
+          <ids-button id="header-btn-notification" icon="notification">
+            <ids-text audible>Notification</ids-text>
+          </ids-button>
+          <ids-button id="header-btn-inventory" icon="inventory">
+            <ids-text audible>Inventory</ids-text>
+          </ids-button>
+        </ids-toolbar-section>
+      </ids-toolbar>
+
+      <ids-search-field id="search" clearable color-variant="app-menu" label="Application Menu Search" label-state="collapsed" no-margins slot="search"></ids-search-field>
+
+      <!-- Main Content (Accordion Navigation) -->
+      <ids-accordion>
+        <ids-accordion-panel>
+          <ids-accordion-header slot="header" icon="user">
+            <ids-text font-size="16">Employee</ids-text>
+          </ids-accordion-header>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">My Profile</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Talent Profile</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">View Compensation</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">RAVE</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Request Time Off</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Benefits</ids-text>
+            </ids-accordion-header>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">My Benefits</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">Dependents and Beneficiaries</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">Life Events</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header">
+                <ids-text font-size="14">Benefits Information</ids-text>
+              </ids-accordion-header>
+            </ids-accordion-panel>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">My Rewards</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Find a Coworker</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">My Growth</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+        </ids-accordion-panel>
+        <ids-accordion-panel>
+          <ids-accordion-header slot="header" icon="distribution">
+            <ids-text font-size="16">Manager</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel>
+          <ids-accordion-header slot="header" icon="roles">
+            <ids-text font-size="16">Recruiter</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+      </ids-accordion>
+    </ids-app-menu>
+
+    <ids-tabs-context>
+      <ids-header>
+        <ids-toolbar id="my-toolbar">
+          <ids-toolbar-section>
+            <ids-button id="app-menu-trigger" icon="menu">
+              <span class="audible">Application Menu</span>
+            </ids-button>
+          </ids-toolbar-section>
+          <ids-toolbar-section type="title" favor>
+            <ids-text font-size="20">My Toolbar</ids-text>
+            <ids-text font-size="14">With some extra information below</ids-text>
+          </ids-toolbar-section>
+          <ids-toolbar-section type="buttonset" align="end">
+            <ids-button id="button-1" role="button" no-padding>
+              <span>Text 1</span>
+            </ids-button>
+            <ids-button id="button-2" role="button" no-padding>
+              <span>Text 2</span>
+            </ids-button>
+            <ids-button id="button-3" role="button" no-padding>
+              <span>Text 3</span>
+            </ids-button>
+
+            <ids-menu-button role="button" id="button-4" menu="button-4-menu" dropdown-icon no-padding>
+              <span>Menu</span>
+            </ids-menu-button>
+            <ids-popup-menu id="button-4-menu" target="#button-4">
+              <ids-menu-group>
+                <ids-menu-item value="1">Item One</ids-menu-item>
+                <ids-menu-item value="2">Item Two</ids-menu-item>
+                <ids-menu-item value="3">Item Three</ids-menu-item>
+                <ids-menu-item>More Items
+                  <ids-popup-menu>
+                    <ids-menu-group>
+                      <ids-menu-item value="4">Item Four</ids-menu-item>
+                      <ids-menu-item value="4">Item Five</ids-menu-item>
+                      <ids-menu-item value="4">Item Six</ids-menu-item>
+                    </ids-menu-group>
+                  </ids-popup-menu>
+                </ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+
+            <ids-button id="button-5" disabled>
+              <span class="audible">Settings</span>
+              <ids-icon icon="settings"></ids-icon>
+            </ids-button>
+
+            <ids-button id="button-6">
+              <span class="audible">Trash</span>
+              <ids-icon icon="delete"></ids-icon>
+            </ids-button>
+          </ids-toolbar-section>
+
+          <ids-toolbar-more-actions overflow>
+            <ids-menu-group>
+              <ids-menu-item value="1">Option One</ids-menu-item>
+              <ids-menu-item value="2">Option Two</ids-menu-item>
+              <ids-menu-item value="3">Option Three</ids-menu-item>
+             <ids-menu-item value="4">Option With A Really Long Name To See How It Lays Out</ids-menu-item>
+              <ids-menu-item>More Options
+                <ids-popup-menu>
+                  <ids-menu-group>
+                    <ids-menu-item value="4">Option Four</ids-menu-item>
+                    <ids-menu-item value="5">Option Five</ids-menu-item>
+                    <ids-menu-item value="6">Option Six</ids-menu-item>
+                  </ids-menu-group>
+                </ids-popup-menu>
+              </ids-menu-item>
+            </ids-menu-group>
+          </ids-toolbar-more-actions>
+        </ids-toolbar>
+        <ids-tabs value="opportunities">
+          <ids-tab value="contracts">Contracts</ids-tab>
+          <ids-tab value="opportunities">Opportunities</ids-tab>
+          <ids-tab value="attachments" disabled>Attachments</ids-tab>
+          <ids-tab value="notes">Notes</ids-tab>
+        </ids-tabs>
+      </ids-header>
+      <ids-tab-content value="contracts">
+        <ids-layout-grid auto-fit="true" padding="md">
+          <ids-text font-size="16" type="p">Facilitate cultivate monetize, seize e-services peer-to-peer content integrateAJAX-enabled user-centric strategize. Mindshare; repurpose integrate global addelivery leading-edge frictionless, harness real-time plug-and-play standards-compliant 24/7 enterprise strategize robust infomediaries: functionalities back-end. Killer disintermediate web-enabled ubiquitous empower relationships, solutions, metrics architectures.</ids-text>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fill="true" padding="md">
+          <ids-layout-grid-cell>
+            <ids-data-grid id="data-grid-1" row-selection="multiple" label="Books" row-height="md"></ids-data-grid>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+        <ids-layout-grid auto-fill="true" padding="md">
+          <ids-layout-grid-cell>
+            <ids-data-grid2 id="data-grid-2" row-selection="multiple" label="Books" row-height="md"></ids-data-grid>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+      </ids-tab-content>
+      <ids-tab-content value="opportunities">
+        <div class="tab-content">
+          <ids-layout-grid auto-fit="true" padding="md">
+            <ids-text font-size="16" type="p">
+              Bricks-and-clicks? Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
+            </ids-text>
+          </ids-layout-grid>
+        </div>
+      </ids-tab-content>
+      <ids-tab-content value="attachments">
+        <ids-layout-grid auto-fit="true" padding="md">
+          <ids-text font-size="16" type="p">
+            Frictionless webservices, killer open-source innovate, best-of-breed, whiteboard interactive back-end optimize capture dynamic front-end. Initiatives ubiquitous 24/7 enhance channels B2B drive frictionless web-readiness generate recontextualize widgets applications. Sexy sticky matrix, user-centred, rich user-centric: peer-to-peer podcasting networking addelivery optimize streamline integrated proactive: granular morph.
+          </ids-text>
+        </ids-layout-grid>
+      </ids-tab-content>
+      <ids-tab-content value="notes">
+        <ids-layout-grid auto-fit="true" padding="md">
+          <ids-text font-size="16" type="p">
+            Evolve ubiquitous matrix B2B 24/365 vertical 24/365 platforms standards-compliant global leverage dynamic 24/365 intuitive ROI seamless rss-capable. Cutting-edge grow morph web services leverage; ROI, unleash reinvent innovative podcasts citizen-media networking.
+          </ids-text>
+        </ids-layout-grid>
+      </ids-tab-content>
+    </ids-tabs-context>
+  </ids-container>
+</body>
+</html>

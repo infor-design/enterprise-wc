@@ -38,7 +38,8 @@ export default class IdsMenuButton extends IdsButton {
       attributes.DROPDOWN_ICON,
       attributes.FORMATTER_WIDTH,
       attributes.ID,
-      attributes.MENU
+      attributes.MENU,
+      attributes.VALUE
     ];
   }
 
