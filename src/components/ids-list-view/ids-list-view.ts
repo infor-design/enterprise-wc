@@ -610,8 +610,13 @@ export default class IdsListView extends Base {
 
         if (this.virtualScrollContainer) {
           this.virtualScrollContainer.itemHeight = itemHeight;
-          // eslint-disable-next-line max-len
-          this.virtualScrollContainer.itemTemplate = (item: any, idx: number, vIdx: number) => this.generateListItemFromCustomHTML(vIdx);
+
+          this.virtualScrollContainer.itemTemplate = (
+            item: any,
+            idx: number,
+            rowIndex: number
+          ) => this.generateListItemFromCustomHTML(rowIndex);
+
           this.virtualScrollContainer.data = this.data;
         }
       }
