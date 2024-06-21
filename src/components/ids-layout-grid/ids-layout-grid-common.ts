@@ -63,6 +63,7 @@ export const GRID_CELL_ATTRIBUTES: string[] = [
   attributes.EDITABLE,
   attributes.FILL,
   attributes.HEIGHT,
+  attributes.HIDE,
   attributes.JUSTIFY_CONTENT,
   attributes.MIN_HEIGHT,
   attributes.PADDING,

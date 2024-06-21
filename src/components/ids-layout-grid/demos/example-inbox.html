@@ -5,8 +5,7 @@
     <%= htmlWebpackPlugin.options.font %>
   </head>
   <body>
-    <ids-container role="main" padding="8" hidden>
-      <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-container role="main" padding="0" hidden>
       <ids-splitter>
         <ids-splitter-pane id="p1"></ids-splitter-pane>
         <ids-splitter-pane id="p2" size="80%">
@@ -29,68 +28,66 @@
                 </template>
               </ids-list-view>
             </ids-layout-grid-cell>
-            <ids-layout-grid-cell col-span="12" col-span-md="8" col-span-lg="9">
-              <ids-hidden hide-down="md">
-                <ids-form submit-button="btn-submit" id="sample-form">
-                  <ids-layout-grid
-                    cols="1"
-                    cols-md="2"
-                    padding="md"
-                    gap="lg"
-                    class="container-enabled"
-                  >
-                    <ids-layout-grid-cell>
-                      <ids-dropdown id="company-name" label="Company Name" value="" dirty-tracker validate="required" size="full" allow-blank="true">
-                        <ids-list-box>
-                          <ids-list-box-option value="none" selected>None</ids-list-box-option>
-                          <ids-list-box-option value="acme">Acme, Inc.</ids-list-box-option>
-                          <ids-list-box-option value="infor">Widget Corp</ids-list-box-option>
-                        </ids-list-box>
-                      </ids-dropdown>
-                      <ids-multiselect id="multiselect-1" label="Multiselect (with max 3 choices and dirty tracker)" size="full" max="3" dirty-tracker="true">
-                        <ids-list-box>
-                          <ids-list-box-option id="al1" value="al" tooltip="The State of Alabama"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
-                          <ids-list-box-option id="ak1" value="ak" tooltip="The State of Alaska"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
-                          <ids-list-box-option id="az1" value="az" tooltip="The State of Arizona"><ids-checkbox label="Arizona"></ids-checkbox></ids-list-box-option>
-                          <ids-list-box-option id="ar1" value="ar" tooltip="The State of Arkansas"><ids-checkbox label="Arkansas"></ids-checkbox></ids-list-box-option>
-                          <ids-list-box-option id="ca1" value="ca" tooltip="The State of California" selected><ids-checkbox label="California"></ids-checkbox></ids-list-box-option>
-                          <ids-list-box-option id="co1" value="co" tooltip="The State of Colorado"><ids-checkbox label="Colorado"></ids-checkbox></ids-list-box-option>
-                          <ids-list-box-option id="nj1" value="nj" tooltip="The State of New Jersey" selected><ids-checkbox label="New Jersey"></ids-checkbox></ids-list-box-option>
-                        </ids-list-box>
-                      </ids-multiselect>
-                      <ids-input id="purchase-form" label="Purchase Form" value="3567" dirty-tracker validate="required" size="full"></ids-input>
-                      <ids-lookup id="issue-methods" label="Issue Methods" title="Select an Item" field="description" value="102,103" dirty-tracker validate="required" size="full"></ids-lookup>
-                      <ids-upload label="Attachments" id="attachments" dirty-tracker validate="required" size="full"></ids-upload>
-                      <ids-textarea id="notes" label="Notes" dirty-tracker validate="required" size="full"></ids-textarea>
-                      <ids-checkbox id="freight" label="Freight" checked dirty-tracker validate="required" no-margin></ids-checkbox>
-                    </ids-layout-grid-cell>
-                    <ids-layout-grid-cell>
-                      <ids-color-picker id="ship-color" label="Ship Color" value="red-80" clearable dirty-tracker validate="required" size="full"></ids-color-picker>
-                      <ids-date-picker id="ship-date" label="Ship Date" value="3/4/2023" mask dirty-tracker validate="required" size="full"></ids-date-picker>
-                      <ids-time-picker label="Ship Time" id="ship-time" mask="true" dirty-tracker validate="required" size="full"></ids-time-picker>
+            <ids-layout-grid-cell col-span="12" col-span-md="8" col-span-lg="9" hide="md">
+              <ids-form submit-button="btn-submit" id="sample-form">
+                <ids-layout-grid
+                  cols="1"
+                  cols-md="2"
+                  padding="md"
+                  gap="lg"
+                  class="container-enabled"
+                >
+                  <ids-layout-grid-cell>
+                    <ids-dropdown id="company-name" label="Company Name" value="" dirty-tracker validate="required" size="full" allow-blank="true">
+                      <ids-list-box>
+                        <ids-list-box-option value="none" selected>None</ids-list-box-option>
+                        <ids-list-box-option value="acme">Acme, Inc.</ids-list-box-option>
+                        <ids-list-box-option value="infor">Widget Corp</ids-list-box-option>
+                      </ids-list-box>
+                    </ids-dropdown>
+                    <ids-multiselect id="multiselect-1" label="Multiselect (with max 3 choices and dirty tracker)" size="full" max="3" dirty-tracker="true">
+                      <ids-list-box>
+                        <ids-list-box-option id="al1" value="al" tooltip="The State of Alabama"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
+                        <ids-list-box-option id="ak1" value="ak" tooltip="The State of Alaska"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
+                        <ids-list-box-option id="az1" value="az" tooltip="The State of Arizona"><ids-checkbox label="Arizona"></ids-checkbox></ids-list-box-option>
+                        <ids-list-box-option id="ar1" value="ar" tooltip="The State of Arkansas"><ids-checkbox label="Arkansas"></ids-checkbox></ids-list-box-option>
+                        <ids-list-box-option id="ca1" value="ca" tooltip="The State of California" selected><ids-checkbox label="California"></ids-checkbox></ids-list-box-option>
+                        <ids-list-box-option id="co1" value="co" tooltip="The State of Colorado"><ids-checkbox label="Colorado"></ids-checkbox></ids-list-box-option>
+                        <ids-list-box-option id="nj1" value="nj" tooltip="The State of New Jersey" selected><ids-checkbox label="New Jersey"></ids-checkbox></ids-list-box-option>
+                      </ids-list-box>
+                    </ids-multiselect>
+                    <ids-input id="purchase-form" label="Purchase Form" value="3567" dirty-tracker validate="required" size="full"></ids-input>
+                    <ids-lookup id="issue-methods" label="Issue Methods" title="Select an Item" field="description" value="102,103" dirty-tracker validate="required" size="full"></ids-lookup>
+                    <ids-upload label="Attachments" id="attachments" dirty-tracker validate="required" size="full"></ids-upload>
+                    <ids-textarea id="notes" label="Notes" dirty-tracker validate="required" size="full"></ids-textarea>
+                    <ids-checkbox id="freight" label="Freight" checked dirty-tracker validate="required" no-margin></ids-checkbox>
+                  </ids-layout-grid-cell>
+                  <ids-layout-grid-cell>
+                    <ids-color-picker id="ship-color" label="Ship Color" value="red-80" clearable dirty-tracker validate="required" size="full"></ids-color-picker>
+                    <ids-date-picker id="ship-date" label="Ship Date" value="3/4/2023" mask dirty-tracker validate="required" size="full"></ids-date-picker>
+                    <ids-time-picker label="Ship Time" id="ship-time" mask="true" dirty-tracker validate="required" size="full"></ids-time-picker>
 
-                      <ids-spinbox id="product-quantity" label="Quantity" dirty-tracker validate="required" value="0">
+                    <ids-spinbox id="product-quantity" label="Quantity" dirty-tracker validate="required" value="0">
 
-                      </ids-spinbox>
-                      <ids-radio-group label="Ship Type" dirty-tracker validate="required" id="ship-type">
-                        <ids-radio value="opt1" label="Boat"></ids-radio>
-                        <ids-radio value="opt2" label="Truck" checked="true"></ids-radio>
-                      </ids-radio-group>
-                      <ids-switch id="send-notifications" label="Send notifications" checked="true"></ids-switch>
-                    </ids-layout-grid-cell>
-                  </ids-layout-grid>
-                  <ids-layout-grid cols="1" cols-md="2" padding-x="md">
-                    <ids-layout-grid-cell>
-                      <ids-button id="btn-submit" appearance="primary" type="submit">
-                        <span>Submit</span>
-                      </ids-button>
-                      <ids-button id="btn-cancel" appearance="secondary" type="submit">
-                        <span>Cancel</span>
-                      </ids-button>
-                    </ids-layout-grid-cell>
-                  </ids-layout-grid>
-                </ids-form>
-              </ids-hidden>
+                    </ids-spinbox>
+                    <ids-radio-group label="Ship Type" dirty-tracker validate="required" id="ship-type">
+                      <ids-radio value="opt1" label="Boat"></ids-radio>
+                      <ids-radio value="opt2" label="Truck" checked="true"></ids-radio>
+                    </ids-radio-group>
+                    <ids-switch id="send-notifications" label="Send notifications" checked="true"></ids-switch>
+                  </ids-layout-grid-cell>
+                </ids-layout-grid>
+                <ids-layout-grid cols="1" cols-md="2" padding-x="md">
+                  <ids-layout-grid-cell>
+                    <ids-button id="btn-submit" appearance="primary" type="submit">
+                      <span>Submit</span>
+                    </ids-button>
+                    <ids-button id="btn-cancel" appearance="secondary" type="submit">
+                      <span>Cancel</span>
+                    </ids-button>
+                  </ids-layout-grid-cell>
+                </ids-layout-grid>
+              </ids-form>
             </ids-layout-grid-cell>
           </ids-layout-grid>
         </ids-splitter-pane>

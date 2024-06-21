@@ -207,6 +207,7 @@ export const attributes = {
   HEX: 'hex',
   HIDDEN: 'hidden',
   HIDDEN_BY_FILTER: 'hidden-by-filter',
+  HIDE: 'hide',
   HIDE_CHECKBOXES: 'hide-checkboxes',
   HIDE_DOWN: 'hide-down',
   HIDE_FOCUS: 'hide-focus',
