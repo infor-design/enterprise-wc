@@ -62,6 +62,11 @@ test.describe('IdsTooltip tests', () => {
     let idsToolTip: Locator;
     let idsButton: Locator;
 
+    const isVisible = async (elem: Locator) => {
+      const res = await elem.evaluate((node: IdsTooltip) => node.visible);
+      return res;
+    };
+
     test.beforeEach(async ({ page }) => {
       idsToolTip = await page.locator('ids-tooltip');
       idsButton = await page.locator('#button-1');
@@ -97,20 +102,173 @@ test.describe('IdsTooltip tests', () => {
       ) => element.popup!.isSameNode(handle), idsPopup)).toBeTruthy();
     });
 
-    test('can trigger events when hover', async ({ eventsTest, page }) => {
+    test('can trigger events when hovered', async ({ eventsTest, page }) => {
       const buttonHandle = (await idsButton.elementHandle())!;
       const box = await idsButton.boundingBox();
       await eventsTest.onEvent('ids-tooltip', 'hoverend', buttonHandle);
       await eventsTest.onEvent('ids-tooltip', 'mouseleave', buttonHandle);
 
+      expect(await isVisible(idsToolTip)).toBeFalsy();
+
       // hover in the target
-      await page.mouse.move(box!.x + (box!.width / 2), box!.y + (box!.height / 2), { steps: 15 });
+      await buttonHandle.hover();
+      await expect(async () => {
+        expect(await isVisible(idsToolTip)).toBeTruthy();
+        expect(await eventsTest.isEventTriggered('ids-tooltip', 'hoverend')).toBeTruthy();
+      }).toPass();
 
-      // unhover from the target
-      await page.mouse.move(box!.x + box!.width + 50, box!.y + box!.height + 50, { steps: 15 });
+      // mouse leave event
+      await page.mouse.move(box!.width + 20, box!.height + 20);
+      await expect(async () => {
+        expect(await isVisible(idsToolTip)).toBeFalsy();
+        expect(await eventsTest.isEventTriggered('ids-tooltip', 'mouseleave')).toBeTruthy();
+      }).toPass();
+    });
 
-      expect(await eventsTest.isEventTriggered('ids-tooltip', 'hoverend')).toBeTruthy();
-      expect(await eventsTest.isEventTriggered('ids-tooltip', 'mouseleave')).toBeTruthy();
+    test('can hide tooltip on clicked', async () => {
+      expect(await isVisible(idsToolTip)).toBeFalsy();
+      await expect(idsToolTip).not.toHaveAttribute('visible');
+
+      await idsButton.hover();
+      await expect(async () => {
+        await expect(idsToolTip).toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeTruthy();
+      }).toPass();
+
+      await idsButton.click({ delay: 50 });
+      await expect(async () => {
+        await expect(idsToolTip).not.toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeFalsy();
+      }).toPass();
+    });
+
+    test('can show when long pressed', async ({ page }) => {
+      const box = await idsButton.boundingBox();
+
+      expect(await isVisible(idsToolTip)).toBeFalsy();
+      await expect(idsToolTip).not.toHaveAttribute('visible');
+
+      await page.mouse.move(box!.x + (box!.width / 2), box!.y + (box!.height / 2));
+      await page.mouse.down();
+      await page.waitForTimeout(500);
+      await expect(async () => {
+        await expect(idsToolTip).toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeTruthy();
+      }).toPass();
+      await page.mouse.up();
+
+      expect(await isVisible(idsToolTip)).toBeFalsy();
+      await expect(idsToolTip).not.toHaveAttribute('visible');
+    });
+
+    test('can show on focus and hide on focusout', async ({ page }) => {
+      expect(await isVisible(idsToolTip)).toBeFalsy();
+      await expect(idsToolTip).not.toHaveAttribute('visible');
+
+      await page.keyboard.press('Tab');
+      await page.keyboard.press('Tab');
+      await page.keyboard.press('Tab');
+
+      await expect(async () => {
+        await expect(idsToolTip).toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeTruthy();
+      }).toPass();
+
+      await page.keyboard.press('Tab');
+      await expect(async () => {
+        await expect(idsToolTip).not.toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeFalsy();
+      }).toPass();
+    });
+
+    test('can handle changing target', async ({ page }) => {
+      expect(await idsToolTip.evaluate((element: IdsTooltip) => element.target)).toEqual('#button-1');
+
+      await page.evaluate(() => {
+        const elem = document.createElement('ids-button') as any;
+        elem.id = 'new-button';
+        elem.text = 'New Button';
+        elem.appearance = 'secondary';
+        document.querySelector('#button-1')!.parentNode!.appendChild(elem);
+      });
+
+      const newButton = await page.locator('#new-button');
+      await newButton.hover();
+      await expect(async () => {
+        await expect(idsToolTip).not.toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeFalsy();
+      }).toPass();
+
+      // move away from the new button
+      await page.mouse.move(200, 200);
+
+      // set target
+      expect(await idsToolTip.evaluate((element: IdsTooltip) => {
+        element.target = '#new-button';
+        return element.target;
+      })).toEqual('#new-button');
+
+      // hover again the new button
+      await newButton.hover();
+      await expect(async () => {
+        await expect(idsToolTip).toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeTruthy();
+      }).toPass();
+
+      // move away from the new button
+      await page.mouse.move(200, 200);
+
+      // hover to the old button
+      await idsButton.hover();
+      await expect(async () => {
+        await expect(idsToolTip).not.toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeFalsy();
+      }).toPass();
+    });
+
+    test('can handle multiple target', async ({ page }) => {
+      expect(await idsToolTip.evaluate((element: IdsTooltip) => element.target)).toEqual('#button-1');
+
+      await page.evaluate(() => {
+        const elem = document.createElement('ids-button') as any;
+        elem.id = 'new-button';
+        elem.text = 'New Button';
+        elem.appearance = 'secondary';
+        document.querySelector('#button-1')!.parentNode!.appendChild(elem);
+      });
+
+      const newButton = await page.locator('#new-button');
+      await newButton.hover();
+      await expect(async () => {
+        await expect(idsToolTip).not.toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeFalsy();
+      }).toPass();
+
+      // move away from the new button
+      await page.mouse.move(200, 200);
+
+      // set target
+      expect(await idsToolTip.evaluate((element: IdsTooltip) => {
+        element.target = '#button-1, #new-button';
+        return element.target;
+      })).toEqual('#button-1, #new-button');
+
+      // hover again the new button
+      await newButton.hover();
+      await expect(async () => {
+        await expect(idsToolTip).toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeTruthy();
+      }).toPass();
+
+      // move away from the new button
+      await page.mouse.move(200, 200);
+
+      // hover to the old button
+      await idsButton.hover();
+      await expect(async () => {
+        await expect(idsToolTip).toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeTruthy();
+      }).toPass();
     });
   });
 });
