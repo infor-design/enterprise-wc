@@ -23,12 +23,12 @@
   
   
   
-  <ids-message id="errormessage-modal" status="error" message-title="No Selection!" aria-label="error: No Selection!" role="dialog">
+  <ids-message id="errormessage-modal" status="error" role="dialog" aria-label="error: No Selection!" message-title="No Selection!">
     <ids-text slot="title" font-size="24" type="h2" id="errormessage-modal-title">No Selection!</ids-text>
     <ids-text class="demo-contents" align="left">Please make some selection to complete this task.</ids-text>
     <ids-modal-button slot="buttons" appearance="primary" id="errormessage-modal-ok">OK</ids-modal-button>
   </ids-message>
-  <ids-modal id="hyperlink-modal" message-title="Insert Anchor" aria-label="Insert Anchor" role="dialog" fullsize="sm" respond-down="sm">
+  <ids-modal id="hyperlink-modal" role="dialog" aria-label="Insert Anchor" fullsize="sm" respond-down="sm" message-title="Insert Anchor">
     <ids-text slot="title" font-size="24" type="h2" id="hyperlink-modal-title">Insert Anchor</ids-text>
     <ids-layout-grid class="data-grid-container ids-layout-grid" auto-fit="" gap="md" no-margins="true" min-col-width="300px" style="--min-col-width: 300px;">
       <ids-layout-grid-cell class="ids-layout-grid-cell">
@@ -51,7 +51,7 @@
       <span>Apply</span>
     </ids-modal-button>
   </ids-modal>
-  <ids-modal id="insertimage-modal" message-title="Insert Image" aria-label="Insert Image" role="dialog" fullsize="sm" respond-down="sm">
+  <ids-modal id="insertimage-modal" role="dialog" aria-label="Insert Image" fullsize="sm" respond-down="sm" message-title="Insert Image">
     <ids-text slot="title" font-size="24" type="h2" id="insertimage-modal-title">Insert Image</ids-text>
     <ids-layout-grid class="data-grid-container ids-layout-grid" auto-fit="" gap="md" no-margins="true" min-col-width="300px" style="--min-col-width: 300px;">
       <ids-layout-grid-cell class="ids-layout-grid-cell">
