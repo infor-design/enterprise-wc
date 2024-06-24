@@ -17,9 +17,20 @@ import '../../ids-multiselect/ids-multiselect';
 import '../../ids-hidden/ids-hidden';
 import '../../ids-splitter/ids-splitter';
 import productsJSON from '../../../assets/data/products-100.json';
+import css from '../../../assets/css/ids-layout-grid/example-inbox.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+const head = document.querySelector('head');
+if (head) {
+  head.insertAdjacentHTML('afterbegin', cssLink);
+}
 
 // Example for populating the List View
 const listView: any = document.querySelector('#demo-lv-selectable-single');
+const caretButton: any = document.querySelector('#caret-button');
+const formCell: any = document.querySelector('#hidden-cell-md');
+const listViewCell: any = document.querySelector('#listview-cell');
+const splitterPane: any = document.querySelector('#p2');
 
 if (listView) {
   // Do an ajax request and apply the data to the list
@@ -45,4 +56,36 @@ if (listView) {
   });
 
   await setData();
+}
+
+if (caretButton) {
+  caretButton.addEventListener('click', () => {
+    // Check current visibility state
+    const isFormHidden = formCell.hasAttribute('hide');
+
+    if (isFormHidden) {
+      formCell.removeAttribute('hide');
+      listViewCell.setAttribute('hide', 'md');
+      caretButton.icon = 'close';
+    } else {
+      formCell.setAttribute('hide', 'md');
+      listViewCell.removeAttribute('hide');
+      caretButton.icon = 'caret-left';
+    }
+  });
+}
+
+// Add resize observer for splitter pane to revert back to visible form cell
+if (splitterPane) {
+  const resizeObserver = new ResizeObserver(() => {
+    const paneWidth = splitterPane.getBoundingClientRect().width;
+
+    if (paneWidth > 840) {
+      formCell.setAttribute('hide', 'md');
+      listViewCell.removeAttribute('hide');
+      caretButton.icon = 'caret-left';
+    }
+  });
+
+  resizeObserver.observe(splitterPane);
 }

@@ -1,3 +1,5 @@
+@import '../../themes/mixins/ids-core-mixins';
+
 /* Ids Splitter Component */
 .ids-splitter {
   display: flex;
@@ -119,11 +121,4 @@
       display: none;
     }
   }
-}
-
-::slotted(ids-splitter-pane) {
-  display: grid;
-  overflow: auto;
-  container-type: inline-size;
-  container-name: ids-splitter-pane;
 }

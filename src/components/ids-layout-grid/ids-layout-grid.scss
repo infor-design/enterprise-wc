@@ -43,7 +43,7 @@ $max-width: var(--max-width);
 // ================================================
 // Base
 
-/* Host and Prefix Base */
+/* Host and ids-layout-grid Base */
 :host(.#{$prefix}),
 .#{$prefix} {
   display: grid;

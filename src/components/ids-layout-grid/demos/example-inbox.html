@@ -8,14 +8,42 @@
     <ids-container role="main" padding="0" hidden>
       <ids-splitter>
         <ids-splitter-pane id="p1"></ids-splitter-pane>
-        <ids-splitter-pane id="p2" size="80%">
+        <ids-splitter-pane id="p2" size="30%">
+          <ids-toolbar id="container-for-caret">
+            <ids-toolbar-section type="button">
+              <ids-hidden hide-up="md" enable-container container-target="container-for-caret">
+                <ids-button id="caret-button" icon="caret-left" role="button">
+                  <span class="audible">Application Menu Trigger</span>
+                </ids-button>
+              </ids-hidden>
+              <ids-hidden hide-down="md" enable-container container-target="container-for-caret">
+                <ids-button id="menu-button" icon="menu" role="button">
+                  <span class="audible">Menu Button</span>
+                </ids-button>
+              </ids-hidden>
+            </ids-toolbar-section>
+            <ids-toolbar-section type="title">
+              <ids-text font-size="20">Inbox</ids-text>
+            </ids-toolbar-section>
+            <ids-toolbar-section align="end">
+              <ids-search-field
+                collapsible
+                id="header-search"
+                clearable
+                label-state="collapsed"
+                no-margins
+              >
+                <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+              </ids-search-field>
+            </ids-toolbar-section>
+          </ids-toolbar>
           <ids-layout-grid
             id="container-grid"
             class="container-enabled"
             cols="12"
             justify-content="start"
           >
-            <ids-layout-grid-cell col-span="12" col-span-md="4" col-span-lg="3" height="100vh">
+            <ids-layout-grid-cell id="listview-cell" col-span="12" col-span-md="4" col-span-lg="3" height="calc(100vh - 64px)">
               <ids-list-view
                 id="demo-lv-selectable-single"
                 selectable="single"
@@ -28,7 +56,7 @@
                 </template>
               </ids-list-view>
             </ids-layout-grid-cell>
-            <ids-layout-grid-cell col-span="12" col-span-md="8" col-span-lg="9" hide="md">
+            <ids-layout-grid-cell id="hidden-cell-md" col-span="12" col-span-md="8" col-span-lg="9" hide="md">
               <ids-form submit-button="btn-submit" id="sample-form">
                 <ids-layout-grid
                   cols="1"
