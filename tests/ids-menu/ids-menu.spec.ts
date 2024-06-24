@@ -826,7 +826,7 @@ test.describe('IdsMenu tests', () => {
         menu.querySelector(item)!.icon = null;
       }, item1);
       icon = await idsMenu2.evaluate((menu: IdsMenu, item: any) => menu.querySelector(item)!.icon, item1);
-      expect(icon).toBeUndefined();
+      expect(icon).toBeNull();
       expect(await item1icon.count()).toEqual(0);
     });
 
