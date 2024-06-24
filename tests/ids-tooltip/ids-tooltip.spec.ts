@@ -102,6 +102,59 @@ test.describe('IdsTooltip tests', () => {
       ) => element.popup!.isSameNode(handle), idsPopup)).toBeTruthy();
     });
 
+    test('can set/get delay', async () => {
+      const defDelay = 500;
+      const testData = [
+        { data: 300, expected: 300 },
+        { data: 'test', expected: defDelay },
+        { data: '700', expected: 700 },
+        { data: null, expected: defDelay },
+        { data: 1, expected: 1 },
+        { data: 0, expected: defDelay }
+      ];
+
+      expect(await idsToolTip.evaluate((element: IdsTooltip) => element.delay)).toEqual(defDelay);
+      await expect(idsToolTip).not.toHaveAttribute('delay');
+
+      for (const data of testData) {
+        expect(await idsToolTip.evaluate((element: IdsTooltip, tData) => {
+          element.delay = tData as any;
+          return element.delay;
+        }, data.data)).toEqual(data.expected);
+        if (data.data) {
+          await expect(idsToolTip).toHaveAttribute('delay');
+        } else {
+          await expect(idsToolTip).not.toHaveAttribute('delay');
+        }
+      }
+    });
+
+    test('can set/get placement', async () => {
+      const testData = [
+        { data: 'left', expected: 'left' },
+        { data: 'right', expected: 'right' },
+        { data: 'top', expected: 'top' },
+        { data: 'bottom', expected: 'bottom' },
+        { data: 'center', expected: 'center' },
+        { data: null, expected: 'top' }
+      ];
+
+      expect(await idsToolTip.evaluate((element: IdsTooltip) => element.placement)).toEqual('top');
+      await expect(idsToolTip).not.toHaveAttribute('placement');
+
+      for (const data of testData) {
+        expect(await idsToolTip.evaluate((element: IdsTooltip, tData) => {
+          element.placement = tData as any;
+          return element.placement;
+        }, data.data)).toEqual(data.expected);
+        if (data.data) {
+          await expect(idsToolTip).toHaveAttribute('placement', data.expected);
+        } else {
+          await expect(idsToolTip).not.toHaveAttribute('placement');
+        }
+      }
+    });
+
     test('can trigger events when hovered', async ({ eventsTest, page }) => {
       const buttonHandle = (await idsButton.elementHandle())!;
       const box = await idsButton.boundingBox();
@@ -159,6 +212,30 @@ test.describe('IdsTooltip tests', () => {
 
       expect(await isVisible(idsToolTip)).toBeFalsy();
       await expect(idsToolTip).not.toHaveAttribute('visible');
+    });
+
+    test('can set/get visible', async () => {
+      const testData = [
+        { data: true, expected: true },
+        { data: 'false', expected: false },
+        { data: '', expected: true },
+        { data: null, expected: false }
+      ];
+
+      expect(await idsToolTip.evaluate((element: IdsTooltip) => element.visible)).toBeFalsy();
+      await expect(idsToolTip).not.toHaveAttribute('visible');
+
+      for (const data of testData) {
+        expect(await idsToolTip.evaluate((element: IdsTooltip, tData) => {
+          element.visible = tData as any;
+          return element.visible;
+        }, data.data)).toEqual(data.expected);
+        if (data.expected) {
+          await expect(idsToolTip).toHaveAttribute('visible');
+        } else {
+          await expect(idsToolTip).not.toHaveAttribute('visible');
+        }
+      }
     });
 
     test('can show on focus and hide on focusout', async ({ page }) => {
@@ -268,6 +345,23 @@ test.describe('IdsTooltip tests', () => {
       await expect(async () => {
         await expect(idsToolTip).toHaveAttribute('visible');
         expect(await isVisible(idsToolTip)).toBeTruthy();
+      }).toPass();
+    });
+
+    test('can prevent from showing via beforeshow event', async () => {
+      expect(await isVisible(idsToolTip)).toBeFalsy();
+      await expect(idsToolTip).not.toHaveAttribute('visible');
+
+      await idsToolTip.evaluate((element: any) => {
+        element.addEventListener('beforeshow', (event: CustomEvent) => {
+          event.detail.response(false);
+        });
+        element.visible = true;
+      });
+
+      await expect(async () => {
+        await expect(idsToolTip).not.toHaveAttribute('visible');
+        expect(await isVisible(idsToolTip)).toBeFalsy();
       }).toPass();
     });
   });
