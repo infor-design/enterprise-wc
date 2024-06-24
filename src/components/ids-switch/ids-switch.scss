@@ -44,7 +44,7 @@ $slider-compact-width: 34px;
         top: 1px;
         background-color: var(--ids-switch-toggle-color-background-default);
         border-radius: var(--ids-border-radius-circle);
-        box-shadow: 0px 0px 2px 0px var(--ids-color-gray-40);
+        box-shadow: 0 0 2px 0 var(--ids-color-gray-40);
         transition: all var(--ids-motion-duration) var(--ids-motion-ease);
       }
     }
