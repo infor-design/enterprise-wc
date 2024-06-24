@@ -54,7 +54,10 @@ export default class IdsTabs extends Base {
     this.#attachEventHandlers();
     this.#ro.observe(this.container as any);
     const selected: any = this.querySelector('[selected]') || this.querySelector('[value]');
-    this.#selectTab(selected);
+    // Defer the initial tab selection until after the initial setup phase
+    requestAnimationFrame(() => {
+      this.#selectTab(selected);
+    });
     this.#attachAfterRenderEvents();
   }
 

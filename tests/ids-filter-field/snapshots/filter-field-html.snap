@@ -1,0 +1,3 @@
+<ids-filter-field id="text-filter-field" label="Text">
+          <ids-input id="filter-input" label="Text" no-margins="" size="md" square=""></ids-input>
+        </ids-filter-field>
