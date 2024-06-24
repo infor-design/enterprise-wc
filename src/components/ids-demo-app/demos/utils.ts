@@ -22,6 +22,8 @@ import {
   escapeHTML
 } from '../../../utils/ids-xss-utils/ids-xss-utils';
 
+import Locale from '../../ids-locale/ids-locale';
+
 import {
   clearAnimationInterval,
   clearAnimationTimeout,
@@ -54,5 +56,6 @@ import { isObject, isObjectAndNotEmpty } from '../../../utils/ids-object-utils/i
   requestAnimationInterval,
   requestAnimationTimeout,
   isObject,
-  isObjectAndNotEmpty
+  isObjectAndNotEmpty,
+  locale: new Locale()
 };

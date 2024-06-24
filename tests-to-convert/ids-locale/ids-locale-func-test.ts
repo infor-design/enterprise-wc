@@ -1392,13 +1392,6 @@ describe('IdsLocale API', () => {
       expect(locale.formatDate(new Date(2000, 11, 1, 13, 5), { month: 'long', year: 'numeric' })).toEqual('december 2000');
     });
 
-    test('should correct two digit year', () => {
-      expect(locale.twoToFourDigitYear('40')).toEqual(1940);
-      expect(locale.twoToFourDigitYear('20')).toEqual(2020);
-      expect(locale.twoToFourDigitYear('940')).toEqual(1940);
-      expect(locale.twoToFourDigitYear('020')).toEqual(2020);
-    });
-
     test('should format datetimeMillis and timestampMillis', async () => {
       await locale.setLocale('en-US');
       expect(locale.formatDate(new Date(2000, 10, 8, 13, 40, 30, 999), {
