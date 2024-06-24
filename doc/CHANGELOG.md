@@ -5,6 +5,7 @@
 ### 1.3.0 Features
 
 - `[Fonts]` The source sans pro font should no longer be used in googleapis instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
+- `[Switch]` Updated switch design. ([#2347](https://github.com/infor-design/enterprise-wc/issues/2347))
 
 ### 1.3.0 Fixes
 
