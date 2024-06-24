@@ -56,8 +56,11 @@
     }
 
     &[readonly] {
+      color: var(--ids-trigger-field-color-text-disabled);
+      opacity: var(--ids-button-tertiary-opacity-disabled);
+
       &:hover {
-        cursor: var(--ids-cursor-default);
+        cursor: default;
         background-color: transparent;
         border-color: transparent;
       }
