@@ -69,6 +69,7 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **Editable**: Specifies whether the content of an element can be edited by the user.
 - **Fill**: Specifies whether an element should fill the available space in its container.
 - **Height**: Specifies the height of an element. If no unit is specified in the attribute the value will default to px.
+- **Hide**: Sets or removes the `hide` attribute to control the visibility of the grid cell based on the specified breakpoint.
 - **MinHeight**: Specifies the minimum height of an element. If no unit is specified in the attribute the value will default to px.
 - **Order**: Specifies the order in which an element should appear by default in a container.
 - **OrderXs**: Specifies the order in which an element should appear on extra small screens.
