@@ -5,10 +5,14 @@
 ### 1.3.0 Features
 
 - `[Fonts]` The source sans pro font should no longer be used in googleapis instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
+- `[Dates]` Added a new `twoDigitYear` setting to set the locale system to set the dates cut over for two digit years, note that two digit years should be avoided. ([#8061](https://github.com/infor-design/enterprise-wc/issues/2425))
 
 ### 1.3.0 Fixes
 
+- `[ListView]` Fix bug where, after a list-view-item is selected, search-field keeps losing focus while typing. ([#2296](https://github.com/infor-design/enterprise-wc/issues/2296))
 - `[Message]` Converted message tests to playwright. ([#1954](https://github.com/infor-design/enterprise-wc/issues/1954))
+- `[PopupMenu]` Removed timer and redundent flag for production issue. ([#2457](https://github.com/infor-design/enterprise-wc/issues/2457))
+- `[Tabs]` Fix tab content visible state when added dynamically. ([#2393](https://github.com/infor-design/enterprise-wc/issues/2393))
 - `[WeekView]` Added more input handling for `startHour`, `endHour`, and `timelineInterval`. ([#2446](https://github.com/infor-design/enterprise-wc/issues/2446))
 - `[WeekView]` Converted week view tests to playwright. ([#1993](https://github.com/infor-design/enterprise-wc/issues/1993))
 - `[MonthView]` Converted month view tests to playwright. ([#1956](https://github.com/infor-design/enterprise-wc/issues/1956))
@@ -76,6 +80,7 @@
 - `[Datagrid]` Fix problem with datagrid pagination where setting the `pageTotal` property causes some of the rows to be incorrectly sorted. ([#2232](https://github.com/infor-design/enterprise-wc/issues/2232))
 - `[Datagrid]` Fixed bugged where adding `pageTotal` to datagrid messed up data order. ([#2232](https://github.com/infor-design/enterprise-wc/issues/2232))
 - `[Datagrid]` Fix grid popup alignment issues, by removing children if there are more than one instance of the child. ([#2246](https://github.com/infor-design/enterprise-wc/issues/2246))
+- `[FilterField]` Added `IdsFilterField` component. ([#1906](https://github.com/infor-design/enterprise-wc/issues/1906))
 - `[Splitter]` If the panel is resized to 0, it will have `collapsed` attribute, enabling it to expand to its original position. ([#2083](https://github.com/infor-design/enterprise-wc/issues/2083))
 
 ### 1.1.0 Fixes

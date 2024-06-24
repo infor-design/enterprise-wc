@@ -3,7 +3,6 @@ import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { getElementAtMouseLocation, parents, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
 import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
@@ -37,8 +36,6 @@ const Base = IdsPopupInteractionsMixin(
 export default class IdsPopupMenu extends Base {
   /** Component's first child element (in IdsPopupMenu, this is always an IdsPopup component) */
   container?: IdsPopup | null = null;
-
-  recentlyHidden = false;
 
   constructor() {
     super();
@@ -304,8 +301,6 @@ export default class IdsPopupMenu extends Base {
     this.hideSubmenus();
     this.popup?.removeOpenEvents();
     this.#removeMutationObservers();
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.startHiddenTimer();
   }
 
   /**
@@ -643,7 +638,7 @@ export default class IdsPopupMenu extends Base {
       return true;
     }
 
-    if (this.hidden && !this.recentlyHidden) {
+    if (this.hidden) {
       this.showIfAble();
       this.setInitialFocus();
     }
@@ -770,16 +765,6 @@ export default class IdsPopupMenu extends Base {
   focus() {
     if (this.hidden) return;
     this.focusTarget?.focus();
-  }
-
-  /**
-   * Runs a private internal timer that controls whether or not
-   * some internal event-handling is allowed on the popup menu.
-   */
-  private async startHiddenTimer() {
-    this.recentlyHidden = true;
-    await cssTransitionTimeout(10);
-    this.recentlyHidden = false;
   }
 
   /**
