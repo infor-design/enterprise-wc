@@ -347,7 +347,10 @@ class IdsMultiselect extends IdsDropdown {
       }
     }
 
-    if (this.input) this.input.value = newValue;
+    if (this.input?.input) {
+      this.input.value = newValue;
+      this.input.input.value = newValue;
+    }
   }
 
   /**
