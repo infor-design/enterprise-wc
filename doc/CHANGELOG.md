@@ -2,6 +2,12 @@
 
 ## 1.0.0-beta.18.1
 
+### 1.0.0-beta.18.2 Fixes
+
+- `[Dates]` Added a new `twoDigitYear` setting to set the locale system to set the dates cut over for two digit years, note that two digit years should be avoided. ([#8061](https://github.com/infor-design/enterprise-wc/issues/2425))
+
+## 1.0.0-beta.18.1
+
 ### 1.0.0-beta.18.1 Fixes
 
 - `[Dropdown]` Prevent Enter key (and other meta keys) from opening the `IdsDropdown`. ([#1878](https://github.com/infor-design/enterprise-wc/issues/1878))

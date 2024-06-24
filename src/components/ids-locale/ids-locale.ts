@@ -14,6 +14,8 @@ class IdsLocale {
 
   localeDataPath = '../locale-data/';
 
+  twoDigitYearCutoff = 39;
+
   constructor() {
     this.loadedLocales.set('en-US', localeEn);
     this.loadedLanguages.set('en', messagesEn);
@@ -26,6 +28,7 @@ class IdsLocale {
       language: 'en',
       localeName: 'en-US'
     };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.setDefaults();
   }
 
@@ -56,6 +59,7 @@ class IdsLocale {
   set language(value: string | any) {
     const lang = this.#correctLanguage(value);
     if (value && lang !== this.state.language) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.setLanguage(lang, false);
     }
   }
@@ -106,6 +110,7 @@ class IdsLocale {
    */
   loadLanguageScript(value: string) {
     const promise = fetch(`${this.localeDataPath}${value}-messages.json`);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     promise.then(async (response) => {
       const data = await response.json();
       this.loadedLanguages.set(value, data);
@@ -187,7 +192,7 @@ class IdsLocale {
    */
   #notifyElementsLanguage() {
     querySelectorAllShadowRoot('*').forEach((elem: any) => {
-      if (this.previousLanguage !== this.language.name && elem.nodeName.substring(0, 4) === 'IDS-' && elem.localeAPI) {
+      if (elem.getAttribute('language') !== this.language.name && elem.nodeName.substring(0, 4) === 'IDS-' && elem.localeAPI) {
         elem.setAttribute('language', this.language.name);
         if (typeof elem.onLanguageChange === 'function') {
           elem.onLanguageChange(this);
@@ -208,7 +213,7 @@ class IdsLocale {
    */
   async loadLocaleScript(value: string) {
     const promise = fetch(`${this.localeDataPath}${value}.json`);
-    promise.then(async (response) => {
+    await promise.then(async (response) => {
       const data = await response.json();
       this.loadedLocales.set(value, data);
     });
@@ -243,9 +248,6 @@ class IdsLocale {
     elem.removeAttribute('dir');
   }
 
-  /** Holds the last set language */
-  previousLanguage = 'en';
-
   /**
    * Set the language for a component and wait for it to finish (async)
    * @param {string} value The language string value
@@ -256,14 +258,12 @@ class IdsLocale {
     if (this.state.language !== lang) {
       this.state.language = lang;
     }
-    if (this.previousLanguage === value) return;
 
     if (this.state.language === lang && !this.loadedLanguages.get(this.state.language)) {
       await this.loadLanguageScript(lang);
     }
     this.setDocumentLangAttribute(lang);
     if (notify) this.#notifyElementsLanguage();
-    this.previousLanguage = value;
   }
 
   /**
@@ -353,6 +353,7 @@ class IdsLocale {
   set locale(value: string) {
     const locale = this.#correctLocale(value);
     if (value && locale !== this.state.localeName) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.setLocale(locale, false);
     }
   }
@@ -630,10 +631,10 @@ class IdsLocale {
    */
   twoToFourDigitYear(twoDigitYear: any) {
     if (twoDigitYear.length === 2) {
-      return parseInt((twoDigitYear > 39 ? '19' : '20') + twoDigitYear, 10);
+      return parseInt((twoDigitYear > this.twoDigitYearCutoff ? '19' : '20') + twoDigitYear, 10);
     }
     if (twoDigitYear.length === 3) {
-      return parseInt((twoDigitYear.substr(1, 3) > 39 ? '19' : '20') + twoDigitYear.substr(1, 3), 10);
+      return parseInt((twoDigitYear.substr(1, 3) > this.twoDigitYearCutoff ? '19' : '20') + twoDigitYear.substr(1, 3), 10);
     }
     return twoDigitYear;
   }
