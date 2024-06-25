@@ -333,6 +333,7 @@
       --ids-icon-height-default: 10px !important;
       --ids-icon-width-default: 10px !important;
     }
+
     &::part(input) {
       height: calc(var(--ids-input-height-10) - 4px);
     }
@@ -395,6 +396,7 @@
 
   ids-input {
     --ids-input-font-size-sm: var(--ids-data-grid-font-size-sm);
+
     &::part(dirty-tracker-icon) {
       --ids-icon-height-default: 12px !important;
       --ids-icon-width-default: 12px !important;
