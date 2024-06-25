@@ -807,6 +807,11 @@ export default class IdsLayoutGrid extends IdsElement {
     return this.getAttribute(attributes.ROW_HEIGHT);
   }
 
+  /**
+   * Set the templateRows attribute
+   * @param { string | null } value The amount of rows in the grid. ex: '1fr 1fr 1fr'
+   * @memberof IdsLayoutGrid
+   */
   set templateRows(value: string | null) {
     if (value !== null) {
       this.setAttribute(attributes.TEMPLATE_ROWS, value);
@@ -819,6 +824,12 @@ export default class IdsLayoutGrid extends IdsElement {
     }
   }
 
+  /**
+   * Get the templateRows attribute
+   * @readonly
+   * @returns {string | null} The amount of rows in the grid
+   * @memberof IdsLayoutGrid
+   */
   get templateRows(): string | null {
     return this.getAttribute(attributes.TEMPLATE_ROWS);
   }
