@@ -22,6 +22,17 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **ColsLg**: Specifies the number of columns to use on large screens.
 - **ColsXl**: Specifies the number of columns to use on extra large screens.
 - **ColsXxl**: Specifies the number of columns to use on extra-extra large screens.
+- **Flow**: Specifies how the items in a grid should wrap or overflow when there isn't enough space.
+- **Gap**: Specifies the size of the gap between cells in a grid. If not assigned defaults to `md`. Valid values are `none, sm, md, lg, xl`
+- **Height**: Specifices the overall height of the grid.
+- **JustifyContent**: Specifies how to align the items in a grid along the main axis. If not assigned defaults to `start`.
+- **MinColWidth**: Specifies the minimum width of a column in a grid.
+- **MaxColWidth**: Specifies the maximum width of a column in a grid.
+- **MinRowHeight**: Specifies the minimum height of a row in a grid.
+- **MaxRowHeight**: Specifies the maximum height of a row in a grid.
+- **Margin**: Specifies the amount of space between a grid and its outer border.
+- **MarginY**: Specifies the amount of vertical space between a grid and its outer border.
+- **MaxWidth**: Specifies the maximum width of a grid and its outer border. Allows for setting the max-width attribute with predefined values (see Breakpoints) or custom values that end with 'px', providing flexibility for styling and dynamic updates.
 - **Rows**: Specifies the number of rows by default in the grid.
 - **RowsXs**: Specifies the number of rows to use on extra small screens.
 - **RowsSm**: Specifies the number of rows to use on small screens.
@@ -30,19 +41,10 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **RowsXl**: Specifies the number of rows to use on extra large screens.
 - **RowsXxl**: Specifies the number of rows to use on extra-extra large screens.
 - **RowHeight**: Specifies the height of a row in the grid.
-- **MinColWidth**: Specifies the minimum width of a column in a grid.
-- **MaxColWidth**: Specifies the maximum width of a column in a grid.
-- **MinRowHeight**: Specifies the minimum height of a row in a grid.
-- **MaxRowHeight**: Specifies the maximum height of a row in a grid.
-- **Gap**: Specifies the size of the gap between cells in a grid. If not assigned defaults to `md`. Valid values are `none, sm, md, lg, xl`
-- **Margin**: Specifies the amount of space between a grid and its outer border.
-- **MarginY**: Specifies the amount of vertical space between a grid and its outer border.
-- **MaxWidth**: Specifies the maximum width of a grid and its outer border. Allows for setting the max-width attribute with predefined values (see Breakpoints) or custom values that end with 'px', providing flexibility for styling and dynamic updates.
+- **TemplateRows**: Specifies the grid-template-rows of the grid.
 - **Padding**: Specifies the amount of space between a grid content and its inner border.
 - **PaddingX**: Specifies the amount of horizontal space between a grid content and its inner border.
 - **PaddingY**: Specifies the amount of vertical space between a grid and its inner border.
-- **JustifyContent**: Specifies how to align the items in a grid along the main axis. If not assigned defaults to `start`.
-- **Flow**: Specifies how the items in a grid should wrap or overflow when there isn't enough space.
 
 ### IdsLayoutGridCell
 - **ColSpan**: Specifies the number of columns a cell should span by default in a grid.

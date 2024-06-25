@@ -16,6 +16,7 @@ export const GRID_ATTRIBUTES: string[] = [
   attributes.COLS_XXL,
   attributes.FLOW,
   attributes.GAP,
+  attributes.HEIGHT,
   attributes.JUSTIFY_CONTENT,
   attributes.MARGIN,
   attributes.MARGIN_Y,
@@ -34,7 +35,8 @@ export const GRID_ATTRIBUTES: string[] = [
   attributes.ROWS_MD,
   attributes.ROWS_LG,
   attributes.ROWS_XL,
-  attributes.ROWS_XXL
+  attributes.ROWS_XXL,
+  attributes.TEMPLATE_ROWS
 ];
 
 export const GRID_CELL_ATTRIBUTES: string[] = [

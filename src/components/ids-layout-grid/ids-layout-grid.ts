@@ -620,6 +620,30 @@ export default class IdsLayoutGrid extends IdsElement {
   }
 
   /**
+   * Set the height attribute
+   * @param {string | null} value The value of the height attribute
+   */
+  set height(value: string | null) {
+    if (value !== null) {
+      // Check if the value contains a unit, if not, default to 'px'
+      const newValue = /^\d+(\.\d+)?$/g.test(value) ? `${value}px` : value;
+      this.setAttribute(attributes.HEIGHT, newValue);
+      this.style.setProperty(attributes.HEIGHT, newValue);
+    } else {
+      this.removeAttribute(attributes.HEIGHT);
+      this.style.removeProperty(attributes.HEIGHT);
+    }
+  }
+
+  /**
+   * Get the height attribute
+   * @returns {boolean | null} The value of the height attribute
+   */
+  get height(): string | null {
+    return this.getAttribute(attributes.HEIGHT);
+  }
+
+  /**
    * Set the row attribute
    * @param { string | null } value The amount of rows in the grid
    */
@@ -781,6 +805,22 @@ export default class IdsLayoutGrid extends IdsElement {
    */
   get rowHeight(): string | null {
     return this.getAttribute(attributes.ROW_HEIGHT);
+  }
+
+  set templateRows(value: string | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.TEMPLATE_ROWS, value);
+      this.classList.add(`${prefix}-template-rows`);
+      this.style.setProperty('--grid-template-rows', value);
+    } else {
+      this.removeAttribute(attributes.TEMPLATE_ROWS);
+      this.classList.remove(`${prefix}-template-rows`);
+      this.style.removeProperty('--grid-template-rows');
+    }
+  }
+
+  get templateRows(): string | null {
+    return this.getAttribute(attributes.TEMPLATE_ROWS);
   }
 
   constructor() {

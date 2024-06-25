@@ -490,6 +490,7 @@ export const attributes = {
   TABINDEX: 'tabindex',
   TAGS: 'tags',
   TARGET: 'target',
+  TEMPLATE_ROWS: 'template-rows',
   TEXT: 'text',
   TEXT_ALIGN: 'text-align',
   TEXT_DECORATION: 'text-decoration',

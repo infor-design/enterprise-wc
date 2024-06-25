@@ -351,6 +351,12 @@ $max-width: var(--max-width);
   grid-auto-rows: var(--grid-auto-row-height);
 }
 
+/* Grid - Template Rows */
+:host([template-rows]),
+.#{$prefix}-template-rows {
+  grid-template-rows: var(--grid-template-rows);
+}
+
 /** Align items */
 $align-items-list: start end center stretch;
 
