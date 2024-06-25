@@ -27,7 +27,7 @@ if (head) {
 
 // Example for populating the List View
 const listView: any = document.querySelector('#demo-lv-selectable-single');
-const caretButton: any = document.querySelector('#caret-button');
+const menuButton: any = document.querySelector('#menu-button');
 const formCell: any = document.querySelector('#hidden-cell-md');
 const listViewCell: any = document.querySelector('#listview-cell');
 const splitterPane: any = document.querySelector('#p2');
@@ -51,6 +51,10 @@ if (listView) {
   });
   listView.addEventListener('click', (e: any) => {
     console.info('clicked event called', e.detail);
+
+    formCell.removeAttribute('hide');
+    listViewCell.setAttribute('hide', 'md');
+    menuButton.icon = 'arrow-left';
   });
   listView.addEventListener('activated', (e: any) => {
     console.info('activated event called', e.detail);
@@ -59,20 +63,15 @@ if (listView) {
   await setData();
 }
 
-if (caretButton) {
-  caretButton.addEventListener('click', () => {
+if (menuButton) {
+  menuButton.addEventListener('click', () => {
     // Check current visibility state
     const isFormHidden = formCell.hasAttribute('hide');
+    if (isFormHidden) return;
 
-    if (isFormHidden) {
-      formCell.removeAttribute('hide');
-      listViewCell.setAttribute('hide', 'md');
-      caretButton.icon = 'close';
-    } else {
-      formCell.setAttribute('hide', 'md');
-      listViewCell.removeAttribute('hide');
-      caretButton.icon = 'caret-left';
-    }
+    formCell.setAttribute('hide', 'md');
+    listViewCell.removeAttribute('hide');
+    menuButton.icon = 'menu';
   });
 }
 
@@ -84,7 +83,7 @@ if (splitterPane) {
     if (paneWidth > breakpointMd) {
       formCell.setAttribute('hide', 'md');
       listViewCell.removeAttribute('hide');
-      caretButton.icon = 'caret-left';
+      menuButton.icon = 'menu';
     }
   });
 

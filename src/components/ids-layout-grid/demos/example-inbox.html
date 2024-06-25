@@ -11,16 +11,9 @@
         <ids-splitter-pane id="p2" size="30%">
           <ids-toolbar id="toolbar-container">
             <ids-toolbar-section type="button">
-              <ids-hidden hide-up="md" enable-container container-target="toolbar-container">
-                <ids-button id="caret-button" icon="caret-left" role="button">
-                  <span class="audible">Application Menu Trigger</span>
-                </ids-button>
-              </ids-hidden>
-              <ids-hidden hide-down="md" enable-container container-target="toolbar-container">
-                <ids-button id="menu-button" icon="menu" role="button">
-                  <span class="audible">Menu Button</span>
-                </ids-button>
-              </ids-hidden>
+              <ids-button id="menu-button" icon="menu" role="button">
+                <span class="audible">Menu Button</span>
+              </ids-button>
             </ids-toolbar-section>
             <ids-toolbar-section type="title">
               <ids-text font-size="20">Inbox</ids-text>
@@ -73,7 +66,7 @@
                         <ids-list-box-option value="infor">Widget Corp</ids-list-box-option>
                       </ids-list-box>
                     </ids-dropdown>
-                    <ids-multiselect id="multiselect-1" label="Multiselect (with max 3 choices and dirty tracker)" size="full" max="3" dirty-tracker="true">
+                    <ids-multiselect id="multiselect-1" label="Multiselect" size="full" max="3" dirty-tracker="true">
                       <ids-list-box>
                         <ids-list-box-option id="al1" value="al" tooltip="The State of Alabama"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
                         <ids-list-box-option id="ak1" value="ak" tooltip="The State of Alaska"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
