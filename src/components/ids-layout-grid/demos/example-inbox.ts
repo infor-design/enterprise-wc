@@ -31,6 +31,7 @@ const caretButton: any = document.querySelector('#caret-button');
 const formCell: any = document.querySelector('#hidden-cell-md');
 const listViewCell: any = document.querySelector('#listview-cell');
 const splitterPane: any = document.querySelector('#p2');
+const breakpointMd = 840;
 
 if (listView) {
   // Do an ajax request and apply the data to the list
@@ -80,7 +81,7 @@ if (splitterPane) {
   const resizeObserver = new ResizeObserver(() => {
     const paneWidth = splitterPane.getBoundingClientRect().width;
 
-    if (paneWidth > 840) {
+    if (paneWidth > breakpointMd) {
       formCell.setAttribute('hide', 'md');
       listViewCell.removeAttribute('hide');
       caretButton.icon = 'caret-left';
