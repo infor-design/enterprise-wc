@@ -20,6 +20,9 @@
   - link: dismissible.html
     type: Example
     description: Shows tabs that are dismissible by way of an inline trigger button
+  - link: dynamic-content.html
+    type: Example
+    description: Shows tab content inserted programatically
   - link: header-tabs.html
     type: Example
     description: Shows header tabs

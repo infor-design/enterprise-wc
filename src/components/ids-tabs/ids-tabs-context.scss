@@ -14,3 +14,11 @@
 .auto-fit {
   height: 100%;
 }
+
+:host {
+  ids-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+}
