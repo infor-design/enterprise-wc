@@ -1,6 +1,10 @@
 @import '../../themes/mixins/ids-core-mixins';
 
 /* Ids Splitter Component */
+:host {
+  visibility: hidden;
+}
+
 .ids-splitter {
   display: flex;
   position: relative;
