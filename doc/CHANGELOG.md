@@ -68,6 +68,7 @@
 - `[TokenTable]` Use fixed with on the token value and token name columns in the token table. ([#2400](https://github.com/infor-design/enterprise-wc/issues/2400))
 - `[TokenTable]` Rename the Type column to Tier. ([#2397](https://github.com/infor-design/enterprise-wc/issues/2397))
 - `[TokenTable]` Fix bug where component names were incomplete in the table. ([#2401](https://github.com/infor-design/enterprise-wc/issues/2401))
+- `[TokenTable]` Added a column display the token's css name. ([#2402](https://github.com/infor-design/enterprise-wc/issues/2402))
 - `[Toolbar]` Converted toolbar tests to playwright. ([#1984](https://github.com/infor-design/enterprise-wc/issues/1984))
 
 ## 1.1.0
