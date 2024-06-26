@@ -610,7 +610,13 @@ export default class IdsListView extends Base {
 
         if (this.virtualScrollContainer) {
           this.virtualScrollContainer.itemHeight = itemHeight;
-          this.virtualScrollContainer.itemTemplate = (item: any, idx: number) => this.generateListItemFromCustomHTML(idx);
+
+          this.virtualScrollContainer.itemTemplate = (
+            item: any,
+            idx: number,
+            rowIndex: number
+          ) => this.generateListItemFromCustomHTML(rowIndex);
+
           this.virtualScrollContainer.data = this.data;
         }
       }
