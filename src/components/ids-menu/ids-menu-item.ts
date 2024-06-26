@@ -378,7 +378,7 @@ export default class IdsMenuItem extends Base {
    * @returns {string | undefined} a defined IdsIcon's `icon` attribute, if one is present
    */
   get icon() {
-    return this.iconEl?.icon;
+    return this.iconEl?.icon || this.getAttribute(attributes.ICON);
   }
 
   /**

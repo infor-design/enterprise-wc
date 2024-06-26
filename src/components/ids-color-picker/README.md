@@ -55,7 +55,7 @@ A basic use case of the color picker with custom color options.
 ```
 
 **3.x to 5.x**
-- Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
+- Markup has changed to a custom element `ids-color-picker`
 - Can now be imported as a single JS file and used with encapsulated styles.
 - If using events, events are now plain JS events (change/input ect)
 

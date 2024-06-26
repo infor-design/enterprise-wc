@@ -83,7 +83,7 @@ Example usage with `inline` attribute enabled in ids-trigger-buttons.
 
 **Ids Trigger Button Component**
   - `inline` {boolean} when some components alter the trigger button style to enable `inline`, it will:
-    - Set one visible border on the trigger bottom:
+    - Set one visible border on the trigger button:
       - left side if slotted with "trigger-end"
       - right side if slotted with "trigger-start"
     - Alter the size of the trigger button to fit the size of the field if `field-height` or `compact` are set on IdsTriggerField.
