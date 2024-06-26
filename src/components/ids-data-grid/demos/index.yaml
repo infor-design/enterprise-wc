@@ -230,6 +230,9 @@
   - link: virtual-scroll.html
     type: Example
     description: Shows a basic data grid with virtual scrolling
+  - link: virtual-scroll-example.html
+    type: Example
+    description: Shows a basic data grid with virtual scrolling
   - link: virtual-scroll-infinite-scroll.html
     type: Example
     description: Shows infinite-scrolling on a data grid with virtual scrolling
