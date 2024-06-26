@@ -548,7 +548,11 @@ export default class IdsListViewItem extends Base {
       this.setAttribute('tabindex', '0');
 
       this.listView?.body?.setAttribute('aria-activedescendant', String(this.id));
-      this.focus();
+
+      const searchField = this.listView?.searchField;
+      if (searchField !== document.activeElement) {
+        this.focus();
+      }
     }
   }
 
