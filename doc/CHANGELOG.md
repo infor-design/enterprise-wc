@@ -9,6 +9,7 @@
 ### 1.3.0 Fixes
 
 - `[Message]` Converted message tests to playwright. ([#1954](https://github.com/infor-design/enterprise-wc/issues/1954))
+- `[LayoutGrid]` Adds attribute to define row structure of grid layout. ([#2454](https://github.com/infor-design/enterprise-wc/issues/2454))
 - `[Tabs]` Fix tab content visible state when added dynamically. ([#2393](https://github.com/infor-design/enterprise-wc/issues/2393))
 - `[WeekView]` Added more input handling for `startHour`, `endHour`, and `timelineInterval`. ([#2446](https://github.com/infor-design/enterprise-wc/issues/2446))
 - `[WeekView]` Converted week view tests to playwright. ([#1993](https://github.com/infor-design/enterprise-wc/issues/1993))
