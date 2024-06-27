@@ -113,7 +113,7 @@ export default class IdsVirtualScroll extends IdsEventsMixin(IdsElement) {
 
       let html = '';
       visibleItems.map((item: any, index: number) => {
-        const node = this.itemTemplate(item, index, startIndex + index + 1);
+        const node = this.itemTemplate(item, index, startIndex + index);
         html += node;
         return node;
       });

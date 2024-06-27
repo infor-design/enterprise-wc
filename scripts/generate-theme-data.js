@@ -111,7 +111,8 @@ function generateTokenObjects(filePath, type = '', label = '') {
         type: currentType,
         label,
         component: currentComponent,
-        colorValue: isColor(tokenValue) ? tokenValue : null
+        colorValue: isColor(tokenValue) ? tokenValue : null,
+        tokenNameCSS: `var(${tokenName})`,
       });
     }
   });
@@ -158,7 +159,8 @@ function parseThemeFile(filePath, tokenDependencies) {
               source: token.label,
               component: token.component,
               children: [nestedValue],
-              colorValue: nestedValue.colorValue
+              colorValue: nestedValue.colorValue,
+              tokenNameCSS: `var(${variableName})`
             };
           }
         } else {
@@ -170,7 +172,8 @@ function parseThemeFile(filePath, tokenDependencies) {
             source: token.label,
             component: token.component,
             children: [],
-            colorValue: isColor(token.tokenValue) ? token.tokenValue : null
+            colorValue: isColor(token.tokenValue) ? token.tokenValue : null,
+            tokenNameCSS: `var(${variableName})`
           };
         }
       }
@@ -193,7 +196,8 @@ function parseThemeFile(filePath, tokenDependencies) {
               source: 'themeFile',
               component: extractComponentName(line),
               children: [nestedValue],
-              colorValue: nestedValue.colorValue
+              colorValue: nestedValue.colorValue,
+              tokenNameCSS: `var(${variableName})`
             };
           }
         } else {
@@ -205,7 +209,8 @@ function parseThemeFile(filePath, tokenDependencies) {
             source: 'themeFile',
             component: extractComponentName(line),
             children: [],
-            colorValue: isColor(value) ? value : null
+            colorValue: isColor(value) ? value : null,
+            tokenNameCSS: `var(${variableName})`
           };
         }
       }
@@ -265,6 +270,7 @@ function parseThemeFile(filePath, tokenDependencies) {
           inherited.component = inheritedValue.component;
           inherited.children = inheritedValue.children;
           inherited.colorValue = inheritedValue.colorValue;
+          inherited.tokenNameCSS = inheritedValue.tokenNameCSS;
         }
       }
 
@@ -277,7 +283,8 @@ function parseThemeFile(filePath, tokenDependencies) {
           children: [inherited],
           type,
           component,
-          colorValue: isColor(tokenValue) ? tokenValue : inherited.colorValue
+          colorValue: isColor(tokenValue) ? tokenValue : inherited.colorValue,
+          tokenNameCSS: `var(${tokenName})`
         });
       } else {
         themeTokens.push({
@@ -286,7 +293,8 @@ function parseThemeFile(filePath, tokenDependencies) {
           tokenValue,
           type,
           component,
-          colorValue: isColor(tokenValue) ? tokenValue : null
+          colorValue: isColor(tokenValue) ? tokenValue : null,
+          tokenNameCSS: `var(${tokenName})`
         });
       }
     }

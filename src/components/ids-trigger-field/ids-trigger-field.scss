@@ -20,7 +20,7 @@
 
 .ids-trigger-field-slot-trigger-start,
 ::slotted(*[slot='trigger-start']:first-of-type:not([inline]):not([compact]):not([field-height='xs'])) {
-  margin-inline-start: var(--ids-trigger-field-button-margin);
+  margin-inline-start: var(--ids-trigger-field-button-margin-start);
 }
 
 .ids-trigger-field-slot-trigger-end,
