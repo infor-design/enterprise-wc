@@ -183,11 +183,11 @@ export default class IdsHidden extends IdsElement {
   set enableContainer(val: string) {
     const value = stringToBool(val);
     if (value) {
-      this.setAttribute('enable-container', '');
-      this.classList.add('enable-container');
+      this.setAttribute(attributes.ENABLE_CONTAINER, '');
+      this.classList.add(attributes.ENABLE_CONTAINER);
     } else {
-      this.removeAttribute('enable-container');
-      this.classList.remove('enable-container');
+      this.removeAttribute(attributes.ENABLE_CONTAINER);
+      this.classList.remove(attributes.ENABLE_CONTAINER);
     }
   }
 
@@ -198,7 +198,7 @@ export default class IdsHidden extends IdsElement {
    * @memberof IdsHidden
    */
   get enableContainer(): boolean {
-    return this.hasAttribute('enable-container');
+    return this.hasAttribute(attributes.ENABLE_CONTAINER);
   }
 
   /**
