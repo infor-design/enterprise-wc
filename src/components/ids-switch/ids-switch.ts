@@ -89,7 +89,7 @@ export default class IdsSwitch extends Base {
     return `
       <div${rootClass}>
         <label>
-          <input type="checkbox" part="checkbox" ${checkboxClass}${disabled}${checked}${value}>
+          <input type="checkbox" tabindex="0" part="checkbox" ${checkboxClass}${disabled}${checked}${value}>
           <span class="slider${checked}" part="slider"></span>
           <ids-text class="label-text" part="label">${this.label}</ids-text>
         </label>
