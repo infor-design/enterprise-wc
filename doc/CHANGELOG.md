@@ -9,6 +9,7 @@
 
 ### 1.3.0 Fixes
 
+- `[Accordion]` Fix accordion panel expanded/icon states when inserted dynamically. ([#2406](https://github.com/infor-design/enterprise-wc/issues/2406))
 - `[Datagrid]` Fix `save-user-settings` so that it works in Angular. ([#2383](https://github.com/infor-design/enterprise-wc/issues/2383))
 - `[ListView|VirtualScroll]` Fix scroll-behavior of `ids-list-view` when used within `ids-virtual-scroll`. ([#2322](https://github.com/infor-design/enterprise-wc/issues/2322))
 - `[ListView]` Fix bug where, after a list-view-item is selected, search-field keeps losing focus while typing. ([#2296](https://github.com/infor-design/enterprise-wc/issues/2296))

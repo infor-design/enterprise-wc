@@ -29,82 +29,82 @@
       <!-- Main Content (Accordion Navigation) -->
       <ids-accordion color-variant="app-menu">
         <ids-accordion-panel color-variant="app-menu">
-          <ids-accordion-header slot="header" icon="user" aria-expanded="false" expander-type="caret" color-variant="app-menu">
+          <ids-accordion-header slot="header" icon="user" expander-type="caret" color-variant="app-menu" aria-expanded="false">
             <ids-text font-size="16">Employee</ids-text>
           </ids-accordion-header>
           <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-            <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+            <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
               <ids-text font-size="14">My Profile</ids-text>
             </ids-accordion-header>
           </ids-accordion-panel>
           <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-            <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+            <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
               <ids-text font-size="14">Talent Profile</ids-text>
             </ids-accordion-header>
           </ids-accordion-panel>
           <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-            <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+            <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
               <ids-text font-size="14">View Compensation</ids-text>
             </ids-accordion-header>
           </ids-accordion-panel>
           <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-            <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+            <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
               <ids-text font-size="14">RAVE</ids-text>
             </ids-accordion-header>
           </ids-accordion-panel>
           <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-            <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+            <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
               <ids-text font-size="14">Request Time Off</ids-text>
             </ids-accordion-header>
           </ids-accordion-panel>
           <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-            <ids-accordion-header slot="header" aria-expanded="false" expander-type="plus-minus" color-variant="sub-app-menu">
+            <ids-accordion-header slot="header" expander-type="plus-minus" color-variant="sub-app-menu" aria-expanded="false">
               <ids-text font-size="14">Benefits</ids-text>
             </ids-accordion-header>
             <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-              <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+              <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
                 <ids-text font-size="14">My Benefits</ids-text>
               </ids-accordion-header>
             </ids-accordion-panel>
             <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-              <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+              <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
                 <ids-text font-size="14">Dependents and Beneficiaries</ids-text>
               </ids-accordion-header>
             </ids-accordion-panel>
             <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-              <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+              <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
                 <ids-text font-size="14">Life Events</ids-text>
               </ids-accordion-header>
             </ids-accordion-panel>
             <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-              <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+              <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
                 <ids-text font-size="14">Benefits Information</ids-text>
               </ids-accordion-header>
             </ids-accordion-panel>
           </ids-accordion-panel>
           <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-            <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+            <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
               <ids-text font-size="14">My Rewards</ids-text>
             </ids-accordion-header>
           </ids-accordion-panel>
           <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-            <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+            <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
               <ids-text font-size="14">Find a Coworker</ids-text>
             </ids-accordion-header>
           </ids-accordion-panel>
           <ids-accordion-panel slot="content" color-variant="sub-app-menu">
-            <ids-accordion-header slot="header" aria-expanded="false" color-variant="sub-app-menu">
+            <ids-accordion-header slot="header" color-variant="sub-app-menu" aria-expanded="false">
               <ids-text font-size="14">My Growth</ids-text>
             </ids-accordion-header>
           </ids-accordion-panel>
         </ids-accordion-panel>
         <ids-accordion-panel color-variant="app-menu">
-          <ids-accordion-header slot="header" icon="distribution" aria-expanded="false" color-variant="app-menu">
+          <ids-accordion-header slot="header" icon="distribution" color-variant="app-menu" aria-expanded="false">
             <ids-text font-size="16">Manager</ids-text>
           </ids-accordion-header>
         </ids-accordion-panel>
         <ids-accordion-panel color-variant="app-menu">
-          <ids-accordion-header slot="header" icon="roles" aria-expanded="false" color-variant="app-menu">
+          <ids-accordion-header slot="header" icon="roles" color-variant="app-menu" aria-expanded="false">
             <ids-text font-size="16">Recruiter</ids-text>
           </ids-accordion-header>
         </ids-accordion-panel>
