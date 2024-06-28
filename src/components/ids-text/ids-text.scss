@@ -178,6 +178,7 @@
 }
 
 ::slotted(ids-alert) {
+  margin: var(--ids-text-alert-margin);
   vertical-align: sub;
 }
 
