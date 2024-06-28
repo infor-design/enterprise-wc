@@ -115,7 +115,9 @@ export default class IdsModal extends Base {
     }
 
     // Update ARIA / Sets up the label
-    this.messageTitle = this.querySelector('[slot="title"]')?.textContent ?? '';
+    requestAnimationFrame(() => {
+      this.messageTitle = this.querySelector('[slot="title"]')?.textContent ?? '';
+    });
     this.setAttribute('role', 'dialog');
     this.refreshAriaLabel();
 
