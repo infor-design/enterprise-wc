@@ -345,6 +345,9 @@ export default class IdsLoadingIndicator extends Base {
         }
 
         this.#type = attribute;
+        if (!this.hasAttribute(attribute)) {
+          this.setAttribute(attribute, '');
+        }
         this.render(true);
       }
 
