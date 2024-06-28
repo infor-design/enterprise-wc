@@ -1321,6 +1321,7 @@ export default class IdsDataGrid extends Base {
       this.initialized = true;
       if (this.pagination === 'server-side') this.syncServerSelections();
       this.redraw();
+      this.restoreAllSettings?.();
     } else {
       this.datasource.data = [];
     }
