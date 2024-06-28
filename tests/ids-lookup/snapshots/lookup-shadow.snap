@@ -6,7 +6,7 @@
       </ids-trigger-button>
     </ids-trigger-field>
     <slot name="lookup-modal">
-      <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title" part="modal" message-title="Select an Item" aria-label="Select an Item" role="dialog" fullsize="sm" respond-down="sm">
+      <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title" part="modal" role="dialog" aria-label="Select an Item" fullsize="sm" respond-down="sm" message-title="Select an Item">
         <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Select an Item</ids-text>
         
         <ids-layout-grid class="data-grid-parent-container ids-layout-grid" auto-fit="" gap="md" no-margins="true" min-col-width="400px" style="--min-col-width: 400px;">
