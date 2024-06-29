@@ -1,4 +1,4 @@
-<ids-modal id="my-modal" aria-labelledby="my-modal-title" message-title="Active IDS Modal" aria-label="Active IDS Modal" role="dialog" fullsize="sm" respond-down="sm">
+<ids-modal id="my-modal" aria-labelledby="my-modal-title" role="dialog" aria-label="Active IDS Modal" fullsize="sm" respond-down="sm" message-title="Active IDS Modal">
       <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
       <ids-modal-button slot="buttons" id="modal-close-btn" appearance="primary">
         <span>OK</span>
