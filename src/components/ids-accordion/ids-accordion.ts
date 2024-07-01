@@ -341,8 +341,9 @@ export default class IdsAccordion extends Base {
    * @returns {void}
    */
   #handleEvents() {
-    // Responds to `selected` events triggered by children
-    this.onEvent('selected', this, (e: CustomEvent) => {
+    // Responds to `deselect` event triggered by children
+    this.offEvent('deselect.accordion-deselect', this);
+    this.onEvent('deselect.accordion-deselect', this, (e: CustomEvent) => {
       const el = e.detail.elem as IdsAccordionHeader;
       this.previouslySelected = el;
       this.#deselectOtherHeaders(el);

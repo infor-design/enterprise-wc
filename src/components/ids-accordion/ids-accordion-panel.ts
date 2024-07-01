@@ -450,6 +450,12 @@ export default class IdsAccordionPanel extends Base {
     this.onEvent('slotchange.content-slotchange', this.container?.querySelector('slot[name="content"]'), () => {
       this.#toggleExpanded(this.expanded);
     });
+
+    // Stops the selected event from bubbling up to the accordion
+    this.offEvent('selected.accordion-panel-selected', this);
+    this.onEvent('selected.accordion-panel-selected', this, (e: { stopPropagation: () => void; }) => {
+      e.stopPropagation();
+    });
   }
 
   /**
