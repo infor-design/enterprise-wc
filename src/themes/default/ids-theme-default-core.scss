@@ -1450,22 +1450,15 @@
   --ids-swipe-action-color-text-right: var(--ids-color-white-100);
 
   // Switch
-  --ids-switch-pole-color-background-default: var(--ids-color-accent-gray-weak);
-  --ids-switch-toggle-color-background-default: var(--ids-color-foreground-light-default);
-  --ids-switch-toggle-color-border-default: var(--ids-color-border-default);
-  --ids-switch-pole-color-background-selected: var(--ids-color-action-weaker);
-  --ids-switch-toggle-color-background-selected: var(--ids-color-action-default);
-  --ids-switch-toggle-color-border-selected: var(--ids-color-action-default);
-  --ids-switch-pole-color-background-disabled: var(--ids-color-accent-gray-weak);
-  --ids-switch-toggle-color-background-disabled: var(--ids-color-foreground-light-default);
-  --ids-switch-toggle-color-border-disabled: var(--ids-color-border-default);
-  --ids-switch-pole-color-background-selected-disabled: var(--ids-color-action-weaker);
-  --ids-switch-toggle-color-background-selected-disabled: var(--ids-color-action-default);
   --ids-switch-disabled-opacity: 0.4;
-  --ids-switch-toggle-color-border-selected-disabled: var(--ids-color-action-default);
-  --ids-switch-toggle-color-background-hover: var(--ids-color-accent-gray-weak);
-  --ids-switch-toggle-shadow-focus: 0 0 0 3px var(--ids-color-action-weaker), 0 0 0 4px var(--ids-action-default), 0 0 4px 6px var(--ids-color-accent-gray-weak);
   --ids-switch-label-color-text-default: var(--ids-color-text-label);
+  --ids-switch-shadow-focus: 0 0 3px 1px var(--ids-color-action-default);
+  --ids-switch-pole-color-background-default: var(--ids-color-accent-gray-weaker);
+  --ids-switch-pole-color-background-selected: var(--ids-color-action-weaker);
+  --ids-switch-pole-color-border-default: var(--ids-color-accent-gray-weak);
+  --ids-switch-toggle-color-background-default: var(--ids-color-foreground-light-default);
+  --ids-switch-toggle-color-background-hover: var(--ids-color-accent-gray-weak);
+  --ids-switch-toggle-color-border-default: var(--ids-color-border-default);
 
   // Tab
   --ids-tab-content-color-text: var(--ids-color-text-default);
@@ -1561,6 +1554,7 @@
 
   // Text Component
   --ids-text-icon-margin: 0 2px;
+  --ids-text-alert-margin: 0 4px;
 
   // Textarea
   --ids-textarea-color-background-default: var(--ids-color-background-default);
