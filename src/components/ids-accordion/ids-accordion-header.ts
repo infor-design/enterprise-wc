@@ -300,6 +300,12 @@ export default class IdsAccordionHeader extends Base {
             elem: this,
           }
         });
+        this.triggerEvent('deselect', this, {
+          bubbles: true,
+          detail: {
+            elem: this,
+          }
+        });
       }
     }
   }

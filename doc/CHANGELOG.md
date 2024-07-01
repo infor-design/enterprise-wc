@@ -6,10 +6,12 @@
 
 - `[Fonts]` The source sans pro font should no longer be used in googleapis instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
 - `[Dates]` Added a new `twoDigitYear` setting to set the locale system to set the dates cut over for two digit years, note that two digit years should be avoided. ([#8061](https://github.com/infor-design/enterprise-wc/issues/2425))
+- `[Switch]` Updated switch design. ([#2347](https://github.com/infor-design/enterprise-wc/issues/2347))
 
 ### 1.3.0 Fixes
 
 - `[Accordion]` Fix accordion panel expanded/icon states when inserted dynamically. ([#2406](https://github.com/infor-design/enterprise-wc/issues/2406))
+- `[Accordion]` Fix nested accordion fires common event between all headers. ([#2408](https://github.com/infor-design/enterprise-wc/issues/2408))
 - `[Dropdown]` Fix dropdown bug where input is empty when option text is dynamic. ([#2362](https://github.com/infor-design/enterprise-wc/issues/2362))
 - `[Datagrid]` Fix `save-user-settings` so that it works in Angular. ([#2383](https://github.com/infor-design/enterprise-wc/issues/2383))
 - `[ListView|VirtualScroll]` Fix scroll-behavior of `ids-list-view` when used within `ids-virtual-scroll`. ([#2322](https://github.com/infor-design/enterprise-wc/issues/2322))
@@ -21,10 +23,7 @@
 - `[MonthView]` Converted month view tests to playwright. ([#1956](https://github.com/infor-design/enterprise-wc/issues/1956))
 - `[PopupMenu]` Removed timer and redundent flag for production issue. ([#2457](https://github.com/infor-design/enterprise-wc/issues/2457))
 - `[Tabs]` Fix tab content visible state when added dynamically. ([#2393](https://github.com/infor-design/enterprise-wc/issues/2393))
-- `[Tooltip]` Converted tooltip tests to playwright. ([#1985](https://github.com/infor-design/enterprise-wc/issues/1985))
-- `[WeekView]` Added more input handling for `startHour`, `endHour`, and `timelineInterval`. ([#2446](https://github.com/infor-design/enterprise-wc/issues/2446))
-- `[WeekView]` Converted week view tests to playwright. ([#1993](https://github.com/infor-design/enterprise-wc/issues/1993))
-- `[Tabs]` Fix tab content visible state when added dynamically. ([#2393](https://github.com/infor-design/enterprise-wc/issues/2393))
+- `[Text]` Properly vertically-align `ids-alert` text when placed inside `ids-text`. ([#2327](https://github.com/infor-design/enterprise-wc/issues/2327))
 - `[Tooltip]` Converted tooltip tests to playwright. ([#1985](https://github.com/infor-design/enterprise-wc/issues/1985))
 - `[TriggerButton]` Fixed style issues. Trigger start spacing, readonly hover, inline border radius. ([#2303](https://github.com/infor-design/enterprise-wc/issues/2303))
 - `[WeekView]` Added more input handling for `startHour`, `endHour`, and `timelineInterval`. ([#2446](https://github.com/infor-design/enterprise-wc/issues/2446))
