@@ -1,100 +1,104 @@
 /* Ids Switch Component */
-@import '../../themes/mixins/ids-switch-mixin';
+
+$slider-width: 40px;
+$slider-height: 24px;
+$slider-compact-height: 20px;
+$slider-compact-width: 34px;
 
 .ids-switch {
-  margin-block-end: var(--ids-input-margin-bottom);
+  color: var(--ids-switch-label-color-text-default);
+  margin-block-end: var(--ids-space-sm);
 
+  // SWITCH DEFAULT STATE
   label {
-    cursor: var(--ids-cursor-pointer);
+    cursor: pointer;
     user-select: none;
-    padding-inline-start: 40px;
+    padding-inline-start: calc($slider-width + var(--ids-space-xs));
     position: relative;
-    display: inline-block;
-
-    &:hover .slider::after {
-      @include switch-hover-after();
-    }
-
-    // For some reason, `:active` MUST come after `:hover` (if present) in the CSS definition in order to be effective!
-    &:active .slider::after {
-      @include switch-focus-after();
-    }
-  }
-
-  &.disabled label {
-    cursor: var(--ids-cursor-default);
+    display: inline-flex;
+    align-items: center;
   }
 
   input[type='checkbox'] {
-    position: absolute;
-    cursor: var(--ids-cursor-default);
     opacity: 0;
-    height: 0;
     width: 0;
+    height: 0;
 
     ~ .slider {
-      @include switch-off();
+      width: $slider-width;
+      height: $slider-height;
+      position: absolute;
+      inset-inline-start: 0;
+      background-color: var(--ids-switch-pole-color-background-default);
+      border-radius: var(--ids-border-radius-circle);
+      border: 1px solid var(--ids-switch-pole-color-border-default);
+      box-sizing: border-box;
+      transition: all var(--ids-motion-duration) var(--ids-motion-ease);
 
       &::after {
-        @include switch-off-after();
+        content: '';
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        inset-inline-start: 1px;
+        top: 1px;
+        background-color: var(--ids-switch-toggle-color-background-default);
+        border-radius: var(--ids-border-radius-circle);
+        box-shadow: 0 0 2px 0 var(--ids-color-gray-40);
+        transition: all var(--ids-motion-duration) var(--ids-motion-ease);
       }
     }
 
-    &:checked ~ .slider {
-      @include switch-on();
-
-      &::after {
-        @include switch-on-after();
-      }
-    }
-
-    &:focus ~ .slider::after {
-      @include switch-focus-after();
-    }
-
-    &:disabled {
+    &:focus {
       ~ .slider {
-        @include switch-disabled-off();
-      }
-
-      ~ .slider::after {
-        @include switch-disabled-off-after();
-      }
-
-      ~ .label-text {
-        @include switch-disabled-text();
-      }
-
-      &:checked ~ .slider {
-        @include switch-disabled-on();
-      }
-
-      &:checked ~ .slider::after {
-        @include switch-disabled-on-after();
+        box-shadow: var(--ids-switch-shadow-focus);
       }
     }
   }
-}
 
-// Negate some rules for RTL
-:host([dir='rtl']) {
-  input[type='checkbox'] ~ .slider {
-    left: initial;
-    right: 0;
+  // SWITCH ON STATE
+  input[type='checkbox']:checked {
+    ~ .slider {
+      border-color: var(--ids-color-action-default);
+      background-color: var(--ids-color-action-default);
+
+      &::after {
+        inset-inline-start: 17px;
+      }
+    }
   }
 
-  input[type='checkbox']:checked ~ .slider::after {
-    left: 0;
-    right: 15px;
+  &.compact input[type='checkbox']:checked {
+    ~ .slider::after {
+      inset-inline-start: 15px;
+    }
   }
 
-  input[type='checkbox'] ~ .slider::after {
-    left: initial;
-    right: 0;
+  // SWITCH COMPACT STATE
+  &.compact {
+    label {
+      padding-inline-start: calc($slider-compact-width + var(--ids-space-xs));
+    }
+
+    input[type='checkbox'] {
+      ~ .slider {
+        width: $slider-compact-width;
+        height: $slider-compact-height;
+
+        &::after {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
   }
 
-  label {
-    padding-right: 40px;
-    padding-left: 0;
+  // SWITCH DISABLED STATE
+  &.disabled {
+    opacity: var( --ids-switch-disabled-opacity);
+
+    label {
+      cursor: default;
+    }
   }
 }

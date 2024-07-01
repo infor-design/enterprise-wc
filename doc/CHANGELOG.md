@@ -6,6 +6,7 @@
 
 - `[Fonts]` The source sans pro font should no longer be used in googleapis instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
 - `[Dates]` Added a new `twoDigitYear` setting to set the locale system to set the dates cut over for two digit years, note that two digit years should be avoided. ([#8061](https://github.com/infor-design/enterprise-wc/issues/2425))
+- `[Switch]` Updated switch design. ([#2347](https://github.com/infor-design/enterprise-wc/issues/2347))
 
 ### 1.3.0 Fixes
 
