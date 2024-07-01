@@ -48,14 +48,17 @@ import IdsLoadingIndicator from '../ids-loading-indicator/ids-loading-indicator'
 // Types
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsButton from '../ids-button/ids-button';
+import IdsDataGridSearchMixin from './ids-data-grid-search-mixin';
 
 const Base = IdsPagerMixin(
-  IdsDataGridSaveSettingsMixin(
-    IdsDataGridTooltipMixin(
-      IdsKeyboardMixin(
-        IdsLocaleMixin(
-          IdsEventsMixin(
-            IdsElement
+  IdsDataGridSearchMixin(
+    IdsDataGridSaveSettingsMixin(
+      IdsDataGridTooltipMixin(
+        IdsKeyboardMixin(
+          IdsLocaleMixin(
+            IdsEventsMixin(
+              IdsElement
+            )
           )
         )
       )
