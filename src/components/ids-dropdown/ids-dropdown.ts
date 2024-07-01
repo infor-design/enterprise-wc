@@ -3,7 +3,12 @@ import IdsElement from '../../core/ids-element';
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool, escapeRegExp } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosestContainerNode, checkOverflow, validMaxHeight, getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import {
+  getClosestContainerNode,
+  checkOverflow,
+  validMaxHeight,
+  getClosest
+} from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
