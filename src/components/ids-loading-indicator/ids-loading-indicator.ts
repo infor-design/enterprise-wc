@@ -290,9 +290,12 @@ export default class IdsLoadingIndicator extends Base {
   set generativeAi(value: boolean) {
     const val = stringToBool(value);
     if (val) {
+      this.shadowRoot?.querySelector('.ai-loading-indicator')?.remove();
       this.setAttribute(attributes.GENERATIVE_AI, '');
       this.render(true);
+      if (this.shadowRoot?.querySelectorAll('.ai-loading-indicator')?.length === 2) this.shadowRoot?.querySelector('.ai-loading-indicator')?.remove();
     } else {
+      this.shadowRoot?.querySelector('.ai-loading-indicator')?.remove();
       this.removeAttribute(attributes.GENERATIVE_AI);
     }
   }
@@ -363,6 +366,7 @@ export default class IdsLoadingIndicator extends Base {
 
       if (this.#type === attribute) {
         this.#type = undefined;
+        this.render(true);
       }
     }
   }
