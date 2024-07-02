@@ -12,7 +12,8 @@ import IdsListViewSearchMixin from '../ids-list-view/ids-list-view-search-mixin'
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-swappable.scss';
-import IdsSwappableItem from './ids-swappable-item';
+import type IdsSwappableItem from './ids-swappable-item';
+import './ids-swappable-item';
 import type IdsSwapList from '../ids-swaplist/ids-swaplist';
 import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-search-field/ids-search-field';

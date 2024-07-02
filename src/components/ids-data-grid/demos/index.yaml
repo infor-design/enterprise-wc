@@ -137,6 +137,9 @@
   - link: filter.html
     type: Example
     description: Shows a filter row
+  - link: grouped-rows.html
+    type: Example
+    description: Shows row grouping
   - link: header-multiline.html
     type: Example
     description: Shows a two line header

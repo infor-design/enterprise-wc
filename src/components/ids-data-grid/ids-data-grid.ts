@@ -6,7 +6,7 @@ import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-ex
 import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
 
 // Dependencies
-import IdsDataSource from '../../core/ids-data-source';
+import IdsDataSource, { GroupableOptions } from '../../core/ids-data-source';
 import IdsDataGridFormatters from './ids-data-grid-formatters';
 import { editors } from './ids-data-grid-editors';
 import IdsDataGridFilters, { IdsDataGridFilterConditions } from './ids-data-grid-filters';
@@ -32,6 +32,7 @@ import styles from './ids-data-grid.scss';
 import IdsDataGridHeader from './ids-data-grid-header';
 import IdsDataGridRow from './ids-data-grid-row';
 import '../ids-virtual-scroll/ids-virtual-scroll';
+import '../ids-layout-flex/ids-layout-flex';
 
 // Mixins
 import IdsElement from '../../core/ids-element';
@@ -48,6 +49,9 @@ import IdsLoadingIndicator from '../ids-loading-indicator/ids-loading-indicator'
 // Types
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsButton from '../ids-button/ids-button';
+import IdsModal from '../ids-modal/ids-modal';
+import '../ids-switch/ids-switch';
+import '../ids-swappable/ids-swappable';
 
 const Base = IdsPagerMixin(
   IdsDataGridSaveSettingsMixin(
@@ -700,7 +704,7 @@ export default class IdsDataGrid extends Base {
       };
 
       // Handle Expand/Collapse Clicking
-      if (isClickable && isExpandButton) {
+      if (isClickable && isExpandButton && !this.groupable) {
         if (this.allowOneExpandedRow) {
           const isExpanded = row.isExpanded();
           const isCollapsed = !isExpanded;
@@ -712,6 +716,10 @@ export default class IdsDataGrid extends Base {
           row.toggleExpandCollapse();
         }
         return;
+      }
+
+      if (isClickable && isExpandButton && this.groupable && row.classList.contains('is-group-row')) {
+        row.toggleGroupChildRows();
       }
 
       // Handle mixed selection
@@ -1303,6 +1311,7 @@ export default class IdsDataGrid extends Base {
       hideEmptyMessage.apply(this);
       if (!this.datasource) this.datasource = new IdsDataSource();
       this.datasource.flatten = this.treeGrid;
+      this.datasource.groupable = this.groupable;
       this.datasource.data = value;
       this.initialized = true;
       if (this.pagination === 'server-side') this.syncServerSelections();
@@ -2935,6 +2944,22 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Sets the grid to group rows (only one field is supported)
+   * @param {GroupableOptions} value The group by options
+   */
+  set groupable(value: GroupableOptions) {
+    if (value) {
+      this.state.groupable = value;
+    } else {
+      delete this.state.groupable;
+    }
+  }
+
+  get groupable(): GroupableOptions {
+    return this.state.groupable;
+  }
+
+  /**
    * If true then the children will be selected when a group is selected
    * @param {boolean|string} value The value
    */
@@ -3265,5 +3290,62 @@ export default class IdsDataGrid extends Base {
     if (this.pagination !== 'server-side') {
       this.redrawBody();
     }
+  }
+
+  modalTemplate = `<ids-modal id="datagrid-modal">
+      <ids-text slot="title" font-size="24" type="h2" id="datagrid-modal-title">${this.localeAPI.translate('PersonalizeColumns')}</ids-text>
+      <ids-modal-button slot="buttons" id="datagrid-modal-close-btn" appearance="primary">
+        <span>${this.localeAPI.translate('Close')}</span>
+      </ids-modal-button>
+      <ids-layout-grid cols="1">
+        <ids-layout-grid-cell>
+          <ids-search-field clearable label="Search Columns" label-state="collapsed"></ids-search-field>
+          <div class="datagrid-modal-column-list">
+              <ids-swappable>
+                <ids-swappable-item>
+                    <ids-layout-flex justify-content="flex-end">
+                      <ids-layout-flex-item grow="1" shrink="0">
+                        <ids-text font-size="16" type="p">Column 1</ids-text>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item grow="0" shrink="0">
+                        <ids-switch></ids-switch>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                    </ids-text>
+                </ids-swappable-item>
+                <ids-swappable-item>
+                    <ids-layout-flex justify-content="flex-end">
+                      <ids-layout-flex-item grow="1" shrink="0">
+                        <ids-text font-size="16" type="p">Column 2</ids-text>
+                      </ids-layout-flex-item>
+                      <ids-layout-flex-item grow="0" shrink="0">
+                        <ids-switch></ids-switch>
+                      </ids-layout-flex-item>
+                    </ids-layout-flex>
+                    </ids-text>
+                </ids-swappable-item>
+            </ids-swappable>
+          </div>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </ids-modal>`;
+
+  /**
+   * Show a modal with selection options for the columns and grouped rows
+   */
+  async showPersonalizationDialog() {
+    // Show and translate modal
+    document.body.insertAdjacentHTML('beforeend', this.modalTemplate);
+    const modal = document.querySelector('#datagrid-modal') as IdsModal;
+    const closeButton = document.querySelector('#datagrid-modal-close-btn')!;
+    closeButton.querySelector('span')!.textContent = this.localeAPI.translate('Close');
+    modal.querySelector('[slot="title"]')!.textContent = this.localeAPI.translate('PersonalizeColumns');
+
+    // Hide Events
+    closeButton.addEventListener('click', async () => {
+      await modal.hide();
+      document.querySelector('#datagrid-modal')?.remove();
+    });
+    await modal.show();
   }
 }

@@ -161,7 +161,6 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
     this.datasource.pageNumber = Number(value);
     this.pager.pageNumber = Number(value);
     this.datasource.refreshPreviousState();
-    this.datasource.update(this.datasource.data);
   }
 
   /**
@@ -179,7 +178,6 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
     this.datasource.pageSize = Number(value);
     this.pager.pageSize = Number(value);
     this.datasource.refreshPreviousState();
-    this.datasource.update(this.datasource.data);
   }
 
   /**
@@ -197,7 +195,6 @@ const IdsPagerMixin = <T extends Constraints>(superclass: T) => class extends su
     this.datasource.total = Number(value);
     this.pager.total = Number(value);
     this.datasource.refreshPreviousState();
-    this.datasource.update(this.datasource.data);
   }
 
   /**

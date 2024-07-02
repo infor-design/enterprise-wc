@@ -14,6 +14,18 @@
   }
 }
 
+// Grouped Rows
+.ids-data-grid-row.is-group-row {
+  background-color: var(--ids-data-grid-row-grouped-color-background);
+  grid-template-columns: 100%;
+
+  .ids-data-grid-cell {
+    color: var(--ids-data-grid-row-grouped-color-text, red);
+    font-weight: var(--ids-data-grid-row-grouped-font-weight, 600);
+    border-inline-start: 0;
+  }
+}
+
 // Row Height Feature with Formatters spacing
 .ids-data-grid {
   // Large by default

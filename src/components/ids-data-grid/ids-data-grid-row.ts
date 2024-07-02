@@ -172,6 +172,14 @@ export default class IdsDataGridRow extends IdsElement {
       }
     }
 
+    if (this.dataGrid.groupable && rowData?.isGroupRow) {
+      this.classList.add('is-group-row');
+      this.setAttribute('aria-expanded', String(!!rowExpanded));
+      if (rowData?.groupCollapsed) {
+        this.querySelector('.expand-button ids-icon')?.setAttribute('icon', 'plusminus-folder-closed');
+      }
+    }
+
     if (this.dataGrid?.treeGrid) {
       this.setAttribute('aria-setsize', rowData?.ariaSetSize);
       this.setAttribute('aria-level', rowData?.ariaLevel);
@@ -280,6 +288,26 @@ export default class IdsDataGridRow extends IdsElement {
         this.dataGrid.groupSelectsChildren = true;
       }
     });
+  }
+
+  /**
+   * Hide/Show all child rows for groupable rows and fire events
+   */
+  toggleGroupChildRows() {
+    const rowData = this.data[Number(this.dataset.index)];
+    rowData.groupCollapsed = rowData.groupCollapsed || false;
+
+    const noChildren = rowData.groupChildCount;
+    let childRow = this as IdsDataGridRow;
+    for (let i = 0; i < noChildren; i++) {
+      childRow = childRow.nextElementSibling as any;
+      childRow.hidden = !rowData.groupCollapsed;
+      this.data[Number(childRow.dataset.index)].rowHidden = !rowData.groupCollapsed;
+    }
+
+    this.querySelector('.expand-button')?.classList.toggle('expanded');
+    rowData.groupCollapsed = !rowData.groupCollapsed;
+    this.querySelector('.expand-button ids-icon')?.setAttribute('icon', `plusminus-folder-${rowData.groupCollapsed ? 'closed' : 'open'}`);
   }
 
   /**
@@ -399,6 +427,14 @@ export default class IdsDataGridRow extends IdsElement {
     const ariaRowIndex = index;
     const row = this.data[index];
     const dataGrid = this.dataGrid;
+
+    if (row.isGroupRow) {
+      const expandButton = `<ids-button tabindex="-1" class="expand-button">
+        <ids-icon icon="plusminus-folder-${row.rowExpanded === false ? 'closed' : 'open'}"></ids-icon>
+      </ids-button>`;
+
+      return `<ids-data-grid-cell role="gridcell" part="cell" class="ids-data-grid-cell is-group-cell" aria-colindex="1">${expandButton} ${row?.groupLabel}</ids-data-grid-cell>`;
+    }
 
     const cssPart = (column: IdsDataGridColumn, rowIndex: number, cellIndex: number) => {
       const part = column.cssPart || 'cell';

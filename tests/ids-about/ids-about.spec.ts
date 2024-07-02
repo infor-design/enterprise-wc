@@ -49,7 +49,7 @@ test.describe('IdsAbout tests', () => {
 
       // set copyrightYear to 2015
       await aboutHandle.evaluate((about: IdsAbout) => { about.copyrightYear = 2015; });
-      await expect(await page.locator('ids-text[slot="copyright"]')).toHaveText(/2015/);
+      await expect(await page.locator('.ids-modal')).toHaveText(/2015/);
       await expect(await aboutHandle.evaluate((about: IdsAbout) => about.copyrightYear)).toEqual('2015');
     });
 
