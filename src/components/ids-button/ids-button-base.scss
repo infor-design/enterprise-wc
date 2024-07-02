@@ -370,13 +370,13 @@
   // Tertiary Generative Button
 
   &.btn-tertiary-generative-ai {
-    background: var(--ids-button-ai-color-background-default);
+    background: var(--ids-button-ai-color-tertiary-background-default);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     align-items: center;
 
     &:hover {
-      background: var(--ids-button-ai-color-background-hover);
+      background: var(--ids-button-ai-color-tertiary-background-hover);
       background-clip: text;
       border-color: transparent;
       -webkit-text-fill-color: transparent;
