@@ -16,7 +16,7 @@ Infor Design System Enterprise Web Components Library is a framework independent
 - Built-in, extendible localization system
 - Built-in mitigation of XSS exploits
 - Excellent test coverage
-- Expanded documention in `.md` format
+- Detailed documentation in `.md` format
 - Contains an extensive [Change log](./doc/CHANGELOG.md) which lists any and all breaking changes
 - [Fully linted code](./doc/LINTING.md)
 - Follows [WAI-ARIA authoring practices](https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard-interaction-12) with a focus on accessibility
