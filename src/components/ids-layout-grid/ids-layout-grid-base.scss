@@ -1,0 +1,94 @@
+/* Host Variables */
+:host {
+  --grid-auto-row-height: 0;
+  --grid-fill-color: var(--ids-layout-grid-color-background);
+  --grid-text-color: var(--ids-layout-grid-color-text);
+  --min-col-width: 0;
+  --max-col-width: 1fr;
+  --min-row-height: 0;
+  --min-row-width: 1fr;
+  --sticky-position: 0;
+}
+
+/* Grid Variables */
+$prefix: 'ids-layout-grid';
+$spacing-unit: 8px;
+$grid-cols: 24;
+$grid-rows: 50;
+$grid-gap-sm: $spacing-unit;
+$grid-gap: $spacing-unit * 2;
+$grid-gap-md: $spacing-unit * 3;
+$grid-gap-lg: $spacing-unit * 4;
+$grid-gap-xl: $spacing-unit * 5;
+$grid-margin-xs: $spacing-unit;
+$grid-margin-sm: $spacing-unit * 2;
+$grid-margin-md: $spacing-unit * 3;
+$grid-margin-lg: $spacing-unit * 4;
+$grid-margin-xl: $spacing-unit * 5;
+$grid-padding-xxs: calc($spacing-unit / 2);
+$grid-padding-xs: $spacing-unit;
+$grid-padding-sm: $spacing-unit * 2;
+$grid-padding-md: $spacing-unit * 3;
+$grid-padding-lg: $spacing-unit * 4;
+$grid-padding-xl: $spacing-unit * 5;
+$min-col-width: var(--min-col-width);
+$max-col-width: var(--max-col-width);
+$min-row-height: var(--min-row-height);
+$max-row-height: var(--max-row-height);
+$max-width: var(--max-width);
+
+/* Host and ids-layout-grid Base */
+:host(.#{$prefix}),
+.#{$prefix} {
+  display: grid;
+  grid-gap: $grid-gap;
+  justify-content: start;
+  box-sizing: border-box;
+}
+
+/* Grid Columms - Base */
+@for $i from 1 through $grid-cols {
+  :host([cols='#{$i}']),
+  .#{$prefix}-cols-#{$i} {
+    width: 100%;
+    grid-template-columns: repeat($i, minmax($min-col-width, $max-col-width));
+  }
+
+  :host(.#{$prefix}) > ::slotted([col-span='#{$i}']),
+  .#{$prefix} > .#{$prefix}-col-span-#{$i} {
+    grid-column: span $i / span $i;
+  }
+
+  :host(.#{$prefix}) > ::slotted([col-start='#{$i}']),
+  .#{$prefix} > .#{$prefix}-col-start-#{$i} {
+    grid-column-start: $i;
+  }
+
+  :host(.#{$prefix}) > ::slotted([col-end='#{$i}']),
+  .#{$prefix} > .#{$prefix}-col-end-#{$i} {
+    grid-column-end: $i;
+  }
+}
+
+/* Grid Rows - Base */
+@for $i from 1 through $grid-rows {
+  :host([rows='#{$i}']),
+  .#{$prefix}-rows-#{$i} {
+    grid-template-rows: repeat($i, minmax(0, 1fr));
+  }
+
+  :host(.#{$prefix}) > ::slotted([row-span='#{$i}']),
+  .#{$prefix} > .#{$prefix}-row-span-#{$i} {
+    grid-row: span $i / span $i;
+  }
+
+  :host(.#{$prefix}) > ::slotted([order='#{$i}']),
+  .#{$prefix} > .#{$prefix}-order-#{$i} {
+    order: $i;
+  }
+
+  :host(.#{$prefix}) > ::slotted([order='-1']),
+  .#{$prefix} > .#{$prefix}-order--1 {
+    order: -1;
+  }
+}

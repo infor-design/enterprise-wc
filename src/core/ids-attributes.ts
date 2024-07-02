@@ -153,6 +153,7 @@ export const attributes = {
   EMPTY_MESSAGE_DESCRIPTION: 'empty-message-description',
   EMPTY_MESSAGE_ICON: 'empty-message-icon',
   EMPTY_MESSAGE_LABEL: 'empty-message-label',
+  ENABLE_CONTAINER: 'enable-container',
   END_DATE: 'end-date',
   END_HOUR: 'end-hour',
   ERROR: 'error',

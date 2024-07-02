@@ -1,4 +1,12 @@
 /* Ids Splitter Component */
+:host {
+  visibility: hidden;
+}
+
+:host(.ids-splitter-initialized) {
+  visibility: visible;
+}
+
 .ids-splitter {
   display: flex;
   position: relative;

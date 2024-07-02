@@ -1,0 +1,299 @@
+// ================================================
+// Container Queries
+
+@mixin container-queries {
+  /* XSmall Container */
+  @container (min-width: #{$breakpoint-xs}) {
+    /* Grid Columns - XSmall */
+    @for $i from 1 through $grid-cols {
+      & > ::slotted([col-span-xs='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-span-xs-#{$i} {
+        grid-column: span $i / span $i;
+      }
+
+      & > ::slotted([col-start-xs='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-start-xs-#{$i} {
+        grid-column-start: $i;
+      }
+
+      > ::slotted([col-end-xs='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-end-xs-#{$i} {
+        grid-column-end: $i;
+      }
+    }
+
+    /* Grid Rows - XSmall */
+    @for $i from 1 through $grid-rows {
+      &[rows-xs='#{$i}'],
+      &.#{$prefix}-rows-xs-#{$i} {
+        grid-template-rows: repeat($i, minmax(0, 1fr));
+      }
+
+      & > ::slotted([row-span-xs='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-row-span-xs-#{$i} {
+        grid-row: span $i / span $i;
+      }
+
+      & > ::slotted([order-xs='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-order-xs-#{$i} {
+        order: $i;
+      }
+
+      & > ::slotted([order-xs='-1']),
+      &.#{$prefix} > .#{$prefix}-order-xs--1 {
+        order: -1;
+      }
+    }
+
+    /* Hide/Show - XSmall */
+    & > ::slotted([hide='xs']) {
+      display: block;
+    }
+  }
+
+  /* Small Container */
+  @container (min-width: #{$breakpoint-sm}) {
+    /* Grid Columns - Small */
+    @for $i from 1 through $grid-cols {
+      & > ::slotted([col-span-sm='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-span-sm-#{$i} {
+        grid-column: span $i / span $i;
+      }
+
+      & > ::slotted([col-start-sm='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-start-sm-#{$i} {
+        grid-column-start: $i;
+      }
+
+      & > ::slotted([col-end-sm='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-end-sm-#{$i} {
+        grid-column-end: $i;
+      }
+    }
+
+    /* Grid Rows - Small */
+    @for $i from 1 through $grid-rows {
+      &[rows-sm='#{$i}'],
+      &.#{$prefix}-rows-sm-#{$i} {
+        grid-template-rows: repeat($i, minmax(0, 1fr));
+      }
+
+      & > ::slotted([row-span-sm='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-row-span-sm-#{$i} {
+        grid-row: span $i / span $i;
+      }
+
+
+      & > ::slotted([order-sm='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-order-sm-#{$i} {
+        order: $i;
+      }
+
+      & > ::slotted([order-sm='-1']),
+      &.#{$prefix} > .#{$prefix}-order-sm--1 {
+        order: -1;
+      }
+    }
+
+    /* Hide/Show - Small */
+    & > ::slotted([hide='sm']) {
+      display: block;
+    }
+  }
+
+  /* Medium Container */
+  @container (min-width: #{$breakpoint-md}) {
+    /* Grid Columns - Medium */
+    @for $i from 1 through $grid-cols {
+      & > ::slotted([col-span-md='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-span-md-#{$i} {
+        grid-column: span $i / span $i;
+      }
+
+      & > ::slotted([col-start-md='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-start-md-#{$i} {
+        grid-column-start: $i;
+      }
+
+      & > ::slotted([col-end-md='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-end-md-#{$i} {
+        grid-column-end: $i;
+      }
+    }
+
+    /* Grid Rows - Medium */
+    @for $i from 1 through $grid-rows {
+      &[rows-md='#{$i}'],
+      &.#{$prefix}-rows-md-#{$i} {
+        grid-template-rows: repeat($i, minmax(0, 1fr));
+      }
+
+      & > ::slotted([row-span-md='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-row-span-md-#{$i} {
+        grid-row: span $i / span $i;
+      }
+
+      & > ::slotted([order-md='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-order-md-#{$i} {
+        order: $i;
+      }
+
+      & > ::slotted([order-md='-1']),
+      &.#{$prefix} > .#{$prefix}-order-md--1 {
+        order: -1;
+      }
+    }
+
+    /* Hide/Show - Medium */
+    & > ::slotted([hide='md']) {
+      display: block;
+    }
+  }
+
+  /* Large Container */
+  @container (min-width: #{$breakpoint-lg}) {
+    /* Grid Cols - Large */
+    @for $i from 1 through $grid-cols {
+      & > ::slotted([col-span-lg='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-span-lg-#{$i} {
+        grid-column: span $i / span $i;
+      }
+
+      & > ::slotted([col-start-lg='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-start-lg-#{$i} {
+        grid-column-start: $i;
+      }
+
+      & > ::slotted([col-end-lg='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-end-lg-#{$i} {
+        grid-column-end: $i;
+      }
+    }
+
+    /* Grid Rows - Large */
+    @for $i from 1 through $grid-rows {
+      &[rows-lg='#{$i}'],
+      &.#{$prefix}-rows-lg-#{$i} {
+        grid-template-rows: repeat($i, minmax(0, 1fr));
+      }
+
+      & > ::slotted([row-span-lg='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-row-span-lg-#{$i} {
+        grid-row: span $i / span $i;
+      }
+
+      & > ::slotted([order-lg='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-order-lg-#{$i} {
+        order: $i;
+      }
+
+      & > ::slotted([order-lg='-1']),
+      &.#{$prefix} > .#{$prefix}-order-lg--1 {
+        order: -1;
+      }
+    }
+
+    /* Hide/Show - Large */
+    & > ::slotted([hide='lg']) {
+      display: block;
+    }
+  }
+
+  /* XLarge Container */
+  @container (min-width: #{$breakpoint-xl}) {
+    /* Grid Cols - XLarge */
+    @for $i from 1 through $grid-cols {
+      & > ::slotted([col-span-xl='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-span-xl-#{$i} {
+        grid-column: span $i / span $i;
+      }
+
+      & > ::slotted([col-start-xl='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-start-xl-#{$i} {
+        grid-column-start: $i;
+      }
+
+      & > ::slotted([col-end-xl='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-end-xl-#{$i} {
+        grid-column-end: $i;
+      }
+    }
+
+    /* Grid Rows - XLarge */
+    @for $i from 1 through $grid-rows {
+      &[rows-xl='#{$i}'],
+      &.#{$prefix}-rows-xl-#{$i} {
+        grid-template-rows: repeat($i, minmax(0, 1fr));
+      }
+
+      & > ::slotted([row-span-xl='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-row-span-xl-#{$i} {
+        grid-row: span $i / span $i;
+      }
+
+      & > ::slotted([order-xl='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-order-xl-#{$i} {
+        order: $i;
+      }
+
+      & > ::slotted([order-xl='-1']),
+      &.#{$prefix} > .#{$prefix}-order-xl--1 {
+        order: -1;
+      }
+    }
+
+    /* Hide/Show - XLarge */
+    & > ::slotted([hide='xl']) {
+      display: block;
+    }
+  }
+
+  /* XxLarge Container */
+  @container (min-width: #{$breakpoint-xxl}) {
+    /* Grid Cols - XxLarge */
+    @for $i from 1 through $grid-cols {
+      & > ::slotted([col-span-xxl='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-span-xxl-#{$i} {
+        grid-column: span $i / span $i;
+      }
+
+      & > ::slotted([col-start-xxl='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-start-xxl-#{$i} {
+        grid-column-start: $i;
+      }
+
+      & > ::slotted([col-end-xxl='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-col-end-xxl-#{$i} {
+        grid-column-end: $i;
+      }
+    }
+
+    /* Grid Rows - XxLarge */
+    @for $i from 1 through $grid-rows {
+      &[rows-xxl='#{$i}'],
+      &.#{$prefix}-rows-xxl-#{$i} {
+        grid-template-rows: repeat($i, minmax(0, 1fr));
+      }
+
+      & > ::slotted([row-span-xxl='#{$i}']),
+      &.#{$prefix} > .#{$prefix}-row-span-xxl-#{$i} {
+        grid-row: span $i / span $i;
+      }
+
+      & > ::slotted([order-xxl='#{$i}']),
+      & .#{$prefix} > .#{$prefix}-order-xxl-#{$i} {
+        order: $i;
+      }
+
+      & > ::slotted([order-xxl='-1']),
+      &.#{$prefix} > .#{$prefix}-order-xxl--1 {
+        order: -1;
+      }
+    }
+
+    /* Hide/Show - XxLarge */
+    & > ::slotted([hide='xxl']) {
+      display: block;
+    }
+  }
+}
