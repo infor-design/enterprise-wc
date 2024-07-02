@@ -2147,5 +2147,38 @@ test.describe('IdsLayoutGrid tests', () => {
       await expect(idsGridCell).not.toHaveAttribute('sticky-position');
       await expect(idsGridCell).toHaveAttribute('style', '');
     });
+
+    test('can set/get templateRows attribute', async () => {
+      const testData = [
+        { data: '100px 200px', expected: '100px 200px' },
+        { data: null, expected: null },
+        { data: '', expected: null } // Treating empty string as null
+      ];
+
+      expect(
+        await idsLayoutGrid.evaluate((element: IdsLayoutGrid) => element.templateRows)
+      ).toBeNull();
+
+      for (const rows of testData) {
+        const result = await idsLayoutGrid.evaluate((element: IdsLayoutGrid, tRows) => {
+          element.templateRows = tRows;
+          const templateRowsValue = element.templateRows === '' ? null : element.templateRows;
+          return {
+            templateRows: templateRowsValue,
+            hasAttribute: element.hasAttribute('template-rows'),
+            attributeValue: element.getAttribute('template-rows'),
+            styleValue: element.style.getPropertyValue('--grid-template-rows')
+          };
+        }, rows.data);
+
+        expect(result.templateRows).toEqual(rows.expected);
+
+        if (rows.expected !== null) {
+          expect(result.hasAttribute).toBeTruthy();
+          expect(result.attributeValue).toEqual(rows.expected);
+          expect(result.styleValue).toEqual(rows.expected);
+        }
+      }
+    });
   });
 });

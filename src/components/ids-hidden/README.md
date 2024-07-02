@@ -12,6 +12,8 @@ Create responsive layouts or hide/show components based on selected breakpoints
 
 - **hide-up**: An attribute that when set with a breakpoint size will hide when the min-width breakpoint is reached.
 - **hide-down**: An attribute that when set with a breakpoint size will hide when the max-width breakpoint is reached.
+- **enable-container**: Sets or removes the `enable-container` attribute and class based on the truthiness of the string value to toggle the use of container queries.
+- **container-target**: Sets the `container-target` attribute to the ID of a DOM element and applies `containerType: inline-size`, or removes the attribute if the value is null or empty.
 - **breakpoints**:
 - xxl: 1440px
 - xl: 1280px
