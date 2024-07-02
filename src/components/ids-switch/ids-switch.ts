@@ -23,6 +23,7 @@ const Base = IdsLocaleMixin(
  * IDS Switch Component
  * @type {IdsSwitch}
  * @inherits IdsElement
+ * @mixes IdsFormInputMixin
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
  * @part checkbox - the checkbox input element
@@ -48,6 +49,7 @@ export default class IdsSwitch extends Base {
   static get attributes() {
     return [
       attributes.CHECKED,
+      attributes.COMPACT,
       attributes.DISABLED,
       attributes.LABEL,
       attributes.VALUE
@@ -87,7 +89,7 @@ export default class IdsSwitch extends Base {
     return `
       <div${rootClass}>
         <label>
-          <input type="checkbox" part="checkbox" ${checkboxClass}${disabled}${checked}${value}>
+          <input type="checkbox" tabindex="0" part="checkbox" ${checkboxClass}${disabled}${checked}${value}>
           <span class="slider${checked}" part="slider"></span>
           <ids-text class="label-text" part="label">${this.label}</ids-text>
         </label>
@@ -286,6 +288,16 @@ export default class IdsSwitch extends Base {
    * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
    */
   get value(): string { return this.checked ? (this.getAttribute(attributes.VALUE) ?? 'on') : ''; }
+
+  set compact(val: boolean | string | null) {
+    const isCompact = stringToBool(val);
+    this.toggleAttribute(attributes.COMPACT, isCompact);
+    this.container?.classList.toggle('compact', isCompact);
+  }
+
+  get compact(): boolean {
+    return stringToBool(this.getAttribute(attributes.COMPACT));
+  }
 
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.

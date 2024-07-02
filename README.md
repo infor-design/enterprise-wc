@@ -16,7 +16,7 @@ Infor Design System Enterprise Web Components Library is a framework independent
 - Built-in, extendible localization system
 - Built-in mitigation of XSS exploits
 - Excellent test coverage
-- Well documented in `.md` format
+- Detailed documentation in `.md` format
 - Contains an extensive [Change log](./doc/CHANGELOG.md) which lists any and all breaking changes
 - [Fully linted code](./doc/LINTING.md)
 - Follows [WAI-ARIA authoring practices](https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard-interaction-12) with a focus on accessibility
@@ -27,7 +27,7 @@ Infor Design System Enterprise Web Components Library is a framework independent
 - 100+ Components
 - Includes Visual Code intellisense with [standard schemas](https://github.com/webcomponents/custom-elements-manifest)
 - Typescript types
-- We now support Es Modules
+- Supports Es Modules
 - Bundle size in npm is 33% smaller (with code splitting enabled)
 - Supports [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) including css and js CSP
 - The newest designs will be added here

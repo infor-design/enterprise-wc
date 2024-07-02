@@ -281,6 +281,10 @@ $input-size-full: 100%;
     transition: border var(--ids-motion-duration) var(--ids-motion-ease);
   }
 
+  .field-container.square {
+    border-radius: 0;
+  }
+
   &:focus-within,
   &.readonly:focus-within,
   &.is-active {

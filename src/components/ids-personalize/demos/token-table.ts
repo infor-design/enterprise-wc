@@ -24,7 +24,8 @@ columns.push({
     console.info('Tree Expander Clicked', info);
   },
   sortable: false,
-  resizable: false,
+  resizable: true,
+  minWidth: 400,
   width: 400,
   formatter: dataGrid.formatters.tree,
   filterType: dataGrid.filters.text
@@ -35,7 +36,23 @@ columns.push({
   name: 'Token Value',
   field: 'tokenValue',
   sortable: false,
-  resizable: false,
+  resizable: true,
+  minWidth: 400,
+  width: 400,
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text
+});
+
+columns.push({
+  id: 'tokenNameCSS',
+  name: 'Token Name - CSS',
+  field: 'tokenNameCSS',
+  click: (info: any) => {
+    console.info('Tree Expander Clicked', info);
+  },
+  sortable: false,
+  resizable: true,
+  minWidth: 400,
   width: 400,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
@@ -68,7 +85,7 @@ columns.push({
 columns.push({
   id: 'preview',
   name: 'Preview',
-  field: 'tokenValue',
+  field: 'colorValue',
   width: 165,
   align: 'center',
   resizable: false,
@@ -78,6 +95,24 @@ columns.push({
 
 dataGrid.columns = columns;
 
+/**
+ * Remove var token names from values column
+ * @param {any} tokens theme tokens
+ */
+function removeVarTokenNames(tokens: any) {
+  tokens.forEach((token: any) => {
+    // Remove var() notation from token values
+    if (token.tokenValue.startsWith('var(')) {
+      token.tokenValue = token.tokenValue.replace('var(', '').replace(')', '');
+    }
+
+    // Process children tokens recursively
+    if (token.children && token.children.length > 0) {
+      removeVarTokenNames(token.children);
+    }
+  });
+}
+
 const fetchData = async (url: string) => {
   const res: any = await fetch(url);
   const data: any = await res.json();
@@ -86,6 +121,7 @@ const fetchData = async (url: string) => {
 
 const updateDataGrid = async (url: string) => {
   const data: any = await fetchData(url);
+  removeVarTokenNames(data.themeTokens);
   dataGrid.data = data.themeTokens;
 };
 
