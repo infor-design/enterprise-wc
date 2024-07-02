@@ -297,6 +297,7 @@ export default class IdsLoadingIndicator extends Base {
     } else {
       this.shadowRoot?.querySelector('.ai-loading-indicator')?.remove();
       this.removeAttribute(attributes.GENERATIVE_AI);
+      this.render(true);
     }
   }
 
