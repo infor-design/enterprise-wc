@@ -7,8 +7,8 @@
 // Main
 
 /* Use media queries by default */
-:host(.#{$prefix}:not([enable-container])),
-.#{$prefix}:not([enable-container]) {
+:host,
+.#{$prefix} {
   @include media-queries;
 }
 
