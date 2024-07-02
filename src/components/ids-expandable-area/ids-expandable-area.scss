@@ -2,7 +2,6 @@
 
 .ids-expandable-area {
   border-bottom: var(--ids-expandable-area-border-bottom);
-  contain: content;
   padding: calc(var(--ids-space-xs) * 3) var(--ids-space-none);
 
   .expandable-pane-content {

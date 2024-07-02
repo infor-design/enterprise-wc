@@ -51,6 +51,8 @@ const IdsPopupOpenEventsMixin = <T extends Constraints>(superclass: T) => class 
    */
   #currentPopupOpenEventsTarget: IdsPopupElementRef = null;
 
+  #scrollContainer: Element | null = null;
+
   /**
    * Attaches some events when the Popupmenu is opened.
    * Call this method from inside your extended component whenever "open" events should be applied.
@@ -66,9 +68,10 @@ const IdsPopupOpenEventsMixin = <T extends Constraints>(superclass: T) => class 
         this.onOutsideClick?.(e);
       });
 
-      const scrollContainer = getClosest(this, 'ids-scrollable-area') || getClosest(this, '.scrollable');
-      if (scrollContainer) {
-        this.onEvent('scroll.toplevel', scrollContainer, debounce((e: Event) => {
+      this.#scrollContainer = getClosest(this, 'ids-scrollable-area, .scrollable');
+      if (this.#scrollContainer) {
+        this.offEvent('scroll.toplevel', this.#scrollContainer);
+        this.onEvent('scroll.toplevel', this.#scrollContainer, debounce((e: Event) => {
           this.onOutsideClick?.(e);
         }, 50));
       }
@@ -87,6 +90,8 @@ const IdsPopupOpenEventsMixin = <T extends Constraints>(superclass: T) => class 
       return;
     }
     this.offEvent('click.toplevel', this.#currentPopupOpenEventsTarget);
+    this.offEvent('scroll.toplevel', this.#scrollContainer);
+    this.#scrollContainer = null;
     this.hasOpenEvents = false;
     this.#currentPopupOpenEventsTarget = null;
   }

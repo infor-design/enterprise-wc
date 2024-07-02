@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Dropdowns (In an expandable area header)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="2" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-expandable-area>
+          <div slot="header">
+            <ids-dropdown id="dropdown-2" label="Readonly Dropdown" value="opt3">
+              <ids-list-box>
+                <ids-list-box-option value="opt1" id="opt1">Option One</ids-list-box-option>
+                <ids-list-box-option value="opt2" id="opt2">Option Two</ids-list-box-option>
+                <ids-list-box-option value="opt3" id="opt3">Option Three</ids-list-box-option>
+                <ids-list-box-option value="opt4" id="opt4">Option Four</ids-list-box-option>
+                <ids-list-box-option value="opt5" id="opt5">Option Five</ids-list-box-option>
+                <ids-list-box-option value="opt6" id="opt6">Option Six</ids-list-box-option>
+              </ids-list-box>
+            </ids-dropdown>
+          </div>
+          <ids-text slot="pane" font-size="14">
+            Ubiquitous out-of-the-box, scalable; communities disintermediate
+            beta-test, enable utilize markets dynamic infomediaries virtual
+            data-driven synergistic aggregate infrastructures, "cross-platform,
+            feeds bleeding-edge tagclouds." Platforms extend interactive B2C
+            benchmark proactive, embrace e-markets, transition generate
+            peer-to-peer.
+          </ids-text>
+          <ids-text slot="expander-default" font-size="14">Show More</ids-text>
+          <ids-text slot="expander-expanded" font-size="14">Show Less</ids-text>
+        </ids-expandable-area>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

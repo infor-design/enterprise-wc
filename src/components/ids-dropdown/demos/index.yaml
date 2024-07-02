@@ -20,6 +20,9 @@
   - link: groups.html
     type: Example
     description: Showing a dropdown with grouping functionality
+  - link: in-expandable-area.html
+    type: Example
+    description: Showing a dropdown in an expandable area
   - link: in-popup.html
     type: Example
     description: Showing a dropdown in a popup
