@@ -10,20 +10,42 @@
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Circular Loading Indicator</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid gap="md" cols="4">
+    <ids-layout-grid gap="md" cols="3" padding-x="md">
       <ids-layout-grid-cell>
-        <div class="circular-progress-container" data-step="10">
+        <div class="circular-progress-container">
           <ids-loading-indicator></ids-loading-indicator>
         </div>
       </ids-layout-grid-cell>
       <ids-layout-grid-cell>
-        <div class="circular-progress-container" data-step="6">
-          <ids-loading-indicator progress="30"></ids-loading-indicator>
+        <div class="circular-progress-container">
+          <ids-loading-indicator progress="30" id="indicator-01"></ids-loading-indicator>
+        </div>
+        <div class="loading-indicator-determinate-controls">
+          <ids-spinbox
+          min="0"
+          max="100"
+          step="10"
+          value="30"
+          label="Change progress value"
+          label-state="collapsed"
+          target-id="indicator-01"
+          ></ids-spinbox>
         </div>
       </ids-layout-grid-cell>
       <ids-layout-grid-cell>
-        <div class="circular-progress-container" data-step="8">
-          <ids-loading-indicator progress="72" percentage-visible></ids-loading-indicator>
+        <div class="circular-progress-container">
+          <ids-loading-indicator progress="72" percentage-visible id="indicator-02"></ids-loading-indicator>
+        </div>
+        <div class="loading-indicator-determinate-controls">
+          <ids-spinbox
+          min="0"
+          max="100"
+          step="10"
+          value="72"
+          label="Change progress value"
+          label-state="collapsed"
+          target-id="indicator-02"
+          ></ids-spinbox>
         </div>
       </ids-layout-grid-cell>
     </ids-layout-grid>
@@ -31,15 +53,41 @@
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Linear Loading Indicator</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid gap="md" cols="4">
+    <ids-layout-grid gap="md" cols="3" padding-x="md">
       <ids-layout-grid-cell col-span="1">
         <ids-loading-indicator linear></ids-loading-indicator>
       </ids-layout-grid-cell>
-      <ids-layout-grid-cell col-span="1" data-step="5">
-        <ids-loading-indicator linear progress="20"></ids-loading-indicator>
+      <ids-layout-grid-cell col-span="1">
+        <div class="linear-progress-container">
+          <ids-loading-indicator linear progress="20" id="indicator-03"></ids-loading-indicator>
+        </div>
+        <div class="loading-indicator-determinate-controls">
+          <ids-spinbox
+          min="0"
+          max="100"
+          step="10"
+          value="20"
+          label="Change progress value"
+          label-state="collapsed"
+          target-id="indicator-03"
+          ></ids-spinbox>
+        </div>
       </ids-layout-grid-cell>
-      <ids-layout-grid-cell col-span="1" data-step="7">
-        <ids-loading-indicator linear progress="35" percentage-visible></ids-loading-indicator>
+      <ids-layout-grid-cell col-span="1">
+        <div class="linear-progress-container">
+          <ids-loading-indicator linear progress="35" percentage-visible id="indicator-04"></ids-loading-indicator>
+        </div>
+        <div class="loading-indicator-determinate-controls">
+          <ids-spinbox
+          min="0"
+          max="100"
+          step="10"
+          value="35"
+          label="Change progress value"
+          label-state="collapsed"
+          target-id="indicator-04"
+          ></ids-spinbox>
+        </div>
       </ids-layout-grid-cell>
       <ids-layout-grid-cell></ids-layout-grid-cell>
     </ids-layout-grid>
@@ -47,7 +95,7 @@
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Sticky Loading Indicator</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid cols="4" gap="md" auto-fit="true" padding-x="md">
+    <ids-layout-grid cols="3" gap="md" auto-fit="true" padding="md">
       <ids-layout-grid-cell col-span="1">
         <ids-card auto-height="true" no-header="true">
           <div slot="card-content" class="sticky-indicator-container">
@@ -58,18 +106,29 @@
       </ids-layout-grid-cell>
       <ids-layout-grid-cell col-span="1">
         <ids-card auto-height="true" no-header="true">
-          <div slot="card-content" class="sticky-indicator-container" data-step="10">
-            <ids-loading-indicator sticky progress="10"></ids-loading-indicator>
+          <div slot="card-content" class="sticky-indicator-container">
+            <ids-loading-indicator sticky progress="10" id="indicator-05"></ids-loading-indicator>
             <ids-text>Relative-Positioned Content Within the Card component.</ids-text>
           </div>
         </ids-card>
+        <div class="loading-indicator-determinate-controls">
+          <ids-spinbox
+          min="0"
+          max="100"
+          step="10"
+          value="10"
+          label="Change progress value"
+          label-state="collapsed"
+          target-id="indicator-05"
+          ></ids-spinbox>
+        </div>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Generative AI Loading Indicator</ids-text>
     </ids-layout-grid>
-    <ids-layout-grid gap="md" cols="4">
+    <ids-layout-grid gap="md" cols="3">
       <ids-layout-grid-cell>
         <div class="circular-progress-container">
           <ids-loading-indicator generative-ai></ids-loading-indicator>

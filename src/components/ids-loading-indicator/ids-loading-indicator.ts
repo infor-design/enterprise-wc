@@ -46,6 +46,7 @@ export default class IdsLoadingIndicator extends Base {
   static get attributes(): Array<string> {
     return [
       attributes.ALIGN,
+      attributes.GENERATIVE_AI,
       attributes.INLINE,
       attributes.LINEAR,
       attributes.OVERLAY,
@@ -131,6 +132,9 @@ export default class IdsLoadingIndicator extends Base {
     const hasValue = !Number.isNaN(Number.parseFloat(value));
     if (hasValue) {
       this.setAttribute(attributes.PROGRESS, String(parseFloat(value)));
+
+      this.shadowRoot?.querySelector('svg')?.classList.remove('indeterminate');
+      this.shadowRoot?.querySelector('svg')?.classList.add('determinate');
     } else {
       this.removeAttribute(attributes.PROGRESS);
     }
@@ -280,6 +284,28 @@ export default class IdsLoadingIndicator extends Base {
   }
 
   /**
+   * Set the animation to Gen AI
+   * @param {string} value can be center to center to center align the loader
+   */
+  set generativeAi(value: boolean) {
+    const val = stringToBool(value);
+    if (val) {
+      this.shadowRoot?.querySelector('.ai-loading-indicator')?.remove();
+      this.setAttribute(attributes.GENERATIVE_AI, '');
+      this.render(true);
+      if (this.shadowRoot?.querySelectorAll('.ai-loading-indicator')?.length === 2) this.shadowRoot?.querySelector('.ai-loading-indicator')?.remove();
+    } else {
+      this.shadowRoot?.querySelector('.ai-loading-indicator')?.remove();
+      this.removeAttribute(attributes.GENERATIVE_AI);
+      this.render(true);
+    }
+  }
+
+  get generativeAi(): boolean {
+    return stringToBool(this.getAttribute(attributes.GENERATIVE_AI));
+  }
+
+  /**
    * Set the alignment between normal and center
    * @param {string} value can be center to center to center align the loader
    */
@@ -323,7 +349,10 @@ export default class IdsLoadingIndicator extends Base {
         }
 
         this.#type = attribute;
-        this.render();
+        if (!this.hasAttribute(attribute)) {
+          this.setAttribute(attribute, '');
+        }
+        this.render(true);
       }
 
       if (!this.hasAttribute(attribute)) {
@@ -338,6 +367,7 @@ export default class IdsLoadingIndicator extends Base {
 
       if (this.#type === attribute) {
         this.#type = undefined;
+        this.render(true);
       }
     }
   }
