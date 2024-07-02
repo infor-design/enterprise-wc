@@ -2,7 +2,7 @@
 
 /* Ids Splitter Component */
 :host {
-  visibility: hidden;
+  visibility: hidden; // Fix FOUC
 }
 
 .ids-splitter {
