@@ -99,13 +99,24 @@
   --ids-button-system-color-text-hover: var(--ids-color-white-100);
 
   // Button (Generative AI)
-  --ids-button-ai-color-border-hover: transparent;
   --ids-button-ai-color-background-default: linear-gradient(107deg, #254A92 9.32%, #10B7A6 85.32%);
   --ids-button-ai-color-background-hover: linear-gradient(107deg, #1F405C 5.32%, #0EAA9B 75.32%);
+  --ids-button-ai-color-border-hover: transparent;
+  --ids-button-ai-color-tertiary-background-default: linear-gradient(107deg, #10B6A6 17.32%, #0EAA9B 95.32%);
+  --ids-button-ai-color-tertiary-background-hover: linear-gradient(107deg, #0ea495 17.32%, #0d998b 95.32%);
+  --ids-button-tertiary-ai-color-background-disabled: linear-gradient(107deg, #10B6A6 17.32%, #0EAA9B 95.32%);
+  --ids-button-ai-color-icon-primary-hover: #0d998b;
+  --ids-button-ai-color-icon-secondary-hover: #0d998b;
+  --ids-button-ai-color-loading-dot-default: #10B6A6;
+  --ids-button-ai-opacity-disabled: 0.6;
+  --ids-button-ai-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px #10B6A6;
 
   // Button (Tertiary)
   --ids-button-tertiary-color-background-hover: var(--ids-color-accent-gray-weaker);
   --ids-button-tertiary-color-border-hover: var(--ids-color-accent-gray-weaker);
+  --ids-button-tertiary-opacity-disabled: 0.6;
+  --ids-button-secondary-opacity-disabled: 0.6;
+  --ids-button-primary-opacity-disabled: 0.6;
 
   // Calendar
   --ids-calendar-toolbar-color-background: var(--ids-color-gray-80);
