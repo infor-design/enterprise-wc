@@ -5,6 +5,10 @@
   visibility: hidden; // Fix FOUC
 }
 
+:host(.ids-splitter-initialized) {
+  visibility: visible;
+}
+
 .ids-splitter {
   display: flex;
   position: relative;
