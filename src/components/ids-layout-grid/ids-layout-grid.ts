@@ -783,29 +783,29 @@ export default class IdsLayoutGrid extends IdsElement {
     return this.getAttribute(attributes.ROW_HEIGHT);
   }
 
-  /**
-   * Set the enable-container attribute
-   * @param {string} val The value of the enable-container attribute
-   */
-  set enableContainer(val: string) {
-    const value = stringToBool(val);
-    if (value) {
-      this.setAttribute(attributes.ENABLE_CONTAINER, '');
-      this.classList.add(attributes.ENABLE_CONTAINER);
-    } else {
-      this.removeAttribute(attributes.ENABLE_CONTAINER);
-      this.classList.remove(attributes.ENABLE_CONTAINER);
-    }
-  }
+  // /**
+  //  * Set the enable-container attribute
+  //  * @param {string} val The value of the enable-container attribute
+  //  */
+  // set enableContainer(val: string) {
+  //   const value = stringToBool(val);
+  //   if (value) {
+  //     this.setAttribute(attributes.ENABLE_CONTAINER, '');
+  //     this.classList.add(attributes.ENABLE_CONTAINER);
+  //   } else {
+  //     this.removeAttribute(attributes.ENABLE_CONTAINER);
+  //     this.classList.remove(attributes.ENABLE_CONTAINER);
+  //   }
+  // }
 
-  /**
-   * Get the enable-container attribute
-   * @returns {boolean} enable-container
-   * @readonly
-   */
-  get enableContainer(): boolean {
-    return this.hasAttribute(attributes.ENABLE_CONTAINER);
-  }
+  // /**
+  //  * Get the enable-container attribute
+  //  * @returns {boolean} enable-container
+  //  * @readonly
+  //  */
+  // get enableContainer(): boolean {
+  //   return this.hasAttribute(attributes.ENABLE_CONTAINER);
+  // }
 
   constructor() {
     super();

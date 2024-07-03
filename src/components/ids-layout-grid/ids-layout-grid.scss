@@ -7,18 +7,18 @@
 // Main
 
 /* Use media queries by default */
-:host,
-.#{$prefix} {
-  @include media-queries;
-}
+// :host,
+// .#{$prefix} {
+//   @include media-queries;
+// }
 
-/* Use container queries if enabled */
-:host(.#{$prefix}[enable-container]),
-.#{$prefix}[enable-container] {
-  container-type: inline-size;
+// /* Use container queries if enabled */
+// :host(.#{$prefix}[enable-container]),
+// .#{$prefix}[enable-container] {
+//   container-type: inline-size;
 
-  @include container-queries;
-}
+//   @include container-queries;
+// }
 
 /* Grid Gaps */
 :host([gap='none']),
