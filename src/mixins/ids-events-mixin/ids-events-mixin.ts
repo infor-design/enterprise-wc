@@ -470,8 +470,8 @@ const IdsEventsMixin = <T extends IdsBaseConstructor>(superclass: T) => class ex
         this.startX = e.pageX;
         this.startY = e.pageY;
         this.slopedMouseLeaveTimer = requestAnimationTimeout(() => {
-          const outOfBoundsX = (this.trackedX - this.startX) > 3.5;
-          const outOfBoundsY = (this.trackedY - this.startY) > 3.5;
+          const outOfBoundsX = (this.trackedX - this.startX) > 3.5 || (this.trackedX - this.startX) < 3.5;
+          const outOfBoundsY = (this.trackedY - this.startY) > 3.5 || (this.trackedY - this.startY) < 3.5;
           if (outOfBoundsX || outOfBoundsY) {
             dispatchCustomEvent(document.elementFromPoint(this.trackedX, this.trackedY), e);
           }

@@ -218,7 +218,7 @@ export default class IdsMenuButton extends IdsButton {
     this.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'menu');
 
     if (this.menuEl.popup) {
-      this.menuEl.popup.align = 'bottom, left';
+      this.menuEl.popup.align = 'top';
       this.menuEl.popup.y = 8;
       this.setPopupArrow();
     }

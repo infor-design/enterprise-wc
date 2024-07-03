@@ -1002,7 +1002,6 @@ export default class IdsPopup extends Base {
       } else {
         this.removeAttribute(attributes.VISIBLE);
       }
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.refreshVisibility();
     }
   }
@@ -1172,7 +1171,6 @@ export default class IdsPopup extends Base {
     if (!e?.target || this.contains(e.target as HTMLElement)) {
       return;
     }
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.hide();
   }
 

@@ -121,7 +121,7 @@
 
   &.field-height-xxs:not(.btn-secondary):not(.no-margins) {
     margin-block-start: 3px;
-    margin-inline-end: 2px;
+    margin-inline-end: -2px;
     height: 22px;
     width: 22px;
   }

@@ -1,6 +1,15 @@
 # What's New with Enterprise Web Components
 
-## 1.0.0-beta.18.1
+## 1.0.0-beta.18.3
+
+### 1.0.0-beta.18.3 Fixes
+
+- `[Dropdown/Datagrid]` Added style fixes to position the dropdown better next to the cell. ([#1770](https://github.com/infor-design/enterprise-wc/issues/1770))
+- `[Popupmenu]` Fixed an issue where a popupmenu is in the wrong position on the filter row when in a modal. ([#1766](https://github.com/infor-design/enterprise-wc/issues/1766))
+- `[PopupMenu]` Added ability to load menu data in a callback with `beforeShow`. ([#1804](https://github.com/infor-design/enterprise-wc/issues/1804))
+- `[Datagrid]` Fixed a display issue with the new loading indicator in firefox. ([#1617](https://github.com/infor-design/enterprise-wc/issues/1617))
+
+## 1.0.0-beta.18.2
 
 ### 1.0.0-beta.18.2 Fixes
 

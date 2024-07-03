@@ -217,7 +217,7 @@
   &.has-icon {
     a {
       padding-inline-start: 8px;
-      padding-inline-end: 8px;
+      padding-inline-end: 14px;
       grid-template-columns: 30px max-content;
     }
   }
@@ -295,7 +295,7 @@
   &.has-icon.has-checkmark.align-icon-end,
   &.has-icon.has-multi-checkmark.align-icon-end {
     a {
-      grid-template-columns: 30px calc(100% - 55px) 25px;
+      grid-template-columns: 30px calc(100% - 53px) 31px;
 
       .ids-menu-item-text {
         grid-column-start: 2;

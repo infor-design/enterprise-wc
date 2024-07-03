@@ -19,7 +19,6 @@ import '../ids-date-picker/ids-date-picker';
 import '../ids-lookup/ids-lookup';
 import { IdsValidationRule } from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 
-
 export interface IdsDataGridEditorOptions {
   /** The type of editor (i.e. text, data, time, dropdown, checkbox, number ect) */
   type: string;
@@ -106,7 +105,7 @@ export class InputEditor implements IdsDataGridEditor {
     this.input = <IdsInput> document.createElement('ids-input');
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
     this.input.size = isInline ? 'full' : '';
-    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
+    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
     this.input.labelState = 'collapsed';
 
     // Clear cell and set value
@@ -253,6 +252,7 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.list.setAttribute('attachment', '.ids-data-grid-wrapper');
     this.list.appendToTargetParent();
     if (this.list.popup) {
+      this.list.popup.positionStyle = 'fixed';
       this.list.popup.popupOpenEventsTarget = document.body;
       this.list.popup.positionStyle = 'fixed';
       this.list.popup.alignTarget = this.input;
@@ -262,7 +262,6 @@ export class DropdownEditor implements IdsDataGridEditor {
         const margin = cell?.dataGrid?.rowHeight === 'xxs' ? -3 : 0;
         popupRect.y = (this.input?.getBoundingClientRect().bottom || 0) + margin;
         popupRect.x = (this.input?.getBoundingClientRect().x || 0) - 1;
-        popupRect.width = 1000;
         return popupRect;
       };
     }
