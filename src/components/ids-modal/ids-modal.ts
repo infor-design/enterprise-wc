@@ -604,7 +604,6 @@ export default class IdsModal extends Base {
    * @private
    */
   removeOpenEvents(): void {
-    super.removeOpenEvents();
     document.removeEventListener('keydown', this.globalKeydownListener);
     this.unlisten('Escape');
     this.offEvent('click.buttons');

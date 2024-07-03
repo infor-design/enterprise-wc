@@ -56,17 +56,24 @@ export interface IdsDataGridEditor {
   change: (newValue: boolean | number | string) => void;
 }
 
-const applyEditorSettings = (elem: any, settings?: Record<string, any> | undefined) => {
+const applyEditorSettings = (elem: any, settings?: Record<string, any>) => {
   // eslint-disable-next-line guard-for-in
   for (const setting in settings) {
     elem[setting] = settings[setting];
   }
 };
 
-const applyEditorPopupFocus = (editor: IdsDataGridEditor) => {
+const applyEditorValidation = (elem: any, validation?: Partial<IdsValidationRule>) => {
+  if (elem?.addValidationRule && validation) {
+    validation.type = 'error';
+    elem?.addValidationRule?.(validation);
+  }
+};
+
+const applyEditorPopupFocus = async (editor: IdsDataGridEditor) => {
   const autoOpen = (<HTMLElement> editor.clickEvent?.target)?.classList?.contains('editor-cell-icon');
   if (autoOpen) {
-    editor.popup?.show();
+    await editor.popup?.show();
     editor.popup?.focus();
   } else {
     editor.input?.focus();
@@ -83,12 +90,6 @@ const applyEditorEndCellEdit = (cell: IdsDataGridCell, e: KeyboardEvent) => {
   }
 };
 
-const applyEditorValidation = (elem: any, validation?: Partial<IdsValidationRule>) => {
-  if (elem?.addValidationRule && validation) {
-    validation.type = 'error';
-    elem?.addValidationRule?.(validation);
-  }
-};
 export class InputEditor implements IdsDataGridEditor {
   /** The type of editor (i.e. input, dropdown, checkbox ect) */
   type = 'input';
@@ -104,19 +105,22 @@ export class InputEditor implements IdsDataGridEditor {
     const isInline = cell?.column.editor?.inline;
     this.input = <IdsInput> document.createElement('ids-input');
     this.input.colorVariant = isInline ? 'in-cell' : 'borderless';
-    this.input.size = isInline ? 'full' : '';
-    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight);
+    this.input.size = 'full';
+    this.input.fieldHeight = String(cell?.dataGrid?.rowHeight) === 'xxs' ? `xs` : String(cell?.dataGrid?.rowHeight);
     this.input.labelState = 'collapsed';
 
     // Clear cell and set value
     const value = cell?.innerText;
     cell!.innerHTML = '';
     cell?.appendChild(this.input as any);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
+
     this.input.value = value;
 
     if (this.input instanceof IdsInput && cell) {
       if (!isInline) this.input.shadowRoot?.querySelector('input')?.style.setProperty('width', `${cell.offsetWidth - 5}px`);
       applyEditorSettings(this.input, cell?.column.editor?.editorSettings);
+      applyEditorValidation(this.input, cell?.column.editor?.editorValidation);
     }
     this.input.focus();
   }
@@ -164,6 +168,8 @@ export class CheckboxEditor implements IdsDataGridEditor {
     this.input.checked = this.clickEvent ? !value : value;
 
     cell?.appendChild(this.input as any);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
+
     this.input.focus();
     if (this.clickEvent) {
       requestAnimationFrame(() => {
@@ -252,16 +258,18 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.list.setAttribute('attachment', '.ids-data-grid-wrapper');
     this.list.appendToTargetParent();
     if (this.list.popup) {
-      this.list.popup.positionStyle = 'fixed';
       this.list.popup.popupOpenEventsTarget = document.body;
-      this.list.popup.positionStyle = 'fixed';
+      this.list.popup.setAttribute('position-style', 'fixed');
       this.list.popup.alignTarget = this.input;
       this.list.popup.type = 'dropdown';
       this.list.popup.container?.classList.add('dropdown');
       this.list.popup.onPlace = (popupRect: DOMRect) => {
         const margin = cell?.dataGrid?.rowHeight === 'xxs' ? -3 : 0;
-        popupRect.y = (this.input?.getBoundingClientRect().bottom || 0) + margin;
-        popupRect.x = (this.input?.getBoundingClientRect().x || 0) - 1;
+        const x = (this.input?.getBoundingClientRect().x || 0) - 1;
+        const y = (this.input?.getBoundingClientRect().bottom || 0) + margin;
+        popupRect.x = x;
+        popupRect.y = y;
+        popupRect.width = 1000;
         return popupRect;
       };
     }
@@ -278,7 +286,7 @@ export class DropdownEditor implements IdsDataGridEditor {
       applyEditorValidation(this.input.input, validation);
     }
 
-    this.#attchEventListeners();
+    this.#attachEventListeners();
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.input?.open();
   }
@@ -299,17 +307,9 @@ export class DropdownEditor implements IdsDataGridEditor {
   /**
    * Attach dropdown event handlers
    */
-  #attchEventListeners() {
+  #attachEventListeners() {
     this.input?.onEvent('change', this.input, (evt) => { this.#value = evt.detail.value; });
     this.input?.onEvent('focusout', this.input, this.#stopPropagationCb);
-    this.input?.onEvent('click', this.input, () => {
-      const popup = this.list?.popup;
-      if (popup) {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        if (!popup.visible) this.input?.open();
-        else this.input?.close();
-      }
-    });
     if (this.list) {
       this.list.onOutsideClick = (e: MouseEvent) => {
         if (!e.composedPath().includes(this.list!)) {
@@ -396,12 +396,18 @@ export class DatePickerEditor implements IdsDataGridEditor {
 
     // insert datepicker component and focus
     cell!.innerHTML = '';
-    cell!.appendChild(this.input);
     cell!.appendChild(this.popup);
+    cell!.appendChild(this.input);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
 
     this.input.value = this.#displayValue;
     this.popup?.syncDateAttributes(this.#value ?? new Date());
     if (this.input) this.input.autoselect = true;
+
+    const validation = cell?.column.editor?.editorValidation;
+    if (validation) {
+      applyEditorValidation(this.input, validation);
+    }
 
     if (this.popup) {
       const popup = this.popup;
@@ -410,10 +416,13 @@ export class DatePickerEditor implements IdsDataGridEditor {
       this.popup.slot = 'menu-container';
 
       this.popup.appendToTargetParent();
-      this.popup.popupOpenEventsTarget = document.body;
-      this.popup.onOutsideClick = (e: MouseEvent) => {
-        if (!e.composedPath().includes(popup)) { popup.hide(); }
-      };
+      if (this.popup.popup) {
+        this.popup.popup.popupOpenEventsTarget = document.body;
+        this.popup.popup.onOutsideClick = (e: MouseEvent) => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          if (!e.composedPath().includes(popup)) { popup.hide(); }
+        };
+      }
 
       // apply popup required settings
       this.popup.id = `${cell!.column.field}-date-picker-popup`;
@@ -425,6 +434,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
       this.popup.popup!.y = 16;
       this.popup.refreshTriggerEvents();
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       applyEditorPopupFocus(this);
     }
 
@@ -552,8 +562,9 @@ export class TimePickerEditor implements IdsDataGridEditor {
 
     // insert time picker and focus
     cell!.innerHTML = '';
-    cell!.appendChild(this.input);
     cell!.appendChild(this.popup);
+    cell!.appendChild(this.input);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
 
     this.input.autoselect = true;
 
@@ -563,10 +574,12 @@ export class TimePickerEditor implements IdsDataGridEditor {
       this.popup.slot = 'menu-container';
 
       this.popup.appendToTargetParent();
-      this.popup.popupOpenEventsTarget = document.body;
-      this.popup.onOutsideClick = (e: MouseEvent) => {
-        if (!e.composedPath().includes(popup)) { popup.hide(); }
-      };
+      if (this.popup.popup) {
+        this.popup.popup.popupOpenEventsTarget = document.body;
+        this.popup.popup.onOutsideClick = async (e: MouseEvent) => {
+          if (!e.composedPath().includes(popup)) { await popup.hide(); }
+        };
+      }
 
       // apply popup required settings
       this.popup.id = `${cell!.column.field}-time-picker-popup`;
@@ -586,6 +599,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
         this.popup.period = hours > 11 ? 'PM' : 'AM';
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       applyEditorPopupFocus(this);
     }
 
@@ -627,20 +641,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
     return popup;
   }
 
-  #stopPropagation(evt: FocusEvent | CustomEvent) {
-    const target = (evt instanceof FocusEvent ? evt.relatedTarget : evt.target) as HTMLElement | null;
-    const isOpen = this.input?.container?.classList.contains('is-open');
-    if (target?.tagName === 'IDS-DATA-GRID-CELL' || isOpen) {
-      evt.stopImmediatePropagation();
-    }
-  }
-
   #attachEventListeners(cell?: IdsDataGridCell | undefined) {
-    const tabHandler = (evt: CustomEvent) => this.#stopPropagation(evt);
-    const focusOutHandler = (evt: FocusEvent) => this.#stopPropagation(evt);
-
-    this.input?.onEvent('focusout', this.input, focusOutHandler, { capture: true });
-    this.input?.listen(['Tab', 'Enter'], this.input, tabHandler);
     this.popup?.onEvent('hide', this.popup, () => {
       if (cell!.contains(cell!.dataGrid!.shadowRoot!.activeElement)) return;
       cell?.focus();
@@ -757,12 +758,15 @@ export class LookupEditor implements IdsDataGridEditor {
     const value = cell?.innerText ?? '';
     cell!.innerHTML = '';
     cell?.appendChild(this.input as any);
+    this.input.addEventListener('keydown', (e) => applyEditorEndCellEdit(cell!, e));
+
     this.input.input.noMargins = true;
     this.input.value = value;
 
     this.popup = this.input.modal ?? undefined;
 
     applyEditorSettings(this.input, { ...cell?.column.editor?.editorSettings });
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     applyEditorPopupFocus(this);
   }
 
