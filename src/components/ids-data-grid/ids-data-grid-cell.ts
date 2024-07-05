@@ -519,7 +519,7 @@ export default class IdsDataGridCell extends IdsElement {
     // NOTE: This is how we could disable cache until a proper cache-busting strategy is in place
     // delete IdsDataGridCell.cellCache[cacheKey];
 
-    // NOTE: this type of param-based caching is good for upscroll when revising rows that have been seen already.
+    // NOTE: this type of param-based caching is good for upscroll when revisiting rows that have been seen already.
     // NOTE: we also need a content-cache that caches based on the actual data that's being rendered
     // NOTE: content-cache should probably be done in the IdsDataGridFormatters class
     if (!IdsDataGridCell.cellCache[cacheKey]) {

@@ -2,7 +2,7 @@ import type IdsDataGrid from '../ids-data-grid';
 import '../../ids-layout-flex/ids-layout-flex';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
-import productsJSON from '../../../assets/data/products.json';
+// import productsJSON from '../../../assets/data/products.json';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-virtual-scroll')!;
@@ -10,7 +10,7 @@ const dataGridInitButton = document.querySelector('#data-grid-init-button')!;
 const dataGridFirstColumnToggle = document.querySelector('#toggle-first-column')!;
 
 // Do an ajax request
-const url: any = productsJSON;
+// const url: any = productsJSON;
 const columns: IdsDataGridColumn[] = [];
 
 // Set up columns
@@ -83,33 +83,25 @@ columns.push({
 
 dataGrid.columns = columns;
 
-const generateCol = (n: number) => {
-  return Array.from({ length: n }).map((x, idx) => ({
-    id: 'testcol' + idx,
-    field: 'testcol' + idx,
-    name: 'testcol' + idx,
-    tooltip: (f: any) => f.fieldData,
-  }));
-}
-
-const generateRows = (c: any, n: any) => {
-  return Array.from({ length: n }).map((x, idx) => {
-    const res: any = {};
-    for (let i = 0; i < c.length; i++) {
-      res[c[i].id] = getRandomCharacters(9);
-    }
-    return res;
-  });
-}
+const generateCol = (n: number) => Array.from({ length: n }).map((_x, idx) => ({
+  id: `testcol ${idx}`,
+  field: `testcol ${idx}`,
+  name: `testcol ${idx}`,
+  tooltip: (f: any) => f.fieldData,
+}));
 
 const getRandomCharacters = (
   length: number,
   chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-) => {
-  return Array.from({ length }, () =>
-    chars.charAt(Math.floor(Math.random() * chars.length))
-  ).join('');
-}
+) => Array.from({ length }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+
+const generateRows = (c: any, n: any) => Array.from({ length: n }).map(() => {
+  const res: any = {};
+  for (let i = 0; i < c.length; i++) {
+    res[c[i].id] = getRandomCharacters(9);
+  }
+  return res;
+});
 
 let cols: any = [];
 let rows: any = [];
@@ -118,14 +110,14 @@ let toggle = true;
 const hideShowFirst = () => {
   dataGrid.setColumnVisible(cols[0].id, !toggle);
   toggle = !toggle;
-}
+};
 
 const load = (n: any) => {
   cols = generateCol(n);
   rows = generateRows(cols, n);
   dataGrid.columns = cols;
   dataGrid.data = rows;
-}
+};
 
 dataGridInitButton.addEventListener('click', () => {
   load(200);
@@ -135,13 +127,11 @@ dataGridFirstColumnToggle.addEventListener('click', () => {
   hideShowFirst();
 });
 
-const setData = async () => {
-  const res = await fetch(url);
-  const data = await res.json();
-  dataGrid.data = data;
-};
-
-
+// const setData = async () => {
+//   const res = await fetch(url);
+//   const data = await res.json();
+//   dataGrid.data = data;
+// };
 
 // await setData();
 

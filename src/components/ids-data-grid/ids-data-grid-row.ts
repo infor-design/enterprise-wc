@@ -122,7 +122,7 @@ export default class IdsDataGridRow extends IdsElement {
 
     // This is current cache strategy via memoization.
     IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
-    const cells = this.querySelectorAll('ids-data-grid-cell');
+    const cells = this.querySelectorAll<IdsDataGridCell>('ids-data-grid-cell');
     if (cells?.length === 0) {
       this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
     } else {
@@ -326,7 +326,7 @@ export default class IdsDataGridRow extends IdsElement {
         const content = IdsDataGridCell.template(rowData, columnData, this.rowIndex, this.dataGrid);
         if (content) {
           requestAnimationTimeout(() => {
-            (cell as IdsDataGridCell).innerHTML = content
+            (cell as IdsDataGridCell).innerHTML = content;
           }, 200);
         }
         // Updates selected rows to display the correct CSS part (also activated rows in mixed-selection mode)
