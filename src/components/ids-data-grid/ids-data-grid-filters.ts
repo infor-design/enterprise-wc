@@ -675,7 +675,7 @@ export default class IdsDataGridFilters {
       }
 
       return isMatch;
-    }
+    };
 
     const checkRow = (row: any, index: number) => {
       let isMatch = true;
@@ -687,8 +687,8 @@ export default class IdsDataGridFilters {
           const columns = this.root.columns;
           for (let j = 0; j < columns.length; j++) {
             const column = columns[j];
-            const columnMatch = checkColumn({...c, columnId: column?.id}, row, index, true);
-            isMatch = !columnMatch ? false : true;
+            const columnMatch = checkColumn({ ...c, columnId: column?.id }, row, index, true);
+            isMatch = !!columnMatch;
             if (isMatch) {
               break;
             }

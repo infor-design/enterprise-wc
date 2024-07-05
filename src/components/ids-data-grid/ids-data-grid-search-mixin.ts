@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool, stringToNumber} from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import { IdsConstructor } from '../../core/ids-element';
 import { EventsMixinInterface } from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -34,11 +34,11 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   connectedCallback() {
     super.connectedCallback?.();
 
-    this.dataGrid.pager.onEvent('pagenumberchange', this, (event: CustomEvent) => {
+    this.dataGrid.pager.onEvent('pagenumberchange', this, () => {
       this.highlightSearchRows();
     });
 
-    this.dataGrid.pager.onEvent('pagesizechange', this, (event: CustomEvent) => {
+    this.dataGrid.pager.onEvent('pagesizechange', this, () => {
       this.highlightSearchRows();
     });
   }
@@ -52,7 +52,8 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   }
 
   /**
-   * Reference to the data grid Toolbar
+   * Reference to the data grid toolbar
+   * @returns {HTMLElement} the toolbar
    */
   get toolbar() {
     const toolbar = this.dataGrid.shadowRoot?.querySelector('.ids-data-grid-toolbar');
@@ -91,6 +92,7 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
 
     return `<ids-search-field label="Search" label-state="collapsed" size="" exportparts="${cssParts}" clearable no-margins></ids-search-field>`;
   }
+
   /**
    * Set the searchable
    * @returns {void}
@@ -124,6 +126,7 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   get searchable(): boolean {
     return this.hasAttribute(attributes.SEARCHABLE);
   }
+
   /**
    * Set search term min size, will trigger filtering only when its length is greater than or equals to term value.
    * @param {string | number | null} value The value
@@ -143,7 +146,12 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   #handleSearchKeyword() {
     const filterExpr: any = [];
     const term = (this.#searchedTerm || '').toLowerCase();
-    filterExpr.push({ column: 'all', operator: 'contains', value: term, keywordSearch: true });
+    filterExpr.push({
+      column: 'all',
+      operator: 'contains',
+      value: term,
+      keywordSearch: true
+    });
 
     this.dataGrid.filters?.applyFilter(filterExpr);
     this.highlightSearchRows();
@@ -160,9 +168,7 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
     this.container?.querySelectorAll('ids-data-grid-cell').forEach((cell) => {
       const text = cell.textContent || '';
 
-      if (!text.toLowerCase().includes(this.#searchedTerm)) {
-        return;
-      };
+      if (!text.toLowerCase().includes(this.#searchedTerm)) return;
 
       const regex = new RegExp(`(${this.#searchedTerm})`, 'gi');
       const cellHtml = (cell.innerHTML);
@@ -173,7 +179,6 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
       cell.innerHTML = cellHtml.replace(text, replaceMatch(text));
     });
   }
-
 };
 
 export default IdsDataGridSearchMixin;
