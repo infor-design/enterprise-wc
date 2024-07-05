@@ -114,7 +114,7 @@ test.describe('IdsAbout tests', () => {
       expect(await page.locator('ids-about').getAttribute('dir')).toEqual('rtl');
     });
 
-    test.skip('content should be translated when switching languages', async ({ page }) => {
+    test.skip('content should be translated when switching languages', { annotation: { type: 'zsID', description: 'IDS-T2' } }, async ({ page }) => {
       // set language to spanish
       await page.evaluate(async () => {
         await window.IdsGlobal.locale?.setLocale('es-ES');
@@ -132,7 +132,7 @@ test.describe('IdsAbout tests', () => {
       expect(await page.locator('ids-text[slot="device"]').textContent()).toContain(platformInSpanish);
     });
 
-    test('should be be possible to copy to clipboard ', async ({ page, context }) => {
+    test('should be be possible to copy to clipboard ', { annotation: { type: 'zsID', description: 'IDS-T1' } }, async ({ page, context }) => {
       await context.grantPermissions(['clipboard-read', 'clipboard-write']);
 
       await page.locator('#about-example-trigger').click();

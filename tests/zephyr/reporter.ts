@@ -1,0 +1,118 @@
+import type { Reporter, TestCase, TestResult } from '@playwright/test/reporter';
+import {
+  createReadStream,
+  existsSync,
+  mkdirSync,
+  writeFileSync
+} from 'fs';
+import { join } from 'path';
+import { ExecException, exec } from 'child_process';
+import { blob } from 'stream/consumers';
+import { Blob } from 'buffer';
+import { ZephyrCloud, SyncOptions } from './cloud';
+
+export type ZephyrResults = {
+  result: string,
+  testCase: {
+    key: string,
+    comment: string
+  }
+};
+
+export class ZephyrReporter implements Reporter {
+  private options: SyncOptions;
+
+  private service: ZephyrCloud;
+
+  private testResults: ZephyrResults[] = [];
+
+  private reportBasePath: string = 'test-results/zephyr';
+
+  private reportFullPath: string;
+
+  constructor(options: SyncOptions) {
+    this.options = options;
+    this.reportFullPath = join(process.cwd(), this.reportBasePath, `zephyr-report-${new Date().toISOString()}.json`);
+    this.service = new ZephyrCloud(this.options);
+  }
+
+  onTestEnd(test: TestCase, result: TestResult): void {
+    const zAnnotation = test.annotations.find((item) => item.type === 'zsID');
+    if (zAnnotation !== undefined && zAnnotation.description) {
+      const testCaseKey = zAnnotation.description;
+
+      let status: string;
+      if (test.outcome() === 'flaky') {
+        status = 'Flaky';
+      } else if (result.status === 'skipped') {
+        status = 'Skipped';
+      } else if (result.status === 'passed') {
+        status = 'Pass';
+      } else if (result.status === 'failed' || result.status === 'timedOut') {
+        status = 'Fail';
+      } else {
+        status = 'Not Executed';
+      }
+
+      this.testResults.push({
+        result: status,
+        testCase: {
+          key: testCaseKey,
+          comment: 'via Playwright'
+        }
+      });
+    }
+  }
+
+  async onEnd(): Promise<void | { status?: 'passed' | 'failed' | 'timedout' | 'interrupted' | undefined; } | undefined> {
+    if (this.testResults.length > 0) {
+      this.#createReport();
+      const zip = await this.#archiveReport();
+      if (await this.service.apiHealthCheck()) {
+        if (zip) await this.service.uploadTestResults(zip);
+      } else {
+        console.info('Failed to connect to Zephyr cloud services!');
+      }
+    } else {
+      console.info('No test results to be uploaded.');
+    }
+  }
+
+  #createReport() {
+    const jReport = JSON.stringify({ version: 1, executions: this.testResults }, null, 2);
+    if (!existsSync(this.reportBasePath)) mkdirSync(this.reportBasePath, { recursive: true });
+    writeFileSync(this.reportFullPath, jReport);
+  }
+
+  async #archiveReport(): Promise<Blob | null> {
+    const zipFileName = `results-${new Date().toISOString()}.zip`;
+    const zipFullPath = join(process.cwd(), this.reportBasePath, zipFileName);
+    try {
+      const zipPath = await this.#execute('which zip');
+      await this.#execute(`${zipPath.trim()} -r ${this.reportBasePath}/${zipFileName} ${this.reportFullPath}`);
+      await this.#execute(`du -hs ${this.reportBasePath}/${zipFileName}`);
+      const file = await blob(createReadStream(zipFullPath));
+      return file;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  async #execute(command: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      exec(command, (error: ExecException | null, stdout: string, stderr: string) => {
+        if (error) {
+          reject(error);
+        }
+        if (stderr) {
+          reject(stderr);
+        } else {
+          resolve(stdout.trim());
+        }
+      });
+    });
+  }
+}
+
+export default ZephyrReporter;

@@ -24,7 +24,25 @@ export default defineConfig({
   snapshotPathTemplate: '{testDir}/{testFileDir}/snapshots/{arg}.snap',
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html']
+    ['html'],
+    ['./tests/zephyr/reporter.ts',
+      {
+        // Zephyr Scale api token
+        apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOiJodHRwczovL2luZm9yd2lraS5hdGxhc3NpYW4ubmV0IiwidXNlciI6eyJhY2NvdW50SWQiOiI3MTIwMjA6ZjUwNjc3MzEtMTc3Zi00NTU5LTlmMmItYzNkNzFkZjU4ZDU2In19LCJpc3MiOiJjb20ua2Fub2FoLnRlc3QtbWFuYWdlciIsInN1YiI6ImEwZDdlMWE3LWMxZGYtM2Q5Zi05YmVhLWY4NzkyMjdlMjBjZSIsImV4cCI6MTc1MTQ1MjU2NywiaWF0IjoxNzE5OTE2NTY3fQ.wMNMcvtEdtVr_8pODmXCFY63NbLYOCcc0y9znPMeBu4',
+        // Jira project ID
+        projectId: 'IDS',
+        // Build ID
+        buildId: '32452',
+        // Branch ID
+        branchId: 'Development',
+        // Base Zephyr Scale api url
+        baseUrl: 'https://api.zephyrscale.smartbear.com/v2',
+        // Test cycle folder Id
+        testCycleFolderId: '15108775',
+        codeBase: 'Web Component',
+        codeVersion: '1.3'
+      }
+    ]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
