@@ -1,6 +1,6 @@
-import type IdsDataGrid from '../ids-data-grid';
 import '../../ids-layout-flex/ids-layout-flex';
 import '../ids-data-grid';
+import type IdsDataGrid from '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 
 // Example for programmatically populating the DataGrid
@@ -102,18 +102,22 @@ const generateRows = (c: any, n: any) => Array.from({ length: n }).map(() => {
 
 let cols: any = [];
 let rows: any = [];
-let toggle = true;
-
-const hideShowFirst = () => {
-  dataGrid.setColumnVisible(cols[0].id, !toggle);
-  toggle = !toggle;
-};
 
 const load = (n: any) => {
   cols = generateCol(n);
   rows = generateRows(cols, n);
   dataGrid.columns = cols;
   dataGrid.data = rows;
+};
+
+let toggle = true;
+const hideShowFirst = () => {
+  if (!cols[0]?.id) {
+    load(200);
+  }
+
+  dataGrid.setColumnVisible(cols[0].id, !toggle);
+  toggle = !toggle;
 };
 
 dataGridInitButton.addEventListener('click', () => {

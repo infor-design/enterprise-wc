@@ -5,19 +5,30 @@
   <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
-    <ids-container role="main" padding="8">
-      <ids-hyperlink>Example Components </ids-hyperlink>
-      <button id="data-grid-init-button">Grid init & load the data</button>
-      <button id="toggle-first-column">Hide/Show first column</button>
-      <ids-data-grid
-        id="data-grid-virtual-scroll"
-        auto-fit="true"
-        list-style="true"
-        scroll-max-rows="40"
-        virtual-scroll="true"
-        row-height="xs"
-      >
-      </ids-data-grid>
-    </ids-container>
+  <ids-container role="main" padding="8" hidden>
+    <ids-layout-flex direction="column" gap="8" full-height>
+      <ids-layout-flex-item>
+        <ids-theme-switcher mode="light"></ids-theme-switcher>
+      </ids-layout-flex-item>
+      <ids-layout-flex-item>
+        <ids-text font-size="12" type="h1">Data Grid (Virtual Scroll Programmatic)</ids-text>
+      </ids-layout-flex-item>
+      <ids-layout-flex-item grow="1">
+        <button id="data-grid-init-button">Grid init & load the data</button>
+        <button id="toggle-first-column">Hide/Show first column</button>
+      </ids-layout-flex-item>
+      <ids-layout-flex-item grow="1" overflow="hidden">
+        <ids-data-grid
+          id="data-grid-virtual-scroll"
+          auto-fit="true"
+          list-style="true"
+          scroll-max-rows="40"
+          virtual-scroll="true"
+          row-height="xs"
+        >
+        </ids-data-grid>
+      </ids-layout-flex-item>
+    </ids-layout-flex>
+  </ids-container>
 </body>
 </html>
