@@ -8,6 +8,10 @@
   text-align: unset;
 }
 
+:host([type='tooltip']) {
+  z-index: 1022;
+}
+
 :host([position-style='absolute']) {
   position: absolute;
 }
