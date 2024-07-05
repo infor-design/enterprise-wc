@@ -28,7 +28,7 @@ export default defineConfig({
     ['./tests/zephyr/reporter.ts',
       {
         // Zephyr Scale api token
-        apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb250ZXh0Ijp7ImJhc2VVcmwiOiJodHRwczovL2luZm9yd2lraS5hdGxhc3NpYW4ubmV0IiwidXNlciI6eyJhY2NvdW50SWQiOiI3MTIwMjA6ZjUwNjc3MzEtMTc3Zi00NTU5LTlmMmItYzNkNzFkZjU4ZDU2In19LCJpc3MiOiJjb20ua2Fub2FoLnRlc3QtbWFuYWdlciIsInN1YiI6ImEwZDdlMWE3LWMxZGYtM2Q5Zi05YmVhLWY4NzkyMjdlMjBjZSIsImV4cCI6MTc1MTQ1MjU2NywiaWF0IjoxNzE5OTE2NTY3fQ.wMNMcvtEdtVr_8pODmXCFY63NbLYOCcc0y9znPMeBu4',
+        apiKey: '',
         // Jira project ID
         projectId: 'IDS',
         // Build ID
