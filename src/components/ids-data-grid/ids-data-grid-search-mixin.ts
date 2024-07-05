@@ -9,7 +9,7 @@ import IdsSearchField from '../ids-search-field/ids-search-field';
 type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
- * A mixin that adds tooltip functionality to data grid
+ * A mixin that adds search functionality to data grid
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
