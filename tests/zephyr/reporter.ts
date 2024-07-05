@@ -65,17 +65,38 @@ export class ZephyrReporter implements Reporter {
   }
 
   async onEnd(): Promise<void | { status?: 'passed' | 'failed' | 'timedout' | 'interrupted' | undefined; } | undefined> {
+    if (!this.#validateOptions()) return;
     if (this.testResults.length > 0) {
       this.#createReport();
       const zip = await this.#archiveReport();
-      if (await this.service.apiHealthCheck()) {
-        if (zip) await this.service.uploadTestResults(zip);
+      const apiHealthCheck = await this.service.apiHealthCheck();
+      if (apiHealthCheck.ok) {
+        if (zip) {
+          const response = await this.service.uploadTestResults(zip);
+          if (!response.ok) console.info(`[zephyr sync] Failed to upload test results to Zephyr cloud: ${response.body}`);
+        }
       } else {
-        console.info('Failed to connect to Zephyr cloud services!');
+        console.info(`[zephyr sync] Failed to connect to Zephyr cloud services: ${apiHealthCheck.body}`);
       }
     } else {
-      console.info('No test results to be uploaded.');
+      console.info('[zephyr sync] No test results uploaded.');
     }
+  }
+
+  #validateOptions(): boolean {
+    const requiredOptions = [
+      { field: this.options.apiKey, name: 'API key' },
+      { field: this.options.baseUrl, name: 'API url' },
+      { field: this.options.projectId, name: 'Project key' }
+    ];
+    let flag = true;
+    for (const option of requiredOptions) {
+      if (!option.field) {
+        console.info(`[zephyr sync] ${option.name} is required.`);
+        flag = false;
+      }
+    }
+    return flag;
   }
 
   #createReport() {

@@ -44,7 +44,7 @@ export class ZephyrCloud {
     return response;
   }
 
-  async apiHealthCheck(): Promise<boolean> {
+  async apiHealthCheck(): Promise<Response> {
     const url: string = `${this.options.baseUrl}/healthcheck`;
     const headers = new Headers();
     headers.append('Authorization', `Bearer ${this.options.apiKey}`);
@@ -55,6 +55,6 @@ export class ZephyrCloud {
       redirect: 'follow'
     });
 
-    return response.status === 200;
+    return response;
   }
 }
