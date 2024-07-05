@@ -48,9 +48,12 @@ if (listView) {
   listView.addEventListener('click', (e: any) => {
     console.info('clicked event called', e.detail);
 
-    formCell.removeAttribute('hide');
-    listViewCell.setAttribute('hide', 'md');
-    menuButton.icon = 'arrow-left';
+    const paneWidth = splitterPane.getBoundingClientRect().width;
+    if (paneWidth < breakpointMd) {
+      formCell.removeAttribute('hide');
+      listViewCell.setAttribute('hide', 'md');
+      menuButton.icon = 'arrow-left';
+    }
   });
   listView.addEventListener('activated', (e: any) => {
     console.info('activated event called', e.detail);
