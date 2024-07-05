@@ -2,15 +2,12 @@ import type IdsDataGrid from '../ids-data-grid';
 import '../../ids-layout-flex/ids-layout-flex';
 import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
-// import productsJSON from '../../../assets/data/products.json';
 
-// Example for populating the DataGrid
+// Example for programmatically populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-virtual-scroll')!;
 const dataGridInitButton = document.querySelector('#data-grid-init-button')!;
 const dataGridFirstColumnToggle = document.querySelector('#toggle-first-column')!;
 
-// Do an ajax request
-// const url: any = productsJSON;
 const columns: IdsDataGridColumn[] = [];
 
 // Set up columns
@@ -126,14 +123,6 @@ dataGridInitButton.addEventListener('click', () => {
 dataGridFirstColumnToggle.addEventListener('click', () => {
   hideShowFirst();
 });
-
-// const setData = async () => {
-//   const res = await fetch(url);
-//   const data = await res.json();
-//   dataGrid.data = data;
-// };
-
-// await setData();
 
 dataGrid.addEventListener('selectionchanged', (e: Event) => {
   console.info(`Selection Changed`, (<CustomEvent>e).detail);
