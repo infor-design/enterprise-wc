@@ -83,7 +83,7 @@
   }
 
   &:not(.ids-icon-button) ::slotted(ids-icon) {
-    padding-inline-end: calc(var(--ids-space-xxs) + 3px);
+    margin-inline-end: calc(var(--ids-space-xxs) + 3px);
   }
 
   .ids-icon {
