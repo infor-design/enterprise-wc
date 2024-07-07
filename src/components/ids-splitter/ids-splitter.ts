@@ -673,7 +673,7 @@ export default class IdsSplitter extends Base {
     this.#defaultsSize = defaults.size;
     this.#expandSizes = [...this.#sizes];
     this.initialized = true;
-    // this.classList.add('ids-splitter-initialized');
+    this.classList.add('ids-splitter-initialized');
     return this;
   }
 

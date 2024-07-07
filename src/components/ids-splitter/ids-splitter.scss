@@ -1,13 +1,13 @@
 @import '../../themes/mixins/ids-core-mixins';
 
 /* Ids Splitter Component */
-// :host {
-//   visibility: hidden; // Fix FOUC
-// }
+:host {
+  visibility: hidden; // Fix FOUC
+}
 
-// :host(.ids-splitter-initialized) {
-//   visibility: visible;
-// }
+:host(.ids-splitter-initialized) {
+  visibility: visible;
+}
 
 .ids-splitter {
   display: flex;
