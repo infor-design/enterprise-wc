@@ -208,11 +208,11 @@ export default class IdsHidden extends IdsElement {
    */
   set containerTarget(val: string) {
     if (val) {
-      this.setAttribute('container-target', val);
+      this.setAttribute(attributes.CONTAINER_TARGET, val);
       const target = document.getElementById(val)!;
       target.style.containerType = 'inline-size';
     } else {
-      this.removeAttribute('container-target');
+      this.removeAttribute(attributes.CONTAINER_TARGET);
     }
   }
 
@@ -223,7 +223,7 @@ export default class IdsHidden extends IdsElement {
    * @memberof IdsHidden
    */
   get containerTarget(): string | null {
-    return this.getAttribute('container-target');
+    return this.getAttribute(attributes.CONTAINER_TARGET);
   }
 
   /**
