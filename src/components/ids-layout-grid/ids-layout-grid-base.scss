@@ -38,7 +38,7 @@ $max-row-height: var(--max-row-height);
 $max-width: var(--max-width);
 
 /* Host and ids-layout-grid Base */
-:host(.#{$prefix}),
+:host,
 .#{$prefix} {
   display: grid;
   grid-gap: $grid-gap;

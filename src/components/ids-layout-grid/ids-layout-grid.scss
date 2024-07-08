@@ -7,13 +7,13 @@
 // Main
 
 /* Use media queries by default */
-:host(.#{$prefix}:not([enable-container])),
+:host(:not([enable-container])),
 .#{$prefix}:not([enable-container]) {
   @include media-queries;
 }
 
 /* Use container queries if enabled */
-:host(.#{$prefix}[enable-container]),
+:host([enable-container]),
 .#{$prefix}[enable-container] {
   container-type: inline-size;
 
@@ -382,27 +382,27 @@ $align-content-list: start center space-between space-around space-evenly end;
 // Hide Cells
 
 /* Hide Cell on Breakpoints */
-:host(.#{$prefix}) > ::slotted([hide='xs']) {
+:host > ::slotted([hide='xs']) {
   display: none;
 }
 
-:host(.#{$prefix}) > ::slotted([hide='sm']) {
+:host > ::slotted([hide='sm']) {
   display: none;
 }
 
-:host(.#{$prefix}) > ::slotted([hide='md']) {
+:host > ::slotted([hide='md']) {
   display: none;
 }
 
-:host(.#{$prefix}) > ::slotted([hide='lg']) {
+:host > ::slotted([hide='lg']) {
   display: none;
 }
 
-:host(.#{$prefix}) > ::slotted([hide='xl']) {
+:host > ::slotted([hide='xl']) {
   display: none;
 }
 
-:host(.#{$prefix}) > ::slotted([hide='xxl']) {
+:host > ::slotted([hide='xxl']) {
   display: none;
 }
 
