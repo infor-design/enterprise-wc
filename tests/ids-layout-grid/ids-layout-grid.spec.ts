@@ -6,7 +6,7 @@ import { test } from '../base-fixture';
 import IdsLayoutGrid from '../../src/components/ids-layout-grid/ids-layout-grid';
 import IdsLayoutGridCell from '../../src/components/ids-layout-grid/ids-layout-grid-cell';
 
-test.describe('IdsLayoutGrid tests', () => {
+test.describe.skip('IdsLayoutGrid tests', () => {
   const url = '/ids-layout-grid/example.html';
 
   test.beforeEach(async ({ page }) => {

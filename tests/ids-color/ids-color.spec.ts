@@ -58,7 +58,7 @@ test.describe('IdsColor tests', () => {
       await expect(html).toMatchSnapshot('color-shadow');
     });
 
-    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-color-light');
     });

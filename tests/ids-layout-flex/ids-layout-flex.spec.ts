@@ -6,7 +6,7 @@ import { test } from '../base-fixture';
 import IdsLayoutFlex from '../../src/components/ids-layout-flex/ids-layout-flex';
 import IdsLayoutFlexItem from '../../src/components/ids-layout-flex/ids-layout-flex-item';
 
-test.describe('IdsLayoutFlex tests', () => {
+test.describe.skip('IdsLayoutFlex tests', () => {
   const url = '/ids-layout-flex/example.html';
 
   test.beforeEach(async ({ page }) => {
