@@ -1,7 +1,8 @@
 @import '../../themes/mixins/ids-core-mixins';
 @import './ids-layout-grid-base';
 @import './ids-layout-grid-media-queries';
-@import './ids-layout-grid-container-queries';
+
+// @import './ids-layout-grid-container-queries';
 
 // ================================================
 // Main
@@ -17,7 +18,7 @@
 .#{$prefix}[enable-container] {
   container-type: inline-size;
 
-  @include container-queries;
+  // @include container-queries;
 }
 
 /* Grid Gaps */
