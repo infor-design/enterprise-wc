@@ -82,7 +82,7 @@
     }
   }
 
-  &:not(.ids-icon-button) ::slotted(ids-icon) {
+  &:not(.ids-icon-button) ::slotted(ids-icon:not([icon='insights-smart-panel'])) {
     margin-inline-end: calc(var(--ids-space-xxs) + 3px);
   }
 
