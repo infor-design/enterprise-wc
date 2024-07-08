@@ -4,7 +4,7 @@
 
 ### 1.3.0 Features
 
-- `[Fonts]` The source sans pro font should no longer be used in googleapis instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
+- `[Fonts]` The source sans pro font should no longer be used in `googleapis` instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
 - `[Dates]` Added a new `twoDigitYear` setting to set the locale system to set the dates cut over for two digit years, note that two digit years should be avoided. ([#8061](https://github.com/infor-design/enterprise-wc/issues/2425))
 - `[Switch]` Updated switch design. ([#2347](https://github.com/infor-design/enterprise-wc/issues/2347))
 
@@ -12,15 +12,22 @@
 
 - `[Accordion]` Fix accordion panel expanded/icon states when inserted dynamically. ([#2406](https://github.com/infor-design/enterprise-wc/issues/2406))
 - `[Accordion]` Fix nested accordion fires common event between all headers. ([#2408](https://github.com/infor-design/enterprise-wc/issues/2408))
+- `[Button]` Changed GenAi Button in dark mode background color. ([#2509](https://github.com/infor-design/enterprise-wc/issues/2509))
 - `[Dropdown]` Fix dropdown bug where input is empty when option text is dynamic. ([#2362](https://github.com/infor-design/enterprise-wc/issues/2362))
+- `[Dropdown]` Fix dropdown width when size is `full`. ([#2001](https://github.com/infor-design/enterprise-wc/issues/2001))
+- `[Dropdown]` Fix dropdown in expandable header. ([#2441](https://github.com/infor-design/enterprise-wc/issues/2441))
+- `[Dropdown]` Fix dropdown in action panel. ([#2431](https://github.com/infor-design/enterprise-wc/issues/2431))
+- `[Multiselect]` Fix multiselect width when size is `full`. ([#2248](https://github.com/infor-design/enterprise-wc/issues/2248))
 - `[Datagrid]` Fix `save-user-settings` so that it works in Angular. ([#2383](https://github.com/infor-design/enterprise-wc/issues/2383))
+- `[Image]` Fix `src` setting in example. ([#2300](https://github.com/infor-design/enterprise-wc/issues/2300))
 - `[ListView|VirtualScroll]` Fix scroll-behavior of `ids-list-view` when used within `ids-virtual-scroll`. ([#2322](https://github.com/infor-design/enterprise-wc/issues/2322))
 - `[ListView]` Fix bug where, after a list-view-item is selected, search-field keeps losing focus while typing. ([#2296](https://github.com/infor-design/enterprise-wc/issues/2296))
 - `[ListView|VirtualScroll]` Fix scroll-behavior of `ids-list-view` when used within `ids-virtual-scroll`. ([#2322](https://github.com/infor-design/enterprise-wc/issues/2322))
+- `[LoadingIndicator]` Added fixes to some properties that could not be set on the fly. ([#2429](https://github.com/infor-design/enterprise-wc/issues/2429))
 - `[Message]` Converted message tests to playwright. ([#1954](https://github.com/infor-design/enterprise-wc/issues/1954))
 - `[Modal]` Fixed an issue where string interpolation didn't work for the modal title in Angular examples. ([#2325](https://github.com/infor-design/enterprise-wc/issues/2325))
 - `[MonthView]` Converted month view tests to playwright. ([#1956](https://github.com/infor-design/enterprise-wc/issues/1956))
-- `[PopupMenu]` Removed timer and redundent flag for production issue. ([#2457](https://github.com/infor-design/enterprise-wc/issues/2457))
+- `[PopupMenu]` Removed timer and redundant flag for production issue. ([#2457](https://github.com/infor-design/enterprise-wc/issues/2457))
 - `[Tabs]` Fix tab content visible state when added dynamically. ([#2393](https://github.com/infor-design/enterprise-wc/issues/2393))
 - `[Text]` Properly vertically-align `ids-alert` text when placed inside `ids-text`. ([#2327](https://github.com/infor-design/enterprise-wc/issues/2327))
 - `[Tooltip]` Converted tooltip tests to playwright. ([#1985](https://github.com/infor-design/enterprise-wc/issues/1985))
