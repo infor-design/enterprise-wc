@@ -419,6 +419,7 @@ export default class IdsDataGrid extends Base {
 
     const header = IdsDataGridHeader.template(this);
     const body = this.bodyTemplate();
+    const scrollTop = this.container?.scrollTop || 0;
     if (this.container) this.container.innerHTML = header + body;
     this.#setColumnWidths();
 
@@ -431,10 +432,12 @@ export default class IdsDataGrid extends Base {
     setContextmenu.apply(this);
 
     // Set initial padding-bottom for virtual scroll
+    let rowStart = this.rowStart || 0;
     if (this.virtualScroll) {
       const settings = this.virtualScrollSettings;
       const totalRows = this.treeGrid ? this.virtualRows.length : this.data.length;
-      this.#positionVirtualScrollWindow(0, totalRows, settings);
+      rowStart = Math.floor(scrollTop / settings.ROW_HEIGHT);
+      this.#positionVirtualScrollWindow(rowStart, totalRows, settings);
     }
 
     // Attach post filters setting
@@ -448,12 +451,12 @@ export default class IdsDataGrid extends Base {
 
     // Do some things after redraw
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.afterRedraw();
+    this.afterRedraw(rowStart);
   }
 
   /** Do some things after redraw */
-  async afterRedraw() {
-    const rowStart = this.rowStart || 0;
+  async afterRedraw(startIndex: number = 0) {
+    const rowStart = startIndex || this.rowStart || 0;
 
     // Handle ready state
     const handleReady = () => {
@@ -1548,7 +1551,10 @@ export default class IdsDataGrid extends Base {
     this.offEvent('scrollend.data-grid.virtual-scroll', this.container);
     this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
-      if (!this.treeGrid) this.#handleVirtualScroll(virtualRowHeight);
+      if (!this.treeGrid) {
+        this.#handleVirtualScroll(virtualRowHeight);
+        this.#renderScrolledRows();
+      }
     });
 
     this.offEvent('rowexpanded.data-grid.virtual-scroll', this);
@@ -1683,6 +1689,11 @@ export default class IdsDataGrid extends Base {
     }
   }
 
+  #renderScrolledRows() {
+    if (!this.virtualScroll) return;
+    this.rows.forEach((row) => row.renderCells(row.rowIndex));
+  }
+
   #customScrollEventCache: { [key: string]: number } = {};
 
   /* Trigger API scroll event */
@@ -1771,6 +1782,7 @@ export default class IdsDataGrid extends Base {
     }
 
     this.#scrollRowIntoView(rowIndex);
+    this.#renderScrolledRows();
   }
 
   /**

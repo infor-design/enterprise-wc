@@ -6,7 +6,6 @@ import IdsElement from '../../core/ids-element';
 import type IdsDataGrid from './ids-data-grid';
 import type { IdsDataGridColumn } from './ids-data-grid-column';
 import IdsDataGridCell from './ids-data-grid-cell';
-import { requestAnimationTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 @customElement('ids-data-grid-row')
 export default class IdsDataGridRow extends IdsElement {
@@ -123,11 +122,13 @@ export default class IdsDataGridRow extends IdsElement {
     // This is current cache strategy via memoization.
     IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
     const cells = this.querySelectorAll<IdsDataGridCell>('ids-data-grid-cell');
-    if (cells?.length === 0) {
+
+    if (cells?.length === 0 || !this.dataGrid.virtualScroll) {
       this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
     } else {
       this.updateCells(row);
     }
+
     this.#setAttributes();
   }
 
@@ -309,6 +310,19 @@ export default class IdsDataGridRow extends IdsElement {
     return this.classList.contains('selected');
   }
 
+  renderCells(index: number) {
+    this.updateCells(index);
+
+    const rowData = this.data[index];
+    this.visibleColumns.map((column: IdsDataGridColumn, j: number) => {
+      const content = IdsDataGridCell.template(rowData, column, this.rowIndex, this.dataGrid);
+      const cell = this.cellByIndex(j);
+      if (cell) {
+        cell.innerHTML = content;
+      }
+    });
+  }
+
   /**
    * Updates some attributes/classes on a single row's cells
    * @private
@@ -316,19 +330,13 @@ export default class IdsDataGridRow extends IdsElement {
    */
   updateCells(index: number) {
     const row = this;
-    const rowData = this.data[index];
 
     const cells = row.querySelectorAll('.ids-data-grid-cell');
     if (cells?.length) {
       [...cells].forEach((cell: Element, columnIndex: number) => {
         const columnData = this.dataGrid?.columns[columnIndex];
         let cssPart = columnData.cssPart || 'cell';
-        const content = IdsDataGridCell.template(rowData, columnData, this.rowIndex, this.dataGrid);
-        if (content) {
-          requestAnimationTimeout(() => {
-            (cell as IdsDataGridCell).innerHTML = content;
-          }, 200);
-        }
+
         // Updates selected rows to display the correct CSS part (also activated rows in mixed-selection mode)
         if (
           (this.dataGrid?.rowSelection === 'mixed' && row.classList.contains('activated'))
