@@ -183,13 +183,31 @@ export default class IdsSwappable extends Base {
     if (this.draggingElements?.length > 0) {
       if (afterElement) {
         this.draggingElements.forEach((draggingEl: HTMLElement) => {
+          const fromIndex = Array.from(draggingEl!.parentNode!.children).indexOf(draggingEl);
           this.#resetDraggingItems(draggingEl);
           this.insertBefore(draggingEl, afterElement);
+          this.triggerEvent('swapped', this, {
+            detail: {
+              elem: draggingEl,
+              location: 'before',
+              toIndex: Array.from(draggingEl!.parentNode!.children).indexOf(draggingEl),
+              fromIndex
+            }
+          });
         });
       } else {
         this.draggingElements.forEach((draggingEl: HTMLElement) => {
+          const fromIndex = Array.from(draggingEl!.parentNode!.children).indexOf(draggingEl);
           this.#resetDraggingItems(draggingEl);
           this.appendChild(draggingEl);
+          this.triggerEvent('swapped', this, {
+            detail: {
+              elem: draggingEl,
+              location: 'after',
+              toIndex: Array.from(draggingEl!.parentNode!.children).indexOf(draggingEl),
+              fromIndex
+            }
+          });
         });
       }
     }

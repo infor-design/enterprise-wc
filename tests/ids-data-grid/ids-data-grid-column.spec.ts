@@ -29,6 +29,24 @@ test.describe('IdsDataGrid column tests', () => {
       expect(results.visibleColumn).toBeDefined();
     });
 
+    test('can hide / show column with hide/showColumn', async ({ page }) => {
+      const results = await page.evaluate(() => {
+        const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+        dataGrid.hideColumn('description');
+        const hiddenColumn = dataGrid.container?.querySelector('[column-id="description"]');
+        dataGrid.showColumn('description', true);
+        const visibleColumn = dataGrid.container?.querySelector('[column-id="description"]');
+
+        return {
+          hiddenColumn,
+          visibleColumn
+        };
+      });
+
+      expect(results.hiddenColumn).toBeNull();
+      expect(results.visibleColumn).toBeDefined();
+    });
+
     test('renders column when set to empty', async ({ page }) => {
       const results = await page.evaluate(() => {
         const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;

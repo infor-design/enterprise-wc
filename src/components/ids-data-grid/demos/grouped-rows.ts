@@ -43,6 +43,15 @@ gridMenu?.addEventListener('selected', async (e: Event) => {
     resizable: true
   });
   columns.push({
+    id: 'hidden-column',
+    name: 'Hidden Column',
+    field: '',
+    formatter: dataGrid.formatters.text,
+    hidden: true,
+    sortable: true,
+    resizable: true
+  });
+  columns.push({
     id: 'type',
     name: 'Type',
     field: 'type',

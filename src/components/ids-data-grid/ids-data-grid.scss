@@ -414,3 +414,59 @@ ids-loading-indicator {
     background-color: var(--ids-data-grid-row-color-background-hover);
   }
 }
+
+#datagrid-modal {
+  --ids-modal-content-padding: 0;
+  --ids-modal-header-padding: 16px 16px 8px 16px;
+
+  ids-swappable-item {
+    --ids-swappable-item-color-background-selected: var(--ids-color-accent-blue-weakest);
+    --ids-swappable-item-color-text-selected: var(--ids-color-foreground-default-default);
+
+    align-items: center;
+    height: var(--ids-data-grid-modal-row-height);
+  }
+
+  #datagrid-modal-title {
+    position: relative;
+    top: calc(var(--ids-space-04) * -1);
+  }
+
+  ids-search-field {
+    --ids-input-color-background-default: var(--ids-color-accent-gray-weakest);
+    --ids-search-field-color-background-default: var(--ids-color-accent-gray-weakest);
+    --ids-input-color-border-default: var(--ids-color-accent-gray-weak);
+    --ids-input-color-border-hover: var(--ids-color-accent-gray-weak);
+    --ids-input-color-border-focus: var(--ids-color-accent-gray-weak);
+    --ids-input-color-border-shadow: none;
+    --ids-search-field-border-radius: 0;
+    --ids-search-field-border-width: 1px 0;
+
+    margin-bottom: -8px;
+    margin-top: calc(var(--ids-space-08) * -1);
+    min-width: 330px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  ids-text {
+    width: 100%;
+  }
+
+  ids-switch {
+    position: relative;
+    top: 2px;
+  }
+
+  ids-swappable {
+    width: 100%;
+  }
+
+  .datagrid-modal-column-list {
+    --ids-modal-column-list-height: calc(100% - 14px);
+
+    overflow: auto;
+    max-height: var(--ids-modal-column-list-height);
+  }
+}

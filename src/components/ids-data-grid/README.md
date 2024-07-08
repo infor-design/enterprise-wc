@@ -528,7 +528,9 @@ The formatter is then linked via the column on the formatter setting. When the g
 ## Methods
 
 - `setColumnWidth` Can be used to set the width of a column.
-- `setColumnVisibility` Can be used to set the visibility of a column.
+- `hideColumn(columnId)` Can be used to set the visibility of a column.
+- `showColumn(columnId)` Can be used to set the visibility of a column.
+- `setColumnVisible(columnId, visible)` Can be used to set the visibility of a column.
 - `setActivateCell(cell, row)` Can be used to set focus of a cell.
 - `selectedRows` Lists the indexes of the currently selected rows.
 - `saveSetting(setting: string)` Save the given setting to local storage.

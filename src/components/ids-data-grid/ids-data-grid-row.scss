@@ -24,6 +24,10 @@
     font-weight: var(--ids-data-grid-row-grouped-font-weight, 600);
     border-inline-start: 0;
   }
+
+  ids-button {
+    --ids-button-tertiary-color-background-hover: transparent;
+  }
 }
 
 // Row Height Feature with Formatters spacing

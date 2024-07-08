@@ -52,6 +52,9 @@ import type IdsButton from '../ids-button/ids-button';
 import IdsModal from '../ids-modal/ids-modal';
 import '../ids-switch/ids-switch';
 import '../ids-swappable/ids-swappable';
+import IdsSearchField from '../ids-search-field/ids-search-field';
+import type IdsSwitch from '../ids-switch/ids-switch';
+import IdsSwappableItem from '../ids-swappable/ids-swappable-item';
 
 const Base = IdsPagerMixin(
   IdsDataGridSaveSettingsMixin(
@@ -291,6 +294,8 @@ export default class IdsDataGrid extends Base {
         </slot>
         <slot name="loading-container">
           <ids-loading-indicator stopped></ids-loading-indicator>
+        </slot>
+        <slot name="modal-container">
         </slot>
       </div>`;
 
@@ -777,8 +782,8 @@ export default class IdsDataGrid extends Base {
    */
   moveColumn(fromIndex: number, toIndex: number) {
     if (fromIndex === -1 || toIndex === -1) return;
-    const correctFromIndex = this.columnIdxById(this.visibleColumns[fromIndex].id);
-    const correctToIndex = this.columnIdxById(this.visibleColumns[toIndex].id);
+    const correctFromIndex = this.columnIdxById(this.columns[fromIndex].id);
+    const correctToIndex = this.columnIdxById(this.columns[toIndex].id);
 
     const element = this.columns[correctFromIndex];
     this.columns.splice(correctFromIndex, 1);
@@ -1052,6 +1057,24 @@ export default class IdsDataGrid extends Base {
    */
   setColumnVisible(columnId: string, visible: boolean) {
     this.columnDataById(columnId).hidden = !visible;
+    this.redraw();
+  }
+
+  /**
+   * Set a column to hidden
+   * @param {string} columnId The column id
+   */
+  hideColumn(columnId: string) {
+    this.columnDataById(columnId).hidden = true;
+    this.redraw();
+  }
+
+  /**
+   * Set a column to visible
+   * @param {string} columnId The column id
+   */
+  showColumn(columnId: string) {
+    this.columnDataById(columnId).hidden = false;
     this.redraw();
   }
 
@@ -3307,60 +3330,81 @@ export default class IdsDataGrid extends Base {
     }
   }
 
-  modalTemplate = `<ids-modal id="datagrid-modal">
+  modalTemplate = `<ids-modal id="datagrid-modal" scrollable>
       <ids-text slot="title" font-size="24" type="h2" id="datagrid-modal-title">${this.localeAPI.translate('PersonalizeColumns')}</ids-text>
       <ids-modal-button slot="buttons" id="datagrid-modal-close-btn" appearance="primary">
         <span>${this.localeAPI.translate('Close')}</span>
       </ids-modal-button>
-      <ids-layout-grid cols="1">
-        <ids-layout-grid-cell>
-          <ids-search-field clearable label="Search Columns" label-state="collapsed"></ids-search-field>
-          <div class="datagrid-modal-column-list">
-              <ids-swappable>
-                <ids-swappable-item>
-                    <ids-layout-flex justify-content="flex-end">
-                      <ids-layout-flex-item grow="1" shrink="0">
-                        <ids-text font-size="16" type="p">Column 1</ids-text>
-                      </ids-layout-flex-item>
-                      <ids-layout-flex-item grow="0" shrink="0">
-                        <ids-switch></ids-switch>
-                      </ids-layout-flex-item>
-                    </ids-layout-flex>
-                    </ids-text>
-                </ids-swappable-item>
-                <ids-swappable-item>
-                    <ids-layout-flex justify-content="flex-end">
-                      <ids-layout-flex-item grow="1" shrink="0">
-                        <ids-text font-size="16" type="p">Column 2</ids-text>
-                      </ids-layout-flex-item>
-                      <ids-layout-flex-item grow="0" shrink="0">
-                        <ids-switch></ids-switch>
-                      </ids-layout-flex-item>
-                    </ids-layout-flex>
-                    </ids-text>
-                </ids-swappable-item>
-            </ids-swappable>
-          </div>
-        </ids-layout-grid-cell>
-      </ids-layout-grid>
+      <ids-search-field clearable label="${this.localeAPI.translate('SearchColumnName')}" label-state="collapsed" size="full"></ids-search-field>
+      <ids-swappable></ids-swappable>
     </ids-modal>`;
 
   /**
    * Show a modal with selection options for the columns and grouped rows
    */
   async showPersonalizationDialog() {
-    // Show and translate modal
-    document.body.insertAdjacentHTML('beforeend', this.modalTemplate);
-    const modal = document.querySelector('#datagrid-modal') as IdsModal;
-    const closeButton = document.querySelector('#datagrid-modal-close-btn')!;
+    // Append and translate modal
+    const modalSlot = this.shadowRoot!.querySelector('slot[name="modal-container"]')!;
+    modalSlot.innerHTML = this.modalTemplate;
+    const modal = modalSlot.querySelector('#datagrid-modal') as IdsModal;
+    const closeButton = modalSlot.querySelector('#datagrid-modal-close-btn')!;
     closeButton.querySelector('span')!.textContent = this.localeAPI.translate('Close');
     modal.querySelector('[slot="title"]')!.textContent = this.localeAPI.translate('PersonalizeColumns');
 
-    // Hide Events
-    closeButton.addEventListener('click', async () => {
+    const searchfield = modal.querySelector<IdsSearchField>('ids-search-field')!;
+    searchfield!.placeholder = this.localeAPI.translate('SearchColumnName');
+    searchfield!.label = this.localeAPI.translate('SearchColumnName');
+
+    // Populate Columns
+    let swappables = '';
+    this.columns.forEach((column) => {
+      const item = `<ids-swappable-item column-id="${column?.id}" ${column?.hideable === false ? ` disabled="true"` : ''}>
+            <ids-text font-size="16" type="p">${column?.name}</ids-text>
+            <ids-switch${!column?.hidden ? ` checked="true"` : ''}${column?.hideable === false ? ` disabled="true"` : ''} name="${column?.id}"></ids-switch>
+        </ids-swappable-item>`;
+      swappables += item;
+    });
+
+    const swappable = modal.querySelector('ids-swappable');
+    swappable!.innerHTML = swappables;
+
+    // Event Handlers for the dialog
+    modal.onEvent('click', closeButton, async () => {
       await modal.hide();
-      document.querySelector('#datagrid-modal')?.remove();
+      modal.remove();
+    });
+    modal.onEvent('change', modal, async (e: CustomEvent) => {
+      if (e.detail?.elem?.tagName === 'IDS-SEARCH-FIELD') return;
+      this.setColumnVisible(e?.detail?.elem.getAttribute('name'), (e?.target as IdsSwitch).checked);
+    });
+    modal.onEvent('swapped', swappable, async (e: CustomEvent) => {
+      this.moveColumn(e.detail?.fromIndex, e.detail?.toIndex);
+    });
+
+    searchfield.offEvent('keyup', searchfield);
+    searchfield.onEvent('keyup', searchfield, async (e: CustomEvent) => {
+      if (!e.detail) this.#filterColumnList(modal, searchfield.value);
+    });
+    searchfield.onEvent('cleared', searchfield, async () => {
+      this.#filterColumnList(modal, '');
     });
     await modal.show();
+  }
+
+  /**
+   * Filter the column list
+   * @param {HTMLElement} modal  the modal to filter
+   * @param {string} value the value to filter by
+   */
+  #filterColumnList(modal: HTMLElement, value: string) {
+    modal.querySelector('ids-swappable')?.querySelectorAll<IdsSwappableItem>('ids-swappable-item').forEach((item: IdsSwappableItem) => {
+      const textElem = item.querySelector('ids-text');
+      if (textElem?.textContent?.toLowerCase().includes(value.toLowerCase())) {
+        item.hidden = false;
+        textElem.innerHTML = textElem.textContent!.replace(value, `<b>${value}</b>`);
+      } else {
+        item.hidden = true;
+      }
+    });
   }
 }

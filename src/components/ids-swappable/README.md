@@ -77,6 +77,10 @@ Some components support composition with IdsSwappable, such as [IdsTabs](../ids-
 **originalText** Sets the originalText attribute. This happens when the component is connected and is used to revert the text after item is dropped.
 **tabbable** Sets if the item is tabbable. Defaults to true.
 
+## Events
+
+- `swapped` Fires when an item is dragged up and down. Give you the dom element and new position.
+
 ## Converting from Previous Versions (Breaking Changes)
 
 **3.x to 4.x**

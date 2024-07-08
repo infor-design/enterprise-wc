@@ -11,13 +11,16 @@ import IdsElement from '../../core/ids-element';
 
 import styles from './ids-swappable-item.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
 
 type IdsSwappableDragMode = 'select' | 'always';
 
 const Base = IdsKeyboardMixin(
-  IdsLocaleMixin(
-    IdsEventsMixin(
-      IdsElement
+  IdsHideFocusMixin(
+    IdsLocaleMixin(
+      IdsEventsMixin(
+        IdsElement
+      )
     )
   )
 );
@@ -36,6 +39,7 @@ export default class IdsSwappableItem extends Base {
   }
 
   connectedCallback() {
+    this.isHost = true;
     super.connectedCallback();
     this.setAttribute(attributes.TABBABLE, 'true');
     if (!this.hasAttribute(attributes.DRAG_MODE)) {
@@ -58,7 +62,7 @@ export default class IdsSwappableItem extends Base {
   }
 
   template(): string {
-    return `<slot></slot>`;
+    return `<ids-icon icon="drag"></ids-icon><slot></slot>`;
   }
 
   get rowIndex() {
@@ -283,7 +287,7 @@ export default class IdsSwappableItem extends Base {
    * Handle the keyboard events
    */
   #handleKeyEvents() {
-    this.listen(['Enter', 'ArrowUp', 'ArrowDown'], this, (e: any) => {
+    this.listen([' ', 'ArrowUp', 'ArrowDown'], this, (e: any) => {
       e.preventDefault();
 
       if (e.key === 'ArrowDown') {
@@ -295,7 +299,7 @@ export default class IdsSwappableItem extends Base {
         e.target.previousElementSibling?.focus();
       }
 
-      if (e.key === 'Enter') {
+      if (e.key === ' ') {
         const isEditing = this.querySelector('.is-editing');
         if (isEditing) {
           return;
