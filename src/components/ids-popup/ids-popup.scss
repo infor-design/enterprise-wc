@@ -9,7 +9,7 @@
 }
 
 :host([type='tooltip']) {
-  z-index: 1022;
+  z-index: var(--ids-z-index-tooltips);
 }
 
 :host([position-style='absolute']) {
