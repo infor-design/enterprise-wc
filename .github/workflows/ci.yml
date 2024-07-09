@@ -45,13 +45,13 @@ jobs:
     - name: Run Lint Checks
       run: npm run lint
 
+    - name: Install Browsers
+      run: npx playwright install --with-deps
+
     - name: Run Tests with Coverage
       run: npm run test:coverage
       env:
         NODE_OPTIONS: "--max-old-space-size=8192"
-
-    - name: Install Browsers
-      run: npx playwright install --with-deps
 
     - name: Build again
       run: npm run build
