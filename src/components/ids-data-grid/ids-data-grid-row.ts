@@ -117,7 +117,7 @@ export default class IdsDataGridRow extends IdsElement {
     const cellsHTML = this.cacheRow(row);
     const cells = this.querySelectorAll<IdsDataGridCell>('ids-data-grid-cell');
 
-    if (cells?.length === 0 || !this.dataGrid.virtualScroll) {
+    if (cells?.length === 0 || !this.dataGrid.virtualScroll || this.dataGrid.treeGrid) {
       this.innerHTML = cellsHTML;
     } else {
       this.updateCells(row);
@@ -322,6 +322,7 @@ export default class IdsDataGridRow extends IdsElement {
   renderCells(index: number) {
     const cellsHTML = this.cacheRow(index);
     this.innerHTML = cellsHTML;
+    this.#setAttributes();
   }
 
   /**

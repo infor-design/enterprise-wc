@@ -432,12 +432,11 @@ export default class IdsDataGrid extends Base {
     setContextmenu.apply(this);
 
     // Set initial padding-bottom for virtual scroll
-    let rowStart = this.rowStart || 0;
     if (this.virtualScroll) {
       const settings = this.virtualScrollSettings;
       const totalRows = this.treeGrid ? this.virtualRows.length : this.data.length;
-      rowStart = Math.floor(scrollTop / settings.ROW_HEIGHT);
-      this.#positionVirtualScrollWindow(rowStart, totalRows, settings);
+      this.rowStart = Math.min(Math.floor(scrollTop / settings.ROW_HEIGHT), totalRows);
+      this.#positionVirtualScrollWindow(this.rowStart, totalRows, settings);
     }
 
     // Attach post filters setting
@@ -451,12 +450,12 @@ export default class IdsDataGrid extends Base {
 
     // Do some things after redraw
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.afterRedraw(rowStart);
+    this.afterRedraw();
   }
 
   /** Do some things after redraw */
-  async afterRedraw(startIndex: number = 0) {
-    const rowStart = startIndex || this.rowStart || 0;
+  async afterRedraw() {
+    const rowStart = this.rowStart || 0;
 
     // Handle ready state
     const handleReady = () => {
