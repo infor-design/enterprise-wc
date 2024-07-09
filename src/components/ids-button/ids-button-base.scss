@@ -82,7 +82,7 @@
     }
   }
 
-  &:not(.ids-icon-button) ::slotted(ids-icon:not([icon='insights-smart-panel'])) {
+  &:not(.ids-icon-button):not(.align-icon-end) ::slotted(ids-icon:not([icon='insights-smart-panel'])) {
     margin-inline-end: calc(var(--ids-space-xxs) + 3px);
   }
 
@@ -95,7 +95,7 @@
 
   &.align-icon-end {
     ::slotted(ids-icon) {
-      padding-inline-start: var(--ids-space-xxs);
+      margin-inline-start: var(--ids-space-xxs);
     }
   }
 
