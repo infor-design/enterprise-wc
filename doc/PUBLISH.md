@@ -8,10 +8,10 @@
 - Run command `npm run publish:dry-run` to test first if you wish
 - Run command `npm run publish:npm` or `publish:debug` (we may want to publish debuggable code for a period of time of stability)
 - If not installed, install GitHub cli so you get the [`gh`](https://cli.github.com/manual/gh_release_create) command with `brew install gh`
-- Run command `gh release create 1.3.0 --title "1.3.0" --notes-file "doc/CHANGELOG.md"`
+- Run command `gh release create 1.3.0 --title "1.3.0"`
 - Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents to just the current release and if needed and make it pre-release
 - Commit and push (direct to repo or PR)
-- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-120`
+- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-130`
 - Post in announcements section following other similar link
 - (Run the docs generator (TBD) for `https://design.infor.com/web-components/` by running `scripts/docs-generator/main.js`
 
