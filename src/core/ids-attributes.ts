@@ -116,6 +116,7 @@ export const attributes = {
   COMPONENT_NAME: 'component-name',
   CONDITION: 'condition',
   CONFIRM: 'confirm',
+  CONTAINER_TARGET: 'container-target',
   CONTENT_ALIGN: 'content-align',
   COPYRIGHT_YEAR: 'copyright-year',
   COUNT: 'count',
@@ -153,6 +154,7 @@ export const attributes = {
   EMPTY_MESSAGE_DESCRIPTION: 'empty-message-description',
   EMPTY_MESSAGE_ICON: 'empty-message-icon',
   EMPTY_MESSAGE_LABEL: 'empty-message-label',
+  ENABLE_CONTAINER: 'enable-container',
   END_DATE: 'end-date',
   END_HOUR: 'end-hour',
   ERROR: 'error',
@@ -208,6 +210,7 @@ export const attributes = {
   HEX: 'hex',
   HIDDEN: 'hidden',
   HIDDEN_BY_FILTER: 'hidden-by-filter',
+  HIDE: 'hide',
   HIDE_CHECKBOXES: 'hide-checkboxes',
   HIDE_DOWN: 'hide-down',
   HIDE_FOCUS: 'hide-focus',
@@ -489,6 +492,7 @@ export const attributes = {
   TABINDEX: 'tabindex',
   TAGS: 'tags',
   TARGET: 'target',
+  TEMPLATE_ROWS: 'template-rows',
   TEXT: 'text',
   TEXT_ALIGN: 'text-align',
   TEXT_DECORATION: 'text-decoration',
@@ -587,7 +591,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.2.0';
+export const version = '1.3.0';
 
 export enum IdsDirection {
   Up = 'up',
