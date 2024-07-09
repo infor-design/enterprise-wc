@@ -114,6 +114,23 @@ export default class IdsDataGridRow extends IdsElement {
    * @param {number} row the row index
    */
   renderRow(row: number) {
+    const cellsHTML = this.cacheRow(row);
+    const cells = this.querySelectorAll<IdsDataGridCell>('ids-data-grid-cell');
+
+    if (cells?.length === 0 || !this.dataGrid.virtualScroll) {
+      this.innerHTML = cellsHTML;
+    } else {
+      this.updateCells(row);
+    }
+
+    this.#setAttributes();
+  }
+
+  /**
+   * Return the row from the cache or template.
+   * @param {number} row the row index
+   */
+  cacheRow(row: number) {
     const cacheHash = this.dataGrid.cacheHash;
     const rowIndex = Number(row);
     const selectState = this.dataGrid.data[row].rowSelected ? 'select' : 'deselect';
@@ -121,15 +138,7 @@ export default class IdsDataGridRow extends IdsElement {
 
     // This is current cache strategy via memoization.
     IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
-    const cells = this.querySelectorAll<IdsDataGridCell>('ids-data-grid-cell');
-
-    if (cells?.length === 0 || !this.dataGrid.virtualScroll) {
-      this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
-    } else {
-      this.updateCells(row);
-    }
-
-    this.#setAttributes();
+    return IdsDataGridRow.rowCache[cacheKey];
   }
 
   /**
@@ -311,16 +320,8 @@ export default class IdsDataGridRow extends IdsElement {
   }
 
   renderCells(index: number) {
-    this.updateCells(index);
-
-    const rowData = this.data[index];
-    this.visibleColumns.map((column: IdsDataGridColumn, j: number) => {
-      const content = IdsDataGridCell.template(rowData, column, this.rowIndex, this.dataGrid);
-      const cell = this.cellByIndex(j);
-      if (cell) {
-        cell.innerHTML = content;
-      }
-    });
+    const cellsHTML = this.cacheRow(index);
+    this.innerHTML = cellsHTML;
   }
 
   /**
