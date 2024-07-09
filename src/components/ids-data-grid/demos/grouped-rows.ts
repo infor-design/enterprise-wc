@@ -32,6 +32,7 @@ gridMenu?.addEventListener('selected', async (e: Event) => {
     width: 80,
     sortable: true,
     hideable: false,
+    reorderable: false,
     resizable: true
   });
   columns.push({
@@ -40,7 +41,8 @@ gridMenu?.addEventListener('selected', async (e: Event) => {
     field: 'name',
     formatter: dataGrid.formatters.text,
     sortable: true,
-    resizable: true
+    resizable: true,
+    reorderable: true
   });
   columns.push({
     id: 'hidden-column',
@@ -49,7 +51,8 @@ gridMenu?.addEventListener('selected', async (e: Event) => {
     formatter: dataGrid.formatters.text,
     hidden: true,
     sortable: true,
-    resizable: true
+    resizable: true,
+    reorderable: true
   });
   columns.push({
     id: 'type',
@@ -57,7 +60,8 @@ gridMenu?.addEventListener('selected', async (e: Event) => {
     field: 'type',
     formatter: dataGrid.formatters.text,
     sortable: true,
-    resizable: true
+    resizable: true,
+    reorderable: true
   });
   columns.push({
     id: 'location',
@@ -65,7 +69,8 @@ gridMenu?.addEventListener('selected', async (e: Event) => {
     field: 'location',
     formatter: dataGrid.formatters.hyperlink,
     sortable: true,
-    resizable: true
+    resizable: true,
+    reorderable: true
   });
   columns.push({
     id: 'firstname',
@@ -73,7 +78,8 @@ gridMenu?.addEventListener('selected', async (e: Event) => {
     field: 'firstname',
     formatter: dataGrid.formatters.text,
     sortable: true,
-    resizable: true
+    resizable: true,
+    reorderable: true
   });
   columns.push({
     id: 'lastname',
@@ -81,7 +87,8 @@ gridMenu?.addEventListener('selected', async (e: Event) => {
     field: 'lastname',
     formatter: dataGrid.formatters.text,
     sortable: true,
-    resizable: true
+    resizable: true,
+    reorderable: true
   });
   columns.push({
     id: 'phone',
@@ -90,7 +97,8 @@ gridMenu?.addEventListener('selected', async (e: Event) => {
     formatter: dataGrid.formatters.text,
     sortable: true,
     hideable: false,
-    resizable: true
+    resizable: true,
+    reorderable: true
   });
   columns.push({
     id: 'purchases',
@@ -98,7 +106,8 @@ gridMenu?.addEventListener('selected', async (e: Event) => {
     field: 'purchases',
     formatter: dataGrid.formatters.decimal,
     sortable: true,
-    resizable: true
+    resizable: true,
+    reorderable: true
   });
 
   // Do an ajax request

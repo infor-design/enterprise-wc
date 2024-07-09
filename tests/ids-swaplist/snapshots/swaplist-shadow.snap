@@ -12,11 +12,11 @@
         </div>
         <div slot="card-content">
           <ids-swappable selection="multiple" dropzone="move">
-            <ids-swappable-item data-value="option_a" data-id="1" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+            <ids-swappable-item data-value="option_a" data-id="1" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
       
             <ids-text>Option A</ids-text>
           
-    </ids-swappable-item><ids-swappable-item data-value="option_b" data-id="2" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+    </ids-swappable-item><ids-swappable-item data-value="option_b" data-id="2" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
       
             <ids-text>Option B</ids-text>
           
@@ -42,11 +42,11 @@
         </div>
         <div slot="card-content">
           <ids-swappable selection="multiple" dropzone="move">
-            <ids-swappable-item data-value="option_c" data-id="3" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+            <ids-swappable-item data-value="option_c" data-id="3" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
       
             <ids-text>Option C</ids-text>
           
-    </ids-swappable-item><ids-swappable-item data-value="option_d" data-id="4" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+    </ids-swappable-item><ids-swappable-item data-value="option_d" data-id="4" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
       
             <ids-text>Option D</ids-text>
           
@@ -67,11 +67,11 @@
         </div>
         <div slot="card-content">
           <ids-swappable selection="multiple" dropzone="move">
-            <ids-swappable-item data-value="option_e" data-id="5" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+            <ids-swappable-item data-value="option_e" data-id="5" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
       
             <ids-text>Option E</ids-text>
           
-    </ids-swappable-item><ids-swappable-item data-value="option_f" data-id="6" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+    </ids-swappable-item><ids-swappable-item data-value="option_f" data-id="6" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
       
             <ids-text>Option F</ids-text>
           

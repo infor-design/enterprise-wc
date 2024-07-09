@@ -1,11 +1,11 @@
 <ids-swappable id="swappable-1" dropzone="move">
-          <ids-swappable-item class="slotted-ids-text" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+          <ids-swappable-item class="hide-focus slotted-ids-text" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
             <ids-text font-size="16" type="p">Swappable Item 1</ids-text>
           </ids-swappable-item>
-          <ids-swappable-item class="slotted-ids-text" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+          <ids-swappable-item class="hide-focus slotted-ids-text" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
             <ids-text font-size="16" type="p">Swappable Item 2</ids-text>
           </ids-swappable-item>
-          <ids-swappable-item class="slotted-ids-text" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+          <ids-swappable-item class="hide-focus slotted-ids-text" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
             <ids-text font-size="16" type="p">Swappable Item 3</ids-text>
           </ids-swappable-item>
         </ids-swappable>

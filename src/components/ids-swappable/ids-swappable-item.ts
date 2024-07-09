@@ -100,7 +100,7 @@ export default class IdsSwappableItem extends Base {
     if (isValueTruthy) {
       this.setAttribute(attributes.SELECTED, '');
       this.setAttribute('aria-selected', 'selected');
-      this.setAttribute('draggable', 'true');
+      if (!this.hasAttribute('disable-drag')) this.setAttribute('draggable', 'true');
     } else {
       this.removeAttribute(attributes.SELECTED);
       this.removeAttribute('aria-selected');

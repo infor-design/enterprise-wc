@@ -2460,7 +2460,7 @@ export default class IdsDataGrid extends Base {
     // Update data
     if (data === undefined || !data[this.idColumn]) {
       data = this.data[index];
-      data[this.idColumn] = this.data[index][this.idColumn];
+      data[this.idColumn] = this.data[index][this.idColumn] || this.uniqueId;
     }
 
     this.datasource.delete([data]);
@@ -3358,7 +3358,7 @@ export default class IdsDataGrid extends Base {
     // Populate Columns
     let swappables = '';
     this.columns.forEach((column) => {
-      const item = `<ids-swappable-item column-id="${column?.id}" ${column?.hideable === false ? ` disabled="true"` : ''}>
+      const item = `<ids-swappable-item ${!column?.reorderable ? ' disable-drag' : ''} column-id="${column?.id}" ${column?.hideable === false ? ` disabled="true"` : ''}>
             <ids-text font-size="16" type="p">${column?.name}</ids-text>
             <ids-switch${!column?.hidden ? ` checked="true"` : ''}${column?.hideable === false ? ` disabled="true"` : ''} name="${column?.id}"></ids-switch>
         </ids-swappable-item>`;

@@ -134,8 +134,8 @@ class IdsDataSource {
    * @param {Array | null} value The array to attach
    */
   set data(value) {
-    this.#currentData = this.#flattenData(deepClone(value));
-    this.#currentData = this.#groupData(deepClone(value));
+    if (!this.groupable) this.#currentData = this.#flattenData(deepClone(value));
+    if (this.groupable) this.#currentData = this.#groupData(deepClone(value));
     this.#originalData = value;
     this.#total = this.#currentData?.length || 0;
   }

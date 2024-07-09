@@ -430,7 +430,7 @@ export default class IdsDataGridRow extends IdsElement {
 
     if (row.isGroupRow) {
       const expandButton = `<ids-button tabindex="-1" class="expand-button">
-        <ids-icon icon="plusminus-folder-${row.rowExpanded === false ? 'closed' : 'open'}"></ids-icon>
+        <ids-icon icon="plusminus-folder-open"></ids-icon>
       </ids-button>`;
 
       return `<ids-data-grid-cell role="gridcell" part="cell" class="ids-data-grid-cell is-group-cell" aria-colindex="1">${expandButton} ${row?.groupLabel}</ids-data-grid-cell>`;
