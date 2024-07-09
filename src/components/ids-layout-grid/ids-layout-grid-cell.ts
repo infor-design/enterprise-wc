@@ -5,6 +5,9 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import styles from './ids-layout-grid-cell.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsButton from '../ids-button/ids-button';
+import {
+  Breakpoints,
+} from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 
 import {
   ALIGN_TYPES,
@@ -531,6 +534,27 @@ export default class IdsLayoutGridCell extends Base {
    */
   get height(): string | null {
     return this.getAttribute(attributes.HEIGHT);
+  }
+
+  /**
+   * Hides the grid cell at the given breakpoint
+   * @param {string} val xxl | xl | lg | md | sm | xs
+   */
+  set hide(val: keyof Breakpoints | null) {
+    if (val) {
+      this.setAttribute(attributes.HIDE, String(val));
+    } else {
+      this.removeAttribute(attributes.HIDE);
+    }
+  }
+
+  /**
+   * Get the hide attribute
+   * @returns {string} hide
+   * @readonly
+   */
+  get hide(): keyof Breakpoints | null {
+    return this.getAttribute(attributes.HIDE);
   }
 
   /**

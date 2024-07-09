@@ -6,6 +6,7 @@
 
 - `[Fonts]` The source sans pro font should no longer be used in `googleapis` instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
 - `[Dates]` Added a new `twoDigitYear` setting to set the locale system to set the dates cut over for two digit years, note that two digit years should be avoided. ([#8061](https://github.com/infor-design/enterprise-wc/issues/2425))
+- `[LayoutGrid]` Adds an example of a responsive grid layout inside a splitter component. ([#2411](https://github.com/infor-design/enterprise-wc/issues/2411))
 - `[Switch]` Updated switch design. ([#2347](https://github.com/infor-design/enterprise-wc/issues/2347))
 
 ### 1.3.0 Fixes
@@ -21,6 +22,7 @@
 - `[Multiselect]` Fix multiselect width when size is `full`. ([#2248](https://github.com/infor-design/enterprise-wc/issues/2248))
 - `[Datagrid]` Fix `save-user-settings` so that it works in Angular. ([#2383](https://github.com/infor-design/enterprise-wc/issues/2383))
 - `[Image]` Fix `src` setting in example. ([#2300](https://github.com/infor-design/enterprise-wc/issues/2300))
+- `[LayoutGrid]` Adds attribute to define row structure of grid layout. ([#2454](https://github.com/infor-design/enterprise-wc/issues/2454))
 - `[ListView|VirtualScroll]` Fix scroll-behavior of `ids-list-view` when used within `ids-virtual-scroll`. ([#2322](https://github.com/infor-design/enterprise-wc/issues/2322))
 - `[ListView]` Fix bug where, after a list-view-item is selected, search-field keeps losing focus while typing. ([#2296](https://github.com/infor-design/enterprise-wc/issues/2296))
 - `[ListView|VirtualScroll]` Fix scroll-behavior of `ids-list-view` when used within `ids-virtual-scroll`. ([#2322](https://github.com/infor-design/enterprise-wc/issues/2322))

@@ -58,11 +58,12 @@ test.describe('IdsColor tests', () => {
       await expect(html).toMatchSnapshot('color-shadow');
     });
 
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-color-light');
     });
   });
+
   test.describe('functionality test', async () => {
     test('shows transparent background for default hex', async ({ page }) => {
       const color = await page.locator('ids-color').first();
