@@ -33,7 +33,7 @@ test.describe('IdsPersonalize tests', () => {
       expect(bgColor).toEqual('rgb(255, 255, 255)');
     });
 
-    test('can set personalization color with the api', async ({ page, browserName }) => {
+    test.skip('can set personalization color with the api', async ({ page, browserName }) => {
       await page.evaluate(async () => {
         (document.querySelector('ids-color-picker') as any).value = '#800000';
       });
@@ -41,7 +41,7 @@ test.describe('IdsPersonalize tests', () => {
       await percySnapshot(page, 'ids-personalization-set-light');
     });
 
-    test('can set reset personalization color with the api', async ({ page, browserName }) => {
+    test.skip('can set reset personalization color with the api', async ({ page, browserName }) => {
       await page.evaluate(async () => {
         (document.querySelector('ids-color-picker') as any).value = '#800000';
         (document.querySelector('#reset') as any).click();

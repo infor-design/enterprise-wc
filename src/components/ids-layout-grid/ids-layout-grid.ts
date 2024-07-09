@@ -620,6 +620,30 @@ export default class IdsLayoutGrid extends IdsElement {
   }
 
   /**
+   * Set the height attribute
+   * @param {string | null} value The value of the height attribute
+   */
+  set height(value: string | null) {
+    if (value !== null) {
+      // Check if the value contains a unit, if not, default to 'px'
+      const newValue = /^\d+(\.\d+)?$/g.test(value) ? `${value}px` : value;
+      this.setAttribute(attributes.HEIGHT, newValue);
+      this.style.setProperty(attributes.HEIGHT, newValue);
+    } else {
+      this.removeAttribute(attributes.HEIGHT);
+      this.style.removeProperty(attributes.HEIGHT);
+    }
+  }
+
+  /**
+   * Get the height attribute
+   * @returns {boolean | null} The value of the height attribute
+   */
+  get height(): string | null {
+    return this.getAttribute(attributes.HEIGHT);
+  }
+
+  /**
    * Set the row attribute
    * @param { string | null } value The amount of rows in the grid
    */
@@ -781,6 +805,57 @@ export default class IdsLayoutGrid extends IdsElement {
    */
   get rowHeight(): string | null {
     return this.getAttribute(attributes.ROW_HEIGHT);
+  }
+
+  /**
+   * Set the templateRows attribute
+   * @param { string | null } value The amount of rows in the grid. ex: '1fr 1fr 1fr'
+   * @memberof IdsLayoutGrid
+   */
+  set templateRows(value: string | null) {
+    if (value !== null) {
+      this.setAttribute(attributes.TEMPLATE_ROWS, value);
+      this.classList.add(`${prefix}-template-rows`);
+      this.style.setProperty('--grid-template-rows', value);
+    } else {
+      this.removeAttribute(attributes.TEMPLATE_ROWS);
+      this.classList.remove(`${prefix}-template-rows`);
+      this.style.removeProperty('--grid-template-rows');
+    }
+  }
+
+  /**
+   * Get the templateRows attribute
+   * @readonly
+   * @returns {string | null} The amount of rows in the grid
+   * @memberof IdsLayoutGrid
+   */
+  get templateRows(): string | null {
+    return this.getAttribute(attributes.TEMPLATE_ROWS);
+  }
+
+  /**
+   * Set the enable-container attribute
+   * @param {string} val The value of the enable-container attribute
+   */
+  set enableContainer(val: string) {
+    const value = stringToBool(val);
+    if (value) {
+      this.setAttribute(attributes.ENABLE_CONTAINER, '');
+      this.classList.add(attributes.ENABLE_CONTAINER);
+    } else {
+      this.removeAttribute(attributes.ENABLE_CONTAINER);
+      this.classList.remove(attributes.ENABLE_CONTAINER);
+    }
+  }
+
+  /**
+   * Get the enable-container attribute
+   * @returns {boolean} enable-container
+   * @readonly
+   */
+  get enableContainer(): boolean {
+    return this.hasAttribute(attributes.ENABLE_CONTAINER);
   }
 
   constructor() {
