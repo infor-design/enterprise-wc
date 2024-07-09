@@ -114,10 +114,10 @@ export default class IdsDataGridRow extends IdsElement {
    * @param {number} row the row index
    */
   renderRow(row: number) {
-    const cellsHTML = this.cacheRow(row);
     const cells = this.querySelectorAll<IdsDataGridCell>('ids-data-grid-cell');
 
     if (cells?.length === 0 || !this.dataGrid.virtualScroll || this.dataGrid.treeGrid) {
+      const cellsHTML = this.cacheRow(row);
       this.innerHTML = cellsHTML;
     } else {
       this.updateCells(row);
