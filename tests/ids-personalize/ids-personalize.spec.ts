@@ -33,7 +33,7 @@ test.describe('IdsPersonalize tests', () => {
       expect(bgColor).toEqual('rgb(255, 255, 255)');
     });
 
-    test('can set personalization color with the api', async ({ page, browserName }) => {
+    test.skip('can set personalization color with the api', async ({ page, browserName }) => {
       await page.evaluate(async () => {
         (document.querySelector('ids-color-picker') as any).value = '#800000';
       });

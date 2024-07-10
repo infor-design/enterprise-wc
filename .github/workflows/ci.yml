@@ -45,14 +45,19 @@ jobs:
     - name: Run Lint Checks
       run: npm run lint
 
-    - name: Build and Compile
-      run: npm run build:coverage
-
     - name: Install Browsers
       run: npx playwright install --with-deps
 
-    - name: Run Tests
-      run: npx percy exec -- npm run test:ci
+    - name: Run Tests with Coverage
+      run: npm run test:coverage:ci
+      env:
+        NODE_OPTIONS: "--max-old-space-size=8192"
+
+    - name: Build again
+      run: npm run build
+
+    - name: Run Percy Tests
+      run: npx percy exec -- npx playwright test --grep "percy"
       env:
         NODE_OPTIONS: "--max-old-space-size=8192"
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}

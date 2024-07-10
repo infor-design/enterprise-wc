@@ -1,8 +1,13 @@
-import { customElement } from '../../core/ids-decorators';
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { Breakpoints, isWidthBelow, isWidthAbove } from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
+import {
+  Breakpoints,
+  isWidthBelow,
+  isWidthAbove,
+} from '../../utils/ids-breakpoint-utils/ids-breakpoint-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsElement from '../../core/ids-element';
+import styles from './ids-hidden.scss';
 
 /**
  * IDS Hidden Component
@@ -10,6 +15,7 @@ import IdsElement from '../../core/ids-element';
  * @inherits IdsElement
  */
 @customElement('ids-hidden')
+@scss(styles)
 export default class IdsHidden extends IdsElement {
   constructor() {
     super();
@@ -22,6 +28,8 @@ export default class IdsHidden extends IdsElement {
   static get attributes(): Array<string> {
     return [
       attributes.CONDITION,
+      attributes.CONTAINER_TARGET,
+      attributes.ENABLE_CONTAINER,
       attributes.HIDE_UP,
       attributes.HIDE_DOWN,
       attributes.VALUE,
@@ -168,11 +176,64 @@ export default class IdsHidden extends IdsElement {
   }
 
   /**
+   * Set the enable-container attribute
+   * Tells the component to use container queries
+   * @memberof IdsHidden
+   */
+  set enableContainer(val: string) {
+    const value = stringToBool(val);
+    if (value) {
+      this.setAttribute(attributes.ENABLE_CONTAINER, '');
+      this.classList.add(attributes.ENABLE_CONTAINER);
+    } else {
+      this.removeAttribute(attributes.ENABLE_CONTAINER);
+      this.classList.remove(attributes.ENABLE_CONTAINER);
+    }
+  }
+
+  /**
+   * Get the enable-container attribute
+   * @returns {boolean} enable-container
+   * @readonly
+   * @memberof IdsHidden
+   */
+  get enableContainer(): boolean {
+    return this.hasAttribute(attributes.ENABLE_CONTAINER);
+  }
+
+  /**
+   * Sets the container target
+   * @param {string} val container target
+   * @memberof IdsHidden
+   */
+  set containerTarget(val: string) {
+    if (val) {
+      this.setAttribute(attributes.CONTAINER_TARGET, val);
+      const target = document.getElementById(val)!;
+      target.style.containerType = 'inline-size';
+    } else {
+      this.removeAttribute(attributes.CONTAINER_TARGET);
+    }
+  }
+
+  /**
+   * Get the container target
+   * @readonly
+   * @type {(string | null)}
+   * @memberof IdsHidden
+   */
+  get containerTarget(): string | null {
+    return this.getAttribute(attributes.CONTAINER_TARGET);
+  }
+
+  /**
    * Check the screen size
    * @param {MediaQueryList} mq media query to check against
    * @memberof IdsHidden
    */
   checkScreen(mq: MediaQueryList) {
+    if (this.enableContainer) return;
+
     if (mq.matches) {
       this.hidden = true;
       this.removeAttribute('visible');

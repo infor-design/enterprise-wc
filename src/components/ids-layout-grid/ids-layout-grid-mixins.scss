@@ -1,0 +1,43 @@
+@mixin grid-cols($size) {
+  @for $i from 1 through $grid-cols {
+    & > ::slotted([col-span-#{$size}='#{$i}']),
+    &.#{$prefix} > .#{$prefix}-col-span-#{$size}-#{$i} {
+      grid-column: span $i / span $i;
+    }
+    & > ::slotted([col-start-#{$size}='#{$i}']),
+    &.#{$prefix} > .#{$prefix}-col-start-#{$size}-#{$i} {
+      grid-column-start: $i;
+    }
+    & > ::slotted([col-end-#{$size}='#{$i}']),
+    &.#{$prefix} > .#{$prefix}-col-end-#{$size}-#{$i} {
+      grid-column-end: $i;
+    }
+  }
+}
+
+@mixin grid-rows($size) {
+  @for $i from 1 through $grid-rows {
+    &[rows-#{$size}='#{$i}'],
+    &.#{$prefix}-rows-#{$size}-#{$i} {
+      grid-template-rows: repeat($i, minmax(0, 1fr));
+    }
+    & > ::slotted([row-span-#{$size}='#{$i}']),
+    &.#{$prefix} > .#{$prefix}-row-span-#{$size}-#{$i} {
+      grid-row: span $i / span $i;
+    }
+    & > ::slotted([order-#{$size}='#{$i}']),
+    &.#{$prefix} > .#{$prefix}-order-#{$size}-#{$i} {
+      order: $i;
+    }
+    & > ::slotted([order-#{$size}='-1']),
+    &.#{$prefix} > .#{$prefix}-order-#{$size}--1 {
+      order: -1;
+    }
+  }
+}
+
+@mixin hide-show($size) {
+  & > ::slotted([hide='#{$size}']) {
+    display: block;
+  }
+}

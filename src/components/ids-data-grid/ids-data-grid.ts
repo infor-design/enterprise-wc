@@ -2439,7 +2439,7 @@ export default class IdsDataGrid extends Base {
     // Update data
     if (data === undefined || !data[this.idColumn]) {
       data = this.data[index];
-      data[this.idColumn] = this.data[index][this.idColumn];
+      data[this.idColumn] = this.data[index][this.idColumn] || this.uniqueId;
     }
 
     this.datasource.delete([data]);
