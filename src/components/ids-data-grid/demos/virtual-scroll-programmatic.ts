@@ -1,4 +1,5 @@
 import '../../ids-layout-flex/ids-layout-flex';
+import '../../ids-button/ids-button';
 import '../ids-data-grid';
 import type IdsDataGrid from '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
@@ -27,56 +28,6 @@ columns.push({
   readonly: true,
   width: 66
 });
-columns.push({
-  id: 'id',
-  name: 'ID',
-  field: 'id',
-  formatter: dataGrid.formatters.text,
-  width: 80,
-  sortable: true
-});
-columns.push({
-  id: 'color',
-  name: 'Color',
-  field: 'color',
-  formatter: dataGrid.formatters.text,
-  sortable: true
-});
-columns.push({
-  id: 'inStock',
-  name: 'In Stock',
-  field: 'inStock',
-  formatter: dataGrid.formatters.text,
-  sortable: true
-});
-columns.push({
-  id: 'productId',
-  name: 'Product Id',
-  field: 'productId',
-  formatter: dataGrid.formatters.text,
-  sortable: true
-});
-columns.push({
-  id: 'productName',
-  name: 'Product Name',
-  field: 'productName',
-  formatter: dataGrid.formatters.text,
-  sortable: true
-});
-columns.push({
-  id: 'unitPrice',
-  name: 'Unit Price',
-  field: 'unitPrice',
-  formatter: dataGrid.formatters.text,
-  sortable: true
-});
-columns.push({
-  id: 'units',
-  name: 'Units',
-  field: 'units',
-  formatter: dataGrid.formatters.text,
-  sortable: true
-});
 
 dataGrid.columns = columns;
 
@@ -104,7 +55,7 @@ let cols: any = [];
 let rows: any = [];
 
 const load = (n: any) => {
-  cols = generateCol(n);
+  cols = columns.concat(generateCol(n));
   rows = generateRows(cols, n);
   dataGrid.columns = cols;
   dataGrid.data = rows;

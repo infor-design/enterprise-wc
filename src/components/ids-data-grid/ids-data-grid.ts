@@ -450,6 +450,7 @@ export default class IdsDataGrid extends Base {
     // Do some things after redraw
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.afterRedraw();
+    this.scrollRowIntoView(this.rows?.[0].rowIndex);
   }
 
   /** Do some things after redraw */
