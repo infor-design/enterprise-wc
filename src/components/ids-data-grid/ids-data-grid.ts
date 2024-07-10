@@ -1462,12 +1462,9 @@ export default class IdsDataGrid extends Base {
     const isLoading = stringToBool(value);
     this.toggleAttribute(attributes.LOADING, isLoading);
 
-    if (!isLoading) {
-      // tell the rows to start rendering
-      // this.redrawBody(); // NOPE, not performant and doesn't maintain scrollbar
-      this.rows.forEach((row: IdsDataGridRow, idx: number) => {
+    if (!isLoading) { // tell the rows to start rendering
+      this.rows.forEach((row: IdsDataGridRow) => {
         if (row.classList.contains('row-stale')) {
-          // console.log('stale-row', idx, row.rowIndex);
           row.renderRow(row.rowIndex);
         }
       });
@@ -1563,7 +1560,6 @@ export default class IdsDataGrid extends Base {
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
       clearTimeout(loadingTimeoutRef);
-      console.log('regular scrolling');
 
       this.loading = true;
       loadingTimeoutRef = setTimeout(() => {
@@ -1576,8 +1572,6 @@ export default class IdsDataGrid extends Base {
     this.offEvent('scrollend.data-grid.virtual-scroll', this.container);
     this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
-      // console.log('calling scrollend');
-      // this.loading = false;
       if (!this.treeGrid) this.#handleVirtualScroll(virtualRowHeight);
     });
 
@@ -1877,9 +1871,11 @@ export default class IdsDataGrid extends Base {
     const bodyTranslateY = firstRowInDom * virtualRowHeight;
 
     if (!reachedTheBottom) {
-      requestAnimationFrame(() => {
-        body.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      });
+      body.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      // cancelAnimationFrame(this.#cancelRAF);
+      // this.#cancelRAF = requestAnimationFrame(() => {
+      //   body.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      // });
     }
 
     this.#setVirtualScrollPaddingBottom(virtualScrollSettings, this.data.length, bodyTranslateY);
@@ -1888,6 +1884,8 @@ export default class IdsDataGrid extends Base {
       container!.scrollTop = rowIndex * virtualRowHeight;
     }
   }
+
+  // #cancelRAF: any = null;
 
   #setVirtualScrollPaddingBottom(settings: any, totalRows: number, offsetTop: number) {
     const maxHeight = totalRows * settings.ROW_HEIGHT;

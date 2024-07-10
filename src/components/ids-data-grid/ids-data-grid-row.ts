@@ -331,9 +331,8 @@ export default class IdsDataGridRow extends IdsElement {
    */
   updateCells(index: number) {
     const row = this;
-
-    // const cells = row.querySelectorAll('.ids-data-grid-cell');
     const cells = row.children;
+
     if (cells?.length) {
       [...cells].forEach((cell: Element, columnIndex: number) => {
         const columnData = this.dataGrid?.columns[columnIndex];
@@ -352,8 +351,6 @@ export default class IdsDataGridRow extends IdsElement {
           cssPart = cssPart(index, columnIndex);
         }
         cell.setAttribute('part', cssPart);
-        // This is the bottleneck due to innerHTML call inside
-        // (cell as IdsDataGridCell).renderCell();
       });
     }
   }
