@@ -1872,10 +1872,6 @@ export default class IdsDataGrid extends Base {
 
     if (!reachedTheBottom) {
       body.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      // cancelAnimationFrame(this.#cancelRAF);
-      // this.#cancelRAF = requestAnimationFrame(() => {
-      //   body.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
-      // });
     }
 
     this.#setVirtualScrollPaddingBottom(virtualScrollSettings, this.data.length, bodyTranslateY);
@@ -1884,8 +1880,6 @@ export default class IdsDataGrid extends Base {
       container!.scrollTop = rowIndex * virtualRowHeight;
     }
   }
-
-  // #cancelRAF: any = null;
 
   #setVirtualScrollPaddingBottom(settings: any, totalRows: number, offsetTop: number) {
     const maxHeight = totalRows * settings.ROW_HEIGHT;
