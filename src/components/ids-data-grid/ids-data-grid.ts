@@ -229,7 +229,7 @@ export default class IdsDataGrid extends Base {
       attributes.HEADER_MENU_ID,
       attributes.LABEL,
       attributes.LIST_STYLE,
-      attributes.LOADING,
+      // attributes.LOADING,
       attributes.MENU_ID,
       attributes.MIN_HEIGHT,
       attributes.ROW_HEIGHT,
@@ -1467,7 +1467,7 @@ export default class IdsDataGrid extends Base {
       // this.redrawBody(); // NOPE, not performant and doesn't maintain scrollbar
       this.rows.forEach((row: IdsDataGridRow, idx: number) => {
         if (row.classList.contains('row-stale')) {
-          console.log('stale-row', idx, row.rowIndex);
+          // console.log('stale-row', idx, row.rowIndex);
           row.renderRow(row.rowIndex);
         }
       });
@@ -1563,6 +1563,7 @@ export default class IdsDataGrid extends Base {
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
       clearTimeout(loadingTimeoutRef);
+      console.log('regular scrolling');
 
       this.loading = true;
       loadingTimeoutRef = setTimeout(() => {
@@ -1575,6 +1576,8 @@ export default class IdsDataGrid extends Base {
     this.offEvent('scrollend.data-grid.virtual-scroll', this.container);
     this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
+      // console.log('calling scrollend');
+      // this.loading = false;
       if (!this.treeGrid) this.#handleVirtualScroll(virtualRowHeight);
     });
 
@@ -2062,6 +2065,9 @@ export default class IdsDataGrid extends Base {
     });
 
     if (!rowsToMove.length) return;
+
+    // NOTE: no need to shift rows in the DOM if all the rows need to be recycled
+    if (rowsToMove.length >= this.virtualScrollSettings.MAX_ROWS_IN_DOM) return;
 
     // NOTE: body.prepend() seems to be faster than body.innerHTML
     this.body?.prepend(...rowsToMove.reverse());

@@ -20,14 +20,23 @@ export default class IdsDataGridCell extends IdsElement {
     super({ noShadowRoot: true });
   }
 
+  // #attachEventHandlersTimeoutRef: any = null;
+
   connectedCallback(): void {
+    // NOTE: overriding connectedCallback so we can avert super.connectedCallback();
     // super.connectedCallback();
-    // console.log('IdsDataGridCell.connectedCallback called', this.value);
+    this.renderCell();
     this.#attachEventHandlers();
+    // clearTimeout(this.#attachEventHandlersTimeoutRef);
+    // this.#attachEventHandlersTimeoutRef = setTimeout(() => {
+    //   this.#attachEventHandlers();
+    // }, 25);
   }
 
   // disconnectedCallback(): void {
   //   console.log('IdsDataGridCell.disconnectedCallback called', this.value);
+  //   // this.dataGrid?.offEvent('focusin.ids-cell', this);
+  //   // this.dataGrid?.offEvent('focusout.ids-cell', this);
   // }
 
   get isEditable() {
@@ -219,12 +228,15 @@ export default class IdsDataGridCell extends IdsElement {
    */
   renderCell() {
     const column = this.column;
-    const rowIndex = Number(this.parentElement?.getAttribute('row-index'));
+    // const rowIndex = Number(this.parentElement?.getAttribute('row-index'));
+    const rowIndex = this.rowIndex;
+    // console.log('renderCell(rowIndex)', rowIndex);
 
     const row: Record<string, any> | undefined = this.dataGrid?.data[rowIndex];
-    const template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
+    // const template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
+    // this.innerHTML = template;
 
-    this.innerHTML = template;
+    this.innerHTML = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
     if (column.formatter) this.classList.add(`formatter-${column.formatter.name}`);
   }
 
@@ -520,6 +532,7 @@ export default class IdsDataGridCell extends IdsElement {
     const cacheHash = dataGrid.cacheHash;
     const selected = row.rowSelected ? 'select' : 'deselect';
     const cacheKey = `${cacheHash}:${column.id}:${rowIndex}:${selected}`;
+    // console.log('IdsDataGridCell.template', cacheKey);
 
     // NOTE: This is how we could disable cache until a proper cache-busting strategy is in place
     // delete IdsDataGridCell.cellCache[cacheKey];
