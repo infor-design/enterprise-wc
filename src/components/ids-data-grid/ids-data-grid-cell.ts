@@ -21,9 +21,14 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   connectedCallback(): void {
-    super.connectedCallback();
+    // super.connectedCallback();
+    // console.log('IdsDataGridCell.connectedCallback called', this.value);
     this.#attachEventHandlers();
   }
+
+  // disconnectedCallback(): void {
+  //   console.log('IdsDataGridCell.disconnectedCallback called', this.value);
+  // }
 
   get isEditable() {
     if (this.classList.contains('is-readonly') || this.classList.contains('is-disabled')) return false;
@@ -59,8 +64,8 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {IdsDataGrid} the data grid parent
    */
   get dataGrid() {
-    if (!this.rootNode) this.rootNode = (this.getRootNode() as any);
-    return (this.rootNode.host) as IdsDataGrid;
+    if (!this.rootNode) this.rootNode = (this.getRootNode() as any).host;
+    return (this.rootNode) as IdsDataGrid;
   }
 
   /**

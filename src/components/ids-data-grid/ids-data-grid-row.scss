@@ -1,4 +1,11 @@
 /* Ids Data Grid Component - Rows */
+// :host-context([loading]) {
+//   .ids-data-grid-body .ids-data-grid-row * {
+//     color: transparent;
+//     text-shadow: 0 0 5px rgba(0,0,0,0.5);
+//   }
+// }
+
 .ids-data-grid-row {
   display: grid;
   grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
@@ -11,6 +18,11 @@
 
   &[hidden] {
     display: none;
+  }
+
+  &.blurred * {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
 }
 

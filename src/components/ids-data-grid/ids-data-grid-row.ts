@@ -36,7 +36,7 @@ export default class IdsDataGridRow extends IdsElement {
   }
 
   connectedCallback(): void {
-    super.connectedCallback();
+    // super.connectedCallback();
   }
 
   /**
@@ -44,8 +44,8 @@ export default class IdsDataGridRow extends IdsElement {
    * @returns {IdsDataGrid} the data grid parent
    */
   get dataGrid() {
-    if (!this.rootNode) this.rootNode = (this.getRootNode() as any);
-    return (this.rootNode.host) as IdsDataGrid;
+    if (!this.rootNode) this.rootNode = (this.getRootNode() as any).host;
+    return (this.rootNode) as IdsDataGrid;
   }
 
   get data(): Record<string, any>[] {
@@ -109,6 +109,8 @@ export default class IdsDataGridRow extends IdsElement {
   /** Implements row cache */
   static rowCache: { [key: string]: string } = {};
 
+  #clearTimeoutRef: any = null;
+
   /**
    * Render the row again from the cache or template.
    * @param {number} row the row index
@@ -118,10 +120,31 @@ export default class IdsDataGridRow extends IdsElement {
     const rowIndex = Number(row);
     const selectState = this.dataGrid.data[row].rowSelected ? 'select' : 'deselect';
     const cacheKey = `${cacheHash}:${rowIndex}:${selectState}`;
+    // this.classList.add('blurred');
 
     // This is current cache strategy via memoization.
     IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
     this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
+    // clearTimeout(this.#clearTimeoutRef);
+
+    // if (!this.dataGrid.loading) {
+    //   this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
+    // } else {
+    //   this.#clearTimeoutRef = setTimeout(() => {
+    //     // this.classList.add('blurred');
+    //     this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
+    //     // this.classList.remove('blurred');
+    //   }, 100);
+    // }
+
+    // if (!this.children.length) {
+    // const cells = this.children;
+    // if (cells?.length === 0 || !this.dataGrid.virtualScroll || this.dataGrid.treeGrid) {
+    //   IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
+    //   this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
+    // } else {
+    //   this.updateCells(row);
+    // }
     this.#setAttributes();
   }
 
@@ -311,7 +334,8 @@ export default class IdsDataGridRow extends IdsElement {
   updateCells(index: number) {
     const row = this;
 
-    const cells = row.querySelectorAll('.ids-data-grid-cell');
+    // const cells = row.querySelectorAll('.ids-data-grid-cell');
+    const cells = row.children;
     if (cells?.length) {
       [...cells].forEach((cell: Element, columnIndex: number) => {
         const columnData = this.dataGrid?.columns[columnIndex];
@@ -330,6 +354,8 @@ export default class IdsDataGridRow extends IdsElement {
           cssPart = cssPart(index, columnIndex);
         }
         cell.setAttribute('part', cssPart);
+        // This is the bottleneck due to innerHTML call inside
+        // (cell as IdsDataGridCell).renderCell();
       });
     }
   }

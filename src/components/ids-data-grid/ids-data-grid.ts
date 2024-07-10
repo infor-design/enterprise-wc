@@ -229,6 +229,7 @@ export default class IdsDataGrid extends Base {
       attributes.HEADER_MENU_ID,
       attributes.LABEL,
       attributes.LIST_STYLE,
+      attributes.LOADING,
       attributes.MENU_ID,
       attributes.MIN_HEIGHT,
       attributes.ROW_HEIGHT,
@@ -1457,6 +1458,13 @@ export default class IdsDataGrid extends Base {
 
   get virtualScroll(): boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
+  set loading(value: boolean) {
+    // console.log(attributes.LOADING, stringToBool(value));
+    this.toggleAttribute(attributes.LOADING, stringToBool(value));
+  }
+
+  get loading(): boolean { return this.hasAttribute(attributes.LOADING); }
+
   /**
    * Some future configurable virtual scroll settings
    * @returns {object} the current settings
@@ -1538,10 +1546,18 @@ export default class IdsDataGrid extends Base {
 
     const virtualScrollSettings = this.virtualScrollSettings;
     const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT;
+    let loadingTimeoutRef: any = null;
 
     this.offEvent('scroll.data-grid.virtual-scroll', this.container);
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
+      clearTimeout(loadingTimeoutRef);
+
+      this.loading = true;
+      loadingTimeoutRef = setTimeout(() => {
+        this.loading = false;
+      }, 100);
+
       this.#handleVirtualScroll(virtualRowHeight);
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
@@ -1847,7 +1863,9 @@ export default class IdsDataGrid extends Base {
     const bodyTranslateY = firstRowInDom * virtualRowHeight;
 
     if (!reachedTheBottom) {
-      body.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      requestAnimationFrame(() => {
+        body.style.setProperty('transform', `translateY(${bodyTranslateY}px)`);
+      });
     }
 
     this.#setVirtualScrollPaddingBottom(virtualScrollSettings, this.data.length, bodyTranslateY);
