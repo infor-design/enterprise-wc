@@ -20,10 +20,10 @@
     display: none;
   }
 
-  &.blurred * {
-    color: transparent;
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);
-  }
+  // &.row-stale * {
+  //   color: transparent;
+  //   text-shadow: 0 0 5px rgba(0,0,0,0.5);
+  // }
 }
 
 // Row Height Feature with Formatters spacing

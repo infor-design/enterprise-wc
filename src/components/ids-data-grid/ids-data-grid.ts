@@ -1459,8 +1459,19 @@ export default class IdsDataGrid extends Base {
   get virtualScroll(): boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   set loading(value: boolean) {
-    // console.log(attributes.LOADING, stringToBool(value));
-    this.toggleAttribute(attributes.LOADING, stringToBool(value));
+    const isLoading = stringToBool(value);
+    this.toggleAttribute(attributes.LOADING, isLoading);
+
+    if (!isLoading) {
+      // tell the rows to start rendering
+      // this.redrawBody(); // NOPE, not performant and doesn't maintain scrollbar
+      this.rows.forEach((row: IdsDataGridRow, idx: number) => {
+        if (row.classList.contains('row-stale')) {
+          console.log('stale-row', idx, row.rowIndex);
+          row.renderRow(row.rowIndex);
+        }
+      });
+    }
   }
 
   get loading(): boolean { return this.hasAttribute(attributes.LOADING); }
@@ -1556,7 +1567,7 @@ export default class IdsDataGrid extends Base {
       this.loading = true;
       loadingTimeoutRef = setTimeout(() => {
         this.loading = false;
-      }, 100);
+      }, 35);
 
       this.#handleVirtualScroll(virtualRowHeight);
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing

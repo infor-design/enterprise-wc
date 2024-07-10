@@ -37,6 +37,8 @@ export default class IdsDataGridRow extends IdsElement {
 
   connectedCallback(): void {
     // super.connectedCallback();
+    // this.innerHTML = this.cacheRow(this.rowIndex);
+    // console.log(this.name, 'connectedCallback');
   }
 
   /**
@@ -109,6 +111,23 @@ export default class IdsDataGridRow extends IdsElement {
   /** Implements row cache */
   static rowCache: { [key: string]: string } = {};
 
+  /**
+   * Return the row from the cache or template.
+   * @param {number} row the row index
+   * @returns {string} the row's html
+   */
+  cacheRow(row: number) {
+    const cacheHash = this.dataGrid.cacheHash;
+    const rowIndex = Number(row);
+    const selectState = this.dataGrid.data[row].rowSelected ? 'select' : 'deselect';
+    const cacheKey = `${cacheHash}:${rowIndex}:${selectState}`;
+    // this.classList.add('row-stale');
+
+    // This is current cache strategy via memoization.
+    IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
+    return IdsDataGridRow.rowCache[cacheKey];
+  }
+
   #clearTimeoutRef: any = null;
 
   /**
@@ -116,24 +135,30 @@ export default class IdsDataGridRow extends IdsElement {
    * @param {number} row the row index
    */
   renderRow(row: number) {
-    const cacheHash = this.dataGrid.cacheHash;
-    const rowIndex = Number(row);
-    const selectState = this.dataGrid.data[row].rowSelected ? 'select' : 'deselect';
-    const cacheKey = `${cacheHash}:${rowIndex}:${selectState}`;
-    // this.classList.add('blurred');
+    // const cacheHash = this.dataGrid.cacheHash;
+    // const rowIndex = Number(row);
+    // const selectState = this.dataGrid.data[row].rowSelected ? 'select' : 'deselect';
+    // const cacheKey = `${cacheHash}:${rowIndex}:${selectState}`;
+    // this.classList.add('row-stale');
 
     // This is current cache strategy via memoization.
-    IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
-    this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
+    // IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
+    if (this.dataGrid.loading) {
+      this.classList.add('row-stale');
+      console.log('this.dataGrid.loading');
+    } else {
+      this.classList.remove('row-stale');
+      this.innerHTML = this.cacheRow(row);
+    }
     // clearTimeout(this.#clearTimeoutRef);
 
     // if (!this.dataGrid.loading) {
     //   this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
     // } else {
     //   this.#clearTimeoutRef = setTimeout(() => {
-    //     // this.classList.add('blurred');
+    //     // this.classList.add('row-stale');
     //     this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
-    //     // this.classList.remove('blurred');
+    //     // this.classList.remove('row-stale');
     //   }, 100);
     // }
 
