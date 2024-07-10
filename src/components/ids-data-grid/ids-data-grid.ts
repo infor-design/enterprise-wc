@@ -229,7 +229,7 @@ export default class IdsDataGrid extends Base {
       attributes.HEADER_MENU_ID,
       attributes.LABEL,
       attributes.LIST_STYLE,
-      // attributes.LOADING,
+      // attributes.LOADING, // leaving loading attr out to avoid attributeChangedCallback() call
       attributes.MENU_ID,
       attributes.MIN_HEIGHT,
       attributes.ROW_HEIGHT,
