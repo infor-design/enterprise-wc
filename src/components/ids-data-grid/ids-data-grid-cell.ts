@@ -226,8 +226,6 @@ export default class IdsDataGridCell extends IdsElement {
     const columnsStale = dataGrid.hasAttribute('columns-stale');
     const columnsFresh = !columnsStale;
 
-    // console.log('columnsFresh', columnsFresh);
-
     if (columnsFresh && tooManyColumns) {
       // NOTE: putting this inside if-block to avoid calling querySelector unncessarily
       if (this.isOnScreen === false) return;
@@ -236,7 +234,6 @@ export default class IdsDataGridCell extends IdsElement {
     const rowIndex = this.rowIndex;
 
     const column = this.column;
-    // console.log('renderCell', rowIndex, column.id);
     const rowData: Record<string, any> | undefined = dataGrid?.data[rowIndex];
 
     const template = IdsDataGridCell.template(rowData, column, rowIndex, dataGrid);

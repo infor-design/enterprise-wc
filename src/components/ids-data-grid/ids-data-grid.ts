@@ -231,9 +231,7 @@ export default class IdsDataGrid extends Base {
       attributes.HEADER_MENU_ID,
       attributes.LABEL,
       attributes.LIST_STYLE,
-      // attributes.LOADING, // leaving loading attr out to avoid attributeChangedCallback() call
-      // attributes.COLUMN_ONSCREEN, // leaving loading attr out to avoid attributeChangedCallback() call
-      // attributes.COLUMNS_STALE, // leaving loading attr out to avoid attributeChangedCallback() call
+      // attributes.LOADING, // leaving LOADING attr out to avoid attributeChangedCallback() call
       attributes.MENU_ID,
       attributes.MIN_HEIGHT,
       attributes.ROW_HEIGHT,
@@ -1463,23 +1461,6 @@ export default class IdsDataGrid extends Base {
 
   get virtualScroll(): boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
-  // set loading(value: boolean) {
-  //   const isLoading = stringToBool(value);
-  //   if (isLoading === this.loading) return;
-
-  //   this.toggleAttribute(attributes.LOADING, isLoading);
-
-  //   if (!isLoading) { // tell the rows to start rendering
-  //     this.rows.forEach((row: IdsDataGridRow) => {
-  //       if (row.hasAttribute('row-stale')) {
-  //         row.renderRow(row.rowIndex);
-  //       }
-  //     });
-  //   }
-  // }
-
-  // get loading(): boolean { return this.hasAttribute(attributes.LOADING); }
-
   /**
    * Some future configurable virtual scroll settings
    * @returns {object} the current settings
@@ -1567,8 +1548,6 @@ export default class IdsDataGrid extends Base {
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
 
-      // this.loading = true;
-
       this.#handleVirtualScroll(virtualRowHeight);
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
@@ -1576,10 +1555,9 @@ export default class IdsDataGrid extends Base {
     this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
 
-      // this.loading = false;
       if (!this.treeGrid) {
-        this.#calculateOnscreenColumns();
         this.#handleVirtualScroll(virtualRowHeight);
+        this.#calculateOnscreenColumns();
       }
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
@@ -1742,9 +1720,6 @@ export default class IdsDataGrid extends Base {
     if (!this.virtualScroll) return;
 
     const rowIndex = Math.floor(this.container!.scrollTop / rowHeight);
-    // if (rowIndex < 1) {
-    //   this.loading = false;
-    // }
 
     if (this.treeGrid) {
       this.#scrollTreeRowIntoView(rowIndex);
