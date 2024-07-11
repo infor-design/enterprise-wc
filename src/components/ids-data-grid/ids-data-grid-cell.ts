@@ -222,21 +222,21 @@ export default class IdsDataGridCell extends IdsElement {
    */
   renderCell() {
     const dataGrid = this.dataGrid;
+    const virtualScrollSettings = dataGrid.virtualScrollSettings;
 
-    const columnsStale = dataGrid.hasAttribute('columns-stale');
-    const columnsFresh = !columnsStale;
-    const tooManyColumns = dataGrid.columns.length > dataGrid.virtualScrollSettings.TOO_MANY_COLUMNS;
-
-    if (columnsFresh && tooManyColumns) {
-      // NOTE: putting this inside if-block to avoid calling querySelector unncessarily
-      // NOTE: skip renderCell if cell is NOT on-screen
-      if (this.isOnScreen === false) return;
+    if (virtualScrollSettings.ENABLED) {
+      const columnsStale = dataGrid.hasAttribute('columns-stale');
+      const columnsFresh = !columnsStale;
+      const tooManyColumns = dataGrid.columns.length > virtualScrollSettings.TOO_MANY_COLUMNS;
+      if (columnsFresh && tooManyColumns && !this.isOnScreen) {
+        // NOTE: skip renderCell if cell is NOT on-screen
+        return;
+      }
     }
 
     const rowIndex = this.rowIndex;
-
-    const column = this.column;
     const rowData: Record<string, any> | undefined = dataGrid?.data[rowIndex];
+    const column = this.column;
 
     const template = IdsDataGridCell.template(rowData, column, rowIndex, dataGrid);
     if (this.innerHTML !== template) {

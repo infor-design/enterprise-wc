@@ -1467,13 +1467,14 @@ export default class IdsDataGrid extends Base {
     const ROW_HEIGHT = this.rowPixelHeight || 50;
     const MAX_ROWS_IN_DOM = this.#virtualScrollMaxRowsInDom;
     const BUFFER_ROWS = Math.ceil(MAX_ROWS_IN_DOM * 0.25);
+    const TOO_MANY_COLUMNS = 20; // 20 is arbitrary number that we can recondsider
 
     return {
       ENABLED,
       ROW_HEIGHT,
       MAX_ROWS_IN_DOM,
       BUFFER_ROWS,
-      TOO_MANY_COLUMNS: 20, // 20 is arbitrary number that we can recondsider
+      TOO_MANY_COLUMNS
     };
   }
 
@@ -1554,7 +1555,7 @@ export default class IdsDataGrid extends Base {
 
       if (!this.treeGrid) {
         this.#handleVirtualScroll(virtualRowHeight);
-        this.#calculateOnscreenColumns();
+        this.#calculateColumnsOnscreen();
       }
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
@@ -1569,12 +1570,15 @@ export default class IdsDataGrid extends Base {
     });
   }
 
-  /* Detach scroll events handlers */
-  #calculateOnscreenColumns() {
-    const headerColumns = this.header?.columns;
+  /**
+   * Only run #calculateColumnsOnscreen if virtualScroll enabled and datagrid has TOO_MANY_COLUMNS
+   */
+  #calculateColumnsOnscreen() {
+    const virtualScrollSettings = this.virtualScrollSettings;
+    if (!virtualScrollSettings.ENABLED) return;
 
-    // NOTE: only run this function if large # of columns...
-    if (headerColumns.length < this.virtualScrollSettings.TOO_MANY_COLUMNS) return;
+    const headerColumns = this.header?.columns;
+    if (headerColumns.length < virtualScrollSettings.TOO_MANY_COLUMNS) return;
 
     const oldHeaderColumnsOnscreen = this.header?.columnsOnscreen.map((column: HTMLElement) => {
       column.removeAttribute('column-onscreen');
