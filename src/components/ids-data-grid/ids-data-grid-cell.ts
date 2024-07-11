@@ -23,6 +23,7 @@ export default class IdsDataGridCell extends IdsElement {
   connectedCallback(): void {
     // NOTE: overriding connectedCallback so we can avert super.connectedCallback();
     // super.connectedCallback();
+    // console.log('cell.connectedCallback()', this.rowIndex);
     this.renderCell();
     this.#attachEventHandlers();
   }
@@ -220,7 +221,11 @@ export default class IdsDataGridCell extends IdsElement {
     const rowIndex = this.rowIndex;
     const row: Record<string, any> | undefined = this.dataGrid?.data[rowIndex];
 
-    this.innerHTML = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
+    const template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
+    if (this.innerHTML !== template) {
+      this.innerHTML = template;
+    }
+
     if (column.formatter) this.classList.add(`formatter-${column.formatter.name}`);
   }
 

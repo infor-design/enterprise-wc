@@ -31,6 +31,7 @@ export default class IdsDataGridRow extends IdsElement {
     if (oldValue === newValue) return;
 
     if (name === attributes.ROW_INDEX) {
+      // console.log('row.attributeChangedCallback is', newValue);
       this.renderRow(Number(newValue));
     }
   }
@@ -38,6 +39,10 @@ export default class IdsDataGridRow extends IdsElement {
   connectedCallback(): void {
     // NOTE: overriding connectedCallback so we can avert super.connectedCallback();
     // super.connectedCallback();
+    // if (this.hasAttribute('row-stale')) {
+    //   console.log('row.connectedCallback is stale', this.rowIndex);
+    // }
+    // console.log('row.connectedCallback is', this.rowIndex);
   }
 
   /**
@@ -131,8 +136,11 @@ export default class IdsDataGridRow extends IdsElement {
    * @param {number} row the row index
    */
   renderRow(row: number) {
+    // const skipRowRender = false;
     const skipRowRender = this.dataGrid.loading === true;
-    this.classList.toggle('row-stale', skipRowRender);
+    // console.log('skipRowRender', skipRowRender);
+    // this.classList.toggle('row-stale', skipRowRender);
+    this.toggleAttribute('row-stale', skipRowRender);
 
     if (!skipRowRender) {
       const cells = [...this.children] as IdsDataGridCell[];
