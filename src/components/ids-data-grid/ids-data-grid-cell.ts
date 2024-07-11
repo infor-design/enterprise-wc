@@ -222,7 +222,7 @@ export default class IdsDataGridCell extends IdsElement {
    */
   renderCell() {
     const dataGrid = this.dataGrid;
-    const tooManyColumns = dataGrid.columns.length > dataGrid.TOO_MANY_COLUMNS;
+    const tooManyColumns = dataGrid.columns.length > dataGrid.virtualScrollSettings.TOO_MANY_COLUMNS;
     const columnsStale = dataGrid.hasAttribute('columns-stale');
     const columnsFresh = !columnsStale;
 

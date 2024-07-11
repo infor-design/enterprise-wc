@@ -102,8 +102,6 @@ export default class IdsDataGrid extends Base {
 
   serverSideSelections: Array<{ index: number, data: Record<string, unknown> }> = [];
 
-  readonly TOO_MANY_COLUMNS = 20; // 20 is arbitrary number that we can recondsider
-
   /**
    * Types for contextmenu.
    */
@@ -1576,7 +1574,7 @@ export default class IdsDataGrid extends Base {
     const headerColumns = this.header?.columns;
 
     // NOTE: only run this function if large # of columns...
-    if (headerColumns.length < this.TOO_MANY_COLUMNS) return;
+    if (headerColumns.length < this.virtualScrollSettings.TOO_MANY_COLUMNS) return;
 
     const oldHeaderColumnsOnscreen = this.header?.columnsOnscreen.map((column: HTMLElement) => {
       column.removeAttribute('column-onscreen');
