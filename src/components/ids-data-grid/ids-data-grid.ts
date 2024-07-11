@@ -1571,9 +1571,12 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
-   * Only run #calculateColumnsOnscreen if virtualScroll enabled and datagrid has TOO_MANY_COLUMNS
+   * Adds "column-onscreen" attribute to any column-header that is in browser window viewport
+   * @returns {void}
+   * @see IdsDataGridCell.isOnScreen()
    */
-  #calculateColumnsOnscreen() {
+  #calculateColumnsOnscreen(): void {
+    // NOTE: Only run #calculateColumnsOnscreen if virtualScroll enabled and datagrid has TOO_MANY_COLUMNS
     const virtualScrollSettings = this.virtualScrollSettings;
     if (!virtualScrollSettings.ENABLED) return;
 
@@ -1596,6 +1599,7 @@ export default class IdsDataGrid extends Base {
 
       column.toggleAttribute('column-onscreen', isOnScreen);
 
+      // NOTE: using Array.every() to exit early for better performance
       return isOffScreenLeft || isOnScreen;
     });
 
