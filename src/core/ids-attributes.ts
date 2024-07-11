@@ -266,7 +266,6 @@ export const attributes = {
   LIST: 'list',
   LIST_STYLE: 'list-style',
   LOADED: 'loaded',
-  LOADING: 'loading',
   LOADING_INDICATOR_ONLY: 'loading-indicator-only',
   LOCALE: 'locale',
   LOOP: 'loop',
