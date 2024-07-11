@@ -1462,13 +1462,11 @@ export default class IdsDataGrid extends Base {
   set loading(value: boolean) {
     const isLoading = stringToBool(value);
     if (isLoading === this.loading) return;
-    console.log(attributes.LOADING, isLoading);
 
     this.toggleAttribute(attributes.LOADING, isLoading);
 
     if (!isLoading) { // tell the rows to start rendering
       this.rows.forEach((row: IdsDataGridRow) => {
-        // row.renderRow(row.rowIndex);
         if (row.hasAttribute('row-stale')) {
           row.renderRow(row.rowIndex);
         }
@@ -1559,17 +1557,12 @@ export default class IdsDataGrid extends Base {
 
     const virtualScrollSettings = this.virtualScrollSettings;
     const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT;
-    // let loadingTimeoutRef: any = null;
 
     this.offEvent('scroll.data-grid.virtual-scroll', this.container);
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
-      // clearTimeout(loadingTimeoutRef);
 
       this.loading = true;
-      // loadingTimeoutRef = setTimeout(() => {
-      //   this.loading = false;
-      // }, 15);
 
       this.#handleVirtualScroll(virtualRowHeight);
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
@@ -1577,10 +1570,9 @@ export default class IdsDataGrid extends Base {
     this.offEvent('scrollend.data-grid.virtual-scroll', this.container);
     this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
-      // clearTimeout(loadingTimeoutRef);
+
       this.loading = false;
       if (!this.treeGrid) this.#handleVirtualScroll(virtualRowHeight);
-    // });
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
     this.offEvent('rowexpanded.data-grid.virtual-scroll', this);
@@ -1708,7 +1700,6 @@ export default class IdsDataGrid extends Base {
 
     const rowIndex = Math.floor(this.container!.scrollTop / rowHeight);
     if (rowIndex < 1) {
-      console.log('rowIndex', rowIndex);
       this.loading = false;
     }
 

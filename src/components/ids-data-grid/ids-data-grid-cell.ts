@@ -21,9 +21,7 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   connectedCallback(): void {
-    // NOTE: overriding connectedCallback so we can avert super.connectedCallback();
-    // super.connectedCallback();
-    // console.log('cell.connectedCallback()', this.rowIndex);
+    // NOTE: bypassing super.connectedCallback() for performance reasons
     this.renderCell();
     this.#attachEventHandlers();
   }
