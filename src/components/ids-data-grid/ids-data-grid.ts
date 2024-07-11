@@ -1467,7 +1467,7 @@ export default class IdsDataGrid extends Base {
     const ROW_HEIGHT = this.rowPixelHeight || 50;
     const MAX_ROWS_IN_DOM = this.#virtualScrollMaxRowsInDom;
     const BUFFER_ROWS = Math.ceil(MAX_ROWS_IN_DOM * 0.25);
-    const TOO_MANY_COLUMNS = 20; // 20 is arbitrary number that we can recondsider
+    const TOO_MANY_COLUMNS = 30; // 30 is arbitrary number that we can recondsider
 
     return {
       ENABLED,
@@ -1606,6 +1606,7 @@ export default class IdsDataGrid extends Base {
     const newHeaderColumnsOnscreen = this.header?.columnsOnscreen;
     const columnsStale = oldHeaderColumnsOnscreen[0] !== newHeaderColumnsOnscreen[0];
     this.toggleAttribute('columns-stale', columnsStale);
+
     if (columnsStale) {
       this.rows.forEach((row: IdsDataGridRow) => {
         row.renderRow(row.rowIndex);
