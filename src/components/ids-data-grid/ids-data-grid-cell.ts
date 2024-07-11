@@ -210,16 +210,36 @@ export default class IdsDataGridCell extends IdsElement {
     return record?.[(column?.field ?? -1)] ?? this.textContent ?? '';
   }
 
+  get isOnScreen() {
+    const dataGrid = this.dataGrid;
+    const columnIndex = this.columnIndex;
+    const columnHeader = dataGrid?.header?.querySelector(`.ids-data-grid-header-cell[aria-colindex="${columnIndex}"]`);
+    return columnHeader?.hasAttribute('column-onscreen');
+  }
+
   /**
    * Rerender a cell - may be used later
    */
   renderCell() {
-    const column = this.column;
+    const dataGrid = this.dataGrid;
+    const tooManyColumns = dataGrid.columns.length > dataGrid.TOO_MANY_COLUMNS;
+    const columnsStale = dataGrid.hasAttribute('columns-stale');
+    const columnsFresh = !columnsStale;
+
+    // console.log('columnsFresh', columnsFresh);
+
+    if (columnsFresh && tooManyColumns) {
+      // NOTE: putting this inside if-block to avoid calling querySelector unncessarily
+      if (this.isOnScreen === false) return;
+    }
 
     const rowIndex = this.rowIndex;
-    const row: Record<string, any> | undefined = this.dataGrid?.data[rowIndex];
 
-    const template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
+    const column = this.column;
+    // console.log('renderCell', rowIndex, column.id);
+    const rowData: Record<string, any> | undefined = dataGrid?.data[rowIndex];
+
+    const template = IdsDataGridCell.template(rowData, column, rowIndex, dataGrid);
     if (this.innerHTML !== template) {
       this.innerHTML = template;
     }

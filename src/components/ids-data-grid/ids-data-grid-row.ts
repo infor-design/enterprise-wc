@@ -130,16 +130,23 @@ export default class IdsDataGridRow extends IdsElement {
    * @param {number} row the row index
    */
   renderRow(row: number) {
-    const skipRowRender = this.dataGrid.loading === true;
-    this.toggleAttribute('row-stale', skipRowRender);
+    // const skipRowRender = this.dataGrid.loading === true;
+    // this.toggleAttribute('row-stale', skipRowRender);
 
-    if (!skipRowRender) {
-      const cells = [...this.children] as IdsDataGridCell[];
-      if (cells.length === this.visibleColumns.length) {
-        [...cells].forEach((cell) => cell?.renderCell?.());
-      } else {
-        this.innerHTML = this.cacheRow(row);
-      }
+    // if (!skipRowRender) {
+    //   const cells = [...this.children] as IdsDataGridCell[];
+    //   if (cells.length === this.visibleColumns.length) {
+    //     [...cells].forEach((cell) => cell?.renderCell?.());
+    //   } else {
+    //     this.innerHTML = this.cacheRow(row);
+    //   }
+    // }
+
+    const cells = [...this.children] as IdsDataGridCell[];
+    if (cells.length === this.visibleColumns.length) {
+      [...cells].forEach((cell) => cell?.renderCell?.());
+    } else {
+      this.innerHTML = this.cacheRow(row);
     }
 
     this.#setAttributes();

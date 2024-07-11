@@ -102,6 +102,8 @@ export default class IdsDataGrid extends Base {
 
   serverSideSelections: Array<{ index: number, data: Record<string, unknown> }> = [];
 
+  readonly TOO_MANY_COLUMNS = 20; // 20 is arbitrary number that we can recondsider
+
   /**
    * Types for contextmenu.
    */
@@ -230,6 +232,8 @@ export default class IdsDataGrid extends Base {
       attributes.LABEL,
       attributes.LIST_STYLE,
       // attributes.LOADING, // leaving loading attr out to avoid attributeChangedCallback() call
+      // attributes.COLUMN_ONSCREEN, // leaving loading attr out to avoid attributeChangedCallback() call
+      // attributes.COLUMNS_STALE, // leaving loading attr out to avoid attributeChangedCallback() call
       attributes.MENU_ID,
       attributes.MIN_HEIGHT,
       attributes.ROW_HEIGHT,
@@ -1459,22 +1463,22 @@ export default class IdsDataGrid extends Base {
 
   get virtualScroll(): boolean { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
-  set loading(value: boolean) {
-    const isLoading = stringToBool(value);
-    if (isLoading === this.loading) return;
+  // set loading(value: boolean) {
+  //   const isLoading = stringToBool(value);
+  //   if (isLoading === this.loading) return;
 
-    this.toggleAttribute(attributes.LOADING, isLoading);
+  //   this.toggleAttribute(attributes.LOADING, isLoading);
 
-    if (!isLoading) { // tell the rows to start rendering
-      this.rows.forEach((row: IdsDataGridRow) => {
-        if (row.hasAttribute('row-stale')) {
-          row.renderRow(row.rowIndex);
-        }
-      });
-    }
-  }
+  //   if (!isLoading) { // tell the rows to start rendering
+  //     this.rows.forEach((row: IdsDataGridRow) => {
+  //       if (row.hasAttribute('row-stale')) {
+  //         row.renderRow(row.rowIndex);
+  //       }
+  //     });
+  //   }
+  // }
 
-  get loading(): boolean { return this.hasAttribute(attributes.LOADING); }
+  // get loading(): boolean { return this.hasAttribute(attributes.LOADING); }
 
   /**
    * Some future configurable virtual scroll settings
@@ -1490,7 +1494,8 @@ export default class IdsDataGrid extends Base {
       ENABLED,
       ROW_HEIGHT,
       MAX_ROWS_IN_DOM,
-      BUFFER_ROWS
+      BUFFER_ROWS,
+      TOO_MANY_COLUMNS: 20, // 20 is arbitrary number that we can recondsider
     };
   }
 
@@ -1562,7 +1567,7 @@ export default class IdsDataGrid extends Base {
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
 
-      this.loading = true;
+      // this.loading = true;
 
       this.#handleVirtualScroll(virtualRowHeight);
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
@@ -1571,8 +1576,11 @@ export default class IdsDataGrid extends Base {
     this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
 
-      this.loading = false;
-      if (!this.treeGrid) this.#handleVirtualScroll(virtualRowHeight);
+      // this.loading = false;
+      if (!this.treeGrid) {
+        this.#calculateOnscreenColumns();
+        this.#handleVirtualScroll(virtualRowHeight);
+      }
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
     this.offEvent('rowexpanded.data-grid.virtual-scroll', this);
@@ -1587,6 +1595,41 @@ export default class IdsDataGrid extends Base {
   }
 
   /* Detach scroll events handlers */
+  #calculateOnscreenColumns() {
+    const headerColumns = this.header?.columns;
+
+    // NOTE: only run this function if large # of columns...
+    if (headerColumns.length < this.TOO_MANY_COLUMNS) return;
+
+    const oldHeaderColumnsOnscreen = this.header?.columnsOnscreen.map((column: HTMLElement) => {
+      column.removeAttribute('column-onscreen');
+      return column;
+    });
+
+    headerColumns.every((column: HTMLElement) => {
+      const columnDimensions = column.getBoundingClientRect();
+      const columnLeftEdge = columnDimensions.x;
+      const columnRightEdge = columnLeftEdge + columnDimensions.width;
+      const windowWidth = window.innerWidth;
+      const isOffScreenLeft = columnRightEdge < 0;
+      const isOffScreenRight = columnLeftEdge > windowWidth;
+      const isOnScreen = !isOffScreenLeft && !isOffScreenRight;
+
+      column.toggleAttribute('column-onscreen', isOnScreen);
+
+      return isOffScreenLeft || isOnScreen;
+    });
+
+    const newHeaderColumnsOnscreen = this.header?.columnsOnscreen;
+    const columnsStale = oldHeaderColumnsOnscreen[0] !== newHeaderColumnsOnscreen[0];
+    this.toggleAttribute('columns-stale', columnsStale);
+    if (columnsStale) {
+      this.rows.forEach((row: IdsDataGridRow) => {
+        row.renderRow(row.rowIndex);
+      });
+    }
+  }
+
   #detachScrollEvents() {
     this.offEvent('scroll.data-grid');
     this.offEvent('scroll.data-grid.virtual-scroll');
@@ -1699,9 +1742,9 @@ export default class IdsDataGrid extends Base {
     if (!this.virtualScroll) return;
 
     const rowIndex = Math.floor(this.container!.scrollTop / rowHeight);
-    if (rowIndex < 1) {
-      this.loading = false;
-    }
+    // if (rowIndex < 1) {
+    //   this.loading = false;
+    // }
 
     if (this.treeGrid) {
       this.#scrollTreeRowIntoView(rowIndex);
