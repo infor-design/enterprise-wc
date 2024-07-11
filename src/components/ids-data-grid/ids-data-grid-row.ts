@@ -136,7 +136,7 @@ export default class IdsDataGridRow extends IdsElement {
     if (!skipRowRender) {
       const cells = [...this.children] as IdsDataGridCell[];
       if (cells.length === this.visibleColumns.length) {
-        [...cells].forEach((cell) => cell.renderCell());
+        [...cells].forEach((cell) => cell?.renderCell?.());
       } else {
         this.innerHTML = this.cacheRow(row);
       }
