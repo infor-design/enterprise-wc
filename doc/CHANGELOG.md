@@ -1,5 +1,7 @@
 # What's New with Enterprise Web Components
 
+## 1.4.0
+
 ### 1.4.0 Fixes
 
 - `[Splitter]` Fix issue where text in closed panes overlapped the other side. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))
