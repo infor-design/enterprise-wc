@@ -82,6 +82,8 @@ const Base = IdsPagerMixin(
 @customElement('ids-data-grid')
 @scss(styles)
 export default class IdsDataGrid extends Base {
+  readonly TOO_MANY_COLUMNS = 30;
+
   initialized = false;
 
   isResizing = false;
@@ -1576,12 +1578,12 @@ export default class IdsDataGrid extends Base {
    * @see IdsDataGridCell.isOnScreen()
    */
   #calculateColumnsOnscreen(): void {
-    // NOTE: Only run #calculateColumnsOnscreen if virtualScroll enabled and datagrid has TOO_MANY_COLUMNS
-    const virtualScrollSettings = this.virtualScrollSettings;
-    if (!virtualScrollSettings.ENABLED) return;
+    // NOTE: Only run #calculateColumnsOnscreen virtualScroll datagrid has TOO_MANY_COLUMNS
+    // const virtualScrollSettings = this.virtualScrollSettings;
+    // if (!virtualScrollSettings.ENABLED) return;
 
     const headerColumns = this.header?.columns;
-    if (headerColumns.length < virtualScrollSettings.TOO_MANY_COLUMNS) return;
+    if (headerColumns.length < this.TOO_MANY_COLUMNS) return;
 
     const oldHeaderColumnsOnscreen = this.header?.columnsOnscreen.map((column: HTMLElement) => {
       column.removeAttribute('column-onscreen');

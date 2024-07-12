@@ -222,12 +222,12 @@ export default class IdsDataGridCell extends IdsElement {
    */
   renderCell() {
     const dataGrid = this.dataGrid;
-    const virtualScrollSettings = dataGrid.virtualScrollSettings;
+    // const virtualScrollSettings = dataGrid.virtualScrollSettings;
 
-    if (virtualScrollSettings.ENABLED) {
+    if (dataGrid.virtualScroll) {
       const columnsStale = dataGrid.hasAttribute('columns-stale');
       const columnsFresh = !columnsStale;
-      const tooManyColumns = dataGrid.columns.length > virtualScrollSettings.TOO_MANY_COLUMNS;
+      const tooManyColumns = dataGrid.columns.length > dataGrid.TOO_MANY_COLUMNS;
       if (columnsFresh && tooManyColumns && !this.isOnScreen) {
         // NOTE: skip renderCell if cell is NOT on-screen
         return;
