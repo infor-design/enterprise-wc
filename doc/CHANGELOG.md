@@ -6,6 +6,7 @@
 
 - `[Fonts]` The source sans pro font should no longer be used in `googleapis` instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
 - `[Dates]` Added a new `twoDigitYear` setting to set the locale system to set the dates cut over for two digit years, note that two digit years should be avoided. ([#8061](https://github.com/infor-design/enterprise-wc/issues/2425))
+- `[LayoutGrid]` Adds an example of a responsive grid layout inside a splitter component. ([#2411](https://github.com/infor-design/enterprise-wc/issues/2411))
 - `[Switch]` Updated switch design. ([#2347](https://github.com/infor-design/enterprise-wc/issues/2347))
 
 ### 1.3.0 Fixes
@@ -14,12 +15,17 @@
 - `[Accordion]` Fix nested accordion fires common event between all headers. ([#2408](https://github.com/infor-design/enterprise-wc/issues/2408))
 - `[Button]` Changed GenAi Button in dark mode background color. ([#2509](https://github.com/infor-design/enterprise-wc/issues/2509))
 - `[Datagrid]` Added search feature to datagrid via `searchable` and `search-term-min-size` attributes. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
+- `[Accordion]` Added css variables to customization accordion header padding. ([#2529](https://github.com/infor-design/enterprise-wc/issues/2529))
+- `[Button]` Changed `GenAi` Button in dark mode background color. ([#2509](https://github.com/infor-design/enterprise-wc/issues/2509))
+- `[Datagrid]` Fixed a bug where when no `id` column or `idColumn` setting remove row removed the wrong row.. ([#2355](https://github.com/infor-design/enterprise-wc/issues/2355))
 - `[Dropdown]` Fix dropdown bug where input is empty when option text is dynamic. ([#2362](https://github.com/infor-design/enterprise-wc/issues/2362))
 - `[Dropdown]` Fix dropdown width when size is `full`. ([#2001](https://github.com/infor-design/enterprise-wc/issues/2001))
 - `[Dropdown]` Fix dropdown in expandable header. ([#2441](https://github.com/infor-design/enterprise-wc/issues/2441))
 - `[Dropdown]` Fix dropdown in action panel. ([#2431](https://github.com/infor-design/enterprise-wc/issues/2431))
 - `[Multiselect]` Fix multiselect width when size is `full`. ([#2248](https://github.com/infor-design/enterprise-wc/issues/2248))
 - `[Datagrid]` Fix `save-user-settings` so that it works in Angular. ([#2383](https://github.com/infor-design/enterprise-wc/issues/2383))
+- `[Image]` Fix `src` setting in example. ([#2300](https://github.com/infor-design/enterprise-wc/issues/2300))
+- `[LayoutGrid]` Adds attribute to define row structure of grid layout. ([#2454](https://github.com/infor-design/enterprise-wc/issues/2454))
 - `[ListView|VirtualScroll]` Fix scroll-behavior of `ids-list-view` when used within `ids-virtual-scroll`. ([#2322](https://github.com/infor-design/enterprise-wc/issues/2322))
 - `[ListView]` Fix bug where, after a list-view-item is selected, search-field keeps losing focus while typing. ([#2296](https://github.com/infor-design/enterprise-wc/issues/2296))
 - `[ListView|VirtualScroll]` Fix scroll-behavior of `ids-list-view` when used within `ids-virtual-scroll`. ([#2322](https://github.com/infor-design/enterprise-wc/issues/2322))
@@ -31,6 +37,7 @@
 - `[Tabs]` Fix tab content visible state when added dynamically. ([#2393](https://github.com/infor-design/enterprise-wc/issues/2393))
 - `[Text]` Properly vertically-align `ids-alert` text when placed inside `ids-text`. ([#2327](https://github.com/infor-design/enterprise-wc/issues/2327))
 - `[Tooltip]` Converted tooltip tests to playwright. ([#1985](https://github.com/infor-design/enterprise-wc/issues/1985))
+- `[Tooltip]` Increase tooltip z-index. ([#2462](https://github.com/infor-design/enterprise-wc/issues/2462))
 - `[TriggerButton]` Fixed style issues. Trigger start spacing, readonly hover, inline border radius. ([#2303](https://github.com/infor-design/enterprise-wc/issues/2303))
 - `[WeekView]` Added more input handling for `startHour`, `endHour`, and `timelineInterval`. ([#2446](https://github.com/infor-design/enterprise-wc/issues/2446))
 - `[WeekView]` Converted week view tests to playwright. ([#1993](https://github.com/infor-design/enterprise-wc/issues/1993))
