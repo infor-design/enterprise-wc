@@ -115,6 +115,10 @@ export default class IdsDropdownList extends Base {
     this.setAriaOnMenuOpen();
 
     if (this.value || typeof this.value === 'string') this.selectOption(this.value);
+
+    if (this.positionStyle === 'fixed') {
+      this.popup?.style.setProperty('width', `${this.clientWidth}px`);
+    }
   }
 
   onTargetChange() {
