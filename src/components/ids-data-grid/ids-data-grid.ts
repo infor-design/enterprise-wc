@@ -1551,13 +1551,18 @@ export default class IdsDataGrid extends Base {
       this.#handleVirtualScroll(virtualRowHeight);
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
+    let throttleCalculateColumnsOnscreen: any = null;
     this.offEvent('scrollend.data-grid.virtual-scroll', this.container);
     this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
 
       if (!this.treeGrid) {
         this.#handleVirtualScroll(virtualRowHeight);
-        this.#calculateColumnsOnscreen();
+
+        clearTimeout(throttleCalculateColumnsOnscreen);
+        throttleCalculateColumnsOnscreen = setTimeout(() => {
+          this.#calculateColumnsOnscreen();
+        }, 500);
       }
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
@@ -1579,9 +1584,6 @@ export default class IdsDataGrid extends Base {
    */
   #calculateColumnsOnscreen(): void {
     // NOTE: Only run #calculateColumnsOnscreen virtualScroll datagrid has TOO_MANY_COLUMNS
-    // const virtualScrollSettings = this.virtualScrollSettings;
-    // if (!virtualScrollSettings.ENABLED) return;
-
     const headerColumns = this.header?.columns;
     if (headerColumns.length < this.TOO_MANY_COLUMNS) return;
 
