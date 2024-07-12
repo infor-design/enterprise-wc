@@ -1551,14 +1551,14 @@ export default class IdsDataGrid extends Base {
       this.#handleVirtualScroll(virtualRowHeight);
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
-    let throttleScrollend: any = null;
+    let debounceScrollend: any = null;
     this.offEvent('scrollend.data-grid.virtual-scroll', this.container);
     this.onEvent('scrollend.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
 
       if (!this.treeGrid) {
-        clearTimeout(throttleScrollend);
-        throttleScrollend = setTimeout(() => {
+        clearTimeout(debounceScrollend);
+        debounceScrollend = setTimeout(() => {
           this.#handleVirtualScroll(virtualRowHeight);
           this.#calculateColumnsOnscreen();
         }, 500);
