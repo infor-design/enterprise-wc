@@ -261,7 +261,8 @@ export class DropdownEditor implements IdsDataGridEditor {
       this.list.popup.alignTarget = this.input;
       this.list.popup.onPlace = (popupRect: DOMRect) => {
         const yOffset = cell?.dataGrid?.rowHeight === 'xxs' ? -3 : 0; // acounts for xxs size rows
-        popupRect.x += 1;
+        const xOffset = isInline ? -1 : 0;
+        popupRect.x += 1 + xOffset;
         popupRect.y += 1 + yOffset;
         return popupRect;
       };
