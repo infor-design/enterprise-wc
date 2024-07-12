@@ -1,4 +1,4 @@
-# Ids Loading Indicator Component
+# ids-loading-indicator
 
 ## Description
 

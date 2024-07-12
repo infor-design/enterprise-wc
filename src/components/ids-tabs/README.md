@@ -1,4 +1,4 @@
-# Ids Tabs Component
+# ids-tabs
 
 ## Description
 

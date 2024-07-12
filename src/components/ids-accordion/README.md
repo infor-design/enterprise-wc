@@ -1,4 +1,4 @@
-# Ids Accordion Component
+# ids-accordion
 
 ## Description
 

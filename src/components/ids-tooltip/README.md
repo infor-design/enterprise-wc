@@ -1,4 +1,4 @@
-# Ids Tooltip Component
+# ids-tooltip
 
 ## Description
 

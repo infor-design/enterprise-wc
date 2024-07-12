@@ -2,10 +2,6 @@
 
 This component displays top-level navigation in a fly out menu, similar to [IDS App Menu](../ids-app-menu/README.md).
 
-## Use Cases
-
-Use for top-level [Module]() navigation.
-
 ## Terminology
 
 - **Module Nav**: The UX element that holds all navigation items.
@@ -17,7 +13,7 @@ Use for top-level [Module]() navigation.
 
 ### IdsModuleNav
 
-These settings apply to the IdsModuleNav container element:
+These settings apply to the ids-module-nav container element:
 
 - `display-mode` {false|'collapsed'|'expanded'} Chooses the entire Module Nav structure's display type
 - `respond-down` {IdsBreakpointRespondAttribute} Controls the lowest-possible breakpoint at which mobile responsive behavior will be enabled (enabled by using `responsive`)

@@ -1,4 +1,4 @@
-# Ids Image Component
+# ids-image
 
 ## Description
 

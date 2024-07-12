@@ -1,4 +1,4 @@
-# Ids Layout Grid Component
+# ids-layout-grid
 
 ## Description
 

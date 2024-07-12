@@ -1,4 +1,4 @@
-# Ids Empty Message Component
+# ids-empty-message
 
 ## Description
 

@@ -1,4 +1,4 @@
-# Ids Editor Component
+# ids-editor
 
 ## Description
 

@@ -1,4 +1,4 @@
-# Ids Input Group Component
+# ids-input-group
 
 ## Description
 
