@@ -213,7 +213,7 @@ export default class IdsDataGridCell extends IdsElement {
   get isOnScreen() {
     const dataGrid = this.dataGrid;
     const columnIndex = this.columnIndex;
-    const columnHeader = dataGrid?.header?.querySelector(`.ids-data-grid-header-cell[aria-colindex="${columnIndex}"]`);
+    const columnHeader = dataGrid?.header?.columns[columnIndex];
     return columnHeader?.hasAttribute('column-onscreen');
   }
 
