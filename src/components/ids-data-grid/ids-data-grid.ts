@@ -1612,9 +1612,6 @@ export default class IdsDataGrid extends Base {
       column.toggleAttribute('column-offscreen', isOffScreen);
       column.toggleAttribute('column-offscreen-left', isOffScreenLeft);
       column.toggleAttribute('column-offscreen-right', isOffScreenRight);
-
-      // // NOTE: using Array.every() to exit early for better performance
-      // return isOffScreenLeft || isOnScreen;
     });
 
     const newHeaderColumnsOnscreen = this.header?.columnsOnscreen;

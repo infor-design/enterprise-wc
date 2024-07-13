@@ -171,6 +171,14 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   /**
+   * Get the column header cell element
+   * @returns {IdsDataGridColumn} the current cells column
+   */
+  get columnHeader() {
+    return this.dataGrid?.header?.columns[this.columnIndex];
+  }
+
+  /**
    * Gets the column # in which this cell exists
    * @returns {number} the column-index
    */
@@ -208,17 +216,6 @@ export default class IdsDataGridCell extends IdsElement {
     const record = this.dataGrid?.data?.[this.rowIndex];
 
     return record?.[(column?.field ?? -1)] ?? this.textContent ?? '';
-  }
-
-  get isOnScreen() {
-    const dataGrid = this.dataGrid;
-    const columnIndex = this.columnIndex;
-    const columnHeader = dataGrid?.header?.columns[columnIndex];
-    return columnHeader?.hasAttribute('column-onscreen');
-  }
-
-  get columnHeader() {
-    return this.dataGrid?.header?.columns[this.columnIndex];
   }
 
   /**

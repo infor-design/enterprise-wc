@@ -131,6 +131,8 @@ export default class IdsDataGridRow extends IdsElement {
    */
   renderRow(row: number) {
     const cells = [...this.children] as IdsDataGridCell[];
+
+    // Re-render datagrid cells instead datagrid rows for performance
     if (cells.length === this.visibleColumns.length) {
       [...cells].forEach((cell) => cell?.renderCell?.());
     } else {
