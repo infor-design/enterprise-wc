@@ -1602,7 +1602,7 @@ export default class IdsDataGrid extends Base {
       const columnDimensions = column.getBoundingClientRect();
       const columnLeftEdge = columnDimensions.x;
       const columnRightEdge = columnLeftEdge + columnDimensions.width;
-      const windowWidth = window.innerWidth + 200;
+      const windowWidth = window.innerWidth + 300;
       const isOffScreenLeft = columnRightEdge < 0;
       const isOffScreenRight = columnLeftEdge > windowWidth;
       const isOffScreen = isOffScreenLeft || isOffScreenRight;
