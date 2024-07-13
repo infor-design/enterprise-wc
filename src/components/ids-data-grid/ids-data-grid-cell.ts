@@ -217,21 +217,37 @@ export default class IdsDataGridCell extends IdsElement {
     return columnHeader?.hasAttribute('column-onscreen');
   }
 
+  get columnHeader() {
+    return this.dataGrid?.header?.columns[this.columnIndex];
+  }
+
   /**
    * Rerender a cell - may be used later
    */
   renderCell() {
     const dataGrid = this.dataGrid;
-    // const virtualScrollSettings = dataGrid.virtualScrollSettings;
 
     if (dataGrid.virtualScroll) {
+      const tooManyColumns = dataGrid.columns.length > dataGrid.TOO_MANY_COLUMNS;
+
       const columnsStale = dataGrid.hasAttribute('columns-stale');
       const columnsFresh = !columnsStale;
-      const tooManyColumns = dataGrid.columns.length > dataGrid.TOO_MANY_COLUMNS;
-      if (columnsFresh && tooManyColumns && !this.isOnScreen) {
+
+      const columnHeaders = this.columnHeader;
+      const columnOffScreen = columnHeaders?.hasAttribute('column-offscreen');
+
+      if (tooManyColumns && columnsFresh && columnOffScreen) {
         // NOTE: skip renderCell if cell is NOT on-screen
         return;
       }
+
+      const columnOnScreen = columnHeaders?.hasAttribute('column-onscreen');
+      const columnOffScreenLeft = columnHeaders?.hasAttribute('column-offscreen-left');
+      const columnOffScreenRight = columnHeaders?.hasAttribute('column-offscreen-right');
+      this.toggleAttribute('column-onscreen', columnOnScreen);
+      this.toggleAttribute('column-offscreen', columnOffScreen);
+      this.toggleAttribute('column-offscreen-left', columnOffScreenLeft);
+      this.toggleAttribute('column-offscreen-right', columnOffScreenRight);
     }
 
     const rowIndex = this.rowIndex;

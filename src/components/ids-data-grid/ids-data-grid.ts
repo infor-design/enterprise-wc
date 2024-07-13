@@ -82,7 +82,7 @@ const Base = IdsPagerMixin(
 @customElement('ids-data-grid')
 @scss(styles)
 export default class IdsDataGrid extends Base {
-  readonly TOO_MANY_COLUMNS = 30;
+  readonly TOO_MANY_COLUMNS = 30; // 30 is arbitrary number that we can recondsider
 
   initialized = false;
 
@@ -118,9 +118,15 @@ export default class IdsDataGrid extends Base {
     };
   }
 
+  /** #@see IdsDataGrid.header */
+  #header?: IdsDataGridHeader;
+
   /* Returns the header element */
-  get header(): IdsDataGridHeader {
-    return this.container?.querySelector('ids-data-grid-header:not(.column-groups)') as IdsDataGridHeader;
+  get header(): IdsDataGridHeader | undefined {
+    if (!this.#header) {
+      this.#header = this.container?.querySelector<IdsDataGridHeader>('ids-data-grid-header:not(.column-groups)') ?? undefined;
+    }
+    return this.#header;
   }
 
   /* Returns the body element */
@@ -1262,7 +1268,7 @@ export default class IdsDataGrid extends Base {
     if (this.virtualScroll) {
       // NOTE: using originalData skips pagination-logic; it's ok in context of infinite-scroll
       this.datasource.data = this.datasource.originalData.concat(value);
-      this.header.resetSortStates();
+      this.header?.resetSortStates();
       this.resetCache();
 
       if (this.treeGrid) {
@@ -1469,14 +1475,12 @@ export default class IdsDataGrid extends Base {
     const ROW_HEIGHT = this.rowPixelHeight || 50;
     const MAX_ROWS_IN_DOM = this.#virtualScrollMaxRowsInDom;
     const BUFFER_ROWS = Math.ceil(MAX_ROWS_IN_DOM * 0.25);
-    const TOO_MANY_COLUMNS = 30; // 30 is arbitrary number that we can recondsider
 
     return {
       ENABLED,
       ROW_HEIGHT,
       MAX_ROWS_IN_DOM,
-      BUFFER_ROWS,
-      TOO_MANY_COLUMNS
+      BUFFER_ROWS
     };
   }
 
@@ -1544,11 +1548,19 @@ export default class IdsDataGrid extends Base {
     const virtualScrollSettings = this.virtualScrollSettings;
     const virtualRowHeight = virtualScrollSettings.ROW_HEIGHT;
 
+    let debounceScroll: any = null;
     this.offEvent('scroll.data-grid.virtual-scroll', this.container);
     this.onEvent('scroll.data-grid.virtual-scroll', this.container, (evt) => {
       evt.stopImmediatePropagation();
 
       this.#handleVirtualScroll(virtualRowHeight);
+
+      if (!this.treeGrid) {
+        clearTimeout(debounceScroll);
+        debounceScroll = setTimeout(() => {
+          this.#calculateColumnsOnscreen();
+        }, 3);
+      }
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
 
     let debounceScrollend: any = null;
@@ -1560,7 +1572,6 @@ export default class IdsDataGrid extends Base {
         clearTimeout(debounceScrollend);
         debounceScrollend = setTimeout(() => {
           this.#handleVirtualScroll(virtualRowHeight);
-          this.#calculateColumnsOnscreen();
         }, 500);
       }
     }, { capture: true, passive: true });// @see https://javascript.info/bubbling-and-capturing#capturing
@@ -1582,28 +1593,28 @@ export default class IdsDataGrid extends Base {
    * @see IdsDataGridCell.isOnScreen()
    */
   #calculateColumnsOnscreen(): void {
-    // NOTE: Only run #calculateColumnsOnscreen virtualScroll datagrid has TOO_MANY_COLUMNS
     const headerColumns = this.header?.columns;
-    if (headerColumns.length < this.TOO_MANY_COLUMNS) return;
+    if (!headerColumns || headerColumns.length < this.TOO_MANY_COLUMNS) return;
 
-    const oldHeaderColumnsOnscreen = this.header?.columnsOnscreen.map((column: HTMLElement) => {
-      column.removeAttribute('column-onscreen');
-      return column;
-    });
+    const oldHeaderColumnsOnscreen = this.header?.columnsOnscreen;
 
-    headerColumns.every((column: HTMLElement) => {
+    headerColumns?.forEach((column: HTMLElement) => {
       const columnDimensions = column.getBoundingClientRect();
       const columnLeftEdge = columnDimensions.x;
       const columnRightEdge = columnLeftEdge + columnDimensions.width;
-      const windowWidth = window.innerWidth;
+      const windowWidth = window.innerWidth + 200;
       const isOffScreenLeft = columnRightEdge < 0;
       const isOffScreenRight = columnLeftEdge > windowWidth;
-      const isOnScreen = !isOffScreenLeft && !isOffScreenRight;
+      const isOffScreen = isOffScreenLeft || isOffScreenRight;
+      const isOnScreen = !isOffScreen;
 
       column.toggleAttribute('column-onscreen', isOnScreen);
+      column.toggleAttribute('column-offscreen', isOffScreen);
+      column.toggleAttribute('column-offscreen-left', isOffScreenLeft);
+      column.toggleAttribute('column-offscreen-right', isOffScreenRight);
 
-      // NOTE: using Array.every() to exit early for better performance
-      return isOffScreenLeft || isOnScreen;
+      // // NOTE: using Array.every() to exit early for better performance
+      // return isOffScreenLeft || isOnScreen;
     });
 
     const newHeaderColumnsOnscreen = this.header?.columnsOnscreen;
@@ -1770,7 +1781,7 @@ export default class IdsDataGrid extends Base {
    */
   #scrollTo(rowIndex: number): void {
     this.rowByIndex(rowIndex)?.scrollIntoView?.();
-    const headerHeight = this.header?.clientHeight;
+    const headerHeight = this.header?.clientHeight ?? 0;
     const scrollHeight = this.container!.scrollHeight;
     const containerHeight = this.container!.clientHeight;
     const scrollTop = this.container!.scrollTop;
