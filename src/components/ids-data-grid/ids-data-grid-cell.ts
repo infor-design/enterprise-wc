@@ -1,5 +1,6 @@
 import { customElement } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
 import type IdsInput from '../ids-input/ids-input';
 import type IdsDataGrid from './ids-data-grid';
@@ -8,7 +9,7 @@ import type { IdsDataGridColumn } from './ids-data-grid-column';
 import { IdsDataGridEditor } from './ids-data-grid-editors';
 
 @customElement('ids-data-grid-cell')
-export default class IdsDataGridCell extends IdsElement {
+export default class IdsDataGridCell extends IdsEventsMixin(IdsElement) {
   rootNode?: any;
 
   isInValid = false;
@@ -39,9 +40,8 @@ export default class IdsDataGridCell extends IdsElement {
     this.tabIndex = -1;
     this.setAttribute('tabindex', '-1');
 
-    // TODO: This focusin event cause major memory leak because it never gets removed from DOM
-    this.dataGrid?.offEvent('focusin.ids-cell', this);
-    this.dataGrid?.onEvent('focusin.ids-cell', this, () => {
+    this.offEvent('focusin.ids-cell', this);
+    this.onEvent('focusin.ids-cell', this, () => {
       this.tabIndex = 0;
       this.setAttribute('tabindex', '0');
 
@@ -49,9 +49,8 @@ export default class IdsDataGridCell extends IdsElement {
       this.dataGrid?.hideOpenMenus();
     });
 
-    // TODO: This focusout event cause major memory leak because it never gets removed from DOM
-    this.dataGrid?.offEvent('focusout.ids-cell', this);
-    this.dataGrid?.onEvent('focusout.ids-cell', this, () => {
+    this.offEvent('focusout.ids-cell', this);
+    this.onEvent('focusout.ids-cell', this, () => {
       this.tabIndex = -1;
       this.setAttribute('tabindex', '-1');
     });
