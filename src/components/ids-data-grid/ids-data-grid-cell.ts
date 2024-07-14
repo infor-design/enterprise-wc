@@ -39,6 +39,7 @@ export default class IdsDataGridCell extends IdsElement {
     this.tabIndex = -1;
     this.setAttribute('tabindex', '-1');
 
+    // TODO: This focusin event cause major memory leak because it never gets removed from DOM
     this.dataGrid?.offEvent('focusin.ids-cell', this);
     this.dataGrid?.onEvent('focusin.ids-cell', this, () => {
       this.tabIndex = 0;
@@ -48,6 +49,7 @@ export default class IdsDataGridCell extends IdsElement {
       this.dataGrid?.hideOpenMenus();
     });
 
+    // TODO: This focusout event cause major memory leak because it never gets removed from DOM
     this.dataGrid?.offEvent('focusout.ids-cell', this);
     this.dataGrid?.onEvent('focusout.ids-cell', this, () => {
       this.tabIndex = -1;
