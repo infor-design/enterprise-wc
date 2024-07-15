@@ -293,7 +293,7 @@ test.describe('IdsDataGrid editing tests', () => {
       dataGrid.resetDirtyRow(1);
 
       const isRow0Dirty = editableCellRow0?.classList.contains('is-dirty');
-      const isRow1Dirty = editableCellRow0?.classList.contains('is-dirty');
+      const isRow1Dirty = editableCellRow1?.classList.contains('is-dirty');
 
       return {
         isRow0Dirty,
