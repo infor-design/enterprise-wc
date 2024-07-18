@@ -155,6 +155,17 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
 
     this.dataGrid.filters?.applyFilter(filterExpr);
     this.highlightSearchRows();
+
+    /**
+     * Triggered when the user searched for a term
+     * @event searched.datagrid
+     * @property {string} value The searched term
+     */
+    this.triggerEvent('searched.datagrid', this, {
+      detail: {
+        value: this.#searchedTerm
+      }
+    });
   }
 
   resetHighlightSearchRows() {
