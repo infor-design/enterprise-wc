@@ -41,9 +41,6 @@ class IdsMultiselect extends IdsDropdown {
     this.onEvent('slotchange.mulitselect', defaultSlot, () => {
       this.#populateSelected();
     });
-
-    const innerInput = this.shadowRoot?.querySelector('ids-trigger-field')?.shadowRoot?.querySelector('input');
-    innerInput?.style.setProperty('color', 'transparent');
   }
 
   internalSelectedList: Array<string> = [];
@@ -310,7 +307,6 @@ class IdsMultiselect extends IdsDropdown {
 
     // Clear tags/text before rerender
     this.input?.querySelectorAll<IdsTag>('ids-tag').forEach((item) => item.remove());
-    this.input?.querySelector<IdsText>('ids-text')?.remove();
 
     if (this.tags) {
       const tags = selected.map((item: any) => {
@@ -327,8 +323,6 @@ class IdsMultiselect extends IdsDropdown {
       }).join('');
       this.input?.insertAdjacentHTML('afterbegin', tags);
     } else {
-      this.input?.insertAdjacentHTML('afterbegin', `<ids-text overflow="ellipsis" tooltip="true">${newValue}</ids-text>`);
-
       const text = this.input?.querySelector<IdsText>('ids-text');
       const fieldContainer = this.input?.fieldContainer;
 
