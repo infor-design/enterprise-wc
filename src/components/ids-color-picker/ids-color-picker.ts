@@ -665,7 +665,6 @@ export default class IdsColorPicker extends Base {
    * @param {boolean} shouldFocus true if a swatch should be focused
    */
   #configureSwatches(shouldFocus = false): void {
-    console.log('shouldFocus', shouldFocus);
     this.swatches.forEach((swatch: IdsColor) => {
       swatch.classList.add('outlined');
       swatch.tooltip = this.suppressLabels ? (this.tooltip || swatch.hex) : (this.tooltip || swatch.label);
