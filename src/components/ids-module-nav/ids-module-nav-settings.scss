@@ -34,8 +34,8 @@ ids-separator::part(separator) {
   @include ids-base-button-styles();
   @include ids-module-nav-button-styles();
 
-  &:not(.ids-icon-button) ::slotted(ids-icon) {
-    padding-inline-end: 0;
+  &:not(.ids-icon-button):not(.align-icon-end) ::slotted(ids-icon:not([icon="insights-smart-panel"])) {
+    margin-inline-end: 0;
   }
 
   &.color-variant-module-nav {
