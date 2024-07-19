@@ -55,21 +55,21 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
    * Reference to the data grid toolbar
    * @returns {HTMLElement} the toolbar
    */
-  get toolbar() {
-    const toolbar = this.dataGrid.shadowRoot?.querySelector('.ids-data-grid-toolbar');
-    if (!toolbar) {
-      this.dataGrid?.wrapper?.insertAdjacentHTML('afterbegin', '<div class="ids-data-grid-toolbar"></div>');
-      return this.dataGrid.shadowRoot?.querySelector('.ids-data-grid-toolbar');
-    }
+  // get toolbar() {
+  //   const toolbar = this.dataGrid.shadowRoot?.querySelector('.ids-data-grid-toolbar');
+  //   if (!toolbar) {
+  //     this.dataGrid?.wrapper?.insertAdjacentHTML('afterbegin', '<div class="ids-data-grid-toolbar"></div>');
+  //     return this.dataGrid.shadowRoot?.querySelector('.ids-data-grid-toolbar');
+  //   }
 
-    return toolbar;
-  }
+  //   return toolbar;
+  // }
 
   /**
    * Attaches a slotted IdsSearchField component to the app menu
    */
   #attachSearchField() {
-    const searchfield = this.toolbar?.querySelector<IdsSearchField>('ids-search-field');
+    const searchfield = this.dataGrid.toolbar?.querySelector<IdsSearchField>('ids-search-field');
     if (searchfield) {
       searchfield.onSearch = (value: string) => {
         if (value !== '' && value.length > this.searchTermMinSize) {
@@ -98,11 +98,12 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
    * @returns {void}
    */
   setSearchable(): void {
-    const getSearchField = () => this.toolbar?.querySelector<any>('ids-search-field');
+    const getSearchField = () => this.dataGrid.toolbar?.querySelector<any>('ids-search-field');
 
     let searchField = getSearchField();
     if (!searchField && this.searchable) {
-      this.toolbar?.insertAdjacentHTML('afterbegin', this.searchFieldTemplate());
+      // this.toolbar?.insertAdjacentHTML('afterbegin', this.searchFieldTemplate());
+      this.dataGrid.toolbar?.insertAdjacentHTML('beforeend', this.searchFieldTemplate());
       searchField = getSearchField();
     } else if (!this.searchable) {
       searchField?.remove();

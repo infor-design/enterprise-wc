@@ -510,6 +510,7 @@ export const attributes = {
   TOGGLE_ICON_ROTATE: 'toggle-icon-rotate',
   TOGGLEABLE: 'toggleable',
   TOOLBAR_TYPE: 'toolbar-type',
+  TOOLBAR_TEMPLATE: 'toolbar-template',
   TOOLTIP: 'tooltip',
   TOOLTIP_PLACEMENT: 'tooltip-placement',
   TOOLTIP_PLAIN_TEXT: 'tooltip-plain-text',

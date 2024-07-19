@@ -1,7 +1,7 @@
 // Utils
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { exportToCSV, exportToXLSX } from '../../utils/ids-excel-exporter/ids-excel-exporter';
 import { eventPath, findInPath } from '../../utils/ids-event-path-utils/ids-event-path-utils';
 
@@ -49,6 +49,7 @@ import IdsLoadingIndicator from '../ids-loading-indicator/ids-loading-indicator'
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsButton from '../ids-button/ids-button';
 import IdsDataGridSearchMixin from './ids-data-grid-search-mixin';
+import IdsToolbar from '../ids-toolbar/ids-toolbar';
 
 const Base = IdsPagerMixin(
   IdsDataGridSearchMixin(
@@ -122,6 +123,16 @@ export default class IdsDataGrid extends Base {
   /* Returns the header element */
   get header(): IdsDataGridHeader {
     return this.container?.querySelector('ids-data-grid-header:not(.column-groups)') as IdsDataGridHeader;
+  }
+
+  /* Returns the header element */
+  get toolbar(): IdsToolbar {
+    const toolbar = this.shadowRoot?.querySelector('ids-toolbar') as IdsToolbar;
+    if (!toolbar) {
+      this.dataGrid?.wrapper?.insertAdjacentHTML('afterbegin', '<ids-toolbar class="ids-data-grid-toolbar"></ids-toolbar>');
+      return this.shadowRoot?.querySelector('ids-toolbar') as IdsToolbar;
+    }
+    return toolbar;
   }
 
   /* Returns the body element */
@@ -248,6 +259,7 @@ export default class IdsDataGrid extends Base {
       attributes.TREE_GRID,
       attributes.VIRTUAL_SCROLL,
       attributes.UNIQUE_ID,
+      attributes.TOOLBAR_TEMPLATE,
     ];
   }
 
@@ -276,8 +288,11 @@ export default class IdsDataGrid extends Base {
       ? ''
       : `${IdsDataGridHeader.template(this)}${this.bodyTemplate()}`;
 
+    const toolbarTemplate = this?.toolbarTemplate ? injectTemplate(this?.querySelector(`#${this?.toolbarTemplate}`)?.innerHTML || '', '') : '';
+
     const html = `<div class="ids-data-grid-wrapper">
         <span class="ids-data-grid-sort-arrows"></span>
+        ${toolbarTemplate}
         <div tabindex="0" class="ids-data-grid${cssClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
         ${innerTemplate}
         </div>
@@ -3035,6 +3050,22 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * An id that points to the template to use for toolbar.
+   * @param {string} value The value
+   */
+  set toolbarTemplate(value) {
+    if (value) {
+      this.setAttribute(attributes.TOOLBAR_TEMPLATE, value.toString());
+    } else {
+      this.removeAttribute(attributes.TOOLBAR_TEMPLATE);
+    }
+  }
+
+  get toolbarTemplate() {
+    return this.getAttribute(attributes.TOOLBAR_TEMPLATE) || '';
+  }
+
+  /**
    * Set uniqueId to save to local storage.
    * @param {number|string|null} value A uniqueId use to save to local storage.
    */
@@ -3248,7 +3279,11 @@ export default class IdsDataGrid extends Base {
   #removeAttachedMenus() {
     const attachedMenus = this.wrapper?.querySelectorAll<IdsPopupMenu>('ids-popup-menu');
     if (attachedMenus?.length) {
-      [...attachedMenus].forEach((el: IdsPopupMenu) => el.remove());
+      [...attachedMenus].forEach((el: IdsPopupMenu) => {
+        if (!el.closest('ids-toolbar')) {
+          el.remove();
+        }
+      });
     }
   }
 

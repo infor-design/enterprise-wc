@@ -10,8 +10,8 @@ import type { IdsDataGridColumn } from '../ids-data-grid-column';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-searchable')!;
-const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
-const toolbarTitleText = document.querySelector<IdsText>('#title-text')!;
+const rowHeightMenu = dataGrid?.toolbar?.querySelector<IdsPopupMenu>('#row-height-menu')!;
+const toolbarTitleText = dataGrid?.toolbar?.querySelector<IdsText>('#title-text')!;
 
 // Change row height with popup menu
 rowHeightMenu?.addEventListener('selected', (e: Event) => {
@@ -112,7 +112,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
   }
 
   // Example Buttons
-  document.querySelector('#add-row')?.addEventListener('click', () => {
+  dataGrid.toolbar.querySelector('#add-row')?.addEventListener('click', () => {
     const newRow = {
       id: dataGrid.datasource.currentData.length + 1,
       description: 'New Row',
@@ -131,7 +131,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     dataGrid.editFirstCell();
   });
 
-  document.querySelector('#delete-row')?.addEventListener('click', () => {
+  dataGrid.toolbar?.querySelector('#delete-row')?.addEventListener('click', () => {
     dataGrid.selectedRowsAcrossPages.reverse().forEach((row: any) => {
       const removeData = trimData(row);
       dataGrid.removeRow(row.index, removeData);
@@ -139,7 +139,7 @@ rowHeightMenu?.addEventListener('selected', (e: Event) => {
     });
   });
 
-  document.querySelector('#clear-row')?.addEventListener('click', () => {
+  dataGrid.toolbar.querySelector('#clear-row')?.addEventListener('click', () => {
     dataGrid.selectedRowsAcrossPages.reverse().forEach((row: any) => {
       const clearData = trimData(row);
       dataGrid.clearRow(row.index, clearData);
