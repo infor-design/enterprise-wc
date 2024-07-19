@@ -4,7 +4,6 @@ import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-s
 import { IdsConstructor } from '../../core/ids-element';
 import { EventsMixinInterface } from '../../mixins/ids-events-mixin/ids-events-mixin';
 import type IdsDataGrid from './ids-data-grid';
-import IdsSearchField from '../ids-search-field/ids-search-field';
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
 
@@ -23,11 +22,18 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
    */
   #searchedTerm: string = '';
 
+  /**
+   * Reference to the search field element
+   */
+  #searchField: HTMLElement | null | undefined = null;
+
   static get attributes() {
     return [
       ...(superclass as any).attributes,
       attributes.SEARCHABLE,
       attributes.SEARCH_TERM_MIN_SIZE,
+      attributes.SEARCH_FIELD,
+      attributes.SEARCH_FIELD_ID
     ];
   }
 
@@ -55,32 +61,44 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
    * Reference to the data grid toolbar
    * @returns {HTMLElement} the toolbar
    */
-  // get toolbar() {
-  //   const toolbar = this.dataGrid.shadowRoot?.querySelector('.ids-data-grid-toolbar');
-  //   if (!toolbar) {
-  //     this.dataGrid?.wrapper?.insertAdjacentHTML('afterbegin', '<div class="ids-data-grid-toolbar"></div>');
-  //     return this.dataGrid.shadowRoot?.querySelector('.ids-data-grid-toolbar');
-  //   }
+  get toolbar() {
+    const toolbar = this.dataGrid.shadowRoot?.querySelector('.ids-data-grid-toolbar');
+    if (!toolbar) {
+      this.dataGrid?.wrapper?.insertAdjacentHTML('afterbegin', '<div class="ids-data-grid-toolbar"></div>');
+      return this.dataGrid.shadowRoot?.querySelector('.ids-data-grid-toolbar');
+    }
 
-  //   return toolbar;
-  // }
+    return toolbar;
+  }
 
   /**
-   * Attaches a slotted IdsSearchField component to the app menu
+   * Attach event listeners for search field
    */
-  #attachSearchField() {
-    const searchfield = this.dataGrid.toolbar?.querySelector<IdsSearchField>('ids-search-field');
-    if (searchfield) {
-      searchfield.onSearch = (value: string) => {
-        if (value !== '' && value.length > this.searchTermMinSize) {
-          this.#searchedTerm = value.toLowerCase();
-          return this.#handleSearchKeyword();
-        }
-        this.dataGrid.filters.applyFilter();
-        this.resetHighlightSearchRows();
-        return [];
-      };
+  #attachEventListeners() {
+    if (!this.searchField) return;
+
+    // @ts-ignore
+    (this.searchField?.input || this.searchField)?.addEventListener('input', (e: any) => {
+      this.#onSearch(e.target?.value || '');
+    });
+
+    // @ts-ignore
+    this.searchField?.onEvent('cleared', this.searchField, () => {
+      this.#onSearch('');
+    });
+  }
+
+  /**
+   * Handles the search event
+   * @param {string} value The search value
+   */
+  #onSearch(value: string) {
+    if (value !== '' && value.length > this.searchTermMinSize) {
+      this.#searchedTerm = value.toLowerCase();
+      return this.#handleSearchKeyword();
     }
+    this.dataGrid.filters.applyFilter();
+    this.resetHighlightSearchRows();
   }
 
   /**
@@ -90,7 +108,7 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   searchFieldTemplate(): string {
     const cssParts = 'container: searchfield-container, field-container: searchfield-field-container, input: searchfield-input, popup: searchfield-popup';
 
-    return `<ids-search-field label="Search" label-state="collapsed" size="" exportparts="${cssParts}" clearable no-margins></ids-search-field>`;
+    return `<ids-search-field id="data-grid-search-field" label="Search" label-state="collapsed" size="" exportparts="${cssParts}" clearable no-margins></ids-search-field>`;
   }
 
   /**
@@ -98,20 +116,18 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
    * @returns {void}
    */
   setSearchable(): void {
-    const getSearchField = () => this.dataGrid.toolbar?.querySelector<any>('ids-search-field');
-
-    let searchField = getSearchField();
-    if (!searchField && this.searchable) {
-      // this.toolbar?.insertAdjacentHTML('afterbegin', this.searchFieldTemplate());
-      this.dataGrid.toolbar?.insertAdjacentHTML('beforeend', this.searchFieldTemplate());
-      searchField = getSearchField();
-    } else if (!this.searchable) {
-      searchField?.remove();
+    if (!this.searchField && this.searchable) {
+      this.toolbar?.insertAdjacentHTML('afterbegin', this.searchFieldTemplate());
+      this.searchField = this.toolbar?.querySelector('ids-search-field') || null;
     }
 
-    const isSearchfield = !!getSearchField();
-    this.dataGrid.wrapper?.classList.toggle('has-searchfield', isSearchfield);
-    this.#attachSearchField();
+    this.#makeItSearchable();
+  }
+
+  #makeItSearchable() {
+    const isSearchField = !!this.searchField;
+    this.dataGrid.wrapper?.classList.toggle('has-searchfield', isSearchField);
+    this.#attachEventListeners();
   }
 
   /**
@@ -139,11 +155,43 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   }
 
   get searchTermMinSize(): number {
-    const defaultVal = 1;
     const val = stringToNumber(this.getAttribute(attributes.SEARCH_TERM_MIN_SIZE));
-    return (!Number.isNaN(val) && val > 0) ? val : defaultVal;
+    return (!Number.isNaN(val) && val > 0) ? val : 1;
   }
 
+  /**
+   * Set search field
+   * @param {string} value The value
+   */
+  set searchFieldId(value) {
+    if (value) {
+      this.setAttribute(attributes.SEARCH_FIELD_ID, value.toString());
+      this.searchField = document.querySelector(`#${value}`) as HTMLElement | null | undefined;
+    } else {
+      this.removeAttribute(attributes.SEARCH_FIELD_ID);
+    }
+  }
+
+  get searchFieldId() {
+    return this.getAttribute(attributes.SEARCH_FIELD_ID) || '';
+  }
+
+  /**
+   * Set search field
+   * @param {HTMLElement | null | undefined} value The value
+   */
+  set searchField(value: HTMLElement | null | undefined) {
+    this.#searchField = value;
+    this.#makeItSearchable();
+  }
+
+  get searchField() {
+    return this.#searchField;
+  }
+
+  /**
+   * Handles the search keyword
+   */
   #handleSearchKeyword() {
     const filterExpr: any = [];
     const term = (this.#searchedTerm || '').toLowerCase();

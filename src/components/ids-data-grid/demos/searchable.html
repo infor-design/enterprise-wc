@@ -12,6 +12,40 @@
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
+        <ids-toolbar>
+          <ids-toolbar-section align="start">
+            <ids-text id="title-text" font-size="18"></ids-text>
+          </ids-toolbar-section>
+          <ids-toolbar-section align="end" favor>
+            <ids-button id="add-row">
+              <span class="audible">Add Row</span>
+              <ids-icon icon="add"></ids-icon>
+            </ids-button>
+            <ids-button id="delete-row">
+              <span class="audible">Delete Row</span>
+              <ids-icon icon="delete"></ids-icon>
+            </ids-button>
+            <ids-button id="clear-row">
+              <span class="audible">Clear Row</span>
+              <ids-icon icon="clear-formatting"></ids-icon>
+            </ids-button>
+            <ids-menu-button id="menu-button" menu="row-height-menu">
+              <ids-icon icon="more"></ids-icon>
+              <span class="audible">Settings Menu Button</span>
+            </ids-menu-button>
+            <ids-popup-menu id="row-height-menu" target="menu-button" trigger-type="click">
+              <ids-menu-group select="single">
+                <ids-menu-header><ids-text font-weight="semi-bold">Row Height</ids-text></ids-menu-header>
+                <ids-menu-item value="xxs">Extra Extra Small</ids-menu-item>
+                <ids-menu-item value="xs">Extra Small</ids-menu-item>
+                <ids-menu-item value="sm">Small</ids-menu-item>
+                <ids-menu-item value="md">Medium</ids-menu-item>
+                <ids-menu-item value="lg" selected="true">Large</ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+          </ids-toolbar-section>
+          <ids-search-field id="data-grid-search-field" label="Search" label-state="collapsed" size="" exportparts="container" clearable no-margins></ids-search-field>
+        </ids-toolbar>
         <ids-data-grid
           id="data-grid-searchable"
           row-selection="multiple"
@@ -20,45 +54,8 @@
           pagination="client-side"
           page-number="1"
           page-size="10"
-          searchable="true"
-          toolbar-template="toolbar-tmpl"
+          search-field-id="data-grid-search-field"
         >
-          <template id="toolbar-tmpl">
-            <ids-toolbar>
-              <ids-toolbar-section align="start">
-                <ids-text id="title-text" font-size="18"></ids-text>
-              </ids-toolbar-section>
-              <ids-toolbar-section align="end" favor>
-                <ids-button id="add-row">
-                  <span class="audible">Add Row</span>
-                  <ids-icon icon="add"></ids-icon>
-                </ids-button>
-                <ids-button id="delete-row">
-                  <span class="audible">Delete Row</span>
-                  <ids-icon icon="delete"></ids-icon>
-                </ids-button>
-                <ids-button id="clear-row">
-                  <span class="audible">Clear Row</span>
-                  <ids-icon icon="clear-formatting"></ids-icon>
-                </ids-button>
-                <ids-menu-button id="menu-button" menu="row-height-menu">
-                  <ids-icon icon="more"></ids-icon>
-                  <span class="audible">Settings Menu Button</span>
-                </ids-menu-button>
-                <ids-popup-menu id="row-height-menu" target="menu-button" trigger-type="click">
-                  <ids-menu-group select="single">
-                    <ids-menu-header><ids-text font-weight="semi-bold">Row Height</ids-text></ids-menu-header>
-                    <ids-menu-item value="xxs">Extra Extra Small</ids-menu-item>
-                    <ids-menu-item value="xs">Extra Small</ids-menu-item>
-                    <ids-menu-item value="sm">Small</ids-menu-item>
-                    <ids-menu-item value="md">Medium</ids-menu-item>
-                    <ids-menu-item value="lg" selected="true">Large</ids-menu-item>
-                  </ids-menu-group>
-                </ids-popup-menu>
-
-              </ids-toolbar-section>
-            </ids-toolbar>
-          </template>
         </ids-data-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>
