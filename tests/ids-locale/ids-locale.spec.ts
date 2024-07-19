@@ -489,6 +489,30 @@ test.describe('IdsLocale tests', () => {
       calendar = await runLocaleFunction(page, 'calendar', 'ar-SA', 'islamic-umalqura');
       expect(calendar.dateFormat.datetime).toEqual('yyyy/MM/dd h:mm a');
     });
+
+    test('can set the html lang and dir attribute', async ({ page }) => {
+      const container = await page.locator('ids-container');
+      await page.goto('/ids-locale/example.html');
+      await page.evaluate(async (message) => {
+        const locale = ((window as any).IdsGlobal as any).locale;
+        locale.loadedLanguages.set('de', message.de);
+        locale.loadedLanguages.set('ar', message.ar);
+        locale.setLanguage('de');
+      }, { de: deMessages, ar: arMessages });
+      await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+      await expect(container).toHaveAttribute('language', 'de');
+      await expect(container).not.toHaveAttribute('dir');
+
+      await page.evaluate(async () => ((window as any).IdsGlobal as any).locale.setLanguage('ar'));
+      await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
+      await expect(container).toHaveAttribute('language', 'ar');
+      await expect(container).toHaveAttribute('dir', 'rtl');
+
+      await page.evaluate(async () => ((window as any).IdsGlobal as any).locale.setLanguage('de'));
+      await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+      await expect(container).toHaveAttribute('language', 'de');
+      await expect(container).not.toHaveAttribute('dir');
+    });
   });
 
   test.describe('translation tests', () => {
@@ -750,16 +774,614 @@ test.describe('IdsLocale tests', () => {
     });
 
     test('can handle exceptions', async ({ page }) => {
-      // expect((await runLocaleFunction(page, 'formatNumber', 2019, { locale: 'timestamp' }))).toEqual('NaN');
-      const result = await page.evaluate(() => {
-        ((window as any).utils as any).locale.formatNumber(undefined, { date: 'timestamp' });
-      });
+      expect(await page.evaluate(() => {
+        const response = ((window as any).utils as any).locale.formatNumber('undefined', { date: 'timestamp' });
+        return response;
+      })).toEqual('NaN');
+    });
 
-      console.info(result);
+    test('can format big numbers', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', '123456789012.123456', {
+        style: 'decimal',
+        minimumFractionDigits: 6,
+        maximumFractionDigits: 6
+      }))).toEqual('123,456,789,012.123456');
+
+      expect((await runLocaleFunction(page, 'formatNumber', parseFloat('123456789012.123456'), {
+        style: 'decimal',
+        minimumFractionDigits: 6,
+        maximumFractionDigits: 6
+      }))).toEqual('123,456,789,012.123460');
+
+      expect((await runLocaleFunction(page, 'formatNumber', '-922589489099.38', {
+        style: 'decimal',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+        group: '',
+        decimal: '.'
+      }))).toEqual('-922589489099.38');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatNumber', '12345678901222121.123456', {
+        style: 'decimal',
+        minimumFractionDigits: 6,
+        maximumFractionDigits: 6
+      }))).toEqual('12.345.678.901.222.121,123456');
+    });
+
+    test('can format integer numbers', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', '123456', {
+        style: 'integer'
+      }))).toEqual('123,456');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatNumber', '123456', {
+        style: 'integer'
+      }))).toEqual('123.456');
+    });
+
+    test('can set min and max fraction digits', async ({ page }) => {
+      const testData = [
+        {
+          data: '12345', min: 0, max: 2, expected: '12,345'
+        },
+        {
+          data: '12345.1', min: 0, max: 2, expected: '12,345.1'
+        },
+        {
+          data: '12345.12', min: 0, max: 2, expected: '12,345.12'
+        },
+        {
+          data: '12345.123', min: 0, max: 2, expected: '12,345.12'
+        },
+        {
+          data: '12345.1234', min: 0, max: 2, expected: '12,345.12'
+        },
+        {
+          data: '12345', min: 2, max: 4, expected: '12,345.00'
+        },
+        {
+          data: '12345.1', min: 2, max: 4, expected: '12,345.10'
+        },
+        {
+          data: '12345.12', min: 2, max: 4, expected: '12,345.12'
+        },
+        {
+          data: '12345.123', min: 2, max: 4, expected: '12,345.123'
+        },
+        {
+          data: '12345.12345678', min: 2, max: 4, expected: '12,345.1235'
+        }
+      ];
+
+      for (const data of testData) {
+        expect((await runLocaleFunction(page, 'formatNumber', data.data, {
+          minimumFractionDigits: data.min,
+          maximumFractionDigits: data.max
+        }))).toEqual(data.expected);
+      }
+    });
+
+    test('can set only min fraction digits', async ({ page }) => {
+      const testData = [
+        {
+          data: '12345', min: 2, expected: '12,345.00'
+        },
+        {
+          data: '12345', min: 0, expected: '12,345'
+        },
+        {
+          data: '12345.1', min: 0, expected: '12,345.1'
+        },
+        {
+          data: '12345', min: 4, expected: '12,345.0000'
+        },
+        {
+          data: '12345.1', min: 5, expected: '12,345.10000'
+        }
+      ];
+
+      for (const data of testData) {
+        expect((await runLocaleFunction(page, 'formatNumber', data.data, {
+          minimumFractionDigits: data.min
+        }))).toEqual(data.expected);
+      }
+    });
+
+    test('can format negative numbers', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', -1000000, {
+        style: 'currency', currency: 'USD'
+      }))).toEqual('-$1,000,000.00');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatNumber', -1000000, {
+        style: 'currency', currency: 'EUR'
+      }))).toEqual('-1.000.000,00 €');
+    });
+
+    test('can format big decimal numbers', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', 123.54, {
+        minimumFractionDigits: 15,
+        maximumFractionDigits: 15
+      }))).toEqual('123.540000000000000');
+
+      expect((await runLocaleFunction(page, 'formatNumber', 123.54, {
+        minimumFractionDigits: 20,
+        maximumFractionDigits: 20
+      }))).toEqual('123.54000000000000000000');
+
+      expect((await runLocaleFunction(page, 'formatNumber', 123, {
+        minimumFractionDigits: 20,
+        maximumFractionDigits: 20
+      }))).toEqual('123.00000000000000000000');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatNumber', 123.54, {
+        minimumFractionDigits: 15,
+        maximumFractionDigits: 15
+      }))).toEqual('123,540000000000000');
+
+      expect((await runLocaleFunction(page, 'formatNumber', 123.54, {
+        minimumFractionDigits: 20,
+        maximumFractionDigits: 20
+      }))).toEqual('123,54000000000000000000');
+
+      expect((await runLocaleFunction(page, 'formatNumber', 123, {
+        minimumFractionDigits: 20,
+        maximumFractionDigits: 20
+      }))).toEqual('123,00000000000000000000');
+    });
+
+    test('can format number in non current locale', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      await runLocaleFunction(page, 'setLocale', 'hi-IN');
+      await runLocaleFunction(page, 'setLocale', 'en-US');
+
+      expect((await getLocaleValues(page, 'language.name'))).toEqual('en');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234, { locale: 'en-US' }))).toEqual('123,456,789.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234))).toEqual('123,456,789.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234, { locale: 'nl-NL' }))).toEqual('123.456.789,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234, { locale: 'en-US' }))).toEqual('123,456,789.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234))).toEqual('123,456,789.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234, { locale: 'hi-IN' }))).toEqual('12,34,56,789.123');
+      expect((await getLocaleValues(page, 'locale.name'))).toEqual('en-US');
+    });
+
+    test('can format decimals in different locale and settings', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', 145000))).toEqual('145,000.00');
+      expect((await runLocaleFunction(page, 'formatNumber', 283423))).toEqual('283,423.00');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.1234))).toEqual('12,345.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.123, { style: 'decimal', maximumFractionDigits: 2 }))).toEqual('12,345.12');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.123456, { style: 'decimal', maximumFractionDigits: 3 }))).toEqual('12,345.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.0000004, { style: 'decimal', maximumFractionDigits: 7 }))).toEqual('0.0000004');
+      expect((await runLocaleFunction(page, 'formatNumber', 20.1, { style: 'decimal', round: true, minimumFractionDigits: 2 }))).toEqual('20.10');
+      expect((await runLocaleFunction(page, 'formatNumber', 20.1, { style: 'decimal', round: true }))).toEqual('20.10');
+      expect((await runLocaleFunction(page, 'formatNumber', '12,345.123'))).toEqual('12,345.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.1234, { group: '' }))).toEqual('12345.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 5.1, { minimumFractionDigits: 2, maximumFractionDigits: 2 }))).toEqual('5.10');
+      expect((await runLocaleFunction(page, 'formatNumber', 145000, { style: 'decimal', minimumFractionDigits: 5, maximumFractionDigits: 7 }))).toEqual('145,000.00000');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatNumber', 145000))).toEqual('145.000,00');
+      expect((await runLocaleFunction(page, 'formatNumber', 283423))).toEqual('283.423,00');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.1))).toEqual('12.345,10');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.0000004, { style: 'decimal', maximumFractionDigits: 7 }))).toEqual('0,0000004');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.000004, { style: 'decimal', maximumFractionDigits: 7 }))).toEqual('0,000004');
+      expect((await runLocaleFunction(page, 'formatNumber', 145000, { style: 'decimal', minimumFractionDigits: 5, maximumFractionDigits: 7 }))).toEqual('145.000,00000');
+
+      await runLocaleFunction(page, 'setLocale', 'ar-EG');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.1))).toEqual('١٢٬٣٤٥٫١٠');
+
+      await runLocaleFunction(page, 'setLocale', 'bg-BG');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.1))).toEqual('12 345,10');
+    });
+
+    test('can round decimals', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', 123456.123456, { style: 'decimal', maximumFractionDigits: 5 }))).toEqual('123,456.12346');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456.123456, { style: 'decimal', maximumFractionDigits: 4 }))).toEqual('123,456.1235');
+      expect((await runLocaleFunction(page, 'formatNumber', 1.001, { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 3 }))).toEqual('1.001');
+      expect((await runLocaleFunction(page, 'formatNumber', 1.001, { style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3 }))).toEqual('1.001');
+      expect((await runLocaleFunction(page, 'formatNumber', 1.0019, { style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3 }))).toEqual('1.002');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.6789, { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 3 }))).toEqual('12,345.679');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.6789, { style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3 }))).toEqual('12,345.679');
+    });
+
+    test('can format integers', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.123, { minimumFractionDigits: 0, maximumFractionDigits: 0 }))).toEqual('12,345');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatNumber', 145000, { minimumFractionDigits: 0, maximumFractionDigits: 0 }))).toEqual('145.000');
+      expect((await runLocaleFunction(page, 'formatNumber', 283423, { minimumFractionDigits: 0, maximumFractionDigits: 0 }))).toEqual('283.423');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.123, { minimumFractionDigits: 0, maximumFractionDigits: 0 }))).toEqual('12.345');
+    });
+
+    test('cab handle locale group size', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', 1234567.1234))).toEqual('1,234,567.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345678.1234))).toEqual('12,345,678.123');
+
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234567.1234))).toEqual('1.234.567,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345678.1234))).toEqual('12.345.678,123');
+
+      await runLocaleFunction(page, 'setLocale', 'hi-IN');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234567.1234))).toEqual('12,34,567.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345678.1234))).toEqual('1,23,45,678.123');
+    });
+
+    test('can parse string numbers to number type', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', '12345', { minimumFractionDigits: 0 }))).toEqual('12,345');
+    });
+
+    test('can format currency', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.129, {
+        style: 'currency', currency: 'USD'
+      }))).toEqual('$12,345.13');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.123, {
+        style: 'currency', currency: 'EUR'
+      }))).toEqual('12.345,12 €');
+    });
+
+    test('can override currency', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'es-ES');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.12, {
+        style: 'currency', currency: 'USD'
+      }))).toEqual('12.345,12 US$');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.12, {
+        style: 'currency', currency: 'USD'
+      }))).toEqual('12.345,12 $');
+    });
+
+    test('can format percent', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', 0.0500000, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('5%');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.050000, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('5%');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.05234, { style: 'percent', minimumFractionDigits: 4, maximumFractionDigits: 4 }))).toEqual('5.2340%');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.57, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('57%');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.57, { style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2 }))).toEqual('57.00%');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.5700, { style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2 }))).toEqual('57.00%');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.57010, { style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2 }))).toEqual('57.01%');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.5755, { style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2 }))).toEqual('57.55%');
+      expect((await runLocaleFunction(page, 'formatNumber', -2.53, { style: 'percent', minimumFractionDigits: 2 }))).toEqual('-253.00%');
+      expect((await runLocaleFunction(page, 'formatNumber', -2.53, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('-253%');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.10, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('10%');
+      expect((await runLocaleFunction(page, 'formatNumber', 1, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('100%');
+
+      await runLocaleFunction(page, 'setLocale', 'tr-TR');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.0500000, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('%5');
+
+      await runLocaleFunction(page, 'setLocale', 'it-IT');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.0500000, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('5%');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatNumber', -2.53, { style: 'percent', minimumFractionDigits: 2 }))).toEqual('-253,00 %');
+      expect((await runLocaleFunction(page, 'formatNumber', -2.53, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('-253 %');
+      expect((await runLocaleFunction(page, 'formatNumber', 0.10, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('10 %');
+      expect((await runLocaleFunction(page, 'formatNumber', 1, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('100 %');
+    });
+
+    test('can handle group size', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', -2.53, { style: 'percent', minimumFractionDigits: 2 }))).toEqual('-253.00%');
+      expect((await runLocaleFunction(page, 'formatNumber', 1.1234))).toEqual('1.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12.1234))).toEqual('12.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123.1234))).toEqual('123.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234.1234))).toEqual('1,234.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.1234))).toEqual('12,345.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456.1234))).toEqual('123,456.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234567.1234))).toEqual('1,234,567.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345678.1234))).toEqual('12,345,678.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234))).toEqual('123,456,789.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234567890.1234))).toEqual('1,234,567,890.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234, { style: 'currency', currency: 'USD' }))).toEqual('$123,456,789.12');
+      expect((await runLocaleFunction(page, 'formatNumber', 100, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('10,000%');
+
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      expect((await runLocaleFunction(page, 'formatNumber', -2.53, { style: 'percent', minimumFractionDigits: 2 }))).toEqual('-253,00%');
+      expect((await runLocaleFunction(page, 'formatNumber', 1.1234))).toEqual('1,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12.1234))).toEqual('12,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123.1234))).toEqual('123,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234.1234))).toEqual('1.234,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.1234))).toEqual('12.345,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456.1234))).toEqual('123.456,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234567.1234))).toEqual('1.234.567,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345678.1234))).toEqual('12.345.678,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234))).toEqual('123.456.789,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234567890.1234))).toEqual('1.234.567.890,123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234, { style: 'currency', currency: 'EUR' }))).toEqual('€ 123.456.789,12');
+      expect((await runLocaleFunction(page, 'formatNumber', 100, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('10.000%');
+
+      await runLocaleFunction(page, 'setLocale', 'hi-IN');
+      expect((await runLocaleFunction(page, 'formatNumber', -2.53, { style: 'percent', minimumFractionDigits: 2 }))).toEqual('-253.00%');
+      expect((await runLocaleFunction(page, 'formatNumber', 1.1234))).toEqual('1.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12.1234))).toEqual('12.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123.1234))).toEqual('123.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234.1234))).toEqual('1,234.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345.1234))).toEqual('12,345.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456.1234))).toEqual('1,23,456.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234567.1234))).toEqual('12,34,567.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 12345678.1234))).toEqual('1,23,45,678.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234))).toEqual('12,34,56,789.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 1234567890.1234))).toEqual('1,23,45,67,890.123');
+      expect((await runLocaleFunction(page, 'formatNumber', 123456789.1234, { style: 'currency', currency: 'INR' }))).toEqual('₹12,34,56,789.12');
+      expect((await runLocaleFunction(page, 'formatNumber', 100, { style: 'percent', minimumFractionDigits: 0 }))).toEqual('10,000%');
     });
   });
 
-  test('', async ({ page }) => {
+  test.describe('number parsing tests', () => {
+    test('can handle numbers passed to parseNumber', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseNumber', 4000))).toEqual(4000);
+    });
 
+    test('can handle group when passed to parseNumber', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseNumber', '4.000', { group: '.' }))).toEqual(4000);
+    });
+
+    test('can handle percentSign when passed to parseNumber', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseNumber', '%40', { percentSign: '%' }))).toEqual(40);
+    });
+
+    test('can handle currencySign when passed to parseNumber', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseNumber', '€4,000', { currencySign: '€' }))).toEqual(4000);
+    });
+
+    test('can handle big numbers ending in decimal', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', '-1,482,409,800.81'))).toEqual('-1,482,409,800.81');
+      expect((await runLocaleFunction(page, 'parseNumber', '-1,482,409,800.81'))).toEqual(-1482409800.81);
+    });
+
+    test('can handle other big numbers', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatNumber', '123456789012345671'))).toEqual('123,456,789,012,345,671.00');
+      expect((await runLocaleFunction(page, 'parseNumber', '123456789012345671'))).toEqual('123456789012345671');
+      expect((await runLocaleFunction(page, 'formatNumber', '123456789012345678'))).toEqual('123,456,789,012,345,678.00');
+      expect((await runLocaleFunction(page, 'parseNumber', '123456789012345678'))).toEqual('123456789012345678');
+      expect((await runLocaleFunction(page, 'parseNumber', '123456789012345680'))).toEqual('123456789012345680');
+      expect((await runLocaleFunction(page, 'parseNumber', '12345678910'))).toEqual(12345678910);
+      expect((await runLocaleFunction(page, 'parseNumber', '12345678900'))).toEqual(12345678900);
+      expect((await runLocaleFunction(page, 'parseNumber', '123456789100'))).toEqual(123456789100);
+      expect((await runLocaleFunction(page, 'parseNumber', '1234567890123456710'))).toEqual('1234567890123456710');
+      expect((await runLocaleFunction(page, 'parseNumber', '1234567890123456700'))).toEqual('1234567890123456700');
+      expect((await runLocaleFunction(page, 'parseNumber', '9007199254740991'))).toEqual(9007199254740991);
+    });
+
+    test('can parse numbers back', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseNumber', '$12,345.13'))).toEqual(12345.13);
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'parseNumber', '12.345,12 €'))).toEqual(12345.12);
+    });
+
+    test('can format numbers in current locale', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+
+      expect((await runLocaleFunction(page, 'parseNumber', '100,00'))).toEqual(100);
+      expect((await runLocaleFunction(page, 'parseNumber', '836,45'))).toEqual(836.45);
+      expect((await runLocaleFunction(page, 'parseNumber', '1200,12'))).toEqual(1200.12);
+      expect((await runLocaleFunction(page, 'parseNumber', '10,99'))).toEqual(10.99);
+      expect((await runLocaleFunction(page, 'parseNumber', '130300,00'))).toEqual(130300.00);
+    });
+
+    test('can return NaN for invalid numbers', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseNumber', ''))).toEqual(NaN);
+      expect((await runLocaleFunction(page, 'parseNumber', 'sdf'))).toEqual(NaN);
+    });
+
+    test('can parse with decimal and group properties', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'fr-FR');
+      expect((await runLocaleFunction(page, 'parseNumber', '1 234 567 890,1234'))).toEqual(1234567890.1234);
+
+      await runLocaleFunction(page, 'setLocale', 'ar-SA');
+      expect((await runLocaleFunction(page, 'parseNumber', '1٬234٬567٬890٫1234'))).toEqual(1234567890.1234);
+
+      await runLocaleFunction(page, 'setLocale', 'es-ES');
+      expect((await runLocaleFunction(page, 'parseNumber', '1.234.567.890,1234'))).toEqual(1234567890.1234);
+
+      await runLocaleFunction(page, 'setLocale', 'en-US');
+      expect((await runLocaleFunction(page, 'parseNumber', '1,234,567,890.1234'))).toEqual(1234567890.1234);
+    });
+
+    test('can parse with multiple group separators', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseNumber', '1,234,567,890.12346'))).toEqual(1234567890.12346);
+    });
+
+    test('can parse big numbers', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseNumber', '123456,789,012,345,678.123456'))).toEqual('123456789012345678.123456');
+      expect((await runLocaleFunction(page, 'parseNumber', '1123456789123456.57'))).toEqual('1123456789123456.57');
+      expect((await runLocaleFunction(page, 'parseNumber', '1,123,456,789,123,456.57'))).toEqual('1123456789123456.57');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'parseNumber', '123.456.789.012.345.678,123456'))).toEqual('123456789012345678.123456');
+    });
+
+    test('can parse group size', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseNumber', '-253.00 %'))).toEqual(-253);
+      expect((await runLocaleFunction(page, 'parseNumber', '1.123'))).toEqual(1.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '12.123'))).toEqual(12.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '123.123'))).toEqual(123.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '1,234.123'))).toEqual(1234.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '12,345.123'))).toEqual(12345.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '123,456.123'))).toEqual(123456.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '1234,567.123'))).toEqual(1234567.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '12345,678.123'))).toEqual((12345678.123));
+      expect((await runLocaleFunction(page, 'parseNumber', '123456,789.123'))).toEqual((123456789.123));
+      expect((await runLocaleFunction(page, 'parseNumber', '1234567,890.123'))).toEqual((1234567890.123));
+      expect((await runLocaleFunction(page, 'parseNumber', '$123456,789.12'))).toEqual((123456789.12));
+      expect((await runLocaleFunction(page, 'parseNumber', '10,000 %'))).toEqual((10000));
+
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      expect((await runLocaleFunction(page, 'parseNumber', '-253,00 %'))).toEqual(-253);
+      expect((await runLocaleFunction(page, 'parseNumber', '1,123'))).toEqual(1.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '12,123'))).toEqual(12.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '123,123'))).toEqual(123.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '1.234,123'))).toEqual(1234.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '12.345,123'))).toEqual(12345.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '123.456,123'))).toEqual(123456.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '1234.567,123'))).toEqual(1234567.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '12.345.678,123'))).toEqual((12345678.123));
+      expect((await runLocaleFunction(page, 'parseNumber', '123.456.789,123'))).toEqual((123456789.123));
+      expect((await runLocaleFunction(page, 'parseNumber', '1.234.567.890,123'))).toEqual((1234567890.123));
+      expect((await runLocaleFunction(page, 'parseNumber', '$123.456.789,12'))).toEqual((123456789.12));
+      expect((await runLocaleFunction(page, 'parseNumber', '10.000 %'))).toEqual((10000));
+
+      await runLocaleFunction(page, 'setLocale', 'hi-IN');
+      expect((await runLocaleFunction(page, 'parseNumber', '-253.00 %'))).toEqual(-253);
+      expect((await runLocaleFunction(page, 'parseNumber', '1.123'))).toEqual(1.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '12.123'))).toEqual(12.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '123.123'))).toEqual(123.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '1,234.123'))).toEqual(1234.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '12,345.123'))).toEqual(12345.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '1,23,456.123'))).toEqual(123456.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '12,34,567.123'))).toEqual(1234567.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '1,23,45,678.123'))).toEqual((12345678.123));
+      expect((await runLocaleFunction(page, 'parseNumber', '12,34,56,789.123'))).toEqual((123456789.123));
+      expect((await runLocaleFunction(page, 'parseNumber', '1,23,45,67,890.123'))).toEqual((1234567890.123));
+      expect((await runLocaleFunction(page, 'parseNumber', '₹12,34,56,789.12'))).toEqual((123456789.12));
+      expect((await runLocaleFunction(page, 'parseNumber', '10,000 %'))).toEqual((10000));
+    });
+
+    test('can parse a number in a a non current locale', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      await runLocaleFunction(page, 'setLocale', 'hi-IN');
+      await runLocaleFunction(page, 'setLocale', 'en-US');
+
+      expect((await runLocaleFunction(page, 'parseNumber', '-253,00 %', { locale: 'nl-NL' }))).toEqual(-253);
+      expect((await runLocaleFunction(page, 'parseNumber', '1.123', { locale: 'nl-NL' }))).toEqual(1123);
+      expect((await runLocaleFunction(page, 'parseNumber', '$123456.789,12', { locale: 'nl-NL' }))).toEqual((123456789.12));
+      expect((await runLocaleFunction(page, 'parseNumber', '€123456.789,12', { locale: 'nl-NL' }))).toEqual((123456789.12));
+      expect((await runLocaleFunction(page, 'parseNumber', '10.000 %', { locale: 'nl-NL' }))).toEqual((10000));
+      expect((await runLocaleFunction(page, 'parseNumber', '-253.00 %', { locale: 'hi-IN' }))).toEqual(-253);
+      expect((await runLocaleFunction(page, 'parseNumber', '1.123', { locale: 'hi-IN' }))).toEqual(1.123);
+      expect((await runLocaleFunction(page, 'parseNumber', '₹12,34,56,789.12', { locale: 'hi-IN' }))).toEqual((123456789.12));
+      expect((await runLocaleFunction(page, 'parseNumber', '10,000 %', { locale: 'hi-IN' }))).toEqual((10000));
+    });
   });
+
+  test.describe('date formatting tests', () => {
+    test('can parse ISO (JSON) dates', async ({ page }) => {
+      expect(await page.evaluate(() => ((window as any).utils as any).locale.parseDate('2019-12-12T18:25:43.511Z').getTime())).toEqual(1576175143511);
+    });
+
+    test('can parse 2 and 3 digit years', async ({ page }) => {
+      expect(await page.evaluate(() => ((window as any).utils as any).locale.parseDate('10/10/10', { dateFormat: 'M/d/yy' }).getFullYear())).toEqual(2010);
+      expect(await page.evaluate(() => ((window as any).utils as any).locale.parseDate('10/10/010', { dateFormat: 'M/d/yy' }).getFullYear())).toEqual(2010);
+    });
+
+    test('can parse or format a string of four, six, or eight zeroes', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseDate', '0000'))).toEqual(undefined);
+      expect((await runLocaleFunction(page, 'parseDate', '000000'))).toEqual(undefined);
+      expect((await runLocaleFunction(page, 'parseDate', '00000000'))).toEqual(undefined);
+
+      expect((await runLocaleFunction(page, 'formatDate', '0000'))).toEqual('');
+      expect((await runLocaleFunction(page, 'formatDate', '000000'))).toEqual('');
+      expect((await runLocaleFunction(page, 'formatDate', '00000000'))).toEqual('');
+    });
+
+    test('can format 2 digit years', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2039, 6, 21), { pattern: 'dd/MM/yy' }))).toEqual('21/07/39');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(1940, 6, 21), { pattern: 'dd/MM/yy' }))).toEqual('21/07/40');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2023, 11, 21), { pattern: 'dd/MM/yy' }))).toEqual('21/12/23');
+    });
+
+    test('can format a year and month locale', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8, 13, 40), { month: 'long', day: 'numeric' }))).toEqual('November 8');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8, 13, 0), { month: 'long', year: 'numeric' }))).toEqual('November 2000');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 11, 1, 13, 40), { month: 'long', day: 'numeric' }))).toEqual('1. Dezember');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 11, 1, 13, 5), { month: 'long', year: 'numeric' }))).toEqual('Dezember 2000');
+
+      await runLocaleFunction(page, 'setLocale', 'sv-SE');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 11, 1, 13, 40), { month: 'long', day: 'numeric' }))).toEqual('1 december');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 11, 1, 13, 5), { month: 'long', year: 'numeric' }))).toEqual('december 2000');
+    });
+
+    test('can format datetimeMillis and timestampMillis', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8, 13, 40, 30, 999), {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        fractionalSecondDigits: 3
+      })).replace(' ', ' ').replace(' ', ' ')).toEqual('11/8/2000 1:40:30.999 PM');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8, 13, 40, 30, 777), {
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        fractionalSecondDigits: 3
+      })).replace(' ', ' ')).toEqual('1:40:30.777 PM');
+    });
+
+    test('can return time format', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40, 45), { timeStyle: 'medium' })).replace(' ', ' ').replace(' ', ' ')).toEqual('1:40:45 PM');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40, 45), { timeStyle: 'medium' }))).toEqual('13:40:45');
+    });
+
+    test('can format dates in Slovak', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'sk-SK');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 7, 15), {
+        month: 'long', weekday: 'long', day: 'numeric', year: 'numeric'
+      }))).toEqual('štvrtok 15. augusta 2019');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 7, 15), {
+        month: 'long', weekday: 'long', day: 'numeric', year: 'numeric'
+      }))).toEqual('štvrtok 15. augusta 2019');
+    });
+
+    test('can format time in different locale', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8, 13, 40), { dateStyle: 'short', timeStyle: 'short' })).replace(' ', ' ').replace(' ', ' ')).toEqual('11/8/2000 1:40 PM');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8, 13, 0), { dateStyle: 'short', timeStyle: 'short' })).replace(' ', ' ').replace(' ', ' ')).toEqual('11/8/2000 1:00 PM');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 11, 1, 13, 40), { dateStyle: 'short', timeStyle: 'short' })).replace(' ', ' ')).toEqual('01.12.2000 13:40');
+
+      const date = await pageDate.newDate(2017, 1, 1, 17, 27, 40);
+      const opts = { dateStyle: 'short', timeStyle: 'short' };
+
+      await runLocaleFunction(page, 'setLocale', 'fi-FI');
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(' ', ' ')).toEqual('1.2.2017 klo 17.27');
+
+      await runLocaleFunction(page, 'setLocale', 'cs-CZ');
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(' ', ' ')).toEqual('01.02.2017 17:27');
+
+      await runLocaleFunction(page, 'setLocale', 'hu-HU');
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(' ', ' ').replace(' ', ' ').replace(' ', ' ')).toEqual('2017. 02. 01. 17:27');
+
+      await runLocaleFunction(page, 'setLocale', 'ja-JP');
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(' ', ' ')).toEqual('2017/02/01 17:27');
+
+      await runLocaleFunction(page, 'setLocale', 'ru-RU');
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(' ', ' ')).toEqual('01.02.2017 17:27');
+    });
+
+    test('can format other dates', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8)))).toEqual('8.11.2000');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 11, 1)))).toEqual('1.12.2000');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8), { dateStyle: 'short' }))).toEqual('08.11.2000');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8), { dateStyle: 'medium' }))).toEqual('08.11.2000');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8), { dateStyle: 'long' })).replace(' ', ' ').replace(' ', ' ')).toEqual('8. November 2000');
+    });
+
+    test('can format millis', async ({ page, pageDate }) => {
+      const opts: any = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        fractionalSecondDigits: 3
+      };
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2016, 2, 15, 12, 30, 36, 142), opts)).replace(' ', ' ').replace(' ', ' ')).toEqual('3/15/2016 12:30:36.142 PM');
+      opts.hour12 = false;
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2016, 2, 15, 12, 30, 36, 142), opts)).replace(' ', ' ')).toEqual('3/15/2016 12:30:36.142');
+    });
+  });
+  // test('', async ({ page }) => {
+
+  // });
 });
