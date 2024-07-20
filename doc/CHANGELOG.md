@@ -1,10 +1,19 @@
 # What's New with Enterprise Web Components
 
+## 1.3.1
+
+### 1.3.1 Fixes
+
+- `[Accordion]` Added css variables to customization accordion header padding. ([#2529](https://github.com/infor-design/enterprise-wc/issues/2529))
+- `[Button]` Added notification badges. ([#2323](https://github.com/infor-design/enterprise-wc/issues/2323))
+- `[Dropdown]` Fix dropdown size setting for angular. ([#2248](https://github.com/infor-design/enterprise-wc/issues/2248))
+- `[ListView]` Fixed an issue where selected event is not being triggered on `ids-list-view-item`. ([#2565](https://github.com/infor-design/enterprise-wc/issues/2565))
+- `[Tooltip]` Increase tooltip z-index. ([#2462](https://github.com/infor-design/enterprise-wc/issues/2462))
+
 ## 1.3.0
 
 ### 1.3.0 Features
 
-- `[Button]` Added notification badges. ([#2323](https://github.com/infor-design/enterprise-wc/issues/2323))
 - `[Fonts]` The source sans pro font should no longer be used in `googleapis` instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
 - `[Dates]` Added a new `twoDigitYear` setting to set the locale system to set the dates cut over for two digit years, note that two digit years should be avoided. ([#8061](https://github.com/infor-design/enterprise-wc/issues/2425))
 - `[LayoutGrid]` Adds an example of a responsive grid layout inside a splitter component. ([#2411](https://github.com/infor-design/enterprise-wc/issues/2411))
@@ -13,7 +22,6 @@
 ### 1.3.0 Fixes
 
 - `[Accordion]` Fix accordion panel expanded/icon states when inserted dynamically. ([#2406](https://github.com/infor-design/enterprise-wc/issues/2406))
-- `[Accordion]` Added css variables to customization accordion header padding. ([#2529](https://github.com/infor-design/enterprise-wc/issues/2529))
 - `[Button]` Changed `GenAi` Button in dark mode background color. ([#2509](https://github.com/infor-design/enterprise-wc/issues/2509))
 - `[ColorPicker]` Fixed an issue where the picker's swatch focus is causing the page to scroll. ([#2502](https://github.com/infor-design/enterprise-wc/issues/2502))
 - `[Datagrid]` Fixed a bug where when no `id` column or `idColumn` setting remove row removed the wrong row.. ([#2355](https://github.com/infor-design/enterprise-wc/issues/2355))
@@ -36,7 +44,6 @@
 - `[Tabs]` Fix tab content visible state when added dynamically. ([#2393](https://github.com/infor-design/enterprise-wc/issues/2393))
 - `[Text]` Properly vertically-align `ids-alert` text when placed inside `ids-text`. ([#2327](https://github.com/infor-design/enterprise-wc/issues/2327))
 - `[Tooltip]` Converted tooltip tests to playwright. ([#1985](https://github.com/infor-design/enterprise-wc/issues/1985))
-- `[Tooltip]` Increase tooltip z-index. ([#2462](https://github.com/infor-design/enterprise-wc/issues/2462))
 - `[TriggerButton]` Fixed style issues. Trigger start spacing, readonly hover, inline border radius. ([#2303](https://github.com/infor-design/enterprise-wc/issues/2303))
 - `[WeekView]` Added more input handling for `startHour`, `endHour`, and `timelineInterval`. ([#2446](https://github.com/infor-design/enterprise-wc/issues/2446))
 - `[WeekView]` Converted week view tests to playwright. ([#1993](https://github.com/infor-design/enterprise-wc/issues/1993))

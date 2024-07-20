@@ -1327,6 +1327,9 @@ export default class IdsDropdown extends Base {
       this.dropdownList.setAttribute(attributes.VALUE, this.value);
     }
 
+    // sync size setting
+    this.onSizeChange(this.size);
+
     // set dropdown list's popup to `fixed` if dropdown exists in popup component
     if (getClosest(this, 'ids-modal, ids-popup, ids-action-panel')) {
       this.dropdownList?.setAttribute(attributes.POSITION_STYLE, 'fixed');
