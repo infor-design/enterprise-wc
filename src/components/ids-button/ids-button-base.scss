@@ -82,8 +82,8 @@
     }
   }
 
-  &:not(.ids-icon-button) ::slotted(ids-icon) {
-    padding-inline-end: calc(var(--ids-space-xxs) + 3px);
+  &:not(.ids-icon-button):not(.align-icon-end) ::slotted(ids-icon:not([icon='insights-smart-panel'])) {
+    margin-inline-end: calc(var(--ids-space-xxs) + 3px);
   }
 
   .ids-icon {
@@ -95,7 +95,7 @@
 
   &.align-icon-end {
     ::slotted(ids-icon) {
-      padding-inline-start: var(--ids-space-xxs);
+      margin-inline-start: var(--ids-space-xxs);
     }
   }
 
@@ -313,8 +313,8 @@
       width: 3px;
       height: 3px;
       border-radius: 5px;
-      background-color: #FFF;
-      color: #FFF;
+      background-color: var(--ids-button-ai-color-loading-dot-default);
+      color:  var(--ids-button-ai-color-loading-dot-default);
     }
   }
 
@@ -370,21 +370,21 @@
   // Tertiary Generative Button
 
   &.btn-tertiary-generative-ai {
-    background: var(--ids-button-ai-color-background-default);
+    background: var(--ids-button-ai-color-tertiary-background-default);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     align-items: center;
 
     &:hover {
-      background: var(--ids-button-ai-color-background-hover);
+      background: var(--ids-button-ai-color-tertiary-background-hover);
       background-clip: text;
       border-color: transparent;
       -webkit-text-fill-color: transparent;
+    }
 
-      ::slotted(ids-icon[icon="insights-smart-panel"]) {
-        --ids-button-ai-color-icon-primary: var(--ids-button-ai-color-icon-primary-hover);
-        --ids-button-ai-color-icon-secondary: var(--ids-button-ai-color-icon-secondary-hover);
-      }
+    ::slotted(ids-icon[icon="insights-smart-panel"]) {
+      --ids-button-ai-color-icon-primary: var(--ids-button-ai-color-icon-primary-hover);
+       --ids-button-ai-color-icon-secondary: var(--ids-button-ai-color-icon-secondary-hover);
     }
 
     &:active

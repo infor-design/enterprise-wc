@@ -8,6 +8,10 @@
   text-align: unset;
 }
 
+:host([type='tooltip']) {
+  z-index: var(--ids-z-index-tooltips);
+}
+
 :host([position-style='absolute']) {
   position: absolute;
 }
@@ -115,13 +119,13 @@
     // Top Alignment
     &.top {
       border-bottom-width: 0;
-      bottom: calc((var(--ids-popup-arrow-size) * -1) + 1px);
+      bottom: calc(var(--ids-popup-arrow-size) * -1);
       left: calc(50% - var(--ids-popup-arrow-size));
 
       &::after {
         border-bottom-width: 0;
         left: calc(var(--ids-popup-arrow-size) * -1);
-        top: calc(var(--ids-popup-arrow-size) * -1);
+        top: calc((var(--ids-popup-arrow-size) * -1) - 1px);
       }
     }
   }
@@ -543,6 +547,7 @@
 }
 
 .content-wrapper {
+  overflow: hidden;
   position: static;
   height: 100%;
   width: 100%;

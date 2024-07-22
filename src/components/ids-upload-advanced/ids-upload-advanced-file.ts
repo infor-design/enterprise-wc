@@ -288,7 +288,7 @@ export default class IdsUploadAdvancedFile extends Base {
    * @param {any} e The event
    * @returns {void}
    */
-  abortHandler(e = null): void {
+  abortHandler(e: any = null): void {
     if (this.status === IdsUploadAdvancedShared.STATUS.inProcess) {
       this.status = IdsUploadAdvancedShared.STATUS.aborted;
       this.dispatchChangeEvent('abort', e);

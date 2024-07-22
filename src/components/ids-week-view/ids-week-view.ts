@@ -764,7 +764,11 @@ export default class IdsWeekView extends Base {
    */
   set startHour(val: string | number) {
     // Allow 0 to be set
-    if (val !== null) {
+    if (val !== null
+      && !Number.isNaN(parseFloat(val.toString()))
+      && parseFloat(val.toString()) <= 24
+      && parseFloat(val.toString()) >= 0
+    ) {
       this.setAttribute(attributes.START_HOUR, String(val));
     } else {
       this.removeAttribute(attributes.START_HOUR);
@@ -795,7 +799,11 @@ export default class IdsWeekView extends Base {
    */
   set endHour(val: string | number) {
     // Allow 0 to be set
-    if (val !== null) {
+    if (val !== null
+      && !Number.isNaN(parseFloat(val.toString()))
+      && parseFloat(val.toString()) <= 24
+      && parseFloat(val.toString()) >= 0
+    ) {
       this.setAttribute(attributes.END_HOUR, String(val));
     } else {
       this.removeAttribute(attributes.END_HOUR);
@@ -850,7 +858,10 @@ export default class IdsWeekView extends Base {
    * @param {number|string} val timelineInterval param value
    */
   set timelineInterval(val: number | string) {
-    if (val) {
+    if (val !== null
+      && !Number.isNaN(parseFloat(val.toString()))
+      && parseFloat(val.toString()) > 0
+    ) {
       this.setAttribute(attributes.TIMELINE_INTERVAL, String(val));
     } else {
       this.removeAttribute(attributes.TIMELINE_INTERVAL);

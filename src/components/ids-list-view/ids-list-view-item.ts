@@ -548,7 +548,11 @@ export default class IdsListViewItem extends Base {
       this.setAttribute('tabindex', '0');
 
       this.listView?.body?.setAttribute('aria-activedescendant', String(this.id));
-      this.focus();
+
+      const searchField = this.listView?.searchField;
+      if (searchField !== document.activeElement) {
+        this.focus();
+      }
     }
   }
 
@@ -607,7 +611,8 @@ export default class IdsListViewItem extends Base {
 
   #trigger(eventName: 'selected' | 'deselected' | 'itemSelect' | 'activated' | 'deactivated' | 'afteractivated' | 'afterdeactivated') {
     const detail = { elem: this, data: this.rowData, index: this.rowIndex };
-    this.triggerEvent(eventName, this.listView ?? this, { bubbles: true, detail });
+    this.triggerEvent(eventName, this, { bubbles: true, detail });
+    this.triggerEvent(eventName, this.listView, { bubbles: true, detail });
   }
 
   #veto(eventName: 'beforeactivated' | 'beforedeactivated' | 'beforeselected' | 'beforedeselected') {

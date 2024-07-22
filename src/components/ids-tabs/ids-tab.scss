@@ -462,6 +462,15 @@ ids-popup-menu,
   }
 }
 
+.ids-tab.more.orientation-horizontal:not(.color-variant-module) {
+  border-bottom: 0 solid transparent;
+  margin-inline-end: -4px;
+
+  .tab-more-text {
+    padding: 0 4px;
+  }
+}
+
 ::slotted(ids-trigger-button) {
   align-items: center;
   color: currentColor;

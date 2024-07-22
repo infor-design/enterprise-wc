@@ -1,0 +1,31 @@
+.ids-filter-field {
+  .field-container {
+    display: flex;
+    align-items: flex-end;
+
+    ids-menu-button {
+      display: block;
+      border: 1px solid var(--ids-input-color-border-default);
+      border-radius: 0;
+
+      &:focus {
+        border-color: var(--ids-input-color-border-focus);
+        box-shadow: var(--ids-input-color-border-shadow);
+        z-index: 1;
+      }
+  
+      &::part(button) {
+        margin: 0;
+        border-radius: 0;
+        width: unset;
+        box-shadow: none;
+        border-color: transparent;
+        border-inline-end-color: transparent;
+      }
+    }
+  }
+}
+
+::slotted(*) {
+  margin-inline-start: -1px;
+}

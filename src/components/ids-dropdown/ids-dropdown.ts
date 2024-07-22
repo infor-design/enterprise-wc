@@ -3,7 +3,12 @@ import IdsElement from '../../core/ids-element';
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stringToBool, escapeRegExp } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosestContainerNode, checkOverflow, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
+import {
+  getClosestContainerNode,
+  checkOverflow,
+  validMaxHeight,
+  getClosest
+} from '../../utils/ids-dom-utils/ids-dom-utils';
 
 import IdsDropdownAttributeMixin from './ids-dropdown-attributes-mixin';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
@@ -323,28 +328,7 @@ export default class IdsDropdown extends Base {
     if (labels.includes(label)) {
       value = this.optionValues[labels.indexOf(label)];
     }
-
-    let selector = `ids-list-box-option[value="${value}"]`;
-    if (value === ' ' || !value) {
-      selector = `ids-list-box-option[value=""]:not([group-label]), ids-list-box-option:not([value]):not([group-label])`;
-    }
-
-    const listBoxOption = [...this.dropdownList?.listBox?.querySelectorAll<IdsListBoxOption>(selector) ?? []].at(0);
-    if (!listBoxOption) return;
-
-    // NOTE: setAttribute() must be called here, before the internal input.value is set below
-    this.setAttribute(attributes.VALUE, String(value));
-
-    this.clearSelected();
-    this.selectOption(listBoxOption);
-    this.selectIcon(listBoxOption);
-    this.selectTooltip(listBoxOption);
-    if (this.input?.input) {
-      const textContent = listBoxOption.textContent?.trim() ?? '';
-      this.input.value = textContent;
-      this.input.input.value = textContent;
-    }
-    this.state.selectedIndex = [...((listBoxOption?.parentElement as any)?.children || [])].indexOf(listBoxOption);
+    this.#syncInputTextWithOption(value);
   }
 
   /**
@@ -634,6 +618,19 @@ export default class IdsDropdown extends Base {
   }
 
   /**
+   * Attach events for typeahead
+   */
+  #attachTypeaheadEvents() {
+    this.onEvent('input.dropdown', this.input?.input, (e: any) => {
+      if (this.typeahead) {
+        this.#typeAhead(e.target?.value);
+      } else {
+        this.#selectMatch(e.target?.value);
+      }
+    });
+  }
+
+  /**
    * Open the dropdown list
    * @param {boolean} shouldSelect whether or not the input text should be selected
    */
@@ -669,6 +666,7 @@ export default class IdsDropdown extends Base {
 
     // Focus and select input when typeahead is enabled
     if (this.typeahead) {
+      this.#attachTypeaheadEvents();
       this.input?.removeAttribute(attributes.READONLY);
       this.input?.focus();
     }
@@ -806,6 +804,7 @@ export default class IdsDropdown extends Base {
     this.offEvent('slotchange.dropdown', slot);
     this.onEvent('slotchange.dropdown', slot, () => {
       this.configureDropdownList();
+      if (this.value) this.#syncInputTextWithOption(this.value);
     });
 
     this.attachKeyboardOpenEvent();
@@ -965,14 +964,6 @@ export default class IdsDropdown extends Base {
       }
     });
 
-    this.onEvent('input.dropdown', this.input?.input, (e: any) => {
-      if (this.typeahead) {
-        this.#typeAhead(e.target?.value);
-      } else {
-        this.#selectMatch(e.target?.value);
-      }
-    });
-
     // Handle up and down arrow
     this.listen(['ArrowDown', 'ArrowUp'], this, (e: KeyboardEvent) => {
       e.stopPropagation();
@@ -1038,6 +1029,34 @@ export default class IdsDropdown extends Base {
     });
 
     return this;
+  }
+
+  /**
+   * Syncs selected option text with dropdown input
+   * @param {string|null} value option value
+   */
+  #syncInputTextWithOption(value: string | null) {
+    let selector = `ids-list-box-option[value="${value}"]`;
+    if (value === ' ' || !value) {
+      selector = `ids-list-box-option[value=""]:not([group-label]), ids-list-box-option:not([value]):not([group-label])`;
+    }
+
+    const listBoxOption = [...this.dropdownList?.listBox?.querySelectorAll<IdsListBoxOption>(selector) ?? []].at(0);
+    if (!listBoxOption) return;
+
+    // NOTE: setAttribute() must be called here, before the internal input.value is set below
+    this.setAttribute(attributes.VALUE, String(value));
+
+    this.clearSelected();
+    this.selectOption(listBoxOption);
+    this.selectIcon(listBoxOption);
+    this.selectTooltip(listBoxOption);
+    if (this.input?.input) {
+      const textContent = listBoxOption.textContent?.trim() ?? '';
+      this.input.value = textContent;
+      this.input.input.value = textContent;
+    }
+    this.state.selectedIndex = [...((listBoxOption?.parentElement as any)?.children || [])].indexOf(listBoxOption);
   }
 
   /**
@@ -1307,6 +1326,15 @@ export default class IdsDropdown extends Base {
     if (this.dropdownList && this.value) {
       this.dropdownList.setAttribute(attributes.VALUE, this.value);
     }
+
+    // sync size setting
+    this.onSizeChange(this.size);
+
+    // set dropdown list's popup to `fixed` if dropdown exists in popup component
+    if (getClosest(this, 'ids-modal, ids-popup, ids-action-panel')) {
+      this.dropdownList?.setAttribute(attributes.POSITION_STYLE, 'fixed');
+    }
+
     this.configurePopup();
     this.attachClickEvent();
   }

@@ -212,6 +212,7 @@ export default class IdsDataGrid extends Base {
       attributes.ALTERNATE_ROW_SHADING,
       attributes.AUTO_FIT,
       attributes.DISABLE_CLIENT_FILTER,
+      attributes.DISABLE_ROW_HIGHLIGHT,
       attributes.EMPTY_MESSAGE_DESCRIPTION,
       attributes.EMPTY_MESSAGE_ICON,
       attributes.EMPTY_MESSAGE_LABEL,
@@ -1210,6 +1211,19 @@ export default class IdsDataGrid extends Base {
   }
 
   /**
+   * Setting for toggling row highlighting
+   * @param {boolean|string|null} val If true, disables row highlighting
+   */
+  set disableRowHighlight(val: boolean | string | null) {
+    const disabled = stringToBool(val);
+    this.toggleAttribute(attributes.DISABLE_ROW_HIGHLIGHT, disabled);
+  }
+
+  get disableRowHighlight(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLE_ROW_HIGHLIGHT));
+  }
+
+  /**
    * Set the columns of the data grid
    * @param {Array} value The array to use
    */
@@ -1307,6 +1321,7 @@ export default class IdsDataGrid extends Base {
       this.initialized = true;
       if (this.pagination === 'server-side') this.syncServerSelections();
       this.redraw();
+      this.restoreAllSettings?.();
     } else {
       this.datasource.data = [];
     }
@@ -2413,7 +2428,7 @@ export default class IdsDataGrid extends Base {
     // Update data
     if (data === undefined || !data[this.idColumn]) {
       data = this.data[index];
-      data[this.idColumn] = this.data[index][this.idColumn];
+      data[this.idColumn] = this.data[index][this.idColumn] || this.uniqueId;
     }
 
     this.datasource.delete([data]);

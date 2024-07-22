@@ -48,6 +48,12 @@ export default class IdsTabsContext extends Base {
       const content = this.querySelector(`ids-tab-content[value="${e.detail.value}"]`);
       content?.remove();
     });
+
+    // Set active pane when content is inserted dynamically
+    this.onEvent('slotchange', this.container, () => {
+      this.#changeContentPane(this.value, this.value);
+    });
+
     this.#afterConnectedCallback();
   }
 

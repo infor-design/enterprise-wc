@@ -285,6 +285,17 @@ export default class IdsDataGridFormatters {
     const isDisabled = this.#isDisabled(index, value, columnData, rowData);
     const disabled = isDisabled ? ' disabled' : '';
 
+    // Regular expression to match common color formats
+    // const colorRegex = /^(#(?:[0-9a-fA-F]{3}){1,2}|(?:rgb|hsl)a?\((?:\s*\d+\s*,){2,3}\s*\d*\.*\d*\))$/;
+    const colorRegex = /^(#(?:[0-9a-fA-F]{3}){1,2}|(?:rgb|hsl)a?\(\s*(?:\d{1,3}\s+){2}\d{1,3}\s*(\/\s*(0|1|0?\.\d+))?\s*\))$/;
+
+    // Check if the value is a color
+    const isColor = colorRegex.test(value);
+
+    if (!columnData.color && !isColor) {
+      return `<span class="text-ellipsis">&ndash;</span>`;
+    }
+
     if (!columnData.color && !value) return `<span class="text-ellipsis"><ids-color${disabled}></ids-color></span>`;
 
     const color = this.#color(index, value, columnData, rowData);
@@ -292,11 +303,14 @@ export default class IdsDataGridFormatters {
     const hex = color || value || '#C2A1F1';
     const tooltip = !color && value ? ` tooltip="${value}"` : '';
 
-    return `
-      <span class="text-ellipsis">
-        <ids-color hex="${hex}"${tooltip}${disabled}></ids-color>
-      </span>
-    `;
+    return columnData.suppressColorTooltip
+      ? `<span class="text-ellipsis">
+          <ids-color hex="${hex}"${disabled} suppress-tooltip></ids-color>
+        </span>`
+      : `<span class="text-ellipsis">
+          <ids-color hex="${hex}"${tooltip}${disabled}></ids-color>
+        </span>
+      `;
   }
 
   /* Shows the field value as an ids-icon. An `icon` and `size` option can be provided as overrides. */

@@ -44,7 +44,7 @@ export default class IdsAccordionPanel extends Base {
     this.#attachEventHandlers();
     this.#refreshContentAlignment(this.contentAlignment);
     this.#toggleExpanderDisplay();
-    this.#toggleExpanded(this.expanded);
+    this.pane?.style.setProperty('height', this.expanded ? 'auto' : '0px');
   }
 
   /**
@@ -191,26 +191,26 @@ export default class IdsAccordionPanel extends Base {
     const isValueTruthy = stringToBool(value);
     const currentValue = this.#expanded;
 
-    if (currentValue !== isValueTruthy) {
-      if (isValueTruthy) {
-        const canExpand = this.triggerVetoableEvent('beforeexpanded', this);
-        if (!canExpand) {
-          this.removeAttribute(attributes.EXPANDED);
-          return;
-        }
-        this.#expanded = true;
-        this.setAttribute(attributes.EXPANDED, `${value}`);
-        this.#toggleExpanded(true);
-      } else {
-        const canCollapse = this.triggerVetoableEvent('beforecollapsed', this);
-        if (!canCollapse) {
-          this.setAttribute(attributes.EXPANDED, `true`);
-          return;
-        }
-        this.#expanded = false;
+    if (currentValue === isValueTruthy) return;
+
+    if (isValueTruthy) {
+      const canExpand = this.triggerVetoableEvent('beforeexpanded', this);
+      if (!canExpand) {
         this.removeAttribute(attributes.EXPANDED);
-        this.#toggleExpanded(false);
+        return;
       }
+      this.#expanded = true;
+      this.setAttribute(attributes.EXPANDED, `${value}`);
+      this.#toggleExpanded(true);
+    } else {
+      const canCollapse = this.triggerVetoableEvent('beforecollapsed', this);
+      if (!canCollapse) {
+        this.setAttribute(attributes.EXPANDED, `true`);
+        return;
+      }
+      this.#expanded = false;
+      this.removeAttribute(attributes.EXPANDED);
+      this.#toggleExpanded(false);
     }
   }
 
@@ -378,22 +378,27 @@ export default class IdsAccordionPanel extends Base {
     requestAnimationFrame(() => {
       this.container?.classList.add('expanded');
 
+      if (!this.pane) return;
+
+      // Expand header component
       if (this.header) {
         this.header.expanded = true;
       }
 
       // Setting height kicks off animation
-      if (this.pane) {
+      // Set static height if panel isn't already .expanded and set to 'auto'
+      if (this.pane.style.height !== 'auto') {
         this.pane.style.height = `${this.pane.scrollHeight}px`;
-        this.paneOpenListener = () => {
-          // NOTE: `auto` height allows for nested accordions to expand
-          // when their content is displayed
-          if (this.pane) {
-            this.pane.style.height = 'auto';
-          }
-        };
-        this.pane.addEventListener('transitionend', this.paneOpenListener, { once: true });
       }
+
+      this.paneOpenListener = () => {
+        // NOTE: `auto` height allows for nested accordions to expand
+        // when their content is displayed
+        if (this.pane) {
+          this.pane.style.height = 'auto';
+        }
+      };
+      this.pane.addEventListener('transitionend', this.paneOpenListener, { once: true });
     });
   }
 
@@ -403,6 +408,7 @@ export default class IdsAccordionPanel extends Base {
    * @returns {void}
    */
   #attachEventHandlers(): void {
+    this.offEvent('click', this.expander);
     this.onEvent('click', this.expander, () => {
       if (!this.disabled) {
         this.#selectAndToggle();
@@ -423,6 +429,7 @@ export default class IdsAccordionPanel extends Base {
       }
     });
 
+    this.offEvent('touchend', this.expander);
     this.onEvent('touchend', this.expander, (e: { touches: string | any[]; }) => {
       if (e.touches && e.touches.length > 0) {
         this.#selectAndToggle();
@@ -431,8 +438,23 @@ export default class IdsAccordionPanel extends Base {
       passive: true
     });
 
-    this.onEvent('slotchange', this, () => {
+    // listen to header slot changes
+    this.offEvent('slotchange.header-slotchange');
+    this.onEvent('slotchange.header-slotchange', this.container?.querySelector('slot[name="header"]'), () => {
+      this.header?.setAttribute('aria-expanded', `${this.expanded}`);
       this.#toggleExpanderDisplay();
+    });
+
+    // listen to content slot change
+    this.offEvent('slotchange.content-slotchange');
+    this.onEvent('slotchange.content-slotchange', this.container?.querySelector('slot[name="content"]'), () => {
+      this.#toggleExpanded(this.expanded);
+    });
+
+    // Stops the selected event from bubbling up to the accordion
+    this.offEvent('selected.accordion-panel-selected', this);
+    this.onEvent('selected.accordion-panel-selected', this, (e: { stopPropagation: () => void; }) => {
+      e.stopPropagation();
     });
   }
 

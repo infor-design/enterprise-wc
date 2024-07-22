@@ -37,7 +37,7 @@
 :host(.expand-button),
 .expand-button {
   position: relative;
-  left: 3px;
+  inset-inline: 17px;
 }
 
 .ids-trigger-button {
@@ -56,9 +56,13 @@
     }
 
     &[readonly] {
+      color: var(--ids-trigger-field-color-text-disabled);
+      opacity: var(--ids-button-tertiary-opacity-disabled);
+
       &:hover {
-        cursor: var(--ids-cursor-default);
+        cursor: default;
         background-color: transparent;
+        border-color: transparent;
       }
     }
   }
@@ -68,7 +72,7 @@
   &.style-inline {
     border: 0;
     padding: var(--ids-space-none);
-    border-radius: var(--ids-trigger-field-button-border-radius);
+    border-radius: var(--ids-trigger-field-button-border-radius-inline);
     margin: var(--ids-space-none);
 
     &.ids-icon-button {

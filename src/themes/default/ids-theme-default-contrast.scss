@@ -2,6 +2,7 @@
 @import '../../../node_modules/ids-foundation/theme-soho/semantic-contrast';
 
 :root {
+  // @semantic
   // Primary Color
   --ids-color-primary: var(--ids-color-primary-90);
   --ids-color-text-on-primary: var(--ids-color-white-100);
@@ -16,8 +17,8 @@
   --ids-color-text-disabled: var(--ids-color-gray-40);
   --ids-color-text-error: var(--ids-color-red-80);
   --ids-color-text-info: var(--ids-color-blue-80);
-  --ids-color-text-success: var(--ids-color-success-weak0);
-  --ids-color-text-warning: var(--ids-color-warning-weak0);
+  --ids-color-text-success: var(--ids-color-success-weak);
+  --ids-color-text-warning: var(--ids-color-warning-weak);
 
   // Alert Color Overrides
   --ids-color-error-weak: var(--ids-color-red-20);
@@ -47,7 +48,7 @@
   --ids-scroll-shadow: 0 -1px 3px -1px rgba(0  0  0 / 0.30);
   --ids-scroll-color-border-top: 1px solid rgba(215 215 216 / 1);
 
-  /// --- Component Tokens ---- ///
+  // @component
   // Accordion
   --ids-accordion-header-color-border-bottom: var(--ids-color-gray-30);
   --ids-accordion-header-color-border-disabled: var(--ids-color-gray-60);

@@ -1,0 +1,5964 @@
+{
+  "themeName": "ids-theme-default-contrast",
+  "themeTokens": [
+    {
+      "id": "id-1718638612578-6800",
+      "tokenName": "--ids-color-primary",
+      "tokenValue": "var(--ids-color-primary-90)",
+      "children": [
+        {
+          "id": "id-1718638612578-6796",
+          "tokenName": "--ids-color-primary-90",
+          "tokenValue": "var(--ids-color-theme-90)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Color Progressions",
+          "children": [
+            {
+              "id": "id-1718638612578-6798",
+              "tokenName": "--ids-color-theme-90",
+              "tokenValue": "var(--ids-color-blue-90)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "Theme colors",
+              "children": [
+                {
+                  "id": "id-1718638612578-6797",
+                  "tokenName": "--ids-color-blue-90",
+                  "tokenValue": "#004a99",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#004a99",
+                  "tokenNameCSS": "var(--ids-color-blue-90)"
+                }
+              ],
+              "colorValue": "#004a99",
+              "tokenNameCSS": "var(--ids-color-theme-90)"
+            }
+          ],
+          "colorValue": "#004a99",
+          "tokenNameCSS": "var(--ids-color-primary-90)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Primary Color",
+      "colorValue": "#004a99",
+      "tokenNameCSS": "var(--ids-color-primary)"
+    },
+    {
+      "id": "id-1718638612578-6803",
+      "tokenName": "--ids-color-text-on-primary",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6801",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Primary Color",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-color-text-on-primary)"
+    },
+    {
+      "id": "id-1718638612578-6806",
+      "tokenName": "--ids-color-background-default",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6804",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Body Colors",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-color-background-default)"
+    },
+    {
+      "id": "id-1718638612578-6809",
+      "tokenName": "--ids-color-text-inverse",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6807",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Text Colors",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-color-text-inverse)"
+    },
+    {
+      "id": "id-1718638612578-6812",
+      "tokenName": "--ids-color-text-subtle",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612578-6810",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Text Colors",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-color-text-subtle)"
+    },
+    {
+      "id": "id-1718638612578-6815",
+      "tokenName": "--ids-color-text-data",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6813",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Text Colors",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-color-text-data)"
+    },
+    {
+      "id": "id-1718638612578-6818",
+      "tokenName": "--ids-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612578-6816",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Text Colors",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-color-text-disabled)"
+    },
+    {
+      "id": "id-1718638612578-6821",
+      "tokenName": "--ids-color-text-error",
+      "tokenValue": "var(--ids-color-red-80)",
+      "children": [
+        {
+          "id": "id-1718638612578-6819",
+          "tokenName": "--ids-color-red-80",
+          "tokenValue": "#a30d11",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#a30d11",
+          "tokenNameCSS": "var(--ids-color-red-80)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Text Colors",
+      "colorValue": "#a30d11",
+      "tokenNameCSS": "var(--ids-color-text-error)"
+    },
+    {
+      "id": "id-1718638612578-6824",
+      "tokenName": "--ids-color-text-info",
+      "tokenValue": "var(--ids-color-blue-80)",
+      "children": [
+        {
+          "id": "id-1718638612578-6822",
+          "tokenName": "--ids-color-blue-80",
+          "tokenValue": "#0054b1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#0054b1",
+          "tokenNameCSS": "var(--ids-color-blue-80)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Text Colors",
+      "colorValue": "#0054b1",
+      "tokenNameCSS": "var(--ids-color-text-info)"
+    },
+    {
+      "id": "id-1718638612578-6828",
+      "tokenName": "--ids-color-text-success",
+      "tokenValue": "var(--ids-color-success-weak)",
+      "children": [
+        {
+          "id": "id-1718638612578-6825",
+          "tokenName": "--ids-color-success-weak",
+          "tokenValue": "var(--ids-color-green-10)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "Surface colors",
+          "children": [
+            {
+              "id": "id-1718638612578-6826",
+              "tokenName": "--ids-color-green-10",
+              "tokenValue": "#ebf9f1",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#ebf9f1",
+              "tokenNameCSS": "var(--ids-color-green-10)"
+            }
+          ],
+          "colorValue": "#ebf9f1",
+          "tokenNameCSS": "var(--ids-color-success-weak)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Text Colors",
+      "colorValue": "#ebf9f1",
+      "tokenNameCSS": "var(--ids-color-text-success)"
+    },
+    {
+      "id": "id-1718638612578-6832",
+      "tokenName": "--ids-color-text-warning",
+      "tokenValue": "var(--ids-color-warning-weak)",
+      "children": [
+        {
+          "id": "id-1718638612578-6829",
+          "tokenName": "--ids-color-warning-weak",
+          "tokenValue": "var(--ids-color-orange-10)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "Surface colors",
+          "children": [
+            {
+              "id": "id-1718638612578-6830",
+              "tokenName": "--ids-color-orange-10",
+              "tokenValue": "#fef2e5",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#fef2e5",
+              "tokenNameCSS": "var(--ids-color-orange-10)"
+            }
+          ],
+          "colorValue": "#fef2e5",
+          "tokenNameCSS": "var(--ids-color-warning-weak)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Text Colors",
+      "colorValue": "#fef2e5",
+      "tokenNameCSS": "var(--ids-color-text-warning)"
+    },
+    {
+      "id": "id-1718638612578-6835",
+      "tokenName": "--ids-color-error-weak",
+      "tokenValue": "var(--ids-color-red-20)",
+      "children": [
+        {
+          "id": "id-1718638612578-6833",
+          "tokenName": "--ids-color-red-20",
+          "tokenValue": "#f5c3c4",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5c3c4",
+          "tokenNameCSS": "var(--ids-color-red-20)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#f5c3c4",
+      "tokenNameCSS": "var(--ids-color-error-weak)"
+    },
+    {
+      "id": "id-1718638612578-6838",
+      "tokenName": "--ids-color-red-30",
+      "tokenValue": "var(--ids-color-red-40)",
+      "children": [
+        {
+          "id": "id-1718638612578-6836",
+          "tokenName": "--ids-color-red-40",
+          "tokenValue": "#e66467",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e66467",
+          "tokenNameCSS": "var(--ids-color-red-40)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#e66467",
+      "tokenNameCSS": "var(--ids-color-red-30)"
+    },
+    {
+      "id": "id-1718638612578-6841",
+      "tokenName": "--ids-color-text-on-warning",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6839",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-color-text-on-warning)"
+    },
+    {
+      "id": "id-1718638612578-6844",
+      "tokenName": "--ids-color-warning-weak",
+      "tokenValue": "var(--ids-color-orange-20)",
+      "children": [
+        {
+          "id": "id-1718638612578-6842",
+          "tokenName": "--ids-color-orange-20",
+          "tokenValue": "#fddfbd",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#fddfbd",
+          "tokenNameCSS": "var(--ids-color-orange-20)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#fddfbd",
+      "tokenNameCSS": "var(--ids-color-warning-weak)"
+    },
+    {
+      "id": "id-1718638612578-6847",
+      "tokenName": "--ids-color-orange-30",
+      "tokenValue": "var(--ids-color-orange-40)",
+      "children": [
+        {
+          "id": "id-1718638612578-6845",
+          "tokenName": "--ids-color-orange-40",
+          "tokenValue": "#fbaf50",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#fbaf50",
+          "tokenNameCSS": "var(--ids-color-orange-40)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#fbaf50",
+      "tokenNameCSS": "var(--ids-color-orange-30)"
+    },
+    {
+      "id": "id-1718638612578-6850",
+      "tokenName": "--ids-color-text-on-caution",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6848",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-color-text-on-caution)"
+    },
+    {
+      "id": "id-1718638612578-6853",
+      "tokenName": "--ids-color-caution-weak",
+      "tokenValue": "var(--ids-color-orange-20)",
+      "children": [
+        {
+          "id": "id-1718638612578-6851",
+          "tokenName": "--ids-color-orange-20",
+          "tokenValue": "#fddfbd",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#fddfbd",
+          "tokenNameCSS": "var(--ids-color-orange-20)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#fddfbd",
+      "tokenNameCSS": "var(--ids-color-caution-weak)"
+    },
+    {
+      "id": "id-1718638612578-6856",
+      "tokenName": "--ids-color-yellow-30",
+      "tokenValue": "var(--ids-color-orange-40)",
+      "children": [
+        {
+          "id": "id-1718638612578-6854",
+          "tokenName": "--ids-color-orange-40",
+          "tokenValue": "#fbaf50",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#fbaf50",
+          "tokenNameCSS": "var(--ids-color-orange-40)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#fbaf50",
+      "tokenNameCSS": "var(--ids-color-yellow-30)"
+    },
+    {
+      "id": "id-1718638612578-6859",
+      "tokenName": "--ids-color-caution-default",
+      "tokenValue": "var(--ids-color-orange-70)",
+      "children": [
+        {
+          "id": "id-1718638612578-6857",
+          "tokenName": "--ids-color-orange-70",
+          "tokenValue": "#df6f00",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#df6f00",
+          "tokenNameCSS": "var(--ids-color-orange-70)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#df6f00",
+      "tokenNameCSS": "var(--ids-color-caution-default)"
+    },
+    {
+      "id": "id-1718638612578-6862",
+      "tokenName": "--ids-color-text-on-success",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6860",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-color-text-on-success)"
+    },
+    {
+      "id": "id-1718638612578-6865",
+      "tokenName": "--ids-color-success-weak",
+      "tokenValue": "var(--ids-color-green-20)",
+      "children": [
+        {
+          "id": "id-1718638612578-6863",
+          "tokenName": "--ids-color-green-20",
+          "tokenValue": "#cbefdc",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#cbefdc",
+          "tokenNameCSS": "var(--ids-color-green-20)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#cbefdc",
+      "tokenNameCSS": "var(--ids-color-success-weak)"
+    },
+    {
+      "id": "id-1718638612578-6868",
+      "tokenName": "--ids-color-green-30",
+      "tokenValue": "var(--ids-color-green-40)",
+      "children": [
+        {
+          "id": "id-1718638612578-6866",
+          "tokenName": "--ids-color-green-40",
+          "tokenValue": "#78d8a3",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#78d8a3",
+          "tokenNameCSS": "var(--ids-color-green-40)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#78d8a3",
+      "tokenNameCSS": "var(--ids-color-green-30)"
+    },
+    {
+      "id": "id-1718638612578-6873",
+      "tokenName": "--ids-color-info-weak",
+      "tokenValue": "var(--ids-color-primary-20)",
+      "children": [
+        {
+          "id": "id-1718638612578-6869",
+          "tokenName": "--ids-color-primary-20",
+          "tokenValue": "var(--ids-color-theme-20)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Color Progressions",
+          "children": [
+            {
+              "id": "id-1718638612578-6871",
+              "tokenName": "--ids-color-theme-20",
+              "tokenValue": "var(--ids-color-blue-20)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "Theme colors",
+              "children": [
+                {
+                  "id": "id-1718638612578-6870",
+                  "tokenName": "--ids-color-blue-20",
+                  "tokenValue": "#bedcfa",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#bedcfa",
+                  "tokenNameCSS": "var(--ids-color-blue-20)"
+                }
+              ],
+              "colorValue": "#bedcfa",
+              "tokenNameCSS": "var(--ids-color-theme-20)"
+            }
+          ],
+          "colorValue": "#bedcfa",
+          "tokenNameCSS": "var(--ids-color-primary-20)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#bedcfa",
+      "tokenNameCSS": "var(--ids-color-info-weak)"
+    },
+    {
+      "id": "id-1718638612578-6878",
+      "tokenName": "--ids-color-blue-30",
+      "tokenValue": "var(--ids-color-primary-40)",
+      "children": [
+        {
+          "id": "id-1718638612578-6874",
+          "tokenName": "--ids-color-primary-40",
+          "tokenValue": "var(--ids-color-theme-40)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Color Progressions",
+          "children": [
+            {
+              "id": "id-1718638612578-6876",
+              "tokenName": "--ids-color-theme-40",
+              "tokenValue": "var(--ids-color-blue-40)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "Theme colors",
+              "children": [
+                {
+                  "id": "id-1718638612578-6875",
+                  "tokenName": "--ids-color-blue-40",
+                  "tokenValue": "#55a3f3",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#55a3f3",
+                  "tokenNameCSS": "var(--ids-color-blue-40)"
+                }
+              ],
+              "colorValue": "#55a3f3",
+              "tokenNameCSS": "var(--ids-color-theme-40)"
+            }
+          ],
+          "colorValue": "#55a3f3",
+          "tokenNameCSS": "var(--ids-color-primary-40)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Alert Color Overrides",
+      "colorValue": "#55a3f3",
+      "tokenNameCSS": "var(--ids-color-blue-30)"
+    },
+    {
+      "id": "id-1718638612578-6882",
+      "tokenName": "--ids-color-border-focus",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1718638612578-6879",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Primary Color",
+          "children": [
+            {
+              "id": "id-1718638612578-6880",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#0072ed",
+              "tokenNameCSS": "var(--ids-color-blue-60)"
+            }
+          ],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-primary)"
+        }
+      ],
+      "type": "Semantic",
+      "component": "Focus",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-color-border-focus)"
+    },
+    {
+      "id": "id-1718638612578-6884",
+      "tokenName": "--ids-shadow-none",
+      "tokenValue": "0 0 3px 2px rgba(0 114 237 / 0)",
+      "type": "Semantic",
+      "component": "Elevations",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-shadow-none)"
+    },
+    {
+      "id": "id-1718638612578-6886",
+      "tokenName": "--ids-box-shadow-inverse",
+      "tokenValue": "0 0 3px 1px rgba(255 255 255 / 0.3)",
+      "type": "Semantic",
+      "component": "Elevations",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-box-shadow-inverse)"
+    },
+    {
+      "id": "id-1718638612578-6888",
+      "tokenName": "--ids-shadow-10",
+      "tokenValue": "0 0 3px 1px rgb(0 114 237 / 0.3)",
+      "type": "Semantic",
+      "component": "Elevations",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-shadow-10)"
+    },
+    {
+      "id": "id-1718638612578-6890",
+      "tokenName": "--ids-shadow-20",
+      "tokenValue": "0 0 3px 2px rgb(0 114 237 / 0.30)",
+      "type": "Semantic",
+      "component": "Elevations",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-shadow-20)"
+    },
+    {
+      "id": "id-1718638612578-6892",
+      "tokenName": "--ids-shadow-30",
+      "tokenValue": "0 0 4px 3px rgb(0 114 237 / 0.3)",
+      "type": "Semantic",
+      "component": "Elevations",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-shadow-30)"
+    },
+    {
+      "id": "id-1718638612578-6894",
+      "tokenName": "--ids-scroll-shadow",
+      "tokenValue": "0 -1px 3px -1px rgba(0  0  0 / 0.30)",
+      "type": "Semantic",
+      "component": "Elevations",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-scroll-shadow)"
+    },
+    {
+      "id": "id-1718638612578-6896",
+      "tokenName": "--ids-scroll-color-border-top",
+      "tokenValue": "1px solid rgba(215 215 216 / 1)",
+      "type": "Semantic",
+      "component": "Elevations",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-scroll-color-border-top)"
+    },
+    {
+      "id": "id-1718638612578-6899",
+      "tokenName": "--ids-accordion-header-color-border-bottom",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612578-6897",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Accordion",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-accordion-header-color-border-bottom)"
+    },
+    {
+      "id": "id-1718638612578-6902",
+      "tokenName": "--ids-accordion-header-color-border-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612578-6900",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Accordion",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-accordion-header-color-border-disabled)"
+    },
+    {
+      "id": "id-1718638612578-6905",
+      "tokenName": "--ids-accordion-header-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612578-6903",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Accordion",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-accordion-header-color-text-disabled)"
+    },
+    {
+      "id": "id-1718638612578-6908",
+      "tokenName": "--ids-accordion-header-color-icon",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6906",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Accordion",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-accordion-header-color-icon)"
+    },
+    {
+      "id": "id-1718638612578-6911",
+      "tokenName": "--ids-app-menu-accordion-header-color-background-disabled",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612578-6909",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Accordion ",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-app-menu-accordion-header-color-background-disabled)"
+    },
+    {
+      "id": "id-1718638612578-6914",
+      "tokenName": "--ids-app-menu-accordion-header-color-border-disabled",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612578-6912",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Accordion ",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-app-menu-accordion-header-color-border-disabled)"
+    },
+    {
+      "id": "id-1718638612578-6917",
+      "tokenName": "--ids-app-menu-accordion-header-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1718638612578-6915",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#525257",
+          "tokenNameCSS": "var(--ids-color-gray-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "Accordion ",
+      "colorValue": "#525257",
+      "tokenNameCSS": "var(--ids-app-menu-accordion-header-color-text-disabled)"
+    },
+    {
+      "id": "id-1718638612578-6920",
+      "tokenName": "--ids-app-menu-accordion-header-color-background-default",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6918",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Accordion ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-app-menu-accordion-header-color-background-default)"
+    },
+    {
+      "id": "id-1718638612578-6923",
+      "tokenName": "--ids-app-menu-accordion-header-filter-match-color-text",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612578-6921",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Accordion ",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-app-menu-accordion-header-filter-match-color-text)"
+    },
+    {
+      "id": "id-1718638612578-6926",
+      "tokenName": "--ids-app-menu-accordion-header-color-border-focus",
+      "tokenValue": "var(--ids-color-blue-40)",
+      "children": [
+        {
+          "id": "id-1718638612578-6924",
+          "tokenName": "--ids-color-blue-40",
+          "tokenValue": "#55a3f3",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#55a3f3",
+          "tokenNameCSS": "var(--ids-color-blue-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Accordion ",
+      "colorValue": "#55a3f3",
+      "tokenNameCSS": "var(--ids-app-menu-accordion-header-color-border-focus)"
+    },
+    {
+      "id": "id-1718638612578-6929",
+      "tokenName": "--ids-action-panel-header-color-background",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1718638612578-6927",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5f5f5",
+          "tokenNameCSS": "var(--ids-color-gray-10)"
+        }
+      ],
+      "type": "Component",
+      "component": "Action Panel",
+      "colorValue": "#f5f5f5",
+      "tokenNameCSS": "var(--ids-action-panel-header-color-background)"
+    },
+    {
+      "id": "id-1718638612578-6932",
+      "tokenName": "--ids-action-panel-header-color-border",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612578-6930",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Action Panel",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-action-panel-header-color-border)"
+    },
+    {
+      "id": "id-1718638612578-6935",
+      "tokenName": "--ids-action-sheet-color-background",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6933",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Action Sheet",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-action-sheet-color-background)"
+    },
+    {
+      "id": "id-1718638612578-6938",
+      "tokenName": "--ids-action-sheet-color-border",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612578-6936",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Action Sheet",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-action-sheet-color-border)"
+    },
+    {
+      "id": "id-1718638612578-6941",
+      "tokenName": "--ids-alert-color-progress-default",
+      "tokenValue": "var(--ids-color-purple-90)",
+      "children": [
+        {
+          "id": "id-1718638612578-6939",
+          "tokenName": "--ids-color-purple-90",
+          "tokenValue": "#4e1a91",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#4e1a91",
+          "tokenNameCSS": "var(--ids-color-purple-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Alerts",
+      "colorValue": "#4e1a91",
+      "tokenNameCSS": "var(--ids-alert-color-progress-default)"
+    },
+    {
+      "id": "id-1718638612578-6944",
+      "tokenName": "--ids-alert-color-progress-disabled",
+      "tokenValue": "var(--ids-color-purple-50)",
+      "children": [
+        {
+          "id": "id-1718638612578-6942",
+          "tokenName": "--ids-color-purple-50",
+          "tokenValue": "#8d4be5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#8d4be5",
+          "tokenNameCSS": "var(--ids-color-purple-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Alerts",
+      "colorValue": "#8d4be5",
+      "tokenNameCSS": "var(--ids-alert-color-progress-disabled)"
+    },
+    {
+      "id": "id-1718638612578-6947",
+      "tokenName": "--ids-axis-chart-grid-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612578-6945",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Axis Chart",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-axis-chart-grid-color)"
+    },
+    {
+      "id": "id-1718638612578-6950",
+      "tokenName": "--ids-axis-chart-last-line-color-border",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1718638612578-6948",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#3b3b3f",
+          "tokenNameCSS": "var(--ids-color-gray-80)"
+        }
+      ],
+      "type": "Component",
+      "component": "Axis Chart",
+      "colorValue": "#3b3b3f",
+      "tokenNameCSS": "var(--ids-axis-chart-last-line-color-border)"
+    },
+    {
+      "id": "id-1718638612578-6953",
+      "tokenName": "--ids-axis-chart-color-text",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1718638612578-6951",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#525257",
+          "tokenNameCSS": "var(--ids-color-gray-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "Axis Chart",
+      "colorValue": "#525257",
+      "tokenNameCSS": "var(--ids-axis-chart-color-text)"
+    },
+    {
+      "id": "id-1718638612578-6956",
+      "tokenName": "--ids-block-grid-item-color-background-selectable-hover",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6954",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Block Grid",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-block-grid-item-color-background-selectable-hover)"
+    },
+    {
+      "id": "id-1718638612578-6960",
+      "tokenName": "--ids-block-grid-item-selectable-container-focus",
+      "tokenValue": "var(--ids-space-xxxxs) solid var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1718638612578-6957",
+          "tokenName": "--ids-space-xxxxs",
+          "tokenValue": "var(--ids-space-01)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "Space",
+          "children": [
+            {
+              "id": "id-1718638612578-6958",
+              "tokenName": "--ids-space-01",
+              "tokenValue": "1px",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Spacing",
+              "children": [],
+              "colorValue": null,
+              "tokenNameCSS": "var(--ids-space-01)"
+            }
+          ],
+          "colorValue": null,
+          "tokenNameCSS": "var(--ids-space-xxxxs)"
+        }
+      ],
+      "type": "Component",
+      "component": "Block Grid",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-block-grid-item-selectable-container-focus)"
+    },
+    {
+      "id": "id-1718638612578-6964",
+      "tokenName": "--ids-block-grid-item-outline-selected",
+      "tokenValue": "var(--ids-space-xxxs) solid var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1718638612578-6961",
+          "tokenName": "--ids-space-xxxs",
+          "tokenValue": "var(--ids-space-02)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "Space",
+          "children": [
+            {
+              "id": "id-1718638612578-6962",
+              "tokenName": "--ids-space-02",
+              "tokenValue": "2px",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Spacing",
+              "children": [],
+              "colorValue": null,
+              "tokenNameCSS": "var(--ids-space-02)"
+            }
+          ],
+          "colorValue": null,
+          "tokenNameCSS": "var(--ids-space-xxxs)"
+        }
+      ],
+      "type": "Component",
+      "component": "Block Grid",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-block-grid-item-outline-selected)"
+    },
+    {
+      "id": "id-1718638612578-6967",
+      "tokenName": "--ids-calendar-toolbar-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612578-6965",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Calendar",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-calendar-toolbar-color-border)"
+    },
+    {
+      "id": "id-1718638612578-6970",
+      "tokenName": "--ids-calendar-event-color-border-accent-bluet-blue",
+      "tokenValue": "var(--ids-color-blue-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6968",
+          "tokenName": "--ids-color-blue-100",
+          "tokenValue": "#003876",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#003876",
+          "tokenNameCSS": "var(--ids-color-blue-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Calendar Event",
+      "colorValue": "#003876",
+      "tokenNameCSS": "var(--ids-calendar-event-color-border-accent-bluet-blue)"
+    },
+    {
+      "id": "id-1718638612578-6973",
+      "tokenName": "--ids-calendar-event-color-border-default",
+      "tokenValue": "var(--ids-color-orange-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6971",
+          "tokenName": "--ids-color-orange-100",
+          "tokenValue": "#a14100",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#a14100",
+          "tokenNameCSS": "var(--ids-color-orange-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Calendar Event",
+      "colorValue": "#a14100",
+      "tokenNameCSS": "var(--ids-calendar-event-color-border-default)"
+    },
+    {
+      "id": "id-1718638612578-6976",
+      "tokenName": "--ids-calendar-event-color-border-focus",
+      "tokenValue": "var(--ids-color-blue-100)",
+      "children": [
+        {
+          "id": "id-1718638612578-6974",
+          "tokenName": "--ids-color-blue-100",
+          "tokenValue": "#003876",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#003876",
+          "tokenNameCSS": "var(--ids-color-blue-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Calendar Event",
+      "colorValue": "#003876",
+      "tokenNameCSS": "var(--ids-calendar-event-color-border-focus)"
+    },
+    {
+      "id": "id-1718638612578-6979",
+      "tokenName": "--ids-card-divider-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612578-6977",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Card",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-card-divider-color-border)"
+    },
+    {
+      "id": "id-1718638612579-6982",
+      "tokenName": "--ids-button-tertiary-color-background-hover",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612578-6980",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Button ",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-button-tertiary-color-background-hover)"
+    },
+    {
+      "id": "id-1718638612579-6985",
+      "tokenName": "--ids-button-formatter-color-text-hover",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-6983",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Button ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-button-formatter-color-text-hover)"
+    },
+    {
+      "id": "id-1718638612579-6988",
+      "tokenName": "--ids-button-formatter-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612579-6986",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Button ",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-button-formatter-color-text-disabled)"
+    },
+    {
+      "id": "id-1718638612579-6991",
+      "tokenName": "--ids-button-formatter-color-background-hover",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612579-6989",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Button ",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-button-formatter-color-background-hover)"
+    },
+    {
+      "id": "id-1718638612579-6996",
+      "tokenName": "--ids-button-formatter-color-active",
+      "tokenValue": "var(--ids-color-primary-90)",
+      "children": [
+        {
+          "id": "id-1718638612579-6992",
+          "tokenName": "--ids-color-primary-90",
+          "tokenValue": "var(--ids-color-theme-90)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Color Progressions",
+          "children": [
+            {
+              "id": "id-1718638612579-6994",
+              "tokenName": "--ids-color-theme-90",
+              "tokenValue": "var(--ids-color-blue-90)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "Theme colors",
+              "children": [
+                {
+                  "id": "id-1718638612579-6993",
+                  "tokenName": "--ids-color-blue-90",
+                  "tokenValue": "#004a99",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#004a99",
+                  "tokenNameCSS": "var(--ids-color-blue-90)"
+                }
+              ],
+              "colorValue": "#004a99",
+              "tokenNameCSS": "var(--ids-color-theme-90)"
+            }
+          ],
+          "colorValue": "#004a99",
+          "tokenNameCSS": "var(--ids-color-primary-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Button ",
+      "colorValue": "#004a99",
+      "tokenNameCSS": "var(--ids-button-formatter-color-active)"
+    },
+    {
+      "id": "id-1718638612579-6999",
+      "tokenName": "--ids-button-formatter-color-text-default",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-6997",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Button ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-button-formatter-color-text-default)"
+    },
+    {
+      "id": "id-1718638612579-7004",
+      "tokenName": "--ids-chart-legend-color-text",
+      "tokenValue": "var(--ids-color-text-default)",
+      "children": [
+        {
+          "id": "id-1718638612579-7000",
+          "tokenName": "--ids-color-text-default",
+          "tokenValue": "var(--ids-color-foreground-default-default)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Body Colors",
+          "children": [
+            {
+              "id": "id-1718638612579-7002",
+              "tokenName": "--ids-color-foreground-default-default",
+              "tokenValue": "var(--ids-color-black-100)",
+              "type": "Semantic",
+              "source": "semanticContrastTokens",
+              "component": "Surface colors",
+              "children": [
+                {
+                  "id": "id-1718638612579-7001",
+                  "tokenName": "--ids-color-black-100",
+                  "tokenValue": "#000000",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#000000",
+                  "tokenNameCSS": "var(--ids-color-black-100)"
+                }
+              ],
+              "colorValue": "#000000",
+              "tokenNameCSS": "var(--ids-color-foreground-default-default)"
+            }
+          ],
+          "colorValue": "#000000",
+          "tokenNameCSS": "var(--ids-color-text-default)"
+        }
+      ],
+      "type": "Component",
+      "component": "Charts",
+      "colorValue": "#000000",
+      "tokenNameCSS": "var(--ids-chart-legend-color-text)"
+    },
+    {
+      "id": "id-1718638612579-7007",
+      "tokenName": "--ids-data-grid-color-background",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7005",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-data-grid-color-background)"
+    },
+    {
+      "id": "id-1718638612579-7010",
+      "tokenName": "--ids-data-grid-cell-color-background-default",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7008",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-data-grid-cell-color-background-default)"
+    },
+    {
+      "id": "id-1718638612579-7012",
+      "tokenName": "--ids-data-grid-cell-color-background-readonly",
+      "tokenValue": "rgba(0 0 0 / 0.08)",
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "rgba(0 0 0 / 0.08)",
+      "tokenNameCSS": "var(--ids-data-grid-cell-color-background-readonly)"
+    },
+    {
+      "id": "id-1718638612579-7015",
+      "tokenName": "--ids-data-grid-cell-color-border",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612579-7013",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-data-grid-cell-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7018",
+      "tokenName": "--ids-data-grid-cell-checkbox-color-border",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612579-7016",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-data-grid-cell-checkbox-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7021",
+      "tokenName": "--ids-data-grid-cell-color-text-default",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7019",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-data-grid-cell-color-text-default)"
+    },
+    {
+      "id": "id-1718638612579-7024",
+      "tokenName": "--ids-data-grid-cell-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612579-7022",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-data-grid-cell-color-text-disabled)"
+    },
+    {
+      "id": "id-1718638612579-7026",
+      "tokenName": "--ids-data-grid-cell-color-background-error",
+      "tokenValue": "rgba(232 79 79 / 0.1)",
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "rgba(232 79 79 / 0.1)",
+      "tokenNameCSS": "var(--ids-data-grid-cell-color-background-error)"
+    },
+    {
+      "id": "id-1718638612579-7029",
+      "tokenName": "--ids-data-grid-list-cell-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612579-7027",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-data-grid-list-cell-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7032",
+      "tokenName": "--ids-data-grid-list-header-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612579-7030",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-data-grid-list-header-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7035",
+      "tokenName": "--ids-data-grid-list-header-color-background",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612579-7033",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-data-grid-list-header-color-background)"
+    },
+    {
+      "id": "id-1718638612579-7038",
+      "tokenName": "--ids-data-grid-list-header-color-text",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7036",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-data-grid-list-header-color-text)"
+    },
+    {
+      "id": "id-1718638612579-7041",
+      "tokenName": "--ids-data-grid-list-header-color-icon-unsorted",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612579-7039",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-data-grid-list-header-color-icon-unsorted)"
+    },
+    {
+      "id": "id-1718638612579-7044",
+      "tokenName": "--ids-data-grid-list-header-color-icon-sorted",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612579-7042",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-data-grid-list-header-color-icon-sorted)"
+    },
+    {
+      "id": "id-1718638612579-7047",
+      "tokenName": "--ids-data-grid-list-header-checkbox-color-background",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1718638612579-7045",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#525257",
+          "tokenNameCSS": "var(--ids-color-gray-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#525257",
+      "tokenNameCSS": "var(--ids-data-grid-list-header-checkbox-color-background)"
+    },
+    {
+      "id": "id-1718638612579-7050",
+      "tokenName": "--ids-data-grid-header-color-border",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612579-7048",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-data-grid-header-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7053",
+      "tokenName": "--ids-data-grid-header-color-background-default",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1718638612579-7051",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5f5f5",
+          "tokenNameCSS": "var(--ids-color-gray-10)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#f5f5f5",
+      "tokenNameCSS": "var(--ids-data-grid-header-color-background-default)"
+    },
+    {
+      "id": "id-1718638612579-7056",
+      "tokenName": "--ids-data-grid-header-color-background-hover",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612579-7054",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-data-grid-header-color-background-hover)"
+    },
+    {
+      "id": "id-1718638612579-7059",
+      "tokenName": "--ids-data-grid-header-checkbox-color-background",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7057",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-data-grid-header-checkbox-color-background)"
+    },
+    {
+      "id": "id-1718638612579-7062",
+      "tokenName": "--ids-data-grid-header-checkbox-color-border",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612579-7060",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-data-grid-header-checkbox-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7065",
+      "tokenName": "--ids-data-grid-header-color-icon",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7063",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-data-grid-header-color-icon)"
+    },
+    {
+      "id": "id-1718638612579-7068",
+      "tokenName": "--ids-data-grid-header-drag-background-color",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612579-7066",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-data-grid-header-drag-background-color)"
+    },
+    {
+      "id": "id-1718638612579-7071",
+      "tokenName": "--ids-data-grid-header-drag-arrow-color-background",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612579-7069",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-data-grid-header-drag-arrow-color-background)"
+    },
+    {
+      "id": "id-1718638612579-7074",
+      "tokenName": "--ids-data-grid-header-color-background-default-placeholder-dragging",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7072",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-data-grid-header-color-background-default-placeholder-dragging)"
+    },
+    {
+      "id": "id-1718638612579-7077",
+      "tokenName": "--ids-data-grid-header-color-text",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7075",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-data-grid-header-color-text)"
+    },
+    {
+      "id": "id-1718638612579-7080",
+      "tokenName": "--ids-data-grid-header-color-icon-unsorted",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612579-7078",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-data-grid-header-color-icon-unsorted)"
+    },
+    {
+      "id": "id-1718638612579-7083",
+      "tokenName": "--ids-data-grid-header-color-icon-sorted",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7081",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-data-grid-header-color-icon-sorted)"
+    },
+    {
+      "id": "id-1718638612579-7086",
+      "tokenName": "--ids-data-grid-header-expander-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7084",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-data-grid-header-expander-color)"
+    },
+    {
+      "id": "id-1718638612579-7089",
+      "tokenName": "--ids-data-grid-header-expander-color-active",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7087",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-data-grid-header-expander-color-active)"
+    },
+    {
+      "id": "id-1718638612579-7092",
+      "tokenName": "--ids-data-grid-filter-input-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1718638612579-7090",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#8e8e95",
+          "tokenNameCSS": "var(--ids-color-gray-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#8e8e95",
+      "tokenNameCSS": "var(--ids-data-grid-filter-input-color-background-readonly)"
+    },
+    {
+      "id": "id-1718638612579-7094",
+      "tokenName": "--ids-data-grid-row-color-background-selected",
+      "tokenValue": "rgba(85 163 243 / 0.2)",
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "rgba(85 163 243 / 0.2)",
+      "tokenNameCSS": "var(--ids-data-grid-row-color-background-selected)"
+    },
+    {
+      "id": "id-1718638612579-7097",
+      "tokenName": "--ids-data-grid-row-alternating-color-background",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1718638612579-7095",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5f5f5",
+          "tokenNameCSS": "var(--ids-color-gray-10)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#f5f5f5",
+      "tokenNameCSS": "var(--ids-data-grid-row-alternating-color-background)"
+    },
+    {
+      "id": "id-1718638612579-7102",
+      "tokenName": "--ids-data-grid-row-shadow-focus",
+      "tokenValue": "inset 0 0 0 1px var(--ids-color-primary-70), 0 1px 0 0 var(--ids-color-primary-70), 0 0 3px 2px rgb(54 138 192 / 0.3)",
+      "children": [
+        {
+          "id": "id-1718638612579-7098",
+          "tokenName": "--ids-color-primary-70",
+          "tokenValue": "var(--ids-color-theme-70)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Color Progressions",
+          "children": [
+            {
+              "id": "id-1718638612579-7100",
+              "tokenName": "--ids-color-theme-70",
+              "tokenValue": "var(--ids-color-blue-70)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "Theme colors",
+              "children": [
+                {
+                  "id": "id-1718638612579-7099",
+                  "tokenName": "--ids-color-blue-70",
+                  "tokenValue": "#0066d4",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#0066d4",
+                  "tokenNameCSS": "var(--ids-color-blue-70)"
+                }
+              ],
+              "colorValue": "#0066d4",
+              "tokenNameCSS": "var(--ids-color-theme-70)"
+            }
+          ],
+          "colorValue": "#0066d4",
+          "tokenNameCSS": "var(--ids-color-primary-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "Data Grid ",
+      "colorValue": "#0066d4",
+      "tokenNameCSS": "var(--ids-data-grid-row-shadow-focus)"
+    },
+    {
+      "id": "id-1718638612579-7105",
+      "tokenName": "--ids-input-dirty-indicator-color-background-dirty",
+      "tokenValue": "var(--ids-color-orange-50)",
+      "children": [
+        {
+          "id": "id-1718638612579-7103",
+          "tokenName": "--ids-color-orange-50",
+          "tokenValue": "#fa9601",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#fa9601",
+          "tokenNameCSS": "var(--ids-color-orange-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Dirty Indicator",
+      "colorValue": "#fa9601",
+      "tokenNameCSS": "var(--ids-input-dirty-indicator-color-background-dirty)"
+    },
+    {
+      "id": "id-1718638612579-7108",
+      "tokenName": "--ids-drawer-app-menu-color-text",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1718638612579-7106",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5f5f5",
+          "tokenNameCSS": "var(--ids-color-gray-10)"
+        }
+      ],
+      "type": "Component",
+      "component": "Drawer",
+      "colorValue": "#f5f5f5",
+      "tokenNameCSS": "var(--ids-drawer-app-menu-color-text)"
+    },
+    {
+      "id": "id-1718638612579-7113",
+      "tokenName": "--ids-dropdown-color-background-default",
+      "tokenValue": "var(--ids-popup-color-background)",
+      "children": [
+        {
+          "id": "id-1718638612579-7109",
+          "tokenName": "--ids-popup-color-background",
+          "tokenValue": "var(--ids-color-background-elevated)",
+          "type": "Component",
+          "source": "defaultCoreTheme",
+          "component": "Popup",
+          "children": [
+            {
+              "id": "id-1718638612579-7111",
+              "tokenName": "--ids-color-background-elevated",
+              "tokenValue": "var(--ids-color-white-100)",
+              "type": "Semantic",
+              "source": "semanticContrastTokens",
+              "component": "Surface colors",
+              "children": [
+                {
+                  "id": "id-1718638612579-7110",
+                  "tokenName": "--ids-color-white-100",
+                  "tokenValue": "#ffffff",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#ffffff",
+                  "tokenNameCSS": "var(--ids-color-white-100)"
+                }
+              ],
+              "colorValue": "#ffffff",
+              "tokenNameCSS": "var(--ids-color-background-elevated)"
+            }
+          ],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-popup-color-background)"
+        }
+      ],
+      "type": "Component",
+      "component": "Dropdown",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-dropdown-color-background-default)"
+    },
+    {
+      "id": "id-1718638612579-7118",
+      "tokenName": "--ids-dropdown-color-border",
+      "tokenValue": "var(--ids-color-border-focus)",
+      "children": [
+        {
+          "id": "id-1718638612579-7114",
+          "tokenName": "--ids-color-border-focus",
+          "tokenValue": "var(--ids-color-primary)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Focus Styles",
+          "children": [
+            {
+              "id": "id-1718638612579-7116",
+              "tokenName": "--ids-color-primary",
+              "tokenValue": "var(--ids-color-blue-60)",
+              "type": "Semantic",
+              "source": "defaultCoreTheme",
+              "component": "Primary Color",
+              "children": [
+                {
+                  "id": "id-1718638612579-7115",
+                  "tokenName": "--ids-color-blue-60",
+                  "tokenValue": "#0072ed",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#0072ed",
+                  "tokenNameCSS": "var(--ids-color-blue-60)"
+                }
+              ],
+              "colorValue": "#0072ed",
+              "tokenNameCSS": "var(--ids-color-primary)"
+            }
+          ],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-border-focus)"
+        }
+      ],
+      "type": "Component",
+      "component": "Dropdown",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-dropdown-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7121",
+      "tokenName": "--ids-dropdown-attached-color-border",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1718638612579-7119",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#8e8e95",
+          "tokenNameCSS": "var(--ids-color-gray-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Dropdown",
+      "colorValue": "#8e8e95",
+      "tokenNameCSS": "var(--ids-dropdown-attached-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7124",
+      "tokenName": "--ids-dropdown-color-text-selected",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7122",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Dropdown",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-dropdown-color-text-selected)"
+    },
+    {
+      "id": "id-1718638612579-7129",
+      "tokenName": "--ids-dropdown-color-background-selected",
+      "tokenValue": "var(--ids-color-primary-90)",
+      "children": [
+        {
+          "id": "id-1718638612579-7125",
+          "tokenName": "--ids-color-primary-90",
+          "tokenValue": "var(--ids-color-theme-90)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Color Progressions",
+          "children": [
+            {
+              "id": "id-1718638612579-7127",
+              "tokenName": "--ids-color-theme-90",
+              "tokenValue": "var(--ids-color-blue-90)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "Theme colors",
+              "children": [
+                {
+                  "id": "id-1718638612579-7126",
+                  "tokenName": "--ids-color-blue-90",
+                  "tokenValue": "#004a99",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#004a99",
+                  "tokenNameCSS": "var(--ids-color-blue-90)"
+                }
+              ],
+              "colorValue": "#004a99",
+              "tokenNameCSS": "var(--ids-color-theme-90)"
+            }
+          ],
+          "colorValue": "#004a99",
+          "tokenNameCSS": "var(--ids-color-primary-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Dropdown",
+      "colorValue": "#004a99",
+      "tokenNameCSS": "var(--ids-dropdown-color-background-selected)"
+    },
+    {
+      "id": "id-1718638612579-7132",
+      "tokenName": "--ids-dropdown-group-color-text",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7130",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Dropdown",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-dropdown-group-color-text)"
+    },
+    {
+      "id": "id-1718638612579-7135",
+      "tokenName": "--ids-dropdown-group-color-border",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612579-7133",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Dropdown",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-dropdown-group-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7138",
+      "tokenName": "--ids-editor-background-color",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7136",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-editor-background-color)"
+    },
+    {
+      "id": "id-1718638612579-7141",
+      "tokenName": "--ids-editor-color-border-default",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612579-7139",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-editor-color-border-default)"
+    },
+    {
+      "id": "id-1718638612579-7144",
+      "tokenName": "--ids-editor-color-border-hover",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612579-7142",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-editor-color-border-hover)"
+    },
+    {
+      "id": "id-1718638612579-7149",
+      "tokenName": "--ids-editor-color-border-focus",
+      "tokenValue": "var(--ids-color-border-focus)",
+      "children": [
+        {
+          "id": "id-1718638612579-7145",
+          "tokenName": "--ids-color-border-focus",
+          "tokenValue": "var(--ids-color-primary)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Focus Styles",
+          "children": [
+            {
+              "id": "id-1718638612579-7147",
+              "tokenName": "--ids-color-primary",
+              "tokenValue": "var(--ids-color-blue-60)",
+              "type": "Semantic",
+              "source": "defaultCoreTheme",
+              "component": "Primary Color",
+              "children": [
+                {
+                  "id": "id-1718638612579-7146",
+                  "tokenName": "--ids-color-blue-60",
+                  "tokenValue": "#0072ed",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#0072ed",
+                  "tokenNameCSS": "var(--ids-color-blue-60)"
+                }
+              ],
+              "colorValue": "#0072ed",
+              "tokenNameCSS": "var(--ids-color-primary)"
+            }
+          ],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-border-focus)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-editor-color-border-focus)"
+    },
+    {
+      "id": "id-1718638612579-7152",
+      "tokenName": "--ids-editor-shadow-border-focus",
+      "tokenValue": "var(--ids-shadow-focus)",
+      "children": [
+        {
+          "id": "id-1718638612579-7150",
+          "tokenName": "--ids-shadow-focus",
+          "tokenValue": "0px 0px 8px 0px rgba(0 114 237 / 0.50)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Focus Styles",
+          "children": [],
+          "colorValue": null,
+          "tokenNameCSS": "var(--ids-shadow-focus)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-editor-shadow-border-focus)"
+    },
+    {
+      "id": "id-1718638612579-7156",
+      "tokenName": "--ids-editor-color-border-error",
+      "tokenValue": "var(--ids-color-error-default)",
+      "children": [
+        {
+          "id": "id-1718638612579-7153",
+          "tokenName": "--ids-color-error-default",
+          "tokenValue": "var(--ids-color-red-80)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "Surface colors",
+          "children": [
+            {
+              "id": "id-1718638612579-7154",
+              "tokenName": "--ids-color-red-80",
+              "tokenValue": "#a30d11",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#a30d11",
+              "tokenNameCSS": "var(--ids-color-red-80)"
+            }
+          ],
+          "colorValue": "#a30d11",
+          "tokenNameCSS": "var(--ids-color-error-default)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#a30d11",
+      "tokenNameCSS": "var(--ids-editor-color-border-error)"
+    },
+    {
+      "id": "id-1718638612579-7160",
+      "tokenName": "--ids-editor-color-text-error",
+      "tokenValue": "var(--ids-color-error-default)",
+      "children": [
+        {
+          "id": "id-1718638612579-7157",
+          "tokenName": "--ids-color-error-default",
+          "tokenValue": "var(--ids-color-red-80)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "Surface colors",
+          "children": [
+            {
+              "id": "id-1718638612579-7158",
+              "tokenName": "--ids-color-red-80",
+              "tokenValue": "#a30d11",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#a30d11",
+              "tokenNameCSS": "var(--ids-color-red-80)"
+            }
+          ],
+          "colorValue": "#a30d11",
+          "tokenNameCSS": "var(--ids-color-error-default)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#a30d11",
+      "tokenNameCSS": "var(--ids-editor-color-text-error)"
+    },
+    {
+      "id": "id-1718638612579-7163",
+      "tokenName": "--ids-editor-shadow-error",
+      "tokenValue": "var(--ids-shadow-error)",
+      "children": [
+        {
+          "id": "id-1718638612579-7161",
+          "tokenName": "--ids-shadow-error",
+          "tokenValue": "0 0 3px 2px rgb(218 18 23 / 0.30)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Elevations ",
+          "children": [],
+          "colorValue": null,
+          "tokenNameCSS": "var(--ids-shadow-error)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-editor-shadow-error)"
+    },
+    {
+      "id": "id-1718638612579-7166",
+      "tokenName": "--ids-editor-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612579-7164",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-editor-color-background-readonly)"
+    },
+    {
+      "id": "id-1718638612579-7169",
+      "tokenName": "--ids-editor-color-border-readonly",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612579-7167",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-editor-color-border-readonly)"
+    },
+    {
+      "id": "id-1718638612579-7172",
+      "tokenName": "--ids-editor-source-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1718638612579-7170",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5f5f5",
+          "tokenNameCSS": "var(--ids-color-gray-10)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#f5f5f5",
+      "tokenNameCSS": "var(--ids-editor-source-color-background-readonly)"
+    },
+    {
+      "id": "id-1718638612579-7176",
+      "tokenName": "--ids-editor-color-border-disabled",
+      "tokenValue": "var(--ids-color-text-disabled)",
+      "children": [
+        {
+          "id": "id-1718638612579-7173",
+          "tokenName": "--ids-color-text-disabled",
+          "tokenValue": "var(--ids-color-gray-30)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Text Colors",
+          "children": [
+            {
+              "id": "id-1718638612579-7174",
+              "tokenName": "--ids-color-gray-30",
+              "tokenValue": "#c5c5c9",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#c5c5c9",
+              "tokenNameCSS": "var(--ids-color-gray-30)"
+            }
+          ],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-text-disabled)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-editor-color-border-disabled)"
+    },
+    {
+      "id": "id-1718638612579-7179",
+      "tokenName": "--ids-editor-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1718638612579-7177",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#8e8e95",
+          "tokenNameCSS": "var(--ids-color-gray-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#8e8e95",
+      "tokenNameCSS": "var(--ids-editor-color-text-disabled)"
+    },
+    {
+      "id": "id-1718638612579-7183",
+      "tokenName": "--ids-editor-link-color-text-link",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1718638612579-7180",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Primary Color",
+          "children": [
+            {
+              "id": "id-1718638612579-7181",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#0072ed",
+              "tokenNameCSS": "var(--ids-color-blue-60)"
+            }
+          ],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-primary)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-editor-link-color-text-link)"
+    },
+    {
+      "id": "id-1718638612579-7188",
+      "tokenName": "--ids-editor-link-color-text-hover",
+      "tokenValue": "var(--ids-color-primary-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7184",
+          "tokenName": "--ids-color-primary-100",
+          "tokenValue": "var(--ids-color-theme-100)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Color Progressions",
+          "children": [
+            {
+              "id": "id-1718638612579-7186",
+              "tokenName": "--ids-color-theme-100",
+              "tokenValue": "var(--ids-color-blue-100)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "Theme colors",
+              "children": [
+                {
+                  "id": "id-1718638612579-7185",
+                  "tokenName": "--ids-color-blue-100",
+                  "tokenValue": "#003876",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#003876",
+                  "tokenNameCSS": "var(--ids-color-blue-100)"
+                }
+              ],
+              "colorValue": "#003876",
+              "tokenNameCSS": "var(--ids-color-theme-100)"
+            }
+          ],
+          "colorValue": "#003876",
+          "tokenNameCSS": "var(--ids-color-primary-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#003876",
+      "tokenNameCSS": "var(--ids-editor-link-color-text-hover)"
+    },
+    {
+      "id": "id-1718638612579-7192",
+      "tokenName": "--ids-editor-link-color-border-focus",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1718638612579-7189",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Primary Color",
+          "children": [
+            {
+              "id": "id-1718638612579-7190",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#0072ed",
+              "tokenNameCSS": "var(--ids-color-blue-60)"
+            }
+          ],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-primary)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-editor-link-color-border-focus)"
+    },
+    {
+      "id": "id-1718638612579-7195",
+      "tokenName": "--ids-editor-shadow-focus",
+      "tokenValue": "var(--ids-shadow-focus)",
+      "children": [
+        {
+          "id": "id-1718638612579-7193",
+          "tokenName": "--ids-shadow-focus",
+          "tokenValue": "0px 0px 8px 0px rgba(0 114 237 / 0.50)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Focus Styles",
+          "children": [],
+          "colorValue": null,
+          "tokenNameCSS": "var(--ids-shadow-focus)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-editor-shadow-focus)"
+    },
+    {
+      "id": "id-1718638612579-7198",
+      "tokenName": "--ids-editor-source-color-background-default",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612579-7196",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-editor-source-color-background-default)"
+    },
+    {
+      "id": "id-1718638612579-7201",
+      "tokenName": "--ids-editor-source-line-color-text",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1718638612579-7199",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#525257",
+          "tokenNameCSS": "var(--ids-color-gray-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#525257",
+      "tokenNameCSS": "var(--ids-editor-source-line-color-text)"
+    },
+    {
+      "id": "id-1718638612579-7203",
+      "tokenName": "--ids-editor-textarea-color-background",
+      "tokenValue": "transparent",
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-editor-textarea-color-background)"
+    },
+    {
+      "id": "id-1718638612579-7207",
+      "tokenName": "--ids-editor-source-color-text",
+      "tokenValue": "var(--ids-color-text-data)",
+      "children": [
+        {
+          "id": "id-1718638612579-7204",
+          "tokenName": "--ids-color-text-data",
+          "tokenValue": "var(--ids-color-gray-100)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Text Colors",
+          "children": [
+            {
+              "id": "id-1718638612579-7205",
+              "tokenName": "--ids-color-gray-100",
+              "tokenValue": "#161618",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#161618",
+              "tokenNameCSS": "var(--ids-color-gray-100)"
+            }
+          ],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-text-data)"
+        }
+      ],
+      "type": "Component",
+      "component": "Editor",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-editor-source-color-text)"
+    },
+    {
+      "id": "id-1718638612579-7210",
+      "tokenName": "--ids-expandable-area-border-bottom",
+      "tokenValue": "1px solid var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612579-7208",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Expandable Area",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-expandable-area-border-bottom)"
+    },
+    {
+      "id": "id-1718638612579-7212",
+      "tokenName": "--ids-header-gradient-opacity-none",
+      "tokenValue": "rgb(0 74 153 / 1)",
+      "type": "Component",
+      "component": "Headers",
+      "colorValue": "rgb(0 74 153 / 1)",
+      "tokenNameCSS": "var(--ids-header-gradient-opacity-none)"
+    },
+    {
+      "id": "id-1718638612579-7214",
+      "tokenName": "--ids-header-gradient-opacity-full",
+      "tokenValue": "rgb(0 114 237 / 0)",
+      "type": "Component",
+      "component": "Headers",
+      "colorValue": "rgb(0 114 237 / 0)",
+      "tokenNameCSS": "var(--ids-header-gradient-opacity-full)"
+    },
+    {
+      "id": "id-1718638612579-7216",
+      "tokenName": "--ids-icon-color-default",
+      "tokenValue": "currentColor",
+      "type": "Component",
+      "component": "Icons",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-icon-color-default)"
+    },
+    {
+      "id": "id-1718638612579-7219",
+      "tokenName": "--ids-link-list-title-color-text-default",
+      "tokenValue": "var(--ids-color-black-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7217",
+          "tokenName": "--ids-color-black-100",
+          "tokenValue": "#000000",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#000000",
+          "tokenNameCSS": "var(--ids-color-black-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Link List",
+      "colorValue": "#000000",
+      "tokenNameCSS": "var(--ids-link-list-title-color-text-default)"
+    },
+    {
+      "id": "id-1718638612579-7222",
+      "tokenName": "--ids-layout-grid-color-background",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612579-7220",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Layout Grid",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-layout-grid-color-background)"
+    },
+    {
+      "id": "id-1718638612579-7227",
+      "tokenName": "--ids-layout-grid-color-text",
+      "tokenValue": "var(--ids-color-text-default)",
+      "children": [
+        {
+          "id": "id-1718638612579-7223",
+          "tokenName": "--ids-color-text-default",
+          "tokenValue": "var(--ids-color-foreground-default-default)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Body Colors",
+          "children": [
+            {
+              "id": "id-1718638612579-7225",
+              "tokenName": "--ids-color-foreground-default-default",
+              "tokenValue": "var(--ids-color-black-100)",
+              "type": "Semantic",
+              "source": "semanticContrastTokens",
+              "component": "Surface colors",
+              "children": [
+                {
+                  "id": "id-1718638612579-7224",
+                  "tokenName": "--ids-color-black-100",
+                  "tokenValue": "#000000",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#000000",
+                  "tokenNameCSS": "var(--ids-color-black-100)"
+                }
+              ],
+              "colorValue": "#000000",
+              "tokenNameCSS": "var(--ids-color-foreground-default-default)"
+            }
+          ],
+          "colorValue": "#000000",
+          "tokenNameCSS": "var(--ids-color-text-default)"
+        }
+      ],
+      "type": "Component",
+      "component": "Layout Grid",
+      "colorValue": "#000000",
+      "tokenNameCSS": "var(--ids-layout-grid-color-text)"
+    },
+    {
+      "id": "id-1718638612579-7230",
+      "tokenName": "--ids-list-view-item-color-border-top",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612579-7228",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "List View",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-list-view-item-color-border-top)"
+    },
+    {
+      "id": "id-1718638612579-7233",
+      "tokenName": "--ids-list-view-item-color-border-focus",
+      "tokenValue": "var(--ids-color-blue-70)",
+      "children": [
+        {
+          "id": "id-1718638612579-7231",
+          "tokenName": "--ids-color-blue-70",
+          "tokenValue": "#0066d4",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#0066d4",
+          "tokenNameCSS": "var(--ids-color-blue-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "List View",
+      "colorValue": "#0066d4",
+      "tokenNameCSS": "var(--ids-list-view-item-color-border-focus)"
+    },
+    {
+      "id": "id-1718638612579-7235",
+      "tokenName": "--ids-list-view-item-shadow-focus",
+      "tokenValue": "0 0 4px 1px rgb(54 138 192 / 0.3)",
+      "type": "Component",
+      "component": "List View",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-list-view-item-shadow-focus)"
+    },
+    {
+      "id": "id-1718638612579-7238",
+      "tokenName": "--ids-list-view-item-top-color-border-disabled-focus",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612579-7236",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "List View",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-list-view-item-top-color-border-disabled-focus)"
+    },
+    {
+      "id": "id-1718638612579-7241",
+      "tokenName": "--ids-list-view-color-background-selected",
+      "tokenValue": "var(--ids-color-blue-20)",
+      "children": [
+        {
+          "id": "id-1718638612579-7239",
+          "tokenName": "--ids-color-blue-20",
+          "tokenValue": "#bedcfa",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bedcfa",
+          "tokenNameCSS": "var(--ids-color-blue-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "List View",
+      "colorValue": "#bedcfa",
+      "tokenNameCSS": "var(--ids-list-view-color-background-selected)"
+    },
+    {
+      "id": "id-1718638612579-7244",
+      "tokenName": "--ids-loading-indicator-circle-color",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612579-7242",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Loading Indicator",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-loading-indicator-circle-color)"
+    },
+    {
+      "id": "id-1718638612579-7247",
+      "tokenName": "--ids-loading-indicator-primary-progress-color-border",
+      "tokenValue": "var(--ids-color-blue-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7245",
+          "tokenName": "--ids-color-blue-100",
+          "tokenValue": "#003876",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#003876",
+          "tokenNameCSS": "var(--ids-color-blue-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Loading Indicator",
+      "colorValue": "#003876",
+      "tokenNameCSS": "var(--ids-loading-indicator-primary-progress-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7250",
+      "tokenName": "--ids-loading-indicator-primary-color-border",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612579-7248",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Loading Indicator",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-loading-indicator-primary-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7254",
+      "tokenName": "--ids-loading-indicator-primary-destructive-progress-color-border",
+      "tokenValue": "var(--ids-color-error-weak)",
+      "children": [
+        {
+          "id": "id-1718638612579-7251",
+          "tokenName": "--ids-color-error-weak",
+          "tokenValue": "var(--ids-color-red-10)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "Surface colors",
+          "children": [
+            {
+              "id": "id-1718638612579-7252",
+              "tokenName": "--ids-color-red-10",
+              "tokenValue": "#fbe7e8",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#fbe7e8",
+              "tokenNameCSS": "var(--ids-color-red-10)"
+            }
+          ],
+          "colorValue": "#fbe7e8",
+          "tokenNameCSS": "var(--ids-color-error-weak)"
+        }
+      ],
+      "type": "Component",
+      "component": "Loading Indicator",
+      "colorValue": "#fbe7e8",
+      "tokenNameCSS": "var(--ids-loading-indicator-primary-destructive-progress-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7257",
+      "tokenName": "--ids-loading-indicator-primary-destructive-overall-color-border",
+      "tokenValue": "var(--ids-color-red-50)",
+      "children": [
+        {
+          "id": "id-1718638612579-7255",
+          "tokenName": "--ids-color-red-50",
+          "tokenValue": "#df3539",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#df3539",
+          "tokenNameCSS": "var(--ids-color-red-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Loading Indicator",
+      "colorValue": "#df3539",
+      "tokenNameCSS": "var(--ids-loading-indicator-primary-destructive-overall-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7261",
+      "tokenName": "--ids-loading-indicator-destructive-progress-color-border",
+      "tokenValue": "var(--ids-color-error-default)",
+      "children": [
+        {
+          "id": "id-1718638612579-7258",
+          "tokenName": "--ids-color-error-default",
+          "tokenValue": "var(--ids-color-red-80)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "Surface colors",
+          "children": [
+            {
+              "id": "id-1718638612579-7259",
+              "tokenName": "--ids-color-red-80",
+              "tokenValue": "#a30d11",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#a30d11",
+              "tokenNameCSS": "var(--ids-color-red-80)"
+            }
+          ],
+          "colorValue": "#a30d11",
+          "tokenNameCSS": "var(--ids-color-error-default)"
+        }
+      ],
+      "type": "Component",
+      "component": "Loading Indicator",
+      "colorValue": "#a30d11",
+      "tokenNameCSS": "var(--ids-loading-indicator-destructive-progress-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7264",
+      "tokenName": "--ids-loading-indicator-tertiary-destructive-color-border",
+      "tokenValue": "var(--ids-color-red-20)",
+      "children": [
+        {
+          "id": "id-1718638612579-7262",
+          "tokenName": "--ids-color-red-20",
+          "tokenValue": "#f5c3c4",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5c3c4",
+          "tokenNameCSS": "var(--ids-color-red-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Loading Indicator",
+      "colorValue": "#f5c3c4",
+      "tokenNameCSS": "var(--ids-loading-indicator-tertiary-destructive-color-border)"
+    },
+    {
+      "id": "id-1718638612579-7267",
+      "tokenName": "--ids-masthead-color-background",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1718638612579-7265",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#3b3b3f",
+          "tokenNameCSS": "var(--ids-color-gray-80)"
+        }
+      ],
+      "type": "Component",
+      "component": "Masthead",
+      "colorValue": "#3b3b3f",
+      "tokenNameCSS": "var(--ids-masthead-color-background)"
+    },
+    {
+      "id": "id-1718638612579-7270",
+      "tokenName": "--ids-masthead-color-text",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612579-7268",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Masthead",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-masthead-color-text)"
+    },
+    {
+      "id": "id-1718638612580-7272",
+      "tokenName": "--ids-modal-color-border",
+      "tokenValue": "var(--ids-popup-color-60)",
+      "type": "Component",
+      "component": "Modal",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-modal-color-border)"
+    },
+    {
+      "id": "id-1718638612580-7274",
+      "tokenName": "--ids-modal-shadow-default",
+      "tokenValue": "0 2px 5px rgb(239 239 240 / 0.2)",
+      "type": "Component",
+      "component": "Modal",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-modal-shadow-default)"
+    },
+    {
+      "id": "id-1718638612580-7277",
+      "tokenName": "--ids-modal-footer-color-border",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1718638612580-7275",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#8e8e95",
+          "tokenNameCSS": "var(--ids-color-gray-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Modal",
+      "colorValue": "#8e8e95",
+      "tokenNameCSS": "var(--ids-modal-footer-color-border)"
+    },
+    {
+      "id": "id-1718638612580-7281",
+      "tokenName": "--ids-modal-button-color-default",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1718638612580-7278",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Primary Color",
+          "children": [
+            {
+              "id": "id-1718638612580-7279",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#0072ed",
+              "tokenNameCSS": "var(--ids-color-blue-60)"
+            }
+          ],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-primary)"
+        }
+      ],
+      "type": "Component",
+      "component": "Modal",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-modal-button-color-default)"
+    },
+    {
+      "id": "id-1718638612580-7286",
+      "tokenName": "--ids-modal-button-color-hover",
+      "tokenValue": "var(--ids-color-primary-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7282",
+          "tokenName": "--ids-color-primary-90",
+          "tokenValue": "var(--ids-color-theme-90)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Color Progressions",
+          "children": [
+            {
+              "id": "id-1718638612580-7284",
+              "tokenName": "--ids-color-theme-90",
+              "tokenValue": "var(--ids-color-blue-90)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "Theme colors",
+              "children": [
+                {
+                  "id": "id-1718638612580-7283",
+                  "tokenName": "--ids-color-blue-90",
+                  "tokenValue": "#004a99",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#004a99",
+                  "tokenNameCSS": "var(--ids-color-blue-90)"
+                }
+              ],
+              "colorValue": "#004a99",
+              "tokenNameCSS": "var(--ids-color-theme-90)"
+            }
+          ],
+          "colorValue": "#004a99",
+          "tokenNameCSS": "var(--ids-color-primary-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Modal",
+      "colorValue": "#004a99",
+      "tokenNameCSS": "var(--ids-modal-button-color-hover)"
+    },
+    {
+      "id": "id-1718638612580-7288",
+      "tokenName": "--ids-modal-button-secondary-color-default",
+      "tokenValue": "var(--ids-color-grey-80)",
+      "type": "Component",
+      "component": "Modal",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-modal-button-secondary-color-default)"
+    },
+    {
+      "id": "id-1718638612580-7290",
+      "tokenName": "--ids-modal-button-secondary-color-hover",
+      "tokenValue": "var(--ids-color-grey-100)",
+      "type": "Component",
+      "component": "Modal",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-modal-button-secondary-color-hover)"
+    },
+    {
+      "id": "id-1718638612580-7294",
+      "tokenName": "--ids-modal-shadow-focus",
+      "tokenValue": "0 0 3px 1px var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1718638612580-7291",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Primary Color",
+          "children": [
+            {
+              "id": "id-1718638612580-7292",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#0072ed",
+              "tokenNameCSS": "var(--ids-color-blue-60)"
+            }
+          ],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-primary)"
+        }
+      ],
+      "type": "Component",
+      "component": "Modal",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-modal-shadow-focus)"
+    },
+    {
+      "id": "id-1718638612580-7297",
+      "tokenName": "--ids-module-nav-background-color",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612580-7295",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav ",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-module-nav-background-color)"
+    },
+    {
+      "id": "id-1718638612580-7300",
+      "tokenName": "--ids-module-nav-border-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612580-7298",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav ",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-module-nav-border-color)"
+    },
+    {
+      "id": "id-1718638612580-7303",
+      "tokenName": "--ids-module-nav-text-color",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1718638612580-7301",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#525257",
+          "tokenNameCSS": "var(--ids-color-gray-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav ",
+      "colorValue": "#525257",
+      "tokenNameCSS": "var(--ids-module-nav-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7306",
+      "tokenName": "--ids-module-nav-detail-background-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612580-7304",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav ",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-module-nav-detail-background-color)"
+    },
+    {
+      "id": "id-1718638612580-7309",
+      "tokenName": "--ids-module-nav-separator-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612580-7307",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Accordion Separators",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-module-nav-separator-color)"
+    },
+    {
+      "id": "id-1718638612580-7312",
+      "tokenName": "--ids-module-nav-input-bg-color",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612580-7310",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Input Field ",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-module-nav-input-bg-color)"
+    },
+    {
+      "id": "id-1718638612580-7315",
+      "tokenName": "--ids-module-nav-input-border-color",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612580-7313",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Input Field ",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-module-nav-input-border-color)"
+    },
+    {
+      "id": "id-1718638612580-7318",
+      "tokenName": "--ids-module-nav-input-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612580-7316",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Input Field ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-module-nav-input-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7321",
+      "tokenName": "--ids-module-nav-input-focus-bg-color",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1718638612580-7319",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5f5f5",
+          "tokenNameCSS": "var(--ids-color-gray-10)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Input Field ",
+      "colorValue": "#f5f5f5",
+      "tokenNameCSS": "var(--ids-module-nav-input-focus-bg-color)"
+    },
+    {
+      "id": "id-1718638612580-7324",
+      "tokenName": "--ids-module-nav-input-hover-bg-color",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612580-7322",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Input Field ",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-module-nav-input-hover-bg-color)"
+    },
+    {
+      "id": "id-1718638612580-7327",
+      "tokenName": "--ids-module-nav-item-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612580-7325",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Item ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-module-nav-item-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7330",
+      "tokenName": "--ids-module-nav-item-hover-bg-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612580-7328",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Item ",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-module-nav-item-hover-bg-color)"
+    },
+    {
+      "id": "id-1718638612580-7333",
+      "tokenName": "--ids-module-nav-item-hover-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612580-7331",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Item ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-module-nav-item-hover-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7336",
+      "tokenName": "--ids-module-nav-item-selected-bg-color",
+      "tokenValue": "var(--ids-color-blue-20)",
+      "children": [
+        {
+          "id": "id-1718638612580-7334",
+          "tokenName": "--ids-color-blue-20",
+          "tokenValue": "#bedcfa",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bedcfa",
+          "tokenNameCSS": "var(--ids-color-blue-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Item ",
+      "colorValue": "#bedcfa",
+      "tokenNameCSS": "var(--ids-module-nav-item-selected-bg-color)"
+    },
+    {
+      "id": "id-1718638612580-7339",
+      "tokenName": "--ids-module-nav-item-selected-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612580-7337",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Item ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-module-nav-item-selected-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7342",
+      "tokenName": "--ids-module-nav-switcher-dropdown-bg-color",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1718638612580-7340",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5f5f5",
+          "tokenNameCSS": "var(--ids-color-gray-10)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Switcher ",
+      "colorValue": "#f5f5f5",
+      "tokenNameCSS": "var(--ids-module-nav-switcher-dropdown-bg-color)"
+    },
+    {
+      "id": "id-1718638612580-7345",
+      "tokenName": "--ids-module-nav-switcher-dropdown-item-focus-bg-color",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612580-7343",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Switcher ",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-module-nav-switcher-dropdown-item-focus-bg-color)"
+    },
+    {
+      "id": "id-1718638612580-7348",
+      "tokenName": "--ids-module-nav-switcher-dropdown-item-text-color",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7346",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Switcher ",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-module-nav-switcher-dropdown-item-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7351",
+      "tokenName": "--ids-module-nav-search-input-bg-color",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612580-7349",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Search ",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-module-nav-search-input-bg-color)"
+    },
+    {
+      "id": "id-1718638612580-7354",
+      "tokenName": "--ids-module-nav-search-input-text-color",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7352",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Search ",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-module-nav-search-input-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7357",
+      "tokenName": "--ids-module-nav-search-input-focused-bg-color",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612580-7355",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Search ",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-module-nav-search-input-focused-bg-color)"
+    },
+    {
+      "id": "id-1718638612580-7360",
+      "tokenName": "--ids-module-nav-search-input-focused-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612580-7358",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Search ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-module-nav-search-input-focused-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7363",
+      "tokenName": "--ids-module-nav-search-input-placeholder-text-color",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612580-7361",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Search ",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-module-nav-search-input-placeholder-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7366",
+      "tokenName": "--ids-module-nav-search-input-focused-placeholder-text-color",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1718638612580-7364",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#8e8e95",
+          "tokenNameCSS": "var(--ids-color-gray-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Search ",
+      "colorValue": "#8e8e95",
+      "tokenNameCSS": "var(--ids-module-nav-search-input-focused-placeholder-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7368",
+      "tokenName": "--ids-module-nav-settings-menu-box-shadow",
+      "tokenValue": "0 0 8px 1px rgba(0 0 0 / 0.08)",
+      "type": "Component",
+      "component": "Module Nav Settings Menu ",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-module-nav-settings-menu-box-shadow)"
+    },
+    {
+      "id": "id-1718638612580-7371",
+      "tokenName": "--ids-module-nav-settings-menu-item-text-color",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1718638612580-7369",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#525257",
+          "tokenNameCSS": "var(--ids-color-gray-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Settings Menu ",
+      "colorValue": "#525257",
+      "tokenNameCSS": "var(--ids-module-nav-settings-menu-item-text-color)"
+    },
+    {
+      "id": "id-1718638612580-7374",
+      "tokenName": "--ids-module-nav-settings-menu-item-icon-color",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1718638612580-7372",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#525257",
+          "tokenNameCSS": "var(--ids-color-gray-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Settings Menu ",
+      "colorValue": "#525257",
+      "tokenNameCSS": "var(--ids-module-nav-settings-menu-item-icon-color)"
+    },
+    {
+      "id": "id-1718638612580-7377",
+      "tokenName": "--ids-module-nav-settings-menu-separator-color",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612580-7375",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Module Nav Settings Menu ",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-module-nav-settings-menu-separator-color)"
+    },
+    {
+      "id": "id-1718638612580-7380",
+      "tokenName": "--ids-popup-menu-color-text-default",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7378",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Popup Menu",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-popup-menu-color-text-default)"
+    },
+    {
+      "id": "id-1718638612580-7383",
+      "tokenName": "--ids-menu-header-color-text",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612580-7381",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Menu",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-menu-header-color-text)"
+    },
+    {
+      "id": "id-1718638612580-7386",
+      "tokenName": "--ids-menu-item-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1718638612580-7384",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#8e8e95",
+          "tokenNameCSS": "var(--ids-color-gray-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Menu",
+      "colorValue": "#8e8e95",
+      "tokenNameCSS": "var(--ids-menu-item-color-text-disabled)"
+    },
+    {
+      "id": "id-1718638612580-7389",
+      "tokenName": "--ids-menu-item-highlight-color",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612580-7387",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Menu",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-menu-item-highlight-color)"
+    },
+    {
+      "id": "id-1718638612580-7392",
+      "tokenName": "--ids-menu-item-check-color",
+      "tokenValue": "var(--ids-color-blue-80)",
+      "children": [
+        {
+          "id": "id-1718638612580-7390",
+          "tokenName": "--ids-color-blue-80",
+          "tokenValue": "#0054b1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#0054b1",
+          "tokenNameCSS": "var(--ids-color-blue-80)"
+        }
+      ],
+      "type": "Component",
+      "component": "Menu",
+      "colorValue": "#0054b1",
+      "tokenNameCSS": "var(--ids-menu-item-check-color)"
+    },
+    {
+      "id": "id-1718638612580-7395",
+      "tokenName": "--ids-calendar-month-view-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612580-7393",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Month View",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-calendar-month-view-color-border)"
+    },
+    {
+      "id": "id-1718638612580-7397",
+      "tokenName": "--ids-calendar-month-view-color-background-hover",
+      "tokenValue": "rgba(74 74 74 / 0.1)",
+      "type": "Component",
+      "component": "Month View",
+      "colorValue": "rgba(74 74 74 / 0.1)",
+      "tokenNameCSS": "var(--ids-calendar-month-view-color-background-hover)"
+    },
+    {
+      "id": "id-1718638612580-7400",
+      "tokenName": "--ids-calendar-month-view-color-background-selected",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1718638612580-7398",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5f5f5",
+          "tokenNameCSS": "var(--ids-color-gray-10)"
+        }
+      ],
+      "type": "Component",
+      "component": "Month View",
+      "colorValue": "#f5f5f5",
+      "tokenNameCSS": "var(--ids-calendar-month-view-color-background-selected)"
+    },
+    {
+      "id": "id-1718638612580-7403",
+      "tokenName": "--ids-calendar-month-view-color-background-disabled",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612580-7401",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Month View",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-calendar-month-view-color-background-disabled)"
+    },
+    {
+      "id": "id-1718638612580-7408",
+      "tokenName": "--ids-chart-pie-color-text",
+      "tokenValue": "var(--ids-color-text-label)",
+      "children": [
+        {
+          "id": "id-1718638612580-7404",
+          "tokenName": "--ids-color-text-label",
+          "tokenValue": "var(--ids-color-foreground-default-default)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Text Colors",
+          "children": [
+            {
+              "id": "id-1718638612580-7406",
+              "tokenName": "--ids-color-foreground-default-default",
+              "tokenValue": "var(--ids-color-black-100)",
+              "type": "Semantic",
+              "source": "semanticContrastTokens",
+              "component": "Surface colors",
+              "children": [
+                {
+                  "id": "id-1718638612580-7405",
+                  "tokenName": "--ids-color-black-100",
+                  "tokenValue": "#000000",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#000000",
+                  "tokenNameCSS": "var(--ids-color-black-100)"
+                }
+              ],
+              "colorValue": "#000000",
+              "tokenNameCSS": "var(--ids-color-foreground-default-default)"
+            }
+          ],
+          "colorValue": "#000000",
+          "tokenNameCSS": "var(--ids-color-text-label)"
+        }
+      ],
+      "type": "Component",
+      "component": "Charts ",
+      "colorValue": "#000000",
+      "tokenNameCSS": "var(--ids-chart-pie-color-text)"
+    },
+    {
+      "id": "id-1718638612580-7411",
+      "tokenName": "--ids-progress-chart-label-color-text",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7409",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Progress Chart",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-progress-chart-label-color-text)"
+    },
+    {
+      "id": "id-1718638612580-7414",
+      "tokenName": "--ids-progress-chart-total-color-background",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612580-7412",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Progress Chart",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-progress-chart-total-color-background)"
+    },
+    {
+      "id": "id-1718638612580-7417",
+      "tokenName": "--ids-progress-chart-bar-progress-color-background",
+      "tokenValue": "var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7415",
+          "tokenName": "--ids-color-blue-90",
+          "tokenValue": "#004a99",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#004a99",
+          "tokenNameCSS": "var(--ids-color-blue-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Progress Chart",
+      "colorValue": "#004a99",
+      "tokenNameCSS": "var(--ids-progress-chart-bar-progress-color-background)"
+    },
+    {
+      "id": "id-1718638612580-7420",
+      "tokenName": "--ids-scroll-view-color-icon-default",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7418",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Scroll View",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-scroll-view-color-icon-default)"
+    },
+    {
+      "id": "id-1718638612580-7425",
+      "tokenName": "--ids-scroll-view-color-icon-selected",
+      "tokenValue": "var(--ids-color-primary-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7421",
+          "tokenName": "--ids-color-primary-90",
+          "tokenValue": "var(--ids-color-theme-90)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Color Progressions",
+          "children": [
+            {
+              "id": "id-1718638612580-7423",
+              "tokenName": "--ids-color-theme-90",
+              "tokenValue": "var(--ids-color-blue-90)",
+              "type": "Semantic",
+              "source": "themeColorTokens",
+              "component": "Theme colors",
+              "children": [
+                {
+                  "id": "id-1718638612580-7422",
+                  "tokenName": "--ids-color-blue-90",
+                  "tokenValue": "#004a99",
+                  "type": "Core",
+                  "source": "coreTokens",
+                  "component": "Colors",
+                  "children": [],
+                  "colorValue": "#004a99",
+                  "tokenNameCSS": "var(--ids-color-blue-90)"
+                }
+              ],
+              "colorValue": "#004a99",
+              "tokenNameCSS": "var(--ids-color-theme-90)"
+            }
+          ],
+          "colorValue": "#004a99",
+          "tokenNameCSS": "var(--ids-color-primary-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Scroll View",
+      "colorValue": "#004a99",
+      "tokenNameCSS": "var(--ids-scroll-view-color-icon-selected)"
+    },
+    {
+      "id": "id-1718638612580-7428",
+      "tokenName": "--ids-slider-tick-color-background-default",
+      "tokenValue": "var(--ids-color-blue-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7426",
+          "tokenName": "--ids-color-blue-60",
+          "tokenValue": "#0072ed",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-blue-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-slider-tick-color-background-default)"
+    },
+    {
+      "id": "id-1718638612580-7431",
+      "tokenName": "--ids-slider-thumb-color-background-default",
+      "tokenValue": "var(--ids-color-blue-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7429",
+          "tokenName": "--ids-color-blue-60",
+          "tokenValue": "#0072ed",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-blue-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-slider-thumb-color-background-default)"
+    },
+    {
+      "id": "id-1718638612580-7433",
+      "tokenName": "--ids-slider-thumb-color-shadow-default",
+      "tokenValue": "rgba(0 74 153 / 0.1)",
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "rgba(0 74 153 / 0.1)",
+      "tokenNameCSS": "var(--ids-slider-thumb-color-shadow-default)"
+    },
+    {
+      "id": "id-1718638612580-7436",
+      "tokenName": "--ids-slider-thumb-color-border-default",
+      "tokenValue": "var(--ids-color-blue-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7434",
+          "tokenName": "--ids-color-blue-60",
+          "tokenValue": "#0072ed",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-blue-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-slider-thumb-color-border-default)"
+    },
+    {
+      "id": "id-1718638612580-7439",
+      "tokenName": "--ids-slider-track-color-background-default",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7437",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-slider-track-color-background-default)"
+    },
+    {
+      "id": "id-1718638612580-7442",
+      "tokenName": "--ids-slider-track-color-background-progress",
+      "tokenValue": "var(--ids-color-blue-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7440",
+          "tokenName": "--ids-color-blue-60",
+          "tokenValue": "#0072ed",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-blue-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-slider-track-color-background-progress)"
+    },
+    {
+      "id": "id-1718638612580-7445",
+      "tokenName": "--ids-slider-tooltip-color-background",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7443",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-slider-tooltip-color-background)"
+    },
+    {
+      "id": "id-1718638612580-7448",
+      "tokenName": "--ids-slider-color-disabled",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612580-7446",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-slider-color-disabled)"
+    },
+    {
+      "id": "id-1718638612580-7451",
+      "tokenName": "--ids-slider-tick-color-background-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7449",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-slider-tick-color-background-disabled)"
+    },
+    {
+      "id": "id-1718638612580-7454",
+      "tokenName": "--ids-slider-thumb-color-background-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7452",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-slider-thumb-color-background-disabled)"
+    },
+    {
+      "id": "id-1718638612580-7457",
+      "tokenName": "--ids-slider-track-color-background-disabled",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1718638612580-7455",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#8e8e95",
+          "tokenNameCSS": "var(--ids-color-gray-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#8e8e95",
+      "tokenNameCSS": "var(--ids-slider-track-color-background-disabled)"
+    },
+    {
+      "id": "id-1718638612580-7460",
+      "tokenName": "--ids-slider-track-color-background-progress-disabled",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7458",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-slider-track-color-background-progress-disabled)"
+    },
+    {
+      "id": "id-1718638612580-7463",
+      "tokenName": "--ids-slider-color-readonly",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612580-7461",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-slider-color-readonly)"
+    },
+    {
+      "id": "id-1718638612580-7466",
+      "tokenName": "--ids-slider-tick-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1718638612580-7464",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#3b3b3f",
+          "tokenNameCSS": "var(--ids-color-gray-80)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#3b3b3f",
+      "tokenNameCSS": "var(--ids-slider-tick-color-background-readonly)"
+    },
+    {
+      "id": "id-1718638612580-7469",
+      "tokenName": "--ids-slider-thumb-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1718638612580-7467",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#3b3b3f",
+          "tokenNameCSS": "var(--ids-color-gray-80)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#3b3b3f",
+      "tokenNameCSS": "var(--ids-slider-thumb-color-background-readonly)"
+    },
+    {
+      "id": "id-1718638612580-7471",
+      "tokenName": "--ids-slider-thumb-color-shadow-readonly",
+      "tokenValue": "rgba(71 71 76 / 0.1)",
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "rgba(71 71 76 / 0.1)",
+      "tokenNameCSS": "var(--ids-slider-thumb-color-shadow-readonly)"
+    },
+    {
+      "id": "id-1718638612580-7474",
+      "tokenName": "--ids-slider-thumb-color-border-readonly",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1718638612580-7472",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#3b3b3f",
+          "tokenNameCSS": "var(--ids-color-gray-80)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#3b3b3f",
+      "tokenNameCSS": "var(--ids-slider-thumb-color-border-readonly)"
+    },
+    {
+      "id": "id-1718638612580-7477",
+      "tokenName": "--ids-slider-track-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7475",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-slider-track-color-background-readonly)"
+    },
+    {
+      "id": "id-1718638612580-7480",
+      "tokenName": "--ids-slider-track-progress-color-background-readonly",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1718638612580-7478",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#3b3b3f",
+          "tokenNameCSS": "var(--ids-color-gray-80)"
+        }
+      ],
+      "type": "Component",
+      "component": "Slider",
+      "colorValue": "#3b3b3f",
+      "tokenNameCSS": "var(--ids-slider-track-progress-color-background-readonly)"
+    },
+    {
+      "id": "id-1718638612580-7483",
+      "tokenName": "--ids-step-chart-color-background-default",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612580-7481",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Step Chart",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-step-chart-color-background-default)"
+    },
+    {
+      "id": "id-1718638612580-7487",
+      "tokenName": "--ids-step-chart-color-background-complete",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1718638612580-7484",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Primary Color",
+          "children": [
+            {
+              "id": "id-1718638612580-7485",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#0072ed",
+              "tokenNameCSS": "var(--ids-color-blue-60)"
+            }
+          ],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-primary)"
+        }
+      ],
+      "type": "Component",
+      "component": "Step Chart",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-step-chart-color-background-complete)"
+    },
+    {
+      "id": "id-1718638612580-7490",
+      "tokenName": "--ids-swaplist-search-color-text-default",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612580-7488",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Swap List",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-swaplist-search-color-text-default)"
+    },
+    {
+      "id": "id-1718638612580-7493",
+      "tokenName": "--ids-swaplist-search-color-text-placeholder",
+      "tokenValue": "var(--ids-color-gray-70)",
+      "children": [
+        {
+          "id": "id-1718638612580-7491",
+          "tokenName": "--ids-color-gray-70",
+          "tokenValue": "#525257",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#525257",
+          "tokenNameCSS": "var(--ids-color-gray-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "Swap List",
+      "colorValue": "#525257",
+      "tokenNameCSS": "var(--ids-swaplist-search-color-text-placeholder)"
+    },
+    {
+      "id": "id-1718638612580-7496",
+      "tokenName": "--ids-swipe-action-color-background-right-active",
+      "tokenValue": "var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7494",
+          "tokenName": "--ids-color-blue-90",
+          "tokenValue": "#004a99",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#004a99",
+          "tokenNameCSS": "var(--ids-color-blue-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Swipe Action",
+      "colorValue": "#004a99",
+      "tokenNameCSS": "var(--ids-swipe-action-color-background-right-active)"
+    },
+    {
+      "id": "id-1718638612580-7499",
+      "tokenName": "--ids-swipe-action-color-background-right",
+      "tokenValue": "var(--ids-color-blue-70)",
+      "children": [
+        {
+          "id": "id-1718638612580-7497",
+          "tokenName": "--ids-color-blue-70",
+          "tokenValue": "#0066d4",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#0066d4",
+          "tokenNameCSS": "var(--ids-color-blue-70)"
+        }
+      ],
+      "type": "Component",
+      "component": "Swipe Action",
+      "colorValue": "#0066d4",
+      "tokenNameCSS": "var(--ids-swipe-action-color-background-right)"
+    },
+    {
+      "id": "id-1718638612580-7502",
+      "tokenName": "--ids-swipe-action-color-background-right-hover",
+      "tokenValue": "var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7500",
+          "tokenName": "--ids-color-blue-90",
+          "tokenValue": "#004a99",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#004a99",
+          "tokenNameCSS": "var(--ids-color-blue-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Swipe Action",
+      "colorValue": "#004a99",
+      "tokenNameCSS": "var(--ids-swipe-action-color-background-right-hover)"
+    },
+    {
+      "id": "id-1718638612580-7505",
+      "tokenName": "--ids-time-picker-popup-button-color-border",
+      "tokenValue": "var(--ids-color-gray-60)",
+      "children": [
+        {
+          "id": "id-1718638612580-7503",
+          "tokenName": "--ids-color-gray-60",
+          "tokenValue": "#6f6f76",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#6f6f76",
+          "tokenNameCSS": "var(--ids-color-gray-60)"
+        }
+      ],
+      "type": "Component",
+      "component": "Time Picker",
+      "colorValue": "#6f6f76",
+      "tokenNameCSS": "var(--ids-time-picker-popup-button-color-border)"
+    },
+    {
+      "id": "id-1718638612580-7508",
+      "tokenName": "--ids-time-picker-popup-button-color-text-default",
+      "tokenValue": "var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7506",
+          "tokenName": "--ids-color-blue-90",
+          "tokenValue": "#004a99",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#004a99",
+          "tokenNameCSS": "var(--ids-color-blue-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Time Picker",
+      "colorValue": "#004a99",
+      "tokenNameCSS": "var(--ids-time-picker-popup-button-color-text-default)"
+    },
+    {
+      "id": "id-1718638612580-7511",
+      "tokenName": "--ids-time-picker-popup-colons-color-text",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612580-7509",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Time Picker",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-time-picker-popup-colons-color-text)"
+    },
+    {
+      "id": "id-1718638612580-7514",
+      "tokenName": "--ids-toolbar-formatter-color-background",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612580-7512",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Toolbar ",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-toolbar-formatter-color-background)"
+    },
+    {
+      "id": "id-1718638612581-7517",
+      "tokenName": "--ids-toolbar-formatter-color-border-bottom",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612580-7515",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Toolbar ",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-toolbar-formatter-color-border-bottom)"
+    },
+    {
+      "id": "id-1718638612581-7520",
+      "tokenName": "--ids-trigger-field-icon-color",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1718638612581-7518",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#3b3b3f",
+          "tokenNameCSS": "var(--ids-color-gray-80)"
+        }
+      ],
+      "type": "Component",
+      "component": "Trigger Field",
+      "colorValue": "#3b3b3f",
+      "tokenNameCSS": "var(--ids-trigger-field-icon-color)"
+    },
+    {
+      "id": "id-1718638612581-7523",
+      "tokenName": "--ids-tree-node-color-text-disabled",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1718638612581-7521",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#8e8e95",
+          "tokenNameCSS": "var(--ids-color-gray-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Tree Node",
+      "colorValue": "#8e8e95",
+      "tokenNameCSS": "var(--ids-tree-node-color-text-disabled)"
+    },
+    {
+      "id": "id-1718638612581-7526",
+      "tokenName": "--ids-tree-node-color-border-focus",
+      "tokenValue": "var(--ids-color-blue-90)",
+      "children": [
+        {
+          "id": "id-1718638612581-7524",
+          "tokenName": "--ids-color-blue-90",
+          "tokenValue": "#004a99",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#004a99",
+          "tokenNameCSS": "var(--ids-color-blue-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Tree Node",
+      "colorValue": "#004a99",
+      "tokenNameCSS": "var(--ids-tree-node-color-border-focus)"
+    },
+    {
+      "id": "id-1718638612581-7528",
+      "tokenName": "--ids-tree-node-shadow-focus",
+      "tokenValue": "0 0 4px 2px rgb(41  41 41 / 0.3)",
+      "type": "Component",
+      "component": "Tree Node",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-tree-node-shadow-focus)"
+    },
+    {
+      "id": "id-1718638612581-7531",
+      "tokenName": "--ids-tree-node-color-border-hover",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612581-7529",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Tree Node",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-tree-node-color-border-hover)"
+    },
+    {
+      "id": "id-1718638612581-7534",
+      "tokenName": "--ids-tree-node-color-text-hover",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612581-7532",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Tree Node",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-tree-node-color-text-hover)"
+    },
+    {
+      "id": "id-1718638612581-7537",
+      "tokenName": "--ids-tree-node-color-background-selected",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612581-7535",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Tree Node",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-tree-node-color-background-selected)"
+    },
+    {
+      "id": "id-1718638612581-7540",
+      "tokenName": "--ids-tree-node-color-text-selected",
+      "tokenValue": "var(--ids-color-gray-100)",
+      "children": [
+        {
+          "id": "id-1718638612581-7538",
+          "tokenName": "--ids-color-gray-100",
+          "tokenValue": "#161618",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#161618",
+          "tokenNameCSS": "var(--ids-color-gray-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Tree Node",
+      "colorValue": "#161618",
+      "tokenNameCSS": "var(--ids-tree-node-color-text-selected)"
+    },
+    {
+      "id": "id-1718638612581-7543",
+      "tokenName": "--ids-tree-node-color-text-default",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612581-7541",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Tree Node",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-tree-node-color-text-default)"
+    },
+    {
+      "id": "id-1718638612581-7546",
+      "tokenName": "--ids-tree-treemap-color-border",
+      "tokenValue": "var(--ids-color-gray-10)",
+      "children": [
+        {
+          "id": "id-1718638612581-7544",
+          "tokenName": "--ids-color-gray-10",
+          "tokenValue": "#f5f5f5",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#f5f5f5",
+          "tokenNameCSS": "var(--ids-color-gray-10)"
+        }
+      ],
+      "type": "Component",
+      "component": "Treemap",
+      "colorValue": "#f5f5f5",
+      "tokenNameCSS": "var(--ids-tree-treemap-color-border)"
+    },
+    {
+      "id": "id-1718638612581-7549",
+      "tokenName": "--ids-tree-treemap-title-color-background",
+      "tokenValue": "var(--ids-color-gray-80)",
+      "children": [
+        {
+          "id": "id-1718638612581-7547",
+          "tokenName": "--ids-color-gray-80",
+          "tokenValue": "#3b3b3f",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#3b3b3f",
+          "tokenNameCSS": "var(--ids-color-gray-80)"
+        }
+      ],
+      "type": "Component",
+      "component": "Treemap",
+      "colorValue": "#3b3b3f",
+      "tokenNameCSS": "var(--ids-tree-treemap-title-color-background)"
+    },
+    {
+      "id": "id-1718638612581-7552",
+      "tokenName": "--ids-tree-treemap-title-color-text",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612581-7550",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Treemap",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-tree-treemap-title-color-text)"
+    },
+    {
+      "id": "id-1718638612581-7555",
+      "tokenName": "--ids-upload-advanced-color-background-default",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612581-7553",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Upload Advanced",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-upload-advanced-color-background-default)"
+    },
+    {
+      "id": "id-1718638612581-7558",
+      "tokenName": "--ids-upload-advanced-color-background-hover",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612581-7556",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Upload Advanced",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-upload-advanced-color-background-hover)"
+    },
+    {
+      "id": "id-1718638612581-7561",
+      "tokenName": "--ids-upload-advanced-color-border-hover",
+      "tokenValue": "var(--ids-color-gray-50)",
+      "children": [
+        {
+          "id": "id-1718638612581-7559",
+          "tokenName": "--ids-color-gray-50",
+          "tokenValue": "#8e8e95",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#8e8e95",
+          "tokenNameCSS": "var(--ids-color-gray-50)"
+        }
+      ],
+      "type": "Component",
+      "component": "Upload Advanced",
+      "colorValue": "#8e8e95",
+      "tokenNameCSS": "var(--ids-upload-advanced-color-border-hover)"
+    },
+    {
+      "id": "id-1718638612581-7564",
+      "tokenName": "--ids-upload-advanced-color-text-hover",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612581-7562",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Upload Advanced",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-upload-advanced-color-text-hover)"
+    },
+    {
+      "id": "id-1718638612581-7567",
+      "tokenName": "--ids-week-view-color-background",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612581-7565",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Week View",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-week-view-color-background)"
+    },
+    {
+      "id": "id-1718638612581-7570",
+      "tokenName": "--ids-week-view-color-border",
+      "tokenValue": "var(--ids-color-gray-30)",
+      "children": [
+        {
+          "id": "id-1718638612581-7568",
+          "tokenName": "--ids-color-gray-30",
+          "tokenValue": "#c5c5c9",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#c5c5c9",
+          "tokenNameCSS": "var(--ids-color-gray-30)"
+        }
+      ],
+      "type": "Component",
+      "component": "Week View",
+      "colorValue": "#c5c5c9",
+      "tokenNameCSS": "var(--ids-week-view-color-border)"
+    },
+    {
+      "id": "id-1718638612581-7573",
+      "tokenName": "--ids-week-view-header-color-background",
+      "tokenValue": "var(--ids-color-white-100)",
+      "children": [
+        {
+          "id": "id-1718638612581-7571",
+          "tokenName": "--ids-color-white-100",
+          "tokenValue": "#ffffff",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#ffffff",
+          "tokenNameCSS": "var(--ids-color-white-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Week View",
+      "colorValue": "#ffffff",
+      "tokenNameCSS": "var(--ids-week-view-header-color-background)"
+    },
+    {
+      "id": "id-1718638612581-7576",
+      "tokenName": "--ids-week-view-row-odd-color-border",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612581-7574",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Week View",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-week-view-row-odd-color-border)"
+    },
+    {
+      "id": "id-1718638612581-7579",
+      "tokenName": "--ids-widget-header-title-color",
+      "tokenValue": "var(--ids-color-black-100)",
+      "children": [
+        {
+          "id": "id-1718638612581-7577",
+          "tokenName": "--ids-color-black-100",
+          "tokenValue": "#000000",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#000000",
+          "tokenNameCSS": "var(--ids-color-black-100)"
+        }
+      ],
+      "type": "Component",
+      "component": "Widget",
+      "colorValue": "#000000",
+      "tokenNameCSS": "var(--ids-widget-header-title-color)"
+    },
+    {
+      "id": "id-1718638612581-7582",
+      "tokenName": "--ids-widget-color-border-hover",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612581-7580",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Widget",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-widget-color-border-hover)"
+    },
+    {
+      "id": "id-1718638612581-7584",
+      "tokenName": "--ids-widget-color-shadow-hover",
+      "tokenValue": "0 2px 4px 1px rgba(0 0 0 / 0.15)",
+      "type": "Component",
+      "component": "Widget",
+      "colorValue": null,
+      "tokenNameCSS": "var(--ids-widget-color-shadow-hover)"
+    },
+    {
+      "id": "id-1718638612581-7587",
+      "tokenName": "--ids-widget-search-field-color-background",
+      "tokenValue": "var(--ids-color-gray-20)",
+      "children": [
+        {
+          "id": "id-1718638612581-7585",
+          "tokenName": "--ids-color-gray-20",
+          "tokenValue": "#e0e0e1",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#e0e0e1",
+          "tokenNameCSS": "var(--ids-color-gray-20)"
+        }
+      ],
+      "type": "Component",
+      "component": "Widget",
+      "colorValue": "#e0e0e1",
+      "tokenNameCSS": "var(--ids-widget-search-field-color-background)"
+    },
+    {
+      "id": "id-1718638612581-7591",
+      "tokenName": "--ids-wizard-step-color-default",
+      "tokenValue": "var(--ids-color-primary)",
+      "children": [
+        {
+          "id": "id-1718638612581-7588",
+          "tokenName": "--ids-color-primary",
+          "tokenValue": "var(--ids-color-blue-60)",
+          "type": "Semantic",
+          "source": "defaultCoreTheme",
+          "component": "Primary Color",
+          "children": [
+            {
+              "id": "id-1718638612581-7589",
+              "tokenName": "--ids-color-blue-60",
+              "tokenValue": "#0072ed",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": "#0072ed",
+              "tokenNameCSS": "var(--ids-color-blue-60)"
+            }
+          ],
+          "colorValue": "#0072ed",
+          "tokenNameCSS": "var(--ids-color-primary)"
+        }
+      ],
+      "type": "Component",
+      "component": "Wizard",
+      "colorValue": "#0072ed",
+      "tokenNameCSS": "var(--ids-wizard-step-color-default)"
+    },
+    {
+      "id": "id-1718638612581-7594",
+      "tokenName": "--ids-wizard-step-color-unvisited",
+      "tokenValue": "var(--ids-color-gray-90)",
+      "children": [
+        {
+          "id": "id-1718638612581-7592",
+          "tokenName": "--ids-color-gray-90",
+          "tokenValue": "#28282a",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#28282a",
+          "tokenNameCSS": "var(--ids-color-gray-90)"
+        }
+      ],
+      "type": "Component",
+      "component": "Wizard",
+      "colorValue": "#28282a",
+      "tokenNameCSS": "var(--ids-wizard-step-color-unvisited)"
+    },
+    {
+      "id": "id-1718638612581-7597",
+      "tokenName": "--ids-wizard-step-color-disabled-unvisited",
+      "tokenValue": "var(--ids-color-gray-40)",
+      "children": [
+        {
+          "id": "id-1718638612581-7595",
+          "tokenName": "--ids-color-gray-40",
+          "tokenValue": "#bbbbbf",
+          "type": "Core",
+          "source": "coreTokens",
+          "component": "Colors",
+          "children": [],
+          "colorValue": "#bbbbbf",
+          "tokenNameCSS": "var(--ids-color-gray-40)"
+        }
+      ],
+      "type": "Component",
+      "component": "Wizard",
+      "colorValue": "#bbbbbf",
+      "tokenNameCSS": "var(--ids-wizard-step-color-disabled-unvisited)"
+    }
+  ]
+}

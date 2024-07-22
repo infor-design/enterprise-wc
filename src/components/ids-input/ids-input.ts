@@ -159,6 +159,7 @@ export default class IdsInput extends Base {
       attributes.READONLY,
       attributes.REVEALABLE_PASSWORD,
       attributes.SIZE,
+      attributes.SQUARE,
       attributes.TABBABLE,
       attributes.TEXT_ALIGN,
       attributes.TEXT_ELLIPSIS,
@@ -466,6 +467,16 @@ export default class IdsInput extends Base {
     return this.getAttribute(attributes.ID) || 'none';
   }
 
+  set square(val: boolean) {
+    const isSquare = stringToBool(val);
+    this.toggleAttribute(attributes.SQUARE, isSquare);
+    this.container?.querySelector('.field-container')?.classList.toggle('square', isSquare);
+  }
+
+  get square(): boolean {
+    return stringToBool(this.getAttribute(attributes.SQUARE));
+  }
+
   /**
    * Set input state for disabled or readonly
    * @private
@@ -631,6 +642,7 @@ export default class IdsInput extends Base {
      */
     this.onEvent('input', this?.input, () => {
       this.#updateTooltip();
+      this.#updateValue();
     });
 
     /**
@@ -639,6 +651,12 @@ export default class IdsInput extends Base {
     this.onEvent('mouseenter', this, () => {
       this.#updateTooltip();
     });
+  }
+
+  #updateValue(): void {
+    if (this?.getAttribute(attributes.VALUE) !== this.input?.value) {
+      this.setAttribute(attributes.VALUE, this.input?.value || '');
+    }
   }
 
   /**

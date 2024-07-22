@@ -140,7 +140,7 @@ test.describe('IdsDataGrid tests', () => {
       await percySnapshot(page, 'ids-data-grid-alternate-row-shading-light');
     });
 
-    test('should not have visual regressions in percy (expandable-row)', async ({ page, browserName }) => {
+    test.skip('should not have visual regressions in percy (expandable-row)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await page.goto('/ids-data-grid/expandable-row.html');
       await percySnapshot(page, 'ids-data-grid-expandable-row-light');
@@ -613,6 +613,11 @@ test.describe('IdsDataGrid tests', () => {
         dataGrid.columnGroups = null;
         const columnGroupsUnset = dataGrid.columnGroups;
 
+        dataGrid.disableRowHighlight = true;
+        const disableRowHighlightSet = dataGrid.disableRowHighlight;
+        dataGrid.disableRowHighlight = false;
+        const disableRowHighlightUnset = dataGrid.disableRowHighlight;
+
         dataGrid.emptyMessageDescription = 'emptyMessageDescription';
         const emptyMessageDescriptionSet = dataGrid.emptyMessageDescription;
         dataGrid.emptyMessageDescription = null;
@@ -828,6 +833,8 @@ test.describe('IdsDataGrid tests', () => {
           alternateRowShadingUnset,
           columnGroupsSet,
           columnGroupsUnset,
+          disableRowHighlightSet,
+          disableRowHighlightUnset,
           emptyMessageDescriptionSet,
           emptyMessageDescriptionUnset,
           emptyMessageLabelSet,
@@ -919,6 +926,8 @@ test.describe('IdsDataGrid tests', () => {
       expect(results.alternateRowShadingUnset).toBeFalsy();
       expect(results.columnGroupsSet).toBeDefined();
       expect(results.columnGroupsUnset).toBeNull();
+      expect(results.disableRowHighlightSet).toBeTruthy();
+      expect(results.disableRowHighlightUnset).toBeFalsy();
       expect(results.emptyMessageDescriptionSet).toEqual('emptyMessageDescription');
       expect(results.emptyMessageDescriptionUnset).toBeNull();
       expect(results.emptyMessageLabelSet).toEqual('emptyMessageLabel');

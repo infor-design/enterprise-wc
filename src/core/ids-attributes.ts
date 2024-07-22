@@ -116,6 +116,7 @@ export const attributes = {
   COMPONENT_NAME: 'component-name',
   CONDITION: 'condition',
   CONFIRM: 'confirm',
+  CONTAINER_TARGET: 'container-target',
   CONTENT_ALIGN: 'content-align',
   COPYRIGHT_YEAR: 'copyright-year',
   COUNT: 'count',
@@ -133,6 +134,7 @@ export const attributes = {
   DIRTY_TRACKER: 'dirty-tracker',
   DISABLE_CLIENT_FILTER: 'disable-client-filter',
   DISABLE_EVENTS: 'disable-native-events',
+  DISABLE_ROW_HIGHLIGHT: 'disable-row-highlight',
   DISABLED: 'disabled',
   DISMISSIBLE: 'dismissible',
   DISPLAY: 'display',
@@ -152,6 +154,7 @@ export const attributes = {
   EMPTY_MESSAGE_DESCRIPTION: 'empty-message-description',
   EMPTY_MESSAGE_ICON: 'empty-message-icon',
   EMPTY_MESSAGE_LABEL: 'empty-message-label',
+  ENABLE_CONTAINER: 'enable-container',
   END_DATE: 'end-date',
   END_HOUR: 'end-hour',
   ERROR: 'error',
@@ -171,6 +174,7 @@ export const attributes = {
   FILL: 'fill',
   FILTER_ROW_DISABLED: 'filter-row-disabled',
   FILTER_WHEN_TYPING: 'filter-when-typing',
+  FILTER_TYPE: 'filter-type',
   FILTERABLE: 'filterable',
   FIRST: 'first',
   FIRST_DAY_OF_WEEK: 'first-day-of-week',
@@ -206,6 +210,7 @@ export const attributes = {
   HEX: 'hex',
   HIDDEN: 'hidden',
   HIDDEN_BY_FILTER: 'hidden-by-filter',
+  HIDE: 'hide',
   HIDE_CHECKBOXES: 'hide-checkboxes',
   HIDE_DOWN: 'hide-down',
   HIDE_FOCUS: 'hide-focus',
@@ -314,6 +319,7 @@ export const attributes = {
   NO_PADDING: 'no-padding',
   OFFSET_CONTENT: 'offset-content',
   OPACITY: 'opacity',
+  OPERATOR: 'operator',
   ORDER: 'order',
   ORDER_LG: 'order-lg',
   ORDER_MD: 'order-md',
@@ -486,6 +492,7 @@ export const attributes = {
   TABINDEX: 'tabindex',
   TAGS: 'tags',
   TARGET: 'target',
+  TEMPLATE_ROWS: 'template-rows',
   TEXT: 'text',
   TEXT_ALIGN: 'text-align',
   TEXT_DECORATION: 'text-decoration',
@@ -584,7 +591,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.1.0';
+export const version = '1.3.0';
 
 export enum IdsDirection {
   Up = 'up',

@@ -79,12 +79,32 @@ export default class IdsColor extends Base {
    * @returns {string} - html for the template
    */
   template(): string {
-    return `<ids-tooltip>${this.tooltip} ${this.hex}</ids-tooltip>
+    return `${!this.suppressTooltip ? `<ids-tooltip>${this.tooltip} ${this.hex}</ids-tooltip>` : ''}
       <div class="ids-color ${this.size} no-color" tabindex="0" part="color">
         ${this.clickable ? `<ids-icon class="color-check" icon="check" size="small" part="hex"></ids-icon>` : ''}
         ${this.showLabel ? `<ids-text font-size="14" type="span" align="center">${this.label}</ids-text>` : ''}
       </div>
     `;
+  }
+
+  /**
+   *  Suppresses the tooltip for this color swatch
+   *  @param {boolean | string} value - true if tooltip should be suppressed
+   */
+  set suppressTooltip(value: boolean | string) {
+    if (stringToBool(value)) {
+      this.setAttribute('suppress-tooltip', '');
+    } else {
+      this.removeAttribute('suppress-tooltip');
+    }
+  }
+
+  /**
+   * Gets the suppress-tooltip attribute
+   * @returns {boolean} - true if tooltip should be suppressed
+   */
+  get suppressTooltip(): boolean {
+    return this.hasAttribute('suppress-tooltip');
   }
 
   /**

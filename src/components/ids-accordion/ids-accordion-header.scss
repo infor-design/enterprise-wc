@@ -54,6 +54,7 @@
 
   &.selected {
     color: var(--ids-app-menu-accordion-header-color-text-selected);
+    background-color: var(--ids-app-menu-accordion-header-selected-bg-color);
   }
 
   &[disabled] {
@@ -136,7 +137,7 @@
   &:not([class*="color-variant-"]) {
     @include accordion-header-standard-colors();
 
-    padding: 12px 16px;
+    padding: var(--ids-accordion-header-padding);
 
     &:not(.disabled) {
       @include accordion-header-focus-colors();
@@ -163,7 +164,7 @@
   &.color-variant-app-menu {
     @include accordion-header-app-menu-colors();
 
-    padding: 12px 16px;
+    padding: var(--ids-accordion-header-app-menu-padding);
   }
 
   // Sub-level App Menu Accordions
@@ -171,7 +172,7 @@
     @include accordion-header-app-menu-colors();
     @include accordion-header-nested-app-menu-colors();
 
-    padding: 8px 20px;
+    padding: var(--ids-accordion-header-sub-app-menu-padding);
   }
 
   // =========================================

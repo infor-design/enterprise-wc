@@ -72,7 +72,7 @@ test.describe('IdsMenuButton tests', () => {
     });
   });
 
-  test.describe('e2e tests', () => {
+  test.describe('functionality tests', () => {
     test('can change/remove its dropdown icon', async ({ page }) => {
       buttonEl = await page.locator('ids-menu-button').first();
       iconEl = await buttonEl.locator('button').locator('ids-icon');

@@ -8,6 +8,7 @@ import {
   expect as baseExpect,
   Locator
 } from '@playwright/test';
+import { CustomEventTest, PageErrorsTest } from './helper-fixture';
 
 const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output');
 
@@ -19,10 +20,15 @@ export function generateUUID(): string {
   return crypto.randomBytes(16).toString('hex');
 }
 
+interface CustomParameters {
+  eventsTest: CustomEventTest;
+  pageErrorsTest: PageErrorsTest;
+}
+
 /**
  * Extends the test command in playwright
  */
-export const test = baseTest.extend({
+export const test = baseTest.extend<CustomParameters>({
   context: async ({ context }, use) => {
     await context.addInitScript(() => window.addEventListener('beforeunload', () => (window as any).collectIstanbulCoverage(JSON.stringify((window as any).__coverage__))),);
     await fs.promises.mkdir(istanbulCLIOutput, { recursive: true });
@@ -33,6 +39,14 @@ export const test = baseTest.extend({
     for (const page of context.pages()) {
       await page.evaluate(() => (window as any).collectIstanbulCoverage(JSON.stringify((window as any).__coverage__)));
     }
+  },
+  eventsTest: async ({ page }, use) => {
+    const eventTest = await (new CustomEventTest(page)).initialize();
+    await use(eventTest);
+  },
+  pageErrorsTest: async ({ page }, use) => {
+    const errorTest = new PageErrorsTest(page);
+    await use(errorTest);
   }
 });
 
@@ -150,6 +164,36 @@ export const expect = baseExpect.extend({
       + `\nLower bound : ${lowerBound}`
       + `\nExpected    : ${expected}`
       + `\nActual      : ${actual}`,
+      pass: false
+    };
+  },
+  /**
+   * **CUSTOM ASSERTION - NOT PLAYWRIGHT NATIVE**
+   *
+   * Check if the actual is a valid date
+   *
+   * **USAGE**
+   *
+   * ```js
+   * expect('Invalid Date').toBeValidDate(); // failed
+   * expect('11/11/2011').toBeValidDate(); // passed
+   * expect(new Date()).toBeValidDate(); // passed
+   * ```
+   * @param {any} actual data to be checked if a date
+   * @returns {void}
+   */
+  toBeValidDate(actual: any): { message: () => string; pass: true; } | { message: () => string; pass: false; } {
+    const isValidDate = actual instanceof Date
+      && !Number.isNaN(actual)
+      && actual.toString() !== 'Invalid Date';
+    if (isValidDate) {
+      return {
+        message: () => 'passed',
+        pass: true
+      };
+    }
+    return {
+      message: () => `Actual is not a date\n Actual:  ${actual}`,
       pass: false
     };
   }

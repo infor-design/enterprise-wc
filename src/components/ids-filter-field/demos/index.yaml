@@ -1,0 +1,10 @@
+---
+ component: Filter Field
+ link: ids-filter-field
+ description: An input field with a filter operator popup menu
+ category: Form Inputs
+ keywords: filter, trigger, input, fields
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Showing a filter field

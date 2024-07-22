@@ -3,7 +3,6 @@ import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { getElementAtMouseLocation, parents, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { cssTransitionTimeout } from '../../utils/ids-timer-utils/ids-timer-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
 import IdsPopupInteractionsMixin from '../../mixins/ids-popup-interactions-mixin/ids-popup-interactions-mixin';
@@ -38,8 +37,6 @@ export default class IdsPopupMenu extends Base {
   /** Component's first child element (in IdsPopupMenu, this is always an IdsPopup component) */
   container?: IdsPopup | null = null;
 
-  recentlyHidden = false;
-
   constructor() {
     super();
   }
@@ -50,6 +47,7 @@ export default class IdsPopupMenu extends Base {
       attributes.ALIGN,
       attributes.ARROW,
       attributes.MAX_HEIGHT,
+      attributes.POSITION_STYLE,
       attributes.WIDTH,
       attributes.X,
       attributes.Y
@@ -80,7 +78,10 @@ export default class IdsPopupMenu extends Base {
     if (this.hasAttribute(attributes.WIDTH)) {
       this.#setMenuWidth(this.getAttribute(attributes.WIDTH));
     }
-    this.#configurePopup();
+    // Defer the popup placement until after the initial setup phase
+    requestAnimationFrame(() => {
+      this.#configurePopup();
+    });
   }
 
   #configurePopup() {
@@ -300,8 +301,6 @@ export default class IdsPopupMenu extends Base {
     this.hideSubmenus();
     this.popup?.removeOpenEvents();
     this.#removeMutationObservers();
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.startHiddenTimer();
   }
 
   /**
@@ -347,6 +346,7 @@ export default class IdsPopupMenu extends Base {
     this.hideSubmenus();
 
     // Show the popup and do placement
+    this.popup!.positionStyle = this.positionStyle;
     this.popup?.setAttribute('visible', 'true');
 
     this.triggerEvent('aftershow', this, {
@@ -502,13 +502,6 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
-   * @returns {string | null} The max height value
-   */
-  get maxHeight(): string | null {
-    return this.getAttribute(attributes.MAX_HEIGHT);
-  }
-
-  /**
    * Set the max height value
    * @param {string | number | null} value The value
    */
@@ -521,6 +514,33 @@ export default class IdsPopupMenu extends Base {
       this.removeAttribute(attributes.MAX_HEIGHT);
       this.popup?.removeAttribute(attributes.MAX_HEIGHT);
     }
+  }
+
+  /**
+   * @returns {string | null} The max height value
+   */
+  get maxHeight(): string | null {
+    return this.getAttribute(attributes.MAX_HEIGHT);
+  }
+
+  /**
+   * @param {string} value the position style string
+   */
+  set positionStyle(value: string) {
+    if (value) {
+      this.setAttribute(attributes.POSITION_STYLE, value);
+      this.popup?.setAttribute(attributes.POSITION_STYLE, value);
+    } else {
+      this.removeAttribute(attributes.POSITION_STYLE);
+      this.popup?.removeAttribute(attributes.POSITION_STYLE);
+    }
+  }
+
+  /**
+   * @returns {string} the current position style
+   */
+  get positionStyle(): string {
+    return this.getAttribute(attributes.POSITION_STYLE) || 'fixed';
   }
 
   /**
@@ -618,7 +638,7 @@ export default class IdsPopupMenu extends Base {
       return true;
     }
 
-    if (this.hidden && !this.recentlyHidden) {
+    if (this.hidden) {
       this.showIfAble();
       this.setInitialFocus();
     }
@@ -659,6 +679,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   onTriggerHover(): void {
+    if (!this?.target) return;
     if (!(this.target as any)?.disabled && !(this.target as any)?.hidden) {
       // Hide all submenus attached to parent menu items (except this one)
       if (this.parentMenuItem) {
@@ -718,11 +739,15 @@ export default class IdsPopupMenu extends Base {
 
             if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
             // adjusts for nested `relative` positioned offsets, and scrolled containers
-            const xAdjust = (parentPopup.offsetLeft || 0)
+            let xAdjust = (parentPopup.offsetLeft || 0)
               - this.container!.scrollParentElem!.scrollLeft;
-            const yAdjust = (parentPopup.offsetTop || 0)
+            let yAdjust = (parentPopup.offsetTop || 0)
               - this.container!.scrollParentElem!.scrollTop + extra;
 
+            if (this.positionStyle === 'fixed') {
+              xAdjust = this.container!.scrollParentElem!.scrollLeft > 0 ? xAdjust : 0;
+              yAdjust = this.container!.scrollParentElem!.scrollTop > 0 ? yAdjust - 20 : 0;
+            }
             popupRect.x -= xAdjust;
             popupRect.y -= yAdjust;
           }
@@ -740,16 +765,6 @@ export default class IdsPopupMenu extends Base {
   focus() {
     if (this.hidden) return;
     this.focusTarget?.focus();
-  }
-
-  /**
-   * Runs a private internal timer that controls whether or not
-   * some internal event-handling is allowed on the popup menu.
-   */
-  private async startHiddenTimer() {
-    this.recentlyHidden = true;
-    await cssTransitionTimeout(10);
-    this.recentlyHidden = false;
   }
 
   /**

@@ -370,6 +370,14 @@ class IdsDatePicker extends Base {
       this.#togglePopup(false);
     });
 
+    // Input value change
+    this.offEvent('change.date-picker-input');
+    this.onEvent('change.date-picker-input', this.triggerField, (e) => {
+      if (!this.useRange && isValidDate(this.getDateValue(e.detail.value))) {
+        this.setAttribute(attributes.VALUE, e.detail.value);
+      }
+    });
+
     return this;
   }
 
@@ -722,6 +730,7 @@ class IdsDatePicker extends Base {
 
     if (!this.disabled && !this.readonly) {
       this.setAttribute(attributes.VALUE, String(val));
+      this.picker?.setAttribute(attributes.VALUE, String(val));
       this.triggerField?.setAttribute(attributes.VALUE, val);
     }
   }
@@ -862,12 +871,12 @@ class IdsDatePicker extends Base {
       this.setAttribute(attributes.VALIDATE, val);
       this.triggerField?.setAttribute(attributes.VALIDATE, val);
       this.triggerField?.setAttribute(attributes.VALIDATION_EVENTS, this.validationEvents);
-      this.triggerField?.handleValidation();
+      this.triggerField?.handleValidation?.();
     } else {
       this.removeAttribute(attributes.VALIDATE);
       this.triggerField?.removeAttribute(attributes.VALIDATE);
       this.triggerField?.removeAttribute(attributes.VALIDATION_EVENTS);
-      this.triggerField?.handleValidation();
+      this.triggerField?.handleValidation?.();
     }
 
     this.#setAvailableDateValidation();
