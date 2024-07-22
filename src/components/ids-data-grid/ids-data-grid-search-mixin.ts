@@ -4,6 +4,7 @@ import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-s
 import { IdsConstructor } from '../../core/ids-element';
 import { EventsMixinInterface } from '../../mixins/ids-events-mixin/ids-events-mixin';
 import type IdsDataGrid from './ids-data-grid';
+import IdsSearchField from '../ids-search-field/ids-search-field';
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
 
@@ -20,12 +21,12 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   /**
    * Current search term
    */
-  #searchedTerm: string = '';
+  #searchTerm: string = '';
 
   /**
    * Reference to the search field element
    */
-  #searchField: HTMLElement | null | undefined = null;
+  #searchField: HTMLElement | IdsSearchField | null = null;
 
   static get attributes() {
     return [
@@ -77,13 +78,13 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   #attachEventListeners() {
     if (!this.searchField) return;
 
-    // @ts-ignore
-    (this.searchField?.input || this.searchField)?.addEventListener('input', (e: any) => {
+    const input = (this.searchField as IdsSearchField)?.input ?? this.searchField;
+
+    input?.addEventListener('input', (e: any) => {
       this.#onSearch(e.target?.value || '');
     });
 
-    // @ts-ignore
-    this.searchField?.onEvent('cleared', this.searchField, () => {
+    this.searchField?.addEventListener('cleared', () => {
       this.#onSearch('');
     });
   }
@@ -91,10 +92,11 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   /**
    * Handles the search event
    * @param {string} value The search value
+   * @returns {void}
    */
   #onSearch(value: string) {
     if (value !== '' && value.length > this.searchTermMinSize) {
-      this.#searchedTerm = value.toLowerCase();
+      this.#searchTerm = value.toLowerCase();
       return this.#handleSearchKeyword();
     }
     this.dataGrid.filters.applyFilter();
@@ -135,8 +137,7 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
    * @param {string | boolean | null} value The value
    */
   set searchable(value: string | boolean | null) {
-    if (stringToBool(value)) this.setAttribute(attributes.SEARCHABLE, '');
-    else this.removeAttribute(attributes.SEARCHABLE);
+    this.toggleAttribute(attributes.SEARCHABLE, stringToBool(value));
     this.setSearchable();
   }
 
@@ -163,10 +164,10 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
    * Set search field
    * @param {string} value The value
    */
-  set searchFieldId(value) {
+  set searchFieldId(value: string) {
     if (value) {
-      this.setAttribute(attributes.SEARCH_FIELD_ID, value.toString());
-      this.searchField = document.querySelector(`#${value}`) as HTMLElement | null | undefined;
+      this.setAttribute(attributes.SEARCH_FIELD_ID, value);
+      this.searchField = document.querySelector<HTMLElement>(`#${value}`);
     } else {
       this.removeAttribute(attributes.SEARCH_FIELD_ID);
     }
@@ -178,14 +179,18 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
 
   /**
    * Set search field
-   * @param {HTMLElement | null | undefined} value The value
+   * @param {HTMLElement | IdsSearchField | null} value - A custom search element
    */
-  set searchField(value: HTMLElement | null | undefined) {
+  set searchField(value: HTMLElement | IdsSearchField | null) {
     this.#searchField = value;
     this.#makeItSearchable();
   }
 
-  get searchField() {
+  /**
+   * Get search field
+   * @returns {HTMLElement | IdsSearchField | null} value - The custom search element
+   */
+  get searchField(): HTMLElement | IdsSearchField | null {
     return this.#searchField;
   }
 
@@ -194,7 +199,7 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
    */
   #handleSearchKeyword() {
     const filterExpr: any = [];
-    const term = (this.#searchedTerm || '').toLowerCase();
+    const term = (this.#searchTerm || '').toLowerCase();
     filterExpr.push({
       column: 'all',
       operator: 'contains',
@@ -212,7 +217,7 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
      */
     this.triggerEvent('searched.datagrid', this, {
       detail: {
-        value: this.#searchedTerm
+        value: this.#searchTerm
       }
     });
   }
@@ -224,18 +229,18 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   }
 
   highlightSearchRows() {
-    if (!this.#searchedTerm || this.#searchedTerm === '') return;
+    if (!this.#searchTerm || this.#searchTerm === '') return;
     this.container?.querySelectorAll('ids-data-grid-cell').forEach((cell) => {
       const text = cell.textContent || '';
 
-      if (!text.toLowerCase().includes(this.#searchedTerm)) return;
+      if (!text.toLowerCase().includes(this.#searchTerm)) return;
 
-      const regex = new RegExp(`(${this.#searchedTerm})`, 'gi');
-      const cellHtml = (cell.innerHTML);
+      const regex = new RegExp(`(${this.#searchTerm})`, 'gi');
 
       const replaceTmpl = (matched: string) => `<strong class="highlight">${matched}</strong>`;
       const replaceMatch = (s: string) => s.replace(regex, replaceTmpl);
 
+      const cellHtml = cell.innerHTML;
       cell.innerHTML = cellHtml.replace(text, replaceMatch(text));
     });
   }
