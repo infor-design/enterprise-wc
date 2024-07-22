@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 import percySnapshot from '@percy/playwright';
 import { Page, expect } from '@playwright/test';
 import { test } from '../base-fixture';
@@ -1380,8 +1381,657 @@ test.describe('IdsLocale tests', () => {
       opts.hour12 = false;
       expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2016, 2, 15, 12, 30, 36, 142), opts)).replace(' ', ' ')).toEqual('3/15/2016 12:30:36.142');
     });
-  });
-  // test('', async ({ page }) => {
 
-  // });
+    test('can format timestamp in English', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 10, 5, 10, 20, 5), { timeStyle: 'medium' })).replace(' ', ' ').replace(' ', ' ')).toEqual('10:20:05 AM');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 10, 5, 10, 20, 5), { timeStyle: 'short' })).replace(' ', ' ').replace(' ', ' ')).toEqual('10:20 AM');
+
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8)))).toEqual('11/8/2000');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8), { dateStyle: 'short' }))).toEqual('11/8/2000');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8), { dateStyle: 'medium' }))).toEqual('Nov 8, 2000');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8), { dateStyle: 'long' }))).toEqual('November 8, 2000');
+    });
+
+    test('can format timestamp in Arabic', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'ar-SA');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 12, 1), { month: 'long', day: 'numeric' }))).toEqual('٦ شوال');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2017, 10, 8), { month: 'long', day: 'numeric' }))).toEqual('١٩ صفر');
+    });
+
+    test('can format date in a non current language', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      await runLocaleFunction(page, 'setLocale', 'hi-IN');
+      await runLocaleFunction(page, 'setLocale', 'en-US');
+
+      expect((await runLocaleFunction(page, 'calendar', '')).dateFormat.short).toEqual('M/d/yyyy');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 5, 8), {
+        locale: 'nl', month: 'long', day: 'numeric', year: 'numeric'
+      }))).toEqual('8 juni 2019');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 5, 8), {
+        locale: 'hi', month: 'short', day: 'numeric', year: 'numeric'
+      }))).toEqual('8 जून 2019');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 5, 8), {
+        locale: 'hi', month: 'long', day: 'numeric', year: 'numeric'
+      }))).toEqual('8 जून 2019');
+    });
+
+    test('can format month in Arabic', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'ar-SA');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 12, 1), { month: 'long', day: 'numeric' }))).toEqual('٦ شوال');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2017, 10, 8), { month: 'long', day: 'numeric' }))).toEqual('١٩ صفر');
+    });
+
+    test('can format year in da-DK', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'da-DK');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 3, 1), { month: 'long', year: 'numeric' }))).toEqual('april 2019');
+    });
+
+    test('can format Hebrew dates', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'he-IL');
+
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 12, 1), { dateStyle: 'short' }))).toEqual('1.1.2020');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 10, 8), { dateStyle: 'medium' }))).toEqual('8 בנוב׳ 2019');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 10, 8), { dateStyle: 'long' }))).toEqual('8 בנובמבר 2019');
+    });
+
+    test('can format zh-Hans dates', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'zh-Hans');
+
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 12, 1), { dateStyle: 'short' }))).toEqual('2020/1/1');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 10, 8), { dateStyle: 'medium' }))).toEqual('2019年11月8日');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2019, 10, 8), { dateStyle: 'long' }))).toEqual('2019年11月8日');
+    });
+
+    test('can format year in es-ES', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'es-ES');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2018, 10, 10), { month: 'long', year: 'numeric' }))).toEqual('noviembre de 2018');
+    });
+
+    test('can format datetime in es-419', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'es-419');
+
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2018, 10, 10)))).toEqual('10/11/2018');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2018, 10, 10), { dateStyle: 'long' }))).toEqual('10 de noviembre de 2018');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2018, 10, 10), { dateStyle: 'full' }))).toEqual('sábado, 10 de noviembre de 2018');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2018, 10, 10), { month: 'long', day: 'numeric' }))).toEqual('10 de noviembre');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2018, 10, 10), { month: 'long', year: 'numeric' }))).toEqual('noviembre de 2018');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2018, 10, 10, 14, 15, 12), { timeStyle: 'medium' }))).toEqual('2:15:12 p.m.');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2018, 10, 10, 14, 15, 12), { timeStyle: 'short' }))).toEqual('2:15 p.m.');
+      expect((await runLocaleFunction(page, 'formatDate', '29/3/2018 14:15', {
+        year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric', dateFormat: 'd/M/yyyy HH:mm'
+      }))).toEqual('29/3/2018 2:15 p.m.');
+
+      let opts: any = {
+        year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short'
+      };
+      let date = await pageDate.newDate(2018, 10, 10, 14, 15, 12);
+      expect((await runLocaleFunction(page, 'formatDate', date, opts))).toEqual((await pageDate.format(date, 'es-419', opts)).replace(',', ''));
+
+      opts = {
+        year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'long'
+      };
+      date = new Date(2018, 10, 10);
+      expect((await runLocaleFunction(page, 'formatDate', date, opts))).toEqual((await pageDate.format(date, 'es-419', opts)).replace(',', ''));
+
+      opts = {
+        day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric'
+      };
+      date = new Date(2018, 10, 10);
+      expect((await runLocaleFunction(page, 'formatDate', date, opts))).toEqual((await pageDate.format(date, 'es-419', opts)).replace(',', ''));
+    });
+
+    test('can format long in different locale', async ({ page, pageDate }) => {
+      const date = await pageDate.newDate(2015, 0, 8, 13, 40);
+      const testData = [
+        { locale: 'en-US', expected: 'January 8, 2015' },
+        { locale: 'de-DE', expected: '8. Januar 2015' },
+        { locale: 'es-ES', expected: '8 de enero de 2015' },
+        { locale: 'lt-LT', expected: '2015 m. sausio 8 d.' },
+        { locale: 'vi-VN', expected: '8 tháng 1, 2015' }
+      ];
+
+      for (const data of testData) {
+        await runLocaleFunction(page, 'setLocale', data.locale);
+        expect((await runLocaleFunction(page, 'formatDate', date, { dateStyle: 'long' }))).toEqual(data.expected);
+      }
+    });
+
+    test('can format full', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { dateStyle: 'full' }))).toEqual('Thursday, January 8, 2015');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 2, 7, 13, 40), { dateStyle: 'full' }))).toEqual('Saturday, March 7, 2015');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 1, 13, 40), { dateStyle: 'full' }))).toEqual('Donnerstag, 1. Januar 2015');
+    });
+
+    test('can format long days in different locale', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { dateStyle: 'long' })).replace(' ', ' ').replace(' ', ' ')).toEqual('January 8, 2015');
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 1, 13, 40), { dateStyle: 'long' }))).toEqual('1. Januar 2015');
+
+      await runLocaleFunction(page, 'setLocale', 'ar-EG');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 1, 13, 40), { dateStyle: 'long' }))).toEqual('١ يناير ٢٠١٥');
+
+      await runLocaleFunction(page, 'setLocale', 'bg-BG');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 1, 13, 40), { dateStyles: 'long' })).replace(' ', ' ')).toEqual('1.01.2015 г.');
+    });
+
+    test('can format with numeric patterns', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'yyyy' }))).toEqual('2015');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'dd' }))).toEqual('08');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'd' }))).toEqual('8');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'M' }))).toEqual('1');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 1, 13, 40), { pattern: 'M.dd.yyyy' }))).toEqual('1.01.2015');
+    });
+
+    test('can format with long patterns', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'MMMM d, yyyy' }))).toEqual('January 8, 2015');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'MMMM yyyy' }))).toEqual('January 2015');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'MMM yyyy' }))).toEqual('Jan 2015');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'MMMM dd' }))).toEqual('January 08');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'MMMM d' }))).toEqual('January 8');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'MMM d' }))).toEqual('Jan 8');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'd MMM, yyyy' }))).toEqual('8 Jan, 2015');
+
+      await runLocaleFunction(page, 'setLocale', 'vi-VN');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'd MMMM, yyyy' }))).toEqual('8 Tháng Giêng, 2015');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'd MMM, yyyy' }))).toEqual('8 Thg1, 2015');
+
+      await runLocaleFunction(page, 'setLocale', 'pt-PT');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'd de MMMM de yyyy' }))).toEqual('8 de Janeiro de 2015');
+
+      await runLocaleFunction(page, 'setLocale', 'bg-BG');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2015, 0, 8, 13, 40), { pattern: 'd MMMM yyyy г.' }))).toEqual('8 януари 2015 г.');
+    });
+
+    test('can format with time and day period patterns', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2018, 10, 10, 14, 15, 12), { pattern: 'HH:mm:ss' }))).toEqual('14:15:12');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2018, 10, 10, 2, 15, 12), { pattern: 'H:mm' }))).toEqual('2:15');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8, 13, 40, 30, 777), {
+        pattern: 'h:mm:ss.SSS a'
+      }))).toEqual('1:40:30.777 PM');
+      expect((await runLocaleFunction(page, 'formatDate', await pageDate.newDate(2000, 10, 8, 13, 40, 30, 777), {
+        pattern: 'H:mm:ss.SSS'
+      }))).toEqual('13:40:30.777');
+    });
+
+    test('can format dates into another timezone with long timezone name', async ({ page, pageDate }) => {
+      const opts: any = {
+        timeZoneName: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric'
+      };
+
+      opts.timeZone = 'Australia/Brisbane';
+      const date = await pageDate.newDate(2018, 2, 26);
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+
+      opts.timeZone = 'Asia/Shanghai';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+      opts.timeZone = 'America/New_York';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      opts.timeZone = 'Australia/Brisbane';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'nl-NL', opts)).replace(',', '').replace(/ /g, ' '));
+      opts.timeZone = 'Asia/Shanghai';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)))
+        .toEqual((await pageDate.format(date, 'nl-NL', opts)).replace(',', '').replace(/ /g, ' '));
+    });
+
+    test('can format dates into another timezone with short timezone name', async ({ page, pageDate }) => {
+      const opts: any = {
+        timeZoneName: 'short', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric'
+      };
+
+      opts.timeZone = 'Australia/Brisbane';
+      const date = await pageDate.newDate(2018, 2, 26);
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+
+      opts.timeZone = 'Asia/Shanghai';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+      opts.timeZone = 'America/New_York';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      opts.timeZone = 'Australia/Brisbane';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'nl-NL', opts)).replace(',', '').replace(/ /g, ' '));
+      opts.timeZone = 'Asia/Shanghai';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)))
+        .toEqual((await pageDate.format(date, 'nl-NL', opts)).replace(',', '').replace(/ /g, ' '));
+    });
+
+    test('can format dates in another timezone', async ({ page, pageDate }) => {
+      const opts: any = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+      };
+      opts.timeZone = 'Australia/Brisbane';
+      const date = await pageDate.newDate(2018, 2, 26);
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+
+      opts.timeZone = 'Asia/Shanghai';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+      opts.timeZone = 'America/New_York';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      opts.timeZone = 'Australia/Brisbane';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'nl-NL', opts)).replace(',', '').replace(/ /g, ' '));
+      opts.timeZone = 'Asia/Shanghai';
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)))
+        .toEqual((await pageDate.format(date, 'nl-NL', opts)).replace(',', '').replace(/ /g, ' '));
+    });
+
+    test('can format dates in different timezones', async ({ page, pageDate }) => {
+      const opts: any = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        timeZoneName: 'short'
+      };
+
+      const date = new Date(2020, 6, 22, 21, 11, 12);
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+
+      await runLocaleFunction(page, 'setLocale', 'hr-HR');
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'hr-HR', opts)).replace(',', '').replace(/ /g, ' '));
+
+      await runLocaleFunction(page, 'setLocale', 'it-IT');
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'it-IT', opts)).replace(',', '').replace(/ /g, ' '));
+
+      await runLocaleFunction(page, 'setLocale', 'zh-Hant');
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'zh-Hant', opts)).replace(',', '').replace(/ /g, ' '));
+
+      await runLocaleFunction(page, 'setLocale', 'zh-TW');
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)))
+        .toEqual((await pageDate.format(date, 'zh-TW', opts)).replace(',', '').replace(/ /g, ' '));
+    });
+
+    test('can format dates with long timezones', async ({ page, pageDate }) => {
+      const opts: any = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        timeZoneName: 'long'
+      };
+
+      const date = await pageDate.newDate(2018, 2, 22, 20, 11, 12);
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'en-US', opts)).replace(',', '').replace(/ /g, ' '));
+
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      expect((await runLocaleFunction(page, 'formatDate', date, opts)).replace(/ /g, ' '))
+        .toEqual((await pageDate.format(date, 'nl-NL', opts)).replace(',', '').replace(/ /g, ' '));
+    });
+  });
+
+  test.describe('hour formatting tests', () => {
+    test('can format hours', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatHour', 0)).replace(' ', ' ')).toEqual('12:00 AM');
+      expect((await runLocaleFunction(page, 'formatHour', '1')).replace(' ', ' ')).toEqual('1:00 AM');
+      expect((await runLocaleFunction(page, 'formatHour', '0:30')).replace(' ', ' ')).toEqual('12:30 AM');
+      expect((await runLocaleFunction(page, 'formatHour', 0.5)).replace(' ', ' ')).toEqual('12:30 AM');
+      expect((await runLocaleFunction(page, 'formatHour', 5)).replace(' ', ' ')).toEqual('5:00 AM');
+      expect((await runLocaleFunction(page, 'formatHour', '5:30')).replace(' ', ' ')).toEqual('5:30 AM');
+      expect((await runLocaleFunction(page, 'formatHour', 5.5)).replace(' ', ' ')).toEqual('5:30 AM');
+      expect((await runLocaleFunction(page, 'formatHour', 10)).replace(' ', ' ')).toEqual('10:00 AM');
+      expect((await runLocaleFunction(page, 'formatHour', '10:30')).replace(' ', ' ')).toEqual('10:30 AM');
+      expect((await runLocaleFunction(page, 'formatHour', 10.5)).replace(' ', ' ')).toEqual('10:30 AM');
+      expect((await runLocaleFunction(page, 'formatHour', 12)).replace(' ', ' ')).toEqual('12:00 PM');
+      expect((await runLocaleFunction(page, 'formatHour', '12:30')).replace(' ', ' ')).toEqual('12:30 PM');
+      expect((await runLocaleFunction(page, 'formatHour', 12.5)).replace(' ', ' ')).toEqual('12:30 PM');
+      expect((await runLocaleFunction(page, 'formatHour', 15)).replace(' ', ' ')).toEqual('3:00 PM');
+      expect((await runLocaleFunction(page, 'formatHour', '15:30')).replace(' ', ' ')).toEqual('3:30 PM');
+      expect((await runLocaleFunction(page, 'formatHour', 15.5)).replace(' ', ' ')).toEqual('3:30 PM');
+      expect((await runLocaleFunction(page, 'formatHour', 20)).replace(' ', ' ')).toEqual('8:00 PM');
+      expect((await runLocaleFunction(page, 'formatHour', '20:30')).replace(' ', ' ')).toEqual('8:30 PM');
+      expect((await runLocaleFunction(page, 'formatHour', 20.5)).replace(' ', ' ')).toEqual('8:30 PM');
+      expect((await runLocaleFunction(page, 'formatHour', 24)).replace(' ', ' ')).toEqual('12:00 AM');
+      expect((await runLocaleFunction(page, 'formatHour', '24:30')).replace(' ', ' ')).toEqual('12:30 AM');
+      expect((await runLocaleFunction(page, 'formatHour', 24.5)).replace(' ', ' ')).toEqual('12:30 AM');
+    });
+
+    test('can format hours in de-DE', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+
+      expect((await runLocaleFunction(page, 'formatHour', 0))).toEqual('00:00');
+      expect((await runLocaleFunction(page, 'formatHour', '0:30'))).toEqual('00:30');
+      expect((await runLocaleFunction(page, 'formatHour', 5))).toEqual('05:00');
+      expect((await runLocaleFunction(page, 'formatHour', '5:30'))).toEqual('05:30');
+      expect((await runLocaleFunction(page, 'formatHour', 10))).toEqual('10:00');
+      expect((await runLocaleFunction(page, 'formatHour', '10:30'))).toEqual('10:30');
+      expect((await runLocaleFunction(page, 'formatHour', 12))).toEqual('12:00');
+      expect((await runLocaleFunction(page, 'formatHour', '12:30'))).toEqual('12:30');
+      expect((await runLocaleFunction(page, 'formatHour', 15))).toEqual('15:00');
+      expect((await runLocaleFunction(page, 'formatHour', '15:30'))).toEqual('15:30');
+      expect((await runLocaleFunction(page, 'formatHour', 20))).toEqual('20:00');
+      expect((await runLocaleFunction(page, 'formatHour', '20:30'))).toEqual('20:30');
+      expect((await runLocaleFunction(page, 'formatHour', 24))).toEqual('00:00');
+      expect((await runLocaleFunction(page, 'formatHour', '24:30'))).toEqual('00:30');
+    });
+
+    test('can format hours in da-DK', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'da-DK');
+
+      expect((await runLocaleFunction(page, 'formatHour', 0))).toEqual('00.00');
+      expect((await runLocaleFunction(page, 'formatHour', '0:30'))).toEqual('00.30');
+      expect((await runLocaleFunction(page, 'formatHour', 5))).toEqual('05.00');
+      expect((await runLocaleFunction(page, 'formatHour', '5:30'))).toEqual('05.30');
+      expect((await runLocaleFunction(page, 'formatHour', 10))).toEqual('10.00');
+      expect((await runLocaleFunction(page, 'formatHour', '10:30'))).toEqual('10.30');
+      expect((await runLocaleFunction(page, 'formatHour', 12))).toEqual('12.00');
+      expect((await runLocaleFunction(page, 'formatHour', '12:30'))).toEqual('12.30');
+      expect((await runLocaleFunction(page, 'formatHour', 15))).toEqual('15.00');
+      expect((await runLocaleFunction(page, 'formatHour', '15:30'))).toEqual('15.30');
+      expect((await runLocaleFunction(page, 'formatHour', 20))).toEqual('20.00');
+      expect((await runLocaleFunction(page, 'formatHour', '20:30'))).toEqual('20.30');
+      expect((await runLocaleFunction(page, 'formatHour', 24))).toEqual('00.00');
+      expect((await runLocaleFunction(page, 'formatHour', '24:30'))).toEqual('00.30');
+    });
+
+    test('can format hours in fi-FI', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'fi-FI');
+
+      expect((await runLocaleFunction(page, 'formatHour', 0))).toEqual('0.00');
+      expect((await runLocaleFunction(page, 'formatHour', '0:30'))).toEqual('0.30');
+      expect((await runLocaleFunction(page, 'formatHour', 5))).toEqual('5.00');
+      expect((await runLocaleFunction(page, 'formatHour', '5:30'))).toEqual('5.30');
+      expect((await runLocaleFunction(page, 'formatHour', 10))).toEqual('10.00');
+      expect((await runLocaleFunction(page, 'formatHour', '10:30'))).toEqual('10.30');
+      expect((await runLocaleFunction(page, 'formatHour', 12))).toEqual('12.00');
+      expect((await runLocaleFunction(page, 'formatHour', '12:30'))).toEqual('12.30');
+      expect((await runLocaleFunction(page, 'formatHour', 15))).toEqual('15.00');
+      expect((await runLocaleFunction(page, 'formatHour', '15:30'))).toEqual('15.30');
+      expect((await runLocaleFunction(page, 'formatHour', 20))).toEqual('20.00');
+      expect((await runLocaleFunction(page, 'formatHour', '20:30'))).toEqual('20.30');
+      expect((await runLocaleFunction(page, 'formatHour', 24))).toEqual('0.00');
+      expect((await runLocaleFunction(page, 'formatHour', '24:30'))).toEqual('0.30');
+    });
+
+    test('can format hours in ko-KR', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'ko-KR');
+
+      expect((await runLocaleFunction(page, 'formatHour', 0))).toEqual('오전 12:00');
+      expect((await runLocaleFunction(page, 'formatHour', '0:30'))).toEqual('오전 12:30');
+      expect((await runLocaleFunction(page, 'formatHour', 5))).toEqual('오전 5:00');
+      expect((await runLocaleFunction(page, 'formatHour', '5:30'))).toEqual('오전 5:30');
+      expect((await runLocaleFunction(page, 'formatHour', 10))).toEqual('오전 10:00');
+      expect((await runLocaleFunction(page, 'formatHour', '10:30'))).toEqual('오전 10:30');
+      expect((await runLocaleFunction(page, 'formatHour', 12))).toEqual('오후 12:00');
+      expect((await runLocaleFunction(page, 'formatHour', '12:30'))).toEqual('오후 12:30');
+      expect((await runLocaleFunction(page, 'formatHour', 15))).toEqual('오후 3:00');
+      expect((await runLocaleFunction(page, 'formatHour', '15:30'))).toEqual('오후 3:30');
+      expect((await runLocaleFunction(page, 'formatHour', 20))).toEqual('오후 8:00');
+      expect((await runLocaleFunction(page, 'formatHour', '20:30'))).toEqual('오후 8:30');
+      expect((await runLocaleFunction(page, 'formatHour', 24))).toEqual('오전 12:00');
+      expect((await runLocaleFunction(page, 'formatHour', '24:30'))).toEqual('오전 12:30');
+    });
+
+    test('can format hours in zh-Hant', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'zh-Hant');
+
+      expect((await runLocaleFunction(page, 'formatHour', 0))).toEqual('上午12:00');
+      expect((await runLocaleFunction(page, 'formatHour', '0:30'))).toEqual('上午12:30');
+      expect((await runLocaleFunction(page, 'formatHour', 5))).toEqual('上午5:00');
+      expect((await runLocaleFunction(page, 'formatHour', '5:30'))).toEqual('上午5:30');
+      expect((await runLocaleFunction(page, 'formatHour', 10))).toEqual('上午10:00');
+      expect((await runLocaleFunction(page, 'formatHour', '10:30'))).toEqual('上午10:30');
+      expect((await runLocaleFunction(page, 'formatHour', 12))).toEqual('下午12:00');
+      expect((await runLocaleFunction(page, 'formatHour', '12:30'))).toEqual('下午12:30');
+      expect((await runLocaleFunction(page, 'formatHour', 15))).toEqual('下午3:00');
+      expect((await runLocaleFunction(page, 'formatHour', '15:30'))).toEqual('下午3:30');
+      expect((await runLocaleFunction(page, 'formatHour', 20))).toEqual('下午8:00');
+      expect((await runLocaleFunction(page, 'formatHour', '20:30'))).toEqual('下午8:30');
+      expect((await runLocaleFunction(page, 'formatHour', 24))).toEqual('上午12:00');
+      expect((await runLocaleFunction(page, 'formatHour', '24:30'))).toEqual('上午12:30');
+    });
+  });
+
+  test.describe('hour range formatting tests', () => {
+    test('can format hour range', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'formatHourRange', 5, 10))).toEqual('5 - 10:00 AM');
+      expect((await runLocaleFunction(page, 'formatHourRange', 10, 12))).toEqual('10:00 AM - 12:00 PM');
+      expect((await runLocaleFunction(page, 'formatHourRange', 10, 20))).toEqual('10:00 AM - 8:00 PM');
+      expect((await runLocaleFunction(page, 'formatHourRange', 19, 20))).toEqual('7 - 8:00 PM');
+      expect((await runLocaleFunction(page, 'formatHourRange', 12.5, 13))).toEqual('12:30 - 1:00 PM');
+      expect((await runLocaleFunction(page, 'formatHourRange', 15.5, 17))).toEqual('3:30 - 5:00 PM');
+      expect((await runLocaleFunction(page, 'formatHourRange', 20, 24))).toEqual('8:00 PM - 12:00 AM');
+
+      await runLocaleFunction(page, 'setLocale', 'nl-NL');
+      expect((await runLocaleFunction(page, 'formatHourRange', 0, 5))).toEqual('00:00 - 05:00');
+      expect((await runLocaleFunction(page, 'formatHourRange', 0.5, 5))).toEqual('00:30 - 05:00');
+      expect((await runLocaleFunction(page, 'formatHourRange', 0.25, 5))).toEqual('00:15 - 05:00');
+      expect((await runLocaleFunction(page, 'formatHourRange', 5, 10))).toEqual('05:00 - 10:00');
+      expect((await runLocaleFunction(page, 'formatHourRange', 10, 12))).toEqual('10:00 - 12:00');
+      expect((await runLocaleFunction(page, 'formatHourRange', 10, 20))).toEqual('10:00 - 20:00');
+      expect((await runLocaleFunction(page, 'formatHourRange', 19, 20))).toEqual('19:00 - 20:00');
+      expect((await runLocaleFunction(page, 'formatHourRange', 12.5, 13))).toEqual('12:30 - 13:00');
+      expect((await runLocaleFunction(page, 'formatHourRange', 15.5, 17))).toEqual('15:30 - 17:00');
+      expect((await runLocaleFunction(page, 'formatHourRange', 15.25, 17))).toEqual('15:15 - 17:00');
+      expect((await runLocaleFunction(page, 'formatHourRange', 20, 24))).toEqual('20:00 - 00:00');
+    });
+  });
+
+  test.describe('date parsing tests', () => {
+    test('can parseDate with single digit format', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'parseDate', '18.10.2019 7.15', { dateFormat: 'd.M.yyyy H.mm' })).getTime())
+        .toEqual((await pageDate.newDate(2019, 9, 18, 7, 15, 0)).getTime());
+    });
+
+    test('can have fallback for invalid time', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'parseDate', '1:00 AM', { dateFormat: 'h:mm a' })).getHours())
+        .toEqual((await pageDate.newDate(2019, 9, 18, 1, 0, 0)).getHours());
+
+      await page.evaluate(() => { ((window as any).utils as any).locale.calendar().timeFormat = null; });
+
+      expect((await runLocaleFunction(page, 'parseDate', '1:00 AM', { dateFormat: 'h:mm a' })).getHours())
+        .toEqual((await pageDate.newDate(2019, 9, 18, 1, 0, 0)).getHours());
+    });
+
+    test('can parseDate in el-GR', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'el-GR');
+
+      expect((await runLocaleFunction(page, 'parseDate', '18/10/2019 7:15 π.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' })).getTime()).toEqual((await pageDate.newDate(2019, 9, 18, 7, 15, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '18/10/2019 7:15 μ.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' })).getTime()).toEqual((await pageDate.newDate(2019, 9, 18, 19, 15, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '18/10/2019 12:00 π.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' })).getTime()).toEqual((await pageDate.newDate(2019, 9, 18, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '18/10/2019 12:00 μ.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' })).getTime()).toEqual((await pageDate.newDate(2019, 9, 18, 12, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '18/10/2019 11:59 π.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' })).getTime()).toEqual((await pageDate.newDate(2019, 9, 18, 11, 59, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '18/10/2019 11:59 μ.μ.', { dateFormat: 'dd/MM/yyyy HH:mm a' })).getTime()).toEqual((await pageDate.newDate(2019, 9, 18, 23, 59, 0)).getTime());
+
+      expect((await runLocaleFunction(page, 'parseDate', 'Απρίλιος', { dateFormat: 'MMMM' })).getMonth()).toEqual(3);
+      expect((await runLocaleFunction(page, 'parseDate', 'Απρ', { dateFormat: 'MMM' })).getMonth()).toEqual(3);
+    });
+
+    test('can parseDate in fi-FI', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'fi-FI');
+
+      expect((await runLocaleFunction(page, 'parseDate', '18.10.2019 7.15', { dateFormat: 'dd.MM.yyyy hh.mm' })).getTime()).toEqual((await pageDate.newDate(2019, 9, 18, 7, 15, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '18.10.2019', { dateFormat: 'dd.MM.yyyy' })).getTime()).toEqual((await pageDate.newDate(2019, 9, 18, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '18.10.2019 7.15', { dateFormat: 'dd.MM.yyyy hh.mm' })).getTime()).toEqual((await pageDate.newDate(2019, 9, 18, 7, 15, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '18.10.2019', { dateFormat: 'dd.MM.yyyy' })).getTime()).toEqual((await pageDate.newDate(2019, 9, 18, 0, 0, 0)).getTime());
+
+      expect((await runLocaleFunction(page, 'parseDate', 'Helmikuu', { dateFormat: 'MMMM' })).getMonth()).toEqual(1);
+      expect((await runLocaleFunction(page, 'parseDate', 'helmi', { dateFormat: 'MMM' })).getMonth()).toEqual(1);
+    });
+
+    test('can parse dates with or without spaces, dash, and comma format', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'parseDate', '2014-12-11', { dateFormat: 'yyyy-MM-dd' })).getTime()).toEqual((await pageDate.newDate(2014, 11, 11, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '2014/12/11', { dateFormat: 'yyyy/MM/dd' })).getTime()).toEqual((await pageDate.newDate(2014, 11, 11, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '11122014', { dateFormat: 'dMyyyy' })).getTime()).toEqual((await pageDate.newDate(2014, 11, 11, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '12112014', { dateFormat: 'Mdyyyy' })).getTime()).toEqual((await pageDate.newDate(2014, 11, 11, 0, 0, 0)).getTime());
+    });
+
+    test('can parse AM/PM in Korean', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'ko-KR');
+
+      expect((await runLocaleFunction(page, 'parseDate', '2020-02-26 오전 12:00', { dateFormat: 'yyyy-MM-dd a h:mm' })).getTime())
+        .toEqual((await pageDate.newDate(2020, 1, 26, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '2020-02-26 오후 12:00', { dateFormat: 'yyyy-MM-dd a h:mm' })).getTime())
+        .toEqual((await pageDate.newDate(2020, 1, 26, 12, 0, 0)).getTime());
+    });
+
+    test('can parse AM/PM in zh-TW', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'zh-TW');
+
+      expect((await runLocaleFunction(page, 'parseDate', '2020/2/26 上午12:00', { dateFormat: 'yyyy/M/d ah:mm' })).getTime())
+        .toEqual((await pageDate.newDate(2020, 1, 26, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '2020-02-26 下午12:00', { dateFormat: 'yyyy-M-d ah:mm' })).getTime())
+        .toEqual((await pageDate.newDate(2020, 1, 26, 12, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '2020/3/4 下午9:00', { dateFormat: 'yyyy/M/d ah:mm' })).getTime())
+        .toEqual((await pageDate.newDate(2020, 2, 4, 21, 0, 0)).getTime());
+    });
+
+    test('can parse date in non current locale', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'es-ES');
+      await runLocaleFunction(page, 'setLocale', 'en-US');
+
+      expect(await getLocaleValues(page, 'language.name')).toEqual('en');
+      expect((await runLocaleFunction(page, 'parseDate', '2019-01-01', { dateFormat: 'yyyy-MM-dd', locale: 'es-ES' })).getTime())
+        .toEqual((await pageDate.newDate(2019, 0, 1, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '20/10/2019 20:12', { dateFormat: 'dd/MM/yyyy HH:mm', locale: 'es-ES' })).getTime())
+        .toEqual((await pageDate.newDate(2019, 9, 20, 20, 12, 0)).getTime());
+    });
+
+    test('can parse date in es-419', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'es-419');
+
+      expect((await runLocaleFunction(page, 'parseDate', '29/4/2020 08:40', { dateFormat: 'd/M/yyyy HH:mm' })).getTime())
+        .toEqual((await pageDate.newDate(2020, 3, 29, 8, 40, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '29 de abril de 2020', { pattern: 'd de MMMM de yyyy' })).getTime())
+        .toEqual((await pageDate.newDate(2020, 3, 29, 0, 0, 0)).getTime());
+    });
+
+    test('can parse date in ar-SA', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'ar-SA');
+      const dateTest = await runLocaleFunction(page, 'parseDate', '1441/09/05 9:30 ص', { locale: 'ar-SA', pattern: 'yyyy/MM/dd h:mm a' });
+
+      expect(dateTest[0]).toEqual(1441);
+      expect(dateTest[1]).toEqual(8);
+      expect(dateTest[2]).toEqual(5);
+      expect(dateTest[3]).toEqual(9);
+      expect(dateTest[4]).toEqual(30);
+      expect(dateTest[5]).toEqual(0);
+    });
+
+    test('can parse date in ar-SA with no time', async ({ page }) => {
+      await runLocaleFunction(page, 'setLocale', 'ar-SA');
+      const dateTest = await runLocaleFunction(page, 'parseDate', '1442/09/05', { locale: 'ar-SA', pattern: 'yyyy/MM/dd' });
+
+      expect(dateTest[0]).toEqual(1442);
+      expect(dateTest[1]).toEqual(8);
+      expect(dateTest[2]).toEqual(5);
+      expect(dateTest[3]).toEqual(0);
+      expect(dateTest[4]).toEqual(0);
+      expect(dateTest[5]).toEqual(0);
+    });
+
+    test('can parse date in hr-HR', async ({ page, pageDate }) => {
+      await runLocaleFunction(page, 'setLocale', 'hr-HR');
+
+      expect((await runLocaleFunction(page, 'parseDate', '01. 11. 2018. 05:25', { pattern: 'dd. MM. y. HH:mm' })).getTime())
+        .toEqual((await pageDate.newDate(2018, 10, 1, 5, 25, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '01. 11. 2018. 17:25', { pattern: 'dd. MM. y. HH:mm' })).getTime())
+        .toEqual((await pageDate.newDate(2018, 10, 1, 17, 25, 0)).getTime());
+    });
+
+    test('can parse dates', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'parseDate', '11/8/2000')).getTime()).toEqual((await pageDate.newDate(2000, 10, 8)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '11/8/00')).getTime()).toEqual((await pageDate.newDate(2000, 10, 8)).getTime());
+
+      await runLocaleFunction(page, 'setLocale', 'de-DE');
+      expect((await runLocaleFunction(page, 'parseDate', '08.11.2000')).getTime()).toEqual((await pageDate.newDate(2000, 10, 8)).getTime());
+    });
+
+    test('can parse dates with month zero', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'parseDate', '2016-01-01', { dateFormat: 'yyyy-MM-dd' })).getTime()).toEqual((await pageDate.newDate(2016, 0, 1)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '2016-01-03', { dateFormat: 'yyyy-MM-dd' })).getTime()).toEqual((await pageDate.newDate(2016, 0, 3)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '2016-01-31', { dateFormat: 'yyyy-MM-dd' })).getTime()).toEqual((await pageDate.newDate(2016, 0, 31)).getTime());
+    });
+
+    test('can parse dates with dashes', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'parseDate', '2015-05-10', { dateFormat: 'yyyy-dd-MM' })).getTime()).toEqual((await pageDate.newDate(2015, 9, 5, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '05-10-2015', { dateFormat: 'dd-MM-yyyy' })).getTime()).toEqual((await pageDate.newDate(2015, 9, 5, 0, 0, 0)).getTime());
+    });
+
+    test('can parse ISO dates with dashes', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseDate', '2011-10-05T14:48:00.000Z')).getTime()).toEqual(1317826080000);
+    });
+
+    test('can parse single months, days, years and their combinations', async ({ page, pageDate }) => {
+      expect((await runLocaleFunction(page, 'parseDate', 'June', 'MMMM')).getMonth()).toEqual(5);
+      expect((await runLocaleFunction(page, 'parseDate', 'Jun', 'MMM')).getMonth()).toEqual(5);
+      expect((await runLocaleFunction(page, 'parseDate', '2020', 'yyyy')).getFullYear()).toEqual(2020);
+      expect((await runLocaleFunction(page, 'parseDate', 'June 2020', 'MMMM yyyy')).getTime()).toEqual((await pageDate.newDate(2020, 5, 1, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', 'June 20', 'MMMM dd')).getMonth()).toEqual(5);
+      expect((await runLocaleFunction(page, 'parseDate', 'June 03', 'MMMM dd')).getDate()).toEqual(3);
+      expect((await runLocaleFunction(page, 'parseDate', 'June 20', 'MMMM d')).getDate()).toEqual(20);
+      expect((await runLocaleFunction(page, 'parseDate', '2020 June', 'yyyy MMMM')).getTime()).toEqual((await pageDate.newDate(2020, 5, 1, 0, 0, 0)).getTime());
+      expect((await runLocaleFunction(page, 'parseDate', '02', 'dd')).getDate()).toEqual(2);
+    });
+
+    test('can stricly parse time', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'parseDate', '14:77 AM', { dateFormat: 'hh:mm a', strictTime: true }))).not.toBeDefined();
+      expect((await runLocaleFunction(page, 'parseDate', '13:77 AM', { dateFormat: 'h:mm a', strictTime: true }))).not.toBeDefined();
+      expect((await runLocaleFunction(page, 'parseDate', '29:33:99', { dateFormat: 'HH:mm:ss', strictTime: true }))).not.toBeDefined();
+      expect((await runLocaleFunction(page, 'parseDate', '29:33:99', { dateFormat: 'H:mm:ss', strictTime: true }))).not.toBeDefined();
+      expect((await runLocaleFunction(page, 'parseDate', '2:15 test', { dateFormat: 'h:mm a', strictTime: true }))).not.toBeDefined();
+      expect((await runLocaleFunction(page, 'parseDate', '2:', { dateFormat: 'h:mm a', strictTime: true }))).not.toBeDefined();
+      expect((await runLocaleFunction(page, 'parseDate', '2', { dateFormat: 'h:mm a', strictTime: true }))).not.toBeDefined();
+
+      expect((await runLocaleFunction(page, 'parseDate', '11:77:99', { dateFormat: 'H:mm:ss' })).getSeconds()).toEqual(0);
+      expect((await runLocaleFunction(page, 'parseDate', '11:77:99', { dateFormat: 'H:mm:ss' })).getMinutes()).toEqual(0);
+    });
+  });
+
+  test.describe('Arabic/Islamic calendar tests', () => {
+    test('can support checking of Islamic calendar', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'isIslamic', ''))).toEqual(false);
+
+      await runLocaleFunction(page, 'setLocale', 'ar-SA');
+      expect((await runLocaleFunction(page, 'isIslamic', ''))).toEqual(true);
+
+      await runLocaleFunction(page, 'setLocale', 'es-ES');
+      expect((await runLocaleFunction(page, 'isIslamic', ''))).toEqual(false);
+
+      expect((await runLocaleFunction(page, 'isIslamic', 'ar-SA'))).toEqual(true);
+      expect((await runLocaleFunction(page, 'isIslamic', 'xx-XX'))).toEqual(false);
+    });
+
+    test('can support checking of RTL', async ({ page }) => {
+      expect((await runLocaleFunction(page, 'isRTL', ''))).toEqual(false);
+
+      await runLocaleFunction(page, 'setLocale', 'ar-SA');
+      expect((await runLocaleFunction(page, 'isRTL', ''))).toEqual(true);
+
+      expect((await runLocaleFunction(page, 'isRTL', 'en-US'))).toEqual(false);
+      expect((await runLocaleFunction(page, 'isRTL', 'en'))).toEqual(false);
+
+      expect((await runLocaleFunction(page, 'isRTL', 'ar-SA'))).toEqual(true);
+      expect((await runLocaleFunction(page, 'isRTL', 'ar'))).toEqual(true);
+    });
+  });
 });

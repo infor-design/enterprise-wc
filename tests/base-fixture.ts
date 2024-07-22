@@ -8,7 +8,9 @@ import {
   expect as baseExpect,
   Locator
 } from '@playwright/test';
-import { PageDate, CustomEventTest, PageErrorsTest } from './helper-fixture';
+import { CustomEventTest } from './helpers/custom-events-test';
+import { PageErrorsTest } from './helpers/page-errors-test';
+import { PageDate } from './helpers/page-date';
 
 const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output');
 
@@ -21,6 +23,9 @@ export function generateUUID(): string {
 }
 
 interface CustomParameters {
+  /**
+   * Helper object for custom events testing
+   */
   eventsTest: CustomEventTest;
   /**
    * Helper object to check for errors in the page during execution.
