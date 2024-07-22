@@ -38,6 +38,24 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
     ];
   }
 
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) return;
+
+    if (name === attributes.SEARCHABLE) this.#searchable();
+  }
+
+  #searchable() {
+    if (!this.searchField && this.searchable) {
+      this.toolbar?.insertAdjacentHTML('afterbegin', this.searchFieldTemplate());
+      this.searchField = this.toolbar?.querySelector('ids-search-field') || null;
+    }
+
+    this.dataGrid.wrapper?.classList.toggle('has-searchfield', !!this.searchField);
+    this.#attachEventListeners();
+  }
+
   connectedCallback() {
     super.connectedCallback?.();
 
@@ -80,13 +98,13 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
 
     const input = (this.searchField as IdsSearchField)?.input ?? this.searchField;
 
-    input?.addEventListener('input', (e: any) => {
-      this.#onSearch(e.target?.value || '');
-    });
+    const onInput = (e: any) => this.#onSearch(e.target?.value || '');
+    input?.removeEventListener('input', onInput);
+    input?.addEventListener('input', onInput);
 
-    this.searchField?.addEventListener('cleared', () => {
-      this.#onSearch('');
-    });
+    const onCleared = () => this.#onSearch('');
+    this.searchField?.removeEventListener('cleared', onCleared);
+    this.searchField?.addEventListener('cleared', onCleared);
   }
 
   /**
@@ -114,31 +132,11 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
   }
 
   /**
-   * Set the searchable
-   * @returns {void}
-   */
-  setSearchable(): void {
-    if (!this.searchField && this.searchable) {
-      this.toolbar?.insertAdjacentHTML('afterbegin', this.searchFieldTemplate());
-      this.searchField = this.toolbar?.querySelector('ids-search-field') || null;
-    }
-
-    this.#makeItSearchable();
-  }
-
-  #makeItSearchable() {
-    const isSearchField = !!this.searchField;
-    this.dataGrid.wrapper?.classList.toggle('has-searchfield', isSearchField);
-    this.#attachEventListeners();
-  }
-
-  /**
    * Set searchable which allows list view to be filtered
    * @param {string | boolean | null} value The value
    */
   set searchable(value: string | boolean | null) {
     this.toggleAttribute(attributes.SEARCHABLE, stringToBool(value));
-    this.setSearchable();
   }
 
   get searchable(): boolean {
@@ -183,7 +181,7 @@ const IdsDataGridSearchMixin = <T extends Constraints>(superclass: T) => class e
    */
   set searchField(value: HTMLElement | IdsSearchField | null) {
     this.#searchField = value;
-    this.#makeItSearchable();
+    this.#searchable();
   }
 
   /**
