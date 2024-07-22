@@ -8,9 +8,6 @@
   - link: example.html
     type: Main Example
     description: Shows a 8/12/16 column grids
-  - link: responsive.html
-    type: Responsive Example
-    description: Shows a responsive grid example
   - link: example-cards.html
     type: Card example
     description: Shows a grid w/cards
@@ -20,18 +17,24 @@
   - link: example-workspace-2.html
     type: Workspace Example
     description: Shows a masonry style grid
-  - link: sticky.html
-    type: Workspace Example
-    description: Shows an example with a sticky grid cell
   - link: example-auto-fit.html
     type: Masonry Grid example
     description: Shows a auto-fit example
-  - link: standalone-css.html
-    type: Standalone CSS
-    description: Showing a layout grid that works with css only
   - link: example-flow.html
     type: Flow Example
     description: Showing an example with different grid flows.
+  - link: example-inbox.html
+    type: Inbox Example
+    description: Shows a responsive inbox example
   - link: min-height.html
     type: Test the min-height and height attributes
     description: Showing an example with min-height and height attributes on the layout grid cells
+  - link: responsive.html
+    type: Responsive Example
+    description: Shows a responsive grid example
+  - link: standalone-css.html
+    type: Standalone CSS
+    description: Showing a layout grid that works with css only
+  - link: sticky.html
+    type: Workspace Example
+    description: Shows an example with a sticky grid cell

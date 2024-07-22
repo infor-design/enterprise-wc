@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+
+    <ids-layout-grid cols="4" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <p>
+          <ids-button appearance="primary" icon="folder" badge-position="bottom-left" badge-color="warning">
+            <span>Button label</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button appearance="secondary" badge-position="top-right" badge-color="success">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Button label</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button appearance="tertiary" disabled badge-position="bottom-right" badge-color="info">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Button label</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button badge-position="bottom-left" badge-color="neutral">
+            <ids-icon icon="folder"></ids-icon>
+            <span class="audible">Button label</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button badge-position="top-right" badge-color="info">
+            <ids-icon icon="mail"></ids-icon>
+            <span class="audible">Button label</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-button icon-align="end" appearance="tertiary" badge-position="bottom-right" badge-color="info">
+            <ids-icon icon="folder"></ids-icon>
+            <span>Button label</span>
+          </ids-button>
+        </p>
+        <p>
+          <ids-menu-button id="menu-button" icon="settings" appearance="tertiary" menu="my-menu" dropdown-icon badge-position="top-right" badge-color="info">
+            <span>Settings</span>
+          </ids-menu-button>
+          <ids-popup-menu id="my-menu" target="menu-button" trigger-type="click">
+            <ids-menu-group>
+              <ids-menu-item>Personalize Columns...</ids-menu-item>
+            </ids-menu-group>
+            <ids-separator></ids-separator>
+            <ids-menu-group select="single" id="sizes">
+              <ids-menu-header>Row Height</ids-menu-header>
+              <ids-menu-item disabled="true" value="extra-small">Extra Small</ids-menu-item>
+              <ids-menu-item value="small">Small</ids-menu-item>
+              <ids-menu-item value="medium">Medium</ids-menu-item>
+              <ids-menu-item value="large" selected="true">Large</ids-menu-item>
+            </ids-menu-group>
+            <ids-separator></ids-separator>
+            <ids-menu-group select="multiple" keep-open="true">
+              <ids-menu-header>Filtering Options</ids-menu-header>
+              <ids-menu-item selected="true">Show Filter Row</ids-menu-item>
+              <ids-menu-item value="run-filter">Run Filter</ids-menu-item>
+              <ids-menu-item value="clear-filter">Clear Filter</ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+        </p>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

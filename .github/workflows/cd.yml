@@ -62,6 +62,9 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Re-Build for upload
+      run: npm run build
+
     - name: Extract branch name
       shell: bash
       run: |

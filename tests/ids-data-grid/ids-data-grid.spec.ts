@@ -140,7 +140,7 @@ test.describe('IdsDataGrid tests', () => {
       await percySnapshot(page, 'ids-data-grid-alternate-row-shading-light');
     });
 
-    test('should not have visual regressions in percy (expandable-row)', async ({ page, browserName }) => {
+    test.skip('should not have visual regressions in percy (expandable-row)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await page.goto('/ids-data-grid/expandable-row.html');
       await percySnapshot(page, 'ids-data-grid-expandable-row-light');

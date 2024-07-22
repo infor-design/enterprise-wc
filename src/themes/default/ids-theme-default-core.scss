@@ -127,9 +127,35 @@
   --ids-z-index-90: 500;
   --ids-z-index-100: 600;
   --ids-z-index-110: 700;
+  --ids-z-index-120: 1000;
+  --ids-z-index-130: 1010;
+  --ids-z-index-140: 1015;
+  --ids-z-index-150: 1020;
+  --ids-z-index-160: 3000;
+  --ids-z-index-170: 4000;
+  --ids-z-index-180: 4500;
+  --ids-z-index-190: 6000;
+  --ids-z-index-200: 7000;
+  --ids-z-index-210: 8000;
+  --ids-z-index-220: 9000;
+  --ids-z-index-230: 10000;
+  --ids-z-index-240: 10020;
 
   // Z Indexes (purpose-driven)
   --ids-z-index-top-level-container: var(--ids-z-index-20);
+  --ids-z-index-overlay: var(--ids-z-index-120);
+  --ids-z-index-busy-indicator: var(--ids-z-index-130);
+  --ids-z-index-popdown: var(--ids-z-index-140);
+  --ids-z-index-dialogs: var(--ids-z-index-150);
+  --ids-z-index-popovers : var(--ids-z-index-160);
+  --ids-z-index-lookup: var(--ids-z-index-170);
+  --ids-z-index-dropdown: var(--ids-z-index-180);
+  --ids-z-index-tooltips: var(--ids-z-index-190);
+  --ids-z-index-draggables: var(--ids-z-index-200);
+  --ids-z-index-slide-dialogs: var(--ids-z-index-210);
+  --ids-z-index-context-menu: var(--ids-z-index-220);
+  --ids-z-index-full-page-sticky: var(--ids-z-index-230);
+  --ids-z-index-skip-link: var(--ids-z-index-240);
 
   // @component
   // About
@@ -148,6 +174,12 @@
   --ids-accordion-header-shadow-focus: var(--ids-shadow-20);
   --ids-accordion-header-color-border-disabled: var(--ids-color-text-disabled);
   --ids-accordion-header-color-text-disabled: var(--ids-color-text-disabled);
+  --ids-accordion-header-padding: 12px 16px;
+  --ids-accordion-header-app-menu-padding: 12px 16px;
+  --ids-accordion-header-sub-app-menu-padding: 8px 20px;
+  --ids-accordion-pane-content-padding-block: 8px;
+  --ids-accordion-pane-content-padding-inline: 18px;
+  --ids-accordion-pane-content-padding-icon: 30px;
 
   // Action Panel
   --ids-action-panel-header-height: 50px;

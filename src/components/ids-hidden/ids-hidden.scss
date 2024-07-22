@@ -1,0 +1,111 @@
+@import '../../themes/mixins/ids-core-mixins';
+
+:host([enable-container][hide-down='xs']),
+.enable-container[hide-down='xs'] {
+  display: block;
+
+  @container (max-width: #{$breakpoint-xs}) {
+    display: none;
+  }
+}
+
+
+:host([enable-container][hide-down='sm']),
+.enable-container[hide-down='sm'] {
+  display: block;
+
+  @container (max-width: #{$breakpoint-sm}) {
+    display: none;
+  }
+}
+
+:host([enable-container][hide-down='md']),
+.enable-container[hide-down='md'] {
+  display: block;
+
+  @container (max-width: #{$breakpoint-md}) {
+    display: none;
+  }
+}
+
+:host([enable-container][hide-down='lg']),
+.enable-container[hide-down='lg'] {
+  display: block;
+
+  @container (max-width: #{$breakpoint-lg}) {
+    display: none;
+  }
+}
+
+
+:host([enable-container][hide-down='xl']),
+.enable-container[hide-down='xl'] {
+  display: block;
+
+  @container (max-width: #{$breakpoint-xl}) {
+    display: none;
+  }
+}
+
+:host([enable-container][hide-down='xxl']),
+.enable-container[hide-down='xxl'] {
+  display: block;
+
+  @container (max-width: #{$breakpoint-xxl}) {
+    display: none;
+  }
+}
+
+:host([enable-container][hide-up='xs']),
+.enable-container[hide-up='xs'] {
+  display: block;
+
+  @container (min-width: #{$breakpoint-xs}) {
+    display: none;
+  }
+}
+
+:host([enable-container][hide-up='sm']),
+.enable-container[hide-up='sm']  {
+  display: block;
+
+  @container (min-width: #{$breakpoint-sm}) {
+    display: none;
+  }
+}
+
+:host([enable-container][hide-up='md']),
+.enable-container[hide-up='md']  {
+  display: block;
+
+  @container (min-width: #{$breakpoint-md}) {
+    display: none;
+  }
+}
+
+:host([enable-container][hide-up='lg']),
+.enable-container[hide-up='lg']  {
+  display: block;
+
+  @container (min-width: #{$breakpoint-lg}) {
+    display: none;
+  }
+}
+
+:host([enable-container][hide-up='xl']),
+.enable-container[hide-up='xl']  {
+  display: block;
+
+  @container (min-width: #{$breakpoint-xl}) {
+    display: none;
+  }
+}
+
+:host([enable-container][hide-up='xxl']),
+.enable-container[hide-up='xxl']  {
+  display: block;
+
+  @container (min-width: #{$breakpoint-xxl}) {
+    display: none;
+  }
+}

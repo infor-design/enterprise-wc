@@ -249,7 +249,7 @@ export default class IdsIcon extends Base {
     if (value) {
       this.setAttribute(attributes.BADGE_COLOR, value);
       this.#updateBadge();
-    } else if (!value) {
+    } else {
       this.removeAttribute(attributes.BADGE_COLOR);
       this.#updateBadge();
     }
@@ -270,10 +270,10 @@ export default class IdsIcon extends Base {
    * @param {string} value sets the postion of the notification badge
    */
   set badgePosition(value: string | null) {
-    if (value && this.getAttribute(attributes.BADGE_POSITION) !== value) {
+    if (value) {
       this.setAttribute(attributes.BADGE_POSITION, value);
       this.#updateBadge();
-    } else if (!value) {
+    } else {
       this.removeAttribute(attributes.BADGE_POSITION);
       this.#updateBadge();
     }
@@ -518,12 +518,12 @@ export default class IdsIcon extends Base {
     let badge = this.shadowRoot?.querySelector('span');
 
     if (!badge && this.shadowRoot) {
-      this.shadowRoot.innerHTML = this.template();
+      this.container?.insertAdjacentHTML('afterend', '<span class="notification-badge"></span>');
       badge = this.shadowRoot.querySelector('span');
     }
 
     if ((!this.badgeColor || !this.badgePosition) && badge) {
-      this.className = '';
+      badge.className = '';
     } else if (badge) {
       badge.className = '';
       badge.classList.add(`notification-badge`, `${this.badgePosition}`, `${this.badgeColor}`);

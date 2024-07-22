@@ -84,8 +84,8 @@
 
 @mixin accordion-pane-in-page-standard-size() {
   .ids-accordion-pane-content {
-    padding-block: 8px;
-    padding-inline-start: 18px;
+    padding-block: var(--ids-accordion-pane-content-padding-block);
+    padding-inline-start: var(--ids-accordion-pane-content-padding-inline);
   }
 
   &.nested {
@@ -96,7 +96,7 @@
 
   &.has-icon {
     .ids-accordion-pane-content {
-      padding-inline-start: 30px;
+      padding-inline-start: var(--ids-accordion-pane-content-padding-icon);
     }
   }
 }

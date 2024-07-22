@@ -61,7 +61,9 @@ export const BUTTON_ATTRIBUTES: string[] = [
   attributes.TEXT,
   attributes.TYPE,
   attributes.TABINDEX,
-  attributes.WIDTH
+  attributes.WIDTH,
+  attributes.BADGE_COLOR,
+  attributes.BADGE_POSITION,
 ];
 
 // Icon alignment CSS class names

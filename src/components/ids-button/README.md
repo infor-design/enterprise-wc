@@ -143,6 +143,8 @@ IdsButton's type attribute simply passes through to the Shadow Root's HTMLButton
 - `tooltip` {string} Sets up a string based tooltip
 - `square` {boolean} whether the corners of the button as an icon-button are angled/90°
 - `width` {string} Sets width of button. Accepts percent, pixels, rem, etc.
+- `badge-position` {string} Sets the notification badge position if the button has an icon, passed to `ids-icon` component
+- `badge-color` {string} Sets the notification badge color if the button has an icon, passed to `ids-icon` component
 
 ## Keyboard Guidelines
 

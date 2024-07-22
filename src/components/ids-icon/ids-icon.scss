@@ -96,18 +96,18 @@ svg {
   * positioning notification badge
   */
   &.top-right {
-    bottom: 75%;
-    left: 75%;
+    bottom: calc(100% - var(--ids-notification-badge-size));
+    left: calc(100% - var(--ids-notification-badge-size));
   }
 
   &.top-left {
-    bottom: 75%;
+    bottom: calc(100% - var(--ids-notification-badge-size));
     left: 0;
   }
 
   &.bottom-right {
     bottom: 0;
-    left: 75%;
+    left: calc(100% - var(--ids-notification-badge-size));
   }
 
   &.bottom-left {

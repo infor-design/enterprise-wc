@@ -46,7 +46,7 @@ test.describe('IdsContainer tests', () => {
     });
   });
 
-  test.describe('e2e tests', () => {
+  test.describe('functionality tests', () => {
     test('can set language via async func', async ({ page }) => {
       await page.evaluate(async (id) => {
         await document.querySelector<IdsContainer>(id)!.localeAPI.setLanguage('ar');

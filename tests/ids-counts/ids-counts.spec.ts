@@ -65,7 +65,7 @@ test.describe('IdsCounts tests', () => {
       await percySnapshot(page, 'ids-counts-light');
     });
 
-    test.describe('e2e tests', () => {
+    test.describe('functionality tests', () => {
       test('can render a specific hex color', async () => {
         await counts.evaluate((element: IdsCounts, eColor: string | null) => {
           element.color = eColor;

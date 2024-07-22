@@ -16,22 +16,6 @@
       <ids-layout-grid-cell>
         <ids-search-field clearable dirty-tracker label="Products" value="Anti-virus Software" validate="required"></ids-search-field>
         <ids-search-field clearable readonly label="Read-only Search Bar" value="Cellphone"></ids-search-field>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
-        <ids-search-field clearable label="Search Field with Hidden Label" label-state="hidden" placeholder="Custom placeholder text"></ids-search-field>
-        <form>
-          <ids-search-field label="Search Wrapped in a Form tag" value="Cellphone" clearable></ids-search-field>
-        </form>
-      </ids-layout-grid-cell>
-      <ids-layout-grid-cell>
-        <ids-search-field disabled label="Disabled Search Bar" value="Anti-virus Software"></ids-search-field>
-        <ids-search-field clearable color-variant="alternate" label="Alternate Color Search Bar" value="Cellphone">
-        </ids-search-field>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
-
-    <ids-layout-grid cols-md="3" cols-xs="1" auto-fit="true" gap="xl" padding-x="md">
-      <ids-layout-grid-cell>
         <ids-search-field
           id="search-field-autocomplete"
           label="Autocomplete Search Bar"
@@ -42,6 +26,10 @@
         ></ids-search-field>
       </ids-layout-grid-cell>
       <ids-layout-grid-cell>
+        <ids-search-field clearable label="Search Field with Hidden Label" label-state="hidden" placeholder="Custom placeholder text"></ids-search-field>
+        <form>
+          <ids-search-field label="Search Wrapped in a Form tag" value="Cellphone" clearable></ids-search-field>
+        </form>
         <ids-search-field
           id="search-field-autocomplete-no-results"
           label="Autocomplete Search Bar (No data)"
@@ -50,7 +38,13 @@
           autocomplete
         ></ids-search-field>
       </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-search-field disabled label="Disabled Search Bar" value="Anti-virus Software"></ids-search-field>
+        <ids-search-field clearable color-variant="alternate" label="Alternate Color Search Bar" value="Cellphone">
+        </ids-search-field>
+      </ids-layout-grid-cell>
     </ids-layout-grid>
+
 
     <ids-layout-grid auto-fit="true" padding="md">
       <ids-text font-size="12" type="h1">Search Field - Categories</ids-text>

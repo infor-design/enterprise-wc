@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
+import { type IdsColorValueStatus } from '../../src/utils/ids-color-utils/ids-color-utils';
 
 import IdsButton from '../../src/components/ids-button/ids-button';
 import { IdsButtonAppearance, IdsButtonIconAlignment, IdsButtonContentAlignment } from '../../src/components/ids-button/ids-button-common';
@@ -467,6 +468,24 @@ test.describe('IdsButton tests', () => {
             await expect(button).not.toHaveClass(/content-align/);
           }
         });
+      }
+    });
+
+    test('should set badge-position and badge-color to icon component', async ({ page }) => {
+      const id = 'test-button-tertiary';
+      const idsButton = page.locator(`ids-button[id="${id}"]`);
+      const badgePositions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+      const badgeColors = ['error', 'warning', 'caution', 'success', 'neutral'];
+      for (const badgePosition of badgePositions) {
+        for (const badgeColor of badgeColors) {
+          await idsButton.evaluate((elem: IdsButton, arg) => {
+            elem.icon = 'settings';
+            elem.badgePosition = arg.badgePosition;
+            elem.badgeColor = arg.badgeColor as IdsColorValueStatus;
+          }, { badgePosition, badgeColor });
+          await expect(idsButton.locator('ids-icon').first()).toHaveAttribute('badge-position', badgePosition);
+          await expect(idsButton.locator('ids-icon').first()).toHaveAttribute('badge-color', badgeColor);
+        }
       }
     });
   });

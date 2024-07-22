@@ -173,6 +173,21 @@ test.describe('IdsListView tests', () => {
       expect(await noOfCalls[0]).toBe(1);
       expect(await noOfCalls[1]).toBe(1);
     });
+
+    test('should fire selected event on a list view item', async ({ page }) => {
+      await page.goto('/ids-list-view/list-view-items.html');
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const comp = document.querySelector<IdsListView>('ids-list-view-item');
+        comp?.addEventListener('selected', () => { calls++; });
+
+        const event = new MouseEvent('click', { bubbles: true });
+        const item = document.querySelector<IdsListView>('ids-list-view-item');
+        item?.dispatchEvent(event);
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
   });
 
   test.describe('functionality tests', () => {

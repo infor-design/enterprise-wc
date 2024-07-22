@@ -1,0 +1,50 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  AWS_DEFAULT_REGION: us-east-1
+  S3_BUCKET_NAME: wc-demos
+  CLOUDFRONT_DISTRIBUTION_ID: E2Q51X0UO412XH
+  AWS_ROLE_ARN: arn:aws:iam::611646686338:role/OxfordRole
+  GIT_STRATEGY: fetch
+  GIT_CLEAN_FLAGS: "-xdfq --exclude=build"
+  PERCY_TOKEN: ""
+  NODE_OPTIONS: "--max-old-space-size=8192"
+
+build:
+  stage: build
+  tags:
+    - dsa
+    - DIND
+  image: node:20
+  script:
+    - node -e 'console.log(v8.getHeapStatistics().heap_size_limit/(1024*1024))'
+    - npm ci
+    - npm run build:coverage
+    #- npx playwright install --with-deps
+    #- npx percy exec -- npm run test:ci
+
+deploy:
+  stage: deploy
+  tags:
+    - dsa
+    - DIND
+  before_script:
+    - 'command -v aws >/dev/null 2>&1 || { echo >&2 "Installing AWS CLI..."; pip install awscli; }'
+    - >
+      export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s"
+      $(aws sts assume-role
+      --role-arn ${AWS_ROLE_ARN}
+      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
+      --duration-seconds 3600
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+      --output text))
+    - aws configure set default.region $AWS_DEFAULT_REGION
+  image: python:3.12
+  script:
+    - branch_name=$(echo $CI_COMMIT_REF_NAME | sed 's/[./-]/_/g')
+    - echo "Deploying ${branch_name}"
+    - aws s3 cp build/development/ "s3://${S3_BUCKET_NAME}/${branch_name}" --recursive
+    - aws configure set preview.cloudfront true
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*" || true

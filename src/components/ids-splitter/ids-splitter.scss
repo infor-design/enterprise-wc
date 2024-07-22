@@ -1,4 +1,14 @@
+@import '../../themes/mixins/ids-core-mixins';
+
 /* Ids Splitter Component */
+:host {
+  visibility: hidden; // Fix FOUC
+}
+
+:host(.ids-splitter-initialized) {
+  visibility: visible;
+}
+
 .ids-splitter {
   display: flex;
   position: relative;
@@ -119,9 +129,4 @@
       display: none;
     }
   }
-}
-
-::slotted(ids-splitter-pane) {
-  display: grid;
-  overflow: auto;
 }

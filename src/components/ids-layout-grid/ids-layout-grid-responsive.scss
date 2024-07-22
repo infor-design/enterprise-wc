@@ -1,0 +1,56 @@
+// ================================================
+// Viewport and Container Queries
+
+// Base Media Queries
+@each $size, $breakpoint in (xs: $breakpoint-xs, sm: $breakpoint-sm, md: $breakpoint-md, lg: $breakpoint-lg, xl: $breakpoint-xl, xxl: $breakpoint-xxl) {
+  @media (min-width: #{$breakpoint}) {
+    @for $i from 1 through $grid-cols {
+      :host([cols-#{$size}='#{$i}']),
+      .#{$prefix}-cols-#{$size}-#{$i} {
+        width: 100%;
+        grid-template-columns: repeat(#{$i}, minmax($min-col-width, $max-col-width));
+      }
+    }
+
+    :host([flow-#{$size}="row"]),
+    .#{$prefix}-flow-#{$size}-row {
+      grid-auto-flow: row;
+    }
+    :host([flow-#{$size}="column"]),
+    .#{$prefix}-flow-#{$size}-col {
+      grid-auto-flow: column;
+    }
+    :host([flow-#{$size}="dense"]),
+    .#{$prefix}-flow-#{$size}-dense {
+      grid-auto-flow: dense;
+    }
+    :host([flow-#{$size}="row-dense"]),
+    .#{$prefix}-flow-#{$size}-row-dense {
+      grid-auto-flow: row dense;
+    }
+    :host([flow-#{$size}="column-dense"]),
+    .#{$prefix}-flow-#{$size}-col-dense {
+      grid-auto-flow: column dense;
+    }
+  }
+}
+
+@mixin container-queries {
+  @each $size, $breakpoint in (xs: $breakpoint-xs, sm: $breakpoint-sm, md: $breakpoint-md, lg: $breakpoint-lg, xl: $breakpoint-xl, xxl: $breakpoint-xxl) {
+    @container (min-width: #{$breakpoint}) {
+      @include grid-cols($size);
+      @include grid-rows($size);
+      @include hide-show($size);
+    }
+  }
+}
+
+@mixin media-queries {
+  @each $size, $breakpoint in (xs: $breakpoint-xs, sm: $breakpoint-sm, md: $breakpoint-md, lg: $breakpoint-lg, xl: $breakpoint-xl, xxl: $breakpoint-xxl) {
+    @media (min-width: #{$breakpoint}) {
+      @include grid-cols($size);
+      @include grid-rows($size);
+      @include hide-show($size);
+    }
+  }
+}
