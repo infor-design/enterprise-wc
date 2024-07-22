@@ -8,6 +8,7 @@
 - `[Button]` Added notification badges. ([#2323](https://github.com/infor-design/enterprise-wc/issues/2323))
 - `[Dropdown]` Fix dropdown size setting for angular. ([#2248](https://github.com/infor-design/enterprise-wc/issues/2248))
 - `[ListView]` Fixed an issue where selected event is not being triggered on `ids-list-view-item`. ([#2565](https://github.com/infor-design/enterprise-wc/issues/2565))
+- `[Locale]` Converted locale tests to playwright. ([#1948](https://github.com/infor-design/enterprise-wc/issues/1948))
 - `[Tooltip]` Increase tooltip z-index. ([#2462](https://github.com/infor-design/enterprise-wc/issues/2462))
 
 ## 1.3.0
