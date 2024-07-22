@@ -1,5 +1,15 @@
 # What's New with Enterprise Web Components
 
+## 1.4.0
+
+### 1.4.0 Features
+
+- `[Datagrid]` Added search feature to datagrid via `searchable` and `search-term-min-size` attributes. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
+
+### 1.4.0 Fixes
+
+- `[Datagrid]` Fixed problem with `searchable` datagrid where eraser button was not persisting on search-filtered rows. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
+
 ## 1.3.1
 
 ### 1.3.1 Fixes
