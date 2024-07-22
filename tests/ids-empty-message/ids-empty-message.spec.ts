@@ -7,9 +7,11 @@ import IdsEmptyMessage from '../../src/components/ids-empty-message/ids-empty-me
 
 test.describe('IdsEmptyMessage tests', () => {
   const url = '/ids-empty-message/example.html';
+  let emptyMessage: any;
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
+    emptyMessage = await page.locator('ids-empty-message').first();
   });
 
   test.describe('general page checks', () => {
@@ -61,6 +63,20 @@ test.describe('IdsEmptyMessage tests', () => {
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-empty-message-light');
+    });
+  });
+
+  test.describe('functionality tests', () => {
+    test('can update the icon', async () => {
+      await expect(emptyMessage).toHaveAttribute('icon', 'empty-error-loading-new');
+      await emptyMessage.evaluate((elem: IdsEmptyMessage) => { elem.icon = 'empty-no-data'; });
+      await expect(emptyMessage).toHaveAttribute('icon', 'empty-no-data');
+    });
+
+    test('can remove the icon', async () => {
+      await expect(emptyMessage).toHaveAttribute('icon', 'empty-error-loading-new');
+      await emptyMessage.evaluate((elem: IdsEmptyMessage) => { elem.icon = ''; });
+      await expect(emptyMessage).not.toHaveAttribute('icon');
     });
   });
 });
