@@ -1,10 +1,12 @@
 import { attributes } from '../../core/ids-attributes';
-import { customElement } from '../../core/ids-decorators';
+import { customElement, scss } from '../../core/ids-decorators';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 import type IdsSplitter from './ids-splitter';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import styles from './ids-splitter-pane.scss';
 
 const Base = IdsLocaleMixin(
   IdsEventsMixin(
@@ -21,6 +23,7 @@ const Base = IdsLocaleMixin(
  * @part pane - the splitter pane container element
  */
 @customElement('ids-splitter-pane')
+@scss(styles)
 export default class IdsSplitterPane extends Base {
   constructor() {
     super();
