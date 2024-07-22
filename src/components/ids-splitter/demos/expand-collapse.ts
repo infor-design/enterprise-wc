@@ -8,6 +8,7 @@ import '../../ids-tree/ids-tree';
 import type IdsSplitter from '../ids-splitter';
 import '../ids-splitter-pane';
 import '../ids-splitter';
+import '../../ids-layout-flex/ids-scroll-container';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const tree: any = document.querySelector('ids-tree');
