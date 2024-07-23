@@ -143,6 +143,9 @@
   - link: in-modal.html
     type: Example
     description: Shows a data grid in a modal
+  - link: in-tabs.html
+    type: Example
+    description: Shows a data grid in a modal
   - link: infinite-scroll.html
     type: Example
     description: Shows infinite-scrolling on a data grid
