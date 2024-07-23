@@ -368,6 +368,14 @@ table.ids-data-grid {
 // Empty Message
 .ids-data-grid-wrapper {
   position: relative;
+
+  .ids-data-grid-toolbar {
+    display: flex;
+    width: 100%;
+    margin: 6px 0;
+    align-items: center;
+    justify-content: end;
+  }
 }
 
 ids-empty-message:not([hidden]),
@@ -471,3 +479,4 @@ ids-loading-indicator {
     max-height: var(--ids-modal-column-list-height);
   }
 }
+

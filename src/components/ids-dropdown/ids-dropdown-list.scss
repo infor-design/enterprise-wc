@@ -34,3 +34,7 @@
 :host([size='full']) {
   width: 100%;
 }
+
+:host([position-style='fixed']) {
+  display: block;
+}
