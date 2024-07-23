@@ -779,11 +779,21 @@ export default class IdsDataGrid extends Base {
    * Move a column to a new position. Use `columnIndex` to get the column by id.
    * @param {number} fromIndex The column index to movex
    * @param {number} toIndex The new column index
+   * @param {boolean} includeInvisibleColumns use the invisible columns in the move
    */
-  moveColumn(fromIndex: number, toIndex: number) {
+  moveColumn(fromIndex: number, toIndex: number, includeInvisibleColumns = false) {
     if (fromIndex === -1 || toIndex === -1) return;
-    const correctFromIndex = this.columnIdxById(this.columns[fromIndex].id);
-    const correctToIndex = this.columnIdxById(this.columns[toIndex].id);
+
+    let correctFromIndex = -1;
+    let correctToIndex = -1;
+
+    if (includeInvisibleColumns) {
+      correctFromIndex = this.columnIdxById(this.columns[fromIndex].id);
+      correctToIndex = this.columnIdxById(this.columns[toIndex].id);
+    } else {
+      correctFromIndex = this.columnIdxById(this.visibleColumns[fromIndex].id);
+      correctToIndex = this.columnIdxById(this.visibleColumns[toIndex].id);
+    }
 
     const element = this.columns[correctFromIndex];
     this.columns.splice(correctFromIndex, 1);
@@ -3378,7 +3388,7 @@ export default class IdsDataGrid extends Base {
       this.setColumnVisible(e?.detail?.elem.getAttribute('name'), (e?.target as IdsSwitch).checked);
     });
     modal.onEvent('swapped', swappable, async (e: CustomEvent) => {
-      this.moveColumn(e.detail?.fromIndex, e.detail?.toIndex);
+      this.moveColumn(e.detail?.fromIndex, e.detail?.toIndex, true);
     });
 
     searchfield.offEvent('keyup', searchfield);

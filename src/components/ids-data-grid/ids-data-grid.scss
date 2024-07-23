@@ -418,6 +418,7 @@ ids-loading-indicator {
 #datagrid-modal {
   --ids-modal-content-padding: 0;
   --ids-modal-header-padding: 16px 16px 8px 16px;
+  --ids-popup-fit-height: 400px;
 
   ids-swappable-item {
     --ids-swappable-item-color-background-selected: var(--ids-color-accent-blue-weakest);

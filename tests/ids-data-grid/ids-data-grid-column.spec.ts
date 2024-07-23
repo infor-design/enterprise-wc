@@ -34,7 +34,7 @@ test.describe('IdsDataGrid column tests', () => {
         const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
         dataGrid.hideColumn('description');
         const hiddenColumn = dataGrid.container?.querySelector('[column-id="description"]');
-        dataGrid.showColumn('description', true);
+        dataGrid.showColumn('description');
         const visibleColumn = dataGrid.container?.querySelector('[column-id="description"]');
 
         return {
@@ -357,7 +357,7 @@ test.describe('IdsDataGrid column tests', () => {
 
   test.describe('reordering tests', () => {
     test('supports column reorder', async ({ page }) => {
-      const drogColumns = async (from: number, to: number) => {
+      const dragColumns = async (from: number, to: number) => {
         const col1 = await page.locator(`ids-data-grid .ids-data-grid-header-cell[aria-colindex="${from}"] .reorderer`);
         const col2 = await page.locator(`ids-data-grid .ids-data-grid-header-cell[aria-colindex="${to}"] .reorderer`);
         await col1.hover();
@@ -367,14 +367,21 @@ test.describe('IdsDataGrid column tests', () => {
       };
       const dataGrid = await page.locator('ids-data-grid');
       // from left to right
-      await drogColumns(2, 3);
-      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.columns[1].id)).toBe('description');
-      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.columns[2].id)).toBe('rowNumber');
+      await dragColumns(3, 4);
+      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.columns[1].id)).toBe('rowNumber');
+      expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.columns[2].id)).toBe('ledger');
 
       // from right to left
-      await drogColumns(8, 7);
+      await dragColumns(8, 7);
       expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.columns[6].id)).toBe('bookCurrency');
       expect(await dataGrid.evaluate((elem: IdsDataGrid) => elem.columns[7].id)).toBe('price');
+    });
+
+    test('supports column reorderable set to false', async ({ page }) => {
+      // This column is set to reorderable false
+      await expect(await page.locator(`ids-data-grid .ids-data-grid-header-cell[aria-colindex="2"]`)).not.toHaveAttribute('draggable');
+      // This column is not
+      await expect(await page.locator(`ids-data-grid .ids-data-grid-header-cell[aria-colindex="3"]`)).toHaveAttribute('draggable');
     });
 
     test('supports moveColumn', async ({ page }) => {
