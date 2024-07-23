@@ -17,6 +17,7 @@ import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 
 import styles from './ids-dropdown-list.scss';
+import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
 
 const Base = IdsDropdownAttributeMixin(
   IdsColorVariantMixin(
@@ -45,6 +46,12 @@ export default class IdsDropdownList extends Base {
   listBox?: IdsListBox | null;
 
   lastHovered: IdsListBoxOption | null = null;
+
+  // For position style fixed dropdowns, live refresh dropdown dimensions
+  #dropdownResizseObserver: ResizeObserver = new ResizeObserver(debounce((entries: ResizeObserverEntry[]) => {
+    const rect = entries[0].contentRect;
+    this.popup?.style.setProperty('width', `${rect.width}px`);
+  }, 30));
 
   constructor() {
     super();
@@ -88,6 +95,7 @@ export default class IdsDropdownList extends Base {
     super.disconnectedCallback();
     this.listBox = null;
     this.lastHovered = null;
+    this.#dropdownResizseObserver.disconnect();
   }
 
   /**
@@ -106,6 +114,7 @@ export default class IdsDropdownList extends Base {
   onHide() {
     this.setAriaOnMenuClose();
     this.lastHovered = null;
+    this.#dropdownResizseObserver.disconnect();
   }
 
   onShow() {
@@ -115,6 +124,11 @@ export default class IdsDropdownList extends Base {
     this.setAriaOnMenuOpen();
 
     if (this.value || typeof this.value === 'string') this.selectOption(this.value);
+
+    if (this.positionStyle === 'fixed') {
+      this.popup?.style.setProperty('width', `${this.clientWidth}px`);
+      this.#dropdownResizseObserver.observe(this);
+    }
   }
 
   onTargetChange() {
@@ -285,7 +299,7 @@ export default class IdsDropdownList extends Base {
     // External dropdown lists configured for "full" size need extra help
     // determining what size matches their target element.
     if (this.size === 'full' && this.target && !this.parentElement?.classList.contains('ids-dropdown')) {
-      const targetWidth = `${this.target.clientWidth + 3}px`;
+      const targetWidth = `${(this.target as HTMLElement).offsetWidth}px`;
       this.style.width = targetWidth;
       if (this.popup) {
         this.popup.style.maxWidth = targetWidth;
