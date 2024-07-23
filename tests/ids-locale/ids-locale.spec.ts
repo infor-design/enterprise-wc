@@ -38,7 +38,7 @@ test.describe('IdsLocale tests', () => {
   });
 
   test.describe('two digit year checks', () => {
-    test('should have a title', async ({ page }) => {
+    test('should match the visual snapshot in percy', async ({ page }) => {
       await page.goto('/ids-locale/two-digit-year.html');
       await percySnapshot(page, 'ids-locale-two-digit-year-light');
     });
