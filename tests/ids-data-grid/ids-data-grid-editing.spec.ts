@@ -275,6 +275,36 @@ test.describe('IdsDataGrid editing tests', () => {
     expect(results.isDirty3).toBeFalsy();
   });
 
+  test('revert dirty indicators on cells for a specific row', async ({ page }) => {
+    const results = await page.evaluate(() => {
+      const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
+      const row0 = dataGrid.rowByIndex(0);
+      const row1 = dataGrid.rowByIndex(1);
+      const editableCellRow0 = row0?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
+      const editableCellRow1 = row1?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');
+
+      editableCellRow0?.startCellEdit();
+      editableCellRow0?.querySelector('ids-input')?.setAttribute('value', 'test0');
+      editableCellRow0?.endCellEdit();
+
+      editableCellRow1?.startCellEdit();
+      editableCellRow1?.querySelector('ids-input')?.setAttribute('value', 'test1');
+      editableCellRow1?.endCellEdit();
+      dataGrid.resetDirtyRow(1);
+
+      const isRow0Dirty = editableCellRow0?.classList.contains('is-dirty');
+      const isRow1Dirty = editableCellRow1?.classList.contains('is-dirty');
+
+      return {
+        isRow0Dirty,
+        isRow1Dirty
+      };
+    });
+
+    expect(results.isRow0Dirty).toBeTruthy();
+    expect(results.isRow1Dirty).toBeFalsy();
+  });
+
   test('show and revert validation indicators on cells', async ({ page }) => {
     const results = await page.evaluate(() => {
       const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;

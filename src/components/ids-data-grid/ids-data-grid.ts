@@ -3135,14 +3135,27 @@ export default class IdsDataGrid extends Base {
    * Reset any currently dirty cells
    */
   resetDirtyCells() {
-    this.data.forEach((row) => {
-      if (row?.dirtyCells) {
-        delete row.dirtyCells;
-      }
+    this.data.forEach((row, idx) => {
+      this.resetDirtyRow(idx);
     });
-    this.container?.querySelectorAll('ids-data-grid-cell.is-dirty').forEach((elem) => {
-      elem.classList.remove('is-dirty');
+  }
+
+  /**
+   * Reset any currently dirty cells for a specific row
+   * @param {number} rowIndex The row index to reset the dirty state
+   */
+  resetDirtyRow(rowIndex: number) {
+    const row = this.rowByIndex(rowIndex);
+    const rowData = this.data[rowIndex];
+
+    row?.querySelectorAll('ids-data-grid-cell.is-dirty').forEach((cell) => {
+      cell.classList.remove('is-dirty');
     });
+
+    // Reset the dirty cell state in the data as well
+    if (rowData?.dirtyCells) {
+      delete rowData.dirtyCells;
+    }
   }
 
   /**
