@@ -40,7 +40,7 @@ export default defineConfig({
         // Test cycle folder Id
         testCycleFolderId: '15108775',
         codeBase: 'Web Component',
-        codeVersion: '1.3'
+        codeVersion: ''
       }
     ]
   ],

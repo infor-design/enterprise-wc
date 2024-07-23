@@ -1,4 +1,8 @@
-import type { Reporter, TestCase, TestResult } from '@playwright/test/reporter';
+import type {
+  Reporter,
+  TestCase,
+  TestResult
+} from '@playwright/test/reporter';
 import {
   createReadStream,
   existsSync,
@@ -30,6 +34,17 @@ export class ZephyrReporter implements Reporter {
 
   private reportFullPath: string;
 
+  private summary = {
+    total: 0,
+    counts: {
+      passed: 0,
+      failed: 0,
+      flaky: 0,
+      skipped: 0,
+      noRun: 0
+    }
+  };
+
   constructor(options: SyncOptions) {
     this.options = options;
     this.reportFullPath = join(process.cwd(), this.reportBasePath, `zephyr-report-${new Date().toISOString()}.json`);
@@ -37,23 +52,27 @@ export class ZephyrReporter implements Reporter {
   }
 
   onTestEnd(test: TestCase, result: TestResult): void {
+    let status: string;
+    this.summary.total++;
+    if (test.outcome() === 'flaky') {
+      this.summary.counts.flaky++;
+      status = 'Flaky';
+    } else if (result.status === 'skipped') {
+      this.summary.counts.skipped++;
+      status = 'Skipped';
+    } else if (result.status === 'passed') {
+      this.summary.counts.passed++;
+      status = 'Pass';
+    } else if (result.status === 'failed' || result.status === 'timedOut') {
+      this.summary.counts.failed++;
+      status = 'Fail';
+    } else {
+      this.summary.counts.noRun++;
+      status = 'Not Executed';
+    }
     const zAnnotation = test.annotations.find((item) => item.type === 'zsID');
     if (zAnnotation !== undefined && zAnnotation.description) {
       const testCaseKey = zAnnotation.description;
-
-      let status: string;
-      if (test.outcome() === 'flaky') {
-        status = 'Flaky';
-      } else if (result.status === 'skipped') {
-        status = 'Skipped';
-      } else if (result.status === 'passed') {
-        status = 'Pass';
-      } else if (result.status === 'failed' || result.status === 'timedOut') {
-        status = 'Fail';
-      } else {
-        status = 'Not Executed';
-      }
-
       this.testResults.push({
         result: status,
         testCase: {
@@ -65,6 +84,11 @@ export class ZephyrReporter implements Reporter {
   }
 
   async onEnd(): Promise<void | { status?: 'passed' | 'failed' | 'timedout' | 'interrupted' | undefined; } | undefined> {
+    console.info(`Test Results:\n\nTOTAL  : ${this.summary.total}\n  `
+      + `PASSED : ${this.summary.counts.passed}\n  `
+      + `FAILED : ${this.summary.counts.failed}\n  `
+      + `SKIPPED: ${this.summary.counts.skipped}\n  `
+      + `NO RUN : ${this.summary.counts.noRun}\n`);
     if (!this.#validateOptions()) return;
     if (this.testResults.length > 0) {
       this.#createReport();
@@ -83,6 +107,10 @@ export class ZephyrReporter implements Reporter {
     }
   }
 
+  printsToStdio(): boolean {
+    return true;
+  }
+
   #validateOptions(): boolean {
     const requiredOptions = [
       { field: this.options.apiKey, name: 'API key' },
@@ -92,7 +120,7 @@ export class ZephyrReporter implements Reporter {
     let flag = true;
     for (const option of requiredOptions) {
       if (!option.field) {
-        console.info(`[zephyr sync] ${option.name} is required.`);
+        console.info(`[Zephyr Sync] ${option.name} is required.`);
         flag = false;
       }
     }
