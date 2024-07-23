@@ -1,5 +1,15 @@
 # What's New with Enterprise Web Components
 
+## 1.4.0
+
+### 1.4.0 Features
+
+- `[Datagrid]` Added search feature to datagrid via `searchable` and `search-term-min-size` attributes. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
+
+### 1.4.0 Fixes
+
+- `[Datagrid]` Fixed problem with `searchable` datagrid where eraser button was not persisting on search-filtered rows. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
+
 ## 1.3.1
 
 ### 1.3.1 Fixes
@@ -26,7 +36,10 @@
 ### 1.3.0 Fixes
 
 - `[Accordion]` Fix accordion panel expanded/icon states when inserted dynamically. ([#2406](https://github.com/infor-design/enterprise-wc/issues/2406))
-- `[Button]` Changed `GenAi` Button in dark mode background color. ([#2509](https://github.com/infor-design/enterprise-wc/issues/2509))
+- `[Accordion]` Fix nested accordion fires common event between all headers. ([#2408](https://github.com/infor-design/enterprise-wc/issues/2408))
+- `[Accordion]` Added css variables to customization accordion header padding. ([#2529](https://github.com/infor-design/enterprise-wc/issues/2529))
+- `[Button]` Changed GenAi Button in dark mode background color. ([#2509](https://github.com/infor-design/enterprise-wc/issues/2509))
+- `[Datagrid]` Added search feature to datagrid via `searchable` and `search-term-min-size` attributes. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
 - `[Datagrid]` Fixed a bug where when no `id` column or `idColumn` setting remove row removed the wrong row.. ([#2355](https://github.com/infor-design/enterprise-wc/issues/2355))
 - `[Dropdown]` Fix dropdown bug where input is empty when option text is dynamic. ([#2362](https://github.com/infor-design/enterprise-wc/issues/2362))
 - `[Dropdown]` Fix dropdown width when size is `full`. ([#2001](https://github.com/infor-design/enterprise-wc/issues/2001))
