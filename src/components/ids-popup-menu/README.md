@@ -40,6 +40,7 @@ The Ids Popup Menu is a complex component that combines an [`IdsMenu`](../ids-me
 - `target` {HTMLElement} if defined, creates a link between this Popup Menu and another element in the DOM.
 - `trigger` {string} the action on which to activate the Popupmenu. This defaults to `contextmenu`, but can also be `click` or `immediate`.
 - `arrow` {string} If defined overrides the default arrow position. The typical use case is to set this to `none` to not show any arrow.
+- `offset-container` {string} CSS Selector for container element from which a popup with position-style `fixed` should adjust itself from. Such as when a parent container has `container-type: size`, which affects the popup's fixed position calculation.
 
 ### Menu Group
 
