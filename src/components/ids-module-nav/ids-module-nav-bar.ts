@@ -89,6 +89,7 @@ export default class IdsModuleNavBar extends Base {
     this.setScrollable();
     this.#attachEventHandlers();
     this.#observeMutations();
+    this.#toggleSeparator();
   }
 
   disconnectedCallback(): void {
@@ -362,6 +363,13 @@ export default class IdsModuleNavBar extends Base {
       }
       e.detail.response(allowed);
     });
+
+    // Check the footer slot for content and conditionally render the separator
+    const footerSlot = this.container?.querySelector('slot[name="footer"]') as HTMLSlotElement;
+    this.offEvent('slotchange.module-nav-footer');
+    this.onEvent('slotchange.module-nav-footer', footerSlot, () => {
+      this.#toggleSeparator();
+    });
   }
 
   #detachEventHandlers() {
@@ -371,6 +379,7 @@ export default class IdsModuleNavBar extends Base {
     this.offEvent('cleared.search');
     this.offEvent('mouseover.tooltip');
     this.offEvent('beforeshow.tooltip');
+    this.offEvent('slotchange.module-nav-footer');
   }
 
   #clearContainer() {
@@ -714,4 +723,23 @@ export default class IdsModuleNavBar extends Base {
       popup.setAttribute(attributes.ALIGN, attr);
     }
   };
+
+  /**
+   * Toggle the separator based on the footer slot content
+   * @returns {void}
+   */
+  #toggleSeparator() {
+    const footerSlot = this.container?.querySelector('slot[name="footer"]') as HTMLSlotElement;
+    const footerContent = footerSlot?.assignedElements()?.length > 0;
+    const separator = this.container?.querySelector('.ids-module-nav-separator');
+
+    if (footerContent && !separator) {
+      const separatorElement = document.createElement('ids-separator');
+      separatorElement.classList.add('ids-module-nav-separator');
+      separatorElement.setAttribute('color-variant', 'module-nav');
+      footerSlot?.insertAdjacentElement('beforebegin', separatorElement);
+    } else if (!footerContent && separator) {
+      separator?.remove();
+    }
+  }
 }
