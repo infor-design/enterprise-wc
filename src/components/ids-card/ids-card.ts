@@ -156,8 +156,7 @@ export default class IdsCard extends Base {
 
     this.offEvent('slotchange.ids-card', cardContentSlot);
     this.onEvent('slotchange.ids-card', cardContentSlot, () => {
-      const slotChild = cardContentSlot?.assignedElements()[0];
-      const dataGrid = slotChild?.querySelector<IdsDataGrid>('ids-data-grid');
+      const dataGrid = this?.querySelector<IdsDataGrid>('ids-data-grid');
       const cardContent = this?.container?.querySelector('.ids-card-content');
       cardContent?.classList.toggle('has-data-grid', !!dataGrid);
     });
