@@ -62,3 +62,16 @@ Contains the controls for the sandbox
   right: 60%;
   padding: 10px;
 }
+
+.box {
+  width: 50vw;
+  position: absolute;
+  inset-inline: 100px;
+  inset-block: 100px;
+  container-type: size;
+  container-name: box;
+}
+
+@container box (width < 500px) .hide-small {
+  display: none;
+}
