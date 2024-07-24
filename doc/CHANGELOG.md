@@ -9,6 +9,7 @@
 ### 1.4.0 Fixes
 
 - `[Datagrid]` Fixed problem with `searchable` datagrid where eraser button was not persisting on search-filtered rows. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
+- `[PopupMenu]` Added `offset-container` setting to allow adjustment to container types that affect fixed positioned popups. ([#2566](https://github.com/infor-design/enterprise-wc/issues/2566))
 
 ## 1.3.1
 
