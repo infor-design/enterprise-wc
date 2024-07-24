@@ -39,9 +39,9 @@ if (listView) {
 
   document.querySelector('#add-more')!.addEventListener('click', async () => {
     const dataCopy = [...initialCopy];
-    allData = [...allData, ...dataCopy];
-    listView.data = allData;
-    console.info('added more data', allData.length);
+    // allData = [...allData, ...dataCopy];
+    listView.appendToBottom(dataCopy);
+    console.info('added more data', listView.data.length);
   });
   await setData();
 }

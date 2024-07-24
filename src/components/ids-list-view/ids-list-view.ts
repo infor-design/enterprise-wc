@@ -742,6 +742,14 @@ export default class IdsListView extends Base {
   get data(): any { return this?.datasource?.data || ''; }
 
   /**
+   * Add the data array passed in to the bottom of the listview
+   * @param {Array | null} data The array to use
+   */
+  appendToBottom(data: any) {
+    this.data = [...this.data, ...data];
+  }
+
+  /**
    * Used to determine if data has been loaded into IdsListView
    * @param {Array | null} value The array to use
    */
