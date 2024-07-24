@@ -23,6 +23,7 @@
 
     &.has-data-grid {
       overflow: hidden;
+
       ::slotted([slot="card-content"]) {
         height: 100%;
       }
