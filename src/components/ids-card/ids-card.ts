@@ -150,6 +150,14 @@ export default class IdsCard extends Base {
       });
     }
 
+    const contentSlot = this.shadowRoot?.querySelector(`slot[name="card-content"]`) as any;
+    this.onEvent('slotchange', contentSlot, () => {
+      const slotElement = contentSlot?.assignedElements()[0];
+      const dataGrid = slotElement?.querySelector("ids-data-grid");
+      const cardContent = this?.container?.querySelector('.ids-card-content');
+      cardContent?.classList[dataGrid ? "add" : "remove"]("has-data-grid");
+    });
+
     return this;
   }
 
