@@ -71,10 +71,12 @@
   - link: data-changing.html
     type: Example
     description: Showing a list view changing data
+  - link: performance.html
+    type: Test
+    description: Showing a performance test adding items
   - link: side-by-side.html
     type: Side by Side
     description: Showing a list view side by side with a 4.x busy indicator
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a limited list view that works with css only
-
