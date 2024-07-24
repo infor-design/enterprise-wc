@@ -1380,14 +1380,6 @@ export default class IdsPopup extends Base {
       popupRect = this.onPlace(popupRect, this);
     }
 
-    if (this.containingElem?.classList?.contains('app-menu-is-open')) {
-      const appMenu = this.containingElem?.querySelector('.app-menu');
-      const appMenuRect = appMenu?.getBoundingClientRect();
-      if (navigator.userAgent.indexOf('Firefox') === -1) {
-        popupRect.x -= appMenuRect?.width || 300;
-      }
-    }
-
     // Correct for RTL Position
     popupRect = this.#correctRTL(popupRect);
 
