@@ -1,7 +1,12 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
-import { getElementAtMouseLocation, parents, validMaxHeight } from '../../utils/ids-dom-utils/ids-dom-utils';
+import {
+  getClosest,
+  getElementAtMouseLocation,
+  parents,
+  validMaxHeight
+} from '../../utils/ids-dom-utils/ids-dom-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsAttachmentMixin from '../../mixins/ids-attachment-mixin/ids-attachment-mixin';
@@ -48,6 +53,7 @@ export default class IdsPopupMenu extends Base {
       attributes.ARROW,
       attributes.MAX_HEIGHT,
       attributes.POSITION_STYLE,
+      attributes.OFFSET_CONTAINER,
       attributes.WIDTH,
       attributes.X,
       attributes.Y
@@ -344,6 +350,11 @@ export default class IdsPopupMenu extends Base {
 
     // Hide any "open" submenus (in the event the menu is already open and being positioned)
     this.hideSubmenus();
+
+    // copy parent's offset-container if any
+    if (this.parentMenu?.offsetContainer) {
+      this.setAttribute(attributes.OFFSET_CONTAINER, this.parentMenu.offsetContainer);
+    }
 
     // Show the popup and do placement
     this.popup!.positionStyle = this.positionStyle;
@@ -722,40 +733,88 @@ export default class IdsPopupMenu extends Base {
   }
 
   /**
-   * Sets the `onPlace` method for submenus to account for the host element's position
-   * @param {boolean} val true if the `onPlace` method should account for a parent menu's placement
+   * Sets offset container, such as a container with a `container-type
+   * set which directly affects a fixed popup's position
+   * @param {string|null} selector CSS selector of container
    */
-  private setOnPlace(val: boolean) {
-    if (this.popup) {
-      if (val) {
-        this.popup.scrollParentElem = this.parentMenu?.popup?.wrapper;
-        this.popup.onPlace = (popupRect: DOMRect): DOMRect => {
-          const parentPopup = this.parentMenu && this.parentMenu.popup!;
-          if (this.container && parentPopup && this.container && this.container.scrollParentElem) {
-            this.container.removeAttribute('style');
+  set offsetContainer(selector: string | null) {
+    if (selector) {
+      this.setAttribute(attributes.OFFSET_CONTAINER, selector);
+    } else {
+      this.removeAttribute(attributes.OFFSET_CONTAINER);
+    }
+  }
 
-            // accounts for top/bottom padding + border thickness
-            const extra = 10;
+  /**
+   * Gets offset container if any
+   * @returns {string|null} CSS selector of container
+   */
+  get offsetContainer(): string | null {
+    return this.getAttribute(attributes.OFFSET_CONTAINER);
+  }
 
-            if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
-            // adjusts for nested `relative` positioned offsets, and scrolled containers
-            let xAdjust = (parentPopup.offsetLeft || 0)
-              - this.container!.scrollParentElem!.scrollLeft;
-            let yAdjust = (parentPopup.offsetTop || 0)
-              - this.container!.scrollParentElem!.scrollTop + extra;
+  /**
+   * Adjusts fixed popup position relative to offset container
+   * @param {DOMRect} popupRect popup's DOMRect
+   * @returns {DOMRect|undefined} adjusted DOMRect
+   */
+  #adjustFromOffsetContainer(popupRect: DOMRect): DOMRect | undefined {
+    if (!this.offsetContainer || this.positionStyle !== 'fixed' || !popupRect) return;
 
-            if (this.positionStyle === 'fixed') {
-              xAdjust = this.container!.scrollParentElem!.scrollLeft > 0 ? xAdjust : 0;
-              yAdjust = this.container!.scrollParentElem!.scrollTop > 0 ? yAdjust - 20 : 0;
-            }
-            popupRect.x -= xAdjust;
-            popupRect.y -= yAdjust;
+    const containerElem = getClosest(this.popup, this.offsetContainer);
+    if (containerElem) {
+      const containerRect: DOMRect = containerElem.getBoundingClientRect();
+      popupRect.x -= containerRect.left;
+      popupRect.y -= containerRect.top;
+    }
+
+    return popupRect;
+  }
+
+  /**
+   * Sets the `onPlace` method for submenus to account for the host element's position
+   * @param {boolean} hasParentMenu true if the `onPlace` method should account for a parent menu's placement
+   */
+  private setOnPlace(hasParentMenu: boolean) {
+    if (!this.popup) return;
+
+    if (hasParentMenu) {
+      this.popup.scrollParentElem = this.parentMenu?.popup?.wrapper;
+      this.popup.onPlace = (popupRect: DOMRect): DOMRect => {
+        const parentPopup = this.parentMenu && this.parentMenu.popup!;
+        if (this.container && parentPopup && this.container && this.container.scrollParentElem) {
+          this.container.removeAttribute('style');
+
+          // accounts for top/bottom padding + border thickness
+          const extra = 10;
+
+          if (!this.container) this.container = this.shadowRoot?.querySelector('ids-popup');
+          // adjusts for nested `relative` positioned offsets, and scrolled containers
+          let xAdjust = (parentPopup.offsetLeft || 0)
+            - this.container!.scrollParentElem!.scrollLeft;
+          let yAdjust = (parentPopup.offsetTop || 0)
+            - this.container!.scrollParentElem!.scrollTop + extra;
+
+          if (this.positionStyle === 'fixed') {
+            xAdjust = this.container!.scrollParentElem!.scrollLeft > 0 ? xAdjust : 0;
+            yAdjust = this.container!.scrollParentElem!.scrollTop > 0 ? yAdjust - 20 : 0;
           }
-          return popupRect;
-        };
-      } else {
-        this.popup.onPlace = onPlace;
-      }
+          popupRect.x -= xAdjust;
+          popupRect.y -= yAdjust;
+        }
+
+        // adjust relative to offset container
+        this.#adjustFromOffsetContainer(popupRect);
+
+        return popupRect;
+      };
+    } else if (this.offsetContainer) {
+      this.popup.onPlace = (popupRect: DOMRect): DOMRect => {
+        this.#adjustFromOffsetContainer(popupRect);
+        return popupRect;
+      };
+    } else {
+      this.popup.onPlace ??= onPlace;
     }
   }
 
