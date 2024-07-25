@@ -486,7 +486,7 @@ export default class IdsColorPicker extends Base {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.popup.show();
     this.popup?.addOpenEvents();
-    this.#configureSwatches();
+    this.#configureSwatches(true);
   }
 
   /**
@@ -660,8 +660,11 @@ export default class IdsColorPicker extends Base {
     this.offEvent('input.color-picker-input', this.colorInput);
   }
 
-  /** Configure disabled/labels/tooltips attributes on IdsColor swatches */
-  #configureSwatches(): void {
+  /**
+   * Configure disabled/labels/tooltips attributes on IdsColor swatches
+   * @param {boolean} shouldFocus true if a swatch should be focused
+   */
+  #configureSwatches(shouldFocus = false): void {
     this.swatches.forEach((swatch: IdsColor) => {
       swatch.classList.add('outlined');
       swatch.tooltip = this.suppressLabels ? (this.tooltip || swatch.hex) : (this.tooltip || swatch.label);
@@ -674,7 +677,9 @@ export default class IdsColorPicker extends Base {
       }
     });
 
-    (this.#findColorSwatch(this.value) || this.swatches[0])?.swatch?.focus();
+    if (shouldFocus) {
+      (this.#findColorSwatch(this.value) || this.swatches[0])?.swatch?.focus();
+    }
   }
 
   /**
