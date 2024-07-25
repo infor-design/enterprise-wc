@@ -8,12 +8,19 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-popup-menu id="popupmenu">
-      <ids-menu-header id="single-select-header">Single-selectable Items</ids-menu-header>
+      <ids-menu-header id="single-select-header">Single-selectable Items (Toggleable Off)</ids-menu-header>
       <ids-menu-group id="single-select" select="single" aria-labelledby="single-select-header">
         <ids-menu-item value="single-1">Single Item One</ids-menu-item>
         <ids-menu-item value="single-2">Single Item Two</ids-menu-item>
         <ids-menu-item value="single-3">Single Item Three</ids-menu-item>
         <ids-menu-item selected="true" value="single-4">Single Item Four</ids-menu-item>
+      </ids-menu-group>
+      <ids-menu-header id="single-select-header-toggleable">Single-selectable Items (Toggleable On)</ids-menu-header>
+      <ids-menu-group id="single-select" select="single" aria-labelledby="single-select-header">
+        <ids-menu-item value="single-1" toggleable>Single Item One</ids-menu-item>
+        <ids-menu-item value="single-2" toggleable>Single Item Two</ids-menu-item>
+        <ids-menu-item value="single-3" toggleable>Single Item Three</ids-menu-item>
+        <ids-menu-item selected="true" value="single-4" toggleable>Single Item Four</ids-menu-item>
       </ids-menu-group>
       <ids-separator></ids-separator>
       <ids-menu-header id="multi-select-header">Multi-selectable Items</ids-menu-header>
