@@ -25,7 +25,8 @@
       overflow: hidden;
 
       ::slotted([slot="card-content"]) {
-        height: 100%;
+        height: calc(100% + 3px);
+        display: block;
       }
     }
   }
