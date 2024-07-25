@@ -29,6 +29,9 @@
   - link: position-style.html
     type: Test
     description: Shows the effect of changing position style
+  - link: in-offset-container.html
+    type: Test
+    description: Shows the effect of setting `offset-container` to adjust popup's fixed position
   - link: side-by-side.html
     type: Side-by-Side
     description: Showing a Popup Menu side by side with 4.x

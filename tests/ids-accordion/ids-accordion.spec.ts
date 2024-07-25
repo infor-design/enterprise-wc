@@ -366,5 +366,16 @@ test.describe('IdsAccordion tests', () => {
       await employeePanel.evaluate((panel: IdsAccordionPanel) => { panel.expanded = true; });
       expect(await benefitsPanel.evaluate((panel: IdsAccordionPanel) => panel.parentExpanded)).toBeTruthy();
     });
+
+    test('it should not fire selected event on the root accordion', async ({ page, eventsTest }) => {
+      const id = '#keep-expander-placement-nested';
+      const accordionRoot = await page.locator(id);
+      await eventsTest.onEvent(id, 'selected');
+      await eventsTest.onEvent(id, 'deselect');
+      const nestedHeader = await accordionRoot.locator('ids-accordion-header').last();
+      await nestedHeader.dispatchEvent('click');
+      expect(await eventsTest.isEventTriggered(id, 'selected')).toBeFalsy();
+      expect(await eventsTest.isEventTriggered(id, 'deselect')).toBeTruthy();
+    });
   });
 });

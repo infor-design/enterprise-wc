@@ -37,7 +37,7 @@
 :host(.expand-button),
 .expand-button {
   position: relative;
-  left: 3px;
+  inset-inline: 17px;
 }
 
 .ids-trigger-button {

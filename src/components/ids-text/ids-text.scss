@@ -177,6 +177,11 @@
   vertical-align: text-bottom;
 }
 
+::slotted(ids-alert) {
+  margin: var(--ids-text-alert-margin);
+  vertical-align: sub;
+}
+
 /* Ids Typography System */
 .ids-text-10 {
   font-size: var(--ids-font-size-10);

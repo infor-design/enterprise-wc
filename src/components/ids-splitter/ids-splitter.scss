@@ -1,9 +1,20 @@
+@import '../../themes/mixins/ids-core-mixins';
+
 /* Ids Splitter Component */
+:host {
+  visibility: hidden; // Fix FOUC
+}
+
+:host(.ids-splitter-initialized) {
+  visibility: visible;
+}
+
 .ids-splitter {
   display: flex;
   position: relative;
   height: 100%;
   white-space: nowrap;
+  overflow: hidden;
   width: 100%;
 
   &.axis-x {
@@ -121,7 +132,6 @@
   }
 }
 
-::slotted(ids-splitter-pane) {
-  display: grid;
-  overflow: auto;
+.ids-splitter-pane {
+  overflow: hidden;
 }

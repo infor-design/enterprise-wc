@@ -134,7 +134,7 @@ export default class IdsImage extends Base {
         img.setAttribute(attributes.SRC, val);
       } else {
         // Removing placeholder
-        this.shadowRoot?.querySelector('.placeholder')?.remove();
+        this.shadowRoot?.querySelector('.placeholder, .initials')?.remove();
         // Adding image element
         img = this.#getImgEl(val, this.alt);
         this.shadowRoot?.appendChild(img);

@@ -17,6 +17,7 @@ import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 
 import styles from './ids-dropdown-list.scss';
+import debounce from '../../utils/ids-debounce-utils/ids-debounce-utils';
 
 const Base = IdsDropdownAttributeMixin(
   IdsColorVariantMixin(
@@ -46,6 +47,12 @@ export default class IdsDropdownList extends Base {
 
   lastHovered: IdsListBoxOption | null = null;
 
+  // For position style fixed dropdowns, live refresh dropdown dimensions
+  #dropdownResizseObserver: ResizeObserver = new ResizeObserver(debounce((entries: ResizeObserverEntry[]) => {
+    const rect = entries[0].contentRect;
+    this.popup?.style.setProperty('width', `${rect.width}px`);
+  }, 30));
+
   constructor() {
     super();
   }
@@ -56,7 +63,8 @@ export default class IdsDropdownList extends Base {
    */
   static get attributes() {
     return [
-      ...super.attributes
+      ...super.attributes,
+      attributes.POSITION_STYLE
     ];
   }
 
@@ -87,6 +95,7 @@ export default class IdsDropdownList extends Base {
     super.disconnectedCallback();
     this.listBox = null;
     this.lastHovered = null;
+    this.#dropdownResizseObserver.disconnect();
   }
 
   /**
@@ -105,6 +114,7 @@ export default class IdsDropdownList extends Base {
   onHide() {
     this.setAriaOnMenuClose();
     this.lastHovered = null;
+    this.#dropdownResizseObserver.disconnect();
   }
 
   onShow() {
@@ -114,6 +124,11 @@ export default class IdsDropdownList extends Base {
     this.setAriaOnMenuOpen();
 
     if (this.value || typeof this.value === 'string') this.selectOption(this.value);
+
+    if (this.positionStyle === 'fixed') {
+      this.popup?.style.setProperty('width', `${this.clientWidth}px`);
+      this.#dropdownResizseObserver.observe(this);
+    }
   }
 
   onTargetChange() {
@@ -283,9 +298,8 @@ export default class IdsDropdownList extends Base {
   configurePopup() {
     // External dropdown lists configured for "full" size need extra help
     // determining what size matches their target element.
-    if (this.size === 'full' && this.target) {
-      const padding = this.parentElement?.classList.contains('ids-dropdown') ? 1 : 3; // Slightly different fo datagrid and normal
-      const targetWidth = `${this.target.clientWidth + padding}px`;
+    if (this.size === 'full' && this.target && !this.parentElement?.classList.contains('ids-dropdown')) {
+      const targetWidth = `${(this.target as HTMLElement).offsetWidth}px`;
       this.style.width = targetWidth;
       if (this.popup) {
         this.popup.style.maxWidth = targetWidth;
@@ -294,22 +308,22 @@ export default class IdsDropdownList extends Base {
     }
 
     if (this.popup) {
-      const input = (this.parentNode?.querySelector('ids-trigger-field')?.shadowRoot?.querySelector('.field-container') as HTMLDivElement);
       if (!this.target) {
-        this.popup.alignTarget = input;
+        this.popup.alignTarget = this;
       }
       this.popup.type = 'dropdown';
       this.popup.container?.classList.add('dropdown');
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'none';
-      this.popup.setAttribute('position-style', 'fixed');
 
       // Fix aria if the menu is closed
       if (!this.popup.visible) {
         this.popup.y = -1;
         this.popup.x = 0;
         this.setAriaOnMenuClose();
-      } else if (this.popup.visible) {
+      } else if (this.popup.visible && this.positionStyle === 'fixed') {
+        this.popup.setAttribute(attributes.POSITION_STYLE, 'fixed');
+        const input = (this.parentNode?.querySelector('ids-trigger-field')?.shadowRoot?.querySelector('.field-container') as HTMLDivElement);
         let y = (input?.getBoundingClientRect().bottom || 0) - 1;
         const x = (input?.getBoundingClientRect().x || 0);
 
@@ -318,7 +332,7 @@ export default class IdsDropdownList extends Base {
         }
 
         this.popup.onPlace = (popupRect: any, domElement: HTMLElement) => {
-          const modalParent = getClosest(this.popup, 'ids-modal');
+          const modalParent = getClosest(this.popup, 'ids-modal, ids-action-panel');
           if (modalParent) {
             popupRect.x = 'unset';
             popupRect.y = 'unset';
@@ -341,6 +355,8 @@ export default class IdsDropdownList extends Base {
         };
 
         this.popup.setPosition(x, y, false, true);
+      } else if (this.popup.visible) {
+        this.popup.setPosition(0, -1, false, true);
       }
     }
   }
@@ -460,6 +476,15 @@ export default class IdsDropdownList extends Base {
    */
   get typeahead(): boolean {
     return stringToBool(this.getAttribute(attributes.TYPEAHEAD));
+  }
+
+  set positionStyle(val: 'fixed' | 'absolute' | null) {
+    this.setAttribute(attributes.POSITION_STYLE, val === 'fixed' ? 'fixed' : 'absolute');
+    this.container?.style.setProperty('position', val === 'fixed' ? 'fixed' : 'absolute');
+  }
+
+  get positionStyle(): 'fixed' | 'absolute' {
+    return this.getAttribute(attributes.POSITION_STYLE) === 'fixed' ? 'fixed' : 'absolute';
   }
 
   /**
