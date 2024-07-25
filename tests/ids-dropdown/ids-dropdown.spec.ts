@@ -111,6 +111,11 @@ test.describe('IdsDropdown tests', () => {
   });
 
   test.describe('functionality tests', () => {
+    const isDropdownShown = async (dropdown: Locator) => {
+      const result = await dropdown.evaluate((node: IdsDropdown) => node.popup!.visible);
+      return result;
+    };
+
     test('renders with empty container', async ({ page }) => {
       const exists = await page.evaluate(() => {
         document.body.insertAdjacentHTML('beforeend', `<ids-dropdown id="dropdown-test-1" label="Normal Dropdown"></ids-dropdown>`);
@@ -292,6 +297,233 @@ test.describe('IdsDropdown tests', () => {
       const asyncDropdownFirstOptionLocator: Locator = await page.locator('#dropdown-async-tooltips ids-list-box ids-list-box-option').first();
       await asyncDropdownFirstOptionLocator.hover();
       await expect(await page.locator('ids-tooltip')).toBeAttached();
+    });
+
+    test('can set/get validation', async () => {
+      const dropdown = await page.locator('#dropdown-1');
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.validate)).toBeNull();
+      await expect(dropdown).not.toHaveAttribute('validate', 'required');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.validate = 'required';
+        return element.validate;
+      })).toEqual('required');
+      await expect(dropdown).toHaveAttribute('validate', 'required');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.validate = null;
+        return element.validate;
+      })).toBeNull();
+      await expect(dropdown).not.toHaveAttribute('validate', 'required');
+    });
+
+    test('can set/get validationEvents', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-4');
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.validationEvents)).toEqual('change');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.validationEvents = 'blur change';
+        return element.validationEvents;
+      })).toEqual('blur change');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.validationEvents = (null) as any;
+        return element.validationEvents;
+      })).toEqual('change');
+    });
+
+    test('can render with icons', async ({ page, pageErrorsTest }) => {
+      await page.evaluate(() => {
+        const html = '<ids-list-box-option value="opt7" id="new-opt" role="option" tabindex="-1" row-index="6">'
+          + '<ids-icon icon="circle-filled"></ids-icon>'
+          + '<span>Option Seven</span>'
+          + '</ids-list-box-option>';
+        document.querySelector('#ids-list-box-dropdown-5')!.insertAdjacentHTML('beforeend', html);
+      });
+      await expect(page.locator('#new-opt')).toBeAttached();
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
+    test('can support dirty indicator', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.dirtyTracker)).toBeTruthy();
+      await expect(dropdown).toHaveAttribute('dirty-tracker');
+      await expect(dropdown.locator('.icon-dirty')).not.toBeAttached();
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.value = 'hi';
+        return element.isDirty;
+      })).toBeTruthy();
+      await expect(dropdown.locator('.icon-dirty')).toBeAttached();
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.resetDirtyTracker();
+        return element.isDirty;
+      })).toBeFalsy();
+      await expect(dropdown.locator('.icon-dirty')).not.toBeAttached();
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.dirtyTracker = false;
+        return element.dirtyTracker;
+      })).toBeFalsy();
+      await expect(dropdown).not.toHaveAttribute('dirty-tracker');
+    });
+
+    test('can set/get value', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.value)).toEqual('ca');
+      await expect(dropdown).toHaveAttribute('value', 'ca');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.value = 'il';
+        return element.value;
+      })).toEqual('il');
+      await expect(dropdown).toHaveAttribute('value', 'il');
+
+      // invalid value
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.value = 'invalid';
+        return element.value;
+      })).toEqual('il');
+      await expect(dropdown).toHaveAttribute('value', 'il');
+    });
+
+    test('can set/get value with selectedIndex', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        const result = { value: element.value, selectedIndex: element.selectedIndex };
+        return result;
+      })).toEqual({ value: 'ca', selectedIndex: 0 });
+      await expect(dropdown).toHaveAttribute('value', 'ca');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.selectedIndex = 3;
+        const result = { value: element.value, selectedIndex: element.selectedIndex };
+        return result;
+      })).toEqual({ value: 'il', selectedIndex: 3 });
+      await expect(dropdown).toHaveAttribute('value', 'il');
+
+      // invalid value
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.selectedIndex = ('invalid') as any;
+        const result = { value: element.value, selectedIndex: element.selectedIndex };
+        return result;
+      })).toEqual({ value: 'il', selectedIndex: 3 });
+      await expect(dropdown).toHaveAttribute('value', 'il');
+    });
+
+    test('can open list with open function', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const dropdownList = await dropdown.locator('#dropdownList-dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await expect(dropdownList).not.toHaveAttribute('aria-expanded');
+
+      await dropdown.evaluate(async (element: IdsDropdown) => { await element.open(); });
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+      await expect(dropdownList).toHaveAttribute('aria-expanded');
+    });
+
+    test('can prevent opening using open function if ready-only or disabled', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      await expect(dropdown).not.toHaveAttribute('readonly');
+      await expect(dropdown).not.toHaveAttribute('disabled');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+
+      await dropdown.evaluate(async (element: IdsDropdown) => {
+        element.readonly = true;
+        await element.open();
+      });
+      await expect(dropdown).toHaveAttribute('readonly');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+
+      await dropdown.evaluate(async (element: IdsDropdown) => {
+        element.disabled = true;
+        await element.open();
+      });
+      await expect(dropdown).toHaveAttribute('disabled');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+    });
+
+    test('can open list with toggle function', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const dropdownList = await dropdown.locator('#dropdownList-dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await expect(dropdownList).not.toHaveAttribute('aria-expanded');
+
+      await dropdown.evaluate((element: IdsDropdown) => { element.toggle(); });
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+      await expect(dropdownList).toHaveAttribute('aria-expanded');
+    });
+
+    test('can prevent opening using toggle function if ready-only or disabled', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      await expect(dropdown).not.toHaveAttribute('readonly');
+      await expect(dropdown).not.toHaveAttribute('disabled');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+
+      await dropdown.evaluate((element: IdsDropdown) => {
+        element.readonly = true;
+        element.toggle();
+      });
+      await expect(dropdown).toHaveAttribute('readonly');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+
+      await dropdown.evaluate((element: IdsDropdown) => {
+        element.disabled = true;
+        element.toggle();
+      });
+      await expect(dropdown).toHaveAttribute('disabled');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+    });
+
+    test('can close list with close function', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const dropdownList = await dropdown.locator('#dropdownList-dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await expect(dropdownList).not.toHaveAttribute('aria-expanded');
+
+      await dropdown.evaluate(async (element: IdsDropdown) => { await element.open(); });
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+      await expect(dropdownList).toHaveAttribute('aria-expanded');
+
+      await dropdown.evaluate((element: IdsDropdown) => { element.close(); });
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await expect(dropdownList).not.toHaveAttribute('aria-expanded');
+    });
+
+    test('can close list with toggle function', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const dropdownList = await dropdown.locator('#dropdownList-dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await expect(dropdownList).not.toHaveAttribute('aria-expanded');
+
+      await dropdown.evaluate((element: IdsDropdown) => { element.toggle(); });
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+      await expect(dropdownList).toHaveAttribute('aria-expanded');
+
+      await dropdown.evaluate((element: IdsDropdown) => { element.toggle(); });
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await expect(dropdownList).not.toHaveAttribute('aria-expanded');
+    });
+
+    test('can close list when clicked outside', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const dropdownList = await dropdown.locator('#dropdownList-dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await expect(dropdownList).not.toHaveAttribute('aria-expanded');
+
+      await dropdown.evaluate(async (element: IdsDropdown) => { await element.open(); });
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+      await expect(dropdownList).toHaveAttribute('aria-expanded');
+
+      await page.mouse.click(200, 200, { delay: 50 });
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await expect(dropdownList).not.toHaveAttribute('aria-expanded');
     });
   });
 
