@@ -23,6 +23,7 @@
 - `[Dropdown]` Fix dropdown position in datagrid in tabs. ([#2582](https://github.com/infor-design/enterprise-wc/issues/2582))
 - `[Empty Message]` Converted empty message tests to playwright. ([#2337](https://github.com/infor-design/enterprise-wc/issues/2337))
 - `[ListView]` Fixed an issue where selected event is not being triggered on `ids-list-view-item`. ([#2565](https://github.com/infor-design/enterprise-wc/issues/2565))
+- `[ModuleNav]` Fixed an issue where the text in the nav bar is not visible when added dynamically. ([#2517](https://github.com/infor-design/enterprise-wc/issues/2517))
 - `[Splitter]` Fix issue where text in closed panes overlapped the other side. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))
 - `[Splitter]` Fix issue initializing size and collapsed at the same time. ([#2585](https://github.com/infor-design/enterprise-wc/issues/2585))
 - `[Splitter]` Fix initialization issues when in angular apps. ([#2590](https://github.com/infor-design/enterprise-wc/issues/2590))
