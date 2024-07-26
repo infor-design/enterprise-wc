@@ -85,22 +85,25 @@
               <ids-text font-size="20">My Header</ids-text>
               <ids-text font-size="14">With some extra information below</ids-text>
             </ids-toolbar-section>
-            <ids-toolbar-section type="search" align="end">
-              <ids-layout-grid-cell>
-                <ids-search-field
-                  collapsible
-                  clearable
-                  id="search-field-collapsible-toolbar"
-                  label="Collapsible Search Bar"
-                  placeholder="Type to search"
-                  search-field="label"
-                  label-state="collapsed"
-                  no-margins
-                >
-                <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+            <ids-toolbar-section align="end" type="buttonset">
+              <ids-search-field
+                clearable
+                collapsible
+                id="search-field-collapsible-toolbar"
+                label="Collapsible Search Bar"
+                label-state="collapsed"
+                no-margins
+                placeholder="Type to filter"
+                search-field="label"
+              >
+                <ids-trigger-button
+                  icon="search"
+                  slot="trigger-start"
+                ></ids-trigger-button>
               </ids-search-field>
+              <ids-button icon="more">
+              </ids-button>
             </ids-toolbar-section>
-            <ids-theme-switcher mode="light"></ids-theme-switcher>
           </ids-toolbar>
         </ids-header>
       </ids-layout-grid-cell>
