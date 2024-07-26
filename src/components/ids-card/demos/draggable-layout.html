@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Cards (Draggable)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" gap="md" padding-x="md">
+      <ids-layout-grid-cell padding="md" gap="sm" id="example-panel-left">
+        <ids-tabs-context>
+          <ids-tabs>
+            <ids-tab value="components">Components</ids-tab>
+            <ids-tab value="layout">Layout</ids-tab>
+          </ids-tabs>
+          <ids-tab-content value="components">
+            <ids-layout-grid auto-fit="true" padding="sm">
+              <ids-layout-grid-cell class="demo-draggable-panel">
+                <ids-search-field label-state="hidden" placeholder="Search for a component"></ids-search-field>
+                <ids-text font-size="16">Containers</ids-text>
+                <div class="panel-left-containers demo-draggable-panel"></div>
+                <ids-text font-size="16">Components</ids-text>
+                <div class="panel-left-components demo-draggable-panel"></div>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </ids-tab-content>
+          <ids-tab-content value="layout"></ids-tab-content>
+        </ids-tabs-context>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell col-span="3" padding="md" gap="sm" >
+        <div class="droppable-panel">
+          <div class="frame-items">
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+          </div>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

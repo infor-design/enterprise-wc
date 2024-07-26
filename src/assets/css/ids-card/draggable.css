@@ -8,3 +8,25 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.droppable-panel {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+
+  .frame-items {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 16px;
+
+    .frame-item {
+      width: 320px;
+      height: 96px;
+      border-radius: 8px;
+      border: 2px dashed var(--color-border-action-neutral-hover, #6F6F76);
+      opacity: 0.5;
+    }
+  }
+}

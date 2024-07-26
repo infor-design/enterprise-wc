@@ -41,3 +41,6 @@
   - link: draggable.html
     type: Draggable
     description: Draggable
+  - link: draggable-layout.html
+    type: Draggable Layout
+    description: Draggable Layout

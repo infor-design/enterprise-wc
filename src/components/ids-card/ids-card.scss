@@ -236,6 +236,7 @@
 :host([draggable]) {
   width: var(--ids-card-width);
   display: inline-block;
+  z-index: 99;
 
   .ids-card {
     display: flex;
