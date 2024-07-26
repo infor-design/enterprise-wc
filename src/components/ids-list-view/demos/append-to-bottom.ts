@@ -15,20 +15,21 @@ const listView: any = document.querySelector('#demo-lv-selectable-multiple');
 if (listView) {
   // Do an ajax request and apply the data to the list
   const url: any = productsJSON;
-  let allData: any = [];
-  let initialCopy: any = [];
 
   const setData = async () => {
     const res = await fetch(url);
     const data = await res.json();
 
-    initialCopy = [...data];
-    initialCopy = [...initialCopy, ...data];
-    allData = [...initialCopy];
+    let j = 1;
+    data.forEach((elem: any) => {
+      if (!elem.isGroupHeader) {
+        elem.productName = `Product ${j}`;
+        j++;
+      }
+    });
 
-    initialCopy.selected = true;
-    listView.data = allData;
-    console.info('List Has', allData.length, 'items');
+    listView.data = data;
+    console.info('List Has', listView.data.length, 'items including headers');
   };
 
   listView.addEventListener('selected', (e: any) => {
@@ -45,10 +46,19 @@ if (listView) {
   });
 
   document.querySelector('#add-more')!.addEventListener('click', async () => {
-    const dataCopy = [...initialCopy];
+    const dataCopy = structuredClone(listView.data);
+
+    let k = Number(dataCopy[dataCopy.length - 1].productName.replace('Product ', ''));
+    dataCopy.forEach((elem: any) => {
+      if (!elem.isGroupHeader) {
+        k++;
+        elem.productName = `Product ${k}`;
+      }
+    });
+
     // allData = [...allData, ...dataCopy];
     listView.appendToBottom(dataCopy);
-    console.info('added more data', listView.data.length);
+    console.info('List Has', listView.data.length, 'items including headers');
   });
   await setData();
 }
