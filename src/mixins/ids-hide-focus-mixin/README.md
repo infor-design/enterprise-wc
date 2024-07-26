@@ -12,6 +12,7 @@ Events:
 
 To use this mixin in your component:
 
-1. Import `IdsHideFocusMixin` and add to the component `base.ts` file
+1. Import `IdsHideFocusMixin` and add to the component
 2. Add `IdsHideFocusMixin` to the @mixes comment section
 3. Use `.hide-focus` class in the component styles to adjust focus state (for example `&:not(.hide-focus):focus`)
+4. if you need the classes on the host element set `isHost` in the constructor

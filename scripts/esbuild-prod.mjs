@@ -18,8 +18,8 @@ const outDir = mode === 'production' ? 'build/dist/production' : 'build/dist/dev
 fs.rmSync(outDir, { recursive: true, force: true });
 
 let components = fsFiles('./src/', 'ts');
-components = components.filter((item) => (!item.includes('demo') && !item.includes('-base') && !item.includes('ids-locale/data')));
-const themes = fsFiles('./src/', 'scss').filter((item) => (item.includes('themes/default')));
+components = components.filter((item) => (!item.includes('demo') && !item.includes('-base') && !item.includes(path.normalize('ids-locale/data'))));
+const themes = fsFiles('./src/', 'scss').filter((item) => (item.includes(path.normalize('themes/default'))));
 
 const cssFiles = [];
 

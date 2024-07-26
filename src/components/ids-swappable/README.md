@@ -69,13 +69,20 @@ Some components support composition with IdsSwappable, such as [IdsTabs](../ids-
 ## Settings (Attributes)
 
 ### ids-swappable
+
 **selectedItems** Sets the multi-select attribute. Defaults to false.
 
 ### ids-swappable-item
+
 **drag-mode** Defines how/when dragging can occur.  By default (`select`), swappable items must first be selected in order to be dragged.  Setting to `always` makes dragging possible at all times.
 **selected** Sets the selected attribute. Items need to be selected before that can be dragged.
 **originalText** Sets the originalText attribute. This happens when the component is connected and is used to revert the text after item is dropped.
 **tabbable** Sets if the item is tabbable. Defaults to true.
+**disable-drag** Disable the dragging on one item
+
+## Events
+
+- `swapped` Fires when an item is dragged up and down. Gives you the DOM element and new position information.
 
 ## Converting from Previous Versions (Breaking Changes)
 
