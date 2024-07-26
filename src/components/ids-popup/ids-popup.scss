@@ -209,7 +209,7 @@
     // When the height of `.content-wrapper` exceeds that of `.ids-popup`,
     // ResizeObserver automatically appends this class to enable scrolling of inner content
     &.fit-viewport {
-      height: 100%;
+      height: var(--ids-popup-fit-height);
     }
 
     // Override some default animation styles to add the correct
