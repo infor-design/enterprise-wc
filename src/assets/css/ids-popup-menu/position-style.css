@@ -3,6 +3,6 @@
   height: 150px;
   position: relative;
   overflow: hidden;
-  border: 1px dashed var(--ids-color-gray-70);
+  border: 1px dashed var(--ids-color-neutral-70);
   border-radius: var(--ids-border-radius-xxs);
 }

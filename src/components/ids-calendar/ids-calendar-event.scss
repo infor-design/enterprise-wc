@@ -59,9 +59,9 @@
 }
 
 .ids-calendar-event[color='neutral'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-gray));
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-neutral));
 
-  background-color: var(--ids-calendar-event-color-background-accent-gray);
+  background-color: var(--ids-calendar-event-color-background-accent-neutral);
 }
 
 .ids-calendar-event {

@@ -54,7 +54,7 @@
 
   &:not([class*='display-mode-']) {
     height: var(--ids-module-nav-item-collapsed-size);
-    margin-block: var(--ids-module-nav-item-collapsed-general-spacing-size);
+    margin-block: var(--ids-module-nav-item-collapsed-general-space-size);
     margin-inline: auto;
     padding-block: var(--ids-module-nav-item-padding-block);
     padding-inline: auto;
@@ -78,7 +78,7 @@
   &.display-mode-collapsed {
     height: var(--ids-module-nav-item-collapsed-size);
     width: var(--ids-module-nav-item-collapsed-size);
-    margin: var(--ids-module-nav-item-collapsed-general-spacing-size) auto;
+    margin: var(--ids-module-nav-item-collapsed-general-space-size) auto;
 
     .ids-accordion-display-icon {
       margin-inline: var(--ids-module-nav-item-display-icon-collapsed-margin);
@@ -115,7 +115,7 @@
     }
 
     .ids-accordion-display-icon {
-      margin-inline-end: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
+      margin-inline-end: var(--ids-module-nav-item-expanded-icon-text-space-size);
     }
 
     .ids-accordion-expander-icon {

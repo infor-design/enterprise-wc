@@ -283,6 +283,7 @@ export default class IdsElement extends HTMLElement {
       html[lang='zh-Hans'] {--ids-font-family-default: var(--ids-font-family-zh-hans)}
       html[lang='zh-Hant'] {--ids-font-family-default: var(--ids-font-family-zh-hant)}
     `;
+
     style.textContent = `${themeStyles}${localeFonts}`;
     style.id = 'ids-theme';
     if (this.nonce) style.setAttribute('nonce', this.nonce);
