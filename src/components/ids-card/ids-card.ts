@@ -11,11 +11,15 @@ import '../ids-checkbox/ids-checkbox';
 import styles from './ids-card.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import { IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
+import IdsDraggableMixin from '../ids-draggable/ids-draggable-mixin';
 
 const Base = IdsHideFocusMixin(
-  IdsEventsMixin(
-    IdsSelectionMixin(
-      IdsBox
+  IdsDraggableMixin(
+    IdsEventsMixin(
+      IdsSelectionMixin(
+        IdsBox
+      )
     )
   )
 );
@@ -58,8 +62,34 @@ export default class IdsCard extends Base {
       attributes.HREF,
       attributes.NO_HEADER,
       attributes.OVERFLOW,
-      attributes.TARGET
+      attributes.TARGET,
+      attributes.BACKGROUND_COLOR,
+      attributes.WIDTH,
+      attributes.DRAG_WIDTH,
+      attributes.DRAG_HEIGHT,
+      attributes.DRAG_BG_COLOR,
+      attributes.DROPPED,
+      attributes.DROP_WIDTH,
+      attributes.DROP_HEIGHT,
+      attributes.DROP_BG_COLOR,
     ];
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) return;
+
+    if (name === attributes.BACKGROUND_COLOR) this.#setVariableValue('--ids-card-color-background', newValue);
+    if (name === attributes.WIDTH) this.#setVariableValue('--ids-card-width', newValue);
+
+    if (name === attributes.DRAG_WIDTH) this.#setVariableValue('--ids-card-width-dragged', newValue);
+    if (name === attributes.DRAG_HEIGHT) this.#setVariableValue('--ids-card-height-dragged', newValue);
+    if (name === attributes.DRAG_BG_COLOR) this.#setVariableValue('--ids-card-color-background-dragged', newValue);
+
+    if (name === attributes.DROP_WIDTH) this.#setVariableValue('--ids-card-height-dropped', newValue);
+    if (name === attributes.DROP_HEIGHT) this.#setVariableValue('--ids-card-height-dropped', newValue);
+    if (name === attributes.DROP_BG_COLOR) this.#setVariableValue('--ids-card-height-dropped', newValue);
   }
 
   /**
@@ -82,6 +112,27 @@ export default class IdsCard extends Base {
           <div class="ids-card-footer" part="footer">
             <slot name="card-footer"></slot>
           </div>
+        </div>
+      </div>
+    `;
+
+    return html;
+  }
+
+  /**
+   * Method for actionable button card template
+   * @returns {string} html
+   */
+  draggableCardTemplate() {
+    const html = `
+      <div class="ids-card" part="card">
+        <div class="ids-card-icon">
+          <slot name="icon"></slot>
+        </div>
+        <div class="ids-card-label">
+          <ids-text font-size="16">
+            <slot name="label"></slot>
+          </ids-text>
         </div>
       </div>
     `;
@@ -130,6 +181,10 @@ export default class IdsCard extends Base {
       return this.href ? this.actionableLinkTemplate() : this.actionableButtonTemplate();
     }
 
+    if (this.draggable) {
+      return this.draggableCardTemplate();
+    }
+
     return this.cardTemplate();
   }
 
@@ -149,6 +204,9 @@ export default class IdsCard extends Base {
         this.#handleMultipleSelectionChange(e);
       });
     }
+
+    this.onEvent('dragstart', this, () => this.container?.classList?.toggle('is-dragging', true));
+    this.onEvent('dragend', this, () => this.container?.classList?.toggle('is-dragging', false));
 
     return this;
   }
@@ -291,6 +349,54 @@ export default class IdsCard extends Base {
   }
 
   get actionable() { return stringToBool(this.getAttribute(attributes.ACTIONABLE)); }
+
+  /**
+   * @param {string | boolean} value to be disabled
+   */
+  set disabled(value: string | boolean) {
+    this.toggleAttribute(attributes.DISABLED, stringToBool(value));
+
+    if (this.disabled) {
+      this.offEvent('mousemove', window.document, this.onMouseMove);
+      this.offEvent('click', window.document, this.#handleSelectionChange);
+    }
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  get disabled(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
+
+  set draggable(value: string | boolean | null) {
+    this.toggleAttribute(attributes.DRAGGABLE, stringToBool(value));
+  }
+
+  get draggable() {
+    return this.hasAttribute(attributes.DRAGGABLE);
+  }
+
+  set dropped(value: string | boolean | null) {
+    this.toggleAttribute(attributes.DROPPED, stringToBool(value));
+    this.container?.classList.toggle('is-dropped', stringToBool(value));
+  }
+
+  get dropped() {
+    return this.getAttribute(attributes.DROPPED);
+  }
+
+  #setVariableValue = (variable: string, value: string | null) => {
+    if (value) {
+      this.container?.style.setProperty(variable, value);
+    } else {
+      this.container?.style.removeProperty(variable);
+    }
+  }
+
+  set backgroundColor(value: IdsColorValue) {
+    this.#setVariableValue('--ids-card-color-background', (value as string | null));
+  }
 
   /**
    * Set how the container overflows, can be hidden or auto (default)

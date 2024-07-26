@@ -38,3 +38,6 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a cards that works with css only
+  - link: draggable.html
+    type: Draggable
+    description: Draggable
