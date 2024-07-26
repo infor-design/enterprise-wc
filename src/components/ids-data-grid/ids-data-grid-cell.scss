@@ -351,7 +351,7 @@
 
   .ids-data-grid-cell.is-editable.is-inline {
     --ids-trigger-field-button-margin: -2px;
-    --ids-button-tertiary-color-background-hover: transparent;
+    --ids-button-tertiary-color-background-hover: var(--ids-color-transparent);
   }
 
   .ids-data-grid-cell.is-editing.is-dropdown.is-inline ids-dropdown {
@@ -414,7 +414,7 @@
 
   .ids-data-grid-cell.is-editable.is-inline {
     --ids-trigger-field-button-margin: -2px;
-    --ids-button-tertiary-color-background-hover: transparent;
+    --ids-button-tertiary-color-background-hover: var(--ids-color-transparent);
     --ids-input-font-size-sm: var(--ids-data-grid-font-size-sm);
   }
 
@@ -450,7 +450,7 @@
 
   .ids-data-grid-cell.is-editable.is-inline {
     --ids-trigger-field-button-margin: -1px;
-    --ids-button-tertiary-color-background-hover: transparent;
+    --ids-button-tertiary-color-background-hover: var(--ids-color-transparent);
   }
 
   .ids-data-grid-cell {
@@ -472,7 +472,7 @@
 
   .ids-data-grid-cell.is-editable.is-inline {
     --ids-trigger-field-button-margin: -3px;
-    --ids-button-tertiary-color-background-hover: transparent;
+    --ids-button-tertiary-color-background-hover: var(--ids-color-transparent);
   }
 
   .ids-data-grid-cell {

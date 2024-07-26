@@ -67,7 +67,7 @@
       }
 
       .list-item-checkbox[disabled]::part(checkmark) {
-        background-color: transparent;
+        background-color: var(--ids-color-transparent);
       }
     }
   }

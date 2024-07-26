@@ -42,7 +42,7 @@
 
 .ids-trigger-button {
   align-items: center;
-  background-color: transparent;
+  background-color: var(--ids-color-transparent);
   display: flex;
   color: var(--ids-trigger-field-icon-color);
   justify-content: center;
@@ -61,8 +61,8 @@
 
       &:hover {
         cursor: default;
-        background-color: transparent;
-        border-color: transparent;
+        background-color: var(--ids-color-transparent);
+        border-color: var(--ids-color-transparent);
       }
     }
   }

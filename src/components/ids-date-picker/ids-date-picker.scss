@@ -185,7 +185,7 @@
   }
 
   &:not(.is-expanded) .picklist::after {
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
   }
 
   .picklist-section {
@@ -258,7 +258,7 @@
 :host([dir='rtl']) {
   .ids-date-picker {
     .popup-btn + .popup-btn::part(button):not(:focus) {
-      border-left-color: transparent;
+      border-left-color: var(--ids-color-transparent);
     }
   }
 }

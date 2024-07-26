@@ -282,7 +282,7 @@ $ids-tab-vertical-height: 42px;
   background-color: var(--ids-tab-module-color-background-default);
   color: var(--ids-tab-module-color-text-default);
   justify-content: center;
-  border-color: transparent;
+  border-color: var(--ids-color-transparent);
 
   // Module - Hover state
   &:hover {

@@ -185,7 +185,7 @@ $textarea-size-default-height: 120px;
       border-color: var(--ids-textarea-color-border-focus);
       box-shadow: var(--ids-textarea-shadow-focus);
       outline: none;
-      outline-color: transparent;
+      outline-color: var(--ids-color-transparent);
     }
 
     &[readonly],
@@ -200,7 +200,7 @@ $textarea-size-default-height: 120px;
     }
 
     &.bg-transparent {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
 
       &:focus {
         border-color: var(--ids-textarea-color-border-focus);

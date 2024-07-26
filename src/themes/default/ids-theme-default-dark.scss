@@ -101,7 +101,7 @@
   // Button (Generative AI)
   --ids-button-ai-color-background-default: linear-gradient(107deg, #254A92 9.32%, #10B7A6 85.32%);
   --ids-button-ai-color-background-hover: linear-gradient(107deg, #1F405C 5.32%, #0EAA9B 75.32%);
-  --ids-button-ai-color-border-hover: transparent;
+  --ids-button-ai-color-border-hover: var(--ids-color-transparent);
   --ids-button-ai-color-tertiary-background-default: linear-gradient(107deg, #10B6A6 17.32%, #0EAA9B 95.32%);
   --ids-button-ai-color-tertiary-background-hover: linear-gradient(107deg, #0ea495 17.32%, #0d998b 95.32%);
   --ids-button-tertiary-ai-color-background-disabled: linear-gradient(107deg, #10B6A6 17.32%, #0EAA9B 95.32%);
@@ -240,7 +240,7 @@
 
   // Empty Message
   --ids-empty-message-icon-color: var(--ids-color-neutral-60);
-  --ids-empty-message-color-icon-fill: transparent;
+  --ids-empty-message-color-icon-fill: var(--ids-color-transparent);
 
   // Headers
   --ids-header-color-border-bottom: var(--ids-color-neutral-80);
@@ -265,24 +265,24 @@
 
   // Icons
   --ids-icon-color-default-disabled: var(--ids-color-text-disabled);
-  --ids-icon-status-color-red-color-background: transparent;
-  --ids-icon-status-color-orange-color-background: transparent;
-  --ids-icon-status-color-yellow-color-background: transparent;
-  --ids-icon-status-color-green-color-background: transparent;
-  --ids-icon-status-color-primary-color-background: transparent;
-  --ids-icon-status-color-teal-color-background: transparent;
-  --ids-icon-status-color-purple-color-background: transparent;
-  --ids-icon-status-color-gray-color-background: transparent;
-  --ids-icon-status-color-error-color-background: transparent;
-  --ids-icon-status-color-warning-color-background: transparent;
-  --ids-icon-status-color-success-color-background: transparent;
-  --ids-icon-status-color-info-color-background: transparent;
-  --ids-color-status-color-caution-color-background: transparent;
+  --ids-icon-status-color-red-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-orange-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-yellow-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-green-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-primary-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-teal-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-purple-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-gray-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-error-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-warning-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-success-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-info-color-background: var(--ids-color-transparent);
+  --ids-color-status-color-caution-color-background: var(--ids-color-transparent);
 
   // Input Styles
   --ids-input-header-color-text-default: var(--ids-color-white-100);
   --ids-input-header-color-text-placeholder: var(--ids-color-neutral-40);
-  --ids-input-header-color-background: transparent;
+  --ids-input-header-color-background: var(--ids-color-transparent);
   --ids-input-header-color-border: rgba(255 255 255 / 0.7);
 
   // Layout Grid

@@ -28,7 +28,7 @@
     border-radius: var(--ids-border-radius-xxs);
     box-shadow: var(--ids-shadow-focus);
     outline: none;
-    outline-color: transparent;
+    outline-color: var(--ids-color-transparent);
   }
 
   .step:focus-visible {
@@ -152,7 +152,7 @@
 
   .step:not(.visited) {
     svg:first-child circle {
-      fill: transparent;
+      fill: var(--ids-color-transparent);
       stroke: var(--ids-wizard-step-color-unvisited);
       stroke-width: 3px;
     }

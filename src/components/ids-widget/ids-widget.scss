@@ -64,7 +64,7 @@
 // Borderless Widget
 :host([borderless]) {
   .ids-widget {
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
     box-shadow: none;
     border: 1px solid transparent;
 

@@ -13,7 +13,7 @@ li,
   --ids-badge-disabled-text-color: var(--ids-list-view-item-badge-color-text-disabled);
 
   display: block;
-  background: transparent;
+  background: var(--ids-color-transparent);
   border: var(--ids-list-view-item-border);
   border-top-color: var(--ids-list-view-item-color-border-top);
   contain: content;
@@ -45,7 +45,7 @@ li,
     }
 
     .list-item-checkbox[disabled]::part(checkmark) {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
     }
   }
 }
@@ -65,7 +65,7 @@ li:hover,
 }
 
 :host([hide-selected-color]) {
-  background-color: transparent;
+  background-color: var(--ids-color-transparent);
 }
 
 li:focus,

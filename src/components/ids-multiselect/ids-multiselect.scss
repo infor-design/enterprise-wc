@@ -34,8 +34,8 @@ ids-trigger-field {
         visibility: hidden;
 
         &::selection {
-          color: transparent;
-          background: transparent;
+          color: var(--ids-color-transparent);
+          background: var(--ids-color-transparent);
         }
       }
 

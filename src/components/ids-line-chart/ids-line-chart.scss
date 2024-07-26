@@ -5,7 +5,7 @@
   // Extend the dot area for hover events
   .markers circle {
     stroke-width: var(--ids-space-xs);
-    stroke: transparent;
+    stroke: var(--ids-color-transparent);
   }
 
   // Dot Styles

@@ -7,7 +7,7 @@
   padding: 1px;
 
   & .ids-color {
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
     border: 1px solid rgba(0 0 0 / 0.2);
     border-radius: 2px;
   }

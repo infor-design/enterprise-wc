@@ -86,7 +86,7 @@
 :host(:focus) {
   outline: none;
   border: none;
-  border-color: transparent;
+  border-color: var(--ids-color-transparent);
   box-shadow: var(--ids-hierarchy-item-shadow-focus);
 }
 

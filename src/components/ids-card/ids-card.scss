@@ -144,7 +144,7 @@
 
 :host([borderless]) {
   .ids-card {
-    border-color: transparent;
+    border-color: var(--ids-color-transparent);
     box-shadow: none;
   }
 }
@@ -211,11 +211,11 @@
   ids-button::part(button) {
     align-items: center;
     border: 1px solid transparent;
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
     height: 50px;
 
     &:hover {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
       color: var(--ids-button-tertiary-color-text-default);
     }
   }

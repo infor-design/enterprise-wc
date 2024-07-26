@@ -290,7 +290,7 @@ $input-size-full: 100%;
   &.is-active {
     .ids-input-field {
       outline: none;
-      outline-color: transparent;
+      outline-color: var(--ids-color-transparent);
     }
 
     .field-container {
@@ -312,7 +312,7 @@ $input-size-full: 100%;
     @include mixins.antialiased();
 
     box-sizing: border-box;
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
     border: none;
     font-family: var(--ids-font-family-default);
     padding-block-start: var(--ids-space-xxs);
@@ -478,7 +478,7 @@ $input-size-full: 100%;
 
   // Flush/Invisible Variant (used in IdsDataGrid cell editing)
   &.color-variant-borderless {
-    --ids-input-color-border-focus: transparent;
+    --ids-input-color-border-focus: var(--ids-color-transparent);
 
     margin: 1px;
     border-radius: 0;
@@ -505,7 +505,7 @@ $input-size-full: 100%;
     }
 
     .field-container {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
       border-color: transparent !important;
     }
 
@@ -614,7 +614,7 @@ $input-size-full: 100%;
     }
 
     input {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
       color: inherit;
 
       &::placeholder {
@@ -682,12 +682,12 @@ $input-size-full: 100%;
       .field-container,
       &.readonly .field-container,
       &.disabled .field-container {
-        background-color: transparent;
+        background-color: var(--ids-color-transparent);
       }
 
       &:focus-within {
         .field-container {
-          background-color: transparent;
+          background-color: var(--ids-color-transparent);
         }
       }
     }
@@ -808,7 +808,7 @@ $input-size-full: 100%;
   // List Builder
   &.color-variant-list-builder {
     .field-container {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
       color: var(--ids-list-builder-input-text-color);
       border: 0;
     }
@@ -821,13 +821,13 @@ $input-size-full: 100%;
 
     /* stylelint-disable-next-line no-duplicate-selectors */
     .field-container {
-      background-color: transparent;
-      border-color: transparent;
+      background-color: var(--ids-color-transparent);
+      border-color: var(--ids-color-transparent);
       color: inherit;
     }
 
     .ids-input-field {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
       color: inherit;
 
       &::placeholder {

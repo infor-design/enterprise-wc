@@ -1,6 +1,5 @@
 <ids-tooltip> </ids-tooltip>
-      <div class="ids-color no-color" tabindex="0" part="color" style="background-color: transparent;">
+      <div class="ids-color no-color" tabindex="0" part="color" style="background-color: var(--ids-color-transparent);">
         <ids-icon class="color-check" icon="check" size="small" part="hex" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon>
-        
+
       </div>
-    

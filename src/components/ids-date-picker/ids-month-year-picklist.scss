@@ -11,7 +11,7 @@
 }
 
 :not(.is-expanded) .picklist-section::before {
-  background-color: transparent;
+  background-color: var(--ids-color-transparent);
 }
 
 .picklist-section {

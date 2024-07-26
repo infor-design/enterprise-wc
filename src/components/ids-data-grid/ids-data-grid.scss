@@ -155,10 +155,10 @@
     }
 
     ids-button.expand-button {
-      --ids-button-tertiary-color-background-hover: transparent;
-      --ids-button-tertiary-color-border-hover: transparent;
-      --ids-button-tertiary-color-background-pressed: transparent;
-      --ids-button-tertiary-color-border-pressed: transparent;
+      --ids-button-tertiary-color-background-hover: var(--ids-color-transparent);
+      --ids-button-tertiary-color-border-hover: var(--ids-color-transparent);
+      --ids-button-tertiary-color-background-pressed: var(--ids-color-transparent);
+      --ids-button-tertiary-color-border-pressed: var(--ids-color-transparent);
     }
 
     .text-ellipsis {

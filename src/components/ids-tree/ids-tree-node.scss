@@ -90,7 +90,7 @@
       }
 
       &:focus {
-        border-color: transparent;
+        border-color: var(--ids-color-transparent);
         box-shadow: none;
       }
     }

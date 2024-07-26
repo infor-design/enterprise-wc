@@ -62,7 +62,7 @@
     &.right,
     &.top {
       border-style: solid;
-      border-color: transparent;
+      border-color: var(--ids-color-transparent);
       display: block;
       height: 0;
       width: 0;
@@ -70,7 +70,7 @@
 
     &::after {
       border-style: solid;
-      border-color: transparent;
+      border-color: var(--ids-color-transparent);
       border-width: var(--ids-popup-arrow-size);
       content: '';
       display: block;

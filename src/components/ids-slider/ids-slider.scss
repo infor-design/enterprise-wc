@@ -291,7 +291,7 @@
       width: var(--ids-space-md); // vert
     }
 
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
     align-items: center; // horizontal
     justify-content: center; // vertical
     display: flex;

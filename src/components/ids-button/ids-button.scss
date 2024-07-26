@@ -43,8 +43,8 @@
 
 :host([system-button]) {
   button:hover {
-    background-color: transparent;
-    border-color: transparent;
+    background-color: var(--ids-color-transparent);
+    border-color: var(--ids-color-transparent);
     color: var(--ids-button-system-color-text-hover);
   }
 }
@@ -212,7 +212,7 @@ button {
   &:hover,
   &:focus {
     box-shadow: none;
-    border-color: transparent;
+    border-color: var(--ids-color-transparent);
   }
 }
 
