@@ -43,16 +43,6 @@
   --ids-motion-ease: cubic-bezier(0.17, 0.04, 0.03, 0.94);
   --ids-motion-linear: cubic-bezier(0.4, 0, 0.6, 1);
 
-  // Cursors
-  --ids-cursor-default: default;
-  --ids-cursor-grabbing: grabbing;
-  --ids-cursor-move: move;
-  --ids-cursor-text: text;
-  --ids-cursor-pointer: pointer;
-  --ids-cursor-resize: col-resize;
-  --ids-cursor-resize-x: ew-resize;
-  --ids-cursor-resize-y: ns-resize;
-
   // Elevations (Box Shadows)
   --ids-shadow-color: rgb(54 138 192 / 0.3);
   --ids-shadow-none: 0 0 3px 2px rgba(54 138 192 / 0);
@@ -68,16 +58,6 @@
   --ids-outline-none: 0;
 
   // Fonts
-  --ids-font-family-default: source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-ar: 'Mada', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-he: 'Assistant', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-hi: 'Noto Sans', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-ja: 'Noto Sans JP', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-ko: 'Noto Sans KR', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-th: 'Noto Sans Thai', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-zh-hans: 'Noto Sans SC', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-zh-hant: 'Noto Sans TC', source sans pro, -apple-system, helvetica, arial;
-  --ids-font-family-mono: source code pro, monospace;
   --ids-font-weight-light: 300;
   --ids-font-weight-normal: 400;
   --ids-font-weight-semibold: 600;
