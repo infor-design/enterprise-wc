@@ -8,7 +8,7 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto-fit="true" padding="md">
-      <ids-text font-size="12" type="h1">Data Grid</ids-text>
+      <ids-text font-size="12" type="h1">Data Grid (Group by Rows)</ids-text>
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
@@ -37,7 +37,14 @@
           </ids-toolbar-section>
         </ids-toolbar>
 
-        <ids-data-grid id="data-grid-1" row-selection="multiple" label="Books"></ids-data-grid>
+        <ids-data-grid
+          label="Books"
+          row-height="md"
+          pagination="client-side"
+          page-number="1"
+          page-size="10"
+        >
+        </ids-data-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>
   </ids-container>

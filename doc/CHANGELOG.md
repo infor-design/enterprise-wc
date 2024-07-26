@@ -5,6 +5,7 @@
 ### 1.4.0 Features
 
 - `[Datagrid]` Added search feature to datagrid via `searchable` and `search-term-min-size` attributes. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
+- `[Datagrid]` Added a new `grouped` rows setting to group rows. Also added the personalization dialog feature. ([#2271](https://github.com/infor-design/enterprise-wc/issues/2271))
 
 ### 1.4.0 Fixes
 
@@ -38,7 +39,7 @@
 ### 1.3.0 Features
 
 - `[Fonts]` The source sans pro font should no longer be used in `googleapis` instead serve it locally. Updated examples to do this. See docs on [including locale fonts](https://github.com/infor-design/ids-foundation/blob/main/fonts/README.md). ([#2283](https://github.com/infor-design/enterprise/issues/2283))
-- `[Dates]` Added a new `twoDigitYear` setting to set the locale system to set the dates cut over for two digit years, note that two digit years should be avoided. ([#8061](https://github.com/infor-design/enterprise-wc/issues/2425))
+- `[Dates]` Added a new `twoDigitYear` setting to set the locale system to set the dates cut over for two digit years, note that two digit years should be avoided. ([#2425](https://github.com/infor-design/enterprise-wc/issues/2425))
 - `[LayoutGrid]` Adds an example of a responsive grid layout inside a splitter component. ([#2411](https://github.com/infor-design/enterprise-wc/issues/2411))
 - `[Switch]` Updated switch design. ([#2347](https://github.com/infor-design/enterprise-wc/issues/2347))
 
