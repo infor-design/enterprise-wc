@@ -1,0 +1,10 @@
+.demo-draggable-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#example-panel-center {
+  flex-direction: row;
+  flex-wrap: wrap;
+}

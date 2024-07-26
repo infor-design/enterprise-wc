@@ -206,7 +206,10 @@ export default class IdsCard extends Base {
     }
 
     this.offEvent('dragstart.ids-card', this);
-    this.onEvent('dragstart.ids-card', this, () => this.container?.classList?.add('is-dragging'));
+    this.onEvent('dragstart.ids-card', this, () => {
+      this.container?.classList?.add('is-dragging');
+      this.dropped = false;
+    });
 
     this.offEvent('dragend.ids-card', this);
     this.onEvent('dragend.ids-card', this, () => {
