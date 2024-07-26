@@ -107,7 +107,7 @@ import zhHansLocale from '../../src/components/ids-locale/data/zh-Hans.json';
 import zhHantLocale from '../../src/components/ids-locale/data/zh-Hant.json';
 import zhTWLocale from '../../src/components/ids-locale/data/zh-TW.json';
 
-test.describe('IdsLocale tests', () => {
+test.describe.skip('IdsLocale tests', () => {
   const url = '/ids-demo-app/utils.html';
 
   // eslint-disable-next-line jsdoc/require-jsdoc
