@@ -1,21 +1,13 @@
 # What's New with Enterprise Web Components
 
-## 1.3.1
+## 1.4.0
 
-### 1.3.1 Features
+### 1.4.0 Features
 
 - `[Datagrid]` Added search feature to datagrid via `searchable` and `search-term-min-size` attributes. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
 - `[Datagrid]` Added a new `grouped` rows setting to group rows. Also added the personalization dialog feature. ([#2271](https://github.com/infor-design/enterprise-wc/issues/2271))
 
 ### 1.4.0 Fixes
-
-- `[Themes]` Fixed path for esbuild script to include `themes/` in dist development/production builds. ([#2641](https://github.com/infor-design/enterprise-wc/issues/2641))
-- `[Datagrid]` Fixed problem with `searchable` datagrid where eraser button was not persisting on search-filtered rows. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
-- `[PopupMenu]` Added `offset-container` setting to allow adjustment to container types that affect fixed positioned popups. ([#2566](https://github.com/infor-design/enterprise-wc/issues/2566))
-
-## 1.3.1
-
-### 1.3.1 Fixes
 
 - `[Accordion]` Added css variables to customization accordion header padding. ([#2529](https://github.com/infor-design/enterprise-wc/issues/2529))
 - `[Button]` Added notification badges. ([#2323](https://github.com/infor-design/enterprise-wc/issues/2323))
@@ -34,6 +26,7 @@
 - `[Splitter]` Fix issue initializing size and collapsed at the same time. ([#2585](https://github.com/infor-design/enterprise-wc/issues/2585))
 - `[Splitter]` Fix initialization issues when in angular apps. ([#2590](https://github.com/infor-design/enterprise-wc/issues/2590))
 - `[SwapList]` Made the search portion of the swaplist sticky when scrolling. ([#2559](https://github.com/infor-design/enterprise-wc/issues/2559))
+- `[Themes]` Fixed path for `esbuild` script to include `themes/` in dist development/production builds. ([#2641](https://github.com/infor-design/enterprise-wc/issues/2641))
 - `[Tooltip]` Increase tooltip z-index. ([#2462](https://github.com/infor-design/enterprise-wc/issues/2462))
 - `[Splitter]` Fix issue where text in closed panes overlapped the other side. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))
 
