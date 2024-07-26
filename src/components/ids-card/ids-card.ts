@@ -80,16 +80,16 @@ export default class IdsCard extends Base {
 
     if (oldValue === newValue) return;
 
-    if (name === attributes.BACKGROUND_COLOR) this.#setVariableValue('--ids-card-color-background', newValue);
-    if (name === attributes.WIDTH) this.#setVariableValue('--ids-card-width', newValue);
+    if (name === attributes.BACKGROUND_COLOR) this.#setCssVar('--ids-card-color-background', newValue);
+    if (name === attributes.WIDTH) this.#setCssVar('--ids-card-width', newValue);
 
-    if (name === attributes.DRAG_WIDTH) this.#setVariableValue('--ids-card-width-dragged', newValue);
-    if (name === attributes.DRAG_HEIGHT) this.#setVariableValue('--ids-card-height-dragged', newValue);
-    if (name === attributes.DRAG_BG_COLOR) this.#setVariableValue('--ids-card-color-background-dragged', newValue);
+    if (name === attributes.DRAG_WIDTH) this.#setCssVar('--ids-card-width-dragged', newValue);
+    if (name === attributes.DRAG_HEIGHT) this.#setCssVar('--ids-card-height-dragged', newValue);
+    if (name === attributes.DRAG_BG_COLOR) this.#setCssVar('--ids-card-color-background-dragged', newValue);
 
-    if (name === attributes.DROP_WIDTH) this.#setVariableValue('--ids-card-height-dropped', newValue);
-    if (name === attributes.DROP_HEIGHT) this.#setVariableValue('--ids-card-height-dropped', newValue);
-    if (name === attributes.DROP_BG_COLOR) this.#setVariableValue('--ids-card-height-dropped', newValue);
+    if (name === attributes.DROP_WIDTH) this.#setCssVar('--ids-card-height-dropped', newValue);
+    if (name === attributes.DROP_HEIGHT) this.#setCssVar('--ids-card-height-dropped', newValue);
+    if (name === attributes.DROP_BG_COLOR) this.#setCssVar('--ids-card-height-dropped', newValue);
   }
 
   /**
@@ -389,16 +389,16 @@ export default class IdsCard extends Base {
     return this.hasAttribute(attributes.DROPPED);
   }
 
-  #setVariableValue = (variable: string, value: string | null) => {
+  #setCssVar(variable: string, value: string | null) {
     if (value) {
       this.container?.style.setProperty(variable, value);
     } else {
       this.container?.style.removeProperty(variable);
     }
-  };
+  }
 
   set backgroundColor(value: IdsColorValue) {
-    this.#setVariableValue('--ids-card-color-background', (value as string | null));
+    this.#setCssVar('--ids-card-color-background', (value as string | null));
   }
 
   /**
