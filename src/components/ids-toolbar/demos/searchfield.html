@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Toolbar (With Search Field)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+
+        <ids-toolbar>
+          <ids-toolbar-section>
+            <ids-button icon="menu" role="button">
+              <span class="audible">Application Menu Trigger</span>
+            </ids-button>
+          </ids-toolbar-section>
+
+          <ids-toolbar-section align="end" type="buttonset">
+            <ids-search-field
+              clearable
+              collapsible
+              id="search-field-collapsible-toolbar"
+              label="Collapsible Search Bar"
+              label-state="collapsed"
+              no-margins
+              placeholder="Type to filter"
+              search-field="label"
+            >
+              <ids-trigger-button
+                icon="search"
+                slot="trigger-start"
+              ></ids-trigger-button>
+            </ids-search-field>
+            <ids-button icon="filter">
+            </ids-button>
+            <ids-button icon="sort-down">
+            </ids-button>
+          </ids-toolbar-section>
+        </ids-toolbar>
+
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>
