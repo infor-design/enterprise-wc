@@ -5,7 +5,6 @@ import getElTranslatePoint from './get-el-translate-point';
 import { IdsConstructor } from '../../core/ids-element';
 import { EventsMixinInterface } from '../../mixins/ids-events-mixin/ids-events-mixin';
 
-
 const CURSOR_EL_SIZE = 32;
 
 type Constraints = IdsConstructor<EventsMixinInterface>;
@@ -15,7 +14,6 @@ type Constraints = IdsConstructor<EventsMixinInterface>;
  * @returns {any} The extended object
  */
 const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extends superclass {
-
   #relativeBounds: any = {};
 
   /**
@@ -80,7 +78,7 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
     maxTransformX: 0,
     minTransformY: 0,
     maxTransformY: 0,
-  }
+  };
 
   constructor(...args: any[]) {
     super(...args);
@@ -141,7 +139,6 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
   get handle(): string | null {
     return this.getAttribute(attributes.HANDLE);
   }
-
 
   updateHandleElem = () => {
     this.offEvent('mousedown', this.#handleElem);
@@ -348,7 +345,6 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
       translateX = Math.max(translateX, this.state.minTransformX);
     }
 
-
     if (this.state.maxTransformX) {
       translateX = Math.min(translateX, this.state.maxTransformX);
     }
@@ -382,7 +378,6 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
       default: { return 'move'; }
     }
   }
-
 
   /**
    * Update parent rectangle stored in this.#parentRect

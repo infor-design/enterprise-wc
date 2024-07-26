@@ -205,8 +205,11 @@ export default class IdsCard extends Base {
       });
     }
 
-    this.onEvent('dragstart', this, () => this.container?.classList?.toggle('is-dragging', true));
-    this.onEvent('dragend', this, () => this.container?.classList?.toggle('is-dragging', false));
+    this.offEvent('dragstart.ids-card', this);
+    this.onEvent('dragstart.ids-card', this, () => this.container?.classList?.add('is-dragging'));
+
+    this.offEvent('dragend.ids-card', this);
+    this.onEvent('dragend.ids-card', this, () => this.container?.classList?.remove('is-dragging'));
 
     return this;
   }
@@ -357,33 +360,33 @@ export default class IdsCard extends Base {
     this.toggleAttribute(attributes.DISABLED, stringToBool(value));
 
     if (this.disabled) {
-      this.offEvent('mousemove', window.document, this.onMouseMove);
-      this.offEvent('click', window.document, this.#handleSelectionChange);
+      this.offEvent('mousemove', window.document);
+      this.offEvent('click', window.document);
     }
   }
 
   /**
-   * @returns {boolean}
+   * @returns {boolean} disabled state
    */
   get disabled(): boolean {
     return stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
-  set draggable(value: string | boolean | null) {
+  set draggable(value: boolean) {
     this.toggleAttribute(attributes.DRAGGABLE, stringToBool(value));
   }
 
-  get draggable() {
+  get draggable(): boolean {
     return this.hasAttribute(attributes.DRAGGABLE);
   }
 
-  set dropped(value: string | boolean | null) {
+  set dropped(value: boolean) {
     this.toggleAttribute(attributes.DROPPED, stringToBool(value));
     this.container?.classList.toggle('is-dropped', stringToBool(value));
   }
 
   get dropped() {
-    return this.getAttribute(attributes.DROPPED);
+    return this.hasAttribute(attributes.DROPPED);
   }
 
   #setVariableValue = (variable: string, value: string | null) => {
@@ -392,7 +395,7 @@ export default class IdsCard extends Base {
     } else {
       this.container?.style.removeProperty(variable);
     }
-  }
+  };
 
   set backgroundColor(value: IdsColorValue) {
     this.#setVariableValue('--ids-card-color-background', (value as string | null));
