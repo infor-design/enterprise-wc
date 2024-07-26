@@ -1,6 +1,13 @@
 // Supporting components
 import '../ids-list-view';
-import productsJSON from '../../../assets/data/products-100.json';
+import productsJSON from '../../../assets/data/products-with-groups.json';
+import css from '../../../assets/css/ids-list-view/index.css';
+
+const cssLink = `<link href="${css}" rel="stylesheet">`;
+const head = document.querySelector('head');
+if (head) {
+  head.insertAdjacentHTML('afterbegin', cssLink);
+}
 
 // Example for populating the List View
 const listView: any = document.querySelector('#demo-lv-selectable-multiple');

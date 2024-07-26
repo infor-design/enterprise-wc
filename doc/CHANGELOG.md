@@ -5,6 +5,7 @@
 ### 1.4.0 Features
 
 - `[Datagrid]` Added search feature to datagrid via `searchable` and `search-term-min-size` attributes. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
+- `[ListView]` Added grouped headers and a `appendToBottom` method. ([#2626](https://github.com/infor-design/enterprise-wc/issues/2626))
 
 ### 1.4.0 Fixes
 
