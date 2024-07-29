@@ -2,12 +2,12 @@
   "themeName": "ids-theme-default-contrast",
   "themeTokens": [
     {
-      "id": "id-1718638612578-6800",
+      "id": "id-1722019565525-7000",
       "tokenName": "--ids-color-primary",
       "tokenValue": "var(--ids-color-primary-90)",
       "children": [
         {
-          "id": "id-1718638612578-6796",
+          "id": "id-1722019565525-6996",
           "tokenName": "--ids-color-primary-90",
           "tokenValue": "var(--ids-color-theme-90)",
           "type": "Semantic",
@@ -15,15 +15,15 @@
           "component": "Color Progressions",
           "children": [
             {
-              "id": "id-1718638612578-6798",
+              "id": "id-1722019565525-6998",
               "tokenName": "--ids-color-theme-90",
               "tokenValue": "var(--ids-color-blue-90)",
               "type": "Semantic",
               "source": "themeColorTokens",
-              "component": "Theme colors",
+              "component": "Default theme colors",
               "children": [
                 {
-                  "id": "id-1718638612578-6797",
+                  "id": "id-1722019565525-6997",
                   "tokenName": "--ids-color-blue-90",
                   "tokenValue": "#004a99",
                   "type": "Core",
@@ -48,12 +48,12 @@
       "tokenNameCSS": "var(--ids-color-primary)"
     },
     {
-      "id": "id-1718638612578-6803",
+      "id": "id-1722019565525-7003",
       "tokenName": "--ids-color-text-on-primary",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612578-6801",
+          "id": "id-1722019565525-7001",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -70,12 +70,12 @@
       "tokenNameCSS": "var(--ids-color-text-on-primary)"
     },
     {
-      "id": "id-1718638612578-6806",
+      "id": "id-1722019565525-7006",
       "tokenName": "--ids-color-background-default",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612578-6804",
+          "id": "id-1722019565525-7004",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -92,12 +92,12 @@
       "tokenNameCSS": "var(--ids-color-background-default)"
     },
     {
-      "id": "id-1718638612578-6809",
+      "id": "id-1722019565525-7009",
       "tokenName": "--ids-color-text-inverse",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612578-6807",
+          "id": "id-1722019565525-7007",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -114,12 +114,12 @@
       "tokenNameCSS": "var(--ids-color-text-inverse)"
     },
     {
-      "id": "id-1718638612578-6812",
+      "id": "id-1722019565525-7012",
       "tokenName": "--ids-color-text-subtle",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612578-6810",
+          "id": "id-1722019565525-7010",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -136,12 +136,12 @@
       "tokenNameCSS": "var(--ids-color-text-subtle)"
     },
     {
-      "id": "id-1718638612578-6815",
+      "id": "id-1722019565525-7015",
       "tokenName": "--ids-color-text-data",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612578-6813",
+          "id": "id-1722019565525-7013",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -158,12 +158,12 @@
       "tokenNameCSS": "var(--ids-color-text-data)"
     },
     {
-      "id": "id-1718638612578-6818",
+      "id": "id-1722019565525-7018",
       "tokenName": "--ids-color-text-disabled",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612578-6816",
+          "id": "id-1722019565525-7016",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -180,12 +180,12 @@
       "tokenNameCSS": "var(--ids-color-text-disabled)"
     },
     {
-      "id": "id-1718638612578-6821",
+      "id": "id-1722019565525-7021",
       "tokenName": "--ids-color-text-error",
       "tokenValue": "var(--ids-color-red-80)",
       "children": [
         {
-          "id": "id-1718638612578-6819",
+          "id": "id-1722019565525-7019",
           "tokenName": "--ids-color-red-80",
           "tokenValue": "#a30d11",
           "type": "Core",
@@ -202,12 +202,12 @@
       "tokenNameCSS": "var(--ids-color-text-error)"
     },
     {
-      "id": "id-1718638612578-6824",
+      "id": "id-1722019565525-7024",
       "tokenName": "--ids-color-text-info",
       "tokenValue": "var(--ids-color-blue-80)",
       "children": [
         {
-          "id": "id-1718638612578-6822",
+          "id": "id-1722019565525-7022",
           "tokenName": "--ids-color-blue-80",
           "tokenValue": "#0054b1",
           "type": "Core",
@@ -224,20 +224,20 @@
       "tokenNameCSS": "var(--ids-color-text-info)"
     },
     {
-      "id": "id-1718638612578-6828",
+      "id": "id-1722019565525-7028",
       "tokenName": "--ids-color-text-success",
       "tokenValue": "var(--ids-color-success-weak)",
       "children": [
         {
-          "id": "id-1718638612578-6825",
+          "id": "id-1722019565525-7025",
           "tokenName": "--ids-color-success-weak",
           "tokenValue": "var(--ids-color-green-10)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
-          "component": "Surface colors",
+          "component": "Background and Action colors",
           "children": [
             {
-              "id": "id-1718638612578-6826",
+              "id": "id-1722019565525-7026",
               "tokenName": "--ids-color-green-10",
               "tokenValue": "#ebf9f1",
               "type": "Core",
@@ -258,20 +258,20 @@
       "tokenNameCSS": "var(--ids-color-text-success)"
     },
     {
-      "id": "id-1718638612578-6832",
+      "id": "id-1722019565525-7032",
       "tokenName": "--ids-color-text-warning",
       "tokenValue": "var(--ids-color-warning-weak)",
       "children": [
         {
-          "id": "id-1718638612578-6829",
+          "id": "id-1722019565525-7029",
           "tokenName": "--ids-color-warning-weak",
           "tokenValue": "var(--ids-color-orange-10)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
-          "component": "Surface colors",
+          "component": "Background and Action colors",
           "children": [
             {
-              "id": "id-1718638612578-6830",
+              "id": "id-1722019565525-7030",
               "tokenName": "--ids-color-orange-10",
               "tokenValue": "#fef2e5",
               "type": "Core",
@@ -292,12 +292,12 @@
       "tokenNameCSS": "var(--ids-color-text-warning)"
     },
     {
-      "id": "id-1718638612578-6835",
+      "id": "id-1722019565525-7035",
       "tokenName": "--ids-color-error-weak",
       "tokenValue": "var(--ids-color-red-20)",
       "children": [
         {
-          "id": "id-1718638612578-6833",
+          "id": "id-1722019565525-7033",
           "tokenName": "--ids-color-red-20",
           "tokenValue": "#f5c3c4",
           "type": "Core",
@@ -314,12 +314,12 @@
       "tokenNameCSS": "var(--ids-color-error-weak)"
     },
     {
-      "id": "id-1718638612578-6838",
+      "id": "id-1722019565525-7038",
       "tokenName": "--ids-color-red-30",
       "tokenValue": "var(--ids-color-red-40)",
       "children": [
         {
-          "id": "id-1718638612578-6836",
+          "id": "id-1722019565525-7036",
           "tokenName": "--ids-color-red-40",
           "tokenValue": "#e66467",
           "type": "Core",
@@ -336,12 +336,12 @@
       "tokenNameCSS": "var(--ids-color-red-30)"
     },
     {
-      "id": "id-1718638612578-6841",
+      "id": "id-1722019565525-7041",
       "tokenName": "--ids-color-text-on-warning",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612578-6839",
+          "id": "id-1722019565525-7039",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -358,12 +358,12 @@
       "tokenNameCSS": "var(--ids-color-text-on-warning)"
     },
     {
-      "id": "id-1718638612578-6844",
+      "id": "id-1722019565525-7044",
       "tokenName": "--ids-color-warning-weak",
       "tokenValue": "var(--ids-color-orange-20)",
       "children": [
         {
-          "id": "id-1718638612578-6842",
+          "id": "id-1722019565525-7042",
           "tokenName": "--ids-color-orange-20",
           "tokenValue": "#fddfbd",
           "type": "Core",
@@ -380,12 +380,12 @@
       "tokenNameCSS": "var(--ids-color-warning-weak)"
     },
     {
-      "id": "id-1718638612578-6847",
+      "id": "id-1722019565525-7047",
       "tokenName": "--ids-color-orange-30",
       "tokenValue": "var(--ids-color-orange-40)",
       "children": [
         {
-          "id": "id-1718638612578-6845",
+          "id": "id-1722019565525-7045",
           "tokenName": "--ids-color-orange-40",
           "tokenValue": "#fbaf50",
           "type": "Core",
@@ -402,12 +402,12 @@
       "tokenNameCSS": "var(--ids-color-orange-30)"
     },
     {
-      "id": "id-1718638612578-6850",
+      "id": "id-1722019565525-7050",
       "tokenName": "--ids-color-text-on-caution",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612578-6848",
+          "id": "id-1722019565525-7048",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -424,12 +424,12 @@
       "tokenNameCSS": "var(--ids-color-text-on-caution)"
     },
     {
-      "id": "id-1718638612578-6853",
+      "id": "id-1722019565525-7053",
       "tokenName": "--ids-color-caution-weak",
       "tokenValue": "var(--ids-color-orange-20)",
       "children": [
         {
-          "id": "id-1718638612578-6851",
+          "id": "id-1722019565525-7051",
           "tokenName": "--ids-color-orange-20",
           "tokenValue": "#fddfbd",
           "type": "Core",
@@ -446,12 +446,12 @@
       "tokenNameCSS": "var(--ids-color-caution-weak)"
     },
     {
-      "id": "id-1718638612578-6856",
+      "id": "id-1722019565525-7056",
       "tokenName": "--ids-color-yellow-30",
       "tokenValue": "var(--ids-color-orange-40)",
       "children": [
         {
-          "id": "id-1718638612578-6854",
+          "id": "id-1722019565525-7054",
           "tokenName": "--ids-color-orange-40",
           "tokenValue": "#fbaf50",
           "type": "Core",
@@ -468,12 +468,12 @@
       "tokenNameCSS": "var(--ids-color-yellow-30)"
     },
     {
-      "id": "id-1718638612578-6859",
+      "id": "id-1722019565525-7059",
       "tokenName": "--ids-color-caution-default",
       "tokenValue": "var(--ids-color-orange-70)",
       "children": [
         {
-          "id": "id-1718638612578-6857",
+          "id": "id-1722019565525-7057",
           "tokenName": "--ids-color-orange-70",
           "tokenValue": "#df6f00",
           "type": "Core",
@@ -490,12 +490,12 @@
       "tokenNameCSS": "var(--ids-color-caution-default)"
     },
     {
-      "id": "id-1718638612578-6862",
+      "id": "id-1722019565525-7062",
       "tokenName": "--ids-color-text-on-success",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612578-6860",
+          "id": "id-1722019565525-7060",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -512,12 +512,12 @@
       "tokenNameCSS": "var(--ids-color-text-on-success)"
     },
     {
-      "id": "id-1718638612578-6865",
+      "id": "id-1722019565525-7065",
       "tokenName": "--ids-color-success-weak",
       "tokenValue": "var(--ids-color-green-20)",
       "children": [
         {
-          "id": "id-1718638612578-6863",
+          "id": "id-1722019565525-7063",
           "tokenName": "--ids-color-green-20",
           "tokenValue": "#cbefdc",
           "type": "Core",
@@ -534,12 +534,12 @@
       "tokenNameCSS": "var(--ids-color-success-weak)"
     },
     {
-      "id": "id-1718638612578-6868",
+      "id": "id-1722019565525-7068",
       "tokenName": "--ids-color-green-30",
       "tokenValue": "var(--ids-color-green-40)",
       "children": [
         {
-          "id": "id-1718638612578-6866",
+          "id": "id-1722019565525-7066",
           "tokenName": "--ids-color-green-40",
           "tokenValue": "#78d8a3",
           "type": "Core",
@@ -556,12 +556,12 @@
       "tokenNameCSS": "var(--ids-color-green-30)"
     },
     {
-      "id": "id-1718638612578-6873",
+      "id": "id-1722019565525-7073",
       "tokenName": "--ids-color-info-weak",
       "tokenValue": "var(--ids-color-primary-20)",
       "children": [
         {
-          "id": "id-1718638612578-6869",
+          "id": "id-1722019565525-7069",
           "tokenName": "--ids-color-primary-20",
           "tokenValue": "var(--ids-color-theme-20)",
           "type": "Semantic",
@@ -569,15 +569,15 @@
           "component": "Color Progressions",
           "children": [
             {
-              "id": "id-1718638612578-6871",
+              "id": "id-1722019565525-7071",
               "tokenName": "--ids-color-theme-20",
               "tokenValue": "var(--ids-color-blue-20)",
               "type": "Semantic",
               "source": "themeColorTokens",
-              "component": "Theme colors",
+              "component": "Default theme colors",
               "children": [
                 {
-                  "id": "id-1718638612578-6870",
+                  "id": "id-1722019565525-7070",
                   "tokenName": "--ids-color-blue-20",
                   "tokenValue": "#bedcfa",
                   "type": "Core",
@@ -602,12 +602,12 @@
       "tokenNameCSS": "var(--ids-color-info-weak)"
     },
     {
-      "id": "id-1718638612578-6878",
+      "id": "id-1722019565525-7078",
       "tokenName": "--ids-color-blue-30",
       "tokenValue": "var(--ids-color-primary-40)",
       "children": [
         {
-          "id": "id-1718638612578-6874",
+          "id": "id-1722019565525-7074",
           "tokenName": "--ids-color-primary-40",
           "tokenValue": "var(--ids-color-theme-40)",
           "type": "Semantic",
@@ -615,15 +615,15 @@
           "component": "Color Progressions",
           "children": [
             {
-              "id": "id-1718638612578-6876",
+              "id": "id-1722019565525-7076",
               "tokenName": "--ids-color-theme-40",
               "tokenValue": "var(--ids-color-blue-40)",
               "type": "Semantic",
               "source": "themeColorTokens",
-              "component": "Theme colors",
+              "component": "Default theme colors",
               "children": [
                 {
-                  "id": "id-1718638612578-6875",
+                  "id": "id-1722019565525-7075",
                   "tokenName": "--ids-color-blue-40",
                   "tokenValue": "#55a3f3",
                   "type": "Core",
@@ -648,12 +648,12 @@
       "tokenNameCSS": "var(--ids-color-blue-30)"
     },
     {
-      "id": "id-1718638612578-6882",
+      "id": "id-1722019565525-7082",
       "tokenName": "--ids-color-border-focus",
       "tokenValue": "var(--ids-color-primary)",
       "children": [
         {
-          "id": "id-1718638612578-6879",
+          "id": "id-1722019565525-7079",
           "tokenName": "--ids-color-primary",
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
@@ -661,7 +661,7 @@
           "component": "Primary Color",
           "children": [
             {
-              "id": "id-1718638612578-6880",
+              "id": "id-1722019565525-7080",
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
@@ -682,7 +682,7 @@
       "tokenNameCSS": "var(--ids-color-border-focus)"
     },
     {
-      "id": "id-1718638612578-6884",
+      "id": "id-1722019565525-7084",
       "tokenName": "--ids-shadow-none",
       "tokenValue": "0 0 3px 2px rgba(0 114 237 / 0)",
       "type": "Semantic",
@@ -691,7 +691,7 @@
       "tokenNameCSS": "var(--ids-shadow-none)"
     },
     {
-      "id": "id-1718638612578-6886",
+      "id": "id-1722019565525-7086",
       "tokenName": "--ids-box-shadow-inverse",
       "tokenValue": "0 0 3px 1px rgba(255 255 255 / 0.3)",
       "type": "Semantic",
@@ -700,7 +700,7 @@
       "tokenNameCSS": "var(--ids-box-shadow-inverse)"
     },
     {
-      "id": "id-1718638612578-6888",
+      "id": "id-1722019565525-7088",
       "tokenName": "--ids-shadow-10",
       "tokenValue": "0 0 3px 1px rgb(0 114 237 / 0.3)",
       "type": "Semantic",
@@ -709,7 +709,7 @@
       "tokenNameCSS": "var(--ids-shadow-10)"
     },
     {
-      "id": "id-1718638612578-6890",
+      "id": "id-1722019565525-7090",
       "tokenName": "--ids-shadow-20",
       "tokenValue": "0 0 3px 2px rgb(0 114 237 / 0.30)",
       "type": "Semantic",
@@ -718,7 +718,7 @@
       "tokenNameCSS": "var(--ids-shadow-20)"
     },
     {
-      "id": "id-1718638612578-6892",
+      "id": "id-1722019565525-7092",
       "tokenName": "--ids-shadow-30",
       "tokenValue": "0 0 4px 3px rgb(0 114 237 / 0.3)",
       "type": "Semantic",
@@ -727,7 +727,7 @@
       "tokenNameCSS": "var(--ids-shadow-30)"
     },
     {
-      "id": "id-1718638612578-6894",
+      "id": "id-1722019565525-7094",
       "tokenName": "--ids-scroll-shadow",
       "tokenValue": "0 -1px 3px -1px rgba(0  0  0 / 0.30)",
       "type": "Semantic",
@@ -736,7 +736,7 @@
       "tokenNameCSS": "var(--ids-scroll-shadow)"
     },
     {
-      "id": "id-1718638612578-6896",
+      "id": "id-1722019565525-7096",
       "tokenName": "--ids-scroll-color-border-top",
       "tokenValue": "1px solid rgba(215 215 216 / 1)",
       "type": "Semantic",
@@ -745,12 +745,12 @@
       "tokenNameCSS": "var(--ids-scroll-color-border-top)"
     },
     {
-      "id": "id-1718638612578-6899",
+      "id": "id-1722019565525-7099",
       "tokenName": "--ids-accordion-header-color-border-bottom",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612578-6897",
+          "id": "id-1722019565525-7097",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -767,12 +767,12 @@
       "tokenNameCSS": "var(--ids-accordion-header-color-border-bottom)"
     },
     {
-      "id": "id-1718638612578-6902",
+      "id": "id-1722019565525-7102",
       "tokenName": "--ids-accordion-header-color-border-disabled",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612578-6900",
+          "id": "id-1722019565525-7100",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -789,12 +789,12 @@
       "tokenNameCSS": "var(--ids-accordion-header-color-border-disabled)"
     },
     {
-      "id": "id-1718638612578-6905",
+      "id": "id-1722019565525-7105",
       "tokenName": "--ids-accordion-header-color-text-disabled",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612578-6903",
+          "id": "id-1722019565525-7103",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -811,12 +811,12 @@
       "tokenNameCSS": "var(--ids-accordion-header-color-text-disabled)"
     },
     {
-      "id": "id-1718638612578-6908",
+      "id": "id-1722019565525-7108",
       "tokenName": "--ids-accordion-header-color-icon",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612578-6906",
+          "id": "id-1722019565525-7106",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -833,12 +833,12 @@
       "tokenNameCSS": "var(--ids-accordion-header-color-icon)"
     },
     {
-      "id": "id-1718638612578-6911",
+      "id": "id-1722019565525-7111",
       "tokenName": "--ids-app-menu-accordion-header-color-background-disabled",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612578-6909",
+          "id": "id-1722019565525-7109",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -855,12 +855,12 @@
       "tokenNameCSS": "var(--ids-app-menu-accordion-header-color-background-disabled)"
     },
     {
-      "id": "id-1718638612578-6914",
+      "id": "id-1722019565525-7114",
       "tokenName": "--ids-app-menu-accordion-header-color-border-disabled",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612578-6912",
+          "id": "id-1722019565525-7112",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -877,12 +877,12 @@
       "tokenNameCSS": "var(--ids-app-menu-accordion-header-color-border-disabled)"
     },
     {
-      "id": "id-1718638612578-6917",
+      "id": "id-1722019565525-7117",
       "tokenName": "--ids-app-menu-accordion-header-color-text-disabled",
       "tokenValue": "var(--ids-color-neutral-70)",
       "children": [
         {
-          "id": "id-1718638612578-6915",
+          "id": "id-1722019565525-7115",
           "tokenName": "--ids-color-neutral-70",
           "tokenValue": "#525257",
           "type": "Core",
@@ -899,12 +899,12 @@
       "tokenNameCSS": "var(--ids-app-menu-accordion-header-color-text-disabled)"
     },
     {
-      "id": "id-1718638612578-6920",
+      "id": "id-1722019565525-7120",
       "tokenName": "--ids-app-menu-accordion-header-color-background-default",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612578-6918",
+          "id": "id-1722019565525-7118",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -921,12 +921,12 @@
       "tokenNameCSS": "var(--ids-app-menu-accordion-header-color-background-default)"
     },
     {
-      "id": "id-1718638612578-6923",
+      "id": "id-1722019565525-7123",
       "tokenName": "--ids-app-menu-accordion-header-filter-match-color-text",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612578-6921",
+          "id": "id-1722019565525-7121",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -943,12 +943,12 @@
       "tokenNameCSS": "var(--ids-app-menu-accordion-header-filter-match-color-text)"
     },
     {
-      "id": "id-1718638612578-6926",
+      "id": "id-1722019565525-7126",
       "tokenName": "--ids-app-menu-accordion-header-color-border-focus",
       "tokenValue": "var(--ids-color-blue-40)",
       "children": [
         {
-          "id": "id-1718638612578-6924",
+          "id": "id-1722019565525-7124",
           "tokenName": "--ids-color-blue-40",
           "tokenValue": "#55a3f3",
           "type": "Core",
@@ -965,12 +965,12 @@
       "tokenNameCSS": "var(--ids-app-menu-accordion-header-color-border-focus)"
     },
     {
-      "id": "id-1718638612578-6929",
+      "id": "id-1722019565525-7129",
       "tokenName": "--ids-action-panel-header-color-background",
       "tokenValue": "var(--ids-color-neutral-10)",
       "children": [
         {
-          "id": "id-1718638612578-6927",
+          "id": "id-1722019565525-7127",
           "tokenName": "--ids-color-neutral-10",
           "tokenValue": "#f5f5f5",
           "type": "Core",
@@ -987,12 +987,12 @@
       "tokenNameCSS": "var(--ids-action-panel-header-color-background)"
     },
     {
-      "id": "id-1718638612578-6932",
+      "id": "id-1722019565525-7132",
       "tokenName": "--ids-action-panel-header-color-border",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612578-6930",
+          "id": "id-1722019565525-7130",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -1009,12 +1009,12 @@
       "tokenNameCSS": "var(--ids-action-panel-header-color-border)"
     },
     {
-      "id": "id-1718638612578-6935",
+      "id": "id-1722019565525-7135",
       "tokenName": "--ids-action-sheet-color-background",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612578-6933",
+          "id": "id-1722019565525-7133",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -1031,12 +1031,12 @@
       "tokenNameCSS": "var(--ids-action-sheet-color-background)"
     },
     {
-      "id": "id-1718638612578-6938",
+      "id": "id-1722019565525-7138",
       "tokenName": "--ids-action-sheet-color-border",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612578-6936",
+          "id": "id-1722019565525-7136",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -1053,12 +1053,12 @@
       "tokenNameCSS": "var(--ids-action-sheet-color-border)"
     },
     {
-      "id": "id-1718638612578-6941",
+      "id": "id-1722019565525-7141",
       "tokenName": "--ids-alert-color-progress-default",
       "tokenValue": "var(--ids-color-purple-90)",
       "children": [
         {
-          "id": "id-1718638612578-6939",
+          "id": "id-1722019565525-7139",
           "tokenName": "--ids-color-purple-90",
           "tokenValue": "#4e1a91",
           "type": "Core",
@@ -1075,12 +1075,12 @@
       "tokenNameCSS": "var(--ids-alert-color-progress-default)"
     },
     {
-      "id": "id-1718638612578-6944",
+      "id": "id-1722019565525-7144",
       "tokenName": "--ids-alert-color-progress-disabled",
       "tokenValue": "var(--ids-color-purple-50)",
       "children": [
         {
-          "id": "id-1718638612578-6942",
+          "id": "id-1722019565525-7142",
           "tokenName": "--ids-color-purple-50",
           "tokenValue": "#8d4be5",
           "type": "Core",
@@ -1097,12 +1097,12 @@
       "tokenNameCSS": "var(--ids-alert-color-progress-disabled)"
     },
     {
-      "id": "id-1718638612578-6947",
+      "id": "id-1722019565525-7147",
       "tokenName": "--ids-axis-chart-grid-color",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612578-6945",
+          "id": "id-1722019565525-7145",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -1119,12 +1119,12 @@
       "tokenNameCSS": "var(--ids-axis-chart-grid-color)"
     },
     {
-      "id": "id-1718638612578-6950",
+      "id": "id-1722019565525-7150",
       "tokenName": "--ids-axis-chart-last-line-color-border",
       "tokenValue": "var(--ids-color-neutral-80)",
       "children": [
         {
-          "id": "id-1718638612578-6948",
+          "id": "id-1722019565525-7148",
           "tokenName": "--ids-color-neutral-80",
           "tokenValue": "#3b3b3f",
           "type": "Core",
@@ -1141,12 +1141,12 @@
       "tokenNameCSS": "var(--ids-axis-chart-last-line-color-border)"
     },
     {
-      "id": "id-1718638612578-6953",
+      "id": "id-1722019565525-7153",
       "tokenName": "--ids-axis-chart-color-text",
       "tokenValue": "var(--ids-color-neutral-70)",
       "children": [
         {
-          "id": "id-1718638612578-6951",
+          "id": "id-1722019565525-7151",
           "tokenName": "--ids-color-neutral-70",
           "tokenValue": "#525257",
           "type": "Core",
@@ -1163,12 +1163,12 @@
       "tokenNameCSS": "var(--ids-axis-chart-color-text)"
     },
     {
-      "id": "id-1718638612578-6956",
+      "id": "id-1722019565525-7156",
       "tokenName": "--ids-block-grid-item-color-background-selectable-hover",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612578-6954",
+          "id": "id-1722019565525-7154",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -1185,12 +1185,12 @@
       "tokenNameCSS": "var(--ids-block-grid-item-color-background-selectable-hover)"
     },
     {
-      "id": "id-1718638612578-6960",
+      "id": "id-1722019565525-7160",
       "tokenName": "--ids-block-grid-item-selectable-container-focus",
       "tokenValue": "var(--ids-space-xxxxs) solid var(--ids-color-blue-90)",
       "children": [
         {
-          "id": "id-1718638612578-6957",
+          "id": "id-1722019565525-7157",
           "tokenName": "--ids-space-xxxxs",
           "tokenValue": "var(--ids-space-01)",
           "type": "Semantic",
@@ -1198,12 +1198,12 @@
           "component": "Space",
           "children": [
             {
-              "id": "id-1718638612578-6958",
+              "id": "id-1722019565525-7158",
               "tokenName": "--ids-space-01",
               "tokenValue": "1px",
               "type": "Core",
               "source": "coreTokens",
-              "component": "Spacing",
+              "component": "Space",
               "children": [],
               "colorValue": null,
               "tokenNameCSS": "var(--ids-space-01)"
@@ -1219,12 +1219,12 @@
       "tokenNameCSS": "var(--ids-block-grid-item-selectable-container-focus)"
     },
     {
-      "id": "id-1718638612578-6964",
+      "id": "id-1722019565525-7164",
       "tokenName": "--ids-block-grid-item-outline-selected",
       "tokenValue": "var(--ids-space-xxxs) solid var(--ids-color-blue-90)",
       "children": [
         {
-          "id": "id-1718638612578-6961",
+          "id": "id-1722019565525-7161",
           "tokenName": "--ids-space-xxxs",
           "tokenValue": "var(--ids-space-02)",
           "type": "Semantic",
@@ -1232,12 +1232,12 @@
           "component": "Space",
           "children": [
             {
-              "id": "id-1718638612578-6962",
+              "id": "id-1722019565525-7162",
               "tokenName": "--ids-space-02",
               "tokenValue": "2px",
               "type": "Core",
               "source": "coreTokens",
-              "component": "Spacing",
+              "component": "Space",
               "children": [],
               "colorValue": null,
               "tokenNameCSS": "var(--ids-space-02)"
@@ -1253,12 +1253,12 @@
       "tokenNameCSS": "var(--ids-block-grid-item-outline-selected)"
     },
     {
-      "id": "id-1718638612578-6967",
+      "id": "id-1722019565525-7167",
       "tokenName": "--ids-calendar-toolbar-color-border",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612578-6965",
+          "id": "id-1722019565525-7165",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -1275,12 +1275,12 @@
       "tokenNameCSS": "var(--ids-calendar-toolbar-color-border)"
     },
     {
-      "id": "id-1718638612578-6970",
+      "id": "id-1722019565525-7170",
       "tokenName": "--ids-calendar-event-color-border-accent-bluet-blue",
       "tokenValue": "var(--ids-color-blue-100)",
       "children": [
         {
-          "id": "id-1718638612578-6968",
+          "id": "id-1722019565525-7168",
           "tokenName": "--ids-color-blue-100",
           "tokenValue": "#003876",
           "type": "Core",
@@ -1297,12 +1297,12 @@
       "tokenNameCSS": "var(--ids-calendar-event-color-border-accent-bluet-blue)"
     },
     {
-      "id": "id-1718638612578-6973",
+      "id": "id-1722019565525-7173",
       "tokenName": "--ids-calendar-event-color-border-default",
       "tokenValue": "var(--ids-color-orange-100)",
       "children": [
         {
-          "id": "id-1718638612578-6971",
+          "id": "id-1722019565525-7171",
           "tokenName": "--ids-color-orange-100",
           "tokenValue": "#a14100",
           "type": "Core",
@@ -1319,12 +1319,12 @@
       "tokenNameCSS": "var(--ids-calendar-event-color-border-default)"
     },
     {
-      "id": "id-1718638612578-6976",
+      "id": "id-1722019565525-7176",
       "tokenName": "--ids-calendar-event-color-border-focus",
       "tokenValue": "var(--ids-color-blue-100)",
       "children": [
         {
-          "id": "id-1718638612578-6974",
+          "id": "id-1722019565525-7174",
           "tokenName": "--ids-color-blue-100",
           "tokenValue": "#003876",
           "type": "Core",
@@ -1341,12 +1341,12 @@
       "tokenNameCSS": "var(--ids-calendar-event-color-border-focus)"
     },
     {
-      "id": "id-1718638612578-6979",
+      "id": "id-1722019565525-7179",
       "tokenName": "--ids-card-divider-color-border",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612578-6977",
+          "id": "id-1722019565525-7177",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -1363,12 +1363,12 @@
       "tokenNameCSS": "var(--ids-card-divider-color-border)"
     },
     {
-      "id": "id-1718638612579-6982",
+      "id": "id-1722019565525-7182",
       "tokenName": "--ids-button-tertiary-color-background-hover",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612578-6980",
+          "id": "id-1722019565525-7180",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -1385,12 +1385,12 @@
       "tokenNameCSS": "var(--ids-button-tertiary-color-background-hover)"
     },
     {
-      "id": "id-1718638612579-6985",
+      "id": "id-1722019565525-7185",
       "tokenName": "--ids-button-formatter-color-text-hover",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612579-6983",
+          "id": "id-1722019565525-7183",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -1407,12 +1407,12 @@
       "tokenNameCSS": "var(--ids-button-formatter-color-text-hover)"
     },
     {
-      "id": "id-1718638612579-6988",
+      "id": "id-1722019565525-7188",
       "tokenName": "--ids-button-formatter-color-text-disabled",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612579-6986",
+          "id": "id-1722019565525-7186",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -1429,12 +1429,12 @@
       "tokenNameCSS": "var(--ids-button-formatter-color-text-disabled)"
     },
     {
-      "id": "id-1718638612579-6991",
+      "id": "id-1722019565525-7191",
       "tokenName": "--ids-button-formatter-color-background-hover",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612579-6989",
+          "id": "id-1722019565525-7189",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -1451,12 +1451,12 @@
       "tokenNameCSS": "var(--ids-button-formatter-color-background-hover)"
     },
     {
-      "id": "id-1718638612579-6996",
+      "id": "id-1722019565525-7196",
       "tokenName": "--ids-button-formatter-color-active",
       "tokenValue": "var(--ids-color-primary-90)",
       "children": [
         {
-          "id": "id-1718638612579-6992",
+          "id": "id-1722019565525-7192",
           "tokenName": "--ids-color-primary-90",
           "tokenValue": "var(--ids-color-theme-90)",
           "type": "Semantic",
@@ -1464,15 +1464,15 @@
           "component": "Color Progressions",
           "children": [
             {
-              "id": "id-1718638612579-6994",
+              "id": "id-1722019565525-7194",
               "tokenName": "--ids-color-theme-90",
               "tokenValue": "var(--ids-color-blue-90)",
               "type": "Semantic",
               "source": "themeColorTokens",
-              "component": "Theme colors",
+              "component": "Default theme colors",
               "children": [
                 {
-                  "id": "id-1718638612579-6993",
+                  "id": "id-1722019565525-7193",
                   "tokenName": "--ids-color-blue-90",
                   "tokenValue": "#004a99",
                   "type": "Core",
@@ -1497,12 +1497,12 @@
       "tokenNameCSS": "var(--ids-button-formatter-color-active)"
     },
     {
-      "id": "id-1718638612579-6999",
+      "id": "id-1722019565525-7199",
       "tokenName": "--ids-button-formatter-color-text-default",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612579-6997",
+          "id": "id-1722019565525-7197",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -1519,12 +1519,12 @@
       "tokenNameCSS": "var(--ids-button-formatter-color-text-default)"
     },
     {
-      "id": "id-1718638612579-7004",
+      "id": "id-1722019565525-7204",
       "tokenName": "--ids-chart-legend-color-text",
       "tokenValue": "var(--ids-color-text-default)",
       "children": [
         {
-          "id": "id-1718638612579-7000",
+          "id": "id-1722019565525-7200",
           "tokenName": "--ids-color-text-default",
           "tokenValue": "var(--ids-color-foreground-default-default)",
           "type": "Semantic",
@@ -1532,15 +1532,15 @@
           "component": "Body Colors",
           "children": [
             {
-              "id": "id-1718638612579-7002",
+              "id": "id-1722019565525-7202",
               "tokenName": "--ids-color-foreground-default-default",
               "tokenValue": "var(--ids-color-black-100)",
               "type": "Semantic",
               "source": "semanticContrastTokens",
-              "component": "Surface colors",
+              "component": "Background and Action colors",
               "children": [
                 {
-                  "id": "id-1718638612579-7001",
+                  "id": "id-1722019565525-7201",
                   "tokenName": "--ids-color-black-100",
                   "tokenValue": "#000000",
                   "type": "Core",
@@ -1565,12 +1565,12 @@
       "tokenNameCSS": "var(--ids-chart-legend-color-text)"
     },
     {
-      "id": "id-1718638612579-7007",
+      "id": "id-1722019565525-7207",
       "tokenName": "--ids-data-grid-color-background",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612579-7005",
+          "id": "id-1722019565525-7205",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -1587,12 +1587,12 @@
       "tokenNameCSS": "var(--ids-data-grid-color-background)"
     },
     {
-      "id": "id-1718638612579-7010",
+      "id": "id-1722019565525-7210",
       "tokenName": "--ids-data-grid-cell-color-background-default",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612579-7008",
+          "id": "id-1722019565525-7208",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -1609,7 +1609,7 @@
       "tokenNameCSS": "var(--ids-data-grid-cell-color-background-default)"
     },
     {
-      "id": "id-1718638612579-7012",
+      "id": "id-1722019565525-7212",
       "tokenName": "--ids-data-grid-cell-color-background-readonly",
       "tokenValue": "rgba(0 0 0 / 0.08)",
       "type": "Component",
@@ -1618,12 +1618,12 @@
       "tokenNameCSS": "var(--ids-data-grid-cell-color-background-readonly)"
     },
     {
-      "id": "id-1718638612579-7015",
+      "id": "id-1722019565525-7215",
       "tokenName": "--ids-data-grid-cell-color-border",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612579-7013",
+          "id": "id-1722019565525-7213",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -1640,12 +1640,12 @@
       "tokenNameCSS": "var(--ids-data-grid-cell-color-border)"
     },
     {
-      "id": "id-1718638612579-7018",
+      "id": "id-1722019565525-7218",
       "tokenName": "--ids-data-grid-cell-checkbox-color-border",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612579-7016",
+          "id": "id-1722019565525-7216",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -1662,12 +1662,12 @@
       "tokenNameCSS": "var(--ids-data-grid-cell-checkbox-color-border)"
     },
     {
-      "id": "id-1718638612579-7021",
+      "id": "id-1722019565525-7221",
       "tokenName": "--ids-data-grid-cell-color-text-default",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612579-7019",
+          "id": "id-1722019565525-7219",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -1684,12 +1684,12 @@
       "tokenNameCSS": "var(--ids-data-grid-cell-color-text-default)"
     },
     {
-      "id": "id-1718638612579-7024",
+      "id": "id-1722019565525-7224",
       "tokenName": "--ids-data-grid-cell-color-text-disabled",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612579-7022",
+          "id": "id-1722019565525-7222",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -1706,7 +1706,7 @@
       "tokenNameCSS": "var(--ids-data-grid-cell-color-text-disabled)"
     },
     {
-      "id": "id-1718638612579-7026",
+      "id": "id-1722019565525-7226",
       "tokenName": "--ids-data-grid-cell-color-background-error",
       "tokenValue": "rgba(232 79 79 / 0.1)",
       "type": "Component",
@@ -1715,12 +1715,12 @@
       "tokenNameCSS": "var(--ids-data-grid-cell-color-background-error)"
     },
     {
-      "id": "id-1718638612579-7029",
+      "id": "id-1722019565525-7229",
       "tokenName": "--ids-data-grid-list-cell-color-border",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612579-7027",
+          "id": "id-1722019565525-7227",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -1737,12 +1737,12 @@
       "tokenNameCSS": "var(--ids-data-grid-list-cell-color-border)"
     },
     {
-      "id": "id-1718638612579-7032",
+      "id": "id-1722019565525-7232",
       "tokenName": "--ids-data-grid-list-header-color-border",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612579-7030",
+          "id": "id-1722019565525-7230",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -1759,12 +1759,12 @@
       "tokenNameCSS": "var(--ids-data-grid-list-header-color-border)"
     },
     {
-      "id": "id-1718638612579-7035",
+      "id": "id-1722019565525-7235",
       "tokenName": "--ids-data-grid-list-header-color-background",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612579-7033",
+          "id": "id-1722019565525-7233",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -1781,12 +1781,12 @@
       "tokenNameCSS": "var(--ids-data-grid-list-header-color-background)"
     },
     {
-      "id": "id-1718638612579-7038",
+      "id": "id-1722019565525-7238",
       "tokenName": "--ids-data-grid-list-header-color-text",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612579-7036",
+          "id": "id-1722019565525-7236",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -1803,12 +1803,12 @@
       "tokenNameCSS": "var(--ids-data-grid-list-header-color-text)"
     },
     {
-      "id": "id-1718638612579-7041",
+      "id": "id-1722019565525-7241",
       "tokenName": "--ids-data-grid-list-header-color-icon-unsorted",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612579-7039",
+          "id": "id-1722019565525-7239",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -1825,12 +1825,12 @@
       "tokenNameCSS": "var(--ids-data-grid-list-header-color-icon-unsorted)"
     },
     {
-      "id": "id-1718638612579-7044",
+      "id": "id-1722019565525-7244",
       "tokenName": "--ids-data-grid-list-header-color-icon-sorted",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612579-7042",
+          "id": "id-1722019565525-7242",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -1847,12 +1847,12 @@
       "tokenNameCSS": "var(--ids-data-grid-list-header-color-icon-sorted)"
     },
     {
-      "id": "id-1718638612579-7047",
+      "id": "id-1722019565525-7247",
       "tokenName": "--ids-data-grid-list-header-checkbox-color-background",
       "tokenValue": "var(--ids-color-neutral-70)",
       "children": [
         {
-          "id": "id-1718638612579-7045",
+          "id": "id-1722019565525-7245",
           "tokenName": "--ids-color-neutral-70",
           "tokenValue": "#525257",
           "type": "Core",
@@ -1869,12 +1869,12 @@
       "tokenNameCSS": "var(--ids-data-grid-list-header-checkbox-color-background)"
     },
     {
-      "id": "id-1718638612579-7050",
+      "id": "id-1722019565525-7250",
       "tokenName": "--ids-data-grid-header-color-border",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612579-7048",
+          "id": "id-1722019565525-7248",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -1891,12 +1891,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-color-border)"
     },
     {
-      "id": "id-1718638612579-7053",
+      "id": "id-1722019565525-7253",
       "tokenName": "--ids-data-grid-header-color-background-default",
       "tokenValue": "var(--ids-color-neutral-10)",
       "children": [
         {
-          "id": "id-1718638612579-7051",
+          "id": "id-1722019565525-7251",
           "tokenName": "--ids-color-neutral-10",
           "tokenValue": "#f5f5f5",
           "type": "Core",
@@ -1913,12 +1913,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-color-background-default)"
     },
     {
-      "id": "id-1718638612579-7056",
+      "id": "id-1722019565525-7256",
       "tokenName": "--ids-data-grid-header-color-background-hover",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612579-7054",
+          "id": "id-1722019565525-7254",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -1935,12 +1935,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-color-background-hover)"
     },
     {
-      "id": "id-1718638612579-7059",
+      "id": "id-1722019565525-7259",
       "tokenName": "--ids-data-grid-header-checkbox-color-background",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612579-7057",
+          "id": "id-1722019565525-7257",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -1957,12 +1957,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-checkbox-color-background)"
     },
     {
-      "id": "id-1718638612579-7062",
+      "id": "id-1722019565525-7262",
       "tokenName": "--ids-data-grid-header-checkbox-color-border",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612579-7060",
+          "id": "id-1722019565525-7260",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -1979,12 +1979,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-checkbox-color-border)"
     },
     {
-      "id": "id-1718638612579-7065",
+      "id": "id-1722019565525-7265",
       "tokenName": "--ids-data-grid-header-color-icon",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612579-7063",
+          "id": "id-1722019565525-7263",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -2001,12 +2001,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-color-icon)"
     },
     {
-      "id": "id-1718638612579-7068",
+      "id": "id-1722019565525-7268",
       "tokenName": "--ids-data-grid-header-drag-background-color",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612579-7066",
+          "id": "id-1722019565525-7266",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -2023,12 +2023,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-drag-background-color)"
     },
     {
-      "id": "id-1718638612579-7071",
+      "id": "id-1722019565525-7271",
       "tokenName": "--ids-data-grid-header-drag-arrow-color-background",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612579-7069",
+          "id": "id-1722019565525-7269",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -2045,12 +2045,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-drag-arrow-color-background)"
     },
     {
-      "id": "id-1718638612579-7074",
+      "id": "id-1722019565525-7274",
       "tokenName": "--ids-data-grid-header-color-background-default-placeholder-dragging",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612579-7072",
+          "id": "id-1722019565525-7272",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -2067,12 +2067,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-color-background-default-placeholder-dragging)"
     },
     {
-      "id": "id-1718638612579-7077",
+      "id": "id-1722019565525-7277",
       "tokenName": "--ids-data-grid-header-color-text",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612579-7075",
+          "id": "id-1722019565525-7275",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -2089,12 +2089,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-color-text)"
     },
     {
-      "id": "id-1718638612579-7080",
+      "id": "id-1722019565525-7280",
       "tokenName": "--ids-data-grid-header-color-icon-unsorted",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612579-7078",
+          "id": "id-1722019565525-7278",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -2111,12 +2111,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-color-icon-unsorted)"
     },
     {
-      "id": "id-1718638612579-7083",
+      "id": "id-1722019565525-7283",
       "tokenName": "--ids-data-grid-header-color-icon-sorted",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612579-7081",
+          "id": "id-1722019565525-7281",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -2133,12 +2133,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-color-icon-sorted)"
     },
     {
-      "id": "id-1718638612579-7086",
+      "id": "id-1722019565525-7286",
       "tokenName": "--ids-data-grid-header-expander-color",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612579-7084",
+          "id": "id-1722019565525-7284",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -2155,12 +2155,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-expander-color)"
     },
     {
-      "id": "id-1718638612579-7089",
+      "id": "id-1722019565525-7289",
       "tokenName": "--ids-data-grid-header-expander-color-active",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612579-7087",
+          "id": "id-1722019565525-7287",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -2177,12 +2177,12 @@
       "tokenNameCSS": "var(--ids-data-grid-header-expander-color-active)"
     },
     {
-      "id": "id-1718638612579-7092",
+      "id": "id-1722019565525-7292",
       "tokenName": "--ids-data-grid-filter-input-color-background-readonly",
       "tokenValue": "var(--ids-color-neutral-50)",
       "children": [
         {
-          "id": "id-1718638612579-7090",
+          "id": "id-1722019565525-7290",
           "tokenName": "--ids-color-neutral-50",
           "tokenValue": "#8e8e95",
           "type": "Core",
@@ -2199,7 +2199,7 @@
       "tokenNameCSS": "var(--ids-data-grid-filter-input-color-background-readonly)"
     },
     {
-      "id": "id-1718638612579-7094",
+      "id": "id-1722019565525-7294",
       "tokenName": "--ids-data-grid-row-color-background-selected",
       "tokenValue": "rgba(85 163 243 / 0.2)",
       "type": "Component",
@@ -2208,12 +2208,12 @@
       "tokenNameCSS": "var(--ids-data-grid-row-color-background-selected)"
     },
     {
-      "id": "id-1718638612579-7097",
+      "id": "id-1722019565525-7297",
       "tokenName": "--ids-data-grid-row-alternating-color-background",
       "tokenValue": "var(--ids-color-neutral-10)",
       "children": [
         {
-          "id": "id-1718638612579-7095",
+          "id": "id-1722019565525-7295",
           "tokenName": "--ids-color-neutral-10",
           "tokenValue": "#f5f5f5",
           "type": "Core",
@@ -2230,12 +2230,12 @@
       "tokenNameCSS": "var(--ids-data-grid-row-alternating-color-background)"
     },
     {
-      "id": "id-1718638612579-7102",
+      "id": "id-1722019565525-7302",
       "tokenName": "--ids-data-grid-row-shadow-focus",
       "tokenValue": "inset 0 0 0 1px var(--ids-color-primary-70), 0 1px 0 0 var(--ids-color-primary-70), 0 0 3px 2px rgb(54 138 192 / 0.3)",
       "children": [
         {
-          "id": "id-1718638612579-7098",
+          "id": "id-1722019565525-7298",
           "tokenName": "--ids-color-primary-70",
           "tokenValue": "var(--ids-color-theme-70)",
           "type": "Semantic",
@@ -2243,15 +2243,15 @@
           "component": "Color Progressions",
           "children": [
             {
-              "id": "id-1718638612579-7100",
+              "id": "id-1722019565525-7300",
               "tokenName": "--ids-color-theme-70",
               "tokenValue": "var(--ids-color-blue-70)",
               "type": "Semantic",
               "source": "themeColorTokens",
-              "component": "Theme colors",
+              "component": "Default theme colors",
               "children": [
                 {
-                  "id": "id-1718638612579-7099",
+                  "id": "id-1722019565525-7299",
                   "tokenName": "--ids-color-blue-70",
                   "tokenValue": "#0066d4",
                   "type": "Core",
@@ -2276,12 +2276,12 @@
       "tokenNameCSS": "var(--ids-data-grid-row-shadow-focus)"
     },
     {
-      "id": "id-1718638612579-7105",
+      "id": "id-1722019565525-7305",
       "tokenName": "--ids-input-dirty-indicator-color-background-dirty",
       "tokenValue": "var(--ids-color-orange-50)",
       "children": [
         {
-          "id": "id-1718638612579-7103",
+          "id": "id-1722019565525-7303",
           "tokenName": "--ids-color-orange-50",
           "tokenValue": "#fa9601",
           "type": "Core",
@@ -2298,12 +2298,12 @@
       "tokenNameCSS": "var(--ids-input-dirty-indicator-color-background-dirty)"
     },
     {
-      "id": "id-1718638612579-7108",
+      "id": "id-1722019565525-7308",
       "tokenName": "--ids-drawer-app-menu-color-text",
       "tokenValue": "var(--ids-color-neutral-10)",
       "children": [
         {
-          "id": "id-1718638612579-7106",
+          "id": "id-1722019565525-7306",
           "tokenName": "--ids-color-neutral-10",
           "tokenValue": "#f5f5f5",
           "type": "Core",
@@ -2320,12 +2320,12 @@
       "tokenNameCSS": "var(--ids-drawer-app-menu-color-text)"
     },
     {
-      "id": "id-1718638612579-7113",
+      "id": "id-1722019565526-7313",
       "tokenName": "--ids-dropdown-color-background-default",
       "tokenValue": "var(--ids-popup-color-background)",
       "children": [
         {
-          "id": "id-1718638612579-7109",
+          "id": "id-1722019565525-7309",
           "tokenName": "--ids-popup-color-background",
           "tokenValue": "var(--ids-color-background-elevated)",
           "type": "Component",
@@ -2333,15 +2333,15 @@
           "component": "Popup",
           "children": [
             {
-              "id": "id-1718638612579-7111",
+              "id": "id-1722019565526-7311",
               "tokenName": "--ids-color-background-elevated",
               "tokenValue": "var(--ids-color-white-100)",
               "type": "Semantic",
               "source": "semanticContrastTokens",
-              "component": "Surface colors",
+              "component": "Background and Action colors",
               "children": [
                 {
-                  "id": "id-1718638612579-7110",
+                  "id": "id-1722019565526-7310",
                   "tokenName": "--ids-color-white-100",
                   "tokenValue": "#ffffff",
                   "type": "Core",
@@ -2366,12 +2366,12 @@
       "tokenNameCSS": "var(--ids-dropdown-color-background-default)"
     },
     {
-      "id": "id-1718638612579-7118",
+      "id": "id-1722019565526-7318",
       "tokenName": "--ids-dropdown-color-border",
       "tokenValue": "var(--ids-color-border-focus)",
       "children": [
         {
-          "id": "id-1718638612579-7114",
+          "id": "id-1722019565526-7314",
           "tokenName": "--ids-color-border-focus",
           "tokenValue": "var(--ids-color-primary)",
           "type": "Semantic",
@@ -2379,7 +2379,7 @@
           "component": "Focus Styles",
           "children": [
             {
-              "id": "id-1718638612579-7116",
+              "id": "id-1722019565526-7316",
               "tokenName": "--ids-color-primary",
               "tokenValue": "var(--ids-color-blue-60)",
               "type": "Semantic",
@@ -2387,7 +2387,7 @@
               "component": "Primary Color",
               "children": [
                 {
-                  "id": "id-1718638612579-7115",
+                  "id": "id-1722019565526-7315",
                   "tokenName": "--ids-color-blue-60",
                   "tokenValue": "#0072ed",
                   "type": "Core",
@@ -2412,12 +2412,12 @@
       "tokenNameCSS": "var(--ids-dropdown-color-border)"
     },
     {
-      "id": "id-1718638612579-7121",
+      "id": "id-1722019565526-7321",
       "tokenName": "--ids-dropdown-attached-color-border",
       "tokenValue": "var(--ids-color-neutral-50)",
       "children": [
         {
-          "id": "id-1718638612579-7119",
+          "id": "id-1722019565526-7319",
           "tokenName": "--ids-color-neutral-50",
           "tokenValue": "#8e8e95",
           "type": "Core",
@@ -2434,12 +2434,12 @@
       "tokenNameCSS": "var(--ids-dropdown-attached-color-border)"
     },
     {
-      "id": "id-1718638612579-7124",
+      "id": "id-1722019565526-7324",
       "tokenName": "--ids-dropdown-color-text-selected",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612579-7122",
+          "id": "id-1722019565526-7322",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -2456,12 +2456,12 @@
       "tokenNameCSS": "var(--ids-dropdown-color-text-selected)"
     },
     {
-      "id": "id-1718638612579-7129",
+      "id": "id-1722019565526-7329",
       "tokenName": "--ids-dropdown-color-background-selected",
       "tokenValue": "var(--ids-color-primary-90)",
       "children": [
         {
-          "id": "id-1718638612579-7125",
+          "id": "id-1722019565526-7325",
           "tokenName": "--ids-color-primary-90",
           "tokenValue": "var(--ids-color-theme-90)",
           "type": "Semantic",
@@ -2469,15 +2469,15 @@
           "component": "Color Progressions",
           "children": [
             {
-              "id": "id-1718638612579-7127",
+              "id": "id-1722019565526-7327",
               "tokenName": "--ids-color-theme-90",
               "tokenValue": "var(--ids-color-blue-90)",
               "type": "Semantic",
               "source": "themeColorTokens",
-              "component": "Theme colors",
+              "component": "Default theme colors",
               "children": [
                 {
-                  "id": "id-1718638612579-7126",
+                  "id": "id-1722019565526-7326",
                   "tokenName": "--ids-color-blue-90",
                   "tokenValue": "#004a99",
                   "type": "Core",
@@ -2502,12 +2502,12 @@
       "tokenNameCSS": "var(--ids-dropdown-color-background-selected)"
     },
     {
-      "id": "id-1718638612579-7132",
+      "id": "id-1722019565526-7332",
       "tokenName": "--ids-dropdown-group-color-text",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612579-7130",
+          "id": "id-1722019565526-7330",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -2524,12 +2524,12 @@
       "tokenNameCSS": "var(--ids-dropdown-group-color-text)"
     },
     {
-      "id": "id-1718638612579-7135",
+      "id": "id-1722019565526-7335",
       "tokenName": "--ids-dropdown-group-color-border",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612579-7133",
+          "id": "id-1722019565526-7333",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -2546,12 +2546,12 @@
       "tokenNameCSS": "var(--ids-dropdown-group-color-border)"
     },
     {
-      "id": "id-1718638612579-7138",
+      "id": "id-1722019565526-7338",
       "tokenName": "--ids-editor-background-color",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612579-7136",
+          "id": "id-1722019565526-7336",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -2568,12 +2568,12 @@
       "tokenNameCSS": "var(--ids-editor-background-color)"
     },
     {
-      "id": "id-1718638612579-7141",
+      "id": "id-1722019565526-7341",
       "tokenName": "--ids-editor-color-border-default",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612579-7139",
+          "id": "id-1722019565526-7339",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -2590,12 +2590,12 @@
       "tokenNameCSS": "var(--ids-editor-color-border-default)"
     },
     {
-      "id": "id-1718638612579-7144",
+      "id": "id-1722019565526-7344",
       "tokenName": "--ids-editor-color-border-hover",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612579-7142",
+          "id": "id-1722019565526-7342",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -2612,12 +2612,12 @@
       "tokenNameCSS": "var(--ids-editor-color-border-hover)"
     },
     {
-      "id": "id-1718638612579-7149",
+      "id": "id-1722019565526-7349",
       "tokenName": "--ids-editor-color-border-focus",
       "tokenValue": "var(--ids-color-border-focus)",
       "children": [
         {
-          "id": "id-1718638612579-7145",
+          "id": "id-1722019565526-7345",
           "tokenName": "--ids-color-border-focus",
           "tokenValue": "var(--ids-color-primary)",
           "type": "Semantic",
@@ -2625,7 +2625,7 @@
           "component": "Focus Styles",
           "children": [
             {
-              "id": "id-1718638612579-7147",
+              "id": "id-1722019565526-7347",
               "tokenName": "--ids-color-primary",
               "tokenValue": "var(--ids-color-blue-60)",
               "type": "Semantic",
@@ -2633,7 +2633,7 @@
               "component": "Primary Color",
               "children": [
                 {
-                  "id": "id-1718638612579-7146",
+                  "id": "id-1722019565526-7346",
                   "tokenName": "--ids-color-blue-60",
                   "tokenValue": "#0072ed",
                   "type": "Core",
@@ -2658,12 +2658,12 @@
       "tokenNameCSS": "var(--ids-editor-color-border-focus)"
     },
     {
-      "id": "id-1718638612579-7152",
+      "id": "id-1722019565526-7352",
       "tokenName": "--ids-editor-shadow-border-focus",
       "tokenValue": "var(--ids-shadow-focus)",
       "children": [
         {
-          "id": "id-1718638612579-7150",
+          "id": "id-1722019565526-7350",
           "tokenName": "--ids-shadow-focus",
           "tokenValue": "0px 0px 8px 0px rgba(0 114 237 / 0.50)",
           "type": "Semantic",
@@ -2680,20 +2680,20 @@
       "tokenNameCSS": "var(--ids-editor-shadow-border-focus)"
     },
     {
-      "id": "id-1718638612579-7156",
+      "id": "id-1722019565526-7356",
       "tokenName": "--ids-editor-color-border-error",
       "tokenValue": "var(--ids-color-error-default)",
       "children": [
         {
-          "id": "id-1718638612579-7153",
+          "id": "id-1722019565526-7353",
           "tokenName": "--ids-color-error-default",
           "tokenValue": "var(--ids-color-red-80)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
-          "component": "Surface colors",
+          "component": "Background and Action colors",
           "children": [
             {
-              "id": "id-1718638612579-7154",
+              "id": "id-1722019565526-7354",
               "tokenName": "--ids-color-red-80",
               "tokenValue": "#a30d11",
               "type": "Core",
@@ -2714,20 +2714,20 @@
       "tokenNameCSS": "var(--ids-editor-color-border-error)"
     },
     {
-      "id": "id-1718638612579-7160",
+      "id": "id-1722019565526-7360",
       "tokenName": "--ids-editor-color-text-error",
       "tokenValue": "var(--ids-color-error-default)",
       "children": [
         {
-          "id": "id-1718638612579-7157",
+          "id": "id-1722019565526-7357",
           "tokenName": "--ids-color-error-default",
           "tokenValue": "var(--ids-color-red-80)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
-          "component": "Surface colors",
+          "component": "Background and Action colors",
           "children": [
             {
-              "id": "id-1718638612579-7158",
+              "id": "id-1722019565526-7358",
               "tokenName": "--ids-color-red-80",
               "tokenValue": "#a30d11",
               "type": "Core",
@@ -2748,12 +2748,12 @@
       "tokenNameCSS": "var(--ids-editor-color-text-error)"
     },
     {
-      "id": "id-1718638612579-7163",
+      "id": "id-1722019565526-7363",
       "tokenName": "--ids-editor-shadow-error",
       "tokenValue": "var(--ids-shadow-error)",
       "children": [
         {
-          "id": "id-1718638612579-7161",
+          "id": "id-1722019565526-7361",
           "tokenName": "--ids-shadow-error",
           "tokenValue": "0 0 3px 2px rgb(218 18 23 / 0.30)",
           "type": "Semantic",
@@ -2770,12 +2770,12 @@
       "tokenNameCSS": "var(--ids-editor-shadow-error)"
     },
     {
-      "id": "id-1718638612579-7166",
+      "id": "id-1722019565526-7366",
       "tokenName": "--ids-editor-color-background-readonly",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612579-7164",
+          "id": "id-1722019565526-7364",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -2792,12 +2792,12 @@
       "tokenNameCSS": "var(--ids-editor-color-background-readonly)"
     },
     {
-      "id": "id-1718638612579-7169",
+      "id": "id-1722019565526-7369",
       "tokenName": "--ids-editor-color-border-readonly",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612579-7167",
+          "id": "id-1722019565526-7367",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -2814,12 +2814,12 @@
       "tokenNameCSS": "var(--ids-editor-color-border-readonly)"
     },
     {
-      "id": "id-1718638612579-7172",
+      "id": "id-1722019565526-7372",
       "tokenName": "--ids-editor-source-color-background-readonly",
       "tokenValue": "var(--ids-color-neutral-10)",
       "children": [
         {
-          "id": "id-1718638612579-7170",
+          "id": "id-1722019565526-7370",
           "tokenName": "--ids-color-neutral-10",
           "tokenValue": "#f5f5f5",
           "type": "Core",
@@ -2836,12 +2836,12 @@
       "tokenNameCSS": "var(--ids-editor-source-color-background-readonly)"
     },
     {
-      "id": "id-1718638612579-7176",
+      "id": "id-1722019565526-7376",
       "tokenName": "--ids-editor-color-border-disabled",
       "tokenValue": "var(--ids-color-text-disabled)",
       "children": [
         {
-          "id": "id-1718638612579-7173",
+          "id": "id-1722019565526-7373",
           "tokenName": "--ids-color-text-disabled",
           "tokenValue": "var(--ids-color-neutral-30)",
           "type": "Semantic",
@@ -2849,7 +2849,7 @@
           "component": "Text Colors",
           "children": [
             {
-              "id": "id-1718638612579-7174",
+              "id": "id-1722019565526-7374",
               "tokenName": "--ids-color-neutral-30",
               "tokenValue": "#c5c5c9",
               "type": "Core",
@@ -2870,12 +2870,12 @@
       "tokenNameCSS": "var(--ids-editor-color-border-disabled)"
     },
     {
-      "id": "id-1718638612579-7179",
+      "id": "id-1722019565526-7379",
       "tokenName": "--ids-editor-color-text-disabled",
       "tokenValue": "var(--ids-color-neutral-50)",
       "children": [
         {
-          "id": "id-1718638612579-7177",
+          "id": "id-1722019565526-7377",
           "tokenName": "--ids-color-neutral-50",
           "tokenValue": "#8e8e95",
           "type": "Core",
@@ -2892,12 +2892,12 @@
       "tokenNameCSS": "var(--ids-editor-color-text-disabled)"
     },
     {
-      "id": "id-1718638612579-7183",
+      "id": "id-1722019565526-7383",
       "tokenName": "--ids-editor-link-color-text-link",
       "tokenValue": "var(--ids-color-primary)",
       "children": [
         {
-          "id": "id-1718638612579-7180",
+          "id": "id-1722019565526-7380",
           "tokenName": "--ids-color-primary",
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
@@ -2905,7 +2905,7 @@
           "component": "Primary Color",
           "children": [
             {
-              "id": "id-1718638612579-7181",
+              "id": "id-1722019565526-7381",
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
@@ -2926,12 +2926,12 @@
       "tokenNameCSS": "var(--ids-editor-link-color-text-link)"
     },
     {
-      "id": "id-1718638612579-7188",
+      "id": "id-1722019565526-7388",
       "tokenName": "--ids-editor-link-color-text-hover",
       "tokenValue": "var(--ids-color-primary-100)",
       "children": [
         {
-          "id": "id-1718638612579-7184",
+          "id": "id-1722019565526-7384",
           "tokenName": "--ids-color-primary-100",
           "tokenValue": "var(--ids-color-theme-100)",
           "type": "Semantic",
@@ -2939,15 +2939,15 @@
           "component": "Color Progressions",
           "children": [
             {
-              "id": "id-1718638612579-7186",
+              "id": "id-1722019565526-7386",
               "tokenName": "--ids-color-theme-100",
               "tokenValue": "var(--ids-color-blue-100)",
               "type": "Semantic",
               "source": "themeColorTokens",
-              "component": "Theme colors",
+              "component": "Default theme colors",
               "children": [
                 {
-                  "id": "id-1718638612579-7185",
+                  "id": "id-1722019565526-7385",
                   "tokenName": "--ids-color-blue-100",
                   "tokenValue": "#003876",
                   "type": "Core",
@@ -2972,12 +2972,12 @@
       "tokenNameCSS": "var(--ids-editor-link-color-text-hover)"
     },
     {
-      "id": "id-1718638612579-7192",
+      "id": "id-1722019565526-7392",
       "tokenName": "--ids-editor-link-color-border-focus",
       "tokenValue": "var(--ids-color-primary)",
       "children": [
         {
-          "id": "id-1718638612579-7189",
+          "id": "id-1722019565526-7389",
           "tokenName": "--ids-color-primary",
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
@@ -2985,7 +2985,7 @@
           "component": "Primary Color",
           "children": [
             {
-              "id": "id-1718638612579-7190",
+              "id": "id-1722019565526-7390",
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
@@ -3006,12 +3006,12 @@
       "tokenNameCSS": "var(--ids-editor-link-color-border-focus)"
     },
     {
-      "id": "id-1718638612579-7195",
+      "id": "id-1722019565526-7395",
       "tokenName": "--ids-editor-shadow-focus",
       "tokenValue": "var(--ids-shadow-focus)",
       "children": [
         {
-          "id": "id-1718638612579-7193",
+          "id": "id-1722019565526-7393",
           "tokenName": "--ids-shadow-focus",
           "tokenValue": "0px 0px 8px 0px rgba(0 114 237 / 0.50)",
           "type": "Semantic",
@@ -3028,12 +3028,12 @@
       "tokenNameCSS": "var(--ids-editor-shadow-focus)"
     },
     {
-      "id": "id-1718638612579-7198",
+      "id": "id-1722019565526-7398",
       "tokenName": "--ids-editor-source-color-background-default",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612579-7196",
+          "id": "id-1722019565526-7396",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -3050,12 +3050,12 @@
       "tokenNameCSS": "var(--ids-editor-source-color-background-default)"
     },
     {
-      "id": "id-1718638612579-7201",
+      "id": "id-1722019565526-7401",
       "tokenName": "--ids-editor-source-line-color-text",
       "tokenValue": "var(--ids-color-neutral-70)",
       "children": [
         {
-          "id": "id-1718638612579-7199",
+          "id": "id-1722019565526-7399",
           "tokenName": "--ids-color-neutral-70",
           "tokenValue": "#525257",
           "type": "Core",
@@ -3072,21 +3072,46 @@
       "tokenNameCSS": "var(--ids-editor-source-line-color-text)"
     },
     {
-      "id": "id-1718638612579-7203",
+      "id": "id-1722019565526-7405",
       "tokenName": "--ids-editor-textarea-color-background",
-      "tokenValue": "transparent",
+      "tokenValue": "var(--ids-color-transparent)",
+      "children": [
+        {
+          "id": "id-1722019565526-7402",
+          "tokenName": "--ids-color-transparent",
+          "tokenValue": "var(--ids-color-black-00)",
+          "type": "Semantic",
+          "source": "semanticContrastTokens",
+          "component": "Background and Action colors",
+          "children": [
+            {
+              "id": "id-1722019565526-7403",
+              "tokenName": "--ids-color-black-00",
+              "tokenValue": "rgba(0, 0, 0, 0)",
+              "type": "Core",
+              "source": "coreTokens",
+              "component": "Colors",
+              "children": [],
+              "colorValue": null,
+              "tokenNameCSS": "var(--ids-color-black-00)"
+            }
+          ],
+          "colorValue": null,
+          "tokenNameCSS": "var(--ids-color-transparent)"
+        }
+      ],
       "type": "Component",
       "component": "Editor",
       "colorValue": null,
       "tokenNameCSS": "var(--ids-editor-textarea-color-background)"
     },
     {
-      "id": "id-1718638612579-7207",
+      "id": "id-1722019565526-7409",
       "tokenName": "--ids-editor-source-color-text",
       "tokenValue": "var(--ids-color-text-data)",
       "children": [
         {
-          "id": "id-1718638612579-7204",
+          "id": "id-1722019565526-7406",
           "tokenName": "--ids-color-text-data",
           "tokenValue": "var(--ids-color-neutral-100)",
           "type": "Semantic",
@@ -3094,7 +3119,7 @@
           "component": "Text Colors",
           "children": [
             {
-              "id": "id-1718638612579-7205",
+              "id": "id-1722019565526-7407",
               "tokenName": "--ids-color-neutral-100",
               "tokenValue": "#161618",
               "type": "Core",
@@ -3115,12 +3140,12 @@
       "tokenNameCSS": "var(--ids-editor-source-color-text)"
     },
     {
-      "id": "id-1718638612579-7210",
+      "id": "id-1722019565526-7412",
       "tokenName": "--ids-expandable-area-border-bottom",
       "tokenValue": "1px solid var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612579-7208",
+          "id": "id-1722019565526-7410",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -3137,7 +3162,7 @@
       "tokenNameCSS": "var(--ids-expandable-area-border-bottom)"
     },
     {
-      "id": "id-1718638612579-7212",
+      "id": "id-1722019565526-7414",
       "tokenName": "--ids-header-gradient-opacity-none",
       "tokenValue": "rgb(0 74 153 / 1)",
       "type": "Component",
@@ -3146,7 +3171,7 @@
       "tokenNameCSS": "var(--ids-header-gradient-opacity-none)"
     },
     {
-      "id": "id-1718638612579-7214",
+      "id": "id-1722019565526-7416",
       "tokenName": "--ids-header-gradient-opacity-full",
       "tokenValue": "rgb(0 114 237 / 0)",
       "type": "Component",
@@ -3155,7 +3180,7 @@
       "tokenNameCSS": "var(--ids-header-gradient-opacity-full)"
     },
     {
-      "id": "id-1718638612579-7216",
+      "id": "id-1722019565526-7418",
       "tokenName": "--ids-icon-color-default",
       "tokenValue": "currentColor",
       "type": "Component",
@@ -3164,12 +3189,12 @@
       "tokenNameCSS": "var(--ids-icon-color-default)"
     },
     {
-      "id": "id-1718638612579-7219",
+      "id": "id-1722019565526-7421",
       "tokenName": "--ids-link-list-title-color-text-default",
       "tokenValue": "var(--ids-color-black-100)",
       "children": [
         {
-          "id": "id-1718638612579-7217",
+          "id": "id-1722019565526-7419",
           "tokenName": "--ids-color-black-100",
           "tokenValue": "#000000",
           "type": "Core",
@@ -3186,12 +3211,12 @@
       "tokenNameCSS": "var(--ids-link-list-title-color-text-default)"
     },
     {
-      "id": "id-1718638612579-7222",
+      "id": "id-1722019565526-7424",
       "tokenName": "--ids-layout-grid-color-background",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612579-7220",
+          "id": "id-1722019565526-7422",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -3208,12 +3233,12 @@
       "tokenNameCSS": "var(--ids-layout-grid-color-background)"
     },
     {
-      "id": "id-1718638612579-7227",
+      "id": "id-1722019565526-7429",
       "tokenName": "--ids-layout-grid-color-text",
       "tokenValue": "var(--ids-color-text-default)",
       "children": [
         {
-          "id": "id-1718638612579-7223",
+          "id": "id-1722019565526-7425",
           "tokenName": "--ids-color-text-default",
           "tokenValue": "var(--ids-color-foreground-default-default)",
           "type": "Semantic",
@@ -3221,15 +3246,15 @@
           "component": "Body Colors",
           "children": [
             {
-              "id": "id-1718638612579-7225",
+              "id": "id-1722019565526-7427",
               "tokenName": "--ids-color-foreground-default-default",
               "tokenValue": "var(--ids-color-black-100)",
               "type": "Semantic",
               "source": "semanticContrastTokens",
-              "component": "Surface colors",
+              "component": "Background and Action colors",
               "children": [
                 {
-                  "id": "id-1718638612579-7224",
+                  "id": "id-1722019565526-7426",
                   "tokenName": "--ids-color-black-100",
                   "tokenValue": "#000000",
                   "type": "Core",
@@ -3254,12 +3279,12 @@
       "tokenNameCSS": "var(--ids-layout-grid-color-text)"
     },
     {
-      "id": "id-1718638612579-7230",
+      "id": "id-1722019565526-7432",
       "tokenName": "--ids-list-view-item-color-border-top",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612579-7228",
+          "id": "id-1722019565526-7430",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -3276,12 +3301,12 @@
       "tokenNameCSS": "var(--ids-list-view-item-color-border-top)"
     },
     {
-      "id": "id-1718638612579-7233",
+      "id": "id-1722019565526-7435",
       "tokenName": "--ids-list-view-item-color-border-focus",
       "tokenValue": "var(--ids-color-blue-70)",
       "children": [
         {
-          "id": "id-1718638612579-7231",
+          "id": "id-1722019565526-7433",
           "tokenName": "--ids-color-blue-70",
           "tokenValue": "#0066d4",
           "type": "Core",
@@ -3298,7 +3323,7 @@
       "tokenNameCSS": "var(--ids-list-view-item-color-border-focus)"
     },
     {
-      "id": "id-1718638612579-7235",
+      "id": "id-1722019565526-7437",
       "tokenName": "--ids-list-view-item-shadow-focus",
       "tokenValue": "0 0 4px 1px rgb(54 138 192 / 0.3)",
       "type": "Component",
@@ -3307,12 +3332,12 @@
       "tokenNameCSS": "var(--ids-list-view-item-shadow-focus)"
     },
     {
-      "id": "id-1718638612579-7238",
+      "id": "id-1722019565526-7440",
       "tokenName": "--ids-list-view-item-top-color-border-disabled-focus",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612579-7236",
+          "id": "id-1722019565526-7438",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -3329,12 +3354,12 @@
       "tokenNameCSS": "var(--ids-list-view-item-top-color-border-disabled-focus)"
     },
     {
-      "id": "id-1718638612579-7241",
+      "id": "id-1722019565526-7443",
       "tokenName": "--ids-list-view-color-background-selected",
       "tokenValue": "var(--ids-color-blue-20)",
       "children": [
         {
-          "id": "id-1718638612579-7239",
+          "id": "id-1722019565526-7441",
           "tokenName": "--ids-color-blue-20",
           "tokenValue": "#bedcfa",
           "type": "Core",
@@ -3351,12 +3376,12 @@
       "tokenNameCSS": "var(--ids-list-view-color-background-selected)"
     },
     {
-      "id": "id-1718638612579-7244",
+      "id": "id-1722019565526-7446",
       "tokenName": "--ids-loading-indicator-circle-color",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612579-7242",
+          "id": "id-1722019565526-7444",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -3373,12 +3398,12 @@
       "tokenNameCSS": "var(--ids-loading-indicator-circle-color)"
     },
     {
-      "id": "id-1718638612579-7247",
+      "id": "id-1722019565526-7449",
       "tokenName": "--ids-loading-indicator-primary-progress-color-border",
       "tokenValue": "var(--ids-color-blue-100)",
       "children": [
         {
-          "id": "id-1718638612579-7245",
+          "id": "id-1722019565526-7447",
           "tokenName": "--ids-color-blue-100",
           "tokenValue": "#003876",
           "type": "Core",
@@ -3395,12 +3420,12 @@
       "tokenNameCSS": "var(--ids-loading-indicator-primary-progress-color-border)"
     },
     {
-      "id": "id-1718638612579-7250",
+      "id": "id-1722019565526-7452",
       "tokenName": "--ids-loading-indicator-primary-color-border",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612579-7248",
+          "id": "id-1722019565526-7450",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -3417,20 +3442,20 @@
       "tokenNameCSS": "var(--ids-loading-indicator-primary-color-border)"
     },
     {
-      "id": "id-1718638612579-7254",
+      "id": "id-1722019565526-7456",
       "tokenName": "--ids-loading-indicator-primary-destructive-progress-color-border",
       "tokenValue": "var(--ids-color-error-weak)",
       "children": [
         {
-          "id": "id-1718638612579-7251",
+          "id": "id-1722019565526-7453",
           "tokenName": "--ids-color-error-weak",
           "tokenValue": "var(--ids-color-red-10)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
-          "component": "Surface colors",
+          "component": "Background and Action colors",
           "children": [
             {
-              "id": "id-1718638612579-7252",
+              "id": "id-1722019565526-7454",
               "tokenName": "--ids-color-red-10",
               "tokenValue": "#fbe7e8",
               "type": "Core",
@@ -3451,12 +3476,12 @@
       "tokenNameCSS": "var(--ids-loading-indicator-primary-destructive-progress-color-border)"
     },
     {
-      "id": "id-1718638612579-7257",
+      "id": "id-1722019565526-7459",
       "tokenName": "--ids-loading-indicator-primary-destructive-overall-color-border",
       "tokenValue": "var(--ids-color-red-50)",
       "children": [
         {
-          "id": "id-1718638612579-7255",
+          "id": "id-1722019565526-7457",
           "tokenName": "--ids-color-red-50",
           "tokenValue": "#df3539",
           "type": "Core",
@@ -3473,20 +3498,20 @@
       "tokenNameCSS": "var(--ids-loading-indicator-primary-destructive-overall-color-border)"
     },
     {
-      "id": "id-1718638612579-7261",
+      "id": "id-1722019565526-7463",
       "tokenName": "--ids-loading-indicator-destructive-progress-color-border",
       "tokenValue": "var(--ids-color-error-default)",
       "children": [
         {
-          "id": "id-1718638612579-7258",
+          "id": "id-1722019565526-7460",
           "tokenName": "--ids-color-error-default",
           "tokenValue": "var(--ids-color-red-80)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
-          "component": "Surface colors",
+          "component": "Background and Action colors",
           "children": [
             {
-              "id": "id-1718638612579-7259",
+              "id": "id-1722019565526-7461",
               "tokenName": "--ids-color-red-80",
               "tokenValue": "#a30d11",
               "type": "Core",
@@ -3507,12 +3532,12 @@
       "tokenNameCSS": "var(--ids-loading-indicator-destructive-progress-color-border)"
     },
     {
-      "id": "id-1718638612579-7264",
+      "id": "id-1722019565526-7466",
       "tokenName": "--ids-loading-indicator-tertiary-destructive-color-border",
       "tokenValue": "var(--ids-color-red-20)",
       "children": [
         {
-          "id": "id-1718638612579-7262",
+          "id": "id-1722019565526-7464",
           "tokenName": "--ids-color-red-20",
           "tokenValue": "#f5c3c4",
           "type": "Core",
@@ -3529,12 +3554,12 @@
       "tokenNameCSS": "var(--ids-loading-indicator-tertiary-destructive-color-border)"
     },
     {
-      "id": "id-1718638612579-7267",
+      "id": "id-1722019565526-7469",
       "tokenName": "--ids-masthead-color-background",
       "tokenValue": "var(--ids-color-neutral-80)",
       "children": [
         {
-          "id": "id-1718638612579-7265",
+          "id": "id-1722019565526-7467",
           "tokenName": "--ids-color-neutral-80",
           "tokenValue": "#3b3b3f",
           "type": "Core",
@@ -3551,12 +3576,12 @@
       "tokenNameCSS": "var(--ids-masthead-color-background)"
     },
     {
-      "id": "id-1718638612579-7270",
+      "id": "id-1722019565526-7472",
       "tokenName": "--ids-masthead-color-text",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612579-7268",
+          "id": "id-1722019565526-7470",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -3573,7 +3598,7 @@
       "tokenNameCSS": "var(--ids-masthead-color-text)"
     },
     {
-      "id": "id-1718638612580-7272",
+      "id": "id-1722019565526-7474",
       "tokenName": "--ids-modal-color-border",
       "tokenValue": "var(--ids-popup-color-60)",
       "type": "Component",
@@ -3582,7 +3607,7 @@
       "tokenNameCSS": "var(--ids-modal-color-border)"
     },
     {
-      "id": "id-1718638612580-7274",
+      "id": "id-1722019565526-7476",
       "tokenName": "--ids-modal-shadow-default",
       "tokenValue": "0 2px 5px rgb(239 239 240 / 0.2)",
       "type": "Component",
@@ -3591,12 +3616,12 @@
       "tokenNameCSS": "var(--ids-modal-shadow-default)"
     },
     {
-      "id": "id-1718638612580-7277",
+      "id": "id-1722019565526-7479",
       "tokenName": "--ids-modal-footer-color-border",
       "tokenValue": "var(--ids-color-neutral-50)",
       "children": [
         {
-          "id": "id-1718638612580-7275",
+          "id": "id-1722019565526-7477",
           "tokenName": "--ids-color-neutral-50",
           "tokenValue": "#8e8e95",
           "type": "Core",
@@ -3613,12 +3638,12 @@
       "tokenNameCSS": "var(--ids-modal-footer-color-border)"
     },
     {
-      "id": "id-1718638612580-7281",
+      "id": "id-1722019565526-7483",
       "tokenName": "--ids-modal-button-color-default",
       "tokenValue": "var(--ids-color-primary)",
       "children": [
         {
-          "id": "id-1718638612580-7278",
+          "id": "id-1722019565526-7480",
           "tokenName": "--ids-color-primary",
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
@@ -3626,7 +3651,7 @@
           "component": "Primary Color",
           "children": [
             {
-              "id": "id-1718638612580-7279",
+              "id": "id-1722019565526-7481",
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
@@ -3647,12 +3672,12 @@
       "tokenNameCSS": "var(--ids-modal-button-color-default)"
     },
     {
-      "id": "id-1718638612580-7286",
+      "id": "id-1722019565526-7488",
       "tokenName": "--ids-modal-button-color-hover",
       "tokenValue": "var(--ids-color-primary-90)",
       "children": [
         {
-          "id": "id-1718638612580-7282",
+          "id": "id-1722019565526-7484",
           "tokenName": "--ids-color-primary-90",
           "tokenValue": "var(--ids-color-theme-90)",
           "type": "Semantic",
@@ -3660,15 +3685,15 @@
           "component": "Color Progressions",
           "children": [
             {
-              "id": "id-1718638612580-7284",
+              "id": "id-1722019565526-7486",
               "tokenName": "--ids-color-theme-90",
               "tokenValue": "var(--ids-color-blue-90)",
               "type": "Semantic",
               "source": "themeColorTokens",
-              "component": "Theme colors",
+              "component": "Default theme colors",
               "children": [
                 {
-                  "id": "id-1718638612580-7283",
+                  "id": "id-1722019565526-7485",
                   "tokenName": "--ids-color-blue-90",
                   "tokenValue": "#004a99",
                   "type": "Core",
@@ -3693,7 +3718,7 @@
       "tokenNameCSS": "var(--ids-modal-button-color-hover)"
     },
     {
-      "id": "id-1718638612580-7288",
+      "id": "id-1722019565526-7490",
       "tokenName": "--ids-modal-button-secondary-color-default",
       "tokenValue": "var(--ids-color-grey-80)",
       "type": "Component",
@@ -3702,7 +3727,7 @@
       "tokenNameCSS": "var(--ids-modal-button-secondary-color-default)"
     },
     {
-      "id": "id-1718638612580-7290",
+      "id": "id-1722019565526-7492",
       "tokenName": "--ids-modal-button-secondary-color-hover",
       "tokenValue": "var(--ids-color-grey-100)",
       "type": "Component",
@@ -3711,12 +3736,12 @@
       "tokenNameCSS": "var(--ids-modal-button-secondary-color-hover)"
     },
     {
-      "id": "id-1718638612580-7294",
+      "id": "id-1722019565526-7496",
       "tokenName": "--ids-modal-shadow-focus",
       "tokenValue": "0 0 3px 1px var(--ids-color-primary)",
       "children": [
         {
-          "id": "id-1718638612580-7291",
+          "id": "id-1722019565526-7493",
           "tokenName": "--ids-color-primary",
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
@@ -3724,7 +3749,7 @@
           "component": "Primary Color",
           "children": [
             {
-              "id": "id-1718638612580-7292",
+              "id": "id-1722019565526-7494",
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
@@ -3745,12 +3770,12 @@
       "tokenNameCSS": "var(--ids-modal-shadow-focus)"
     },
     {
-      "id": "id-1718638612580-7297",
+      "id": "id-1722019565526-7499",
       "tokenName": "--ids-module-nav-background-color",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612580-7295",
+          "id": "id-1722019565526-7497",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -3767,12 +3792,12 @@
       "tokenNameCSS": "var(--ids-module-nav-background-color)"
     },
     {
-      "id": "id-1718638612580-7300",
+      "id": "id-1722019565526-7502",
       "tokenName": "--ids-module-nav-border-color",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612580-7298",
+          "id": "id-1722019565526-7500",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -3789,12 +3814,12 @@
       "tokenNameCSS": "var(--ids-module-nav-border-color)"
     },
     {
-      "id": "id-1718638612580-7303",
+      "id": "id-1722019565526-7505",
       "tokenName": "--ids-module-nav-text-color",
       "tokenValue": "var(--ids-color-neutral-70)",
       "children": [
         {
-          "id": "id-1718638612580-7301",
+          "id": "id-1722019565526-7503",
           "tokenName": "--ids-color-neutral-70",
           "tokenValue": "#525257",
           "type": "Core",
@@ -3811,12 +3836,12 @@
       "tokenNameCSS": "var(--ids-module-nav-text-color)"
     },
     {
-      "id": "id-1718638612580-7306",
+      "id": "id-1722019565526-7508",
       "tokenName": "--ids-module-nav-detail-background-color",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612580-7304",
+          "id": "id-1722019565526-7506",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -3833,12 +3858,12 @@
       "tokenNameCSS": "var(--ids-module-nav-detail-background-color)"
     },
     {
-      "id": "id-1718638612580-7309",
+      "id": "id-1722019565526-7511",
       "tokenName": "--ids-module-nav-separator-color",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612580-7307",
+          "id": "id-1722019565526-7509",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -3855,12 +3880,12 @@
       "tokenNameCSS": "var(--ids-module-nav-separator-color)"
     },
     {
-      "id": "id-1718638612580-7312",
+      "id": "id-1722019565526-7514",
       "tokenName": "--ids-module-nav-input-bg-color",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612580-7310",
+          "id": "id-1722019565526-7512",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -3877,12 +3902,12 @@
       "tokenNameCSS": "var(--ids-module-nav-input-bg-color)"
     },
     {
-      "id": "id-1718638612580-7315",
+      "id": "id-1722019565526-7517",
       "tokenName": "--ids-module-nav-input-border-color",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612580-7313",
+          "id": "id-1722019565526-7515",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -3899,12 +3924,12 @@
       "tokenNameCSS": "var(--ids-module-nav-input-border-color)"
     },
     {
-      "id": "id-1718638612580-7318",
+      "id": "id-1722019565526-7520",
       "tokenName": "--ids-module-nav-input-text-color",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612580-7316",
+          "id": "id-1722019565526-7518",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -3921,12 +3946,12 @@
       "tokenNameCSS": "var(--ids-module-nav-input-text-color)"
     },
     {
-      "id": "id-1718638612580-7321",
+      "id": "id-1722019565526-7523",
       "tokenName": "--ids-module-nav-input-focus-bg-color",
       "tokenValue": "var(--ids-color-neutral-10)",
       "children": [
         {
-          "id": "id-1718638612580-7319",
+          "id": "id-1722019565526-7521",
           "tokenName": "--ids-color-neutral-10",
           "tokenValue": "#f5f5f5",
           "type": "Core",
@@ -3943,12 +3968,12 @@
       "tokenNameCSS": "var(--ids-module-nav-input-focus-bg-color)"
     },
     {
-      "id": "id-1718638612580-7324",
+      "id": "id-1722019565526-7526",
       "tokenName": "--ids-module-nav-input-hover-bg-color",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612580-7322",
+          "id": "id-1722019565526-7524",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -3965,12 +3990,12 @@
       "tokenNameCSS": "var(--ids-module-nav-input-hover-bg-color)"
     },
     {
-      "id": "id-1718638612580-7327",
+      "id": "id-1722019565526-7529",
       "tokenName": "--ids-module-nav-item-text-color",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612580-7325",
+          "id": "id-1722019565526-7527",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -3987,12 +4012,12 @@
       "tokenNameCSS": "var(--ids-module-nav-item-text-color)"
     },
     {
-      "id": "id-1718638612580-7330",
+      "id": "id-1722019565526-7532",
       "tokenName": "--ids-module-nav-item-hover-bg-color",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612580-7328",
+          "id": "id-1722019565526-7530",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -4009,12 +4034,12 @@
       "tokenNameCSS": "var(--ids-module-nav-item-hover-bg-color)"
     },
     {
-      "id": "id-1718638612580-7333",
+      "id": "id-1722019565526-7535",
       "tokenName": "--ids-module-nav-item-hover-text-color",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612580-7331",
+          "id": "id-1722019565526-7533",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -4031,12 +4056,12 @@
       "tokenNameCSS": "var(--ids-module-nav-item-hover-text-color)"
     },
     {
-      "id": "id-1718638612580-7336",
+      "id": "id-1722019565526-7538",
       "tokenName": "--ids-module-nav-item-selected-bg-color",
       "tokenValue": "var(--ids-color-blue-20)",
       "children": [
         {
-          "id": "id-1718638612580-7334",
+          "id": "id-1722019565526-7536",
           "tokenName": "--ids-color-blue-20",
           "tokenValue": "#bedcfa",
           "type": "Core",
@@ -4053,12 +4078,12 @@
       "tokenNameCSS": "var(--ids-module-nav-item-selected-bg-color)"
     },
     {
-      "id": "id-1718638612580-7339",
+      "id": "id-1722019565526-7541",
       "tokenName": "--ids-module-nav-item-selected-text-color",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612580-7337",
+          "id": "id-1722019565526-7539",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -4075,12 +4100,12 @@
       "tokenNameCSS": "var(--ids-module-nav-item-selected-text-color)"
     },
     {
-      "id": "id-1718638612580-7342",
+      "id": "id-1722019565526-7544",
       "tokenName": "--ids-module-nav-switcher-dropdown-bg-color",
       "tokenValue": "var(--ids-color-neutral-10)",
       "children": [
         {
-          "id": "id-1718638612580-7340",
+          "id": "id-1722019565526-7542",
           "tokenName": "--ids-color-neutral-10",
           "tokenValue": "#f5f5f5",
           "type": "Core",
@@ -4097,12 +4122,12 @@
       "tokenNameCSS": "var(--ids-module-nav-switcher-dropdown-bg-color)"
     },
     {
-      "id": "id-1718638612580-7345",
+      "id": "id-1722019565526-7547",
       "tokenName": "--ids-module-nav-switcher-dropdown-item-focus-bg-color",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612580-7343",
+          "id": "id-1722019565526-7545",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -4119,12 +4144,12 @@
       "tokenNameCSS": "var(--ids-module-nav-switcher-dropdown-item-focus-bg-color)"
     },
     {
-      "id": "id-1718638612580-7348",
+      "id": "id-1722019565526-7550",
       "tokenName": "--ids-module-nav-switcher-dropdown-item-text-color",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612580-7346",
+          "id": "id-1722019565526-7548",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -4141,12 +4166,12 @@
       "tokenNameCSS": "var(--ids-module-nav-switcher-dropdown-item-text-color)"
     },
     {
-      "id": "id-1718638612580-7351",
+      "id": "id-1722019565527-7553",
       "tokenName": "--ids-module-nav-search-input-bg-color",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612580-7349",
+          "id": "id-1722019565526-7551",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -4163,12 +4188,12 @@
       "tokenNameCSS": "var(--ids-module-nav-search-input-bg-color)"
     },
     {
-      "id": "id-1718638612580-7354",
+      "id": "id-1722019565527-7556",
       "tokenName": "--ids-module-nav-search-input-text-color",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612580-7352",
+          "id": "id-1722019565527-7554",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -4185,12 +4210,12 @@
       "tokenNameCSS": "var(--ids-module-nav-search-input-text-color)"
     },
     {
-      "id": "id-1718638612580-7357",
+      "id": "id-1722019565527-7559",
       "tokenName": "--ids-module-nav-search-input-focused-bg-color",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612580-7355",
+          "id": "id-1722019565527-7557",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -4207,12 +4232,12 @@
       "tokenNameCSS": "var(--ids-module-nav-search-input-focused-bg-color)"
     },
     {
-      "id": "id-1718638612580-7360",
+      "id": "id-1722019565527-7562",
       "tokenName": "--ids-module-nav-search-input-focused-text-color",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612580-7358",
+          "id": "id-1722019565527-7560",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -4229,12 +4254,12 @@
       "tokenNameCSS": "var(--ids-module-nav-search-input-focused-text-color)"
     },
     {
-      "id": "id-1718638612580-7363",
+      "id": "id-1722019565527-7565",
       "tokenName": "--ids-module-nav-search-input-placeholder-text-color",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612580-7361",
+          "id": "id-1722019565527-7563",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -4251,12 +4276,12 @@
       "tokenNameCSS": "var(--ids-module-nav-search-input-placeholder-text-color)"
     },
     {
-      "id": "id-1718638612580-7366",
+      "id": "id-1722019565527-7568",
       "tokenName": "--ids-module-nav-search-input-focused-placeholder-text-color",
       "tokenValue": "var(--ids-color-neutral-50)",
       "children": [
         {
-          "id": "id-1718638612580-7364",
+          "id": "id-1722019565527-7566",
           "tokenName": "--ids-color-neutral-50",
           "tokenValue": "#8e8e95",
           "type": "Core",
@@ -4273,7 +4298,7 @@
       "tokenNameCSS": "var(--ids-module-nav-search-input-focused-placeholder-text-color)"
     },
     {
-      "id": "id-1718638612580-7368",
+      "id": "id-1722019565527-7570",
       "tokenName": "--ids-module-nav-settings-menu-box-shadow",
       "tokenValue": "0 0 8px 1px rgba(0 0 0 / 0.08)",
       "type": "Component",
@@ -4282,12 +4307,12 @@
       "tokenNameCSS": "var(--ids-module-nav-settings-menu-box-shadow)"
     },
     {
-      "id": "id-1718638612580-7371",
+      "id": "id-1722019565527-7573",
       "tokenName": "--ids-module-nav-settings-menu-item-text-color",
       "tokenValue": "var(--ids-color-neutral-70)",
       "children": [
         {
-          "id": "id-1718638612580-7369",
+          "id": "id-1722019565527-7571",
           "tokenName": "--ids-color-neutral-70",
           "tokenValue": "#525257",
           "type": "Core",
@@ -4304,12 +4329,12 @@
       "tokenNameCSS": "var(--ids-module-nav-settings-menu-item-text-color)"
     },
     {
-      "id": "id-1718638612580-7374",
+      "id": "id-1722019565527-7576",
       "tokenName": "--ids-module-nav-settings-menu-item-icon-color",
       "tokenValue": "var(--ids-color-neutral-70)",
       "children": [
         {
-          "id": "id-1718638612580-7372",
+          "id": "id-1722019565527-7574",
           "tokenName": "--ids-color-neutral-70",
           "tokenValue": "#525257",
           "type": "Core",
@@ -4326,12 +4351,12 @@
       "tokenNameCSS": "var(--ids-module-nav-settings-menu-item-icon-color)"
     },
     {
-      "id": "id-1718638612580-7377",
+      "id": "id-1722019565527-7579",
       "tokenName": "--ids-module-nav-settings-menu-separator-color",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612580-7375",
+          "id": "id-1722019565527-7577",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -4348,12 +4373,12 @@
       "tokenNameCSS": "var(--ids-module-nav-settings-menu-separator-color)"
     },
     {
-      "id": "id-1718638612580-7380",
+      "id": "id-1722019565527-7582",
       "tokenName": "--ids-popup-menu-color-text-default",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612580-7378",
+          "id": "id-1722019565527-7580",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -4370,12 +4395,12 @@
       "tokenNameCSS": "var(--ids-popup-menu-color-text-default)"
     },
     {
-      "id": "id-1718638612580-7383",
+      "id": "id-1722019565527-7585",
       "tokenName": "--ids-menu-header-color-text",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612580-7381",
+          "id": "id-1722019565527-7583",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -4392,12 +4417,12 @@
       "tokenNameCSS": "var(--ids-menu-header-color-text)"
     },
     {
-      "id": "id-1718638612580-7386",
+      "id": "id-1722019565527-7588",
       "tokenName": "--ids-menu-item-color-text-disabled",
       "tokenValue": "var(--ids-color-neutral-50)",
       "children": [
         {
-          "id": "id-1718638612580-7384",
+          "id": "id-1722019565527-7586",
           "tokenName": "--ids-color-neutral-50",
           "tokenValue": "#8e8e95",
           "type": "Core",
@@ -4414,12 +4439,12 @@
       "tokenNameCSS": "var(--ids-menu-item-color-text-disabled)"
     },
     {
-      "id": "id-1718638612580-7389",
+      "id": "id-1722019565527-7591",
       "tokenName": "--ids-menu-item-highlight-color",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612580-7387",
+          "id": "id-1722019565527-7589",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -4436,12 +4461,12 @@
       "tokenNameCSS": "var(--ids-menu-item-highlight-color)"
     },
     {
-      "id": "id-1718638612580-7392",
+      "id": "id-1722019565527-7594",
       "tokenName": "--ids-menu-item-check-color",
       "tokenValue": "var(--ids-color-blue-80)",
       "children": [
         {
-          "id": "id-1718638612580-7390",
+          "id": "id-1722019565527-7592",
           "tokenName": "--ids-color-blue-80",
           "tokenValue": "#0054b1",
           "type": "Core",
@@ -4458,12 +4483,12 @@
       "tokenNameCSS": "var(--ids-menu-item-check-color)"
     },
     {
-      "id": "id-1718638612580-7395",
+      "id": "id-1722019565527-7597",
       "tokenName": "--ids-calendar-month-view-color-border",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612580-7393",
+          "id": "id-1722019565527-7595",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -4480,7 +4505,7 @@
       "tokenNameCSS": "var(--ids-calendar-month-view-color-border)"
     },
     {
-      "id": "id-1718638612580-7397",
+      "id": "id-1722019565527-7599",
       "tokenName": "--ids-calendar-month-view-color-background-hover",
       "tokenValue": "rgba(74 74 74 / 0.1)",
       "type": "Component",
@@ -4489,12 +4514,12 @@
       "tokenNameCSS": "var(--ids-calendar-month-view-color-background-hover)"
     },
     {
-      "id": "id-1718638612580-7400",
+      "id": "id-1722019565527-7602",
       "tokenName": "--ids-calendar-month-view-color-background-selected",
       "tokenValue": "var(--ids-color-neutral-10)",
       "children": [
         {
-          "id": "id-1718638612580-7398",
+          "id": "id-1722019565527-7600",
           "tokenName": "--ids-color-neutral-10",
           "tokenValue": "#f5f5f5",
           "type": "Core",
@@ -4511,12 +4536,12 @@
       "tokenNameCSS": "var(--ids-calendar-month-view-color-background-selected)"
     },
     {
-      "id": "id-1718638612580-7403",
+      "id": "id-1722019565527-7605",
       "tokenName": "--ids-calendar-month-view-color-background-disabled",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612580-7401",
+          "id": "id-1722019565527-7603",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -4533,12 +4558,12 @@
       "tokenNameCSS": "var(--ids-calendar-month-view-color-background-disabled)"
     },
     {
-      "id": "id-1718638612580-7408",
+      "id": "id-1722019565527-7610",
       "tokenName": "--ids-chart-pie-color-text",
       "tokenValue": "var(--ids-color-text-label)",
       "children": [
         {
-          "id": "id-1718638612580-7404",
+          "id": "id-1722019565527-7606",
           "tokenName": "--ids-color-text-label",
           "tokenValue": "var(--ids-color-foreground-default-default)",
           "type": "Semantic",
@@ -4546,15 +4571,15 @@
           "component": "Text Colors",
           "children": [
             {
-              "id": "id-1718638612580-7406",
+              "id": "id-1722019565527-7608",
               "tokenName": "--ids-color-foreground-default-default",
               "tokenValue": "var(--ids-color-black-100)",
               "type": "Semantic",
               "source": "semanticContrastTokens",
-              "component": "Surface colors",
+              "component": "Background and Action colors",
               "children": [
                 {
-                  "id": "id-1718638612580-7405",
+                  "id": "id-1722019565527-7607",
                   "tokenName": "--ids-color-black-100",
                   "tokenValue": "#000000",
                   "type": "Core",
@@ -4579,12 +4604,12 @@
       "tokenNameCSS": "var(--ids-chart-pie-color-text)"
     },
     {
-      "id": "id-1718638612580-7411",
+      "id": "id-1722019565527-7613",
       "tokenName": "--ids-progress-chart-label-color-text",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612580-7409",
+          "id": "id-1722019565527-7611",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -4601,12 +4626,12 @@
       "tokenNameCSS": "var(--ids-progress-chart-label-color-text)"
     },
     {
-      "id": "id-1718638612580-7414",
+      "id": "id-1722019565527-7616",
       "tokenName": "--ids-progress-chart-total-color-background",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612580-7412",
+          "id": "id-1722019565527-7614",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -4623,12 +4648,12 @@
       "tokenNameCSS": "var(--ids-progress-chart-total-color-background)"
     },
     {
-      "id": "id-1718638612580-7417",
+      "id": "id-1722019565527-7619",
       "tokenName": "--ids-progress-chart-bar-progress-color-background",
       "tokenValue": "var(--ids-color-blue-90)",
       "children": [
         {
-          "id": "id-1718638612580-7415",
+          "id": "id-1722019565527-7617",
           "tokenName": "--ids-color-blue-90",
           "tokenValue": "#004a99",
           "type": "Core",
@@ -4645,12 +4670,12 @@
       "tokenNameCSS": "var(--ids-progress-chart-bar-progress-color-background)"
     },
     {
-      "id": "id-1718638612580-7420",
+      "id": "id-1722019565527-7622",
       "tokenName": "--ids-scroll-view-color-icon-default",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612580-7418",
+          "id": "id-1722019565527-7620",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -4667,12 +4692,12 @@
       "tokenNameCSS": "var(--ids-scroll-view-color-icon-default)"
     },
     {
-      "id": "id-1718638612580-7425",
+      "id": "id-1722019565527-7627",
       "tokenName": "--ids-scroll-view-color-icon-selected",
       "tokenValue": "var(--ids-color-primary-90)",
       "children": [
         {
-          "id": "id-1718638612580-7421",
+          "id": "id-1722019565527-7623",
           "tokenName": "--ids-color-primary-90",
           "tokenValue": "var(--ids-color-theme-90)",
           "type": "Semantic",
@@ -4680,15 +4705,15 @@
           "component": "Color Progressions",
           "children": [
             {
-              "id": "id-1718638612580-7423",
+              "id": "id-1722019565527-7625",
               "tokenName": "--ids-color-theme-90",
               "tokenValue": "var(--ids-color-blue-90)",
               "type": "Semantic",
               "source": "themeColorTokens",
-              "component": "Theme colors",
+              "component": "Default theme colors",
               "children": [
                 {
-                  "id": "id-1718638612580-7422",
+                  "id": "id-1722019565527-7624",
                   "tokenName": "--ids-color-blue-90",
                   "tokenValue": "#004a99",
                   "type": "Core",
@@ -4713,12 +4738,12 @@
       "tokenNameCSS": "var(--ids-scroll-view-color-icon-selected)"
     },
     {
-      "id": "id-1718638612580-7428",
+      "id": "id-1722019565527-7630",
       "tokenName": "--ids-slider-tick-color-background-default",
       "tokenValue": "var(--ids-color-blue-60)",
       "children": [
         {
-          "id": "id-1718638612580-7426",
+          "id": "id-1722019565527-7628",
           "tokenName": "--ids-color-blue-60",
           "tokenValue": "#0072ed",
           "type": "Core",
@@ -4735,12 +4760,12 @@
       "tokenNameCSS": "var(--ids-slider-tick-color-background-default)"
     },
     {
-      "id": "id-1718638612580-7431",
+      "id": "id-1722019565527-7633",
       "tokenName": "--ids-slider-thumb-color-background-default",
       "tokenValue": "var(--ids-color-blue-60)",
       "children": [
         {
-          "id": "id-1718638612580-7429",
+          "id": "id-1722019565527-7631",
           "tokenName": "--ids-color-blue-60",
           "tokenValue": "#0072ed",
           "type": "Core",
@@ -4757,7 +4782,7 @@
       "tokenNameCSS": "var(--ids-slider-thumb-color-background-default)"
     },
     {
-      "id": "id-1718638612580-7433",
+      "id": "id-1722019565527-7635",
       "tokenName": "--ids-slider-thumb-color-shadow-default",
       "tokenValue": "rgba(0 74 153 / 0.1)",
       "type": "Component",
@@ -4766,12 +4791,12 @@
       "tokenNameCSS": "var(--ids-slider-thumb-color-shadow-default)"
     },
     {
-      "id": "id-1718638612580-7436",
+      "id": "id-1722019565527-7638",
       "tokenName": "--ids-slider-thumb-color-border-default",
       "tokenValue": "var(--ids-color-blue-60)",
       "children": [
         {
-          "id": "id-1718638612580-7434",
+          "id": "id-1722019565527-7636",
           "tokenName": "--ids-color-blue-60",
           "tokenValue": "#0072ed",
           "type": "Core",
@@ -4788,12 +4813,12 @@
       "tokenNameCSS": "var(--ids-slider-thumb-color-border-default)"
     },
     {
-      "id": "id-1718638612580-7439",
+      "id": "id-1722019565527-7641",
       "tokenName": "--ids-slider-track-color-background-default",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612580-7437",
+          "id": "id-1722019565527-7639",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -4810,12 +4835,12 @@
       "tokenNameCSS": "var(--ids-slider-track-color-background-default)"
     },
     {
-      "id": "id-1718638612580-7442",
+      "id": "id-1722019565527-7644",
       "tokenName": "--ids-slider-track-color-background-progress",
       "tokenValue": "var(--ids-color-blue-60)",
       "children": [
         {
-          "id": "id-1718638612580-7440",
+          "id": "id-1722019565527-7642",
           "tokenName": "--ids-color-blue-60",
           "tokenValue": "#0072ed",
           "type": "Core",
@@ -4832,12 +4857,12 @@
       "tokenNameCSS": "var(--ids-slider-track-color-background-progress)"
     },
     {
-      "id": "id-1718638612580-7445",
+      "id": "id-1722019565527-7647",
       "tokenName": "--ids-slider-tooltip-color-background",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612580-7443",
+          "id": "id-1722019565527-7645",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -4854,12 +4879,12 @@
       "tokenNameCSS": "var(--ids-slider-tooltip-color-background)"
     },
     {
-      "id": "id-1718638612580-7448",
+      "id": "id-1722019565527-7650",
       "tokenName": "--ids-slider-color-disabled",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612580-7446",
+          "id": "id-1722019565527-7648",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -4876,12 +4901,12 @@
       "tokenNameCSS": "var(--ids-slider-color-disabled)"
     },
     {
-      "id": "id-1718638612580-7451",
+      "id": "id-1722019565527-7653",
       "tokenName": "--ids-slider-tick-color-background-disabled",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612580-7449",
+          "id": "id-1722019565527-7651",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -4898,12 +4923,12 @@
       "tokenNameCSS": "var(--ids-slider-tick-color-background-disabled)"
     },
     {
-      "id": "id-1718638612580-7454",
+      "id": "id-1722019565527-7656",
       "tokenName": "--ids-slider-thumb-color-background-disabled",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612580-7452",
+          "id": "id-1722019565527-7654",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -4920,12 +4945,12 @@
       "tokenNameCSS": "var(--ids-slider-thumb-color-background-disabled)"
     },
     {
-      "id": "id-1718638612580-7457",
+      "id": "id-1722019565527-7659",
       "tokenName": "--ids-slider-track-color-background-disabled",
       "tokenValue": "var(--ids-color-neutral-50)",
       "children": [
         {
-          "id": "id-1718638612580-7455",
+          "id": "id-1722019565527-7657",
           "tokenName": "--ids-color-neutral-50",
           "tokenValue": "#8e8e95",
           "type": "Core",
@@ -4942,12 +4967,12 @@
       "tokenNameCSS": "var(--ids-slider-track-color-background-disabled)"
     },
     {
-      "id": "id-1718638612580-7460",
+      "id": "id-1722019565527-7662",
       "tokenName": "--ids-slider-track-color-background-progress-disabled",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612580-7458",
+          "id": "id-1722019565527-7660",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -4964,12 +4989,12 @@
       "tokenNameCSS": "var(--ids-slider-track-color-background-progress-disabled)"
     },
     {
-      "id": "id-1718638612580-7463",
+      "id": "id-1722019565527-7665",
       "tokenName": "--ids-slider-color-readonly",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612580-7461",
+          "id": "id-1722019565527-7663",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -4986,12 +5011,12 @@
       "tokenNameCSS": "var(--ids-slider-color-readonly)"
     },
     {
-      "id": "id-1718638612580-7466",
+      "id": "id-1722019565527-7668",
       "tokenName": "--ids-slider-tick-color-background-readonly",
       "tokenValue": "var(--ids-color-neutral-80)",
       "children": [
         {
-          "id": "id-1718638612580-7464",
+          "id": "id-1722019565527-7666",
           "tokenName": "--ids-color-neutral-80",
           "tokenValue": "#3b3b3f",
           "type": "Core",
@@ -5008,12 +5033,12 @@
       "tokenNameCSS": "var(--ids-slider-tick-color-background-readonly)"
     },
     {
-      "id": "id-1718638612580-7469",
+      "id": "id-1722019565527-7671",
       "tokenName": "--ids-slider-thumb-color-background-readonly",
       "tokenValue": "var(--ids-color-neutral-80)",
       "children": [
         {
-          "id": "id-1718638612580-7467",
+          "id": "id-1722019565527-7669",
           "tokenName": "--ids-color-neutral-80",
           "tokenValue": "#3b3b3f",
           "type": "Core",
@@ -5030,7 +5055,7 @@
       "tokenNameCSS": "var(--ids-slider-thumb-color-background-readonly)"
     },
     {
-      "id": "id-1718638612580-7471",
+      "id": "id-1722019565527-7673",
       "tokenName": "--ids-slider-thumb-color-shadow-readonly",
       "tokenValue": "rgba(71 71 76 / 0.1)",
       "type": "Component",
@@ -5039,12 +5064,12 @@
       "tokenNameCSS": "var(--ids-slider-thumb-color-shadow-readonly)"
     },
     {
-      "id": "id-1718638612580-7474",
+      "id": "id-1722019565527-7676",
       "tokenName": "--ids-slider-thumb-color-border-readonly",
       "tokenValue": "var(--ids-color-neutral-80)",
       "children": [
         {
-          "id": "id-1718638612580-7472",
+          "id": "id-1722019565527-7674",
           "tokenName": "--ids-color-neutral-80",
           "tokenValue": "#3b3b3f",
           "type": "Core",
@@ -5061,12 +5086,12 @@
       "tokenNameCSS": "var(--ids-slider-thumb-color-border-readonly)"
     },
     {
-      "id": "id-1718638612580-7477",
+      "id": "id-1722019565527-7679",
       "tokenName": "--ids-slider-track-color-background-readonly",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612580-7475",
+          "id": "id-1722019565527-7677",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -5083,12 +5108,12 @@
       "tokenNameCSS": "var(--ids-slider-track-color-background-readonly)"
     },
     {
-      "id": "id-1718638612580-7480",
+      "id": "id-1722019565527-7682",
       "tokenName": "--ids-slider-track-progress-color-background-readonly",
       "tokenValue": "var(--ids-color-neutral-80)",
       "children": [
         {
-          "id": "id-1718638612580-7478",
+          "id": "id-1722019565527-7680",
           "tokenName": "--ids-color-neutral-80",
           "tokenValue": "#3b3b3f",
           "type": "Core",
@@ -5105,12 +5130,12 @@
       "tokenNameCSS": "var(--ids-slider-track-progress-color-background-readonly)"
     },
     {
-      "id": "id-1718638612580-7483",
+      "id": "id-1722019565527-7685",
       "tokenName": "--ids-step-chart-color-background-default",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612580-7481",
+          "id": "id-1722019565527-7683",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -5127,12 +5152,12 @@
       "tokenNameCSS": "var(--ids-step-chart-color-background-default)"
     },
     {
-      "id": "id-1718638612580-7487",
+      "id": "id-1722019565527-7689",
       "tokenName": "--ids-step-chart-color-background-complete",
       "tokenValue": "var(--ids-color-primary)",
       "children": [
         {
-          "id": "id-1718638612580-7484",
+          "id": "id-1722019565527-7686",
           "tokenName": "--ids-color-primary",
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
@@ -5140,7 +5165,7 @@
           "component": "Primary Color",
           "children": [
             {
-              "id": "id-1718638612580-7485",
+              "id": "id-1722019565527-7687",
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
@@ -5161,12 +5186,12 @@
       "tokenNameCSS": "var(--ids-step-chart-color-background-complete)"
     },
     {
-      "id": "id-1718638612580-7490",
+      "id": "id-1722019565527-7692",
       "tokenName": "--ids-swaplist-search-color-text-default",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612580-7488",
+          "id": "id-1722019565527-7690",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -5183,12 +5208,12 @@
       "tokenNameCSS": "var(--ids-swaplist-search-color-text-default)"
     },
     {
-      "id": "id-1718638612580-7493",
+      "id": "id-1722019565527-7695",
       "tokenName": "--ids-swaplist-search-color-text-placeholder",
       "tokenValue": "var(--ids-color-neutral-70)",
       "children": [
         {
-          "id": "id-1718638612580-7491",
+          "id": "id-1722019565527-7693",
           "tokenName": "--ids-color-neutral-70",
           "tokenValue": "#525257",
           "type": "Core",
@@ -5205,12 +5230,12 @@
       "tokenNameCSS": "var(--ids-swaplist-search-color-text-placeholder)"
     },
     {
-      "id": "id-1718638612580-7496",
+      "id": "id-1722019565527-7698",
       "tokenName": "--ids-swipe-action-color-background-right-active",
       "tokenValue": "var(--ids-color-blue-90)",
       "children": [
         {
-          "id": "id-1718638612580-7494",
+          "id": "id-1722019565527-7696",
           "tokenName": "--ids-color-blue-90",
           "tokenValue": "#004a99",
           "type": "Core",
@@ -5227,12 +5252,12 @@
       "tokenNameCSS": "var(--ids-swipe-action-color-background-right-active)"
     },
     {
-      "id": "id-1718638612580-7499",
+      "id": "id-1722019565527-7701",
       "tokenName": "--ids-swipe-action-color-background-right",
       "tokenValue": "var(--ids-color-blue-70)",
       "children": [
         {
-          "id": "id-1718638612580-7497",
+          "id": "id-1722019565527-7699",
           "tokenName": "--ids-color-blue-70",
           "tokenValue": "#0066d4",
           "type": "Core",
@@ -5249,12 +5274,12 @@
       "tokenNameCSS": "var(--ids-swipe-action-color-background-right)"
     },
     {
-      "id": "id-1718638612580-7502",
+      "id": "id-1722019565527-7704",
       "tokenName": "--ids-swipe-action-color-background-right-hover",
       "tokenValue": "var(--ids-color-blue-90)",
       "children": [
         {
-          "id": "id-1718638612580-7500",
+          "id": "id-1722019565527-7702",
           "tokenName": "--ids-color-blue-90",
           "tokenValue": "#004a99",
           "type": "Core",
@@ -5271,12 +5296,12 @@
       "tokenNameCSS": "var(--ids-swipe-action-color-background-right-hover)"
     },
     {
-      "id": "id-1718638612580-7505",
+      "id": "id-1722019565527-7707",
       "tokenName": "--ids-time-picker-popup-button-color-border",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
-          "id": "id-1718638612580-7503",
+          "id": "id-1722019565527-7705",
           "tokenName": "--ids-color-neutral-60",
           "tokenValue": "#6f6f76",
           "type": "Core",
@@ -5293,12 +5318,12 @@
       "tokenNameCSS": "var(--ids-time-picker-popup-button-color-border)"
     },
     {
-      "id": "id-1718638612580-7508",
+      "id": "id-1722019565527-7710",
       "tokenName": "--ids-time-picker-popup-button-color-text-default",
       "tokenValue": "var(--ids-color-blue-90)",
       "children": [
         {
-          "id": "id-1718638612580-7506",
+          "id": "id-1722019565527-7708",
           "tokenName": "--ids-color-blue-90",
           "tokenValue": "#004a99",
           "type": "Core",
@@ -5315,12 +5340,12 @@
       "tokenNameCSS": "var(--ids-time-picker-popup-button-color-text-default)"
     },
     {
-      "id": "id-1718638612580-7511",
+      "id": "id-1722019565527-7713",
       "tokenName": "--ids-time-picker-popup-colons-color-text",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612580-7509",
+          "id": "id-1722019565527-7711",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -5337,12 +5362,12 @@
       "tokenNameCSS": "var(--ids-time-picker-popup-colons-color-text)"
     },
     {
-      "id": "id-1718638612580-7514",
+      "id": "id-1722019565527-7716",
       "tokenName": "--ids-toolbar-formatter-color-background",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612580-7512",
+          "id": "id-1722019565527-7714",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -5359,12 +5384,12 @@
       "tokenNameCSS": "var(--ids-toolbar-formatter-color-background)"
     },
     {
-      "id": "id-1718638612581-7517",
+      "id": "id-1722019565527-7719",
       "tokenName": "--ids-toolbar-formatter-color-border-bottom",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612580-7515",
+          "id": "id-1722019565527-7717",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -5381,12 +5406,12 @@
       "tokenNameCSS": "var(--ids-toolbar-formatter-color-border-bottom)"
     },
     {
-      "id": "id-1718638612581-7520",
+      "id": "id-1722019565527-7722",
       "tokenName": "--ids-trigger-field-icon-color",
       "tokenValue": "var(--ids-color-neutral-80)",
       "children": [
         {
-          "id": "id-1718638612581-7518",
+          "id": "id-1722019565527-7720",
           "tokenName": "--ids-color-neutral-80",
           "tokenValue": "#3b3b3f",
           "type": "Core",
@@ -5403,12 +5428,12 @@
       "tokenNameCSS": "var(--ids-trigger-field-icon-color)"
     },
     {
-      "id": "id-1718638612581-7523",
+      "id": "id-1722019565527-7725",
       "tokenName": "--ids-tree-node-color-text-disabled",
       "tokenValue": "var(--ids-color-neutral-50)",
       "children": [
         {
-          "id": "id-1718638612581-7521",
+          "id": "id-1722019565527-7723",
           "tokenName": "--ids-color-neutral-50",
           "tokenValue": "#8e8e95",
           "type": "Core",
@@ -5425,12 +5450,12 @@
       "tokenNameCSS": "var(--ids-tree-node-color-text-disabled)"
     },
     {
-      "id": "id-1718638612581-7526",
+      "id": "id-1722019565527-7728",
       "tokenName": "--ids-tree-node-color-border-focus",
       "tokenValue": "var(--ids-color-blue-90)",
       "children": [
         {
-          "id": "id-1718638612581-7524",
+          "id": "id-1722019565527-7726",
           "tokenName": "--ids-color-blue-90",
           "tokenValue": "#004a99",
           "type": "Core",
@@ -5447,7 +5472,7 @@
       "tokenNameCSS": "var(--ids-tree-node-color-border-focus)"
     },
     {
-      "id": "id-1718638612581-7528",
+      "id": "id-1722019565527-7730",
       "tokenName": "--ids-tree-node-shadow-focus",
       "tokenValue": "0 0 4px 2px rgb(41  41 41 / 0.3)",
       "type": "Component",
@@ -5456,12 +5481,12 @@
       "tokenNameCSS": "var(--ids-tree-node-shadow-focus)"
     },
     {
-      "id": "id-1718638612581-7531",
+      "id": "id-1722019565527-7733",
       "tokenName": "--ids-tree-node-color-border-hover",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612581-7529",
+          "id": "id-1722019565527-7731",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -5478,12 +5503,12 @@
       "tokenNameCSS": "var(--ids-tree-node-color-border-hover)"
     },
     {
-      "id": "id-1718638612581-7534",
+      "id": "id-1722019565527-7736",
       "tokenName": "--ids-tree-node-color-text-hover",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612581-7532",
+          "id": "id-1722019565527-7734",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -5500,12 +5525,12 @@
       "tokenNameCSS": "var(--ids-tree-node-color-text-hover)"
     },
     {
-      "id": "id-1718638612581-7537",
+      "id": "id-1722019565527-7739",
       "tokenName": "--ids-tree-node-color-background-selected",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612581-7535",
+          "id": "id-1722019565527-7737",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -5522,12 +5547,12 @@
       "tokenNameCSS": "var(--ids-tree-node-color-background-selected)"
     },
     {
-      "id": "id-1718638612581-7540",
+      "id": "id-1722019565527-7742",
       "tokenName": "--ids-tree-node-color-text-selected",
       "tokenValue": "var(--ids-color-neutral-100)",
       "children": [
         {
-          "id": "id-1718638612581-7538",
+          "id": "id-1722019565527-7740",
           "tokenName": "--ids-color-neutral-100",
           "tokenValue": "#161618",
           "type": "Core",
@@ -5544,12 +5569,12 @@
       "tokenNameCSS": "var(--ids-tree-node-color-text-selected)"
     },
     {
-      "id": "id-1718638612581-7543",
+      "id": "id-1722019565527-7745",
       "tokenName": "--ids-tree-node-color-text-default",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612581-7541",
+          "id": "id-1722019565527-7743",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -5566,12 +5591,12 @@
       "tokenNameCSS": "var(--ids-tree-node-color-text-default)"
     },
     {
-      "id": "id-1718638612581-7546",
+      "id": "id-1722019565527-7748",
       "tokenName": "--ids-tree-treemap-color-border",
       "tokenValue": "var(--ids-color-neutral-10)",
       "children": [
         {
-          "id": "id-1718638612581-7544",
+          "id": "id-1722019565527-7746",
           "tokenName": "--ids-color-neutral-10",
           "tokenValue": "#f5f5f5",
           "type": "Core",
@@ -5588,12 +5613,12 @@
       "tokenNameCSS": "var(--ids-tree-treemap-color-border)"
     },
     {
-      "id": "id-1718638612581-7549",
+      "id": "id-1722019565527-7751",
       "tokenName": "--ids-tree-treemap-title-color-background",
       "tokenValue": "var(--ids-color-neutral-80)",
       "children": [
         {
-          "id": "id-1718638612581-7547",
+          "id": "id-1722019565527-7749",
           "tokenName": "--ids-color-neutral-80",
           "tokenValue": "#3b3b3f",
           "type": "Core",
@@ -5610,12 +5635,12 @@
       "tokenNameCSS": "var(--ids-tree-treemap-title-color-background)"
     },
     {
-      "id": "id-1718638612581-7552",
+      "id": "id-1722019565527-7754",
       "tokenName": "--ids-tree-treemap-title-color-text",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612581-7550",
+          "id": "id-1722019565527-7752",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -5632,12 +5657,12 @@
       "tokenNameCSS": "var(--ids-tree-treemap-title-color-text)"
     },
     {
-      "id": "id-1718638612581-7555",
+      "id": "id-1722019565527-7757",
       "tokenName": "--ids-upload-advanced-color-background-default",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612581-7553",
+          "id": "id-1722019565527-7755",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -5654,12 +5679,12 @@
       "tokenNameCSS": "var(--ids-upload-advanced-color-background-default)"
     },
     {
-      "id": "id-1718638612581-7558",
+      "id": "id-1722019565527-7760",
       "tokenName": "--ids-upload-advanced-color-background-hover",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612581-7556",
+          "id": "id-1722019565527-7758",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -5676,12 +5701,12 @@
       "tokenNameCSS": "var(--ids-upload-advanced-color-background-hover)"
     },
     {
-      "id": "id-1718638612581-7561",
+      "id": "id-1722019565527-7763",
       "tokenName": "--ids-upload-advanced-color-border-hover",
       "tokenValue": "var(--ids-color-neutral-50)",
       "children": [
         {
-          "id": "id-1718638612581-7559",
+          "id": "id-1722019565527-7761",
           "tokenName": "--ids-color-neutral-50",
           "tokenValue": "#8e8e95",
           "type": "Core",
@@ -5698,12 +5723,12 @@
       "tokenNameCSS": "var(--ids-upload-advanced-color-border-hover)"
     },
     {
-      "id": "id-1718638612581-7564",
+      "id": "id-1722019565527-7766",
       "tokenName": "--ids-upload-advanced-color-text-hover",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612581-7562",
+          "id": "id-1722019565527-7764",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -5720,12 +5745,12 @@
       "tokenNameCSS": "var(--ids-upload-advanced-color-text-hover)"
     },
     {
-      "id": "id-1718638612581-7567",
+      "id": "id-1722019565527-7769",
       "tokenName": "--ids-week-view-color-background",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612581-7565",
+          "id": "id-1722019565527-7767",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -5742,12 +5767,12 @@
       "tokenNameCSS": "var(--ids-week-view-color-background)"
     },
     {
-      "id": "id-1718638612581-7570",
+      "id": "id-1722019565527-7772",
       "tokenName": "--ids-week-view-color-border",
       "tokenValue": "var(--ids-color-neutral-30)",
       "children": [
         {
-          "id": "id-1718638612581-7568",
+          "id": "id-1722019565527-7770",
           "tokenName": "--ids-color-neutral-30",
           "tokenValue": "#c5c5c9",
           "type": "Core",
@@ -5764,12 +5789,12 @@
       "tokenNameCSS": "var(--ids-week-view-color-border)"
     },
     {
-      "id": "id-1718638612581-7573",
+      "id": "id-1722019565527-7775",
       "tokenName": "--ids-week-view-header-color-background",
       "tokenValue": "var(--ids-color-white-100)",
       "children": [
         {
-          "id": "id-1718638612581-7571",
+          "id": "id-1722019565527-7773",
           "tokenName": "--ids-color-white-100",
           "tokenValue": "#ffffff",
           "type": "Core",
@@ -5786,12 +5811,12 @@
       "tokenNameCSS": "var(--ids-week-view-header-color-background)"
     },
     {
-      "id": "id-1718638612581-7576",
+      "id": "id-1722019565527-7778",
       "tokenName": "--ids-week-view-row-odd-color-border",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612581-7574",
+          "id": "id-1722019565527-7776",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -5808,12 +5833,12 @@
       "tokenNameCSS": "var(--ids-week-view-row-odd-color-border)"
     },
     {
-      "id": "id-1718638612581-7579",
+      "id": "id-1722019565527-7781",
       "tokenName": "--ids-widget-header-title-color",
       "tokenValue": "var(--ids-color-black-100)",
       "children": [
         {
-          "id": "id-1718638612581-7577",
+          "id": "id-1722019565527-7779",
           "tokenName": "--ids-color-black-100",
           "tokenValue": "#000000",
           "type": "Core",
@@ -5830,12 +5855,12 @@
       "tokenNameCSS": "var(--ids-widget-header-title-color)"
     },
     {
-      "id": "id-1718638612581-7582",
+      "id": "id-1722019565527-7784",
       "tokenName": "--ids-widget-color-border-hover",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612581-7580",
+          "id": "id-1722019565527-7782",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",
@@ -5852,7 +5877,7 @@
       "tokenNameCSS": "var(--ids-widget-color-border-hover)"
     },
     {
-      "id": "id-1718638612581-7584",
+      "id": "id-1722019565527-7786",
       "tokenName": "--ids-widget-color-shadow-hover",
       "tokenValue": "0 2px 4px 1px rgba(0 0 0 / 0.15)",
       "type": "Component",
@@ -5861,12 +5886,12 @@
       "tokenNameCSS": "var(--ids-widget-color-shadow-hover)"
     },
     {
-      "id": "id-1718638612581-7587",
+      "id": "id-1722019565527-7789",
       "tokenName": "--ids-widget-search-field-color-background",
       "tokenValue": "var(--ids-color-neutral-20)",
       "children": [
         {
-          "id": "id-1718638612581-7585",
+          "id": "id-1722019565527-7787",
           "tokenName": "--ids-color-neutral-20",
           "tokenValue": "#e0e0e1",
           "type": "Core",
@@ -5883,12 +5908,12 @@
       "tokenNameCSS": "var(--ids-widget-search-field-color-background)"
     },
     {
-      "id": "id-1718638612581-7591",
+      "id": "id-1722019565527-7793",
       "tokenName": "--ids-wizard-step-color-default",
       "tokenValue": "var(--ids-color-primary)",
       "children": [
         {
-          "id": "id-1718638612581-7588",
+          "id": "id-1722019565527-7790",
           "tokenName": "--ids-color-primary",
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
@@ -5896,7 +5921,7 @@
           "component": "Primary Color",
           "children": [
             {
-              "id": "id-1718638612581-7589",
+              "id": "id-1722019565527-7791",
               "tokenName": "--ids-color-blue-60",
               "tokenValue": "#0072ed",
               "type": "Core",
@@ -5917,12 +5942,12 @@
       "tokenNameCSS": "var(--ids-wizard-step-color-default)"
     },
     {
-      "id": "id-1718638612581-7594",
+      "id": "id-1722019565527-7796",
       "tokenName": "--ids-wizard-step-color-unvisited",
       "tokenValue": "var(--ids-color-neutral-90)",
       "children": [
         {
-          "id": "id-1718638612581-7592",
+          "id": "id-1722019565527-7794",
           "tokenName": "--ids-color-neutral-90",
           "tokenValue": "#28282a",
           "type": "Core",
@@ -5939,12 +5964,12 @@
       "tokenNameCSS": "var(--ids-wizard-step-color-unvisited)"
     },
     {
-      "id": "id-1718638612581-7597",
+      "id": "id-1722019565527-7799",
       "tokenName": "--ids-wizard-step-color-disabled-unvisited",
       "tokenValue": "var(--ids-color-neutral-40)",
       "children": [
         {
-          "id": "id-1718638612581-7595",
+          "id": "id-1722019565527-7797",
           "tokenName": "--ids-color-neutral-40",
           "tokenValue": "#bbbbbf",
           "type": "Core",

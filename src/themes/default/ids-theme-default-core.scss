@@ -136,8 +136,8 @@
 
   // Action Panel
   --ids-action-panel-header-height: 50px;
-  --ids-action-panel-header-padding: 8px;
-  --ids-action-panel-header-color-background: var(--ids-color-neutral-10);
+  --ids-action-panel-header-padding: var(--ids-space-sm);
+  --ids-action-panel-header-color-background: var(--ids-color-accent-neutral-weakest);
   --ids-action-panel-header-color-border: var(--ids-color-neutral-20);
   --ids-action-panel-content-background-color: var(--ids-color-white-100);
   --ids-action-panel-button-color-background-hover: var(--ids-color-neutral-20);
@@ -1060,15 +1060,15 @@
   --ids-module-nav-item-height: 40px;
   --ids-module-nav-item-padding-size: 13px;
   --ids-module-nav-item-margin-block: 4px;
-  --ids-module-nav-item-margin-inline: 8px;
-  --ids-module-nav-item-padding-block: 8px;
+  --ids-module-nav-item-margin-inline: var(--ids-space-xs);
+  --ids-module-nav-item-padding-block: var(--ids-space-xs);
   --ids-module-nav-item-icon-start-spacing: 11px;
   --ids-module-nav-item-icon-end-spacing: 19px;
   --ids-module-nav-item-dropdown-icon-size: 13px; // 10px in Figma
   --ids-module-nav-item-collapsed-size: 40px;
   --ids-module-nav-item-display-icon-collapsed-margin: 10px;
   --ids-module-nav-item-collapsed-general-space-size: 4px;
-  --ids-module-nav-item-collapsed-first-last-space-size: 8px;
+  --ids-module-nav-item-collapsed-first-last-space-size: var(--ids-space-xs);
   --ids-module-nav-item-expanded-icon-text-space-size: var(--ids-space-sm);
   --ids-module-nav-item-text-color: var(--ids-color-neutral-100);
   --ids-module-nav-item-hover-bg-color: var(--ids-color-neutral-20);
@@ -1110,8 +1110,8 @@
   --ids-module-nav-settings-menu-item-icon-color: var(--ids-color-neutral-70);
   --ids-module-nav-settings-menu-min-width: 300px;
   --ids-module-nav-settings-menu-separator-color: var(--ids-color-neutral-10);
-  --ids-module-nav-settings-menu-gutter-size: 8px;
-  --ids-module-nav-footer-gutter-size: 8px;
+  --ids-module-nav-settings-menu-gutter-size: var(--ids-space-xs);
+  --ids-module-nav-footer-gutter-size: var(--ids-space-xs);
 
   // Month View
   --ids-calendar-month-view-color-background-default: var(--ids-color-white-100);
@@ -1278,7 +1278,7 @@
   --ids-search-field-color-border-focus: var(--ids-input-color-border-focus);
   --ids-search-field-color-border-hover: var(--ids-input-color-border-hover);
   --ids-search-field-button-color-text-hover: var(--ids-button-tertiary-color-text-hover);
-  --ids-search-field-icon-margin: 8px;
+  --ids-search-field-icon-margin: var(--ids-space-xs);
   --ids-search-field-margin: 0;
   --ids-search-field-border-radius: 4px;
 
@@ -1360,8 +1360,8 @@
   --ids-stats-height: 136px;
   --ids-stats-width: 155px;
   --ids-stats-width-double: 323px;
-  --ids-stats-padding-inline: var(--ids-space-sm) 12px;
-  --ids-stats-padding-block: 8px;
+  --ids-stats-padding-inline: var(--ids-space-xs) 12px;
+  --ids-stats-padding-block: var(--ids-space-xs);
   --ids-stats-positive-color-text: var(--ids-color-success-default);
   --ids-stats-negative-color-text: var(--ids-color-error-default);
   --ids-stats-color-text-default: var(--ids-color-foreground-default-default);
@@ -1699,7 +1699,7 @@
   --ids-widget-content-height: 312px;
   --ids-widget-search-height: 46px;
   --ids-widget-search-content-height: 266px;
-  --ids-widget-header-padding-inline: 8px; // toolbar has 8px
+  --ids-widget-header-padding-inline: var(--ids-space-sm); // toolbar has 8px
   --ids-widget-header-height: 48px;
   --ids-widget-header-subtitle-height: 60px;
   --ids-widget-search-subtitle-content-height: 301px;
