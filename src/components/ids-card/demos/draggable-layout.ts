@@ -1,6 +1,7 @@
 import css from '../../../assets/css/ids-card/draggable.css';
 import "../../ids-tabs/ids-tabs";
 import "../../ids-search-field/ids-search-field";
+import IdsCard from '../ids-card';
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 const head = document.querySelector('head');
@@ -107,23 +108,39 @@ const leftPanelContainers = document.querySelector('.panel-left-containers')!;
 const leftPanelComponents = document.querySelector('.panel-left-components')!;
 
 const createComponent = (component: any, width: string = '100%') => {
-  const cardEl = document.createElement('ids-card');
+  const cardEl = document.createElement('ids-card') as IdsCard;
 
   cardEl.setAttribute('draggable', 'true');
   cardEl.setAttribute('background-color', '#F5F5F5');
   cardEl.setAttribute('width', width);
+  cardEl.setAttribute('fixed', 'true');
   cardEl.classList.add('demo-draggable-card');
 
   cardEl.innerHTML = `
     <div slot="icon">${component.icon}</div>
     <div slot="label">${component.label}</div>
   `;
+
+  cardEl.addEventListener('dragstart', (e: any) => {
+    cardEl.setAttribute('drag-width', '992px');
+    cardEl.setAttribute('drag-height', '320px');
+    cardEl.setAttribute('drag-bg-color', 'rgba(255, 255, 255, 0.80)');
+  });
+
+
+  cardEl.addEventListener('dragend', (e: any) => {
+    cardEl.setAttribute('drop-width', '992px');
+    cardEl.setAttribute('drop-height', '320px');
+    cardEl.setAttribute('drop-bg-color', 'rgba(255, 255, 255, 0.80)');
+  });
+
   return cardEl;
 }
 
 containers.forEach((item) => {
   const componentEl = createComponent(item);
   leftPanelContainers.appendChild(componentEl);
+
 });
 
 components.forEach((item) => {

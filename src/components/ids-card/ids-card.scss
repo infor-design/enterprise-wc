@@ -260,6 +260,13 @@
       height: var(--ids-card-height-dragged);
       background-color: var(--ids-card-color-background-dragged, #F5F5F5);
     }
+
+    &.is-fixed {
+      &.is-dropped,  &.is-dragging {
+        position: absolute;
+        justify-content: center;
+      }
+    }
   }
 }
 

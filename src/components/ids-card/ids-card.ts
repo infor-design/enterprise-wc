@@ -38,6 +38,9 @@ const Base = IdsHideFocusMixin(
 @customElement('ids-card')
 @scss(styles)
 export default class IdsCard extends Base {
+
+  #clonedElement: any = null;
+
   constructor() {
     super();
   }
@@ -72,6 +75,7 @@ export default class IdsCard extends Base {
       attributes.DROP_WIDTH,
       attributes.DROP_HEIGHT,
       attributes.DROP_BG_COLOR,
+      attributes.FIXED,
     ];
   }
 
@@ -87,9 +91,9 @@ export default class IdsCard extends Base {
     if (name === attributes.DRAG_HEIGHT) this.#setCssVar('--ids-card-height-dragged', newValue);
     if (name === attributes.DRAG_BG_COLOR) this.#setCssVar('--ids-card-color-background-dragged', newValue);
 
-    if (name === attributes.DROP_WIDTH) this.#setCssVar('--ids-card-height-dropped', newValue);
+    if (name === attributes.DROP_WIDTH) this.#setCssVar('--ids-card-width-dropped', newValue);
     if (name === attributes.DROP_HEIGHT) this.#setCssVar('--ids-card-height-dropped', newValue);
-    if (name === attributes.DROP_BG_COLOR) this.#setCssVar('--ids-card-height-dropped', newValue);
+    if (name === attributes.DROP_BG_COLOR) this.#setCssVar('--ids-card-color-background-dropped', newValue);
   }
 
   /**
@@ -209,12 +213,23 @@ export default class IdsCard extends Base {
     this.onEvent('dragstart.ids-card', this, () => {
       this.container?.classList?.add('is-dragging');
       this.dropped = false;
+      if (!this.disabled && !this.#clonedElement && this.fixed) {
+        const clonedElement = this.cloneNode(true) as IdsCard;
+        clonedElement.fixed = false;
+        clonedElement.draggable = true;
+        clonedElement.disabled = true;
+        this.#clonedElement = clonedElement;
+        this.parentNode?.insertBefore(clonedElement, this.nextSibling);
+      }
     });
 
     this.offEvent('dragend.ids-card', this);
     this.onEvent('dragend.ids-card', this, () => {
       this.container?.classList?.remove('is-dragging');
       this.dropped = true;
+      if (this.#clonedElement) {
+        this.#clonedElement.remove();
+      }
     });
 
     return this;
@@ -395,6 +410,15 @@ export default class IdsCard extends Base {
     return this.hasAttribute(attributes.DROPPED);
   }
 
+  set fixed(value: boolean | string | null) {
+    this.toggleAttribute(attributes.FIXED, stringToBool(value));
+    this.container?.classList.toggle('is-fixed', stringToBool(value));
+  }
+
+  get fixed() {
+    return this.hasAttribute(attributes.FIXED);
+  }
+
   #setCssVar(variable: string, value: string | null) {
     if (value) {
       this.container?.style.setProperty(variable, value);
@@ -405,6 +429,14 @@ export default class IdsCard extends Base {
 
   set backgroundColor(value: IdsColorValue) {
     this.#setCssVar('--ids-card-color-background', (value as string | null));
+  }
+
+  set width(value: string) {
+    if (this.draggable) {
+      this.#setCssVar('--ids-card-width', value);
+    } else {
+      super.width = value;
+    }
   }
 
   /**
