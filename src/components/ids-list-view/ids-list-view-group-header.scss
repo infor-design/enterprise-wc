@@ -1,0 +1,18 @@
+
+.ids-list-view-group-header {
+  background-color: var(--ids-list-view-group-header-color-background);
+  border-bottom: 1px solid var(--ids-list-view-group-header-color-border);
+  border-top: 1px solid var(--ids-list-view-group-header-color-border);
+  color: var(--ids-list-view-group-header-color-text);
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row;
+  font-family: var(--ids-font-family-default);
+  font-size: var(--ids-list-view-group-header-font-size);
+  padding: 0 var(--ids-list-view-group-header-padding);
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: fill-available;
+  height: var(--ids-list-view-group-header-height);
+}

@@ -1012,6 +1012,12 @@
   --ids-list-view-item-color-text-link-disabled: var(--ids-color-gray-30);
   --ids-list-view-item-opacity-disabled: 0.5;
   --ids-list-view-color-background-selected: var(--ids-color-blue-10);
+  --ids-list-view-group-header-color-background: var(--ids-color-gray-10);
+  --ids-list-view-group-header-color-text: var(--ids-color-gray-100);
+  --ids-list-view-group-header-color-border: var(--ids-color-gray-20);
+  --ids-list-view-group-header-height: 36px;
+  --ids-list-view-group-header-font-size: 14px;
+  --ids-list-view-group-header-padding: var(--ids-space-12);
 
   // Loading Indicator
   --ids-loading-indicator-height: 6px;
@@ -1458,7 +1464,7 @@
   --ids-swaplist-shadow: var(--ids-card-shadow);
   --ids-swaplist-card-margin-block-end: var(--ids-space-none);
   --ids-swaplist-border: 1px solid var(--ids-card-color-border);
-  --ids-swaplist-card-content-height-min: calc(var(--ids-card-content-height) - 11px);
+  --ids-swaplist-card-content-height-min: var(--ids-card-content-height);
   --ids-swaplist-card-border-radius: var(--ids-border-radius-none);
   --ids-swaplist-inline-start-border-width: 0;
   --ids-swaplist-card-shadow: none;
