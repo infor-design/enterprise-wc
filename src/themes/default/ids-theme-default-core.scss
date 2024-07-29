@@ -1010,6 +1010,12 @@
   --ids-list-view-item-color-text-link-disabled: var(--ids-color-gray-30);
   --ids-list-view-item-opacity-disabled: 0.5;
   --ids-list-view-color-background-selected: var(--ids-color-blue-10);
+  --ids-list-view-group-header-color-background: var(--ids-color-gray-10);
+  --ids-list-view-group-header-color-text: var(--ids-color-gray-100);
+  --ids-list-view-group-header-color-border: var(--ids-color-gray-20);
+  --ids-list-view-group-header-height: 36px;
+  --ids-list-view-group-header-font-size: 14px;
+  --ids-list-view-group-header-padding: var(--ids-space-12);
 
   // Loading Indicator
   --ids-loading-indicator-height: 6px;

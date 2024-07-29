@@ -458,6 +458,7 @@ export default class IdsListViewItem extends Base {
     this.toggleAttribute(attributes.SELECTED, selected);
     this.toggleAttribute('aria-selected', selected);
     this.toggleAttribute('hide-selected-color', selected && this.selectable === 'mixed');
+
     if (this.selectable === 'multiple' && !selected) {
       this.removeAttribute('activated');
     }

@@ -42,6 +42,7 @@ li,
       flex-shrink: 0;
       max-height: var(--ids-space-sm);
       max-width: var(--ids-space-sm);
+      margin-top: -7px; // Adjust for checkbox styles so its centered
     }
 
     .list-item-checkbox[disabled]::part(checkmark) {
