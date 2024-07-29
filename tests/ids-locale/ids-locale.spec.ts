@@ -192,13 +192,8 @@ test.describe('IdsLocale tests', () => {
     return result;
   };
 
-  test.beforeEach(async ({ page, pageErrorsTest }) => {
+  test.beforeEach(async ({ page }) => {
     await page.goto(url);
-    pageErrorsTest.clearErrors();
-  });
-
-  test.afterEach(async ({ pageErrorsTest }) => {
-    expect(pageErrorsTest.hasErrors()).toBeFalsy();
   });
 
   test.describe('two digit year checks', () => {
@@ -227,6 +222,14 @@ test.describe('IdsLocale tests', () => {
   });
 
   test.describe('functionality tests', () => {
+    test.beforeEach(async ({ pageErrorsTest }) => {
+      pageErrorsTest.clearErrors();
+    });
+
+    test.afterEach(async ({ pageErrorsTest }) => {
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
     const validateDefault = async (page: Page) => {
       expect((await getLocaleValues(page)).name).toEqual('en-US');
       expect((await getLocaleValues(page, 'locale.options.englishName'))).toEqual('English (United States)');
@@ -517,6 +520,14 @@ test.describe('IdsLocale tests', () => {
   });
 
   test.describe('translation tests', () => {
+    test.beforeEach(async ({ pageErrorsTest }) => {
+      pageErrorsTest.clearErrors();
+    });
+
+    test.afterEach(async ({ pageErrorsTest }) => {
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
     test('can support translation', async ({ page }) => {
       await runLocaleFunction(page, 'setLanguage', 'de-DE');
       expect(await runLocaleFunction(page, 'translate', 'Required')).toEqual('Erforderlich');
@@ -726,6 +737,14 @@ test.describe('IdsLocale tests', () => {
   });
 
   test.describe('number formatting tests', () => {
+    test.beforeEach(async ({ pageErrorsTest }) => {
+      pageErrorsTest.clearErrors();
+    });
+
+    test.afterEach(async ({ pageErrorsTest }) => {
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
     test('can get decimal format', async ({ page }) => {
       expect((await runLocaleFunction(page, 'numbers', '')).decimal).toEqual('.');
 
@@ -1111,6 +1130,14 @@ test.describe('IdsLocale tests', () => {
   });
 
   test.describe('number parsing tests', () => {
+    test.beforeEach(async ({ pageErrorsTest }) => {
+      pageErrorsTest.clearErrors();
+    });
+
+    test.afterEach(async ({ pageErrorsTest }) => {
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
     test('can handle numbers passed to parseNumber', async ({ page }) => {
       expect((await runLocaleFunction(page, 'parseNumber', 4000))).toEqual(4000);
     });
@@ -1259,6 +1286,14 @@ test.describe('IdsLocale tests', () => {
   });
 
   test.describe('date formatting tests', () => {
+    test.beforeEach(async ({ pageErrorsTest }) => {
+      pageErrorsTest.clearErrors();
+    });
+
+    test.afterEach(async ({ pageErrorsTest }) => {
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
     test('can parse ISO (JSON) dates', async ({ page }) => {
       expect(await page.evaluate(() => ((window as any).utils as any).locale.parseDate('2019-12-12T18:25:43.511Z').getTime())).toEqual(1576175143511);
     });
@@ -1690,6 +1725,14 @@ test.describe('IdsLocale tests', () => {
   });
 
   test.describe('hour formatting tests', () => {
+    test.beforeEach(async ({ pageErrorsTest }) => {
+      pageErrorsTest.clearErrors();
+    });
+
+    test.afterEach(async ({ pageErrorsTest }) => {
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
     test('can format hours', async ({ page }) => {
       expect((await runLocaleFunction(page, 'formatHour', 0)).replace(' ', ' ')).toEqual('12:00 AM');
       expect((await runLocaleFunction(page, 'formatHour', '1')).replace(' ', ' ')).toEqual('1:00 AM');
@@ -1812,6 +1855,14 @@ test.describe('IdsLocale tests', () => {
   });
 
   test.describe('hour range formatting tests', () => {
+    test.beforeEach(async ({ pageErrorsTest }) => {
+      pageErrorsTest.clearErrors();
+    });
+
+    test.afterEach(async ({ pageErrorsTest }) => {
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
     test('can format hour range', async ({ page }) => {
       expect((await runLocaleFunction(page, 'formatHourRange', 5, 10))).toEqual('5 - 10:00 AM');
       expect((await runLocaleFunction(page, 'formatHourRange', 10, 12))).toEqual('10:00 AM - 12:00 PM');
@@ -1837,6 +1888,14 @@ test.describe('IdsLocale tests', () => {
   });
 
   test.describe('date parsing tests', () => {
+    test.beforeEach(async ({ pageErrorsTest }) => {
+      pageErrorsTest.clearErrors();
+    });
+
+    test.afterEach(async ({ pageErrorsTest }) => {
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
     test('can parseDate with single digit format', async ({ page, pageDate }) => {
       expect((await runLocaleFunction(page, 'parseDate', '18.10.2019 7.15', { dateFormat: 'd.M.yyyy H.mm' })).getTime())
         .toEqual((await pageDate.newDate(2019, 9, 18, 7, 15, 0)).getTime());
@@ -2008,6 +2067,14 @@ test.describe('IdsLocale tests', () => {
   });
 
   test.describe('Arabic/Islamic calendar tests', () => {
+    test.beforeEach(async ({ pageErrorsTest }) => {
+      pageErrorsTest.clearErrors();
+    });
+
+    test.afterEach(async ({ pageErrorsTest }) => {
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
     test('can support checking of Islamic calendar', async ({ page }) => {
       expect((await runLocaleFunction(page, 'isIslamic', ''))).toEqual(false);
 

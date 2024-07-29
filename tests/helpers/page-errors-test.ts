@@ -22,8 +22,8 @@ export class PageErrorsTest {
   }
 
   #initialize() {
-    this.page.on('pageerror', (err) => this.errors.push(err.message));
-    this.page.on('console', (msg) => { if (msg.type() === 'error') this.errors.push(msg.text); });
+    this.page.on('pageerror', (err) => this.errors.push({ source: 'pageerror', message: err.message }));
+    this.page.on('console', (msg) => { if (msg.type() === 'error') this.errors.push({ source: console, message: msg.text }); });
   }
 
   /**
@@ -31,7 +31,11 @@ export class PageErrorsTest {
    * @returns {boolean} `true` if there is atleast 1 error
    */
   hasErrors(): boolean {
-    return (this.errors.length > 0);
+    const hasErrors = this.errors.length > 0;
+    if (hasErrors) {
+      console.info(this.errors);
+    }
+    return hasErrors;
   }
 
   /**
