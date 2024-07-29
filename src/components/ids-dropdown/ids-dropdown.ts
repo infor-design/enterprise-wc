@@ -38,7 +38,7 @@ import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 import type IdsIcon from '../ids-icon/ids-icon';
-import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 import styles from './ids-dropdown.scss';
 import {
@@ -1070,7 +1070,12 @@ export default class IdsDropdown extends Base {
       const regex = new RegExp(text, 'gi');
       const optionText = item.groupLabel ? item.label : item.label?.replace(
         regex,
-        (matched) => `<span class="highlight">${matched}</span>`
+        (matched) => {
+          if (matched) {
+            return `<span class="highlight">${matched}</span>`;
+          }
+          return '';
+        }
       );
 
       return this.#templateListBoxOption({
@@ -1173,10 +1178,11 @@ export default class IdsDropdown extends Base {
    */
   #templateListBoxOption(option: IdsDropdownOption): string {
     return `<ids-list-box-option
+      ${this.#isMultiSelect ? 'class="multiselect-option multiselect-loaded"' : ''}
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
       ${option.tooltip ? `tooltip="${option.tooltip}"` : ''}
-      ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.label || ''}</ids-list-box-option>`;
+      ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.isCheckbox ? `<ids-checkbox no-margin class="justify-center multiselect-checkbox multiselect-loaded"></ids-checkbox>${option.label || ''}` : (option.label || '')}</ids-list-box-option>`;
   }
 
   /**
@@ -1250,10 +1256,11 @@ export default class IdsDropdown extends Base {
   #setOptionsData() {
     this.#optionsData = [...this.options].map((item) => ({
       id: item.id,
-      label: item.textContent?.trim() ?? '',
+      label: item.textContent?.trim() || item.querySelector<IdsCheckbox>('ids-checkbox')?.label || '',
       value: item.getAttribute(attributes.VALUE) as string,
       icon: item.querySelector<IdsIcon>('ids-icon')?.icon,
-      groupLabel: item.hasAttribute(attributes.GROUP_LABEL)
+      groupLabel: item.hasAttribute(attributes.GROUP_LABEL),
+      isCheckbox: item.querySelector<IdsCheckbox>('ids-checkbox') !== null
     }));
   }
 

@@ -182,3 +182,12 @@
     padding-inline-start: var(--ids-space-sm);
   }
 }
+
+:host(.multiselect-loaded) {
+  .ids-checkbox {
+    margin-inline-start: 8px;
+  }
+  .ids-checkbox label {
+    margin-inline-end: 4px;
+  }
+}

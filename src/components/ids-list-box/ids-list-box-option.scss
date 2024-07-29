@@ -9,12 +9,15 @@
   outline: none;
   min-height: 32px;
   padding: 0;
-  text-indent: 8px;
   user-select: none;
   min-width: calc(var(--ids-input-width-10) - 2px);
   text-overflow: ellipsis;
   width: 100%;
   white-space: nowrap;
+}
+
+:host(:not(.multiselect-loaded)) {
+  text-indent: 8px;
 }
 
 :host(.multiselect-option) {
@@ -24,6 +27,10 @@
     margin: 0;
     margin-inline-start: var(--ids-dropdown-space-text);
   }
+}
+
+:host(.multiselect-loaded) {
+  align-items: center;
 }
 
 :host([disabled]:not([disabled='false'])) {

@@ -19,6 +19,29 @@ ids-trigger-field {
   }
 }
 
+:host([tags]) {
+  .has-value {
+    ids-trigger-field {
+      &::part(content-area) {
+        display: flex;
+        width: calc(100% - 34px);
+        flex-wrap: wrap;
+      }
+
+      &::part(input) {
+        padding: 0;
+        flex: 1;
+        visibility: hidden;
+
+        &::selection {
+          color: transparent;
+          background: transparent;
+        }
+      }
+    }
+  }
+}
+
 :host {
   .has-value {
     ids-trigger-field {
