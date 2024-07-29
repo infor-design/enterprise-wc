@@ -23,7 +23,7 @@ export class PageErrorsTest {
 
   #initialize() {
     this.page.on('pageerror', (err) => this.errors.push({ source: 'pageerror', message: err.message }));
-    this.page.on('console', (msg) => { if (msg.type() === 'error') this.errors.push({ source: console, message: msg.text }); });
+    this.page.on('console', (msg) => { if (msg.type() === 'error') this.errors.push({ source: 'console', message: msg.text }); });
   }
 
   /**
