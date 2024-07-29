@@ -12,6 +12,36 @@
         "id": 2,
         "text": "Option B",
         "value": "option_b"
+      },
+      {
+        "id": 7,
+        "text": "Option G",
+        "value": "option_g"
+      },
+      {
+        "id": 8,
+        "text": "Option H",
+        "value": "option_h"
+      },
+      {
+        "id": 9,
+        "text": "Option I",
+        "value": "option_i"
+      },
+      {
+        "id": 10,
+        "text": "Option J",
+        "value": "option_j"
+      },
+      {
+        "id": 11,
+        "text": "Option K",
+        "value": "option_k"
+      },
+      {
+        "id": 12,
+        "text": "Option L",
+        "value": "option_l"
       }
     ]
   },
