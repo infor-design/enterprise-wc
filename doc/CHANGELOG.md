@@ -20,6 +20,7 @@
 - `[Dropdown]` Fix dropdown size setting for angular. ([#2248](https://github.com/infor-design/enterprise-wc/issues/2248))
 - `[Dropdown]` Fix dropdown position in datagrid in tabs. ([#2582](https://github.com/infor-design/enterprise-wc/issues/2582))
 - `[Empty Message]` Converted empty message tests to playwright. ([#2337](https://github.com/infor-design/enterprise-wc/issues/2337))
+- `[Icon]` Create icon example with tooltips. ([#2257](https://github.com/infor-design/enterprise-wc/issues/2257))
 - `[ListView]` Fixed an issue where selected event is not being triggered on `ids-list-view-item`. ([#2565](https://github.com/infor-design/enterprise-wc/issues/2565))
 - `[Locale]` Converted locale tests to playwright. ([#1948](https://github.com/infor-design/enterprise-wc/issues/1948))
 - `[ModuleNav]` Fixed an issue where the text in the nav bar is not visible when added dynamically. ([#2517](https://github.com/infor-design/enterprise-wc/issues/2517))
