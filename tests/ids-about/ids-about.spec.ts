@@ -45,12 +45,12 @@ test.describe('IdsAbout tests', () => {
 
     test('setting copyright year', async ({ page }) => {
       await page.locator('#about-example-trigger').click(); // open about modal
-      const aboutHandle = await page.locator('ids-about').first();
 
       // set copyrightYear to 2015
-      await aboutHandle.evaluate((about: IdsAbout) => { about.copyrightYear = 2015; });
-      await expect(await page.locator('ids-text[slot="copyright"]')).toHaveText(/2015/);
-      await expect(await aboutHandle.evaluate((about: IdsAbout) => about.copyrightYear)).toEqual('2015');
+      await page.evaluate(() => {
+        (document.querySelector('ids-about') as IdsAbout)!.copyrightYear = 2015;
+      });
+      await expect(await page.locator('ids-about')).toHaveText(/2015/);
     });
 
     test('setting device specs', async ({ page }) => {

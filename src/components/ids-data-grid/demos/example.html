@@ -12,6 +12,31 @@
     </ids-layout-grid>
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
+        <ids-toolbar>
+          <ids-toolbar-section align="start">
+            <ids-text id="title-text" font-size="18"></ids-text>
+          </ids-toolbar-section>
+          <ids-toolbar-section align="end" favor>
+            <ids-menu-button id="menu-button" menu="row-height-menu">
+              <ids-icon icon="more"></ids-icon>
+              <span class="audible">Settings Menu Button</span>
+            </ids-menu-button>
+            <ids-popup-menu id="row-height-menu" target="menu-button" trigger-type="click">
+              <ids-menu-group>
+                <ids-menu-item value="columns"><ids-text translate-text="true">PersonalizeColumns</ids-text></ids-menu-item>
+              </ids-menu-group>
+              <ids-menu-group select="single">
+                <ids-menu-header>Row Height</ids-menu-header>
+                <ids-menu-item value="xxs"><ids-text translate-text="true">ExtraExtraSmall</ids-text></ids-menu-item>
+                <ids-menu-item value="xs"><ids-text translate-text="true">ExtraSmall</ids-text></ids-menu-item>
+                <ids-menu-item value="sm"><ids-text translate-text="true">Small</ids-text></ids-menu-item>
+                <ids-menu-item value="md" selected="true"><ids-text translate-text="true">Medium</ids-text></ids-menu-item>
+                <ids-menu-item value="lg"><ids-text translate-text="true">Large</ids-text></ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+          </ids-toolbar-section>
+        </ids-toolbar>
+
         <ids-data-grid id="data-grid-1" row-selection="multiple" label="Books"></ids-data-grid>
       </ids-layout-grid-cell>
     </ids-layout-grid>

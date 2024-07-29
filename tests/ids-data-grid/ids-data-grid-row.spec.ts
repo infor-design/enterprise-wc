@@ -1,3 +1,5 @@
+import percySnapshot from '@percy/playwright';
+import AxeBuilder from '@axe-core/playwright';
 import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
@@ -398,6 +400,30 @@ test.describe('IdsDataGridRow add tests', () => {
       expect(data[0].description).toBe('FIRST');
       expect(data[1].description).toBe('THIRD');
       expect(data[2].description).toBe('FOURTH');
+    });
+  });
+});
+
+test.describe('IdsDataGridRow group row tests', () => {
+  const url = '/ids-data-grid/grouped-rows.html';
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(url);
+  });
+
+  test.describe('grouped row tests', () => {
+    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await percySnapshot(page, 'ids-data-grid-grouped-rows-light');
+    });
+
+    test('should pass an Axe scan', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-data-grid/example.html');
+      const accessibilityScanResults = await new AxeBuilder({ page } as any)
+        .exclude('[disabled]') // Disabled elements do not have to pass
+        .analyze();
+      expect(accessibilityScanResults.violations).toEqual([]);
     });
   });
 });

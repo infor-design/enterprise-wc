@@ -166,8 +166,6 @@ In some situations, it may be preferable to separate the IdsDropdownList element
 - `value` {string} Sets option to the matching option by the `value` attribute
 - `id` {string} Sets the `id` attribute
 - `tooltip` {string} Sets the tooltip on the dropdown container
-- `mode` {'light' | 'dark' | 'contrast' | string} Set the theme mode
-- `version` {'new' | 'classic' | string} Set the theme version
 - `selectedIndex` {number} Sets the the selected option by index
 - `typeahead` {true | false} - Enable/disable typeahead functionality
 - `clearable` {true | false} - Whether or not the value can be cleared with Backspace/Delete
