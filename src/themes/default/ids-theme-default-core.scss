@@ -631,11 +631,11 @@
   --ids-input-dirty-indicator-color-background-dirty: var(--ids-color-orange-30);
 
   // Drawer
-  --ids-drawer-action-sheet-color-background: var(--ids-color-white-100);
-  --ids-drawer-action-sheet-color-text: var(--ids-color-neutral-100);
+  --ids-drawer-action-sheet-color-background: var(--ids-color-background-default);
+  --ids-drawer-action-sheet-color-text: var(--ids-color-accent-neutral-strongest);
   --ids-drawer-action-sheet-shadow: 0 0 8px rgba(0 0 0 / 0.2);
-  --ids-drawer-app-menu-color-background: var(--ids-color-neutral-100);
-  --ids-drawer-app-menu-color-text: var(--ids-color-white-100);
+  --ids-drawer-app-menu-color-background: var(--ids-color-accent-neutral-strongest);
+  --ids-drawer-app-menu-color-text: var(--ids-color-background-default);
   --ids-drawer-app-menu-shadow: 0 0 20px 1px rgba(0 0 0 / 0.75);
   --ids-drawer-width: 300px;
 
