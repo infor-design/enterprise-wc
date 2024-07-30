@@ -90,7 +90,7 @@
           </ids-list-box>
         </ids-multiselect>
 
-        <ids-multiselect id="multiselect-t-1" label="Multiselect (with max 3 choices and dirty tracker)" dirty-tracker="true" typeahead>
+        <ids-multiselect typeahead id="multiselect-typeahead-checkboxes" label="Multiselect checkboxes typeahead" dirty-tracker="true">
           <ids-list-box>
             <ids-list-box-option id="al1" value="al" tooltip="The State of Alabama"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="ak1" value="ak" tooltip="The State of Alaska"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
@@ -102,6 +102,23 @@
           </ids-list-box>
         </ids-multiselect>
 
+        <ids-multiselect id="multiselect-typeahead-tags" typeahead tags="true" label="Multiselect tags typeahead" max="4" dirty-tracker="true">
+          <ids-list-box>
+            <ids-list-box-option id="long-text" value="long-text" tooltip="An option with long-text to test it fits dropdown and selected area"><ids-checkbox label="An option with long-text to test it fits dropdown and selected area"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="al2" value="al"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="ak2" value="ak"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="az2" value="az"><ids-checkbox label="Arizona"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="ar2" value="ar"><ids-checkbox label="Arkansas"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="ca2" value="ca"><ids-checkbox checked="true" label="California"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="co2" value="co"><ids-checkbox label="Colorado"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="fl2" value="fl"><ids-checkbox label="Florida"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="nj2" value="nj"><ids-checkbox label="New Jersey"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="ma2" value="ma"><ids-checkbox label="Massachusets"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="ny2" value="ny"><ids-checkbox label="New York"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="nh2" value="nh"><ids-checkbox label="New Hampshire"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="nm2" value="nm"><ids-checkbox label="New Mexico"></ids-checkbox></ids-list-box-option>
+          </ids-list-box>
+        </ids-multiselect>
       </ids-layout-grid-cell>
     </ids-layout-grid>
 

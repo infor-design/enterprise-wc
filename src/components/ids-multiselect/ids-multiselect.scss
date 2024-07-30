@@ -19,7 +19,8 @@ ids-trigger-field {
   }
 }
 
-:host([tags]) {
+:host([tags]),
+:host(:not([typeahead]):not([tags])) {
   .has-value {
     ids-trigger-field {
       &::part(content-area) {
@@ -38,13 +39,15 @@ ids-trigger-field {
           background: transparent;
         }
       }
-    }
-  }
-}
 
-:host {
-  .has-value {
-    ids-trigger-field {
+      ids-text {
+        max-width: 100%;
+
+        &::part(text) {
+          padding-inline-start: 8px;
+        }
+      }
+
       &[compact],
       &[field-height='xs'] {
         ids-text::part(text) {
