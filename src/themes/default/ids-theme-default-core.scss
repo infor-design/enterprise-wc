@@ -138,9 +138,9 @@
   --ids-action-panel-header-height: 50px;
   --ids-action-panel-header-padding: var(--ids-space-sm);
   --ids-action-panel-header-color-background: var(--ids-color-accent-neutral-weakest);
-  --ids-action-panel-header-color-border: var(--ids-color-neutral-20);
+  --ids-action-panel-header-color-border: var(--ids-color-accent-neutral-weaker);
   --ids-action-panel-content-background-color: var(--ids-color-white-100);
-  --ids-action-panel-button-color-background-hover: var(--ids-color-neutral-20);
+  --ids-action-panel-button-color-background-hover: var(--ids-color-accent-neutral-weaker);
 
   // Action Sheet
   --ids-action-sheet-border-radius: var(--ids-border-radius-md);
@@ -434,19 +434,19 @@
   --ids-calendar-event-color-border-accent-orange: var(--ids-color-orange-70);
   --ids-calendar-event-color-background-accent-purple: var(--ids-color-purple-30);
   --ids-calendar-event-color-border-accent-purple: var(--ids-color-purple-70);
-  --ids-calendar-event-color-background: var(--ids-color-blue-20);
+  --ids-calendar-event-color-background: var(--ids-color-accent-blue-weaker);
   --ids-calendar-event-color-border-default: var(--ids-color-orange-70);
   --ids-calendar-event-color-background-accent-green: var(--ids-color-accent-green-weaker);
   --ids-calendar-event-color-border-accent-green: var(--ids-color-accent-green-stronger);
-  --ids-calendar-event-color-border-focus: var(--ids-color-blue-60);
-  --ids-calendar-event-color-icon-alert: var(--ids-color-orange-60);
-  --ids-calendar-event-color-icon-clock: var(--ids-color-orange-60);
-  --ids-calendar-event-color-icon-pending: var(--ids-color-orange-60);
-  --ids-calendar-event-color-icon-success: var(--ids-color-green-60);
+  --ids-calendar-event-color-border-focus: var(--ids-color-accent-blue-strong);
+  --ids-calendar-event-color-icon-alert: var(--ids-color-accent-orange-strong);
+  --ids-calendar-event-color-icon-clock: var(--ids-color-accent-orange-strong);
+  --ids-calendar-event-color-icon-pending: var(--ids-color-accent-orange-strong);
+  --ids-calendar-event-color-icon-success: var(--ids-color-accent-green-strong);
   --ids-calendar-event-color-background-accent-red: var(--ids-color-red-30);
   --ids-calendar-event-color-border-accent-red: var(--ids-color-red-70);
   --ids-calendar-event-color-background-accent-turqoise: var(--ids-color-teal-30);
-  --ids-calendar-event-color-border-accent-turqoise: var(--ids-color-teal-70);
+  --ids-calendar-event-color-border-accent-turqoise: var(--ids-color-accent-teal-strong);
   --ids-calendar-event-color-background-accent-neutral: var(--ids-color-neutral-30);
   --ids-calendar-event-color-border-accent-neutral: var(--ids-color-neutral-70);
   --ids-calendar-event-color-text: var(--ids-color-foreground-default-default);
@@ -663,23 +663,23 @@
 
   // Editor
   --ids-editor-font-family: var(--ids-font-family-default);
-  --ids-editor-font-size: var(--ids-font-size-40);
+  --ids-editor-font-size: var(--ids-font-size-sm);
   --ids-editor-background-color: var(--ids-color-white-100);
-  --ids-editor-color-border-default: var(--ids-color-neutral-40);
+  --ids-editor-color-border-default: var(--ids-color-border-weak);
   --ids-editor-border-radius-default: var(--ids-border-radius-xxs);
   --ids-editor-border-style-default: solid;
   --ids-editor-border-width-default: 1px;
   --ids-editor-outline: 0;
   --ids-editor-font-line-height: var(--ids-line-height-30);
   --ids-editor-padding: var(--ids-space-sm);
-  --ids-editor-color-border-hover: var(--ids-color-neutral-90);
+  --ids-editor-color-border-hover: var(--ids-color-border-strong);
   --ids-editor-color-border-focus: var(--ids-color-border-focus);
   --ids-editor-outline-focus: var(--ids-outline-none);
   --ids-editor-shadow-border-focus: var(--ids-shadow-focus);
   --ids-editor-color-border-error: var(--ids-color-error-default);
   --ids-editor-color-text-error: var(--ids-color-error-default);
   --ids-editor-shadow-error: var(--ids-shadow-error);
-  --ids-editor-color-background-readonly: var(--ids-color-neutral-20);
+  --ids-editor-color-background-readonly: var(--ids-color-border-weaker);
   --ids-editor-color-border-readonly: var(--ids-editor-color-border-default);
   --ids-editor-color-text-readonly: var(--ids-color-text-data);
   --ids-editor-source-color-background-readonly: var(--ids-color-neutral-10);
@@ -695,7 +695,7 @@
   --ids-editor-link-border-width-focus: 1px;
   --ids-editor-link-outline-focus: var(--ids-outline-none);
   --ids-editor-shadow-focus: var(--ids-shadow-focus);
-  --ids-editor-blockquote-border-inline-start: 2px solid var(--ids-color-neutral-40);
+  --ids-editor-blockquote-border-inline-start: 2px solid var(--ids-color-border-weak);
   --ids-editor-blockquote-margin-inline-start: var(--ids-space-xxs);
   --ids-editor-blockquote-margin-inline-end: var(--ids-space-none);
   --ids-editor-blockquote-padding-inline-start: var(--ids-space-12);
