@@ -236,7 +236,7 @@
 :host([draggable]) {
   width: var(--ids-card-width);
   display: inline-block;
-  z-index: 99;
+  z-index: 1;
 
   .ids-card {
     display: flex;
@@ -248,16 +248,19 @@
     min-height: auto;
     padding: 12px 20px 12px 16px;
     cursor: pointer;
+    width: var(--ids-card-width);
 
     &.is-dropped {
-      width: var(--ids-card-width-dropped);
-      height: var(--ids-card-height-dropped);
+      z-index: 99;
+      width: var(--ids-card-width-dropped, var(--ids-card-width));
+      height: var(--ids-card-height-dropped, 'auto');
       background-color: var(--ids-card-color-background-dropped, #F5F5F5);
     }
 
     &.is-dragging {
-      width: var(--ids-card-width-dragged);
-      height: var(--ids-card-height-dragged);
+      z-index: 999;
+      width: var(--ids-card-width-dragged, var(--ids-card-width));
+      height: var(--ids-card-height-dragged, 'auto');
       background-color: var(--ids-card-color-background-dragged, #F5F5F5);
     }
 
@@ -268,6 +271,10 @@
       }
     }
   }
+}
+
+:host([draggable][is-dragging]) {
+  z-index: 99;
 }
 
 :host([borderless]) {
