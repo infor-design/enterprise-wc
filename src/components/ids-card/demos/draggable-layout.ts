@@ -10,17 +10,13 @@ if (head) {
 }
 
 const draggableCards = document.querySelectorAll('ids-card[draggable]')!;
+
 draggableCards.forEach((cardEl) => {
   cardEl.addEventListener('dragstart', (e: any) => {
-    cardEl.setAttribute('drag-width', '992px');
-    cardEl.setAttribute('drag-height', '320px');
     cardEl.setAttribute('drag-bg-color', 'rgba(255, 255, 255, 0.80)');
   });
 
-
   cardEl.addEventListener('dragend', (e: any) => {
-    cardEl.setAttribute('drop-width', '992px');
-    cardEl.setAttribute('drop-height', '320px');
     cardEl.setAttribute('drop-bg-color', 'rgba(255, 255, 255, 0.80)');
   });
 });
