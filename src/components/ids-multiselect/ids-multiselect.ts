@@ -230,7 +230,9 @@ class IdsMultiselect extends IdsDropdown {
         return;
       }
 
-      this.#optionChecked(this.selected);
+      if (this.selected) {
+        this.#optionChecked(this.selected);
+      }
     });
   }
 
@@ -283,20 +285,20 @@ class IdsMultiselect extends IdsDropdown {
 
   /**
    * Check option checkbox and update selected list
-   * @param {HTMLElement} option selected ids-list-box-option element
+   * @param {IdsListBoxOption} option selected ids-list-box-option element
    */
-  #optionChecked(option: any) {
+  #optionChecked(option: IdsListBoxOption) {
     if (!option || option?.hasAttribute(attributes.GROUP_LABEL)) return;
 
     const value = option.getAttribute('value');
     const isSelected = this.internalSelectedList.some((item) => value === item);
-    const checkbox = option.querySelector('ids-checkbox');
+    const checkbox = option.querySelector<IdsCheckbox>('ids-checkbox');
     const canSelect = this.max !== this.value.length;
 
     if (isSelected || canSelect) {
       this.internalSelectedList = isSelected
         ? this.internalSelectedList.filter((item) => item !== value)
-        : [...this.internalSelectedList, value];
+        : [...this.internalSelectedList, value].filter((item): item is string => item !== null);
 
       if (checkbox) {
         checkbox.onEvent('change', checkbox, (e: CustomEvent) => {
@@ -430,7 +432,8 @@ class IdsMultiselect extends IdsDropdown {
       value: item.getAttribute(attributes.VALUE) as string,
       icon: item.querySelector<IdsIcon>('ids-icon')?.icon,
       groupLabel: item.hasAttribute(attributes.GROUP_LABEL),
-      isCheckbox: Boolean(item.querySelector<IdsCheckbox>('ids-checkbox'))
+      isCheckbox: Boolean(item.querySelector<IdsCheckbox>('ids-checkbox')),
+      selected: this.internalSelectedList.includes(item.getAttribute(attributes.VALUE) as string)
     }));
   }
 
@@ -440,13 +443,17 @@ class IdsMultiselect extends IdsDropdown {
    */
   set typeahead(value: string | boolean | null) {
     const val = stringToBool(value);
+    const innerInput = this.shadowRoot?.querySelector('ids-trigger-field')?.shadowRoot?.querySelector('input');
 
     if (val) {
       this.setAttribute(attributes.TYPEAHEAD, String(val));
       this.#setOptionsData();
+      innerInput?.style.removeProperty('color');
     } else {
       this.removeAttribute(attributes.TYPEAHEAD);
+      innerInput?.style.setProperty('color', 'transparent');
     }
+    this.#updateDisplay();
 
     this.container?.classList.toggle('typeahead', val);
   }

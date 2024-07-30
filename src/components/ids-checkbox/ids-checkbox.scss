@@ -185,9 +185,11 @@
 
 :host(.multiselect-loaded) {
   .ids-checkbox {
+    text-indent: 0;
     margin-inline-start: 8px;
   }
   .ids-checkbox label {
-    margin-inline-end: 4px;
+    margin-inline-end: 0;
+    padding-inline-start: 12px;
   }
 }

@@ -367,9 +367,9 @@ export default class IdsDropdown extends Base {
    * Returns the currently-selected Listbox option
    * (may be different from the Dropdown's value because of user input)
    * @readonly
-   * @returns {HTMLElement|null} Reference to a selected Listbox option if one is present
+   * @returns {IdsListBoxOption|null} Reference to a selected Listbox option if one is present
    */
-  get selected(): HTMLElement | null {
+  get selected(): IdsListBoxOption | null {
     return this.dropdownList?.selected || null;
   }
 
@@ -733,6 +733,17 @@ export default class IdsDropdown extends Base {
 
     if (!noFocus) {
       this.input?.focus();
+    }
+
+    if (this.typeahead) {
+      // In case unfinished typeahead (typing is in process)
+      // closing popup will reset dropdown to the initial value
+      this.input?.setAttribute(attributes.READONLY, 'true');
+      const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
+      if (this.input) this.input.value = initialValue || '';
+      this.loadDataSet(this.#optionsData);
+      (window.getSelection() as Selection).removeAllRanges();
+      this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
 
     this.container?.classList.remove('is-open');
@@ -1173,7 +1184,11 @@ export default class IdsDropdown extends Base {
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
       ${option.tooltip ? `tooltip="${option.tooltip}"` : ''}
-      ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.isCheckbox ? `<ids-checkbox no-margin class="justify-center multiselect-checkbox multiselect-loaded"></ids-checkbox>${option.label || ''}` : (option.label || '')}</ids-list-box-option>`;
+      ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `
+        <ids-icon icon="${option.icon}"></ids-icon>
+      ` : ''}${option.isCheckbox ? `
+        <ids-checkbox no-margin no-animation class="justify-center multiselect-checkbox multiselect-loaded"${option.selected ? ' checked' : ''}></ids-checkbox><ids-text>${option.label || ''}</ids-text>
+      ` : (option.label || '')}</ids-list-box-option>`;
   }
 
   /**
@@ -1251,7 +1266,8 @@ export default class IdsDropdown extends Base {
       value: item.getAttribute(attributes.VALUE) as string,
       icon: item.querySelector<IdsIcon>('ids-icon')?.icon,
       groupLabel: item.hasAttribute(attributes.GROUP_LABEL),
-      isCheckbox: item.querySelector<IdsCheckbox>('ids-checkbox') !== null
+      isCheckbox: Boolean(item.querySelector<IdsCheckbox>('ids-checkbox')),
+      selected: item.querySelector<IdsCheckbox>('ids-checkbox')?.checked,
     }));
   }
 

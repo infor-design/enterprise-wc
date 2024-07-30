@@ -8,13 +8,24 @@
   <ids-container role="main" padding="8" hidden>
     <ids-theme-switcher mode="light"></ids-theme-switcher>
     <ids-layout-grid auto-fit="true" padding="md">
-      <ids-text font-size="12" type="h1">Multiselect</ids-text>
+      <ids-text font-size="12" type="h1">Multiselect Typeahead</ids-text>
     </ids-layout-grid>
 
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
+        <ids-multiselect typeahead id="multiselect-typeahead-checkboxes-no-value" label="Multiselect checkboxes typeahead (no value)">
+          <ids-list-box>
+            <ids-list-box-option id="al1" value="al" tooltip="The State of Alabama"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="ak1" value="ak" tooltip="The State of Alaska"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="az1" value="az" tooltip="The State of Arizona"><ids-checkbox label="Arizona"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="ar1" value="ar" tooltip="The State of Arkansas"><ids-checkbox label="Arkansas"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="ca1" value="ca" tooltip="The State of California"><ids-checkbox label="California"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="co1" value="co" tooltip="The State of Colorado"><ids-checkbox label="Colorado"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="nj1" value="nj" tooltip="The State of New Jersey"><ids-checkbox label="New Jersey"></ids-checkbox></ids-list-box-option>
+          </ids-list-box>
+        </ids-multiselect>
 
-        <ids-multiselect id="multiselect-1" label="Multiselect (with max 3 choices and dirty tracker)" max="3" dirty-tracker="true">
+        <ids-multiselect typeahead id="multiselect-typeahead-checkboxes" label="Multiselect checkboxes typeahead (initial value)">
           <ids-list-box>
             <ids-list-box-option id="al1" value="al" tooltip="The State of Alabama"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="ak1" value="ak" tooltip="The State of Alaska"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
@@ -26,7 +37,7 @@
           </ids-list-box>
         </ids-multiselect>
 
-        <ids-multiselect id="multiselect-2" tags="true" label="Multiselect (with tags and max 4 choices)" max="4" dirty-tracker="true">
+        <ids-multiselect typeahead id="multiselect-typeahead-tags" tags="true" label="Multiselect tags typeahead" max="4">
           <ids-list-box>
             <ids-list-box-option id="long-text" value="long-text" tooltip="An option with long-text to test it fits dropdown and selected area"><ids-checkbox label="An option with long-text to test it fits dropdown and selected area"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="al2" value="al"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
@@ -41,52 +52,6 @@
             <ids-list-box-option id="ny2" value="ny"><ids-checkbox label="New York"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="nh2" value="nh"><ids-checkbox label="New Hampshire"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="nm2" value="nm"><ids-checkbox label="New Mexico"></ids-checkbox></ids-list-box-option>
-          </ids-list-box>
-        </ids-multiselect>
-
-        <ids-multiselect id="multiselect-3" tags="true" label="Multiselect (with icons)" max="4" dirty-tracker="false">
-          <ids-list-box>
-            <ids-list-box-option value="opt1" id="opt1-d5">
-              <ids-icon icon="user-profile"></ids-icon>
-              <span>Option One</span>
-            </ids-list-box-option>
-            <ids-list-box-option value="opt2" id="opt2-d5">
-              <ids-icon icon="project"></ids-icon>
-              <span>Option Two</span>
-            </ids-list-box-option>
-            <ids-list-box-option value="opt3" id="opt3-d5">
-              <ids-icon icon="purchasing"></ids-icon>
-              <span>Option Three</span>
-            </ids-list-box-option>
-            <ids-list-box-option value="opt4" id="opt4-d5">
-              <ids-icon icon="quality"></ids-icon>
-              <span>Option Four</span></ids-list-box-option>
-            <ids-list-box-option value="opt5" id="opt5-d5">
-              <ids-icon icon="rocket"></ids-icon>
-              <span>Option Five</span>
-            </ids-list-box-option>
-            <ids-list-box-option value="opt6" id="opt6-d5">
-              <ids-icon icon="roles"></ids-icon>
-              <span>Option Six</span>
-            </ids-list-box-option>
-          </ids-list-box>
-        </ids-multiselect>
-
-        <ids-multiselect id="multiselect-4" tags="true" disabled="true" label="Disabled Multiselect" max="3" dirty-tracker="true">
-          <ids-list-box>
-            <ids-list-box-option id="al4" value="al"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option id="ak4" value="ak"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option id="az4" value="az"><ids-checkbox label="Arizona"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option id="ar4" value="ar"><ids-checkbox label="Arkansas"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option id="ca4" value="ca"><ids-checkbox label="California"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option id="co4" value="co"><ids-checkbox label="Colorado"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option id="nj4" value="nj" selected><ids-checkbox label="New Jersey"></ids-checkbox></ids-list-box-option>
-          </ids-list-box>
-        </ids-multiselect>
-
-        <ids-multiselect id="multiselect-ajax" label="Multiselect Using Ajax (with max 3 choices)" max="3" value="ak">
-          <ids-list-box>
-            <ids-list-box-option value="ak">Alaska</ids-list-box-option>
           </ids-list-box>
         </ids-multiselect>
       </ids-layout-grid-cell>

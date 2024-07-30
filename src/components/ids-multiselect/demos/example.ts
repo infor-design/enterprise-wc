@@ -23,6 +23,9 @@ if (multiselectAsync) {
     const res = await fetch(url);
     data = await res.json();
 
-    return data;
+    return data.map((item) => ({
+      ...item,
+      isCheckbox: true,
+    }));
   };
 }
