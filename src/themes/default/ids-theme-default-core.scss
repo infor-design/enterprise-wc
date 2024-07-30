@@ -941,24 +941,24 @@
 
   // List View
   --ids-list-view-height: 100%;
-  --ids-list-view-color-border-focus: var(--ids-color-blue-40);
+  --ids-list-view-color-border-focus: var(--ids-color-accent-blue-weak);
   --ids-list-view-item-color-background-default: var(--ids-color-white-100);
   --ids-list-view-item-border: 1px solid transparent;
-  --ids-list-view-item-color-border-top: var(--ids-color-neutral-20);
+  --ids-list-view-item-color-border-top: var(--ids-color-accent-neutral-weaker);
   --ids-list-view-item-padding: var(--ids-space-12) var(--ids-space-20);
-  --ids-list-view-item-color-border-focus: var(--ids-color-blue-40);
+  --ids-list-view-item-color-border-focus: var(--ids-color-accent-blue-weak);
   --ids-list-view-item-shadow-focus: 0 0 4px 1px rgb(54 138 192 / 0.3);
   --ids-list-view-item-outline-focus: none;
   --ids-list-view-item-color-text-disabled: var(--ids-color-neutral-30);
   --ids-list-view-item-color-border-disabled-focus: var(--ids-color-transparent);
-  --ids-list-view-item-top-color-border-disabled-focus: var(--ids-color-neutral-20);
+  --ids-list-view-item-top-color-border-disabled-focus: var(--ids-color-accent-neutral-weaker);
   --ids-list-view-item-shadow-disabled-focus: none;
   --ids-list-view-item-color-background-disabled: var(--ids-color-neutral-30);
   --ids-list-view-item-color-border-disabled: var(--ids-color-neutral-30);
   --ids-list-view-item-badge-color-text-disabled: var(--ids-color-white-100);
   --ids-list-view-item-color-text-link-disabled: var(--ids-color-neutral-30);
   --ids-list-view-item-opacity-disabled: 0.5;
-  --ids-list-view-color-background-selected: var(--ids-color-blue-10);
+  --ids-list-view-color-background-selected: var(--ids-color-action-weakest);
 
   // Loading Indicator
   --ids-loading-indicator-height: 6px;

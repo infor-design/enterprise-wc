@@ -293,21 +293,21 @@
   --ids-link-list-title-color-text-default: var(--ids-color-neutral-10);
 
   // List View
-  --ids-list-view-item-color-background-default: var(--ids-color-neutral-90);
+  --ids-list-view-item-color-background-default: var(--ids-color-accent-neutral-weakest);
   --ids-list-view-item-color-border-top: var(--ids-color-neutral-70);
   --ids-list-view-item-color-border-focus: var(--ids-color-primary-70);
   --ids-list-view-item-shadow-focus: none;
-  --ids-list-view-item-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-list-view-item-color-text-disabled: var(--ids-color-accent-neutral-default);
   --ids-list-view-item-top-color-border-disabled-focus: var(--ids-color-neutral-70);
   --ids-list-view-item-color-background-disabled: var(--ids-color-neutral-70);
-  --ids-list-view-item-color-border-disabled: var(--ids-color-neutral-80);
-  --ids-list-view-item-badge-color-text-disabled: var(--ids-color-neutral-40);
-  --ids-list-view-item-color-text-link-disabled: var(--ids-color-neutral-40);
-  --ids-list-view-color-background-selected: var(--ids-color-primary-100);
+  --ids-list-view-item-color-border-disabled: var(--ids-color-accent-neutral-weaker);
+  --ids-list-view-item-badge-color-text-disabled: var(--ids-color-accent-neutral-strong);
+  --ids-list-view-item-color-text-link-disabled: var(--ids-color-accent-neutral-strong);
+  // --ids-list-view-color-background-selected: var(--ids-color-action-weakest);
 
   // Loading Indicator
   --ids-loading-indicator-circle-color: var(--ids-color-neutral-60);
-  --ids-loading-indicator-primary-progress-color-border: var(--ids-color-neutral-80);
+  --ids-loading-indicator-primary-progress-color-border: var(--ids-color-accent-neutral-weaker);
   --ids-loading-indicator-primary-color-border: var(--ids-color-neutral-50);
   --ids-loading-indicator-progress-color: var(--ids-color-primary-60);
   --ids-loading-indicator-primary-destructive-overall-color-border: var(--ids-color-red-20);
