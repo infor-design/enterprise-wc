@@ -243,11 +243,11 @@
   --ids-empty-message-color-icon-fill: var(--ids-color-transparent);
 
   // Headers
-  --ids-header-color-border-bottom: var(--ids-color-neutral-80);
-  --ids-header-color-background: var(--ids-color-neutral-90);
+  --ids-header-color-border-bottom: var(--ids-color-accent-neutral-weaker);
+  --ids-header-color-background: var(--ids-color-accent-neutral-weakest);
   --ids-header-gradient-opacity-none: rgb(40 40 42 / 1);
   --ids-header-gradient-opacity-full: rgb(40 40 42 / 0);
-  --ids-header-breadcrumb-gradient: linear-gradient(to right, var(--ids-color-neutral-90), rgba(255 255 255 / 0));
+  --ids-header-breadcrumb-gradient: linear-gradient(to right, var(--ids-color-accent-neutral-weakest), rgba(255 255 255 / 0));
 
   // Hierarchy
   --ids-hierarchy-item-leaf-color-border: var(--ids-color-neutral-70);

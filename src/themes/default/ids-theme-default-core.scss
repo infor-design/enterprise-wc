@@ -765,7 +765,7 @@
   --ids-header-button-color-border-focus: var(--ids-button-tertiary-color-border-focus);
   --ids-header-button-menu-color-background-active: var(--ids-button-tertiary-color-background-hover);
   --ids-header-button-menu-color-active: var(--ids-button-tertiary-color-text-hover);
-  --ids-header-padding: 8px;
+  --ids-header-padding: var(--ids-space-xs);
   --ids-header-gradient-opacity-none: rgb(0 114 237 / 1);
   --ids-header-gradient-opacity-full: rgb(0 114 237 / 0);
 
