@@ -428,16 +428,16 @@
   --ids-calendar-toolbar-color-border: var(--ids-color-neutral-20);
 
   // Calendar (Events)
-  --ids-calendar-event-color-background-accent-blue: var(--ids-color-blue-20);
-  --ids-calendar-event-color-border-accent-bluet-blue: var(--ids-color-blue-70);
+  --ids-calendar-event-color-background-accent-blue: var(--ids-color-accent-blue-weakest);
+  --ids-calendar-event-color-border-accent-blue: var(--ids-color-accent-blue-stronger);
   --ids-calendar-event-color-background-accent-orange: var(--ids-color-orange-30);
   --ids-calendar-event-color-border-accent-orange: var(--ids-color-orange-70);
   --ids-calendar-event-color-background-accent-purple: var(--ids-color-purple-30);
   --ids-calendar-event-color-border-accent-purple: var(--ids-color-purple-70);
   --ids-calendar-event-color-background: var(--ids-color-blue-20);
   --ids-calendar-event-color-border-default: var(--ids-color-orange-70);
-  --ids-calendar-event-color-background-accent-green: var(--ids-color-green-30);
-  --ids-calendar-event-color-border-accent-green: var(--ids-color-green-70);
+  --ids-calendar-event-color-background-accent-green: var(--ids-color-accent-green-weaker);
+  --ids-calendar-event-color-border-accent-green: var(--ids-color-accent-green-stronger);
   --ids-calendar-event-color-border-focus: var(--ids-color-blue-60);
   --ids-calendar-event-color-icon-alert: var(--ids-color-orange-60);
   --ids-calendar-event-color-icon-clock: var(--ids-color-orange-60);
@@ -449,7 +449,7 @@
   --ids-calendar-event-color-border-accent-turqoise: var(--ids-color-teal-70);
   --ids-calendar-event-color-background-accent-neutral: var(--ids-color-neutral-30);
   --ids-calendar-event-color-border-accent-neutral: var(--ids-color-neutral-70);
-  --ids-calendar-event-color-text: var(--ids-color-neutral-100);
+  --ids-calendar-event-color-text: var(--ids-color-foreground-default-default);
 
   // Card
   --ids-card-header-title-color: var(--ids-color-foreground-default-default);

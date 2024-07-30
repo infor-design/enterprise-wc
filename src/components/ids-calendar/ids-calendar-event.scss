@@ -23,7 +23,7 @@
 }
 
 .ids-calendar-event[color='blue'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-bluet-blue));
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-blue));
 
   background-color: var(--ids-calendar-event-color-background-accent-blue);
 }
