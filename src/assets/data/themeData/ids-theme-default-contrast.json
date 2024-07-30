@@ -1187,11 +1187,11 @@
     {
       "id": "id-1722019565525-7160",
       "tokenName": "--ids-block-grid-item-selectable-container-focus",
-      "tokenValue": "var(--ids-space-xxxxs) solid var(--ids-color-blue-90)",
+      "tokenValue": "var(--ids-space-4xs) solid var(--ids-color-blue-90)",
       "children": [
         {
           "id": "id-1722019565525-7157",
-          "tokenName": "--ids-space-xxxxs",
+          "tokenName": "--ids-space-4xs",
           "tokenValue": "var(--ids-space-01)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
@@ -1210,7 +1210,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxxxs)"
+          "tokenNameCSS": "var(--ids-space-4xs)"
         }
       ],
       "type": "Component",
@@ -1221,11 +1221,11 @@
     {
       "id": "id-1722019565525-7164",
       "tokenName": "--ids-block-grid-item-outline-selected",
-      "tokenValue": "var(--ids-space-xxxs) solid var(--ids-color-blue-90)",
+      "tokenValue": "var(--ids-space-3xs) solid var(--ids-color-blue-90)",
       "children": [
         {
           "id": "id-1722019565525-7161",
-          "tokenName": "--ids-space-xxxs",
+          "tokenName": "--ids-space-3xs",
           "tokenValue": "var(--ids-space-02)",
           "type": "Semantic",
           "source": "semanticContrastTokens",
@@ -1244,7 +1244,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxxs)"
+          "tokenNameCSS": "var(--ids-space-3xs)"
         }
       ],
       "type": "Component",

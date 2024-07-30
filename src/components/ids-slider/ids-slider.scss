@@ -207,7 +207,7 @@
     justify-content: center;
     position: absolute;
     width: auto;
-    padding: var(--ids-space-xxxxs);
+    padding: var(--ids-space-4xs);
     height: auto;
     text-align: center;
     margin: auto;
@@ -273,7 +273,7 @@
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    border-width: var(--ids-space-xxxxs);
+    border-width: var(--ids-space-4xs);
     border-style: solid;
     transition: transform $transition-length $transition-ease;
     transform: scale(0);
@@ -304,11 +304,11 @@
     display: flex;
     align-items: center; // horizontal
     justify-content: flex-start; // horizontal
-    height: var(--ids-space-xxs); // horizontal
+    height: var(--ids-space-2xs); // horizontal
     width: calc(100% - (var(--ids-slider-thumb-size) / 2)); // horizontal
     &.vertical {
       justify-content: center; // vertical
-      width: var(--ids-space-xxs); // vert
+      width: var(--ids-space-2xs); // vert
       height: calc(100% - (var(--ids-slider-thumb-size) / 2)); // vert
     }
 

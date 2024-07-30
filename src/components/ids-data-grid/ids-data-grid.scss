@@ -33,8 +33,8 @@
   // Font Info
   @include mixins.antialiased();
 
-  font-family: var(--ids-font-family-default);
-  font-size: var(--ids-font-size-40);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+  font-size: var(--ids-font-size-sm);
 
   // Selection Checkbox
   .ids-data-grid-checkbox-container {

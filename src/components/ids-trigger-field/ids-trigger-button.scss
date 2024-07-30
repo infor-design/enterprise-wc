@@ -49,7 +49,7 @@
   justify-content: center;
 
   &.ids-icon-button {
-    padding: var(--ids-space-xxs);
+    padding: var(--ids-space-2xs);
     inset-inline-start: -2px;
 
     &[disabled] {
@@ -128,7 +128,7 @@
   }
 
   &.color-variant-alternate-formatter {
-    padding: var(--ids-space-xxxs);
+    padding: var(--ids-space-3xs);
   }
 
   // ===================================================

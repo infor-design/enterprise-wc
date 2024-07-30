@@ -154,7 +154,7 @@ $input-size-full: 100%;
 .ids-label-text {
   @include mixins.antialiased();
 
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   color: var(--ids-input-label-color-text-default);
   display: flex;
   margin-block-end: var(--ids-input-margin-bottom);
@@ -173,10 +173,10 @@ $input-size-full: 100%;
   &.required {
     &::after {
       position: relative;
-      font-family: var(--ids-font-family-default);
-      margin-inline-start: var(--ids-space-xxxs);
-      margin-inline-end: var(--ids-space-xxxs);
-      font-size: var(--ids-font-size-50);
+      font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+      margin-inline-start: var(--ids-space-3xs);
+      margin-inline-end: var(--ids-space-3xs);
+      font-size: var(--ids-font-size-md);
       color: var(--ids-input-required-indicator-color-text-default);
       content: '*';
       margin-top: -10px;
@@ -210,7 +210,7 @@ $input-size-full: 100%;
 }
 
 @mixin input-extra-small-height($h: $border-input-field-height-xs) {
-  margin-block-end: var(--ids-font-size-20);
+  margin-block-end: var(--ids-font-size-2xs);
 
   .icon-dirty {
     left: -1px;
@@ -222,8 +222,8 @@ $input-size-full: 100%;
   }
 
   .ids-input-field {
-    padding-inline-start: var(--ids-space-xxs);
-    padding-inline-end: var(--ids-space-xxs);
+    padding-inline-start: var(--ids-space-2xs);
+    padding-inline-end: var(--ids-space-2xs);
     padding-top: 0;
     padding-bottom: 0;
     font-size: var(--ids-input-font-size-sm);
@@ -314,9 +314,9 @@ $input-size-full: 100%;
     box-sizing: border-box;
     background-color: var(--ids-color-transparent);
     border: none;
-    font-family: var(--ids-font-family-default);
-    padding-block-start: var(--ids-space-xxs);
-    padding-block-end: var(--ids-space-xxs);
+    font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+    padding-block-start: var(--ids-space-2xs);
+    padding-block-end: var(--ids-space-2xs);
     padding-inline-start: var(--ids-space-12);
     padding-inline-end: var(--ids-space-12);
     font-size: var(--ids-input-font-size);
@@ -358,7 +358,7 @@ $input-size-full: 100%;
 
   // Validation Messages are appended beneath the `.field-container`
   .validation-message {
-    margin-block-start: var(--ids-space-xxs);
+    margin-block-start: var(--ids-space-2xs);
     margin-bottom: 0;
   }
 
@@ -384,7 +384,7 @@ $input-size-full: 100%;
     // Reverse the margins on `ids-input[no-margins]` fields to have the bottom margin on top
     .validation-message {
       margin-bottom: 0;
-      margin-block-start: var(--ids-space-xxs);
+      margin-block-start: var(--ids-space-2xs);
     }
 
     .ids-label-text {
@@ -484,7 +484,7 @@ $input-size-full: 100%;
     border-radius: 0;
 
     input {
-      font-size: var(--ids-font-size-40);
+      font-size: var(--ids-font-size-sm);
     }
 
     slot[name="trigger-start"],
@@ -534,7 +534,7 @@ $input-size-full: 100%;
     &.ids-input.field-height-xs {
       .ids-input-field {
         font-size: var(--ids-data-grid-font-size-sm);
-        padding-inline: var(--ids-space-xxxs);
+        padding-inline: var(--ids-space-3xs);
       }
 
       slot[name="trigger-end"]  {
@@ -545,7 +545,7 @@ $input-size-full: 100%;
     &.ids-input.field-height-xxs {
       .ids-input-field {
         font-size: var(--ids-data-grid-font-size-sm);
-        padding-inline: var(--ids-space-xxxxs);
+        padding-inline: var(--ids-space-4xs);
       }
 
       slot[name="trigger-end"]  {
@@ -559,7 +559,7 @@ $input-size-full: 100%;
     margin: 1px;
 
     input {
-      font-size: var(--ids-font-size-40);
+      font-size: var(--ids-font-size-sm);
     }
 
     .validation-message {

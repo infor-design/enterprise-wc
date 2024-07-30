@@ -323,7 +323,7 @@
 
   ids-input,
   ids-trigger-field {
-    --ids-space-xxxs: 0;
+    --ids-space-3xs: 0;
     --ids-input-font-size-sm: var(--ids-data-grid-font-size-sm);
   }
 
@@ -366,7 +366,7 @@
     }
 
     &.is-editable.is-editable.is-invalid ids-alert {
-      margin-inline-end: var(--ids-space-xxxxs);
+      margin-inline-end: var(--ids-space-4xs);
     }
   }
 }

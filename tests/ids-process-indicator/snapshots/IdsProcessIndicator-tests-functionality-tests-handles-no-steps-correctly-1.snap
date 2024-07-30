@@ -4,7 +4,7 @@
     position: absolute;
   }
   :host .xs-header .label {
-    margin-left: var(--ids-space-xxs);
+    margin-left: var(--ids-space-2xs);
   }
 }
 @media (min-width: 840px) {

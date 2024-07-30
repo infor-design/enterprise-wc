@@ -94,7 +94,7 @@
   .errorarea {
     border: 1px solid transparent;
     margin-top: var(--ids-space-xs);
-    padding: var(--ids-space-xxxs);
+    padding: var(--ids-space-3xs);
     display: none;
     border-radius: var(--ids-border-radius-xxs);
     border-style: dashed;
@@ -113,7 +113,7 @@
       ids-alert {
         display: block;
         padding: var(--ids-space-xs);
-        padding-bottom: var(--ids-space-xxs);
+        padding-bottom: var(--ids-space-2xs);
         margin: 0;
       }
     }
@@ -128,13 +128,13 @@
         display: block;
         font-weight: var(--ids-font-weight-normal);
         margin: 0;
-        font-family: var(--ids-font-family-default);
+        font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
         text-overflow: ellipsis;
       }
     }
 
     .btn-close {
-      padding-inline: var(--ids-space-xxxs);
+      padding-inline: var(--ids-space-3xs);
       flex-grow: 0;
       flex-shrink: 0;
     }

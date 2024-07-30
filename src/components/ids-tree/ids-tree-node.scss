@@ -3,13 +3,13 @@
 
 .ids-tree-node {
   list-style-type: none;
-  margin-bottom: var(--ids-space-xxxxs);
+  margin-bottom: var(--ids-space-4xs);
 
   .node-container {
     border: 1px solid transparent;
     cursor: pointer;
     display: inline-flex;
-    padding: var(--ids-space-xxs);
+    padding: var(--ids-space-2xs);
     color: var(--ids-tree-node-color-text-default);
     align-items: baseline;
     border-radius: var(--ids-border-radius-xxs);
@@ -17,7 +17,7 @@
 
     .icon,
     .toggle-icon {
-      padding-top: var(--ids-space-xxxxs);
+      padding-top: var(--ids-space-4xs);
       flex: 0 0 auto;
       margin-inline-end: 8px;
       transition: fill var(--ids-motion-duration) var(--ids-motion-ease);

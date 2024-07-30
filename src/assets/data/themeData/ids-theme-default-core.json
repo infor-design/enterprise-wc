@@ -856,18 +856,18 @@
     {
       "id": "id-1722019565475-2347",
       "tokenName": "--ids-font-size-default",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565475-2345",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Semantic",
@@ -877,111 +877,111 @@
     },
     {
       "id": "id-1722019565475-2349",
-      "tokenName": "--ids-font-size-10",
+      "tokenName": "--ids-font-size-3xs",
       "tokenValue": "10px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-10)"
+      "tokenNameCSS": "var(--ids-font-size-3xs)"
     },
     {
       "id": "id-1722019565475-2351",
-      "tokenName": "--ids-font-size-20",
+      "tokenName": "--ids-font-size-2xs",
       "tokenValue": "12px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-20)"
+      "tokenNameCSS": "var(--ids-font-size-2xs)"
     },
     {
       "id": "id-1722019565475-2353",
-      "tokenName": "--ids-font-size-30",
+      "tokenName": "--ids-font-size-xs",
       "tokenValue": "14px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-30)"
+      "tokenNameCSS": "var(--ids-font-size-xs)"
     },
     {
       "id": "id-1722019565475-2355",
-      "tokenName": "--ids-font-size-40",
+      "tokenName": "--ids-font-size-sm",
       "tokenValue": "16px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-40)"
+      "tokenNameCSS": "var(--ids-font-size-sm)"
     },
     {
       "id": "id-1722019565475-2357",
-      "tokenName": "--ids-font-size-50",
+      "tokenName": "--ids-font-size-md",
       "tokenValue": "20px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-50)"
+      "tokenNameCSS": "var(--ids-font-size-md)"
     },
     {
       "id": "id-1722019565475-2359",
-      "tokenName": "--ids-font-size-60",
+      "tokenName": "--ids-font-size-lg",
       "tokenValue": "24px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-60)"
+      "tokenNameCSS": "var(--ids-font-size-lg)"
     },
     {
       "id": "id-1722019565475-2361",
-      "tokenName": "--ids-font-size-70",
+      "tokenName": "--ids-font-size-xl",
       "tokenValue": "28px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-70)"
+      "tokenNameCSS": "var(--ids-font-size-xl)"
     },
     {
       "id": "id-1722019565475-2363",
-      "tokenName": "--ids-font-size-80",
+      "tokenName": "--ids-font-size-2xl",
       "tokenValue": "32px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-80)"
+      "tokenNameCSS": "var(--ids-font-size-2xl)"
     },
     {
       "id": "id-1722019565475-2365",
-      "tokenName": "--ids-font-size-90",
+      "tokenName": "--ids-font-size-3xl",
       "tokenValue": "40px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-90)"
+      "tokenNameCSS": "var(--ids-font-size-3xl)"
     },
     {
       "id": "id-1722019565475-2367",
-      "tokenName": "--ids-font-size-100",
+      "tokenName": "--ids-font-size-4xl",
       "tokenValue": "48px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-100)"
+      "tokenNameCSS": "var(--ids-font-size-4xl)"
     },
     {
       "id": "id-1722019565475-2369",
-      "tokenName": "--ids-font-size-110",
+      "tokenName": "--ids-font-size-5xl",
       "tokenValue": "60px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-110)"
+      "tokenNameCSS": "var(--ids-font-size-5xl)"
     },
     {
       "id": "id-1722019565475-2371",
-      "tokenName": "--ids-font-size-120",
+      "tokenName": "--ids-font-size-6xl",
       "tokenValue": "72px",
       "type": "Semantic",
       "component": "Font Sizes",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-font-size-120)"
+      "tokenNameCSS": "var(--ids-font-size-6xl)"
     },
     {
       "id": "id-1722019565475-2373",
@@ -1048,12 +1048,12 @@
     },
     {
       "id": "id-1722019565475-2387",
-      "tokenName": "--ids-size-50",
+      "tokenName": "--ids-space-2xl",
       "tokenValue": "48px",
       "type": "Semantic",
       "component": "Sizes ",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-size-50)"
+      "tokenNameCSS": "var(--ids-space-2xl)"
     },
     {
       "id": "id-1722019565475-2389",
@@ -2871,7 +2871,7 @@
     {
       "id": "id-1722019565479-2633",
       "tokenName": "--ids-axis-chart-font-family",
-      "tokenValue": "var(--ids-font-family-default)",
+      "tokenValue": "var(--ids-font-family-default), var(--ids-font-family-system-sans)",
       "children": [
         {
           "id": "id-1722019565479-2630",
@@ -2894,7 +2894,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-family-default)"
+          "tokenNameCSS": "var(--ids-font-family-default), var(--ids-font-family-system-sans)"
         }
       ],
       "type": "Component",
@@ -2905,18 +2905,18 @@
     {
       "id": "id-1722019565479-2636",
       "tokenName": "--ids-axis-chart-font-size",
-      "tokenValue": "var(--ids-font-size-30)",
+      "tokenValue": "var(--ids-font-size-xs)",
       "children": [
         {
           "id": "id-1722019565479-2634",
-          "tokenName": "--ids-font-size-30",
+          "tokenName": "--ids-font-size-xs",
           "tokenValue": "14px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-30)"
+          "tokenNameCSS": "var(--ids-font-size-xs)"
         }
       ],
       "type": "Component",
@@ -3661,11 +3661,11 @@
     {
       "id": "id-1722019565479-2728",
       "tokenName": "--ids-badge-margin-bottom",
-      "tokenValue": "var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565479-2725",
-          "tokenName": "--ids-space-xxs",
+          "tokenName": "--ids-space-2xs",
           "tokenValue": "var(--ids-space-04)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -3684,7 +3684,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxs)"
+          "tokenNameCSS": "var(--ids-space-2xs)"
         }
       ],
       "type": "Component",
@@ -3695,11 +3695,11 @@
     {
       "id": "id-1722019565479-2732",
       "tokenName": "--ids-badge-margin-inline-end",
-      "tokenValue": "var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565479-2729",
-          "tokenName": "--ids-space-xxs",
+          "tokenName": "--ids-space-2xs",
           "tokenValue": "var(--ids-space-04)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -3718,7 +3718,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxs)"
+          "tokenNameCSS": "var(--ids-space-2xs)"
         }
       ],
       "type": "Component",
@@ -3916,11 +3916,11 @@
     {
       "id": "id-1722019565480-2765",
       "tokenName": "--ids-block-grid-item-selectable-container-focus",
-      "tokenValue": "var(--ids-space-xxxxs) solid var(--ids-color-primary-60)",
+      "tokenValue": "var(--ids-space-4xs) solid var(--ids-color-primary-60)",
       "children": [
         {
           "id": "id-1722019565480-2762",
-          "tokenName": "--ids-space-xxxxs",
+          "tokenName": "--ids-space-4xs",
           "tokenValue": "var(--ids-space-01)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -3939,7 +3939,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxxxs)"
+          "tokenNameCSS": "var(--ids-space-4xs)"
         }
       ],
       "type": "Component",
@@ -4370,7 +4370,7 @@
     {
       "id": "id-1722019565481-2827",
       "tokenName": "--ids-box-font-family",
-      "tokenValue": "var(--ids-font-family-default)",
+      "tokenValue": "var(--ids-font-family-default), var(--ids-font-family-system-sans)",
       "children": [
         {
           "id": "id-1722019565481-2824",
@@ -4393,7 +4393,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-family-default)"
+          "tokenNameCSS": "var(--ids-font-family-default), var(--ids-font-family-system-sans)"
         }
       ],
       "type": "Component",
@@ -4417,21 +4417,21 @@
             {
               "id": "id-1722019565481-2830",
               "tokenName": "--ids-font-size-sm",
-              "tokenValue": "var(--ids-font-size-40)",
+              "tokenValue": "var(--ids-font-size-sm)",
               "type": "Semantic",
               "source": "semanticLightTokens",
               "component": "Font size",
               "children": [
                 {
                   "id": "id-1722019565481-2829",
-                  "tokenName": "--ids-font-size-40",
+                  "tokenName": "--ids-font-size-sm",
                   "tokenValue": "16px",
                   "type": "Core",
                   "source": "coreTokens",
                   "component": "Font size",
                   "children": [],
                   "colorValue": null,
-                  "tokenNameCSS": "var(--ids-font-size-40)"
+                  "tokenNameCSS": "var(--ids-font-size-sm)"
                 }
               ],
               "colorValue": null,
@@ -4658,11 +4658,11 @@
     {
       "id": "id-1722019565482-2863",
       "tokenName": "--ids-button-alt-margin",
-      "tokenValue": "var(--ids-space-xxxs)",
+      "tokenValue": "var(--ids-space-3xs)",
       "children": [
         {
           "id": "id-1722019565482-2860",
-          "tokenName": "--ids-space-xxxs",
+          "tokenName": "--ids-space-3xs",
           "tokenValue": "var(--ids-space-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -4681,7 +4681,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxxs)"
+          "tokenNameCSS": "var(--ids-space-3xs)"
         }
       ],
       "type": "Component",
@@ -8362,18 +8362,18 @@
     {
       "id": "id-1722019565484-3328",
       "tokenName": "--ids-breadcrumb-font-size",
-      "tokenValue": "var(--ids-font-size-30)",
+      "tokenValue": "var(--ids-font-size-xs)",
       "children": [
         {
           "id": "id-1722019565484-3326",
-          "tokenName": "--ids-font-size-30",
+          "tokenName": "--ids-font-size-xs",
           "tokenValue": "14px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-30)"
+          "tokenNameCSS": "var(--ids-font-size-xs)"
         }
       ],
       "type": "Component",
@@ -9492,18 +9492,18 @@
     {
       "id": "id-1722019565485-3475",
       "tokenName": "--ids-chart-legend-font-size",
-      "tokenValue": "var(--ids-font-size-30)",
+      "tokenValue": "var(--ids-font-size-xs)",
       "children": [
         {
           "id": "id-1722019565485-3473",
-          "tokenName": "--ids-font-size-30",
+          "tokenName": "--ids-font-size-xs",
           "tokenValue": "14px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-30)"
+          "tokenNameCSS": "var(--ids-font-size-xs)"
         }
       ],
       "type": "Component",
@@ -11027,18 +11027,18 @@
     {
       "id": "id-1722019565487-3658",
       "tokenName": "--ids-counts-label-font-size",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565487-3656",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -11049,18 +11049,18 @@
     {
       "id": "id-1722019565487-3661",
       "tokenName": "--ids-counts-value-font-size",
-      "tokenValue": "var(--ids-font-size-100)",
+      "tokenValue": "var(--ids-font-size-4xl)",
       "children": [
         {
           "id": "id-1722019565487-3659",
-          "tokenName": "--ids-font-size-100",
+          "tokenName": "--ids-font-size-4xl",
           "tokenValue": "48px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-100)"
+          "tokenNameCSS": "var(--ids-font-size-4xl)"
         }
       ],
       "type": "Component",
@@ -11102,18 +11102,18 @@
     {
       "id": "id-1722019565488-3669",
       "tokenName": "--ids-data-grid-font-size",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565487-3667",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -11124,18 +11124,18 @@
     {
       "id": "id-1722019565488-3672",
       "tokenName": "--ids-data-grid-font-size-sm",
-      "tokenValue": "var(--ids-font-size-30)",
+      "tokenValue": "var(--ids-font-size-xs)",
       "children": [
         {
           "id": "id-1722019565488-3670",
-          "tokenName": "--ids-font-size-30",
+          "tokenName": "--ids-font-size-xs",
           "tokenValue": "14px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-30)"
+          "tokenNameCSS": "var(--ids-font-size-xs)"
         }
       ],
       "type": "Component",
@@ -11847,14 +11847,14 @@
         {
           "id": "id-1722019565489-3765",
           "tokenName": "--ids-data-grid-padding-xs",
-          "tokenValue": "var(--ids-space-xxs)",
+          "tokenValue": "var(--ids-space-2xs)",
           "type": "Semantic",
           "source": "themeFile",
           "component": "",
           "children": [
             {
               "id": "id-1722019565489-3767",
-              "tokenName": "--ids-space-xxs",
+              "tokenName": "--ids-space-2xs",
               "tokenValue": "var(--ids-space-04)",
               "type": "Semantic",
               "source": "semanticLightTokens",
@@ -11873,7 +11873,7 @@
                 }
               ],
               "colorValue": null,
-              "tokenNameCSS": "var(--ids-space-xxs)"
+              "tokenNameCSS": "var(--ids-space-2xs)"
             }
           ],
           "colorValue": null,
@@ -12316,11 +12316,11 @@
     {
       "id": "id-1722019565489-3831",
       "tokenName": "--ids-data-grid-padding-xxs",
-      "tokenValue": "var(--ids-space-xxxs)",
+      "tokenValue": "var(--ids-space-3xs)",
       "children": [
         {
           "id": "id-1722019565489-3828",
-          "tokenName": "--ids-space-xxxs",
+          "tokenName": "--ids-space-3xs",
           "tokenValue": "var(--ids-space-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -12339,7 +12339,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxxs)"
+          "tokenNameCSS": "var(--ids-space-3xs)"
         }
       ],
       "type": "Component",
@@ -12359,11 +12359,11 @@
     {
       "id": "id-1722019565489-3837",
       "tokenName": "--ids-data-grid-padding-xs",
-      "tokenValue": "var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565489-3834",
-          "tokenName": "--ids-space-xxs",
+          "tokenName": "--ids-space-2xs",
           "tokenValue": "var(--ids-space-04)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -12382,7 +12382,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxs)"
+          "tokenNameCSS": "var(--ids-space-2xs)"
         }
       ],
       "type": "Component",
@@ -13624,18 +13624,18 @@
     {
       "id": "id-1722019565491-4008",
       "tokenName": "--ids-dropdown-font-size",
-      "tokenValue": "var(--ids-font-size-30)",
+      "tokenValue": "var(--ids-font-size-xs)",
       "children": [
         {
           "id": "id-1722019565491-4006",
-          "tokenName": "--ids-font-size-30",
+          "tokenName": "--ids-font-size-xs",
           "tokenValue": "14px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-30)"
+          "tokenNameCSS": "var(--ids-font-size-xs)"
         }
       ],
       "type": "Component",
@@ -13646,7 +13646,7 @@
     {
       "id": "id-1722019565491-4012",
       "tokenName": "--ids-editor-font-family",
-      "tokenValue": "var(--ids-font-family-default)",
+      "tokenValue": "var(--ids-font-family-default), var(--ids-font-family-system-sans)",
       "children": [
         {
           "id": "id-1722019565491-4009",
@@ -13669,7 +13669,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-family-default)"
+          "tokenNameCSS": "var(--ids-font-family-default), var(--ids-font-family-system-sans)"
         }
       ],
       "type": "Component",
@@ -13680,18 +13680,18 @@
     {
       "id": "id-1722019565491-4015",
       "tokenName": "--ids-editor-font-size",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565491-4013",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -14267,11 +14267,11 @@
     {
       "id": "id-1722019565492-4092",
       "tokenName": "--ids-editor-link-padding",
-      "tokenValue": "var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565492-4089",
-          "tokenName": "--ids-space-xxs",
+          "tokenName": "--ids-space-2xs",
           "tokenValue": "var(--ids-space-04)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -14290,7 +14290,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxs)"
+          "tokenNameCSS": "var(--ids-space-2xs)"
         }
       ],
       "type": "Component",
@@ -14533,11 +14533,11 @@
     {
       "id": "id-1722019565492-4126",
       "tokenName": "--ids-editor-blockquote-margin-inline-start",
-      "tokenValue": "var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565492-4123",
-          "tokenName": "--ids-space-xxs",
+          "tokenName": "--ids-space-2xs",
           "tokenValue": "var(--ids-space-04)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -14556,7 +14556,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxs)"
+          "tokenNameCSS": "var(--ids-space-2xs)"
         }
       ],
       "type": "Component",
@@ -15175,18 +15175,18 @@
     {
       "id": "id-1722019565494-4208",
       "tokenName": "--ids-empty-message-label-font-size",
-      "tokenValue": "var(--ids-font-size-50)",
+      "tokenValue": "var(--ids-font-size-md)",
       "children": [
         {
           "id": "id-1722019565494-4206",
-          "tokenName": "--ids-font-size-50",
+          "tokenName": "--ids-font-size-md",
           "tokenValue": "20px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-50)"
+          "tokenNameCSS": "var(--ids-font-size-md)"
         }
       ],
       "type": "Component",
@@ -16505,18 +16505,18 @@
     {
       "id": "id-1722019565496-4372",
       "tokenName": "--ids-hyperlink-font-size",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565496-4370",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -18009,18 +18009,18 @@
     {
       "id": "id-1722019565496-4576",
       "tokenName": "--ids-input-label-font-size",
-      "tokenValue": "var(--ids-font-size-30)",
+      "tokenValue": "var(--ids-font-size-xs)",
       "children": [
         {
           "id": "id-1722019565496-4574",
-          "tokenName": "--ids-font-size-30",
+          "tokenName": "--ids-font-size-xs",
           "tokenValue": "14px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-30)"
+          "tokenNameCSS": "var(--ids-font-size-xs)"
         }
       ],
       "type": "Component",
@@ -18031,18 +18031,18 @@
     {
       "id": "id-1722019565496-4579",
       "tokenName": "--ids-input-font-size",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565496-4577",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -18053,18 +18053,18 @@
     {
       "id": "id-1722019565496-4582",
       "tokenName": "--ids-input-font-size-sm",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565496-4580",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -19092,18 +19092,18 @@
     {
       "id": "id-1722019565497-4717",
       "tokenName": "--ids-lookup-result-count-font-size",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565497-4715",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -19477,18 +19477,18 @@
     {
       "id": "id-1722019565497-4777",
       "tokenName": "--ids-list-builder-item-height",
-      "tokenValue": "var(--ids-size-50)",
+      "tokenValue": "var(--ids-space-2xl)",
       "children": [
         {
           "id": "id-1722019565497-4775",
-          "tokenName": "--ids-size-50",
+          "tokenName": "--ids-space-2xl",
           "tokenValue": "48px",
           "type": "Semantic",
           "source": "themeFile",
           "component": "",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-size-50)"
+          "tokenNameCSS": "var(--ids-space-2xl)"
         }
       ],
       "type": "Component",
@@ -19548,18 +19548,18 @@
     {
       "id": "id-1722019565498-4789",
       "tokenName": "--ids-list-builder-item-font-size-drag",
-      "tokenValue": "var(--ids-font-size-60)",
+      "tokenValue": "var(--ids-font-size-lg)",
       "children": [
         {
           "id": "id-1722019565498-4787",
-          "tokenName": "--ids-font-size-60",
+          "tokenName": "--ids-font-size-lg",
           "tokenValue": "24px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-60)"
+          "tokenNameCSS": "var(--ids-font-size-lg)"
         }
       ],
       "type": "Component",
@@ -20367,11 +20367,11 @@
     {
       "id": "id-1722019565498-4901",
       "tokenName": "--ids-masthead-logo-padding-icon-inline",
-      "tokenValue": "var(--ids-space-xxxs)",
+      "tokenValue": "var(--ids-space-3xs)",
       "children": [
         {
           "id": "id-1722019565498-4898",
-          "tokenName": "--ids-space-xxxs",
+          "tokenName": "--ids-space-3xs",
           "tokenValue": "var(--ids-space-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -20390,7 +20390,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxxs)"
+          "tokenNameCSS": "var(--ids-space-3xs)"
         }
       ],
       "type": "Component",
@@ -20488,11 +20488,11 @@
     {
       "id": "id-1722019565498-4917",
       "tokenName": "--ids-menu-header-margin",
-      "tokenValue": "var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565498-4914",
-          "tokenName": "--ids-space-xxs",
+          "tokenName": "--ids-space-2xs",
           "tokenValue": "var(--ids-space-04)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -20511,7 +20511,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxs)"
+          "tokenNameCSS": "var(--ids-space-2xs)"
         }
       ],
       "type": "Component",
@@ -20522,11 +20522,11 @@
     {
       "id": "id-1722019565498-4921",
       "tokenName": "--ids-menu-header-padding",
-      "tokenValue": "var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565498-4918",
-          "tokenName": "--ids-space-xxs",
+          "tokenName": "--ids-space-2xs",
           "tokenValue": "var(--ids-space-04)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -20545,7 +20545,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxs)"
+          "tokenNameCSS": "var(--ids-space-2xs)"
         }
       ],
       "type": "Component",
@@ -20556,18 +20556,18 @@
     {
       "id": "id-1722019565498-4924",
       "tokenName": "--ids-menu-header-font-size",
-      "tokenValue": "var(--ids-font-size-20)",
+      "tokenValue": "var(--ids-font-size-2xs)",
       "children": [
         {
           "id": "id-1722019565498-4922",
-          "tokenName": "--ids-font-size-20",
+          "tokenName": "--ids-font-size-2xs",
           "tokenValue": "12px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-20)"
+          "tokenNameCSS": "var(--ids-font-size-2xs)"
         }
       ],
       "type": "Component",
@@ -20618,18 +20618,18 @@
     {
       "id": "id-1722019565498-4934",
       "tokenName": "--ids-menu-item-font-size",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565498-4932",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -23102,18 +23102,18 @@
     {
       "id": "id-1722019565503-5286",
       "tokenName": "--ids-multiselect-font-size",
-      "tokenValue": "var(--ids-font-size-30)",
+      "tokenValue": "var(--ids-font-size-xs)",
       "children": [
         {
           "id": "id-1722019565503-5284",
-          "tokenName": "--ids-font-size-30",
+          "tokenName": "--ids-font-size-xs",
           "tokenValue": "14px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-30)"
+          "tokenNameCSS": "var(--ids-font-size-xs)"
         }
       ],
       "type": "Component",
@@ -23303,18 +23303,18 @@
     {
       "id": "id-1722019565503-5311",
       "tokenName": "--ids-notification-banner-height",
-      "tokenValue": "var(--ids-size-50)",
+      "tokenValue": "var(--ids-space-2xl)",
       "children": [
         {
           "id": "id-1722019565503-5309",
-          "tokenName": "--ids-size-50",
+          "tokenName": "--ids-space-2xl",
           "tokenValue": "48px",
           "type": "Semantic",
           "source": "themeFile",
           "component": "",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-size-50)"
+          "tokenNameCSS": "var(--ids-space-2xl)"
         }
       ],
       "type": "Component",
@@ -23393,11 +23393,11 @@
     {
       "id": "id-1722019565503-5323",
       "tokenName": "--ids-notification-banner-button-padding",
-      "tokenValue": "var(--ids-space-xxxs)",
+      "tokenValue": "var(--ids-space-3xs)",
       "children": [
         {
           "id": "id-1722019565503-5320",
-          "tokenName": "--ids-space-xxxs",
+          "tokenName": "--ids-space-3xs",
           "tokenValue": "var(--ids-space-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -23416,7 +23416,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxxs)"
+          "tokenNameCSS": "var(--ids-space-3xs)"
         }
       ],
       "type": "Component",
@@ -23590,7 +23590,7 @@
     {
       "id": "id-1722019565503-5349",
       "tokenName": "--ids-chart-pie-font-family",
-      "tokenValue": "var(--ids-font-family-default)",
+      "tokenValue": "var(--ids-font-family-default), var(--ids-font-family-system-sans)",
       "children": [
         {
           "id": "id-1722019565503-5346",
@@ -23613,7 +23613,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-family-default)"
+          "tokenNameCSS": "var(--ids-font-family-default), var(--ids-font-family-system-sans)"
         }
       ],
       "type": "Component",
@@ -23624,18 +23624,18 @@
     {
       "id": "id-1722019565503-5352",
       "tokenName": "--ids-chart-pie-font-size",
-      "tokenValue": "var(--ids-font-size-10)",
+      "tokenValue": "var(--ids-font-size-3xs)",
       "children": [
         {
           "id": "id-1722019565503-5350",
-          "tokenName": "--ids-font-size-10",
+          "tokenName": "--ids-font-size-3xs",
           "tokenValue": "10px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-10)"
+          "tokenNameCSS": "var(--ids-font-size-3xs)"
         }
       ],
       "type": "Component",
@@ -23892,11 +23892,11 @@
     {
       "id": "id-1722019565504-5386",
       "tokenName": "--ids-popup-menu-padding",
-      "tokenValue": "var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565504-5383",
-          "tokenName": "--ids-space-xxs",
+          "tokenName": "--ids-space-2xs",
           "tokenValue": "var(--ids-space-04)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -23915,7 +23915,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxs)"
+          "tokenNameCSS": "var(--ids-space-2xs)"
         }
       ],
       "type": "Component",
@@ -23948,18 +23948,18 @@
     {
       "id": "id-1722019565504-5392",
       "tokenName": "--ids-popup-menu-font-size",
-      "tokenValue": "var(--ids-font-size-30)",
+      "tokenValue": "var(--ids-font-size-xs)",
       "children": [
         {
           "id": "id-1722019565504-5390",
-          "tokenName": "--ids-font-size-30",
+          "tokenName": "--ids-font-size-xs",
           "tokenValue": "14px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-30)"
+          "tokenNameCSS": "var(--ids-font-size-xs)"
         }
       ],
       "type": "Component",
@@ -24477,11 +24477,11 @@
     {
       "id": "id-1722019565505-5457",
       "tokenName": "--ids-progress-bar-label-audible-margin",
-      "tokenValue": "var(--ids-space-xxxs) var(--ids-space-none)",
+      "tokenValue": "var(--ids-space-3xs) var(--ids-space-none)",
       "children": [
         {
           "id": "id-1722019565505-5454",
-          "tokenName": "--ids-space-xxxs",
+          "tokenName": "--ids-space-3xs",
           "tokenValue": "var(--ids-space-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -24500,7 +24500,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxxs)"
+          "tokenNameCSS": "var(--ids-space-3xs)"
         }
       ],
       "type": "Component",
@@ -24545,7 +24545,7 @@
     {
       "id": "id-1722019565505-5465",
       "tokenName": "--ids-progress-chart-font-family",
-      "tokenValue": "var(--ids-font-family-default)",
+      "tokenValue": "var(--ids-font-family-default), var(--ids-font-family-system-sans)",
       "children": [
         {
           "id": "id-1722019565505-5462",
@@ -24568,7 +24568,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-family-default)"
+          "tokenNameCSS": "var(--ids-font-family-default), var(--ids-font-family-system-sans)"
         }
       ],
       "type": "Component",
@@ -24613,18 +24613,18 @@
     {
       "id": "id-1722019565505-5472",
       "tokenName": "--ids-progress-chart-label-font-size",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565505-5470",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -24691,7 +24691,7 @@
     {
       "id": "id-1722019565505-5483",
       "tokenName": "--ids-progress-chart-label-main-margin",
-      "tokenValue": "var(--ids-space-none) var(--ids-space-xxs) var(--ids-space-none) var(--ids-space-none)",
+      "tokenValue": "var(--ids-space-none) var(--ids-space-2xs) var(--ids-space-none) var(--ids-space-none)",
       "children": [
         {
           "id": "id-1722019565505-5480",
@@ -24725,7 +24725,7 @@
     {
       "id": "id-1722019565505-5487",
       "tokenName": "--ids-progress-chart-label-progress-margin",
-      "tokenValue": "var(--ids-space-none) var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-none) var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565505-5484",
@@ -24910,7 +24910,7 @@
     {
       "id": "id-1722019565505-5512",
       "tokenName": "--ids-process-indicator-margin",
-      "tokenValue": "var(--ids-space-none) var(--ids-space-xxs) var(--ids-space-none) var(--ids-space-none)",
+      "tokenValue": "var(--ids-space-none) var(--ids-space-2xs) var(--ids-space-none) var(--ids-space-none)",
       "children": [
         {
           "id": "id-1722019565505-5509",
@@ -24944,7 +24944,7 @@
     {
       "id": "id-1722019565505-5516",
       "tokenName": "--ids-process-indicator-text-margin",
-      "tokenValue": "var(--ids-space-none) var(--ids-space-xxs) var(--ids-space-xxs) var(--ids-space-none)",
+      "tokenValue": "var(--ids-space-none) var(--ids-space-2xs) var(--ids-space-2xs) var(--ids-space-none)",
       "children": [
         {
           "id": "id-1722019565505-5513",
@@ -26067,11 +26067,11 @@
     {
       "id": "id-1722019565508-5651",
       "tokenName": "--ids-rating-star-margin-inline",
-      "tokenValue": "var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565508-5648",
-          "tokenName": "--ids-space-xxs",
+          "tokenName": "--ids-space-2xs",
           "tokenValue": "var(--ids-space-04)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -26090,7 +26090,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxs)"
+          "tokenNameCSS": "var(--ids-space-2xs)"
         }
       ],
       "type": "Component",
@@ -27034,18 +27034,18 @@
     {
       "id": "id-1722019565509-5771",
       "tokenName": "--ids-skip-link-font-size",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565509-5769",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -28454,18 +28454,18 @@
     {
       "id": "id-1722019565511-5951",
       "tokenName": "--ids-stats-trend-label-font-size",
-      "tokenValue": "var(--ids-font-size-30)",
+      "tokenValue": "var(--ids-font-size-xs)",
       "children": [
         {
           "id": "id-1722019565511-5949",
-          "tokenName": "--ids-font-size-30",
+          "tokenName": "--ids-font-size-xs",
           "tokenValue": "14px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-30)"
+          "tokenNameCSS": "var(--ids-font-size-xs)"
         }
       ],
       "type": "Component",
@@ -28510,11 +28510,11 @@
     {
       "id": "id-1722019565511-5959",
       "tokenName": "--ids-step-chart-inner-margin",
-      "tokenValue": "var(--ids-space-xxs)",
+      "tokenValue": "var(--ids-space-2xs)",
       "children": [
         {
           "id": "id-1722019565511-5956",
-          "tokenName": "--ids-space-xxs",
+          "tokenName": "--ids-space-2xs",
           "tokenValue": "var(--ids-space-04)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -28533,7 +28533,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxs)"
+          "tokenNameCSS": "var(--ids-space-2xs)"
         }
       ],
       "type": "Component",
@@ -28705,7 +28705,7 @@
     {
       "id": "id-1722019565511-5986",
       "tokenName": "--ids-swappable-item-font-family",
-      "tokenValue": "var(--ids-font-family-default)",
+      "tokenValue": "var(--ids-font-family-default), var(--ids-font-family-system-sans)",
       "children": [
         {
           "id": "id-1722019565511-5983",
@@ -28728,7 +28728,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-family-default)"
+          "tokenNameCSS": "var(--ids-font-family-default), var(--ids-font-family-system-sans)"
         }
       ],
       "type": "Component",
@@ -28792,18 +28792,18 @@
     {
       "id": "id-1722019565511-5997",
       "tokenName": "--ids-swappable-item-font-size-hover",
-      "tokenValue": "var(--ids-font-size-60)",
+      "tokenValue": "var(--ids-font-size-lg)",
       "children": [
         {
           "id": "id-1722019565511-5995",
-          "tokenName": "--ids-font-size-60",
+          "tokenName": "--ids-font-size-lg",
           "tokenValue": "24px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-60)"
+          "tokenNameCSS": "var(--ids-font-size-lg)"
         }
       ],
       "type": "Component",
@@ -29348,11 +29348,11 @@
     {
       "id": "id-1722019565512-6073",
       "tokenName": "--ids-swaplist-item-margin-block-end",
-      "tokenValue": "var(--ids-space-xxxxs)",
+      "tokenValue": "var(--ids-space-4xs)",
       "children": [
         {
           "id": "id-1722019565512-6070",
-          "tokenName": "--ids-space-xxxxs",
+          "tokenName": "--ids-space-4xs",
           "tokenValue": "var(--ids-space-01)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -29371,7 +29371,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-space-xxxxs)"
+          "tokenNameCSS": "var(--ids-space-4xs)"
         }
       ],
       "type": "Component",
@@ -31606,18 +31606,18 @@
     {
       "id": "id-1722019565512-6353",
       "tokenName": "--ids-tag-font-size-default",
-      "tokenValue": "var(--ids-font-size-30)",
+      "tokenValue": "var(--ids-font-size-xs)",
       "children": [
         {
           "id": "id-1722019565512-6351",
-          "tokenName": "--ids-font-size-30",
+          "tokenName": "--ids-font-size-xs",
           "tokenValue": "14px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-30)"
+          "tokenNameCSS": "var(--ids-font-size-xs)"
         }
       ],
       "type": "Component",
@@ -34410,18 +34410,18 @@
     {
       "id": "id-1722019565513-6691",
       "tokenName": "--ids-tooltip-font-size",
-      "tokenValue": "var(--ids-font-size-40)",
+      "tokenValue": "var(--ids-font-size-sm)",
       "children": [
         {
           "id": "id-1722019565513-6689",
-          "tokenName": "--ids-font-size-40",
+          "tokenName": "--ids-font-size-sm",
           "tokenValue": "16px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-40)"
+          "tokenNameCSS": "var(--ids-font-size-sm)"
         }
       ],
       "type": "Component",
@@ -35339,18 +35339,18 @@
     {
       "id": "id-1722019565514-6806",
       "tokenName": "--ids-upload-font-size",
-      "tokenValue": "var(--ids-font-size-60)",
+      "tokenValue": "var(--ids-font-size-lg)",
       "children": [
         {
           "id": "id-1722019565514-6804",
-          "tokenName": "--ids-font-size-60",
+          "tokenName": "--ids-font-size-lg",
           "tokenValue": "24px",
           "type": "Core",
           "source": "coreTokens",
           "component": "Font size",
           "children": [],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-font-size-60)"
+          "tokenNameCSS": "var(--ids-font-size-lg)"
         }
       ],
       "type": "Component",

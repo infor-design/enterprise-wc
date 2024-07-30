@@ -20,7 +20,7 @@
   // Line Styles
   .marker-lines {
     fill: none;
-    stroke-width: var(--ids-space-xxxs);
+    stroke-width: var(--ids-space-3xs);
 
     @for $i from 1 through 21 {
       .data-line.color-#{$i} {

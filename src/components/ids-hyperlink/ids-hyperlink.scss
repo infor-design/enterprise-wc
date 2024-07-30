@@ -8,7 +8,7 @@
   border-radius: var(--ids-hyperlink-border-radius);
   cursor: var(--ids-hyperlink-cursor);
   display: inline-block;
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   font-size: var(--ids-hyperlink-font-size);
   font-weight: var(--ids-hyperlink-font-weight);
   padding: 2px 4px;
@@ -48,59 +48,59 @@
 
   /* Ids Typography System */
   &.ids-text-10 {
-    font-size: var(--ids-font-size-10);
+    font-size: var(--ids-font-size-3xs);
     text-transform: var(--ids-font-uppercase);
   }
 
   &.ids-text-12,
   &.ids-text-xs {
-    font-size: var(--ids-font-size-20);
+    font-size: var(--ids-font-size-2xs);
     text-transform: var(--ids-font-uppercase);
   }
 
   &.ids-text-14,
   &.ids-text-sm {
-    font-size: var(--ids-font-size-30);
+    font-size: var(--ids-font-size-xs);
   }
 
   &.ids-text-16,
   &.ids-text,
   &.ids-text-base {
-    font-size: var(--ids-font-size-40);
+    font-size: var(--ids-font-size-sm);
   }
 
   &.ids-text-20 {
-    font-size: var(--ids-font-size-50);
+    font-size: var(--ids-font-size-md);
   }
 
   &.ids-text-24,
   &.ids-text-lg {
-    font-size: var(--ids-font-size-70);
+    font-size: var(--ids-font-size-xl);
   }
 
   &.ids-text-28 {
-    font-size: var(--ids-font-size-70);
+    font-size: var(--ids-font-size-xl);
   }
 
   &.ids-text-32,
   &.ids-text-xl {
-   font-size: var(--ids-font-size-80);
+   font-size: var(--ids-font-size-2xl);
   }
 
   &.ids-text-40 {
-    font-size: var(--ids-font-size-90);
+    font-size: var(--ids-font-size-3xl);
   }
 
   &.ids-text-48 {
-    font-size: var(--ids-font-size-100);
+    font-size: var(--ids-font-size-4xl);
   }
 
   &.ids-text-60 {
-    font-size: var(--ids-font-size-110);
+    font-size: var(--ids-font-size-5xl);
   }
 
   &.ids-text-72 {
-    font-size: var(--ids-font-size-120);
+    font-size: var(--ids-font-size-6xl);
     margin-bottom: 0;
   }
 

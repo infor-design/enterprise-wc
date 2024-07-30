@@ -13,7 +13,7 @@
 }
 
 .leaf {
-  border: var(--ids-space-xxxxs) solid var(--ids-hierarchy-item-leaf-color-border);
+  border: var(--ids-space-4xs) solid var(--ids-hierarchy-item-leaf-color-border);
   margin-block-end: calc(var(--ids-space-xs) * 4);
   box-shadow: var(--ids-hierarchy-item-leaf-shadow);
   border-radius: var(--ids-hierarchy-item-border-radius);
@@ -102,10 +102,10 @@ div[part='actions'] {
 }
 
 ids-button[part='icon-menu'] {
-  margin-right: var(--ids-space-xxs);
+  margin-right: var(--ids-space-2xs);
 
   .ids-icon-button {
-    padding: var(--ids-space-xxs);
+    padding: var(--ids-space-2xs);
   }
 }
 
@@ -114,7 +114,7 @@ ids-button[part='icon-btn'] {
   cursor: pointer;
 
   .ids-icon-button {
-    padding: var(--ids-space-xxs);
+    padding: var(--ids-space-2xs);
   }
 }
 

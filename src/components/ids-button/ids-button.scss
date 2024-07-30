@@ -111,7 +111,7 @@ button {
 
     .ids-icon {
       position: absolute;
-      inset-inline-end: var(--ids-space-xxs);
+      inset-inline-end: var(--ids-space-2xs);
     }
   }
 }
@@ -298,7 +298,7 @@ button {
 // Adjustment for about close icon
 .ids-modal-button {
   ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
-    padding: var(--ids-space-xxxs);
+    padding: var(--ids-space-3xs);
   }
 }
 

@@ -29,8 +29,8 @@
   @include blank-shadow();
 
   font-weight: var(--ids-font-weight-normal);
-  font-family: var(--ids-font-family-default);
-  font-size: var(--ids-font-size-40);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+  font-size: var(--ids-font-size-sm);
   overflow: hidden;
   padding-bottom: calc(var(--ids-space-xs) - 2px);
   padding-top: calc(var(--ids-space-xs) - 2px);
@@ -83,7 +83,7 @@
   }
 
   &:not(.ids-icon-button):not(.align-icon-end) ::slotted(ids-icon:not([icon='insights-smart-panel'])) {
-    margin-inline-end: calc(var(--ids-space-xxs) + 3px);
+    margin-inline-end: calc(var(--ids-space-2xs) + 3px);
   }
 
   .ids-icon {
@@ -95,7 +95,7 @@
 
   &.align-icon-end {
     ::slotted(ids-icon) {
-      margin-inline-start: var(--ids-space-xxs);
+      margin-inline-start: var(--ids-space-2xs);
     }
   }
 
@@ -543,8 +543,8 @@
     }
 
     &.ids-menu-button.compact {
-      padding: var(--ids-space-xxs);
-      padding-inline: var(--ids-space-xxs);
+      padding: var(--ids-space-2xs);
+      padding-inline: var(--ids-space-2xs);
 
       &.square {
         border-radius: var(--ids-border-radius-xs);

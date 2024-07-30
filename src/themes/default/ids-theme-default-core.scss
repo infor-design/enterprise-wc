@@ -62,21 +62,7 @@
   --ids-font-weight-normal: 400;
   --ids-font-weight-semibold: 600;
   --ids-font-weight-bold: 700;
-  --ids-font-size-default: var(--ids-font-size-40);
-
-  // Font Sizes
-  --ids-font-size-10: 10px;
-  --ids-font-size-20: 12px;
-  --ids-font-size-30: 14px;
-  --ids-font-size-40: 16px;
-  --ids-font-size-50: 20px;
-  --ids-font-size-60: 24px;
-  --ids-font-size-70: 28px;
-  --ids-font-size-80: 32px;
-  --ids-font-size-90: 40px;
-  --ids-font-size-100: 48px;
-  --ids-font-size-110: 60px;
-  --ids-font-size-120: 72px;
+  --ids-font-size-default: var(--ids-font-size-sm);
 
   // Text Transforms
   --ids-font-uppercase: uppercase;
@@ -85,14 +71,11 @@
   --ids-scroll-shadow: 0 -1px 3px -1px rgba(0  0  0 / 0.25);
   --ids-scroll-color-border-top: 1px solid rgba(215 215 216 / 1);
 
-  // Sizes (Heights) - TODO
+  // Sizes (Heights) - Odd sizes
   --ids-size-10: 22px;
   --ids-size-20: 28px;
   --ids-size-30: 30px;
   --ids-size-40: 38px;
-  --ids-size-50: 48px;
-  --ids-size-60: 56px;
-  --ids-size-70: 66px;
 
   // Z Indexes (purpose-driven)
   --ids-z-index-top-level-container: var(--ids-z-index-20);
@@ -185,8 +168,8 @@
   --ids-axis-chart-grid-color: var(--ids-color-neutral-20);
   --ids-axis-chart-first-line-color: var(--ids-color-neutral-70);
   --ids-axis-chart-last-line-color-border: var(--ids-color-neutral-70);
-  --ids-axis-chart-font-family: var(--ids-font-family-default);
-  --ids-axis-chart-font-size: var(--ids-font-size-30);
+  --ids-axis-chart-font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+  --ids-axis-chart-font-size: var(--ids-font-size-xs);
   --ids-axis-chart-color-text: var(--ids-color-neutral-60);
   --ids-axis-chart-font-weight: var(--ids-font-weight-bold);
   --ids-axis-chart-outline-focus: 2px dashed var(--ids-color-blue-60);
@@ -212,8 +195,8 @@
   --ids-badge-color-border-success: var(--ids-color-success-default);
   --ids-badge-color-success: var(--ids-color-foreground-dark-default);
   --ids-badge-font-line-height: var(--ids-size-10);
-  --ids-badge-margin-bottom: var(--ids-space-xxs);
-  --ids-badge-margin-inline-end: var(--ids-space-xxs);
+  --ids-badge-margin-bottom: var(--ids-space-2xs);
+  --ids-badge-margin-inline-end: var(--ids-space-2xs);
   --ids-badge-width-min: var(--ids-size-10);
   --ids-badge-padding-inline: var(--ids-space-08);
   --ids-badge-disabled-opacity: 0.4;
@@ -227,7 +210,7 @@
   --ids-block-grid-item-border-radius: 3px;
   --ids-block-grid-item-selectable-border-radius-container: var(--ids-border-radius-circle);
   --ids-block-grid-item-color-background-selectable-hover: var(--ids-color-primary-10);
-  --ids-block-grid-item-selectable-container-focus: var(--ids-space-xxxxs) solid var(--ids-color-primary-60);
+  --ids-block-grid-item-selectable-container-focus: var(--ids-space-4xs) solid var(--ids-color-primary-60);
   --ids-block-grid-item-shadow-selectable-container-focus: var(--ids-shadow-lg);
   --ids-block-grid-item-selectable-container-padding: var(--ids-space-md) 36px;
   --ids-block-grid-item-selectable-multiple-width: 100%;
@@ -249,7 +232,7 @@
   --ids-box-border-radius: var(--ids-card-border-radius);
   --ids-box-shadow: var(--ids-card-shadow);
   --ids-box-shadow-focus: 0 0 4px rgba(0 102 212 / 0.15);
-  --ids-box-font-family: var(--ids-font-family-default);
+  --ids-box-font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   --ids-box-font-size: var(--ids-font-size-default);
   --ids-box-color-text-default: var(--ids-card-color-text-default);
   --ids-box-padding: var(--ids-space-sm);
@@ -263,7 +246,7 @@
   --ids-button-height: 32px;
   --ids-button-width: 32px;
   --ids-button-padding-inline: 12px;
-  --ids-button-alt-margin: var(--ids-space-xxxs);
+  --ids-button-alt-margin: var(--ids-space-3xs);
   --ids-button-radius: var(--ids-border-radius-sm);
   --ids-button-color-text-default: currentColor;
   --ids-button-primary-color-border-default: var(--ids-color-action-default);
@@ -422,7 +405,7 @@
   --ids-breadcrumb-color-text-disabled: var(--ids-color-text-disabled);
   --ids-breadcrumb-color-text-emphasis: var(--ids-color-text-inverse);
   --ids-breadcrumb-font-weight: var(--ids-font-weight-normal);
-  --ids-breadcrumb-font-size: var(--ids-font-size-30);
+  --ids-breadcrumb-font-size: var(--ids-font-size-xs);
   --ids-breadcrumb-gradient: linear-gradient(to right, var(--ids-color-background-default), rgba(255 255 255 / 0));
 
   // Calendar (Toolbar)
@@ -475,7 +458,7 @@
   --ids-card-color-text-hover: var(--ids-color-text-data);
 
   // Charts
-  --ids-chart-legend-font-size: var(--ids-font-size-30);
+  --ids-chart-legend-font-size: var(--ids-font-size-xs);
   --ids-chart-legend-color-text: var(--ids-color-text-label);
 
   // Charts - Color Progression
@@ -528,14 +511,14 @@
   // Counts
   --ids-counts-color-text: var(--ids-color-text-subtle);
   --ids-counts-links-color-text: var(--ids-hyperlink-color-text-default);
-  --ids-counts-label-font-size: var(--ids-font-size-40);
-  --ids-counts-value-font-size: var(--ids-font-size-100);
+  --ids-counts-label-font-size: var(--ids-font-size-sm);
+  --ids-counts-value-font-size: var(--ids-font-size-4xl);
 
   // Data Grid
   --ids-data-grid-color-background: var(--ids-color-white-100);
   --ids-data-grid-height-min: 350px;
-  --ids-data-grid-font-size: var(--ids-font-size-40);
-  --ids-data-grid-font-size-sm: var(--ids-font-size-30);
+  --ids-data-grid-font-size: var(--ids-font-size-sm);
+  --ids-data-grid-font-size-sm: var(--ids-font-size-xs);
   --ids-data-grid-modal-row-height: 24px;
 
   // Data Grid (Cells)
@@ -596,9 +579,9 @@
 
   // Data Grid (Rows)
   --ids-data-grid-row-height-xxs: 25px;
-  --ids-data-grid-padding-xxs: var(--ids-space-xxxs);
+  --ids-data-grid-padding-xxs: var(--ids-space-3xs);
   --ids-data-grid-row-height-xs: 30px;
-  --ids-data-grid-padding-xs: var(--ids-space-xxs);
+  --ids-data-grid-padding-xs: var(--ids-space-2xs);
   --ids-data-grid-row-height-sm: 35px;
   --ids-data-grid-padding-sm: var(--ids-space-xs);
   --ids-data-grid-row-height-md: 40px;
@@ -665,10 +648,10 @@
   --ids-dropdown-group-color-text: var(--ids-color-neutral-80);
   --ids-dropdown-group-color-border: var(--ids-color-neutral-30);
   --ids-dropdown-group-padding: 4px;
-  --ids-dropdown-font-size: var(--ids-font-size-30);
+  --ids-dropdown-font-size: var(--ids-font-size-xs);
 
   // Editor
-  --ids-editor-font-family: var(--ids-font-family-default);
+  --ids-editor-font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   --ids-editor-font-size: var(--ids-font-size-sm);
   --ids-editor-background-color: var(--ids-color-white-100);
   --ids-editor-color-border-default: var(--ids-color-border-weak);
@@ -692,7 +675,7 @@
   --ids-editor-color-border-disabled: var(--ids-color-text-disabled);
   --ids-editor-cursor-disabled: var(--ids-cursor-default);
   --ids-editor-color-text-disabled: var(--ids-color-text-disabled);
-  --ids-editor-link-padding: var(--ids-space-xxs);
+  --ids-editor-link-padding: var(--ids-space-2xs);
   --ids-editor-link-color-text-link: var(--ids-color-primary);
   --ids-editor-link-color-text-hover: var(--ids-color-primary-70);
   --ids-editor-link-color-border-focus: var(--ids-color-primary);
@@ -702,7 +685,7 @@
   --ids-editor-link-outline-focus: var(--ids-outline-none);
   --ids-editor-shadow-focus: var(--ids-shadow-focus);
   --ids-editor-blockquote-border-inline-start: 2px solid var(--ids-color-border-weak);
-  --ids-editor-blockquote-margin-inline-start: var(--ids-space-xxs);
+  --ids-editor-blockquote-margin-inline-start: var(--ids-space-2xs);
   --ids-editor-blockquote-margin-inline-end: var(--ids-space-none);
   --ids-editor-blockquote-padding-inline-start: var(--ids-space-12);
   --ids-editor-source-padding: var(--ids-space-none);
@@ -729,7 +712,7 @@
   --ids-empty-message-icon-height: 80px;
   --ids-empty-message-icon-width: 80px;
   --ids-empty-message-label-padding: var(--ids-space-12) var(--ids-space-xs);
-  --ids-empty-message-label-font-size: var(--ids-font-size-50);
+  --ids-empty-message-label-font-size: var(--ids-font-size-md);
   --ids-empty-message-description-padding: var(--ids-space-none) var(--ids-space-sm) var(--ids-space-sm);
   --ids-empty-message-description-font-align: center;
   --ids-empty-message-button-margin-block-end: var( --ids-space-24);
@@ -786,7 +769,7 @@
   --ids-hyperlink-color-text-disabled: var(--ids-color-foreground-default-disabled);
   --ids-hyperlink-border-radius: var(--ids-border-radius-xs);
   --ids-hyperlink-cursor: var(--ids-cursor-pointer);
-  --ids-hyperlink-font-size: var(--ids-font-size-40);
+  --ids-hyperlink-font-size: var(--ids-font-size-sm);
   --ids-hyperlink-font-weight: var(--ids-font-weight-normal);
   --ids-hyperlink-box-icon-color-text-default: var(--ids-color-accent-purple-strong);
   --ids-hyperlink-box-color-text-default: var(--ids-color-neutral-70);
@@ -860,9 +843,9 @@
 
   // Input Styles
   --ids-input-margin-bottom: 8px;
-  --ids-input-label-font-size: var(--ids-font-size-30);
-  --ids-input-font-size: var(--ids-font-size-40);
-  --ids-input-font-size-sm: var(--ids-font-size-40);
+  --ids-input-label-font-size: var(--ids-font-size-xs);
+  --ids-input-font-size: var(--ids-font-size-sm);
+  --ids-input-font-size-sm: var(--ids-font-size-sm);
   --ids-input-color-background-default: var(--ids-color-background-default);
   --ids-input-color-border-default: var(--ids-color-border-default);
   --ids-input-color-text-default: var(--ids-color-foreground-default-default);
@@ -905,7 +888,7 @@
   --ids-input-color-text-success-disabled: var(--ids-color-green-30);
 
   // Lookup
-  --ids-lookup-result-count-font-size: var(--ids-font-size-40);
+  --ids-lookup-result-count-font-size: var(--ids-font-size-sm);
   --ids-lookup-result-count-margin: 0 8px;
 
   // Link List
@@ -936,7 +919,7 @@
   --ids-list-builder-input-padding: var(--ids-space-none);
   --ids-list-builder-item-border: 1px solid transparent;
   --ids-list-builder-item-padding: var(--ids-space-12) var(--ids-space-20);
-  --ids-list-builder-item-height: var(--ids-size-50);
+  --ids-list-builder-item-height: var(--ids-space-2xl);
   --ids-list-builder-item-line-height: 23px;
   --ids-list-builder-item-height-min: var(--ids-size-40);
   --ids-list-builder-drag-content: '\205e';
@@ -989,7 +972,7 @@
   --ids-masthead-color-text: var(--ids-color-neutral-10);
   --ids-masthead-padding-inline: var(--ids-space-xs);
   --ids-masthead-height: 40px;
-  --ids-masthead-logo-padding-icon-inline: var(--ids-space-xxxs);
+  --ids-masthead-logo-padding-icon-inline: var(--ids-space-3xs);
   --ids-masthead-logo-top-space-icon: 2px;
   --ids-masthead-title-margin-inline: var(--ids-space-xs);
   --ids-masthead-color-hover: var(--ids-color-white-100);
@@ -998,11 +981,11 @@
   --ids-menu-header-font-weight: var(--ids-font-weight-semibold);
   --ids-menu-header-margin: var(--ids-space-xs);
   --ids-menu-header-padding: var(--ids-space-xs);
-  --ids-menu-header-font-size: var(--ids-font-size-40);
+  --ids-menu-header-font-size: var(--ids-font-size-sm);
   --ids-menu-header-color-text: var(--ids-color-neutral-70);
   --ids-menu-header-icon-padding: 38px;
   --ids-menu-item-width-min: 110px;
-  --ids-menu-item-font-size: var(--ids-font-size-40);
+  --ids-menu-item-font-size: var(--ids-font-size-sm);
   --ids-menu-item-padding: 8px 8px;
   --ids-menu-item-color-text-disabled: var(--ids-color-neutral-30);
   --ids-menu-item-highlight-color: var(--ids-color-neutral-20);
@@ -1151,7 +1134,7 @@
   --ids-calendar-month-view-weekday-color-text-compact: var(--ids-calendar-month-view-color-text-default);
 
   // Multiselect
-  --ids-multiselect-font-size: var(--ids-font-size-30);
+  --ids-multiselect-font-size: var(--ids-font-size-xs);
 
   // Notification Badge
   --ids-notification-badge-size: 6px;
@@ -1162,10 +1145,10 @@
   --ids-notification-badge-warning-color-background: var(--ids-color-warning-default);
 
   // Notification Banner
-  --ids-notification-banner-height: var(--ids-size-50);
+  --ids-notification-banner-height: var(--ids-space-2xl);
   --ids-notification-banner-padding: var(--ids-space-xs);
   --ids-notification-banner-color-text: var(--ids-color-text-subtle);
-  --ids-notification-banner-button-padding: var(--ids-space-xxxs);
+  --ids-notification-banner-button-padding: var(--ids-space-3xs);
   --ids-notification-banner-button-color-background-hover: rgb(0 0 0 / .1);
   --ids-notification-banner-success-color-background: var(--ids-color-success-weak);
   --ids-notification-banner-warning-color-background: var(--ids-color-warning-weak);
@@ -1177,8 +1160,8 @@
   --ids-overlay-page-background-color: 255 255 255;
 
   // Pie chart
-  --ids-chart-pie-font-family: var(--ids-font-family-default);
-  --ids-chart-pie-font-size: var(--ids-font-size-10);
+  --ids-chart-pie-font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+  --ids-chart-pie-font-size: var(--ids-font-size-3xs);
   --ids-chart-pie-color-text: var(--ids-color-text-label);
 
   // Popup
@@ -1192,9 +1175,9 @@
   // Popup Menu
   --ids-popup-menu-color-background-default: var(--ids-popup-color-background);
   --ids-popup-menu-color-border-default: var(--ids-popup-color-border);
-  --ids-popup-menu-padding: var(--ids-space-xxs);
+  --ids-popup-menu-padding: var(--ids-space-2xs);
   --ids-popup-menu-color-text-default: var(--ids-color-neutral-80);
-  --ids-popup-menu-font-size: var(--ids-font-size-30);
+  --ids-popup-menu-font-size: var(--ids-font-size-xs);
   --ids-popup-menu-border-radius: var(--ids-border-radius-xxs);
   --ids-popup-menu-shadow-default: var(--ids-popup-shadow);
   --ids-popup-menu-color-background-inverse: var(--ids-color-neutral-100);
@@ -1213,17 +1196,17 @@
   --ids-progress-bar-margin: var(--ids-space-sm) var(--ids-space-none);
   --ids-progress-bar-fill-color-background: var(--ids-color-theme-strong);
   --ids-progress-bar-label-color-text: var(--ids-color-text-label);
-  --ids-progress-bar-label-audible-margin: var(--ids-space-xxxs) var(--ids-space-none);
+  --ids-progress-bar-label-audible-margin: var(--ids-space-3xs) var(--ids-space-none);
   --ids-progress-bar-grid-cell-margin: var(--ids-space-sm);
 
   // Progress Chart
-  --ids-progress-chart-font-family: var(--ids-font-family-default);
+  --ids-progress-chart-font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   --ids-progress-chart-margin: var(--ids-space-none) var(--ids-space-none) var(--ids-space-xs);
-  --ids-progress-chart-label-font-size: var(--ids-font-size-40);
+  --ids-progress-chart-label-font-size: var(--ids-font-size-sm);
   --ids-progress-chart-label-margin-bottom: var(--ids-space-xs);
   --ids-progress-chart-label-color-text: var(--ids-color-neutral-60);
-  --ids-progress-chart-label-main-margin: var(--ids-space-none) var(--ids-space-xxs) var(--ids-space-none) var(--ids-space-none);
-  --ids-progress-chart-label-progress-margin: var(--ids-space-none) var(--ids-space-xxs);
+  --ids-progress-chart-label-main-margin: var(--ids-space-none) var(--ids-space-2xs) var(--ids-space-none) var(--ids-space-none);
+  --ids-progress-chart-label-progress-margin: var(--ids-space-none) var(--ids-space-2xs);
   --ids-progress-chart-bar-border-radius: var(--ids-border-radius-xxs);
   --ids-progress-chart-height-min: 28px;
   --ids-progress-chart-bar-width-min: 66px;
@@ -1233,8 +1216,8 @@
   // Process Indicator
   --ids-process-indicator-color-text: var(--ids-color-text-label);
   --ids-process-indicator-step-margin-top: 40px;
-  --ids-process-indicator-margin: var(--ids-space-none) var(--ids-space-xxs) var(--ids-space-none) var(--ids-space-none);
-  --ids-process-indicator-text-margin: var(--ids-space-none) var(--ids-space-xxs) var(--ids-space-xxs) var(--ids-space-none);
+  --ids-process-indicator-margin: var(--ids-space-none) var(--ids-space-2xs) var(--ids-space-none) var(--ids-space-none);
+  --ids-process-indicator-text-margin: var(--ids-space-none) var(--ids-space-2xs) var(--ids-space-2xs) var(--ids-space-none);
   --ids-process-indicator-color-background: var(--ids-color-background-default);
   --ids-process-indicator-color-primary: var(--ids-color-primary);
   --ids-process-indicator-color-active: var(--ids-color-primary);
@@ -1274,7 +1257,7 @@
   --ids-rating-star-color-hover: var(--ids-button-primary-color-background-default);
   --ids-rating-star-color-focus: var(--ids-button-primary-color-background-default);
   --ids-rating-star-disabled-color: var(--ids-color-text-disabled);
-  --ids-rating-star-margin-inline: var(--ids-space-xxs);
+  --ids-rating-star-margin-inline: var(--ids-space-2xs);
 
   // Required
   --ids-input-required-indicator-color-text-default: var(--ids-color-error-default);
@@ -1321,7 +1304,7 @@
   --ids-skip-link-color-background: var(--ids-popup-color-background);
   --ids-skip-link-border-color: var(--ids-popup-color-border);
   --ids-skip-link-margin: var(--ids-space-sm);
-  --ids-skip-link-font-size: var(--ids-font-size-40);
+  --ids-skip-link-font-size: var(--ids-font-size-sm);
   --ids-skip-link-border-radius: 0 0 var(--ids-border-radius-xxs) var(--ids-border-radius-xxs);
   --ids-skip-link-shadow: 0 0 4px 1px rgba(0 0 0 / 0.3);
 
@@ -1381,11 +1364,11 @@
   --ids-stats-color-text-default: var(--ids-color-foreground-default-default);
   --ids-stats-color-text-secondary: var(--ids-color-foreground-default-secondary);
   --ids-stats-color-text-tertiary: var(--ids-color-foreground-default-tertiary);
-  --ids-stats-trend-label-font-size: var(--ids-font-size-30);
+  --ids-stats-trend-label-font-size: var(--ids-font-size-xs);
 
   // Step Chart
   --ids-step-chart-margin: var(--ids-space-sm);
-  --ids-step-chart-inner-margin: var(--ids-space-xxs);
+  --ids-step-chart-inner-margin: var(--ids-space-2xs);
   --ids-step-chart-height: 14px;
   --ids-step-chart-color-background-default: var(--ids-color-neutral-20);
   --ids-step-chart-color-background-complete: var(--ids-color-primary);
@@ -1396,12 +1379,12 @@
   --ids-swappable-border: 1px dashed transparent;
   --ids-swappable-color-border-active: var(--ids-color-accent-neutral-stronger);
   --ids-swappable-item-border-default: 1px dashed transparent;
-  --ids-swappable-item-font-family: var(--ids-font-family-default);
+  --ids-swappable-item-font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   --ids-swappable-item-cursor-default: var(--ids-cursor-pointer);
   --ids-swappable-item-padding-inline: 2px;
   --ids-swappable-item-padding-block: 8px;
   --ids-swappable-item-color-background-hover: var(--ids-color-accent-blue-weakest);
-  --ids-swappable-item-font-size-hover: var(--ids-font-size-60);
+  --ids-swappable-item-font-size-hover: var(--ids-font-size-lg);
   --ids-swappable-item-border-focus: 1px solid var(--ids-color-accent-blue-weak);
   --ids-swappable-item-shadow-focus: 0 0 4px 1px rgb(54 138 192 / 0.3);
   --ids-swappable-item-outline-focus: none;
@@ -1523,7 +1506,7 @@
   --ids-tag-color-border: var(--ids-color-accent-neutral-weaker);
   --ids-tag-border-radius: var(--ids-border-radius-circle);
   --ids-tag-color-text-default: var(--ids-color-foreground-default-default);
-  --ids-tag-font-size-default: var(--ids-font-size-30);
+  --ids-tag-font-size-default: var(--ids-font-size-xs);
   --ids-tag-color-icon-hover: var(--ids-color-accent-neutral-strongest);
   --ids-tag-secondary-color-background: var(--ids-input-color-background-default);
   --ids-tag-secondary-color-border: var(--ids-color-border-weak);
@@ -1626,7 +1609,7 @@
   --ids-tooltip-padding: var(--ids-space-xs) var(--ids-space-sm);
   --ids-tooltip-border-radius: var(--ids-border-radius-xxs);
   --ids-tooltip-color-text: var(--ids-color-foreground-light-default);
-  --ids-tooltip-font-size: var(--ids-font-size-40);
+  --ids-tooltip-font-size: var(--ids-font-size-sm);
   --ids-tooltip-shadow: var(--ids-popup-shadow);
   --ids-tooltip-error-color-background-error: var(--ids-color-error-default);
   --ids-tooltip-info-color-background-info: var(--ids-color-info-default);
@@ -1666,7 +1649,7 @@
   --ids-trigger-field-icon-color: var(--ids-color-neutral-60);
 
   // Upload
-  --ids-upload-font-size: var(--ids-font-size-60);
+  --ids-upload-font-size: var(--ids-font-size-lg);
 
   // Upload Advanced
   --ids-upload-advanced-color-background-default: var(--ids-color-neutral-10);
