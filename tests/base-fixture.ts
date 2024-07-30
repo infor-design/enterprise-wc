@@ -8,7 +8,9 @@ import {
   expect as baseExpect,
   Locator
 } from '@playwright/test';
-import { CustomEventTest, PageErrorsTest } from './helper-fixture';
+import { CustomEventTest } from './helpers/custom-events-test';
+import { PageErrorsTest } from './helpers/page-errors-test';
+import { PageDate } from './helpers/page-date';
 
 const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output');
 
@@ -21,8 +23,35 @@ export function generateUUID(): string {
 }
 
 interface CustomParameters {
+  /**
+   * Helper object for custom events testing
+   */
   eventsTest: CustomEventTest;
+  /**
+   * Helper object to check for errors in the page during execution.
+   */
   pageErrorsTest: PageErrorsTest;
+  /**
+   * Helper object to retrieve the proper Date object from the page.
+   *
+   * **CONTEXT**
+   *
+   * When executing a test case locally, `new Date()` comes from **node.js** and comparing the
+   * results of the test case may vary.
+   *
+   * This helper provides dates directly coming from the page/browser in context.
+   *
+   * ```ts
+   * // if the test case below is executed outside of America/New_York timezone, the results differ
+   * test('compare dates', async ({ page }) => {
+   *   const nodeDate = new Date();
+   *   const pageDate = await page.evaluate(() => new Date());
+   *   // this may pass or fail depending on where the execution happens
+   *   expect(nodeDate).toEqual(pageDate);
+   * });
+   * ```
+   */
+  pageDate: PageDate;
 }
 
 /**
@@ -47,6 +76,10 @@ export const test = baseTest.extend<CustomParameters>({
   pageErrorsTest: async ({ page }, use) => {
     const errorTest = new PageErrorsTest(page);
     await use(errorTest);
+  },
+  pageDate: async ({ page }, use) => {
+    const browserDate = new PageDate(page);
+    await use(browserDate);
   }
 });
 

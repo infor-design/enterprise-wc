@@ -31,7 +31,6 @@
 .ids-list-view {
   height: var(--ids-list-view-height);
   overflow: auto;
-  scroll-behavior: smooth;
   position: relative;
 
   .ids-list-view-body {

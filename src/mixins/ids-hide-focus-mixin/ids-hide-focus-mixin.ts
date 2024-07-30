@@ -33,6 +33,8 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
    */
   #isFocused = false;
 
+  isHost = false;
+
   connectedCallback() {
     super.connectedCallback?.();
 
@@ -92,18 +94,30 @@ const IdsHideFocusMixin = <T extends Constraints>(superclass: T) => class extend
 
   #addHideFocusCssClass() {
     this.container?.classList.add('hide-focus');
+    if (this.isHost) {
+      this.classList.add('hide-focus');
+    }
   }
 
   #addIsFocusedCssClass() {
     this.container?.classList.add('is-focused');
+    if (this.isHost) {
+      this.classList.add('is-focused');
+    }
   }
 
   #removeHideFocusCssClass() {
     this.container?.classList.remove('hide-focus');
+    if (this.isHost) {
+      this.classList.remove('hide-focus');
+    }
   }
 
   #removeIsFocusedCssClass() {
     this.container?.classList.remove('is-focused');
+    if (this.isHost) {
+      this.classList.remove('is-focused');
+    }
   }
 
   /**

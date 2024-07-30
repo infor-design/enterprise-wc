@@ -84,6 +84,7 @@ ids-separator::part(separator) {
       padding: var(--ids-module-nav-item-margin-inline);
       margin-block-end: var(--ids-module-nav-accordion-gutter-size);
       text-align: start;
+      gap: 1rem;
 
       ::slotted(ids-menu-button) {
         justify-content: start;

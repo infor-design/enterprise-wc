@@ -178,5 +178,43 @@
     "firstname": "James",
     "lastname": "James",
     "phone": "(121) 332-3232"
+  },
+  {
+    "id": 19,
+    "name": "Tech Solutions Ltd.",
+    "type": "Software Prospect",
+    "location": "NY, USA",
+    "firstname": "Alice",
+    "lastname": "Johnson",
+    "phone": "(123) 456-7890",
+    "purchases": null
+  },
+  {
+    "id": 20,
+    "name": "Global Industries",
+    "type": "Software Prospect",
+    "location": "CA, USA",
+    "firstname": "Bob",
+    "lastname": "Williams",
+    "phone": "(987) 654-3210"
+  },
+  {
+    "id": 21,
+    "name": "Innovative Tech Corp.",
+    "type": "Software Prospect",
+    "location": "TX, USA",
+    "firstname": "Charlie",
+    "lastname": "Brown",
+    "phone": "(555) 444-3333",
+    "purchases": null
+  },
+  {
+    "id": 22,
+    "name": "Future Enterprises",
+    "type": "Software Prospect",
+    "location": "FL, USA",
+    "firstname": "David",
+    "lastname": "Davis",
+    "phone": "(222) 333-4444"
   }
 ]

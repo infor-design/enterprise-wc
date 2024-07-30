@@ -1400,6 +1400,7 @@ export default class IdsEditor extends Base {
       if ((e.target as any).getAttribute('id') === `${key}-modal-apply-btn`) {
         this.#handleModalAction(key);
       }
+      if ((e.target as any)?.nodeName === 'IDS-MODAL-BUTTON') modal?.hide();
     });
 
     // Toggle disable elements in hyperlink modal

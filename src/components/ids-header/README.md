@@ -7,8 +7,6 @@ Displays identifying information for a given data set. Best for identifying the 
 ## Settings and Attributes
 
 - `color` {string} Sets the header background color
-- `mode` {string} Sets the theme mode
-- `version` {string} Sets the theme version
 
 ## Code Examples
 

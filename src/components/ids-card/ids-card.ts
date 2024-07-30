@@ -11,6 +11,7 @@ import '../ids-checkbox/ids-checkbox';
 import styles from './ids-card.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
 const Base = IdsHideFocusMixin(
   IdsEventsMixin(
@@ -139,7 +140,8 @@ export default class IdsCard extends Base {
    * @returns {object} The object for chaining.
    */
   #handleEvents() {
-    this.onEvent('click', this, this.#handleSelectionChange);
+    this.offEvent('click.ids-card', this);
+    this.onEvent('click.ids-card', this, this.#handleSelectionChange);
 
     if (this.selection === 'multiple') {
       const idsCheckboxElem = this.container?.querySelector<IdsCheckbox>('ids-checkbox');
@@ -149,6 +151,15 @@ export default class IdsCard extends Base {
         this.#handleMultipleSelectionChange(e);
       });
     }
+
+    const cardContentSlot = this.shadowRoot?.querySelector<HTMLSlotElement>(`slot[name="card-content"]`);
+
+    this.offEvent('slotchange.ids-card', cardContentSlot);
+    this.onEvent('slotchange.ids-card', cardContentSlot, () => {
+      const dataGrid = this?.querySelector<IdsDataGrid>('ids-data-grid');
+      const cardContent = this?.container?.querySelector('.ids-card-content');
+      cardContent?.classList.toggle('has-data-grid', !!dataGrid);
+    });
 
     return this;
   }
