@@ -37,7 +37,7 @@
 
 ::slotted(img[slot='avatar']) {
   display: block;
-  margin-block-start: 24px;
+  margin-block-start: var(--ids-space-md);
   border-radius: var(--ids-border-radius-circle);
   height: 40px;
   width: 40px;
@@ -45,8 +45,8 @@
 
 ::slotted([slot='username']) {
   display: block;
-  margin-block-start: 4px;
-  margin-block-end: 24px;
+  margin-block-start: var(--ids-space-xxs);
+  margin-block-end: var(--ids-space-md);
 }
 
 ::slotted(ids-toolbar) {

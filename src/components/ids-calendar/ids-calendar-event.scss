@@ -68,10 +68,10 @@
   position: absolute;
   box-sizing: border-box;
   width: 100%;
-  z-index: 1;
+  z-index: var(--ids-z-index-10);
   background: var(--ids-calendar-event-color-background);
   border: 1px solid transparent;
-  border-radius: 3px;
+  border-radius: var(--ids-border-radius-xxs);
   color: var(--ids-calendar-event-color-text);
   height: 20px;
   overflow: hidden;
@@ -87,7 +87,7 @@
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    padding: 2px 5px;
+    padding: var(--ids-space-xxxs) 5px;
 
     ids-text {
       display: block;
