@@ -14,7 +14,6 @@ import styles from './ids-multiselect.scss';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTag from '../ids-tag/ids-tag';
 import type IdsText from '../ids-text/ids-text';
-import type IdsIcon from '../ids-icon/ids-icon';
 import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 /**
@@ -48,9 +47,13 @@ class IdsMultiselect extends IdsDropdown {
       const innerInput = this.shadowRoot?.querySelector('ids-trigger-field')?.shadowRoot?.querySelector('input');
       innerInput?.style.setProperty('color', 'transparent');
     }
+
+    if (this.typeahead) {
+      this.setOptionsData();
+    }
   }
 
-  #optionsData: IdsDropdownOptions = [];
+  optionsData: IdsDropdownOptions = [];
 
   internalSelectedList: Array<string> = [];
 
@@ -256,11 +259,10 @@ class IdsMultiselect extends IdsDropdown {
 
     if (this.typeahead) {
       // In case unfinished typeahead (typing is in process)
-      // closing popup will reset dropdown to the initial value
+      // closing popup will reset multiselect to the initial value
       this.input?.setAttribute(attributes.READONLY, 'true');
-      const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
-      if (this.input) this.input.value = initialValue || '';
-      this.loadDataSet(this.#optionsData);
+      this.#updateDisplay();
+      this.loadDataSet(this.optionsData);
       (window.getSelection() as Selection).removeAllRanges();
       this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
@@ -425,18 +427,6 @@ class IdsMultiselect extends IdsDropdown {
     this.value = this.internalSelectedList;
   }
 
-  #setOptionsData() {
-    this.#optionsData = [...this.options].map((item) => ({
-      id: item.id,
-      label: item.textContent?.trim() || item.querySelector<IdsCheckbox>('ids-checkbox')?.label || '',
-      value: item.getAttribute(attributes.VALUE) as string,
-      icon: item.querySelector<IdsIcon>('ids-icon')?.icon,
-      groupLabel: item.hasAttribute(attributes.GROUP_LABEL),
-      isCheckbox: Boolean(item.querySelector<IdsCheckbox>('ids-checkbox')),
-      selected: this.internalSelectedList.includes(item.getAttribute(attributes.VALUE) as string)
-    }));
-  }
-
   /**
    * Set typeahead attribute
    * @param {string | boolean | null} value typeahead value
@@ -447,7 +437,7 @@ class IdsMultiselect extends IdsDropdown {
 
     if (val) {
       this.setAttribute(attributes.TYPEAHEAD, String(val));
-      this.#setOptionsData();
+      this.setOptionsData();
       innerInput?.style.removeProperty('color');
     } else {
       this.removeAttribute(attributes.TYPEAHEAD);

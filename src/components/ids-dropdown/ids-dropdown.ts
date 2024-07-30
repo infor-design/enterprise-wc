@@ -164,7 +164,7 @@ export default class IdsDropdown extends Base {
     ];
   }
 
-  #optionsData: IdsDropdownOptions = [];
+  optionsData: IdsDropdownOptions = [];
 
   #isMultiSelect: boolean = this.nodeName === 'IDS-MULTISELECT';
 
@@ -641,15 +641,15 @@ export default class IdsDropdown extends Base {
 
     // Trigger an async callback for contents and refresh data
     if (typeof this.state.beforeShow === 'function') {
-      const stuff = await this.state.beforeShow();
-      if (stuff) {
-        this.loadDataSet(stuff);
+      const data = await this.state.beforeShow();
+      if (data) {
+        this.loadDataSet(data);
         if (this.typeahead) {
-          this.#optionsData = stuff;
+          this.optionsData = data;
         }
       }
     } else {
-      this.#setOptionsData();
+      this.setOptionsData();
     }
 
     if (this.value) {
@@ -734,14 +734,13 @@ export default class IdsDropdown extends Base {
     if (!noFocus) {
       this.input?.focus();
     }
-
     if (this.typeahead) {
       // In case unfinished typeahead (typing is in process)
       // closing popup will reset dropdown to the initial value
       this.input?.setAttribute(attributes.READONLY, 'true');
       const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
       if (this.input) this.input.value = initialValue || '';
-      this.loadDataSet(this.#optionsData);
+      this.loadDataSet(this.optionsData);
       (window.getSelection() as Selection).removeAllRanges();
       this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
@@ -1214,7 +1213,7 @@ export default class IdsDropdown extends Base {
    */
   #getGroupLabelOption(optionIndex: number): IdsDropdownOption | undefined {
     // Get group labels indexes in the all options list
-    const groupLabels: Array<number> = this.#optionsData.reduce(
+    const groupLabels: Array<number> = this.optionsData.reduce(
       (result: Array<number>, option: IdsDropdownOption, index: number) => {
         if (option?.groupLabel) {
           return [...result, index];
@@ -1226,7 +1225,7 @@ export default class IdsDropdown extends Base {
     );
     const groupLabelIndex = this.#getGroupIndex(groupLabels, optionIndex);
 
-    return this.#optionsData[groupLabelIndex];
+    return this.optionsData[groupLabelIndex];
   }
 
   /**
@@ -1235,7 +1234,7 @@ export default class IdsDropdown extends Base {
    * @returns {IdsDropdownOptions} containing matched values
    */
   #findMatches(inputValue: string): IdsDropdownOptions {
-    return this.#optionsData.reduce((options: Array<IdsDropdownOption>, option: IdsDropdownOption, index: number) => {
+    return this.optionsData.reduce((options: Array<IdsDropdownOption>, option: IdsDropdownOption, index: number) => {
       const regex = new RegExp(`(${escapeRegExp(inputValue)})`, 'gi');
 
       if (option.label?.match(regex) && !option.groupLabel) {
@@ -1259,8 +1258,8 @@ export default class IdsDropdown extends Base {
   /**
    * Map slotted ids-list-box-option elements to the dataset
    */
-  #setOptionsData() {
-    this.#optionsData = [...this.options].map((item) => ({
+  setOptionsData() {
+    this.optionsData = [...this.options].map((item) => ({
       id: item.id,
       label: item.textContent?.trim() || item.querySelector<IdsCheckbox>('ids-checkbox')?.label || '',
       value: item.getAttribute(attributes.VALUE) as string,
@@ -1402,7 +1401,7 @@ export default class IdsDropdown extends Base {
 
     if (val) {
       this.setAttribute(attributes.TYPEAHEAD, String(val));
-      this.#setOptionsData();
+      this.setOptionsData();
     } else {
       this.removeAttribute(attributes.TYPEAHEAD);
     }
