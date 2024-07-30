@@ -8,6 +8,7 @@ import { IdsDropdownOptions } from '../ids-dropdown/ids-dropdown-common';
 import '../ids-tag/ids-tag';
 import '../ids-text/ids-text';
 import '../ids-list-box/ids-list-box-option';
+import '../ids-search-field/ids-search-field';
 
 import styles from './ids-multiselect.scss';
 
@@ -439,9 +440,14 @@ class IdsMultiselect extends IdsDropdown {
       this.setAttribute(attributes.TYPEAHEAD, String(val));
       this.setOptionsData();
       innerInput?.style.removeProperty('color');
+      if (this.tags) {
+        this.searchField?.remove();
+        this.popup?.insertAdjacentHTML('afterbegin', `<ids-search-field slot="content" label-state="collapsed" placeholder="" color-variant="dropdown" no-margins></ids-search-field>`);
+      }
     } else {
       this.removeAttribute(attributes.TYPEAHEAD);
       innerInput?.style.setProperty('color', 'transparent');
+      this.searchField?.remove();
     }
     this.#updateDisplay();
 

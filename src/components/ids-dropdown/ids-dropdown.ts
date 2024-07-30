@@ -39,6 +39,7 @@ import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 import type IdsIcon from '../ids-icon/ids-icon';
 import IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import type IdsSearchField from '../ids-search-field/ids-search-field';
 
 import styles from './ids-dropdown.scss';
 import {
@@ -669,6 +670,8 @@ export default class IdsDropdown extends Base {
       this.#attachTypeaheadEvents();
       this.input?.removeAttribute(attributes.READONLY);
       this.input?.focus();
+      this.searchField?.input?.focus();
+      this.#connectSearchField();
     }
 
     if (shouldSelect) {
@@ -1539,5 +1542,20 @@ export default class IdsDropdown extends Base {
       return checkOverflow(this.input?.input) || false;
     }
     return false;
+  }
+
+  get searchField(): IdsSearchField | null {
+    return this.popup?.querySelector('ids-search-field') || null;
+  }
+
+  /**
+   * Attaches IdsSearchField component to the typeahead functionality
+   */
+  #connectSearchField() {
+    if (this.searchField) {
+      this.searchField.onSearch = (value: string) => {
+        this.#typeAhead(value);
+      };
+    }
   }
 }
