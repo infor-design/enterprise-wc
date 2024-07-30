@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.5.0
+
+### 1.5.0 Features
+
+- `[Multiselect]` Added typeahead functionality. ([#2432](https://github.com/infor-design/enterprise-wc/issues/2432))
+
 ## 1.4.0
 
 ### 1.4.0 Features
