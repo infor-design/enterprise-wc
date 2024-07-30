@@ -51,6 +51,10 @@ class IdsMultiselect extends IdsDropdown {
 
     if (this.typeahead) {
       this.setOptionsData();
+
+      if (this.tags) {
+        this.#handleSearchField(true);
+      }
     }
   }
 
@@ -265,6 +269,7 @@ class IdsMultiselect extends IdsDropdown {
       this.#updateDisplay();
       this.loadDataSet(this.optionsData);
       (window.getSelection() as Selection).removeAllRanges();
+      this.searchField?.clear();
       this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
 
@@ -441,13 +446,11 @@ class IdsMultiselect extends IdsDropdown {
       this.setOptionsData();
       innerInput?.style.removeProperty('color');
       if (this.tags) {
-        this.searchField?.remove();
-        this.popup?.insertAdjacentHTML('afterbegin', `<ids-search-field slot="content" label-state="collapsed" placeholder="" color-variant="dropdown" no-margins></ids-search-field>`);
+        this.#handleSearchField(true);
       }
     } else {
-      this.removeAttribute(attributes.TYPEAHEAD);
       innerInput?.style.setProperty('color', 'transparent');
-      this.searchField?.remove();
+      this.#handleSearchField(false);
     }
     this.#updateDisplay();
 
@@ -460,6 +463,15 @@ class IdsMultiselect extends IdsDropdown {
    */
   get typeahead(): boolean {
     return stringToBool(this.getAttribute(attributes.TYPEAHEAD));
+  }
+
+  #handleSearchField(shouldAdd?: boolean) {
+    requestAnimationFrame(() => {
+      this.searchField?.remove();
+      if (shouldAdd) {
+        this.popup?.insertAdjacentHTML('afterbegin', `<ids-search-field slot="content" label-state="collapsed" placeholder="" color-variant="dropdown" no-margins></ids-search-field>`);
+      }
+    });
   }
 }
 

@@ -1190,7 +1190,7 @@ export default class IdsDropdown extends Base {
         <ids-icon icon="${option.icon}"></ids-icon>
       ` : ''}${option.isCheckbox ? `
         <ids-checkbox no-margin no-animation class="justify-center multiselect-checkbox multiselect-loaded"${option.selected ? ' checked' : ''}></ids-checkbox><ids-text>${option.label || ''}</ids-text>
-      ` : (option.label || '')}</ids-list-box-option>`;
+      ` : `<ids-text>${(option.label || '')}</ids-text>`}</ids-list-box-option>`;
   }
 
   /**
