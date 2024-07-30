@@ -303,7 +303,6 @@
   --ids-list-view-item-color-border-disabled: var(--ids-color-accent-neutral-weaker);
   --ids-list-view-item-badge-color-text-disabled: var(--ids-color-accent-neutral-strong);
   --ids-list-view-item-color-text-link-disabled: var(--ids-color-accent-neutral-strong);
-  --ids-list-view-color-background-selected: var(--ids-color-action-weakest);
 
   // Loading Indicator
   --ids-loading-indicator-circle-color: var(--ids-color-neutral-60);
@@ -315,8 +314,8 @@
   --ids-loading-indicator-tertiary-destructive-color-border: var(--ids-color-red-30);
 
   // Masthead
-  --ids-masthead-color-background: var(--ids-color-neutral-80);
-  --ids-masthead-color-text: var(--ids-color-neutral-10);
+  --ids-masthead-color-background: var(--ids-color-accent-neutral-weaker);
+  --ids-masthead-color-text: var(--ids-color-accent-neutral-strongest);
 
   // Modal
   --ids-modal-color-background: var(--ids-popup-color-background);
