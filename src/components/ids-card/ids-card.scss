@@ -277,6 +277,10 @@
   z-index: 99;
 }
 
+:host([draggable][dropped]) {
+  z-index: 9;
+}
+
 :host([borderless]) {
   .ids-card {
     border-color: transparent;

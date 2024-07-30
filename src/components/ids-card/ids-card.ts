@@ -211,9 +211,9 @@ export default class IdsCard extends Base {
 
     this.offEvent('dragstart.ids-card', this);
     this.onEvent('dragstart.ids-card', this, () => {
+      this.removeAttribute(attributes.DROPPED);
       this.setAttribute(attributes.IS_DRAGGING, 'true');
       this.container?.classList?.add('is-dragging');
-      this.dropped = false;
       if (!this.disabled && !this.#clonedElement && this.fixed) {
         const clonedElement = this.cloneNode(true) as IdsCard;
         clonedElement.fixed = false;
@@ -228,7 +228,7 @@ export default class IdsCard extends Base {
     this.onEvent('dragend.ids-card', this, () => {
       this.removeAttribute(attributes.IS_DRAGGING);
       this.container?.classList?.remove('is-dragging');
-      this.dropped = true;
+      this.setAttribute(attributes.DROPPED, 'true');
       if (this.#clonedElement) {
         this.#clonedElement.remove();
       }
