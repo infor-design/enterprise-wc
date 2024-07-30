@@ -462,18 +462,18 @@
   --ids-step-chart-color-background-complete: var(--ids-color-primary-60);
 
   // Swappable
-  --ids-swappable-item-color-background-hover: var(--ids-color-neutral-60);
+  --ids-swappable-item-color-background-hover: var(--ids-color-accent-neutral-weak);
   --ids-swappable-item-color-background-selected: var(--ids-color-primary-60);
   --ids-swappable-item-over-border: 1px dashed var(--ids-color-neutral-30);
 
   // Swaplist
   --ids-swaplist-button-color-background-hover: var(--ids-color-accent-neutral-weaker);
-  --ids-swaplist-search-color-background-default: var(--ids-color-neutral-80);
-  --ids-swaplist-search-color-border-default: var(--ids-color-neutral-80);
-  --ids-swaplist-search-color-text-default: var(--ids-color-neutral-10);
-  --ids-swaplist-search-color-text-placeholder: var(--ids-color-neutral-10);
-  --ids-swaplist-search-color-border-hover: var(--ids-color-neutral-10);
-  --ids-swaplist-search-color-border-focus: var(--ids-color-neutral-10);
+  --ids-swaplist-search-color-background-default: var(--ids-color-accent-neutral-weaker);
+  --ids-swaplist-search-color-border-default: var(--ids-color-accent-neutral-weaker);
+  --ids-swaplist-search-color-text-default: var(--ids-color-accent-neutral-strongest);
+  --ids-swaplist-search-color-text-placeholder: var(--ids-color-accent-neutral-strongest);
+  --ids-swaplist-search-color-border-hover: var(--ids-color-accent-neutral-strongest);
+  --ids-swaplist-search-color-border-focus: var(--ids-color-accent-neutral-strongest);
   --ids-swaplist-search-color-border-shadow: 0 0 3px 2px rgba(54 138 192 / 0.1);
 
   // Swipe Action

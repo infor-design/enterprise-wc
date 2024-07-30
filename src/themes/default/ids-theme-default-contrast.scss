@@ -171,23 +171,23 @@
   // Editor
   --ids-editor-background-color: var(--ids-color-white-100);
   --ids-editor-color-border-default: var(--ids-color-neutral-40);
-  --ids-editor-color-border-hover: var(--ids-color-neutral-90);
+  --ids-editor-color-border-hover: var(--ids-color-accent-neutral-stronger);
   --ids-editor-color-border-focus: var(--ids-color-border-focus);
   --ids-editor-shadow-border-focus: var(--ids-shadow-focus);
   --ids-editor-color-border-error: var(--ids-color-error-default);
   --ids-editor-color-text-error: var(--ids-color-error-default);
   --ids-editor-shadow-error: var(--ids-shadow-error);
-  --ids-editor-color-background-readonly: var(--ids-color-neutral-20);
+  --ids-editor-color-background-readonly: var(--ids-color-accent-neutral-weakest);
   --ids-editor-color-border-readonly: var(--ids-color-neutral-40);
   --ids-editor-source-color-background-readonly: var(--ids-color-neutral-10);
   --ids-editor-color-border-disabled: var(--ids-color-text-disabled);
-  --ids-editor-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-editor-color-text-disabled: var(--ids-color-accent-neutral-weak);
   --ids-editor-link-color-text-link: var(--ids-color-primary);
   --ids-editor-link-color-text-hover: var(--ids-color-primary-100);
   --ids-editor-link-color-border-focus: var(--ids-color-primary);
   --ids-editor-shadow-focus: var(--ids-shadow-focus);
-  --ids-editor-source-color-background-default: var(--ids-color-neutral-20);
-  --ids-editor-source-line-color-text: var(--ids-color-neutral-70);
+  --ids-editor-source-color-background-default: var(--ids-color-accent-neutral-weakest);
+  --ids-editor-source-line-color-text: var(--ids-color-accent-neutral-default);
   --ids-editor-textarea-color-background: var(--ids-color-transparent);
   --ids-editor-source-color-text: var(--ids-color-text-data);
 
@@ -335,8 +335,8 @@
   --ids-step-chart-color-background-complete: var(--ids-color-primary);
 
   // Swap List
-  --ids-swaplist-search-color-text-default: var(--ids-color-neutral-100);
-  --ids-swaplist-search-color-text-placeholder: var(--ids-color-neutral-70);
+  --ids-swaplist-search-color-text-default: var(--ids-color-accent-neutral-strongest);
+  --ids-swaplist-search-color-text-placeholder: var(--ids-color-accent-neutral-default);
 
   // Swipe Action
   --ids-swipe-action-color-background-right-active: var(--ids-color-blue-90);

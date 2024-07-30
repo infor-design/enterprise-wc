@@ -1380,21 +1380,21 @@
 
   // Swappable
   --ids-swappable-border: 1px dashed transparent;
-  --ids-swappable-color-border-active: var(--ids-color-neutral-80);
+  --ids-swappable-color-border-active: var(--ids-color-accent-neutral-stronger);
   --ids-swappable-item-border-default: 1px dashed transparent;
   --ids-swappable-item-font-family: var(--ids-font-family-default);
   --ids-swappable-item-cursor-default: var(--ids-cursor-pointer);
-  --ids-swappable-item-color-background-hover: var(--ids-color-blue-10);
+  --ids-swappable-item-color-background-hover: var(--ids-color-accent-blue-weakest);
   --ids-swappable-item-content-hover: '\205e';
   --ids-swappable-item-font-size-hover: var(--ids-font-size-60);
-  --ids-swappable-item-border-focus: 1px solid var(--ids-color-blue-40);
+  --ids-swappable-item-border-focus: 1px solid var(--ids-color-accent-blue-weak);
   --ids-swappable-item-shadow-focus: 0 0 4px 1px rgb(54 138 192 / 0.3);
   --ids-swappable-item-outline-focus: none;
   --ids-swappable-item-opacity-dragging: 0.4;
   --ids-swappable-item-cursor-selected: var(--ids-cursor-move);
-  --ids-swappable-item-color-background-selected: var(--ids-color-primary);
+  --ids-swappable-item-color-background-selected: var(--ids-color-action-default);
   --ids-swappable-item-color-text-selected: var(--ids-color-white-100);
-  --ids-swappable-item-over-border: 1px dashed var(--ids-color-neutral-80);
+  --ids-swappable-item-over-border: 1px dashed var(--ids-color-accent-neutral-stronger);
 
   // Swaplist
   --ids-swaplist-border-radius: var(--ids-card-border-radius);
@@ -1415,12 +1415,12 @@
   --ids-swaplist-item-margin-block-end: var(--ids-space-xxxxs);
   --ids-swaplist-item-line-height: 23px;
   --ids-swaplist-item-over-border: 1px dashed var(--ids-color-text-label);
-  --ids-swaplist-search-color-background-default: var(--ids-color-neutral-10);
-  --ids-swaplist-search-color-border-default: var(--ids-color-neutral-10);
+  --ids-swaplist-search-color-background-default: var(--ids-color-accent-neutral-weakest);
+  --ids-swaplist-search-color-border-default: var(--ids-color-accent-neutral-weakest);
   --ids-swaplist-search-color-text-default: var(--ids-color-neutral-90);
-  --ids-swaplist-search-color-text-placeholder: var(--ids-color-neutral-60);
-  --ids-swaplist-search-color-border-hover: var(--ids-color-neutral-80);
-  --ids-swaplist-search-color-border-focus: var(--ids-color-neutral-80);
+  --ids-swaplist-search-color-text-placeholder: var(--ids-color-accent-neutral-strong);
+  --ids-swaplist-search-color-border-hover: var(--ids-color-accent-neutral-stronger);
+  --ids-swaplist-search-color-border-focus: var(--ids-color-accent-neutral-stronger);
   --ids-swaplist-search-color-border-shadow: 0 0 3px 2px rgba(54 138 192 / 0.1);
 
   // Swipe Action
