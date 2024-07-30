@@ -17083,7 +17083,7 @@
     },
     {
       "id": "id-1722019565496-4456",
-      "tokenName": "--ids-icon-status-color-gray-color-text",
+      "tokenName": "--ids-icon-status-color-neutral-color-text",
       "tokenValue": "var(--ids-color-neutral-60)",
       "children": [
         {
@@ -17101,11 +17101,11 @@
       "type": "Component",
       "component": "Icons",
       "colorValue": "#6f6f76",
-      "tokenNameCSS": "var(--ids-icon-status-color-gray-color-text)"
+      "tokenNameCSS": "var(--ids-icon-status-color-neutral-color-text)"
     },
     {
       "id": "id-1722019565496-4459",
-      "tokenName": "--ids-icon-status-color-gray-color-background",
+      "tokenName": "--ids-icon-status-color-neutral-color-background",
       "tokenValue": "var(--ids-color-neutral-10)",
       "children": [
         {
@@ -17123,7 +17123,7 @@
       "type": "Component",
       "component": "Icons",
       "colorValue": "#f5f5f5",
-      "tokenNameCSS": "var(--ids-icon-status-color-gray-color-background)"
+      "tokenNameCSS": "var(--ids-icon-status-color-neutral-color-background)"
     },
     {
       "id": "id-1722019565496-4463",

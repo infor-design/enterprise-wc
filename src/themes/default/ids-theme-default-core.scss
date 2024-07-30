@@ -373,13 +373,13 @@
   // Button (Formatter)
   --ids-button-formatter-color-border-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-action-stronger);
   --ids-button-formatter-opacity-disabled: 0.4;
-  --ids-button-formatter-color-text-hover: var(--ids-color-gray-100);
-  --ids-button-formatter-color-text-disabled: var(--ids-color-gray-50);
-  --ids-button-formatter-color-background-hover: var(--ids-color-gray-20);
-  --ids-button-formatter-color-active: var(--ids-color-gray-100);
+  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-100);
+  --ids-button-formatter-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-button-formatter-color-background-hover: var(--ids-color-neutral-20);
+  --ids-button-formatter-color-active: var(--ids-color-neutral-100);
   --ids-button-formatter-color-background-default: transparent;
   --ids-button-formatter-color-border-default: transparent;
-  --ids-button-formatter-color-text-default: var(--ids-color-gray-100);
+  --ids-button-formatter-color-text-default: var(--ids-color-neutral-100);
   --ids-button-formatter-size: 34px;
 
   // Button (Module)
@@ -818,8 +818,8 @@
   --ids-icon-status-color-teal-color-background: var(--ids-color-teal-10);
   --ids-icon-status-color-purple-color-text: var(--ids-color-purple-60);
   --ids-icon-status-color-purple-color-background: var(--ids-color-purple-10);
-  --ids-icon-status-color-gray-color-text: var(--ids-color-neutral-60);
-  --ids-icon-status-color-gray-color-background: var(--ids-color-neutral-10);
+  --ids-icon-status-color-neutral-color-text: var(--ids-color-neutral-60);
+  --ids-icon-status-color-neutral-color-background: var(--ids-color-neutral-10);
   --ids-icon-status-color-error-color-text: var(--ids-color-error-default);
   --ids-icon-status-color-error-color-background: var(--ids-color-error-weak);
   --ids-icon-status-color-warning-color-text: var(--ids-color-warning-default);
@@ -965,9 +965,9 @@
   --ids-list-view-item-color-text-link-disabled: var(--ids-color-neutral-30);
   --ids-list-view-item-opacity-disabled: 0.5;
   --ids-list-view-color-background-selected: var(--ids-color-action-weakest);
-  --ids-list-view-group-header-color-background: var(--ids-color-gray-10);
-  --ids-list-view-group-header-color-text: var(--ids-color-gray-100);
-  --ids-list-view-group-header-color-border: var(--ids-color-gray-20);
+  --ids-list-view-group-header-color-background: var(--ids-color-neutral-10);
+  --ids-list-view-group-header-color-text: var(--ids-color-neutral-100);
+  --ids-list-view-group-header-color-border: var(--ids-color-neutral-20);
   --ids-list-view-group-header-height: 36px;
   --ids-list-view-group-header-font-size: 14px;
   --ids-list-view-group-header-padding: var(--ids-space-12);

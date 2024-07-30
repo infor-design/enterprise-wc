@@ -442,11 +442,11 @@ ids-loading-indicator {
   }
 
   ids-search-field {
-    --ids-input-color-background-default: var(--ids-color-accent-gray-weakest);
-    --ids-search-field-color-background-default: var(--ids-color-accent-gray-weakest);
-    --ids-input-color-border-default: var(--ids-color-accent-gray-weak);
-    --ids-input-color-border-hover: var(--ids-color-accent-gray-weak);
-    --ids-input-color-border-focus: var(--ids-color-accent-gray-weak);
+    --ids-input-color-background-default: var(--ids-color-accent-neutral-weakest);
+    --ids-search-field-color-background-default: var(--ids-color-accent-neutral-weakest);
+    --ids-input-color-border-default: var(--ids-color-accent-neutral-weak);
+    --ids-input-color-border-hover: var(--ids-color-accent-neutral-weak);
+    --ids-input-color-border-focus: var(--ids-color-accent-neutral-weak);
     --ids-input-color-border-shadow: none;
     --ids-search-field-border-radius: 0;
     --ids-search-field-border-width: 1px 0;

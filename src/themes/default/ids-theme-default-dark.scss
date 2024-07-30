@@ -83,12 +83,12 @@
   --ids-block-grid-item-color-background-selectable-hover: var(--ids-color-neutral-80);
 
   // Button (Formatter)
-  --ids-button-formatter-color-border: var(--ids-color-gray-70);
-  --ids-button-formatter-color-text-hover: var(--ids-color-gray-10);
-  --ids-button-formatter-color-text-disabled: var(--ids-color-gray-40);
-  --ids-button-formatter-color-background-hover: var(--ids-color-gray-80);
+  --ids-button-formatter-color-border: var(--ids-color-neutral-70);
+  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-10);
+  --ids-button-formatter-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-button-formatter-color-background-hover: var(--ids-color-neutral-80);
   --ids-button-formatter-color-active: var(--ids-color-white-100);
-  --ids-button-formatter-color-text-default: var(--ids-color-gray-10);
+  --ids-button-formatter-color-text-default: var(--ids-color-neutral-10);
 
   // Button (Module)
   --ids-button-module-color-background-hover: rgba(0 0 0 / 0.3);
@@ -272,7 +272,7 @@
   --ids-icon-status-color-primary-color-background: var(--ids-color-transparent);
   --ids-icon-status-color-teal-color-background: var(--ids-color-transparent);
   --ids-icon-status-color-purple-color-background: var(--ids-color-transparent);
-  --ids-icon-status-color-gray-color-background: var(--ids-color-transparent);
+  --ids-icon-status-color-neutral-color-background: var(--ids-color-transparent);
   --ids-icon-status-color-error-color-background: var(--ids-color-transparent);
   --ids-icon-status-color-warning-color-background: var(--ids-color-transparent);
   --ids-icon-status-color-success-color-background: var(--ids-color-transparent);

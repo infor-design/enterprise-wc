@@ -4384,7 +4384,7 @@
     },
     {
       "id": "id-1722019565531-8391",
-      "tokenName": "--ids-icon-status-color-gray-color-background",
+      "tokenName": "--ids-icon-status-color-neutral-color-background",
       "tokenValue": "var(--ids-color-transparent)",
       "children": [
         {
@@ -4414,7 +4414,7 @@
       "type": "Component",
       "component": "Icons",
       "colorValue": null,
-      "tokenNameCSS": "var(--ids-icon-status-color-gray-color-background)"
+      "tokenNameCSS": "var(--ids-icon-status-color-neutral-color-background)"
     },
     {
       "id": "id-1722019565531-8395",
