@@ -698,9 +698,11 @@ export default class IdsDropdown extends Base {
     });
     listbox?.insertAdjacentHTML('afterbegin', html);
     this.dropdownList?.configureBlank();
-    const currentValue = this.getAttribute(attributes.VALUE);
-    if (this.value !== currentValue) {
-      this.value = currentValue;
+    if (!this.#isMultiSelect) {
+      const currentValue = this.getAttribute(attributes.VALUE);
+      if (this.value !== currentValue) {
+        this.value = currentValue;
+      }
     }
   }
 
@@ -731,17 +733,6 @@ export default class IdsDropdown extends Base {
 
     if (!noFocus) {
       this.input?.focus();
-    }
-
-    if (this.typeahead) {
-      // In case unfinished typeahead (typing is in process)
-      // closing popup will reset dropdown to the initial value
-      this.input?.setAttribute(attributes.READONLY, 'true');
-      const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
-      if (this.input) this.input.value = initialValue || '';
-      this.loadDataSet(this.#optionsData);
-      (window.getSelection() as Selection).removeAllRanges();
-      this.#replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
 
     this.container?.classList.remove('is-open');
@@ -1097,7 +1088,7 @@ export default class IdsDropdown extends Base {
       this.dropdownList.popup?.place();
     }
 
-    this.#replaceTriggerIcon('search');
+    this.replaceTriggerIcon('search');
 
     // Remove selected input icon when start typing
     this.input?.querySelector('.trigger-icon')?.remove();
@@ -1145,7 +1136,7 @@ export default class IdsDropdown extends Base {
    * Helper to replace icon on the trigger button
    * @param {string} icon ids-icon icon value
    */
-  #replaceTriggerIcon(icon: string) {
+  replaceTriggerIcon(icon: string) {
     const triggerIcon = this.container?.querySelector<IdsTriggerButton>('ids-trigger-button')?.querySelector<IdsIcon>('ids-icon');
 
     if (triggerIcon?.icon && triggerIcon.icon !== icon) {
@@ -1508,7 +1499,7 @@ export default class IdsDropdown extends Base {
 
   onDropdownIconChange(val: string | null) {
     if (typeof val === 'string' && val.length) {
-      this.#replaceTriggerIcon(this.dropdownIcon || 'dropdown');
+      this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
       if (this.dropdownList) this.dropdownList.dropdownIcon = this.dropdownIcon;
     }
   }

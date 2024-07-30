@@ -3,8 +3,8 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
+import { IdsDropdownOptions } from '../ids-dropdown/ids-dropdown-common';
 
-import '../ids-checkbox/ids-checkbox';
 import '../ids-tag/ids-tag';
 import '../ids-text/ids-text';
 import '../ids-list-box/ids-list-box-option';
@@ -14,6 +14,8 @@ import styles from './ids-multiselect.scss';
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTag from '../ids-tag/ids-tag';
 import type IdsText from '../ids-text/ids-text';
+import type IdsIcon from '../ids-icon/ids-icon';
+import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 /**
  * IDS Multiselect Component
@@ -47,6 +49,8 @@ class IdsMultiselect extends IdsDropdown {
       innerInput?.style.setProperty('color', 'transparent');
     }
   }
+
+  #optionsData: IdsDropdownOptions = [];
 
   internalSelectedList: Array<string> = [];
 
@@ -248,6 +252,17 @@ class IdsMultiselect extends IdsDropdown {
       this.deselectOption(this.selected);
     }
 
+    if (this.typeahead) {
+      // In case unfinished typeahead (typing is in process)
+      // closing popup will reset dropdown to the initial value
+      this.input?.setAttribute(attributes.READONLY, 'true');
+      const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
+      if (this.input) this.input.value = initialValue || '';
+      this.loadDataSet(this.#optionsData);
+      (window.getSelection() as Selection).removeAllRanges();
+      this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
+    }
+
     if (!noFocus) {
       this.input?.focus();
     }
@@ -406,6 +421,42 @@ class IdsMultiselect extends IdsDropdown {
     });
 
     this.value = this.internalSelectedList;
+  }
+
+  #setOptionsData() {
+    this.#optionsData = [...this.options].map((item) => ({
+      id: item.id,
+      label: item.textContent?.trim() || item.querySelector<IdsCheckbox>('ids-checkbox')?.label || '',
+      value: item.getAttribute(attributes.VALUE) as string,
+      icon: item.querySelector<IdsIcon>('ids-icon')?.icon,
+      groupLabel: item.hasAttribute(attributes.GROUP_LABEL),
+      isCheckbox: Boolean(item.querySelector<IdsCheckbox>('ids-checkbox'))
+    }));
+  }
+
+  /**
+   * Set typeahead attribute
+   * @param {string | boolean | null} value typeahead value
+   */
+  set typeahead(value: string | boolean | null) {
+    const val = stringToBool(value);
+
+    if (val) {
+      this.setAttribute(attributes.TYPEAHEAD, String(val));
+      this.#setOptionsData();
+    } else {
+      this.removeAttribute(attributes.TYPEAHEAD);
+    }
+
+    this.container?.classList.toggle('typeahead', val);
+  }
+
+  /**
+   * Get the typeahead attribute
+   * @returns {boolean} typeahead attribute value converted to boolean
+   */
+  get typeahead(): boolean {
+    return stringToBool(this.getAttribute(attributes.TYPEAHEAD));
   }
 }
 
