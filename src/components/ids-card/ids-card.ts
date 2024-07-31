@@ -209,10 +209,11 @@ export default class IdsCard extends Base {
       });
     }
 
-    this.offEvent('dragstart.ids-card', this);
-    this.onEvent('dragstart.ids-card', this, () => {
-      if (!this.style.transform) {
-        this.style.transform = 'translate(0px, 0px)';
+    this.offEvent('drag.ids-card', this);
+    this.onEvent('drag.ids-card', this, (e: any) => {
+      const { translateX = 0, translateY = 0 } = e?.detail;
+      if (translateX === 0 && translateY === 0) {
+        return;
       }
       this.removeAttribute(attributes.DROPPED);
       this.setAttribute(attributes.IS_DRAGGING, 'true');
@@ -228,7 +229,11 @@ export default class IdsCard extends Base {
     });
 
     this.offEvent('dragend.ids-card', this);
-    this.onEvent('dragend.ids-card', this, () => {
+    this.onEvent('dragend.ids-card', this, (e: any) => {
+      const { translateX = 0, translateY = 0 } = e?.detail;
+      if (translateX === 0 && translateY === 0) {
+        return;
+      }
       this.removeAttribute(attributes.IS_DRAGGING);
       this.container?.classList?.remove('is-dragging');
       this.setAttribute(attributes.DROPPED, 'true');
