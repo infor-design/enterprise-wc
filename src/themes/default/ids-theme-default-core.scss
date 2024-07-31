@@ -1218,7 +1218,7 @@
 
   // Process Indicator
   --ids-process-indicator-color-text: var(--ids-color-text-label);
-  --ids-process-indicator-step-margin-top: 40px;
+  --ids-process-indicator-step-margin-top: var(--ids-space-xl);
   --ids-process-indicator-margin: var(--ids-space-none) var(--ids-space-2xs) var(--ids-space-none) var(--ids-space-none);
   --ids-process-indicator-text-margin: var(--ids-space-none) var(--ids-space-2xs) var(--ids-space-2xs) var(--ids-space-none);
   --ids-process-indicator-color-background: var(--ids-color-background-default);
@@ -1232,7 +1232,7 @@
   --ids-process-indicator-step-height: 11px;
   --ids-process-indicator-step-width: 11px;
   --ids-process-indicator-border-radius-step: var(--ids-border-radius-circle);
-  --ids-process-indicator-canceled-step-color-background: var(--ids-color-red-60);
+  --ids-process-indicator-canceled-step-color-background: var(--ids-color-accent-red-strong);
   --ids-process-indicator-canceled-step-color-icon: var(--ids-process-indicator-color-background);
   --ids-process-indicator-border-done: 2px solid var(--ids-process-indicator-color-primary);
   --ids-process-indicator-border-started: 2px solid var(--ids-process-indicator-color-active);
