@@ -58,6 +58,7 @@ export default class IdsNotificationBanner extends Base {
     return [
       attributes.MESSAGE,
       attributes.MESSAGE_TEXT,
+      attributes.LINE_CLAMP,
       attributes.LINK,
       attributes.LINK_TEXT,
       attributes.TYPE,
@@ -178,6 +179,26 @@ export default class IdsNotificationBanner extends Base {
   get link(): string | null { return this.getAttribute(attributes.LINK); }
 
   /**
+   * Sets line clamp value to truncate message text
+   * @param {number|null} val number of displayed before truncating
+   */
+  set lineClamp(val: number | null) {
+    const rows = Number(val);
+
+    if (!Number.isNaN(rows) && rows > 0) {
+      this.setAttribute(attributes.LINE_CLAMP, String(rows));
+      this.messageElem?.setAttribute(attributes.LINE_CLAMP, String(rows));
+    } else {
+      this.removeAttribute(attributes.LINE_CLAMP);
+      this.messageElem?.removeAttribute(attributes.LINE_CLAMP);
+    }
+  }
+
+  get lineClamp(): number | null {
+    return Number(this.getAttribute(attributes.LINE_CLAMP)) || null;
+  }
+
+  /**
    * Set the custom link text of the Notification Banner
    * @param {string | null} value the link-text value
    */
@@ -221,6 +242,10 @@ export default class IdsNotificationBanner extends Base {
   }
 
   get message() { return this.getAttribute(attributes.MESSAGE); }
+
+  get messageElem(): IdsText | null {
+    return this.container?.querySelector<IdsText>('ids-text.message') ?? null;
+  }
 
   /**
    * Establish Internal Event Handlers
