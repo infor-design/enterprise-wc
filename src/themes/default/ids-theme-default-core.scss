@@ -1018,13 +1018,13 @@
   --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary);
 
   // Module Nav (Main)
-  --ids-module-nav-background-color: var(--ids-color-neutral-10);
-  --ids-module-nav-border-color: var(--ids-color-neutral-30);
-  --ids-module-nav-common-border-radius: 8px;
+  --ids-module-nav-background-color: var(--ids-color-accent-neutral-weakest);
+  --ids-module-nav-border-color: var(--ids-color-border-weaker);
+  --ids-module-nav-common-border-radius: var(--ids-border-radius-sm);
   --ids-module-nav-collapsed-size: 56px;
-  --ids-module-nav-gutter-size: 4px;
+  --ids-module-nav-gutter-size: var(--ids-space-2xs);
   --ids-module-nav-expanded-size: 320px;
-  --ids-module-nav-text-color: var(--ids-color-neutral-60);
+  --ids-module-nav-text-color: var(--ids-color-foreground-default-default);
   --ids-module-nav-bar-z-index: var(--ids-z-index-20);
   --ids-module-nav-content-z-index: var(--ids-z-index-0);
   --ids-module-nav-content-overlay-z-index: var(--ids-z-index-10);
@@ -1054,7 +1054,7 @@
   // Module Nav Item (Accordion Header/Menu Button)
   --ids-module-nav-item-height: 40px;
   --ids-module-nav-item-padding-size: 13px;
-  --ids-module-nav-item-margin-block: 4px;
+  --ids-module-nav-item-margin-block: var(--ids-space-2xs);
   --ids-module-nav-item-margin-inline: var(--ids-space-xs);
   --ids-module-nav-item-padding-block: var(--ids-space-xs);
   --ids-module-nav-item-icon-start-spacing: 11px;
@@ -1065,11 +1065,14 @@
   --ids-module-nav-item-collapsed-general-space-size: 4px;
   --ids-module-nav-item-collapsed-first-last-space-size: var(--ids-space-xs);
   --ids-module-nav-item-expanded-icon-text-space-size: var(--ids-space-sm);
-  --ids-module-nav-item-text-color: var(--ids-color-neutral-100);
-  --ids-module-nav-item-hover-bg-color: var(--ids-color-neutral-20);
-  --ids-module-nav-item-hover-text-color: var(--ids-color-neutral-100);
-  --ids-module-nav-item-selected-bg-color: var(--ids-color-blue-10);
-  --ids-module-nav-item-selected-text-color: var(--ids-color-blue-70);
+  --ids-module-nav-item-text-color: var(--ids-color-foreground-default-default);
+  --ids-module-nav-item-hover-bg-color: var(--ids-color-accent-neutral-weaker);
+  --ids-module-nav-item-hover-text-color: var(--ids-color-foreground-default-default);
+  --ids-module-nav-item-active-bg-color: var(--ids-color-action-weakest);
+  --ids-module-nav-item-active-text-color: var(--ids-color-action-default);
+  --ids-module-nav-item-active-border-color: var(--ids-color-action-default);
+  --ids-module-nav-item-selected-bg-color: var(--ids-color-action-weakest);
+  --ids-module-nav-item-selected-text-color: var(--ids-color-action-default);
   --ids-module-nav-item-top-expander-size: 31px;
   --ids-module-nav-item-sub-expander-size: 23px;
 

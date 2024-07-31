@@ -23,10 +23,11 @@
   &:active {
     background-color: var(--ids-module-nav-item-selected-bg-color);
     color: var(--ids-module-nav-item-selected-text-color);
+    border-color: var(--ids-module-nav-item-active-border-color);
   }
 
   &:focus:not(.hide-focus) {
-    border-color: var(--ids-module-nav-item-selected-text-color);
+    border-color: var(--ids-module-nav-item-active-border-color);
   }
 
   &.selected {

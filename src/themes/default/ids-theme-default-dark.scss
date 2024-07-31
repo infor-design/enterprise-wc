@@ -329,9 +329,8 @@
   --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary-30);
 
   // Module Nav (Main)
-  --ids-module-nav-background-color: var(--ids-color-neutral-90);
-  --ids-module-nav-border-color: var(--ids-color-neutral-70);
-  --ids-module-nav-text-color: var(--ids-color-neutral-30);
+  --ids-module-nav-background-color: var(--ids-color-accent-neutral-weakest);
+  --ids-module-nav-border-color: var(--ids-color-border-weaker);
 
   // Module Nav (Detail)
   --ids-module-nav-detail-background-color: var(--ids-color-neutral-80);
@@ -348,10 +347,8 @@
 
   // Module Nav Item (Accordion Header/Menu Button)
   --ids-module-nav-item-text-color: var(--ids-color-neutral-10);
-  --ids-module-nav-item-hover-bg-color: var(--ids-color-neutral-80);
-  --ids-module-nav-item-hover-text-color: var(--ids-color-neutral-10);
-  --ids-module-nav-item-selected-bg-color: var(--ids-color-primary-60);
-  --ids-module-nav-item-selected-text-color: var(--ids-color-neutral-10);
+  --ids-module-nav-item-active-text-color: var(--ids-color-accent-blue-strongest);
+  --ids-module-nav-item-selected-text-color: var(--ids-color-accent-blue-strongest);
 
   // Module Nav Switcher (Role Dropdown + Button)
   --ids-module-nav-switcher-dropdown-bg-color: var(--ids-color-neutral-90);
