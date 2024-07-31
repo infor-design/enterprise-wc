@@ -178,16 +178,8 @@ In some situations, it may be preferable to separate the IdsDropdownList element
 - `focus` Fires at the time the dropdown is focused
 - `selected` Fires when a value is selected
 - `focus` Fires when the field gets focus
-- `change` Fires when the value is changed
 - `selected` Fires when a value is selected
-- `keydown, keyup, keypress` Fires when a key is pressed down when searching
-- `keyup`  Fires when a key is pressed up when searching
-- `keypress` Fires when the field looses focus
 
-```js
-const dropdown = document.querySelector('ids-dropdown');
-
-dropdown.input.addEventListener('change');
 ```
 - Event listeners for popup `show`, `hide` events can be added to `popup` property:
 ```js
