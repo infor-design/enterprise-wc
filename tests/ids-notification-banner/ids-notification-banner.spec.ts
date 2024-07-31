@@ -131,5 +131,15 @@ test.describe('IdsNotificationBanner tests', () => {
         (elem: IdsNotificationBanner) => elem.container?.querySelector<HTMLElement>('.ids-notification-banner-link')?.hasAttribute('hidden')
       )).toBeTruthy();
     });
+
+    test('should handle line clamp setting', async ({ page }) => {
+      const notificationBanner = await page.locator('ids-notification-banner').first();
+      const lineClampValue = await notificationBanner.evaluate((banner: IdsNotificationBanner) => {
+        banner.lineClamp = 2;
+        return banner.lineClamp;
+      });
+
+      expect(lineClampValue).toEqual(2);
+    });
   });
 });

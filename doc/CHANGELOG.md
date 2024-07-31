@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.5.0
+
+### 1.5.0 Features
+
+- `[Multiselect]` Added typeahead functionality. ([#2432](https://github.com/infor-design/enterprise-wc/issues/2432))
+
 ## 1.4.0
 
 ### 1.4.0 Features
@@ -7,6 +13,7 @@
 - `[Datagrid]` Added search feature to datagrid via `searchable` and `search-term-min-size` attributes. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
 - `[Datagrid]` Added a new `grouped` rows setting to group rows. Also added the personalization dialog feature. ([#2271](https://github.com/infor-design/enterprise-wc/issues/2271))
 - `[ListView]` Added grouped headers and a `appendToBottom` method. ([#2626](https://github.com/infor-design/enterprise-wc/issues/2626))
+- `[NotificationBanner]` Added `line-clamp` setting to notication banner to allow custom message truncation. ([#2138](https://github.com/infor-design/enterprise-wc/issues/2138))
 
 ### 1.4.0 Fixes
 
@@ -33,6 +40,7 @@
 - `[Splitter]` Fix issue initializing size and collapsed at the same time. ([#2585](https://github.com/infor-design/enterprise-wc/issues/2585))
 - `[Splitter]` Fix initialization issues when in angular apps. ([#2590](https://github.com/infor-design/enterprise-wc/issues/2590))
 - `[Splitter]` Fix issue where text in closed panes overlapped the other side. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))
+- `[Splitter]` Fix issue where pane's scrollbar didn't appear on overflow. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))
 - `[Splitter]` Fix issue initializing size and collapsed at the same time. ([#2585](https://github.com/infor-design/enterprise-wc/issues/2585))
 - `[Splitter]` Fix initialization issues when in angular apps. ([#2590](https://github.com/infor-design/enterprise-wc/issues/2590))
 - `[Splitter]` Fix issue where text in closed panes overlapped the other side. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))

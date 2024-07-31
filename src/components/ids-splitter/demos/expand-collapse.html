@@ -5,49 +5,48 @@
   <%= htmlWebpackPlugin.options.font %>
 </head>
 <body>
-  <ids-container role="main" padding="0" hidden scrollable>
-    <ids-theme-switcher mode="light"></ids-theme-switcher>
-    <ids-layout-grid auto-fit="true" padding="md">
-      <ids-layout-grid-cell>
-        <ids-button id="expand-collapse-btn" appearance="secondary">
-          <ids-icon icon="menu"></ids-icon>
-          <span class="audible">Expand Collapse</span>
-        </ids-button>
-      </ids-layout-grid-cell>
-    </ids-layout-grid>
+  <ids-container role="main" padding="0" hidden>
+    <ids-layout-flex direction="column" gap="8" full-height>
+      <ids-layout-flex-item>
+        <ids-theme-switcher mode="light"></ids-theme-switcher>
+      </ids-layout-flex-item>
 
-    <ids-scroll-container>
-      <ids-layout-grid auto-fit="true" padding-x="md">
-        <ids-layout-grid-cell>
-          <ids-splitter height="calc(100dvh - 128px)">
-            <ids-splitter-pane size="25%" id="left-pane">
-              <ids-layout-grid auto-fit="true">
-                <ids-layout-grid-cell>
-                  <ids-scroll-container>
-                    <ids-tree id="tree" label="Tree"></ids-tree>
-                  </ids-scroll-container>
-                </ids-layout-grid-cell>
-              </ids-layout-grid>
-            </ids-splitter-pane>
+      <ids-layout-flex-item>
+        <ids-layout-grid padding="md">
+          <ids-layout-grid-item>
+            <ids-button id="expand-collapse-btn" appearance="secondary">
+              <ids-icon icon="menu"></ids-icon>
+              <span class="audible">Expand Collapse</span>
+            </ids-button>
+          </ids-layout-grid-item>  
+        </ids-layout-grid>
+      </ids-layout-flex-item>
 
-            <ids-splitter-pane id="right-pane">
-              <ids-list-view item-height="76" selectable="single">
-                <template>
-                  <ids-text font-size="16" type="h2" font-weight="semi-bold">${name}</ids-text>
-                  <ids-layout-grid cols="1" padding-y="xxs">
-                    <ids-layout-grid-cell>
-                      <ids-text font-size="16" type="span">${type}</ids-text>
-                      <ids-text font-size="14" type="span">${location}</ids-text>
-                    </ids-layout-grid-cell>
-                  </ids-layout-grid>
-                </template>
-              </ids-list-view>
-            </ids-splitter-pane>
-
-          </ids-splitter>
-        </ids-layout-grid-cell>
-      </ids-layout-grid>
-    </ids-scroll-container>
+      <ids-layout-flex-item grow="1" overflow="hidden">
+        <ids-splitter height="100%" width="100%">
+          <ids-splitter-pane size="25%" id="left-pane">
+            <ids-layout-grid margin="xs">
+              <ids-layout-grid-cell>
+                <ids-tree id="tree" label="Tree"></ids-tree>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </ids-splitter-pane>
+          <ids-splitter-pane id="right-pane" no-scroll>
+            <ids-list-view item-height="76" selectable="single">
+              <template>
+                <ids-text font-size="16" type="h2" font-weight="semi-bold">${name}</ids-text>
+                <ids-layout-grid cols="1" padding-y="xxs">
+                  <ids-layout-grid-cell>
+                    <ids-text font-size="16" type="span">${type}</ids-text>
+                    <ids-text font-size="14" type="span">${location}</ids-text>
+                  </ids-layout-grid-cell>
+                </ids-layout-grid>
+              </template>
+            </ids-list-view>
+          </ids-splitter-pane>
+        </ids-splitter>
+      </ids-layout-flex-item>
+    </ids-layout-flex>
   </ids-container>
 </body>
 </html>

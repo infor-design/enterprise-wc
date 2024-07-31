@@ -176,11 +176,10 @@ In some situations, it may be preferable to separate the IdsDropdownList element
 
 - `change` Fires when an option is selected / changed
 - `focus` Fires at the time the dropdown is focused
-- Event listeners for input (trigger field) `blur`, `change`, `focus`, `select`, `keydown`, `keypress`, `keyup`, `click`, `dbclick`, `beforetriggerclicked`, `triggerclicked` events can be added to `input` component property:
-```js
-const dropdown = document.querySelector('ids-dropdown');
+- `selected` Fires when a value is selected
+- `focus` Fires when the field gets focus
+- `selected` Fires when a value is selected
 
-dropdown.input.addEventListener('change');
 ```
 - Event listeners for popup `show`, `hide` events can be added to `popup` property:
 ```js
