@@ -127,27 +127,6 @@ export default class IdsCard extends Base {
    * Method for actionable button card template
    * @returns {string} html
    */
-  draggableCardTemplate() {
-    const html = `
-      <div class="ids-card" part="card">
-        <div class="ids-card-icon">
-          <slot name="icon"></slot>
-        </div>
-        <div class="ids-card-label">
-          <ids-text font-size="16">
-            <slot name="label"></slot>
-          </ids-text>
-        </div>
-      </div>
-    `;
-
-    return html;
-  }
-
-  /**
-   * Method for actionable button card template
-   * @returns {string} html
-   */
   actionableButtonTemplate() {
     const html = `
       <div class="ids-card" part="card">
@@ -183,10 +162,6 @@ export default class IdsCard extends Base {
   template() {
     if (this.actionable) {
       return this.href ? this.actionableLinkTemplate() : this.actionableButtonTemplate();
-    }
-
-    if (this.draggable) {
-      return this.draggableCardTemplate();
     }
 
     return this.cardTemplate();

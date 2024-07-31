@@ -235,20 +235,25 @@
 
 :host([draggable]) {
   width: var(--ids-card-width);
-  display: inline-block;
   z-index: 1;
 
   .ids-card {
-    display: flex;
-    align-items: center;
-    gap: 22px;
     border: 1px solid var(--ids-card-color-border-draggable);
     box-shadow: none;
     height: auto;
     min-height: auto;
-    padding: 12px 20px 12px 16px;
     cursor: pointer;
     width: var(--ids-card-width);
+
+    .ids-card-header {
+      min-height: 56px;
+
+      slot[name='card-header'] {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+    }
 
     &.is-dropped {
       z-index: 99;
@@ -265,9 +270,14 @@
     }
 
     &.is-fixed {
-      &.is-dropped,  &.is-dragging {
+      &.is-dropped, &.is-dragging {
         position: absolute;
         justify-content: center;
+
+        .ids-card-header {
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
   }
