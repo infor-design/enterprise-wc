@@ -187,9 +187,10 @@
   .ids-checkbox {
     text-indent: 0;
     margin-inline-start: 8px;
-  }
-  .ids-checkbox label {
-    margin-inline-end: 0;
-    padding-inline-start: 12px;
+
+    label {
+      margin-inline-end: 0;
+      padding-inline-start: 12px;
+    }
   }
 }
