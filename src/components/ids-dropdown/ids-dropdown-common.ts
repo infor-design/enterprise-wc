@@ -8,6 +8,7 @@ export type IdsDropdownOption = {
   tooltip?: string,
   groupLabel?: boolean,
   // ids-multiselect shared
+  isCheckbox?: boolean,
   selected?: boolean,
   index?: number
 };

@@ -14,6 +14,9 @@
   - link: groups.html
     type: Example
     description: Showing a multiselect with grouping functionality
+  - link: typeahead.html
+    type: Example
+    description: Showing a multiselect with typeahead functionality
   - link: side-by-side.html
     type: Side by Side
     description: Shows multiselect side by side with a 4.x multiselect

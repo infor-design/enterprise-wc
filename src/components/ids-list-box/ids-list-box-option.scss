@@ -26,6 +26,10 @@
   }
 }
 
+:host(.multiselect-loaded) {
+  align-items: center;
+}
+
 :host([disabled]:not([disabled='false'])) {
   cursor: var(--ids-cursor-default);
   opacity: 0.5;
