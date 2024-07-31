@@ -2,6 +2,7 @@ import treeBasicJSON from '../../../assets/data/tree-basic.json';
 import eventsJSON from '../../../assets/data/accounts.json';
 
 import '../../ids-container/ids-container';
+import '../../ids-layout-flex/ids-layout-flex';
 import '../../ids-button/ids-button';
 import '../../ids-list-view/ids-list-view';
 import '../../ids-tree/ids-tree';
