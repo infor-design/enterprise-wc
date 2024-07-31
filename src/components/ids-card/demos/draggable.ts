@@ -1,7 +1,7 @@
 import css from '../../../assets/css/ids-card/draggable.css';
 import autofit from '../../../assets/css/ids-card/auto-fit.css';
-import "../../ids-tabs/ids-tabs";
-import "../../ids-search-field/ids-search-field";
+import '../../ids-tabs/ids-tabs';
+import '../../ids-search-field/ids-search-field';
 
 const cssLink = `<link href="${css}" rel="stylesheet">`;
 const autoFitCssLink = `<link href="${autofit}" rel="stylesheet">`;

@@ -38,7 +38,6 @@ const Base = IdsHideFocusMixin(
 @customElement('ids-card')
 @scss(styles)
 export default class IdsCard extends Base {
-
   #clonedElement: any = null;
 
   constructor() {
@@ -186,7 +185,7 @@ export default class IdsCard extends Base {
 
     this.offEvent('drag.ids-card', this);
     this.onEvent('drag.ids-card', this, (e: any) => {
-      const { translateX = 0, translateY = 0 } = e?.detail;
+      const { translateX = 0, translateY = 0 } = e.detail;
       if (translateX === 0 && translateY === 0) {
         return;
       }
@@ -205,7 +204,7 @@ export default class IdsCard extends Base {
 
     this.offEvent('dragend.ids-card', this);
     this.onEvent('dragend.ids-card', this, (e: any) => {
-      const { translateX = 0, translateY = 0 } = e?.detail;
+      const { translateX = 0, translateY = 0 } = e.detail;
       if (translateX === 0 && translateY === 0) {
         return;
       }
