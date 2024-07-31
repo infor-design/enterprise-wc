@@ -10308,11 +10308,11 @@
     {
       "id": "id-1722019565487-3572",
       "tokenName": "--ids-checkbox-border-radius",
-      "tokenValue": "var(--ids-border-radius-xxs)",
+      "tokenValue": "var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565487-3569",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10331,7 +10331,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -13298,11 +13298,11 @@
     {
       "id": "id-1722019565491-3964",
       "tokenName": "--ids-dropdown-border-radius",
-      "tokenValue": "0 0 var(--ids-border-radius-xxs) var(--ids-border-radius-xxs)",
+      "tokenValue": "0 0 var(--ids-border-radius-2xs) var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565491-3961",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -13321,7 +13321,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -13332,11 +13332,11 @@
     {
       "id": "id-1722019565491-3968",
       "tokenName": "--ids-dropdown-border-radius-opened-up",
-      "tokenValue": "var(--ids-border-radius-xxs) var(--ids-border-radius-xxs) 0 0",
+      "tokenValue": "var(--ids-border-radius-2xs) var(--ids-border-radius-2xs) 0 0",
       "children": [
         {
           "id": "id-1722019565491-3965",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -13355,7 +13355,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -13746,11 +13746,11 @@
     {
       "id": "id-1722019565491-4025",
       "tokenName": "--ids-editor-border-radius-default",
-      "tokenValue": "var(--ids-border-radius-xxs)",
+      "tokenValue": "var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565491-4022",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -13769,7 +13769,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -14415,11 +14415,11 @@
     {
       "id": "id-1722019565492-4109",
       "tokenName": "--ids-editor-link-border-radius-focus",
-      "tokenValue": "var(--ids-border-radius-xxs)",
+      "tokenValue": "var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565492-4106",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -14438,7 +14438,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -15359,11 +15359,11 @@
     {
       "id": "id-1722019565494-4235",
       "tokenName": "--ids-hierarchy-item-border-radius",
-      "tokenValue": "var(--ids-border-radius-xxs)",
+      "tokenValue": "var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565494-4232",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -15382,7 +15382,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -17740,11 +17740,11 @@
     {
       "id": "id-1722019565496-4535",
       "tokenName": "--ids-image-placeholder-border-radius",
-      "tokenValue": "var(--ids-border-radius-xxs)",
+      "tokenValue": "var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565496-4532",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -17763,7 +17763,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -19316,11 +19316,11 @@
     {
       "id": "id-1722019565497-4755",
       "tokenName": "--ids-list-builder-border-radius",
-      "tokenValue": "var(--ids-border-radius-xxs)",
+      "tokenValue": "var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565497-4752",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -19339,7 +19339,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -21149,11 +21149,11 @@
     {
       "id": "id-1722019565500-4998",
       "tokenName": "--ids-modal-border-radius",
-      "tokenValue": "var(--ids-border-radius-xxs)",
+      "tokenValue": "var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565500-4995",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -21172,7 +21172,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -23970,11 +23970,11 @@
     {
       "id": "id-1722019565504-5396",
       "tokenName": "--ids-popup-menu-border-radius",
-      "tokenValue": "var(--ids-border-radius-xxs)",
+      "tokenValue": "var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565504-5393",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -23993,7 +23993,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -24759,11 +24759,11 @@
     {
       "id": "id-1722019565505-5491",
       "tokenName": "--ids-progress-chart-bar-border-radius",
-      "tokenValue": "var(--ids-border-radius-xxs)",
+      "tokenValue": "var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565505-5488",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -24782,7 +24782,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -27056,11 +27056,11 @@
     {
       "id": "id-1722019565509-5775",
       "tokenName": "--ids-skip-link-border-radius",
-      "tokenValue": "0 0 var(--ids-border-radius-xxs) var(--ids-border-radius-xxs)",
+      "tokenValue": "0 0 var(--ids-border-radius-2xs) var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565509-5772",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -27079,7 +27079,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",
@@ -34342,11 +34342,11 @@
     {
       "id": "id-1722019565513-6684",
       "tokenName": "--ids-tooltip-border-radius",
-      "tokenValue": "var(--ids-border-radius-xxs)",
+      "tokenValue": "var(--ids-border-radius-2xs)",
       "children": [
         {
           "id": "id-1722019565513-6681",
-          "tokenName": "--ids-border-radius-xxs",
+          "tokenName": "--ids-border-radius-2xs",
           "tokenValue": "var(--ids-border-radius-02)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -34365,7 +34365,7 @@
             }
           ],
           "colorValue": null,
-          "tokenNameCSS": "var(--ids-border-radius-xxs)"
+          "tokenNameCSS": "var(--ids-border-radius-2xs)"
         }
       ],
       "type": "Component",

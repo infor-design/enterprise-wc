@@ -770,7 +770,8 @@ $input-size-full: 100%;
 
     &:focus-within {
       .field-container,
-      &:hover .field-container {
+      &:hover.readonly.readonly-background,
+      &:hover:not(.readonly):not(.disabled) .field-container {
         border-color: var(--ids-data-grid-filter-input-color-border-focus);
       }
 

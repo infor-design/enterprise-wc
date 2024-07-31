@@ -4,5 +4,5 @@
   position: relative;
   overflow: hidden;
   border: 1px dashed var(--ids-color-neutral-70);
-  border-radius: var(--ids-border-radius-xxs);
+  border-radius: var(--ids-border-radius-2xs);
 }

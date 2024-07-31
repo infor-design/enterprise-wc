@@ -12,12 +12,12 @@
   .droparea {
     color: var(--ids-upload-advanced-color-text-default);
     background-color: var(--ids-upload-advanced-color-background-default);
-    border-width: 1px;
+    border-width: var(--ids-border-width-sm);
     border-color: var(--ids-upload-advanced-color-border-default);
     position: relative;
     align-items: center;
     display: flex;
-    border-radius: var(--ids-border-radius-xxs);
+    border-radius: var(--ids-border-radius-2xs);
     border-style: dashed;
     flex-direction: column;
     justify-content: center;
@@ -96,7 +96,7 @@
     margin-top: var(--ids-space-xs);
     padding: var(--ids-space-3xs);
     display: none;
-    border-radius: var(--ids-border-radius-xxs);
+    border-radius: var(--ids-border-radius-2xs);
     border-style: dashed;
     align-items: center;
 

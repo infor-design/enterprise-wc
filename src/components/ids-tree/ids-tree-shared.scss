@@ -22,7 +22,7 @@
 // Adjust badge rules for tree node
 @mixin tree-node-badge() {
   ids-badge::part(badge) {
-    border-width: 0;
+    border-width: var(--ids-border-width-none);
     margin: 0;
     margin-inline-end: 8px;
   }

@@ -113,7 +113,7 @@
 .ids-accordion-header {
   @include antialiased();
 
-  border-width: 1px;
+  border-width: var(--ids-border-width-sm);
   border-style: solid;
   align-items: center;
   cursor: pointer;

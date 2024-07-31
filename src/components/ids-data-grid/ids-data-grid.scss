@@ -20,7 +20,7 @@
   // Outside border and Background and sizing
   background-color: var(--ids-data-grid-color-background);
   border: 1px solid var(--ids-data-grid-cell-color-border);
-  border-radius: var(--ids-border-radius-xxs);
+  border-radius: var(--ids-border-radius-2xs);
   border-collapse: collapse;
   box-sizing: border-box;
   overflow: auto;
@@ -340,7 +340,7 @@
 
   // List Style Feature
   &.is-list-style {
-    border-width: 0;
+    border-width: var(--ids-border-width-none);
   }
 
   // Used for row start

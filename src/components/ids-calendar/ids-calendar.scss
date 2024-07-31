@@ -131,7 +131,7 @@ ids-accordion-panel::part(content) {
     background-color: var(--ids-calendar-toolbar-color-background);
     border-style: solid;
     border-color: var(--ids-calendar-toolbar-color-border);
-    border-width: 1px;
+    border-width: var(--ids-border-width-sm);
     border-inline-start-width: 4px;
     cursor: pointer;
     display: flex;
