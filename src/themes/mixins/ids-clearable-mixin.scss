@@ -24,8 +24,7 @@
       margin-inline-end: 4px;
 
       &.is-empty {
-        display: initial;
-        visibility: hidden;
+        display: none;
         pointer-events: none;
       }
     }
