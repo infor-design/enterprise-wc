@@ -57,7 +57,6 @@ For improved accessibility, add an audible description using <ids-text>:
 - Disabled
 - Shape
 
-
 ## Converting from Previous Versions (Breaking Changes)
 
 **4.x to 5.x**

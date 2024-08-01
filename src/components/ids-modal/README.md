@@ -107,7 +107,6 @@ Scrolled content on IdsModal can be configured using the `scrollable` setting.  
 
 If a scrollable element such as [IdsSplitter](../ids-splitter/README.md) has been slotted, a best practice is to defer to that element for scrolling behavior on its own child elements.  In this case, `scrollable` should be set to false.
 
-
 ### ids-modal-button
 
 The Modal Button is an extension of the [ids-button](../ids-button/README.md), displaying in a larger style that fits within Modal. Used to create buttons for use within Modal-type components.
