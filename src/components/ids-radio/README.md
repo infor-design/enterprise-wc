@@ -131,9 +131,7 @@ Set the radio group as `horizontal`:
 </ids-radio-group>
 ```
 
-## Settings (Attributes)
-
-### Radios
+## Settings (Attributes) - Radios
 
 - `checked` {boolean} Sets the checked state.
 - `disabled` {boolean} Sets the disabled state.
@@ -143,7 +141,7 @@ Set the radio group as `horizontal`:
 - `validation-has-error` {boolean} Sets the validation error state.
 - `value` {string} Sets the radio value.
 
-### Radio Groups
+## Settings (Attributes) - Radio Groups
 
 - `disabled` {boolean} Sets the disabled state.
 - `horizontal` {boolean} Set radio group layout inline as horizontal.
