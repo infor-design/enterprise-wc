@@ -1,4 +1,4 @@
-<div class="ids-swaplist"><ids-card class="list-card card card-0" data-id="1" data-name="Available">
+<div class="ids-swaplist"><ids-card class="list-card card card-0" data-id="1" data-name="Available" overflow="hidden">
         <div slot="card-header">
           <ids-text font-size="20">Available</ids-text>
           <div class="swap-buttons">
@@ -44,10 +44,42 @@
       
             <ids-text>Option L</ids-text>
           
+    </ids-swappable-item><ids-swappable-item data-value="option_m" data-id="13" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option M</ids-text>
+          
+    </ids-swappable-item><ids-swappable-item data-value="option_n" data-id="14" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option N</ids-text>
+          
+    </ids-swappable-item><ids-swappable-item data-value="option_o" data-id="13" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option O</ids-text>
+          
+    </ids-swappable-item><ids-swappable-item data-value="option_p" data-id="14" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option P</ids-text>
+          
+    </ids-swappable-item><ids-swappable-item data-value="option_q" data-id="15" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option Q</ids-text>
+          
+    </ids-swappable-item><ids-swappable-item data-value="option_r" data-id="16" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option R</ids-text>
+          
+    </ids-swappable-item><ids-swappable-item data-value="option_s" data-id="17" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option S</ids-text>
+          
+    </ids-swappable-item><ids-swappable-item data-value="option_t" data-id="18" class="hide-focus" tabbable="true" tabindex="0" drag-mode="select" draggable="false">
+      
+            <ids-text>Option T</ids-text>
+          
     </ids-swappable-item>
           </ids-swappable>
         </div>
-      </ids-card><ids-card class="list-card card card-1" data-id="2" data-name="Selected">
+      </ids-card><ids-card class="list-card card card-1" data-id="2" data-name="Selected" overflow="hidden">
         <div slot="card-header">
           <ids-text font-size="20">Selected</ids-text>
           <div class="swap-buttons">
@@ -77,7 +109,7 @@
     </ids-swappable-item>
           </ids-swappable>
         </div>
-      </ids-card><ids-card class="list-card card card-2 card-last" data-id="3" data-name="Additional">
+      </ids-card><ids-card class="list-card card card-2 card-last" data-id="3" data-name="Additional" overflow="hidden">
         <div slot="card-header">
           <ids-text font-size="20">Additional</ids-text>
           <div class="swap-buttons">

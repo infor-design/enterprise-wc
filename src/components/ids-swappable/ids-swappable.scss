@@ -2,6 +2,7 @@
   display: inherit;
   border: var(--ids-swappable-active-border);
   height: 100%;
+  overflow: auto;
 }
 
 :host([active]) {
@@ -12,6 +13,8 @@
   margin: 0 8px;
   margin-bottom: 8px;
   width: calc(100% - 16px);
+  position: sticky;
+  top: 0;
 }
 
 :host([searchable]) {
