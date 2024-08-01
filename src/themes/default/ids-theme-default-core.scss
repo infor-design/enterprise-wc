@@ -1031,25 +1031,25 @@
   --ids-module-nav-bar-padding-top: 5px;
 
   // Module Nav (Detail)
-  --ids-module-nav-detail-background-color: var(--ids-color-neutral-20);
+  --ids-module-nav-detail-background-color: var(--ids-color-accent-neutral-weaker);
   --ids-module-nav-detail-size: 300px;
 
   // Module Nav Accordion
   --ids-module-nav-accordion-gutter-size: 8px;
 
   // Module Nav Accordion Separators
-  --ids-module-nav-separator-color: var(--ids-color-neutral-20);
+  --ids-module-nav-separator-color: var(--ids-color-border-weaker);
   --ids-module-nav-separator-expanded-edge-distance: 22px;
 
   // Module Nav Input Field (Search/Role Dropdown)
   --ids-module-nav-input-border-width: var(--ids-border-width-sm);
   --ids-module-nav-input-padding-inline-start-size: 10px;
   --ids-module-nav-input-bg-color: var(--ids-color-white-100);
-  --ids-module-nav-input-border-color: var(--ids-color-neutral-20);
-  --ids-module-nav-input-text-color: var(--ids-color-neutral-60);
+  --ids-module-nav-input-border-color: var(--ids-color-border-weaker);
+  --ids-module-nav-input-text-color: var(--ids-color-accent-neutral-strong);
   --ids-module-nav-search-input-width: calc(var(--ids-module-nav-detail-size) + 2px);
-  --ids-module-nav-input-focus-bg-color: var(--ids-color-neutral-10);
-  --ids-module-nav-input-hover-bg-color: var(--ids-color-neutral-20);
+  --ids-module-nav-input-focus-bg-color: var(--ids-color-accent-neutral-weakest);
+  --ids-module-nav-input-hover-bg-color: var(--ids-color-accent-neutral-weaker);
 
   // Module Nav Item (Accordion Header/Menu Button)
   --ids-module-nav-item-height: 40px;
@@ -1082,7 +1082,7 @@
   --ids-module-nav-switcher-button-icon-margin: 2px;
   --ids-module-nav-switcher-dropdown-height: 40px;
   --ids-module-nav-switcher-dropdown-width: 260px;
-  --ids-module-nav-switcher-dropdown-item-margin-block: 4px;
+  --ids-module-nav-switcher-dropdown-item-margin-block: var(--ids-space-2xs);
   --ids-module-nav-switcher-dropdown-item-height: 48px;
   --ids-module-nav-switcher-dropdown-bg-color: var(--ids-color-neutral-10);
   --ids-module-nav-switcher-dropdown-item-focus-bg-color: var(--ids-color-neutral-20);
@@ -1093,21 +1093,21 @@
   --ids-module-nav-search-wrapper-height: 40px;
   --ids-module-nav-search-input-height: 40px;
   --ids-module-nav-search-input-icon-y-offset: 20px;
-  --ids-module-nav-search-input-bg-color: var(--ids-color-neutral-20);
-  --ids-module-nav-search-input-text-color: var(--ids-color-neutral-80);
+  --ids-module-nav-search-input-bg-color: var(--ids-color-accent-neutral-weaker);
+  --ids-module-nav-search-input-text-color: var(--ids-color-accent-neutral-stronger);
   --ids-module-nav-search-input-focused-bg-color: var(--ids-color-white-100);
-  --ids-module-nav-search-input-focused-text-color: var(--ids-color-neutral-100);
-  --ids-module-nav-search-input-placeholder-text-color: var(--ids-color-neutral-100);
-  --ids-module-nav-search-input-focused-placeholder-text-color: var(--ids-color-neutral-40);
+  --ids-module-nav-search-input-focused-text-color: var(--ids-color-accent-neutral-strongest);
+  --ids-module-nav-search-input-placeholder-text-color: var(--ids-color-accent-neutral-strongest);
+  --ids-module-nav-search-input-focused-placeholder-text-color: var(--ids-color-accent-neutral-weak);
   --ids-module-nav-search-close-icon-x-offset: 12px;
 
   // Module Nav Settings Menu (Accordion Header + Popupmenu)
   --ids-module-nav-settings-menu-box-shadow: 0 0 8px 1px rgba(0 0 0 / 0.08);
   --ids-module-nav-settings-menu-item-height: 40px;
-  --ids-module-nav-settings-menu-item-text-color: var(--ids-color-neutral-80);
+  --ids-module-nav-settings-menu-item-text-color: var(--ids-color-accent-neutral-stronger);
   --ids-module-nav-settings-menu-item-icon-color: var(--ids-color-neutral-70);
   --ids-module-nav-settings-menu-min-width: 300px;
-  --ids-module-nav-settings-menu-separator-color: var(--ids-color-neutral-10);
+  --ids-module-nav-settings-menu-separator-color: var(--ids-color-accent-neutral-weakest);
   --ids-module-nav-settings-menu-gutter-size: var(--ids-space-xs);
   --ids-module-nav-footer-gutter-size: var(--ids-space-xs);
 

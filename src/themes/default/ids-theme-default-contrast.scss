@@ -243,39 +243,39 @@
   --ids-module-nav-border-color: var(--ids-color-border-weaker);
 
   // Module Nav (Detail)
-  --ids-module-nav-detail-background-color: var(--ids-color-neutral-30);
+  --ids-module-nav-detail-background-color: var(--ids-color-accent-neutral-weaker);
 
   // Module Nav Accordion Separators
-  --ids-module-nav-separator-color: var(--ids-color-neutral-30);
+  --ids-module-nav-separator-color: var(--ids-color-border-weaker);
 
   // Module Nav Input Field (Search/Role Dropdown)
   --ids-module-nav-input-bg-color: var(--ids-color-white-100);
-  --ids-module-nav-input-border-color: var(--ids-color-neutral-40);
+  --ids-module-nav-input-border-color: var(--ids-color-border-weaker);
   --ids-module-nav-input-text-color: var(--ids-color-neutral-100);
   --ids-module-nav-input-focus-bg-color: var(--ids-color-neutral-10);
-  --ids-module-nav-input-hover-bg-color: var(--ids-color-neutral-20);
+  --ids-module-nav-input-hover-bg-color: var(--ids-color-accent-neutral-weakest);
 
   // Module Nav Item (Accordion Header/Menu Button)
   --ids-module-nav-item-text-color: var(--ids-color-neutral-100);
 
   // Module Nav Switcher (Role Dropdown + Button)
   --ids-module-nav-switcher-dropdown-bg-color: var(--ids-color-neutral-10);
-  --ids-module-nav-switcher-dropdown-item-focus-bg-color: var(--ids-color-neutral-30);
-  --ids-module-nav-switcher-dropdown-item-text-color: var(--ids-color-neutral-90);
+  --ids-module-nav-switcher-dropdown-item-focus-bg-color: var(--ids-color-accent-neutral-weaker);
+  --ids-module-nav-switcher-dropdown-item-text-color: var(--ids-color-accent-neutral-stronger);
 
   // Module Nav Search (Input Field)
-  --ids-module-nav-search-input-bg-color: var(--ids-color-neutral-40);
-  --ids-module-nav-search-input-text-color: var(--ids-color-neutral-90);
+  --ids-module-nav-search-input-bg-color: var(--ids-color-accent-neutral-weaker);
+  --ids-module-nav-search-input-text-color: var(--ids-color-accent-neutral-stronger);
   --ids-module-nav-search-input-focused-bg-color: var(--ids-color-white-100);
   --ids-module-nav-search-input-focused-text-color: var(--ids-color-neutral-100);
   --ids-module-nav-search-input-placeholder-text-color: var(--ids-color-neutral-100);
-  --ids-module-nav-search-input-focused-placeholder-text-color: var(--ids-color-neutral-50);
+  --ids-module-nav-search-input-focused-placeholder-text-color: var(--ids-color-accent-neutral-weak);
 
   // Module Nav Settings Menu (Accordion Header + Popupmenu)
   --ids-module-nav-settings-menu-box-shadow: 0 0 8px 1px rgba(0 0 0 / 0.08);
-  --ids-module-nav-settings-menu-item-text-color: var(--ids-color-neutral-70);
-  --ids-module-nav-settings-menu-item-icon-color: var(--ids-color-neutral-70);
-  --ids-module-nav-settings-menu-separator-color: var(--ids-color-neutral-20);
+  --ids-module-nav-settings-menu-item-text-color: var(--ids-color-accent-neutral-default);
+  --ids-module-nav-settings-menu-item-icon-color: var(--ids-color-accent-neutral-default);
+  --ids-module-nav-settings-menu-separator-color: var(--ids-color-accent-neutral-weakest);
 
   // Popup Menu
   --ids-popup-menu-color-text-default: var(--ids-color-neutral-90);
