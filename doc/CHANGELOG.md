@@ -6,6 +6,8 @@
 
 ### 1.5.0 Fixes
 
+- `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482]https://github.com/infor-design/enterprise-wc/issues/2482)
+
 ## 1.4.1
 
 ### 1.4.1 Fixes
@@ -14,10 +16,6 @@
 - `[NotificationBanner]` Added `line-clamp` setting to notification banner to allow custom message truncation. ([#2138](https://github.com/infor-design/enterprise-wc/issues/2138))
 - `[SwapList]` ReFix: Made the search portion of the swaplist sticky when scrolling. ([#2559](https://github.com/infor-design/enterprise-wc/issues/2559))
 - `[Splitter]` Fix issue where pane's scrollbar didn't appear on overflow. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))
-
-### 1.5.0 Fixes
-
-- `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482]https://github.com/infor-design/enterprise-wc/issues/2482)
 
 ## 1.4.0
 
