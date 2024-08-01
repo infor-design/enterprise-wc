@@ -12,6 +12,8 @@
   margin: 0 8px;
   margin-bottom: 8px;
   width: calc(100% - 16px);
+  position: sticky;
+  top: 0;
 }
 
 :host([searchable]) {
