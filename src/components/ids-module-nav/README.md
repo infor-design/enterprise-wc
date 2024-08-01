@@ -1,6 +1,6 @@
-# IDS Module Nav
+# ids-module-nav
 
-This component displays top-level navigation in a fly out menu, similar to [IDS App Menu](../ids-app-menu/README.md).
+This component displays top-level navigation in a fly out menu, similar to [ids-app-menu](../ids-app-menu/README.md).
 
 ## Terminology
 
