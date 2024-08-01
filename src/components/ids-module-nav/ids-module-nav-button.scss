@@ -21,7 +21,7 @@
   border-color: var(--ids-color-transparent);
   border-radius: var(--ids-module-nav-common-border-radius);
   border-style: solid;
-  border-width: 1px;
+  border-width: var(--ids-border-width-sm);
   color: var(--ids-module-nav-item-text-color);
   height: var(--ids-module-nav-switcher-button-size);
   width: var(--ids-module-nav-switcher-button-size);

@@ -29,6 +29,10 @@
   }
 }
 
+.ids-chart-svg-container {
+  min-width: 80px;
+}
+
 // Responsive Pie
 .ids-pie-chart {
   margin-block-end: var(--ids-space-12);

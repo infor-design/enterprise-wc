@@ -74,6 +74,7 @@ notificationBanner.add({
 
 - `type` `{string}` can be 1 of 4 types (success, warning, info, error)
 - `message-text` `{string}` text shown inside the banner
+- `line-clamp` `{number}` sets number of message text rows to display before truncating
 - `link` `{string | null}` url for the call to action in the banner
 - `link-text` `{string | null}` custom text for the call to action (if `null` will display "Click to view")
 

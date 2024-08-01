@@ -48,7 +48,7 @@ ids-button::part(button) {
 
 .ids-spinbox:focus-within .ids-spinbox-content ids-button:not([disabled]):not([readonly])::part(button) {
   border-color: var(--ids-spinbox-color-border-focus);
-  border-width: 1px;
+  border-width: var(--ids-border-width-sm);
   box-shadow: none;
 }
 
@@ -83,7 +83,7 @@ ids-button::part(button) {
 
     &:focus-within ids-input:not(.error)::part(input) {
       border-color: var(--ids-spinbox-color-border-focus);
-      border-width: 1px;
+      border-width: var(--ids-border-width-sm);
       box-shadow: none;
     }
 

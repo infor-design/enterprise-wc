@@ -98,6 +98,12 @@
   }
 }
 
+:host([clickable]) {
+  .ids-tag:hover {
+    background-color: var(--ids-tag-clickable-color-background-hover);
+  }
+}
+
 :host-context(.disabled),
 :host-context([disabled]),
 :host(.disabled),

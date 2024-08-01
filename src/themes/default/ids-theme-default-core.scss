@@ -199,7 +199,7 @@
   --ids-badge-margin-inline-end: var(--ids-space-2xs);
   --ids-badge-width-min: var(--ids-size-10);
   --ids-badge-padding-inline: var(--ids-space-08);
-  --ids-badge-disabled-opacity: 0.4;
+  --ids-badge-disabled-opacity: var(--ids-opacity-disabled);
 
   // Block Grid
   --ids-block-grid-margin: 10px;
@@ -259,7 +259,7 @@
   --ids-button-primary-color-background-disabled: var(--ids-color-action-default);
   --ids-button-primary-color-border-disabled: var(--ids-color-action-default);
   --ids-button-primary-color-text-disabled: var(--ids-color-foreground-light-default);
-  --ids-button-primary-opacity-disabled: 0.4;
+  --ids-button-primary-opacity-disabled: var(--ids-opacity-disabled);
   --ids-button-primary-color-background-pressed: var(--ids-color-action-stronger);
   --ids-button-primary-color-border-pressed: var(--ids-color-action-stronger);
   --ids-button-primary-color-text-pressed: var(--ids-color-foreground-light-default);
@@ -280,8 +280,8 @@
   --ids-button-secondary-color-background-pressed: var(--ids-color-action-weakest);
   --ids-button-secondary-color-border-pressed: var(--ids-color-action-stronger);
   --ids-button-secondary-color-text-pressed: var(--ids-color-action-stronger);
-  --ids-button-secondary-border-width: 1px;
-  --ids-button-secondary-opacity-disabled: 0.4;
+  --ids-button-secondary-border-width: var(--ids-border-width-sm);
+  --ids-button-secondary-opacity-disabled: var(--ids-opacity-disabled);
 
   // Button (Tertiary)
   --ids-button-tertiary-color-border-default: var(--ids-color-transparent);
@@ -294,7 +294,7 @@
   --ids-button-tertiary-color-text-disabled: var(--ids-color-foreground-default-secondary);
   --ids-button-tertiary-color-background-disabled: var(--ids-color-transparent);
   --ids-button-tertiary-color-border-disabled: var(--ids-color-transparent);
-  --ids-button-tertiary-opacity-disabled: 0.4;
+  --ids-button-tertiary-opacity-disabled: var(--ids-opacity-disabled);
   --ids-button-tertiary-shadow-focus: 0px 0px 0px .5px var(--ids-color-action-default), 0px 0px 0px .5px var(--ids-color-action-default);
   --ids-button-tertiary-font-weight: var(--ids-font-weight-semibold);
   --ids-button-tertiary-color-background-pressed: var(--ids-color-accent-neutral-weakest);
@@ -312,7 +312,7 @@
   --ids-button-destructive-color-background-hover: var(--ids-color-error-stronger);
   --ids-button-destructive-color-text-hover: var(--ids-color-foreground-light-default);
   --ids-button-destructive-color-border-hover: var(--ids-color-error-stronger);
-  --ids-button-destructive-opacity-disabled: 0.4;
+  --ids-button-destructive-opacity-disabled: var(--ids-opacity-disabled);
   --ids-button-destructive-color-text-disabled: var(--ids-color-foreground-light-default);
   --ids-button-destructive-color-background-disabled: var(--ids-color-error-default);
   --ids-button-destructive-color-border-disabled: var(--ids-color-error-default);
@@ -326,7 +326,7 @@
   --ids-button-destructive-tertiary-color-text-hover: var(--ids-color-error-stronger);
   --ids-button-destructive-tertiary-color-border-hover: var(--ids-color-error-weak);
   --ids-button-destructive-tertiary-shadow-focus: 0px 0px 0px 1px var(--ids-color-error-stronger), 0px 0px 0px 1px var(--ids-color-error-stronger);
-  --ids-button-destructive-tertiary-opacity-disabled: 0.4;
+  --ids-button-destructive-tertiary-opacity-disabled: var(--ids-opacity-disabled);
   --ids-button-destructive-tertiary-color-text-disabled: var(--ids-color-error-default);
   --ids-button-destructive-tertiary-color-background-disabled: var(--ids-color-background-default);
   --ids-button-destructive-tertiary-color-border-disabled: var(--ids-color-background-default);
@@ -355,7 +355,7 @@
 
   // Button (Formatter)
   --ids-button-formatter-color-border-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-action-stronger);
-  --ids-button-formatter-opacity-disabled: 0.4;
+  --ids-button-formatter-opacity-disabled: var(--ids-opacity-disabled);
   --ids-button-formatter-color-text-hover: var(--ids-color-neutral-100);
   --ids-button-formatter-color-text-disabled: var(--ids-color-neutral-50);
   --ids-button-formatter-color-background-hover: var(--ids-color-neutral-20);
@@ -395,7 +395,7 @@
   --ids-button-ai-color-icon-secondary: #10B7A6;
   --ids-button-ai-color-icon-primary-hover: #1A3362;
   --ids-button-ai-color-icon-secondary-hover: #0B9789;
-  --ids-button-ai-opacity-disabled: 0.4;
+  --ids-button-ai-opacity-disabled: var(--ids-opacity-disabled);
   --ids-button-tertiary-ai-color-background-disabled: var(--ids-button-ai-color-background-default);
   --ids-button-tertiary-ai-shadow-focus: 0px 0px 0px 1px #058F81, 0px 0px 0px 1px #051E4C;
   --ids-button-ai-color-loading-dot-default: var(--ids-color-white-100);
@@ -486,7 +486,7 @@
   // Checkbox
   --ids-checkbox-color-border-default: var(--ids-color-border-default);
   --ids-checkbox-border: 1px solid var(--ids-color-border-default);
-  --ids-checkbox-border-radius: var(--ids-border-radius-xxs);
+  --ids-checkbox-border-radius: var(--ids-border-radius-2xs);
   --ids-checkbox-color-border-error: var(--ids-color-error-default);
   --ids-checkbox-color-background-selected: var(--ids-color-action-default);
   --ids-checkbox-color-border-selected: var(--ids-color-action-default);
@@ -501,7 +501,7 @@
   --ids-checkbox-color-background-selected-disabled: var(--ids-color-action-default);
   --ids-checkbox-color-border-selected-disabled: var(--ids-color-action-default);
   --ids-checkbox-color-text-disabled: var(--ids-color-foreground-default-default);
-  --ids-checkbox-opacity-disabled: 0.4;
+  --ids-checkbox-opacity-disabled: var(--ids-opacity-disabled);
   --ids-checkbox-color-border-focus: var(--ids-color-action-default);
   --ids-checkbox-color-border-focus-error: var(--ids-color-error-default);
   --ids-checkbox-shadow-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-action-default);
@@ -633,8 +633,8 @@
   --ids-dropdown-color-border: var(--ids-color-border-focus);
   --ids-dropdown-attached-color-border: var(--ids-color-neutral-30);
   --ids-dropdown-shadow-default: -3px 3px 3px 0 rgb(54 138 192 / 0.3), 0 2px 3px 0 rgb(54 138 192 / 0.3), 3px 3px 3px 0 rgb(54 138 192 / 0.3);
-  --ids-dropdown-border-radius: 0 0 var(--ids-border-radius-xxs) var(--ids-border-radius-xxs);
-  --ids-dropdown-border-radius-opened-up: var(--ids-border-radius-xxs) var(--ids-border-radius-xxs) 0 0;
+  --ids-dropdown-border-radius: 0 0 var(--ids-border-radius-2xs) var(--ids-border-radius-2xs);
+  --ids-dropdown-border-radius-opened-up: var(--ids-border-radius-2xs) var(--ids-border-radius-2xs) 0 0;
   --ids-dropdown-shadow-opened-up: 0 -1px 2px 0 rgb(54 138 192 / 0.3), 2px 0 3px 0 rgb(54 138 192 / 0.3), -2px -2px 3px 0 rgb(54 138 192 / 0.3);
   --ids-dropdown-color-icon: var(--ids-color-neutral-100);
   --ids-dropdown-typeahead-color-background: var(--ids-color-neutral-10);
@@ -655,9 +655,9 @@
   --ids-editor-font-size: var(--ids-font-size-sm);
   --ids-editor-background-color: var(--ids-color-white-100);
   --ids-editor-color-border-default: var(--ids-color-border-weak);
-  --ids-editor-border-radius-default: var(--ids-border-radius-xxs);
+  --ids-editor-border-radius-default: var(--ids-border-radius-2xs);
   --ids-editor-border-style-default: solid;
-  --ids-editor-border-width-default: 1px;
+  --ids-editor-border-width-default: var(--ids-border-width-sm);
   --ids-editor-outline: 0;
   --ids-editor-font-line-height: var(--ids-line-height-30);
   --ids-editor-padding: var(--ids-space-sm);
@@ -679,9 +679,9 @@
   --ids-editor-link-color-text-link: var(--ids-color-primary);
   --ids-editor-link-color-text-hover: var(--ids-color-primary-70);
   --ids-editor-link-color-border-focus: var(--ids-color-primary);
-  --ids-editor-link-border-radius-focus: var(--ids-border-radius-xxs);
+  --ids-editor-link-border-radius-focus: var(--ids-border-radius-2xs);
   --ids-editor-link-border-style-focus: solid;
-  --ids-editor-link-border-width-focus: 1px;
+  --ids-editor-link-border-width-focus:var(--ids-border-width-sm)1px;
   --ids-editor-link-outline-focus: var(--ids-outline-none);
   --ids-editor-shadow-focus: var(--ids-shadow-focus);
   --ids-editor-blockquote-border-inline-start: 2px solid var(--ids-color-border-weak);
@@ -727,7 +727,7 @@
   --ids-hierarchy-legend-color-background-default: var(--ids-color-neutral-20);
   --ids-hierarchy-item-leaf-color-border: var(--ids-color-neutral-30);
   --ids-hierarchy-item-leaf-shadow: 0 0 8px rgba(0 0 0 / 0.1);
-  --ids-hierarchy-item-border-radius: var(--ids-border-radius-xxs);
+  --ids-hierarchy-item-border-radius: var(--ids-border-radius-2xs);
   --ids-hierarchy-item-leaf-before-color-border: var(--ids-color-neutral-30);
   --ids-hierarchy-item-color-background: var(--ids-color-white-100);
   --ids-hierarchy-item-leaf-inside-border-left: 5px solid var(--ids-color-neutral-80);
@@ -823,7 +823,7 @@
   --ids-image-initials-border-radius: var(--ids-border-radius-circle);
   --ids-image-initials-color-background: var(--ids-color-accent-purple-strong);
   --ids-image-placeholder-color-background: var(--ids-color-background-default);
-  --ids-image-placeholder-border-radius: var(--ids-border-radius-xxs);
+  --ids-image-placeholder-border-radius: var(--ids-border-radius-2xs);
   --ids-image-status-available-color-background: var(--ids-color-success-default);
   --ids-image-status-busy-color-background: var(--ids-color-error-default);
   --ids-image-status-away-color-background: var(--ids-color-caution-default);
@@ -858,7 +858,7 @@
   --ids-input-color-text-disabled: var(--ids-color-foreground-default-default);
   --ids-input-color-border-disabled: var(--ids-color-border-default);
   --ids-input-label-color-text-disabled: var(--ids-color-foreground-default-default);
-  --ids-input-disabled-opacity: 0.4;
+  --ids-input-disabled-opacity: var(--ids-opacity-disabled);
   --ids-input-color-border-hover: var(--ids-color-border-strong);
   --ids-input-color-border-focus: var(--ids-color-action-default);
   --ids-input-color-border-shadow: var(--ids-shadow-focus);
@@ -911,9 +911,9 @@
 
   // List Builder
   --ids-list-builder-border: 1px solid var(--ids-color-accent-neutral-weak);
-  --ids-list-builder-border-radius: var(--ids-border-radius-xxs);
+  --ids-list-builder-border-radius: var(--ids-border-radius-2xs);
   --ids-list-builder-color-background: rgba(71 71 76 / 0.3);
-  --ids-list-builder-border-width: 0;
+  --ids-list-builder-border-width: var(--ids-border-width-none);
   --ids-list-builder-input-height: var(--ids-size-10);
   --ids-list-builder-input-text-color: var(--ids-color-white-100);
   --ids-list-builder-input-padding: var(--ids-space-none);
@@ -1005,7 +1005,7 @@
   --ids-modal-color-border: var(--ids-popup-color-border);
   --ids-modal-shadow-default: var(--ids-popup-menu-shadow-default);
   --ids-modal-color-text: var(--ids-color-text-default);
-  --ids-modal-border-radius: var(--ids-border-radius-xxs);
+  --ids-modal-border-radius: var(--ids-border-radius-2xs);
   --ids-modal-padding: 0;
   --ids-modal-header-padding: var(--ids-space-sm);
   --ids-modal-content-padding: var(--ids-space-sm) var(--ids-space-sm) 0px var(--ids-space-sm);
@@ -1042,7 +1042,7 @@
   --ids-module-nav-separator-expanded-edge-distance: 22px;
 
   // Module Nav Input Field (Search/Role Dropdown)
-  --ids-module-nav-input-border-width: 1px;
+  --ids-module-nav-input-border-width: var(--ids-border-width-sm);
   --ids-module-nav-input-padding-inline-start-size: 10px;
   --ids-module-nav-input-bg-color: var(--ids-color-white-100);
   --ids-module-nav-input-border-color: var(--ids-color-neutral-20);
@@ -1181,7 +1181,7 @@
   --ids-popup-menu-padding: var(--ids-space-2xs);
   --ids-popup-menu-color-text-default: var(--ids-color-neutral-80);
   --ids-popup-menu-font-size: var(--ids-font-size-xs);
-  --ids-popup-menu-border-radius: var(--ids-border-radius-xxs);
+  --ids-popup-menu-border-radius: var(--ids-border-radius-2xs);
   --ids-popup-menu-shadow-default: var(--ids-popup-shadow);
   --ids-popup-menu-color-background-inverse: var(--ids-color-neutral-100);
   --ids-popup-menu-color-border-inverse: var(--ids-color-neutral-10);
@@ -1210,7 +1210,7 @@
   --ids-progress-chart-label-color-text: var(--ids-color-neutral-60);
   --ids-progress-chart-label-main-margin: var(--ids-space-none) var(--ids-space-2xs) var(--ids-space-none) var(--ids-space-none);
   --ids-progress-chart-label-progress-margin: var(--ids-space-none) var(--ids-space-2xs);
-  --ids-progress-chart-bar-border-radius: var(--ids-border-radius-xxs);
+  --ids-progress-chart-bar-border-radius: var(--ids-border-radius-2xs);
   --ids-progress-chart-height-min: 28px;
   --ids-progress-chart-bar-width-min: 66px;
   --ids-progress-chart-total-color-background: var(--ids-color-neutral-30);
@@ -1250,7 +1250,7 @@
   --ids-radio-color-border-disabled: var(--ids-input-color-border-default);
   --ids-radio-color-background-selected-disabled: var(--ids-color-action-default);
   --ids-radio-color-border-selected-disabled: var(--ids-color-action-default);
-  --ids-radio-disabled-opacity: 0.4;
+  --ids-radio-disabled-opacity: var(--ids-opacity-disabled);
   --ids-radio-color-text-default: var(--ids-input-label-color-text-default);
   --ids-radio-color-text-disabled: var(--ids-input-label-color-text-default);
 
@@ -1280,7 +1280,7 @@
   --ids-search-field-icon-margin: var(--ids-space-xs);
   --ids-search-field-margin: 0;
   --ids-search-field-border-radius: 4px;
-  --ids-search-field-border-width: 1px;
+  --ids-search-field-border-width: var(--ids-border-width-sm);
 
   // Search Field in App Menu
   --ids-search-field-app-menu-shadow-focus: none;
@@ -1308,7 +1308,7 @@
   --ids-skip-link-border-color: var(--ids-popup-color-border);
   --ids-skip-link-margin: var(--ids-space-sm);
   --ids-skip-link-font-size: var(--ids-font-size-sm);
-  --ids-skip-link-border-radius: 0 0 var(--ids-border-radius-xxs) var(--ids-border-radius-xxs);
+  --ids-skip-link-border-radius: 0 0 var(--ids-border-radius-2xs) var(--ids-border-radius-2xs);
   --ids-skip-link-shadow: 0 0 4px 1px rgba(0 0 0 / 0.3);
 
   // Spinbox
@@ -1391,7 +1391,7 @@
   --ids-swappable-item-border-focus: 1px solid var(--ids-color-accent-blue-weak);
   --ids-swappable-item-shadow-focus: 0 0 4px 1px rgb(54 138 192 / 0.3);
   --ids-swappable-item-outline-focus: none;
-  --ids-swappable-item-opacity-dragging: 0.4;
+  --ids-swappable-item-opacity-dragging: var(--ids-opacity-disabled);
   --ids-swappable-item-cursor-selected: var(--ids-cursor-move);
   --ids-swappable-item-color-background-selected: var(--ids-color-accent-blue-weakest);
   --ids-swappable-item-color-border-selected: var(--ids-color-action-default);
@@ -1405,9 +1405,9 @@
   --ids-swaplist-border: 1px solid var(--ids-card-color-border);
   --ids-swaplist-card-content-height-min: var(--ids-card-content-height);
   --ids-swaplist-card-border-radius: var(--ids-border-radius-none);
-  --ids-swaplist-inline-start-border-width: 0;
+  --ids-swaplist-inline-start-border-width: var(--ids-border-width-none);
   --ids-swaplist-card-shadow: none;
-  --ids-swaplist-first-child-inline-start-border-width: 1px;
+  --ids-swaplist-first-child-inline-start-border-width: var(--ids-border-width-sm);
   --ids-swaplist-button-color-background-hover: var(--ids-button-tertiary-color-background-hover);
   --ids-swaplist-toolbar-button-padding: var(--ids-space-none);
   --ids-swaplist-button-height: 36px;
@@ -1440,7 +1440,7 @@
   --ids-swipe-action-color-text-right: var(--ids-color-white-100);
 
   // Switch
-  --ids-switch-disabled-opacity: 0.4;
+  --ids-switch-disabled-opacity: var(--ids-opacity-disabled);
   --ids-switch-label-color-text-default: var(--ids-color-text-label);
   --ids-switch-shadow-focus: 0 0 3px 1px var(--ids-color-action-default);
   --ids-switch-pole-color-background-default: var(--ids-color-accent-neutral-weaker);
@@ -1514,7 +1514,7 @@
   --ids-tag-secondary-color-background: var(--ids-input-color-background-default);
   --ids-tag-secondary-color-border: var(--ids-color-border-weak);
   --ids-tag-color-text-disabled: var(--ids-color-foreground-default-default);
-  --ids-tag-disabled-opacity: 0.4;
+  --ids-tag-disabled-opacity: var(--ids-opacity-disabled);
   --ids-tag-secondary-color-text-disabled: var(--ids-color-foreground-default-default);
   --ids-tag-color-background-error: var(--ids-color-error-default);
   --ids-tag-color-border-error: var(--ids-color-error-default);
@@ -1537,6 +1537,7 @@
   --ids-tag-color-background-teal: var(--ids-color-accent-teal-strong);
   --ids-tag-color-border-teal: var(--ids-color-accent-teal-strong);
   --ids-tag-color-text-teal: var(--ids-color-foreground-light-default);
+  --ids-tag-clickable-color-background-hover: var(--ids-color-accent-neutral-weak);
 
   // Tag List
   --ids-tag-list-margin: 20px;
@@ -1552,7 +1553,7 @@
   --ids-textarea-color-background-disabled: var(--ids-color-background-default);
   --ids-textarea-color-border-disabled: var(--ids-color-border-default);
   --ids-textarea-color-text-disabled: var(--ids-color-foreground-default-default);
-  --ids-textarea-disabled-opacity: 0.4;
+  --ids-textarea-disabled-opacity: var(--ids-opacity-disabled);
   --ids-textarea-color-border-error-default: var(--ids-color-error-default);
   --ids-textarea-color-border-error-disabled: var(--ids-color-error-default);
   --ids-textarea-color-text-error-disabled: var(--ids-color-foreground-default-default);
@@ -1610,7 +1611,7 @@
   // Tooltip
   --ids-tooltip-color-background: var(--ids-color-background-dark);
   --ids-tooltip-padding: var(--ids-space-xs) var(--ids-space-sm);
-  --ids-tooltip-border-radius: var(--ids-border-radius-xxs);
+  --ids-tooltip-border-radius: var(--ids-border-radius-2xs);
   --ids-tooltip-color-text: var(--ids-color-foreground-light-default);
   --ids-tooltip-font-size: var(--ids-font-size-sm);
   --ids-tooltip-shadow: var(--ids-popup-shadow);

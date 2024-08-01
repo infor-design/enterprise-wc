@@ -318,6 +318,7 @@ export const attributes = {
   NO_HEADER: 'no-header',
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
+  NO_SCROLL: 'no-scroll',
   OFFSET_CONTAINER: 'offset-container',
   OFFSET_CONTENT: 'offset-content',
   OPACITY: 'opacity',
