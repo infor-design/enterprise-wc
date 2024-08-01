@@ -97,6 +97,7 @@ export default class IdsButton extends Base {
     if (this.getAttribute('width')) this.width = this.getAttribute('width');
     this.cssClass = this.cssClass;
     this.#attachEventHandlers();
+    this.refreshProtoClasses();
   }
 
   #attachEventHandlers() {

@@ -28,6 +28,11 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     pointer-events: none;
   }
 
+  ::slotted(ids-theme-switcher) {
+    margin-inline-start: -10px;
+    margin-top: -2px;
+  }
+
   // ================================================
   // Built-in Section Type Styles
 

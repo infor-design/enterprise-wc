@@ -39,7 +39,8 @@ export default class IdsSplitterPane extends Base {
       attributes.COLLAPSED,
       attributes.SIZE,
       attributes.MIN_SIZE,
-      attributes.MAX_SIZE
+      attributes.MAX_SIZE,
+      attributes.NO_SCROLL
     ];
   }
 
@@ -56,9 +57,13 @@ export default class IdsSplitterPane extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
+
+    if (this.size) {
+      this.state.collapsedSize = String(this.size);
+    }
   }
 
-  state = { collapsedSize: '' };
+  state = { collapsedSize: String(this.size) };
 
   /**
    * Set the collapsed state of the pane
@@ -74,11 +79,11 @@ export default class IdsSplitterPane extends Base {
       this.size = this.state.collapsedSize;
     }
 
-    if ((this.parentNode as IdsSplitter).initialized && val) {
+    if (this.parentNode && (this.parentNode as IdsSplitter).initialized && val) {
       (this.parentNode as IdsSplitter).collapse({ startPane: `#${this.id}`, endPane: `#${this.id}` });
     }
 
-    if ((this.parentNode as IdsSplitter).initialized && !val) {
+    if (this.parentNode && (this.parentNode as IdsSplitter).initialized && !val) {
       (this.parentNode as IdsSplitter).expand({ startPane: `#${this.id}`, endPane: `#${this.id}` });
     }
   }
@@ -102,7 +107,7 @@ export default class IdsSplitterPane extends Base {
       this.removeAttribute(attributes.SIZE);
     }
 
-    if ((this.parentNode as IdsSplitter).initialized) {
+    if (this.parentNode && (this.parentNode as IdsSplitter).initialized) {
       (this.parentNode as IdsSplitter).refreshSizes();
     }
   }
@@ -126,7 +131,7 @@ export default class IdsSplitterPane extends Base {
       this.removeAttribute(attributes.MIN_SIZE);
     }
 
-    if ((this.parentNode as IdsSplitter).initialized) {
+    if (this.parentNode && (this.parentNode as IdsSplitter).initialized) {
       (this.parentNode as IdsSplitter).refreshSizes();
     }
   }
@@ -150,7 +155,7 @@ export default class IdsSplitterPane extends Base {
       this.removeAttribute(attributes.MAX_SIZE);
     }
 
-    if ((this.parentNode as IdsSplitter).initialized) {
+    if (this.parentNode && (this.parentNode as IdsSplitter).initialized) {
       (this.parentNode as IdsSplitter).refreshSizes();
     }
   }
@@ -161,5 +166,15 @@ export default class IdsSplitterPane extends Base {
    */
   get maxSize(): number | string | null {
     return this.getAttribute(attributes.MAX_SIZE);
+  }
+
+  set noScroll(val: boolean) {
+    const hideScroll = stringToBool(val);
+    this.toggleAttribute(attributes.NO_SCROLL, hideScroll);
+    this.container?.style.setProperty('overflow', hideScroll ? 'hidden' : 'auto');
+  }
+
+  get noScroll(): boolean {
+    return stringToBool(attributes.NO_SCROLL);
   }
 }

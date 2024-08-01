@@ -9,6 +9,7 @@
   &.ids-about {
     .ids-modal-content.has-scrollbar {
       overflow: auto;
+      padding: var(--ids-about-content-padding);
     }
   }
 }

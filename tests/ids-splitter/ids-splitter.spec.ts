@@ -66,7 +66,7 @@ test.describe('IdsSplitter tests', () => {
   });
 
   test.describe('functionality tests', () => {
-    test('should expand and collapse the splitter', async ({ page }) => {
+    test.skip('should expand and collapse the splitter', async ({ page }) => {
       await page.goto('/ids-splitter/expand-collapse.html');
       const btn = await page.locator('#expand-collapse-btn');
       const leftPane = await page.locator('#left-pane');

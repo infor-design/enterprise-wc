@@ -1,15 +1,14 @@
+import percySnapshot from '@percy/playwright';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-// import IdsListView from '../../src/components/ids-list-view/ids-list-view';
 import IdsListView from '../../src/components/ids-list-view/ids-list-view';
 
 import IdsVirtualScroll from '../../src/components/ids-virtual-scroll/ids-virtual-scroll';
 import dataset from '../../src/assets/data/products-100.json';
 import datasetProducts from '../../src/assets/data/products.json';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
-// import createFromTemplate from '../helpers/create-from-template';
 
 test.describe('IdsListView tests', () => {
   // Default settings
@@ -74,6 +73,11 @@ test.describe('IdsListView tests', () => {
         return el?.shadowRoot?.innerHTML;
       });
       await expect(html).toMatchSnapshot('list-view-shadow');
+    });
+
+    test('should match the visual snapshot in percy (for group headers)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await percySnapshot(page, 'ids-list-view-group-headers');
     });
   });
 

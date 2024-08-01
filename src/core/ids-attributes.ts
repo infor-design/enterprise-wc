@@ -202,6 +202,7 @@ export const attributes = {
   GROUP_DISABLED: 'group-disabled',
   GROUP_LABEL: 'group-label',
   GROUP_SELECTS_CHILDREN: 'group-selects-children',
+  GROUPABLE: 'groupable',
   GROUPED: 'grouped',
   GROW: 'grow',
   HANDLE: 'handle',
@@ -317,6 +318,7 @@ export const attributes = {
   NO_HEADER: 'no-header',
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
+  NO_SCROLL: 'no-scroll',
   OFFSET_CONTAINER: 'offset-container',
   OFFSET_CONTENT: 'offset-content',
   OPACITY: 'opacity',
@@ -592,7 +594,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.3.0';
+export const version = '1.4.0';
 
 export enum IdsDirection {
   Up = 'up',

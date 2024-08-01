@@ -26,6 +26,9 @@
   - link: overflowed.html
     type: Example
     description: Showing a toolbar with overflow
+  - link: searchfield.html
+    type: Example
+    description: Showing a searchfield
   - link: hyperlink.html
     type: Example
     description: Showing a hyperlink

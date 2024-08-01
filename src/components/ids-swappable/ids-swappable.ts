@@ -12,7 +12,8 @@ import IdsListViewSearchMixin from '../ids-list-view/ids-list-view-search-mixin'
 import IdsElement from '../../core/ids-element';
 
 import styles from './ids-swappable.scss';
-import IdsSwappableItem from './ids-swappable-item';
+import type IdsSwappableItem from './ids-swappable-item';
+import './ids-swappable-item';
 import type IdsSwapList from '../ids-swaplist/ids-swaplist';
 import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 import '../ids-search-field/ids-search-field';
@@ -182,13 +183,31 @@ export default class IdsSwappable extends Base {
     if (this.draggingElements?.length > 0) {
       if (afterElement) {
         this.draggingElements.forEach((draggingEl: HTMLElement) => {
+          const fromIndex = Array.from(draggingEl!.parentNode!.children).indexOf(draggingEl);
           this.#resetDraggingItems(draggingEl);
           this.insertBefore(draggingEl, afterElement);
+          this.triggerEvent('swapped', this, {
+            detail: {
+              elem: draggingEl,
+              location: 'before',
+              toIndex: Array.from(draggingEl!.parentNode!.children).indexOf(draggingEl),
+              fromIndex
+            }
+          });
         });
       } else {
         this.draggingElements.forEach((draggingEl: HTMLElement) => {
+          const fromIndex = Array.from(draggingEl!.parentNode!.children).indexOf(draggingEl);
           this.#resetDraggingItems(draggingEl);
           this.appendChild(draggingEl);
+          this.triggerEvent('swapped', this, {
+            detail: {
+              elem: draggingEl,
+              location: 'after',
+              toIndex: Array.from(draggingEl!.parentNode!.children).indexOf(draggingEl),
+              fromIndex
+            }
+          });
         });
       }
     }

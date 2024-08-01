@@ -46,6 +46,10 @@
   }
 }
 
+.field-container.collapsed .btn-clear {
+  display: none;
+}
+
 :host(:not([collapsed])) {
   ::slotted(ids-trigger-button.expand-button) {
     display: none;
