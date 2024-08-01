@@ -6,6 +6,13 @@
 
 - `[Multiselect]` Added typeahead functionality. ([#2432](https://github.com/infor-design/enterprise-wc/issues/2432))
 
+## 1.4.1
+
+### 1.4.1 Fixes
+
+- `[SwapList]` ReFix: Made the search portion of the swaplist sticky when scrolling. ([#2559](https://github.com/infor-design/enterprise-wc/issues/2559))
+- `[Splitter]` Fix issue where pane's scrollbar didn't appear on overflow. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))
+
 ## 1.4.0
 
 ### 1.4.0 Features

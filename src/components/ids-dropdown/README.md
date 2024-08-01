@@ -179,9 +179,8 @@ In some situations, it may be preferable to separate the IdsDropdownList element
 - `selected` Fires when a value is selected
 - `focus` Fires when the field gets focus
 - `selected` Fires when a value is selected
+- Some event listeners for popup `show`, `hide` events can be added to `popup` property
 
-```
-- Event listeners for popup `show`, `hide` events can be added to `popup` property:
 ```js
 const dropdown = document.querySelector('ids-dropdown');
 

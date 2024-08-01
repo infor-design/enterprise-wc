@@ -2,6 +2,7 @@
   display: inherit;
   border: var(--ids-swappable-active-border);
   height: 100%;
+  overflow: auto;
 }
 
 :host([active]) {
