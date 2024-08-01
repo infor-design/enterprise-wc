@@ -5,8 +5,16 @@
 }
 
 #example-panel-center {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
+
+  ids-card {
+    flex: 48%;
+    max-width: 48%;
+    margin-top: 10px;
+  }
 }
 
 .droppable-panel {
