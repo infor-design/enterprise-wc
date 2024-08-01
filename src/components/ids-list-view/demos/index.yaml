@@ -17,9 +17,6 @@
   - link: list-view-items-selectable-mixed.html
     type: Example
     description: Showing a list view with the mixed selection functionality using the list-view-item child components
-  - link: list-view-items-sortable.html
-    type: Example
-    description: Showing a list view with the sortable functionality
   - link: list-view-items-search.html
     type: Example
     description: Showing a list view with the search functionality
