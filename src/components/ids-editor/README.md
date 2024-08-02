@@ -165,9 +165,10 @@ editorEl.modalElementsValue(modals);
 
 ## Settings and Attributes
 
+- `value` {string} Sets the editor's innerHTML (after sanitizing)
 - `disabled` {boolean} Sets the editor to disabled state
 - `label` {string} Set the editor aria label text
-- `labelHidden` {boolean} Set the label to be hidden or shown
+- `label-state` {null|string} Controls the visible state of the label.  When using `hidden`, the label will not be displayed but will still take up physical space on a form.  When using `collapsed`, the label is hidden and does not take up space.
 - `labelRequired` {boolean} Set required indicator (red '*') to be hidden or shown
 - `paragraphSeparator` {string} Set the placeholder text for editor
 - `placeholder` {string} Sets the editor node to be selectable

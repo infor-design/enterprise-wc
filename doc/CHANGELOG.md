@@ -4,8 +4,12 @@
 
 ### 1.5.0 Features
 
+- `[Editor]` Added the ability to set the editor value with a `value` attribute. ([#2526](https://github.com/infor-design/enterprise-wc/issues/2526))
+
 ### 1.5.0 Fixes
 
+- `[Editor]` Removed internal hard coded id since it was causing duplicate ids if multiple editors are used. ([#2630](https://github.com/infor-design/enterprise-wc/issues/2630))
+- `[Editor]` Updated docs around `labels`. ([#2649](https://github.com/infor-design/enterprise-wc/issues/2649))
 - `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482]https://github.com/infor-design/enterprise-wc/issues/2482)
 - `[Tabs]` Fixed an issue where overflow menu group popup is full width. ([#2656](https://github.com/infor-design/enterprise-wc/issues/2656))
 
