@@ -4,7 +4,16 @@
 
 ### 1.5.0 Features
 
-- `[Multiselect]` Added typeahead functionality. ([#2432](https://github.com/infor-design/enterprise-wc/issues/2432))
+### 1.5.0 Fixes
+
+## 1.4.1
+
+### 1.4.1 Fixes
+
+- `[Multiselect]` Added typeahead improvements. ([#2432](https://github.com/infor-design/enterprise-wc/issues/2432))
+- `[NotificationBanner]` Added `line-clamp` setting to notification banner to allow custom message truncation. ([#2138](https://github.com/infor-design/enterprise-wc/issues/2138))
+- `[SwapList]` ReFix: Made the search portion of the swaplist sticky when scrolling. ([#2559](https://github.com/infor-design/enterprise-wc/issues/2559))
+- `[Splitter]` Fix issue where pane's scrollbar didn't appear on overflow. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))
 
 ## 1.4.0
 
@@ -13,7 +22,6 @@
 - `[Datagrid]` Added search feature to datagrid via `searchable` and `search-term-min-size` attributes. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
 - `[Datagrid]` Added a new `grouped` rows setting to group rows. Also added the personalization dialog feature. ([#2271](https://github.com/infor-design/enterprise-wc/issues/2271))
 - `[ListView]` Added grouped headers and a `appendToBottom` method. ([#2626](https://github.com/infor-design/enterprise-wc/issues/2626))
-- `[NotificationBanner]` Added `line-clamp` setting to notication banner to allow custom message truncation. ([#2138](https://github.com/infor-design/enterprise-wc/issues/2138))
 
 ### 1.4.0 Fixes
 
