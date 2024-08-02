@@ -50,18 +50,18 @@
 
   // @component
   // Accordion
-  --ids-accordion-header-color-border-bottom: var(--ids-color-neutral-30);
-  --ids-accordion-header-color-border-disabled: var(--ids-color-neutral-60);
+  --ids-accordion-header-color-border-bottom: var(--ids-color-border-weaker);
+  --ids-accordion-header-color-border-disabled: var(--ids-color-border-weaker);
   --ids-accordion-header-color-text-disabled: var(--ids-color-neutral-60);
-  --ids-accordion-header-color-icon: var(--ids-color-neutral-100);
+  --ids-accordion-header-color-icon: var(--ids-color-accent-neutral-strongest);
 
   // Accordion (App Menu)
-  --ids-app-menu-accordion-header-color-background-disabled: var(--ids-color-neutral-20);
-  --ids-app-menu-accordion-header-color-border-disabled: var(--ids-color-neutral-20);
-  --ids-app-menu-accordion-header-color-text-disabled: var(--ids-color-neutral-70);
-  --ids-app-menu-accordion-header-color-background-default: var(--ids-color-neutral-100);
+  --ids-app-menu-accordion-header-color-background-disabled: var(--ids-color-accent-neutral-weakest);
+  --ids-app-menu-accordion-header-color-border-disabled: var(--ids-color-accent-neutral-weakest);
+  --ids-app-menu-accordion-header-color-text-disabled: var(--ids-color-accent-neutral-default);
+  --ids-app-menu-accordion-header-color-background-default: var(--ids-color-accent-neutral-strongest);
   --ids-app-menu-accordion-header-filter-match-color-text: var(--ids-color-neutral-40);
-  --ids-app-menu-accordion-header-color-border-focus: var(--ids-color-blue-40);
+  --ids-app-menu-accordion-header-color-border-focus: var(--ids-color-action-default);
 
   // Action Panel
   --ids-action-panel-header-color-background: var(--ids-color-accent-neutral-weakest);

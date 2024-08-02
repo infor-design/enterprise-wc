@@ -104,16 +104,16 @@
   --ids-about-shadow-focus: var(--ids-shadow-focus);
 
   // Accordion
-  --ids-accordion-header-color-border-bottom: var(--ids-color-neutral-20);
-  --ids-accordion-header-color-icon: var(--ids-color-neutral-10);
-  --ids-accordion-header-color-border-focus: var(--ids-color-primary);
+  --ids-accordion-header-color-border-bottom: var(--ids-color-border-weaker);
+  --ids-accordion-header-color-icon: var(--ids-color-accent-neutral-weakest);
+  --ids-accordion-header-color-border-focus: var(--ids-color-action-default);
   --ids-accordion-header-shadow-focus: var(--ids-shadow-20);
-  --ids-accordion-header-color-border-disabled: var(--ids-color-text-disabled);
+  --ids-accordion-header-color-border-disabled: var(--ids-color-border-weaker);
   --ids-accordion-header-color-text-disabled: var(--ids-color-text-disabled);
-  --ids-accordion-header-padding: 12px 16px;
-  --ids-accordion-header-app-menu-padding: 12px 16px;
-  --ids-accordion-header-sub-app-menu-padding: 8px 20px;
-  --ids-accordion-pane-content-padding-block: 8px;
+  --ids-accordion-header-padding: 12px var(--ids-space-sm);
+  --ids-accordion-header-app-menu-padding: 12px var(--ids-space-sm);
+  --ids-accordion-header-sub-app-menu-padding: var(--ids-space-xs) 20px;
+  --ids-accordion-pane-content-padding-block: var(--ids-space-xs);
   --ids-accordion-pane-content-padding-inline: 18px;
   --ids-accordion-pane-content-padding-icon: 30px;
 
@@ -149,20 +149,20 @@
   --ids-alert-color-progress-disabled: var(--ids-color-purple-30);
 
   // App Menu
-  --ids-app-menu-accordion-header-color-background-disabled: var(--ids-color-neutral-100);
-  --ids-app-menu-accordion-header-color-border-disabled: var(--ids-color-neutral-100);
-  --ids-app-menu-accordion-header-color-text-disabled: var(--ids-color-neutral-40);
-  --ids-app-menu-accordion-header-color-background-default: var(--ids-color-white-100);
-  --ids-app-menu-accordion-header-filter-match-color-text: var(--ids-color-neutral-60);
+  --ids-app-menu-accordion-header-color-background-disabled: var(--ids-color-accent-neutral-strongest);
+  --ids-app-menu-accordion-header-color-border-disabled: var(--ids-color-accent-neutral-strongest);
+  --ids-app-menu-accordion-header-color-text-disabled: var(--ids-color-accent-neutral-weak);
+  --ids-app-menu-accordion-header-color-background-default: var(--ids-color-background-default);
+  --ids-app-menu-accordion-header-filter-match-color-text: var(--ids-color-accent-neutral-strong);
   --ids-app-menu-accordion-header-filter-color-text: var(--ids-color-text-default);
-  --ids-app-menu-accordion-header-color-text-focus: var(--ids-color-white-100);
+  --ids-app-menu-accordion-header-color-text-focus: var(--ids-color-foreground-light-default);
   --ids-app-menu-accordion-header-color-border-focus: var(--ids-color-primary-70);
   --ids-app-menu-accordion-header-selected-bg-color: var(--ids-color-primary-60);
   --ids-app-menu-header-color-background-hover: var(--ids-color-neutral-90);
   --ids-app-menu-header-color-border-hover: var(--ids-color-neutral-90);
-  --ids-app-menu-accordion-header-color-text-selected: var(--ids-color-white-100);
-  --ids-app-menu-accordion-header-color-text-default: var(--ids-color-neutral-20);
-  --ids-app-menu-accordion-panel-color-background: var(--ids-color-neutral-100);
+  --ids-app-menu-accordion-header-color-text-selected: var(--ids-color-foreground-light-default);
+  --ids-app-menu-accordion-header-color-text-default: var(--ids-color-accent-neutral-weaker);
+  --ids-app-menu-accordion-panel-color-background: var(--ids-color-background-dark);
 
   // Axis Chart
   --ids-axis-chart-grid-color: var(--ids-color-neutral-20);

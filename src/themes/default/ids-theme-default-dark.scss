@@ -43,22 +43,21 @@
 
   // @component
   // Accordion
-  --ids-accordion-header-color-border-bottom: var(--ids-color-neutral-70);
-  --ids-accordion-header-color-border-disabled: var(--ids-color-neutral-50);
-  --ids-accordion-header-color-text-disabled: var(--ids-color-neutral-50);
-  --ids-accordion-header-color-border-focus: var(--ids-color-primary-60);
-  --ids-accordion-header-color-icon: var(--ids-color-neutral-10);
+  --ids-accordion-header-color-border-bottom: var(--ids-color-border-weaker);
+  --ids-accordion-header-color-border-disabled: var(--ids-color-border-weaker);
+  --ids-accordion-header-color-text-disabled: var(--ids-color-foreground-default-disabled);
+  --ids-accordion-header-color-icon: var( --ids-color-accent-neutral-strongest);
 
   // Accordion (App Menu)
-  --ids-app-menu-accordion-header-color-background-disabled: var(--ids-color-neutral-20);
-  --ids-app-menu-accordion-header-color-border-disabled: var(--ids-color-neutral-20);
-  --ids-app-menu-accordion-header-color-text-disabled: var(--ids-color-neutral-70);
+  --ids-app-menu-accordion-header-color-background-disabled: var(--ids-color-accent-neutral-stronger);
+  --ids-app-menu-accordion-header-color-border-disabled: var(--ids-color-accent-neutral-stronger);
+  --ids-app-menu-accordion-header-color-text-disabled: var(--ids-color-border-weaker);
   --ids-app-menu-accordion-header-color-background-default: var(--ids-color-neutral-100);
-  --ids-app-menu-accordion-header-filter-match-color-text: var(--ids-color-neutral-40);
+  --ids-app-menu-accordion-header-filter-match-color-text: var(--ids-color-accent-neutral-strong);
   --ids-app-menu-accordion-header-color-border-focus: var(--ids-color-primary-40);
   --ids-app-menu-header-color-background-hover: var(--ids-color-neutral-100);
   --ids-app-menu-header-color-border-hover: var(--ids-color-neutral-100);
-  --ids-app-menu-accordion-panel-color-background: var(--ids-color-neutral-90);
+  --ids-app-menu-accordion-panel-color-background: var(--ids-color-accent-neutral-weakest);
 
   // Action Panel
   --ids-action-panel-header-color-background: var(--ids-color-accent-neutral-weakest);
