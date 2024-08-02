@@ -525,6 +525,69 @@ test.describe('IdsDropdown tests', () => {
       expect(await isDropdownShown(dropdown)).toBeFalsy();
       await expect(dropdownList).not.toHaveAttribute('aria-expanded');
     });
+
+    test('can support beforeShow', async ({ page }) => {
+      const contents = [
+        { label: 'Afghanistan', value: 'AF' },
+        { label: 'Albania', value: 'AL' },
+        { label: 'Algeria', value: 'DZ' },
+        { label: 'American Samoa', value: 'AS' },
+        { label: 'Andorra', value: 'AD' },
+        { label: 'Angola', value: 'AO' },
+        { label: 'Anguilla', value: 'AI' },
+        { label: 'Antarctica', value: 'AQ' },
+        { label: 'Antigua and Barbuda', value: 'AG' },
+        { label: 'Argentina', value: 'AR' },
+        { label: 'Armenia', value: 'AM' },
+        { label: 'Aruba', value: 'AW' },
+        { label: 'Australia', value: 'AU' },
+        { label: 'Austria', value: 'AT' },
+        { label: 'Azerbaijan', value: 'AZ' },
+        { label: 'Bahamas', value: 'BS' },
+        { label: 'Bahrain', value: 'BH' },
+        { label: 'Bangladesh', value: 'BD' },
+        { label: 'Barbados', value: 'BB' },
+        { label: 'Belarus', value: 'BY' },
+        { label: 'Belgium', value: 'BE' },
+        { label: 'Belize', value: 'BZ' },
+        { label: 'Benin', value: 'BJ' },
+        { label: 'Bermuda', value: 'BM' },
+        { label: 'Bhutan', value: 'BT' },
+        { label: 'Bolivia', value: 'BO' },
+        { label: 'Bosnia and Herzegovina', value: 'BA' },
+        { label: 'Botswana', value: 'BW' },
+        { label: 'Bouvet Island', value: 'BV' },
+        { label: 'Brazil', value: 'BR' },
+        { label: 'British Indian Ocean Territory', value: 'IO' },
+        { label: 'Brunei', value: 'BN' },
+        { label: 'Bulgaria', value: 'BG' },
+        { label: 'Burkina Faso', value: 'BF' },
+        { label: 'Burundi', value: 'BI' }];
+      const dropdown = await page.locator('#dropdown-1');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.beforeShow)).toBeFalsy();
+      const results = (await dropdown.evaluate(async (element: IdsDropdown, args) => {
+        const getContents = () => new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(args);
+          }, 1);
+        });
+        element.beforeShow = async function beforeShow() {
+          return getContents();
+        };
+        await element.open();
+        element.close();
+        element.selectedIndex = 0;
+        return element.optionValues;
+      }, contents)).map((item) => ({ value: item }));
+      results.forEach((item) => {
+        expect(contents.find((val) => item.value === val.value)).toBeTruthy();
+      });
+    });
+
+    // test('can set custom text for blank option', async ({ page }) => {
+
+    // });
   });
 
   test.describe('reattachment tests', () => {
