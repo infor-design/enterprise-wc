@@ -1717,8 +1717,8 @@
   // Wizard
   --ids-wizard-step-width: 14px;
   --ids-wizard-step-color-default: var(--ids-color-primary);
-  --ids-wizard-step-color-unvisited: var(--ids-color-neutral-60);
-  --ids-wizard-step-inner-border-color-border: var(--ids-color-background-default);
+  --ids-wizard-step-color-unvisited: var(--ids-color-accent-neutral-strong);
+  --ids-wizard-step-inner-border-color-border: var(--ids-color-border-light);
   --ids-wizard-step-color-disabled: var(--ids-color-action-weaker);
   --ids-wizard-step-color-disabled-unvisited: var(--ids-color-neutral-30);
 }

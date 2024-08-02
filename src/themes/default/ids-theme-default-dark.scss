@@ -531,6 +531,6 @@
 
   // Wizard
   --ids-wizard-step-color-default: var(--ids-color-primary-40);
-  --ids-wizard-step-color-unvisited: var(--ids-color-neutral-40);
-  --ids-wizard-step-color-disabled-unvisited: var(--ids-color-neutral-50);
+  --ids-wizard-step-color-unvisited: var(--ids-color-accent-neutral-strong);
+  --ids-wizard-step-color-disabled-unvisited: var(--ids-color-accent-neutral-default);
  }

@@ -1,8 +1,8 @@
 /* Ids Wizard Component */
 
 .ids-wizard {
-  padding-inline: 32px;
-  margin-block: 8px;
+  padding-inline: var(--ids-space-lg);
+  margin-block: var(--ids-space-xs);
   box-sizing: border-box;
   position: relative;
   display: flex;
@@ -38,7 +38,7 @@
   .step-label {
     border: 1px solid transparent;
     position: absolute;
-    top: 24px;
+    top: var(--ids-space-md);
     box-sizing: border-box;
     text-align: left;
     text-decoration: none;
