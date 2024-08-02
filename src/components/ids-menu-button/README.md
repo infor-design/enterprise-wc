@@ -1,4 +1,4 @@
-# Ids Menu Button Component
+# ids-menu-button
 
 ## Description
 

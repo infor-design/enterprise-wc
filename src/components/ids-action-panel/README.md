@@ -1,26 +1,16 @@
-# Ids Action Panel
+# ids-action-panel
 
-The IDS Action Panel (formerly known as Contextual Action panel or CAP) is used to display complex forms inside of a [Modal](../ids-modal/README.md) area.  The intended use of this component is to temporarily draw user attention away from a primary workflow to handle a complicated function, eventually returning its result back to the main workflow.
-
-## Use Cases
-
-- creating a new shipping order
-- filling out a small form and submitting to a list.
-- searching a table of data, selecting a record, and returning the record to a [trigger field]('../ids-trigger-field/README.md'), similar to what occurs in the [IdsLookup](../ids-lookup/README.md)
-
-## Terminology
-
-- **"CAP"** - IDS's old abbreviation for the old name "Contextual Action Panel"
+The ids-action-panel displays complex forms inside of a [ids-modal](../ids-modal/README.md) area.
 
 ## Features (With Code Examples)
 
-Action Panels with no content present look similar to [Modals]('../ids-modal/README.md'), presenting just a floating content area over top of the page:
+Action Panels with no content look similar to a modal, presenting a floating content area over top of the page:
 
 ```html
 <ids-action-panel id="my-cap"></ids-action-panel>
 ```
 
-One main difference between the Modal and CAP is the `toolbar` slot, which will be placed where the Modal's title would normally appear, and is styled similarly to [Headers]('../ids-header/README.md).  The contents of this slot should be an [IdsToolbar]('../ids-toolbar/README.md) marked for the `toolbar` slot:
+One main difference between the Modal and Action Panel is the `toolbar` slot. It's placed where the modal title normally appears, and is styled similar to that of the [ids-header]('../ids-header/README.md). The contents of this slot should be [ids-toolbar]('../ids-toolbar/README.md) marked for the `toolbar` slot:
 
 ```html
 <ids-action-panel id="my-cap">
@@ -42,7 +32,7 @@ One main difference between the Modal and CAP is the `toolbar` slot, which will 
 </ids-action-panel>
 ```
 
-Similar to the Modal, any content not marked for a slot will be present inside the main content area of the CAP:
+Similar to the modal, any content not marked for a slot will be present inside the main content area of the action panel:
 
 ```html
 <ids-action-panel id="my-cap">

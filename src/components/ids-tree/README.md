@@ -1,4 +1,4 @@
-# Ids Tree Component
+# ids-tree
 
 ## Description
 

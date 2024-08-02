@@ -1,4 +1,4 @@
-# Ids Popup Menu Component
+# ids-popup-menu
 
 ## Description
 

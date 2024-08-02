@@ -1,17 +1,12 @@
-# Ids Badge Component
+# ids-badge
 
 ## Description
 
-The IDS Badge Component consists of a small circle containing alphanumeric or icon that appears to another object. Badges are used to display alphanumeric values. A User can easily skim object-related values. Note that the tags and badges look the same but should not be used interchangeably. A badge is used mainly for alphanumeric values i.e. numbers currency ect. and cannot take an icon or random text. For text embellishments use a tag. For icons use an icon or status icon or alert icon.
-
-## Use Cases
-
-- Badges can be use to give a non-critical information update on a piece of alphanumeric information in your application.
-- Badges can be used to provide users with information about an object that is worthy of attention.
+The ids-badge informs users of a status or count of an object. See more [usage details](https://design.infor.com/components/components/badge).
 
 ## Terminology
 
-- **Badge**: used to inform users of the status of an object or of an action.
+- **Badge**: Used to inform users of the status of an object or of an action.
 - **Color**: This is the color of the badge.
 - **Shape**: This is the shape of the badge. It can be round or rounded rectangle.
 
@@ -21,14 +16,14 @@ The IDS Badge Component consists of a small circle containing alphanumeric or ic
 
 ## Features (With Code Examples)
 
-A normal/ no properties badge used as a web component.
+A normal/no properties badge used as a web component.
 
 ```html
 <ids-badge>5</ids-badge>
 ```
 
-A colored badge is done by adding a `color` attribute and one of the following:
-alert, error, info, warning, and success.
+Use the `color` attribute to style badges as statuses:
+`alert`, `error`, `info`, `warning`, or `success`.
 
 ```html
 <ids-badge color="caution">10</ids-badge>
@@ -38,13 +33,13 @@ alert, error, info, warning, and success.
 <ids-badge color="success">5</ids-badge>
 ```
 
-A shape badge is done by adding a `shape` attribute and one of the following: normal, and round. When you don't set the shape, normal will be the default value.
+To create a circular badge, use the `shape` attribute with the value `round`:
 
 ```html
 <ids-badge color="caution" shape="round">10</ids-badge>
 ```
 
-Audible span can de configure by adding `<ids-text audible="true"></ids-text>` inside of the badge.
+For improved accessibility, add an audible description using <ids-text>:
 
 ```html
 <ids-badge color="error">404 <ids-text audible="true">In Error Condition</ids-text></ids-badge>
@@ -52,24 +47,15 @@ Audible span can de configure by adding `<ids-text audible="true"></ids-text>` i
 
 ## Settings and Attributes
 
-- `color` {string} Sets the color of the badge e.g. `alert`, `error`, `warning`, or `info`.
+- `color` {string} Sets the status color of the badge. Values are `alert`, `error`, `warning`, `success`, or `info`.
 - `disabled` {boolean} Sets the disabled state.
-- `shape` {string} `normal` is the default value of the shape, you can also change it to `round`.
+- `shape` {string} Sets the badge shape. Values are `normal` (default) or `round`.
 
 ## States and Variations
 
 - Color
 - Disabled
 - Shape
-
-## Keyboard Guidelines
-
-Badges do not have tab stops and have no keyboard interaction on their own, but they may be placed in a grid cell or object that has tab focus.
-
-## Accessibility Guidelines
-
-- 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
-- 1.4.3 Contrast (Minimum) - The visual presentation of text and images of text has a contrast ratio of at least 4.5:1 Ensure the color badges pass contrast.
 
 ## Converting from Previous Versions (Breaking Changes)
 

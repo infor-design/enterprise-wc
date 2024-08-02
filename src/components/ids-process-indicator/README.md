@@ -1,4 +1,4 @@
-# Ids Process Indicator Component
+# ids-process-indicator
 
 ## Description
 

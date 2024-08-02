@@ -1,4 +1,4 @@
-# Ids Toast Component
+# ids-toast
 
 ## Description
 

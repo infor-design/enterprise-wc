@@ -6,6 +6,8 @@
 
 ### 1.5.0 Fixes
 
+- `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482]https://github.com/infor-design/enterprise-wc/issues/2482)
+
 ## 1.4.1
 
 ### 1.4.1 Fixes

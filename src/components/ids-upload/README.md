@@ -1,4 +1,4 @@
-# Ids Upload Component
+# ids-upload
 
 ## Description
 

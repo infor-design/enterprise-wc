@@ -1,14 +1,8 @@
-# Ids Dropdown Component
+# ids-dropdown
 
 ## Description
 
-The Ids Dropdown allows users to select one of many options from a list, similar to using an HTML Select Element, with additional selection and filtering features. The dropdown displays one or more selectable values in a menu that is collapsed by default. A user can select an actionable value.
-
-## Use Cases
-
-- Use when you need to let the user select something from a list of values
-- Use when you want users to contribute data to your website and let them organize their content themselves.
-- Best used when users do not require a view of all possible values at all times.
+The ids-dropdown is similar to a `<select>` HTML element, with advanced selection and filtering features. See more [usage details](https://design.infor.com/components/components/dropdown).
 
 ## Terminology
 
@@ -34,7 +28,7 @@ Dropdown elements should be defined with `id` and `value` attributes. The value 
 </ids-dropdown>
 ```
 
-It's also possible to show icons in the dropdown list. Add an `ids-icon` and `span` to each list box `ids-list-box-option`. For symmetry, icons should be on all options.
+To show icons in the dropdown list, add an `ids-icon` and `span` to each list box `ids-list-box-option`.
 
 ```html
 <ids-dropdown id="dropdown-5" label="Dropdown with Icons" value="opt2">
@@ -66,7 +60,7 @@ It's also possible to show icons in the dropdown list. Add an `ids-icon` and `sp
 </ids-dropdown>
 ```
 
-Its also possible to show tooltips on the dropdown container or dropdown options. If you set it on the `ids-dropdown` you will see the tooltip on hover of the closed dropdown. If you set it on the options, when these are selected it will change the container tooltip to the selected one.
+Show tooltips on the dropdown container or options. By setting it on `ids-dropdown`, you will see the tooltip on hover for the closed dropdown. If set on the options, the tooltip will display the selected item.
 
 ```html
 <ids-dropdown id="dropdown-6" label="Dropdown with Tooltips" tooltip="Additional Info" value="opt2">
