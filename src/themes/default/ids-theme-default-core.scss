@@ -449,7 +449,7 @@
   --ids-card-color-background: var(--ids-color-background-elevated);
   --ids-card-color-border: var(--ids-color-border-weak);
   --ids-card-color-border-hover: var(--ids-hyperlink-box-color-border-default);
-  --ids-card-divider-color-border: var(--ids-color-neutral-20);
+  --ids-card-divider-color-border: var(--ids-color-accent-neutral-weaker);
   --ids-card-shadow: 0px 0px 8px 0px rgba(0 0 0 / 0.10);
   --ids-card-color-background-selected: var(--ids-card-color-background);
   --ids-card-color-border-selected: var(--ids-color-primary);
@@ -1606,8 +1606,8 @@
   --ids-toast-progress-color-background: var(--ids-color-theme-strong);
 
   // Toolbar (Formatter)
-  --ids-toolbar-formatter-color-background: var(--ids-color-neutral-10);
-  --ids-toolbar-formatter-color-border-bottom: var(--ids-color-neutral-30);
+  --ids-toolbar-formatter-color-background: var(--ids-color-accent-neutral-weakest);
+  --ids-toolbar-formatter-color-border-bottom: var(--ids-color-border-weaker);
 
   // Tooltip
   --ids-tooltip-color-background: var(--ids-color-background-dark);
