@@ -55,9 +55,10 @@
   --ids-app-menu-accordion-header-color-background-default: var(--ids-color-neutral-100);
   --ids-app-menu-accordion-header-filter-match-color-text: var(--ids-color-accent-neutral-strong);
   --ids-app-menu-accordion-header-color-border-focus: var(--ids-color-primary-40);
-  --ids-app-menu-header-color-background-hover: var(--ids-color-neutral-100);
-  --ids-app-menu-header-color-border-hover: var(--ids-color-neutral-100);
-  --ids-app-menu-accordion-panel-color-background: var(--ids-color-accent-neutral-weakest);
+  --ids-app-menu-accordion-header-color-text-default: var(--ids-color-foreground-light-secondary);
+  --ids-app-menu-header-color-background-hover: var(--ids-color-background-default);
+  --ids-app-menu-header-color-border-hover: var(--ids-color-background-default);
+  --ids-app-menu-accordion-panel-color-background: var(--ids-color-neutral-90);
 
   // Action Panel
   --ids-action-panel-header-color-background: var(--ids-color-accent-neutral-weakest);
