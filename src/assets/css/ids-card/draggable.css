@@ -2,6 +2,18 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  ids-search-field {
+    width: 100%;
+
+    &::part(container) {
+      width: 100%;
+    }
+
+    &::part(field-container) {
+      width: 100%;
+    }
+  }
 }
 
 #example-panel-center {
@@ -28,6 +40,7 @@
     flex-wrap: wrap;
     align-items: flex-end;
     gap: 16px;
+    max-height: 100%;
 
     .frame-item {
       width: 320px;
