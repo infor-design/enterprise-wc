@@ -15,7 +15,6 @@ declare const Soho: any;
 // For Tests
 declare const page: any;
 declare const browser: any;
-declare module 'mutationobserver-shim';
 declare const AxePuppeteer: any;
 
 // For Components

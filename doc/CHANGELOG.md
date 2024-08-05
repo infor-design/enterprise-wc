@@ -6,6 +6,7 @@
 
 ### 1.5.0 Fixes
 
+- `[Button]` Fixed a bug in the lifecycle where inner classes where not refreshed in some frameworks.([#2627]https://github.com/infor-design/enterprise-wc/issues/2627)
 - `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482]https://github.com/infor-design/enterprise-wc/issues/2482)
 - `[Tabs]` Fixed an issue where overflow menu group popup is full width. ([#2656](https://github.com/infor-design/enterprise-wc/issues/2656))
 

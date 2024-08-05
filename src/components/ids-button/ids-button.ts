@@ -84,6 +84,7 @@ export default class IdsButton extends Base {
       configurable: true,
       enumerable: true
     });
+    this.refreshProtoClasses();
   }
 
   /**
@@ -97,6 +98,13 @@ export default class IdsButton extends Base {
     if (this.getAttribute('width')) this.width = this.getAttribute('width');
     this.cssClass = this.cssClass;
     this.#attachEventHandlers();
+
+    requestAnimationFrame(() => {
+      this.refreshProtoClasses();
+    });
+  }
+
+  mountedCallback(): void {
     this.refreshProtoClasses();
   }
 
