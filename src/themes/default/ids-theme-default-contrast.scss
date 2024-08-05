@@ -277,6 +277,12 @@
   --ids-module-nav-settings-menu-item-icon-color: var(--ids-color-accent-neutral-default);
   --ids-module-nav-settings-menu-separator-color: var(--ids-color-accent-neutral-weakest);
 
+  // Notification Banner Badge
+  --ids-notification-badge-error-color-background: var(--ids-color-error-stronger);
+  --ids-notification-badge-info-color-background: var(--ids-color-info-stronger);
+  --ids-notification-badge-success-color-background: var(--ids-color-success-stronger);
+  --ids-notification-badge-warning-color-background: var(--ids-color-warning-stronger);
+
   // Popup Menu
   --ids-popup-menu-color-text-default: var(--ids-color-neutral-90);
 

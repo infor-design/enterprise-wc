@@ -400,6 +400,12 @@
   --ids-calendar-month-view-weekday-color-text-compact-hover: var(--ids-color-white-100);
   --ids-calendar-month-view-range-color-background-compact-selected: var(--ids-color-primary-60);
 
+  // Notification Banner Badge
+  --ids-notification-badge-error-color-background: var(--ids-color-error-stronger);
+  --ids-notification-badge-info-color-background: var(--ids-color-info-stronger);
+  --ids-notification-badge-success-color-background: var(--ids-color-success-stronger);
+  --ids-notification-badge-warning-color-background: var(--ids-color-warning-stronger);
+
   // Overlay
   --ids-overlay-background-color: 22 22 24;
   --ids-overlay-page-background-color: 22 22 24;
