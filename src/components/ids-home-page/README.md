@@ -1,4 +1,4 @@
-# Ids Home Page Component
+# ids-homepage
 
 ## Description
 

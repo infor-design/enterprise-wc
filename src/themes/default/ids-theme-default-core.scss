@@ -307,6 +307,8 @@
   --ids-box-width: auto;
 
   // Button (Primary)
+  --ids-button-height: 32px;
+  --ids-button-width: 32px;
   --ids-button-padding-inline: 12px;
   --ids-button-alt-margin: var(--ids-space-xxxs);
   --ids-button-radius: var(--ids-border-radius-sm);
@@ -421,7 +423,7 @@
   --ids-button-formatter-color-text-hover: var(--ids-color-gray-100);
   --ids-button-formatter-color-text-disabled: var(--ids-color-gray-50);
   --ids-button-formatter-color-background-hover: var(--ids-color-gray-20);
-  --ids-button-formatter-color-active: var(--ids-color-primary-70);
+  --ids-button-formatter-color-active: var(--ids-color-gray-100);
   --ids-button-formatter-color-background-default: transparent;
   --ids-button-formatter-color-border-default: transparent;
   --ids-button-formatter-color-text-default: var(--ids-color-gray-100);
@@ -587,6 +589,7 @@
   --ids-data-grid-height-min: 350px;
   --ids-data-grid-font-size: var(--ids-font-size-40);
   --ids-data-grid-font-size-sm: var(--ids-font-size-30);
+  --ids-data-grid-modal-row-height: 24px;
 
   // Data Grid (Cells)
   --ids-data-grid-cell-color-background-default: var(--ids-color-white-100);
@@ -611,7 +614,7 @@
   --ids-data-grid-header-color-background-default: var(--ids-color-gray-10);
   --ids-data-grid-header-color-background-hover: var(--ids-color-gray-20);
   --ids-data-grid-header-checkbox-color-background: var(--ids-color-white-100);
-  --ids-data-grid-header-checkbox-color-border: var(--ids-color-gray-30);
+  --ids-data-grid-header-checkbox-color-border: var(--ids-color-gray-40);
   --ids-data-grid-header-color-icon: var(--ids-color-gray-100);
   --ids-data-grid-header-drag-background-color: var(--ids-color-gray-30);
   --ids-data-grid-header-drag-arrow-color-background: var(--ids-color-gray-90);
@@ -659,6 +662,9 @@
   --ids-data-grid-row-color-background-hover: var(--ids-data-grid-row-color-background-selected);
   --ids-data-grid-row-alternating-color-background: var(--ids-color-gray-10);
   --ids-data-grid-row-shadow-focus: inset 0 0 0 1px var(--ids-color-primary-40), 0 1px 0 0 var(--ids-color-primary-40), 0 0 3px 2px rgb(54 138 192 / 0.3);
+  --ids-data-grid-row-grouped-color-background: var(--ids-data-grid-header-color-background-default);
+  --ids-data-grid-row-grouped-color-text: var(--ids-data-grid-cell-color-text-default);
+  --ids-data-grid-row-grouped-font-weight: var(--ids-font-weight-semibold);
 
   // Date Picker
   --ids-date-picker-open-trigger-button-color-text: var(--ids-color-primary)
@@ -1012,6 +1018,12 @@
   --ids-list-view-item-color-text-link-disabled: var(--ids-color-gray-30);
   --ids-list-view-item-opacity-disabled: 0.5;
   --ids-list-view-color-background-selected: var(--ids-color-blue-10);
+  --ids-list-view-group-header-color-background: var(--ids-color-gray-10);
+  --ids-list-view-group-header-color-text: var(--ids-color-gray-100);
+  --ids-list-view-group-header-color-border: var(--ids-color-gray-20);
+  --ids-list-view-group-header-height: 36px;
+  --ids-list-view-group-header-font-size: 14px;
+  --ids-list-view-group-header-padding: var(--ids-space-12);
 
   // Loading Indicator
   --ids-loading-indicator-height: 6px;
@@ -1037,9 +1049,9 @@
 
   // Menu
   --ids-menu-header-font-weight: var(--ids-font-weight-semibold);
-  --ids-menu-header-margin: var(--ids-space-xxs);
-  --ids-menu-header-padding: var(--ids-space-xxs);
-  --ids-menu-header-font-size: var(--ids-font-size-20);
+  --ids-menu-header-margin: var(--ids-space-xs);
+  --ids-menu-header-padding: var(--ids-space-xs);
+  --ids-menu-header-font-size: var(--ids-font-size-40);
   --ids-menu-header-color-text: var(--ids-color-gray-70);
   --ids-menu-header-icon-padding: 38px;
   --ids-menu-item-width-min: 110px;
@@ -1228,6 +1240,7 @@
   --ids-popup-color-border: var(--ids-color-border-weak);
   --ids-popup-padding: var(--ids-space-08);
   --ids-popup-shadow: 0px 0px 8px 0px rgba(0 0 0 / 0.10);
+  --ids-popup-fit-height: 100%;
 
   // Popup Menu
   --ids-popup-menu-color-background-default: var(--ids-popup-color-background);
@@ -1334,6 +1347,7 @@
   --ids-search-field-icon-margin: 8px;
   --ids-search-field-margin: 0;
   --ids-search-field-border-radius: 4px;
+  --ids-search-field-border-width: 1px;
 
   // Search Field in App Menu
   --ids-search-field-app-menu-shadow-focus: none;
@@ -1437,16 +1451,18 @@
   --ids-swappable-item-border-default: 1px dashed transparent;
   --ids-swappable-item-font-family: var(--ids-font-family-default);
   --ids-swappable-item-cursor-default: var(--ids-cursor-pointer);
+  --ids-swappable-item-padding-inline: 2px;
+  --ids-swappable-item-padding-block: 8px;
   --ids-swappable-item-color-background-hover: var(--ids-color-blue-10);
-  --ids-swappable-item-content-hover: '\205e';
   --ids-swappable-item-font-size-hover: var(--ids-font-size-60);
   --ids-swappable-item-border-focus: 1px solid var(--ids-color-blue-40);
   --ids-swappable-item-shadow-focus: 0 0 4px 1px rgb(54 138 192 / 0.3);
   --ids-swappable-item-outline-focus: none;
   --ids-swappable-item-opacity-dragging: 0.4;
   --ids-swappable-item-cursor-selected: var(--ids-cursor-move);
-  --ids-swappable-item-color-background-selected: var(--ids-color-primary);
-  --ids-swappable-item-color-text-selected: var(--ids-color-white-100);
+  --ids-swappable-item-color-background-selected: var(--ids-color-accent-blue-weakest);
+  --ids-swappable-item-color-border-selected: var(--ids-color-primary);
+  --ids-swappable-item-color-text-selected: var(--ids-color-foreground-default-default);
   --ids-swappable-item-over-border: 1px dashed var(--ids-color-gray-80);
 
   // Swaplist
@@ -1454,18 +1470,18 @@
   --ids-swaplist-shadow: var(--ids-card-shadow);
   --ids-swaplist-card-margin-block-end: var(--ids-space-none);
   --ids-swaplist-border: 1px solid var(--ids-card-color-border);
-  --ids-swaplist-card-content-height-min: calc(var(--ids-card-content-height) - 11px);
+  --ids-swaplist-card-content-height-min: var(--ids-card-content-height);
   --ids-swaplist-card-border-radius: var(--ids-border-radius-none);
   --ids-swaplist-inline-start-border-width: 0;
   --ids-swaplist-card-shadow: none;
   --ids-swaplist-first-child-inline-start-border-width: 1px;
   --ids-swaplist-button-color-background-hover: var(--ids-button-tertiary-color-background-hover);
   --ids-swaplist-toolbar-button-padding: var(--ids-space-none);
-  --ids-swaplist-button-height: 34px;
+  --ids-swaplist-button-height: 36px;
   --ids-swaplist-button-width: 36px;
   --ids-swaplist-item-padding: var(--ids-space-xs);
-  --ids-swaplist-item-padding-inline-start: var(--ids-space-20);
-  --ids-swaplist-item-margin-block-end: var(--ids-space-xxxxs);
+  --ids-swaplist-item-padding-inline-start: 0;
+  --ids-swaplist-item-margin-block-end: 1px;
   --ids-swaplist-item-line-height: 23px;
   --ids-swaplist-item-over-border: 1px dashed var(--ids-color-text-label);
   --ids-swaplist-search-color-background-default: var(--ids-color-gray-10);

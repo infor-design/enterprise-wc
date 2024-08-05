@@ -1,7 +1,7 @@
 # Infor Design System Web Components Beta Library
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![npm version](https://badge.fury.io/js/ids-enterprise.svg)](https://badge.fury.io/js/ids-enterprise-wc)
+[![npm version](https://badge.fury.io/js/ids-enterprise-wc.svg)](https://badge.fury.io/js/ids-enterprise-wc)
 [![Build Check](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml/badge.svg)](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/infor-design/enterprise-wc/badge.svg?branch=main)](https://coveralls.io/github/infor-design/enterprise-wc?branch=main)
 
@@ -90,9 +90,10 @@ Most popular editors support custom code completion with different configuration
 ## Documentation
 
 - See the [Documentation](doc/DOCUMENTATION.md) for each component in markdown format. In addition to this index you will see a `.md` file in each [component folder](https://github.com/infor-design/enterprise-wc/tree/main/src/components) if browsing the source and examples.
-- See the [Migration Guide](doc/MIGRATION-GUIDE.md)
-- See the [Change Log](doc/CHANGELOG.md) for info and breaking changes by version
-- See the [Examples in popular frameworks](https://github.com/infor-design/enterprise-wc-examples) for examples and notes on using these in several frameworks
+- See the [Migration Guide](doc/MIGRATION-GUIDE.md).
+- See the [Change Log](doc/CHANGELOG.md) for info and breaking changes by version.
+- See the [Examples in popular frameworks](https://github.com/infor-design/enterprise-wc-examples) for examples and notes on using these in several frameworks.
+- See the [component pages](https://design.infor.com/components/overview/) on design.infor.com for UX and accessibility guidance.
 
 ## Other Documentation
 

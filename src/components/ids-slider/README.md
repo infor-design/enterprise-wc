@@ -1,4 +1,4 @@
-# Ids Slider Component
+# ids-slider
 
 ## Description
 

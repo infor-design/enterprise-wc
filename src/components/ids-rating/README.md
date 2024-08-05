@@ -39,8 +39,6 @@ A rating rating with 4.5/5 which is also readonly. If using half stars the ratin
 - `value` {number} Sets the rating value attribute. `value="0"`
 - `readyonly` {boolean} Sets the readonly attribute. Valid values are 'true' | 'false'
 - `size` {number} Sets the rating size attribute. `size="large"` Valid values are 'small' | 'medium' | 'large'
-- `mode` {string} Sets the theme mode
-- `version` {string} Sets the theme version
 - `disabled` {boolean} Sets the disabled state
 
 ## Converting from Previous Versions (Breaking Changes)

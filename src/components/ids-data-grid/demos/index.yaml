@@ -137,10 +137,16 @@
   - link: filter.html
     type: Example
     description: Shows a filter row
+  - link: grouped-rows.html
+    type: Example
+    description: Shows row grouping
   - link: header-multiline.html
     type: Example
     description: Shows a two line header
   - link: in-modal.html
+    type: Example
+    description: Shows a data grid in a modal
+  - link: in-tabs.html
     type: Example
     description: Shows a data grid in a modal
   - link: infinite-scroll.html
@@ -275,3 +281,6 @@
   - link: xss-prevention.html
     type: Test
     description: Shows a data grid can prevent xss
+  - link: searchable.html
+    type: Searchable
+    description: Shows a data grid can search for the keyword

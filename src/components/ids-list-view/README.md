@@ -1,4 +1,4 @@
-# Ids List View Component
+# ids-list-view
 
 ## Description
 
@@ -262,6 +262,19 @@ List view using search field with custom search filter.
   listView.data = products;
 ```
 
+List view with Group Headers
+
+To make a listview with group headers, you can add a `<ids-list-view-group>` element. This can either be added in the markup directly or dynamically added via adding `{idsGroupHeader: true, title: 'My Title'}` in the dataset. Note that the group headers cannot be used in virtual scroll since they are different size and cannot be accurately calculated.
+
+```html
+<ids-list-view>
+  <ids-list-view-group-header>Group one</ids-list-view-group-header>
+  <ids-list-view-item>Item one</ids-list-view-item>
+    <ids-list-view-group-header>Group two</ids-list-view-group-header>
+  <ids-list-view-item>Item two</ids-list-view-item>
+</ids-list-view>
+```
+
 ## Settings and Attributes
 
 - `height` {number|string} sets the expected height of the viewport for virtual scrolling
@@ -278,7 +291,7 @@ List view using search field with custom search filter.
 - `suppressDeactivation` {boolean} sets the items to be suppress deactivation for mixed selection only
 - `suppressDeselection` {boolean} sets the items to be suppress deselection for single selection only
 - `suppressHighlight` {boolean} sets search term text to be suppress highlight when using searchable
-- `virtualScroll` {boolean} sets the list view to use virtual scrolling for a large amount of items
+- `virtualScroll` {boolean} sets the list view to use virtual scrolling for a large amount of items. Note that virtual scroll has some limitations. First you must have fixed size items and use the `itemHeight` setting, second you must use the `data` method to feed the data because it used the height and the data to hold the items in the calculation.
 
 ## Themeable Parts
 
@@ -327,6 +340,7 @@ List view using search field with custom search filter.
 - `item.select = true/false: void` Set individual items selection state (depending on selectable option)
 - `searchFilterCallback(term: string): (((item: object) => boolean))` Set search filter callback, use for custom filter to match
 - `searchableTextCallback(item: object): string` Set searchable text callback
+- `appendToBottom(data: Array): string` Appends new data items to the bottom of the list, this is faster
 
 ## States and Variations (With Code Examples)
 

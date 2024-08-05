@@ -1,4 +1,4 @@
-# Ids Month View Component
+# ids-month-view
 
 ## Description
 The `ids-month-view` component is a web component that provides calendar view with navigation

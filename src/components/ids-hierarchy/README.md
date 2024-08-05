@@ -1,4 +1,4 @@
-# Ids Hierarchy Component
+# ids-hierarchy
 
 ## Description
 

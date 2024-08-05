@@ -13,6 +13,7 @@ import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import { IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
 import IdsDraggableMixin from '../ids-draggable/ids-draggable-mixin';
+import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
 const Base = IdsHideFocusMixin(
   IdsDraggableMixin(
@@ -106,10 +107,10 @@ export default class IdsCard extends Base {
           <div class="ids-card-header" part="header">
             <slot name="card-header"></slot>
           </div>
-          <div class="ids-card-content ${this.selection === 'multiple' ? 'has-checkbox' : ''} ${this.overflow === 'hidden' ? 'overflow-hidden' : ''}" part="content">
+          <div class="ids-card-content${this.selection === ' multiple' ? ' has-checkbox' : ''}${this.overflow === ' hidden' ? ' overflow-hidden' : ''}" part="content">
             <slot name="card-content"></slot>
           </div>
-          <div class="ids-card-checkbox ${this.selection === 'multiple' ? '' : 'hidden'}">
+          <div class="ids-card-checkbox${this.selection === ' multiple' ? '' : ' hidden'}">
             <ids-checkbox></ids-checkbox>
           </div>
           <div class="ids-card-footer" part="footer">
@@ -172,7 +173,17 @@ export default class IdsCard extends Base {
    * @returns {object} The object for chaining.
    */
   #handleEvents() {
-    this.onEvent('click', this, this.#handleSelectionChange);
+    this.offEvent('click.ids-card', this);
+    this.onEvent('click.ids-card', this, this.#handleSelectionChange);
+
+    const cardContentSlot = this.shadowRoot?.querySelector<HTMLSlotElement>(`slot[name="card-content"]`);
+
+    this.offEvent('slotchange.ids-card', cardContentSlot);
+    this.onEvent('slotchange.ids-card', cardContentSlot, () => {
+      const dataGrid = this?.querySelector<IdsDataGrid>('ids-data-grid');
+      const cardContent = this?.container?.querySelector('.ids-card-content');
+      cardContent?.classList.toggle('has-data-grid', !!dataGrid);
+    });
 
     if (this.selection === 'multiple') {
       const idsCheckboxElem = this.container?.querySelector<IdsCheckbox>('ids-checkbox');

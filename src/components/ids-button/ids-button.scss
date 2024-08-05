@@ -283,8 +283,8 @@ button {
 .ids-modal-button:not(.ids-icon-button) {
   // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
   ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
-    padding-inline-start: 5px;
-    padding-inline-end: 0;
+    margin-inline-start: 5px;
+    margin-inline-end: 0;
   }
 
   // Padding rules for standalone CSS buttons (match the rules/style above)

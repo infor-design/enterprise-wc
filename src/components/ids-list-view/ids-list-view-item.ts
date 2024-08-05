@@ -458,6 +458,7 @@ export default class IdsListViewItem extends Base {
     this.toggleAttribute(attributes.SELECTED, selected);
     this.toggleAttribute('aria-selected', selected);
     this.toggleAttribute('hide-selected-color', selected && this.selectable === 'mixed');
+
     if (this.selectable === 'multiple' && !selected) {
       this.removeAttribute('activated');
     }
@@ -611,7 +612,8 @@ export default class IdsListViewItem extends Base {
 
   #trigger(eventName: 'selected' | 'deselected' | 'itemSelect' | 'activated' | 'deactivated' | 'afteractivated' | 'afterdeactivated') {
     const detail = { elem: this, data: this.rowData, index: this.rowIndex };
-    this.triggerEvent(eventName, this.listView ?? this, { bubbles: true, detail });
+    this.triggerEvent(eventName, this, { bubbles: true, detail });
+    this.triggerEvent(eventName, this.listView, { bubbles: true, detail });
   }
 
   #veto(eventName: 'beforeactivated' | 'beforedeactivated' | 'beforeselected' | 'beforedeselected') {

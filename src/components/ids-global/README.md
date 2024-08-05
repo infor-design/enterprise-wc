@@ -1,4 +1,4 @@
-# Ids Global API
+# ids-global
 
 ## Description
 

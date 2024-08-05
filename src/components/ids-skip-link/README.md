@@ -1,4 +1,4 @@
-# Ids Skip Link Component
+# ids-skip-link
 
 ## Description
 
@@ -27,8 +27,6 @@ A normal skip link element as a custom element. That will link to a section with
 ## Settings and Attributes
 
 - `href` {string} Set the links href to a url or file
-- `mode` {string} Set the theme mode
-- `version` {string} Set the theme version
 
 ## Themeable Parts
 

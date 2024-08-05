@@ -1,15 +1,14 @@
+import percySnapshot from '@percy/playwright';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-// import IdsListView from '../../src/components/ids-list-view/ids-list-view';
 import IdsListView from '../../src/components/ids-list-view/ids-list-view';
 
 import IdsVirtualScroll from '../../src/components/ids-virtual-scroll/ids-virtual-scroll';
 import dataset from '../../src/assets/data/products-100.json';
 import datasetProducts from '../../src/assets/data/products.json';
 import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
-// import createFromTemplate from '../helpers/create-from-template';
 
 test.describe('IdsListView tests', () => {
   // Default settings
@@ -74,6 +73,11 @@ test.describe('IdsListView tests', () => {
         return el?.shadowRoot?.innerHTML;
       });
       await expect(html).toMatchSnapshot('list-view-shadow');
+    });
+
+    test('should match the visual snapshot in percy (for group headers)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await percySnapshot(page, 'ids-list-view-group-headers');
     });
   });
 
@@ -172,6 +176,21 @@ test.describe('IdsListView tests', () => {
       });
       expect(await noOfCalls[0]).toBe(1);
       expect(await noOfCalls[1]).toBe(1);
+    });
+
+    test('should fire selected event on a list view item', async ({ page }) => {
+      await page.goto('/ids-list-view/list-view-items.html');
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const comp = document.querySelector<IdsListView>('ids-list-view-item');
+        comp?.addEventListener('selected', () => { calls++; });
+
+        const event = new MouseEvent('click', { bubbles: true });
+        const item = document.querySelector<IdsListView>('ids-list-view-item');
+        item?.dispatchEvent(event);
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
     });
   });
 

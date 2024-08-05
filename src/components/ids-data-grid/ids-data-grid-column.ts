@@ -125,6 +125,8 @@ export interface IdsDataGridColumn {
   showHeaderExpander?: boolean;
   /** Allow column sorting */
   sortable?: boolean;
+  /** Allow column hide/show */
+  hideable?: boolean;
   /** Allow column resizing */
   resizable?: boolean;
   /** Adds a drag indicator and allows the columns to be moved by dragging */

@@ -1,4 +1,4 @@
-# Ids Textarea Component
+# ids-textarea
 
 ## Description
 
@@ -12,7 +12,7 @@ The IDS Textarea component is a simple wrapper around a standard HTMLTextareaEle
 ## Terminology
 
 - Textarea: A standard basic textarea element. It can set to various types, size, and functionality. IDS Textarea will add `aria-required` for required elements.
-- Label: HTMLLabelElement to keep matching with HTMLTextareaElement. Make sure the textarea label has a meaningful relative to textarea. IDS Textarea will add sudo ui `*` for required elements.
+- Label: HTMLLabelElement to keep matching with HTMLTextareaElement. Make sure the textarea label has a meaningful relative to textarea. IDS Textarea will add pseudo UI `*` for required elements.
 
 ## Features (With Code Samples)
 

@@ -1,4 +1,4 @@
-# Ids Lookup Component
+# ids-lookup
 
 ## Description
 
@@ -116,7 +116,8 @@ Then use the `search` and `cleared` events to implement search logic. The events
 
 ## Events
 
-- `change` Fires when the lookup is changed either by typing, or selecting rows in the lookup modal
+- `change` Fires when the lookup is changed and blurred, or selecting rows in the lookup modal
+- `input` Fires when the lookup is changed either by typing, or selecting rows in the lookup modal
 - `search` Fires when enabling `searchable="true"` and then typing and hitting enter in the search field on the modal
 - `clear` Fires if `searchable="true"` and you clear the search field by hitting the `x` button
 - `beforerowselected` Fires before selecting a row and can be vetoed

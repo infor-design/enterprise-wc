@@ -38,6 +38,9 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a cards that works with css only
+  - link: data-grid.html
+    type: Show cards with data grid
+    description: Showing a cards that works
   - link: draggable.html
     type: Draggable
     description: Draggable

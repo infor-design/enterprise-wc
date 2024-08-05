@@ -381,11 +381,11 @@ test.describe('IdsSwappable tests', () => {
       const firstItem = await idsSwappable.locator('ids-swappable-item').first();
       await firstItem.click();
       await idsSwappable.press('ArrowDown');
-      await idsSwappable.press('Enter');
+      await idsSwappable.press(' ');
       const secondItem = await idsSwappable.locator('ids-swappable-item').nth(1);
       await expect(secondItem).toHaveAttribute('selected', '');
       await idsSwappable.press('ArrowDown');
-      await idsSwappable.press('Enter');
+      await idsSwappable.press(' ');
       const thirdItem = await idsSwappable.locator('ids-swappable-item').nth(2);
       await expect(thirdItem).toHaveAttribute('selected', '');
       const selectedItems = await idsSwappable.evaluate((el: IdsSwappable) => el.selectedItems.length);
@@ -396,11 +396,11 @@ test.describe('IdsSwappable tests', () => {
       const firstItemMultiple = await idsSwappableMultiple.locator('ids-swappable-item').first();
       await firstItemMultiple.click();
       await idsSwappableMultiple.press('ArrowDown');
-      await idsSwappableMultiple.press('Enter');
+      await idsSwappableMultiple.press(' ');
       const secondItemMultiple = await idsSwappableMultiple.locator('ids-swappable-item').nth(1);
       await expect(secondItemMultiple).toHaveAttribute('selected', '');
       await idsSwappableMultiple.press('ArrowDown');
-      await idsSwappableMultiple.press('Enter');
+      await idsSwappableMultiple.press(' ');
       const thirdItemMultiple = await idsSwappableMultiple.locator('ids-swappable-item').nth(2);
       await expect(thirdItemMultiple).toHaveAttribute('selected', '');
       const selectedItems = await idsSwappableMultiple.evaluate((el: IdsSwappable) => el.selectedItems.length);

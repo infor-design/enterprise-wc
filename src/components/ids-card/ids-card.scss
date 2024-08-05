@@ -21,6 +21,15 @@
     &.has-checkbox {
       padding-inline-start: 50px;
     }
+
+    &.has-data-grid {
+      overflow: hidden;
+
+      ::slotted([slot="card-content"]) {
+        height: calc(100% + 3px);
+        display: block;
+      }
+    }
   }
 
   &.shadowed {

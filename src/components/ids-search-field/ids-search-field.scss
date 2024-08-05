@@ -126,6 +126,7 @@
     background-color: var(--ids-search-field-color-background-default);
     border-color: var(--ids-search-field-color-border-default);
     border-radius: var(--ids-search-field-border-radius);
+    border-width: var(--ids-search-field-border-width);
     margin: var(--ids-search-field-margin);
     transition: all var(--ids-motion-duration) var(--ids-motion-ease);
 
@@ -270,6 +271,22 @@
         background-color: var(--ids-module-nav-search-input-focused-bg-color);
         border-color: var(--ids-module-nav-item-selected-text-color);
       }
+    }
+  }
+
+  &.color-variant-dropdown {
+    &.ids-input:focus-within, &.ids-input.readonly:focus-within, &.ids-input.is-active {
+      .field-container {
+        box-shadow: none;
+      }
+    }
+
+    .field-container {
+      border-radius: 0;
+      border-top-width: 0;
+      border-left-width: 0;
+      border-right-width: 0;
+      border-bottom-color: var(--ids-dropdown-group-color-border);
     }
   }
 }

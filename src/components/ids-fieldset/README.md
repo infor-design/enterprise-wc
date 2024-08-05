@@ -1,4 +1,4 @@
-# Ids Fieldset Component
+# ids-fieldset
 
 ## Description
 
