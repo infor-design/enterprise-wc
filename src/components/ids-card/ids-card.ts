@@ -176,15 +176,6 @@ export default class IdsCard extends Base {
     this.offEvent('click.ids-card', this);
     this.onEvent('click.ids-card', this, this.#handleSelectionChange);
 
-    const cardContentSlot = this.shadowRoot?.querySelector<HTMLSlotElement>(`slot[name="card-content"]`);
-
-    this.offEvent('slotchange.ids-card', cardContentSlot);
-    this.onEvent('slotchange.ids-card', cardContentSlot, () => {
-      const dataGrid = this?.querySelector<IdsDataGrid>('ids-data-grid');
-      const cardContent = this?.container?.querySelector('.ids-card-content');
-      cardContent?.classList.toggle('has-data-grid', !!dataGrid);
-    });
-
     if (this.selection === 'multiple') {
       const idsCheckboxElem = this.container?.querySelector<IdsCheckbox>('ids-checkbox');
       idsCheckboxElem?.onEvent('click', idsCheckboxElem, (e: Event) => {
@@ -193,6 +184,15 @@ export default class IdsCard extends Base {
         this.#handleMultipleSelectionChange(e);
       });
     }
+
+    const cardContentSlot = this.shadowRoot?.querySelector<HTMLSlotElement>(`slot[name="card-content"]`);
+
+    this.offEvent('slotchange.ids-card', cardContentSlot);
+    this.onEvent('slotchange.ids-card', cardContentSlot, () => {
+      const dataGrid = this?.querySelector<IdsDataGrid>('ids-data-grid');
+      const cardContent = this?.container?.querySelector('.ids-card-content');
+      cardContent?.classList.toggle('has-data-grid', !!dataGrid);
+    });
 
     this.offEvent('drag.ids-card', this);
     this.onEvent('drag.ids-card', this, (e: any) => {
