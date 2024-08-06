@@ -13,6 +13,7 @@
 
 ### 1.4.1 Fixes
 
+- `[Dropdown]` Converted dropdown tests to playwright. ([#1846](https://github.com/infor-design/enterprise-wc/issues/1846))
 - `[Multiselect]` Added typeahead improvements. ([#2432](https://github.com/infor-design/enterprise-wc/issues/2432))
 - `[NotificationBanner]` Added `line-clamp` setting to notification banner to allow custom message truncation. ([#2138](https://github.com/infor-design/enterprise-wc/issues/2138))
 - `[SwapList]` ReFix: Made the search portion of the swaplist sticky when scrolling. ([#2559](https://github.com/infor-design/enterprise-wc/issues/2559))

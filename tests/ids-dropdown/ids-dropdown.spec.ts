@@ -4,6 +4,45 @@ import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
 import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
+import deMessages from '../../src/components/ids-locale/data/de-messages.json';
+import { deepClone } from '../../src/utils/ids-deep-clone-utils/ids-deep-clone-utils';
+
+const countries = [
+  { label: 'Afghanistan', value: 'AF' },
+  { label: 'Albania', value: 'AL' },
+  { label: 'Algeria', value: 'DZ' },
+  { label: 'American Samoa', value: 'AS' },
+  { label: 'Andorra', value: 'AD' },
+  { label: 'Angola', value: 'AO' },
+  { label: 'Anguilla', value: 'AI' },
+  { label: 'Antarctica', value: 'AQ' },
+  { label: 'Antigua and Barbuda', value: 'AG' },
+  { label: 'Argentina', value: 'AR' },
+  { label: 'Armenia', value: 'AM' },
+  { label: 'Aruba', value: 'AW' },
+  { label: 'Australia', value: 'AU' },
+  { label: 'Austria', value: 'AT' },
+  { label: 'Azerbaijan', value: 'AZ' },
+  { label: 'Bahamas', value: 'BS' },
+  { label: 'Bahrain', value: 'BH' },
+  { label: 'Bangladesh', value: 'BD' },
+  { label: 'Barbados', value: 'BB' },
+  { label: 'Belarus', value: 'BY' },
+  { label: 'Belgium', value: 'BE' },
+  { label: 'Belize', value: 'BZ' },
+  { label: 'Benin', value: 'BJ' },
+  { label: 'Bermuda', value: 'BM' },
+  { label: 'Bhutan', value: 'BT' },
+  { label: 'Bolivia', value: 'BO' },
+  { label: 'Bosnia and Herzegovina', value: 'BA' },
+  { label: 'Botswana', value: 'BW' },
+  { label: 'Bouvet Island', value: 'BV' },
+  { label: 'Brazil', value: 'BR' },
+  { label: 'British Indian Ocean Territory', value: 'IO' },
+  { label: 'Brunei', value: 'BN' },
+  { label: 'Bulgaria', value: 'BG' },
+  { label: 'Burkina Faso', value: 'BF' },
+  { label: 'Burundi', value: 'BI' }];
 
 test.describe('IdsDropdown tests', () => {
   const url = '/ids-dropdown/example.html';
@@ -299,7 +338,7 @@ test.describe('IdsDropdown tests', () => {
       await expect(await page.locator('ids-tooltip')).toBeAttached();
     });
 
-    test('can set/get validation', async () => {
+    test('can set/get validation', async ({ page }) => {
       const dropdown = await page.locator('#dropdown-1');
       expect(await dropdown.evaluate((element: IdsDropdown) => element.validate)).toBeNull();
       await expect(dropdown).not.toHaveAttribute('validate', 'required');
@@ -527,42 +566,6 @@ test.describe('IdsDropdown tests', () => {
     });
 
     test('can support beforeShow', async ({ page }) => {
-      const contents = [
-        { label: 'Afghanistan', value: 'AF' },
-        { label: 'Albania', value: 'AL' },
-        { label: 'Algeria', value: 'DZ' },
-        { label: 'American Samoa', value: 'AS' },
-        { label: 'Andorra', value: 'AD' },
-        { label: 'Angola', value: 'AO' },
-        { label: 'Anguilla', value: 'AI' },
-        { label: 'Antarctica', value: 'AQ' },
-        { label: 'Antigua and Barbuda', value: 'AG' },
-        { label: 'Argentina', value: 'AR' },
-        { label: 'Armenia', value: 'AM' },
-        { label: 'Aruba', value: 'AW' },
-        { label: 'Australia', value: 'AU' },
-        { label: 'Austria', value: 'AT' },
-        { label: 'Azerbaijan', value: 'AZ' },
-        { label: 'Bahamas', value: 'BS' },
-        { label: 'Bahrain', value: 'BH' },
-        { label: 'Bangladesh', value: 'BD' },
-        { label: 'Barbados', value: 'BB' },
-        { label: 'Belarus', value: 'BY' },
-        { label: 'Belgium', value: 'BE' },
-        { label: 'Belize', value: 'BZ' },
-        { label: 'Benin', value: 'BJ' },
-        { label: 'Bermuda', value: 'BM' },
-        { label: 'Bhutan', value: 'BT' },
-        { label: 'Bolivia', value: 'BO' },
-        { label: 'Bosnia and Herzegovina', value: 'BA' },
-        { label: 'Botswana', value: 'BW' },
-        { label: 'Bouvet Island', value: 'BV' },
-        { label: 'Brazil', value: 'BR' },
-        { label: 'British Indian Ocean Territory', value: 'IO' },
-        { label: 'Brunei', value: 'BN' },
-        { label: 'Bulgaria', value: 'BG' },
-        { label: 'Burkina Faso', value: 'BF' },
-        { label: 'Burundi', value: 'BI' }];
       const dropdown = await page.locator('#dropdown-1');
 
       expect(await dropdown.evaluate((element: IdsDropdown) => element.beforeShow)).toBeFalsy();
@@ -579,15 +582,488 @@ test.describe('IdsDropdown tests', () => {
         element.close();
         element.selectedIndex = 0;
         return element.optionValues;
-      }, contents)).map((item) => ({ value: item }));
+      }, countries)).map((item) => ({ value: item }));
       results.forEach((item) => {
-        expect(contents.find((val) => item.value === val.value)).toBeTruthy();
+        expect(countries.find((val) => item.value === val.value)).toBeTruthy();
       });
     });
 
-    // test('can set custom text for blank option', async ({ page }) => {
+    test('can set/get blank option', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const blank = await dropdown.locator('ids-list-box-option[value="blank"]');
 
-    // });
+      await expect(dropdown).not.toHaveAttribute('allow-blank');
+      await expect(blank).not.toBeAttached();
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.allowBlank = true;
+        return element.allowBlank;
+      })).toBeTruthy();
+      await expect(dropdown).toHaveAttribute('allow-blank');
+      await expect(blank).toBeAttached();
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.allowBlank = false;
+        return element.allowBlank;
+      })).toBeFalsy();
+      await expect(dropdown).not.toHaveAttribute('allow-blank');
+      await expect(blank).not.toBeAttached();
+    });
+
+    test('can set/get clearableText', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const blank = await dropdown.locator('ids-list-box-option[value="blank"]');
+
+      await expect(dropdown).not.toHaveAttribute('clearable-text');
+      await expect(blank).not.toBeAttached();
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.allowBlank = true;
+        element.clearableText = '(Custom Clear Text)';
+        return element.clearableText;
+      })).toEqual('(Custom Clear Text)');
+
+      await expect(dropdown).toHaveAttribute('clearable-text');
+      await expect(blank).toBeAttached();
+    });
+
+    test('can open menu by clicking the trigger', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const trigger = await dropdown.locator('ids-trigger-button');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await trigger.click();
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+    });
+
+    test('can open menu by clicking the input', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const input = await dropdown.locator('input');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await input.click();
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+    });
+
+    test('can not be open by clicking the label', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const label = await dropdown.locator('ids-trigger-field label').first();
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await label.click();
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+    });
+
+    test('can not be open by clicking outside of the dropdown box', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const container = await dropdown.locator('div[class="field-container"][part="field-container"]');
+      const box = await container.boundingBox();
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await expect(container).toBeAttached();
+
+      // click at the outside top
+      //             ⌄
+      // |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
+      await page.mouse.click(box!.x + (box!.width / 2), box!.y - 50, { delay: 50 });
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+
+      // click at the outside left
+      //   |‾‾‾‾‾‾‾‾‾
+      // > |
+      //   |_________
+      await page.mouse.click(box!.x - 50, box!.y + (box!.height / 2), { delay: 50 });
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+
+      // click at the outside right
+      // ‾‾‾‾‾‾‾‾‾|
+      //          | <
+      // _________|
+      await page.mouse.click(box!.x + box!.width + 50, box!.y + (box!.height / 2), { delay: 50 });
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+
+      // click at the outside bottom
+      // |______________________|
+      //              ^
+      await page.mouse.click(box!.x + (box!.width / 2), box!.y + box!.height + 25, { delay: 50 });
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+    });
+
+    test('can select option via clicking', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const trigger = await dropdown.locator('ids-trigger-button');
+      const ilOpt = await dropdown.locator('#il');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.value)).toEqual('ca');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await trigger.click({ delay: 50 });
+      await ilOpt.click({ delay: 50 });
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.value)).toEqual('il');
+    });
+
+    test('can select option via clicking the icon', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-5');
+      const trigger = await dropdown.locator('ids-trigger-button');
+      const optIcon = await dropdown.locator('#opt3-d5 ids-icon'); // get the icon element
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.value)).toEqual('opt2');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await trigger.click({ delay: 50 });
+      await optIcon.click({ delay: 50 });
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.value)).toEqual('opt3');
+    });
+
+    test('can change language from the container', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      await expect(dropdown).not.toHaveAttribute('language');
+      await page.evaluate(async (arg) => {
+        const locale = ((window as any).IdsGlobal as any).locale;
+        locale.loadedLanguages.set('de', arg.deMessages);
+        await locale.setLanguage('de');
+      }, { deMessages });
+      await expect(dropdown).toHaveAttribute('language', 'de');
+    });
+
+    test('can open on arrow down', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await dropdown.evaluate((node) => node.focus());
+      await dropdown.press('ArrowDown', { delay: 50 });
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+    });
+
+    test('can open on arrow up', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      await dropdown.evaluate((node) => node.focus());
+      await dropdown.press('ArrowUp', { delay: 50 });
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+    });
+
+    test('can select options with arrow keys', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => {
+        await element.open();
+        return element.value;
+      })).toEqual('ca');
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+
+      // change selection, but value retains
+      await dropdown.press('ArrowDown', { delay: 50 });
+      await expect(dropdown.locator('#ca')).not.toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#hi')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('ca');
+
+      // change selection, but value retains
+      await dropdown.press('ArrowDown', { delay: 50 });
+      await expect(dropdown.locator('#hi')).not.toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#id')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('ca');
+    });
+
+    test('can close with escape key without value change', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => {
+        await element.open();
+        return element.value;
+      })).toEqual('ca');
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+
+      // change selection, but value retains
+      await dropdown.press('ArrowDown', { delay: 50 });
+      await expect(dropdown.locator('#ca')).not.toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#hi')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('ca');
+
+      // change selection, but value retains
+      await dropdown.press('ArrowDown', { delay: 50 });
+      await expect(dropdown.locator('#hi')).not.toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#id')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('ca');
+
+      // press escape
+      await dropdown.press('Escape', { delay: 50 });
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('ca');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+    });
+
+    test('can not arrow up to the bottom list', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => {
+        await element.open();
+        return element.value;
+      })).toEqual('ca');
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+
+      // change selection, but value retains
+      await dropdown.press('ArrowUp', { delay: 50 });
+      await expect(dropdown.locator('#ca')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('ca');
+
+      // change selection, but value retains
+      await dropdown.press('ArrowUp', { delay: 50 });
+      await expect(dropdown.locator('#ca')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('ca');
+
+      // change selection, but value retains
+      await dropdown.press('ArrowUp', { delay: 50 });
+      await expect(dropdown.locator('#ca')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('ca');
+    });
+
+    test('can not arrow down to the top list', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => {
+        element.value = 'wy';
+        await element.open();
+        return element.value;
+      })).toEqual('wy');
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+
+      // change selection, but value retains
+      await dropdown.press('ArrowDown', { delay: 50 });
+      await expect(dropdown.locator('#wy')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('wy');
+
+      // change selection, but value retains
+      await dropdown.press('ArrowDown', { delay: 50 });
+      await expect(dropdown.locator('#wy')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('wy');
+
+      // change selection, but value retains
+      await dropdown.press('ArrowDown', { delay: 50 });
+      await expect(dropdown.locator('#wy')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('wy');
+    });
+
+    test('can change option with enter key', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => {
+        await element.open();
+        return element.value;
+      })).toEqual('ca');
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+
+      // change selection, but value retains
+      await dropdown.press('ArrowDown', { delay: 50 });
+      await expect(dropdown.locator('#ca')).not.toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#hi')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('ca');
+
+      // press Enter
+      await dropdown.press('Enter', { delay: 50 });
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('hi');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+    });
+
+    test('can change option with tab key', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => {
+        await element.open();
+        return element.value;
+      })).toEqual('ca');
+      expect(await isDropdownShown(dropdown)).toBeTruthy();
+
+      // change selection, but value retains
+      await dropdown.press('ArrowDown', { delay: 50 });
+      await expect(dropdown.locator('#ca')).not.toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#hi')).toHaveClass(/is-selected/);
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('ca');
+
+      // press Enter
+      await dropdown.press('Tab', { delay: 50 });
+      expect(await dropdown.evaluate(async (element: IdsDropdown) => element.value)).toEqual('hi');
+      expect(await isDropdownShown(dropdown)).toBeFalsy();
+    });
+
+    test('can tab to dropdown', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+
+      await expect(dropdown).not.toBeFocused();
+
+      // very dependent on tab sequence
+      await page.keyboard.press('Tab', { delay: 50 });
+      await page.keyboard.press('Tab', { delay: 50 });
+      await page.keyboard.press('Tab', { delay: 50 });
+
+      await expect(dropdown).toBeFocused();
+    });
+
+    test('can set/get field height', async ({ page }) => {
+      const testData = [
+        { data: 'xs', expected: 'xs' },
+        { data: 'sm', expected: 'sm' },
+        { data: 'md', expected: 'md' },
+        { data: 'lg', expected: 'lg' }
+      ];
+      const dropdown = await page.locator('#dropdown-1');
+      const container = await dropdown.locator('div[part="container"]').first();
+      for (const data of testData) {
+        expect(await dropdown.evaluate((element: IdsDropdown, tData: any) => {
+          element.fieldHeight = tData;
+          return element.fieldHeight;
+        }, data.data)).toEqual(data.expected);
+        await expect(dropdown).toHaveAttribute('field-height', data.expected);
+        await expect(container).toHaveClass(new RegExp(`field-height-${data.expected}`, 'i'));
+      }
+    });
+
+    test('can set/get compact', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.compact)).toBeFalsy();
+      await expect(dropdown).not.toHaveAttribute('compact');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.compact = true;
+        return element.compact;
+      })).toBeTruthy();
+      await expect(dropdown).toHaveAttribute('compact');
+    });
+
+    test('can set/get size', async ({ page }) => {
+      const testData = [
+        { data: 'xs', expected: 'xs' },
+        { data: 'sm', expected: 'sm' },
+        { data: 'mm', expected: 'mm' },
+        { data: 'md', expected: 'md' },
+        { data: 'lg', expected: 'lg' },
+        { data: 'full', expected: 'full' }
+      ];
+      const dropdown = await page.locator('#dropdown-1');
+      const input = await dropdown.locator('input');
+      const listBox = await dropdown.locator('ids-list-box');
+      for (const data of testData) {
+        expect(await dropdown.evaluate((element: IdsDropdown, tData: any) => {
+          element.size = tData;
+          return element.size;
+        }, data.data)).toEqual(data.expected);
+        await expect(dropdown).toHaveAttribute('size', data.expected);
+        await expect(input).toHaveAttribute('size', data.expected);
+        await expect(listBox).toHaveAttribute('size', data.expected);
+      }
+    });
+
+    test('can set no margins', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const input = await dropdown.locator('input');
+      expect(await dropdown.evaluate((element: IdsDropdown) => element.noMargins)).toBeFalsy();
+      await expect(dropdown).not.toHaveAttribute('no-margins');
+      await expect(input).not.toHaveAttribute('no-margins');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.noMargins = true;
+        return element.noMargins;
+      })).toBeTruthy();
+      await expect(dropdown).toHaveAttribute('no-margins');
+      await expect(input).toHaveAttribute('no-margins');
+
+      expect(await dropdown.evaluate((element: IdsDropdown) => {
+        element.noMargins = false;
+        return element.noMargins;
+      })).toBeFalsy();
+      await expect(dropdown).not.toHaveAttribute('no-margins');
+      await expect(input).not.toHaveAttribute('no-margins');
+    });
+
+    test('can group options', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const grouped = deepClone(countries);
+      const group1Index = 0;
+      grouped.splice(group1Index, 0, { label: 'A', id: 'grpA', groupLabel: true });
+      const group2Index = grouped.findIndex((value: any) => value.label.startsWith('B'));
+      grouped.splice(group2Index, 0, { label: 'B', id: 'grpB', groupLabel: true });
+      await dropdown.evaluate(async (element: IdsDropdown, args) => {
+        const getContents = () => new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(args);
+          }, 1);
+        });
+        element.beforeShow = async function beforeShow() {
+          return getContents();
+        };
+        await element.open();
+        element.close();
+        element.selectedIndex = 1;
+      }, grouped);
+
+      await expect(dropdown.locator('#grpA')).toHaveText('A');
+      await expect(dropdown.locator('#grpB')).toHaveText('B');
+    });
+
+    test('can prevent selecting group label by clicking', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const grouped = deepClone(countries);
+      const group1Index = 0;
+      grouped.splice(group1Index, 0, { label: 'A', id: 'grpA', groupLabel: true });
+      const group2Index = grouped.findIndex((value: any) => value.label.startsWith('B'));
+      grouped.splice(group2Index, 0, { label: 'B', id: 'grpB', groupLabel: true });
+      await dropdown.evaluate(async (element: IdsDropdown, args) => {
+        const getContents = () => new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(args);
+          }, 1);
+        });
+        element.beforeShow = async function beforeShow() {
+          return getContents();
+        };
+        await element.open();
+        element.value = 'AZ';
+        await element.open();
+      }, grouped);
+      await expect(dropdown.locator('ids-list-box-option[value="AZ"]')).toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#grpB')).not.toHaveClass(/is-selected/);
+
+      // arrow down, skips the group label
+      await dropdown.locator('#grpB').click({ delay: 50 });
+      await dropdown.locator('#grpB').click({ delay: 50 });
+      await dropdown.locator('#grpB').click({ delay: 50 });
+      await expect(dropdown.locator('ids-list-box-option[value="AZ"]')).toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#grpB')).not.toHaveClass(/is-selected/);
+    });
+
+    test('can prevent selecting group label by keyboard', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const grouped = deepClone(countries);
+      const group1Index = 0;
+      grouped.splice(group1Index, 0, { label: 'A', id: 'grpA', groupLabel: true });
+      const group2Index = grouped.findIndex((value: any) => value.label.startsWith('B'));
+      grouped.splice(group2Index, 0, { label: 'B', id: 'grpB', groupLabel: true });
+      await dropdown.evaluate(async (element: IdsDropdown, args) => {
+        const getContents = () => new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(args);
+          }, 1);
+        });
+        element.beforeShow = async function beforeShow() {
+          return getContents();
+        };
+        await element.open();
+        element.value = 'AZ';
+        await element.open();
+      }, grouped);
+      await expect(dropdown.locator('ids-list-box-option[value="AZ"]')).toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#grpB')).not.toHaveClass(/is-selected/);
+
+      // arrow down, skips the group label
+      await dropdown.press('ArrowDown', { delay: 50 });
+      await expect(dropdown.locator('ids-list-box-option[value="AZ"]')).not.toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#grpB')).not.toHaveClass(/is-selected/);
+      await expect(dropdown.locator('ids-list-box-option[value="BS"]')).toHaveClass(/is-selected/);
+
+      // arrow up, skips the group label
+      await dropdown.press('ArrowUp', { delay: 50 });
+      await expect(dropdown.locator('ids-list-box-option[value="BS"]')).not.toHaveClass(/is-selected/);
+      await expect(dropdown.locator('#grpB')).not.toHaveClass(/is-selected/);
+      await expect(dropdown.locator('ids-list-box-option[value="AZ"]')).toHaveClass(/is-selected/);
+    });
   });
 
   test.describe('reattachment tests', () => {
