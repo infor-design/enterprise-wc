@@ -131,5 +131,76 @@ test.describe('IdsNotificationBanner tests', () => {
         (elem: IdsNotificationBanner) => elem.container?.querySelector<HTMLElement>('.ids-notification-banner-link')?.hasAttribute('hidden')
       )).toBeTruthy();
     });
+
+    test('dismisses on click', async ({ page }) => {
+      const notifBanner = await page.locator('#ids-notification-banner-0');
+      await expect(notifBanner).toBeAttached();
+      await notifBanner.locator('ids-button').click();
+      await expect(notifBanner).not.toBeAttached();
+    });
+
+    test('dismisses on keydown (Enter)', async ({ page }) => {
+      const notifBanner = await page.locator('#ids-notification-banner-0');
+      await notifBanner.evaluate((node) => node.setAttribute('tabindex', '-1'));
+      await expect(notifBanner).toBeAttached();
+      await notifBanner.evaluate((node) => {
+        node.focus();
+        node.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+      });
+      await expect(notifBanner).not.toBeAttached();
+    });
+
+    test('can veto dismiss on beforeNotificationRemove', async ({ page }) => {
+      const notifBanner = await page.locator('#ids-notification-banner-0');
+      await expect(notifBanner).toBeAttached();
+      await notifBanner.evaluate((node) => {
+        node.addEventListener('beforeNotificationRemove', (event: any) => {
+          event!.detail.response(false);
+        });
+      });
+      await notifBanner.locator('ids-button').click();
+      await expect(notifBanner).toBeAttached();
+    });
+
+    test('fires beforeNotificationRemove on dismiss', async ({ page, eventsTest }) => {
+      const notifBanner = await page.locator('#ids-notification-banner-0');
+      await eventsTest.onEvent('#ids-notification-banner-0', 'beforeNotificationRemove');
+      await expect(notifBanner).toBeAttached();
+
+      await notifBanner.locator('ids-button').click();
+      await expect(notifBanner).not.toBeAttached();
+      expect(await eventsTest.isEventTriggered('#ids-notification-banner-0', 'beforeNotificationRemove')).toBeTruthy();
+    });
+
+    test('fires notificationRemove on dismiss', async ({ page, eventsTest }) => {
+      const notifBanner = await page.locator('#ids-notification-banner-0');
+      await eventsTest.onEvent('#ids-notification-banner-0', 'notificationRemove');
+      await expect(notifBanner).toBeAttached();
+
+      await notifBanner.locator('ids-button').click();
+      await expect(notifBanner).not.toBeAttached();
+      expect(await eventsTest.isEventTriggered('#ids-notification-banner-0', 'notificationRemove')).toBeTruthy();
+    });
+
+    test('fires afterNotificationRemove on dismiss', async ({ page, eventsTest }) => {
+      const notifBanner = await page.locator('#ids-notification-banner-0');
+      await eventsTest.onEvent('#ids-notification-banner-0', 'afterNotificationRemove');
+      await expect(notifBanner).toBeAttached();
+
+      await notifBanner.locator('ids-button').click();
+      await expect(notifBanner).not.toBeAttached();
+      expect(await eventsTest.isEventTriggered('#ids-notification-banner-0', 'afterNotificationRemove')).toBeTruthy();
+    });
+
+    test('can render different icons based on type', async ({ page }) => {
+      const notifBanner = await page.locator('#ids-notification-banner-0');
+      await expect(notifBanner).toBeAttached();
+      await notifBanner.evaluate((element: IdsNotificationBanner) => {
+        element.type = 'warning';
+      });
+
+      await expect(notifBanner).toBeAttached();
+      await expect(notifBanner).toHaveAttribute('type', 'warning');
+    });
   });
 });
