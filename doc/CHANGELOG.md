@@ -7,6 +7,7 @@
 ### 1.5.0 Fixes
 
 - `[Button]` Fixed a bug in the lifecycle where inner classes where not refreshed in some frameworks.([#2627]https://github.com/infor-design/enterprise-wc/issues/2627)
+- `[Datagrid]` If no options the datagrid will still show the value, defaulting the options that may load later. ([#2386](https://github.com/infor-design/enterprise-wc/issues/2386))
 - `[Dropdown]` Converted dropdown tests to playwright. ([#1846](https://github.com/infor-design/enterprise-wc/issues/1846))
 - `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482]https://github.com/infor-design/enterprise-wc/issues/2482)
 - `[MenuButton]` Fixed an issue where the popup menu was not placed correctly in Angular/production build. ([#2669](https://github.com/infor-design/enterprise-wc/issues/2669))
@@ -62,7 +63,7 @@
 - `[Splitter]` Fix issue where text in closed panes overlapped the other side. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))
 - `[SwapList]` Made the search portion of the swaplist sticky when scrolling. ([#2559](https://github.com/infor-design/enterprise-wc/issues/2559))
 - `[Themes]` Fixed path for `esbuild` script to include `themes/` in `dist` development/production builds. ([#2641](https://github.com/infor-design/enterprise-wc/issues/2641))
-- `[Tooltip]` Increase tooltip z-index. ([#2462](https://github.com/infor-design/enterprise-wc/issues/2462)) 
+- `[Tooltip]` Increase tooltip z-index. ([#2462](https://github.com/infor-design/enterprise-wc/issues/2462))
 
 ## 1.3.0
 
