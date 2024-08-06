@@ -1,37 +1,37 @@
-# Ids Color Picker
+# ids-color-picker
 
 ## Description
 
-The color picker consists of a custom element `<ids-color-picker></ids-color-picker>`. Once initialized, it functions similarly to a dropdown except that the list shows a color palette in the popup. After selecting a color selection, the hex code and swatch will be updated with the new value.
+The color picker consists of a custom element `<ids-color-picker>`. Once initialized, it functions similarly to a dropdown except that the list shows a color palette in the popup. After selecting a color, the hex code and swatch will display the new value.
 
 ## Behavior Guidelines
 
-The Color Picker by default supports colors within a pre-configured palette of IDS colors. You can optionally add your own list of colors by nesting a `<ids-color></ids-color>` custom element inside `<ids-color-picker></ids-color-picker>`.
+The color picker contains colors from the core IDS palette. You can add custom colors by nesting a `<ids-color>` custom element inside `<ids-color-picker>`.
 
 ## Settings and Attributes
-- `value` {string} Sets the value attribute to displayed the color of selected `value="#b94e4e"`
-- `label` {string} Sets the label attribute which will be displayed above the color picker web component `label="Color Picker"`
-- `clearable` {boolean} Sets the clearable attribute which will add the empty color swatch to the list of colors `clearable="true"` Valid values are 'true' | 'false'
-- `disabled` {boolean} Sets the disabled attribute which will disabled the entire color picker web component `disabled="true"` Valid values are 'true' | 'false'
-- `readonly` {boolean} Sets the readonly attribute. Valid values are 'true' | 'false'
-- `suppress-labels` {boolean} If true, the color-swatches will display hex-values instead of labels. Valid values are 'true' | 'false'
-- `suppress-tooltips` {boolean} If true, the color-swatches will not display tooltips on mouseover. Valid values are 'true' | 'false'
-- `validate` {string} set the validation rule `required`.
-- `advanced` {boolean} If set, the component will provide a browser's visual color picker interface, the input will be masked allowing only `#rrggbb` hexadecimal format.
+- `value` {string} Sets the selected color. `value="#b94e4e"`
+- `label` {string} Sets the label which displays above the color picker. `label="Color Picker"`
+- `clearable` {boolean} If `true`, adds the empty color swatch to the list of colors `clearable="true"` 
+- `disabled` {boolean} If `true`, sets entire color picker as disabled. `disabled="true"` 
+- `readonly` {boolean} If `true`, sets the color picker as readonly.
+- `suppress-labels` {boolean} If `true`, the color swatches display hex values instead of labels.
+- `suppress-tooltips` {boolean} If `true`, the color swatches do not display tooltips on hover. 
+- `validate` {string} Set the validation rule `required`.
+- `advanced` {boolean} If `true`, the component will provide a browser's visual color picker interface and the input will be masked, allowing only `#rrggbb` hexadecimal format.
 
 ## Code Examples
 
-A basic use case of the color picker with a few color options.
+A basic use case of the color picker:
 ```html
 <ids-color-picker></ids-color-picker>
 ```
 
-The basic color-picker with labels and tooltips disabled
+A basic color picker with labels and tooltips disabled:
 ```html
 <ids-color-picker suppress-labels suppress-tooltips></ids-color-picker>
 ```
 
-A basic use case of the color picker with custom color options.
+A basic use case of the color picker with custom colors:
 ```html
 <ids-color-picker>
   <ids-color hex="#b94e4e"></ids-color>

@@ -1,4 +1,4 @@
-# Ids Text Component
+# ids-text
 
 ## Description
 

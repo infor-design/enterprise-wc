@@ -1,4 +1,4 @@
-# Ids Time Picker Component
+# ids-time-picker
 
 ## Description
 

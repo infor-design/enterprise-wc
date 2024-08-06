@@ -1,4 +1,4 @@
-# Ids Alert Component
+# ids-alert
 
 ## Description
 

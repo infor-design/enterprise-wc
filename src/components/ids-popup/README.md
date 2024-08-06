@@ -1,4 +1,4 @@
-# Ids Popup Component
+# ids-popup
 
 The IDS Popup Component allows for the placement of any HTML content in a fixed/absolute-positioned container anywhere on a page.  The component provides API for setting coordinates, or aligning the container in relation to a "parent" element on the page.  Additional API exists for modifying alignment, visibility, and controlling animation.
 
