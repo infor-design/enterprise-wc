@@ -75,24 +75,24 @@ import type IdsIcon from '../ids-icon/ids-icon';
 
 export interface IdsEditorModals {
   /** The hyperlink options */
-  hyperlink: {
+  hyperlink?: {
     /** Url for hyperlink */
-    url: string;
+    url?: string;
     /** Css Class for hyperlink */
-    classes: string;
+    classes?: string;
     /** List target options for hyperlink */
-    targets: Array<{ text: string, value: string, selected?: boolean }>;
+    targets?: Array<{ text: string, value: string, selected?: boolean }>;
     /** If true, isClickable checkbox should checked */
-    isClickable: boolean;
+    isClickable?: boolean;
     /** If true, will show isClickable checkbox */
-    showIsClickable: boolean;
+    showIsClickable?: boolean;
   };
   /** The insertimage options */
-  insertimage: {
+  insertimage?: {
     /** Url for insertimage */
-    url: string;
+    url?: string;
     /** Alt text for insertimage */
-    alt: string;
+    alt?: string;
   };
 }
 
@@ -288,11 +288,11 @@ export default class IdsEditor extends Base {
     const hiddenLabelCss = !this.label.length || this.labelState === 'hidden' ? ' empty' : '';
     const requiredLabelCss = !this.labelRequired ? ` ${CLASSES.labelRequired}` : '';
 
-    return parseTemplate(editorTemplate, {
+    const tmpl = parseTemplate(editorTemplate, {
       ariaLabel,
       disabled: this.disabled ? ' disabled' : '',
       readonly: this.readonly ? ' readonly' : '',
-      contenteditable: !this.disabled && !this.readonly ? ' contenteditable="true"' : '',
+      contenteditable: this.disabled || this.readonly ? '' : ' contenteditable="true"',
       labelClass: `editor-label`,
       requiredLabelCss,
       hiddenLabelCss,
@@ -301,6 +301,7 @@ export default class IdsEditor extends Base {
       labelText: this.label,
       sourceTextareaLabel: this.sourceTextareaLabel()
     });
+    return tmpl;
   }
 
   /**
@@ -616,7 +617,7 @@ export default class IdsEditor extends Base {
       this.#editorTextContainer = document.createElement('div');
       this.#editorTextContainer.contentEditable = 'true';
       this.#editorTextContainer.slot = 'editor-slot';
-      this.#editorTextContainer.id = 'editor-container';
+      this.#editorTextContainer.classList.add('editor-container');
       this.#editorTextContainer.setAttribute('placeholder', this.placeholder ?? '');
       this.append(this.#editorTextContainer);
     }
@@ -1339,8 +1340,7 @@ export default class IdsEditor extends Base {
       return;
     }
 
-    // remove margin from first paragraph
-    firstParagraph?.style.setProperty('margin-block-start', '0');
+    this.#adjustFirstParagraph();
 
     // add border to blockquotes and set dimensions
     blockQuoteElems.forEach((block) => {
@@ -1349,6 +1349,12 @@ export default class IdsEditor extends Base {
       block.style.setProperty('margin-inline-end', 'var(--ids-editor-blockquote-margin-inline-end)');
       block.style.setProperty('padding-inline-start', 'var(--ids-editor-blockquote-padding-inline-start)');
     });
+  }
+
+  /** Remove margin from first paragraph */
+  #adjustFirstParagraph() {
+    const firstParagraph = this.#editorTextContainer!.querySelector<HTMLParagraphElement>('p:first-of-type');
+    firstParagraph?.style.setProperty('margin-block-start', '0');
   }
 
   #toggleHyperlinkStyles(applyStyles: boolean) {
@@ -1461,11 +1467,20 @@ export default class IdsEditor extends Base {
   }
 
   /**
-   * Get editor current value
+   * Set editor html value
+   * @param {string} value Html Text string
+   */
+  set value(value: string) {
+    this.#editorTextContainer!.innerHTML = value;
+    this.#adjustFirstParagraph();
+  }
+
+  /**
+   * Get editor current html value
    * @returns {string} The current value
    */
   get value(): string {
-    return trimContent?.(this.#elems.textarea.value);
+    return trimContent?.(this.#editorTextContainer!.innerHTML);
   }
 
   /**

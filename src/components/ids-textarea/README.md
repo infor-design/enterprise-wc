@@ -130,7 +130,6 @@ Set the sizes, available sizes are `'sm'|'md'|'lg'|'full'` and default type is `
 - `resizable` {boolean} set to resize the height of the textarea.
 - `rows` {number|string} set to visible height of a textarea in lines.
 - `text-align` {string} set text-align to textarea, it will set `left` as defaults.
-- `type` {string} set the textarea type, it will set `text` as defaults.
 - `validate` {string} set the textarea validation rules, use `space` to add multiple validation rules.
 - `validationEvents` {string} set the textarea validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
 - `value` {string} set the textarea value.
