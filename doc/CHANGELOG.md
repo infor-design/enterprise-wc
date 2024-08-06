@@ -8,9 +8,12 @@
 
 ### 1.5.0 Fixes
 
+- `[Button]` Fixed a bug in the lifecycle where inner classes where not refreshed in some frameworks.([#2627]https://github.com/infor-design/enterprise-wc/issues/2627)
+- `[Dropdown]` Converted dropdown tests to playwright. ([#1846](https://github.com/infor-design/enterprise-wc/issues/1846))
 - `[Editor]` Removed internal hard coded id since it was causing duplicate ids if multiple editors are used. ([#2630](https://github.com/infor-design/enterprise-wc/issues/2630))
 - `[Editor]` Updated docs around `labels`. ([#2649](https://github.com/infor-design/enterprise-wc/issues/2649))
 - `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482]https://github.com/infor-design/enterprise-wc/issues/2482)
+- `[MenuButton]` Fixed an issue where the popup menu was not placed correctly in Angular/production build. ([#2669](https://github.com/infor-design/enterprise-wc/issues/2669))
 - `[Tabs]` Fixed an issue where overflow menu group popup is full width. ([#2656](https://github.com/infor-design/enterprise-wc/issues/2656))
 
 ## 1.4.1
@@ -35,6 +38,7 @@
 - `[Accordion]` Added css variables to customization accordion header padding. ([#2529](https://github.com/infor-design/enterprise-wc/issues/2529))
 - `[Button]` Added notification badges. ([#2323](https://github.com/infor-design/enterprise-wc/issues/2323))
 - `[Card|Datagrid]` Fixed `ids-card` styles when `ids-data-grid` is embedded within a card-content slot. ([#2382](https://github.com/infor-design/enterprise-wc/issues/2382))
+- `[ColorPicker]` Converted color picker tests to playwright. ([#1922](https://github.com/infor-design/enterprise-wc/issues/1922))
 - `[ColorPicker]` Fixed an issue where the picker's swatch focus is causing the page to scroll. ([#2502](https://github.com/infor-design/enterprise-wc/issues/2502))
 - `[Datagrid]` Fixed problem with `searchable` datagrid where eraser button was not persisting on search-filtered rows. ([#2449](https://github.com/infor-design/enterprise-wc/issues/2449))
 - `[Datagrid]` Added new method `resetDirtyRow` allowing to reset dirty state for an specific row. ([#2586](https://github.com/infor-design/enterprise-wc/issues/2586))
@@ -45,6 +49,7 @@
 - `[Empty Message]` Converted empty message tests to playwright. ([#2337](https://github.com/infor-design/enterprise-wc/issues/2337))
 - `[Icon]` Create icon example with tooltips. ([#2257](https://github.com/infor-design/enterprise-wc/issues/2257))
 - `[Icon]` Fixed misplaced setting icon ([#2636](https://github.com/infor-design/enterprise-wc/issues/2636))
+- `[CheckBox]` Fixed checkbox layout ([#2648](https://github.com/infor-design/enterprise-wc/issues/2648))
 - `[ListView]` Fixed an issue where selected event is not being triggered on `ids-list-view-item`. ([#2565](https://github.com/infor-design/enterprise-wc/issues/2565))
 - `[Locale]` Converted locale tests to playwright. ([#1948](https://github.com/infor-design/enterprise-wc/issues/1948))
 - `[ModuleNav]` Fixed an issue where the text in the nav bar is not visible when added dynamically. ([#2517](https://github.com/infor-design/enterprise-wc/issues/2517))
@@ -61,7 +66,7 @@
 - `[Splitter]` Fix issue where text in closed panes overlapped the other side. ([#2583](https://github.com/infor-design/enterprise-wc/issues/2583))
 - `[SwapList]` Made the search portion of the swaplist sticky when scrolling. ([#2559](https://github.com/infor-design/enterprise-wc/issues/2559))
 - `[Themes]` Fixed path for `esbuild` script to include `themes/` in `dist` development/production builds. ([#2641](https://github.com/infor-design/enterprise-wc/issues/2641))
-- `[Tooltip]` Increase tooltip z-index. ([#2462](https://github.com/infor-design/enterprise-wc/issues/2462))
+- `[Tooltip]` Increase tooltip z-index. ([#2462](https://github.com/infor-design/enterprise-wc/issues/2462)) 
 
 ## 1.3.0
 
