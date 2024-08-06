@@ -53,7 +53,10 @@ export default class IdsMenuButton extends IdsButton {
       this.#configureDropdownIcon(true);
       this.setPopupArrow();
     }
-    this.#initMenuPopup();
+    // Defer the popup placement until after the initial setup phase
+    requestAnimationFrame(() => {
+      this.configureMenu();
+    });
   }
 
   /**
@@ -190,16 +193,6 @@ export default class IdsMenuButton extends IdsButton {
     let el = findPopup(this.parentElement);
     if (!el) el = findPopup(this.getRootNode());
     return el;
-  }
-
-  /**
-   * Set popup menu initially
-   * @private
-   * @returns {void}
-   */
-  #initMenuPopup(): void {
-    this.configureMenu();
-    if (!this.menuEl?.popup) requestAnimationFrame(() => this.configureMenu());
   }
 
   /**
