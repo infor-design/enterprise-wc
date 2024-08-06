@@ -143,6 +143,19 @@
       &[disabled] {
         color: var(--ids-breadcrumb-color-text-disabled);
       }
+
+      &.semibold {
+        color: var(--ids-breadcrumb-color-text-selected);
+
+        &:hover {
+          color: var(--ids-breadcrumb-color-text-selected);
+        }
+      }
+
+      &:hover {
+        color: var(--ids-breadcrumb-color-text-hover);
+        text-decoration: none;
+      }
     }
 
     &.color-variant-alternate {

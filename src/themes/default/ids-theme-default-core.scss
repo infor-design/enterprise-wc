@@ -401,9 +401,11 @@
   --ids-button-ai-color-loading-dot-default: var(--ids-color-white-100);
 
   // Breadcrumb
-  --ids-breadcrumb-color-text-default: var(--ids-color-text-subtle);
-  --ids-breadcrumb-color-text-disabled: var(--ids-color-text-disabled);
+  --ids-breadcrumb-color-text-default: var(--ids-color-foreground-default-tertiary);
+  --ids-breadcrumb-color-text-disabled: var(--ids-color-foreground-default-disabled);
   --ids-breadcrumb-color-text-emphasis: var(--ids-color-text-inverse);
+  --ids-breadcrumb-color-text-selected: var(--ids-color-foreground-default-default);
+  --ids-breadcrumb-color-text-hover: var(--ids-color-action-stronger);
   --ids-breadcrumb-font-weight: var(--ids-font-weight-normal);
   --ids-breadcrumb-font-size: var(--ids-font-size-xs);
   --ids-breadcrumb-gradient: linear-gradient(to right, var(--ids-color-background-default), rgba(255 255 255 / 0));
