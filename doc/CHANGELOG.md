@@ -15,6 +15,7 @@
 - `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482]https://github.com/infor-design/enterprise-wc/issues/2482)
 - `[MenuButton]` Fixed an issue where the popup menu was not placed correctly in Angular/production build. ([#2669](https://github.com/infor-design/enterprise-wc/issues/2669))
 - `[Tabs]` Fixed an issue where overflow menu group popup is full width. ([#2656](https://github.com/infor-design/enterprise-wc/issues/2656))
+- `[Button]` Fixed an issue where Button layout looks off in smaller viewport. ([#2652](https://github.com/infor-design/enterprise-wc/issues/2652))
 
 ## 1.4.1
 
