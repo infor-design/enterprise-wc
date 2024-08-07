@@ -200,17 +200,8 @@ export default class IdsCard extends Base {
       if (translateX === 0 && translateY === 0) {
         return;
       }
-      this.removeAttribute(attributes.DROPPED);
-      this.setAttribute(attributes.IS_DRAGGING, 'true');
-      this.container?.classList?.add('is-dragging');
-      if (!this.disabled && !this.#clonedElement && this.fixed) {
-        const clonedElement = this.cloneNode(true) as IdsCard;
-        clonedElement.fixed = false;
-        clonedElement.draggable = true;
-        clonedElement.disabled = true;
-        this.#clonedElement = clonedElement;
-        this.parentNode?.insertBefore(clonedElement, this.nextSibling);
-      }
+
+      this.#handleDragStart();
     });
 
     this.offEvent('dragend.ids-card', this);
@@ -219,15 +210,85 @@ export default class IdsCard extends Base {
       if (translateX === 0 && translateY === 0) {
         return;
       }
-      this.removeAttribute(attributes.IS_DRAGGING);
-      this.container?.classList?.remove('is-dragging');
-      this.setAttribute(attributes.DROPPED, 'true');
-      if (this.#clonedElement) {
-        this.#clonedElement.remove();
-      }
+
+      this.#handleDragend();
     });
 
     return this;
+  }
+
+  /**
+   * Handle drag start event of a card
+   */
+  #handleDragStart() {
+    this.removeAttribute(attributes.DROPPED);
+    this.setAttribute(attributes.IS_DRAGGING, 'true');
+
+    this.container?.classList?.add('is-dragging');
+    if (!this.disabled && !this.#clonedElement && this.fixed) {
+      const clonedElement = this.cloneNode(true) as IdsCard;
+
+      // Created cloned element with disabled state with initial position
+      clonedElement.style.transform = `translate(0px, 0px)`;
+      clonedElement.disabled = true;
+      clonedElement.container?.classList?.remove('is-dragging');
+      clonedElement.removeAttribute(attributes.IS_DRAGGING);
+
+      this.#clonedElement = clonedElement;
+      this.parentNode?.insertBefore(clonedElement, this.nextSibling);
+    }
+  }
+
+  /**
+   * Handle drag end event of a card
+   */
+  #handleDragend() {
+    const { x: translateX, y: translateY } = this.getBoundingClientRect();
+
+    let dropElementX = 0;
+    let dropElementY = 0;
+    let maxDropElementX = 0;
+    let maxDropElementY = 0;
+
+    // If dropped target element is present, get the position of the dropped element
+    if (this.droppedTargetElement) {
+      const rects = this.droppedTargetElement.getBoundingClientRect();
+      dropElementX = rects.x;
+      dropElementY = rects.y;
+      maxDropElementX = rects.x + rects.width;
+      maxDropElementY = rects.y + rects.height;
+    }
+
+    this.removeAttribute(attributes.IS_DRAGGING);
+    this.container?.classList?.remove('is-dragging');
+
+    // If the card is not dropped in the target element, reset the card position
+    const xAxisValid = translateX >= dropElementX && translateX <= maxDropElementX;
+    const yAxisValid = translateY >= dropElementY && translateY <= maxDropElementY;
+
+    if (!this.droppedTargetElement || !xAxisValid || !yAxisValid) {
+      this.style.transform = `translate(0px, 0px)`;
+
+      if (this.#clonedElement) {
+        this.#clonedElement.remove();
+        this.#clonedElement = null;
+      }
+
+      this.removeAttribute(attributes.DROPPED);
+      return;
+    }
+
+    this.setAttribute(attributes.DROPPED, 'true');
+    if (this.#clonedElement) {
+      if (this.hasAttribute(attributes.DROP_BG_COLOR)) {
+        this.#clonedElement.setAttribute(attributes.DROP_BG_COLOR, this.getAttribute(attributes.DROP_BG_COLOR));
+      }
+      this.#clonedElement.disabled = false;
+    }
+  }
+
+  get droppedTargetElement() {
+    return document.querySelector(`#${this.dropTarget}`);
   }
 
   /**
@@ -403,6 +464,18 @@ export default class IdsCard extends Base {
 
   get dropped() {
     return this.hasAttribute(attributes.DROPPED);
+  }
+
+  set dropTarget(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.DROP_TARGET, value);
+    } else {
+      this.removeAttribute(attributes.DROP_TARGET);
+    }
+  }
+
+  get dropTarget() {
+    return this.getAttribute(attributes.DROP_TARGET);
   }
 
   set fixed(value: boolean | string | null) {

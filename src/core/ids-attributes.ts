@@ -153,6 +153,7 @@ export const attributes = {
   DROP_WIDTH: 'drop-width',
   DROP_HEIGHT: 'drop-height',
   DROP_BG_COLOR: 'drop-bg-color',
+  DROP_TARGET: 'drop-target',
   DROPDOWN_ICON: 'dropdown-icon',
   EDGE: 'edge',
   EDIT_NEXT_ON_ENTER_PRESS: 'edit-next-on-enter-press',

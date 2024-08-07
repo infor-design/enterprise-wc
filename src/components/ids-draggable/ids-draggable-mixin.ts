@@ -96,63 +96,20 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
     super.connectedCallback?.();
 
     if (this.draggable) {
-      this.updateHandleElem();
+      this.#attachEventHandlers();
     }
   }
 
   /**
-   * @param {string | boolean} value Whether or not draggable functionality is to be disabled
+   * Handle all triggering and handling of events
+   * @private
    */
-  set disabled(value: string | boolean) {
-    this.toggleAttribute(attributes.DISABLED, stringToBool(value));
-
-    if (this.disabled) {
-      this.offEvent('mousemove', window.document, this.onMouseMove);
-    }
-  }
-
-  /**
-   * @returns {boolean} value Whether or not draggable functionality is disabled
-   */
-  get disabled(): boolean {
-    return this.hasAttribute(attributes.DISABLED);
-  }
-
-  /**
-   * @param {string} value A query selector representing an optional handle that can be used to
-   * drag the content of the draggable
-   */
-  set handle(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.HANDLE, value);
-    } else {
-      this.removeAttribute(attributes.HANDLE);
-    }
-
+  #attachEventHandlers() {
     this.updateHandleElem();
-  }
 
-  /**
-   * @returns {string} value A query selector representing an optional handle that can be used to
-   * drag the content of the draggable
-   */
-  get handle(): string | null {
-    return this.getAttribute(attributes.HANDLE);
-  }
-
-  updateHandleElem = () => {
     this.offEvent('mousedown', this.#handleElem);
     this.offEvent('mouseup', window.document, this.onMouseUp);
     this.offEvent('mousemove', window.document, this.onMouseMove);
-
-    this.#handleElem = this.handle ? (
-      document.querySelector(this.handle) || this
-    ) : this;
-
-    if (this.#handleElem !== this) {
-      this.#handleElem.style.cursor = this.getCursorStyle();
-    }
-
     this.onEvent('mousedown', this.#handleElem, (e: any) => {
       if (this.disabled || e.button !== 0) {
         return;
@@ -232,6 +189,59 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
       (document.body.querySelector('ids-container') || document.body)
         .appendChild(this.cursorEl);
     });
+  }
+
+  /**
+   * @param {string | boolean} value Whether or not draggable functionality is to be disabled
+   */
+  set disabled(value: string | boolean) {
+    this.toggleAttribute(attributes.DISABLED, stringToBool(value));
+
+    if (this.disabled) {
+      this.offEvent('mousemove', window.document, this.onMouseMove);
+    }
+  }
+
+  /**
+   * @returns {boolean} value Whether or not draggable functionality is disabled
+   */
+  get disabled(): boolean {
+    return this.hasAttribute(attributes.DISABLED);
+  }
+
+  /**
+   * @param {string} value A query selector representing an optional handle that can be used to
+   * drag the content of the draggable
+   */
+  set handle(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.HANDLE, value);
+    } else {
+      this.removeAttribute(attributes.HANDLE);
+    }
+
+    this.updateHandleElem();
+  }
+
+  /**
+   * @returns {string} value A query selector representing an optional handle that can be used to
+   * drag the content of the draggable
+   */
+  get handle(): string | null {
+    return this.getAttribute(attributes.HANDLE);
+  }
+
+  /**
+   * Update the handle element based on the handle attribute or the draggable element itself
+   */
+  updateHandleElem = () => {
+    this.#handleElem = this.handle ? (
+      document.querySelector(this.handle) || this
+    ) : this;
+
+    if (this.#handleElem !== this) {
+      this.#handleElem.style.cursor = this.getCursorStyle();
+    }
   };
 
   /**

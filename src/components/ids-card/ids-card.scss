@@ -251,7 +251,7 @@
     box-shadow: none;
     height: auto;
     min-height: auto;
-    cursor: pointer;
+    cursor: move;
     width: var(--ids-card-width);
 
     .ids-card-header {
@@ -262,6 +262,10 @@
         align-items: center;
         gap: 20px;
       }
+    }
+
+    &:hover {
+      background-color: var(--ids-color-background-elevated);
     }
 
     &.is-dropped {
