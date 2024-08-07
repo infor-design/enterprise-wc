@@ -246,10 +246,15 @@ export default class IdsDataGridFormatters {
     const field = columnData.field ?? '';
     const options = <any[]>columnData.editor?.editorSettings?.options || [];
     const value = rowData[field];
-    const valueOpt = options.find((opt) => opt.value === value);
+    let valueOpt = options.find((opt) => opt.value === value);
 
-    return `
-      <span
+    if (!options || options.length === 0) {
+      valueOpt = {
+        value: rowData[field], id: rowData[field], label: rowData[field]
+      };
+    }
+
+    return `<span
         class="text-ellipsis dropdown-cell-value"
         data-value="${valueOpt?.value ?? ''}"
         data-id="${valueOpt?.id ?? ''}">
@@ -258,8 +263,7 @@ export default class IdsDataGridFormatters {
       <ids-icon
         icon="dropdown"
         class="editor-cell-icon">
-      </ids-icon>
-    `;
+      </ids-icon>`;
   }
 
   /* Shows ids-alert, and the field value will appear in a tooltip. An `icon` option can be provided as an override. */
