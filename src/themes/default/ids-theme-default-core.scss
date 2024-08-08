@@ -988,9 +988,9 @@
   --ids-menu-header-icon-padding: 38px;
   --ids-menu-item-width-min: 110px;
   --ids-menu-item-font-size: var(--ids-font-size-sm);
-  --ids-menu-item-padding: 8px 8px;
-  --ids-menu-item-color-text-disabled: var(--ids-color-neutral-30);
-  --ids-menu-item-highlight-color: var(--ids-color-neutral-20);
+  --ids-menu-item-padding: var( --ids-space-xs) var( --ids-space-xs);
+  --ids-menu-item-color-text-disabled: var(--ids-color-foreground-default-disabled);
+  --ids-menu-item-highlight-color: var(--ids-color-accent-neutral-weaker);
   --ids-menu-item-color-text-default: var(--ids-color-foreground-default-default);
   --ids-menu-check-color-default: var(--ids-color-primary);
   --ids-menu-check-color-disabled: var(--ids-color-text-disabled);
@@ -1172,7 +1172,7 @@
   --ids-chart-pie-color-text: var(--ids-color-text-label);
 
   // Popup
-  --ids-popup-arrow-size: 8px;
+  --ids-popup-arrow-size: var(--ids-space-xs);
   --ids-popup-color-background: var(--ids-color-background-elevated);
   --ids-popup-color-border: var(--ids-color-border-weak);
   --ids-popup-padding: var(--ids-space-08);
@@ -1183,12 +1183,12 @@
   --ids-popup-menu-color-background-default: var(--ids-popup-color-background);
   --ids-popup-menu-color-border-default: var(--ids-popup-color-border);
   --ids-popup-menu-padding: var(--ids-space-2xs);
-  --ids-popup-menu-color-text-default: var(--ids-color-neutral-80);
+  --ids-popup-menu-color-text-default: var(--ids-color-foreground-default-default);
   --ids-popup-menu-font-size: var(--ids-font-size-xs);
   --ids-popup-menu-border-radius: var(--ids-border-radius-2xs);
   --ids-popup-menu-shadow-default: var(--ids-popup-shadow);
-  --ids-popup-menu-color-background-inverse: var(--ids-color-neutral-100);
-  --ids-popup-menu-color-border-inverse: var(--ids-color-neutral-10);
+  --ids-popup-menu-color-background-inverse: var(--ids-color-accent-neutral-strongest);
+  --ids-popup-menu-color-border-inverse: var(--ids-color-accent-neutral-weakest);
   --ids-popup-menu-shadow-inverse: 0 2px 5px rgba(0 0 0 / 0.2);
   --ids-popup-menu-color-text-inverse: var(--ids-color-white-100);
 

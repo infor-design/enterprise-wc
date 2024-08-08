@@ -371,16 +371,15 @@
 
   // Menu
   --ids-menu-header-color-text: var(--ids-color-white-100);
-  --ids-menu-item-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-menu-item-color-text-disabled: var(--ids-color-accent-neutral-default);
   --ids-menu-item-highlight-color: var(--ids-color-accent-neutral-weaker);
   --ids-menu-check-color-default: var(--ids-color-primary-60);
 
   // Popup Menu
-  --ids-popup-menu-color-text-default: var(--ids-color-white-100);
   --ids-popup-menu-color-background-inverse: var(--ids-color-white-100);
   --ids-popup-menu-color-border-inverse: var(--ids-color-neutral-30);
   --ids-popup-menu-shadow-inverse: 0 2px 5px rgba(0 0 0 / 0.2);
-  --ids-popup-menu-color-text-inverse: var(--ids-color-neutral-10);
+  --ids-popup-menu-color-text-inverse: var(--ids-color-accent-neutral-strongest);
 
   // Month View
   --ids-calendar-month-view-color-background-default: var(--ids-color-neutral-80);

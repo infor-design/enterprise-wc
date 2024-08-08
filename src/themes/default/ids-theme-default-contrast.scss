@@ -284,13 +284,13 @@
   --ids-notification-badge-warning-color-background: var(--ids-color-warning-stronger);
 
   // Popup Menu
-  --ids-popup-menu-color-text-default: var(--ids-color-neutral-90);
+  --ids-popup-menu-color-text-default: var(--ids-color-foreground-default-default);
 
   // Menu
   --ids-menu-header-color-text: var(--ids-color-neutral-100);
-  --ids-menu-item-color-text-disabled: var(--ids-color-neutral-50);
-  --ids-menu-item-highlight-color: var(--ids-color-neutral-20);
-  --ids-menu-item-check-color: var(--ids-color-blue-80);
+  --ids-menu-item-color-text-disabled: var(--ids-color-foreground-default-disabled);
+  --ids-menu-item-highlight-color: var(--ids-color-accent-neutral-weakest);
+  --ids-menu-item-check-color: var(--ids-color-accent-blue-strong);
 
   // Month View
   --ids-calendar-month-view-color-border: var(--ids-color-neutral-30);
