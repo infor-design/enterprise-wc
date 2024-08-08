@@ -1008,15 +1008,15 @@
   --ids-modal-shadow-default: var(--ids-popup-menu-shadow-default);
   --ids-modal-color-text: var(--ids-color-text-default);
   --ids-modal-border-radius: var(--ids-border-radius-2xs);
-  --ids-modal-padding: 0;
+  --ids-modal-padding: var(--ids-space-none);
   --ids-modal-header-padding: var(--ids-space-sm);
   --ids-modal-content-padding: var(--ids-space-sm) var(--ids-space-sm) 0px var(--ids-space-sm);
   --ids-modal-footer-margin: var(--ids-space-sm) 0 0 0;
-  --ids-modal-footer-color-border: var(--ids-color-neutral-30);
-  --ids-modal-button-color-default: var(--ids-color-primary);
-  --ids-modal-button-color-hover: var(--ids-color-primary-80);
-  --ids-modal-button-secondary-color-default: var(--ids-color-grey-70);
-  --ids-modal-button-secondary-color-hover: var(--ids-color-grey-100);
+  --ids-modal-footer-color-border: var(--ids-color-border-weak);
+  --ids-modal-button-color-default: var(--ids-color-action-default);
+  --ids-modal-button-color-hover: var(--ids-color-action-stronger);
+  --ids-modal-button-secondary-color-default: var(--ids-color-foreground-default-secondary);
+  --ids-modal-button-secondary-color-hover: var(--ids-color-foreground-default-default);
   --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary);
 
   // Module Nav (Main)

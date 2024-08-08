@@ -318,11 +318,9 @@
   --ids-modal-color-background: var(--ids-popup-color-background);
   --ids-modal-color-border: var(--ids-popup-color-border);
   --ids-modal-shadow-default: var(--ids-popup-menu-shadow-default);
-  --ids-modal-footer-color-border: var(--ids-color-neutral-50);
-  --ids-modal-button-color-default: var(--ids-color-primary-40);
-  --ids-modal-button-color-hover: var(--ids-color-primary-30);
-  --ids-modal-button-secondary-color-default: var(--ids-color-grey-30);
-  --ids-modal-button-secondary-color-hover: var(--ids-color-grey-10);
+  --ids-modal-button-color-hover: var(--ids-color-action-stronger);
+  --ids-modal-button-secondary-color-default: var(--ids-color-foreground-light-secondary);
+  --ids-modal-button-secondary-color-hover: var(--ids-color-foreground-light-default);
   --ids-modal-shadow-focus: 0 0 3px 1px var(--ids-color-primary-30);
 
   // Module Nav (Main)
