@@ -173,7 +173,8 @@ export default class IdsListView extends Base {
 
   get itemFocused() {
     const activeId = this.body?.getAttribute('aria-activedescendant');
-    const rowIndex = Number((this.body?.querySelector(`#${activeId}`) as any)?.rowIndex ?? -1);
+    const item = this.body?.querySelector<IdsListViewItem>(`#${activeId}`) || this.querySelector<IdsListViewItem>(`#${activeId}`);
+    const rowIndex = Number(item?.rowIndex ?? -1);
     return this.itemByIndex(rowIndex);
   }
 
@@ -235,11 +236,19 @@ export default class IdsListView extends Base {
     switch (keyCode) {
       case 'ArrowUp':
         evt.preventDefault();
+        if (!this.itemFocused?.prevEnabled) return;
+        this.itemFocused?.setAttribute('tabindex', '-1');
+        this.itemFocused?.prevEnabled?.setAttribute('tabindex', '0');
         this.itemFocused?.prevEnabled?.focus();
+        this.body?.setAttribute('aria-activedescendant', String(this.itemFocused?.prevEnabled?.id));
         break;
       case 'ArrowDown':
         evt.preventDefault();
+        if (!this.itemFocused?.nextEnabled) return;
+        this.itemFocused?.setAttribute('tabindex', '-1');
+        this.itemFocused?.nextEnabled?.setAttribute('tabindex', '0');
         this.itemFocused?.nextEnabled?.focus();
+        this.body?.setAttribute('aria-activedescendant', String(this.itemFocused?.nextEnabled?.id));
         break;
       case 'Enter':
         if (this.itemFocused) this.itemFocused.activated = true;
@@ -645,7 +654,7 @@ export default class IdsListView extends Base {
     this.attachScrollEvents();
 
     // Set aria-activedescendant
-    const firstItem = this.body?.querySelector('ids-list-view-item:not([disabled]');
+    const firstItem = this.body?.querySelector('ids-list-view-item:not([disabled]') || this.querySelector('ids-list-view-item:not([disabled]');
     firstItem?.setAttribute('tabindex', '0');
     this.body?.setAttribute('aria-activedescendant', String(firstItem?.id));
   }

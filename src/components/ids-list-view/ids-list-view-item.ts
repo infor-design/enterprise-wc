@@ -564,14 +564,6 @@ export default class IdsListViewItem extends Base {
       this.#onClick(e);
     });
 
-    this.onEvent('focus.listview', this, () => {
-      // Set aria-activedescendant
-      const body = this.closest('.ids-list-view-body');
-      body?.querySelector('ids-list-view-item:not([tabindex="0"]')?.removeAttribute('tabindex');
-      this?.setAttribute('tabindex', '0');
-      this.closest('.ids-list-view-body')?.setAttribute('aria-activedescendant', String(this?.id));
-    });
-
     this.onEvent('click.listview-checkbox-veto', this.checkbox, (evt) => {
       const vetoed = this.#veto(this.checkbox?.checked ? 'beforedeselected' : 'beforeselected');
 
