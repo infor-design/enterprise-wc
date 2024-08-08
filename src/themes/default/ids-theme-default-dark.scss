@@ -208,15 +208,15 @@
   // Dropdown
   --ids-dropdown-color-background-default: var(--ids-popup-color-background);
   --ids-dropdown-color-border: var(--ids-color-border-focus);
-  --ids-dropdown-attached-color-border: var(--ids-color-neutral-50);
+  --ids-dropdown-attached-color-border: var(--ids-color-accent-neutral-default);
   --ids-dropdown-shadow-default: -2px 1px 2px 0 rgb(54 138 192 / 0.3), 0 1px 2px 0 rgb(54 138 192 / 0.3), 2px 2px 2px 0 rgb(54 138 192 / 0.3);
   --ids-dropdown-shadow-opened-up: 0 -1px 2px 0 rgb(54 138 192 / 0.3), 2px 0 3px 0 rgb(54 138 192 / 0.3), -2px -2px 3px 0 rgb(54 138 192 / 0.3);
-  --ids-dropdown-color-icon: var(--ids-color-neutral-10);
+  --ids-dropdown-color-icon: var(--ids-color-accent-neutral-strongest);
   --ids-dropdown-typeahead-color-background: var(--ids-color-neutral-30);
-  --ids-dropdown-color-text-default: var(--ids-color-white-100);
-  --ids-dropdown-color-background-hover: var(--ids-color-neutral-80);
-  --ids-dropdown-group-color-text: var(--ids-color-neutral-20);
-  --ids-dropdown-group-color-border: var(--ids-color-neutral-50);
+  --ids-dropdown-color-text-default: var(--ids-color-foreground-light-default);
+  --ids-dropdown-color-background-hover: var(--ids-color-background-dark);
+  --ids-dropdown-group-color-text: var(--ids-color-accent-neutral-stronger);
+  --ids-dropdown-group-color-border: var(--ids-color-border-weak);
 
   // Editor
   --ids-editor-background-color: var(--ids-color-neutral-100);

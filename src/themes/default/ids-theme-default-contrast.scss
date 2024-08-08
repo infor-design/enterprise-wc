@@ -162,10 +162,10 @@
   // Dropdown
   --ids-dropdown-color-background-default: var(--ids-popup-color-background);
   --ids-dropdown-color-border: var(--ids-color-border-focus);
-  --ids-dropdown-attached-color-border: var(--ids-color-neutral-50);
-  --ids-dropdown-color-text-selected: var(--ids-color-white-100);
+  --ids-dropdown-attached-color-border: var(--ids-color-border-weak);
+  --ids-dropdown-color-text-selected: var(--ids-color-foreground-light-default);
   --ids-dropdown-color-background-selected: var(--ids-color-primary-90);
-  --ids-dropdown-group-color-text: var(--ids-color-neutral-100);
+  --ids-dropdown-group-color-text: var(--ids-color-accent-neutral-strongest);
   --ids-dropdown-group-color-border: var(--ids-color-neutral-60);
 
   // Editor
