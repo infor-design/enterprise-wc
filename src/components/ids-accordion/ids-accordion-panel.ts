@@ -415,16 +415,16 @@ export default class IdsAccordionPanel extends Base {
       }
     });
 
-    this.listen('Enter', this.expander, (e: { stopPropagation: () => void; }) => {
+    this.listen('Enter', this.expander, (e: KeyboardEvent) => {
       e.stopPropagation();
-      if (!this.disabled) {
+      if (!this.disabled && e.target === this.header) {
         this.#selectAndToggle();
       }
     });
 
-    this.listen(' ', this.expander, (e: { stopPropagation: () => void; }) => {
+    this.listen(' ', this.expander, (e: KeyboardEvent) => {
       e.stopPropagation();
-      if (!this.disabled) {
+      if (!this.disabled && e.target === this.header) {
         this.#selectAndToggle();
       }
     });
