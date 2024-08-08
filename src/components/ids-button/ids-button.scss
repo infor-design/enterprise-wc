@@ -148,9 +148,9 @@ button {
 
   .ids-icon {
     display: block;
-    padding-inline-start: 2px;
+    padding-inline-start: var(--ids-space-3xs);
     font-size: 0;
-    padding-block-start: 2px;
+    padding-block-start: var(--ids-space-3xs);
   }
 
   span.audible {
