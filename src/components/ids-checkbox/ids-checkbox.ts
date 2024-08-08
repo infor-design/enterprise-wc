@@ -147,14 +147,8 @@ export default class IdsCheckbox extends Base {
     const events = ['focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (e: Event) => {
-        this.triggerEvent(e.type, this, {
-          detail: {
-            elem: this,
-            nativeEvent: e,
-            value: this.value,
-            checked: !!this.input?.checked
-          }
-        });
+        e.stopPropagation();
+        e.stopImmediatePropagation();
       });
     });
   }
