@@ -79,7 +79,7 @@ ids-button::part(button) {
     flex-direction: row;
     width: fit-content;
     max-height: 38px;
-    margin-bottom: 4px;
+    margin-bottom: var(--ids-space-2xs);
 
     &:focus-within ids-input:not(.error)::part(input) {
       border-color: var(--ids-spinbox-color-border-focus);
