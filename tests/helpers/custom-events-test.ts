@@ -1,4 +1,4 @@
-import { Page, ElementHandle } from '@playwright/test';
+import { Page, ElementHandle, Locator } from '@playwright/test';
 
 /**
  * Helper object for custom event validation
@@ -42,24 +42,32 @@ export class CustomEventTest {
    * ```ts
    * const theButton = page.locator('button.clickable');
    * await eventsTest.onEvent('button.clickable', 'click');
-   * // if the element needs to be accessed via shadowRoot, pass the `ElementHandle` object
+   * // if the element needs to be accessed via shadowRoot, you can do the following:
+   * // pass the `Locator` object
+   * await eventsTest.onEvent('button.clickable', 'click', theButton);
+   * // pass the `ElementHandle` object
    * await eventsTest.onEvent('button.clickable', 'click', await theButton.elementHandle());
    * ```
+   *
+   * **NOTE**
+   * If a 3rd parameter is given, the 1st parameter act as an identifier instead as of a selector
    * @param {string} selectorString element selector string like `button.bold`, `#theId`
    * @param {string} eventName event name to listen like `click`, `selected`, `beforeclick`
-   * @param {ElementHandle} elementHandle Playwright's element handle like `await button.elementHandle()`
+   * @param {ElementHandle | Locator} element Playwright's locator object like `theButton` or
+   * element handle like `await theButton.elementHandle()`
    * @throws error when {@link initialize()} method is not called initially
    * @throws error when either the `selectorString` or `elementHandle` yielded null object
    */
   async onEvent(
     selectorString: string,
     eventName: string,
-    elementHandle?: ElementHandle
+    element?: ElementHandle | Locator
   ): Promise<void> {
     if (!this.isInitialized) throw new Error('Initialize is not called');
+    const argElem: any = (element && element.constructor.name === 'Locator') ? (await (element as Locator).elementHandle()) : element;
     const result = await this.page.evaluate((details) => {
-      const node = (details.elementHandle !== undefined)
-        ? details.elementHandle : document.querySelector(details.selectorString);
+      const node = (details.argElem !== undefined)
+        ? details.argElem : document.querySelector(details.selectorString);
       if (node === null) return false;
       node.addEventListener(details.eventName, () => {
         let isExisting = false;
@@ -80,7 +88,7 @@ export class CustomEventTest {
         }
       });
       return true;
-    }, { selectorString, eventName, elementHandle });
+    }, { selectorString, eventName, argElem });
     if (!result) throw new Error('Unable to add an event listener to a null object. Check reference element.');
   }
 
