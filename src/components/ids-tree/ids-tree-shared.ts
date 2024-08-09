@@ -21,7 +21,7 @@ const IdsTreeShared = {
     toggleIconRotate: true
   },
 
-  SELECTABLE: ['single', 'multiple', 'false'],
+  SELECTABLE: ['single', 'multiple', 'none'],
 
   EVENTS: {
     beforeselected: 'beforeselected',

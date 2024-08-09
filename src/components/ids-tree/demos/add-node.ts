@@ -72,13 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
         treeElem!.addNodes(nodes, 'bottom');
       }
       if (value === 'before') {
-        treeElem!.addNodes(nodes, 'before', treeElem!.selected?.elem);
+        treeElem!.addNodes(nodes, 'before', treeElem!.selected);
       }
       if (value === 'after') {
-        treeElem!.addNodes(nodes, 'after', treeElem!.selected?.elem);
+        treeElem!.addNodes(nodes, 'after', treeElem!.selected);
       }
       if (value === 'child') {
-        treeElem!.addNodes(nodes, 'child', treeElem!.selected?.elem);
+        treeElem!.addNodes(nodes, 'child', treeElem!.selected);
       }
     }
   };
@@ -88,6 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   treeElem?.addEventListener('selected', (e: any) => {
-    console.info(e.detail.node.data);
+    console.info(e.detail);
   });
 });

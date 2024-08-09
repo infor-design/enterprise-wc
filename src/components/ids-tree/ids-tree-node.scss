@@ -2,8 +2,9 @@
 @import './ids-tree-shared';
 
 .ids-tree-node {
+  display: block;
   list-style-type: none;
-  margin-bottom: var(--ids-space-xxxxs);
+  user-select: none;
 
   .node-container {
     border: 1px solid transparent;
@@ -12,6 +13,7 @@
     padding: var(--ids-space-xxs);
     color: var(--ids-tree-node-color-text-default);
     align-items: baseline;
+    margin-bottom: var(--ids-space-xxxxs);
     border-radius: var(--ids-border-radius-xxs);
     transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), opacity var(--ids-motion-duration) var(--ids-motion-ease);
 
@@ -62,12 +64,18 @@
   }
 
   .group-nodes {
+    display: block;
     list-style-type: none;
     overflow: hidden;
-    margin-block-start: 1px;
-    margin-block-end: 1px;
+    // margin-block-start: 1px;
+    // margin-block-end: 1px;
     padding-inline-start: 24px;
     transition: max-height 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  }
+
+  &:not(.expanded) .group-nodes {
+    max-height: 0;
+    display: none;
   }
 
   &[selected] {
@@ -94,11 +102,6 @@
         box-shadow: none;
       }
     }
-  }
-
-  &.collapsed .group-nodes {
-    max-height: 0;
-    visibility: hidden;
   }
 }
 
