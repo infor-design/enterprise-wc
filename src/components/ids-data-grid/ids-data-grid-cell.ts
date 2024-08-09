@@ -1,5 +1,6 @@
 import { customElement } from '../../core/ids-decorators';
 import IdsElement from '../../core/ids-element';
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import type IdsDropdown from '../ids-dropdown/ids-dropdown';
 import type IdsInput from '../ids-input/ids-input';
 import type IdsDataGrid from './ids-data-grid';
@@ -8,7 +9,7 @@ import type { IdsDataGridColumn } from './ids-data-grid-column';
 import { IdsDataGridEditor } from './ids-data-grid-editors';
 
 @customElement('ids-data-grid-cell')
-export default class IdsDataGridCell extends IdsElement {
+export default class IdsDataGridCell extends IdsEventsMixin(IdsElement) {
   rootNode?: any;
 
   isInValid = false;
@@ -21,7 +22,8 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   connectedCallback(): void {
-    super.connectedCallback();
+    // NOTE: bypassing super.connectedCallback() for performance reasons
+    this.renderCell();
     this.#attachEventHandlers();
   }
 
@@ -38,8 +40,8 @@ export default class IdsDataGridCell extends IdsElement {
     this.tabIndex = -1;
     this.setAttribute('tabindex', '-1');
 
-    this.dataGrid?.offEvent('focusin.ids-cell', this);
-    this.dataGrid?.onEvent('focusin.ids-cell', this, () => {
+    this.offEvent('focusin.ids-cell', this);
+    this.onEvent('focusin.ids-cell', this, () => {
       this.tabIndex = 0;
       this.setAttribute('tabindex', '0');
 
@@ -47,8 +49,8 @@ export default class IdsDataGridCell extends IdsElement {
       this.dataGrid?.hideOpenMenus();
     });
 
-    this.dataGrid?.offEvent('focusout.ids-cell', this);
-    this.dataGrid?.onEvent('focusout.ids-cell', this, () => {
+    this.offEvent('focusout.ids-cell', this);
+    this.onEvent('focusout.ids-cell', this, () => {
       this.tabIndex = -1;
       this.setAttribute('tabindex', '-1');
     });
@@ -59,8 +61,8 @@ export default class IdsDataGridCell extends IdsElement {
    * @returns {IdsDataGrid} the data grid parent
    */
   get dataGrid() {
-    if (!this.rootNode) this.rootNode = (this.getRootNode() as any);
-    return (this.rootNode.host) as IdsDataGrid;
+    if (!this.rootNode) this.rootNode = (this.getRootNode() as any).host;
+    return (this.rootNode) as IdsDataGrid;
   }
 
   /**
@@ -170,6 +172,14 @@ export default class IdsDataGridCell extends IdsElement {
   }
 
   /**
+   * Get the column header cell element
+   * @returns {IdsDataGridColumn} the current cells column
+   */
+  get columnHeader() {
+    return this.dataGrid?.header?.columns[this.columnIndex];
+  }
+
+  /**
    * Gets the column # in which this cell exists
    * @returns {number} the column-index
    */
@@ -213,13 +223,40 @@ export default class IdsDataGridCell extends IdsElement {
    * Rerender a cell - may be used later
    */
   renderCell() {
+    const dataGrid = this.dataGrid;
+
+    if (dataGrid.virtualScroll) {
+      const tooManyColumns = dataGrid.columns.length > dataGrid.TOO_MANY_COLUMNS;
+
+      const columnsStale = dataGrid.hasAttribute('columns-stale');
+      const columnsFresh = !columnsStale;
+
+      const columnHeaders = this.columnHeader;
+      const columnOffScreen = columnHeaders?.hasAttribute('column-offscreen');
+
+      if (tooManyColumns && columnsFresh && columnOffScreen) {
+        // NOTE: skip renderCell if cell is NOT on-screen
+        return;
+      }
+
+      const columnOnScreen = columnHeaders?.hasAttribute('column-onscreen');
+      const columnOffScreenLeft = columnHeaders?.hasAttribute('column-offscreen-left');
+      const columnOffScreenRight = columnHeaders?.hasAttribute('column-offscreen-right');
+      this.toggleAttribute('column-onscreen', columnOnScreen);
+      this.toggleAttribute('column-offscreen', columnOffScreen);
+      this.toggleAttribute('column-offscreen-left', columnOffScreenLeft);
+      this.toggleAttribute('column-offscreen-right', columnOffScreenRight);
+    }
+
+    const rowIndex = this.rowIndex;
+    const rowData: Record<string, any> | undefined = dataGrid?.data[rowIndex];
     const column = this.column;
-    const rowIndex = Number(this.parentElement?.getAttribute('row-index'));
 
-    const row: Record<string, any> | undefined = this.dataGrid?.data[rowIndex];
-    const template = IdsDataGridCell.template(row, column, rowIndex, this.dataGrid);
+    const template = IdsDataGridCell.template(rowData, column, rowIndex, dataGrid);
+    if (this.innerHTML !== template) {
+      this.innerHTML = template;
+    }
 
-    this.innerHTML = template;
     if (column.formatter) this.classList.add(`formatter-${column.formatter.name}`);
   }
 

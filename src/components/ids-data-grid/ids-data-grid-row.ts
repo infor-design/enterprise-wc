@@ -36,7 +36,7 @@ export default class IdsDataGridRow extends IdsElement {
   }
 
   connectedCallback(): void {
-    super.connectedCallback();
+    // NOTE: bypassing super.connectedCallback() for performance reasons
   }
 
   /**
@@ -44,8 +44,8 @@ export default class IdsDataGridRow extends IdsElement {
    * @returns {IdsDataGrid} the data grid parent
    */
   get dataGrid() {
-    if (!this.rootNode) this.rootNode = (this.getRootNode() as any);
-    return (this.rootNode.host) as IdsDataGrid;
+    if (!this.rootNode) this.rootNode = (this.getRootNode() as any).host;
+    return (this.rootNode) as IdsDataGrid;
   }
 
   get data(): Record<string, any>[] {
@@ -110,10 +110,11 @@ export default class IdsDataGridRow extends IdsElement {
   static rowCache: { [key: string]: string } = {};
 
   /**
-   * Render the row again from the cache or template.
+   * Return the row from the cache or template.
    * @param {number} row the row index
+   * @returns {string} the row's html
    */
-  renderRow(row: number) {
+  cacheRow(row: number) {
     const cacheHash = this.dataGrid.cacheHash;
     const rowIndex = Number(row);
     const selectState = this.dataGrid.data[row].rowSelected ? 'select' : 'deselect';
@@ -121,7 +122,23 @@ export default class IdsDataGridRow extends IdsElement {
 
     // This is current cache strategy via memoization.
     IdsDataGridRow.rowCache[cacheKey] = IdsDataGridRow.rowCache[cacheKey] ?? this.cellsHTML();
-    this.innerHTML = IdsDataGridRow.rowCache[cacheKey];
+    return IdsDataGridRow.rowCache[cacheKey];
+  }
+
+  /**
+   * Render the row again from the cache or template.
+   * @param {number} row the row index
+   */
+  renderRow(row: number) {
+    const cells = [...this.children] as IdsDataGridCell[];
+
+    // Re-render datagrid cells instead datagrid rows for performance
+    if (cells.length === this.visibleColumns.length) {
+      [...cells].forEach((cell) => cell?.renderCell?.());
+    } else {
+      this.innerHTML = this.cacheRow(row);
+    }
+
     this.#setAttributes();
   }
 
@@ -338,8 +355,8 @@ export default class IdsDataGridRow extends IdsElement {
    */
   updateCells(index: number) {
     const row = this;
+    const cells = row.children;
 
-    const cells = row.querySelectorAll('.ids-data-grid-cell');
     if (cells?.length) {
       [...cells].forEach((cell: Element, columnIndex: number) => {
         const columnData = this.dataGrid?.columns[columnIndex];

@@ -35,13 +35,31 @@ export default class IdsDataGridHeader extends IdsEventsMixin(IdsElement) {
    * @returns {IdsDataGrid} the data grid parent
    */
   get dataGrid() {
-    if (!this.rootNode) this.rootNode = (this.getRootNode() as any);
-    return (this.rootNode.host) as IdsDataGrid;
+    if (!this.rootNode) this.rootNode = (this.getRootNode() as any).host;
+    return (this.rootNode) as IdsDataGrid;
   }
 
   /* Returns all the ids-icon.header-expander elements in an array */
   get expanderIcons(): IdsIcon[] {
     return [...this.querySelectorAll<IdsIcon>('ids-icon.header-expander')];
+  }
+
+  /** @see IdsDataGridHeader.columns */
+  #columns?: HTMLElement[];
+
+  /* Returns all the columns in the header */
+  get columns(): HTMLElement[] {
+    if (!this.#columns) this.#columns = [...this.querySelectorAll<HTMLElement>('.ids-data-grid-header-cell')];
+    return this.#columns;
+  }
+
+  /**
+   * Returns all the columns in the header
+   * @see IdsDataGridCell.isOnScreen()
+   * @returns {HTMLElement[]} array of onscreen header columns
+   */
+  get columnsOnscreen(): HTMLElement[] {
+    return [...this.querySelectorAll<HTMLElement>('.ids-data-grid-header-cell[column-onscreen]')];
   }
 
   /**

@@ -1,4 +1,20 @@
 /* Ids Data Grid Component - Cells */
+ids-data-grid-cell[column-onscreen] {
+  visibility: visible;
+}
+
+ids-data-grid-cell[column-offscreen] {
+  visibility: visible;
+}
+
+ids-data-grid-cell[column-offscreen-left] {
+  visibility: visible;
+}
+
+ids-data-grid-cell[column-offscreen-right] {
+  display: none !important;
+}
+
 .ids-data-grid-cell {
   // Border and Background and Sizing
   align-items: center;
