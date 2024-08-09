@@ -436,22 +436,22 @@
   --ids-slider-tick-color-background-default: var(--ids-color-primary-60);
   --ids-slider-thumb-color-background-default: var(--ids-color-primary-60);
   --ids-slider-thumb-color-border-default: var(--ids-color-primary-60);
-  --ids-slider-track-color-background-default: var(--ids-color-neutral-70);
+  --ids-slider-track-color-background-default: var(--ids-color-accent-neutral-weak);
   --ids-slider-track-color-background-progress: var(--ids-color-primary-60);
   --ids-slider-tooltip-color-background: var(--ids-color-white-100);
-  --ids-slider-tooltip-color-text: var(--ids-color-neutral-100);
-  --ids-slider-color-disabled: var(--ids-color-neutral-20);
-  --ids-slider-tick-color-background-disabled: var(--ids-color-neutral-40);
-  --ids-slider-thumb-color-background-disabled: var(--ids-color-neutral-40);
-  --ids-slider-track-color-background-disabled: var(--ids-color-neutral-50);
-  --ids-slider-track-color-background-progress-disabled: var(--ids-color-neutral-40);
-  --ids-slider-color-readonly: var(--ids-color-neutral-20);
-  --ids-slider-tick-color-background-readonly: var(--ids-color-neutral-40);
-  --ids-slider-thumb-color-background-readonly: var(--ids-color-neutral-40);
+  --ids-slider-tooltip-color-text: var(--ids-color-foreground-dark-default);
+  --ids-slider-color-disabled: var(--ids-color-accent-neutral-stronger);
+  --ids-slider-tick-color-background-disabled: var(--ids-color-accent-neutral-strong);
+  --ids-slider-thumb-color-background-disabled: var(--ids-color-accent-neutral-strong);
+  --ids-slider-track-color-background-disabled: var(--ids-color-accent-neutral-default);
+  --ids-slider-track-color-background-progress-disabled: var(--ids-color-accent-neutral-strong);
+  --ids-slider-color-readonly: var(--ids-color-accent-neutral-stronger);
+  --ids-slider-tick-color-background-readonly: var(--ids-color-accent-neutral-strong);
+  --ids-slider-thumb-color-background-readonly: var(--ids-color-accent-neutral-strong);
   --ids-slider-thumb-color-shadow-readonly: rgba(151 151 155 / 0.1);
-  --ids-slider-thumb-color-border-readonly: var(--ids-color-neutral-40);
-  --ids-slider-track-color-background-readonly: var(--ids-color-neutral-70);
-  --ids-slider-track-progress-color-background-readonly: var(--ids-color-neutral-40);
+  --ids-slider-thumb-color-border-readonly: var(--ids-color-accent-neutral-strong);
+  --ids-slider-track-color-background-readonly: var(--ids-color-accent-neutral-weak);
+  --ids-slider-track-progress-color-background-readonly: var(--ids-color-accent-neutral-strong);
 
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-neutral-70);

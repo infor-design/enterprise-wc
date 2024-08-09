@@ -1332,22 +1332,22 @@
   --ids-slider-thumb-shadow-hover: 0 2px 5px rgba(0 0 0 / 0.4);
   --ids-slider-thumb-color-shadow-default: rgba(0 114 237 / 0.1);
   --ids-slider-thumb-color-border-default: var(--ids-color-primary);
-  --ids-slider-track-color-background-default: var(--ids-color-neutral-40);
+  --ids-slider-track-color-background-default: var(--ids-color-accent-neutral-weak);
   --ids-slider-track-color-background-progress: var(--ids-color-primary);
-  --ids-slider-tooltip-color-background: var(--ids-color-neutral-80);
-  --ids-slider-tooltip-color-text: var(--ids-color-white-100);
+  --ids-slider-tooltip-color-background: var(--ids-color-accent-neutral-stronger);
+  --ids-slider-tooltip-color-text: var(--ids-color-foreground-light-default);
   --ids-slider-color-disabled: var(--ids-color-neutral-30);
   --ids-slider-tick-color-background-disabled: var(--ids-color-neutral-30);
   --ids-slider-thumb-color-background-disabled: var(--ids-color-neutral-30);
-  --ids-slider-track-color-background-disabled: var(--ids-color-neutral-20);
+  --ids-slider-track-color-background-disabled: var(--ids-color-accent-neutral-weaker);
   --ids-slider-track-color-background-progress-disabled: var(--ids-color-neutral-30);
   --ids-slider-color-readonly: var(--ids-color-neutral-30);
-  --ids-slider-tick-color-background-readonly: var(--ids-color-neutral-50);
-  --ids-slider-thumb-color-background-readonly: var(--ids-color-neutral-50);
+  --ids-slider-tick-color-background-readonly: var(--ids-color-accent-neutral-default);
+  --ids-slider-thumb-color-background-readonly: var(--ids-color-accent-neutral-default);
   --ids-slider-thumb-color-shadow-readonly: rgba(119 119 124 / 0.1);
-  --ids-slider-thumb-color-border-readonly: var(--ids-color-neutral-50);
-  --ids-slider-track-color-background-readonly: var(--ids-color-neutral-40);
-  --ids-slider-track-progress-color-background-readonly: var(--ids-color-neutral-50);
+  --ids-slider-thumb-color-border-readonly: var(--ids-color-accent-neutral-default);
+  --ids-slider-track-color-background-readonly: var(--ids-color-accent-neutral-weak);
+  --ids-slider-track-progress-color-background-readonly: var(--ids-color-accent-neutral-default);
 
   // Splitter
   --ids-splitter-bar-color-border: var(--ids-color-accent-neutral-weak);

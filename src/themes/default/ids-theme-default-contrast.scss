@@ -302,25 +302,25 @@
   --ids-scroll-view-color-icon-selected: var(--ids-color-primary-90)
 
   // Slider
-  --ids-slider-tick-color-background-default: var(--ids-color-blue-60);
-  --ids-slider-thumb-color-background-default: var(--ids-color-blue-60);
+  --ids-slider-tick-color-background-default: var(--ids-color-action-default);
+  --ids-slider-thumb-color-background-default: var(--ids-color-action-default);
   --ids-slider-thumb-color-shadow-default: rgba(0 74 153 / 0.1);
-  --ids-slider-thumb-color-border-default: var(--ids-color-blue-60);
-  --ids-slider-track-color-background-default: var(--ids-color-neutral-60);
-  --ids-slider-track-color-background-progress: var(--ids-color-blue-60);
+  --ids-slider-thumb-color-border-default: var(--ids-color-accent-blue-strong);
+  --ids-slider-track-color-background-default: var(--ids-color-accent-neutral-weak);
+  --ids-slider-track-color-background-progress: var(--ids-color-accent-blue-strong);
   --ids-slider-tooltip-color-background: var(--ids-color-neutral-90);
   --ids-slider-color-disabled: var(--ids-color-neutral-40);
-  --ids-slider-tick-color-background-disabled: var(--ids-color-neutral-60);
-  --ids-slider-thumb-color-background-disabled: var(--ids-color-neutral-60);
-  --ids-slider-track-color-background-disabled: var(--ids-color-neutral-50);
-  --ids-slider-track-color-background-progress-disabled: var(--ids-color-neutral-60);
+  --ids-slider-tick-color-background-disabled: var(--ids-color-accent-neutral-weak);
+  --ids-slider-thumb-color-background-disabled: var(--ids-color-accent-neutral-weak);
+  --ids-slider-track-color-background-disabled: var(--ids-color-accent-neutral-weak);
+  --ids-slider-track-color-background-progress-disabled: var(--ids-color-accent-neutral-weak);
   --ids-slider-color-readonly: var(--ids-color-neutral-40);
-  --ids-slider-tick-color-background-readonly: var(--ids-color-neutral-80);
-  --ids-slider-thumb-color-background-readonly: var(--ids-color-neutral-80);
+  --ids-slider-tick-color-background-readonly: var(--ids-color-accent-neutral-strong);
+  --ids-slider-thumb-color-background-readonly: var(--ids-color-accent-neutral-strong);
   --ids-slider-thumb-color-shadow-readonly: rgba(71 71 76 / 0.1);
-  --ids-slider-thumb-color-border-readonly: var(--ids-color-neutral-80);
-  --ids-slider-track-color-background-readonly: var(--ids-color-neutral-60);
-  --ids-slider-track-progress-color-background-readonly: var(--ids-color-neutral-80);
+  --ids-slider-thumb-color-border-readonly: var(--ids-color-accent-neutral-strong);
+  --ids-slider-track-color-background-readonly: var(--ids-color-accent-neutral-weak);
+  --ids-slider-track-progress-color-background-readonly: var(--ids-color-accent-neutral-strong);
 
   // Step Chart
   --ids-step-chart-color-background-default: var(--ids-color-neutral-30);

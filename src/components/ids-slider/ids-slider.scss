@@ -215,7 +215,7 @@
     vertical-align: middle;
     line-height: 30px;
     max-width: 300px;
-    min-width: 40px;
+    min-width: var(--ids-space-xl);
     transition: opacity 0.2s ease;
     opacity: 0;
     bottom: 175%; // horizontal
