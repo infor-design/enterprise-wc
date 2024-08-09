@@ -242,18 +242,18 @@ $editor-container-height: 285px;
   }
 }
 
-::slotted(div#editor-container) {
+::slotted(div.editor-container) {
   padding: var(--ids-editor-padding);
   box-sizing: border-box;
   min-height: 100%;
   outline: none;
 }
 
-::slotted(div#editor-container:empty) {
+::slotted(div.editor-container:empty) {
   &::before {
     content: attr(placeholder);
+    color: var(--ids-editor-color-text-placeholder);
     display: inline-block;
-    opacity: 0.7;
   }
 
   &:focus::before {
