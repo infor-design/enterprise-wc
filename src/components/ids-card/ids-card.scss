@@ -252,7 +252,6 @@
     height: auto;
     min-height: auto;
     cursor: move;
-    width: var(--ids-card-width);
 
     .ids-card-header {
       min-height: 56px;
@@ -265,7 +264,14 @@
     }
 
     &:hover {
-      background-color: var(--ids-color-background-elevated);
+      background-color: var(--ids-card-color-background-hover);
+      color: var(--ids-card-color-text-hover);
+
+      .ids-card-header {
+        slot[name='card-header'] {
+          color: var(--ids-card-color-text-hover);
+        }
+      }
     }
 
     &.is-dropped {
@@ -273,6 +279,13 @@
       width: var(--ids-card-width-dropped, var(--ids-card-width));
       height: var(--ids-card-height-dropped, 'auto');
       background-color: var(--ids-card-color-background-dropped, #F5F5F5);
+      opacity: 0.8;
+
+      .ids-card-header {
+        slot[name='card-header'] {
+          color: var(--ids-card-color-text-default);
+        }
+      }
     }
 
     &.is-dragging {
@@ -280,6 +293,13 @@
       width: var(--ids-card-width-dragged, var(--ids-card-width));
       height: var(--ids-card-height-dragged, 'auto');
       background-color: var(--ids-card-color-background-dragged, #F5F5F5);
+      opacity: 0.8;
+
+      .ids-card-header {
+        slot[name='card-header'] {
+          color: var(--ids-card-color-text-default);
+        }
+      }
     }
 
     &.is-fixed {

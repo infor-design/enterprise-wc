@@ -11,15 +11,3 @@ if (head) {
   head.insertAdjacentHTML('afterbegin', cssLink);
   head.insertAdjacentHTML('afterbegin', autoFitCssLink);
 }
-
-const draggableCards = document.querySelectorAll('ids-card[draggable]')!;
-
-draggableCards.forEach((cardEl) => {
-  cardEl.addEventListener('dragstart', () => {
-    cardEl.setAttribute('drag-bg-color', 'rgba(255, 255, 255, 0.80)');
-  });
-
-  cardEl.addEventListener('dragend', () => {
-    cardEl.setAttribute('drop-bg-color', 'rgba(255, 255, 255, 0.80)');
-  });
-});
