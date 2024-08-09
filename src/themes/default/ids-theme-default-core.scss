@@ -1660,30 +1660,30 @@
   --ids-upload-font-size: var(--ids-font-size-lg);
 
   // Upload Advanced
-  --ids-upload-advanced-color-background-default: var(--ids-color-neutral-10);
-  --ids-upload-advanced-color-border-default: var(--ids-color-neutral-50);
-  --ids-upload-advanced-color-background-disabled: var(--ids-color-neutral-10);
-  --ids-upload-advanced-color-border-disabled: var(--ids-color-neutral-30);
-  --ids-upload-advanced-color-background-drag-enter: var(--ids-color-blue-10);
+  --ids-upload-advanced-color-background-default: var(--ids-color-accent-neutral-weakest);
+  --ids-upload-advanced-color-border-default: var(--ids-color-border-default);
+  --ids-upload-advanced-color-background-disabled: var(--ids-color-accent-neutral-weakest);
+  --ids-upload-advanced-color-border-disabled: var(--ids-color-border-weak);
+  --ids-upload-advanced-color-background-drag-enter: var(--ids-color-action-weakest);
   --ids-upload-advanced-color-border-drag-enter: var(--ids-color-primary);
   --ids-upload-advanced-error-area-color-border-error: var(--ids-color-error-default);
-  --ids-upload-advanced-area-color-border-error-disabled: var(--ids-color-red-30);
-  --ids-upload-advanced-color-text-error-disabled: var(--ids-color-red-30);
-  --ids-upload-advanced-color-background-hover: var(--ids-color-neutral-20);
-  --ids-upload-advanced-color-border-hover: var(--ids-color-neutral-60);
+  --ids-upload-advanced-area-color-border-error-disabled: var(--ids-color-accent-red-weak);
+  --ids-upload-advanced-color-text-error-disabled: var(--ids-color-accent-red-weak);
+  --ids-upload-advanced-color-background-hover: var(--ids-color-accent-neutral-weaker);
+  --ids-upload-advanced-color-border-hover: var(--ids-color-border-strong);
   --ids-upload-advanced-color-text-hover: var(--ids-color-text-default);
   --ids-upload-advanced-color-border-focus: var(--ids-color-primary);
   --ids-upload-advanced-link-shadow-focus: var(--ids-shadow-30);
   --ids-upload-advanced-label-color-text: var(--ids-color-text-default);
-  --ids-upload-advanced-color-text-default: var(--ids-color-neutral-50);
-  --ids-upload-advanced-file-color-border-default: var(--ids-color-neutral-50);
-  --ids-upload-advanced-color-border-complete-default: var(--ids-color-green-80);
-  --ids-upload-advanced-file-color-text-complete: var(--ids-color-green-80);
+  --ids-upload-advanced-color-text-default: var(--ids-color-accent-neutral-default);
+  --ids-upload-advanced-file-color-border-default: var(--ids-color-accent-neutral-default);
+  --ids-upload-advanced-color-border-complete-default: var(--ids-color-accent-green-stronger);
+  --ids-upload-advanced-file-color-text-complete: var(--ids-color-accent-green-stronger);
   --ids-upload-advanced-file-color-border-disabled: var(--ids-color-neutral-30);
   --ids-upload-advanced-color-border-complete-disabled: var(--ids-color-green-30);
   --ids-upload-advanced-color-text-complete-disabled: var(--ids-color-green-30);
-  --ids-upload-advanced-file-color-border-error-disabled: var(--ids-color-red-30);
-  --ids-upload-advanced-color-text-disabled: var(--ids-color-neutral-30);
+  --ids-upload-advanced-file-color-border-error-disabled: var(--ids-color-accent-red-weak);
+  --ids-upload-advanced-color-text-disabled: var(--ids-color-foreground-default-disabled);
   --ids-upload-advanced-color-border-error-default: var(--ids-color-error-default);
 
   // Week View
@@ -1707,7 +1707,7 @@
   --ids-widget-search-height: 46px;
   --ids-widget-search-content-height: 266px;
   --ids-widget-header-padding-inline: var(--ids-space-sm); // toolbar has 8px
-  --ids-widget-header-height: 48px;
+  --ids-widget-header-height: var(--ids-space-2xl);
   --ids-widget-header-subtitle-height: 60px;
   --ids-widget-search-subtitle-content-height: 301px;
   --ids-widget-divider-color-border: var(--ids-card-divider-color-border);
@@ -1715,7 +1715,7 @@
   --ids-widget-color-border-hover: var(--ids-color-neutral-30);
   --ids-widget-color-shadow-hover: 0 2px 4px 1px rgba(0 0 0 / 0.15);
   --ids-widget-search-field-color-background: var(--ids-color-neutral-10);
-  --ids-widget-search-field-border-radius: 4px;
+  --ids-widget-search-field-border-radius: var(--ids-border-radius-xs);
 
   // Wizard
   --ids-wizard-step-width: 14px;

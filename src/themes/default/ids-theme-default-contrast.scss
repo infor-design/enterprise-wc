@@ -363,10 +363,11 @@
   --ids-tree-treemap-title-color-text: var(--ids-color-white-100);
 
   // Upload Advanced
-  --ids-upload-advanced-color-background-default: var(--ids-color-white-100);
-  --ids-upload-advanced-color-background-hover: var(--ids-color-neutral-20);
-  --ids-upload-advanced-color-border-hover: var(--ids-color-neutral-50);
-  --ids-upload-advanced-color-text-hover: var(--ids-color-neutral-40);
+  --ids-upload-advanced-color-background-default: var(--ids-color-accent-neutral-weakest);
+  --ids-upload-advanced-color-background-hover: var(--ids-color-accent-neutral-weaker);
+  --ids-upload-advanced-color-border-hover: var(--ids-color-foreground-default-tertiary);
+  --ids-upload-advanced-color-text-hover: var(--ids-color-foreground-default-default);
+  --ids-upload-advanced-color-text-disabled: var(--ids-color-foreground-default-disabled);
 
   // Week View
   --ids-week-view-color-background: var(--ids-color-white-100);
