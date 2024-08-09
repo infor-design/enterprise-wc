@@ -173,6 +173,7 @@ export default class IdsListView extends Base {
 
   get itemFocused() {
     const activeId = this.body?.getAttribute('aria-activedescendant');
+    if (!activeId) return null;
     const item = this.body?.querySelector<IdsListViewItem>(`#${activeId}`) || this.querySelector<IdsListViewItem>(`#${activeId}`);
     const rowIndex = Number(item?.rowIndex ?? -1);
     return this.itemByIndex(rowIndex);

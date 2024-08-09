@@ -120,12 +120,12 @@ export default class IdsListViewItem extends Base {
   }
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
+    if (name === attributes.ROW_INDEX && oldValue !== null) this.#rowIndex(newValue);
     if (oldValue === newValue) return;
     if (name === attributes.ACTIVATED) this.#activated(stringToBool(newValue));
     if (name === attributes.CHECKED) this.#checked(stringToBool(newValue));
     if (name === attributes.DISABLED) this.#disabled(stringToBool(newValue));
     if (name === attributes.SELECTED) this.#selected(stringToBool(newValue));
-    if (name === attributes.ROW_INDEX) this.#rowIndex(newValue);
     if (name === attributes.MAX_WIDTH) this.#maxWidth(newValue);
     if (name === attributes.OVERFLOW) this.#overflow(newValue);
   }
@@ -239,7 +239,8 @@ export default class IdsListViewItem extends Base {
     const rowIndex = Number(newValue) >= 0 ? Number(newValue) : -1;
     this.setAttribute('index', String(rowIndex));
     this.setAttribute('aria-posinset', String(rowIndex + 1));
-    if (!this.id) this.setAttribute('id', `id-${String(rowIndex + 1)}`);
+    const id = `id-${String(rowIndex + 1)}`;
+    if (!this.id) this.setAttribute('id', id);
     this.setAttribute('aria-setsize', String(this.listView?.itemCount || -1));
   }
 
@@ -337,7 +338,9 @@ export default class IdsListViewItem extends Base {
    * Get the row index. This index can be used to lazy-load data from IdsListView.data.
    * @returns {number} this list-view-item's index in parent IdsListView
    */
-  get rowIndex(): number { return Number(this.getAttribute(attributes.ROW_INDEX) ?? -1); }
+  get rowIndex(): number {
+    return Number(this.getAttribute(attributes.ROW_INDEX) ?? -1);
+  }
 
   /**
    * Wrapper function that adds interface to match dataset interface.
