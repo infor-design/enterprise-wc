@@ -1,5 +1,12 @@
 # What's New with Enterprise Web Components
 
+## 1.4.3
+
+### 1.4.3 Features
+
+### 1.4.3 Fixes
+- `[Homepage]` Converted home page tests to playwright. ([#1940](https://github.com/infor-design/enterprise-wc/issues/1940))
+
 ## 1.4.2
 
 ### 1.4.2 Features
