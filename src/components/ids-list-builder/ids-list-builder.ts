@@ -217,7 +217,7 @@ export default class IdsListBuilder extends IdsListView {
    * Edit selected item
    */
   edit() {
-    const itemFocused = this.itemFocused;
+    const itemFocused = this.itemsSelected.at(0);
     if (!itemFocused) return;
 
     if (itemFocused.swappableParent) itemFocused.swappableParent.selected = true;
