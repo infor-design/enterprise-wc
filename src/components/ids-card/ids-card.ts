@@ -11,12 +11,16 @@ import '../ids-checkbox/ids-checkbox';
 import styles from './ids-card.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import { IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
+import IdsDraggableMixin from '../ids-draggable/ids-draggable-mixin';
 import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
 const Base = IdsHideFocusMixin(
-  IdsEventsMixin(
-    IdsSelectionMixin(
-      IdsBox
+  IdsDraggableMixin(
+    IdsEventsMixin(
+      IdsSelectionMixin(
+        IdsBox
+      )
     )
   )
 );
@@ -35,6 +39,8 @@ const Base = IdsHideFocusMixin(
 @customElement('ids-card')
 @scss(styles)
 export default class IdsCard extends Base {
+  #clonedElement: any = null;
+
   constructor() {
     super();
   }
@@ -59,8 +65,35 @@ export default class IdsCard extends Base {
       attributes.HREF,
       attributes.NO_HEADER,
       attributes.OVERFLOW,
-      attributes.TARGET
+      attributes.TARGET,
+      attributes.BACKGROUND_COLOR,
+      attributes.WIDTH,
+      attributes.DRAG_WIDTH,
+      attributes.DRAG_HEIGHT,
+      attributes.DRAG_BG_COLOR,
+      attributes.DROPPED,
+      attributes.DROP_WIDTH,
+      attributes.DROP_HEIGHT,
+      attributes.DROP_BG_COLOR,
+      attributes.FIXED,
     ];
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) return;
+
+    if (name === attributes.BACKGROUND_COLOR) this.#setCssVar('--ids-card-color-background', newValue);
+    if (name === attributes.WIDTH) this.#setCssVar('--ids-card-width', newValue);
+
+    if (name === attributes.DRAG_WIDTH) this.#setCssVar('--ids-card-width-dragged', newValue);
+    if (name === attributes.DRAG_HEIGHT) this.#setCssVar('--ids-card-height-dragged', newValue);
+    if (name === attributes.DRAG_BG_COLOR) this.#setCssVar('--ids-card-color-background-dragged', newValue);
+
+    if (name === attributes.DROP_WIDTH) this.#setCssVar('--ids-card-width-dropped', newValue);
+    if (name === attributes.DROP_HEIGHT) this.#setCssVar('--ids-card-height-dropped', newValue);
+    if (name === attributes.DROP_BG_COLOR) this.#setCssVar('--ids-card-color-background-dropped', newValue);
   }
 
   /**
@@ -161,7 +194,101 @@ export default class IdsCard extends Base {
       cardContent?.classList.toggle('has-data-grid', !!dataGrid);
     });
 
+    this.offEvent('drag.ids-card', this);
+    this.onEvent('drag.ids-card', this, (e: any) => {
+      const { translateX = 0, translateY = 0 } = e.detail;
+      if (translateX === 0 && translateY === 0) {
+        return;
+      }
+
+      this.#handleDragStart();
+    });
+
+    this.offEvent('dragend.ids-card', this);
+    this.onEvent('dragend.ids-card', this, (e: any) => {
+      const { translateX = 0, translateY = 0 } = e.detail;
+      if (translateX === 0 && translateY === 0) {
+        return;
+      }
+
+      this.#handleDragend();
+    });
+
     return this;
+  }
+
+  /**
+   * Handle drag start event of a card
+   */
+  #handleDragStart() {
+    this.removeAttribute(attributes.DROPPED);
+    this.setAttribute(attributes.IS_DRAGGING, 'true');
+
+    this.container?.classList?.add('is-dragging');
+    if (!this.disabled && !this.#clonedElement && this.fixed) {
+      const clonedElement = this.cloneNode(true) as IdsCard;
+
+      // Created cloned element with disabled state with initial position
+      clonedElement.style.transform = `translate(0px, 0px)`;
+      clonedElement.disabled = true;
+      clonedElement.container?.classList?.remove('is-dragging');
+      clonedElement.removeAttribute(attributes.IS_DRAGGING);
+
+      this.#clonedElement = clonedElement;
+      this.parentNode?.insertBefore(clonedElement, this.nextSibling);
+    }
+  }
+
+  /**
+   * Handle drag end event of a card
+   */
+  #handleDragend() {
+    const { x: translateX, y: translateY } = this.getBoundingClientRect();
+
+    let dropElementX = 0;
+    let dropElementY = 0;
+    let maxDropElementX = 0;
+    let maxDropElementY = 0;
+
+    // If dropped target element is present, get the position of the dropped element
+    if (this.droppedTargetElement) {
+      const rects = this.droppedTargetElement.getBoundingClientRect();
+      dropElementX = rects.x;
+      dropElementY = rects.y;
+      maxDropElementX = rects.x + rects.width;
+      maxDropElementY = rects.y + rects.height;
+    }
+
+    this.removeAttribute(attributes.IS_DRAGGING);
+    this.container?.classList?.remove('is-dragging');
+
+    // If the card is not dropped in the target element, reset the card position
+    const xAxisValid = translateX >= dropElementX && translateX <= maxDropElementX;
+    const yAxisValid = translateY >= dropElementY && translateY <= maxDropElementY;
+
+    if (!this.droppedTargetElement || !xAxisValid || !yAxisValid) {
+      this.style.transform = `translate(0px, 0px)`;
+
+      if (this.#clonedElement) {
+        this.#clonedElement.remove();
+        this.#clonedElement = null;
+      }
+
+      this.removeAttribute(attributes.DROPPED);
+      return;
+    }
+
+    this.setAttribute(attributes.DROPPED, 'true');
+    if (this.#clonedElement) {
+      if (this.hasAttribute(attributes.DROP_BG_COLOR)) {
+        this.#clonedElement.setAttribute(attributes.DROP_BG_COLOR, this.getAttribute(attributes.DROP_BG_COLOR));
+      }
+      this.#clonedElement.disabled = false;
+    }
+  }
+
+  get droppedTargetElement() {
+    return document.querySelector(`#${this.dropTarget}`);
   }
 
   /**
@@ -302,6 +429,83 @@ export default class IdsCard extends Base {
   }
 
   get actionable() { return stringToBool(this.getAttribute(attributes.ACTIONABLE)); }
+
+  /**
+   * @param {string | boolean} value to be disabled
+   */
+  set disabled(value: string | boolean) {
+    this.toggleAttribute(attributes.DISABLED, stringToBool(value));
+
+    if (this.disabled) {
+      this.offEvent('mousemove', window.document);
+      this.offEvent('click', window.document);
+    }
+  }
+
+  /**
+   * @returns {boolean} disabled state
+   */
+  get disabled(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
+
+  set draggable(value: boolean) {
+    this.toggleAttribute(attributes.DRAGGABLE, stringToBool(value));
+  }
+
+  get draggable(): boolean {
+    return this.hasAttribute(attributes.DRAGGABLE);
+  }
+
+  set dropped(value: boolean) {
+    this.toggleAttribute(attributes.DROPPED, stringToBool(value));
+    this.container?.classList.toggle('is-dropped', stringToBool(value));
+  }
+
+  get dropped() {
+    return this.hasAttribute(attributes.DROPPED);
+  }
+
+  set dropTarget(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.DROP_TARGET, value);
+    } else {
+      this.removeAttribute(attributes.DROP_TARGET);
+    }
+  }
+
+  get dropTarget() {
+    return this.getAttribute(attributes.DROP_TARGET);
+  }
+
+  set fixed(value: boolean | string | null) {
+    this.toggleAttribute(attributes.FIXED, stringToBool(value));
+    this.container?.classList.toggle('is-fixed', stringToBool(value));
+  }
+
+  get fixed() {
+    return this.hasAttribute(attributes.FIXED);
+  }
+
+  #setCssVar(variable: string, value: string | null) {
+    if (value) {
+      this.container?.style.setProperty(variable, value);
+    } else {
+      this.container?.style.removeProperty(variable);
+    }
+  }
+
+  set backgroundColor(value: IdsColorValue) {
+    this.#setCssVar('--ids-card-color-background', (value as string | null));
+  }
+
+  set width(value: string) {
+    if (this.draggable) {
+      this.#setCssVar('--ids-card-width', value);
+    } else {
+      super.width = value;
+    }
+  }
 
   /**
    * Set how the container overflows, can be hidden or auto (default)
