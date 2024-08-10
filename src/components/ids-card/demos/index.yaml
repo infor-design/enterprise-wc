@@ -47,3 +47,6 @@
   - link: draggable-layout.html
     type: Draggable Layout
     description: Draggable Layout
+  - link: draggable-layout-stacking.html
+    type: Draggable Layout Stacking
+    description: Draggable Layout Stacking

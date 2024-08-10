@@ -41,6 +41,8 @@ const Base = IdsHideFocusMixin(
 export default class IdsCard extends Base {
   #clonedElement: any = null;
 
+  #positionId: string | null = null;
+
   constructor() {
     super();
   }
@@ -76,6 +78,7 @@ export default class IdsCard extends Base {
       attributes.DROP_HEIGHT,
       attributes.DROP_BG_COLOR,
       attributes.FIXED,
+      attributes.STACKED,
     ];
   }
 
@@ -239,11 +242,16 @@ export default class IdsCard extends Base {
     }
   }
 
+  static droppedPositions: any[] = [];
+
   /**
    * Handle drag end event of a card
    */
   #handleDragend() {
-    const { x: translateX, y: translateY } = this.getBoundingClientRect();
+    if (!this.container) return;
+
+    const currentRect = this.container.getBoundingClientRect();
+    const { x: translateX, y: translateY } = currentRect;
 
     let dropElementX = 0;
     let dropElementY = 0;
@@ -266,7 +274,27 @@ export default class IdsCard extends Base {
     const xAxisValid = translateX >= dropElementX && translateX <= maxDropElementX;
     const yAxisValid = translateY >= dropElementY && translateY <= maxDropElementY;
 
+    let resetPosition = false;
     if (!this.droppedTargetElement || !xAxisValid || !yAxisValid) {
+      resetPosition = true;
+    }
+
+    // If card stacking is disabled and the card is overlapping with other cards, reset the card position
+    if (!this.stacked && !resetPosition) {
+      const positions = IdsCard.droppedPositions.filter((p: any) => p?.id !== this.#positionId);
+      const isOverlapping = positions.some((position: any) => {
+        const isOverlappingX = position.left < currentRect.right && position.right > currentRect.left;
+        const isOverlappingY = position.top < currentRect.bottom && position.bottom > currentRect.top;
+
+        return isOverlappingX && isOverlappingY;
+      });
+
+      if (isOverlapping) {
+        resetPosition = true;
+      }
+    }
+
+    if (resetPosition) {
       this.style.transform = `translate(0px, 0px)`;
 
       if (this.#clonedElement) {
@@ -275,6 +303,7 @@ export default class IdsCard extends Base {
       }
 
       this.removeAttribute(attributes.DROPPED);
+      this.#removePosition();
       return;
     }
 
@@ -285,6 +314,42 @@ export default class IdsCard extends Base {
       }
       this.#clonedElement.disabled = false;
     }
+
+    this.#updatePosition();
+  }
+
+  #removePosition() {
+    IdsCard.droppedPositions = IdsCard.droppedPositions.filter((position: any) => position.id !== this.#positionId);
+  }
+
+  #updatePosition() {
+    if (!this.container) return;
+
+    const elementRect = this.container.getBoundingClientRect();
+    this.#positionId = !this.#positionId ? `position-${new Date().getTime()}` : this.#positionId;
+
+    const position = {
+      left: elementRect.left,
+      right: elementRect.right,
+      bottom: elementRect.bottom,
+      top: elementRect.top,
+      width: elementRect.width,
+      height: elementRect.height,
+      x: elementRect.x,
+      y: elementRect.y,
+      id: this.#positionId,
+      totalX: elementRect.x + elementRect.width,
+      totalY: elementRect.y + elementRect.height,
+    };
+
+    const index = IdsCard.droppedPositions.findIndex((pos: any) => pos.id === this.#positionId);
+
+    if (index !== -1) {
+      IdsCard.droppedPositions[index] = position;
+      return;
+    }
+
+    IdsCard.droppedPositions.push(position);
   }
 
   get droppedTargetElement() {
@@ -485,6 +550,14 @@ export default class IdsCard extends Base {
 
   get fixed() {
     return this.hasAttribute(attributes.FIXED);
+  }
+
+  set stacked(value: boolean | string | null) {
+    this.toggleAttribute(attributes.STACKED, stringToBool(value));
+  }
+
+  get stacked() {
+    return this.hasAttribute(attributes.STACKED);
   }
 
   #setCssVar(variable: string, value: string | null) {
