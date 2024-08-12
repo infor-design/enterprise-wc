@@ -366,6 +366,19 @@ test.describe('IdsListView tests', () => {
       await page.keyboard.press('ArrowUp');
       expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-1');
       await expect(focusableItem).toHaveId('id-1');
+      // should not pass through the first item
+      await page.keyboard.press('ArrowUp');
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-1');
+      await expect(focusableItem).toHaveId('id-1');
+
+      // should not pass through the last item
+      const lastItem = await page.locator('#id-77');
+      await lastItem.click();
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-77');
+      await expect(focusableItem).toHaveId('id-77');
+      await page.keyboard.press('ArrowDown');
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-77');
+      await expect(focusableItem).toHaveId('id-77');
     });
 
     test('can use arrow keys to navigate focused list view with slotted items', async ({ page }) => {
@@ -376,6 +389,11 @@ test.describe('IdsListView tests', () => {
       await page.keyboard.press('ArrowDown');
       expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-2');
       await expect(focusableItem).toHaveId('id-2');
+
+      // should skip disabled item (id-3)
+      await page.keyboard.press('ArrowDown');
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-4');
+      await expect(focusableItem).toHaveId('id-4');
     });
 
     test('can generate ids for list view items rendered from data', async ({ page }) => {
