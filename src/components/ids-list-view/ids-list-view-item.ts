@@ -103,7 +103,6 @@ export default class IdsListViewItem extends Base {
     super.connectedCallback();
 
     if (this.rowIndex < 0) {
-      this.rowIndex = this.listView?.itemCount || 0;
       const html = this.listView?.templateCustomHTML?.(this.rowData);
       if (html) this.innerHTML = html;
     }
@@ -120,12 +119,12 @@ export default class IdsListViewItem extends Base {
   }
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
-    if (name === attributes.ROW_INDEX && oldValue !== null) this.#rowIndex(newValue);
     if (oldValue === newValue) return;
     if (name === attributes.ACTIVATED) this.#activated(stringToBool(newValue));
     if (name === attributes.CHECKED) this.#checked(stringToBool(newValue));
     if (name === attributes.DISABLED) this.#disabled(stringToBool(newValue));
     if (name === attributes.SELECTED) this.#selected(stringToBool(newValue));
+    if (name === attributes.ROW_INDEX) this.#rowIndex(newValue);
     if (name === attributes.MAX_WIDTH) this.#maxWidth(newValue);
     if (name === attributes.OVERFLOW) this.#overflow(newValue);
   }
@@ -338,9 +337,7 @@ export default class IdsListViewItem extends Base {
    * Get the row index. This index can be used to lazy-load data from IdsListView.data.
    * @returns {number} this list-view-item's index in parent IdsListView
    */
-  get rowIndex(): number {
-    return Number(this.getAttribute(attributes.ROW_INDEX) ?? -1);
-  }
+  get rowIndex(): number { return Number(this.getAttribute(attributes.ROW_INDEX) ?? -1); }
 
   /**
    * Wrapper function that adds interface to match dataset interface.
