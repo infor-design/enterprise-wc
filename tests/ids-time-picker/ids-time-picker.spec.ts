@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import percySnapshot from '@percy/playwright';
-import { expect } from '@playwright/test';
+import { expect, Locator } from '@playwright/test';
 import { test } from '../base-fixture';
 import IdsTimePicker from '../../src/components/ids-time-picker/ids-time-picker';
 
@@ -73,6 +73,11 @@ test.describe('IdsTimePicker tests', () => {
   });
 
   test.describe('functionality tests', () => {
+    const isPopupVisible = async (timepicker: Locator) => {
+      const result = await timepicker.evaluate((node: IdsTimePicker) => node.picker!.popup!.visible);
+      return result;
+    };
+
     test('can render via document.createElement', async ({ page, pageErrorsTest }) => {
       await page.evaluate(() => {
         const time = document.createElement('ids-time-picker');
@@ -338,6 +343,448 @@ test.describe('IdsTimePicker tests', () => {
           return result;
         })).toEqual(await getPageTime());
       }).toPass();
+    });
+
+    test('can prevent render of period (AM/PM)', async ({ page }) => {
+      const timepicker = page.locator('#timepicker-default').first();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.format = 'hh:mm';
+        element.autoupdate = true;
+
+        element.hours = '10';
+        element.minutes = '00';
+        element.period = 'AM';
+        return element.value;
+      })).toEqual('10:00');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.period = 'PM';
+        return element.value;
+      })).toEqual('10:00');
+    });
+
+    test('can show and hide popup', async ({ page }) => {
+      const timepicker = page.locator('#timepicker-default').first();
+
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+
+      await timepicker.evaluate((element: IdsTimePicker) => element.open());
+      expect(await isPopupVisible(timepicker)).toBeTruthy();
+
+      await timepicker.evaluate((element: IdsTimePicker) => element.close());
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+    });
+
+    test('can show popup on autoselect in input', async ({ page }) => {
+      const timepicker = page.locator('#timepicker-default').first();
+      const input = timepicker.locator('input').first();
+
+      await input.click({ delay: 50 });
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.autoselect)).toBeFalsy();
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.autoselect = true;
+        return element.autoselect;
+      })).toBeTruthy();
+      await page.locator('html body').click({ delay: 50 });
+      await input.click({ delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeTruthy();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.autoselect = false;
+        return element.autoselect;
+      })).toBeFalsy();
+      await page.locator('html body').click({ delay: 50 });
+      await input.click({ delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+    });
+
+    test('can show and hide popup on clicking the trigger button', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const button = await timepicker.locator('ids-trigger-button').first();
+
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+
+      await button.click({ delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeTruthy();
+
+      await button.click({ delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+    });
+
+    test('can show popup with arrow down key', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const input = await timepicker.locator('input').first();
+
+      await input.click({ delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+
+      await input.press('ArrowDown', { delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeTruthy();
+    });
+
+    test('can hide popup with escape key', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const button = await timepicker.locator('ids-trigger-button').first();
+
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+
+      await button.click({ delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeTruthy();
+
+      await timepicker.press('Escape', { delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+    });
+
+    test('can hide popup with backspace key', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const button = await timepicker.locator('ids-trigger-button').first();
+
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+
+      await button.click({ delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeTruthy();
+
+      await timepicker.press('Backspace', { delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+    });
+
+    test('can set ID', async ({ page, pageErrorsTest }) => {
+      let timepicker = await page.locator('#timepicker-default').first();
+
+      await timepicker.evaluate((node) => { node.id = 'new-test-id'; });
+      timepicker = await page.locator('#new-test-id').first();
+      await expect(timepicker).toBeAttached();
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+    });
+
+    test('can be disabled', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.disabled)).toBeFalsy();
+      await expect(timepicker).not.toHaveAttribute('disabled');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.setAttribute('disabled', 'true');
+        return element.disabled;
+      })).toBeTruthy();
+      await expect(timepicker).toHaveAttribute('disabled');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.disabled = false;
+        return element.disabled;
+      })).toBeFalsy();
+      await expect(timepicker).not.toHaveAttribute('disabled');
+    });
+
+    test('can be readonly', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.readonly)).toBeFalsy();
+      await expect(timepicker).not.toHaveAttribute('readonly');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.setAttribute('readonly', 'true');
+        return element.readonly;
+      })).toBeTruthy();
+      await expect(timepicker).toHaveAttribute('readonly');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.readonly = false;
+        return element.readonly;
+      })).toBeFalsy();
+      await expect(timepicker).not.toHaveAttribute('readonly');
+    });
+
+    test('can hide on outside click', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+      await timepicker.evaluate((element: IdsTimePicker) => element.open());
+      expect(await isPopupVisible(timepicker)).toBeTruthy();
+
+      await page.locator('html body').click({ delay: 50 });
+      expect(await isPopupVisible(timepicker)).toBeFalsy();
+    });
+
+    test('can be embeddable', async ({ page }) => {
+      const result = await page.evaluate(() => {
+        const html = '<ids-time-picker id="embeddable" embeddable="true"></ids-time-picker>';
+        document.querySelector('ids-container')!.insertAdjacentHTML('afterbegin', html);
+        const tp = document.querySelector('#embeddable') as IdsTimePicker;
+        return { input: tp.input, picker: tp.picker };
+      });
+      expect(result).toEqual({ input: null, picker: null });
+      await expect(page.locator('#embeddable')).toBeAttached();
+    });
+
+    test('can set/get tabbable', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.tabbable)).toBeTruthy();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.tabbable = false;
+        return element.tabbable;
+      })).toBeFalsy();
+      await expect(timepicker).toHaveAttribute('tabbable', 'false');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.tabbable = true;
+        return element.tabbable;
+      })).toBeTruthy();
+      await expect(timepicker).toHaveAttribute('tabbable', 'true');
+    });
+
+    test('can validate required', async ({ page, eventsTest }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const input = await timepicker.locator('ids-trigger-field').first();
+
+      await eventsTest.onEvent('input', 'validate', input);
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.validate)).toBeNull();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.validate = 'required';
+        element.validationEvents = 'blur';
+        element.input!.checkValidation();
+        return { validate: element.validate, validationEvents: element.validationEvents };
+      })).toEqual({ validate: 'required', validationEvents: 'blur' });
+      await expect(timepicker).toHaveAttribute('validate', 'required');
+      await expect(timepicker).toHaveAttribute('validation-events', 'blur');
+      expect(await eventsTest.isEventTriggered('input', 'validate')).toBeTruthy();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.validate = null;
+        element.validationEvents = null;
+        return { validate: element.validate, validationEvents: element.validationEvents };
+      })).toEqual({ validate: null, validationEvents: 'change blur' });
+    });
+
+    test('can validate time', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.value = '1:00 AM';
+        element.validate = 'time';
+        (window as any).isValid = false;
+        element.input!.addEventListener('validate', (e: any) => {
+          (window as any).isValid = e.detail.isValid;
+        });
+        element.input!.checkValidation();
+        return (window as any).isValid;
+      })).toBeTruthy();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.value = '99:00 AM';
+        return (window as any).isValid;
+      })).toBeFalsy();
+    });
+
+    test('can set/get field height', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const container = await timepicker.locator('div[part="container"]').first();
+      const testData = [
+        { data: 'xs', expected: 'xs' },
+        { data: 'sm', expected: 'sm' },
+        { data: 'md', expected: 'md' },
+        { data: '', expected: 'md' },
+        { data: 'lg', expected: 'lg' },
+        { data: null, expected: 'md' }
+      ];
+
+      for (const data of testData) {
+        expect(await timepicker.evaluate((element: IdsTimePicker, tData) => {
+          element.fieldHeight = tData as any;
+          return element.fieldHeight;
+        }, data.data)).toEqual(data.expected);
+        if (data.data) {
+          await expect(timepicker).toHaveAttribute('field-height', data.expected);
+          await expect(container).toHaveClass(new RegExp(`field-height-${data.expected}`, 'g'));
+          const validData = testData.filter((item) => item.data !== data.data && item.data);
+          for (let i = 0; i < validData.length; i++) {
+            await expect(container).not.toHaveClass(new RegExp(`field-height-${validData[i].expected}`, 'g'));
+          }
+        } else {
+          await expect(timepicker).not.toHaveAttribute('field-height');
+          await expect(container).toHaveClass(/field-height-md/);
+        }
+      }
+    });
+
+    test('can set/get compact', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const container = await timepicker.locator('div[part="container"]').first();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.compact)).toBeFalsy();
+      await expect(timepicker).not.toHaveAttribute('compact');
+      await expect(container).not.toHaveClass(/compact/);
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.compact = true;
+        return element.compact;
+      })).toBeTruthy();
+      await expect(timepicker).toHaveAttribute('compact');
+      await expect(container).toHaveClass(/compact/);
+    });
+
+    test('can set/get size', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const container = await timepicker.locator('div[part="container"]').first();
+      const input = await timepicker.locator('ids-trigger-field').first();
+      const testData = [
+        { data: 'xs', expected: 'xs' },
+        { data: 'sm', expected: 'sm' },
+        { data: 'mm', expected: 'mm' },
+        { data: 'md', expected: 'md' },
+        { data: 'lg', expected: 'lg' },
+        { data: null, expected: 'sm' },
+        { data: 'full', expected: 'full' }
+      ];
+
+      for (const data of testData) {
+        expect(await timepicker.evaluate((element: IdsTimePicker, tData) => {
+          element.size = tData as any;
+          return element.size;
+        }, data.data)).toEqual(data.expected);
+        if (data.data) {
+          await expect(timepicker).toHaveAttribute('size', data.expected);
+          await expect(input).toHaveAttribute('size', data.expected);
+          await expect(container).toHaveClass(new RegExp(data.expected, 'g'));
+        } else {
+          await expect(timepicker).not.toHaveAttribute('size', data.expected);
+        }
+      }
+    });
+
+    test('can set/get margins', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const input = await timepicker.locator('ids-trigger-field').first();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.noMargins)).toBeFalsy();
+      await expect(timepicker).not.toHaveAttribute('no-margins');
+      await expect(input).not.toHaveAttribute('no-margins');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.noMargins = true;
+        return element.noMargins;
+      })).toBeTruthy();
+      await expect(timepicker).toHaveAttribute('no-margins');
+      await expect(input).toHaveAttribute('no-margins');
+    });
+
+    test('can set values via template', async ({ page, pageErrorsTest }) => {
+      await page.evaluate(() => {
+        const html = `<ids-time-picker
+          id="test-time"
+          color-variant="alternate-formatter"
+          label-state="collapsed"
+          compact
+          no-margins></ids-time-picker>`;
+        const template = document.createElement('template');
+        template.innerHTML = html;
+        document.querySelector('ids-container')!.appendChild(template.content.childNodes[0]);
+      });
+      expect(pageErrorsTest.hasErrors()).toBeFalsy();
+      await expect(page.locator('#test-time').first()).toBeAttached();
+      expect(await page.locator('#test-time').first().evaluate((element: IdsTimePicker) => {
+        const res = {
+          colorVariant: element.colorVariant,
+          labelState: element.labelState,
+          compact: element.compact,
+          noMargins: element.noMargins
+        };
+        return res;
+      })).toEqual({
+        colorVariant: 'alternate-formatter',
+        labelState: 'collapsed',
+        compact: true,
+        noMargins: true
+      });
+    });
+
+    test('can set/get dirty tracking', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const input = await timepicker.locator('ids-trigger-field').first();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.dirtyTracker)).toBeFalsy();
+      await expect(timepicker).not.toHaveAttribute('dirty-tracker');
+      await expect(input).not.toHaveAttribute('dirty-tracker');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.dirtyTracker = true;
+        return element.dirtyTracker;
+      })).toBeTruthy();
+      await expect(timepicker).toHaveAttribute('dirty-tracker');
+      await expect(input).toHaveAttribute('dirty-tracker');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.dirtyTracker = false;
+        return element.dirtyTracker;
+      })).toBeFalsy();
+      await expect(timepicker).not.toHaveAttribute('dirty-tracker');
+      await expect(input).not.toHaveAttribute('dirty-tracker');
+    });
+
+    test('can set/get mask', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const input = await timepicker.locator('ids-trigger-field').first();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.mask)).toBeFalsy();
+      await expect(timepicker).not.toHaveAttribute('mask');
+      await expect(input).not.toHaveAttribute('mask');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.mask = true;
+        return element.mask;
+      })).toBeTruthy();
+      await expect(timepicker).toHaveAttribute('mask');
+      await expect(input).toHaveAttribute('mask', 'date');
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => {
+        element.format = 'HH:mm:ss';
+        element.mask = null;
+        return { format: element.input!.maskOptions.format, mask: element.mask };
+      })).toEqual({ format: 'HH:mm:ss', mask: false });
+    });
+
+    test('can select time from time picker dropdown', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const button = await timepicker.locator('ids-trigger-button').first();
+      const trigH = await timepicker.locator('#triggerBtn-hours').first();
+      const sixthH = await timepicker.locator('#timepicker-hours-6').first();
+      const trigM = await timepicker.locator('#triggerBtn-minutes').first();
+      const forthM = await timepicker.locator('#timepicker-minutes-40').first();
+      const trigP = await timepicker.locator('#triggerBtn-period').first();
+      const pm = await timepicker.locator('#timepicker-period-PM').first();
+      const set = await timepicker.locator('ids-modal-button').first();
+
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.value)).toEqual('');
+      await button.click({ delay: 50 });
+      await trigH.click({ delay: 50 });
+      await sixthH.click({ delay: 50 });
+      await trigM.click({ delay: 50 });
+      await forthM.click({ delay: 50 });
+      await trigP.click({ delay: 50 });
+      await pm.click({ delay: 50 });
+      await set.click({ delay: 50 });
+      expect(await timepicker.evaluate((element: IdsTimePicker) => element.value)).toEqual('6:40 PM');
+    });
+
+    test('can change value of dropdown on change', async ({ page }) => {
+      const timepicker = await page.locator('#timepicker-default').first();
+      const input = await timepicker.locator('input').first();
+      const button = await timepicker.locator('ids-trigger-button').first();
+      const hours = await timepicker.locator('#triggerField-hours input').first();
+      const minutes = await timepicker.locator('#triggerField-minutes input').first();
+      const period = await timepicker.locator('#triggerField-period input').first();
+
+      await input.pressSequentially('6:40 PM');
+      await button.click({ delay: 50 });
+      await expect(hours).toHaveValue('6');
+      await expect(minutes).toHaveValue('40');
+      await expect(period).toHaveValue('PM');
     });
   });
 });
