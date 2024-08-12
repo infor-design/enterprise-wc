@@ -254,8 +254,6 @@ class MaskAPI {
       }
     }
 
-    conformSettings.keepCharacterPositions = true;
-
     // Loop through the placeholder string to find characters that need to be filled.
     placeholderLoop:
     for (let l = 0; l < placeholderLength; l++) {
