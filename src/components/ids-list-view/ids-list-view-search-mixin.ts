@@ -13,6 +13,16 @@ type SearchItem = string | HTMLElement | object;
 type SearchFilterModes = string | null | 'contains' | 'keyword' | 'phrase-starts-with' | 'word-starts-with';
 
 const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  /**
+   * Possible Filter Modes
+   */
+  searchFilterModes = {
+    CONTAINS: 'contains',
+    KEYWORD: 'keyword',
+    PHRASE_STARTS_WITH: 'phrase-starts-with',
+    WORD_STARTS_WITH: 'word-starts-with'
+  };
+
   constructor(...args: any[]) {
     super(...args);
   }
@@ -32,16 +42,6 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
   connectedCallback() {
     super.connectedCallback();
   }
-
-  /**
-   * Possible Filter Modes
-   */
-  searchFilterModes = {
-    CONTAINS: 'contains',
-    KEYWORD: 'keyword',
-    PHRASE_STARTS_WITH: 'phrase-starts-with',
-    WORD_STARTS_WITH: 'word-starts-with'
-  };
 
   /**
    * Search filter callback, use for custom filter to match
@@ -387,7 +387,7 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
    * @returns {string} search term highlight
    */
   searchHighlight(item: string | HTMLElement | object, fulltext : string | null = null): string | HTMLElement | object {
-    if (this.suppressHighlight || !item || this.searchTerm === '') return item;
+    if (this.suppressHighlight || !item || !this.searchTerm || this.searchTerm === '') return item;
 
     // Set regex according to search filter mode
     let regex: any = null;
