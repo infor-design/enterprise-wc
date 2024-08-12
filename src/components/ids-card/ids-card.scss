@@ -274,6 +274,10 @@
       }
     }
 
+    &.is-overlapping {
+      cursor: no-drop;
+    }
+
     &.is-dropped {
       z-index: 99;
       width: var(--ids-card-width-dropped, var(--ids-card-width));

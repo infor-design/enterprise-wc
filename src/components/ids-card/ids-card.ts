@@ -240,6 +240,28 @@ export default class IdsCard extends Base {
       this.#clonedElement = clonedElement;
       this.parentNode?.insertBefore(clonedElement, this.nextSibling);
     }
+
+    this.container?.classList?.toggle('is-overlapping', this.#isOverlapping());
+  }
+
+  /**
+   * Check if the card is overlapping with other cards
+   * @returns {boolean} true if the card is overlapping with other cards else false
+   */
+  #isOverlapping() {
+    if (!this.container) return false;
+
+    if (!this.stacked) {
+      const currentRect = this.container.getBoundingClientRect();
+      const positions = IdsCard.droppedPositions.filter((p: any) => p?.id !== this.#positionId);
+      return positions.some((position: any) => {
+        const isOverlappingX = position.left < currentRect.right && position.right > currentRect.left;
+        const isOverlappingY = position.top < currentRect.bottom && position.bottom > currentRect.top;
+
+        return isOverlappingX && isOverlappingY;
+      });
+    }
+    return false;
   }
 
   static droppedPositions: any[] = [];
@@ -281,17 +303,7 @@ export default class IdsCard extends Base {
 
     // If card stacking is disabled and the card is overlapping with other cards, reset the card position
     if (!this.stacked && !resetPosition) {
-      const positions = IdsCard.droppedPositions.filter((p: any) => p?.id !== this.#positionId);
-      const isOverlapping = positions.some((position: any) => {
-        const isOverlappingX = position.left < currentRect.right && position.right > currentRect.left;
-        const isOverlappingY = position.top < currentRect.bottom && position.bottom > currentRect.top;
-
-        return isOverlappingX && isOverlappingY;
-      });
-
-      if (isOverlapping) {
-        resetPosition = true;
-      }
+      resetPosition = this.#isOverlapping();
     }
 
     if (resetPosition) {
