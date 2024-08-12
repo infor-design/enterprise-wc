@@ -52,6 +52,7 @@ test.describe('IdsListBuilder tests', () => {
       if (browserName !== 'chromium') return;
       await page.goto(url);
       await page.waitForLoadState();
+      await page.waitForSelector('#id_item_20');
       await percySnapshot(page, 'ids-list-builder-light');
     });
   });
