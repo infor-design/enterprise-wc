@@ -68,7 +68,7 @@ export function stringToNumber(val?: string | number | any): number {
  */
 export function injectTemplate(str: string, obj: any): string {
   // Replace all other keys with data
-  return str.replace(/\${(.*?)}/g, (_x, g) => {
+  return str?.replace(/\${(.*?)}/g, (_x, g) => {
     let value = obj[g];
     if (value !== undefined) return value;
 
