@@ -120,29 +120,30 @@
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h2">Markup only</ids-text><br>
         <ids-tree id="tree-markup" label="Tree with Markup only">
-          <ids-tree-node id="tm-home" label="Home"></ids-tree-node>
-          <ids-tree-node id="tm-about-us" label="About Us"></ids-tree-node>
-          <ids-tree-node id="tm-public-folders" label="Public Folders">
-            <ids-tree-node id="tm-leadership" label="Leadership">
+          <ids-tree-node id="tm-home">Home</ids-tree-node>
+          <ids-tree-node id="tm-about-us">About Us</ids-tree-node>
+          <ids-tree-node id="tm-public-folders" label="Public Folders" expanded>
+            <ids-tree-node id="tm-leadership" label="Leadership" expanded>
               <ids-badge slot="badge" color="info" shape="round">5</ids-badge>
-              <ids-tree-node id="tm-leadership-2" label="Leadership 2nd"></ids-tree-node>
-              <ids-tree-node id="tm-history" disabled="true" label="History"></ids-tree-node>
-              <ids-tree-node id="tm-careers-last" label="Careers last"></ids-tree-node>
+              <ids-tree-node id="tm-leadership-2">Leadership 2nd</ids-tree-node>
+              <ids-tree-node id="tm-history" disabled="true">History</ids-tree-node>
+              <ids-tree-node id="tm-careers-last">Careers last</ids-tree-node>
             </ids-tree-node>
-            <ids-tree-node id="tm-history-2" label="History 2nd">
+            <ids-tree-node id="tm-history-2">
               <ids-badge slot="badge" color="info" shape="round">10</ids-badge>
+              History 2nd
             </ids-tree-node>
-            <ids-tree-node id="tm-careers" label="Careers"></ids-tree-node>
+            <ids-tree-node id="tm-careers">Careers</ids-tree-node>
           </ids-tree-node>
-          <ids-tree-node id="tm-icons" label="Icons" expanded="false">
-            <ids-tree-node id="tm-audio" icon="tree-audio" label="Audio"></ids-tree-node>
-            <ids-tree-node id="tm-avi" icon="tree-avi" label="Avi"></ids-tree-node>
-            <ids-tree-node id="tm-bmp" icon="tree-bmp" label="Bmp"></ids-tree-node>
-            <ids-tree-node id="tm-chart" icon="tree-chart" label="Chart"></ids-tree-node>
-            <ids-tree-node id="tm-code" icon="tree-code" label="Code"></ids-tree-node>
+          <ids-tree-node id="tm-icons" label="Icons">
+            <ids-tree-node id="tm-audio" icon="tree-audio">Audio</ids-tree-node>
+            <ids-tree-node id="tm-avi" icon="tree-avi">Avi</ids-tree-node>
+            <ids-tree-node id="tm-bmp" icon="tree-bmp">Bmp</ids-tree-node>
+            <ids-tree-node id="tm-chart" icon="tree-chart">Chart</ids-tree-node>
+            <ids-tree-node id="tm-code" icon="tree-code">Code</ids-tree-node>
           </ids-tree-node>
-          <ids-tree-node id="tm-blog" label="Blog"></ids-tree-node>
-          <ids-tree-node id="tm-contact" label="Contact"></ids-tree-node>
+          <ids-tree-node id="tm-blog">Blog</ids-tree-node>
+          <ids-tree-node id="tm-contact">Contact</ids-tree-node>
         </ids-tree>
       </ids-layout-grid-cell>
     </ids-layout-grid>
@@ -151,7 +152,7 @@
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h2">Markup Nested (alt)</ids-text><br>
         <ids-tree label="Tree with Markup only">
-          <ids-tree-node id="parent-id" label="Parent">
+          <ids-tree-node id="parent-id" label="Parent" expanded>
             <ids-tree-node id="child-id" label="Child"></ids-tree-node>
             <ids-tree-node id="another-child-id" disabled="true">Another Child</ids-tree-node>
           </ids-tree-node>
@@ -170,8 +171,11 @@
       <ids-layout-grid-cell>
         <ids-text font-size="12" type="h2">Characters and symbols (markup only)</ids-text><br>
         <ids-tree id="tree-characters-and-symbols-markup" label="Tree characters and symbols by markup only">
-          <ids-tree-node id="cs-n1" label="&lt;online onload='alert()'&gt;"></ids-tree-node>
-          <ids-tree-node id="cs-n2" label="&#33; &#34; &#35; &#36; &#37; &#38; &#39; &#40; &#41; &#42; &#43; &#44; &#45; &#46; &#47; &#161;, &#162;, &#163;, &#164;, &#165;, &#166;, &#167;, &#169;">
+          <ids-tree-node id="cs-n1">&lt;online onload="alert()"&gt;</ids-tree-node>
+          <ids-tree-node id="cs-n2">
+            &#33; &#34; &#35; &#36; &#37; &#38; &#39;
+            &#40; &#41; &#42; &#43; &#44; &#45; &#46; &#47;
+            &#161;, &#162;, &#163;, &#164;, &#165;, &#166;, &#167;, &#169;
           </ids-tree-node>
         </ids-tree>
       </ids-layout-grid-cell>

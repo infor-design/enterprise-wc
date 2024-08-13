@@ -1,7 +1,8 @@
-import treeBasicJSON from '../../../assets/data/tree-basic.json';
+import treeBasicJSON from '../../../assets/data/tree-extra-large.json';
+import IdsTree from '../ids-tree';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const treeDemo: any = document.querySelector('#tree-demo');
+document.addEventListener('DOMContentLoaded', async () => {
+  const treeDemo: any = document.querySelector<IdsTree>('#tree-demo');
 
   if (treeDemo) {
     (async function init() {

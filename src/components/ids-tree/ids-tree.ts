@@ -5,7 +5,6 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
-import IdsDataSource from '../../core/ids-data-source';
 import IdsTreeShared from './ids-tree-shared';
 import '../ids-text/ids-text';
 import '../ids-icon/ids-icon';
@@ -76,12 +75,6 @@ const Base = IdsLocaleMixin(
 @scss(styles)
 export default class IdsTree extends Base {
   /**
-   * Tree datasource.
-   * @type {object}
-   */
-  datasource: any = new IdsDataSource();
-
-  /**
    * Active node elements.
    * @type {IdsTreeActive}
    */
@@ -92,21 +85,12 @@ export default class IdsTree extends Base {
     selectedCurrent: null,
   };
 
-  #rootNodes: Array<IdsTreeNode> = [];
-
   /**
    * List of node elements attached to tree.
    * @private
    * @type {Array<object>}
    */
   #nodes: Array<any> = [];
-
-  /**
-   * The current flatten data array.
-   * @private
-   * @type {Array<IdsTreeData>}
-   */
-  nodesData: Array<IdsTreeData> = [];
 
   constructor() {
     super();
@@ -124,20 +108,6 @@ export default class IdsTree extends Base {
   }
 
   /**
-   * Set all the attached nodes to tree
-   * @private
-   * @returns {object} This API object for chaining
-   */
-  #init() {
-    this.#initIcons();
-    this.#initTabbable();
-    this.#updateSelectableMode();
-    this.#attachEventHandlers();
-
-    return this;
-  }
-
-  /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
    */
@@ -151,6 +121,7 @@ export default class IdsTree extends Base {
       attributes.ICON,
       attributes.LABEL,
       attributes.SELECTABLE,
+      attributes.SHOW_EXPAND_AND_TOGGLE_ICONS,
       attributes.TOGGLE_COLLAPSE_ICON,
       attributes.TOGGLE_EXPAND_ICON,
       attributes.TOGGLE_ICON_ROTATE,
@@ -172,13 +143,292 @@ export default class IdsTree extends Base {
   }
 
   /**
+   * Set the data array of the tree
+   * @param {Array} value The array to use
+   */
+  set data(value: Array<TreeNode>) {
+    if (Array.isArray(value)) {
+      this.redraw(value);
+      return;
+    }
+
+    this.clear();
+  }
+
+  get data(): Array<TreeNode> {
+    return this.rootNodes.map((child) => child.data);
+  }
+
+  /**
+   * Sets the tree to be expanded
+   * @param {boolean|string} value If true will set expanded attribute
+   */
+  set expanded(value: boolean | string) {
+    const treeExpanded = stringToBool(value);
+    this.toggleAttribute(attributes.EXPANDED, treeExpanded);
+    this.#traverseTree((treeNode) => {
+      if (treeNode.isGroup) treeNode.toggleAttribute(attributes.EXPANDED, treeExpanded);
+    });
+  }
+
+  get expanded(): boolean {
+    return stringToBool(this.getAttribute(attributes.EXPANDED));
+  }
+
+  /**
+   * Sets the tree group to be selectable 'single', 'multiple'
+   * @param {string | null} value The selectable
+   */
+  set selectable(value: string | null) {
+    const val = `${value}`;
+    const isValid = IdsTreeShared.SELECTABLE.indexOf(val) > -1;
+
+    if (isValid) {
+      if (val === 'none') this.unselectAll();
+      this.setAttribute(attributes.SELECTABLE, val);
+    } else {
+      this.removeAttribute(attributes.SELECTABLE);
+    }
+
+    this.#updateSelectableMode();
+  }
+
+  get selectable(): string {
+    const attrVal = this.getAttribute(attributes.SELECTABLE) ?? 'single';
+    return IdsTreeShared.SELECTABLE.includes(attrVal) ? attrVal : 'single';
+  }
+
+  /**
+   * Sets the tree node icon
+   * @param {string|null} value The icon name
+   */
+  set icon(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.ICON, value.toString());
+    } else {
+      this.removeAttribute(attributes.ICON);
+    }
+
+    this.#updateNodeAttribute(attributes.ICON, true);
+  }
+
+  get icon(): string {
+    return IdsTreeShared.getVal(this, attributes.ICON);
+  }
+
+  /**
+   * Sets the tree group collapse icon
+   * @param {string|null} value The icon name
+   */
+  set collapseIcon(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.COLLAPSE_ICON, value.toString());
+    } else {
+      this.removeAttribute(attributes.COLLAPSE_ICON);
+    }
+    this.#updateNodeAttribute(attributes.COLLAPSE_ICON);
+  }
+
+  get collapseIcon(): string | null {
+    return IdsTreeShared.getVal(this, attributes.COLLAPSE_ICON);
+  }
+
+  /**
+   * Sets the tree's expand target
+   * @param {boolean|string} value Either node or icon
+   */
+  set expandTarget(value: 'node' | 'icon' | string) {
+    if (value) {
+      this.setAttribute(attributes.EXPAND_TARGET, `${value}`);
+    } else {
+      this.removeAttribute(attributes.EXPAND_TARGET);
+    }
+    this.#updateNodeAttribute(attributes.EXPAND_TARGET);
+  }
+
+  get expandTarget(): 'node' | 'icon' | string {
+    return this.getAttribute(attributes.EXPAND_TARGET) || 'node';
+  }
+
+  /**
+   * Sets the tree group expand icon
+   * @param {string|null} value The icon name
+   */
+  set expandIcon(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.EXPAND_ICON, value.toString());
+    } else {
+      this.removeAttribute(attributes.EXPAND_ICON);
+    }
+
+    this.#updateNodeAttribute(attributes.EXPAND_ICON);
+  }
+
+  get expandIcon(): string | null {
+    return IdsTreeShared.getVal(this, attributes.EXPAND_ICON);
+  }
+
+  /**
+   * Sets the tree to disabled
+   * @param {boolean|string} value If true will set disabled attribute
+   */
+  set disabled(value: string | boolean) {
+    const isDisabled = stringToBool(value);
+    this.toggleAttribute(attributes.DISABLED, isDisabled);
+    this.container?.toggleAttribute(attributes.DISABLED, isDisabled);
+    this.rootNodes.forEach((child) => child.toggleAttribute(attributes.DISABLED, isDisabled));
+  }
+
+  get disabled(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
+
+  get rootNodes(): Array<IdsTreeNode> {
+    return [...this.querySelectorAll<IdsTreeNode>(':scope > ids-tree-node')];
+  }
+
+  get treeNodes(): Array<IdsTreeNode> {
+    return [...this.querySelectorAll<IdsTreeNode>('ids-tree-node')];
+  }
+
+  get nodesData(): Array<IdsTreeNode> {
+    return this.treeNodes;
+  }
+
+  /**
+   * Set the tree aria label text
+   * @param {string} value of the label text
+   */
+  set label(value: string) {
+    if (value) {
+      this.setAttribute(attributes.LABEL, value.toString());
+      this.container?.setAttribute('aria-label', value.toString());
+    } else {
+      this.removeAttribute(attributes.LABEL);
+      this.container?.setAttribute('aria-label', IdsTreeShared.TREE_ARIA_LABEL);
+    }
+  }
+
+  get label(): string {
+    return this.getAttribute(attributes.LABEL) || IdsTreeShared.TREE_ARIA_LABEL;
+  }
+
+  get isMultiSelect() {
+    return this.selectable === 'multiple';
+  }
+
+  /**
+   * Sets the tree to show expand and collapse icons
+   * @param {boolean} value If true will set
+   */
+  set showExpandAndToggleIcons(value: boolean) {
+    const show = stringToBool(value);
+    this.toggleAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS, show);
+    this.rootNodes.forEach((node) => node.toggleAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS, show));
+  }
+
+  /**
+   * Get the tree to show expand and collapse icons
+   * @returns {boolean} true if the tree show expand and collapse icons
+   */
+  get showExpandAndToggleIcons(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_EXPAND_AND_COLLAPSE_ICONS));
+  }
+
+  /**
+   * Sets the tree group toggle collapse icon
+   * @param {string|null} value The icon name
+   */
+  set toggleCollapseIcon(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.TOGGLE_COLLAPSE_ICON, value.toString());
+    } else {
+      this.removeAttribute(attributes.TOGGLE_COLLAPSE_ICON);
+    }
+    this.#setToggleIcon();
+  }
+
+  get toggleCollapseIcon(): string {
+    return this.getAttribute(attributes.TOGGLE_COLLAPSE_ICON) || IdsTreeShared.DEFAULTS.toggleCollapseIcon;
+  }
+
+  /**
+   * Sets the tree group toggle expand icon
+   * @param {string|null} value The icon name
+   */
+  set toggleExpandIcon(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.TOGGLE_EXPAND_ICON, value.toString());
+    } else {
+      this.removeAttribute(attributes.TOGGLE_EXPAND_ICON);
+    }
+    this.#setToggleIcon();
+  }
+
+  get toggleExpandIcon(): string {
+    return this.getAttribute(attributes.TOGGLE_EXPAND_ICON) || IdsTreeShared.DEFAULTS.toggleExpandIcon;
+  }
+
+  /**
+   * Sets the tree to use toggle icon rotate
+   * @param {boolean|string} value If false will set to use toggle icon to be false
+   */
+  set toggleIconRotate(value: boolean | string) {
+    if (IdsTreeShared.isBool(value)) {
+      this.setAttribute(attributes.TOGGLE_ICON_ROTATE, `${value}`);
+    } else {
+      this.removeAttribute(attributes.TOGGLE_ICON_ROTATE);
+    }
+  }
+
+  get toggleIconRotate(): boolean | string {
+    return IdsTreeShared.getBoolVal(this, attributes.TOGGLE_ICON_ROTATE);
+  }
+
+  /**
+   * The currently selected
+   * @returns {IdsTreeNode | null} An node object if selectable: single
+   */
+  get selected(): IdsTreeNode | null {
+    return this.treeNodes.find((node) => node.selected) ?? null;
+  }
+
+  get slotElement() {
+    return this.container?.querySelector<HTMLSlotElement>('slot');
+  }
+
+  /**
+   * An async function that fires as the node is expanding
+   * @param {Function} func The async function
+   */
+  set beforeExpanded(func: (params: any) => Promise<Array<IdsTreeNodeData>>) {
+    this.state.beforeExpanded = func;
+  }
+
+  get beforeExpanded(): () => Promise<Array<IdsTreeNodeData>> {
+    return this.state.beforeExpanded;
+  }
+
+  /**
+   * An async function that fires after the node was expanded
+   * @param {Function} func The async function
+   */
+  set afterExpanded(func: () => Promise<void>) {
+    this.state.afterExpanded = func;
+  }
+
+  get afterExpanded(): () => Promise<void> {
+    return this.state.afterExpanded;
+  }
+
+  /**
    * Collapse all attached nodes to the tree
    * @returns {void}
    */
   collapseAll() {
-    this.#nodes.filter((n: any) => n.elem.isGroup).forEach((n: any) => {
-      n.elem.expanded = false;
-    });
+    this.treeNodes
+      .filter((node) => node.isGroup)
+      .forEach((node) => node.toggleAttribute(attributes.EXPANDED, false));
   }
 
   /**
@@ -198,7 +448,7 @@ export default class IdsTree extends Base {
    */
   collapse(selector: string) {
     const node = this.getNode(selector);
-    this.#collapse(node);
+    node?.toggleAttribute(attributes.EXPANDED, false);
   }
 
   /**
@@ -208,6 +458,7 @@ export default class IdsTree extends Base {
    */
   expand(selector: string) {
     const node = this.getNode(selector);
+    node?.toggleAttribute(attributes.EXPANDED, true);
   }
 
   /**
@@ -217,8 +468,7 @@ export default class IdsTree extends Base {
    */
   toggle(selector: string) {
     const node = this.getNode(selector);
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.#toggleExpanded(node);
+    node?.toggleAttribute(attributes.EXPANDED, !node.expanded);
   }
 
   /**
@@ -228,6 +478,7 @@ export default class IdsTree extends Base {
    */
   select(selector: string) {
     const node = this.getNode(selector);
+    node?.toggleAttribute(attributes.SELECTED, true);
   }
 
   /**
@@ -237,6 +488,20 @@ export default class IdsTree extends Base {
    */
   unselect(selector: string) {
     const node = this.getNode(selector);
+    node?.toggleAttribute(attributes.SELECTED, false);
+  }
+
+  unselectAll(): void {
+    this.treeNodes.forEach((node) => node.toggleAttribute(attributes.SELECTED, false));
+  }
+
+  /**
+   * Get all child nodes of given parent
+   * @param {IdsTreeNode} parent Parent IdsTreeNode
+   * @returns {Array<IdsTreeNode>} Children IdsrootNodes
+   */
+  getAllChildNodes(parent: IdsTreeNode): Array<IdsTreeNode> {
+    return [...parent.querySelectorAll<IdsTreeNode>('ids-tree-node')];
   }
 
   /**
@@ -244,9 +509,8 @@ export default class IdsTree extends Base {
    * @param {string} selector The selector string to use
    * @returns {boolean} true, if given node is selected
    */
-  isSelected(selector: string) {
-    const node = this.getNode(selector);
-    return !!node?.elem?.isSelected;
+  isSelected(selector: string): boolean {
+    return !!this.getNode(selector)?.selected;
   }
 
   /**
@@ -256,17 +520,6 @@ export default class IdsTree extends Base {
    */
   getNode(selector: string): IdsTreeNode | null {
     return this.treeNodes.find((node) => node.matches(selector)) ?? null;
-  }
-
-  /**
-   * DEPRECATE: What is this for?
-   * Get the index's data from a given node
-   * @param {HTMLElement} node The node HTMLElement
-   * @returns {object} The node element
-   */
-  getNodeData(node: HTMLElement): IdsTreeNodeData {
-    const nodeData = this.#nodes.find((el) => el.elem === node);
-    return nodeData;
   }
 
   /**
@@ -291,6 +544,7 @@ export default class IdsTree extends Base {
         break;
       case 'child':
         node?.insertAdjacentHTML('beforeend', treeNodeHTML);
+        node?.toggleAttribute(attributes.EXPANDED, true);
         break;
       case 'bottom':
       default:
@@ -298,68 +552,9 @@ export default class IdsTree extends Base {
     }
   }
 
-  /**
-   * Initialize tree settings
-   * @private
-   * @returns {object} This API object for chaining
-   */
-  #initIcons() {
-    const collapseIcon = this.getAttribute(attributes.COLLAPSE_ICON);
-    const expandIcon = this.getAttribute(attributes.EXPAND_ICON);
-    const icon = this.getAttribute(attributes.ICON);
-    const expandTarget = this.getAttribute(attributes.EXPAND_TARGET);
-    if (collapseIcon) {
-      this.#updateNodeAttribute(attributes.COLLAPSE_ICON);
-    }
-    if (expandIcon) {
-      this.#updateNodeAttribute(attributes.EXPAND_ICON);
-    }
-    if (icon) {
-      this.#updateNodeAttribute(attributes.ICON);
-    }
-    if (expandTarget) {
-      this.#updateNodeAttribute(attributes.EXPAND_TARGET);
-    }
-    return this;
-  }
-
-  /**
-   * Initialize tabable to first focusable node as tabable
-   * @private
-   * @returns {object} This API object for chaining
-   */
-  #initTabbable() {
-    const first = this.#nodes.find((n: any) => !n.elem.disabled);
-    if (first) {
-      this.#active.current = first;
-      this.#active.current.tabbable = true;
-    }
-    return this;
-  }
-
   #updateSelectableMode() {
     const selectableMode = this.selectable;
     this.rootNodes.forEach((node) => node.setAttribute(attributes.SELECTABLE, selectableMode));
-  }
-
-  /**
-   * Initialize selection
-   * single selectable: first selected only, if end user set more than one
-   */
-  // #updateSelectableMode() {
-  //   this.#traverseTree((treeNode: IdsTreeNode) => {
-  //     treeNode.setAttribute(attributes.SELECTABLE, 'multiple');
-  //   });
-  // }
-
-  /**
-   * Get the current node element and index
-   * @private
-   * @param {HTMLElement | undefined} target The target node element
-   * @returns {object} The node element and index
-   */
-  #current(target: HTMLElement | undefined) {
-    return this.#nodes.find((n: any) => n.elem === target);
   }
 
   /**
@@ -388,16 +583,6 @@ export default class IdsTree extends Base {
     }
 
     return null;
-    // if (nextSibling instanceof IdsTreeNode && !nextSibling)
-    // if ((current.idx + 1) < len) {
-    //   return [...this.#nodes].splice(current.idx + 1).find((node) => {
-    //     if (current.elem.isGroup && !current.elem.expanded) {
-    //       return node.level === current.level;
-    //     }
-    //     return !node.elem.disabled;
-    //   });
-    // }
-    // return this.#nodes[len - 1];
   }
 
   /**
@@ -418,33 +603,35 @@ export default class IdsTree extends Base {
   }
 
   /**
-   * Get the previous node element and index
+   * Get the previous focusable IdsTreeNode
    * @private
-   * @param {object} [current] The current node.
-   * @param {HTMLElement} [current.elem] The current node element
-   * @param {number} [current.idx] The current node Index
-   * @returns {object} The previous node element and index
+   * @param {IdsTreeNode} current The current IdsTreeNode.
+   * @returns {IdsTreeNode} The previous focusable IdsTreeNode
    */
-  #previous(current: any) {
-    if ((current.idx - 1) > -1) {
-      return [...this.#nodes].slice(0, current.idx).reverse().find((node) => {
+  #previous(current: IdsTreeNode) {
+    const nodes = [...this.querySelectorAll<IdsTreeNode>('ids-tree-node')];
+    const currentIdx = nodes.indexOf(current);
+
+    if (nodes[0] !== current) {
+      return [...nodes].slice(0, currentIdx).reverse().find((node) => {
         if (node.level > current.level) {
-          const host = node.elem.getRootNode().host;
-          if (!host.expanded) {
-            return host === node.elem;
+          const parentNode = node.parentElement;
+          if (parentNode instanceof IdsTreeNode && !parentNode?.expanded) {
+            return parentNode === node;
           }
         }
-        return !node.elem.disabled;
+        return !node.disabled;
       });
     }
-    return this.#nodes[0];
+
+    return nodes[0];
   }
 
   #canProceed(eventName: string, node?: IdsTreeNode): boolean {
     let canProceed = true;
     const response = (veto: boolean) => { canProceed = veto; };
     this.triggerEvent(eventName, this, {
-      detail: { elem: this, response, node}
+      detail: { elem: this, response, node }
     });
 
     return canProceed;
@@ -463,130 +650,16 @@ export default class IdsTree extends Base {
   }
 
   /**
-   * Gets the parent node of the currently selected node.
-   * @param {HTMLElement | any} node ids-tree-node
-   * @returns {HTMLElement | any} value
-   */
-  getParentNode(node: HTMLElement | any) {
-    const value: any = [];
-    const findParentElements: HTMLElement | any = (n: HTMLElement | any) => {
-      if (
-        (n && n?.classList?.contains('ids-tree-node'))
-        || (n.elem && n?.elem?.classList?.contains('ids-tree-node'))
-      ) {
-        // value = n.getRootNode().host;
-        value.push(n.getRootNode().host);
-      } else if (n && n.parentElement) {
-        findParentElements(n.parentElement);
-        if (n.getRootNode().host?.parentElement) {
-          findParentElements(n.getRootNode().host.parentElement);
-        }
-      } else if (n.elem && n.elem.parentElement) {
-        findParentElements(n.elem.parentElement);
-      }
-    };
-
-    findParentElements(node);
-    return value;
-  }
-
-  /**
-   * Get all child nodes of given parent
-   * @param {IdsTreeNode} parent Parent IdsTreeNode
-   * @returns {Array<IdsTreeNode>} Children IdsrootNodes
-   */
-  getAllChildNodes(parent: IdsTreeNode): Array<IdsTreeNode> {
-    return parent.rootNodes;
-  }
-
-  /**
-   * Collapse the given node
-   * @private
-   * @param {object} node The target node element
-   * @returns {void}
-   */
-  #collapse(node: IdsTreeNode) {
-    if (!node.isGroup
-      || !node.expanded
-      || !this.#canProceed('beforecollapsed', node)
-    ) return;
-
-    node.toggleAttribute('expanded', false);
-    this.triggerEvent('collapsed', this, { detail: { elem: this, node } });
-  }
-
-  /**
-   * Expand the given node
-   * @private
-   * @param {object} node The target node element
-   * @returns {void}
-   */
-  async #expand(node: IdsTreeNode) {
-    if (!node.isGroup
-      || node.expanded
-      || !this.#canProceed('beforeexpanded', node)
-    ) return;
-
-    // wait and load async data
-    if (this.state.beforeExpanded && !node.hasChildren) {
-      const data = await this.state.beforeExpanded({ elem: this, node });
-      if (data) this.addNodes(data, 'child', node);
-    }
-
-    node.toggleAttribute(attributes.EXPANDED, true);
-    this.triggerEvent('expanded', this, { detail: { elem: this, node } });
-
-    // wait for any operations after expanding
-    if (this.state.afterExpanded) {
-      await this.state.afterExpanded({ elem: this, node });
-    }
-  }
-
-  /**
-   * Toggle the expand/collapse
-   * @param {IdsTreeNode} node The target node element
-   */
-  async #toggleExpanded(node: IdsTreeNode) {
-    if (!node) return;
-
-    const isExpanded = node.expanded;
-    if (isExpanded) {
-      this.#collapse(node);
-    } else {
-      await this.#expand(node);
-    }
-  }
-
-  /**
-   * An async function that fires as the node is expanding
-   * @param {Function} func The async function
-   */
-  set beforeExpanded(func: (params: any) => Promise<Array<IdsTreeNodeData>>) {
-    this.state.beforeExpanded = func;
-  }
-
-  get beforeExpanded(): () => Promise<Array<IdsTreeNodeData>> { return this.state.beforeExpanded; }
-
-  /**
-   * An async function that fires after the node was expanded
-   * @param {Function} func The async function
-   */
-  set afterExpanded(func: () => Promise<void>) {
-    this.state.afterExpanded = func;
-  }
-
-  get afterExpanded(): () => Promise<void> { return this.state.afterExpanded; }
-
-  /**
    * Set toggle icon
    * @private
    * @returns {void}
    */
   #setToggleIcon(): void {
-    this.#nodes.forEach((n: any) => {
-      if (n.isGroup) {
-        const toggleIconEl = n.elem.shadowRoot?.querySelector('.toggle-icon');
-        toggleIconEl?.setAttribute(attributes.ICON, n.elem.toggleIcon);
+    this.rootNodes.forEach((node: IdsTreeNode) => {
+      if (node.isGroup) {
+        const toggleIconEl = node.container?.querySelector('.toggle-icon');
+        toggleIconEl?.setAttribute(attributes.TOGGLE_EXPAND_ICON, this.toggleExpandIcon);
+        toggleIconEl?.setAttribute(attributes.TOGGLE_COLLAPSE_ICON, this.toggleCollapseIcon);
       }
     });
   }
@@ -598,11 +671,11 @@ export default class IdsTree extends Base {
    * @param {boolean} mustUpdate if true, will must update
    */
   #updateNodeAttribute(attr: string, mustUpdate?: boolean) {
-    this.#nodes.forEach((n: any) => {
-      const nodeVal = n.elem.getAttribute(attr);
+    this.treeNodes.forEach((node: IdsTreeNode) => {
+      const nodeVal = node.getAttribute(attr);
       const value = (this as any)[camelCase(attr)];
       if (mustUpdate || nodeVal !== value) {
-        n.elem.setAttribute(attr, value?.toString());
+        node.setAttribute(attr, value?.toString());
       }
     });
   }
@@ -621,41 +694,40 @@ export default class IdsTree extends Base {
   #attachEventHandlers(): void {
     // Set the move action with arrow keys
     const move = {
-      next: (current: any) => {
-        const next = this.#next(current);
-        if (next) {
-          this.#setFocus(next);
+      next: (current: IdsTreeNode) => {
+        const nextNode = this.#next(current);
+        if (nextNode) {
+          this.#setFocus(nextNode);
         }
       },
-      previous: (current: any) => {
-        const previous = this.#previous(current);
-        if (previous) {
-          this.#setFocus(previous);
+      previous: (current: IdsTreeNode) => {
+        const previousNode = this.#previous(current);
+        if (previousNode) {
+          this.#setFocus(previousNode);
         }
       },
-      forward: (current: any) => {
-        if (current.elem.isGroup) {
-          if (current.elem.expanded) {
-            const next = this.#nextInGroup(current);
-            this.#setFocus(next);
+      forward: (current: IdsTreeNode) => {
+        if (current.isGroup) {
+          if (current.expanded) {
+            const forwardNode = this.#nextInGroup(current);
+            this.#setFocus(forwardNode);
           } else {
-            //this.#expand(current);
+            current.toggleAttribute(attributes.EXPANDED, true);
           }
         }
       },
-      backward: (current: any) => {
-        if (current.elem.isGroup && current.elem.expanded) {
-          this.#collapse(current);
+      backward: (current: IdsTreeNode) => {
+        if (current.isGroup && current.expanded) {
+          current.toggleAttribute(attributes.EXPANDED, false);
         } else if (current.level > 1) {
-          const previous = { elem: current.elem.getRootNode().host };
+          const previous = current.parentElement as IdsTreeNode;
           this.#setFocus(previous);
         }
       }
     };
 
     this.offEvent('treenodekeydown', this);
-    this.onEvent('treenodekeydown', this, (e: any) => {
-      console.log('IDSTREE keydown', e.detail);
+    this.onEvent('treenodekeydown', this, (e: CustomEvent) => {
       e.preventDefault();
       e.stopPropagation();
       const node = e.detail.node;
@@ -688,23 +760,23 @@ export default class IdsTree extends Base {
       const allow = ['Space', 'Enter'];
       const key = e.code;
       const node = e.composedPath().find((el: any) => el.nodeName === 'IDS-TREE-NODE');
-      const nodeData = this.getNodeData(node);
       if (allow.indexOf(key) > -1) {
-        handleClick(e, nodeData);
         e.preventDefault();
         e.stopPropagation();
+        node.handleClickEvent(e);
       }
     });
 
     const slotElement = this.container?.querySelector('slot');
     this.offEvent('slotchange.tree-root', slotElement);
     this.onEvent('slotchange.tree-root', slotElement, () => {
-      console.log('IDSTREE SLOTCHANGE');
       // sync selection mode
       this.#updateSelectableMode();
 
       // sync aria levels, posinset, setsize
       this.#updateTreeArias(this.rootNodes);
+
+      this.#active.selectedCurrent = this.selected;
     });
 
     this.onEvent('expandready', this, async (evt: CustomEvent) => {
@@ -723,11 +795,8 @@ export default class IdsTree extends Base {
     this.onEvent('selected.tree-node', this, (evt: CustomEvent) => {
       if (this.selectable === 'single') {
         this.#active.selectedOld = this.#active.selectedCurrent;
-        this.#active.selectedCurrent = evt.detail.elem;
-
-        if (this.#active.selectedOld !== this.#active.selectedCurrent) {
-          this.#active.selectedOld?.toggleAttribute(attributes.SELECTED, false);
-        }
+        this.#active.selectedCurrent = evt.detail.node;
+        this.#active.selectedOld?.toggleAttribute(attributes.SELECTED, false);
       }
     });
   }
@@ -744,38 +813,11 @@ export default class IdsTree extends Base {
     });
   }
 
-  /**
-   * The currently selected
-   * @returns {IdsTreeNode | null} An node object if selectable: single
-   */
-  get selected(): IdsTreeNode | null {
-    return this.#active.selectedCurrent ?? null;
+  clear(): void {
+    this.rootNodes.forEach((node) => node.remove());
   }
 
-  /**
-   * Sets the tree group collapse icon
-   * @param {string|null} value The icon name
-   */
-  set collapseIcon(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.COLLAPSE_ICON, value.toString());
-    } else {
-      this.removeAttribute(attributes.COLLAPSE_ICON);
-    }
-    this.#updateNodeAttribute(attributes.COLLAPSE_ICON);
-  }
-
-  get collapseIcon(): string | null { return IdsTreeShared.getVal(this, attributes.COLLAPSE_ICON); }
-
-  get slotElement() {
-    return this.container?.querySelector<HTMLSlotElement>('slot');
-  }
-
-  clear() {
-    this.slotElement?.assignedElements().forEach((treeNode) => treeNode.remove());
-  }
-
-  redraw(treeData: Array<TreeNode> = []) {
+  redraw(treeData: Array<TreeNode> = []): void {
     this.clear();
     const treeHTML = treeData.map((data) => this.#buildTreeNodeHTML(data));
     this.insertAdjacentHTML('afterbegin', treeHTML.join(''));
@@ -783,6 +825,8 @@ export default class IdsTree extends Base {
 
   #buildTreeNodeHTML(n: TreeNode): string {
     const attrs: string[] = [];
+    const processed = (s: any) => (/&#?[^\s].{1,9};/g.test(s) ? unescapeHTML(s) : s);
+    const validatedText = (s: any) => escapeHTML(processed(s));
     const addAttr = (key: keyof TreeNode, useKey?: string) => {
       if (typeof n[key] !== 'undefined') {
         const value = n[key];
@@ -792,7 +836,7 @@ export default class IdsTree extends Base {
           return;
         }
 
-        const safeValue = typeof value === 'string' ? escapeHTML(value) : value;
+        const safeValue = typeof value === 'string' ? validatedText(value) : value;
         attrs.push(`${useKey || key}="${safeValue}"`);
       }
     };
@@ -805,13 +849,21 @@ export default class IdsTree extends Base {
     addAttr('disabled');
     addAttr('text', 'label');
     addAttr('icon');
+    addAttr('selected');
 
     // build children tree nodes
     let children = '';
     if (n.children) {
-      addAttr('collapseIcon');
-      addAttr('expandIcon');
       addAttr('expanded');
+
+      // set expand/collapse icons
+      attrs.push(`collapse-icon="${this.collapseIcon}"`);
+      attrs.push(`expand-icon="${this.expandIcon}"`);
+
+      if (this.showExpandAndToggleIcons) {
+        attrs.push(`toggle-collapse-icon="${this.toggleCollapseIcon}"`);
+        attrs.push(`toggle-expand-icon="${this.toggleExpandIcon}"`);
+      }
 
       // for async children
       if (n.children.length === 0) {
@@ -836,214 +888,5 @@ export default class IdsTree extends Base {
     }
 
     return `<ids-tree-node ${attrs.join(' ')}>${badgeHTML}${children}</ids-tree-node>`;
-  }
-
-  get rootNodes(): Array<IdsTreeNode> {
-    return [...this.querySelectorAll<IdsTreeNode>(':scope > ids-tree-node')];
-  }
-
-  get treeNodes(): Array<IdsTreeNode> {
-    return [...this.querySelectorAll<IdsTreeNode>('ids-tree-node')];
-  }
-
-  /**
-   * Set the data array of the tree
-   * @param {Array} value The array to use
-   */
-  set data(value: Array<TreeNode>) {
-    if (Array.isArray(value)) {
-      this.redraw(value);
-      return;
-    }
-
-    this.clear();
-  }
-
-  get data(): Array<TreeNode> {
-    return this.rootNodes.map((child) => child.data);
-  }
-
-  /**
-   * Sets the tree to disabled
-   * @param {boolean|string} value If true will set disabled attribute
-   */
-  set disabled(value: string | boolean) {
-    const isDisabled = stringToBool(value);
-    this.toggleAttribute(attributes.DISABLED, isDisabled);
-    this.container?.toggleAttribute(attributes.DISABLED, isDisabled);
-    this.rootNodes.forEach((child) => child.toggleAttribute(attributes.DISABLED, isDisabled));
-  }
-
-  get disabled(): boolean {
-    return stringToBool(this.getAttribute(attributes.DISABLED));
-  }
-
-  /**
-   * Sets the tree group expand icon
-   * @param {string|null} value The icon name
-   */
-  set expandIcon(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.EXPAND_ICON, value.toString());
-    } else {
-      this.removeAttribute(attributes.EXPAND_ICON);
-    }
-    this.#updateNodeAttribute(attributes.EXPAND_ICON);
-  }
-
-  get expandIcon(): string | null { return IdsTreeShared.getVal(this, attributes.EXPAND_ICON); }
-
-  /**
-   * Sets the tree to be expanded
-   * @param {boolean|string} value If true will set expanded attribute
-   */
-  set expanded(value: boolean | string) {
-    const treeExpanded = stringToBool(value);
-    this.toggleAttribute(attributes.EXPANDED, treeExpanded);
-
-    //this.#updateNodeAttribute(attributes.EXPANDED, true);
-  }
-
-  get expanded(): boolean | string { return IdsTreeShared.getBoolVal(this, attributes.EXPANDED); }
-
-  /**
-   * Sets the tree node icon
-   * @param {string|null} value The icon name
-   */
-  set icon(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.ICON, value.toString());
-    } else {
-      this.removeAttribute(attributes.ICON);
-    }
-
-    this.#updateNodeAttribute(attributes.ICON);
-  }
-
-  get icon(): string { return IdsTreeShared.getVal(this, attributes.ICON); }
-
-  /**
-   * Set the tree aria label text
-   * @param {string} value of the label text
-   */
-  set label(value: string) {
-    if (value) {
-      this.setAttribute(attributes.LABEL, value.toString());
-      this.container?.setAttribute('aria-label', value.toString());
-    } else {
-      this.removeAttribute(attributes.LABEL);
-      this.container?.setAttribute('aria-label', IdsTreeShared.TREE_ARIA_LABEL);
-    }
-  }
-
-  get label(): string {
-    return this.getAttribute(attributes.LABEL) || IdsTreeShared.TREE_ARIA_LABEL;
-  }
-
-  /**
-   * Sets the tree group to be selectable 'single', 'multiple'
-   * @param {string | null} value The selectable
-   */
-  set selectable(value: string | null) {
-    const val = `${value}`;
-    const isValid = IdsTreeShared.SELECTABLE.indexOf(val) > -1;
-
-    if (isValid) {
-      this.setAttribute(attributes.SELECTABLE, val);
-    } else {
-      this.removeAttribute(attributes.SELECTABLE);
-    }
-
-    this.#updateSelectableMode();
-  }
-
-  get selectable(): string {
-    const attrVal = this.getAttribute(attributes.SELECTABLE) ?? 'single';
-    return IdsTreeShared.SELECTABLE.includes(attrVal) ? attrVal : 'single';
-  }
-
-  get isMultiSelect() {
-    return this.selectable === 'multiple';
-  }
-
-  /**
-   * Sets the tree to show expand and collapse icons
-   * @param {boolean} value If true will set
-   */
-  set showExpandAndToggleIcons(value: boolean) {
-    if (IdsTreeShared.isBool(value)) {
-      this.setAttribute(attributes.SHOW_EXPAND_AND_COLLAPSE_ICONS, `${value}`);
-    } else {
-      this.removeAttribute(attributes.SHOW_EXPAND_AND_COLLAPSE_ICONS);
-    }
-  }
-
-  /**
-   * Get the tree to show expand and collapse icons
-   * @returns {boolean} true if the tree show expand and collapse icons
-   */
-  get showExpandAndToggleIcons(): boolean {
-    return IdsTreeShared.getBoolVal(this, attributes.SHOW_EXPAND_AND_COLLAPSE_ICONS);
-  }
-
-  /**
-   * Sets the tree group toggle collapse icon
-   * @param {string|null} value The icon name
-   */
-  set toggleCollapseIcon(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.TOGGLE_COLLAPSE_ICON, value.toString());
-    } else {
-      this.removeAttribute(attributes.TOGGLE_COLLAPSE_ICON);
-    }
-    this.#setToggleIcon();
-  }
-
-  get toggleCollapseIcon(): string | null { return IdsTreeShared.getVal(this, attributes.TOGGLE_COLLAPSE_ICON); }
-
-  /**
-   * Sets the tree group toggle expand icon
-   * @param {string|null} value The icon name
-   */
-  set toggleExpandIcon(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.TOGGLE_EXPAND_ICON, value.toString());
-    } else {
-      this.removeAttribute(attributes.TOGGLE_EXPAND_ICON);
-    }
-    this.#setToggleIcon();
-  }
-
-  get toggleExpandIcon(): string | null { return IdsTreeShared.getVal(this, attributes.TOGGLE_EXPAND_ICON); }
-
-  /**
-   * Sets the tree to use toggle icon rotate
-   * @param {boolean|string} value If false will set to use toggle icon to be false
-   */
-  set toggleIconRotate(value: boolean | string) {
-    if (IdsTreeShared.isBool(value)) {
-      this.setAttribute(attributes.TOGGLE_ICON_ROTATE, `${value}`);
-    } else {
-      this.removeAttribute(attributes.TOGGLE_ICON_ROTATE);
-    }
-  }
-
-  get toggleIconRotate(): boolean | string { return IdsTreeShared.getBoolVal(this, attributes.TOGGLE_ICON_ROTATE); }
-
-  /**
-   * Sets the tree's expand target
-   * @param {boolean|string} value Either node or icon
-   */
-  set expandTarget(value: 'node' | 'icon' | string) {
-    if (value) {
-      this.setAttribute(attributes.EXPAND_TARGET, `${value}`);
-    } else {
-      this.removeAttribute(attributes.EXPAND_TARGET);
-    }
-    this.#updateNodeAttribute(attributes.EXPAND_TARGET);
-  }
-
-  get expandTarget(): 'node' | 'icon' | string {
-    return this.getAttribute(attributes.EXPAND_TARGET) || 'node';
   }
 }

@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     treeTtNoIr.toggleIconRotate = false;
     treeTtNoIr.collapseIcon = 'plusminus-folder-closed';
     treeTtNoIr.expandIcon = 'plusminus-folder-open';
-    treeTtNoIr.toggleCollapseIcon = 'plusminus-folder-right';
-    treeTtNoIr.toggleExpandIcon = 'plusminus-folder-down';
+    treeTtNoIr.toggleCollapseIcon = 'closed-folder';
+    treeTtNoIr.toggleExpandIcon = 'open-folder';
 
     await getData((data: any) => {
       treeTtNoIr.data = data;
