@@ -10,45 +10,13 @@ import '../ids-text/ids-text';
 import '../ids-icon/ids-icon';
 import './ids-tree-node';
 import { type TreeNode } from './ids-tree-node';
-import IdsTreeNode from './ids-tree-node';
+import type IdsTreeNode from './ids-tree-node';
 
 import { unescapeHTML, escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-tree.scss';
 import { next } from '../../utils/ids-dom-utils/ids-dom-utils';
-
-export interface IdsTreeData {
-  /* Set the id attribute */
-  id?: string;
-  /* Sets the text label */
-  text?: string;
-  /* Sets the icon name */
-  icon?: string;
-  /* Sets if expanded */
-  expanded?: string | boolean;
-  /* Sets if disabled */
-  disabled?: string | boolean;
-  /* Sets if expanded */
-  children?: Array<IdsTreeData>;
-}
-
-export interface IdsTreeNodeData {
-  /* The Html Node/Element */
-  elem?: IdsTreeNode;
-  /* The attached data element */
-  data?: IdsTreeData;
-  /* The overal indx */
-  idx?: number;
-  /* Is it a group node */
-  isGroup?: boolean;
-  /* The tree level */
-  level?: number;
-  /* The position within the tree level */
-  posinset?: number;
-  /* The number of items with it in the set */
-  setsize?: number;
-}
 
 interface IdsTreeActive {
   old: IdsTreeNode | null;
@@ -405,11 +373,11 @@ export default class IdsTree extends Base {
    * An async function that fires as the node is expanding
    * @param {Function} func The async function
    */
-  set beforeExpanded(func: (params: any) => Promise<Array<IdsTreeNodeData>>) {
+  set beforeExpanded(func: (params: any) => Promise<Array<TreeNode>>) {
     this.state.beforeExpanded = func;
   }
 
-  get beforeExpanded(): () => Promise<Array<IdsTreeNodeData>> {
+  get beforeExpanded(): () => Promise<Array<TreeNode>> {
     return this.state.beforeExpanded;
   }
 
@@ -563,8 +531,7 @@ export default class IdsTree extends Base {
 
   /**
    * Get the next node element and index
-   * @private
-   * @param {IdsTreeNdoe} current The current node.
+   * @param {IdsTreeNode} current The current node.
    * @param {boolean} skipCurrent The current node.
    * @returns {IdsTreeNode|null} The next node element and index
    */
@@ -582,8 +549,8 @@ export default class IdsTree extends Base {
     }
 
     // navigate to parent's sibling
-    if (current.parentElement instanceof IdsTreeNode) {
-      return this.#next(current.parentElement, true);
+    if (current.parentElement?.nodeName === 'IDS-TREE-NODE') {
+      return this.#next(current.parentElement as IdsTreeNode, true);
     }
 
     return null;
@@ -619,8 +586,8 @@ export default class IdsTree extends Base {
     if (nodes[0] !== current) {
       return [...nodes].slice(0, currentIdx).reverse().find((node) => {
         if (node.level > current.level) {
-          const parentNode = node.parentElement;
-          if (parentNode instanceof IdsTreeNode && !parentNode?.expanded) {
+          const parentNode = node.parentElement as IdsTreeNode;
+          if (parentNode?.nodeName === 'IDS-TREE-NODE' && !parentNode?.expanded) {
             return parentNode === node;
           }
         }
