@@ -333,7 +333,7 @@ test.describe('IdsListView tests', () => {
       await expect(liNo3).toBeFocused();
     });
 
-    test('can use arrow keys to navigate', async ({ page }) => {
+    test('can use arrow keys to navigate list after an item was selected', async ({ page }) => {
       let focusedItem;
       const lvItem = await page.locator('ids-list-view-item[row-index="1"]');
       await lvItem.click();
@@ -341,11 +341,12 @@ test.describe('IdsListView tests', () => {
       await expect(focusedItem).toContainText('Dentist');
       await page.keyboard.press('ArrowUp');
       focusedItem = await page.locator('ids-list-view-item[tabindex="0"] ids-text').first();
-      await expect(focusedItem).toContainText('Dentist'); // can't use arrow up.
+      await expect(focusedItem).toContainText('Discretionary'); // can't use arrow up.
       await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter');
       focusedItem = await page.locator('ids-list-view-item[tabindex="0"] ids-text').first();
-      await expect(focusedItem).toContainText('Team Meeting'); // can't use arrow up.
+      await expect(focusedItem).toContainText('Dentist'); // can't use arrow up.
+      await page.keyboard.press('ArrowDown');
       // Does nothing just the bounds case
       await page.keyboard.press('ArrowLeft');
       focusedItem = await page.locator('ids-list-view-item[tabindex="0"] ids-text').first();
@@ -353,6 +354,65 @@ test.describe('IdsListView tests', () => {
       await page.keyboard.press('Space');
       focusedItem = await page.locator('ids-list-view-item[tabindex="0"] ids-text').first();
       await expect(focusedItem).toContainText('Team Meeting');
+    });
+
+    test('can use arrow keys to navigate focused list view rendered from data', async ({ page }) => {
+      const listView = await page.locator('ids-list-view');
+      const focusableItem = await page.locator('ids-list-view-item[tabindex="0"]');
+      await focusableItem.focus();
+      await page.keyboard.press('ArrowDown');
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-2');
+      await expect(focusableItem).toHaveId('id-2');
+      await page.keyboard.press('ArrowUp');
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-1');
+      await expect(focusableItem).toHaveId('id-1');
+      // should not pass through the first item
+      await page.keyboard.press('ArrowUp');
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-1');
+      await expect(focusableItem).toHaveId('id-1');
+
+      // should not pass through the last item
+      const lastItem = await page.locator('#id-77');
+      await lastItem.click();
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-77');
+      await expect(focusableItem).toHaveId('id-77');
+      await page.keyboard.press('ArrowDown');
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-77');
+      await expect(focusableItem).toHaveId('id-77');
+    });
+
+    test('can use arrow keys to navigate focused list view with slotted items', async ({ page }) => {
+      await page.goto('/ids-list-view/list-view-items.html');
+      const listView = await page.locator('ids-list-view');
+      const focusableItem = await page.locator('ids-list-view-item[tabindex="0"]');
+      await focusableItem.focus();
+      await page.keyboard.press('ArrowDown');
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-2');
+      await expect(focusableItem).toHaveId('id-2');
+
+      // should skip disabled item (id-3)
+      await page.keyboard.press('ArrowDown');
+      expect(await listView.evaluate((elem: IdsListView) => elem?.body?.getAttribute('aria-activedescendant'))).toBe('id-4');
+      await expect(focusableItem).toHaveId('id-4');
+    });
+
+    test('can generate ids for list view items rendered from data', async ({ page }) => {
+      const listView = await page.locator('ids-list-view');
+      const items = await listView.evaluate((elem: IdsListView) => ({
+        ids: elem?.items?.map((item) => item.id),
+        expected: elem?.items?.map((item, index) => `id-${index + 1}`)
+      }));
+      expect(items.ids).toEqual(items.expected);
+    });
+
+    test('can generate ids for list view slotted items', async ({ page }) => {
+      await page.goto('/ids-list-view/list-view-items.html');
+      const listView = await page.locator('ids-list-view');
+      const items = await listView.evaluate((elem: IdsListView) => ({
+        ids: elem?.items?.map((item) => item.id),
+        expected: elem?.items?.map((item, index) => `id-${index + 1}`)
+      }));
+      expect(items.ids).toEqual(items.expected);
     });
 
     test.skip('can single select with keyboard', async ({ page }) => {
