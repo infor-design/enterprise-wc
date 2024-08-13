@@ -389,7 +389,11 @@ export default class IdsTree extends Base {
    * The currently selected
    * @returns {IdsTreeNode | null} An node object if selectable: single
    */
-  get selected(): IdsTreeNode | null {
+  get selected(): IdsTreeNode | Array<IdsTreeNode> | null {
+    if (this.selectable === 'multiple') {
+      return [...this.querySelectorAll<IdsTreeNode>('ids-tree-node[selected]')];
+    }
+
     return this.treeNodes.find((node) => node.selected) ?? null;
   }
 
@@ -627,16 +631,6 @@ export default class IdsTree extends Base {
     return nodes[0];
   }
 
-  #canProceed(eventName: string, node?: IdsTreeNode): boolean {
-    let canProceed = true;
-    const response = (veto: boolean) => { canProceed = veto; };
-    this.triggerEvent(eventName, this, {
-      detail: { elem: this, response, node }
-    });
-
-    return canProceed;
-  }
-
   /**
    * Set the focus to given node, and set as active node
    * @param {object} node The target node element
@@ -776,7 +770,8 @@ export default class IdsTree extends Base {
       // sync aria levels, posinset, setsize
       this.#updateTreeArias(this.rootNodes);
 
-      this.#active.selectedCurrent = this.selected;
+      // set selected current
+      this.#active.selectedCurrent = this.treeNodes.find((node) => node.selected) ?? null;
     });
 
     this.onEvent('expandready', this, async (evt: CustomEvent) => {
@@ -857,8 +852,8 @@ export default class IdsTree extends Base {
       addAttr('expanded');
 
       // set expand/collapse icons
-      attrs.push(`collapse-icon="${this.collapseIcon}"`);
-      attrs.push(`expand-icon="${this.expandIcon}"`);
+      attrs.push(`collapse-icon="${n.collapseIcon ?? this.collapseIcon}"`);
+      attrs.push(`expand-icon="${n.expandIcon ?? this.expandIcon}"`);
 
       if (this.showExpandAndToggleIcons) {
         attrs.push(`toggle-collapse-icon="${this.toggleCollapseIcon}"`);

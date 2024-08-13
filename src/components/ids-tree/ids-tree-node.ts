@@ -39,8 +39,11 @@ export type TreeNode = {
   children?: Array<TreeNode>;
   /* IdsBadge config */
   badge?: TreeNodeBadge;
+  /** Sets selected state */
   selected?: boolean;
+  /** Sets collapse icon */
   collapseIcon?: string;
+  /** Sets expand icon */
   expandIcon?: string;
 };
 
@@ -114,6 +117,10 @@ export default class IdsTreeNode extends Base {
     ];
   }
 
+  get elem(): IdsTreeNode {
+    return this;
+  }
+
   get iconElement(): IdsIcon | null {
     return this.container?.querySelector<IdsIcon>('.icon') ?? null;
   }
@@ -135,14 +142,23 @@ export default class IdsTreeNode extends Base {
   }
 
   get data(): TreeNode {
-    return {
+    const nodeData: Partial<TreeNode> = {
       id: this.id,
       text: this.label,
-      icon: this.icon || undefined,
+      icon: this.icon,
+      expandIcon: this.expandIcon,
+      collapseIcon: this.collapseIcon,
       expanded: this.expanded,
       disabled: this.disabled,
-      children: this.slottedTreeNodes.map((child) => child.data)
+      selected: this.selected
     };
+
+    // only append children property if has children os is async parent
+    if (this.isAsyncParent || this.hasChildren) {
+      nodeData.children = this.slottedTreeNodes.map((child) => child.data);
+    }
+
+    return nodeData;
   }
 
   get treeElem(): IdsTree | null {
