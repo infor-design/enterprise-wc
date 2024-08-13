@@ -198,10 +198,15 @@ export default class IdsTreeNode extends Base {
     const selected = `${this.isSelected ? ' selected' : ''}`;
     const expanded = `${this.expanded ? 'expanded' : ''}`;
     const nodeIcon = this.isGroup ? this.expandCollapseIcon : this.icon;
+    const toggleExpandCollapseIcon = this.toggleExpandCollapseIcon;
+    const toggleIcon = this.showExpandAndToggleIcons
+      ? `<ids-icon class="toggle-icon" part="toggle-icon" icon="${toggleExpandCollapseIcon}"></ids-icon>`
+      : '';
 
     return `<div class="ids-tree-node ${expanded}" role="none" ${disabled} ${selected}>
       <span class="node-container" part="node-container" role="treeitem" tabindex="0">
         <ids-icon class="icon" part="icon" icon="${nodeIcon}"></ids-icon>
+        ${toggleIcon}
         <slot name="badge" class="badge"></slot>
         <ids-text class="text" part="text">${this.label}</ids-text>
       </span>
@@ -353,6 +358,10 @@ export default class IdsTreeNode extends Base {
 
       this.#updateSelectableMode();
       this.updateTreeArias();
+
+      if (this.showExpandAndToggleIcons) {
+        this.slottedTreeNodes.forEach((node) => node.toggleAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS), true);
+      }
     });
 
     this.onEvent('keydown', this, (evt: KeyboardEvent) => {
@@ -635,6 +644,8 @@ export default class IdsTreeNode extends Base {
     } else {
       this.removeAttribute(attributes.TOGGLE_EXPAND_ICON);
     }
+
+    this.#updateToggleIcons();
   }
 
   get toggleExpandIcon(): string {
@@ -647,6 +658,8 @@ export default class IdsTreeNode extends Base {
     } else {
       this.removeAttribute(attributes.TOGGLE_COLLAPSE_ICON);
     }
+
+    this.#updateToggleIcons();
   }
 
   get toggleCollapseIcon(): string {

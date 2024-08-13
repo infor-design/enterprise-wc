@@ -292,7 +292,7 @@ export default class IdsTree extends Base {
   set showExpandAndToggleIcons(value: boolean) {
     const show = stringToBool(value);
     this.toggleAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS, show);
-    this.rootNodes.forEach((node) => node.toggleAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS, show));
+    this.#updateNodeAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS, true);
   }
 
   /**
@@ -300,7 +300,7 @@ export default class IdsTree extends Base {
    * @returns {boolean} true if the tree show expand and collapse icons
    */
   get showExpandAndToggleIcons(): boolean {
-    return stringToBool(this.getAttribute(attributes.SHOW_EXPAND_AND_COLLAPSE_ICONS));
+    return stringToBool(this.getAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS));
   }
 
   /**
@@ -349,8 +349,8 @@ export default class IdsTree extends Base {
     }
   }
 
-  get toggleIconRotate(): boolean | string {
-    return IdsTreeShared.getBoolVal(this, attributes.TOGGLE_ICON_ROTATE);
+  get toggleIconRotate(): boolean {
+    return stringToBool(this.getAttribute(attributes.TOGGLE_ICON_ROTATE));
   }
 
   /**
@@ -823,8 +823,9 @@ export default class IdsTree extends Base {
       attrs.push(`expand-icon="${n.expandIcon ?? this.expandIcon}"`);
 
       if (this.showExpandAndToggleIcons) {
-        attrs.push(`toggle-collapse-icon="${this.toggleCollapseIcon}"`);
-        attrs.push(`toggle-expand-icon="${this.toggleExpandIcon}"`);
+        attrs.push(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS);
+        attrs.push(`${attributes.TOGGLE_COLLAPSE_ICON}="${this.toggleCollapseIcon}"`);
+        attrs.push(`${attributes.TOGGLE_EXPAND_ICON}="${this.toggleExpandIcon}"`);
       }
 
       // for async children
