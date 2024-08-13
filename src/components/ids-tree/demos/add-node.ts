@@ -1,6 +1,7 @@
 import '../../ids-menu-button/ids-menu-button';
 import treeBasicJSON from '../../../assets/data/tree-basic.json';
-import IdsTree, { IdsTreeData } from '../ids-tree';
+import IdsTree from '../ids-tree';
+import IdsTreeNode, { IdsTreeNodeData } from '../ids-tree-node';
 
 document.addEventListener('DOMContentLoaded', () => {
   const treeElem = document.querySelector<IdsTree>('#tree-demo');
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }());
   }
 
-  const newSingleNode = (): Array<IdsTreeData> => {
+  const newSingleNode = (): Array<IdsTreeNodeData> => {
     const singleNode = [
       {
         id: 'newa',
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return singleNode;
   };
 
-  const newMultiNode = (): Array<IdsTreeData> => {
+  const newMultiNode = (): Array<IdsTreeNodeData> => {
     const multiNode = [
       {
         id: 'newb',
@@ -72,13 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
         treeElem!.addNodes(nodes, 'bottom');
       }
       if (value === 'before') {
-        treeElem!.addNodes(nodes, 'before', treeElem!.selected);
+        treeElem!.addNodes(nodes, 'before', treeElem!.selected as IdsTreeNode);
       }
       if (value === 'after') {
-        treeElem!.addNodes(nodes, 'after', treeElem!.selected);
+        treeElem!.addNodes(nodes, 'after', treeElem!.selected as IdsTreeNode);
       }
       if (value === 'child') {
-        treeElem!.addNodes(nodes, 'child', treeElem!.selected);
+        treeElem!.addNodes(nodes, 'child', treeElem!.selected as IdsTreeNode);
       }
     }
   };

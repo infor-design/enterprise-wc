@@ -9,7 +9,7 @@ import IdsTreeShared from './ids-tree-shared';
 import '../ids-text/ids-text';
 import '../ids-icon/ids-icon';
 import './ids-tree-node';
-import { type TreeNode } from './ids-tree-node';
+import { type IdsTreeNodeData } from './ids-tree-node';
 import type IdsTreeNode from './ids-tree-node';
 
 import { unescapeHTML, escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
@@ -114,7 +114,7 @@ export default class IdsTree extends Base {
    * Set the data array of the tree
    * @param {Array} value The array to use
    */
-  set data(value: Array<TreeNode>) {
+  set data(value: Array<IdsTreeNodeData>) {
     if (Array.isArray(value)) {
       this.redraw(value);
       return;
@@ -123,7 +123,7 @@ export default class IdsTree extends Base {
     this.clear();
   }
 
-  get data(): Array<TreeNode> {
+  get data(): Array<IdsTreeNodeData> {
     return this.rootNodes.map((child) => child.data);
   }
 
@@ -373,11 +373,11 @@ export default class IdsTree extends Base {
    * An async function that fires as the node is expanding
    * @param {Function} func The async function
    */
-  set beforeExpanded(func: (params: any) => Promise<Array<TreeNode>>) {
+  set beforeExpanded(func: (params: any) => Promise<Array<IdsTreeNodeData>>) {
     this.state.beforeExpanded = func;
   }
 
-  get beforeExpanded(): () => Promise<Array<TreeNode>> {
+  get beforeExpanded(): () => Promise<Array<IdsTreeNodeData>> {
     return this.state.beforeExpanded;
   }
 
@@ -496,12 +496,12 @@ export default class IdsTree extends Base {
 
   /**
    * Add more node data into the tree
-   * @param {Array<TreeNode>} nodeData The selector string to use
+   * @param {Array<IdsTreeNodeData>} nodeData The selector string to use
    * @param {string} location The location where to add the data
    * @param {IdsTreeNode} node The option HtmlElement to connect before and after to
    * @returns {void}
    */
-  addNodes(nodeData: Array<TreeNode>, location?: 'bottom' | 'top' | 'before' | 'after' | 'child', node?: IdsTreeNode): void {
+  addNodes(nodeData: Array<IdsTreeNodeData>, location?: 'bottom' | 'top' | 'before' | 'after' | 'child', node?: IdsTreeNode): void {
     const treeNodeHTML = nodeData.reduce((tmpl, data) => tmpl + this.#buildTreeNodeHTML(data), '');
 
     switch (location) {
@@ -779,17 +779,17 @@ export default class IdsTree extends Base {
     this.rootNodes.forEach((node) => node.remove());
   }
 
-  redraw(treeData: Array<TreeNode> = []): void {
+  redraw(treeData: Array<IdsTreeNodeData> = []): void {
     this.clear();
     const treeHTML = treeData.map((data) => this.#buildTreeNodeHTML(data));
     this.insertAdjacentHTML('afterbegin', treeHTML.join(''));
   }
 
-  #buildTreeNodeHTML(n: TreeNode): string {
+  #buildTreeNodeHTML(n: IdsTreeNodeData): string {
     const attrs: string[] = [];
     const processed = (s: any) => (/&#?[^\s].{1,9};/g.test(s) ? unescapeHTML(s) : s);
     const validatedText = (s: any) => escapeHTML(processed(s));
-    const addAttr = (key: keyof TreeNode, useKey?: string) => {
+    const addAttr = (key: keyof IdsTreeNodeData, useKey?: string) => {
       if (typeof n[key] !== 'undefined') {
         const value = n[key];
 

@@ -24,7 +24,7 @@ export type TreeNodeBadge = {
   icon?: string;
 };
 
-export type TreeNode = {
+export type IdsTreeNodeData = {
   /* Set the id attribute */
   id?: string;
   /* Sets the text label */
@@ -36,7 +36,7 @@ export type TreeNode = {
   /* Sets if disabled */
   disabled?: string | boolean;
   /* Sets if expanded */
-  children?: Array<TreeNode>;
+  children?: Array<IdsTreeNodeData>;
   /* IdsBadge config */
   badge?: TreeNodeBadge;
   /** Sets selected state */
@@ -141,8 +141,8 @@ export default class IdsTreeNode extends Base {
     return [...this.querySelectorAll<IdsTreeNode>(':scope > ids-tree-node')];
   }
 
-  get data(): TreeNode {
-    const nodeData: Partial<TreeNode> = {
+  get data(): IdsTreeNodeData {
+    const nodeData: Partial<IdsTreeNodeData> = {
       id: this.id,
       text: this.label,
       icon: this.icon,
