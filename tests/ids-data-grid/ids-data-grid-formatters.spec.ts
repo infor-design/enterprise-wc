@@ -1218,5 +1218,11 @@ test.describe('IdsDataGrid formatters tests', () => {
 
       expect(rendered).toMatchSnapshot();
     });
+
+    test('can render dropdown values with no options', async ({ page }) => {
+      await page.goto('/ids-data-grid/editable-empty-options.html');
+      expect(await page.locator('ids-data-grid ids-data-grid-cell').nth(1).textContent()).toContain('Administration');
+      expect(await page.locator('ids-data-grid ids-data-grid-cell').nth(3).textContent()).toContain('Manager');
+    });
   });
 });

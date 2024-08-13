@@ -103,6 +103,9 @@
     description: Shows a data grid with ability to add rows
   - link: editable.html
     type: Example
+    description: Shows a data grid with an empty dropdown
+  - link: editable-empty-options.html
+    type: Example
     description: Shows a data grid with editable cells
   - link: editable-lookup.html
     type: Example

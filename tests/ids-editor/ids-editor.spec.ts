@@ -198,7 +198,7 @@ test.describe('IdsEditor tests', () => {
       const container = await idsEditor.locator('div.ids-editor').first();
       const textarea = await idsEditor.locator('#source-textarea').first();
       const label = await idsEditor.locator('#editor-label').first();
-      const contentEditable = await idsEditor.locator('#editor-container').first();
+      const contentEditable = await idsEditor.locator('.editor-container').first();
       const editorLinks = await contentEditable.locator('a').all();
 
       expect(await idsEditor.evaluate((element: IdsEditor) => element.disabled)).toBeFalsy();
@@ -388,7 +388,7 @@ test.describe('IdsEditor tests', () => {
       const container = await idsEditor.locator('div.ids-editor').first();
       const textarea = await idsEditor.locator('#source-textarea').first();
       const label = await idsEditor.locator('#editor-label').first();
-      const contentEditable = await idsEditor.locator('#editor-container').first();
+      const contentEditable = await idsEditor.locator('.editor-container').first();
 
       expect(await idsEditor.evaluate((element: IdsEditor) => element.readonly)).toBeFalsy();
       await expect(idsEditor).not.toHaveAttribute('readonly');
@@ -506,7 +506,7 @@ test.describe('IdsEditor tests', () => {
         element.addEventListener('paste', () => { (<any>window).pasteTriggered = true; });
         element.pasteAsPlainText = true;
       });
-      const textarea = await idsEditor.locator('#editor-container').first();
+      const textarea = await idsEditor.locator('.editor-container').first();
       const textToCopy = '<h1>test1234567890</h1>';
       await expect(textarea).not.toContainText(textToCopy);
       await textarea.clear();
@@ -523,7 +523,7 @@ test.describe('IdsEditor tests', () => {
         (<any>window).pasteTriggered = false;
         element.addEventListener('paste', () => { (<any>window).pasteTriggered = true; });
       });
-      const textarea = await idsEditor.locator('#editor-container').first();
+      const textarea = await idsEditor.locator('.editor-container').first();
       const textToCopy = '<h1>test1234567890</h1>';
       const textNoTags = textToCopy.replaceAll(/<[^>]*>/g, '');
       await expect(textarea).not.toContainText(textToCopy);
@@ -544,11 +544,11 @@ test.describe('IdsEditor tests', () => {
         return element.dirtyTracker;
       })).toBeTruthy();
       await expect(idsEditor).toHaveAttribute('dirty-tracker', 'true');
-      await idsEditor.locator('#editor-container').first().fill('another test');
+      await idsEditor.locator('.editor-container').first().fill('another test');
       await expect(idsEditor.locator('ids-icon.icon-dirty')).toBeAttached();
     });
 
-    test('setting text in textarea', async ({ page }) => {
+    test('supports setting text in textarea', async ({ page }) => {
       const htmlTextareaHandle = await page.locator('ids-editor #source-textarea').first();
 
       // switch to html editor
@@ -563,6 +563,25 @@ test.describe('IdsEditor tests', () => {
       await page.locator('ids-editor ids-button[editor-action="editormode"]').first().click();
 
       await expect(await page.getByText('Test this is stored')).toBeVisible();
+    });
+
+    test('supports text with value in textarea', async ({ page }) => {
+      const editor = await page.locator('ids-editor').first();
+      expect(await editor.evaluate((element: IdsEditor) => element.value)).toContain('ecologies paradigms');
+
+      await page.evaluate(() => {
+        document.querySelector<IdsEditor>('ids-editor')!.value = 'Test New Contents';
+      });
+
+      expect(await editor.evaluate((element: IdsEditor) => element.value)).toBe('Test New Contents');
+    });
+
+    test('avoids having duplicate ids in the page', async ({ page }) => {
+      await page.goto('/ids-editor/multiple-editors.html');
+      const cnt = await page.evaluate(() => [document.querySelectorAll('ids-editor')!.length, document.querySelectorAll('#ids-editor')!.length]);
+
+      expect(cnt[0]).toBe(2);
+      expect(cnt[1]).toBe(0);
     });
   });
 });

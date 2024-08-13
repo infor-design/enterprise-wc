@@ -20,10 +20,16 @@
 
     ids-input {
       &::part(input) {
-        background-color: var(--ids-list-builder-color-background);
-        border-width: var(--ids-list-builder-border-width);
+        background-color: var(--ids-list-builder-item-color-background-placeholder);
+        border: none;
+        box-shadow: none;
         height: var(--ids-list-builder-input-height);
         padding: var(--ids-list-builder-input-padding);
+        user-select: none;
+
+        &::selection {
+          background: var(--ids-list-builder-edit-color-background);
+        }
       }
 
       &::part(field-container) {
@@ -34,6 +40,13 @@
 }
 
 :host {
+  --ids-swappable-item-padding-block: 0;
+  --ids-swappable-item-height: 38px;
+  --ids-list-builder-item-padding: 12px 2px;
+  --ids-list-view-color-background-selected: transparent;
+  --ids-list-view-item-shadow-focus: none;
+  --ids-input-color-border-shadow: none;
+
   ids-list-view-item {
     border: var(--ids-list-builder-item-border);
     padding: var(--ids-list-builder-item-padding);
@@ -43,10 +56,12 @@
     box-sizing: border-box;
     cursor: pointer;
     position: relative;
+    top: -5px;
     width: 100%;
 
     &[selected] {
       background: transparent;
+      box-shadow: none;
     }
 
     &:hover span::after {

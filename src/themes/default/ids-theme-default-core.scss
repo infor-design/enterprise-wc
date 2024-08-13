@@ -768,6 +768,7 @@
   --ids-editor-source-padding-inline: var(--ids-space-sm);
   --ids-editor-source-textarea-font-line-height: var(--ids-line-height-30);
   --ids-editor-source-textarea-outline: var(--ids-space-none);
+  --ids-editor-color-text-placeholder: var(--ids-color-foreground-default-disabled);
 
   // Empty Message
   --ids-empty-message-icon-color: var(--ids-color-gray-60);
@@ -976,20 +977,19 @@
   // List Builder
   --ids-list-builder-border: 1px solid var(--ids-color-gray-40);
   --ids-list-builder-border-radius: var(--ids-border-radius-xxs);
-  --ids-list-builder-color-background: rgba(71 71 76 / 0.3);
-  --ids-list-builder-border-width: 0;
   --ids-list-builder-input-height: var(--ids-size-10);
+  --ids-list-builder-edit-color-background: var(--ids-color-accent-blue-strong);
   --ids-list-builder-input-text-color: var(--ids-color-white-100);
   --ids-list-builder-input-padding: var(--ids-space-none);
   --ids-list-builder-item-border: 1px solid transparent;
   --ids-list-builder-item-padding: var(--ids-space-12) var(--ids-space-20);
-  --ids-list-builder-item-height: var(--ids-size-50);
+  --ids-list-builder-item-height: 38px;
   --ids-list-builder-item-line-height: 23px;
-  --ids-list-builder-item-height-min: var(--ids-size-40);
+  --ids-list-builder-item-height-min: 38px;
   --ids-list-builder-drag-content: '\205e';
   --ids-list-builder-item-cursor-drag: move;
   --ids-list-builder-item-font-size-drag: var(--ids-font-size-60);
-  --ids-list-builder-item-color-background-placeholder: var(--ids-color-blue-10);
+  --ids-list-builder-item-color-background-placeholder: var(--ids-color-accent-blue-strong);
   --ids-list-builder-item-placeholder-opacity: 0.6;
 
   // List View

@@ -375,7 +375,7 @@ class IdsLocale {
    * @param {object} [options] the objects to use for formatting
    * @returns {string} the formatted number
    */
-  formatNumber(value: any, options?: IdsLocaleNumberOptions): string {
+  formatNumber(value: any, options?: IdsLocaleNumberOptions | any): string {
     // Set some options to map it closer to our old defaults
     let opts = options;
     let val = value;
