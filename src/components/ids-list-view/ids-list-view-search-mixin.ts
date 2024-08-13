@@ -13,6 +13,16 @@ type SearchItem = string | HTMLElement | object;
 type SearchFilterModes = string | null | 'contains' | 'keyword' | 'phrase-starts-with' | 'word-starts-with';
 
 const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class extends superclass {
+  /**
+   * Possible Filter Modes
+   */
+  searchFilterModes = {
+    CONTAINS: 'contains',
+    KEYWORD: 'keyword',
+    PHRASE_STARTS_WITH: 'phrase-starts-with',
+    WORD_STARTS_WITH: 'word-starts-with'
+  };
+
   constructor(...args: any[]) {
     super(...args);
   }
@@ -34,16 +44,6 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
   }
 
   /**
-   * Possible Filter Modes
-   */
-  searchFilterModes = {
-    CONTAINS: 'contains',
-    KEYWORD: 'keyword',
-    PHRASE_STARTS_WITH: 'phrase-starts-with',
-    WORD_STARTS_WITH: 'word-starts-with'
-  };
-
-  /**
    * Search filter callback, use for custom filter to match
    */
   searchFilterCallback: null | ((term: string) => ((item: SearchItem) => boolean)) = null;
@@ -56,7 +56,7 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
   /**
    * Current search term
    */
-  #term = '';
+  searchTerm = '';
 
   /**
    * Get search container element
@@ -187,7 +187,7 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
    * @returns {void}
    */
   resetSearch(): void {
-    this.#term = '';
+    this.searchTerm = '';
     const lv = this as unknown as IdsListView;
     if (!lv.datasource?.filtered) return;
 
@@ -320,9 +320,9 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
     }
 
     // Avoid multiple runs if the search term is the same
-    if (this.#term === term) return;
+    if (this.searchTerm === term) return;
 
-    this.#term = term;
+    this.searchTerm = term;
 
     // Make search term lowercase if the search is not case-senstive
     if (!this.searchTermCaseSensitive) {
@@ -387,7 +387,7 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
    * @returns {string} search term highlight
    */
   searchHighlight(item: string | HTMLElement | object, fulltext : string | null = null): string | HTMLElement | object {
-    if (this.suppressHighlight || !item || this.#term === '') return item;
+    if (this.suppressHighlight || !item || !this.searchTerm || this.searchTerm === '') return item;
 
     // Set regex according to search filter mode
     let regex: any = null;
@@ -396,21 +396,21 @@ const IdsListViewSearchMixin = <T extends Constraints>(superclass: T) => class e
     const replaceTmpl = (matched: string) => `<strong class="highlight">${matched}</strong>`;
     let replaceMatch = (s: string) => s.replace(regex, replaceTmpl);
     if (this.searchFilterMode === modes.WORD_STARTS_WITH) {
-      regex = new RegExp(`(^|\\s)(${this.#term})`, flag);
+      regex = new RegExp(`(^|\\s)(${this.searchTerm})`, flag);
       replaceMatch = (s: string) => s.replace(regex, (m: string) => (
-        m.replace(new RegExp(`(${this.#term})`, flag), replaceTmpl)
+        m.replace(new RegExp(`(${this.searchTerm})`, flag), replaceTmpl)
       ));
     } else if (this.searchFilterMode === modes.PHRASE_STARTS_WITH) {
-      regex = new RegExp(`^(${this.#term})`, flag);
+      regex = new RegExp(`^(${this.searchTerm})`, flag);
     } else if ((this.searchFilterMode === modes.CONTAINS)
       || (this.searchFilterMode === modes.KEYWORD)) {
-      regex = new RegExp(`(${this.#term})`, flag);
+      regex = new RegExp(`(${this.searchTerm})`, flag);
     }
 
     // No need to go further if regex is null
     if (!regex) return item;
 
-    let term = this.#term;
+    let term = this.searchTerm;
     let text = fulltext || this.#searchableContent(item);
     let cloneItem = deepClone(item);
 
