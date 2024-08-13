@@ -1183,6 +1183,7 @@ export default class IdsDropdown extends Base {
   #templateListBoxOption(option: IdsDropdownOption): string {
     return `<ids-list-box-option
       ${this.#isMultiSelect ? 'class="multiselect-option multiselect-loaded"' : ''}
+      ${!this.#isMultiSelect && option.icon ? 'class="icon-option"' : ''}
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
       ${option.tooltip ? `tooltip="${option.tooltip}"` : ''}
@@ -1407,6 +1408,7 @@ export default class IdsDropdown extends Base {
       this.setOptionsData();
     } else {
       this.removeAttribute(attributes.TYPEAHEAD);
+      this.input?.setAttribute(attributes.READONLY, 'true');
     }
 
     this.container?.classList.toggle('typeahead', val);
