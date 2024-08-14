@@ -273,28 +273,13 @@ export default class IdsCard extends Base {
     if (!this.container) return;
 
     const currentPosition = this.container.getBoundingClientRect();
-    const { x: translateX, y: translateY } = currentPosition;
-
-    let dropElementX = 0;
-    let dropElementY = 0;
-    let maxDropElementX = 0;
-    let maxDropElementY = 0;
 
     // If dropped target element is present, get the position of the dropped element
-    if (this.droppedTargetElement) {
-      const rects = this.droppedTargetElement.getBoundingClientRect();
-      dropElementX = rects.x;
-      dropElementY = rects.y;
-      maxDropElementX = rects.x + rects.width;
-      maxDropElementY = rects.y + rects.height;
-    }
-
-    this.removeAttribute(attributes.IS_DRAGGING);
-    this.container?.classList?.remove('is-dragging');
+    const dropEleRect = this?.droppedTargetElement?.getBoundingClientRect();
 
     // If the card is not dropped in the target element, reset the card position
-    const xAxisValid = translateX >= dropElementX && translateX <= maxDropElementX;
-    const yAxisValid = translateY >= dropElementY && translateY <= maxDropElementY;
+    const xAxisValid = currentPosition?.left >= (dropEleRect?.left || 0) && currentPosition?.right <= (dropEleRect?.right || 0);
+    const yAxisValid = currentPosition?.bottom >= (dropEleRect?.top || 0) && currentPosition.top <= (dropEleRect?.bottom || 0);
 
     let resetPosition = false;
     if (!this.droppedTargetElement || !xAxisValid || !yAxisValid) {
@@ -306,6 +291,9 @@ export default class IdsCard extends Base {
       resetPosition = this.#isOverlapping();
     }
 
+    this.removeAttribute(attributes.IS_DRAGGING);
+    this.container?.classList?.remove('is-dragging');
+
     if (resetPosition) {
       this.style.transform = `translate(0px, 0px)`;
 
@@ -314,6 +302,7 @@ export default class IdsCard extends Base {
         this.#clonedCard = null;
       }
 
+      this.container?.classList?.remove('is-overlapping');
       this.removeAttribute(attributes.DROPPED);
       this.#removePosition();
       return;
