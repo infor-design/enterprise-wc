@@ -29,7 +29,7 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
    * when a drag is initiated
    * @type {{ x: number, y: number }}
    */
-  #parentRect: any;
+  #parentPosition: any;
 
   /**
    * The point where we start dragging on the mouse
@@ -52,7 +52,7 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
    * its original position in the div on start of drag)
    * @type {{ x: number, y: number }}
    */
-  #dragStartRect: any;
+  #dragStartPosition: any;
 
   /**
    * Rectangle bounds that transform is limited to if drag
@@ -147,18 +147,18 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
         }
       });
 
-      const thisRect = this.getBoundingClientRect();
+      const thisPosition = this.getBoundingClientRect();
 
       // track the base element rectangle
       // (before translation considered)
 
-      this.#dragStartRect = {
-        width: thisRect.width,
-        height: thisRect.height,
-        left: thisRect.left - this.#dragStartOffset.x,
-        right: thisRect.right - this.#dragStartOffset.x,
-        top: thisRect.top - this.#dragStartOffset.y,
-        bottom: thisRect.bottom - this.#dragStartOffset.y
+      this.#dragStartPosition = {
+        width: thisPosition.width,
+        height: thisPosition.height,
+        left: thisPosition.left - this.#dragStartOffset.x,
+        right: thisPosition.right - this.#dragStartOffset.x,
+        top: thisPosition.top - this.#dragStartOffset.y,
+        bottom: thisPosition.bottom - this.#dragStartOffset.y
       };
 
       let parentLOffset = 0;
@@ -166,11 +166,11 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
       let parentTOffset = 0;
       let parentBOffset = 0;
 
-      if (this.#parentRect) {
-        parentLOffset = (this.#parentRect.left - this.#dragStartRect.left);
-        parentROffset = (this.#parentRect.right - this.#dragStartRect.right);
-        parentTOffset = (this.#parentRect.top - this.#dragStartRect.top);
-        parentBOffset = (this.#parentRect.bottom - this.#dragStartRect.bottom);
+      if (this.#parentPosition) {
+        parentLOffset = (this.#parentPosition.left - this.#dragStartPosition.left);
+        parentROffset = (this.#parentPosition.right - this.#dragStartPosition.right);
+        parentTOffset = (this.#parentPosition.top - this.#dragStartPosition.top);
+        parentBOffset = (this.#parentPosition.bottom - this.#dragStartPosition.bottom);
       }
 
       this.#xformBounds = {
@@ -266,8 +266,8 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
         translateY
       ] = this.#updateTransform(dragDeltaX, dragDeltaY);
 
-      if (this.#parentRect) {
-        eventDetail.parentRect = this.#parentRect;
+      if (this.#parentPosition) {
+        eventDetail.parentPosition = this.#parentPosition;
       }
 
       eventDetail.mouseX = e.x;
@@ -390,7 +390,7 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
   }
 
   /**
-   * Update parent rectangle stored in this.#parentRect
+   * Update parent rectangle stored in this.#parentPosition
    * @param {*} path path passed by mouse/drag event
    * to traverse through shadow and lightDOM
    * @private
@@ -401,7 +401,7 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
     // path captured from drag until parent level
     // outside of this draggable or an immediate IdsElement
     // (e.g. non styled container) is detected
-    this.#parentRect = undefined;
+    this.#parentPosition = undefined;
 
     let pathElemIndex = 0;
     let pathElem = path[pathElemIndex];
@@ -410,7 +410,7 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
     let isAtShadowRoot = false;
 
     while (
-      (!this.#parentRect || !hasTraversedThis || isAtShadowRoot || isAtSlotEl)
+      (!this.#parentPosition || !hasTraversedThis || isAtShadowRoot || isAtSlotEl)
       && ((pathElemIndex + 1) < path.length)
     ) {
       if (pathElem === this) {
@@ -434,7 +434,7 @@ const IdsDraggableMixin = <T extends Constraints>(superclass: T) => class extend
       // zero-width or zero-height rendered)
 
       if (rect?.height !== 0 && rect?.width !== 0) {
-        this.#parentRect = rect;
+        this.#parentPosition = rect;
       }
     }
   }

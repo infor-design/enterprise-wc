@@ -39,7 +39,7 @@ const Base = IdsHideFocusMixin(
 @customElement('ids-card')
 @scss(styles)
 export default class IdsCard extends Base {
-  #clonedElement: any = null;
+  #clonedCard: any = null;
 
   #positionId: string | null = null;
 
@@ -228,17 +228,17 @@ export default class IdsCard extends Base {
     this.setAttribute(attributes.IS_DRAGGING, 'true');
 
     this.container?.classList?.add('is-dragging');
-    if (!this.disabled && !this.#clonedElement && this.fixed) {
-      const clonedElement = this.cloneNode(true) as IdsCard;
+    if (!this.disabled && !this.#clonedCard && this.fixed) {
+      const clonedCard = this.cloneNode(true) as IdsCard;
 
       // Created cloned element with disabled state with initial position
-      clonedElement.style.transform = `translate(0px, 0px)`;
-      clonedElement.disabled = true;
-      clonedElement.container?.classList?.remove('is-dragging');
-      clonedElement.removeAttribute(attributes.IS_DRAGGING);
+      clonedCard.style.transform = `translate(0px, 0px)`;
+      clonedCard.disabled = true;
+      clonedCard.container?.classList?.remove('is-dragging');
+      clonedCard.removeAttribute(attributes.IS_DRAGGING);
 
-      this.#clonedElement = clonedElement;
-      this.parentNode?.insertBefore(clonedElement, this.nextSibling);
+      this.#clonedCard = clonedCard;
+      this.parentNode?.insertBefore(clonedCard, this.nextSibling);
     }
 
     this.container?.classList?.toggle('is-overlapping', this.#isOverlapping());
@@ -252,11 +252,11 @@ export default class IdsCard extends Base {
     if (!this.container) return false;
 
     if (!this.stacked) {
-      const currentRect = this.container.getBoundingClientRect();
+      const currentPosition = this.container.getBoundingClientRect();
       const positions = IdsCard.droppedPositions.filter((p: any) => p?.id !== this.#positionId);
       return positions.some((position: any) => {
-        const isOverlappingX = position.left < currentRect.right && position.right > currentRect.left;
-        const isOverlappingY = position.top < currentRect.bottom && position.bottom > currentRect.top;
+        const isOverlappingX = position.left < currentPosition.right && position.right > currentPosition.left;
+        const isOverlappingY = position.top < currentPosition.bottom && position.bottom > currentPosition.top;
 
         return isOverlappingX && isOverlappingY;
       });
@@ -272,8 +272,8 @@ export default class IdsCard extends Base {
   #handleDragend() {
     if (!this.container) return;
 
-    const currentRect = this.container.getBoundingClientRect();
-    const { x: translateX, y: translateY } = currentRect;
+    const currentPosition = this.container.getBoundingClientRect();
+    const { x: translateX, y: translateY } = currentPosition;
 
     let dropElementX = 0;
     let dropElementY = 0;
@@ -309,9 +309,9 @@ export default class IdsCard extends Base {
     if (resetPosition) {
       this.style.transform = `translate(0px, 0px)`;
 
-      if (this.#clonedElement) {
-        this.#clonedElement.remove();
-        this.#clonedElement = null;
+      if (this.#clonedCard) {
+        this.#clonedCard.remove();
+        this.#clonedCard = null;
       }
 
       this.removeAttribute(attributes.DROPPED);
@@ -320,11 +320,11 @@ export default class IdsCard extends Base {
     }
 
     this.setAttribute(attributes.DROPPED, 'true');
-    if (this.#clonedElement) {
+    if (this.#clonedCard) {
       if (this.hasAttribute(attributes.DROP_BG_COLOR)) {
-        this.#clonedElement.setAttribute(attributes.DROP_BG_COLOR, this.getAttribute(attributes.DROP_BG_COLOR));
+        this.#clonedCard.setAttribute(attributes.DROP_BG_COLOR, this.getAttribute(attributes.DROP_BG_COLOR));
       }
-      this.#clonedElement.disabled = false;
+      this.#clonedCard.disabled = false;
     }
 
     this.#updatePosition();
@@ -337,21 +337,21 @@ export default class IdsCard extends Base {
   #updatePosition() {
     if (!this.container) return;
 
-    const elementRect = this.container.getBoundingClientRect();
+    const containerPosition = this.container.getBoundingClientRect();
     this.#positionId = !this.#positionId ? `position-${new Date().getTime()}` : this.#positionId;
 
     const position = {
-      left: elementRect.left,
-      right: elementRect.right,
-      bottom: elementRect.bottom,
-      top: elementRect.top,
-      width: elementRect.width,
-      height: elementRect.height,
-      x: elementRect.x,
-      y: elementRect.y,
+      left: containerPosition.left,
+      right: containerPosition.right,
+      bottom: containerPosition.bottom,
+      top: containerPosition.top,
+      width: containerPosition.width,
+      height: containerPosition.height,
+      x: containerPosition.x,
+      y: containerPosition.y,
       id: this.#positionId,
-      totalX: elementRect.x + elementRect.width,
-      totalY: elementRect.y + elementRect.height,
+      totalX: containerPosition.x + containerPosition.width,
+      totalY: containerPosition.y + containerPosition.height,
     };
 
     const index = IdsCard.droppedPositions.findIndex((pos: any) => pos.id === this.#positionId);
