@@ -234,6 +234,7 @@ columns.push({
       editorValidation: {
         check: (input) => input.value.length < 50>,
         message: 'Maximum of 50 characters',
+        messageId: 'translationKey',
         id: 'maxchars'
       }
     }
