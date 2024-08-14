@@ -103,7 +103,6 @@ export default class IdsListViewItem extends Base {
     super.connectedCallback();
 
     if (this.rowIndex < 0) {
-      this.rowIndex = this.listView?.itemCount || 0;
       const html = this.listView?.templateCustomHTML?.(this.rowData);
       if (html) this.innerHTML = html;
     }
@@ -239,7 +238,8 @@ export default class IdsListViewItem extends Base {
     const rowIndex = Number(newValue) >= 0 ? Number(newValue) : -1;
     this.setAttribute('index', String(rowIndex));
     this.setAttribute('aria-posinset', String(rowIndex + 1));
-    if (!this.id) this.setAttribute('id', `id-${String(rowIndex + 1)}`);
+    const id = `id-${String(rowIndex + 1)}`;
+    if (!this.id) this.setAttribute('id', id);
     this.setAttribute('aria-setsize', String(this.listView?.itemCount || -1));
   }
 
@@ -562,14 +562,6 @@ export default class IdsListViewItem extends Base {
 
     this.onEvent('click.listview-item', this, (e) => {
       this.#onClick(e);
-    });
-
-    this.onEvent('focus.listview', this, () => {
-      // Set aria-activedescendant
-      const body = this.closest('.ids-list-view-body');
-      body?.querySelector('ids-list-view-item:not([tabindex="0"]')?.removeAttribute('tabindex');
-      this?.setAttribute('tabindex', '0');
-      this.closest('.ids-list-view-body')?.setAttribute('aria-activedescendant', String(this?.id));
     });
 
     this.onEvent('click.listview-checkbox-veto', this.checkbox, (evt) => {

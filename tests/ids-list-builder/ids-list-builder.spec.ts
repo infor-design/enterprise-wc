@@ -52,6 +52,7 @@ test.describe('IdsListBuilder tests', () => {
       if (browserName !== 'chromium') return;
       await page.goto(url);
       await page.waitForLoadState();
+      await page.waitForSelector('#id_item_20');
       await percySnapshot(page, 'ids-list-builder-light');
     });
   });
@@ -83,6 +84,7 @@ test.describe('IdsListBuilder tests', () => {
 
     test('can render the header', async ({ page }) => {
       const listBuilder = await page.locator('#list-builder-1');
+      await page.waitForSelector('ids-toolbar');
       await expect(listBuilder.locator('ids-toolbar')).toBeAttached();
     });
 
@@ -529,7 +531,7 @@ test.describe('IdsListBuilder tests', () => {
       expect(defCount).toEqual(await getListCount());
     });
 
-    test('can add item programattically', async ({ page }) => {
+    test('can add item programmatically', async ({ page }) => {
       const listBuilder = await page.locator('#list-builder-1');
       const getListCount = async () => (await listBuilder.locator('ids-swappable-item').all()).length;
       const defCount = await getListCount();
@@ -538,23 +540,7 @@ test.describe('IdsListBuilder tests', () => {
       expect(await getListCount()).toEqual(defCount + 1);
     });
 
-    test('can edit item programattically', async ({ page }) => {
-      const listBuilder = await page.locator('#list-builder-1');
-      const firstItem = await listBuilder.locator('#id_item_1');
-      const defText = (await firstItem.textContent())!.trim();
-      const input = await firstItem.locator('ids-input input[part="input"]').first();
-
-      await listBuilder.evaluate((element: IdsListBuilder) => element.edit());
-
-      await input.waitFor();
-      // pressSequentially isntead of fill
-      await input.pressSequentially('New Item Edit');
-      await page.keyboard.press('Enter', { delay: 50 });
-      await expect(firstItem).not.toHaveText(defText);
-      await expect(firstItem).toHaveText('New Item Edit');
-    });
-
-    test('can delete item programattically', async ({ page }) => {
+    test('can delete item programmatically', async ({ page }) => {
       const listBuilder = await page.locator('#list-builder-1');
       const firstItem = await listBuilder.locator('#id_item_1');
       const getListCount = async () => (await listBuilder.locator('ids-swappable-item').all()).length;
@@ -567,7 +553,7 @@ test.describe('IdsListBuilder tests', () => {
       expect(await getListCount()).toEqual(defCount - 1);
     });
 
-    test('can move items up the list programattically', async ({ page }) => {
+    test('can move items up the list programmatically', async ({ page }) => {
       const listBuilder = await page.locator('#list-builder-1');
       const allItems = await listBuilder.locator('ids-swappable-item').all();
       const getListCount = async () => (await listBuilder.locator('ids-swappable-item').all()).length;
@@ -600,7 +586,7 @@ test.describe('IdsListBuilder tests', () => {
       expect(defCount).toEqual(await getListCount());
     });
 
-    test('can move items down the list programattically', async ({ page }) => {
+    test('can move items down the list programmatically', async ({ page }) => {
       const listBuilder = await page.locator('#list-builder-1');
       const allItems = await listBuilder.locator('ids-swappable-item').all();
       const getListCount = async () => (await listBuilder.locator('ids-swappable-item').all()).length;

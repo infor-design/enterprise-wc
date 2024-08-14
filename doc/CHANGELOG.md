@@ -1,5 +1,16 @@
 # What's New with Enterprise Web Components
 
+## 1.4.3
+
+### 1.4.3 Features
+
+- `[Card]` Adds `draggable` attribute to ids-card which allows card to be used in drag and drop scenarios. ([#2423](https://github.com/infor-design/enterprise-wc/issues/2423))
+
+### 1.4.3 Fixes
+
+- `[Listbuilder]` Fixed buggy builder styles. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
+- `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
+
 ## 1.4.2
 
 ### 1.4.2 Features
@@ -10,7 +21,7 @@
 
 - `[Accordion]` Fixed a bug where triggering a child component event would cause the accordion pane to collapse.([#2562](https://github.com/infor-design/enterprise-wc/issues/2562))
 - `[Button]` Fixed a bug in the lifecycle where inner classes where not refreshed in some frameworks.([#2627](https://github.com/infor-design/enterprise-wc/issues/2627))
-- - `[Card]` Adds `draggable` attribute to ids-card which allows card to be used in drag and drop scenarios. ([#2423](https://github.com/infor-design/enterprise-wc/issues/2423))
+- `[Button]` Fixed an issue where Button layout looks off in smaller viewport. ([#2652](https://github.com/infor-design/enterprise-wc/issues/2652))
 - `[Checkbox]` Fixed an issue where native events were triggered multiple times in single selection. ([#2385](https://github.com/infor-design/enterprise-wc/issues/2385))
 - `[Datagrid]` If no options the datagrid will still show the value, defaulting the options that may load later. ([#2386](https://github.com/infor-design/enterprise-wc/issues/2386))
 - `[Dropdown]` Converted dropdown tests to playwright. ([#1846](https://github.com/infor-design/enterprise-wc/issues/1846))
@@ -18,9 +29,11 @@
 - `[Editor]` Updated docs around `labels`. ([#2649](https://github.com/infor-design/enterprise-wc/issues/2649))
 - `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482](https://github.com/infor-design/enterprise-wc/issues/2482))
 - `[ListBuilder]` Converted list builder tests to playwright. ([#1873](https://github.com/infor-design/enterprise-wc/issues/1873))
+- `[ListView]` Resolved an issue where the list can't be navigated using up and down arrows. ([#2595](https://github.com/infor-design/enterprise-wc/issues/2595))
 - `[MenuButton]` Fixed an issue where the popup menu was not placed correctly in Angular/production build. ([#2669](https://github.com/infor-design/enterprise-wc/issues/2669))
+- `[SwapList]` Converted swap list tests to playwright. ([#1974](https://github.com/infor-design/enterprise-wc/issues/1974))
 - `[Tabs]` Fixed an issue where overflow menu group popup is full width. ([#2656](https://github.com/infor-design/enterprise-wc/issues/2656))
-- `[Button]` Fixed an issue where Button layout looks off in smaller viewport. ([#2652](https://github.com/infor-design/enterprise-wc/issues/2652))
+- `[TimPicker]` Converted time picker tests to playwright. ([#1982](https://github.com/infor-design/enterprise-wc/issues/1982))
 
 ## 1.4.1
 
