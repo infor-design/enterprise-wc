@@ -437,7 +437,13 @@ export default class IdsDataGridRow extends IdsElement {
     }
 
     const cssPart = (column: IdsDataGridColumn, rowIndex: number, cellIndex: number) => {
-      const part = column.cssPart || 'cell';
+      let part = column.cssPart || 'cell';
+      const isSelectable = this.dataGrid?.rowSelection === 'mixed' || this.dataGrid?.rowSelection === 'single' || this.dataGrid?.rowSelection === 'multiple';
+      if (isSelectable && row.rowSelected) {
+        if (column.cellSelectedCssPart) part = column.cellSelectedCssPart;
+        else part = 'cell-selected';
+      }
+
       if (typeof part === 'function') {
         return part(rowIndex, cellIndex);
       }
