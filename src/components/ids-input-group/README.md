@@ -11,7 +11,8 @@ It also allows setting an `IdsGroupValidationRule` to check against the slotted 
 type IdsGroupValidationRule = {
   /** The localized message text */
   message: string;
-
+  /** The message ID for localization */
+  messageId?: string;
   /** Custom group validation callback */
   check: (inputComponents: Array<any>) => boolean;
 };

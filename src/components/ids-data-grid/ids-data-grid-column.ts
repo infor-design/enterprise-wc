@@ -97,6 +97,8 @@ export interface IdsDataGridEditorValidation {
   check: (input: any) => boolean;
   /* Validation error message */
   message: string;
+  /** Validation Message Translation key */
+  messageId?: string;
   /* Validation rul id */
   id: string;
 }

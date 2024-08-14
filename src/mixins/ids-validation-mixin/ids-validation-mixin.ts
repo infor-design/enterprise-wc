@@ -16,6 +16,9 @@ export type IdsValidationErrorMessage = {
   /** The localized message text */
   message?: string;
 
+  /** The localized message ID */
+  messageId?: string;
+
   /** The Type of message icon */
   icon?: string;
 };
@@ -29,6 +32,9 @@ export type IdsValidationRule = {
 
   /** The localized message text */
   message: string;
+
+  /** The localized message id */
+  messageId?: string;
 
   /** The method to check validation logic, return true if is valid */
   check: (input: any) => boolean;
@@ -180,7 +186,11 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       let isValid = true;
       const useRules = this.useRules.get(input);
       useRules?.forEach((thisRule: any) => {
-        if (thisRule.rule !== undefined && !thisRule.rule?.check(input) && this.isTypeNotValid) {
+        if (thisRule.rule !== undefined && !thisRule.rule?.check(input, this.rules) && this.isTypeNotValid) {
+          // translate rule again
+          if (thisRule.rule.messageId) {
+            thisRule.rule.message = (this as any).localeAPI?.translate(thisRule.rule.messageId, { showBrackets: false });
+          }
           this.addMessage(thisRule.rule);
           isValid = false;
           this.isTypeNotValid[thisRule.rule.type] = true;
@@ -321,13 +331,20 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
 
     if (!id) return;
     let elem = this.shadowRoot?.querySelector(`div[validation-id="${id}"]`);
-    if (elem) return; // Already has this message
-
-    // Add error and related details
     const regex = new RegExp(`^\\b(${Object.keys(this.VALIDATION_ICONS).join('|')})\\b$`, 'g');
     const isValidationIcon = type && (regex.test(type));
     let audible = isValidationIcon ? type.replace(/^./, type[0].toUpperCase()) : null;
     audible = audible ? `<ids-text audible="true">${audible} </ids-text>` : '';
+
+    if (elem) {
+      // Already has this message / check translation
+      if (settings.messageId && elem && elem.querySelector('.message-text')) {
+        elem.querySelector('.message-text')!.innerHTML = `${audible}${(this as any).localeAPI.translate(settings.messageId)}`;
+      }
+      return;
+    }
+
+    // Add error and related details
     let cssClass = 'validation-message';
     let iconName = type ? this.VALIDATION_ICONS[type] : '';
     const messageId = `${thisAsInput.input?.getAttribute('id')}-${settings.type}`;
@@ -573,6 +590,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         );
       },
       message: 'Required',
+      messageId: 'Required',
       type: 'error',
       id: 'required'
     },
@@ -596,9 +614,6 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       check(input: any) {
         const hostCompoment = input.getRootNode().host;
         const val = input.value;
-        if (input instanceof Date) {
-          return input && input.getTime && !Number.isNaN(input.getTime());
-        }
 
         const dateFormat = hostCompoment.format;
         const options: any = {};
@@ -612,6 +627,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         return !(((parsedDate === undefined) && val !== ''));
       },
       message: 'Invalid Date',
+      messageId: 'InvalidDate',
       type: 'error',
       id: 'date'
     },
@@ -637,6 +653,60 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
       message: 'Invalid Time',
       type: 'error',
       id: 'time'
+    },
+
+    rangeDate: {
+      check(input: any) {
+        let isValid = true;
+        const hostCompoment = input.getRootNode().host;
+        const datepickerInput = hostCompoment.parentNode.getRootNode().host;
+        const value = input.value;
+
+        const s = datepickerInput.rangeSettings;
+        const parts = value.split(s.separator);
+        const checkRule = (partValue: any) => {
+          const dateFormat = datepickerInput.format;
+          const options: any = {};
+          if (dateFormat) {
+            options.dateFormat = dateFormat;
+          }
+          // Check Valid Date
+          const parsedDate = hostCompoment.localeAPI.parseDate(partValue, options);
+          isValid = !(((parsedDate === undefined) && partValue !== ''));
+
+          if (!isValid) {
+            this.message = `${datepickerInput.localeAPI.translate('InvalidDate')} (${partValue})`;
+            isValid = false;
+          }
+
+          // Check UnavailableDate Date
+          if (isValid) {
+            const date = datepickerInput.localeAPI.parseDate(
+              input.value,
+              datepickerInput.format
+            ) as Date;
+            isValid = !datepickerInput.picker.isDisabledByDate(date);
+
+            if (!isValid) {
+              this.message = `${datepickerInput.localeAPI.translate('UnavailableDate')} (${partValue})`;
+            }
+          }
+        };
+
+        if (parts.length === 1) {
+          checkRule(parts[0]);
+        } else if (parts.length === 2) {
+          checkRule(parts[0]);
+          if (isValid) {
+            checkRule(parts[1]);
+          }
+        }
+
+        return isValid;
+      },
+      message: '',
+      type: 'error',
+      id: 'rangeDate'
     }
   };
 
