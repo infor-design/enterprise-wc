@@ -104,6 +104,17 @@ A card with footer element and vertical no-padding.
 - `height` {number} It will make the card have a fixed height (used primarily on actionable cards)
 - `href` {number} Sets the href attribute for actionable cards that are hyperlinks
 - `noHeader` {boolean} Hides the header area
+- `backgroundColor` {string} Set the background-color of the card
+- `width` {number} Sets the default width of the card
+- `dragWidth` {number} Sets the width of the card when being dragged
+- `dragHeight` {number} Sets the height of the card when being dragged
+- `dragBgColor` {string} Set the background-color of the card while its being dragged
+- `dropped` {boolean} Whethere the card has been dropped or not
+- `dropWidth` {number} Set the width that the card should be once it's dropped
+- `dropHeight` {number} Set the height that the card should be once it's dropped
+- `dropBgColor` {string} Set the background-color that the card should be once it's dropped
+- `fixed` {boolean} If true, the dragged card will remain in its original place while a shadow of the card will be dragged.
+- `stacked` {boolean} If true, the dragged card can be dropped (i.e. stacked) on top of another card.
 
 NOTE: See also `ids-box` settings as some of these will also work on cards.
 
