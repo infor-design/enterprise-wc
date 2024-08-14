@@ -5,8 +5,8 @@
   "editor.formatOnSave": false,
   "editor.formatOnPaste": false,
   "cssVariables.lookupFiles": [
-    "node_modules/ids-foundation/theme-soho/core.scss",
-    "node_modules/ids-foundation/theme-soho/semantic-light.scss",
+    "node_modules/ids-foundation/theme-soho/scss/core.scss",
+    "node_modules/ids-foundation/theme-soho/scss/semantic-light.scss",
     "src/themes/default/ids-theme-default-core.scss"
   ],
   "html.customData": [
