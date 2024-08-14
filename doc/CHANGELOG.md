@@ -21,6 +21,7 @@
 - `[Checkbox]` Fixed an issue where native events were triggered multiple times in single selection. ([#2385](https://github.com/infor-design/enterprise-wc/issues/2385))
 - `[Datagrid]` If no options the datagrid will still show the value, defaulting the options that may load later. ([#2386](https://github.com/infor-design/enterprise-wc/issues/2386))
 - `[Dropdown]` Converted dropdown tests to playwright. ([#1846](https://github.com/infor-design/enterprise-wc/issues/1846))
+- `[Dropdown]` Fixed an issue where disabling typeahead allowed typing in the input. ([#2662](https://github.com/infor-design/enterprise-wc/issues/2662))
 - `[Editor]` Removed internal hard coded id since it was causing duplicate ids if multiple editors are used. ([#2630](https://github.com/infor-design/enterprise-wc/issues/2630))
 - `[Editor]` Updated docs around `labels`. ([#2649](https://github.com/infor-design/enterprise-wc/issues/2649))
 - `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482]https://github.com/infor-design/enterprise-wc/issues/2482)
