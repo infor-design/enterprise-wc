@@ -41,6 +41,24 @@ A card can be an actionable with the behavior of a button.
 </ids-card>
 ```
 
+A card can be a draggable with custom drag-size and drag-styling.
+
+```html
+<ids-card draggable drop-target="droppable-panel" width="100%" fixed="true" drag-width="200px" drag-height="400px" drop-width="200px" drop-height="400px">
+    <img src="datagrid-icon.png">
+    <ids-text slot="card-header" font-size="16">Form</ids-text>
+</ids-card>
+```
+
+A card can be a draggable that can be stacked.
+
+```html
+<ids-card draggable stacked="true" fixed="true" drag-width="200px" drag-height="400px" drop-width="200px" drop-height="400px" width="100%">
+    <img src="datagrid-icon.png">
+    <ids-text slot="card-header" font-size="16">Form</ids-text>
+</ids-card>
+```
+
 A card with footer element.
 
 ```html
