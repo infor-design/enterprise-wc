@@ -275,11 +275,16 @@ export default class IdsCard extends Base {
     const currentPosition = this.container.getBoundingClientRect();
 
     // If dropped target element is present, get the position of the dropped element
-    const dropEleRect = this?.droppedTargetElement?.getBoundingClientRect();
+    const dropPosition = this?.droppedTargetElement?.getBoundingClientRect();
 
     // If the card is not dropped in the target element, reset the card position
-    const xAxisValid = currentPosition?.left >= (dropEleRect?.left || 0) && currentPosition?.right <= (dropEleRect?.right || 0);
-    const yAxisValid = currentPosition?.bottom >= (dropEleRect?.top || 0) && currentPosition.top <= (dropEleRect?.bottom || 0);
+    const leftValid = currentPosition?.left >= (dropPosition?.left || 0);
+    const rightValid = currentPosition?.right <= (dropPosition?.right || 0);
+    const bottomValid = currentPosition?.bottom >= (dropPosition?.top || 0);
+    const topValid = currentPosition.top <= (dropPosition?.bottom || 0);
+
+    const xAxisValid = leftValid && rightValid;
+    const yAxisValid = bottomValid && topValid;
 
     let resetPosition = false;
     if (!this.droppedTargetElement || !xAxisValid || !yAxisValid) {
