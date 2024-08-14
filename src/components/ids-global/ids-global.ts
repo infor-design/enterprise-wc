@@ -13,6 +13,7 @@ declare global {
       locale?: IdsLocale;
       themeLoaded?: IdsDeferred;
       themeName?: string;
+      themePath?: string;
       version?: string;
       personalize?: IdsPersonalize;
       customIconData?: object;
@@ -23,7 +24,8 @@ declare global {
 window.IdsGlobal ??= {
   version,
   personalize: new IdsPersonalize(),
-  themeName: ''
+  themeName: '',
+  themePath: ''
 };
 
 class IdsGlobal {
@@ -58,6 +60,7 @@ class IdsGlobal {
     return IdsGlobal.version;
   }
 
+  /* Used to set the theme name */
   static get themeName(): string {
     return window.IdsGlobal.themeName || '';
   }
@@ -66,7 +69,16 @@ class IdsGlobal {
     window.IdsGlobal.themeName = value;
   }
 
-  /** Used to hold custom icon json */
+  /* Used to correct the theme path to a specific place */
+  static get themePath(): string {
+    return window.IdsGlobal.themePath || '';
+  }
+
+  static set themePath(value: string) {
+    window.IdsGlobal.themePath = value;
+  }
+
+  /* Used to hold custom icon json */
   static set customIconData(json: object | undefined) {
     window.IdsGlobal.customIconData = json;
   }

@@ -2,6 +2,10 @@
 
 ## 1.4.3
 
+## 1.4.3 Features
+
+- `[Themes]` Added a setting `IdsGlobal.themePath` that you can use to set the location of the theme files. ([#2125]https://github.com/infor-design/enterprise-wc/issues/2125)
+
 ### 1.4.3 Fixes
 
 - `[Listbuilder]` Fixed buggy builder styles. ([#2701]https://github.com/infor-design/enterprise-wc/issues/2701)

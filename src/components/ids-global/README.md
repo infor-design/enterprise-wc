@@ -35,7 +35,20 @@ locale.extendTranslations(localeAPI.currentLanguage.name, myStrings);
 - `personalize` {IdsPersonalize} Access to the personalization API
 - `version` {string} Displays the components version
 - `themeName` {string} Allows you to get and set the current theme
+- `themePath` {string} Allows you to the relative path or complete path to a where the themes folder is. This includes the themes folder itself. This must be set before any component is imported.
 - `customIconData` {JSON} Allows you to store custom icon SVG for `ids-icon`.
+
+## Example of using Theme Path
+
+```html
+<head>
+  ...
+  <script>
+    window.IdsGlobal = { themePath: '/node_modules/ids-enterprise-wc/themes/' };
+  </script>
+  <script defer type="module" src="node_modules/ids-enterprise-wc/enterprise-wc.js"></script>
+</head>
+```
 
 ## Converting from Previous Versions (Breaking Changes)
 
