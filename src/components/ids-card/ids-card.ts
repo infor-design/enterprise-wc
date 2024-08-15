@@ -12,7 +12,7 @@ import styles from './ids-card.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import { IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
-import IdsDraggableMixin from '../ids-draggable/ids-draggable-mixin';
+import IdsDraggableMixin from '../../mixins/ids-draggable-mixin/ids-draggable-mixin';
 import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
 const Base = IdsHideFocusMixin(

@@ -1,9 +1,9 @@
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import getElTranslatePoint from './get-el-translate-point';
 
 import { IdsConstructor } from '../../core/ids-element';
-import { EventsMixinInterface } from '../../mixins/ids-events-mixin/ids-events-mixin';
+import getElTranslatePoint from '../../utils/ids-draggable-utils/ids-draggable-utils';
+import { EventsMixinInterface } from '../ids-events-mixin/ids-events-mixin';
 
 const CURSOR_EL_SIZE = 32;
 

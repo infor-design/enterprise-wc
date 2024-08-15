@@ -245,6 +245,7 @@
 :host([draggable]) {
   width: var(--ids-card-width);
   z-index: 1;
+  transition: var(--ids-motion-duration) var(--ids-motion-ease);
 
   .ids-card {
     border: 1px solid var(--ids-card-color-border-draggable);
@@ -322,10 +323,12 @@
 
 :host([draggable][is-dragging]) {
   z-index: 99;
+  transition: none;
 }
 
 :host([draggable][dropped]) {
   z-index: 9;
+  transition: none;
 }
 
 :host([borderless]) {

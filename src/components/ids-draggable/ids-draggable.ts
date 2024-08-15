@@ -5,7 +5,7 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
-import getElTranslatePoint from './get-el-translate-point';
+import getElTranslatePoint from '../../utils/ids-draggable-utils/ids-draggable-utils';
 import styles from './ids-draggable.scss';
 
 const CURSOR_EL_SIZE = 32;
