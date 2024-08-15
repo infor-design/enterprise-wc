@@ -34,7 +34,7 @@ export default class IdsNotificationBannerService {
     if (this.openNotificationBanners.length > 0) this.openNotificationBanners[0].dismiss();
   }
 
-  /* Display nuymber of open notification banners */
+  /* Display number of open notification banners */
   static get count() {
     return document.querySelectorAll('ids-notification-banner').length || 0;
   }
