@@ -1,5 +1,3 @@
-import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
 /**
  * Shared in between tree.
  * @private
@@ -40,38 +38,6 @@ const IdsTreeShared = {
   },
 
   TREE_ARIA_LABEL: 'IDS Tree',
-
-  /**
-   * Get the value for given attribute.
-   * @param {HTMLElement} elem The element.
-   * @param {string} attr The attribute name to get the value.
-   * @returns {string|null} The value or default value
-   */
-  getVal(elem: any, attr: string) {
-    const value = elem?.getAttribute(attr);
-    return value !== null ? value : (this.DEFAULTS as any)[camelCase(attr)];
-  },
-
-  /**
-   * Get the boolean value for given attribute.
-   * @param {HTMLElement} elem The element.
-   * @param {string} attr The attribute name to get the value.
-   * @returns {boolean} The value
-   */
-  getBoolVal(elem: any, attr: string) {
-    const value = elem?.getAttribute(attr);
-    return value !== null
-      ? stringToBool(value) : (this.DEFAULTS as any)[camelCase(attr)];
-  },
-
-  /**
-   * Check the given value is boolean.
-   * @param {boolean|string} val The value.
-   * @returns {boolean} true if the value boolean
-   */
-  isBool(val: boolean | string): boolean {
-    return val === true || val === 'true' || val === false || val === 'false';
-  }
 };
 
 export default IdsTreeShared;

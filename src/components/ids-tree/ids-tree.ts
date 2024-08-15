@@ -181,7 +181,7 @@ export default class IdsTree extends Base {
   }
 
   get icon(): string {
-    return IdsTreeShared.getVal(this, attributes.ICON);
+    return this.getAttribute(attributes.ICON) ?? IdsTreeShared.DEFAULTS.icon;
   }
 
   /**
@@ -198,7 +198,7 @@ export default class IdsTree extends Base {
   }
 
   get collapseIcon(): string | null {
-    return IdsTreeShared.getVal(this, attributes.COLLAPSE_ICON);
+    return this.getAttribute(attributes.COLLAPSE_ICON) ?? IdsTreeShared.DEFAULTS.collapseIcon;
   }
 
   /**
@@ -211,6 +211,7 @@ export default class IdsTree extends Base {
     } else {
       this.removeAttribute(attributes.EXPAND_TARGET);
     }
+
     this.#updateNodeAttribute(attributes.EXPAND_TARGET);
   }
 
@@ -233,7 +234,7 @@ export default class IdsTree extends Base {
   }
 
   get expandIcon(): string | null {
-    return IdsTreeShared.getVal(this, attributes.EXPAND_ICON);
+    return this.getAttribute(attributes.EXPAND_ICON) ?? IdsTreeShared.DEFAULTS.expandIcon;
   }
 
   /**
@@ -313,7 +314,8 @@ export default class IdsTree extends Base {
     } else {
       this.removeAttribute(attributes.TOGGLE_COLLAPSE_ICON);
     }
-    this.#setToggleIcon();
+
+    this.#updateNodeAttribute(attributes.TOGGLE_COLLAPSE_ICON);
   }
 
   get toggleCollapseIcon(): string {
@@ -330,7 +332,8 @@ export default class IdsTree extends Base {
     } else {
       this.removeAttribute(attributes.TOGGLE_EXPAND_ICON);
     }
-    this.#setToggleIcon();
+
+    this.#updateNodeAttribute(attributes.TOGGLE_EXPAND_ICON);
   }
 
   get toggleExpandIcon(): string {
@@ -341,12 +344,9 @@ export default class IdsTree extends Base {
    * Sets the tree to use toggle icon rotate
    * @param {boolean|string} value If false will set to use toggle icon to be false
    */
-  set toggleIconRotate(value: boolean | string) {
-    if (IdsTreeShared.isBool(value)) {
-      this.setAttribute(attributes.TOGGLE_ICON_ROTATE, `${value}`);
-    } else {
-      this.removeAttribute(attributes.TOGGLE_ICON_ROTATE);
-    }
+  set toggleIconRotate(value: boolean | string | null) {
+    this.toggleAttribute(attributes.TOGGLE_ICON_ROTATE, stringToBool(value));
+    this.#updateNodeAttribute(attributes.TOGGLE_ICON_ROTATE);
   }
 
   get toggleIconRotate(): boolean {
@@ -363,10 +363,6 @@ export default class IdsTree extends Base {
     }
 
     return this.treeNodes.find((node) => node.selected) ?? null;
-  }
-
-  get slotElement() {
-    return this.container?.querySelector<HTMLSlotElement>('slot');
   }
 
   /**
@@ -530,6 +526,95 @@ export default class IdsTree extends Base {
   }
 
   /**
+   * Set the focus to given node, and set as active node
+   * @param {object} node The target node element
+   */
+  #setFocus(node: IdsTreeNode): void {
+    if (!node || node === this.#active.current) return;
+
+    this.#active.old = this.#active.current;
+    this.#active.current = node;
+    this.#active.current.setFocus();
+  }
+
+  /**
+   * Update the given node attribute
+   * @param {string} attr The attribute name
+   * @param {boolean} mustUpdate if true, will must update
+   */
+  #updateNodeAttribute(attr: string, mustUpdate?: boolean) {
+    this.treeNodes.forEach((node: IdsTreeNode) => {
+      const nodeVal = node.getAttribute(attr);
+      const value = (this as any)[camelCase(attr)];
+
+      if (value === null) {
+        node.removeAttribute(attr);
+      } else if (mustUpdate || nodeVal !== value) {
+        node.setAttribute(attr, value?.toString());
+      }
+    });
+  }
+
+  #traverseTree(fn: (treeNode: IdsTreeNode) => void) {
+    this.querySelectorAll<IdsTreeNode>('ids-tree-node').forEach((treeNode) => {
+      fn(treeNode);
+    });
+  }
+
+  #navigate(node: IdsTreeNode, key: string) {
+    // Keep `Space` in keydown allow options, so page not scrolls
+    const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
+    // Set the move action with arrow keys
+    const move = {
+      next: (current: IdsTreeNode) => {
+        const nextNode = this.#next(current);
+        if (nextNode) {
+          this.#setFocus(nextNode);
+        }
+      },
+      previous: (current: IdsTreeNode) => {
+        const previousNode = this.#previous(current);
+        if (previousNode) {
+          this.#setFocus(previousNode);
+        }
+      },
+      forward: (current: IdsTreeNode) => {
+        if (current.isGroup) {
+          if (current.expanded) {
+            const forwardNode = this.#nextInGroup(current);
+            this.#setFocus(forwardNode);
+          } else {
+            current.toggleAttribute(attributes.EXPANDED, true);
+          }
+        }
+      },
+      backward: (current: IdsTreeNode) => {
+        if (current.isGroup && current.expanded) {
+          current.toggleAttribute(attributes.EXPANDED, false);
+        } else if (current.level > 1) {
+          const previous = current.parentElement as IdsTreeNode;
+          this.#setFocus(previous);
+        }
+      }
+    };
+
+    if (allow.includes(key)) {
+      const current = node;
+      const isRTL = this.localeAPI.isRTL();
+
+      if (key === 'ArrowDown') {
+        move.next(current);
+      } else if (key === 'ArrowUp') {
+        move.previous(current);
+      } else if (key === 'ArrowRight') {
+        move[isRTL ? 'backward' : 'forward'](current);
+      } else if (key === 'ArrowLeft') {
+        move[isRTL ? 'forward' : 'backward'](current);
+      }
+    }
+  }
+
+  /**
    * Get the next node element and index
    * @param {IdsTreeNode} current The current node.
    * @param {boolean} skipCurrent The current node.
@@ -599,121 +684,18 @@ export default class IdsTree extends Base {
   }
 
   /**
-   * Set the focus to given node, and set as active node
-   * @param {object} node The target node element
-   */
-  #setFocus(node: IdsTreeNode): void {
-    if (!node || node === this.#active.current) return;
-
-    this.#active.old = this.#active.current;
-    this.#active.current = node;
-    this.#active.current.setFocus();
-  }
-
-  /**
-   * Set toggle icon
-   * @private
-   * @returns {void}
-   */
-  #setToggleIcon(): void {
-    this.rootNodes.forEach((node: IdsTreeNode) => {
-      if (node.isGroup) {
-        const toggleIconEl = node.container?.querySelector('.toggle-icon');
-        toggleIconEl?.setAttribute(attributes.TOGGLE_EXPAND_ICON, this.toggleExpandIcon);
-        toggleIconEl?.setAttribute(attributes.TOGGLE_COLLAPSE_ICON, this.toggleCollapseIcon);
-      }
-    });
-  }
-
-  /**
-   * Update the given node attribute
-   * @private
-   * @param {string} attr The attribute name
-   * @param {boolean} mustUpdate if true, will must update
-   */
-  #updateNodeAttribute(attr: string, mustUpdate?: boolean) {
-    this.treeNodes.forEach((node: IdsTreeNode) => {
-      const nodeVal = node.getAttribute(attr);
-      const value = (this as any)[camelCase(attr)];
-      if (mustUpdate || nodeVal !== value) {
-        node.setAttribute(attr, value?.toString());
-      }
-    });
-  }
-
-  #traverseTree(fn: (treeNode: IdsTreeNode) => void) {
-    this.querySelectorAll<IdsTreeNode>('ids-tree-node').forEach((treeNode) => {
-      fn(treeNode);
-    });
-  }
-
-  /**
    * Establish Internal Event Handlers
    * @private
    * @returns {void}
    */
   #attachEventHandlers(): void {
-    // Set the move action with arrow keys
-    const move = {
-      next: (current: IdsTreeNode) => {
-        const nextNode = this.#next(current);
-        if (nextNode) {
-          this.#setFocus(nextNode);
-        }
-      },
-      previous: (current: IdsTreeNode) => {
-        const previousNode = this.#previous(current);
-        if (previousNode) {
-          this.#setFocus(previousNode);
-        }
-      },
-      forward: (current: IdsTreeNode) => {
-        if (current.isGroup) {
-          if (current.expanded) {
-            const forwardNode = this.#nextInGroup(current);
-            this.#setFocus(forwardNode);
-          } else {
-            current.toggleAttribute(attributes.EXPANDED, true);
-          }
-        }
-      },
-      backward: (current: IdsTreeNode) => {
-        if (current.isGroup && current.expanded) {
-          current.toggleAttribute(attributes.EXPANDED, false);
-        } else if (current.level > 1) {
-          const previous = current.parentElement as IdsTreeNode;
-          this.#setFocus(previous);
-        }
-      }
-    };
-
-    this.offEvent('treenodekeydown', this);
-    this.onEvent('treenodekeydown', this, (e: CustomEvent) => {
+    this.offEvent('keydown.tree-node', this);
+    this.onEvent('keydown.tree-node', this, (e: KeyboardEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      const node = e.detail.node;
+      const node = e.composedPath().find((el: any) => el.nodeName === 'IDS-TREE-NODE') as IdsTreeNode;
       if (node.disabled) return;
-
-      // Keep `Space` in keydown allow options, so page not scrolls
-      const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
-      const key = e.detail.code;
-
-      if (allow.indexOf(key) > -1) {
-        const current = node;
-        const isRTL = this.localeAPI.isRTL();
-
-        if (key === 'ArrowDown') {
-          move.next(current);
-        } else if (key === 'ArrowUp') {
-          move.previous(current);
-        } else if (key === 'ArrowRight') {
-          move[isRTL ? 'backward' : 'forward'](current);
-        } else if (key === 'ArrowLeft') {
-          move[isRTL ? 'forward' : 'backward'](current);
-        }
-        e.preventDefault();
-        e.stopPropagation();
-      }
+      this.#navigate(node, e.code);
     });
 
     this.offEvent('keyup.tree', this.container);
@@ -741,6 +723,7 @@ export default class IdsTree extends Base {
       this.#active.selectedCurrent = this.treeNodes.find((node) => node.selected) ?? null;
     });
 
+    this.offEvent('expandready', this);
     this.onEvent('expandready', this, async (evt: CustomEvent) => {
       // wait and load async data
       if (this.state.beforeExpanded) {
@@ -754,6 +737,7 @@ export default class IdsTree extends Base {
       evt.detail.onReady();
     });
 
+    this.offEvent('selected.tree-node', this);
     this.onEvent('selected.tree-node', this, (evt: CustomEvent) => {
       if (this.selectable === 'single') {
         this.#active.selectedOld = this.#active.selectedCurrent;

@@ -102,6 +102,10 @@
   }
 }
 
+::slotted(ids-badge) {
+  margin-inline-end: 8px;
+}
+
 ids-checkbox::part(root) {
   margin-bottom: var(--ids-space-none);
 }

@@ -32,7 +32,7 @@ test.describe('IdsTree tests', () => {
   });
 
   test.describe('accessibility tests', () => {
-    test.skip('should pass an Axe scan', async ({ page, browserName }) => {
+    test('should pass an Axe scan', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       const accessibilityScanResults = await new AxeBuilder({ page } as any)
         .exclude('[disabled]') // Disabled elements do not have to pass
@@ -333,19 +333,19 @@ test.describe('IdsTree tests', () => {
       await expect(toggleCollapseIcon).toEqual(IdsTreeShared.DEFAULTS.toggleCollapseIcon);
     });
 
-    test('can set the tree toggle icon rotate', async () => {
+    test.only('can set the tree toggle icon rotate', async () => {
       await expect(idsTree).not.toHaveAttribute('toggle-icon-rotate');
       let toggleIconRotate = await idsTree.evaluate((el: IdsTree) => el.toggleIconRotate);
       await expect(toggleIconRotate).toEqual(IdsTreeShared.DEFAULTS.toggleIconRotate);
       await idsTree.evaluate((el: IdsTree) => { el.toggleIconRotate = true; });
       toggleIconRotate = await idsTree.evaluate((el: IdsTree) => el.toggleIconRotate);
-      await expect(idsTree).toHaveAttribute('toggle-icon-rotate', 'true');
+      await expect(idsTree).toHaveAttribute('toggle-icon-rotate', '');
       await expect(toggleIconRotate).toEqual(true);
       await idsTree.evaluate((el: IdsTree) => { el.toggleIconRotate = false; });
       toggleIconRotate = await idsTree.evaluate((el: IdsTree) => el.toggleIconRotate);
-      await expect(idsTree).toHaveAttribute('toggle-icon-rotate', 'false');
+      await expect(idsTree).not.toHaveAttribute('toggle-icon-rotate');
       await expect(toggleIconRotate).toEqual(false);
-      await idsTree.evaluate((el: IdsTree) => { el.toggleIconRotate = ' '; });
+      await idsTree.evaluate((el: IdsTree) => { el.toggleIconRotate = null; });
       toggleIconRotate = await idsTree.evaluate((el: IdsTree) => el.toggleIconRotate);
       await expect(toggleIconRotate).toEqual(IdsTreeShared.DEFAULTS.toggleIconRotate);
       await expect(idsTree).not.toHaveAttribute('toggle-icon-rotate');

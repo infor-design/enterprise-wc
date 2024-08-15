@@ -50,6 +50,10 @@
     width: var(--ids-size-10);
   }
 
+  &.no-margins {
+    margin: 0;
+  }
+
   &[color='info'] {
     background-color: var(--ids-badge-color-background-info);
     border-color: var(--ids-badge-color-border-info);

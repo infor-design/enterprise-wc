@@ -313,7 +313,9 @@ export default class IdsTreeNode extends Base {
    */
   #attachEventListeners() {
     const slotElem = this.container?.querySelector<HTMLSlotElement>('.group-nodes > slot');
+    const badgeSlot = this.container?.querySelector<HTMLSlotElement>('slot[name="badge"]');
 
+    this.offEvent('click.tree-node', this.nodeContainer);
     this.onEvent('click.tree-node', this.nodeContainer, (evt: CustomEvent) => {
       evt.preventDefault();
       evt.stopPropagation();
@@ -321,6 +323,7 @@ export default class IdsTreeNode extends Base {
     });
 
     let nodeSelectDelay: any;
+    this.offEvent('selected.tree-node', slotElem);
     this.onEvent('selected.tree-node', slotElem, (evt: CustomEvent) => {
       clearTimeout(nodeSelectDelay);
 
@@ -331,7 +334,8 @@ export default class IdsTreeNode extends Base {
     });
 
     let nodeDeselectDelay: any;
-    this.onEvent('deselected.tree-node', slotElem, (evt: CustomEvent) => {
+    this.offEvent('unselected.tree-node', slotElem);
+    this.onEvent('unselected.tree-node', slotElem, (evt: CustomEvent) => {
       clearTimeout(nodeDeselectDelay);
 
       // if selected node is direct child of this node
@@ -340,38 +344,32 @@ export default class IdsTreeNode extends Base {
       }
     });
 
+    this.offEvent('transitionend.expanded-tree', this.groupNodesEl);
     this.onEvent('transitionend.expanded-tree', this.groupNodesEl, () => {
       if (this.expanded) {
         this.groupNodesEl?.style.setProperty('max-height', 'max-content');
       }
     });
 
+    this.offEvent('slotchange', slotElem);
     this.onEvent('slotchange', slotElem, () => {
       // filter out text nodes and move them to ids-text
       const slottedNodes = slotElem?.assignedNodes();
       const textNode = slottedNodes?.find((n) => n.nodeType === 3);
 
-      if (textNode) {
-        this.textElem?.append(textNode);
+      if (textNode && textNode.textContent?.trim()) {
+        this.setAttribute(attributes.LABEL, textNode.textContent?.trim() ?? '');
+        this.removeChild(textNode);
         return;
       }
 
       this.#updateSelectableMode();
       this.updateTreeArias();
-
-      if (this.showExpandAndToggleIcons) {
-        this.slottedTreeNodes.forEach((node) => node.toggleAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS), true);
-      }
     });
 
-    this.onEvent('keydown', this, (evt: KeyboardEvent) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-      evt.stopImmediatePropagation();
-      this.triggerEvent('treenodekeydown', this, {
-        bubbles: true,
-        detail: { node: this, code: evt.code }
-      });
+    this.offEvent('slotchange', badgeSlot);
+    this.onEvent('slotchange', badgeSlot, () => {
+      this.querySelector('ids-badge')?.toggleAttribute(attributes.NO_MARGINS, true);
     });
   }
 
@@ -448,7 +446,7 @@ export default class IdsTreeNode extends Base {
 
     this.triggerEvent(`selected.tree-node`, this, {
       bubbles: true,
-      detail: { node: this }
+      detail: { elem: this.#tree, node: this }
     });
   }
 
@@ -462,7 +460,7 @@ export default class IdsTreeNode extends Base {
     this.nodeContainer?.setAttribute('aria-selected', 'false');
     this.checkboxElem?.removeAttribute(attributes.CHECKED);
 
-    this.triggerEvent(`deselected.tree-node`, this, {
+    this.triggerEvent(`unselected.tree-node`, this, {
       bubbles: true,
       detail: { elem: this }
     });
@@ -510,7 +508,7 @@ export default class IdsTreeNode extends Base {
 
       this.triggerEvent('expanded', this, {
         bubbles: true,
-        detail: { node: this }
+        detail: { elem: this.#tree, node: this }
       });
     };
 
@@ -539,7 +537,7 @@ export default class IdsTreeNode extends Base {
 
     this.triggerEvent('collapsed', this, {
       bubbles: true,
-      detail: { node: this }
+      detail: { elem: this.#tree, node: this }
     });
   }
 
@@ -610,6 +608,8 @@ export default class IdsTreeNode extends Base {
     } else {
       this.removeAttribute(attributes.COLLAPSE_ICON);
     }
+
+    this.#updateNodeIcon();
   }
 
   get collapseIcon(): string {
@@ -626,6 +626,8 @@ export default class IdsTreeNode extends Base {
     } else {
       this.removeAttribute(attributes.EXPAND_ICON);
     }
+
+    this.#updateNodeIcon();
   }
 
   get expandIcon(): string {
@@ -708,7 +710,11 @@ export default class IdsTreeNode extends Base {
     }
 
     if (this.textElem) {
-      this.textElem.textContent = value;
+      this.textElem.textContent = value ?? '';
+    }
+
+    if (this.checkboxElem) {
+      this.checkboxElem.setAttribute(attributes.LABEL, value ?? '');
     }
   }
 
@@ -741,16 +747,16 @@ export default class IdsTreeNode extends Base {
    * Sets the trees expand target between clicking the whole node or just the icon
    * @param {boolean|string} value Either 'node' or 'icon'
    */
-  set expandTarget(value: 'node' | 'icon' | string) {
-    if (IdsTreeShared.isBool(value)) {
-      this.setAttribute(attributes.EXPAND_TARGET, `${value}`);
+  set expandTarget(value: 'node' | 'icon') {
+    if (value === 'node' || value === 'icon') {
+      this.setAttribute(attributes.EXPAND_TARGET, value);
     } else {
       this.removeAttribute(attributes.EXPAND_TARGET);
     }
   }
 
-  get expandTarget(): 'node' | 'icon' | string {
-    return this.getAttribute(attributes.EXPAND_TARGET) || 'node';
+  get expandTarget(): 'node' | 'icon' {
+    return (this.getAttribute(attributes.EXPAND_TARGET) as 'node' | 'icon') || IdsTreeShared.DEFAULTS.expandTarget;
   }
 
   #updateSelectableMode() {
@@ -759,7 +765,7 @@ export default class IdsTreeNode extends Base {
     if (selectableMode === 'multiple' && !this.checkboxElem) {
       this.checkboxElem = document.createElement('ids-checkbox') as IdsCheckbox;
       this.checkboxElem.checked = this.selected;
-      this.checkboxElem.label = this.label;
+      this.checkboxElem.setAttribute(attributes.LABEL, this.label);
       this.checkboxElem.setAttribute('tabindex', '-1');
       this.nodeContainer?.insertBefore(this.checkboxElem, this.textElem);
       this.textElem?.style.setProperty('display', 'none');
