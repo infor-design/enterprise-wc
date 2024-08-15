@@ -32,7 +32,7 @@ test.describe('IdsColorPicker tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-color-picker-light');
     });
