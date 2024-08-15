@@ -6,6 +6,7 @@
 
 ### 1.4.3 Fixes
 
+- `[Datagrid]` Fixed bug where the custom select-color is lost during row-recycling/virtual-scrolling. ([#1392](https://github.com/infor-design/enterprise-wc/issues/1392))
 - `[Homepage]` Converted home page tests to playwright. ([#1940](https://github.com/infor-design/enterprise-wc/issues/1940))
 - `[Listbuilder]` Fixed buggy builder styles. ([#2701]https://github.com/infor-design/enterprise-wc/issues/2701)
 - `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701]https://github.com/infor-design/enterprise-wc/issues/2701)
