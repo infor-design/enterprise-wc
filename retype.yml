@@ -2,7 +2,7 @@ input: .
 output: .retype
 url: # Add your website address here
 branding:
-  title: Enterpise WC
+  title: IDS Enterprise WC
   label: Docs
 links:
 - text: Github Repo
