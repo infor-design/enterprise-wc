@@ -17,7 +17,8 @@
   white-space: nowrap;
 }
 
-:host(.multiselect-option) {
+:host(.multiselect-option),
+:host(.icon-option) {
   display: flex;
 
   ::slotted(ids-icon) {
