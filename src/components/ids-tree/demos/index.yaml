@@ -14,6 +14,9 @@
   - link: add-node.html
     type: Example
     description: Shows the add node function
+  - link: large-tree.html
+    type: Example
+    description: Shows tree with large dataset.
   - link: load-children.html
     type: Example
     description: Shows loading children with ajax
