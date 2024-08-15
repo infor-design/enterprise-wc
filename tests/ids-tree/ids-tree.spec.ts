@@ -333,7 +333,7 @@ test.describe('IdsTree tests', () => {
       await expect(toggleCollapseIcon).toEqual(IdsTreeShared.DEFAULTS.toggleCollapseIcon);
     });
 
-    test.only('can set the tree toggle icon rotate', async () => {
+    test('can set the tree toggle icon rotate', async () => {
       await expect(idsTree).not.toHaveAttribute('toggle-icon-rotate');
       let toggleIconRotate = await idsTree.evaluate((el: IdsTree) => el.toggleIconRotate);
       await expect(toggleIconRotate).toEqual(IdsTreeShared.DEFAULTS.toggleIconRotate);
