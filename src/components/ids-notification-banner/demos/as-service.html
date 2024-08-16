@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light" version="new"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Notification banner service</ids-text>
+    </ids-layout-grid>
+
+    <div id="notification-banner-area">
+    </div>
+
+    <ids-layout-grid auto-fit="true" padding-x="md" padding-y="md">
+      <ids-layout-grid-cell>
+        <ids-button id="show-notification" appearance="tertiary">
+          <ids-icon icon="misc"></ids-icon>
+          <span>Show notification</span>
+        </ids-button>
+
+        <ids-button id="close-all" appearance="tertiary">
+          <ids-icon icon="close"></ids-icon>
+          <span>Close all</span>
+        </ids-button>
+
+        <ids-button id="close-oldest" appearance="tertiary">
+          <ids-icon icon="close"></ids-icon>
+          <span>Close oldest</span>
+        </ids-button>
+
+        <ids-button id="close-newest" appearance="tertiary">
+          <ids-icon icon="close"></ids-icon>
+          <span>Close newest</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

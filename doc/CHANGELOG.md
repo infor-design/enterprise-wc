@@ -4,6 +4,8 @@
 
 ### 1.4.3 Features
 
+- `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
+
 ### 1.4.3 Fixes
 
 - `[Homepage]` Converted home page tests to playwright. ([#1940](https://github.com/infor-design/enterprise-wc/issues/1940))
