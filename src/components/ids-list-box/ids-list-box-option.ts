@@ -64,12 +64,6 @@ export default class IdsListBoxOption extends Base {
    * @returns {object} The object for chaining.
    */
   #attachEventHandlers() {
-    const slot = this.shadowRoot?.querySelector('slot');
-    this.offEvent('slotchange.list-box-option', slot);
-    this.onEvent('slotchange.list-box-option', slot, () => {
-      this.parentElement?.dispatchEvent(new CustomEvent('slotchange', { bubbles: true }));
-    });
-
     const mutationObserver = (mutationList: any[]) => {
       for (const m of mutationList) {
         const assignedNode = this.shadowRoot?.querySelector('slot')?.assignedNodes()?.[0];
