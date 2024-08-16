@@ -71,45 +71,45 @@ test.describe('IdsSplitter tests', () => {
       const btn = await page.locator('#expand-collapse-btn');
       const leftPane = await page.locator('#left-pane');
       const rightPane = await page.locator('#right-pane');
-
       // initial state
       await expect(leftPane).toHaveAttribute('size', '25%');
-
+      const checkPosition = async (startWidth: number, endWidth: number, shouldCollapse: boolean) => {
+        if (shouldCollapse) {
+          await expect(leftPane).toHaveAttribute('collapsed');
+        } else {
+          await expect(leftPane).not.toHaveAttribute('collapsed');
+        }
+        await expect(leftPane).toHaveAttribute('size', `${startWidth}%`);
+        await expect(rightPane).toHaveAttribute('size', `${endWidth}%`);
+        expect(await leftPane.getAttribute('style')).toContain(`width: ${startWidth}%`);
+        expect(await rightPane.getAttribute('style')).toContain(`width: ${endWidth}%`);
+      };
       // collapse the pane
       await btn.click();
-      await expect(leftPane).toHaveAttribute('collapsed');
-      await expect(leftPane).toHaveAttribute('size', '0%');
-      await expect(rightPane).toHaveAttribute('size', '100%');
-      expect(await leftPane.getAttribute('style')).toContain('width: 0%');
-      expect(await rightPane.getAttribute('style')).toContain('width: 100%');
-
+      await checkPosition(0, 100, true);
       // expand the pane
       await btn.click();
-      await expect(leftPane).not.toHaveAttribute('collapsed');
-      await expect(leftPane).toHaveAttribute('size', '25%');
-      expect(await leftPane.getAttribute('style')).toContain('width: 25%');
-      await expect(rightPane).toHaveAttribute('size', '75%');
-      expect(await rightPane.getAttribute('style')).toContain('width: 75%');
-
+      await checkPosition(25, 75, false);
       // resize the pane to 0 with the resizer
       const resizer = await page.locator('ids-splitter ids-draggable').first();
       await resizer.hover();
       await page.mouse.down();
       await page.mouse.move(0, 0);
       await page.mouse.up();
-      await expect(leftPane).toHaveAttribute('size', '0%');
-      expect(await leftPane.getAttribute('style')).toContain('width: 0%');
-      await expect(leftPane).toHaveAttribute('collapsed');
-      await expect(rightPane).toHaveAttribute('size', '100%');
-      expect(await rightPane.getAttribute('style')).toContain('width: 100%');
-
+      await checkPosition(0, 100, true);
       // expand the pane
       await btn.click();
-      await expect(leftPane).not.toHaveAttribute('collapsed');
-      expect(await leftPane.getAttribute('style')).toContain('width: 25%');
-      await expect(leftPane).toHaveAttribute('size', '25%');
-      await expect(rightPane).toHaveAttribute('size', '75%');
-      expect(await rightPane.getAttribute('style')).toContain('width: 75%');
+      await checkPosition(25, 75, false);
+      // RTL
+      await page.evaluate(async () => { await window.IdsGlobal.locale?.setLocale('ar-EG'); });
+      await expect(leftPane).toHaveAttribute('dir', 'rtl');
+      await expect(rightPane).toHaveAttribute('dir', 'rtl');
+      // collapse the pane
+      await btn.click();
+      await checkPosition(0, 100, true);
+      // expand the pane
+      await btn.click();
+      await checkPosition(25, 75, false);
     });
 
     test('can use drag to move', async ({ page }) => {
