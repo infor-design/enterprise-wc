@@ -190,6 +190,7 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   collapse(options: IdsSplitterCollapseExpandOpts = {}): void {
+    const { useRTL } = this.#prop;
     if (this.disabled) {
       if (!options.initial) return;
     }
@@ -209,7 +210,7 @@ export default class IdsSplitter extends Base {
 
       if (hasSize) {
         const diff = this.#minSizes[idx] - this.#sizes[idx];
-        const pixelDiff = this.#toPixel(diff);
+        const pixelDiff = this.#toPixel(diff * (useRTL ? -1 : 1));
         this.#move({ ...pair, diff: pixelDiff, initial: options.initial });
       }
       if (before !== this.#sizes[idx]) {
@@ -228,6 +229,7 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   expand(options: IdsSplitterCollapseExpandOpts = {}): void {
+    const { useRTL } = this.#prop;
     if (this.disabled) {
       return;
     }
@@ -246,7 +248,7 @@ export default class IdsSplitter extends Base {
       const collapsed = stringToBool(pane.getAttribute(COLLAPSED));
       if (collapsed) {
         const diff = this.#expandSizes[idx] - this.#minSizes[idx];
-        this.#move({ ...pair, diff: this.#toPixel(diff) });
+        this.#move({ ...pair, diff: this.#toPixel(diff * (useRTL ? -1 : 1)) });
       }
       if (before !== this.#sizes[idx]) {
         pane.removeAttribute(COLLAPSED);
