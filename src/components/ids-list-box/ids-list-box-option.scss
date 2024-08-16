@@ -17,13 +17,18 @@
   white-space: nowrap;
 }
 
-:host(.multiselect-option) {
+:host(.multiselect-option),
+:host(.icon-option) {
   display: flex;
 
   ::slotted(ids-icon) {
     margin: 0;
     margin-inline-start: var(--ids-dropdown-space-text);
   }
+}
+
+:host(.multiselect-loaded) {
+  align-items: center;
 }
 
 :host([disabled]:not([disabled='false'])) {

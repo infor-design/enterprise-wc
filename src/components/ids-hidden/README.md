@@ -1,4 +1,4 @@
-# Ids Hidden Component
+# ids-hidden
 
 ## Description
 

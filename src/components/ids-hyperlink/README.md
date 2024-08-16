@@ -1,34 +1,24 @@
-# Ids Hyperlink Component
+# ids-hyperlink
 
 ## Description
 
-This component styles hyperlinks to the design guidelines. Also called a link. Typically a hyperlink will open a file file or document or be used to navigate to a new location.
-
-## Use Cases
-
-- When you need static text on a page
-- When you need disabled appearing text in a page
-
-## Terminology
-
-- **Link/Hyperlink**: An interactive link to another page within Infor software to external destinations.
-- **Disabled**: A link can be disabled if its not actionable at the moment.
+Hyperlinks open a document or navigate to a new location. See more [usage details](https://design.infor.com/components/components/hyperlink).
 
 ## Features (With Code Examples)
 
-A normal hyperlink element used as a web component that opens a url in a new window.
+A standard hyperlink that opens a url in a new window:
 
 ```html
 <ids-hyperlink href="http://www.example.com" target="_blank">Normal Link</ids-hyperlink>
 ```
 
-A Disabled appearing hyperlink element.
+A disabled hyperlink element:
 
 ```html
   <ids-hyperlink href="http://www.example.com" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
 ```
 
-Can also create a link as a box, which is useful within widgets. The markup looks like as follows..
+Links can be styled in a ids-box, for use within widgets:
 
 ```html
 <ids-hyperlink href="http://www.example.com" target="_blank" text-decoration="none" color="unset">
@@ -45,7 +35,7 @@ Can also create a link as a box, which is useful within widgets. The markup look
 </ids-hyperlink>
 ```
 
-If needed you can construct a list of links called a link list. The title is optional. If used in a widget leave the title off and use the widget title.
+Links can be grouped in a list, with an optional title. If used in a widget, leave the title off and use the widget title.
 
 ```html
 <ids-link-list title="Link List">
@@ -59,13 +49,11 @@ If needed you can construct a list of links called a link list. The title is opt
 
 ## Settings and Attributes
 
-- `disabled` {boolean} Set the link to disabled
-- `href` {string} Set the links href to a url or file
-- `target` {string} Set the links target attribute. Valid values are '_blank' | '_self' | '_parent' | '_top' | frame name.
-- `allow-empty-href` {boolean} Allows underline and styling of the link when href attribute is empty. Defaults to true.
-- `mode` {string} Set the theme mode
-- `version` {string} Set the theme version
-- `col-span` {number} Can be used for box links to double the width
+- `disabled` {boolean} Sets the link to `disabled`.
+- `href` {string} Sets the link `href` to a url or file.
+- `target` {string} Sets the links `target` attribute: '_blank' | '_self' | '_parent' | '_top' | frame name.
+- `allow-empty-href` {boolean} Allows underline and styling of the link when `href` attribute is empty. Defaults to `true`.
+- `col-span` {number} Can be used for box links to double the width.
 
 ## Themeable Parts
 
@@ -78,14 +66,13 @@ If needed you can construct a list of links called a link list. The title is opt
 - Hover
 - Active
 
-## Keyboard Guidelines
-
-- <kbd>Tab/Shift+Tab</kbd>: If the link is enabled this will focus or unfocus the link.
-- <kbd>Enter</kbd>: If this will follow the link url or action.
-
 ## Responsive Guidelines
 
-- Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent dimensions.
+- Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed, based on parent dimensions.
+
+## Regional Considerations
+
+Link text should be localized in the current language. Links should flip to the opposite side in right-to-left UIs. Consider that some languages, text may be a lot longer (German). And in some cases it can't be wrapped (Thai).
 
 ## Converting from Previous Versions (Breaking Changes)
 
@@ -100,12 +87,3 @@ If needed you can construct a list of links called a link list. The title is opt
 - Can now be imported as a single JS file and used with encapsulated styles
 - If using events, events are now plain JS events.
 - The directional links have been removed/deprecated.
-
-## Accessibility Guidelines
-
-- 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
-- 1.4.3 Contrast (Minimum) - The visual presentation of text and images of text has a contrast ratio of at least 4.5:1.   Ensure the color tags pass contrast.
-
-## Regional Considerations
-
-Link text should be localized in the current language. And should flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai).

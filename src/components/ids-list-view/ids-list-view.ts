@@ -21,6 +21,7 @@ import '../ids-swappable/ids-swappable';
 import '../ids-swappable/ids-swappable-item';
 import '../ids-virtual-scroll/ids-virtual-scroll';
 import './ids-list-view-item';
+import './ids-list-view-group-header';
 import styles from './ids-list-view.scss';
 
 import type IdsSwappableItem from '../ids-swappable/ids-swappable-item';
@@ -172,7 +173,9 @@ export default class IdsListView extends Base {
 
   get itemFocused() {
     const activeId = this.body?.getAttribute('aria-activedescendant');
-    const rowIndex = Number((this.body?.querySelector(`#${activeId}`) as any)?.rowIndex ?? -1);
+    if (!activeId) return null;
+    const item = this.body?.querySelector<IdsListViewItem>(`#${activeId}`) || this.querySelector<IdsListViewItem>(`#${activeId}`);
+    const rowIndex = Number(item?.rowIndex ?? -1);
     return this.itemByIndex(rowIndex);
   }
 
@@ -182,7 +185,7 @@ export default class IdsListView extends Base {
 
   get itemsDisabled(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[disabled]`); }
 
-  get itemsFiltered(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item:not(.${SEARCH_MISMATCH_CLASS})`); }
+  get itemsFiltered(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item:not(.${SEARCH_MISMATCH_CLASS}), ids-list-view-group-header`); }
 
   get itemsChecked(): IdsListViewItem[] { return this.itemsSelector<IdsListViewItem>(`ids-list-view-item[checked]`); }
 
@@ -234,11 +237,19 @@ export default class IdsListView extends Base {
     switch (keyCode) {
       case 'ArrowUp':
         evt.preventDefault();
+        if (!this.itemFocused?.prevEnabled) return;
+        this.itemFocused?.setAttribute('tabindex', '-1');
+        this.itemFocused?.prevEnabled?.setAttribute('tabindex', '0');
         this.itemFocused?.prevEnabled?.focus();
+        this.body?.setAttribute('aria-activedescendant', String(this.itemFocused?.prevEnabled?.id));
         break;
       case 'ArrowDown':
         evt.preventDefault();
+        if (!this.itemFocused?.nextEnabled) return;
+        this.itemFocused?.setAttribute('tabindex', '-1');
+        this.itemFocused?.nextEnabled?.setAttribute('tabindex', '0');
         this.itemFocused?.nextEnabled?.focus();
+        this.body?.setAttribute('aria-activedescendant', String(this.itemFocused?.nextEnabled?.id));
         break;
       case 'Enter':
         if (this.itemFocused) this.itemFocused.activated = true;
@@ -380,8 +391,11 @@ export default class IdsListView extends Base {
     }
 
     const data = this.data[index] ?? {};
-    // const item = this.itemByIndex(index);
-    // const data = this.data[index] ?? item?.rowData ?? {};
+
+    if (data?.isGroupHeader) {
+      return `<ids-list-view-group-header>${data?.title}</ids-list-view-group-header>`;
+    }
+
     const activated = data.itemActivated ? ' activated' : '';
     const disabled = data.disabled ? ' disabled' : '';
     const selected = data.itemSelected ? ' selected' : '';
@@ -471,7 +485,6 @@ export default class IdsListView extends Base {
     if (this.data?.length) {
       return this.data.map((item: any, idx: number) => this.generateListItemFromCustomHTML(idx)).join('');
     }
-
     return this.itemsFiltered.map((item: any, idx: number) => this.generateListItemSlot(idx)).join('');
   }
 
@@ -642,7 +655,7 @@ export default class IdsListView extends Base {
     this.attachScrollEvents();
 
     // Set aria-activedescendant
-    const firstItem = this.body?.querySelector('ids-list-view-item:not([disabled]');
+    const firstItem = this.body?.querySelector('ids-list-view-item:not([disabled]') || this.querySelector('ids-list-view-item:not([disabled]');
     firstItem?.setAttribute('tabindex', '0');
     this.body?.setAttribute('aria-activedescendant', String(firstItem?.id));
   }
@@ -740,6 +753,20 @@ export default class IdsListView extends Base {
   }
 
   get data(): any { return this?.datasource?.data || ''; }
+
+  /**
+   * Add the data array passed in to the bottom of the listview
+   * @param {Array | null} data The array to use
+   */
+  appendToBottom(data: any) {
+    const lastIndex = this.datasource.data.length;
+    this.datasource.data = [...this.datasource.data, ...data];
+
+    if (data) {
+      const newItems = data.map((item: any, idx: number) => this.generateListItemFromCustomHTML(idx + lastIndex)).join('');
+      this.body?.insertAdjacentHTML('beforeend', newItems);
+    }
+  }
 
   /**
    * Used to determine if data has been loaded into IdsListView

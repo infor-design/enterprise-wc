@@ -522,6 +522,7 @@ export default class IdsTimePicker extends Base {
         id: 'time',
         type: 'error',
         message: this.localeAPI?.translate('InvalidTime'),
+        messageId: 'InvalidTime',
         check: (input: any) => {
           if (!input.value) return true;
 

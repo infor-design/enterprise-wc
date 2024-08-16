@@ -1,4 +1,4 @@
-# Ids Masthead Component
+# ids-masthead
 
 ## Description
 

@@ -387,6 +387,14 @@ test.describe('IdsCheckbox tests', () => {
       expect(response).not.toEqual('triggered');
     });
 
+    test('should trigger click event once', async ({ eventsTest }) => {
+      const handle = (await checkbox.elementHandle())!;
+      await eventsTest.onEvent('ids-checkbox', 'click', handle);
+      await checkbox.click();
+      expect(await eventsTest.isEventTriggered('ids-checkbox', 'click')).toBeTruthy();
+      expect(await eventsTest.getEventsCountByElement('ids-checkbox', 'click')).toEqual(1);
+    });
+
     test('can render template', async ({ page }) => {
       const rootEl = await checkbox.locator('.ids-checkbox');
 

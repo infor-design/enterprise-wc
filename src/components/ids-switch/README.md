@@ -1,4 +1,4 @@
-# Ids Switch Component
+# ids-switch
 
 ## Description
 

@@ -3,7 +3,7 @@ import statesJSON from '../../../assets/data/states.json';
 
 const dropdown: any = document.querySelector('#dropdown-1');
 dropdown?.addEventListener('change', (e: any) => {
-  console.info(`Value Changed to ${e.target.value}: ${e.target.selectedOption.textContent}`);
+  console.info(`Value Changed to ${e.target.value}: ${e.target.selectedOption?.textContent || ''}`);
 });
 
 dropdown?.addEventListener('focus', (e: any) => {

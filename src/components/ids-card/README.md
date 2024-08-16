@@ -1,18 +1,8 @@
-# Ids Card Component
+# ids-card
 
 ## Description
 
-A card is a UI design pattern that groups related information in a flexible-size container visually resembling a playing card. Cards are also known as widgets when used in a home page tile layout. See the widget component for widget functionality. The card is a simpler version used to organize content and add a few features like links, selection ect.
-
-## Use Cases
-
-- Cards are good for grouping information, for example in a homepage dashboard layout
-- Cards allow for flexible layout, and can be used in smaller and larger sizes.
-- Cards contain various forms of content and actions. Elements like input texts, images, charts, can be displayed inside a card.
-
-## Dos and Don'ts
-
-- Don't use a card on a popup like a modal or a contextual action panel. The popup itself should be able to stand alone.
+A card is an element that groups related information in a flexible container. See more [usage details](https://design.infor.com/components/components/card).
 
 ## Terminology
 

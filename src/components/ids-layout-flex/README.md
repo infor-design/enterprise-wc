@@ -1,4 +1,4 @@
-# Ids Layout Flex Component
+# ids-layout-flex
 
 ## Description
 

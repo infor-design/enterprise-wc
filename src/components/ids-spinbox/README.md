@@ -1,4 +1,4 @@
-# Ids Spinbox Component
+# ids-spinbox
 
 ## Description
 Allows a user to input a value that goes up/down in specific intervals, and also optionally within a range of integers.

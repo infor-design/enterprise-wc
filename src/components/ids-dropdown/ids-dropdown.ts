@@ -38,7 +38,8 @@ import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import type IdsTooltip from '../ids-tooltip/ids-tooltip';
 import type IdsIcon from '../ids-icon/ids-icon';
-import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import type IdsSearchField from '../ids-search-field/ids-search-field';
 
 import styles from './ids-dropdown.scss';
 import {
@@ -164,7 +165,7 @@ export default class IdsDropdown extends Base {
     ];
   }
 
-  #optionsData: IdsDropdownOptions = [];
+  optionsData: IdsDropdownOptions = [];
 
   #isMultiSelect: boolean = this.nodeName === 'IDS-MULTISELECT';
 
@@ -367,9 +368,9 @@ export default class IdsDropdown extends Base {
    * Returns the currently-selected Listbox option
    * (may be different from the Dropdown's value because of user input)
    * @readonly
-   * @returns {HTMLElement|null} Reference to a selected Listbox option if one is present
+   * @returns {IdsListBoxOption|null} Reference to a selected Listbox option if one is present
    */
-  get selected(): HTMLElement | null {
+  get selected(): IdsListBoxOption | null {
     return this.dropdownList?.selected || null;
   }
 
@@ -641,15 +642,15 @@ export default class IdsDropdown extends Base {
 
     // Trigger an async callback for contents and refresh data
     if (typeof this.state.beforeShow === 'function') {
-      const stuff = await this.state.beforeShow();
-      if (stuff) {
-        this.loadDataSet(stuff);
+      const data = await this.state.beforeShow();
+      if (data) {
+        this.loadDataSet(data);
         if (this.typeahead) {
-          this.#optionsData = stuff;
+          this.optionsData = data;
         }
       }
     } else {
-      this.#setOptionsData();
+      this.setOptionsData();
     }
 
     if (this.value) {
@@ -669,6 +670,8 @@ export default class IdsDropdown extends Base {
       this.#attachTypeaheadEvents();
       this.input?.removeAttribute(attributes.READONLY);
       this.input?.focus();
+      this.searchField?.input?.focus();
+      this.#connectSearchField();
     }
 
     if (shouldSelect) {
@@ -698,9 +701,11 @@ export default class IdsDropdown extends Base {
     });
     listbox?.insertAdjacentHTML('afterbegin', html);
     this.dropdownList?.configureBlank();
-    const currentValue = this.getAttribute(attributes.VALUE);
-    if (this.value !== currentValue) {
-      this.value = currentValue;
+    if (!this.#isMultiSelect) {
+      const currentValue = this.getAttribute(attributes.VALUE);
+      if (this.value !== currentValue) {
+        this.value = currentValue;
+      }
     }
   }
 
@@ -732,16 +737,15 @@ export default class IdsDropdown extends Base {
     if (!noFocus) {
       this.input?.focus();
     }
-
     if (this.typeahead) {
       // In case unfinished typeahead (typing is in process)
       // closing popup will reset dropdown to the initial value
       this.input?.setAttribute(attributes.READONLY, 'true');
       const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
       if (this.input) this.input.value = initialValue || '';
-      this.loadDataSet(this.#optionsData);
+      this.loadDataSet(this.optionsData);
       (window.getSelection() as Selection).removeAllRanges();
-      this.#replaceTriggerIcon(this.dropdownIcon || 'dropdown');
+      this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
 
     this.container?.classList.remove('is-open');
@@ -1070,7 +1074,12 @@ export default class IdsDropdown extends Base {
       const regex = new RegExp(text, 'gi');
       const optionText = item.groupLabel ? item.label : item.label?.replace(
         regex,
-        (matched) => `<span class="highlight">${matched}</span>`
+        (matched) => {
+          if (matched) {
+            return `<span class="highlight">${matched}</span>`;
+          }
+          return '';
+        }
       );
 
       return this.#templateListBoxOption({
@@ -1092,7 +1101,7 @@ export default class IdsDropdown extends Base {
       this.dropdownList.popup?.place();
     }
 
-    this.#replaceTriggerIcon('search');
+    this.replaceTriggerIcon('search');
 
     // Remove selected input icon when start typing
     this.input?.querySelector('.trigger-icon')?.remove();
@@ -1140,7 +1149,7 @@ export default class IdsDropdown extends Base {
    * Helper to replace icon on the trigger button
    * @param {string} icon ids-icon icon value
    */
-  #replaceTriggerIcon(icon: string) {
+  replaceTriggerIcon(icon: string) {
     const triggerIcon = this.container?.querySelector<IdsTriggerButton>('ids-trigger-button')?.querySelector<IdsIcon>('ids-icon');
 
     if (triggerIcon?.icon && triggerIcon.icon !== icon) {
@@ -1173,10 +1182,16 @@ export default class IdsDropdown extends Base {
    */
   #templateListBoxOption(option: IdsDropdownOption): string {
     return `<ids-list-box-option
+      ${this.#isMultiSelect ? 'class="multiselect-option multiselect-loaded"' : ''}
+      ${!this.#isMultiSelect && option.icon ? 'class="icon-option"' : ''}
       ${option.id ? `id=${option.id}` : ''}
       ${option.value ? `value="${option.value}"` : ''}
       ${option.tooltip ? `tooltip="${option.tooltip}"` : ''}
-      ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `<ids-icon icon="${option.icon}"></ids-icon>` : ''}${option.label || ''}</ids-list-box-option>`;
+      ${option.groupLabel ? 'group-label' : ''}>${option.icon ? `
+        <ids-icon icon="${option.icon}"></ids-icon>
+      ` : ''}${option.isCheckbox ? `
+        <ids-checkbox no-margin no-animation class="justify-center multiselect-checkbox multiselect-loaded"${option.selected ? ' checked' : ''}></ids-checkbox><ids-text>${option.label || ''}</ids-text>
+      ` : `<ids-text>${(option.label || '')}</ids-text>`}</ids-list-box-option>`;
   }
 
   /**
@@ -1202,7 +1217,7 @@ export default class IdsDropdown extends Base {
    */
   #getGroupLabelOption(optionIndex: number): IdsDropdownOption | undefined {
     // Get group labels indexes in the all options list
-    const groupLabels: Array<number> = this.#optionsData.reduce(
+    const groupLabels: Array<number> = this.optionsData.reduce(
       (result: Array<number>, option: IdsDropdownOption, index: number) => {
         if (option?.groupLabel) {
           return [...result, index];
@@ -1214,7 +1229,7 @@ export default class IdsDropdown extends Base {
     );
     const groupLabelIndex = this.#getGroupIndex(groupLabels, optionIndex);
 
-    return this.#optionsData[groupLabelIndex];
+    return this.optionsData[groupLabelIndex];
   }
 
   /**
@@ -1223,7 +1238,7 @@ export default class IdsDropdown extends Base {
    * @returns {IdsDropdownOptions} containing matched values
    */
   #findMatches(inputValue: string): IdsDropdownOptions {
-    return this.#optionsData.reduce((options: Array<IdsDropdownOption>, option: IdsDropdownOption, index: number) => {
+    return this.optionsData.reduce((options: Array<IdsDropdownOption>, option: IdsDropdownOption, index: number) => {
       const regex = new RegExp(`(${escapeRegExp(inputValue)})`, 'gi');
 
       if (option.label?.match(regex) && !option.groupLabel) {
@@ -1247,13 +1262,15 @@ export default class IdsDropdown extends Base {
   /**
    * Map slotted ids-list-box-option elements to the dataset
    */
-  #setOptionsData() {
-    this.#optionsData = [...this.options].map((item) => ({
+  setOptionsData() {
+    this.optionsData = [...this.options].map((item) => ({
       id: item.id,
-      label: item.textContent?.trim() ?? '',
+      label: item.textContent?.trim() || item.querySelector<IdsCheckbox>('ids-checkbox')?.label || '',
       value: item.getAttribute(attributes.VALUE) as string,
       icon: item.querySelector<IdsIcon>('ids-icon')?.icon,
-      groupLabel: item.hasAttribute(attributes.GROUP_LABEL)
+      groupLabel: item.hasAttribute(attributes.GROUP_LABEL),
+      isCheckbox: Boolean(item.querySelector<IdsCheckbox>('ids-checkbox')),
+      selected: item.querySelector<IdsCheckbox>('ids-checkbox')?.checked,
     }));
   }
 
@@ -1388,9 +1405,10 @@ export default class IdsDropdown extends Base {
 
     if (val) {
       this.setAttribute(attributes.TYPEAHEAD, String(val));
-      this.#setOptionsData();
+      this.setOptionsData();
     } else {
       this.removeAttribute(attributes.TYPEAHEAD);
+      this.input?.setAttribute(attributes.READONLY, 'true');
     }
 
     this.container?.classList.toggle('typeahead', val);
@@ -1501,7 +1519,7 @@ export default class IdsDropdown extends Base {
 
   onDropdownIconChange(val: string | null) {
     if (typeof val === 'string' && val.length) {
-      this.#replaceTriggerIcon(this.dropdownIcon || 'dropdown');
+      this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
       if (this.dropdownList) this.dropdownList.dropdownIcon = this.dropdownIcon;
     }
   }
@@ -1526,5 +1544,20 @@ export default class IdsDropdown extends Base {
       return checkOverflow(this.input?.input) || false;
     }
     return false;
+  }
+
+  get searchField(): IdsSearchField | null {
+    return this.popup?.querySelector('ids-search-field') || null;
+  }
+
+  /**
+   * Attaches IdsSearchField component to the typeahead functionality
+   */
+  #connectSearchField() {
+    if (this.searchField) {
+      this.searchField.onSearch = (value: string) => {
+        this.#typeAhead(value);
+      };
+    }
   }
 }

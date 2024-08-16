@@ -1,4 +1,4 @@
-# Ids Axis Chart Component
+# ids-axis-chart
 
 ## Description
 

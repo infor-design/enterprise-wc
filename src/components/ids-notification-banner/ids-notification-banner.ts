@@ -1,6 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { TYPES } from './ids-notification-attributes';
 
 import '../ids-text/ids-text';
 import '../ids-alert/ids-alert';
@@ -22,6 +21,23 @@ const Base = IdsKeyboardMixin(
     IdsElement
   )
 );
+
+type IdsNotificationBannerAlertType = 'success' | 'warning' | 'caution' | 'info' | 'error';
+
+export interface IdsNotificationBannerSettings {
+  /* Set the id for the column group object */
+  id?: string;
+  /* Set the parent selector of where to append */
+  parent?: string;
+  /* Set the alert type */
+  type: IdsNotificationBannerAlertType;
+  /* Set the message contents */
+  messageText?: string | null | undefined;
+  /* Set the href link */
+  link?: string,
+  /* Set the href link text */
+  linkText?: string,
+}
 
 /**
  * IDS Notification Banner
@@ -58,6 +74,7 @@ export default class IdsNotificationBanner extends Base {
     return [
       attributes.MESSAGE,
       attributes.MESSAGE_TEXT,
+      attributes.LINE_CLAMP,
       attributes.LINK,
       attributes.LINK_TEXT,
       attributes.TYPE,
@@ -83,14 +100,8 @@ export default class IdsNotificationBanner extends Base {
    */
   template(): string {
     // Set the alert icon based on the notification type
-    let alertIcon;
-    if (TYPES[this.type ?? '']?.type === undefined) {
-      alertIcon = TYPES.success.type;
-    } else {
-      alertIcon = this.type;
-    }
-
-    const type = (!this.type || TYPES[this.type] === undefined) ? TYPES.success.type : this.type;
+    const alertIcon = this.type;
+    const type = (!this.type) ? 'success' : this.type;
     const overflow = this.wrap ? '' : 'overflow="ellipsis"';
 
     return `
@@ -143,11 +154,11 @@ export default class IdsNotificationBanner extends Base {
    * @param {string | null} value the type value
    * success, alert, info, error
    */
-  set type(value: string | null) {
-    if (!value || TYPES[value] === undefined) {
+  set type(value: IdsNotificationBannerAlertType | null) {
+    if (!value) {
       this.removeAttribute(attributes.TYPE);
-      this.setAttribute(attributes.TYPE, TYPES.success.type);
-      this.container?.setAttribute(attributes.TYPE, TYPES.success.type);
+      this.setAttribute(attributes.TYPE, 'success');
+      this.container?.setAttribute(attributes.TYPE, 'success');
       this.container?.querySelector<HTMLElement>('ids-alert')!.setAttribute('icon', 'success');
     } else {
       this.setAttribute(attributes.TYPE, value);
@@ -176,6 +187,26 @@ export default class IdsNotificationBanner extends Base {
   }
 
   get link(): string | null { return this.getAttribute(attributes.LINK); }
+
+  /**
+   * Sets line clamp value to truncate message text
+   * @param {number|null} val number of displayed before truncating
+   */
+  set lineClamp(val: number | null) {
+    const rows = Number(val);
+
+    if (!Number.isNaN(rows) && rows > 0) {
+      this.setAttribute(attributes.LINE_CLAMP, String(rows));
+      this.messageElem?.setAttribute(attributes.LINE_CLAMP, String(rows));
+    } else {
+      this.removeAttribute(attributes.LINE_CLAMP);
+      this.messageElem?.removeAttribute(attributes.LINE_CLAMP);
+    }
+  }
+
+  get lineClamp(): number | null {
+    return Number(this.getAttribute(attributes.LINE_CLAMP)) || null;
+  }
 
   /**
    * Set the custom link text of the Notification Banner
@@ -222,6 +253,10 @@ export default class IdsNotificationBanner extends Base {
 
   get message() { return this.getAttribute(attributes.MESSAGE); }
 
+  get messageElem(): IdsText | null {
+    return this.container?.querySelector<IdsText>('ids-text.message') ?? null;
+  }
+
   /**
    * Establish Internal Event Handlers
    * @private
@@ -249,7 +284,7 @@ export default class IdsNotificationBanner extends Base {
    * @param {object} notification Object passed in for notification creation
    * @returns {void}
    */
-  add(notification: object | any): void {
+  add(notification: IdsNotificationBannerSettings): void {
     const {
       id,
       parent,
@@ -268,21 +303,20 @@ export default class IdsNotificationBanner extends Base {
       this.setAttribute('id', id);
     }
     this.type = type;
-    this.messageText = messageText;
+    this.messageText = messageText || '';
     alertIcon?.setAttribute('icon', this.type ?? '');
     if (messageTextEl) messageTextEl.innerHTML = `<ids-text ${overflow}>${this.messageText}</ids-text>`;
 
     // Check for link and create the necassary elements.
     if (notification.link && linkEl) {
-      this.link = link;
+      this.link = link || '';
       this.linkText = linkText === undefined ? 'Click to view' : linkText;
       linkEl.innerHTML = `<ids-hyperlink href="${this.link}" target="_blank">${this.linkText}</ids-hyperlink>`;
     }
 
-    // Check if parent container is defined to prepend
-    // If not prepend to body element.
+    // Check if parent container is defined if not append to a parent
     if (parent) {
-      const parentEl = document.getElementById(parent);
+      const parentEl = document.querySelector(parent);
       parentEl?.prepend(<any> this);
     } else if (document.querySelector('ids-container')) {
       document.querySelector('ids-container')?.prepend(<any> this);

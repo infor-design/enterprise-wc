@@ -1,4 +1,4 @@
-# Ids Menu Component
+# ids-menu
 
 ## Description
 

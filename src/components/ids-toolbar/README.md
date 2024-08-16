@@ -1,4 +1,4 @@
-# Ids Toolbar Component
+# ids-toolbar
 
 ## Description
 

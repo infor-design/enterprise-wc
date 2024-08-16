@@ -1,14 +1,8 @@
-# Ids About Component
+# ids-about
 
-Provides information about an application / product with copyright and browser information.
+Provides information about a product with copyright and browser information.
 
-The IDS About Component builds on top of the [Modal](../ids-modal/README.md)
-
-## Use Cases
-
-- Display application name, product name and product version
-- Display copyright information
-- Display browser and device information
+ids-about builds on top of the [ids-modal](../ids-modal/README.md)
 
 ## Settings (Attributes)
 
@@ -26,7 +20,7 @@ The IDS About Component builds on top of the [Modal](../ids-modal/README.md)
 
 ## Features (With Code Examples)
 
-Example with application name, product name, product version and logo
+Example with application name, product name, product version and logo:
 
 ```html
 <ids-about id="about-example" product-name="Product" product-version="4.0.0">
@@ -36,21 +30,21 @@ Example with application name, product name, product version and logo
 </ids-about>
 ```
 
-Example with only copyright text and browser/device information
+Example with only copyright text and browser/device information:
 
 ```html
 <ids-about id="about-example">
 </ids-about>
 ```
 
-Example with custom copyright year, no application name or product information
+Example with custom copyright year, no application name or product information:
 
 ```html
 <ids-about id="about-example" copyright-year="2020">
 </ids-about>
 ```
 
-Example with no copyright info and no browser/device information, but with application name and product name/version
+Example with no copyright info and no device information, but with product name/version:
 
 ```html
 <ids-about
@@ -64,7 +58,7 @@ Example with no copyright info and no browser/device information, but with appli
 </ids-about>
 ```
 
-The component can be controlled with Javascript
+The component can be controlled with JavaScript:
 
 ```js
 const about = document.querySelector('#about-example');

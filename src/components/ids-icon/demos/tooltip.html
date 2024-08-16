@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Ids Icon (With Tooltips)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md" min-col-width="100px">
+      <ids-layout-grid-cell>
+        <div>
+          <ids-icon id="label-created" icon="barcode" size="large" status-color="info"></ids-icon>
+          <ids-tooltip target="#label-created" id="label-created-tooltip">Label Created</ids-tooltip>
+        </div>
+        
+        <div>
+          <ids-icon id="shipped" icon="ship" size="large" status-color="info"></ids-icon>
+          <ids-tooltip target="#shipped" id="shipped-tooltip">Shipped / On the way</ids-tooltip>
+        </div>
+  
+        <div>
+          <ids-icon id="out-for-delivery" icon="truck" size="large" status-color="info"></ids-icon>
+          <ids-tooltip target="#out-for-delivery" id="out-for-delivery-tooltip">Out for Delivery</ids-tooltip>
+        </div>
+  
+        <div>
+          <ids-icon id="delivered" icon="success" size="large" status-color="success"></ids-icon>
+          <ids-tooltip target="#delivered" id="delivered-tooltip">Delivered</ids-tooltip>
+        </div>
+  
+        <div>
+          <ids-icon id="delivery-exception" icon="alert" size="large" status-color="warning"></ids-icon>
+          <ids-tooltip target="#delivery-exception" id="delivery-exception-tooltip">Delivery Exception</ids-tooltip>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -39,7 +39,8 @@ export default class IdsSplitterPane extends Base {
       attributes.COLLAPSED,
       attributes.SIZE,
       attributes.MIN_SIZE,
-      attributes.MAX_SIZE
+      attributes.MAX_SIZE,
+      attributes.NO_SCROLL
     ];
   }
 
@@ -165,5 +166,15 @@ export default class IdsSplitterPane extends Base {
    */
   get maxSize(): number | string | null {
     return this.getAttribute(attributes.MAX_SIZE);
+  }
+
+  set noScroll(val: boolean) {
+    const hideScroll = stringToBool(val);
+    this.toggleAttribute(attributes.NO_SCROLL, hideScroll);
+    this.container?.style.setProperty('overflow', hideScroll ? 'hidden' : 'auto');
+  }
+
+  get noScroll(): boolean {
+    return stringToBool(attributes.NO_SCROLL);
   }
 }

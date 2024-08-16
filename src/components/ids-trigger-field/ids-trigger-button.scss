@@ -36,8 +36,9 @@
 
 :host(.expand-button),
 .expand-button {
-  position: relative;
-  inset-inline: 17px;
+  margin-top: -3px;
+  height: var(--ids-button-height);
+  width: var(--ids-button-width);
 }
 
 .ids-trigger-button {
@@ -49,7 +50,7 @@
 
   &.ids-icon-button {
     padding: var(--ids-space-xxs);
-    inset-inline-start: -2px;
+    inset-inline-start: -3px;
 
     &[disabled] {
       color: var(--ids-trigger-field-color-text-disabled);
