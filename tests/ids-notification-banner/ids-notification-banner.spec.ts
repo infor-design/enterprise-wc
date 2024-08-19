@@ -142,4 +142,58 @@ test.describe('IdsNotificationBanner tests', () => {
       expect(lineClampValue).toEqual(2);
     });
   });
+
+  test.describe('Notification Banner Service Tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-notification-banner/as-service.html');
+    });
+
+    test('should be able to show a few messages', async ({ page }) => {
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+
+      const count = await page.evaluate(() => document.querySelectorAll('ids-notification-banner').length);
+      expect(count).toBe(3);
+    });
+
+    test('should be able to check count', async ({ page }) => {
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+
+      const count = await page.evaluate(() => (window as any).IdsNotificationBannerService.count);
+      expect(count).toBe(3);
+    });
+
+    test('should be able to close all', async ({ page }) => {
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+
+      await page.evaluate(() => (window as any).IdsNotificationBannerService.dismissAll());
+      const count = await page.evaluate(() => document.querySelectorAll('ids-notification-banner').length);
+      expect(count).toBe(0);
+    });
+
+    test('should be able to close first', async ({ page }) => {
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+
+      await page.evaluate(() => (window as any).IdsNotificationBannerService.dismissNewest());
+      const count = await page.evaluate(() => document.querySelectorAll('ids-notification-banner').length);
+      expect(count).toBe(2);
+    });
+
+    test('should be able to close last', async ({ page }) => {
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+
+      await page.evaluate(() => (window as any).IdsNotificationBannerService.dismissOldest());
+      const count = await page.evaluate(() => document.querySelectorAll('ids-notification-banner').length);
+      expect(count).toBe(2);
+    });
+  });
 });

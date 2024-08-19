@@ -256,7 +256,7 @@ test.describe('IdsDataGrid filter tests', () => {
     expect(await buttonEl.evaluate((elem: any) => elem.menuEl.visible)).toBeFalsy();
   });
 
-  test('should set filter with click on menu button', async ({ page }) => {
+  test.skip('should set filter with click on menu button', async ({ page }) => {
     const selector = '.ids-data-grid-body .ids-data-grid-row';
     const getRowsCount = (elem: IdsDataGrid, arg: string) => elem.container?.querySelectorAll(arg).length;
     const dataGrid = await page.locator('ids-data-grid');

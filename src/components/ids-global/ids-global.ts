@@ -21,12 +21,14 @@ declare global {
   }
 }
 
-window.IdsGlobal ??= {
-  version,
-  personalize: new IdsPersonalize(),
-  themeName: '',
-  themePath: ''
-};
+if (typeof window !== 'undefined') {
+  window.IdsGlobal ??= {
+    version,
+    personalize: new IdsPersonalize(),
+    themeName: '',
+    themePath: ''
+  };
+}
 
 class IdsGlobal {
   /**
