@@ -96,14 +96,14 @@
   --ids-card-divider-color-border: var(--ids-color-neutral-30);
 
   // Button (Tertiary)
-  --ids-button-tertiary-color-background-hover: var(--ids-color-neutral-20);
+  --ids-button-tertiary-color-background-hover: var(--ids-color-accent-neutral-weakest);
 
   // Button (Formatter)
-  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-100);
+  --ids-button-formatter-color-text-hover: var(--ids-color-accent-neutral-strongest);
   --ids-button-formatter-color-text-disabled: var(--ids-color-neutral-60);
-  --ids-button-formatter-color-background-hover: var(--ids-color-neutral-30);
-  --ids-button-formatter-color-active: var(--ids-color-neutral-100);
-  --ids-button-formatter-color-text-default: var(--ids-color-neutral-100);
+  --ids-button-formatter-color-background-hover: var(--ids-color-accent-neutral-weaker);
+  --ids-button-formatter-color-active: var(--ids-color-accent-neutral-strongest);
+  --ids-button-formatter-color-text-default: var(--ids-color-accent-neutral-strongest);
 
   // Charts
   --ids-chart-legend-color-text: var(--ids-color-text-default);

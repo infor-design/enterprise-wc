@@ -84,15 +84,15 @@
 
   // Button (Formatter)
   --ids-button-formatter-color-border: var(--ids-color-neutral-70);
-  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-10);
-  --ids-button-formatter-color-text-disabled: var(--ids-color-neutral-40);
-  --ids-button-formatter-color-background-hover: var(--ids-color-neutral-80);
+  --ids-button-formatter-color-text-hover: var( --ids-color-accent-neutral-strongest);
+  --ids-button-formatter-color-text-disabled: var(--ids-color-accent-neutral-strong);
+  --ids-button-formatter-color-background-hover: var(--ids-color-accent-neutral-weaker);
   --ids-button-formatter-color-active: var(--ids-color-white-100);
-  --ids-button-formatter-color-text-default: var(--ids-color-neutral-10);
+  --ids-button-formatter-color-text-default: var(--ids-color-accent-neutral-strongest);
 
   // Button (Module)
   --ids-button-module-color-background-hover: rgba(0 0 0 / 0.3);
-  --ids-button-module-color-text-default: var(--ids-color-neutral-10);
+  --ids-button-module-color-text-default: var(--ids-color-accent-neutral-strongest);
   --ids-button-module-color-text-hover: var(--ids-color-white-100);
 
   // Button (Module)
