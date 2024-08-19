@@ -1230,7 +1230,7 @@
   --ids-process-indicator-color-active: var(--ids-color-primary);
   --ids-process-indicator-color: var(--ids-color-neutral-30);
   --ids-process-indicator-line-transform: translate(0, 36px);
-  --ids-process-indicator-font-line-height: 2px;
+  --ids-process-indicator-font-line-height: var(--ids-space-3xs);
   --ids-process-indicator-line-color-background: var(--ids-process-indicator-color);
   --ids-process-indicator-step-transform: translate(0, -75%);
   --ids-process-indicator-step-height: 11px;
