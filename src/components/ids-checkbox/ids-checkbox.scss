@@ -17,7 +17,7 @@
     cursor: var(--ids-cursor-pointer);
     user-select: none;
     padding-block-start: 1px;
-    padding-inline-start: 25px;
+    padding-inline-start: var(--ids-space-md);
     margin-inline-end: 10px;
     position: relative;
     display: inline-block;
@@ -186,7 +186,7 @@
 :host(.multiselect-loaded) {
   .ids-checkbox {
     text-indent: 0;
-    margin-inline-start: 8px;
+    margin-inline-start: var(--ids-space-xs);
 
     label {
       margin-inline-end: 0;
