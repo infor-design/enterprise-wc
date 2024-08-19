@@ -243,8 +243,8 @@
   --ids-box-width: auto;
 
   // Button (Primary)
-  --ids-button-height: 32px;
-  --ids-button-width: 32px;
+  --ids-button-height: var(--ids-space-lg);
+  --ids-button-width: var(--ids-space-lg);
   --ids-button-padding-inline: 12px;
   --ids-button-alt-margin: var(--ids-space-3xs);
   --ids-button-radius: var(--ids-border-radius-sm);
@@ -343,33 +343,33 @@
   --ids-button-toggle-color-text-pressed-red: var(--ids-color-accent-red-weak);
 
   // Button (App Menu)
-  --ids-button-app-menu-color-text-default: var(--ids-color-neutral-20);
+  --ids-button-app-menu-color-text-default: var(--ids-color-accent-neutral-weaker);
   --ids-button-app-menu-color-background-hover: var(--ids-app-menu-header-color-background-hover);
   --ids-button-app-menu-color-text-hover: var(--ids-color-white-100);
-  --ids-button-app-menu-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-button-app-menu-color-text-disabled: var(--ids-color-accent-neutral-default);
 
   // Button (Alternate)
-  --ids-button-alternate-color-text-default: var(--ids-color-neutral-10);
+  --ids-button-alternate-color-text-default: var(--ids-color-accent-neutral-weakest);
   --ids-button-alternate-color-text-default-hover: var(--ids-color-white-100);
   --ids-button-alternate-color-background-pressed: var(--ids-color-text-on-primary);
 
   // Button (Formatter)
   --ids-button-formatter-color-border-focus: 0 0 0 2px var(--ids-color-background-default), 0 0 0 3px var(--ids-color-action-stronger);
   --ids-button-formatter-opacity-disabled: var(--ids-opacity-disabled);
-  --ids-button-formatter-color-text-hover: var(--ids-color-neutral-100);
-  --ids-button-formatter-color-text-disabled: var(--ids-color-neutral-50);
-  --ids-button-formatter-color-background-hover: var(--ids-color-neutral-20);
-  --ids-button-formatter-color-active: var(--ids-color-neutral-100);
+  --ids-button-formatter-color-text-hover: var(--ids-color-accent-neutral-strongest);
+  --ids-button-formatter-color-text-disabled: var(--ids-color-accent-neutral-default);
+  --ids-button-formatter-color-background-hover: var(--ids-color-accent-neutral-weaker);
+  --ids-button-formatter-color-active: var(--ids-color-accent-neutral-strongest);
   --ids-button-formatter-color-background-default: transparent;
   --ids-button-formatter-color-border-default: transparent;
-  --ids-button-formatter-color-text-default: var(--ids-color-neutral-100);
+  --ids-button-formatter-color-text-default: var(--ids-color-accent-neutral-strongest);
   --ids-button-formatter-size: 34px;
 
   // Button (Module)
   --ids-button-module-border-radius: 10px;
   --ids-button-module-color-background-hover: rgba(0 0 0 / 0.1);
   --ids-button-module-color-text-default: var(--ids-color-neutral-90);
-  --ids-button-module-color-text-hover: var(--ids-color-neutral-100);
+  --ids-button-module-color-text-hover: var(--ids-color-accent-neutral-strongest);
 
   // Button (Menu)
   --ids-button-menu-background-color-active: var(--ids-color-accent-neutral-weakest);
