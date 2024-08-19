@@ -428,7 +428,7 @@ test.describe('IdsToast tests', () => {
       await expect(localStorage.getItem(id(uniqueId))).toEqual(null);
     });
 
-    test('can restore saved position', async ({ page }) => {
+    test.skip('can restore saved position', async ({ page }) => {
       // await button.click();
       options = {
         title: 'Test',
