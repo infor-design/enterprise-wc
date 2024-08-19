@@ -844,7 +844,7 @@
   --ids-input-height-40: 48px;
 
   // Input Styles
-  --ids-input-margin-bottom: 8px;
+  --ids-input-margin-bottom: var(--ids-space-xs);
   --ids-input-label-font-size: var(--ids-font-size-xs);
   --ids-input-font-size: var(--ids-font-size-sm);
   --ids-input-font-size-sm: var(--ids-font-size-sm);
@@ -864,12 +864,12 @@
   --ids-input-color-border-hover: var(--ids-color-border-strong);
   --ids-input-color-border-focus: var(--ids-color-action-default);
   --ids-input-color-border-shadow: var(--ids-shadow-focus);
-  --ids-input-header-color-text-default: var(--ids-color-neutral-100);
+  --ids-input-header-color-text-default: var(--ids-color-accent-neutral-strongest);
   --ids-input-header-color-text-placeholder: rgba(62 62 66 / 0.7);
   --ids-input-header-color-background: var(--ids-color-text-on-primary);
   --ids-input-header-color-border: rgba(62 62 66 / 0.7);
-  --ids-input-color-border-alert-default: var(--ids-color-orange-80);
-  --ids-input-color-text-alert-default: var(--ids-color-orange-80);
+  --ids-input-color-border-alert-default: var(--ids-color-accent-orange-stronger);
+  --ids-input-color-text-alert-default: var(--ids-color-accent-orange-stronger);
   --ids-input-shadow-alert-focus: var(--ids-color-shadow-warning);
   --ids-input-color-border-alert-disabled: var(--ids-color-orange-30);
   --ids-input-color-text-alert-disabled: var(--ids-color-orange-30);
@@ -884,7 +884,7 @@
   --ids-input-color-border-info-disabled: var(--ids-color-blue-30);
   --ids-input-color-text-info-disabled: var(--ids-color-blue-30);
   --ids-input-color-border-success-default: var(--ids-color-success-default);
-  --ids-input-color-text-success-default: var(--ids-color-green-80);
+  --ids-input-color-text-success-default: var(--ids-color-success-default);
   --ids-input-shadow-success-focus: rgba(42 195 113 / 0.3);
   --ids-input-color-border-success-disabled: var(--ids-color-green-30);
   --ids-input-color-text-success-disabled: var(--ids-color-green-30);

@@ -104,7 +104,7 @@ $input-size-full: 100%;
     white-space: nowrap;
 
     &.required {
-      padding-inline-end: 8px;
+      padding-inline-end: var(--ids-space-xs);
 
       &::after {
         display: block;
@@ -267,7 +267,7 @@ $input-size-full: 100%;
   .field-container {
     border: 1px solid;
     border-collapse: separate;
-    border-radius: 2px;
+    border-radius: var(--ids-border-radius-2xs);
     box-sizing: border-box;
     color: inherit;
     display: flex;
@@ -282,7 +282,7 @@ $input-size-full: 100%;
   }
 
   .field-container.square {
-    border-radius: 0;
+    border-radius: var(--ids-border-radius-none);
   }
 
   &:focus-within,
@@ -359,7 +359,7 @@ $input-size-full: 100%;
   // Validation Messages are appended beneath the `.field-container`
   .validation-message {
     margin-block-start: var(--ids-space-2xs);
-    margin-bottom: 0;
+    margin-bottom: var(--ids-space-none);
   }
 
   // If `no-margins` is used:
@@ -367,29 +367,29 @@ $input-size-full: 100%;
   // - labels are visually hidden instead of displaying blank content for spacing
   &.no-margins,
   &.no-margins.compact {
-    margin: 0;
+    margin: var(--ids-space-none);
 
     &.field-height-xs {
-      margin-block-end: 0;
+      margin-block-end: var(--ids-space-none);
     }
 
     .field-container {
-      margin-bottom: 0;
+      margin-bottom: var(--ids-space-none);
     }
 
     .ids-input-field {
-      margin: 0;
+      margin: var(--ids-space-none);
     }
 
     // Reverse the margins on `ids-input[no-margins]` fields to have the bottom margin on top
     .validation-message {
-      margin-bottom: 0;
+      margin-bottom: var(--ids-space-none);
       margin-block-start: var(--ids-space-2xs);
     }
 
     .ids-label-text {
       &.empty {
-        margin: 0;
+        margin: var(--ids-space-none);
         visibility: hidden;
         height: 0;
       }
@@ -438,11 +438,11 @@ $input-size-full: 100%;
     @include input-extra-small-height();
 
     &.no-margin-bottom {
-      margin-bottom: 0;
+      margin-bottom: var(--ids-space-none);
 
       .field-container,
       .ids-input-field {
-        margin-bottom: 0;
+        margin-bottom: var(--ids-space-none);
       }
     }
   }
@@ -464,11 +464,11 @@ $input-size-full: 100%;
     @include input-extra-small-height($border-input-field-height-xs);
 
     &.no-margin-bottom {
-      margin-bottom: 0;
+      margin-bottom: var(--ids-space-none);
 
       .field-container,
       .ids-input-field {
-        margin-bottom: 0;
+        margin-bottom: var(--ids-space-none);
         height: $border-input-field-height-xs;
       }
     }
@@ -481,7 +481,7 @@ $input-size-full: 100%;
     --ids-input-color-border-focus: var(--ids-color-transparent);
 
     margin: 1px;
-    border-radius: 0;
+    border-radius: var(--ids-border-radius-none);
 
     input {
       font-size: var(--ids-font-size-sm);
@@ -538,7 +538,7 @@ $input-size-full: 100%;
       }
 
       slot[name="trigger-end"]  {
-        padding-inline-end: 0;
+        padding-inline-end: var(--ids-space-none);
       }
     }
 
@@ -549,7 +549,7 @@ $input-size-full: 100%;
       }
 
       slot[name="trigger-end"]  {
-        padding-inline-end: 0;
+        padding-inline-end: var(--ids-space-none);
       }
     }
   }
@@ -582,12 +582,12 @@ $input-size-full: 100%;
     }
 
     &.ids-input.field-height-sm .ids-input-field {
-      padding-inline: 4px;
+      padding-inline: var(--ids-space-2xs);
       height: 27px;
     }
 
     &.ids-input.field-height-sm.full .field-container {
-      margin-inline: 2px;
+      margin-inline: var(--ids-space-3xs);
     }
 
     &.ids-input.field-height-xs .ids-input-field {
@@ -603,7 +603,7 @@ $input-size-full: 100%;
   // Module Nav color variant
   // (used in IdsDropdown/IdsSearchField located inside IdsModuleNav)
   &.color-variant-module-nav {
-    margin-block-end: 0;
+    margin-block-end: var(--ids-space-none);
     transform: background-color var(--ids-motion-duration) var(--ids-motion-ease),
       border-color var(--ids-motion-duration) var(--ids-motion-ease),
       color var(--ids-motion-duration) var(--ids-motion-ease);
@@ -881,8 +881,8 @@ $input-size-full: 100%;
 }
 
 .caps-lock-indicator {
-  padding-inline-start: 8px;
-  padding-inline-end: 8px;
+  padding-inline-start: var(--ids-space-xs);
+  padding-inline-end: var(--ids-space-xs);
 }
 
 .is-uppercase {
@@ -954,21 +954,21 @@ $input-size-full: 100%;
 
   ::slotted(.slot-loading-indicator) {
     margin-inline-end: 12px;
-    margin-inline-start: 8px;
+    margin-inline-start: var(--ids-space-xs);
   }
 }
 
 :host([show-loading-indicator='true'][field-height='xs']) {
   ::slotted(.slot-loading-indicator) {
-    margin-inline-start: 4px;
-    margin-inline-end: 4px;
+    margin-inline-start: var(--ids-space-2xs);
+    margin-inline-end: var(--ids-space-2xs);
   }
 }
 
 :host([show-loading-indicator='true'][field-height='sm']) {
   ::slotted(.slot-loading-indicator) {
-    margin-inline-end: 8px;
-    margin-inline-start: 4px;
+    margin-inline-end: var(--ids-space-xs);
+    margin-inline-start: var(--ids-space-2xs);
   }
 }
 
