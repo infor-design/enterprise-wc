@@ -11,7 +11,7 @@
   font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   font-size: var(--ids-hyperlink-font-size);
   font-weight: var(--ids-hyperlink-font-weight);
-  padding: 2px 4px;
+  padding: var(--ids-space-3xs) var(--ids-space-2xs);
   position: relative;
   margin-block-start: -3px;
   margin-inline-start: -4px;
@@ -207,10 +207,10 @@
 ::slotted(ids-box) {
   text-align: center;
 
-  --ids-icon-height-default: 48px;
-  --ids-icon-width-default: 48px;
+  --ids-icon-height-default: var(--ids-space-2xl);
+  --ids-icon-width-default: var(--ids-space-2xl);
   --ids-icon-color-default: var(--ids-hyperlink-box-icon-color-text-default);
-  --ids-box-padding: 8px;
+  --ids-box-padding: var(--ids-space-xs);
 }
 
 ::slotted(ids-box:hover) {
@@ -222,8 +222,8 @@
   --ids-icon-color-default: var(--ids-hyperlink-color-text-default);
 
   display: inline;
-  margin-inline-end: 8px;
-  top: 4px;
+  margin-inline-end: var(--ids-space-xs);
+  top: var(--ids-space-2xs);
 }
 
 :host(.disabled),
