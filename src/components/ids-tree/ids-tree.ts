@@ -702,11 +702,11 @@ export default class IdsTree extends Base {
     this.onEvent('keyup.tree', this.container, (e: any) => {
       const allow = ['Space', 'Enter'];
       const key = e.code;
-      const node = e.composedPath().find((el: any) => el.nodeName === 'IDS-TREE-NODE');
+      const node = e.composedPath().find((el: any) => el.nodeName === 'IDS-TREE-NODE') as IdsTreeNode;
       if (allow.indexOf(key) > -1) {
         e.preventDefault();
         e.stopPropagation();
-        node.handleClickEvent(e);
+        node.handleClickEvent(e, key === 'Space');
       }
     });
 

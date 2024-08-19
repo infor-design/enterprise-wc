@@ -386,7 +386,7 @@ export default class IdsTreeNode extends Base {
     return !!children.length && !!children.find((child) => !child.selected || child.isIndeterminate);
   }
 
-  handleClickEvent(evt: CustomEvent) {
+  handleClickEvent(evt: CustomEvent, skipExpansion?: boolean) {
     if (this.disabled) return;
 
     const clickTarget = evt.target as Element;
@@ -395,7 +395,7 @@ export default class IdsTreeNode extends Base {
 
     // HANDLE EXPANSION
     const isValidExpandClick = this.treeElem?.expandTarget === 'icon' ? isIconClick : true;
-    const shouldHandleExpansion = this.isGroup && isValidExpandClick;
+    const shouldHandleExpansion = this.isGroup && isValidExpandClick && !skipExpansion;
 
     if (shouldHandleExpansion && this.isGroup && !isCheckboxClick) {
       const shouldExpand = !this.expanded;
