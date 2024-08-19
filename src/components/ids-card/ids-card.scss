@@ -185,8 +185,8 @@
   ::slotted(.flex-content) {
     display: flex;
     align-items: center;
-    padding: 15px 16px;
-    gap: 16px;
+    padding: 15px var(--ids-space-sm);
+    gap: var(--ids-space-sm);
   }
 }
 
@@ -243,7 +243,7 @@
   flex-direction: column;
   height: inherit;
   justify-content: center;
-  padding: 0 8px;
+  padding: 0 var(--ids-space-xs);
   text-align: center;
   width: 100%;
 }
