@@ -1353,10 +1353,10 @@
   --ids-splitter-bar-color-border: var(--ids-color-accent-neutral-weak);
   --ids-splitter-bar-color-border-hover: var(--ids-color-accent-neutral-weak);
   --ids-splitter-bar-color-border-dragging: var(--ids-color-action-weaker);
-  --ids-splitter-bar-buffer-width: 8px;
+  --ids-splitter-bar-buffer-width: var(--ids-space-xs);
   --ids-splitter-bar-width: 1px;
   --ids-splitter-handle-border-radius: var(--ids-border-radius-xs);
-  --ids-splitter-handle-height: 32px;
+  --ids-splitter-handle-height: var(--ids-space-lg);
   --ids-splitter-handle-width: 6px;
   --ids-splitter-handle-color-background-hover: var(--ids-color-action-default);
 
