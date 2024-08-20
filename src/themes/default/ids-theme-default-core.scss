@@ -1301,9 +1301,9 @@
 
   // Separator
   --ids-separator-color-background: var(--ids-color-accent-neutral-default);
-  --ids-separator-height: 24px;
+  --ids-separator-height: var(--ids-space-md);
   --ids-separator-width: 1px;
-  --ids-separator-margin: 4px;
+  --ids-separator-margin: var(--ids-space-2xs);
   --ids-separator-alternate-color-background: var(--ids-color-accent-neutral-weaker);
   --ids-separator-alternate-margin: var(--ids-space-xs);
 
