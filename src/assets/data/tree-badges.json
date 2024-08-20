@@ -36,6 +36,7 @@
   {
     "id": "public-folders",
     "text": "Public Folders",
+    "expanded": true,
     "badge": {
       "text": "5",
       "color": "info",
@@ -45,6 +46,7 @@
       {
         "id": "leadership",
         "text": "Leadership",
+        "expanded": true,
         "badge": {
           "text": "4",
           "color": "warning",

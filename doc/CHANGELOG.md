@@ -38,6 +38,7 @@
 - `[SwapList]` Converted swap list tests to playwright. ([#1974](https://github.com/infor-design/enterprise-wc/issues/1974))
 - `[Tabs]` Fixed an issue where overflow menu group popup is full width. ([#2656](https://github.com/infor-design/enterprise-wc/issues/2656))
 - `[TimPicker]` Converted time picker tests to playwright. ([#1982](https://github.com/infor-design/enterprise-wc/issues/1982))
+- `[Tree]` Refactor IdsTree to allow rendering of large dataset. ([#2504](https://github.com/infor-design/enterprise-wc/issues/2504))
 
 ## 1.4.1
 
