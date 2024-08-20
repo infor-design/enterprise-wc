@@ -530,8 +530,8 @@
   --ids-data-grid-cell-color-background-readonly: rgba(0 0 0 / 0.04);
   --ids-data-grid-cell-color-border: var(--ids-color-neutral-30);
   --ids-data-grid-cell-checkbox-color-border: var(--ids-input-color-border-default);
-  --ids-data-grid-cell-color-text-default: var(--ids-color-neutral-100);
-  --ids-data-grid-cell-color-text-disabled: var(--ids-color-neutral-40);
+  --ids-data-grid-cell-color-text-default: var(--ids-color-foreground-default-default);
+  --ids-data-grid-cell-color-text-disabled: var(--ids-color-foreground-default-disabled);
   --ids-data-grid-cell-color-background-error: rgba(232 79 79 / 0.1);
 
   // Data Grid (List)

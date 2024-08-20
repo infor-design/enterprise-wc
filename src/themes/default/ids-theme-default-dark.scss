@@ -134,25 +134,25 @@
   --ids-checkbox-color-background-multiselect: var(--ids-color-background-dark);
 
   // Data Grid
-  --ids-data-grid-color-background: var(--ids-color-neutral-90);
+  --ids-data-grid-color-background: var(--ids-color-accent-neutral-weakest);
 
   // Data Grid (Cells)
-  --ids-data-grid-cell-color-background-default: var(--ids-color-neutral-90);
+  --ids-data-grid-cell-color-background-default: var(--ids-color-accent-neutral-weakest);
   --ids-data-grid-cell-color-background-readonly: rgba(0 0 0 / 0.35);
-  --ids-data-grid-cell-color-border: var(--ids-color-neutral-60);
-  --ids-data-grid-cell-checkbox-color-border: var(--ids-color-neutral-40);
+  --ids-data-grid-cell-color-border: var(--ids-color-border-weak);
+  --ids-data-grid-cell-checkbox-color-border: var(--ids-color-border-default);
   --ids-data-grid-cell-color-text-default: var(--ids-color-white-100);
-  --ids-data-grid-cell-color-text-disabled: var(--ids-color-neutral-50);
+  --ids-data-grid-cell-color-text-disabled: var(--ids-color-accent-neutral-default);
   --ids-data-grid-cell-color-background-error: rgba(232 79 79 / 0.1);
 
   // Data Grid (List)
-  --ids-data-grid-list-cell-color-border: var(--ids-color-neutral-60);
-  --ids-data-grid-list-header-color-border: var(--ids-color-neutral-80);
-  --ids-data-grid-list-header-color-background: var(--ids-color-neutral-80);
+  --ids-data-grid-list-cell-color-border: var(--ids-color-border-weak);
+  --ids-data-grid-list-header-color-border: var(--ids-color-border-weaker);
+  --ids-data-grid-list-header-color-background: var(--ids-color-accent-neutral-weaker);
   --ids-data-grid-list-header-color-text: var(--ids-color-neutral-30);
-  --ids-data-grid-list-header-color-icon-unsorted: var(--ids-color-neutral-40);
-  --ids-data-grid-list-header-color-icon-sorted: var(--ids-color-neutral-20);
-  --ids-data-grid-list-header-checkbox-color-background: var(--ids-color-neutral-40);
+  --ids-data-grid-list-header-color-icon-unsorted: var(--ids-color-accent-neutral-strong);
+  --ids-data-grid-list-header-color-icon-sorted: var(--ids-color-accent-neutral-stronger);
+  --ids-data-grid-list-header-checkbox-color-background: var(--ids-color-accent-neutral-strong);
 
   // Data Grid (Header)
   --ids-data-grid-header-color-border: var(--ids-color-neutral-50);
