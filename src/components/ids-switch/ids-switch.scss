@@ -1,7 +1,7 @@
 /* Ids Switch Component */
 
-$slider-width: 40px;
-$slider-height: 24px;
+$slider-width: var(--ids-space-xl);
+$slider-height: var(--ids-space-md);
 $slider-compact-height: 20px;
 $slider-compact-width: 34px;
 
@@ -86,8 +86,8 @@ $slider-compact-width: 34px;
         height: $slider-compact-height;
 
         &::after {
-          width: 16px;
-          height: 16px;
+          width: var(--ids-space-sm);
+          height: var(--ids-space-sm);
         }
       }
     }
