@@ -1464,8 +1464,8 @@
   --ids-tab-shadow-focus: var(--ids-shadow-30);
   --ids-tab-color-text-disabled: var(--ids-color-foreground-default-disabled);
   --ids-tab-color-text-selected: var(--ids-color-action-default);
-  --ids-tab-dismiss-button-size: 24px;
-  --ids-tab-dismiss-button-offset: 4px;
+  --ids-tab-dismiss-button-size: var(--ids-space-md);
+  --ids-tab-dismiss-button-offset: var(--ids-space-2xs);
 
   // Tab (Header Variant)
   --ids-tab-header-color-text-default: var(--ids-color-foreground-default-default);

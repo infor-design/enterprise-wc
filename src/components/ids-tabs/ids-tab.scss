@@ -61,7 +61,7 @@ $ids-tab-vertical-height: 42px;
 
 :host([count]) {
   ::slotted(ids-trigger-button) {
-    padding-inline-start: 8px;
+    padding-inline-start: var(--ids-space-xs);
   }
 }
 
@@ -71,19 +71,19 @@ $ids-tab-vertical-height: 42px;
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):first-child),
 :host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):first-child),
 .ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:first-child {
-  margin-inline-start: 4px;
+  margin-inline-start: var(--ids-space-2xs);
 }
 
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):last-child),
 :host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):last-child),
 .ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:last-child {
-  margin-inline-end: 4px;
+  margin-inline-end: var(--ids-space-2xs);
 }
 
 :host(ids-tab:not([orientation='vertical']):not([color-variant='module']):not(:last-child)),
 :host(ids-tab-more:not([orientation='vertical']):not([color-variant='module']):not(:last-child)),
 .ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) [class*='ids-tab']:not(:last-child) {
-  margin-inline-end: 8px;
+  margin-inline-end: var(--ids-space-xs);
 }
 
 :host(ids-tab:focus-visible),
@@ -98,8 +98,8 @@ $ids-tab-vertical-height: 42px;
   color: var(--ids-tab-color-text-default);
   box-sizing: border-box;
   height: 100%;
-  padding-inline: 4px;
-  padding-block: 8px;
+  padding-inline: var(--ids-space-2xs);
+  padding-block: var(--ids-space-xs);
   list-style: none outside none;
   user-select: none;
   cursor: pointer;
@@ -165,7 +165,7 @@ $ids-tab-vertical-height: 42px;
   // Orientation-horizontal
   &.orientation-horizontal {
     &:not(.count) {
-      padding-top: 8px;
+      padding-top: var(--ids-space-xs);
     }
 
     // In-page and Header Tabs only
@@ -211,7 +211,7 @@ $ids-tab-vertical-height: 42px;
   // =================================================
   // Tabs combined with IdsSwappable create "swappable" tabs
   &.swappable {
-    padding-inline-start: 8px;
+    padding-inline-start: var(--ids-space-xs);
     padding-inline-end: 6px;
   }
 }
@@ -221,7 +221,7 @@ $ids-tab-vertical-height: 42px;
 // Vertical Variant
 // =================================================
 .ids-tab.orientation-vertical {
-  padding-inline: 24px;
+  padding-inline: var(--ids-space-md);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -438,7 +438,7 @@ $ids-tab-vertical-height: 42px;
   align-items: center;
 
   > *:not(.last-child) {
-    padding-inline-end: 4px;
+    padding-inline-end: var(--ids-space-2xs);
   }
 
   ids-text,
@@ -467,7 +467,7 @@ ids-popup-menu,
   margin-inline-end: -4px;
 
   .tab-more-text {
-    padding: 0 4px;
+    padding: 0 var(--ids-space-2xs);
   }
 }
 
@@ -483,5 +483,5 @@ ids-popup-menu,
 
 ::slotted(.ids-tab-more-menu-item-text) {
   display: inline-block;
-  margin-inline-start: 4px;
+  margin-inline-start: var(--ids-space-2xs);
 }

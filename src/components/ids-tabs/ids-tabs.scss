@@ -50,7 +50,7 @@
 // Horizontal Tabs
 
 .ids-tabs-container:not(.orientation-vertical):not(.color-variant-module) {
-  margin-top: 8px;
+  margin-top: var(--ids-space-xs);
 }
 
 .ids-tabs-container:not(.orientation-vertical):not([class*='color-variant-']) {
