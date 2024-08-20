@@ -525,10 +525,10 @@
   --ids-week-view-row-odd-color-border: var(--ids-color-neutral-80);
 
   // Widget
-  --ids-widget-header-title-color: var(--ids-color-neutral-10);
-  --ids-widget-color-border-hover: var(--ids-color-neutral-60);
+  --ids-widget-header-title-color: var(--ids-color-accent-neutral-strongest);
+  --ids-widget-color-border-hover: var(--ids-color-accent-neutral-weak);
   --ids-widget-color-shadow-hover: 0 2px 4px 1px rgba(0 0 0 / 0.15);
-  --ids-widget-search-field-color-background: var(--ids-color-neutral-80);
+  --ids-widget-search-field-color-background: var(--ids-color-accent-neutral-weaker);
 
   // Wizard
   --ids-wizard-step-color-default: var(--ids-color-primary-40);

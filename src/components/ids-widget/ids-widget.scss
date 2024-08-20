@@ -46,7 +46,7 @@
   // Search Styles
   --ids-search-field-color-border-default: var(--ids-widget-search-field-color-background);
   --ids-search-field-color-background-default: var(--ids-widget-search-field-color-background);
-  --ids-search-field-margin: 0px 8px;
+  --ids-search-field-margin: 0px var(--ids-space-xs);
   --ids-search-field-border-radius: var(--ids-widget-search-field-border-radius);
   --ids-list-view-height: 264px;
 }
@@ -56,8 +56,8 @@
   ::slotted(.flex-content) {
     display: flex;
     align-items: center;
-    padding: 15px 16px;
-    gap: 16px;
+    padding: 15px var(--ids-space-sm);
+    gap: var(--ids-space-sm);
   }
 }
 
@@ -107,7 +107,7 @@
   display: none;
   border-top: 1px solid var(--ids-widget-divider-color-border);
   width: 100%;
-  padding: 8px 0;
+  padding: var(--ids-space-xs) 0;
 }
 
 .has-footer {
