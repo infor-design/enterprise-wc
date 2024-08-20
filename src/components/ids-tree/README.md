@@ -1,4 +1,4 @@
-# Ids Tree Component
+# ids-tree
 
 ## Description
 
@@ -254,7 +254,7 @@ treeDemo!.beforeExpanded = async function beforeShow() {
 - `expanded` {boolean} Sets the tree to be expanded
 - `icon` {string} Sets the tree node icon
 - `label` {string} Set the overall tree aria label text
-- `selectable` {string} Sets the tree node to be selectable
+- `selectable` {string} Sets the tree node to be selectable. Accepted options are `multiple`, `single`, `none`.
 - `toggleCollapseIcon` {string} Sets the tree group toggle collapse icon
 - `toggleExpandIcon` {string} Sets the tree group toggle expand icon
 - `toggleIconRotate` {boolean} Sets the tree to use toggle icon rotate

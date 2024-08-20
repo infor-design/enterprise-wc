@@ -1,4 +1,4 @@
-# Ids Skip Link Component
+# ids-skip-link
 
 ## Description
 

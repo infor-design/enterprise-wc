@@ -1,4 +1,4 @@
-# Ids Treemap Component
+# ids-treemap
 
 ## Description
 

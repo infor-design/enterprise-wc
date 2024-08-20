@@ -13,7 +13,7 @@ type IdsValidateInput = IdsInputInterface & HTMLElement & {
 export type IdsGroupValidationRule = {
   /** The localized message text */
   message: string;
-
+  messageId?: string;
   /** The method to check validation logic, return true if is valid */
   check: (inputComponents: any[]) => boolean;
 };

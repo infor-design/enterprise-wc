@@ -8,9 +8,15 @@
   - link: example.html
     type: Main Example
     description: Showing editor states
+  - link: as-markup.html
+    type: Example
+    description: Showing an example setting html in markup
   - link: label-state.html
-    type: Test
+    type: Example
     description: Showing an example with hidden labels
+  - link: multiple-editors.html
+    type: Test
+    description: Showing several editors in the page
   - link: side-by-side.html
     type: Side by Side
     description: Showing a editor side by side working with 4.x

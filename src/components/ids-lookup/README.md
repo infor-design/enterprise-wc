@@ -1,4 +1,4 @@
-# Ids Lookup Component
+# ids-lookup
 
 ## Description
 

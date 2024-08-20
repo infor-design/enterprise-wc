@@ -1,4 +1,4 @@
-# Ids List View Component
+# ids-list-view
 
 ## Description
 

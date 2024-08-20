@@ -1,6 +1,6 @@
 {
   "name": "ids-enterprise-wc",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "description": "The Web Component version of the IDS Enterprise component library",
   "author": "Infor Design",
   "license": "Apache-2.0",
@@ -31,6 +31,7 @@
     "build:themeData": "node ./scripts/generate-theme-data.js",
     "copy-static:dev": "cp -f package-dist.json build/dist/development/package.json && cp -f README.md build/dist/development && cp -f LICENSE build/dist/development",
     "copy-static:prod": "cp -f package-dist.json build/dist/production/package.json && cp -f README.md build/dist/production && cp -f LICENSE build/dist/production",
+    "docs": "npx retypeapp start",
     "start": "npx rimraf build/development && node --max-old-space-size=8192 node_modules/webpack/bin/webpack serve --live-reload --open --config ./webpack.config.dev.js",
     "start:filter:example": "npm --components=data-grid run start",
     "lint": "npx eslint src tests && npx stylelint src/**/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'src/**/*.html' && npx tsc",
@@ -84,7 +85,6 @@
     "ids-foundation": "1.1.0",
     "loglevel": "^1.9.1",
     "mini-css-extract-plugin": "^2.9.0",
-    "mutationobserver-shim": "^0.3.7",
     "nyc": "^15.1.0",
     "remark-cli": "^12.0.1",
     "remark-preset-lint-markdown-style-guide": "^6.0.0",

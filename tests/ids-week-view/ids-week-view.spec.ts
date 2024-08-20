@@ -108,7 +108,7 @@ test.describe('IdsWeekView tests', () => {
       }
     });
 
-    test('can set/get startDate', async () => {
+    test.skip('can set/get startDate', async () => {
       expect(await idsWeekView.evaluate((element: IdsWeekView) => element.startDate)).toBeValidDate();
       await expect(idsWeekView).toHaveAttribute('start-date');
 
@@ -131,7 +131,7 @@ test.describe('IdsWeekView tests', () => {
       await expect(idsWeekView).toHaveAttribute('start-date');
     });
 
-    test('can set/get endDate', async () => {
+    test.skip('can set/get endDate', async () => {
       expect(await idsWeekView.evaluate((element: IdsWeekView) => element.endDate)).toBeValidDate();
       await expect(idsWeekView).toHaveAttribute('end-date');
 

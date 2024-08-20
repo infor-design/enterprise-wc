@@ -1,4 +1,4 @@
-# Ids Bar Chart Component
+# ids-bar-chart
 
 ## Description
 

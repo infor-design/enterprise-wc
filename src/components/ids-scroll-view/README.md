@@ -1,4 +1,4 @@
-# Ids Scroll View Component
+# ids-scroll-view
 
 ## Description
 

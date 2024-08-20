@@ -4,6 +4,7 @@
   cursor: var(--ids-swappable-item-cursor-default);
   padding-inline: var(--ids-swappable-item-padding-inline);
   padding-block: var(--ids-swappable-item-padding-block);
+  height: var(--ids-swappable-item-height);
   display: flex;
   flex-direction: row;
   transition: height 0.4s ease, padding 0.4s ease;

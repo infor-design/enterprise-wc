@@ -1,4 +1,4 @@
-# Ids Trigger Field Component
+# ids-trigger-field
 
 ## Description
 

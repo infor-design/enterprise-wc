@@ -1,11 +1,16 @@
 /* Ids Tree Component */
 @import './ids-tree-shared';
 
+:host {
+  display: inline-block;
+}
+
 .ids-tree {
   @include tree-node-badge();
 
   list-style-type: none;
   margin-bottom: var(--ids-space-4xs);
+  display: inline-block;
   margin-block-start: 0;
   margin-block-end: 0;
   padding-inline-start: 0;

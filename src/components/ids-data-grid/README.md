@@ -234,6 +234,7 @@ columns.push({
       editorValidation: {
         check: (input) => input.value.length < 50>,
         message: 'Maximum of 50 characters',
+        messageId: 'translationKey',
         id: 'maxchars'
       }
     }
@@ -286,7 +287,7 @@ The following settings are available on editors.
 `editorSettings.validate` Text will be selected when entering edit mode
 `editorSettings.mask` Will pass mask settings to the input (if supported).
 `editorSettings.maskOptions` Will pass maskOptions settings to the input (if supported).
-`editorSettings.options` Dataset used for dropdown editor's list box options.
+`editorSettings.options` Dataset used for dropdown editor's list box options. If none are specified the value in the data will be applied as the only options.
 `editorSettings.maxlength` Sets the input editor's `maxlength` property to the max characters you can type
 `editorSettings.uppercase` Sets the input editor's to all uppercase
 `editorValidation` Optional property to set custom validation rule
