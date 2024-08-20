@@ -1545,11 +1545,11 @@
 
   // Tag List
   --ids-tag-list-margin: 20px;
-  --ids-tag-list-inner-margin: 0 4px 4px 0;
+  --ids-tag-list-inner-margin: 0 var(--ids-space-2xs) var(--ids-space-2xs) 0;
 
   // Text Component
-  --ids-text-icon-margin: 0 2px;
-  --ids-text-alert-margin: 0 4px;
+  --ids-text-icon-margin: 0 var(--ids-space-3xs);
+  --ids-text-alert-margin: 0 var(--ids-space-2xs);
 
   // Textarea
   --ids-textarea-color-background-default: var(--ids-color-background-default);
