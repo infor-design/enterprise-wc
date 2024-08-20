@@ -39,8 +39,8 @@
   display: block;
   margin-block-start: var(--ids-space-md);
   border-radius: var(--ids-border-radius-circle);
-  height: 40px;
-  width: 40px;
+  height: var(--ids-app-menu-avatar-height);
+  width: var(--ids-app-menu-avatar-width);
 }
 
 ::slotted([slot='username']) {
