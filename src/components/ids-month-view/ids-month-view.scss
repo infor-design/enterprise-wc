@@ -164,11 +164,6 @@
       }
     }
 
-    &.is-disabled .day-text {
-      background-color: var(--ids-color-gray-10);
-      color: var(--ids-color-gray-30);
-    }
-
     &.ids-disabled:hover {
       .day-text {
         color: var(--ids-color-gray-30);
