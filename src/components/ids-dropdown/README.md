@@ -150,7 +150,6 @@ In some situations, it may be preferable to separate the IdsDropdownList element
 - `labelRequired` {boolean} Sets the validation required indicator on label text, it's default to `true`
 - `labelState` {string} indicates that a label is hidden (note that for accessibility reasons, `label` should still be specified). See [Ids Label State Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-label-state-mixin/README.md) for more information.
 - `list` {string} ID selector used to reference/connect to an external IdsDropdownList component (used in some scenarios like IdsDataGrid filters)
-- `maxlength` {number | string} Maximum characters allowed in textarea
 - `noMargins` {boolean} sets whether or not no-margins around the component.
 - `placeholder` {string} Sets the placeholder text
 - `size` {'sm' | 'md' | 'lg' | 'full' | string} Sets the size (width)

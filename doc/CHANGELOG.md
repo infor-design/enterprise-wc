@@ -2,9 +2,10 @@
 
 ## 1.4.3
 
-### 1.4.3 Features
+## 1.4.3 Features
 
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
+- `[Themes]` Added a setting `IdsGlobal.themePath` that you can use to set the location of the theme files. ([#2125]https://github.com/infor-design/enterprise-wc/issues/2125)
 
 ### 1.4.3 Fixes
 
@@ -26,6 +27,7 @@
 - `[Button]` Fixed a bug in the lifecycle where inner classes where not refreshed in some frameworks.([#2627]https://github.com/infor-design/enterprise-wc/issues/2627)
 - `[Button]` Fixed an issue where Button layout looks off in smaller viewport. ([#2652](https://github.com/infor-design/enterprise-wc/issues/2652))
 - `[Checkbox]` Fixed an issue where native events were triggered multiple times in single selection. ([#2385](https://github.com/infor-design/enterprise-wc/issues/2385))
+- `[Datagrid]` Fixed bug where datagrid mutates original data passed in by user. ([#2724](https://github.com/infor-design/enterprise-wc/issues/2724))
 - `[Datagrid]` If no options the datagrid will still show the value, defaulting the options that may load later. ([#2386](https://github.com/infor-design/enterprise-wc/issues/2386))
 - `[Dropdown]` Converted dropdown tests to playwright. ([#1846](https://github.com/infor-design/enterprise-wc/issues/1846))
 - `[Dropdown]` Fixed an issue where disabling typeahead allowed typing in the input. ([#2662](https://github.com/infor-design/enterprise-wc/issues/2662))
