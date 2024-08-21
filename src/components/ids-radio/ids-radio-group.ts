@@ -361,15 +361,17 @@ export default class IdsRadioGroup extends Base {
    * @param {string | null} value the value property
    */
   set value(value: string | null) {
-    const radios = this.radios;
+    requestAnimationFrame(() => {
+      const radios = this.radios;
 
-    radios.forEach((radio) => {
-      if (value && radio.value === value) {
-        this.setAttribute(attributes.VALUE, radio.value);
-        radio.setAttribute(attributes.CHECKED, 'true');
-      } else {
-        radio.removeAttribute(attributes.CHECKED);
-      }
+      radios?.forEach((radio) => {
+        if (value && radio.value === value) {
+          this.setAttribute(attributes.VALUE, radio.value);
+          radio.setAttribute(attributes.CHECKED, 'true');
+        } else {
+          radio.removeAttribute(attributes.CHECKED);
+        }
+      });
     });
 
     if (!value) {
