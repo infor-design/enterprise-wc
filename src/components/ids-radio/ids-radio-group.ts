@@ -235,7 +235,8 @@ export default class IdsRadioGroup extends Base {
     const radioArr = this.radios;
 
     radioArr.forEach((radio) => {
-      this.onEvent('change', radio, () => {
+      this.offEvent(`change.radio-change`, radio);
+      this.onEvent(`change.radio-change`, radio, () => {
         this.makeChecked(radio);
       });
     });
@@ -356,27 +357,28 @@ export default class IdsRadioGroup extends Base {
 
   get labelRequired(): string | null { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
+  updateChecked() {
+    this.radios?.forEach((radio) => {
+      if (this.value && radio.value === this.value) {
+        radio.setAttribute(attributes.CHECKED, 'true');
+      } else {
+        radio.removeAttribute(attributes.CHECKED);
+      }
+    });
+  }
+
   /**
    * Sets the checkbox `value` attribute
    * @param {string | null} value the value property
    */
   set value(value: string | null) {
-    requestAnimationFrame(() => {
-      const radios = this.radios;
-
-      radios?.forEach((radio) => {
-        if (value && radio.value === value) {
-          this.setAttribute(attributes.VALUE, radio.value);
-          radio.setAttribute(attributes.CHECKED, 'true');
-        } else {
-          radio.removeAttribute(attributes.CHECKED);
-        }
-      });
-    });
-
     if (!value) {
       this.removeAttribute(attributes.VALUE);
+    } else {
+      this.setAttribute(attributes.VALUE, value);
     }
+
+    this.updateChecked();
   }
 
   get value(): string | null { return this.getAttribute(attributes.VALUE); }

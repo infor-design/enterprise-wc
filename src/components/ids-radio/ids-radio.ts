@@ -10,6 +10,7 @@ import '../ids-text/ids-text';
 import './ids-radio-group';
 
 import styles from './ids-radio.scss';
+import type IdsRadioGroup from './ids-radio-group';
 
 const Base = IdsLocaleMixin(
   IdsHideFocusMixin(
@@ -299,6 +300,7 @@ export default class IdsRadio extends Base {
       this.removeAttribute(attributes.VALUE);
     }
     this.input?.setAttribute(attributes.VALUE, (val || ''));
+    this.closest<IdsRadioGroup>('ids-radio-group')?.updateChecked();
   }
 
   get value(): string | null { return this.getAttribute(attributes.VALUE); }
