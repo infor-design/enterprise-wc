@@ -2,7 +2,9 @@
   "reporter": [
     "json",
     "lcov",
-    "html"
+    "html",
+    "cobertura",
+    "text"
   ],
   "include": [
     "src/**/**/*.ts",

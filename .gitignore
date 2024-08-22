@@ -39,3 +39,5 @@ results
 /playwright/
 /blob-report/
 /playwright/.cache/
+test-results/**
+playwright-report/**

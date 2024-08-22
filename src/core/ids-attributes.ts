@@ -453,6 +453,7 @@ export const attributes = {
   SHOW_LIST_ITEM_ICON: 'show-list-item-icon',
   SHOW_LOADING_INDICATOR: 'show-loading-indicator',
   SHOW_EXPAND_AND_COLLAPSE_ICONS: 'show-expand-and-collapse-icons',
+  SHOW_EXPAND_AND_TOGGLE_ICONS: 'show-expand-and-toggle-icons',
   SHOW_PICKLIST_MONTH: 'show-picklist-month',
   SHOW_PICKLIST_WEEK: 'show-picklist-week',
   SHOW_PICKLIST_YEAR: 'show-picklist-year',

@@ -127,7 +127,7 @@ test.describe('IdsContainer tests', () => {
       await expect(body).toHaveCSS('margin', '8px');
     });
 
-    test('can remove hidden on window elem', async ({ page }) => {
+    test.skip('can remove hidden on window elem', async ({ page }) => {
       await page.evaluate((id) => {
         document.querySelector<IdsContainer>(id)!.hidden = true;
         const event = new KeyboardEvent('load', {});

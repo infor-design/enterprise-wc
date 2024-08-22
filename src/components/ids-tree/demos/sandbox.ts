@@ -2,6 +2,7 @@
 import '../../ids-radio/ids-radio';
 import treeBasicJSON from '../../../assets/data/tree-basic.json';
 import treeBadgesJSON from '../../../assets/data/tree-badges.json';
+import IdsTree from '../ids-tree';
 
 // Get some sample data
 const getData = async function getData(callback: any, url: any = treeBasicJSON) {
@@ -31,13 +32,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Expand Target (No icon rotation animtion)
-  const treeTtNoIr: any = document.querySelector('#tree-toggle-target-no-rotation');
+  const treeTtNoIr: any = document.querySelector<IdsTree>('#tree-toggle-target-no-rotation');
   if (treeTtNoIr) {
     treeTtNoIr.toggleIconRotate = false;
     treeTtNoIr.collapseIcon = 'plusminus-folder-closed';
     treeTtNoIr.expandIcon = 'plusminus-folder-open';
-    treeTtNoIr.toggleCollapseIcon = 'plusminus-folder-right';
-    treeTtNoIr.toggleExpandIcon = 'plusminus-folder-down';
+    treeTtNoIr.toggleCollapseIcon = 'closed-folder';
+    treeTtNoIr.toggleExpandIcon = 'open-folder';
 
     await getData((data: any) => {
       treeTtNoIr.data = data;

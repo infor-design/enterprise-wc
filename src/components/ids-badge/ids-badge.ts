@@ -37,6 +37,7 @@ export default class IdsBadge extends Base {
     return [
       attributes.COLOR,
       attributes.DISABLED,
+      attributes.NO_MARGINS,
       attributes.SHAPE
     ];
   }
@@ -113,5 +114,15 @@ export default class IdsBadge extends Base {
 
   get disabled(): boolean {
     return this.hasAttribute(attributes.DISABLED);
+  }
+
+  set noMargins(val: string | boolean | null) {
+    const bool = stringToBool(val);
+    this.toggleAttribute(attributes.NO_MARGINS, bool);
+    this.container?.classList.toggle(attributes.NO_MARGINS, bool);
+  }
+
+  get noMargins(): boolean {
+    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 }
