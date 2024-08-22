@@ -203,6 +203,9 @@
   - link: single-selection.html
     type: Example
     description: Shows a data grid with single selection
+  - link: splitter.html
+    type: Example
+    description: Shows data grids in a splitter
   - link: standalone-css.html
     type: Standalone CSS
     description: Shows a css only styles table

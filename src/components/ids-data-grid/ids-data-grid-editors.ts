@@ -411,6 +411,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
 
       this.popup.appendToTargetParent();
       if (this.popup.popup) {
+        this.popup.popup.positionStyle = 'fixed';
         this.popup.popup.popupOpenEventsTarget = document.body;
         this.popup.popup.onOutsideClick = (e: MouseEvent) => {
           // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -569,6 +570,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
 
       this.popup.appendToTargetParent();
       if (this.popup.popup) {
+        this.popup.popup.positionStyle = 'fixed';
         this.popup.popup.popupOpenEventsTarget = document.body;
         this.popup.popup.onOutsideClick = async (e: MouseEvent) => {
           if (!e.composedPath().includes(popup)) { await popup.hide(); }
