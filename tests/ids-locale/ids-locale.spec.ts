@@ -530,12 +530,14 @@ test.describe('IdsLocale tests', () => {
 
     test('can support translation', async ({ page }) => {
       await runLocaleFunction(page, 'setLanguage', 'de-DE');
+      await runLocaleFunction(page, 'setLanguage', 'de-DE');
       expect(await runLocaleFunction(page, 'translate', 'Required')).toEqual('Erforderlich');
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laden');
       expect(await runLocaleFunction(page, 'translate', 'Filter')).toEqual('Filtern');
       expect(await runLocaleFunction(page, 'translate', 'XYZ')).toEqual('[XYZ]');
       expect(await runLocaleFunction(page, 'translate', 'Equals')).toEqual('Gleich');
 
+      await runLocaleFunction(page, 'setLanguage', 'af-ZA');
       await runLocaleFunction(page, 'setLanguage', 'af-ZA');
       expect(await runLocaleFunction(page, 'translate', 'XYZ')).toEqual('[XYZ]');
       expect(await runLocaleFunction(page, 'translate', 'Equals')).toEqual('Gelyk aan');
@@ -544,6 +546,7 @@ test.describe('IdsLocale tests', () => {
     test('can get translation in non current locale (fi-FI)', async ({ page }) => {
       await runLocaleFunction(page, 'setLanguage', 'de');
       await runLocaleFunction(page, 'setLanguage', 'fi');
+      await runLocaleFunction(page, 'setLanguage', 'sv');
       await runLocaleFunction(page, 'setLanguage', 'sv');
       expect(await runLocaleFunction(page, 'translate', 'Required')).toEqual('Obligatoriskt');
       expect(await runLocaleFunction(page, 'translate', 'Required', { language: 'de' })).toEqual('Erforderlich');
