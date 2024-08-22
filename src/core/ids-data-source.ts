@@ -471,19 +471,22 @@ class IdsDataSource {
       if (!(this.primaryKey in updatedRecord)) {
         updatedRecord[this.primaryKey] = index;
       }
-      const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
-      if (i > -1) {
-        const newRecord = overwrite ? updatedRecord : { ...this.#currentData[i], ...updatedRecord };
-        this.#originalData[i] = newRecord;
-        this.#currentData[i] = newRecord;
+      const idx = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+
+      if (idx > -1) {
+        const newRecord = overwrite ? updatedRecord : { ...this.#currentData[idx], ...updatedRecord };
+        this.#originalData[idx] = newRecord;
+        this.#currentData[idx] = newRecord;
       }
 
       // If filter is active, update stored original data
       if (this.#currentFilterData) {
-        const i = this.#currentFilterData.findIndex((rec: Record<string, any>) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
-        if (i > -1) {
-          const newRecord = overwrite ? updatedRecord : { ...this.#currentFilterData[i], ...updatedRecord };
-          this.#currentFilterData[i] = newRecord;
+        const filterIdx = this.#currentFilterData
+          .findIndex((rec: Record<string, any>) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+
+        if (filterIdx > -1) {
+          const newRecord = overwrite ? updatedRecord : { ...this.#currentFilterData[filterIdx], ...updatedRecord };
+          this.#currentFilterData[filterIdx] = newRecord;
         }
       }
     });
