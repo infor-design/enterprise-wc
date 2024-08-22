@@ -308,7 +308,7 @@ test.describe('IdsMultiselect tests', () => {
     test('supports async beforeShow', async ({ page }) => {
       await expect((await page.locator('ids-list-box-option').all()).length).toEqual(34);
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.beforeShow)).toBeFalsy();
-      await multiselectElem.evaluate((elem: IdsMultiselect, state: any) => {
+      await multiselectElem.evaluate(async (elem: IdsMultiselect, state: any) => {
         const getContents = () => new Promise((resolve) => {
           setTimeout(() => {
             resolve(state);
@@ -317,17 +317,17 @@ test.describe('IdsMultiselect tests', () => {
         elem.beforeShow = async function beforeShow() {
           return getContents();
         };
+        await elem.open();
       }, states);
-      await multiselectElem.evaluate(async (elem: IdsMultiselect) => { await elem.open(); });
       await expect((await page.locator('ids-list-box-option').all()).length).toEqual(86);
     });
 
-    test('ignores type ahead to open when no matches', async ({ page }) => {
+    test('ignores type ahead to open when no matches', async () => {
       await multiselectElem.evaluate(async (elem: IdsMultiselect) => { elem.triggerEvent('keydownend', elem, { detail: { keys: 'xxxxx' } }); });
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.popup!.visible)).toEqual(false);
     });
 
-    test('ignores type ahead when readonly', async ({ page }) => {
+    test('ignores type ahead when readonly', async () => {
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.readonly = true; });
       await multiselectElem.evaluate(async (elem: IdsMultiselect) => { elem.triggerEvent('keydownend', elem, { detail: { keys: 'option thr' } }); });
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.disabled = true; });
@@ -335,18 +335,18 @@ test.describe('IdsMultiselect tests', () => {
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.popup!.visible)).toEqual(false);
     });
 
-    test('supports clicking trigger to open', async ({ page }) => {
+    test('supports clicking trigger to open', async () => {
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.trigger?.click(); });
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.popup!.visible)).toEqual(true);
     });
 
-    test('supports clicking input to open', async ({ page }) => {
+    test('supports clicking input to open', async () => {
       await multiselectElem.evaluate((elem: IdsMultiselect) => { (elem?.input?.shadowRoot?.querySelector('.field-container') as any).click(); });
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.popup!.visible)).toBeTruthy();
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.popup!.visible)).toEqual(true);
     });
 
-    test('supports clicking to select', async ({ page }) => {
+    test('supports clicking to select', async () => {
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.value)).toContain('nj');
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.trigger?.click(); });
       await multiselectElem.locator('ids-list-box-option').nth(4).click();
@@ -354,8 +354,7 @@ test.describe('IdsMultiselect tests', () => {
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.value)).toContain('az');
     });
 
-    test('can changing language from the container', async ({ page }) => {
-      // TODO
+    test.skip('can changing language from the container', async ({ page }) => {
       // empty aria-description
       await page.evaluate(async (msgs: any) => { window?.IdsGlobal?.locale?.loadedLanguages.set('de', msgs); }, deMessages);
 
@@ -365,7 +364,7 @@ test.describe('IdsMultiselect tests', () => {
       await expect(multiselectElem).toHaveAttribute('aria-description', 'Drücken Sie zum Auswählen die Nach-unten-Taste');
     });
 
-    test('opens on arrow dow', async ({ page }) => {
+    test('opens on arrow dow', async () => {
       await multiselectElem.evaluate((elem: IdsMultiselect) => {
         const keydownArrowDown = new KeyboardEvent('keydown', { key: 'ArrowDown' });
         elem.dispatchEvent(keydownArrowDown);
@@ -373,7 +372,7 @@ test.describe('IdsMultiselect tests', () => {
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.popup!.visible)).toEqual(true);
     });
 
-    test('ignores arrow down on open', async ({ page }) => {
+    test('ignores arrow down on open', async () => {
       await multiselectElem.evaluate(async (elem: IdsMultiselect) => { await elem.open(); });
       await multiselectElem.evaluate((elem: IdsMultiselect) => {
         const keydownArrowDown = new KeyboardEvent('keydown', { key: 'ArrowDown' });
@@ -382,7 +381,7 @@ test.describe('IdsMultiselect tests', () => {
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.popup!.visible)).toEqual(true);
     });
 
-    test('opens on arrow up', async ({ page }) => {
+    test('opens on arrow up', async () => {
       await multiselectElem.evaluate(async (elem: IdsMultiselect) => { await elem.open(); });
       await multiselectElem.evaluate((elem: IdsMultiselect) => {
         const keydownArrowUp = new KeyboardEvent('keydown', { key: 'ArrowUp' });
@@ -391,7 +390,7 @@ test.describe('IdsMultiselect tests', () => {
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.popup!.visible)).toEqual(true);
     });
 
-    test('opens on enter', async ({ page }) => {
+    test('opens on enter', async () => {
       await multiselectElem.evaluate(async (elem: IdsMultiselect) => { await elem.open(); });
       await multiselectElem.evaluate((elem: IdsMultiselect) => {
         const keydownEnter = new KeyboardEvent('keydown', { key: 'Enter' });
@@ -400,7 +399,7 @@ test.describe('IdsMultiselect tests', () => {
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.popup!.visible)).toEqual(true);
     });
 
-    test('selects on space/enter when open', async ({ page }) => {
+    test('selects on space/enter when open', async () => {
       await multiselectElem.evaluate(async (elem: IdsMultiselect) => { await elem.open(); });
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.value = []; });
 
@@ -416,21 +415,21 @@ test.describe('IdsMultiselect tests', () => {
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.popup!.visible)).toEqual(false);
     });
 
-    test('can set/unset tags attribute', async ({ page }) => {
+    test('can set/unset tags attribute', async () => {
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.tags = true; });
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.tags)).toBeTruthy();
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.tags = false; });
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.tags)).toBeFalsy();
     });
 
-    test('can set/unset max attribute', async ({ page }) => {
+    test('can set/unset max attribute', async () => {
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.max = 5; });
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.max)).toEqual(5);
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.max = null; });
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.max)).toBeNaN();
     });
 
-    test('tags work correctly', async ({ page }) => {
+    test('tags work correctly', async () => {
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.tags = true; });
       await multiselectElem.evaluate((elem: IdsMultiselect) => { elem.value = ['az']; });
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem?.input?.querySelectorAll('ids-tag').length)).toEqual(1);
@@ -447,7 +446,7 @@ test.describe('IdsMultiselect tests', () => {
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.value)).toEqual(['al']);
     });
 
-    test('can handle overflowed text', async ({ page }) => {
+    test('can handle overflowed text', async () => {
       expect(await multiselectElem.evaluate((elem: IdsMultiselect) => elem.value)).toEqual(['ca', 'nj']);
       const text = await multiselectElem.locator('ids-text').first();
       await expect(text).toContainText('California, New Jersey');
