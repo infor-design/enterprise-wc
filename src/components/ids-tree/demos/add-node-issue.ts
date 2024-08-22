@@ -1,9 +1,10 @@
-import IdsTree, { IdsTreeData } from '../ids-tree';
+import IdsTree from '../ids-tree';
+import { IdsTreeNodeData } from '../ids-tree-node';
 
 document.addEventListener('DOMContentLoaded', () => {
   const treeElem = document.querySelector<IdsTree>('#tree-demo-issue');
 
-  const homeNode = (): Array<IdsTreeData> => {
+  const homeNode = (): Array<IdsTreeNodeData> => {
     const singleNode = [
       {
         id: 'newa',
@@ -14,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return singleNode;
   };
 
-  const newMultiNode = (): Array<IdsTreeData> => {
+  const newMultiNode = (): Array<IdsTreeNodeData> => {
     const multiNode = [
       {
         id: 'newb',

@@ -200,9 +200,9 @@ The following options are deprecated options from 4.x
 - `round` - Considered no longer needed as toLocaleString will round all the time depending on FractionDigits
 - `group` - Will map to true/false on `useGrouping` now and use the passed in locale
 - `currencySign` - Is deprecated as an option use `currency` and `currencyCode`
-- `decimal` - Is deprecated as an option  but this is handled by `Number.toLocaleString` directly
+- `decimal` - Is deprecated as an option as this is handled by `Number.toLocaleString` directly
 - `currencyFormat` - Is deprecated as an option use `currency` and `currencyCode`
-- `groupSize` - Is deprecated as an option but this is handled by `Number.toLocaleString` directly
+- `groupSize` - Is deprecated as an option as this is handled by `Number.toLocaleString` directly
 - `style: 'integer'` and now be done with `minimumFractionDigits: 0`
 - `style: 'currency'` now requires a currency code for example `style: 'currency', currency: 'EUR'`
 - `currencySign` now uses the currency codes instead i.e. `currency: 'USD'`

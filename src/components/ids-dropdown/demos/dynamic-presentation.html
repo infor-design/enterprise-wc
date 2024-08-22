@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Dropdown</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-button id="source-name-button">
+          Change sourceKey to 'name'
+        </ids-button>
+        <ids-button id="source-idx-button">
+          Change sourceKey to 'idx'
+        </ids-button>
+
+        <ids-dropdown id="dropdown-car" label="Car Dropdown" value="1718693262079751588">
+          <ids-list-box>
+            <ids-list-box-option value="1718693262079751588">volvo</ids-list-box-option>
+            <ids-list-box-option value="1718693262733452505">saab</ids-list-box-option>
+            <ids-list-box-option value="1718693263497253422">opel</ids-list-box-option>
+            <ids-list-box-option value="1718693264241054349">audi</ids-list-box-option>
+          </ids-list-box>
+        </ids-dropdown>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

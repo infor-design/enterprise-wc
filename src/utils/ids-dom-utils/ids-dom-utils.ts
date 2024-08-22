@@ -102,7 +102,7 @@ export function nextUntil(node: any, selector: string): Array<HTMLElement> {
  * @param {string|undefined} selector containing a CSS selector to be used
  * @returns {HTMLElement} the element
  */
-export function next(node: any, selector: string): HTMLElement {
+export function next<T extends HTMLElement>(node: any, selector: string): T {
   node = node.nextElementSibling;
 
   while (node) {

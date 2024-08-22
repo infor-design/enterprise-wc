@@ -15,6 +15,10 @@ A curated list of resources related to this project and web components.
 - [ShoeLace](https://shoelace.style/)
 - [State Of Web Components](https://eisenbergeffect.medium.com/2023-state-of-web-components-c8feb21d4f16)
 
+## Performance
+
+- [Dom Optimization](https://frontendmasters.com/blog/patterns-for-memory-efficient-dom-manipulation/#key-takeaways-for-dom-optimization)
+
 ## Typescript
 
 https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html

@@ -1,0 +1,11 @@
+input: .
+output: .retype
+url: # Add your website address here
+branding:
+  title: IDS Enterprise WC
+  label: Docs
+links:
+- text: Github Repo
+  link: https://github.com/infor-design/enterprise-wc.git
+footer:
+  copyright: "&copy; Copyright {{ year }}. All rights reserved."
