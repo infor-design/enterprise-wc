@@ -240,6 +240,11 @@ export default class IdsRadioGroup extends Base {
         this.makeChecked(radio);
       });
     });
+
+    this.offEvent('valuechange.radio-value', this);
+    this.onEvent('valuechange.radio-value', this, () => {
+      this.updateChecked();
+    });
   }
 
   /**
@@ -357,6 +362,10 @@ export default class IdsRadioGroup extends Base {
 
   get labelRequired(): string | null { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
+  /**
+   * Matches the radio value to the group value and sets the checked attribute
+   * @returns {void}
+   */
   updateChecked() {
     this.radios?.forEach((radio) => {
       if (this.value && radio.value === this.value) {
