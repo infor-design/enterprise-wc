@@ -53,10 +53,8 @@ export default class IdsMenuButton extends IdsButton {
       this.#configureDropdownIcon(true);
       this.setPopupArrow();
     }
-    // Defer the popup placement until after the initial setup phase
-    requestAnimationFrame(() => {
-      this.configureMenu();
-    });
+
+    this.configureMenu();
   }
 
   /**
@@ -208,11 +206,15 @@ export default class IdsMenuButton extends IdsButton {
 
     this.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'menu');
 
-    if (this.menuEl.popup) {
-      this.menuEl.popup.align = 'bottom, left';
-      this.menuEl.popup.y = 8;
-      this.setPopupArrow();
-    }
+    this.setPopupArrow();
+
+    // Defer the popup placement until after the initial setup phase
+    requestAnimationFrame(() => {
+      if (this.menuEl.popup) {
+        this.menuEl.popup.align = 'bottom, left';
+        this.menuEl.popup.y = 8;
+      }
+    });
 
     // ====================================================================
     // Setup menu-specific event listeners, if they aren't already applied
