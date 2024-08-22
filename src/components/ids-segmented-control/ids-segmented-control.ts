@@ -24,6 +24,7 @@ export default class IdsSegementedControl extends Base {
 
   connectedCallback() {
     super.connectedCallback();
+    this.#addSegmentedClass();
     this.#attachEventHandlers();
   }
 
@@ -33,9 +34,19 @@ export default class IdsSegementedControl extends Base {
   }
 
   template(): string {
-    return `<div class="ids-segmented-control">
+    return `<div class="ids-segmented-control" part="container">
       <slot></slot>
     </div>`;
+  }
+
+  /**
+   * Adds the '.ids-toggle-button-segmented' class to each ids-toggle-button.
+   */
+  #addSegmentedClass(): void {
+    const buttons = this.querySelectorAll('ids-toggle-button');
+    buttons.forEach((button: any) => {
+      button.classList.add('ids-toggle-button-segmented');
+    });
   }
 
   /**
