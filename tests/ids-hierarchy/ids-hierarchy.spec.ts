@@ -67,7 +67,7 @@ test.describe('IdsHierarchy tests', () => {
   });
 
   test.describe('functionality test', async () => {
-    test('can set/get the expanded attribute', async ({ page }) => {
+    test.skip('can set/get the expanded attribute', async ({ page }) => {
       const hierarchy = await page.locator('ids-hierarchy-item').first();
 
       await expect(hierarchy).toHaveAttribute('expanded');

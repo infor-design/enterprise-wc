@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Tree (Markup Only)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-tree id="tree-markup"
+          label="Tree with Markup only"
+          selectable="multiple"
+          expand-icon="cloud"
+          collapse-icon="cloud"
+          show-expand-and-toggle-icons
+          toggle-icon-rotate>
+          <ids-tree-node id="tm-home">Home</ids-tree-node>
+          <ids-tree-node id="tm-about-us">About Us</ids-tree-node>
+          <ids-tree-node id="tm-public-folders" label="Public Folders" expanded>
+            <ids-tree-node id="tm-leadership" label="Leadership" expanded>
+              <ids-badge slot="badge" color="info" shape="round">5</ids-badge>
+              <ids-tree-node id="tm-leadership-2">Leadership 2nd</ids-tree-node>
+              <ids-tree-node id="tm-history" disabled="true">History</ids-tree-node>
+              <ids-tree-node id="tm-careers-last">Careers last</ids-tree-node>
+            </ids-tree-node>
+            <ids-tree-node id="tm-history-2">
+              History 2nd
+              <ids-badge slot="badge" color="info" shape="round">10</ids-badge>
+            </ids-tree-node>
+            <ids-tree-node id="tm-careers">Careers</ids-tree-node>
+          </ids-tree-node>
+          <ids-tree-node id="tm-icons" label="Icons">
+            <ids-tree-node id="tm-audio" icon="tree-audio">Audio</ids-tree-node>
+            <ids-tree-node id="tm-avi" icon="tree-avi">Avi</ids-tree-node>
+            <ids-tree-node id="tm-bmp" icon="tree-bmp">Bmp</ids-tree-node>
+            <ids-tree-node id="tm-chart" icon="tree-chart">Chart</ids-tree-node>
+            <ids-tree-node id="tm-code" icon="tree-code">Code</ids-tree-node>
+          </ids-tree-node>
+          <ids-tree-node id="tm-blog">Blog</ids-tree-node>
+          <ids-tree-node id="tm-contact">Contact</ids-tree-node>
+        </ids-tree>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

@@ -2,16 +2,21 @@
 
 ## 1.4.3
 
-### 1.4.3 Features
+## 1.4.3 Features
 
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
+- `[Themes]` Added a setting `IdsGlobal.themePath` that you can use to set the location of the theme files. ([#2125]https://github.com/infor-design/enterprise-wc/issues/2125)
 
 ### 1.4.3 Fixes
 
+- `[Datagrid]` Fixed bug where the custom select-color is lost during row-recycling/virtual-scrolling. ([#1392](https://github.com/infor-design/enterprise-wc/issues/1392))
 - `[Homepage]` Converted home page tests to playwright. ([#1940](https://github.com/infor-design/enterprise-wc/issues/1940))
+- `[Locale]` Fixed translation issue of `small` into Spanish. ([#8962]https://github.com/infor-design/enterprise-wc/issues/8962)
+- `[Locale]` Fixed translation issue of `Available` into Thai and Italian. ([#8786]https://github.com/infor-design/enterprise-wc/issues/8786)
 - `[Listbuilder]` Fixed buggy builder styles. ([#2701]https://github.com/infor-design/enterprise-wc/issues/2701)
 - `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701]https://github.com/infor-design/enterprise-wc/issues/2701)
 - `[Multiselect]` Converted multiselect tests to playwright. ([#1957](https://github.com/infor-design/enterprise-wc/issues/1957))
+- `[Splitter]` Fixed an issue where position was not retained when expanding and collapsing. ([#2527](https://github.com/infor-design/enterprise-wc/issues/2527))
 
 ## 1.4.2
 
@@ -25,6 +30,7 @@
 - `[Button]` Fixed a bug in the lifecycle where inner classes where not refreshed in some frameworks.([#2627]https://github.com/infor-design/enterprise-wc/issues/2627)
 - `[Button]` Fixed an issue where Button layout looks off in smaller viewport. ([#2652](https://github.com/infor-design/enterprise-wc/issues/2652))
 - `[Checkbox]` Fixed an issue where native events were triggered multiple times in single selection. ([#2385](https://github.com/infor-design/enterprise-wc/issues/2385))
+- `[Datagrid]` Fixed bug where datagrid mutates original data passed in by user. ([#2724](https://github.com/infor-design/enterprise-wc/issues/2724))
 - `[Datagrid]` If no options the datagrid will still show the value, defaulting the options that may load later. ([#2386](https://github.com/infor-design/enterprise-wc/issues/2386))
 - `[Dropdown]` Converted dropdown tests to playwright. ([#1846](https://github.com/infor-design/enterprise-wc/issues/1846))
 - `[Dropdown]` Fixed an issue where disabling typeahead allowed typing in the input. ([#2662](https://github.com/infor-design/enterprise-wc/issues/2662))
@@ -37,6 +43,7 @@
 - `[SwapList]` Converted swap list tests to playwright. ([#1974](https://github.com/infor-design/enterprise-wc/issues/1974))
 - `[Tabs]` Fixed an issue where overflow menu group popup is full width. ([#2656](https://github.com/infor-design/enterprise-wc/issues/2656))
 - `[TimPicker]` Converted time picker tests to playwright. ([#1982](https://github.com/infor-design/enterprise-wc/issues/1982))
+- `[Tree]` Refactor IdsTree to allow rendering of large dataset. ([#2504](https://github.com/infor-design/enterprise-wc/issues/2504))
 
 ## 1.4.1
 
