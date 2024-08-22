@@ -477,6 +477,15 @@ class IdsDataSource {
         this.#originalData[i] = newRecord;
         this.#currentData[i] = newRecord;
       }
+
+      // If filter is active, update stored original data
+      if (this.#currentFilterData) {
+        const i = this.#currentFilterData.findIndex((rec: Record<string, any>) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+        if (i > -1) {
+          const newRecord = overwrite ? updatedRecord : { ...this.#currentFilterData[i], ...updatedRecord };
+          this.#currentFilterData[i] = newRecord;
+        }
+      }
     });
   }
 
@@ -496,6 +505,14 @@ class IdsDataSource {
       if (i > -1) {
         this.originalData.splice(i, 1);
         this.currentData.splice(i, 1);
+      }
+
+      // If filter is active, update stored original data
+      if (this.#currentFilterData) {
+        const i = this.#currentFilterData.findIndex((rec: Record<string, any>) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+        if (i > -1) {
+          this.#currentFilterData.splice(i, 1);
+        }
       }
     });
 
