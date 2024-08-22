@@ -227,7 +227,7 @@ export default class IdsMenu extends Base {
    * @returns {string} The template
    */
   template() {
-    let id;
+    let id = '';
     if (this.id) id = ` id="${this.id}-menu"`;
 
     let disabledClass = '';
