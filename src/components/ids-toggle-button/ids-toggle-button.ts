@@ -36,7 +36,7 @@ export default class IdsToggleButton extends IdsButton {
       attributes.TEXT_OFF,
       attributes.TEXT_ON,
       attributes.PRESSED,
-      'disable-icon'
+      attributes.DISABLE_ICON
     ]);
   }
 
@@ -133,18 +133,26 @@ export default class IdsToggleButton extends IdsButton {
     return this.getAttribute(attributes.ICON_ON) || DEFAULT_ICON_ON;
   }
 
+  /**
+   * Defines if the icon is disabled
+   * @param {string} val `true` to disable the icon
+   */
   set disableIcon(val: string) {
     const value = stringToBool(val);
     if (value) {
-      this.setAttribute('disable-icon', '');
+      this.setAttribute(attributes.DISABLE_ICON, '');
       this.removeAttribute(attributes.ICON_OFF);
       this.removeAttribute(attributes.ICON_ON);
       this.removeAttribute(attributes.ICON);
     }
   }
 
+  /**
+   * Get the `disable-icon` attribute
+   * @returns {boolean} `true` if the icon is disabled
+   */
   get disableIcon(): boolean {
-    return this.hasAttribute('disable-icon');
+    return this.hasAttribute(attributes.DISABLE_ICON);
   }
 
   /**

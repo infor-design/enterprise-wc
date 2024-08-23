@@ -42,7 +42,7 @@ export default class IdsSegementedControl extends Base {
   /**
    * Adds the '.ids-toggle-button-segmented' class to each ids-toggle-button.
    */
-  #addSegmentedClass(): void {
+  #addSegmentedClass() {
     const buttons = this.querySelectorAll('ids-toggle-button');
     buttons.forEach((button: any) => {
       button.classList.add('ids-toggle-button-segmented');
@@ -52,15 +52,23 @@ export default class IdsSegementedControl extends Base {
   /**
    * Attaches event handlers for managing the toggle button states.
    */
-  #attachEventHandlers(): void {
+  #attachEventHandlers() {
     this.onEvent('click', this.container, (event: Event) => this.handleToggleClick(event));
+  }
+
+  /**
+   * Get the toggle buttons
+   * @returns {HTMLElement} the toggle buttons
+   */
+  get toggleButtons() {
+    return this.querySelectorAll('ids-toggle-button');
   }
 
   /**
    * Handles the toggle button click event.
    * @param {Event} event the click event
    */
-  handleToggleClick(event: Event): void {
+  handleToggleClick(event: Event) {
     const target = event.target as HTMLElement;
     if (target.tagName.toLowerCase() === 'ids-toggle-button') {
       this.updateToggleState(target);
@@ -71,9 +79,9 @@ export default class IdsSegementedControl extends Base {
    * Updates the state of the toggle buttons, activating the clicked one and resetting others.
    * @param {HTMLElement} clickedButton the button that was clicked
    */
-  updateToggleState(clickedButton: HTMLElement): void {
-    const buttons = this.querySelectorAll('ids-toggle-button');
-    buttons.forEach((button: any) => {
+  updateToggleState(clickedButton: HTMLElement) {
+    const buttons = this.toggleButtons;
+    buttons.forEach((button: HTMLElement | any) => {
       if (button === clickedButton) {
         button.pressed = true;
       } else {
@@ -85,7 +93,7 @@ export default class IdsSegementedControl extends Base {
   /**
    * Remove event handlers
    */
-  #detachEventHandlers(): void {
+  #detachEventHandlers() {
     this.offEvent('click', this.container);
   }
 }
