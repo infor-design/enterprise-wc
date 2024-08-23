@@ -50,9 +50,9 @@ Toggle buttons can be used without icons, relying solely on text to convey the o
 
 ```html
 <ids-segmented-control>
-  <ids-toggle-button disabled-icon text-on="Text Only 1" text-off="Text Only 1"></ids-toggle-button>
-  <ids-toggle-button disabled-icon text-on="Text Only 2" text-off="Text Only 2"></ids-toggle-button>
-  <ids-toggle-button disabled-icon text-on="Text Only 3" text-off="Text Only 3"></ids-toggle-button>
+  <ids-toggle-button disable-icon text-on="Text Only 1" text-off="Text Only 1"></ids-toggle-button>
+  <ids-toggle-button disable-icon text-on="Text Only 2" text-off="Text Only 2"></ids-toggle-button>
+  <ids-toggle-button disable-icon text-on="Text Only 3" text-off="Text Only 3"></ids-toggle-button>
 </ids-segmented-control>
 ```
 
