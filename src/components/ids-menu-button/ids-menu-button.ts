@@ -57,6 +57,10 @@ export default class IdsMenuButton extends IdsButton {
     this.configureMenu();
   }
 
+  mountedCallback(): void {
+    this.configurePopup();
+  }
+
   /**
    * @returns {string[]} containing CSS classes that will be added to the buttons
    */
@@ -194,6 +198,23 @@ export default class IdsMenuButton extends IdsButton {
   }
 
   /**
+   * Configure the popup settings specific to this component
+   * @returns {void}
+   */
+  configurePopup() {
+    if (this.menuEl) {
+      this.menuEl.triggerType = 'click';
+      this.menuEl.target = this;
+    }
+
+    if (this.menuEl.popup) {
+      this.menuEl.popup.align = 'bottom, left';
+      this.menuEl.popup.y = 8;
+    }
+    this.setPopupArrow();
+  }
+
+  /**
    * @returns {void}
    */
   configureMenu() {
@@ -201,36 +222,26 @@ export default class IdsMenuButton extends IdsButton {
       return;
     }
     this.resizeMenu();
-    this.menuEl.triggerType = 'click';
-    this.menuEl.target = this;
 
     this.setAttribute(htmlAttributes.ARIA_HASPOPUP, 'menu');
-
-    this.setPopupArrow();
-
-    // Defer the popup placement until after the initial setup phase
-    requestAnimationFrame(() => {
-      if (this.menuEl.popup) {
-        this.menuEl.popup.align = 'bottom, left';
-        this.menuEl.popup.y = 8;
-      }
-    });
 
     // ====================================================================
     // Setup menu-specific event listeners, if they aren't already applied
 
     const hasBeforeShow = this?.handledEvents?.get('beforeshow');
+    this.offEvent('beforeshow.menu');
     if (!hasBeforeShow) {
       // On the Popup Menu's `beforeshow` event, set the menu's size to the Menu Button's
-      this.onEvent('beforeshow', this.menuEl, () => {
+      this.onEvent('beforeshow.menu', this.menuEl, () => {
         this.setActiveState(true);
         this.resizeMenu();
       });
     }
 
     const hasHideHandler = this?.handledEvents?.get('hide');
+    this.offEvent('hide.menu');
     if (!hasHideHandler) {
-      this.onEvent('hide', this.menuEl, () => {
+      this.onEvent('hide.menu', this.menuEl, () => {
         this.setActiveState(false);
       });
     }
