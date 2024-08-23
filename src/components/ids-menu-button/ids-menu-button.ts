@@ -218,7 +218,7 @@ export default class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   configureMenu() {
-    if (!this.menuEl || !this.menuEl.popup) {
+    if (!this.menuEl) {
       return;
     }
     this.resizeMenu();
