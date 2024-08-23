@@ -47,7 +47,7 @@ test:
     # - npx playwright test -- tag
     # - ls test-results
     - npx playwright test --grep-invert 'percy'
-    - export PERCY_GZIP=true && PERCY_LOGLEVEL=silent && npx percy exec -- npx playwright test --workers=1 --grep 'percy'
+    - npx percy exec -- npx playwright test --workers=1 --grep 'percy'
     - npx nyc report
   coverage: /All files[^\|]*\|[^\|]*\s+([\d\.]+)/
   artifacts:

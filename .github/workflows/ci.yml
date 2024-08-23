@@ -57,7 +57,7 @@ jobs:
       run: npm run build
 
     - name: Run Percy Tests
-      run: export PERCY_GZIP=true && PERCY_LOGLEVEL=silent && npx percy exec -- npx playwright test --grep "percy"
+      run: npx percy exec -- npx playwright test --grep "percy"
       env:
         NODE_OPTIONS: "--max-old-space-size=8192"
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
