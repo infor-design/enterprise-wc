@@ -52,7 +52,7 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Tests
-      run: npx percy exec -- npx playwright test --grep-invert "percy"
+      run: npm run test:coverage:ci
       env:
         NODE_OPTIONS: "--max-old-space-size=8192"
 
