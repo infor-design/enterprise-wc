@@ -52,6 +52,11 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Tests
+      run: npx percy exec -- npx playwright test --grep-invert "percy"
+      env:
+        NODE_OPTIONS: "--max-old-space-size=8192"
+
+    - name: Run Tests (percy)
       run: npx percy exec -- npx playwright test --grep "percy"
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
