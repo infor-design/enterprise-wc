@@ -796,21 +796,19 @@ export default class IdsTree extends Base {
     addAttr('text', 'label');
     addAttr('icon');
     addAttr('selected');
+    attrs.push(`${attributes.TOGGLE_COLLAPSE_ICON}="${n.toggleCollapseIcon ?? this.toggleCollapseIcon}"`);
+    attrs.push(`${attributes.TOGGLE_EXPAND_ICON}="${n.toggleExpandIcon ?? this.toggleExpandIcon}"`);
+    attrs.push(`${attributes.COLLAPSE_ICON}="${n.collapseIcon ?? this.collapseIcon}"`);
+    attrs.push(`${attributes.EXPAND_ICON}="${n.expandIcon ?? this.expandIcon}"`);
+
+    if (this.showExpandAndToggleIcons || n.showExpandAndToggleIcons) {
+      attrs.push(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS);
+    }
 
     // build children tree nodes
     let children = '';
     if (n.children) {
       addAttr('expanded');
-
-      // set expand/collapse icons
-      attrs.push(`collapse-icon="${n.collapseIcon ?? this.collapseIcon}"`);
-      attrs.push(`expand-icon="${n.expandIcon ?? this.expandIcon}"`);
-
-      if (this.showExpandAndToggleIcons) {
-        attrs.push(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS);
-        attrs.push(`${attributes.TOGGLE_COLLAPSE_ICON}="${this.toggleCollapseIcon}"`);
-        attrs.push(`${attributes.TOGGLE_EXPAND_ICON}="${this.toggleExpandIcon}"`);
-      }
 
       // for async children
       if (n.children.length === 0) {
