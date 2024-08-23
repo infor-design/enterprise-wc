@@ -1,5 +1,8 @@
 .ids-segmented-control {
-  background-color: var(--ids-color-accent-gray-weakest);
-  padding: var(--ids-space-xxs);
+  align-items: center;
+  background-color: var(--ids-color-accent-gray-weaker);
   border-radius: var(--ids-border-radius-circle);
+  display: inline-flex;
+  gap: var(--ids-space-xxs);
+  padding: var(--ids-space-xxs) var(--ids-space-xs);
 }
