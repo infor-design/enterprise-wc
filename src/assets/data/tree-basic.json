@@ -12,10 +12,12 @@
   {
     "id": "public-folders",
     "text": "Public Folders",
+    "expanded": true,
     "children": [
       {
         "id": "leadership",
         "text": "Leadership",
+        "expanded": true,
         "children": [
           {
             "id": "leadership-2",

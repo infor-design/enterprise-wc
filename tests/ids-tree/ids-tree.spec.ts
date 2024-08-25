@@ -3,7 +3,8 @@ import percySnapshot from '@percy/playwright';
 import { Locator, expect } from '@playwright/test';
 import { test } from '../base-fixture';
 import IdsTreeShared from '../../src/components/ids-tree/ids-tree-shared';
-import IdsTree, { IdsTreeData } from '../../src/components/ids-tree/ids-tree';
+import IdsTree from '../../src/components/ids-tree/ids-tree';
+import { IdsTreeNodeData } from '../../src/components/ids-tree/ids-tree-node';
 
 test.describe('IdsTree tests', () => {
   const url = '/ids-tree/example.html';
@@ -72,48 +73,62 @@ test.describe('IdsTree tests', () => {
 
   test.describe('functionality tests', () => {
     let idsTree: Locator;
+
     test.beforeEach(async ({ page }) => {
       idsTree = await page.locator('ids-tree').first();
     });
-    const dataset = [{
-      id: 'home',
-      text: 'Home',
-      selected: 'true'
-    }, {
-      id: 'public-folders',
-      text: 'Public Folders',
-      children: [{
-        id: 'leadership',
-        text: 'Leadership'
-      }, {
-        id: 'history',
-        text: 'History',
-        disabled: 'true'
-      }, {
-        id: 'careers-last',
-        text: 'Careers last'
-      }]
-    }, {
-      id: 'icons',
-      text: 'Icons',
-      expanded: 'false',
-      children: [{
-        id: 'audio',
-        text: 'Audio',
-        icon: 'tree-audio',
-        badge: {
-          color: 'info',
-          text: '0',
-          shape: 'round',
-          textAudible: 'audible text',
-          icon: 'pending'
-        }
-      }]
-    }];
+
+    const dataset = [
+      {
+        id: 'home',
+        text: 'Home',
+        selected: 'true'
+      },
+      {
+        id: 'public-folders',
+        text: 'Public Folders',
+        expanded: true,
+        children: [
+          {
+            id: 'leadership',
+            text: 'Leadership'
+          },
+          {
+            id: 'history',
+            text: 'History',
+            disabled: 'true'
+          },
+          {
+            id: 'careers-last',
+            text: 'Careers last'
+          }
+        ]
+      },
+      {
+        id: 'icons',
+        text: 'Icons',
+        expanded: false,
+        children: [
+          {
+            id: 'audio',
+            text: 'Audio',
+            icon: 'tree-audio',
+            badge: {
+              color: 'info',
+              text: '0',
+              shape: 'round',
+              textAudible: 'audible text',
+              icon: 'pending'
+            }
+          }
+        ]
+      }
+    ];
+
     test('should be able to expand/collapse tree nodes', async ({ page }) => {
-      expect(await page.locator('ids-tree-node[expanded="false"]').count()).toBe(2);
+      expect(await page.locator('ids-tree-node[expanded]').count()).toBe(2);
       await page.getByText('Icons').click();
-      expect(await page.locator('ids-tree-node[expanded="false"]').count()).toBe(1);
+      expect(await page.locator('ids-tree-node[expanded]').count()).toBe(3);
     });
 
     test('should render characters and symbols', async ({ page }) => {
@@ -130,7 +145,7 @@ test.describe('IdsTree tests', () => {
               &#161;, &#162;, &#163;, &#164;, &#165;, &#166;, &#167;, &#169;`
         }];
         tree!.data = data;
-        return [tree!.getNode('#cs-1')?.elem.textContent, tree!.getNode('#cs-2')?.elem.textContent];
+        return [tree!.getNode('#cs-1')?.textElem?.textContent, tree!.getNode('#cs-2')?.textElem?.textContent];
       });
 
       expect(nodeData[0]).toContain('onload="alert()">');
@@ -140,21 +155,21 @@ test.describe('IdsTree tests', () => {
 
     test('can set node to selectable', async ({ page }) => {
       const handle = await page.$('ids-tree');
-      let selectable = await handle?.evaluate((tree: IdsTree) => tree!.getNode('#home')?.elem.selectable);
+      let selectable = await handle?.evaluate((tree: IdsTree) => tree!.getNode('#home')?.selectable);
       expect(selectable).toEqual('single');
 
       selectable = await page.evaluate(() => {
         const tree = document.querySelector<IdsTree>('ids-tree');
-        tree!.getNode('#home').elem.selectable = false;
-        return tree!.getNode('#home')?.elem.selectable;
+        tree!.getNode('#home')!.selectable = 'none';
+        return tree!.getNode('#home')?.selectable;
       });
 
-      expect(selectable).toEqual(false);
+      expect(selectable).toEqual('none');
 
       selectable = await page.evaluate(() => {
         const tree = document.querySelector<IdsTree>('ids-tree');
-        tree!.getNode('#home').elem.selectable = 'test';
-        return tree!.getNode('#home')?.elem.selectable;
+        tree!.getNode('#home')!.selectable = 'test';
+        return tree!.getNode('#home')?.selectable;
       });
       expect(selectable).toEqual('single');
     });
@@ -163,8 +178,8 @@ test.describe('IdsTree tests', () => {
       await page.evaluate(async () => {
         const tree = document.querySelector<IdsTree>('ids-tree');
         await window?.IdsGlobal?.locale?.setLanguage('ar');
-        tree!.getNode('#home').elem.selectable = false;
-        return tree!.getNode('#home')?.elem.selectable;
+        tree!.getNode('#home')!.selectable = 'none';
+        return tree!.getNode('#home')?.selectable;
       });
 
       expect(await page.locator('ids-tree').getAttribute('dir')).toEqual('rtl');
@@ -221,11 +236,11 @@ test.describe('IdsTree tests', () => {
       await idsTree.evaluate((el: IdsTree) => { el.expanded = true; });
       expanded = await idsTree.evaluate((el: IdsTree) => el.expanded);
       await expect(expanded).toEqual(true);
-      await expect(idsTree).toHaveAttribute('expanded', 'true');
+      await expect(idsTree).toHaveAttribute('expanded', '');
       await idsTree.evaluate((el: IdsTree) => { el.expanded = false; });
       expanded = await idsTree.evaluate((el: IdsTree) => el.expanded);
       await expect(expanded).toEqual(false);
-      await expect(idsTree).toHaveAttribute('expanded', 'false');
+      await expect(idsTree).not.toHaveAttribute('expanded');
       await idsTree.evaluate((el: IdsTree) => { el.expanded = null as unknown as string; });
       expanded = await idsTree.evaluate((el: IdsTree) => el.expanded);
       await expect(expanded).toEqual(IdsTreeShared.DEFAULTS.expanded);
@@ -259,10 +274,10 @@ test.describe('IdsTree tests', () => {
       selectable = await idsTree.evaluate((el: IdsTree) => el.selectable);
       await expect(selectable).toEqual('multiple');
       await expect(idsTree).toHaveAttribute('selectable', 'multiple');
-      await idsTree.evaluate((el: IdsTree) => { el.selectable = false; });
+      await idsTree.evaluate((el: IdsTree) => { el.selectable = 'none'; });
       selectable = await idsTree.evaluate((el: IdsTree) => el.selectable);
-      await expect(selectable).toEqual(false);
-      await expect(idsTree).toHaveAttribute('selectable', 'false');
+      await expect(selectable).toEqual('none');
+      await expect(idsTree).toHaveAttribute('selectable', 'none');
       await idsTree.evaluate((el: IdsTree) => { el.selectable = 'test'; });
       selectable = await idsTree.evaluate((el: IdsTree) => el.selectable);
       await expect(selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
@@ -324,13 +339,13 @@ test.describe('IdsTree tests', () => {
       await expect(toggleIconRotate).toEqual(IdsTreeShared.DEFAULTS.toggleIconRotate);
       await idsTree.evaluate((el: IdsTree) => { el.toggleIconRotate = true; });
       toggleIconRotate = await idsTree.evaluate((el: IdsTree) => el.toggleIconRotate);
-      await expect(idsTree).toHaveAttribute('toggle-icon-rotate', 'true');
+      await expect(idsTree).toHaveAttribute('toggle-icon-rotate', '');
       await expect(toggleIconRotate).toEqual(true);
       await idsTree.evaluate((el: IdsTree) => { el.toggleIconRotate = false; });
       toggleIconRotate = await idsTree.evaluate((el: IdsTree) => el.toggleIconRotate);
-      await expect(idsTree).toHaveAttribute('toggle-icon-rotate', 'false');
+      await expect(idsTree).not.toHaveAttribute('toggle-icon-rotate');
       await expect(toggleIconRotate).toEqual(false);
-      await idsTree.evaluate((el: IdsTree) => { el.toggleIconRotate = ' '; });
+      await idsTree.evaluate((el: IdsTree) => { el.toggleIconRotate = null; });
       toggleIconRotate = await idsTree.evaluate((el: IdsTree) => el.toggleIconRotate);
       await expect(toggleIconRotate).toEqual(IdsTreeShared.DEFAULTS.toggleIconRotate);
       await expect(idsTree).not.toHaveAttribute('toggle-icon-rotate');
@@ -365,40 +380,40 @@ test.describe('IdsTree tests', () => {
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
       const results = await idsTree.evaluate((tree: IdsTree) => {
         const home: any[] = [];
-        home.push(tree.getNode('#home').isGroup);
-        home.push(tree.getNode('#home').level);
-        home.push(tree.getNode('#home').posinset);
-        home.push(tree.getNode('#home').setsize);
+        home.push(tree.getNode('#home')!.isGroup);
+        home.push(tree.getNode('#home')!.level);
+        home.push(tree.getNode('#home')!.posinset);
+        home.push(tree.getNode('#home')!.setsize);
         const publicFolders: any[] = [];
-        publicFolders.push(tree.getNode('#public-folders').isGroup);
-        publicFolders.push(tree.getNode('#public-folders').level);
-        publicFolders.push(tree.getNode('#public-folders').posinset);
-        publicFolders.push(tree.getNode('#public-folders').setsize);
+        publicFolders.push(tree.getNode('#public-folders')!.isGroup);
+        publicFolders.push(tree.getNode('#public-folders')!.level);
+        publicFolders.push(tree.getNode('#public-folders')!.posinset);
+        publicFolders.push(tree.getNode('#public-folders')!.setsize);
         const leadership: any[] = [];
-        leadership.push(tree.getNode('#leadership').isGroup);
-        leadership.push(tree.getNode('#leadership').level);
-        leadership.push(tree.getNode('#leadership').posinset);
-        leadership.push(tree.getNode('#leadership').setsize);
+        leadership.push(tree.getNode('#leadership')!.isGroup);
+        leadership.push(tree.getNode('#leadership')!.level);
+        leadership.push(tree.getNode('#leadership')!.posinset);
+        leadership.push(tree.getNode('#leadership')!.setsize);
         const history: any[] = [];
-        history.push(tree.getNode('#history').isGroup);
-        history.push(tree.getNode('#history').level);
-        history.push(tree.getNode('#history').posinset);
-        history.push(tree.getNode('#history').setsize);
+        history.push(tree.getNode('#history')!.isGroup);
+        history.push(tree.getNode('#history')!.level);
+        history.push(tree.getNode('#history')!.posinset);
+        history.push(tree.getNode('#history')!.setsize);
         const carreerLast: any[] = [];
-        carreerLast.push(tree.getNode('#careers-last').isGroup);
-        carreerLast.push(tree.getNode('#careers-last').level);
-        carreerLast.push(tree.getNode('#careers-last').posinset);
-        carreerLast.push(tree.getNode('#careers-last').setsize);
+        carreerLast.push(tree.getNode('#careers-last')!.isGroup);
+        carreerLast.push(tree.getNode('#careers-last')!.level);
+        carreerLast.push(tree.getNode('#careers-last')!.posinset);
+        carreerLast.push(tree.getNode('#careers-last')!.setsize);
         const icons: any[] = [];
-        icons.push(tree.getNode('#icons').isGroup);
-        icons.push(tree.getNode('#icons').level);
-        icons.push(tree.getNode('#icons').posinset);
-        icons.push(tree.getNode('#icons').setsize);
+        icons.push(tree.getNode('#icons')!.isGroup);
+        icons.push(tree.getNode('#icons')!.level);
+        icons.push(tree.getNode('#icons')!.posinset);
+        icons.push(tree.getNode('#icons')!.setsize);
         const audio: any[] = [];
-        audio.push(tree.getNode('#audio').isGroup);
-        audio.push(tree.getNode('#audio').level);
-        audio.push(tree.getNode('#audio').posinset);
-        audio.push(tree.getNode('#audio').setsize);
+        audio.push(tree.getNode('#audio')!.isGroup);
+        audio.push(tree.getNode('#audio')!.level);
+        audio.push(tree.getNode('#audio')!.posinset);
+        audio.push(tree.getNode('#audio')!.setsize);
         return {
           home,
           publicFolders,
@@ -433,28 +448,26 @@ test.describe('IdsTree tests', () => {
     test('can set the tree node single selection', async () => {
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
       let id = '#home';
+      const homeNode = await idsTree.evaluate((tree: IdsTree) => tree.getNode('#home'));
       expect(await idsTree.evaluate((el: IdsTree, iD: any) => el.isSelected(iD), id)).toEqual(true);
-      expect(await idsTree.evaluate((el: IdsTree) => el.selected)).toEqual(expect.objectContaining({
-        data: expect.objectContaining({ id: 'home' })
-      }));
+      expect(await idsTree.evaluate((el: IdsTree) => el.selected)).toEqual(homeNode);
       await idsTree.evaluate((el: IdsTree) => el.unselect('#home'));
       expect(await idsTree.evaluate((el: IdsTree, iD: any) => el.isSelected(iD), id)).toEqual(false);
       expect(await idsTree.evaluate((el: IdsTree) => el.selected)).toEqual(null);
+
       id = '#public-folders';
+      const publicFoldersNode = await idsTree.evaluate((tree: IdsTree) => tree.getNode('#public-folders'));
       expect(await idsTree.evaluate((el: IdsTree, iD: any) => el.isSelected(iD), id)).toEqual(false);
       await idsTree.evaluate((el: IdsTree) => el.select('#public-folders'));
       expect(await idsTree.evaluate((el: IdsTree, iD: any) => el.isSelected(iD), id)).toEqual(true);
-      expect(await idsTree.evaluate((el: IdsTree) => el.selected)).toEqual(expect.objectContaining({
-        data: expect.objectContaining({ id: 'public-folders' })
-      }));
+      expect(await idsTree.evaluate((el: IdsTree) => el.selected)).toEqual(publicFoldersNode);
       id = '#leadership';
+      const leadershipNode = await idsTree.evaluate((tree: IdsTree) => tree.getNode('#leadership'));
       await idsTree.evaluate((el: IdsTree) => el.select('#leadership'));
       expect(await idsTree.evaluate((el: IdsTree, iD: any) => el.isSelected(iD), id)).toEqual(true);
       expect(await idsTree.evaluate((el: IdsTree) => el.isSelected('#home'), id)).toEqual(false);
       expect(await idsTree.evaluate((el: IdsTree) => el.isSelected('#public-folders'), id)).toEqual(false);
-      expect(await idsTree.evaluate((el: IdsTree) => el.selected)).toEqual(expect.objectContaining({
-        data: expect.objectContaining({ id: 'leadership' })
-      }));
+      expect(await idsTree.evaluate((el: IdsTree) => el.selected)).toEqual(leadershipNode);
     });
 
     test('can set the tree node multiple selection', async ({ page }) => {
@@ -466,113 +479,113 @@ test.describe('IdsTree tests', () => {
       await expect(selected).toEqual(expect.arrayContaining([]));
       await page.evaluate(() => {
         const tree = document.querySelector<IdsTree>('ids-tree');
-        tree!.getNode('#home').elem.selected = true;
+        tree!.getNode('#home')!.selected = true;
       });
       expect(await page.evaluate(() => {
         const tree = document.querySelector<IdsTree>('ids-tree');
         return tree!.isSelected('#home');
       })).toEqual(true);
-      await idsTree.evaluate((el: IdsTree) => { el.getNode('#public-folders').elem.selected = true; });
+      await idsTree.evaluate((el: IdsTree) => { el.getNode('#public-folders')!.selected = true; });
       expect(await idsTree.evaluate((el: IdsTree) => el.isSelected('#public-folders'))).toEqual(true);
     });
 
-    test('can get the tree node for selection false', async () => {
+    test('can get the tree node for selection none', async () => {
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
-      await idsTree.evaluate((el: IdsTree) => { el.selectable = false; });
+      await idsTree.evaluate((el: IdsTree) => { el.selectable = 'none'; });
       const selectable = await idsTree.evaluate((el: IdsTree) => el.selectable);
-      await expect(selectable).toEqual(false);
-      await expect(idsTree).toHaveAttribute('selectable', 'false');
+      await expect(selectable).toEqual('none');
+      await expect(idsTree).toHaveAttribute('selectable', 'none');
       const selected = await idsTree.evaluate((el: IdsTree) => el.selected);
       await expect(selected).toEqual(null);
     });
 
     test('can collapse all attached nodes', async () => {
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
-      await idsTree.evaluate((el: IdsTree) => { el.selectable = false; });
-      const node1 = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').isGroup);
-      const node2 = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').isGroup);
+      await idsTree.evaluate((el: IdsTree) => { el.selectable = 'none'; });
+      const node1 = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.isGroup);
+      const node2 = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.isGroup);
       await expect(node1).toEqual(true);
       await expect(node2).toEqual(true);
-      let node1Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
-      let node2Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').elem.expanded);
+      let node1Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
+      let node2Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.expanded);
       await expect(node1Expanded).toEqual(true);
       await expect(node2Expanded).toEqual(false);
       await idsTree.evaluate((el: IdsTree) => el.collapseAll());
-      node1Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
-      node2Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').elem.expanded);
+      node1Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
+      node2Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.expanded);
       await expect(node1Expanded).toEqual(false);
       await expect(node2Expanded).toEqual(false);
     });
 
     test('can expand all attached nodes', async () => {
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
-      await idsTree.evaluate((el: IdsTree) => { el.selectable = false; });
-      const node1 = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').isGroup);
-      const node2 = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').isGroup);
+      await idsTree.evaluate((el: IdsTree) => { el.selectable = 'none'; });
+      const node1 = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.isGroup);
+      const node2 = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.isGroup);
       await expect(node1).toEqual(true);
       await expect(node2).toEqual(true);
-      let node1Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
-      let node2Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').elem.expanded);
+      let node1Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
+      let node2Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.expanded);
       await expect(node1Expanded).toEqual(true);
       await expect(node2Expanded).toEqual(false);
       await idsTree.evaluate((el: IdsTree) => el.expandAll());
-      node1Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
-      node2Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').elem.expanded);
+      node1Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
+      node2Expanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.expanded);
       await expect(node1Expanded).toEqual(true);
       await expect(node2Expanded).toEqual(true);
     });
 
     test('can collapse node', async () => {
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
-      let node = await idsTree.evaluate((el: IdsTree) => el.getNode('#leadership').isGroup);
+      let node = await idsTree.evaluate((el: IdsTree) => el.getNode('#leadership')!.isGroup);
       await expect(node).toEqual(false);
       await idsTree.evaluate((el: IdsTree) => el.collapse('#leadership'));
-      node = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').isGroup);
+      node = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.isGroup);
       await expect(node).toEqual(true);
-      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(true);
       await idsTree.evaluate((el: IdsTree) => el.collapse('#public-folders'));
-      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(false);
     });
 
     test('can expand node', async () => {
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
-      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').isGroup);
+      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.isGroup);
       await expect(node).toEqual(true);
-      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').elem.expanded);
+      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.expanded);
       await expect(nodeExpanded).toEqual(false);
       await idsTree.evaluate((el: IdsTree) => el.expand('#icons'));
-      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').elem.expanded);
+      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.expanded);
       await expect(nodeExpanded).toEqual(true);
     });
 
     test('can toggle node', async () => {
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
-      let node = await idsTree.evaluate((el: IdsTree) => el.getNode('#leadership').isGroup);
+      let node = await idsTree.evaluate((el: IdsTree) => el.getNode('#leadership')!.isGroup);
       await expect(node).toEqual(false);
       await idsTree.evaluate((el: IdsTree) => el.toggle('#leadership'));
-      node = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').isGroup);
+      node = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.isGroup);
       await expect(node).toEqual(true);
-      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(true);
       await idsTree.evaluate((el: IdsTree) => el.toggle('#public-folders'));
-      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(false);
       await idsTree.evaluate((el: IdsTree) => el.toggle('#public-folders'));
-      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(true);
     });
 
     test('can toggle node and select on click', async () => {
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
-      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').isGroup);
+      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.isGroup);
       await expect(node).toEqual(true);
-      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(true);
       expect(await idsTree.evaluate((el: IdsTree) => el.isSelected('#public-folders'))).toEqual(false);
-      await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.nodeContainer.click());
-      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.nodeContainer!.click());
+      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(false);
       expect(await idsTree.evaluate((el: IdsTree) => el.isSelected('#public-folders'))).toEqual(true);
     });
@@ -580,24 +593,24 @@ test.describe('IdsTree tests', () => {
     test('can prevent keys', async () => {
       const keys = ['home', 'public-folders', 'leadership', 'history', 'careers-last', 'icons', 'audio'];
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
-      let nodeExpanded = await idsTree.evaluate((el: IdsTree, key: any) => el.getNode(`#${key[1]}`).elem.expanded, keys);
+      let nodeExpanded = await idsTree.evaluate((el: IdsTree, key: any) => el.getNode(`#${key[1]}`)!.expanded, keys);
       await expect(nodeExpanded).toEqual(true);
       await idsTree.evaluate((el: IdsTree, key: any) => {
         let event = new KeyboardEvent('keydown', { code: 'Space' });
-        el.getNode(`#${key[1]}`).elem.nodeContainer.dispatchEvent(event);
-        el.getNode(`#${key[1]}`).elem.nodeContainer.dispatchEvent(event);
+        el.getNode(`#${key[1]}`)!.nodeContainer!.dispatchEvent(event);
+        el.getNode(`#${key[1]}`)!.nodeContainer!.dispatchEvent(event);
         event = new KeyboardEvent('keydown', { code: 'Test' });
-        el.getNode(`#${key[1]}`).elem.nodeContainer.dispatchEvent(event);
-        el.getNode(`#${key[3]}`).elem.nodeContainer.dispatchEvent(event);
+        el.getNode(`#${key[1]}`)!.nodeContainer!.dispatchEvent(event);
+        el.getNode(`#${key[3]}`)!.nodeContainer!.dispatchEvent(event);
       }, keys);
-      nodeExpanded = await idsTree.evaluate((el: IdsTree, key: any) => el.getNode(`#${key[1]}`).elem.expanded, keys);
+      nodeExpanded = await idsTree.evaluate((el: IdsTree, key: any) => el.getNode(`#${key[1]}`)!.expanded, keys);
       await expect(nodeExpanded).toEqual(true);
       await idsTree.evaluate((el: IdsTree, key: any) => {
         const event = new KeyboardEvent('keyup', { code: 'Test' });
-        el.getNode(`#${key[1]}`).elem.nodeContainer.dispatchEvent(event);
-        el.getNode(`#${key[3]}`).elem.nodeContainer.dispatchEvent(event);
+        el.getNode(`#${key[1]}`)!.nodeContainer!.dispatchEvent(event);
+        el.getNode(`#${key[3]}`)!.nodeContainer!.dispatchEvent(event);
       }, keys);
-      nodeExpanded = await idsTree.evaluate((el: IdsTree, key: any) => el.getNode(`#${key[1]}`).elem.expanded, keys);
+      nodeExpanded = await idsTree.evaluate((el: IdsTree, key: any) => el.getNode(`#${key[1]}`)!.expanded, keys);
       await expect(nodeExpanded).toEqual(true);
     });
 
@@ -610,12 +623,12 @@ test.describe('IdsTree tests', () => {
         });
       });
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
-      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').isGroup);
+      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.isGroup);
       await expect(node).toEqual(true);
-      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(true);
       await idsTree.evaluate((el: IdsTree) => el.collapse('#public-folders'));
-      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(false);
     });
 
@@ -626,12 +639,12 @@ test.describe('IdsTree tests', () => {
         tree.addEventListener('collapsed', () => { (window as any).isEventTriggered = true; });
       });
 
-      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').isGroup);
+      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.isGroup);
       await expect(node).toEqual(true);
-      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(true);
       await idsTree.evaluate((el: IdsTree) => el.collapse('#public-folders'));
-      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders').elem.expanded);
+      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#public-folders')!.expanded);
       await expect(nodeExpanded).toEqual(false);
 
       const isEventTriggered = async () => {
@@ -649,12 +662,12 @@ test.describe('IdsTree tests', () => {
         });
       });
       await idsTree.evaluate((el: IdsTree, dtaset: any) => { el.data = dtaset; }, dataset);
-      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').isGroup);
+      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.isGroup);
       await expect(node).toEqual(true);
-      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').elem.expanded);
+      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.expanded);
       await expect(nodeExpanded).toEqual(false);
       await idsTree.evaluate((el: IdsTree) => el.expand('#icons'));
-      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').elem.expanded);
+      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.expanded);
       await expect(nodeExpanded).toEqual(false);
     });
 
@@ -665,12 +678,12 @@ test.describe('IdsTree tests', () => {
         tree.addEventListener('expanded', () => { (window as any).isEventTriggered = true; });
       });
 
-      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').isGroup);
+      const node = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.isGroup);
       await expect(node).toEqual(true);
-      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').elem.expanded);
+      let nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.expanded);
       await expect(nodeExpanded).toEqual(false);
       await idsTree.evaluate((el: IdsTree) => el.expand('#icons'));
-      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons').elem.expanded);
+      nodeExpanded = await idsTree.evaluate((el: IdsTree) => el.getNode('#icons')!.expanded);
       await expect(nodeExpanded).toEqual(true);
 
       const isEventTriggered = async () => {
@@ -810,9 +823,9 @@ test.describe('IdsTree tests', () => {
         }], 'bottom');
 
         const topNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'top-node');
-        const topNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'top-node');
+        const topNodeDatasourceIndex = elem.data?.findIndex((item) => item.id === 'top-node');
         const bottomNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'bottom-node');
-        const bottomNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'bottom-node');
+        const bottomNodeDatasourceIndex = elem.data?.findIndex((item) => item.id === 'bottom-node');
 
         return {
           topNodeDataIndex,
@@ -848,33 +861,33 @@ test.describe('IdsTree tests', () => {
         });
       });
       const results = await tree.evaluate((elem: IdsTree) => {
-        const firstNode = elem.getNode('#home');
-        const lastNode = elem.getNode('#contacts');
+        const firstNode = elem.getNode('#home')!;
+        const lastNode = elem.getNode('#contacts')!;
         elem.addNodes([{
           id: 'before-first-node',
           text: 'Before first node'
-        }], 'before', firstNode.elem);
+        }], 'before', firstNode);
         elem.addNodes([{
           id: 'before-last-node',
           text: 'Before last node'
-        }], 'before', lastNode.elem);
+        }], 'before', lastNode);
         elem.addNodes([{
           id: 'after-first-node',
           text: 'After first node'
-        }], 'after', firstNode.elem);
+        }], 'after', firstNode);
         elem.addNodes([{
           id: 'after-last-node',
           text: 'After last node'
-        }], 'after', lastNode.elem);
+        }], 'after', lastNode);
 
-        const beforeFirstNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'before-first-node');
-        const beforeFirstNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'before-first-node');
-        const beforeLastNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'before-last-node');
-        const beforeLastNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'before-last-node');
-        const afterFirstNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'after-first-node');
-        const afterFirstNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'after-first-node');
-        const afterLastNodeDataIndex = elem.nodesData?.findIndex((item) => item.id === 'after-last-node');
-        const afterLastNodeDatasourceIndex = elem.datasource?.data?.findIndex((item: IdsTreeData) => item.id === 'after-last-node');
+        const beforeFirstNodeDataIndex = elem.nodesData!.findIndex((item) => item.id === 'before-first-node');
+        const beforeFirstNodeDatasourceIndex = elem?.data?.findIndex((item) => item.id === 'before-first-node');
+        const beforeLastNodeDataIndex = elem.nodesData!.findIndex((item) => item.id === 'before-last-node');
+        const beforeLastNodeDatasourceIndex = elem?.data?.findIndex((item) => item.id === 'before-last-node');
+        const afterFirstNodeDataIndex = elem.nodesData!.findIndex((item) => item.id === 'after-first-node');
+        const afterFirstNodeDatasourceIndex = elem?.data?.findIndex((item) => item.id === 'after-first-node');
+        const afterLastNodeDataIndex = elem.nodesData!.findIndex((item) => item.id === 'after-last-node');
+        const afterLastNodeDatasourceIndex = elem?.data?.findIndex((item) => item.id === 'after-last-node');
 
         return {
           beforeFirstNodeDataIndex,
@@ -894,7 +907,7 @@ test.describe('IdsTree tests', () => {
       expect(results.beforeLastNodeDatasourceIndex).toEqual(7);
       expect(results.afterFirstNodeDataIndex).toEqual(2);
       expect(results.afterFirstNodeDatasourceIndex).toEqual(2);
-      expect(results.afterLastNodeDataIndex).toEqual(47);
+      expect(results.afterLastNodeDataIndex).toEqual(46);
       expect(results.afterLastNodeDatasourceIndex).toEqual(9);
 
       await page.getByText('Before first node').click();
@@ -926,20 +939,20 @@ test.describe('IdsTree tests', () => {
         });
       });
       const results = await tree.evaluate((elem: IdsTree) => {
-        const withParentNode = elem!.getNode('#leadership');
+        const withParentNode = elem!.getNode('#leadership')!;
         elem!.addNodes([{
           id: 'before-node-with-parent',
           text: 'Before node-with-parent'
-        }], 'before', withParentNode.elem);
+        }], 'before', withParentNode);
         elem!.addNodes([{
           id: 'after-node-with-parent',
           text: 'After node-with-parent'
-        }], 'after', withParentNode.elem);
+        }], 'after', withParentNode);
 
-        const beforeDataIndex = elem!.nodesData?.findIndex((item) => item.id === 'before-node-with-parent');
-        const beforeDatasourceIndex = elem!.datasource?.data?.[2]?.children?.findIndex((item: IdsTreeData) => item.id === 'before-node-with-parent');
-        const afterDataIndex = elem!.nodesData?.findIndex((item) => item.id === 'after-node-with-parent');
-        const afterDatasourceIndex = elem!.datasource?.data?.[2]?.children?.findIndex((item: IdsTreeData) => item.id === 'after-node-with-parent');
+        const beforeDataIndex = elem!.treeNodes?.findIndex((item) => item.id === 'before-node-with-parent');
+        const beforeDatasourceIndex = elem!.data?.[2]?.children?.findIndex((item) => item.id === 'before-node-with-parent');
+        const afterDataIndex = elem!.treeNodes?.findIndex((item) => item.id === 'after-node-with-parent');
+        const afterDatasourceIndex = elem!.data?.[2]?.children?.findIndex((item) => item.id === 'after-node-with-parent');
 
         return {
           beforeDataIndex,
@@ -956,24 +969,29 @@ test.describe('IdsTree tests', () => {
 
       await page.getByText('Before node-with-parent').click();
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('before-node-with-parent');
+
       await page.getByText('Leadership').first().click();
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('leadership');
+
       await page.getByText('After node-with-parent').click();
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('after-node-with-parent');
+
       await page.getByText('History 2nd').first().click();
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('history-2');
+
       await page.getByText('Contacts').click();
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('contacts');
+
       await page.getByText('Careers', { exact: true }).first().click();
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('careers');
     });
 
     test('should add node as children of a node', async ({ page }) => {
       const tree = await page.locator('ids-tree');
-      const addNodes = async (id: string, data: Array<IdsTreeData>) => {
-        await tree.evaluate((elem: IdsTree, arg: { id: string, data: Array<IdsTreeData> }) => {
-          const node = elem.getNode(arg.id);
-          elem.addNodes(arg.data, 'child', node.elem);
+      const addNodes = async (id: string, data: Array<IdsTreeNodeData>) => {
+        await tree.evaluate((elem: IdsTree, arg: { id: string, data: Array<IdsTreeNodeData> }) => {
+          const node = elem.getNode(arg.id)!;
+          elem.addNodes(arg.data, 'child', node);
         }, {
           id,
           data
@@ -986,15 +1004,15 @@ test.describe('IdsTree tests', () => {
         });
       });
       await addNodes('#home', singleNode);
-      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item: IdsTreeData) => item.id === 'home')?.children?.length)).toBe(1);
-      expect(await tree.evaluate((elem: IdsTree) => elem.datasource.data.find((item: IdsTreeData) => item.id === 'home')?.children?.length)).toBe(1);
+      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item) => item.id === 'home')?.children?.length)).toBe(1);
+      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item) => item.id === 'home')?.children?.length)).toBe(1);
       await page.getByText('About Us').click();
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('about-us');
       await page.getByText('New node').click();
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('newa');
       await addNodes('#home', multiNode);
-      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item: IdsTreeData) => item.id === 'home')?.children?.length)).toBe(4);
-      expect(await tree.evaluate((elem: IdsTree) => elem.datasource.data.find((item: IdsTreeData) => item.id === 'home')?.children?.length)).toBe(4);
+      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item) => item.id === 'home')?.children?.length)).toBe(4);
+      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item) => item.id === 'home')?.children?.length)).toBe(4);
       await page.getByText('About Us').click();
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('about-us');
       await page.getByText('Public Folders').click();
@@ -1007,8 +1025,8 @@ test.describe('IdsTree tests', () => {
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('contacts');
       await addNodes('#contacts', singleNode);
       await addNodes('#contacts', multiNode);
-      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item: IdsTreeData) => item.id === 'contacts')?.children?.length)).toBe(4);
-      expect(await tree.evaluate((elem: IdsTree) => elem.datasource.data.find((item: IdsTreeData) => item.id === 'contacts')?.children?.length)).toBe(4);
+      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item) => item.id === 'contacts')?.children?.length)).toBe(4);
+      expect(await tree.evaluate((elem: IdsTree) => elem.data.find((item) => item.id === 'contacts')?.children?.length)).toBe(4);
       await page.getByText('About Us').click();
       expect(await page.evaluate(() => (window as any).nodeData.id)).toBe('about-us');
       await page.getByText('Public Folders').click();
@@ -1033,11 +1051,11 @@ test.describe('IdsTree tests', () => {
         tree?.addEventListener('selected', (e: any) => {
           data = e.detail.node.data;
         });
-        const parentNode = tree!.getNode('#home');
+        const parentNode = tree!.getNode('#home')!;
         tree!.addNodes([{
           id: 'child-node',
           text: 'Child node'
-        }], 'child', parentNode?.elem);
+        }], 'child', parentNode);
         tree?.container?.querySelector<any>('#about-us')?.container?.querySelector('.node-container')?.click();
 
         return data;
