@@ -26,10 +26,9 @@ test:
     NAMESPACE: "kubefill"
     JOB_NAME: "enterprise-wc-percy-tests"
   script:
-    #- source /workspace/scripts/init.sh
-    #- aws sts get-caller-identity
-    #- exec python3 /workspace/src/main.py -m /builds/infor-design/enterprise-wc/job-enterprise-wc.yml
-    - echo "Skipping..."
+    - source /workspace/scripts/init.sh
+    - aws sts get-caller-identity
+    - exec python3 /workspace/src/main.py -m /builds/infor-design/enterprise-wc/job-enterprise-wc.yml
 
 build:
   stage: build
