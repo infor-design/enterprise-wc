@@ -53,12 +53,11 @@ export default class IdsMenuButton extends IdsButton {
       this.#configureDropdownIcon(true);
       this.setPopupArrow();
     }
-
-    this.configureMenu();
   }
 
   mountedCallback(): void {
     this.configurePopup();
+    this.configureMenu();
   }
 
   /**
@@ -162,6 +161,7 @@ export default class IdsMenuButton extends IdsButton {
    */
   set menu(val) {
     this.setAttribute(attributes.MENU, `${val}`);
+    this.configurePopup();
     this.configureMenu();
   }
 
@@ -207,7 +207,7 @@ export default class IdsMenuButton extends IdsButton {
       this.menuEl.target = this;
     }
 
-    if (this.menuEl.popup) {
+    if (this.menuEl?.popup) {
       this.menuEl.popup.align = 'bottom, left';
       this.menuEl.popup.y = 8;
     }
