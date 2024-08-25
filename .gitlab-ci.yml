@@ -38,6 +38,7 @@ build:
     - DIND
   image: node:20.12
   script:
+    - npm ci
     - npm run build
 
 deploy:
