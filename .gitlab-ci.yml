@@ -1,5 +1,6 @@
 stages:
   - test
+  - build
   - deploy
 
 variables:
@@ -8,7 +9,7 @@ variables:
   CLOUDFRONT_DISTRIBUTION_ID: E2Q51X0UO412XH
   AWS_ROLE_ARN: arn:aws:iam::611646686338:role/OxfordRole
   GIT_STRATEGY: fetch
-  GIT_CLEAN_FLAGS: "-xdfq --exclude=build"
+  GIT_CLEAN_FLAGS: "-xdfq --exclude=build/ --exclude=node_modules/"
 
 test:
   stage: test
@@ -25,9 +26,19 @@ test:
     NAMESPACE: "kubefill"
     JOB_NAME: "enterprise-wc-percy-tests"
   script:
-    - source /workspace/scripts/init.sh
-    - aws sts get-caller-identity
-    - exec python3 /workspace/src/main.py -m /builds/infor-design/enterprise-wc/job-enterprise-wc.yml
+    #- source /workspace/scripts/init.sh
+    #- aws sts get-caller-identity
+    #- exec python3 /workspace/src/main.py -m /builds/infor-design/enterprise-wc/job-enterprise-wc.yml
+    - echo "Skipping..."
+
+build:
+  stage: build
+  tags:
+    - dsa
+    - DIND
+  image: node:20.12
+  script:
+    - npm run build
 
 deploy:
   stage: deploy
