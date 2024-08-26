@@ -384,6 +384,7 @@ test.describe('IdsLocale tests', () => {
       await validateDefault(page);
 
       await runLocaleFunction(page, 'setLanguage', 'nb');
+      await runLocaleFunction(page, 'setLanguage', 'nb');
       expect(await runLocaleFunction(page, 'translate', 'Actions')).toEqual('Handlinger');
       expect((await getLocaleValues(page, 'language.name'))).toEqual('nb');
     });
@@ -717,6 +718,7 @@ test.describe('IdsLocale tests', () => {
       expect(await runLocaleFunction(page, 'translate', 'Blockquote')).toEqual('Αποκλεισμός προσφοράς');
       expect(await runLocaleFunction(page, 'translate', 'ViewSource')).toEqual('Προβολή πηγής');
 
+      await runLocaleFunction(page, 'setLanguage', 'lt-LT');
       await runLocaleFunction(page, 'setLanguage', 'lt-LT');
       expect(await runLocaleFunction(page, 'translate', 'CssClass')).toEqual('Css klasė');
 
