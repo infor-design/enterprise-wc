@@ -320,6 +320,8 @@ export default class IdsDataGridCell extends IdsElement {
           this.endCellEdit();
         });
       });
+    } else if (editorType === 'dropdown') {
+      this.editor.input?.onEvent('close', this.editor.input, () => this.endCellEdit());
     } else {
       this.editor.input?.onEvent('focusout', this.editor.input, () => {
         this.endCellEdit();
@@ -344,6 +346,7 @@ export default class IdsDataGridCell extends IdsElement {
 
     const editorType = (this.editor?.type as string);
     input?.offEvent('focusout', input);
+    input?.offEvent('close', input);
 
     if (['input', 'tree'].includes(editorType) && input?.setDirtyTracker) {
       input?.setDirtyTracker(input?.value as any);
