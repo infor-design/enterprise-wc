@@ -207,7 +207,7 @@
     justify-content: center;
     position: absolute;
     width: auto;
-    padding: var(--ids-space-xxxxs);
+    padding: var(--ids-slider-tooltip-padding);
     height: auto;
     text-align: center;
     margin: auto;
@@ -215,7 +215,7 @@
     vertical-align: middle;
     line-height: 30px;
     max-width: 300px;
-    min-width: 40px;
+    min-width: 32px;
     transition: opacity 0.2s ease;
     opacity: 0;
     bottom: 175%; // horizontal
@@ -259,6 +259,7 @@
     border-radius: 50%;
     outline: none;
     position: absolute;
+    inset-inline: var(--inset-inline-start);
   }
 
   .thumb {

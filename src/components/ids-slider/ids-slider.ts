@@ -151,7 +151,7 @@ export default class IdsSlider extends Base {
     this.#attachUIStyles();
     this.#attachARIA();
     this.#setVertical();
-    this.#setStepNumber();
+    this.#setStepTicks();
     this.#setStepLabels();
 
     // @TODO find a better way to apply animation/transition rules after the component loads (#698)
@@ -173,6 +173,7 @@ export default class IdsSlider extends Base {
       attributes.MIN,
       attributes.MAX,
       attributes.READONLY,
+      attributes.STEP_INTERVAL,
       attributes.STEP_NUMBER,
       attributes.SHOW_TOOLTIP,
       attributes.TYPE,
@@ -433,7 +434,18 @@ export default class IdsSlider extends Base {
       type = 'secondary';
     }
 
-    if (tooltipText) tooltipText.innerHTML = String(Math.ceil(Number(value)));
+    let containsDecimals = false;
+
+    const elems = this.tickContainer!.querySelectorAll('.tick');
+    for (let i = 0; i < elems.length; i++) {
+      if (elems[i].innerHTML.indexOf('.') > -1 || elems[i].innerHTML.indexOf(',') > -1) {
+        containsDecimals = true;
+        break;
+      }
+    }
+
+    const tooltipValue = this.type === 'step' && containsDecimals ? String(Number(value)) : String(Math.ceil(Number(value)));
+    if (tooltipText) tooltipText.innerHTML = tooltipValue;
 
     if (this.type !== 'step') {
       this.#updateTooltipDisplay(false, type);
@@ -538,17 +550,19 @@ export default class IdsSlider extends Base {
    * Helper method for setLabels and initialization of labels
    * @returns {Array} An array the size of stepNumber with numerical intervals between the min and max
    */
-  #generateNumericalLabels(): Array<any> {
+  #generateNumericalLabels(): Array<string> {
     const arr = [];
+    const stepSize = (this.max - this.min) / (this.stepNumber - 1);
+
     for (let i = 0; i < this.stepNumber; i++) {
-      // rounds floats to 1st decimal
-      arr[i] = Math.round(((this.max / (this.stepNumber - 1)) * i) * 10) / 10;
+      arr.push(Number((this.min + i * stepSize).toFixed(1)).toString());
     }
+
     return arr;
   }
 
   /**
-   * Sets the interval between start and end slider tick (only applicable to step sliders)
+   * Sets the number of steps between start and end slider tick (only applicable to step sliders)
    * @param {string | number | any} value the amount of steps
    */
   set stepNumber(value: string | number | any) {
@@ -560,11 +574,11 @@ export default class IdsSlider extends Base {
       this.removeAttribute(attributes.STEP_NUMBER);
     }
 
-    this.#setStepNumber();
+    this.#setStepTicks();
   }
 
   /**
-   * @returns {number} the interval between start and end slider tick
+   * @returns {number} the steps between start and end slider tick
    */
   get stepNumber(): number {
     const attrVal = this.getAttribute(attributes.STEP_NUMBER);
@@ -574,7 +588,30 @@ export default class IdsSlider extends Base {
     return val + 2;
   }
 
-  #setStepNumber() {
+  /**
+   * Sets the interval between start and end slider tick (only applicable to step sliders)
+   * @param {string | number | any} value the amount of steps
+   */
+  set stepInterval(value: number | string) {
+    if (parseInt(value.toString()) > 0) {
+      this.setAttribute(attributes.STEP_INTERVAL, value.toString());
+      this.stepNumber = Math.ceil((this.max - this.min) / parseInt(value.toString(), 10) - 1);
+    } else {
+      this.removeAttribute(attributes.STEP_INTERVAL);
+      this.stepNumber = 2;
+    }
+
+    this.#setStepTicks();
+  }
+
+  /**
+   * @returns {number} the interval between start and end slider tick
+   */
+  get stepInterval(): number | string {
+    return Number(this.getAttribute(attributes.STEP_INTERVAL)) || 'auto';
+  }
+
+  #setStepTicks() {
     if (this.type === 'step') {
       if (this.stepNumber >= 2) {
         const stepLength = this.container?.querySelectorAll('.tick').length ?? 0;
@@ -646,7 +683,7 @@ export default class IdsSlider extends Base {
    * @returns {number} the corrected slider number
    */
   #sanitizeValue(value: string | number | any, secondary?: boolean): number {
-    const fixedValue = Math.ceil(parseFloat(value));
+    const fixedValue = parseFloat(value);
     if (fixedValue <= this.min) {
       return this.min;
     }
@@ -1020,12 +1057,15 @@ export default class IdsSlider extends Base {
       // for step sliders, snap to the closest interval
       const arr = [];
 
+      const stepSize = (this.max - this.min) / (this.stepNumber - 1);
+
       for (let i = 0; i < this.stepNumber; i++) {
-        arr[i] = (this.max / (this.stepNumber - 1)) * i;
+        arr.push(Number((this.min + i * stepSize).toFixed(1)));
       }
 
       const passedValue = labelValueClicked || this.#calcPercentFromClick(x, y);
-      const differences = arr.map((val) => Math.abs(val - ((passedValue / 100) * this.max)));
+      let differences = arr.map((val) => Math.abs(val - ((passedValue / this.max) * (this.max - this.min) + this.min)));
+      if (labelValueClicked) differences = arr.map((val) => Math.abs(val - ((passedValue / this.max) * this.max)));
 
       let min = differences[0];
       let minIndex = 0;
@@ -1038,7 +1078,7 @@ export default class IdsSlider extends Base {
       }
 
       const targetValue = arr[minIndex];
-      this.percent = targetValue;
+      this.percent = ((targetValue - this.min) / (this.max - this.min)) * 100;
       if (targetValue !== this.value) {
         this.value = targetValue;
       } else {
@@ -1348,7 +1388,7 @@ export default class IdsSlider extends Base {
       // to ensure that after dragging, the value is updated only after dragging has ended..
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event
       const freshPercent = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : this.percent;
-      this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, freshPercent, obj.primaryOrSecondary);
+      if (!this.vertical) this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, freshPercent, obj.primaryOrSecondary);
       this.#updateThumbShadow(false, obj.primaryOrSecondary);
     });
   }
@@ -1466,7 +1506,7 @@ export default class IdsSlider extends Base {
   #decreaseValue(primaryOrSecondary: string): void {
     switch (this.type) {
       case 'step':
-        this.value -= (this.max / (this.stepNumber - 1));
+        this.value -= ((this.max - this.min) / (this.stepNumber - 1));
         break;
       case 'range':
         if (primaryOrSecondary === 'secondary') {
@@ -1488,7 +1528,7 @@ export default class IdsSlider extends Base {
   #increaseValue(primaryOrSecondary: string): void {
     switch (this.type) {
       case 'step':
-        this.value += (this.max / (this.stepNumber - 1));
+        this.value = Math.min(this.max, Math.max(this.min, this.value + (this.max - this.min) / (this.stepNumber - 1)));
         break;
       case 'range':
         if (primaryOrSecondary === 'secondary') {
