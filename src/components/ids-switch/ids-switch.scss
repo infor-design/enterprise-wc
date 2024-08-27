@@ -105,6 +105,7 @@ $slider-start-extra-padding: 7px;
   }
 }
 
+// label position start
 :host([label-position='start']) {
   .ids-switch {
     label {
@@ -132,4 +133,35 @@ $slider-start-extra-padding: 7px;
       }
     }
   }
+}
+
+// sizes
+:host([size]) {
+  &, .ids-switch, label {
+    width: 100%;
+  }
+}
+
+:host([size='xs']) label {
+  max-width: var(--ids-input-width-10);
+}
+
+:host([size='sm']) label {
+  max-width: var(--ids-input-width-20);
+}
+
+:host([size='mm']) label {
+  max-width: var(--ids-input-width-30);
+}
+
+:host([size='md']) label {
+  max-width: var(--ids-input-width-40);
+}
+
+:host([size='lg']) label {
+  max-width: var(--ids-input-width-50);
+}
+
+:host([size='full']) label {
+  max-width: var(--ids-input-width-full);
 }

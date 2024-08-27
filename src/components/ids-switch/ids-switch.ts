@@ -53,9 +53,10 @@ export default class IdsSwitch extends Base {
       attributes.CHECKED,
       attributes.COMPACT,
       attributes.DISABLED,
-      attributes.LABEL,
       attributes.LABEL_POSITION,
-      attributes.VALUE,
+      attributes.LABEL,
+      attributes.SIZE,
+      attributes.VALUE
     ];
   }
 
@@ -316,6 +317,24 @@ export default class IdsSwitch extends Base {
 
   get compact(): boolean {
     return stringToBool(this.getAttribute(attributes.COMPACT));
+  }
+
+  /**
+   * size attribute
+   * @returns {string|null} size param
+   */
+  get size(): string | null { return this.getAttribute(attributes.SIZE); }
+
+  /**
+   * Set the size (width) of the switch
+   * @param {string|null} value [xs, sm, mm, md, lg, full]
+   */
+  set size(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.SIZE, value);
+    } else {
+      this.removeAttribute(attributes.SIZE);
+    }
   }
 
   /**
