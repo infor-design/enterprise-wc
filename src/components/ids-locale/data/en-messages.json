@@ -138,7 +138,7 @@
   "Drilldown": { "id": "Drilldown", "value": "Drill down", "comment": "Drill by moving page flow into a record" },
   "Drillup": { "id": "Drillup", "value": "Drill up", "comment": "Opposite of drilldown, move back up to a larger set of records" },
   "Dropdown": { "id": "Dropdown", "value": "Dropdown", "comment": "Dropdown" },
-  "DropdownTriggerButton": { "id": "DropdownTriggerButton", "value": "Click to open dropdown", "comment": "Used in accessible labels to describe a dropdown's trigger button to assistive technology" },
+  "DropdownTriggerButton": { "id": "DropdownTriggerButton", "value": "Click to open dropdown", "comment": "Used in accessible labels to describe a dropdown trigger button to assistive technology" },
   "Duplicate": { "id": "Duplicate", "value": "Duplicate", "comment": "Duplicate tooltip" },
   "Duration": { "id": "Duration", "value": "Duration", "comment": "The length of a time span between two times" },
   "Dutch": { "id": "Dutch", "value": "Dutch", "comment": "Language name for Dutch (Netherlands)" },

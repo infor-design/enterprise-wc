@@ -51,6 +51,18 @@ lookup.dataGridSettings = {
 lookup.data = data;
 ```
 
+Set the sizes, available sizes are `'xs'|'sm'|'mm'|'md'|'lg'|'full'` and default type is `size="md"`.
+
+```html
+<ids-lookup label="Default" value="opt3"></ids-lookup>
+<ids-lookup label="Extra Small" value="1" size="xs"></ids-lookup>
+<ids-lookup label="Small" value="opt3" size="sm"></ids-lookup>
+<ids-lookup label="Small - Medium" value="opt3" size="mm"></ids-lookup>
+<ids-lookup label="Medium" value="opt3" size="md"></ids-lookup>
+<ids-lookup label="Large" value="opt3" size="lg"></ids-lookup>
+<ids-lookup label="Full" value="opt3" size="full"></ids-lookup>
+```
+
 ### Lookup search
 
 With a few settings, its possible to have the lookup modal add a search field that will provide events to facilitate searching for results. In the example we show a search field, when typing and hitting enter an event fires that lets you go to the server and get data or do whatever is required. When a `cleared` event fires you can reset the query. The developer is responsible for all the logic. We just provide an `ids-search-field` and events and a few settings.
