@@ -43,8 +43,6 @@ const Base = IdsDropdownAttributeMixin(
 export default class IdsDropdownList extends Base {
   isMultiSelect?: boolean;
 
-  listBox?: IdsListBox | null;
-
   lastHovered: IdsListBoxOption | null = null;
 
   // For position style fixed dropdowns, live refresh dropdown dimensions
@@ -93,7 +91,6 @@ export default class IdsDropdownList extends Base {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.listBox = null;
     this.lastHovered = null;
     this.#dropdownResizseObserver.disconnect();
   }
@@ -361,17 +358,24 @@ export default class IdsDropdownList extends Base {
     }
   }
 
-  configureListBox() {
-    this.listBox = this.querySelector<IdsListBox>('ids-list-box');
+  get listBox(): IdsListBox | null {
+    let listBox = this.querySelector<IdsListBox>('ids-list-box');
 
     // If no list box element is present as a direct descendant,
     // assume usage inside IdsDropdown and search for slotted ListBox
-    if (!this.listBox) {
+    if (!listBox) {
       if (this.children[0]?.tagName === 'SLOT') {
-        this.listBox = (this.children[0] as HTMLSlotElement).assignedElements()?.[0] as IdsListBox;
+        listBox = (this.children[0] as HTMLSlotElement).assignedElements()?.[0] as IdsListBox;
+        if (listBox?.tagName && listBox?.tagName !== 'IDS-LIST-BOX') {
+          throw new Error(`No <ids-list-box> child component found in dropdown`);
+        }
       }
     }
 
+    return listBox;
+  }
+
+  configureListBox() {
     // IdsListBox has styles that are dependent on field height/compact settings,
     // but doesn't implement IdsFieldHeightMixin, so these are passed here.
     if (this.listBox) {
