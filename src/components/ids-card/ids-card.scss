@@ -7,6 +7,7 @@
   box-shadow: var(--ids-card-shadow);
   margin-block-end: var(--ids-card-margin-bottom);
   height: var(--ids-card-height);
+  width: var(--ids-card-width);
 
   .ids-card-content {
     height: var(--ids-card-content-height);
@@ -151,13 +152,6 @@
   }
 }
 
-:host([borderless]) {
-  .ids-card {
-    border-color: transparent;
-    box-shadow: none;
-  }
-}
-
 // Actionable Link Card Styles
 :host([actionable]) ids-hyperlink {
   height: 50px;
@@ -246,6 +240,113 @@
   padding: 0 8px;
   text-align: center;
   width: 100%;
+}
+
+:host([draggable]) {
+  width: var(--ids-card-width);
+  z-index: 1;
+  transition: var(--ids-motion-duration) var(--ids-motion-ease);
+
+  .ids-card {
+    border: 1px solid var(--ids-card-color-border-draggable);
+    box-shadow: none;
+    height: auto;
+    min-height: auto;
+    cursor: move;
+
+    .ids-card-header {
+      min-height: 56px;
+
+      slot[name='card-header'] {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+    }
+
+    &:hover {
+      background-color: var(--ids-card-color-background-hover);
+      color: var(--ids-card-color-text-hover);
+
+      .ids-card-header {
+        slot[name='card-header'] {
+          color: var(--ids-card-color-text-hover);
+        }
+      }
+    }
+
+    &.is-overlapping {
+      cursor: no-drop;
+    }
+
+    &.is-dropped {
+      z-index: 99;
+      width: var(--ids-card-width-dropped, var(--ids-card-width));
+      height: var(--ids-card-height-dropped, 'auto');
+      background-color: var(--ids-card-color-background-dropped, #F5F5F5);
+      opacity: 0.8;
+
+      .ids-card-header {
+        slot[name='card-header'] {
+          color: var(--ids-card-color-text-default);
+        }
+      }
+    }
+
+    &.is-dragging {
+      z-index: 999;
+      width: var(--ids-card-width-dragged, var(--ids-card-width));
+      height: var(--ids-card-height-dragged, 'auto');
+      background-color: var(--ids-card-color-background-dragged, #F5F5F5);
+      opacity: 0.8;
+
+      .ids-card-header {
+        slot[name='card-header'] {
+          color: var(--ids-card-color-text-default);
+        }
+      }
+    }
+
+    &.is-fixed {
+      &.is-dropped, &.is-dragging {
+        position: absolute;
+        justify-content: center;
+
+        .ids-card-header {
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+:host([draggable][is-dragging]) {
+  z-index: 99;
+  transition: none;
+}
+
+:host([draggable][dropped]) {
+  z-index: 9;
+  transition: none;
+}
+
+:host([borderless]) {
+  .ids-card {
+    border-color: transparent;
+    box-shadow: none;
+
+    &:hover {
+      border-color: transparent;
+    }
+  }
+}
+
+:host([disabled]) {
+  .ids-card {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
 
 :host([actionable][height]) .ids-card {
