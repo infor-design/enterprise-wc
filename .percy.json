@@ -7,6 +7,7 @@
     ],
     "minHeight": 1024,
     "enableJavaScript": true,
-    "disableShadowDOM": true
+    "disableShadowDOM": true,
+    "gzip": true
   }
 }
