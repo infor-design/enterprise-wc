@@ -339,7 +339,7 @@ export class DropdownEditor implements IdsDataGridEditor {
   /* Save selected dropdown value */
   save() {
     return {
-      value: this.#value,
+      value: this.input?.value,
       dirtyCheckValue: this.input?.input?.value
     };
   }
