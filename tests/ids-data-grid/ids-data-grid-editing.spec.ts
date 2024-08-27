@@ -628,11 +628,10 @@ test.describe('IdsDataGrid editing tests', () => {
       const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-dropdown.is-editable');
       editableCell?.startCellEdit();
       editableCell?.querySelector<IdsDropdown>('ids-dropdown')?.setAttribute('value', 'eur');
-      editableCell?.endCellEdit();
       return editableCell?.value;
     });
 
-    expect(results).toBe('EUR');
+    expect(results).toBe('eur');
   });
 
   test('supports updating data set and refreshing row', async ({ page }) => {

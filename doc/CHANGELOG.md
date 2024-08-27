@@ -4,6 +4,8 @@
 
 ## 1.4.3 Features
 
+- `[Card]` Adds `draggable` attribute to ids-card which allows card to be used in drag and drop scenarios. ([#2423](https://github.com/infor-design/enterprise-wc/issues/2423))
+- `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615]https://github.com/infor-design/enterprise-wc/issues/2615)
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
 - `[Themes]` Added a setting `IdsGlobal.themePath` that you can use to set the location of the theme files. ([#2125]https://github.com/infor-design/enterprise-wc/issues/2125)
 - `[Themes]` Added latest round of semantic tokens. ([#2471]https://github.com/infor-design/enterprise-wc/issues/2471)
@@ -11,11 +13,15 @@
 ### 1.4.3 Fixes
 
 - `[Datagrid]` Fixed bug where the custom select-color is lost during row-recycling/virtual-scrolling. ([#1392](https://github.com/infor-design/enterprise-wc/issues/1392))
+- `[Datagrid]` Fixed bug editor dropdown can't be re-opened after closing. ([#2589](https://github.com/infor-design/enterprise-wc/issues/2589))
 - `[Homepage]` Converted home page tests to playwright. ([#1940](https://github.com/infor-design/enterprise-wc/issues/1940))
+- `[Listbuilder]` Fixed buggy builder styles. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
+- `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
 - `[Locale]` Fixed translation issue of `small` into Spanish. ([#8962]https://github.com/infor-design/enterprise-wc/issues/8962)
 - `[Locale]` Fixed translation issue of `Available` into Thai and Italian. ([#8786]https://github.com/infor-design/enterprise-wc/issues/8786)
 - `[Listbuilder]` Fixed buggy builder styles. ([#2701]https://github.com/infor-design/enterprise-wc/issues/2701)
 - `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701]https://github.com/infor-design/enterprise-wc/issues/2701)
+- `[Radio]` Fixed an issue where the radio group could not set checked for radio elements when using Angular's FormControl and value binding. ([#2700](https://github.com/infor-design/enterprise-wc/issues/2700))
 - `[Splitter]` Converted datagrid popups to fixed to go over splitter panes. ([#2499](https://github.com/infor-design/enterprise-wc/issues/2499))
 - `[Splitter]` Fixed an issue where position was not retained when expanding and collapsing. ([#2527](https://github.com/infor-design/enterprise-wc/issues/2527))
 
@@ -27,8 +33,8 @@
 
 ### 1.4.2 Fixes
 
-- `[Accordion]` Fixed a bug where triggering a child component event would cause the accordion pane to collapse.([#2562]https://github.com/infor-design/enterprise-wc/issues/2562)
-- `[Button]` Fixed a bug in the lifecycle where inner classes where not refreshed in some frameworks.([#2627]https://github.com/infor-design/enterprise-wc/issues/2627)
+- `[Accordion]` Fixed a bug where triggering a child component event would cause the accordion pane to collapse.([#2562](https://github.com/infor-design/enterprise-wc/issues/2562))
+- `[Button]` Fixed a bug in the lifecycle where inner classes where not refreshed in some frameworks.([#2627](https://github.com/infor-design/enterprise-wc/issues/2627))
 - `[Button]` Fixed an issue where Button layout looks off in smaller viewport. ([#2652](https://github.com/infor-design/enterprise-wc/issues/2652))
 - `[Checkbox]` Fixed an issue where native events were triggered multiple times in single selection. ([#2385](https://github.com/infor-design/enterprise-wc/issues/2385))
 - `[Datagrid]` Fixed bug where datagrid mutates original data passed in by user. ([#2724](https://github.com/infor-design/enterprise-wc/issues/2724))
@@ -37,7 +43,7 @@
 - `[Dropdown]` Fixed an issue where disabling typeahead allowed typing in the input. ([#2662](https://github.com/infor-design/enterprise-wc/issues/2662))
 - `[Editor]` Removed internal hard coded id since it was causing duplicate ids if multiple editors are used. ([#2630](https://github.com/infor-design/enterprise-wc/issues/2630))
 - `[Editor]` Updated docs around `labels`. ([#2649](https://github.com/infor-design/enterprise-wc/issues/2649))
-- `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482]https://github.com/infor-design/enterprise-wc/issues/2482)
+- `[General]` Updated readme docs to remove redundant usage, updated readme titles for all components, copyedits for some settings.([#2482](https://github.com/infor-design/enterprise-wc/issues/2482))
 - `[ListBuilder]` Converted list builder tests to playwright. ([#1873](https://github.com/infor-design/enterprise-wc/issues/1873))
 - `[ListView]` Resolved an issue where the list can't be navigated using up and down arrows. ([#2595](https://github.com/infor-design/enterprise-wc/issues/2595))
 - `[MenuButton]` Fixed an issue where the popup menu was not placed correctly in Angular/production build. ([#2669](https://github.com/infor-design/enterprise-wc/issues/2669))
