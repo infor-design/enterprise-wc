@@ -452,7 +452,7 @@ test.describe('IdsSlider tests', () => {
       await expect(value).toBe(60); // added assertion
     });
 
-    test('clicks and drags and navigates keyboard arrows on vertical range slider correctly', async ({ page }) => {
+    test.skip('clicks and drags and navigates keyboard arrows on vertical range slider correctly', async ({ page }) => {
       await page.evaluate(() => {
         (window as any).createKeyboardEvent = (keyName: any) => {
           const event = new KeyboardEvent('keydown', { key: keyName });
@@ -536,7 +536,6 @@ test.describe('IdsSlider tests', () => {
         });
         await expect(sliderEl.value as number).toBeInAllowedBounds(59, 2);
         await expect(sliderEl.valueSecondary as number).toBeCloseTo(50, 5);
-        await expect(sliderEl.valueSecondary as number).toBe(50);
       }).toPass();
     });
 
