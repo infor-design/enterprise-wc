@@ -45,6 +45,12 @@ export type IdsTreeNodeData = {
   collapseIcon?: string;
   /** Sets expand icon */
   expandIcon?: string;
+  /** Sets toggle collapse icon */
+  toggleCollapseIcon?: string;
+  /** Sets toggle expand icon */
+  toggleExpandIcon?: string;
+  /** Sets showing both expand and toggle icon */
+  showExpandAndToggleIcons?: boolean;
 };
 
 const Base = IdsEventsMixin(IdsElement);
@@ -150,7 +156,10 @@ export default class IdsTreeNode extends Base {
       collapseIcon: this.collapseIcon,
       expanded: this.expanded,
       disabled: this.disabled,
-      selected: this.selected
+      selected: this.selected,
+      showExpandAndToggleIcons: this.showExpandAndToggleIcons,
+      toggleExpandIcon: this.toggleExpandIcon,
+      toggleCollapseIcon: this.toggleCollapseIcon
     };
 
     // only append children property if has children os is async parent
@@ -678,7 +687,6 @@ export default class IdsTreeNode extends Base {
     const show = stringToBool(value);
     this.toggleAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS, show);
     this.#updateToggleIcons();
-    this.slottedTreeNodes.forEach((node) => node.toggleAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS), show);
   }
 
   get showExpandAndToggleIcons(): boolean {
