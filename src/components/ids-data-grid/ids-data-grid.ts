@@ -2495,6 +2495,8 @@ export default class IdsDataGrid extends Base {
     }
 
     this.updateDataset(index, data, true);
+    this.datasource.refreshPreviousState();
+
     this.redrawBody();
   }
 
