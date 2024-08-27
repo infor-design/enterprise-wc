@@ -320,12 +320,6 @@ export default class IdsSwitch extends Base {
   }
 
   /**
-   * size attribute
-   * @returns {string|null} size param
-   */
-  get size(): string | null { return this.getAttribute(attributes.SIZE); }
-
-  /**
    * Set the size (width) of the switch
    * @param {string|null} value [xs, sm, mm, md, lg, full]
    */
@@ -336,6 +330,12 @@ export default class IdsSwitch extends Base {
       this.removeAttribute(attributes.SIZE);
     }
   }
+
+  /**
+   * size attribute
+   * @returns {string|null} size param
+   */
+  get size(): string | null { return this.getAttribute(attributes.SIZE); }
 
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
