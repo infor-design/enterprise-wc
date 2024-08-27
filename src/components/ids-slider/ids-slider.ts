@@ -20,15 +20,9 @@ type IdsSliderTrackBounds = {
   TOP: number;
 };
 
-const TYPES = [
-  'single',
-  'range',
-  'step'
-];
-
 const DEFAULT_MIN = 0;
 const DEFAULT_MAX = 100;
-const DEFAULT_TYPE = TYPES[0];
+const DEFAULT_TYPE = 'single';
 const DEFAULT_TRACKER_BOUNDS = {
   BOTTOM: NaN,
   LEFT: NaN,
@@ -831,7 +825,7 @@ export default class IdsSlider extends Base {
    * @param {IdsSliderType} value The type of slider
    */
   set type(value: IdsSliderType) {
-    if (value && TYPES.includes(value)) {
+    if (value) {
       this.setAttribute(attributes.TYPE, value);
     } else {
       this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
@@ -1147,10 +1141,11 @@ export default class IdsSlider extends Base {
    */
   #calcTranslateFromPercent(nStart: number, nEnd: number, percent: number, centered: boolean): number {
     // minus thumb height bc it overshoots
-    const editedRange = Math.abs(nEnd - nStart) - (this.thumbDraggable?.clientWidth ?? NaN);
+    let editedRange = Math.abs(nEnd - nStart) - (this.thumbDraggable?.clientWidth || 0);
+    if (this.stepNumber <= 10 && this.percent > this.min) editedRange += (this.thumbDraggable?.clientWidth || 0);
+
     let coord = (Math.ceil(percent) / 100) * editedRange;
     coord = centered ? coord - (editedRange / 2) : coord;
-
     return coord;
   }
 
@@ -1387,8 +1382,8 @@ export default class IdsSlider extends Base {
       obj.thumbDraggable?.focus();
       // to ensure that after dragging, the value is updated only after dragging has ended..
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event
-      const freshPercent = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : this.percent;
-      if (!this.vertical) this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, freshPercent, obj.primaryOrSecondary);
+      const labelValue = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : (this.percent * (this.max - this.min)) / 100;
+      if (!this.vertical) this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, labelValue, obj.primaryOrSecondary);
       this.#updateThumbShadow(false, obj.primaryOrSecondary);
     });
   }
