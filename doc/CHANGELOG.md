@@ -9,7 +9,6 @@
 - `[Dropdown]` Fixed IdsDropdown default value.  There was a bug where the value property was not working properly with dynamic data. ([#2727](https://github.com/infor-design/enterprise-wc/issues/2727))
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160](https://github.com/infor-design/enterprise-wc/issues/2160))
 - `[Themes]` Added a setting `IdsGlobal.themePath` that you can use to set the location of the theme files. ([#2125](https://github.com/infor-design/enterprise-wc/issues/2125))
-=======
 - `[Card]` Adds `draggable` attribute to ids-card which allows card to be used in drag and drop scenarios. ([#2423](https://github.com/infor-design/enterprise-wc/issues/2423))
 
 ### 1.4.3 Fixes
