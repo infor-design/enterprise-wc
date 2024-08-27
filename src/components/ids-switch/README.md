@@ -46,7 +46,6 @@ Switch with the label positioned at the start and sized to fit the full width of
 <ids-switch label="Show component" label-position="start" size="full"></ids-switch>
 ```
 
-
 ## Settings (Attributes)
 
 - `checked` {boolean} set checked state.

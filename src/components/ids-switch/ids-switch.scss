@@ -4,6 +4,7 @@ $slider-width: 40px;
 $slider-height: 24px;
 $slider-compact-height: 20px;
 $slider-compact-width: 34px;
+
 // hidden input margin from label position end
 $slider-start-extra-padding: 7px;
 
@@ -124,7 +125,7 @@ $slider-start-extra-padding: 7px;
       }
     }
 
-    input[type=checkbox] {
+    input[type='checkbox'] {
       margin: 0;
 
       ~ .slider {
