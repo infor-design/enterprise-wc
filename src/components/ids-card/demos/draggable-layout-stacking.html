@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Cards (Draggable)</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid cols="4" cols-md="4" cols-sm="1" cols-xs="1" gap="md">
+      <ids-layout-grid-cell padding="sm" gap="sm" id="example-panel-left">
+        <ids-tabs-context>
+          <ids-tabs>
+            <ids-tab value="components">Components</ids-tab>
+            <ids-tab value="layout">Layout</ids-tab>
+          </ids-tabs>
+          <ids-tab-content value="components">
+            <ids-layout-grid auto-fit="true">
+              <ids-layout-grid-cell class="demo-draggable-panel">
+                <ids-search-field label-state="hidden" placeholder="Search for a component"></ids-search-field>
+
+                <ids-text font-size="16">Containers</ids-text>
+
+                <ids-card draggable drop-target="droppable-panel" stacked="true" auto-fit width="100%" fixed="true" class="demo-draggable-card" drag-width="200px" drag-height="400px" drop-width="200px" drop-height="400px">
+                  <svg slot="card-header" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect x="3" y="3" width="15" height="6" rx="1" fill="white" stroke="#161618" stroke-width="2"></rect>
+                    <rect x="3" y="13" width="26" height="6" rx="1" fill="white" stroke="#161618" stroke-width="2"></rect>
+                    <rect x="24" y="14" width="4" height="4" fill="#E0E0E1"></rect>
+                    <path d="M23.5 14.5V17.5" stroke="#161618" stroke-linecap="square"></path>
+                    <rect x="3" y="23" width="19" height="6" rx="3" fill="#E0E0E1" stroke="#161618" stroke-width="2"></rect>
+                    <rect x="22" y="3" width="7" height="6" rx="1" fill="white" stroke="#161618" stroke-width="2"></rect>
+                  </svg>
+                  <ids-text slot="card-header" font-size="16">Form</ids-text>
+                </ids-card>
+
+                <ids-card draggable drop-target="droppable-panel" stacked="true" auto-fit width="100%" fixed="true" class="demo-draggable-card" drag-width="992px" drag-height="320px" drop-width="992px" drop-height="320px">
+                  <svg slot="card-header" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect x="3" y="3" width="26" height="26" rx="1" fill="white" stroke="#161618" stroke-width="2"></rect>
+                    <rect x="4" y="4" width="24" height="4" fill="#E0E0E1"></rect>
+                    <path d="M4 8.5H28" stroke="#161618" stroke-linecap="round"></path>
+                    <path d="M4.5 13.5H27.5" stroke="#161618" stroke-linecap="square"></path>
+                    <path d="M4.5 18.5H27.5" stroke="#161618" stroke-linecap="square"></path>
+                    <path d="M4.5 23.5H27.5" stroke="#161618" stroke-linecap="square"></path>
+                    <path d="M10.5 4.5V29" stroke="#161618" stroke-linecap="square"></path>
+                    <path d="M16.5 4.3562V29" stroke="#161618" stroke-linecap="square"></path>
+                  </svg>
+                  <ids-text slot="card-header" font-size="16">Datagrid</ids-text>
+                </ids-card>
+
+
+                <ids-text font-size="16">Components</ids-text>
+                <div class="panel-left-components demo-draggable-panel">
+
+                  <ids-card draggable drop-target="droppable-panel" stacked="true" auto-fit width="100%" fixed="true" class="demo-draggable-card"  drag-width="992px" drag-height="100px" drop-width="992px" drop-height="100px">
+                    <svg slot="card-header" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                      <path d="M1 12H31V28C31 29.1046 30.1046 30 29 30H3C1.89543 30 1 29.1046 1 28V12Z" fill="white"></path>
+                      <path d="M2 12V28C2 28.5523 2.44772 29 3 29H29C29.5523 29 30 28.5523 30 28V12" stroke="black" stroke-width="2" stroke-dasharray="4 4"></path>
+                      <path d="M2 4C2 3.44772 2.44772 3 3 3H29C29.5523 3 30 3.44772 30 4V11H2V4Z" fill="#F5F5F5" stroke="#161618" stroke-width="2"></path>
+                      <path d="M6 7H23" stroke="#161618" stroke-width="2" stroke-linecap="round"></path>
+                    </svg>
+                    <ids-text slot="card-header" font-size="16">Header</ids-text>
+                  </ids-card>
+
+                  <ids-card draggable drop-target="droppable-panel" stacked="true" auto-fit width="100%" fixed="true" class="demo-draggable-card">
+                    <svg slot="card-header" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                      <rect x="3" y="13" width="26" height="6" rx="1" fill="white" stroke="#161618" stroke-width="2"></rect>
+                      <path d="M4 10H25" stroke="#161618" stroke-width="2" stroke-linecap="round"></path>
+                    </svg>
+                    <ids-text slot="card-header" font-size="16">Input</ids-text>
+                  </ids-card>
+
+                  <ids-card draggable drop-target="droppable-panel" stacked="true" auto-fit width="100%" fixed="true" class="demo-draggable-card">
+                    <svg slot="card-header" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
+                      fill="none">
+                      <rect x="3" y="13" width="26" height="6" rx="1" fill="white" stroke="#161618" stroke-width="2"></rect>
+                      <path d="M4 10H25" stroke="#161618" stroke-width="2" stroke-linecap="round"></path>
+                    </svg>
+                    <ids-text slot="card-header" font-size="16">Dropdown</ids-text>
+                  </ids-card>
+
+                  <ids-card draggable drop-target="droppable-panel" stacked="true" auto-fit width="100%" fixed="true" class="demo-draggable-card">
+                    <svg slot="card-header" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
+                      fill="none">
+                      <rect x="3" y="9" width="26" height="18" rx="1" fill="white" stroke="#161618" stroke-width="2"></rect>
+                      <path d="M4 5H25" stroke="#161618" stroke-width="2" stroke-linecap="round"></path>
+                    </svg>
+                    <ids-text slot="card-header" font-size="16">Textarea</ids-text>
+                  </ids-card>
+
+                  <ids-card draggable drop-target="droppable-panel" stacked="true" auto-fit width="100%" fixed="true" class="demo-draggable-card">
+                    <svg slot="card-header" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
+                      fill="none">
+                      <rect x="4" y="12" width="8" height="8" rx="4" fill="white" stroke="#161618" stroke-width="2"></rect>
+                      <rect x="6" y="14" width="4" height="4" rx="2" fill="#161618"></rect>
+                      <path d="M16 16H28" stroke="#161618" stroke-width="2" stroke-linecap="round"></path>
+                    </svg>
+                    <ids-text slot="card-header" font-size="16">Radio</ids-text>
+                  </ids-card>
+
+                  <ids-card draggable drop-target="droppable-panel" stacked="true" auto-fit width="100%" fixed="true" class="demo-draggable-card">
+                    <svg slot="card-header" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                      <rect x="4" y="12" width="8" height="8" rx="1" fill="white" stroke="#161618" stroke-width="2"></rect>
+                      <path d="M16 16H28" stroke="#161618" stroke-width="2" stroke-linecap="round"></path>
+                      <path d="M6.5 16L7.5 17L9.5 15" stroke="#161618" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    <ids-text slot="card-header" font-size="16">Checkbox</ids-text>
+                  </ids-card>
+
+                  <ids-card draggable drop-target="droppable-panel" stacked="true" auto-fit width="100%" fixed="true" class="demo-draggable-card">
+                    <svg slot="card-header" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                      <rect x="4" y="13" width="24" height="6" rx="3" fill="#E0E0E1" stroke="#161618" stroke-width="2"></rect>
+                      <path d="M11 16H21" stroke="#161618" stroke-width="2" stroke-linecap="round"></path>
+                    </svg>
+                    <ids-text slot="card-header" font-size="16">Button</ids-text>
+                  </ids-card>
+
+                </div>
+              </ids-layout-grid-cell>
+            </ids-layout-grid>
+          </ids-tab-content>
+          <ids-tab-content value="layout"></ids-tab-content>
+        </ids-tabs-context>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell col-span="3" padding="md" gap="sm">
+        <div class="droppable-panel" id="droppable-panel">
+          <div class="frame-items">
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+            <div class="frame-item"></div>
+          </div>
+        </div>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+
+</html>
