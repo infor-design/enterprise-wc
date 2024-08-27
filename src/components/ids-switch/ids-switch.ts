@@ -19,6 +19,8 @@ const Base = IdsLocaleMixin(
   )
 );
 
+type IdsSwitchLabelPosition = 'start' | 'end';
+
 /**
  * IDS Switch Component
  * @type {IdsSwitch}
@@ -52,7 +54,8 @@ export default class IdsSwitch extends Base {
       attributes.COMPACT,
       attributes.DISABLED,
       attributes.LABEL,
-      attributes.VALUE
+      attributes.LABEL_POSITION,
+      attributes.VALUE,
     ];
   }
 
@@ -254,6 +257,22 @@ export default class IdsSwitch extends Base {
   }
 
   get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
+
+  /**
+   * Sets the label position
+   * @param {IdsSwitchLabelPosition|null} value label position either 'start' or 'end'
+   */
+  set labelPosition(value: IdsSwitchLabelPosition | null) {
+    if (value) {
+      this.setAttribute(attributes.LABEL_POSITION, value);
+    } else {
+      this.removeAttribute(attributes.LABEL_POSITION);
+    }
+  }
+
+  get labelPosition(): IdsSwitchLabelPosition {
+    return this.getAttribute(attributes.LABEL_POSITION) as IdsSwitchLabelPosition || 'end';
+  }
 
   /**
    * React to attributes changing on the web-component

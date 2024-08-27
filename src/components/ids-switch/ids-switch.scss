@@ -4,6 +4,8 @@ $slider-width: 40px;
 $slider-height: 24px;
 $slider-compact-height: 20px;
 $slider-compact-width: 34px;
+// hidden input margin from label position end
+$slider-start-extra-padding: 7px;
 
 .ids-switch {
   color: var(--ids-switch-label-color-text-default);
@@ -99,6 +101,35 @@ $slider-compact-width: 34px;
 
     label {
       cursor: default;
+    }
+  }
+}
+
+:host([label-position='start']) {
+  .ids-switch {
+    label {
+      padding-inline-start: 0;
+    }
+
+    &:not(.compact) {
+      label {
+        padding-inline-end: calc($slider-width + var(--ids-space-xs) + $slider-start-extra-padding);
+      }
+    }
+
+    &.compact {
+      label {
+        padding-inline-end: calc($slider-compact-width + var(--ids-space-xs) + $slider-start-extra-padding);
+      }
+    }
+
+    input[type=checkbox] {
+      margin: 0;
+
+      ~ .slider {
+        inset-inline-start: unset;
+        inset-inline-end: 0;
+      }
     }
   }
 }
