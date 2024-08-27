@@ -825,7 +825,7 @@ export default class IdsSlider extends Base {
    * @param {IdsSliderType} value The type of slider
    */
   set type(value: IdsSliderType) {
-    if (value) {
+    if (value && ['step', 'range', 'single'].includes(value)) {
       this.setAttribute(attributes.TYPE, value);
     } else {
       this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
