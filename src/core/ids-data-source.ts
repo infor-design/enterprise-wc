@@ -512,7 +512,9 @@ class IdsDataSource {
 
       // If filter is active, update stored original data
       if (this.#currentFilterData) {
-        const filterIdx = this.#currentFilterData.findIndex((rec: Record<string, any>) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+        const filterIdx = this.#currentFilterData
+          .findIndex((rec: Record<string, any>) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+
         if (filterIdx > -1) {
           this.#currentFilterData.splice(filterIdx, 1);
         }
