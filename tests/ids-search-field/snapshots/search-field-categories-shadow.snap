@@ -1,5 +1,5 @@
 <div id="ids-search-field" class="ids-search-field ids-trigger-field ids-input md has-clearable field-height-md" part="container"><div id="ids-search-field" class="ids-search-field ids-trigger-field ids-input md" part="container">
-      <label class="ids-label-text" part="label">
+      <label class="ids-label-text" part="label" for="categories-internal">
       <slot name="label-pre"></slot>
       <ids-text part="label" color-unset="">
         Categories
@@ -20,7 +20,7 @@
         </ids-menu-group>
       </ids-popup-menu>
     
-          <input part="input" id="categories-input" type="text" class="ids-input-field start readonly-background" placeholder="Type a search term" value="" autocomplete="off" aria-label="Categories"><ids-trigger-button part="clearable-button" class="btn-clear is-empty" no-margins=""><ids-text audible="true">clear</ids-text><ids-icon icon="close" size="small" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-trigger-button>
+          <input part="input" id="categories-internal" type="text" class="ids-input-field start readonly-background" placeholder="Type a search term" value="" autocomplete="off" aria-label="Categories" category="Files" clearable=""><ids-trigger-button part="clearable-button" class="btn-clear is-empty" no-margins=""><ids-text audible="true">clear</ids-text><ids-icon icon="close" size="small" style="--ids-icon-height-default: 16px; --ids-icon-width-default: 16px;"></ids-icon></ids-trigger-button>
           <slot name="trigger-end"></slot>
         </div>
         
