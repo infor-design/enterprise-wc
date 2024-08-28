@@ -28,3 +28,7 @@
     pointer-events: auto;
   }
 }
+
+:host(.contained)::part(overlay) {
+  position: absolute;
+}
