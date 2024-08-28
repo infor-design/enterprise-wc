@@ -191,7 +191,7 @@ test.describe('IdsColorPicker tests', () => {
       expect(await colorPicker.evaluate((colorpicker: IdsColorPicker) => colorpicker.value)).toEqual('#fbe7e8');
     });
 
-    test.only('should allow custom colors to be slotted', async ({ page }) => {
+    test('should allow custom colors to be slotted', async ({ page }) => {
       const customColor = await page.evaluate(() => {
         const customColorPicker = document.querySelector('[label="Custom Colors"]');
         const customColorElem = customColorPicker?.querySelector('ids-color[hex="#D8E2DC"]');
