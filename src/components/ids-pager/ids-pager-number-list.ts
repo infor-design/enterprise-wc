@@ -84,7 +84,7 @@ export default class IdsPagerNumberList extends Base {
     super.connectedCallback();
 
     if (this.pager) {
-      this.disabled = this.pager.disabled;
+      this.parentDisabled = this.pager.disabled;
       this.pageNumber = this.pager.pageNumber;
       this.pageSize = this.pager.pageSize;
       this.step = this.pager.step;
