@@ -8,8 +8,9 @@
 .ids-tree {
   @include tree-node-badge();
 
+  list-style-type: none;
+  margin-bottom: var(--ids-space-4xs);
   display: inline-block;
-  margin-bottom: var(--ids-space-xxxxs);
   margin-block-start: 0;
   margin-block-end: 0;
   padding-inline-start: 0;

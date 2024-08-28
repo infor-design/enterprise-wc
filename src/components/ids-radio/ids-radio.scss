@@ -2,13 +2,13 @@
 
 .ids-radio {
   outline: none;
-  margin-block-start: 8px;
-  margin-block-end: 8px;
+  margin-block-start: var(--ids-space-xs);
+  margin-block-end: var(--ids-space-xs);
 
   label {
     cursor: var(--ids-cursor-pointer);
     position: relative;
-    padding-inline-start: 24px;
+    padding-inline-start: var(--ids-space-md);
     display: inline-block;
     user-select: none;
   }
@@ -99,7 +99,7 @@
   }
 
   label {
-    padding-right: 24px;
+    padding-right: var(--ids-space-md);
     padding-left: 0;
   }
 

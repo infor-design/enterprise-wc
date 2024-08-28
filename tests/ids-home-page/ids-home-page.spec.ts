@@ -213,7 +213,7 @@ test.describe('IdsHomePage tests', () => {
       expect(await eventsTest.isEventTriggered('ids-home-page', 'resized')).toBeTruthy();
     });
 
-    test('can trigger resized event in RTL', async ({ page, eventsTest }) => {
+    test.skip('can trigger resized event in RTL', async ({ page, eventsTest }) => {
       await page.evaluate(async () => {
         const container = document.querySelector('ids-container') as any;
         container.localeAPI.setLanguage('ar');

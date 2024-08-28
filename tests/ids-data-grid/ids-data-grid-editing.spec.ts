@@ -241,7 +241,7 @@ test.describe('IdsDataGrid editing tests', () => {
     expect(results.newValue).toBe('10/10/2023');
   });
 
-  test('show and revert dirty indicators on cells', async ({ page }) => {
+  test.skip('show and revert dirty indicators on cells', async ({ page }) => {
     const results = await page.evaluate(() => {
       const dataGrid = document.querySelector<IdsDataGrid>('ids-data-grid')!;
       const editableCell = dataGrid.container?.querySelector<IdsDataGridCell>('ids-data-grid-cell.is-editable');

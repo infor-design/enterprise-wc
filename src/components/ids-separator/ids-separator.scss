@@ -40,7 +40,7 @@
     &.vertical {
       align-self: center;
       background-color: var(--ids-separator-alternate-color-background);
-      height: 16px;
+      height: var(--ids-space-sm);
     }
   }
 

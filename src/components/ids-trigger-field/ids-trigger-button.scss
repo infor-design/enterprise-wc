@@ -43,13 +43,13 @@
 
 .ids-trigger-button {
   align-items: center;
-  background-color: transparent;
+  background-color: var(--ids-color-transparent);
   display: flex;
   color: var(--ids-trigger-field-icon-color);
   justify-content: center;
 
   &.ids-icon-button {
-    padding: var(--ids-space-xxs);
+    padding: var(--ids-space-2xs);
     inset-inline-start: -3px;
 
     &[disabled] {
@@ -62,8 +62,8 @@
 
       &:hover {
         cursor: default;
-        background-color: transparent;
-        border-color: transparent;
+        background-color: var(--ids-color-transparent);
+        border-color: var(--ids-color-transparent);
       }
     }
   }
@@ -128,7 +128,7 @@
   }
 
   &.color-variant-alternate-formatter {
-    padding: var(--ids-space-xxxs);
+    padding: var(--ids-space-3xs);
   }
 
   // ===================================================

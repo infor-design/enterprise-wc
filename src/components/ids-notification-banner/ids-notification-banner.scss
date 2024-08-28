@@ -19,6 +19,7 @@ ids-text::part(text),
 
 ids-hyperlink::part(link),
 .ids-notification-banner-link a {
+  color: var(--ids-color-action-stronger);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

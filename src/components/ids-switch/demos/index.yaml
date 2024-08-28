@@ -8,6 +8,9 @@
   - link: example.html
     type: Main Example
     description: Showing a switch with all states
+  - link: label-position.html
+    type: Example
+    description: Showing a switch with different label positions
   - link: side-by-side.html
     type: Side by Side
     description: Showing a tab component side by side working with 4.x

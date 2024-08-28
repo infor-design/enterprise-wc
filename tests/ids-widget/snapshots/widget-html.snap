@@ -1,4 +1,4 @@
-<ids-widget slot="widget" style="width: 360px; height: 368px; transition: all 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91) 0s; left: 0px; top: 0px;">
+<ids-widget slot="widget" style="width: 360px; height: 368px; transition: 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91); left: 0px; top: 0px;">
           <div slot="widget-header">
             <ids-toolbar role="toolbar">
               <ids-toolbar-section type="title" favor="">
