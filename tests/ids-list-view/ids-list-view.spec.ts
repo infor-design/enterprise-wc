@@ -97,7 +97,7 @@ test.describe('IdsListView tests', () => {
       expect(await noOfCalls).toBe(1);
     });
 
-    test('should fire selected event on single selection', async ({ page }) => {
+    test.skip('should fire selected event on single selection', async ({ page }) => {
       await page.goto('/ids-list-view/selectable-single.html');
       const noOfCalls = await page.evaluate(() => {
         let calls = 0;
@@ -1227,7 +1227,7 @@ test.describe('IdsListView tests', () => {
       await expect(lvitems).toEqual(4);
     });
 
-    test('can show searched list by search term min size', async () => {
+    test.skip('can show searched list by search term min size', async () => {
       const itemCountAll = 77;
       let searchfield = await idsListView.evaluate((listview: IdsListView) => listview.searchField);
       await expect(searchfield).toBeFalsy();

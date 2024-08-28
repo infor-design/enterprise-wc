@@ -662,6 +662,7 @@ test.describe('IdsLocale tests', () => {
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laster');
 
       await runLocaleFunction(page, 'setLanguage', 'nn');
+      await runLocaleFunction(page, 'setLanguage', 'nn');
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laster');
     });
 
