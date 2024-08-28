@@ -1409,13 +1409,13 @@ export default class IdsDropdown extends Base {
 
     if (val) {
       this.setAttribute(attributes.TYPEAHEAD, String(val));
+      this.container?.classList.add('typeahead');
       this.setOptionsData();
     } else {
-      this.removeAttribute(attributes.TYPEAHEAD);
+      this.setAttribute(attributes.TYPEAHEAD, 'false');
       this.input?.setAttribute(attributes.READONLY, 'true');
+      this.container?.classList.remove('typeahead');
     }
-
-    this.container?.classList.toggle('typeahead', val);
   }
 
   /**
@@ -1423,7 +1423,7 @@ export default class IdsDropdown extends Base {
    * @returns {boolean} typeahead attribute value converted to boolean
    */
   get typeahead(): boolean {
-    return stringToBool(this.getAttribute(attributes.TYPEAHEAD)) || true;
+    return this.hasAttribute(attributes.TYPEAHEAD) ? stringToBool(this.getAttribute(attributes.TYPEAHEAD)) : true;
   }
 
   onClearableTextChange(val: string | null) {
