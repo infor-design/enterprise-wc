@@ -40,12 +40,20 @@ Add an Disabled Switch as checked:
 <ids-switch label="Allow connections" checked="true" disabled="true"></ids-switch>
 ```
 
+Switch with the label positioned at the start and sized to fit the full width of the container:
+
+```html
+<ids-switch label="Show component" label-position="start" size="full"></ids-switch>
+```
+
 ## Settings (Attributes)
 
 - `checked` {boolean} set checked state.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
+- `label-position` {'start'|'end'} set the position of the label on either the right or left side of the slider. Default is 'end'
 - `value` {string} set the form submit value (not to be confused with checked, it only sets the form value)
+- `size` {'xs'|'sm'|'mm'|'md'|'lg'|'full'} set the size (width) of the field
 
 ## Keyboard Guidelines
 
