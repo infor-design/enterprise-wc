@@ -1,167 +1,480 @@
 
       <div class="ids-list-view-search" part="search"><slot name="search"></slot></div>
       
-      <div class="ids-list-view">
-        <div class="ids-list-view-body" role="listbox" aria-label="Ids list view" part="contents">
+      <div class="ids-list-view" style="height: 100%;">
+        <div class="ids-list-view-body" role="listbox" aria-label="Ids list view" part="contents" aria-activedescendant="id-1">
           
-            <div><ids-list-view-item row-index="0" index="0" aria-posinset="1" id="id-1" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+            <div><ids-list-view-item row-index="0" index="0" aria-posinset="1" id="id-1" aria-setsize="77" tabindex="0" role="option">
+        
+                <ids-text font-size="16" type="h2">Discretionary Time Off</ids-text>
+                <ids-text font-size="12" type="span">ID: 1</ids-text>
+                <ids-text font-size="12" type="span">Comments: Short getaway</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="1" index="1" aria-posinset="2" id="id-2" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Dentist</ids-text>
+                <ids-text font-size="12" type="span">ID: 2</ids-text>
+                <ids-text font-size="12" type="span">Comments: Quick check-up</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="2" index="2" aria-posinset="3" id="id-3" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Team Meeting</ids-text>
+                <ids-text font-size="12" type="span">ID: 3</ids-text>
+                <ids-text font-size="12" type="span">Comments: Discuss fiscal year goals</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="3" index="3" aria-posinset="4" id="id-4" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Moving Offices</ids-text>
+                <ids-text font-size="12" type="span">ID: 4</ids-text>
+                <ids-text font-size="12" type="span">Comments: Moving from floor 6 to 7</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="4" index="4" aria-posinset="5" id="id-5" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Scrum</ids-text>
+                <ids-text font-size="12" type="span">ID: 5</ids-text>
+                <ids-text font-size="12" type="span">Comments: What are you working on? Any blockers?</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="5" index="5" aria-posinset="6" id="id-6" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Discretionary Time Off</ids-text>
+                <ids-text font-size="12" type="span">ID: 6</ids-text>
+                <ids-text font-size="12" type="span">Comments: Personal time</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="6" index="6" aria-posinset="7" id="id-7" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Team Event</ids-text>
+                <ids-text font-size="12" type="span">ID: 7</ids-text>
+                <ids-text font-size="12" type="span">Comments: Bowling and BBQ</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="7" index="7" aria-posinset="8" id="id-8" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Labor Day</ids-text>
+                <ids-text font-size="12" type="span">ID: 8</ids-text>
+                <ids-text font-size="12" type="span">Comments: US Holiday</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="8" index="8" aria-posinset="9" id="id-9" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Autumn Foliage Trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 9</ids-text>
+                <ids-text font-size="12" type="span">Comments: Annual Autumn Foliage Trip</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="9" index="9" aria-posinset="10" id="id-10" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Birthday Off</ids-text>
+                <ids-text font-size="12" type="span">ID: 10</ids-text>
+                <ids-text font-size="12" type="span">Comments: Taking my birthday off</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="10" index="10" aria-posinset="11" id="id-11" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Mexico Trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 11</ids-text>
+                <ids-text font-size="12" type="span">Comments: I week vacation in mexico</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="11" index="11" aria-posinset="12" id="id-12" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Staying Home with Flu</ids-text>
+                <ids-text font-size="12" type="span">ID: 12</ids-text>
+                <ids-text font-size="12" type="span">Comments: I dont feel well. Taking the day off.</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="12" index="12" aria-posinset="13" id="id-13" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Long Weekend</ids-text>
+                <ids-text font-size="12" type="span">ID: 13</ids-text>
+                <ids-text font-size="12" type="span">Comments: Going to DC</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="13" index="13" aria-posinset="14" id="id-14" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Scrum</ids-text>
+                <ids-text font-size="12" type="span">ID: 14</ids-text>
+                <ids-text font-size="12" type="span">Comments: What are you working on? Any blockers?</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="14" index="14" aria-posinset="15" id="id-15" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">One on One</ids-text>
+                <ids-text font-size="12" type="span">ID: 15</ids-text>
+                <ids-text font-size="12" type="span">Comments: What are you working on? Any blockers?</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="15" index="15" aria-posinset="16" id="id-16" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Christmas</ids-text>
+                <ids-text font-size="12" type="span">ID: 16</ids-text>
+                <ids-text font-size="12" type="span">Comments: Santa and Presents</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="16" index="16" aria-posinset="17" id="id-17" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Aruba Trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 17</ids-text>
+                <ids-text font-size="12" type="span">Comments: Family Trip</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="17" index="17" aria-posinset="18" id="id-18" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Errands</ids-text>
+                <ids-text font-size="12" type="span">ID: 18</ids-text>
+                <ids-text font-size="12" type="span">Comments: Run a few errands, bring giant card.</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="18" index="18" aria-posinset="19" id="id-19" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Spa Appt</ids-text>
+                <ids-text font-size="12" type="span">ID: 19</ids-text>
+                <ids-text font-size="12" type="span">Comments: Quick Spa Appt.</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="19" index="19" aria-posinset="20" id="id-20" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Doctors Appt</ids-text>
+                <ids-text font-size="12" type="span">ID: 20</ids-text>
+                <ids-text font-size="12" type="span">Comments: See a Dr Smith</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="20" index="20" aria-posinset="21" id="id-21" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Quick bite</ids-text>
+                <ids-text font-size="12" type="span">ID: 21</ids-text>
+                <ids-text font-size="12" type="span">Comments: Chick-fil-a Lancaster</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="21" index="21" aria-posinset="22" id="id-22" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Sick Day</ids-text>
+                <ids-text font-size="12" type="span">ID: 22</ids-text>
+                <ids-text font-size="12" type="span">Comments: Not feeling well</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="22" index="22" aria-posinset="23" id="id-23" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 23</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="23" index="23" aria-posinset="24" id="id-24" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 24</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="24" index="24" aria-posinset="25" id="id-25" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 25</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="25" index="25" aria-posinset="26" id="id-26" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 26</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="26" index="26" aria-posinset="27" id="id-27" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 27</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="27" index="27" aria-posinset="28" id="id-28" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 28</ids-text>
+                <ids-text font-size="12" type="span">Comments: Going to Aruba</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="28" index="28" aria-posinset="29" id="id-29" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 29</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="29" index="29" aria-posinset="30" id="id-30" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 30</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="30" index="30" aria-posinset="31" id="id-31" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 31</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="31" index="31" aria-posinset="32" id="id-32" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 32</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="32" index="32" aria-posinset="33" id="id-33" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 33</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="33" index="33" aria-posinset="34" id="id-34" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Standup Meeting</ids-text>
+                <ids-text font-size="12" type="span">ID: 34</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="34" index="34" aria-posinset="35" id="id-35" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">IDS Component Updates</ids-text>
+                <ids-text font-size="12" type="span">ID: 34</ids-text>
+                <ids-text font-size="12" type="span">Comments: IDS Team Call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="35" index="35" aria-posinset="36" id="id-36" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 35</ids-text>
+                <ids-text font-size="12" type="span">Comments: Out of office in the afternoon</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="36" index="36" aria-posinset="37" id="id-37" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of Office</ids-text>
+                <ids-text font-size="12" type="span">ID: 36</ids-text>
+                <ids-text font-size="12" type="span">Comments: Long Weekend</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="37" index="37" aria-posinset="38" id="id-38" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event A</ids-text>
+                <ids-text font-size="12" type="span">ID: 37</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="38" index="38" aria-posinset="39" id="id-39" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event B</ids-text>
+                <ids-text font-size="12" type="span">ID: 38</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="39" index="39" aria-posinset="40" id="id-40" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event C</ids-text>
+                <ids-text font-size="12" type="span">ID: 39</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="40" index="40" aria-posinset="41" id="id-41" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event D</ids-text>
+                <ids-text font-size="12" type="span">ID: 40</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="41" index="41" aria-posinset="42" id="id-42" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event E</ids-text>
+                <ids-text font-size="12" type="span">ID: 41</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="42" index="42" aria-posinset="43" id="id-43" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event F</ids-text>
+                <ids-text font-size="12" type="span">ID: 42</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="43" index="43" aria-posinset="44" id="id-44" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event G</ids-text>
+                <ids-text font-size="12" type="span">ID: 43</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="44" index="44" aria-posinset="45" id="id-45" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event H</ids-text>
+                <ids-text font-size="12" type="span">ID: 44</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="45" index="45" aria-posinset="46" id="id-46" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event I</ids-text>
+                <ids-text font-size="12" type="span">ID: 45</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="46" index="46" aria-posinset="47" id="id-47" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event J</ids-text>
+                <ids-text font-size="12" type="span">ID: 46</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="47" index="47" aria-posinset="48" id="id-48" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Test Event K</ids-text>
+                <ids-text font-size="12" type="span">ID: 47</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly standup call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="48" index="48" aria-posinset="49" id="id-49" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">IDS Component Updates</ids-text>
+                <ids-text font-size="12" type="span">ID: 48</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="49" index="49" aria-posinset="50" id="id-50" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">QA Updates and Further Information</ids-text>
+                <ids-text font-size="12" type="span">ID: 49</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="50" index="50" aria-posinset="51" id="id-51" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Out of office in the afternoon</ids-text>
+                <ids-text font-size="12" type="span">ID: 50</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="51" index="51" aria-posinset="52" id="id-52" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Day Trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 51</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="52" index="52" aria-posinset="53" id="id-53" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Sample Event</ids-text>
+                <ids-text font-size="12" type="span">ID: 52</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="53" index="53" aria-posinset="54" id="id-54" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Conference</ids-text>
+                <ids-text font-size="12" type="span">ID: 53</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="54" index="54" aria-posinset="55" id="id-55" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Day Trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 54</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="55" index="55" aria-posinset="56" id="id-56" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Conference</ids-text>
+                <ids-text font-size="12" type="span">ID: 55</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="56" index="56" aria-posinset="57" id="id-57" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">All Day Event A</ids-text>
+                <ids-text font-size="12" type="span">ID: 56</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="57" index="57" aria-posinset="58" id="id-58" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">All Day Event B</ids-text>
+                <ids-text font-size="12" type="span">ID: 57</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="58" index="58" aria-posinset="59" id="id-59" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">All Day Event C</ids-text>
+                <ids-text font-size="12" type="span">ID: 58</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="59" index="59" aria-posinset="60" id="id-60" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Sample Event</ids-text>
+                <ids-text font-size="12" type="span">ID: 59</ids-text>
+                <ids-text font-size="12" type="span">Comments: Weekly call</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="60" index="60" aria-posinset="61" id="id-61" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Dentist</ids-text>
+                <ids-text font-size="12" type="span">ID: 60</ids-text>
+                <ids-text font-size="12" type="span">Comments: Dentist Appt</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="61" index="61" aria-posinset="62" id="id-62" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Doctor</ids-text>
+                <ids-text font-size="12" type="span">ID: 61</ids-text>
+                <ids-text font-size="12" type="span">Comments: Doctor Appt</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="62" index="62" aria-posinset="63" id="id-63" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Personal</ids-text>
+                <ids-text font-size="12" type="span">ID: 62</ids-text>
+                <ids-text font-size="12" type="span">Comments: Personal Appt</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="63" index="63" aria-posinset="64" id="id-64" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Chiropractor</ids-text>
+                <ids-text font-size="12" type="span">ID: 63</ids-text>
+                <ids-text font-size="12" type="span">Comments: Chiropractor Appt</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="64" index="64" aria-posinset="65" id="id-65" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Day Off</ids-text>
+                <ids-text font-size="12" type="span">ID: 64</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="65" index="65" aria-posinset="66" id="id-66" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Personal</ids-text>
+                <ids-text font-size="12" type="span">ID: 65</ids-text>
+                <ids-text font-size="12" type="span">Comments: Personal Appt</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="66" index="66" aria-posinset="67" id="id-67" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Mom in Town</ids-text>
+                <ids-text font-size="12" type="span">ID: 66</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="67" index="67" aria-posinset="68" id="id-68" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Quick trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 67</ids-text>
+                <ids-text font-size="12" type="span">Comments: Short getaway</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="68" index="68" aria-posinset="69" id="id-69" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Friends in Town</ids-text>
+                <ids-text font-size="12" type="span">ID: 68</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="69" index="69" aria-posinset="70" id="id-70" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Quick trip</ids-text>
+                <ids-text font-size="12" type="span">ID: 69</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="70" index="70" aria-posinset="71" id="id-71" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Meetings</ids-text>
+                <ids-text font-size="12" type="span">ID: 70</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="71" index="71" aria-posinset="72" id="id-72" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">More Meetings</ids-text>
+                <ids-text font-size="12" type="span">ID: 71</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="72" index="72" aria-posinset="73" id="id-73" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Sick</ids-text>
+                <ids-text font-size="12" type="span">ID: 72</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="73" index="73" aria-posinset="74" id="id-74" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Sick</ids-text>
+                <ids-text font-size="12" type="span">ID: 73</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="74" index="74" aria-posinset="75" id="id-75" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Super Fun Party Day</ids-text>
+                <ids-text font-size="12" type="span">ID: 74</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="75" index="75" aria-posinset="76" id="id-76" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Emergency Meeting</ids-text>
+                <ids-text font-size="12" type="span">ID: 75</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div><div><ids-list-view-item row-index="76" index="76" aria-posinset="77" id="id-77" aria-setsize="77" tabindex="-1" role="option">
-        undefined
+        
+                <ids-text font-size="16" type="h2">Meeting</ids-text>
+                <ids-text font-size="12" type="span">ID: 76</ids-text>
+                <ids-text font-size="12" type="span">Comments: &nbsp;</ids-text>
+              
       </ids-list-view-item></div>
           
           <slot></slot>
         </div>
       </div>
+    
+    
+      
+      
+      
     
     

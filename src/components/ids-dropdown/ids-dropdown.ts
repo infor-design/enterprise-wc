@@ -1046,11 +1046,14 @@ export default class IdsDropdown extends Base {
       selector = `ids-list-box-option[value=""]:not([group-label]), ids-list-box-option:not([value]):not([group-label])`;
     }
 
+    const listBoxOption = [...this.dropdownList?.listBox?.querySelectorAll<IdsListBoxOption>(selector) ?? []].at(0);
+    if (!listBoxOption) {
+      if (value) this.setAttribute(attributes.VALUE, String(value));
+      return;
+    }
+
     // NOTE: setAttribute() must be called here, before the internal input.value is set below
     this.setAttribute(attributes.VALUE, String(value));
-
-    const listBoxOption = [...this.dropdownList?.listBox?.querySelectorAll<IdsListBoxOption>(selector) ?? []].at(0);
-    if (!listBoxOption) return;
 
     this.clearSelected();
     this.selectOption(listBoxOption);
