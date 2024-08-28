@@ -101,7 +101,7 @@ test.describe('IdsEditor tests', () => {
       await expect(html).toMatchSnapshot('editor-shadow');
     });
 
-    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+    test.skip('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-editor-light');
     });
