@@ -7,25 +7,17 @@ The IDS Segmented Control component is a UI element designed to group a series o
 ## Use Cases
 
 - **Option Selection**: Use the IdsSegmentedControl to create a set of mutually exclusive options, such as selecting a view (e.g., list view vs. grid view), choosing a filter (e.g., most recent vs. most popular), or switching between different modes (e.g., edit vs. preview).
-
 - **Navigation**: Implement segmented controls for navigation within different sections of a UI, such as tabbed interfaces where each toggle button represents a different tab or view.
-
 - **Toolbars**: Integrate the segmented control into toolbars for applications, allowing users to toggle between different tools or settings with a single click.
-
 - **Forms**: Use in forms where a user needs to select one option out of several (e.g., selecting a payment method, choosing a subscription plan).
 
 ## Terminology
 
 - **Segmented Control**: A UI component that groups multiple toggle buttons together, allowing users to select one option from a set. It ensures that only one button can be active at any time, with the others reverting to their default state.
-
 - **Toggle Button**: A button that can be switched between two states: active (pressed) and inactive (unpressed). In the context of a segmented control, a toggle button is used to represent an option within the control.
-
 - **Active State**: The state of a toggle button when it is selected or pressed. In a segmented control, the active state is visually distinguished (e.g., highlighted) and indicates the current selection.
-
 - **Default State**: The state of a toggle button when it is not selected. In a segmented control, buttons in the default state are not highlighted, indicating that they are not the current selection.
-
 - **Slot**: A placeholder within the segmented control's DOM structure where ids-toggle-button elements are placed. This allows for the flexible arrangement of toggle buttons within the segmented control component.
-
 - **CSS**: The `.ids-toggle-button-segmented` class is added to each toggle button within the segmented control to apply specific styling associated with the segmented control layout.
 
 ## Features (With Code Examples)
@@ -83,8 +75,8 @@ Toggle buttons can include both icons and text to provide clear, descriptive opt
   <ids-toggle-button icon-on="bell-filled" icon-off="bell-outlined" text-on="Notified" text-off="Notify"></ids-toggle-button>
 </ids-segmented-control>
 ```
-This example shows toggle buttons that use both icons and text, giving a more descriptive and visually informative control.
 
+This example shows toggle buttons that use both icons and text, giving a more descriptive and visually informative control.
 
 ## States and Variations
 
