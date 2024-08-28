@@ -8,12 +8,12 @@
   border-radius: var(--ids-action-sheet-border-radius);
   flex-direction: column;
   width: 100%;
-  bottom: 0;
+  bottom: var(--ids-space-none);
   left: 50%;
   transform: translate(-50%, 100%);
   padding-block: var(--ids-action-sheet-padding);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  border-bottom-left-radius: var(--ids-border-radius-none);
+  border-bottom-right-radius: var(--ids-border-radius-none);
   box-shadow: var(--ids-action-sheet-shadow);
   transition: transform var(--ids-motion-duration) var(--ids-motion-ease);
 }

@@ -11,7 +11,7 @@
   box-shadow: var(--ids-skip-link-shadow);
   left: auto;
   line-height: 30px;
-  padding: 0 8px 3px;
+  padding: 0 var(--ids-space-xs) 3px;
   position: absolute;
   top: -65px;
   transition: top 0.6s ease-out 0s, background 0.6s linear 0s;

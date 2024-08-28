@@ -104,7 +104,7 @@ svg.linear-indicator {
 svg.circular-indicator {
   position: relative;
   overflow: visible;
-  fill: transparent;
+  fill: var(--ids-color-transparent);
   transform-origin: 50% 50%;
   transform: rotateZ(-90deg);
   display: flex;

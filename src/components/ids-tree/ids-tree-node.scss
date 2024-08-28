@@ -4,22 +4,23 @@
 .ids-tree-node {
   display: block;
   list-style-type: none;
+  margin-bottom: var(--ids-space-4xs);
   user-select: none;
 
   .node-container {
     border: 1px solid transparent;
     cursor: pointer;
     display: inline-flex;
-    padding: var(--ids-space-xxs);
+    padding: var(--ids-space-2xs);
     color: var(--ids-tree-node-color-text-default);
     align-items: baseline;
-    margin-bottom: var(--ids-space-xxxxs);
-    border-radius: var(--ids-border-radius-xxs);
+    border-radius: var(--ids-border-radius-2xs);
+    margin-bottom: var(--ids-space-4xs);
     transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), opacity var(--ids-motion-duration) var(--ids-motion-ease);
 
     .icon,
     .toggle-icon {
-      padding-top: var(--ids-space-xxxxs);
+      padding-top: var(--ids-space-4xs);
       flex: 0 0 auto;
       margin-inline-end: 8px;
       transition: fill var(--ids-motion-duration) var(--ids-motion-ease);
@@ -95,7 +96,7 @@
       }
 
       &:focus {
-        border-color: transparent;
+        border-color: var(--ids-color-transparent);
         box-shadow: none;
       }
     }

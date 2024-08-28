@@ -43,8 +43,8 @@
 
 :host([system-button]) {
   button:hover {
-    background-color: transparent;
-    border-color: transparent;
+    background-color: var(--ids-color-transparent);
+    border-color: var(--ids-color-transparent);
     color: var(--ids-button-system-color-text-hover);
   }
 }
@@ -103,7 +103,7 @@ button {
 .ids-menu-button.formatter-width {
   &:not(.no-padding):not(.ids-icon-button) {
     padding-inline-start: calc(var(--ids-space-xs) - 1px);
-    padding-inline-end:calc(var(--ids-space-xs) - 1px);
+    padding-inline-end: calc(var(--ids-space-xs) - 1px);
   }
 
   &:not(.formatter-width-percentage) {
@@ -111,7 +111,7 @@ button {
 
     .ids-icon {
       position: absolute;
-      inset-inline-end: var(--ids-space-xxs);
+      inset-inline-end: var(--ids-space-2xs);
     }
   }
 }
@@ -143,14 +143,14 @@ button {
   }
 
   &.square {
-    border-radius: 0;
+    border-radius: var(--ids-border-radius-none);
   }
 
   .ids-icon {
     display: block;
-    padding-inline-start: 2px;
+    padding-inline-start: var(--ids-space-3xs);
     font-size: 0;
-    padding-block-start: 2px;
+    padding-block-start: var(--ids-space-3xs);
   }
 
   span.audible {
@@ -179,7 +179,7 @@ button {
   padding-block-start: var(--ids-space-12);
   padding-block-end: var(--ids-space-12);
   display: block;
-  font-weight: var(--ids-font-weight-semibold);
+  font-weight: var(--ids-font-weight-strong);
   justify-content: center;
   height: 100%;
   width: 100%;
@@ -212,7 +212,7 @@ button {
   &:hover,
   &:focus {
     box-shadow: none;
-    border-color: transparent;
+    border-color: var(--ids-color-transparent);
   }
 }
 
@@ -223,8 +223,8 @@ button {
 }
 
 .btn-swipe-action-left {
-  border-start-end-radius: 0;
-  border-end-end-radius: 0;
+  border-start-end-radius: var(--ids-border-radius-none);
+  border-end-end-radius: var(--ids-border-radius-none);
   background-color: var(--ids-swipe-action-color-background-left);
   color: var(--ids-swipe-action-color-text-left);
 
@@ -240,8 +240,8 @@ button {
 }
 
 .btn-swipe-action-right {
-  border-start-start-radius: 0;
-  border-end-start-radius: 0;
+  border-start-start-radius: var(--ids-border-radius-none);
+  border-end-start-radius: var(--ids-border-radius-none);
   background-color: var(--ids-swipe-action-color-background-right);
   color: var(--ids-swipe-action-color-text-right);
 
@@ -271,9 +271,9 @@ button {
 
 .ids-icon-button.gen-ai-active .loading-dots {
   padding-inline-start: 3px;
-  padding-inline-end: 2px;
+  padding-inline-end: var(--ids-space-3xs);
   padding-block-start: 7px;
-  padding-block-end: 8px;
+  padding-block-end: var(--ids-space-xs);
 }
 
 // Applies to all non-icon button types
@@ -284,7 +284,7 @@ button {
   // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
   ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
     margin-inline-start: 5px;
-    margin-inline-end: 0;
+    margin-inline-end: var( --ids-space-none);
   }
 
   // Padding rules for standalone CSS buttons (match the rules/style above)
@@ -298,7 +298,7 @@ button {
 // Adjustment for about close icon
 .ids-modal-button {
   ::slotted(ids-icon:not(:first-child)) { // shadowroot + text + icon
-    padding: var(--ids-space-xxxs);
+    padding: var(--ids-space-3xs);
   }
 }
 
@@ -344,8 +344,8 @@ button {
     position: absolute;
     margin-inline-start: auto;
     margin-inline-end: auto;
-    left: 0;
-    right: 0;
+    left: var(--ids-space-none);
+    right: var(--ids-space-none);
   }
 }
 

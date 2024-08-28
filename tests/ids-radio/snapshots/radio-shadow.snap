@@ -1,5 +1,5 @@
 
-      <div class="ids-radio hide-focus">
+      <div class="ids-radio hide-focus" tabindex="0">
         <label>
           <input type="radio" part="radio" tabindex="-1" class="radio-button" value="opt1">
           <span class="circle" part="circle"></span>

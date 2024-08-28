@@ -299,6 +299,14 @@ export default class IdsRadio extends Base {
       this.removeAttribute(attributes.VALUE);
     }
     this.input?.setAttribute(attributes.VALUE, (val || ''));
+
+    this.triggerEvent('valuechange', this, {
+      bubbles: true,
+      detail: {
+        elem: this,
+        value: val,
+      }
+    });
   }
 
   get value(): string | null { return this.getAttribute(attributes.VALUE); }

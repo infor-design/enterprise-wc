@@ -7,6 +7,7 @@
   box-shadow: var(--ids-card-shadow);
   margin-block-end: var(--ids-card-margin-bottom);
   height: var(--ids-card-height);
+  width: var(--ids-card-width);
 
   .ids-card-content {
     height: var(--ids-card-content-height);
@@ -153,8 +154,12 @@
 
 :host([borderless]) {
   .ids-card {
-    border-color: transparent;
+    border-color: var(--ids-color-transparent);
     box-shadow: none;
+
+    &:hover {
+      border-color: transparent;
+    }
   }
 }
 
@@ -185,8 +190,8 @@
   ::slotted(.flex-content) {
     display: flex;
     align-items: center;
-    padding: 15px 16px;
-    gap: 16px;
+    padding: 15px var(--ids-space-sm);
+    gap: var(--ids-space-sm);
   }
 }
 
@@ -220,11 +225,11 @@
   ids-button::part(button) {
     align-items: center;
     border: 1px solid transparent;
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
     height: 50px;
 
     &:hover {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
       color: var(--ids-button-tertiary-color-text-default);
     }
   }
@@ -243,9 +248,105 @@
   flex-direction: column;
   height: inherit;
   justify-content: center;
-  padding: 0 8px;
+  padding: 0 var(--ids-space-xs);
   text-align: center;
   width: 100%;
+}
+
+:host([draggable]) {
+  width: var(--ids-card-width);
+  z-index: 1;
+  transition: var(--ids-motion-duration) var(--ids-motion-ease);
+
+  .ids-card {
+    border: 1px solid var(--ids-card-color-border-draggable);
+    box-shadow: none;
+    height: auto;
+    min-height: auto;
+    cursor: move;
+
+    .ids-card-header {
+      min-height: 56px;
+
+      slot[name='card-header'] {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+    }
+
+    &:hover {
+      background-color: var(--ids-card-color-background-hover);
+      color: var(--ids-card-color-text-hover);
+
+      .ids-card-header {
+        slot[name='card-header'] {
+          color: var(--ids-card-color-text-hover);
+        }
+      }
+    }
+
+    &.is-overlapping {
+      cursor: no-drop;
+    }
+
+    &.is-dropped {
+      z-index: 99;
+      width: var(--ids-card-width-dropped, var(--ids-card-width));
+      height: var(--ids-card-height-dropped, 'auto');
+      background-color: var(--ids-card-color-background-dropped, #F5F5F5);
+      opacity: 0.8;
+
+      .ids-card-header {
+        slot[name='card-header'] {
+          color: var(--ids-card-color-text-default);
+        }
+      }
+    }
+
+    &.is-dragging {
+      z-index: 999;
+      width: var(--ids-card-width-dragged, var(--ids-card-width));
+      height: var(--ids-card-height-dragged, 'auto');
+      background-color: var(--ids-card-color-background-dragged, #F5F5F5);
+      opacity: 0.8;
+
+      .ids-card-header {
+        slot[name='card-header'] {
+          color: var(--ids-card-color-text-default);
+        }
+      }
+    }
+
+    &.is-fixed {
+      &.is-dropped, &.is-dragging {
+        position: absolute;
+        justify-content: center;
+
+        .ids-card-header {
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+:host([draggable][is-dragging]) {
+  z-index: 99;
+  transition: none;
+}
+
+:host([draggable][dropped]) {
+  z-index: 9;
+  transition: none;
+}
+
+:host([disabled]) {
+  .ids-card {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
 
 :host([actionable][height]) .ids-card {

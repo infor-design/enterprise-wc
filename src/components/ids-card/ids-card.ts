@@ -11,12 +11,16 @@ import '../ids-checkbox/ids-checkbox';
 import styles from './ids-card.scss';
 import type IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
+import { IdsColorValue } from '../../utils/ids-color-utils/ids-color-utils';
+import IdsDraggableMixin from '../../mixins/ids-draggable-mixin/ids-draggable-mixin';
 import type IdsDataGrid from '../ids-data-grid/ids-data-grid';
 
 const Base = IdsHideFocusMixin(
-  IdsEventsMixin(
-    IdsSelectionMixin(
-      IdsBox
+  IdsDraggableMixin(
+    IdsEventsMixin(
+      IdsSelectionMixin(
+        IdsBox
+      )
     )
   )
 );
@@ -35,6 +39,10 @@ const Base = IdsHideFocusMixin(
 @customElement('ids-card')
 @scss(styles)
 export default class IdsCard extends Base {
+  #clonedCard: any = null;
+
+  #positionId: string | null = null;
+
   constructor() {
     super();
   }
@@ -59,8 +67,36 @@ export default class IdsCard extends Base {
       attributes.HREF,
       attributes.NO_HEADER,
       attributes.OVERFLOW,
-      attributes.TARGET
+      attributes.TARGET,
+      attributes.BACKGROUND_COLOR,
+      attributes.WIDTH,
+      attributes.DRAG_WIDTH,
+      attributes.DRAG_HEIGHT,
+      attributes.DRAG_BG_COLOR,
+      attributes.DROPPED,
+      attributes.DROP_WIDTH,
+      attributes.DROP_HEIGHT,
+      attributes.DROP_BG_COLOR,
+      attributes.FIXED,
+      attributes.STACKED,
     ];
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    super.attributeChangedCallback(name, oldValue, newValue);
+
+    if (oldValue === newValue) return;
+
+    if (name === attributes.BACKGROUND_COLOR) this.#setCssVar('--ids-card-color-background', newValue);
+    if (name === attributes.WIDTH) this.#setCssVar('--ids-card-width', newValue);
+
+    if (name === attributes.DRAG_WIDTH) this.#setCssVar('--ids-card-width-dragged', newValue);
+    if (name === attributes.DRAG_HEIGHT) this.#setCssVar('--ids-card-height-dragged', newValue);
+    if (name === attributes.DRAG_BG_COLOR) this.#setCssVar('--ids-card-color-background-dragged', newValue);
+
+    if (name === attributes.DROP_WIDTH) this.#setCssVar('--ids-card-width-dropped', newValue);
+    if (name === attributes.DROP_HEIGHT) this.#setCssVar('--ids-card-height-dropped', newValue);
+    if (name === attributes.DROP_BG_COLOR) this.#setCssVar('--ids-card-color-background-dropped', newValue);
   }
 
   /**
@@ -161,7 +197,169 @@ export default class IdsCard extends Base {
       cardContent?.classList.toggle('has-data-grid', !!dataGrid);
     });
 
+    this.offEvent('drag.ids-card', this);
+    this.onEvent('drag.ids-card', this, (e: any) => {
+      const { translateX = 0, translateY = 0 } = e.detail;
+      if (translateX === 0 && translateY === 0) {
+        return;
+      }
+
+      this.#handleDragStart();
+    });
+
+    this.offEvent('dragend.ids-card', this);
+    this.onEvent('dragend.ids-card', this, (e: any) => {
+      const { translateX = 0, translateY = 0 } = e.detail;
+      if (translateX === 0 && translateY === 0) {
+        return;
+      }
+
+      this.#handleDragend();
+    });
+
     return this;
+  }
+
+  /**
+   * Handle drag start event of a card
+   */
+  #handleDragStart() {
+    this.removeAttribute(attributes.DROPPED);
+    this.setAttribute(attributes.IS_DRAGGING, 'true');
+
+    this.container?.classList?.add('is-dragging');
+    if (!this.disabled && !this.#clonedCard && this.fixed) {
+      const clonedCard = this.cloneNode(true) as IdsCard;
+
+      // Created cloned element with disabled state with initial position
+      clonedCard.style.transform = `translate(0px, 0px)`;
+      clonedCard.disabled = true;
+      clonedCard.container?.classList?.remove('is-dragging');
+      clonedCard.removeAttribute(attributes.IS_DRAGGING);
+
+      this.#clonedCard = clonedCard;
+      this.parentNode?.insertBefore(clonedCard, this.nextSibling);
+    }
+
+    this.container?.classList?.toggle('is-overlapping', this.#isOverlapping());
+  }
+
+  /**
+   * Check if the card is overlapping with other cards
+   * @returns {boolean} true if the card is overlapping with other cards else false
+   */
+  #isOverlapping() {
+    if (!this.container) return false;
+
+    if (!this.stacked) {
+      const currentPosition = this.container.getBoundingClientRect();
+      const positions = IdsCard.droppedPositions.filter((p: any) => p?.id !== this.#positionId);
+      return positions.some((position: any) => {
+        const isOverlappingX = position.left < currentPosition.right && position.right > currentPosition.left;
+        const isOverlappingY = position.top < currentPosition.bottom && position.bottom > currentPosition.top;
+
+        return isOverlappingX && isOverlappingY;
+      });
+    }
+    return false;
+  }
+
+  static droppedPositions: any[] = [];
+
+  /**
+   * Handle drag end event of a card
+   */
+  #handleDragend() {
+    if (!this.container) return;
+
+    const currentPosition = this.container.getBoundingClientRect();
+
+    // If dropped target element is present, get the position of the dropped element
+    const dropPosition = this?.droppedTargetElement?.getBoundingClientRect();
+
+    // If the card is not dropped in the target element, reset the card position
+    const leftValid = currentPosition?.left >= (dropPosition?.left || 0);
+    const rightValid = currentPosition?.right <= (dropPosition?.right || 0);
+    const bottomValid = currentPosition?.bottom >= (dropPosition?.top || 0);
+    const topValid = currentPosition.top <= (dropPosition?.bottom || 0);
+
+    const xAxisValid = leftValid && rightValid;
+    const yAxisValid = bottomValid && topValid;
+
+    let resetPosition = false;
+    if (!this.droppedTargetElement || !xAxisValid || !yAxisValid) {
+      resetPosition = true;
+    }
+
+    // If card stacking is disabled and the card is overlapping with other cards, reset the card position
+    if (!this.stacked && !resetPosition) {
+      resetPosition = this.#isOverlapping();
+    }
+
+    this.removeAttribute(attributes.IS_DRAGGING);
+    this.container?.classList?.remove('is-dragging');
+
+    if (resetPosition) {
+      this.style.transform = `translate(0px, 0px)`;
+
+      if (this.#clonedCard) {
+        this.#clonedCard.remove();
+        this.#clonedCard = null;
+      }
+
+      this.container?.classList?.remove('is-overlapping');
+      this.removeAttribute(attributes.DROPPED);
+      this.#removePosition();
+      return;
+    }
+
+    this.setAttribute(attributes.DROPPED, 'true');
+    if (this.#clonedCard) {
+      if (this.hasAttribute(attributes.DROP_BG_COLOR)) {
+        this.#clonedCard.setAttribute(attributes.DROP_BG_COLOR, this.getAttribute(attributes.DROP_BG_COLOR));
+      }
+      this.#clonedCard.disabled = false;
+    }
+
+    this.#updatePosition();
+  }
+
+  #removePosition() {
+    IdsCard.droppedPositions = IdsCard.droppedPositions.filter((position: any) => position.id !== this.#positionId);
+  }
+
+  #updatePosition() {
+    if (!this.container) return;
+
+    const containerPosition = this.container.getBoundingClientRect();
+    this.#positionId = !this.#positionId ? `position-${new Date().getTime()}` : this.#positionId;
+
+    const position = {
+      left: containerPosition.left,
+      right: containerPosition.right,
+      bottom: containerPosition.bottom,
+      top: containerPosition.top,
+      width: containerPosition.width,
+      height: containerPosition.height,
+      x: containerPosition.x,
+      y: containerPosition.y,
+      id: this.#positionId,
+      totalX: containerPosition.x + containerPosition.width,
+      totalY: containerPosition.y + containerPosition.height,
+    };
+
+    const index = IdsCard.droppedPositions.findIndex((pos: any) => pos.id === this.#positionId);
+
+    if (index !== -1) {
+      IdsCard.droppedPositions[index] = position;
+      return;
+    }
+
+    IdsCard.droppedPositions.push(position);
+  }
+
+  get droppedTargetElement() {
+    return document.querySelector(`#${this.dropTarget}`);
   }
 
   /**
@@ -302,6 +500,91 @@ export default class IdsCard extends Base {
   }
 
   get actionable() { return stringToBool(this.getAttribute(attributes.ACTIONABLE)); }
+
+  /**
+   * @param {string | boolean} value to be disabled
+   */
+  set disabled(value: string | boolean) {
+    this.toggleAttribute(attributes.DISABLED, stringToBool(value));
+
+    if (this.disabled) {
+      this.offEvent('mousemove', window.document);
+      this.offEvent('click', window.document);
+    }
+  }
+
+  /**
+   * @returns {boolean} disabled state
+   */
+  get disabled(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
+  }
+
+  set draggable(value: boolean) {
+    this.toggleAttribute(attributes.DRAGGABLE, stringToBool(value));
+  }
+
+  get draggable(): boolean {
+    return this.hasAttribute(attributes.DRAGGABLE);
+  }
+
+  set dropped(value: boolean) {
+    this.toggleAttribute(attributes.DROPPED, stringToBool(value));
+    this.container?.classList.toggle('is-dropped', stringToBool(value));
+  }
+
+  get dropped() {
+    return this.hasAttribute(attributes.DROPPED);
+  }
+
+  set dropTarget(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.DROP_TARGET, value);
+    } else {
+      this.removeAttribute(attributes.DROP_TARGET);
+    }
+  }
+
+  get dropTarget() {
+    return this.getAttribute(attributes.DROP_TARGET);
+  }
+
+  set fixed(value: boolean | string | null) {
+    this.toggleAttribute(attributes.FIXED, stringToBool(value));
+    this.container?.classList.toggle('is-fixed', stringToBool(value));
+  }
+
+  get fixed() {
+    return this.hasAttribute(attributes.FIXED);
+  }
+
+  set stacked(value: boolean | string | null) {
+    this.toggleAttribute(attributes.STACKED, stringToBool(value));
+  }
+
+  get stacked() {
+    return this.hasAttribute(attributes.STACKED);
+  }
+
+  #setCssVar(variable: string, value: string | null) {
+    if (value) {
+      this.container?.style.setProperty(variable, value);
+    } else {
+      this.container?.style.removeProperty(variable);
+    }
+  }
+
+  set backgroundColor(value: IdsColorValue) {
+    this.#setCssVar('--ids-card-color-background', (value as string | null));
+  }
+
+  set width(value: string) {
+    if (this.draggable) {
+      this.#setCssVar('--ids-card-width', value);
+    } else {
+      super.width = value;
+    }
+  }
 
   /**
    * Set how the container overflows, can be hidden or auto (default)
