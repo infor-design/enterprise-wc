@@ -140,6 +140,7 @@ $slider-start-extra-padding: 7px;
 :host([size]) {
   &, .ids-switch, label {
     width: 100%;
+    box-sizing: border-box;
   }
 }
 
