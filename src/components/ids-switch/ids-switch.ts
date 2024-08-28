@@ -19,6 +19,8 @@ const Base = IdsLocaleMixin(
   )
 );
 
+type IdsSwitchLabelPosition = 'start' | 'end';
+
 /**
  * IDS Switch Component
  * @type {IdsSwitch}
@@ -51,7 +53,9 @@ export default class IdsSwitch extends Base {
       attributes.CHECKED,
       attributes.COMPACT,
       attributes.DISABLED,
+      attributes.LABEL_POSITION,
       attributes.LABEL,
+      attributes.SIZE,
       attributes.VALUE
     ];
   }
@@ -256,6 +260,22 @@ export default class IdsSwitch extends Base {
   get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
+   * Sets the label position
+   * @param {IdsSwitchLabelPosition|null} value label position either 'start' or 'end'
+   */
+  set labelPosition(value: IdsSwitchLabelPosition | null) {
+    if (value) {
+      this.setAttribute(attributes.LABEL_POSITION, value);
+    } else {
+      this.removeAttribute(attributes.LABEL_POSITION);
+    }
+  }
+
+  get labelPosition(): IdsSwitchLabelPosition {
+    return this.getAttribute(attributes.LABEL_POSITION) as IdsSwitchLabelPosition || 'end';
+  }
+
+  /**
    * React to attributes changing on the web-component
    * @param {string} name The property name
    * @param {string} oldValue The property old value
@@ -298,6 +318,24 @@ export default class IdsSwitch extends Base {
   get compact(): boolean {
     return stringToBool(this.getAttribute(attributes.COMPACT));
   }
+
+  /**
+   * Set the size (width) of the switch
+   * @param {string|null} value [xs, sm, mm, md, lg, full]
+   */
+  set size(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.SIZE, value);
+    } else {
+      this.removeAttribute(attributes.SIZE);
+    }
+  }
+
+  /**
+   * size attribute
+   * @returns {string|null} size param
+   */
+  get size(): string | null { return this.getAttribute(attributes.SIZE); }
 
   /**
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
