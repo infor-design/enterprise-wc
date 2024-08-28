@@ -81,11 +81,14 @@ export default class IdsPager extends IdsEventsMixin(IdsElement) {
       attributes.TOTAL,
       attributes.TYPE,
     ].includes(name);
+    const transformAttributes = {
+      [attributes.DISABLED]: attributes.PARENT_DISABLED,
+    };
 
     if (shouldRerender) {
       if (oldValue !== newValue) {
         this.connectedCallback();
-        this.#syncChildren(name, newValue);
+        this.#syncChildren(transformAttributes[name] ?? name, newValue);
       }
     }
   }
@@ -148,10 +151,10 @@ export default class IdsPager extends IdsEventsMixin(IdsElement) {
   /**
    * Sync children with the given attribute
    * @param {string} attribute attribute to sync
-   * @param {string} value value to sync
+   * @param {string|boolean} value value to sync
    * @private
    */
-  #syncChildren(attribute: any, value: any): void {
+  #syncChildren(attribute: string, value: string | boolean): void {
     const pagerChildSelectors = [
       'ids-pager-input',
       'ids-pager-number-list',
@@ -165,7 +168,7 @@ export default class IdsPager extends IdsEventsMixin(IdsElement) {
     ];
 
     pagerChildren.forEach((element: HTMLElement) => {
-      element.setAttribute(attribute, value);
+      element.setAttribute(attribute, String(value));
     });
   }
 
