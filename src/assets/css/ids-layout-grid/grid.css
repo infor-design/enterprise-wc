@@ -30,5 +30,5 @@ ids-card::part(card) {
 }
 
 .border {
-  border: 1px solid var(--ids-color-gray-30);
+  border: 1px solid var(--ids-color-neutral-30);
 }

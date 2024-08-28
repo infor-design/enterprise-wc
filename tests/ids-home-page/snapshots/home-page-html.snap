@@ -1,23 +1,23 @@
 <ids-home-page>
-      <ids-widget slot="widget" colspan="3" style="width: 1112px; height: 368px; transition: all 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91) 0s; left: 0px; top: 0px;">
+      <ids-widget slot="widget" colspan="3" style="width: 1112px; height: 368px; transition: 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91); left: 0px; top: 0px;">
         <div slot="widget-header">
           <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget 3x1 (Dom Order 1) - A</ids-text>
         </div>
         <div slot="widget-content"></div>
       </ids-widget>
-      <ids-widget slot="widget" style="width: 360px; height: 368px; transition: all 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91) 0s; left: 0px; top: 380px;">
+      <ids-widget slot="widget" style="width: 360px; height: 368px; transition: 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91); left: 0px; top: 380px;">
         <div slot="widget-header">
           <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget 1x1 (Dom Order 2) - B</ids-text>
         </div>
         <div slot="widget-content"></div>
       </ids-widget>
-      <ids-widget slot="widget" style="width: 360px; height: 368px; transition: all 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91) 0s; left: 376px; top: 380px;">
+      <ids-widget slot="widget" style="width: 360px; height: 368px; transition: 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91); left: 376px; top: 380px;">
         <div slot="widget-header">
           <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget 1x1 (Dom Order 3) - C</ids-text>
         </div>
         <div slot="widget-content"></div>
       </ids-widget>
-      <ids-widget slot="widget" style="width: 360px; height: 368px; transition: all 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91) 0s; left: 752px; top: 380px;">
+      <ids-widget slot="widget" style="width: 360px; height: 368px; transition: 0.3s cubic-bezier(0.09, 0.11, 0.24, 0.91); left: 752px; top: 380px;">
         <div slot="widget-header">
           <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Widget 1x1 (Dom Order 4) - D</ids-text>
         </div>

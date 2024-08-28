@@ -10,7 +10,7 @@
   border-radius: var(--ids-tag-border-radius);
 
   // Fonts
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   font-size: var(--ids-tag-font-size-default);
   color: var(--ids-tag-color-text-default);
   white-space: nowrap;
@@ -20,7 +20,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-inline-end: var(--ids-space-xxs);
+  margin-inline-end: var(--ids-space-2xs);
   padding-inline: var(--ids-space-xs);
   height: var(--ids-tag-height);
   contain: content;
@@ -98,6 +98,12 @@
   }
 }
 
+:host([clickable]) {
+  .ids-tag:hover {
+    background-color: var(--ids-tag-clickable-color-background-hover);
+  }
+}
+
 :host-context(.disabled),
 :host-context([disabled]),
 :host(.disabled),
@@ -143,8 +149,8 @@
   cursor: var(--ids-cursor-pointer);
   align-self: center;
   display: inline-flex;
-  padding-inline-start: var(--ids-space-xxs);
-  padding-top: var(--ids-space-xxxs);
+  padding-inline-start: var(--ids-space-2xs);
+  padding-top: var(--ids-space-3xs);
   color: var(--ids-input-color-text-default);
 }
 
@@ -158,7 +164,7 @@
   .ids-tag {
     background-color: var(--ids-input-color-background-default);
     border-color: var(--ids-input-color-border-default);
-    margin-bottom: var(--ids-space-xxs);
+    margin-bottom: var(--ids-space-2xs);
     opacity: 1;
 
     &.ellipsis {

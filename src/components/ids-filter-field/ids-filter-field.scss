@@ -13,14 +13,14 @@
         box-shadow: var(--ids-input-color-border-shadow);
         z-index: 1;
       }
-  
+
       &::part(button) {
         margin: 0;
         border-radius: 0;
         width: unset;
         box-shadow: none;
-        border-color: transparent;
-        border-inline-end-color: transparent;
+        border-color: var(--ids-color-transparent);
+        border-inline-end-color: var(--ids-color-transparent);
       }
     }
   }

@@ -6,7 +6,7 @@
 
   &::after {
     border: 1px solid var(--ids-input-color-border-default);
-    border-radius: var(--ids-border-radius-xxs);
+    border-radius: var(--ids-border-radius-2xs);
     box-sizing: border-box;
     display: block;
     content: '';
@@ -26,8 +26,8 @@
   border-width: 5px;
   content: '';
   display: inline-block;
-  margin-inline: 2px;
+  margin-inline: var(--ids-space-3xs);
   position: absolute;
-  inset-block-start: 2px;
+  inset-block-start: var(--ids-space-3xs);
   z-index: 1;
 }

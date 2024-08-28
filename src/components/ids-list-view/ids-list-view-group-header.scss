@@ -7,7 +7,7 @@
   display: inline-flex;
   align-items: center;
   flex-direction: row;
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   font-size: var(--ids-list-view-group-header-font-size);
   padding: 0 var(--ids-list-view-group-header-padding);
   width: 100%;

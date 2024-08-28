@@ -12,8 +12,8 @@
 }
 
 ids-button::part(button) {
-  max-width: 40px;
-  padding: 6px 8px;
+  max-width: var(--ids-space-xl);
+  padding: 6px var(--ids-space-xs);
 }
 
 ids-button:not([selected]):not([disabled])::part(button) {

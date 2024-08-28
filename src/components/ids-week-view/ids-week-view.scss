@@ -53,7 +53,7 @@ $hour-row-height: var(--ids-week-view-row-height);
     }
 
     th:nth-child(1) .week-view-all-day-wrapper {
-      border-top-color: transparent;
+      border-top-color: var(--ids-color-transparent);
       padding: 5px;
     }
   }

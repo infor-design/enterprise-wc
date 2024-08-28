@@ -20,7 +20,7 @@
   // Outside border and Background and sizing
   background-color: var(--ids-data-grid-color-background);
   border: 1px solid var(--ids-data-grid-cell-color-border);
-  border-radius: var(--ids-border-radius-xxs);
+  border-radius: var(--ids-border-radius-2xs);
   border-collapse: collapse;
   box-sizing: border-box;
   overflow: auto;
@@ -33,8 +33,8 @@
   // Font Info
   @include mixins.antialiased();
 
-  font-family: var(--ids-font-family-default);
-  font-size: var(--ids-font-size-40);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+  font-size: var(--ids-font-size-sm);
 
   // Selection Checkbox
   .ids-data-grid-checkbox-container {
@@ -71,8 +71,8 @@
 
     border-color: var(--ids-data-grid-cell-checkbox-color-border);
     position: relative;
-    left: 0;
-    top: 0;
+    left: var(--ids-space-none);
+    top: var(--ids-space-none);
 
     &.disabled {
       @include checkbox-disabled-unchecked();
@@ -115,8 +115,8 @@
 
     cursor: var(--ids-cursor-pointer);
     position: relative;
-    left: 0;
-    top: 0;
+    left: var(--ids-space-none);
+    top: var(--ids-space-none);
 
     &::after {
       @include radio-unchecked-after();
@@ -146,19 +146,19 @@
     align-items: center;
 
     ids-button + .ids-data-grid-tree-field-container .text-ellipsis {
-      margin-inline-start: 0;
+      margin-inline-start: var(--ids-space-none);
     }
 
     ids-button {
-      padding-inline-start: 4px;
-      padding-inline-end: 0;
+      padding-inline-start: var(--ids-space-2xs);
+      padding-inline-end: var(--ids-space-none);
     }
 
     ids-button.expand-button {
-      --ids-button-tertiary-color-background-hover: transparent;
-      --ids-button-tertiary-color-border-hover: transparent;
-      --ids-button-tertiary-color-background-pressed: transparent;
-      --ids-button-tertiary-color-border-pressed: transparent;
+      --ids-button-tertiary-color-background-hover: var(--ids-color-transparent);
+      --ids-button-tertiary-color-border-hover: var(--ids-color-transparent);
+      --ids-button-tertiary-color-background-pressed: var(--ids-color-transparent);
+      --ids-button-tertiary-color-border-pressed: var(--ids-color-transparent);
     }
 
     .text-ellipsis {
@@ -166,7 +166,7 @@
       overflow: initial;
 
       ids-hyperlink {
-        margin-inline-start: 0;
+        margin-inline-start: var(--ids-space-none);
       }
     }
   }
@@ -290,7 +290,7 @@
 
       // Remove start padding from tree-grid-contained `.text-ellipsis` elements
       .ids-data-grid-tree-field-container .text-ellipsis {
-        padding-inline-start: 0;
+        padding-inline-start: var(--ids-space-none);
       }
 
       // ================================================
@@ -303,11 +303,11 @@
             }
 
             ids-button {
-              margin-inline-start: 0;
+              margin-inline-start: var(--ids-space-none);
             }
 
             ids-button + .ids-data-grid-tree-field-container {
-              margin-inline-start: 0;
+              margin-inline-start: var(--ids-space-none);
             }
           } @else {
             .ids-data-grid-tree-field-container {
@@ -319,7 +319,7 @@
             }
 
             ids-button + .ids-data-grid-tree-field-container {
-              margin-inline-start: 0;
+              margin-inline-start: var(--ids-space-none);
             }
           }
 
@@ -340,7 +340,7 @@
 
   // List Style Feature
   &.is-list-style {
-    border-width: 0;
+    border-width: var(--ids-border-width-none);
   }
 
   // Used for row start
@@ -372,7 +372,7 @@ table.ids-data-grid {
   .ids-data-grid-toolbar {
     display: flex;
     width: 100%;
-    margin: 6px 0;
+    margin: 6px var(--ids-space-none);
     align-items: center;
     justify-content: end;
   }
@@ -386,9 +386,9 @@ ids-empty-message:not([hidden]),
   position: absolute;
   justify-content: center;
   align-items: center;
-  top: 0;
+  top: var(--ids-space-none);
   pointer-events: none;
-  margin-top: 16px;
+  margin-top: var(--ids-space-sm);
 }
 
 // Adjust for filter row
@@ -409,7 +409,7 @@ ids-loading-indicator {
   position: absolute;
   justify-content: center;
   align-items: center;
-  top: 0;
+  top: var(--ids-space-none);
 
   &[stopped] {
     display: none;
@@ -424,8 +424,8 @@ ids-loading-indicator {
 }
 
 #datagrid-modal {
-  --ids-modal-content-padding: 0;
-  --ids-modal-header-padding: 16px 16px 8px 16px;
+  --ids-modal-content-padding: var(--ids-space-none);
+  --ids-modal-header-padding: var(--ids-space-sm) var(--ids-space-sm) var(--ids-space-xs) var(--ids-space-sm);
   --ids-popup-fit-height: 400px;
 
   ids-swappable-item {
@@ -442,20 +442,20 @@ ids-loading-indicator {
   }
 
   ids-search-field {
-    --ids-input-color-background-default: var(--ids-color-accent-gray-weakest);
-    --ids-search-field-color-background-default: var(--ids-color-accent-gray-weakest);
-    --ids-input-color-border-default: var(--ids-color-accent-gray-weak);
-    --ids-input-color-border-hover: var(--ids-color-accent-gray-weak);
-    --ids-input-color-border-focus: var(--ids-color-accent-gray-weak);
+    --ids-input-color-background-default: var(--ids-color-accent-neutral-weakest);
+    --ids-search-field-color-background-default: var(--ids-color-accent-neutral-weakest);
+    --ids-input-color-border-default: var(--ids-color-accent-neutral-weak);
+    --ids-input-color-border-hover: var(--ids-color-accent-neutral-weak);
+    --ids-input-color-border-focus: var(--ids-color-accent-neutral-weak);
     --ids-input-color-border-shadow: none;
-    --ids-search-field-border-radius: 0;
-    --ids-search-field-border-width: 1px 0;
+    --ids-search-field-border-radius: var(--ids-border-radius-none);
+    --ids-search-field-border-width: var(--ids-border-width-sm) var(--ids-border-width-none);
 
     margin-bottom: -8px;
     margin-top: calc(var(--ids-space-08) * -1);
     min-width: 330px;
     position: sticky;
-    top: 0;
+    top: var(--ids-space-none);
     z-index: 1;
   }
 
@@ -465,7 +465,7 @@ ids-loading-indicator {
 
   ids-switch {
     position: relative;
-    top: 2px;
+    top: var(--ids-space-3xs);
   }
 
   ids-swappable {

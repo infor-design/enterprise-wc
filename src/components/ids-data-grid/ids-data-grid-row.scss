@@ -154,7 +154,7 @@
 .ids-data-grid-expandable-row {
   border-bottom: 1px solid var(--ids-data-grid-cell-color-border);
   grid-column: 1 / -1;
-  padding: 8px;
+  padding: var(--ids-space-xs);
 }
 
 // Standalone Css
