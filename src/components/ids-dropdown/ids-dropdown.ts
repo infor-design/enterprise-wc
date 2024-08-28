@@ -606,7 +606,6 @@ export default class IdsDropdown extends Base {
     this.dropdownList.popup.alignEdge = 'bottom';
 
     if (this.input) this.dropdownList.value = this.input.value;
-
     if (this.#isMultiSelect) this.dropdownList.isMultiSelect = true;
   }
 
@@ -1352,6 +1351,11 @@ export default class IdsDropdown extends Base {
       this.dropdownList?.setAttribute(attributes.POSITION_STYLE, 'fixed');
     }
 
+    if (getClosest(this, '.modal')) {
+      this.dropdownList?.setAttribute(attributes.POSITION_STYLE, 'fixed');
+      this.dropdownList?.popup?.setAttribute(attributes.OFFSET_CONTAINER, '.modal');
+    }
+
     this.configurePopup();
     this.attachClickEvent();
   }
@@ -1419,7 +1423,7 @@ export default class IdsDropdown extends Base {
    * @returns {boolean} typeahead attribute value converted to boolean
    */
   get typeahead(): boolean {
-    return stringToBool(this.getAttribute(attributes.TYPEAHEAD));
+    return stringToBool(this.getAttribute(attributes.TYPEAHEAD)) || true;
   }
 
   onClearableTextChange(val: string | null) {
