@@ -382,17 +382,17 @@ button {
     border-radius: var(--ids-border-radius-circle);
 
     &:hover {
-      color: var(--ids-color-foreground-dark-default);
-      background-color: var(--ids-color-white-100);
+      color: var(--ids-segmented-control-text-color);
+      background-color: var(--ids-segmented-control-background-hover);
     }
   }
 }
 
 :host(ids-toggle-button.ids-toggle-button-segmented[pressed]) {
   button {
-    color: var(--ids-color-foreground-dark-default);
-    background-color: var(--ids-color-white-100);
-    box-shadow: 0px 1px 10px 0px #1616180A;
+    color: var(--ids-segmented-control-text-color);
+    background-color: var(--ids-segmented-control-background-hover);
+    box-shadow: var(--ids-segmented-control-box-shadow);
     border-color: transparent;
   }
 }
