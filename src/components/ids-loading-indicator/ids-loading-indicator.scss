@@ -28,8 +28,8 @@
 :host(ids-loading-indicator[align='center'][contained]:not([sticky]):not([inline])) {
   position: absolute;
   margin: 0;
-  left: 0;
-  top: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   height: 100%;
   width: 100%;
 }
