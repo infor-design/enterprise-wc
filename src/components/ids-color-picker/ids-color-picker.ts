@@ -41,7 +41,7 @@ const Base = IdsClearableMixin(
 export default class IdsColorPicker extends Base {
   isFormComponent = true;
 
-  useDefaultSwatches = true;
+  useDefaultSwatches = false;
 
   initialized = false;
 

@@ -13,6 +13,7 @@
 
 ### 1.4.3 Fixes
 
+- `[ColorPicker]` Fixed bug where custom colors were being overidden. ([#8964](https://github.com/infor-design/enterprise/issues/8964))
 - `[Datagrid]` Fixed bug where the custom select-color is lost during row-recycling/virtual-scrolling. ([#1392](https://github.com/infor-design/enterprise-wc/issues/1392))
 - `[Datagrid]` Fixed bug editor dropdown can't be re-opened after closing. ([#2589](https://github.com/infor-design/enterprise-wc/issues/2589))
 - `[Homepage]` Converted home page tests to playwright. ([#1940](https://github.com/infor-design/enterprise-wc/issues/1940))
