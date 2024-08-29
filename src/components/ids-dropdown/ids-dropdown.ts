@@ -409,6 +409,7 @@ export default class IdsDropdown extends Base {
         this.input.disabled = false;
         this.input.cursor = 'text';
         this.input.readonlyBackground = false;
+        this.input.readonly = true;
       }
       this.setAttribute(attributes.READONLY, 'true');
       return;
@@ -417,6 +418,7 @@ export default class IdsDropdown extends Base {
       this.input.disabled = false;
       this.input.cursor = 'pointer';
       this.input.readonlyBackground = true;
+      this.input.readonly = false;
     }
     this.removeAttribute(attributes.READONLY);
   }
