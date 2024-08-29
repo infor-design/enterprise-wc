@@ -71,8 +71,8 @@ test.describe('IdsSegmentedControl tests', () => {
 
   test.describe('functionality tests', () => {
     test('can handle toggle button clicks', async ({ page }) => {
-      const button1 = await page.locator('#button1');
-      const button2 = await page.locator('#button2');
+      const button1 = await page.locator('#btn-toggle-1');
+      const button2 = await page.locator('#btn-toggle-2');
 
       // Click the first button and verify it is pressed
       await button1.click();
@@ -99,7 +99,7 @@ test.describe('IdsSegmentedControl tests', () => {
       });
 
       // Ensure that no errors are thrown after the component is removed
-      const button1 = await page.locator('#button1');
+      const button1 = await page.locator('#btn-toggle-1');
       await expect(button1.click()).resolves.not.toThrow();
     });
   });
