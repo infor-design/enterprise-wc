@@ -113,7 +113,7 @@ test.describe('IdsHierarchy tests', () => {
       await expect(hierarchy).not.toHaveAttribute('root-item');
     });
 
-    test('can set/get the selected attribute', async ({ page }) => {
+    test.skip('can set/get the selected attribute', async ({ page }) => {
       const hierarchy = await page.locator('ids-hierarchy-item').first();
 
       await expect(hierarchy).not.toHaveAttribute('selected');

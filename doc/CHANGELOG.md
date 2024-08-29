@@ -9,9 +9,11 @@
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
 - `[Switch]` Added a label position setting that allows positioning the label on either the right or left side of the slider. ([#2579](https://github.com/infor-design/enterprise-wc/issues/2579))
 - `[Themes]` Added a setting `IdsGlobal.themePath` that you can use to set the location of the theme files. ([#2125]https://github.com/infor-design/enterprise-wc/issues/2125)
+- `[Themes]` Added latest round of semantic tokens. ([#2471]https://github.com/infor-design/enterprise-wc/issues/2471)
 
 ### 1.4.3 Fixes
 
+- `[ColorPicker]` Fixed bug where custom colors were being overidden. ([#8964](https://github.com/infor-design/enterprise/issues/8964))
 - `[Datagrid]` Fixed bug where the custom select-color is lost during row-recycling/virtual-scrolling. ([#1392](https://github.com/infor-design/enterprise-wc/issues/1392))
 - `[Datagrid]` Fixed bug editor dropdown can't be re-opened after closing. ([#2589](https://github.com/infor-design/enterprise-wc/issues/2589))
 - `[Dropdown]` Made the `typeahead` setting true by default. ([#2770](https://github.com/infor-design/enterprise-wc/issues/2770))

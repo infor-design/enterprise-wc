@@ -59,9 +59,9 @@
 }
 
 .ids-calendar-event[color='neutral'] {
-  @include event-border-accent(var(--ids-color-gray-70));
+  @include event-border-accent(var(--ids-color-neutral-70));
 
-  background: var(--ids-color-gray-30);
+  background: var(--ids-color-neutral-30);
 }
 
 .ids-calendar-event {
@@ -72,7 +72,7 @@
   background: var(--ids-color-blue-20);
   border: 1px solid transparent;
   border-radius: 3px;
-  color: var(--ids-color-gray-100);
+  color: var(--ids-color-neutral-100);
   height: 20px;
   overflow: hidden;
   text-decoration: none;
@@ -169,7 +169,7 @@
     }
 
     .calendar-event-title {
-      color: transparent;
+      color: var(--ids-color-transparent);
     }
   }
 }

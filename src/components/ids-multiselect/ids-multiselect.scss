@@ -9,8 +9,8 @@ ids-trigger-field {
   ids-tag {
     align-self: center;
     display: flex;
-    margin-top: 4px;
-    margin-inline-start: 4px;
+    margin-top: var(--ids-space-2xs);
+    margin-inline-start: var(--ids-space-2xs);
     max-width: 100%;
 
     &[disabled]::part(tag) {
@@ -34,8 +34,8 @@ ids-trigger-field {
       visibility: hidden;
 
       &::selection {
-        color: transparent;
-        background: transparent;
+        color: var(--ids-color-transparent);
+        background: var(--ids-color-transparent);
       }
     }
 
@@ -43,14 +43,14 @@ ids-trigger-field {
       max-width: 100%;
 
       &::part(text) {
-        padding-inline-start: 8px;
+        padding-inline-start: var(--ids-space-xs);
       }
     }
 
     &[compact],
     &[field-height='xs'] {
       ids-text::part(text) {
-        padding-inline-start: 4px;
+        padding-inline-start: var(--ids-space-2xs);
         font-size: var(--ids-multiselect-font-size);
       }
     }

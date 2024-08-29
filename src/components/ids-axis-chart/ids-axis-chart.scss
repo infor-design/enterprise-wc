@@ -125,7 +125,7 @@ ids-empty-message:not([hidden]),
 
 // Stacked tooltips
 .tooltip-center {
-  margin-block: var(--ids-space-xxs);
+  margin-block: var(--ids-space-2xs);
   text-align: center;
 }
 
@@ -135,14 +135,14 @@ ids-empty-message:not([hidden]),
   padding: 0;
 
   .swatch {
-    margin-inline: var(--ids-space-xxs);
+    margin-inline: var(--ids-space-2xs);
     padding: 0;
   }
 }
 
 .tooltip-row span {
-  padding-inline-start: var(--ids-space-xxxs);
-  padding-inline-end: var(--ids-space-xxs);
+  padding-inline-start: var(--ids-space-3xs);
+  padding-inline-end: var(--ids-space-2xs);
 }
 
 // Move Stuff for RTL
