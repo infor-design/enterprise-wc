@@ -3,15 +3,11 @@ import percySnapshot from '@percy/playwright';
 import { expect } from '@playwright/test';
 import { test } from '../base-fixture';
 
-import IdsSegmentedControl from '../../src/components/ids-segmented-control/ids-segmented-control';
-
 test.describe('IdsSegmentedControl tests', () => {
   const url = '/ids-segmented-control/example.html';
-  let segmentedControl: any;
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
-    segmentedControl = await page.locator('ids-segmented-control').first();
   });
 
   test.describe('general page checks', () => {
