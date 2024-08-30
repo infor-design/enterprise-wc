@@ -410,6 +410,7 @@ export default class IdsDropdown extends Base {
         this.input.disabled = false;
         this.input.cursor = 'text';
         this.input.readonlyBackground = false;
+        this.input.readonly = true;
       }
       this.setAttribute(attributes.READONLY, 'true');
       return;
@@ -418,6 +419,7 @@ export default class IdsDropdown extends Base {
       this.input.disabled = false;
       this.input.cursor = 'pointer';
       this.input.readonlyBackground = true;
+      this.input.readonly = false;
     }
     this.removeAttribute(attributes.READONLY);
   }
@@ -607,7 +609,6 @@ export default class IdsDropdown extends Base {
     this.dropdownList.popup.alignEdge = 'bottom';
 
     if (this.input) this.dropdownList.value = this.input.value;
-
     if (this.#isMultiSelect) this.dropdownList.isMultiSelect = true;
   }
 
@@ -1356,6 +1357,11 @@ export default class IdsDropdown extends Base {
       this.dropdownList?.setAttribute(attributes.POSITION_STYLE, 'fixed');
     }
 
+    if (getClosest(this, '.modal')) {
+      this.dropdownList?.setAttribute(attributes.POSITION_STYLE, 'fixed');
+      this.dropdownList?.popup?.setAttribute(attributes.OFFSET_CONTAINER, '.modal');
+    }
+
     this.configurePopup();
     this.attachClickEvent();
   }
@@ -1409,13 +1415,13 @@ export default class IdsDropdown extends Base {
 
     if (val) {
       this.setAttribute(attributes.TYPEAHEAD, String(val));
+      this.container?.classList.add('typeahead');
       this.setOptionsData();
     } else {
-      this.removeAttribute(attributes.TYPEAHEAD);
+      this.setAttribute(attributes.TYPEAHEAD, 'false');
       this.input?.setAttribute(attributes.READONLY, 'true');
+      this.container?.classList.remove('typeahead');
     }
-
-    this.container?.classList.toggle('typeahead', val);
   }
 
   /**
@@ -1423,7 +1429,7 @@ export default class IdsDropdown extends Base {
    * @returns {boolean} typeahead attribute value converted to boolean
    */
   get typeahead(): boolean {
-    return stringToBool(this.getAttribute(attributes.TYPEAHEAD));
+    return this.hasAttribute(attributes.TYPEAHEAD) ? stringToBool(this.getAttribute(attributes.TYPEAHEAD)) : true;
   }
 
   onClearableTextChange(val: string | null) {

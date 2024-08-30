@@ -152,6 +152,17 @@
   }
 }
 
+:host([borderless]) {
+  .ids-card {
+    border-color: var(--ids-color-transparent);
+    box-shadow: none;
+
+    &:hover {
+      border-color: transparent;
+    }
+  }
+}
+
 // Actionable Link Card Styles
 :host([actionable]) ids-hyperlink {
   height: 50px;
@@ -179,8 +190,8 @@
   ::slotted(.flex-content) {
     display: flex;
     align-items: center;
-    padding: 15px 16px;
-    gap: 16px;
+    padding: 15px var(--ids-space-sm);
+    gap: var(--ids-space-sm);
   }
 }
 
@@ -214,11 +225,11 @@
   ids-button::part(button) {
     align-items: center;
     border: 1px solid transparent;
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
     height: 50px;
 
     &:hover {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
       color: var(--ids-button-tertiary-color-text-default);
     }
   }
@@ -237,7 +248,7 @@
   flex-direction: column;
   height: inherit;
   justify-content: center;
-  padding: 0 8px;
+  padding: 0 var(--ids-space-xs);
   text-align: center;
   width: 100%;
 }
@@ -329,17 +340,6 @@
 :host([draggable][dropped]) {
   z-index: 9;
   transition: none;
-}
-
-:host([borderless]) {
-  .ids-card {
-    border-color: transparent;
-    box-shadow: none;
-
-    &:hover {
-      border-color: transparent;
-    }
-  }
 }
 
 :host([disabled]) {

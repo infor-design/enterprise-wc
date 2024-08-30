@@ -160,8 +160,8 @@ In some situations, it may be preferable to separate the IdsDropdownList element
 - `id` {string} Sets the `id` attribute
 - `tooltip` {string} Sets the tooltip on the dropdown container
 - `selectedIndex` {number} Sets the the selected option by index
-- `typeahead` {true | false} - Enable/disable typeahead functionality
-- `clearable` {true | false} - Whether or not the value can be cleared with Backspace/Delete
+- `typeahead` {boolean} - Enable/disable typeahead functionality (true by default)
+- `clearable` {boolean} - Whether or not the value can be cleared with Backspace/Delete (false by default)
 - `clearable-text` {string} - Sets the blank option custom text. The text will not be added to the input when the option is selected
 - `show-loading-indicator` {boolean} - Whether or not to show loading indicator (replaces trigger button). Defaults to false.
 

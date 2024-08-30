@@ -294,7 +294,7 @@ Now that you have a `ids-component-name.scss`, which holds all scoped styles for
 .ids-component {
   @include mixins.antialiased();
 
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
 }
 ```
 

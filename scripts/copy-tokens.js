@@ -1,22 +1,24 @@
+/* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
 
 // Source directory
-const sourceDir = './node_modules/ids-foundation/theme-soho/';
+const sourceDir = './node_modules/ids-foundation/theme-soho/scss/';
 
 // Destination directory
 const destinationDir = './src/themes/tokens/';
 
 // Array of SCSS files
 const scssFiles = [
-    'core.scss',
-    'semantic-contrast.scss',
-    'semantic-light.scss',
-    'semantic-dark.scss',
-    'theme-colors.scss'
+  'core.scss',
+  'semantic-contrast.scss',
+  'semantic-light.scss',
+  'semantic-dark.scss',
+  'theme-colors.scss'
 ];
 
-// Function to add /* stylelint-disable */ to the top of a file
+// Function to add `/* stylelint-disable */ to the top of a file
+// eslint-disable-next-line jsdoc/require-jsdoc
 function addStylelineDisable(filePath) {
   // Read the file
   fs.readFile(filePath, 'utf8', (err, data) => {
@@ -26,14 +28,15 @@ function addStylelineDisable(filePath) {
     }
 
     // Add /* stylelint-disable */ at the top of the file
+    // eslint-disable-next-line prefer-template
     const newData = '/* stylelint-disable */\n' + data;
 
     // Write the updated data back to the file
-    fs.writeFile(filePath, newData, 'utf8', (err) => {
-      if (err) {
-        console.error('Error writing file:', err);
+    fs.writeFile(filePath, newData, 'utf8', (err2) => {
+      if (err2) {
+        console.error('Error writing file:', err2);
       } else {
-        console.log('Added /* stylelint-disable */ to:', filePath);
+        console.info('Added /* stylelint-disable */ to:', filePath);
       }
     });
   });

@@ -51,7 +51,7 @@ const appendStyleSheet = () => {
     --ids-color-primary-100: ${primary100};
     --ids-color-background-default: ${backgroundColor.value};
     --ids-color-text: ${textColor.value};
-    --ids-header-input-color-border-hover: transparent;
+    --ids-header-input-color-border-hover: var(--ids-color-transparent);
     --ids-header-color-background: var(--ids-color-primary);
     --ids-header-color-border-bottom: var(--ids-color-primary-80);
     --ids-header-color-text: ${textColor.value};

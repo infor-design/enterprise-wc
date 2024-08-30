@@ -76,7 +76,7 @@ const getInnerIndicatorHtml = ({
         <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : inner}" class="circle" part="circle" />
         <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : outer}" class="progress" part="progress" />
       </svg>
-      ${!percentageVisible ? '' : getPercentageTextHtml({ progress })}<ids-overlay opacity="0.7" background-color="page"></ids-overlay>`
+      ${!percentageVisible ? '' : getPercentageTextHtml({ progress })}<ids-overlay ${type === 'contained' ? 'class="contained"' : ''} exportparts="overlay: innerOverlay" opacity="0.7" background-color="page"></ids-overlay>`
       );
     }
   }

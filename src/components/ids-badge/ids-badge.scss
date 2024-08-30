@@ -26,8 +26,8 @@
   color: var(--ids-badge-color-text-default);
 
   // Fonts
-  font-family: var(--ids-font-family-default);
-  font-size: var(--ids-font-size-30);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+  font-size: var(--ids-font-size-xs);
   white-space: nowrap;
 
   // Dimensional

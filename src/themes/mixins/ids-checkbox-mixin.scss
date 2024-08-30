@@ -28,7 +28,7 @@
 @mixin checkbox-checked-after {
   position: absolute;
   display: block;
-  border: var(--ids-font-size-20) solid var(--ids-checkbox-color-border-selected-after);
+  border: var(--ids-font-size-2xs) solid var(--ids-checkbox-color-border-selected-after);
   border-width: var(--ids-checkbox-border-width-selected-after);
   animation: check 0.15s;
   transform: rotate(45deg);
