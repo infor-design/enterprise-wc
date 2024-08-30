@@ -101,5 +101,6 @@ export default class IdsSegementedControl extends Base {
    */
   #detachEventHandlers() {
     this.offEvent('click', this.container);
+    this.offEvent('pressed-changed', this);
   }
 }
