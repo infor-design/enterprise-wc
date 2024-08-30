@@ -3,6 +3,7 @@ import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import buildingsJSON from '../../../assets/data/tree-buildings.json';
 
+let dataset: Record<string, any>[] = [];
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#tree-grid')!;
 
@@ -88,17 +89,41 @@ if (dataGrid) {
     const setData = async () => {
       const res = await fetch(url);
       const data = await res.json();
-      dataGrid.data = data;
+
+      console.info(`Initial Load`);
+      dataset = data.slice(0, 120);
+      console.info('-------- local dataset ---------');
+      console.info(dataset);
+
+      dataGrid.data = dataset;
+      console.info('-------- dataGrid.data ---------');
+      console.info(dataGrid.data);
     };
 
-    setData();
+    await setData();
+
+    dataGrid.addEventListener('selectionchanged', (e: Event) => {
+      console.info(`Selection Changed`, (<CustomEvent>e).detail);
+      console.info('-------- local dataset ---------');
+      console.info(dataset);
+      console.info('-------- dataGrid.data ---------');
+      console.info(dataGrid.data);
+    });
 
     dataGrid.addEventListener('rowexpanded', (e: Event) => {
       console.info(`Row Expanded`, (<CustomEvent>e).detail);
+      console.info('-------- local dataset ---------');
+      console.info(dataset);
+      console.info('-------- dataGrid.data ---------');
+      console.info(dataGrid.data);
     });
 
     dataGrid.addEventListener('rowcollapsed', (e: Event) => {
       console.info(`Row Collapsed`, (<CustomEvent>e).detail);
+      console.info('-------- local dataset ---------');
+      console.info(dataset);
+      console.info('-------- dataGrid.data ---------');
+      console.info(dataGrid.data);
     });
   }());
 }

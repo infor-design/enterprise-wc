@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.0.0-beta.18.4
+
+### 1.0.0-beta.18.4 Fixes
+
+- `[Datagrid]` Fixed bug where datagrid mutates original data passed in by user. ([#2724](https://github.com/infor-design/enterprise-wc/issues/2724))
+
 ## 1.0.0-beta.18.3
 
 ### 1.0.0-beta.18.3 Fixes
