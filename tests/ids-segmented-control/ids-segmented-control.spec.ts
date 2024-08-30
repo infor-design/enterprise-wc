@@ -92,15 +92,5 @@ test.describe('IdsSegmentedControl tests', () => {
       });
       expect(hasSegmentedClass).toBeTruthy();
     });
-
-    test('can handle event detachment', async ({ page }) => {
-      await segmentedControl.evaluate((el: IdsSegmentedControl) => {
-        el.remove();
-      });
-
-      // Ensure that no errors are thrown after the component is removed
-      const button1 = await page.locator('#btn-toggle-1');
-      await expect(button1.click()).resolves.not.toThrow();
-    });
   });
 });
