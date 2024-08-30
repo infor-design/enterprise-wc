@@ -1022,8 +1022,10 @@ export default class IdsPopup extends Base {
       this.#visible = trueVal;
       if (trueVal) {
         this.setAttribute(attributes.VISIBLE, '');
+        this.addOpenEvents();
       } else {
         this.removeAttribute(attributes.VISIBLE);
+        this.removeOpenEvents();
       }
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.refreshVisibility();
