@@ -2,7 +2,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import {
-  getClosest,
   getElementAtMouseLocation,
   parents,
   validMaxHeight
@@ -740,8 +739,10 @@ export default class IdsPopupMenu extends Base {
   set offsetContainer(selector: string | null) {
     if (selector) {
       this.setAttribute(attributes.OFFSET_CONTAINER, selector);
+      this.popup?.setAttribute(attributes.OFFSET_CONTAINER, selector);
     } else {
       this.removeAttribute(attributes.OFFSET_CONTAINER);
+      this.popup?.removeAttribute(attributes.OFFSET_CONTAINER);
     }
   }
 
@@ -751,24 +752,6 @@ export default class IdsPopupMenu extends Base {
    */
   get offsetContainer(): string | null {
     return this.getAttribute(attributes.OFFSET_CONTAINER);
-  }
-
-  /**
-   * Adjusts fixed popup position relative to offset container
-   * @param {DOMRect} popupRect popup's DOMRect
-   * @returns {DOMRect|undefined} adjusted DOMRect
-   */
-  #adjustFromOffsetContainer(popupRect: DOMRect): DOMRect | undefined {
-    if (!this.offsetContainer || this.positionStyle !== 'fixed' || !popupRect) return;
-
-    const containerElem = getClosest(this.popup, this.offsetContainer);
-    if (containerElem) {
-      const containerRect: DOMRect = containerElem.getBoundingClientRect();
-      popupRect.x -= containerRect.left;
-      popupRect.y -= containerRect.top;
-    }
-
-    return popupRect;
   }
 
   /**
@@ -802,15 +785,6 @@ export default class IdsPopupMenu extends Base {
           popupRect.x -= xAdjust;
           popupRect.y -= yAdjust;
         }
-
-        // adjust relative to offset container
-        this.#adjustFromOffsetContainer(popupRect);
-
-        return popupRect;
-      };
-    } else if (this.offsetContainer) {
-      this.popup.onPlace = (popupRect: DOMRect): DOMRect => {
-        this.#adjustFromOffsetContainer(popupRect);
         return popupRect;
       };
     } else {
