@@ -56,6 +56,12 @@ export default class IdsToggleButton extends IdsButton {
    */
   set pressed(val: boolean | string) {
     const trueVal = stringToBool(val);
+
+    // Prevent unnecessary re-setting of the same value
+    if (this.state.pressed === trueVal) {
+      return;
+    }
+
     this.state.pressed = trueVal;
     this.shouldUpdate = false;
 
@@ -68,6 +74,13 @@ export default class IdsToggleButton extends IdsButton {
 
     this.refreshIcon();
     this.refreshText();
+
+    // Dispatch a custom event when pressed state changes
+    this.dispatchEvent(new CustomEvent('pressed-changed', {
+      detail: { pressed: trueVal, element: this },
+      bubbles: true,
+      composed: true
+    }));
   }
 
   get pressed(): boolean {

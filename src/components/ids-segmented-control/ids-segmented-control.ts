@@ -54,6 +54,12 @@ export default class IdsSegementedControl extends Base {
    */
   #attachEventHandlers() {
     this.onEvent('click', this.container, (event: Event) => this.handleToggleClick(event));
+    this.onEvent('pressed-changed', this, (event: CustomEvent) => {
+      const { detail } = event;
+      if (detail.pressed) {
+        this.updateToggleState(detail.element);
+      }
+    });
   }
 
   /**
@@ -76,13 +82,13 @@ export default class IdsSegementedControl extends Base {
   }
 
   /**
-   * Updates the state of the toggle buttons, activating the clicked one and resetting others.
-   * @param {HTMLElement} clickedButton the button that was clicked
+   * Updates the state of the toggle buttons, activating the pressed one and resetting others.
+   * @param {HTMLElement} pressedButton the button that was pressed
    */
-  updateToggleState(clickedButton: HTMLElement) {
+  updateToggleState(pressedButton: HTMLElement) {
     const buttons = this.toggleButtons;
     buttons.forEach((button: HTMLElement | any) => {
-      if (button === clickedButton) {
+      if (button === pressedButton) {
         button.pressed = true;
       } else {
         button.pressed = false;
