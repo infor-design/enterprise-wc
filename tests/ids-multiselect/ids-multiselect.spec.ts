@@ -472,7 +472,7 @@ test.describe('IdsMultiselect tests', () => {
       await page.locator('body').click();
 
       // Verify the selected values
-      const selectedValues = await multiselectElem.evaluate((elem) => elem.value);
+      const selectedValues = await multiselectElem.evaluate((elem: IdsMultiselect) => elem.value);
       expect(selectedValues).toEqual(['al', 'ak', 'az', 'ar', 'ca', 'co']);
     });
   });
