@@ -42,6 +42,10 @@ ids-trigger-field {
     ids-text {
       max-width: 100%;
 
+      &.placeholder {
+        color: var(--ids-color-gray-60);
+      }
+
       &::part(text) {
         padding-inline-start: 8px;
       }
@@ -53,6 +57,16 @@ ids-trigger-field {
         padding-inline-start: 4px;
         font-size: var(--ids-multiselect-font-size);
       }
+    }
+  }
+}
+
+:host(:not([tags])) ids-trigger-field {
+  ids-text.placeholder {
+    color: var(--ids-color-gray-60);
+
+    &::part(text) {
+      padding-inline-start: 0;
     }
   }
 }
