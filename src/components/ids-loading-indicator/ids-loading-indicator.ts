@@ -46,6 +46,7 @@ export default class IdsLoadingIndicator extends Base {
   static get attributes(): Array<string> {
     return [
       attributes.ALIGN,
+      attributes.CONTAINED,
       attributes.GENERATIVE_AI,
       attributes.INLINE,
       attributes.LINEAR,
@@ -75,6 +76,10 @@ export default class IdsLoadingIndicator extends Base {
 
     if (this.hasAttribute(attributes.GENERATIVE_AI)) {
       type = 'generative-ai';
+    }
+
+    if (this.hasAttribute(attributes.CONTAINED)) {
+      type = 'contained';
     }
 
     return getInnerIndicatorHtml({
@@ -174,6 +179,22 @@ export default class IdsLoadingIndicator extends Base {
    */
   get sticky() {
     return this.hasAttribute(attributes.STICKY);
+  }
+
+  /**
+   * Flags the indicator as being an contained indicator relative to nearest parent
+   * @param {string | boolean} value true if the indicator should be contained
+   */
+  set contained(value: string | boolean) {
+    this.#onUpdateTypeFlag(attributes.CONTAINED, stringToBool(value));
+  }
+
+  /**
+   * @returns {boolean} Flags the indicator as being a
+   * contained indicator relative to nearest parent
+   */
+  get contained() {
+    return this.hasAttribute(attributes.CONTAINED);
   }
 
   /**

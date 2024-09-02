@@ -1,8 +1,8 @@
 /* Ids Wizard Component */
 
 .ids-wizard {
-  padding-inline: 32px;
-  margin-block: 8px;
+  padding-inline: var(--ids-space-lg);
+  margin-block: var(--ids-space-xs);
   box-sizing: border-box;
   position: relative;
   display: flex;
@@ -25,10 +25,10 @@
 
   .step.clickable:focus .step-label {
     border: 1px solid var(--ids-wizard-step-color-default);
-    border-radius: var(--ids-border-radius-xxs);
+    border-radius: var(--ids-border-radius-2xs);
     box-shadow: var(--ids-shadow-focus);
     outline: none;
-    outline-color: transparent;
+    outline-color: var(--ids-color-transparent);
   }
 
   .step:focus-visible {
@@ -38,7 +38,7 @@
   .step-label {
     border: 1px solid transparent;
     position: absolute;
-    top: 24px;
+    top: var(--ids-space-md);
     box-sizing: border-box;
     text-align: left;
     text-decoration: none;
@@ -152,7 +152,7 @@
 
   .step:not(.visited) {
     svg:first-child circle {
-      fill: transparent;
+      fill: var(--ids-color-transparent);
       stroke: var(--ids-wizard-step-color-unvisited);
       stroke-width: 3px;
     }

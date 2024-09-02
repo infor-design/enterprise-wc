@@ -6,8 +6,8 @@
 
 .ids-pager-input,
 ids-input::part(container) {
-  margin-inline-start: 4px;
-  margin-inline-end: 4px;
+  margin-inline-start: var(--ids-space-2xs);
+  margin-inline-end: var(--ids-space-2xs);
   margin-block-end: 0;
 }
 
@@ -16,7 +16,7 @@ ids-input::part(input) {
   padding-block-start: 0;
   padding-block-end: 0;
   margin-block-end: 0;
-  min-width: 40px;
+  min-width: var(--ids-space-xl);
 }
 
 .ids-pager-input label,
@@ -31,8 +31,8 @@ ids-input::part(field-container) {
 }
 
 ids-text {
-  margin-inline-start: 4px;
-  margin-inline-end: 4px;
+  margin-inline-start: var(--ids-space-2xs);
+  margin-inline-end: var(--ids-space-2xs);
 }
 
 // Remove automatic width on "xs"-sized pager inputs

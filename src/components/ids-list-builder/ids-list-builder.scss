@@ -60,7 +60,7 @@
     width: 100%;
 
     &[selected] {
-      background: transparent;
+      background: var(--ids-color-transparent);
       box-shadow: none;
     }
 

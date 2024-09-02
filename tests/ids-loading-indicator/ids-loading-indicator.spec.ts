@@ -117,6 +117,15 @@ test.describe('IdsLoadingIndicator tests', () => {
       await expect(await locator.getAttribute('linear')).toEqual('true');
     });
 
+    test('should set contained by attribute', async ({ page }) => {
+      const locator = await page.locator('ids-loading-indicator').first();
+      const handle = await page.$('ids-loading-indicator');
+      await handle?.evaluate((el: IdsLoadingIndicator) => {
+        el.setAttribute('contained', 'true');
+      });
+      await expect(await locator.getAttribute('contained')).toEqual('true');
+    });
+
     test('calls type getter reliably based on flags set', async ({ page }) => {
       const locator = await page.locator('ids-loading-indicator').first();
       const handle = await page.$('ids-loading-indicator');

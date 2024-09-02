@@ -128,7 +128,7 @@ $image-sizes: (
 
   &.unknown {
     fill: var(--ids-image-status-unknown-color-background);
-    color: transparent;
+    color: var(--ids-color-transparent);
   }
 
   // Draw a border and ring around the background color

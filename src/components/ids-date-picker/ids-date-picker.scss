@@ -116,7 +116,7 @@
     color: var(--ids-date-picker-dropdown-button-color-text);
     padding: 4px;
     border: none;
-    border-radius: var(--ids-border-radius-xxs);
+    border-radius: var(--ids-border-radius-2xs);
 
     &:focus {
       box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-date-picker-dropdown-color-focus), 0 0 4px 3px rgb(54 138 192 / 0.3);
@@ -185,7 +185,7 @@
   }
 
   &:not(.is-expanded) .picklist::after {
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
   }
 
   .picklist-section {
@@ -258,7 +258,7 @@
 :host([dir='rtl']) {
   .ids-date-picker {
     .popup-btn + .popup-btn::part(button):not(:focus) {
-      border-left-color: transparent;
+      border-left-color: var(--ids-color-transparent);
     }
   }
 }

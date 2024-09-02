@@ -4,8 +4,8 @@
   <title><%= htmlWebpackPlugin.options.title %></title>
   <%= htmlWebpackPlugin.options.font %>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://unpkg.com/ids-enterprise@4.92.1/dist/js/sohoxi.js"></script>
-  <link id="stylesheet" href="https://unpkg.com/ids-enterprise@4.92.1/dist/css/theme-new-light.css" rel="stylesheet"/>
+  <script src="https://unpkg.com/ids-enterprise@4.98.2/dist/js/sohoxi.js"></script>
+  <link id="stylesheet" href="https://unpkg.com/ids-enterprise@4.98.2/dist/css/theme-new-light.css" rel="stylesheet"/>
 </head>
 <body>
   <ids-container role="main" padding="8" hidden>
@@ -100,8 +100,55 @@
       </div>
     </div>
 
+    <ids-layout-grid auto-fit="true" cols="1" padding="md">
+      <button class="btn-secondary" type="button" id="show-modal">Show 4.x Modal</button><br/><br/>
+    </ids-layout-grid>
+
+		<!-- Modal Example -->
+		<div id="modal-example" class="hidden">
+      <div class="container">
+        <div class="form-responsive row no-indent">
+          <div class="full-width column">
+
+              <ids-dropdown id="dropdown-1-a" label="Normal Dropdown" value="opt2" dirty-tracker="true">
+                <ids-list-box>
+                  <ids-list-box-option value="opt1" id="opt1-a">Option One</ids-list-box-option>
+                  <ids-list-box-option value="opt2" id="opt2-a">Option Two</ids-list-box-option>
+                  <ids-list-box-option value="opt3" id="opt3-a">Option Three</ids-list-box-option>
+                  <ids-list-box-option value="opt4" id="opt4-a">Option Four</ids-list-box-option>
+                  <ids-list-box-option value="opt5" id="opt5-a">Option Five</ids-list-box-option>
+                  <ids-list-box-option value="opt6" id="opt6-a">Option Six</ids-list-box-option>
+                </ids-list-box>
+              </ids-dropdown>
+
+            </div>
+          </div>
+      </div>
+    </div>
+
     <script>
       $('.dropdown').dropdown();
+
+      $('#show-modal').on('click', function () {
+         const opts = {
+          title: 'Add Context',
+          id: 'modal-example',
+          content: $('#modal-example'),
+          buttons: [{
+            text: 'Cancel',
+            click: function(e, modal) {
+              modal.close();
+            }
+          }, {
+            text: 'Save',
+            click: function(e, modal) {
+              modal.close();
+            },
+            isDefault: true
+          }]
+        };
+        $('body').modal(opts);
+      }).attr('style', 'max-width: 135px; min-width: 135px;');
     </script>
   </ids-container>
 </body>

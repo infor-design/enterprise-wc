@@ -3,7 +3,7 @@ import { Locator } from '@playwright/test';
 import { test, expect } from '../base-fixture';
 
 import IdsDraggable from '../../src/components/ids-draggable/ids-draggable';
-import getElTranslatePoint from '../../src/components/ids-draggable/get-el-translate-point';
+import getElTranslatePoint from '../../src/utils/ids-draggable-utils/ids-draggable-utils';
 
 test.describe('IdsDraggable tests', () => {
   const url = '/ids-draggable/example.html';

@@ -12,9 +12,9 @@ text {
   display: block;
   font-weight: var(--ids-font-weight-normal);
   margin: var(--ids-space-none);
-  font-size: var(--ids-font-size-40);
+  font-size: var(--ids-font-size-sm);
   color: currentColor;
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
 }
 
 svg {

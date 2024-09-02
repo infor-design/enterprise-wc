@@ -168,12 +168,12 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
   }
 
   ids-trigger-field::part(input) {
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
     color: inherit;
   }
 
   ids-trigger-field::part(trigger-button) {
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
   }
 
   ids-trigger-field::part(input::placeholder) {
@@ -198,7 +198,7 @@ ids-trigger-field[readonly-background]:not([disabled])::part(input) {
   }
 
   .ids-input-field {
-    padding-inline-start: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
+    padding-inline-start: var(--ids-module-nav-item-expanded-icon-text-space-size);
   }
 }
 

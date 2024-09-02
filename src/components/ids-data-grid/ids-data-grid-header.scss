@@ -1,7 +1,7 @@
 /* Ids Data Grid Component - Header */
 .ids-data-grid-header {
   position: sticky;
-  top: 0;
+  top: var(--ids-space-none);
   z-index: 4; // Higher than frozen columns
 
   // Filter button height
@@ -28,7 +28,7 @@
 
   // Hide first border
   &:first-child {
-    border-inline-start-width: 0;
+    border-inline-start-width: var(--ids-border-width-none);
   }
 
   &:hover.is-actionable {
@@ -52,7 +52,7 @@
 
   &.align-right .ids-data-grid-header-cell-filter-wrapper {
     ids-menu-button {
-      margin-inline-start: 2px;
+      margin-inline-start: var(--ids-space-3xs);
     }
   }
 
@@ -63,7 +63,7 @@
     height: 100%;
     position: absolute;
     margin-inline-start: calc(100% - 4px);
-    top: 0;
+    top: var(--ids-space-none);
     width: 6px;
     z-index: 2;
   }
@@ -76,8 +76,8 @@
     opacity: 0;
     position: absolute;
     inset-inline-start: var(--ids-space-xs);
-    top: 0;
-    width: 4px;
+    top: var(--ids-space-none);
+    width: var(--ids-space-2xs);
 
     ids-icon {
       position: absolute;
@@ -99,11 +99,11 @@
 
   &.dragging {
     background-color: var(--ids-data-grid-header-drag-background-color) !important; // this important is needed for drag styles to work
-    border-inline-start: 0;
+    border-inline-start: var(--ids-space-none);
     display: block;
     left: -1000px;
     position: absolute;
-    top: 0;
+    top: var(--ids-space-none);
     width: 110px;
   }
 
@@ -131,13 +131,13 @@
     border-inline-end: 1px solid var(--ids-data-grid-header-color-border);
 
     + .ids-data-grid-header-cell {
-      border-inline-start-width: 0;
+      border-inline-start-width: var(--ids-border-width-none);
     }
   }
 
   &.frozen-left {
     position: sticky;
-    left: 0;
+    left: var(--ids-space-none);
 
     // Dynamically added widths
     @for $i from 2 through 10 {
@@ -149,7 +149,7 @@
 
   &.frozen-right {
     position: sticky;
-    right: 0;
+    right: var(--ids-space-none);
 
     // Wierd centering bug (frozen right)
     .ids-data-grid-header-cell-content {
@@ -183,15 +183,15 @@
 .ids-data-grid-header-icon {
   align-self: center;
   color: var(--ids-data-grid-header-color-text);
-  margin-inline-start: var(--ids-space-xxs);
-  margin-block-start: var(--ids-space-xxs);
+  margin-inline-start: var(--ids-space-2xs);
+  margin-block-start: var(--ids-space-2xs);
 }
 
 // Header sort styles
 .sort-indicator {
   position: relative;
   overflow: hidden;
-  height: 32px;
+  height: var(--ids-space-lg);
   margin-inline-start: 5px;
   width: 18px;
 }
@@ -205,7 +205,7 @@
 
     &:first-child {
       position: relative;
-      top: 4px;
+      top: var(--ids-space-2xs);
       transform: rotate(180deg);
     }
 
@@ -237,7 +237,7 @@
 }
 
 [data-row-height='xxs'] .header-expander {
-  top: 2px;
+  top: var(--ids-space-3xs);
 }
 
 :host([show-header-expander]) .header-expander,
@@ -246,14 +246,14 @@
 }
 
 .has-selectioncheckbox .ids-data-grid-header-text {
-  padding-inline-start: 0;
-  padding-inline-end: 0;
+  padding-inline-start: var(--ids-space-none);
+  padding-inline-end: var(--ids-space-none);
 }
 
 .is-sortable,
 .has-headericon {
   .ids-data-grid-header-text {
-    padding-inline-end: 0;
+    padding-inline-end: var(--ids-space-none);
   }
 }
 
@@ -407,7 +407,7 @@ th.ids-data-grid-header-cell {
     }
 
     .ids-data-grid-checkbox-container {
-      padding-top: 2px;
+      padding-top: var(--ids-space-3xs);
     }
 
     .ids-data-grid-header-cell.align-right .is-sortable .ids-data-grid-header-text {
@@ -426,7 +426,7 @@ th.ids-data-grid-header-cell {
     }
 
     .sort-indicator {
-      margin-inline-start: 0;
+      margin-inline-start: var(--ids-space-none);
       margin-block-start: -1px;
       height: 22px;
 
@@ -440,7 +440,7 @@ th.ids-data-grid-header-cell {
     }
 
     .align-right .sort-indicator {
-      margin-inline-start: 0;
+      margin-inline-start: var(--ids-space-none);
     }
 
     .ids-data-grid-header-text .ids-data-grid-checkbox-container {
@@ -475,7 +475,7 @@ th.ids-data-grid-header-cell {
     }
 
     &:last-child {
-      border-inline-end-width: 0;
+      border-inline-end-width: var(--ids-border-width-none);
     }
   }
 }

@@ -44,7 +44,7 @@
 .ids-menu-item {
   align-items: center;
   cursor: pointer;
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   list-style: none;
   min-width: var(--ids-menu-item-width-min); // needed to provide base sizing for menus
   position: static;
@@ -64,7 +64,7 @@
   // Standard Rules for a menu item with no icons
   a {
     padding-inline-start: 12px;
-    padding-inline-end: 8px;
+    padding-inline-end: var(--ids-space-xs);
     padding-block: var(--ids-menu-item-padding);
     display: grid;
     font-size: var(--ids-menu-item-font-size);
@@ -205,8 +205,8 @@
 
     &:not(.has-submenu) {
       .ids-menu-item-shortcuts {
-        margin-inline-start: 16px;
-        margin-inline-end: 4px; // line up with submenu icons
+        margin-inline-start: var(--ids-space-sm);
+        margin-inline-end: var(--ids-space-2xs); // line up with submenu icons
       }
     }
   }
@@ -216,7 +216,7 @@
 
   &.has-icon {
     a {
-      padding-inline-start: 8px;
+      padding-inline-start: var(--ids-space-xs);
       padding-inline-end: 14px;
       grid-template-columns: 30px max-content;
     }
@@ -234,7 +234,7 @@
   &.has-checkmark,
   &.has-multi-checkmark {
     a {
-      padding-inline-start: 4px;
+      padding-inline-start: var(--ids-space-2xs);
       grid-template-columns: 30px 0 max-content 0;
 
       // When checkmarks are present, all column placements change
@@ -286,7 +286,7 @@
   &.has-icon.has-checkmark,
   &.has-icon.has-multi-checkmark {
     a {
-      padding-inline-start: 4px;
+      padding-inline-start: var(--ids-space-2xs);
       grid-template-columns: 30px 30px calc(100% - 60px);
       width: calc(100% - 12px);
     }
@@ -396,7 +396,7 @@
       @include check-icon();
 
       left: 11px;
-      margin-top: 2px;
+      margin-top: var(--ids-space-3xs);
     }
 
     &.disabled {

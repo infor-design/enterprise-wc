@@ -62,7 +62,7 @@
     &.right,
     &.top {
       border-style: solid;
-      border-color: transparent;
+      border-color: var(--ids-color-transparent);
       display: block;
       height: 0;
       width: 0;
@@ -70,7 +70,7 @@
 
     &::after {
       border-style: solid;
-      border-color: transparent;
+      border-color: var(--ids-color-transparent);
       border-width: var(--ids-popup-arrow-size);
       content: '';
       display: block;
@@ -79,12 +79,12 @@
 
     // Bottom Alignment
     &.bottom {
-      border-top-width: 0;
+      border-top-width: var(--ids-border-width-none);
       left: calc(50% - var(--ids-popup-arrow-size));
       top: calc(var(--ids-popup-arrow-size) * -1);
 
       &::after {
-        border-top-width: 0;
+        border-top-width: var(--ids-border-width-none);
         left: calc(var(--ids-popup-arrow-size) * -1);
         top: 1px;
       }
@@ -92,12 +92,12 @@
 
     // Left Alignment
     &.left {
-      border-right-width: 0;
+      border-right-width: var(--ids-border-width-none);
       right: calc(var(--ids-popup-arrow-size) * -1);
       top: calc(50% - var(--ids-popup-arrow-size));
 
       &::after {
-        border-right-width: 0;
+        border-right-width: var(--ids-border-width-none);
         left: calc(var(--ids-popup-arrow-size) * -1);
         top: calc(var(--ids-popup-arrow-size) * -1);
       }
@@ -105,12 +105,12 @@
 
     // Right Alignment
     &.right {
-      border-left-width: 0;
+      border-left-width: var(--ids-border-width-none);
       left: calc(var(--ids-popup-arrow-size) * -1);
       top: calc(50% - var(--ids-popup-arrow-size));
 
       &::after {
-        border-left-width: 0;
+        border-left-width: var(--ids-border-width-none);
         left: 1px;
         top: calc(var(--ids-popup-arrow-size) * -1);
       }
@@ -118,12 +118,12 @@
 
     // Top Alignment
     &.top {
-      border-bottom-width: 0;
+      border-bottom-width: var(--ids-border-width-none);
       bottom: calc(var(--ids-popup-arrow-size) * -1);
       left: calc(50% - var(--ids-popup-arrow-size));
 
       &::after {
-        border-bottom-width: 0;
+        border-bottom-width: var(--ids-border-width-none);
         left: calc(var(--ids-popup-arrow-size) * -1);
         top: calc((var(--ids-popup-arrow-size) * -1) - 1px);
       }
@@ -251,7 +251,7 @@
   &.menu {
     background-color: var(--ids-popup-menu-color-background-default);
     border: 1px solid var(--ids-popup-menu-color-border-default);
-    font-family: var(--ids-font-family-default);
+    font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
     padding-block: var(--ids-popup-menu-padding);
     color: var(--ids-popup-menu-color-text-default);
 
@@ -301,8 +301,8 @@
     font-size: var(--ids-popup-menu-font-size);
     color: var(--ids-popup-menu-color-text-inverse);
     border-color: var(--ids-popup-menu-color-border-inverse);
-    border-radius: var(--ids-border-radius-xxs);
-    font-family: var(--ids-font-family-default);
+    border-radius: var(--ids-border-radius-2xs);
+    font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
 
     .arrow.bottom,
     .arrow.bottom::after {
@@ -333,7 +333,7 @@
     cursor: var(--ids-cursor-pointer);
     color: var(--ids-tooltip-color-text);
     display: inline-block;
-    font-family: var(--ids-font-family-default);
+    font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
     font-size: var(--ids-tooltip-font-size);
     max-width: 75vw;
     padding: var(--ids-tooltip-padding);
@@ -483,7 +483,7 @@
     border-radius: var(--ids-tooltip-border-radius);
     font-size: var(--ids-tooltip-font-size);
     color: var(--ids-tooltip-color-text-inverse);
-    font-family: var(--ids-font-family-default);
+    font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   }
 
   // style: "modal"
@@ -492,7 +492,7 @@
     border: 1px solid transparent;
     padding: var(--ids-modal-padding);
     border-radius: var(--ids-modal-border-radius);
-    font-family: var(--ids-font-family-default);
+    font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
     color: var(--ids-modal-color-text);
 
     &.open {
