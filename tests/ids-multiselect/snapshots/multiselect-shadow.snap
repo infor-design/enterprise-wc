@@ -1,6 +1,6 @@
 
     <div class="ids-dropdown field-height-md" part="container" list="#dropdownList-multiselect-1">
-      <ids-trigger-field id="triggerField-multiselect-1" readonly="true" readonly-background="true" size="md" label="Multiselect (with max 3 choices and dirty tracker)" placeholder="Select states" part="trigger-field" exportparts="container: triggerfield-container, field-container: triggerfield-field-container, content-area: triggerfield-content-area, input: triggerfield-input, popup: triggerfield-popup" field-height="md"><ids-text overflow="ellipsis" tooltip="true"></ids-text><ids-text class="placeholder">Select states</ids-text>
+      <ids-trigger-field id="triggerField-multiselect-1" readonly="true" readonly-background="true" size="md" label="Multiselect (with max 6 choices and dirty tracker)" placeholder="Select states" part="trigger-field" exportparts="container: triggerfield-container, field-container: triggerfield-field-container, content-area: triggerfield-content-area, input: triggerfield-input, popup: triggerfield-popup" field-height="md"><ids-text overflow="ellipsis" tooltip="true"></ids-text><ids-text class="placeholder">Select states</ids-text>
         <ids-trigger-button class="ids-trigger-field-slot-trigger-end md" id="triggerBtn-multiselect-1" slot="trigger-end" part="trigger-button" field-height="md">
           
           <ids-icon icon="dropdown" part="icon"></ids-icon>
