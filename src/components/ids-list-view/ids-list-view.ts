@@ -495,7 +495,7 @@ export default class IdsListView extends Base {
   templateStatic(): string {
     const selectable = this.selectable ? ` ${this.selectableClass()}` : '';
     return `
-      <div class="ids-list-view${selectable}">
+      <div class="ids-list-view${selectable}" part="list-view">
         <div class="ids-list-view-body" role="listbox" aria-label="${this.label}" part="contents">
           ${this.sortable ? `<ids-swappable selection=${this.selectable}>` : ''}
             ${this.templateListItems()}

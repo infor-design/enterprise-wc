@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Switch Label Position Start</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols-sm="2" cols-md="3" cols-lg="4" cols-xxl="5" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-switch label="Allow notifications" label-position="start"></ids-switch>
+        <ids-switch label="Allow my profile to be searched" label-position="start" checked="false"></ids-switch>
+        <ids-switch label="Automatically approve requests" label-position="start" disabled="true"></ids-switch>
+        <ids-switch label="Allow connections" checked="true" label-position="start" disabled="true"></ids-switch>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-switch label="Allow notifications" label-position="start" size="full"></ids-switch>
+        <ids-switch label="Allow my profile to be searched" label-position="start" size="full" checked="false"></ids-switch>
+        <ids-switch label="Automatically approve requests" label-position="start" size="full" disabled="true"></ids-switch>
+        <ids-switch label="Allow connections" checked="true" label-position="start" size="full" disabled="true"></ids-switch>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-layout-grid-cell>
+        <ids-text font-size="12" type="h1">Ids Switch Compact</ids-text>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+    <ids-layout-grid cols-sm="2" cols-md="3" cols-lg="4" cols-xxl="5" gap="md" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-switch compact label="Allow notifications" label-position="start"></ids-switch>
+        <ids-switch compact label="Allow my profile to be searched" label-position="start" checked="false"></ids-switch>
+        <ids-switch compact label="Automatically approve requests" label-position="start" disabled="true"></ids-switch>
+        <ids-switch compact label="Allow connections" label-position="start" checked="true" disabled="true"></ids-switch>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-switch compact label="Allow notifications" label-position="start" size="full"></ids-switch>
+        <ids-switch compact label="Allow my profile to be searched" label-position="start" size="full" checked="false"></ids-switch>
+        <ids-switch compact label="Automatically approve requests" label-position="start" size="full" disabled="true"></ids-switch>
+        <ids-switch compact label="Allow connections" label-position="start" size="full" checked="true" disabled="true"></ids-switch>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

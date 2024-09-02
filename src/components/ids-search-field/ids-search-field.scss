@@ -86,8 +86,8 @@
       &,
       &:active,
       &:hover {
-        background: transparent;
-        background-color: transparent;
+        background: var(--ids-color-transparent);
+        background-color: var(--ids-color-transparent);
       }
     }
   }
@@ -131,12 +131,12 @@
     transition: all var(--ids-motion-duration) var(--ids-motion-ease);
 
     &.collapsed {
-      border-color: transparent;
+      border-color: var(--ids-color-transparent);
       width: 38px;
 
       &:hover,
       &:not(:focus-within) {
-        border-color: transparent;
+        border-color: var(--ids-color-transparent);
       }
 
       &:focus,
@@ -158,14 +158,14 @@
     &:not(.readonly):not(.disabled):not(:focus):not(:focus-within) {
       &:hover {
         .field-container {
-          border-color: transparent;
+          border-color: var(--ids-color-transparent);
         }
       }
     }
 
     &:focus-within {
       .field-container {
-        border-color: transparent;
+        border-color: var(--ids-color-transparent);
       }
     }
   }
@@ -199,7 +199,7 @@
     }
 
     .btn-clear:hover {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
     }
   }
 
@@ -257,7 +257,7 @@
     }
 
     .ids-input-field {
-      padding-inline-start: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
+      padding-inline-start: var(--ids-module-nav-item-expanded-icon-text-space-size);
     }
 
     &.full {

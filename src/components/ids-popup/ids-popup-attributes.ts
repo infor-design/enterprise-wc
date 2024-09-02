@@ -57,6 +57,7 @@ const POPUP_PROPERTIES = [
   attributes.BLEED,
   attributes.HEIGHT,
   attributes.MAX_HEIGHT,
+  attributes.OFFSET_CONTAINER,
   attributes.POSITION_STYLE,
   attributes.TYPE,
   attributes.VISIBLE,

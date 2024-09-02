@@ -190,6 +190,15 @@ test.describe('IdsColorPicker tests', () => {
       await page.keyboard.press('Enter');
       expect(await colorPicker.evaluate((colorpicker: IdsColorPicker) => colorpicker.value)).toEqual('#fbe7e8');
     });
+
+    test('should allow custom colors to be slotted', async ({ page }) => {
+      const customColor = await page.evaluate(() => {
+        const customColorPicker = document.querySelector('[label="Custom Colors"]');
+        const customColorElem = customColorPicker?.querySelector('ids-color[hex="#D8E2DC"]');
+        return customColorElem;
+      });
+      expect(customColor).toBeDefined();
+    });
   });
 
   test.describe('When Popup is Closed', () => {

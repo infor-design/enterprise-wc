@@ -9,7 +9,7 @@
   font-weight: var(--ids-menu-header-font-weight);
   font-size: var(--ids-menu-header-font-size);
   color: var(--ids-menu-header-color-text);
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   list-style: none;
   text-align: start;
 

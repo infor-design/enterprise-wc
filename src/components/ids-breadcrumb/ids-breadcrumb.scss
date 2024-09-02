@@ -21,7 +21,7 @@
       color: var(--ids-breadcrumb-color-text-default);
       content: '\002F';
       font-weight: var(--ids-breadcrumb-font-weight);
-      padding-right: var(--ids-space-xxs);
+      padding-right: var(--ids-space-2xs);
       padding-left: var(--ids-space-none);
       text-decoration: none;
       display: inline-block;
@@ -49,7 +49,7 @@
         transition:
           width var(--ids-motion-duration) var(--ids-motion-ease),
           background var(--ids-motion-duration) var(--ids-motion-ease);
-        background-color: transparent;
+        background-color: var(--ids-color-transparent);
         background-image: var(--ids-breadcrumb-gradient);
         content: '';
         height: 100%;
@@ -94,13 +94,13 @@
         var(--ids-header-gradient-opacity-full)
       );
     }
- }
+  }
 }
 
 a.ids-hyperlink,
 span.ids-breadcrumb-divider {
   font-size: var(--ids-breadcrumb-font-size);
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   color: var(--ids-breadcrumb-color-text-default);
   margin-inline-end: 0;
 
@@ -120,11 +120,11 @@ span.ids-breadcrumb-divider:not(:first-child)::before {
   @include mixins.antialiased();
 
   font-size: var(--ids-breadcrumb-font-size);
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   color: inherit;
   content: '\002F';
   font-weight: normal;
-  padding: var(--ids-space-xxxxs) var(--ids-space-xs) ;
+  padding: var(--ids-space-4xs) var(--ids-space-xs) ;
   text-decoration: none;
   display: inline-block;
   margin-inline-start: -3px;

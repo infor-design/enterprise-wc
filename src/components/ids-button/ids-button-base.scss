@@ -29,8 +29,8 @@
   @include blank-shadow();
 
   font-weight: var(--ids-font-weight-normal);
-  font-family: var(--ids-font-family-default);
-  font-size: var(--ids-font-size-40);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+  font-size: var(--ids-font-size-sm);
   overflow: hidden;
   padding-bottom: calc(var(--ids-space-xs) - 2px);
   padding-top: calc(var(--ids-space-xs) - 2px);
@@ -51,7 +51,7 @@
   // Base Button styles (default/tertiary)
 
   border: 1px solid transparent;
-  background-color: transparent;
+  background-color: var(--ids-color-transparent);
   color: var(--ids-button-color-text-default);
 
   // Animate BG/Text/Border color changes on all styles
@@ -65,7 +65,7 @@
   &:focus {
     // Disable standard focus state in Chrome
     outline: none;
-    outline-color: transparent;
+    outline-color: var(--ids-color-transparent);
   }
 
   &:not([disabled]) {
@@ -83,7 +83,7 @@
   }
 
   &:not(.ids-icon-button):not(.align-icon-end) ::slotted(ids-icon:not([icon='insights-smart-panel'])) {
-    margin-inline-end: calc(var(--ids-space-xxs) + 3px);
+    margin-inline-end: calc(var(--ids-space-2xs) + 3px);
   }
 
   .ids-icon {
@@ -95,7 +95,7 @@
 
   &.align-icon-end {
     ::slotted(ids-icon) {
-      margin-inline-start: var(--ids-space-xxs);
+      margin-inline-start: var(--ids-space-2xs);
     }
   }
 
@@ -284,7 +284,7 @@
 
     50%,
     100% {
-        background-color: rgba(255 255 255 / 0.4);
+        background-color: rgba(255 255 255 / var(--ids-opacity-disabled));
     }
   }
 
@@ -372,14 +372,14 @@
   &.btn-tertiary-generative-ai {
     background: var(--ids-button-ai-color-tertiary-background-default);
     background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: var(--ids-color-transparent);
     align-items: center;
 
     &:hover {
       background: var(--ids-button-ai-color-tertiary-background-hover);
       background-clip: text;
-      border-color: transparent;
-      -webkit-text-fill-color: transparent;
+      border-color: var(--ids-color-transparent);
+      -webkit-text-fill-color: var(--ids-color-transparent);
     }
 
     ::slotted(ids-icon[icon="insights-smart-panel"]) {
@@ -391,13 +391,13 @@
     &.gen-ai-active {
       background: var(--ids-button-ai-color-background-active);
       background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-text-fill-color: var(--ids-color-transparent);
     }
 
     &[disabled] {
       background: var(--ids-button-tertiary-ai-color-background-disabled);
       background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-text-fill-color: var(--ids-color-transparent);
       opacity: var(--ids-button-ai-opacity-disabled);
 
       ::slotted(ids-icon[icon="insights-smart-panel"]) {
@@ -502,13 +502,13 @@
 
     &:hover {
       background-color: var(--ids-button-formatter-color-background-hover);
-      border-color: transparent;
+      border-color: var(--ids-color-transparent);
       color: var(--ids-button-formatter-color-text-hover);
       opacity: 1;
     }
 
     &[disabled] {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
       opacity: var(--ids-button-formatter-opacity-disabled);
     }
   }
@@ -543,8 +543,8 @@
     }
 
     &.ids-menu-button.compact {
-      padding: var(--ids-space-xxs);
-      padding-inline: var(--ids-space-xxs);
+      padding: var(--ids-space-2xs);
+      padding-inline: var(--ids-space-2xs);
 
       &.square {
         border-radius: var(--ids-border-radius-xs);
@@ -671,7 +671,7 @@
     &:not(.hide-focus).focus-within,
     &:not(.hide-focus):focus {
       box-shadow: var(--ids-button-ai-shadow-focus);
-      border-color: transparent;
+      border-color: var(--ids-color-transparent);
     }
   }
 

@@ -1,7 +1,7 @@
 
       <div class="ids-list-view-search" part="search"><slot name="search"></slot></div>
       
-      <div class="ids-list-view" style="height: 100%;">
+      <div class="ids-list-view" part="list-view" style="height: 100%;">
         <div class="ids-list-view-body" role="listbox" aria-label="Ids list view" part="contents" aria-activedescendant="id-1">
           
             <div><ids-list-view-item row-index="0" index="0" aria-posinset="1" id="id-1" aria-setsize="77" tabindex="0" role="option">

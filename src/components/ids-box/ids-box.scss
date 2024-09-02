@@ -16,7 +16,7 @@
   width: var(--ids-box-width);
 
   // Fonts
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   font-size: var(--ids-box-font-size);
   color: var(--ids-box-color-text-default);
 
@@ -25,7 +25,7 @@
   contain: content;
 
   &.borderless {
-    background-color: transparent;
+    background-color: var(--ids-color-transparent);
     border: none;
     box-shadow: none;
   }
