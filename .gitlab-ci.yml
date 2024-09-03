@@ -46,6 +46,9 @@ download_reports:
   needs:
     - test
   image: python:3.12
+  variables:
+    S3_BUCKET: infor-design-assets-downloads
+    S3_COVERAGE_DIR: oxford/${CI_JOB_ID}/coverage
   before_script:
     - 'command -v aws >/dev/null 2>&1 || { echo >&2 "Installing AWS CLI..."; pip install awscli; }'
     - >
@@ -58,7 +61,7 @@ download_reports:
       --output text))
     - aws configure set default.region $AWS_DEFAULT_REGION
   script:
-    - aws s3 cp s3://$S3_BUCKET/oxford/${CI_JOB_ID}/coverage/cobertura-coverage.xml coverage/cobertura-coverage.xml
+    - aws s3 cp s3://$S3_BUCKET/$S3_COVERAGE_DIR/cobertura-coverage.xml coverage/cobertura-coverage.xml
   artifacts:
     reports:
       coverage_report:
