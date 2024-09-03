@@ -430,20 +430,30 @@ export default class IdsSlider extends Base {
 
     let containsDecimals = false;
 
-    const elems = this.tickContainer!.querySelectorAll('.tick');
-    for (let i = 0; i < elems.length; i++) {
-      if (elems[i].innerHTML.indexOf('.') > -1 || elems[i].innerHTML.indexOf(',') > -1) {
+    for (let i = 0; i < this.ticks.length; i++) {
+      if (this.ticks[i].element.innerHTML.indexOf('.') > -1 || this.ticks[i].element.innerHTML.indexOf(',') > -1) {
         containsDecimals = true;
         break;
       }
     }
-
     const tooltipValue = this.type === 'step' && containsDecimals ? String(Number(value)) : String(Math.ceil(Number(value)));
     if (tooltipText) tooltipText.innerHTML = tooltipValue;
 
     if (this.type !== 'step') {
       this.#updateTooltipDisplay(false, type);
     }
+  }
+
+  get ticks() : { element: HTMLElement, value: number }[] {
+    const ticks = Array.from(this.container?.querySelectorAll('.tick') || []);
+    const map = ticks.map((tick, i) => ({
+      element: tick as HTMLElement,
+      // eslint-disable-next-line no-nested-ternary
+      value: Number.isNaN(Number(tick.textContent))
+        // eslint-disable-next-line max-len
+        ? this.vertical ? (this.labels[this.labels.length - 1 - i] as any).value : (this.labels[i] as any).value : Number(tick.textContent)
+    }));
+    return map;
   }
 
   /**
@@ -527,7 +537,12 @@ export default class IdsSlider extends Base {
 
       if (labels && labelsLength === labelElementsLength) {
         labelElements?.forEach((x: { innerHTML: any; classList: { add: (arg0: string) => any; }; }, i: number) => {
-          x.innerHTML = this.vertical ? labels[labelsLength - 1 - i] : labels[i];
+          let labelText = this.vertical ? labels[labelsLength - 1 - i] : labels[i];
+
+          if ((labels[0] as any).text) {
+            labelText = this.vertical ? (labels[labelsLength - 1 - i] as any).text : (labels[i] as any).text;
+          }
+          x.innerHTML = labelText;
           if (this.vertical) x?.classList.add('vertical'); // add vertical styles
         });
       }
@@ -1057,21 +1072,22 @@ export default class IdsSlider extends Base {
         arr.push(Number((this.min + i * stepSize).toFixed(1)));
       }
 
-      const passedValue = labelValueClicked || this.#calcPercentFromClick(x, y);
-      let differences = arr.map((val) => Math.abs(val - ((passedValue / this.max) * (this.max - this.min) + this.min)));
-      if (labelValueClicked) differences = arr.map((val) => Math.abs(val - ((passedValue / this.max) * this.max)));
+      let passedValue = labelValueClicked || this.#calcPercentFromClick(x, y);
+      if (this.max !== 100) passedValue = (passedValue / 100) * this.max;
 
-      let min = differences[0];
-      let minIndex = 0;
+      const ticks = this.ticks;
+      let closestValue = this.vertical ? ticks[ticks.length - 1].value : ticks[0].value;
 
-      for (let i = 0; i < differences.length; i++) {
-        if (differences[i] < min) {
-          min = differences[i];
-          minIndex = i;
+      if (!labelValueClicked) {
+        const threshold = Math.abs(Number(this.ticks[1].value - this.ticks[0].value) / 2);
+        for (let i = 0; i < this.ticks.length; i++) {
+          if (Math.abs(this.ticks[i].value - passedValue) <= threshold) {
+            closestValue = this.ticks[i].value;
+          }
         }
       }
 
-      const targetValue = arr[minIndex];
+      const targetValue = labelValueClicked || Number(closestValue);
       this.percent = ((targetValue - this.min) / (this.max - this.min)) * 100;
       if (targetValue !== this.value) {
         this.value = targetValue;
@@ -1141,10 +1157,10 @@ export default class IdsSlider extends Base {
    */
   #calcTranslateFromPercent(nStart: number, nEnd: number, percent: number, centered: boolean): number {
     // minus thumb height bc it overshoots
-    let editedRange = Math.abs(nEnd - nStart) - (this.thumbDraggable?.clientWidth || 0);
-    if (this.stepNumber <= 10 && this.percent > this.min) editedRange += (this.thumbDraggable?.clientWidth || 0);
-
-    let coord = (Math.ceil(percent) / 100) * editedRange;
+    const editedRange = Math.abs(nEnd - nStart) - (this.thumbDraggable?.clientWidth || 0);
+    // if (this.stepNumber <= 10 && this.percent > this.min
+    //  && this.percent < this.max) editedRange += (this.thumbDraggable?.clientWidth || 0);
+    let coord = (percent / 100) * editedRange;
     coord = centered ? coord - (editedRange / 2) : coord;
     return coord;
   }
@@ -1303,15 +1319,22 @@ export default class IdsSlider extends Base {
       }
 
       const className = event.target.className;
-      const clickedIdsSlider = className.includes('ids-slider');
+      const clickedSlider = className.includes('ids-slider');
       const clickedLabel = className.includes('label');
       const clickedTrackArea = className.includes('track-area');
 
-      if (clickedIdsSlider || clickedLabel || clickedTrackArea) {
-        if (clickedTrackArea || clickedIdsSlider) {
+      if (clickedSlider || clickedLabel || clickedTrackArea) {
+        if (clickedTrackArea || clickedSlider) {
           this.#calculateUIFromClick(event.clientX, event.clientY);
         } else {
-          const labelValueClicked = parseFloat(event.target.innerHTML);
+          let labelValueClicked = parseFloat(event.target.innerHTML);
+          if (Number.isNaN(labelValueClicked)) {
+            const index = Array.from((event.target as any).parentElement.parentNode.children)
+              .indexOf((event.target as any).parentElement);
+
+            labelValueClicked = this.vertical
+              ? (this.labels[this.labels.length - 1 - index] as any).value : (this.labels[index] as any).value;
+          }
           this.#calculateUIFromClick(event.clientX, event.clientY, labelValueClicked);
         }
       }
@@ -1382,7 +1405,8 @@ export default class IdsSlider extends Base {
       obj.thumbDraggable?.focus();
       // to ensure that after dragging, the value is updated only after dragging has ended..
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event
-      const labelValue = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : (this.percent * (this.max - this.min)) / 100;
+      let labelValue: any = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : (this.percent * (this.max - this.min)) / 100;
+      if (this.type === 'step') labelValue = undefined;
       if (!this.vertical) this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, labelValue, obj.primaryOrSecondary);
       this.#updateThumbShadow(false, obj.primaryOrSecondary);
     });
