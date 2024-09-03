@@ -2,6 +2,10 @@
 
 ## 1.4.3
 
+## 1.4.3 Important Changes
+
+- `[NotificationBanner]` Renamed `beforeNotificationRemove/notificationRemove/afterNotificationRemove` events to `beforeclose/close/afterclose` to match current event name structure. ([#2484](https://github.com/infor-design/enterprise-wc/issues/2484))
+
 ## 1.4.3 Features
 
 - `[Card]` Adds `draggable` attribute to ids-card which allows card to be used in drag and drop scenarios. ([#2423](https://github.com/infor-design/enterprise-wc/issues/2423))
@@ -14,7 +18,9 @@
 
 ### 1.4.3 Fixes
 
+- `[Breadcrumb]` Fixed bug where the current item could be clicked. ([#/2780](https://github.com/infor-design/enterprise/issues//2780))
 - `[ColorPicker]` Fixed bug where custom colors were being overridden. ([#8964](https://github.com/infor-design/enterprise/issues/8964))
+- `[Datagrid]` Fixed bug where datagrid mutates original data passed in by user. ([#2724](https://github.com/infor-design/enterprise-wc/issues/2724))
 - `[Datagrid]` Fixed bug where the custom select-color is lost during row-recycling/virtual-scrolling. ([#1392](https://github.com/infor-design/enterprise-wc/issues/1392))
 - `[Datagrid]` Fixed bug editor dropdown can't be re-opened after closing. ([#2589](https://github.com/infor-design/enterprise-wc/issues/2589))
 - `[Dropdown]` Made the `typeahead` setting true by default. ([#2770](https://github.com/infor-design/enterprise-wc/issues/2770))
@@ -44,7 +50,6 @@
 - `[Button]` Fixed a bug in the lifecycle where inner classes where not refreshed in some frameworks.([#2627](https://github.com/infor-design/enterprise-wc/issues/2627))
 - `[Button]` Fixed an issue where Button layout looks off in smaller viewport. ([#2652](https://github.com/infor-design/enterprise-wc/issues/2652))
 - `[Checkbox]` Fixed an issue where native events were triggered multiple times in single selection. ([#2385](https://github.com/infor-design/enterprise-wc/issues/2385))
-- `[Datagrid]` Fixed bug where datagrid mutates original data passed in by user. ([#2724](https://github.com/infor-design/enterprise-wc/issues/2724))
 - `[Datagrid]` If no options the datagrid will still show the value, defaulting the options that may load later. ([#2386](https://github.com/infor-design/enterprise-wc/issues/2386))
 - `[Dropdown]` Converted dropdown tests to playwright. ([#1846](https://github.com/infor-design/enterprise-wc/issues/1846))
 - `[Dropdown]` Fixed an issue where disabling typeahead allowed typing in the input. ([#2662](https://github.com/infor-design/enterprise-wc/issues/2662))
