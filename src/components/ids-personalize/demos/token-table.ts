@@ -17,6 +17,30 @@ const modes: any = {
 const columns: IdsDataGridColumn[] = [];
 
 columns.push({
+  id: 'component',
+  name: 'Component',
+  field: 'component',
+  sortable: true,
+  resizable: false,
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.text
+});
+
+columns.push({
+  id: 'type',
+  name: 'Tier',
+  field: 'type',
+  sortable: false,
+  resizable: false,
+  formatter: dataGrid.formatters.text,
+  filterType: dataGrid.filters.dropdown,
+  filterConditions: [
+    { value: 'Semantic', label: 'Semantic' },
+    { value: 'Component', label: 'Component' },
+  ]
+});
+
+columns.push({
   id: 'tokenName',
   name: 'Token Name',
   field: 'tokenName',
@@ -44,6 +68,17 @@ columns.push({
 });
 
 columns.push({
+  id: 'preview',
+  name: 'Preview',
+  field: 'colorValue',
+  width: 165,
+  align: 'center',
+  resizable: false,
+  formatter: dataGrid.formatters.color,
+  suppressColorTooltip: true,
+});
+
+columns.push({
   id: 'tokenNameCSS',
   name: 'Token Name - CSS',
   field: 'tokenNameCSS',
@@ -56,41 +91,6 @@ columns.push({
   width: 400,
   formatter: dataGrid.formatters.text,
   filterType: dataGrid.filters.text
-});
-
-columns.push({
-  id: 'type',
-  name: 'Tier',
-  field: 'type',
-  sortable: false,
-  resizable: false,
-  formatter: dataGrid.formatters.text,
-  filterType: dataGrid.filters.dropdown,
-  filterConditions: [
-    { value: 'Semantic', label: 'Semantic' },
-    { value: 'Component', label: 'Component' },
-  ]
-});
-
-columns.push({
-  id: 'component',
-  name: 'Component',
-  field: 'component',
-  sortable: true,
-  resizable: false,
-  formatter: dataGrid.formatters.text,
-  filterType: dataGrid.filters.text
-});
-
-columns.push({
-  id: 'preview',
-  name: 'Preview',
-  field: 'colorValue',
-  width: 165,
-  align: 'center',
-  resizable: false,
-  formatter: dataGrid.formatters.color,
-  suppressColorTooltip: true,
 });
 
 dataGrid.columns = columns;
