@@ -5,12 +5,13 @@
 ## 1.4.3 Features
 
 - `[Card]` Adds `draggable` attribute to ids-card which allows card to be used in drag and drop scenarios. ([#2423](https://github.com/infor-design/enterprise-wc/issues/2423))
-- `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615]https://github.com/infor-design/enterprise-wc/issues/2615)
-- `[LoadingIndicator]` Added a setting `contained` which confines the loading indicator within it's nearest parent. ([#2256]https://github.com/infor-design/enterprise-wc/issues/2256)
-- `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
+- `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615](https://github.com/infor-design/enterprise-wc/issues/2615))
+- `[LoadingIndicator]` Added a setting `contained` which confines the loading indicator within it's nearest parent. ([#2256](https://github.com/infor-design/enterprise-wc/issues/2256))
+- `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160](https://github.com/infor-design/enterprise-wc/issues/2160))
 - `[Switch]` Added a label position setting that allows positioning the label on either the right or left side of the slider. ([#2579](https://github.com/infor-design/enterprise-wc/issues/2579))
-- `[Themes]` Added a setting `IdsGlobal.themePath` that you can use to set the location of the theme files. ([#2125]https://github.com/infor-design/enterprise-wc/issues/2125)
-- `[Themes]` Added latest round of semantic tokens. ([#2471]https://github.com/infor-design/enterprise-wc/issues/2471)
+- `[Themes]` Added a setting `IdsGlobal.themePath` that you can use to set the location of the theme files. ([#2125](https://github.com/infor-design/enterprise-wc/issues/2125))
+- `[Themes]` Added latest round of semantic tokens. ([#2471](https://github.com/infor-design/enterprise-wc/issues/2471))
+- `[Validation]` Improved the validation message to prevent it from overflowing the field area. ([#2706](https://github.com/infor-design/enterprise-wc/issues/2706))
 
 ### 1.4.3 Fixes
 
@@ -22,10 +23,10 @@
 - `[Homepage]` Converted home page tests to playwright. ([#1940](https://github.com/infor-design/enterprise-wc/issues/1940))
 - `[Listbuilder]` Fixed buggy builder styles. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
 - `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
-- `[Locale]` Fixed translation issue of `small` into Spanish. ([#8962]https://github.com/infor-design/enterprise-wc/issues/8962)
-- `[Locale]` Fixed translation issue of `Available` into Thai and Italian. ([#8786]https://github.com/infor-design/enterprise-wc/issues/8786)
-- `[Listbuilder]` Fixed buggy builder styles. ([#2701]https://github.com/infor-design/enterprise-wc/issues/2701)
-- `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701]https://github.com/infor-design/enterprise-wc/issues/2701)
+- `[Locale]` Fixed translation issue of `small` into Spanish. ([#8962](https://github.com/infor-design/enterprise-wc/issues/8962))
+- `[Locale]` Fixed translation issue of `Available` into Thai and Italian. ([#8786](https://github.com/infor-design/enterprise-wc/issues/8786))
+- `[Listbuilder]` Fixed buggy builder styles. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
+- `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
 - `[Multiselect]` Converted multiselect tests to playwright. ([#1957](https://github.com/infor-design/enterprise-wc/issues/1957))
 - `[Pager]` Fixed an issue where the disabled attribute of navigation buttons was overridden by the pager. ([#2738](https://github.com/infor-design/enterprise-wc/issues/2738))
 - `[Radio]` Fixed an issue where the radio group could not set checked for radio elements when using Angular's FormControl and value binding. ([#2700](https://github.com/infor-design/enterprise-wc/issues/2700))

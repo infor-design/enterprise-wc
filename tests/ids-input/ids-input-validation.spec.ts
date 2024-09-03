@@ -1,10 +1,11 @@
 import { expect } from '@playwright/test';
+import percySnapshot from '@percy/playwright';
 import { test } from '../base-fixture';
 
 import IdsInput from '../../src/components/ids-input/ids-input';
 
 test.describe('IdsInput validation tests', () => {
-  const url = '/ids-input/example.html';
+  let url = '/ids-input/example.html';
 
   test.beforeEach(async ({ page }) => {
     await page.goto(url);
@@ -68,6 +69,17 @@ test.describe('IdsInput validation tests', () => {
     expect(await input.evaluate(
       (elem: IdsInput) => elem.container?.querySelector('.validation-message')
     )).not.toBeNull();
+  });
+
+  test.describe('snapshot tests', () => {
+    url = '/ids-input/validation-message.html';
+    test.beforeEach(async ({ page }) => {
+      await page.goto(url);
+    });
+    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await percySnapshot(page, 'ids-input-validation-light');
+    });
   });
 
   test('should add/remove manually message', async ({ page }) => {
