@@ -333,14 +333,14 @@ export default class IdsNotificationBanner extends Base {
     const response = (veto: any) => {
       canDismiss = !!veto;
     };
-    this.triggerEvent('beforeNotificationRemove', this, { detail: { elem: this, response } });
+    this.triggerEvent('beforeclose', this, { detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
-    this.triggerEvent('notificationRemove', this, { detail: { elem: this } });
+    this.triggerEvent('close', this, { detail: { elem: this } });
     this.remove();
-    this.triggerEvent('afterNotificationRemove', this, { detail: { elem: this } });
+    this.triggerEvent('afterclose', this, { detail: { elem: this } });
   }
 }
