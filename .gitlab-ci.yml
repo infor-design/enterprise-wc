@@ -34,13 +34,13 @@ test:
         --namespace kubefill \
         --job_name enterprise-wc-percy-tests \
         --job_id $CI_JOB_ID
-  coverage: /All files[^\|]*\|[^\|]*\s+([\d\.]+)/
-  artifacts:
-    reports:
-      junit: test-results/junit-results.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage/cobertura-coverage.xml
+  #coverage: /All files[^\|]*\|[^\|]*\s+([\d\.]+)/
+  #artifacts:
+  #  reports:
+  #    junit: test-results/junit-results.xml
+  #    coverage_report:
+  #      coverage_format: cobertura
+  #      path: coverage/cobertura-coverage.xml
 
 build:
   stage: build
