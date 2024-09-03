@@ -43,7 +43,7 @@ ids-trigger-field {
       max-width: 100%;
 
       &.placeholder {
-        color: var(--ids-color-neutral-60);
+        color: var(--ids-color-foreground-default-tertiary);
       }
 
       &::part(text) {
@@ -63,7 +63,7 @@ ids-trigger-field {
 
 :host(:not([tags])) ids-trigger-field {
   ids-text.placeholder {
-    color: var(--ids-color-neutral-60);
+    color: var(--ids-color-foreground-default-tertiary);
 
     &::part(text) {
       padding-inline-start: 0;
