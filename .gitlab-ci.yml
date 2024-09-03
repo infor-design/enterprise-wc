@@ -42,7 +42,7 @@ test:
     - aws s3 cp coverage/cobertura-coverage.xml s3://$S3_BUCKET/$S3_COVERAGE_DIR/cobertura-coverage.xml
 
 download_reports:
-  stage: post-test
+  stage: test
   tags:
     - dsa
     - DIND
