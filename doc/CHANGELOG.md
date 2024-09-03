@@ -25,6 +25,7 @@
 - `[Datagrid]` Fixed bug editor dropdown can't be re-opened after closing. ([#2589](https://github.com/infor-design/enterprise-wc/issues/2589))
 - `[Dropdown]` Made the `typeahead` setting true by default. ([#2770](https://github.com/infor-design/enterprise-wc/issues/2770))
 - `[Homepage]` Converted home page tests to playwright. ([#1940](https://github.com/infor-design/enterprise-wc/issues/1940))
+- `[LayoutGrid]` Fixed recursion issue in maxWidth setter. ([#2470]https://github.com/infor-design/enterprise-wc/issues/2470)
 - `[Listbuilder]` Fixed buggy builder styles. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
 - `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
 - `[Locale]` Fixed translation issue of `small` into Spanish. ([#8962]https://github.com/infor-design/enterprise-wc/issues/8962)
