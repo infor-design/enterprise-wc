@@ -19,7 +19,7 @@
 ### 1.4.3 Fixes
 
 - `[Breadcrumb]` Fixed bug where the current item could be clicked. ([#/2780](https://github.com/infor-design/enterprise/issues//2780))
-- `[ColorPicker]` Fixed bug where custom colors were being overidden. ([#8964](https://github.com/infor-design/enterprise/issues/8964))
+- `[ColorPicker]` Fixed bug where custom colors were being overridden. ([#8964](https://github.com/infor-design/enterprise/issues/8964))
 - `[Datagrid]` Fixed bug where datagrid mutates original data passed in by user. ([#2724](https://github.com/infor-design/enterprise-wc/issues/2724))
 - `[Datagrid]` Fixed bug where the custom select-color is lost during row-recycling/virtual-scrolling. ([#1392](https://github.com/infor-design/enterprise-wc/issues/1392))
 - `[Datagrid]` Fixed bug editor dropdown can't be re-opened after closing. ([#2589](https://github.com/infor-design/enterprise-wc/issues/2589))
@@ -33,6 +33,7 @@
 - `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701]https://github.com/infor-design/enterprise-wc/issues/2701)
 - `[Multiselect]` Added `placeholder` attribute to `ids-multiselect` to allow for a placeholder value. ([#2758](https://github.com/infor-design/enterprise-wc/issues/2758))
 - `[Multiselect]` Converted multiselect tests to playwright. ([#1957](https://github.com/infor-design/enterprise-wc/issues/1957))
+- `[Popup]` Fixed an issue where the popup took up space when initially loaded. ([#2777](https://github.com/infor-design/enterprise-wc/issues/2777))
 - `[Pager]` Fixed an issue where the disabled attribute of navigation buttons was overridden by the pager. ([#2738](https://github.com/infor-design/enterprise-wc/issues/2738))
 - `[Radio]` Fixed an issue where the radio group could not set checked for radio elements when using Angular's FormControl and value binding. ([#2700](https://github.com/infor-design/enterprise-wc/issues/2700))
 - `[Splitter]` Converted datagrid popups to fixed to go over splitter panes. ([#2499](https://github.com/infor-design/enterprise-wc/issues/2499))
