@@ -46,6 +46,8 @@ download_reports:
   tags:
     - dsa
     - DIND
+  needs:
+    - test
   image: python:3.12
   before_script:
     - 'command -v aws >/dev/null 2>&1 || { echo >&2 "Installing AWS CLI..."; pip install awscli; }'
