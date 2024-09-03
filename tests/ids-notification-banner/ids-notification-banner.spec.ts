@@ -141,6 +141,39 @@ test.describe('IdsNotificationBanner tests', () => {
 
       expect(lineClampValue).toEqual(2);
     });
+
+    test('should fire beforeclose event', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const banner = document.querySelector<IdsNotificationBanner>('ids-notification-banner');
+        banner?.addEventListener('beforeclose', () => { calls++; });
+        banner?.dismiss();
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+
+    test('should fire close event', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const banner = document.querySelector<IdsNotificationBanner>('ids-notification-banner');
+        banner?.addEventListener('close', () => { calls++; });
+        banner?.dismiss();
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+
+    test('should fire afterclose event', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const banner = document.querySelector<IdsNotificationBanner>('ids-notification-banner');
+        banner?.addEventListener('afterclose', () => { calls++; });
+        banner?.dismiss();
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
   });
 
   test.describe('Notification Banner Service Tests', () => {

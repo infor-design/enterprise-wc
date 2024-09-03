@@ -116,6 +116,7 @@ export const attributes = {
   COMPONENT_NAME: 'component-name',
   CONDITION: 'condition',
   CONFIRM: 'confirm',
+  CONTAINED: 'contained',
   CONTAINER_TARGET: 'container-target',
   CONTENT_ALIGN: 'content-align',
   COPYRIGHT_YEAR: 'copyright-year',

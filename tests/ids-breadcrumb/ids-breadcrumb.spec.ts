@@ -78,7 +78,7 @@ test.describe('IdsBreadcrumb tests', () => {
       expect(await locator?.getAttribute('color-variant')).toBe('breadcrumb');
     });
 
-    test.skip('can add new crumbs and force overflow', async ({ page }) => {
+    test('can add new crumbs and force overflow', async ({ page }) => {
       let locator = await page.locator('ids-breadcrumb ids-menu-button');
       expect(await locator?.isVisible()).toBe(false);
       await page.evaluate(() => {
@@ -90,6 +90,14 @@ test.describe('IdsBreadcrumb tests', () => {
       });
       locator = await page.locator('ids-breadcrumb ids-menu-button');
       expect(await locator?.isVisible()).toBe(true);
+    });
+
+    test('can not click current item', async ({ page }) => {
+      const events = await page.evaluate(() => {
+        const current = document.querySelector<IdsBreadcrumb>('ids-breadcrumb')?.current;
+        return current?.shadowRoot?.querySelector('a')?.style.pointerEvents;
+      });
+      expect(events).toBe('none');
     });
   });
 });

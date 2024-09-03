@@ -25,6 +25,15 @@
   margin-block-start: -25px;
 }
 
+:host(ids-loading-indicator[align='center'][contained]:not([sticky]):not([inline])) {
+  position: absolute;
+  margin: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  height: 100%;
+  width: 100%;
+}
+
 // Paused/Stopped
 :host(ids-loading-indicator[stopped]:not([linear]):not([sticky]):not([inline])) {
   display: none;
