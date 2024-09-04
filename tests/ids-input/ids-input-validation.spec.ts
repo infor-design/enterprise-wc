@@ -345,7 +345,7 @@ test.describe('IdsInput validation tests', () => {
     let results = await getResults();
     expect(results.msgEl).toBeDefined();
     expect(results.validationId).toEqual('error');
-    expect(results.id).toEqual('test-input-internal-error');
+    expect(results.id).toEqual('input-validation-error-internal-error');
     expect(results.count).toEqual(1);
     expect(results.textContent).toEqual('Error test');
     // should add input alert message
@@ -356,7 +356,7 @@ test.describe('IdsInput validation tests', () => {
     results = await getResults();
     expect(results.msgEl).toBeDefined();
     expect(results.validationId).toEqual('alert');
-    expect(results.id).toEqual('test-input-internal-alert');
+    expect(results.id).toEqual('input-validation-error-internal-alert');
     expect(results.count).toEqual(1);
     expect(results.textContent).toEqual('Alert test');
     // should add input success message
@@ -367,7 +367,7 @@ test.describe('IdsInput validation tests', () => {
     results = await getResults();
     expect(results.msgEl).toBeDefined();
     expect(results.validationId).toEqual('success');
-    expect(results.id).toEqual('test-input-internal-success');
+    expect(results.id).toEqual('input-validation-error-internal-success');
     expect(results.count).toEqual(1);
     expect(results.textContent).toEqual('Success test');
     // should add input info message
@@ -378,7 +378,7 @@ test.describe('IdsInput validation tests', () => {
     results = await getResults();
     expect(results.msgEl).toBeDefined();
     expect(results.validationId).toEqual('info');
-    expect(results.id).toEqual('test-input-internal-info');
+    expect(results.id).toEqual('input-validation-error-internal-info');
     expect(results.count).toEqual(1);
     expect(results.textContent).toEqual('Info test');
     // should add input default icon message
@@ -389,7 +389,7 @@ test.describe('IdsInput validation tests', () => {
     results = await getResults();
     expect(results.msgEl).toBeDefined();
     expect(results.validationId).toEqual('icon');
-    expect(results.id).toEqual('test-input-internal-icon');
+    expect(results.id).toEqual('input-validation-error-internal-icon');
     expect(results.count).toEqual(1);
     expect(results.textContent).toEqual('test');
     // should add input custom icon message
@@ -402,7 +402,7 @@ test.describe('IdsInput validation tests', () => {
     results = await getResults();
     expect(results.msgEl).toBeDefined();
     expect(results.validationId).toEqual('icon-custom');
-    expect(results.id).toEqual('test-input-internal-icon');
+    expect(results.id).toEqual('input-validation-error-internal-icon');
     expect(results.count).toEqual(1);
     expect(results.textContent).toEqual('test');
   });
