@@ -436,7 +436,7 @@ export default class IdsSlider extends Base {
         break;
       }
     }
-    const tooltipValue = this.type === 'step' && containsDecimals ? String(Number(value)) : String(Math.ceil(Number(value)));
+    const tooltipValue = this.type === 'step' && containsDecimals ? String(Number(value).toFixed(2)) : String(Number(value).toFixed(0));
     if (tooltipText) tooltipText.innerHTML = tooltipValue;
 
     if (this.type !== 'step') {
