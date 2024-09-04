@@ -121,6 +121,28 @@ class IdsMultiselect extends IdsDropdown {
   }
 
   /**
+   * Sets the placeholder attribute
+   * @param {string} value - the placeholder text
+   */
+  set placeholder(value: string) {
+    if (value) {
+      this.setAttribute(attributes.PLACEHOLDER, value);
+      this.input?.setAttribute(attributes.PLACEHOLDER, value);
+    } else {
+      this.removeAttribute(attributes.PLACEHOLDER);
+      this.input?.removeAttribute(attributes.PLACEHOLDER);
+    }
+  }
+
+  /**
+   * Get the placeholder attribute
+   * @returns {string} the placeholder text
+   */
+  get placeholder(): string {
+    return this.getAttribute(attributes.PLACEHOLDER) ?? '';
+  }
+
+  /**
    * sets the max possible selections for multiselect
    * @param {string|number} value the max number of selections allowed
    */
@@ -328,6 +350,20 @@ class IdsMultiselect extends IdsDropdown {
   }
 
   /**
+   * Add custom placeholder text to the input
+   */
+  #addPlaceholder() {
+    this.input?.insertAdjacentHTML('afterbegin', `<ids-text class="placeholder">${this.placeholder}</ids-text>`);
+  }
+
+  /**
+   * Remove placeholder text from the input
+   */
+  #removePlaceholder() {
+    this.input?.querySelector<IdsText>('.placeholder')?.remove();
+  }
+
+  /**
    * Update value in the input visually
    */
   #updateDisplay() {
@@ -335,9 +371,14 @@ class IdsMultiselect extends IdsDropdown {
     const selected = optionsSorted.filter((item: IdsListBoxOption) => this.internalSelectedList.includes(item.value));
     const newValue = selected.map((item: IdsListBoxOption) => item.label).join(', ');
 
-    // Clear tags/text before rerender
+    // Clear tags/text and placeholder before rerender
     this.input?.querySelectorAll<IdsTag>('ids-tag').forEach((item) => item.remove());
     this.input?.querySelector<IdsText>('ids-text')?.remove();
+    this.#removePlaceholder();
+
+    if (this.placeholder && selected.length === 0) {
+      this.#addPlaceholder();
+    }
 
     if (this.tags) {
       const tags = selected.map((item: any) => {

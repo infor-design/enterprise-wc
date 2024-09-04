@@ -81,7 +81,7 @@ export default class IdsBreadcrumb extends Base {
    */
   #attachEventHandlers(): void {
     this.onEvent('click', this, (e: any) => {
-      if (e.target.tagName === 'IDS-HYPERLINK' && typeof this.onBreadcrumbActivate === 'function' && this.current) {
+      if (e.target.tagName === 'IDS-HYPERLINK' && typeof this.onBreadcrumbActivate === 'function' && this.current && e.target !== this.current) {
         this.onBreadcrumbActivate(e.target, this.current);
       }
     });
@@ -423,12 +423,14 @@ export default class IdsBreadcrumb extends Base {
     if (previousActiveBreadcrumbEl) {
       previousActiveBreadcrumbEl.fontWeight = null;
       previousActiveBreadcrumbEl.textDecoration = null;
+      targetEl.shadowRoot.querySelector('a').style.pointerEvents = 'none';
     }
     if (targetEl) {
       targetEl.disabled = false;
       targetEl.fontWeight = 'semibold';
       targetEl.fontSize = 14;
       targetEl.textDecoration = 'none';
+      targetEl.shadowRoot.querySelector('a').style.pointerEvents = 'none';
     }
   }
 }

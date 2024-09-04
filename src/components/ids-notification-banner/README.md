@@ -105,6 +105,12 @@ IdsNotificationBannerService.dismissNewest();
 - `id` `{string | null}` sets the id on the banner
 - `parent` `{string | null}` sets the id on the banner
 
+## Events
+
+- `beforeclose` - Fires when the banner is closed. If you return false in the response you can veto the close
+- `close` - Fires while the banner is closing.
+- `afterclose` - Fires after the banner is closed.
+
 ## Themeable Parts
 
 - `bgColor` Allows you to further style the background
