@@ -1,4 +1,5 @@
 import { expect } from '@playwright/test';
+import percySnapshot from '@percy/playwright';
 import { test } from '../base-fixture';
 
 import IdsInput from '../../src/components/ids-input/ids-input';
@@ -614,5 +615,20 @@ test.describe('IdsInput validation tests', () => {
     expect(await input.evaluate(
       (elem: IdsInput) => elem.container?.querySelectorAll('.validation-message').length
     )).toEqual(0);
+  });
+});
+
+test.describe('IdsInput validation message tests', () => {
+  const url = '/ids-input/validation-message.html';
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(url);
+  });
+
+  test.describe('snapshot tests', () => {
+    test('should match the visual snapshot in percy', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await percySnapshot(page, 'ids-input-validation-light');
+    });
   });
 });
