@@ -376,3 +376,23 @@ button {
 :host(ids-toggle-button[pressed][color='red']) {
   --ids-button-tertiary-color-text-default: var(--ids-button-toggle-color-text-pressed-red);
 }
+
+:host(ids-toggle-button.ids-toggle-button-segmented) {
+  button {
+    border-radius: var(--ids-border-radius-circle);
+
+    &:hover {
+      color: var(--ids-segmented-control-text-color);
+      background-color: var(--ids-segmented-control-background-hover);
+    }
+  }
+}
+
+:host(ids-toggle-button.ids-toggle-button-segmented[pressed]) {
+  button {
+    color: var(--ids-segmented-control-text-color);
+    background-color: var(--ids-segmented-control-background-hover);
+    box-shadow: var(--ids-segmented-control-box-shadow);
+    border-color: transparent;
+  }
+}

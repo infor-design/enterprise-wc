@@ -78,6 +78,7 @@ import './components/ids-rating/ids-rating';
 import './components/ids-layout-flex/ids-scroll-container';
 import './components/ids-scroll-view/ids-scroll-view';
 import './components/ids-search-field/ids-search-field';
+import './components/ids-segmented-control/ids-segmented-control';
 import './components/ids-separator/ids-separator';
 import './components/ids-skip-link/ids-skip-link';
 import './components/ids-slider/ids-slider';

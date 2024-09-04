@@ -135,6 +135,7 @@ export const attributes = {
   DIRTY_TRACKER: 'dirty-tracker',
   DISABLE_CLIENT_FILTER: 'disable-client-filter',
   DISABLE_EVENTS: 'disable-native-events',
+  DISABLE_ICON: 'disable-icon',
   DISABLE_ROW_HIGHLIGHT: 'disable-row-highlight',
   DISABLED: 'disabled',
   DISMISSIBLE: 'dismissible',

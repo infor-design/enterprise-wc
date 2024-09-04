@@ -36,6 +36,7 @@ export default class IdsToggleButton extends IdsButton {
       attributes.TEXT_OFF,
       attributes.TEXT_ON,
       attributes.PRESSED,
+      attributes.DISABLE_ICON
     ]);
   }
 
@@ -55,6 +56,12 @@ export default class IdsToggleButton extends IdsButton {
    */
   set pressed(val: boolean | string) {
     const trueVal = stringToBool(val);
+
+    // Prevent unnecessary re-setting of the same value
+    if (this.state.pressed === trueVal) {
+      return;
+    }
+
     this.state.pressed = trueVal;
     this.shouldUpdate = false;
 
@@ -67,6 +74,13 @@ export default class IdsToggleButton extends IdsButton {
 
     this.refreshIcon();
     this.refreshText();
+
+    // Dispatch a custom event when pressed state changes
+    this.dispatchEvent(new CustomEvent('pressed-changed', {
+      detail: { pressed: trueVal, element: this },
+      bubbles: true,
+      composed: true
+    }));
   }
 
   get pressed(): boolean {
@@ -133,6 +147,28 @@ export default class IdsToggleButton extends IdsButton {
   }
 
   /**
+   * Defines if the icon is disabled
+   * @param {string} val `true` to disable the icon
+   */
+  set disableIcon(val: string) {
+    const value = stringToBool(val);
+    if (value) {
+      this.setAttribute(attributes.DISABLE_ICON, '');
+      this.removeAttribute(attributes.ICON_OFF);
+      this.removeAttribute(attributes.ICON_ON);
+      this.removeAttribute(attributes.ICON);
+    }
+  }
+
+  /**
+   * Get the `disable-icon` attribute
+   * @returns {boolean} `true` if the icon is disabled
+   */
+  get disableIcon(): boolean {
+    return this.hasAttribute(attributes.DISABLE_ICON);
+  }
+
+  /**
    * Defines the `unpressed/off` toggle state text.
    * @param {string} val `unpressed/off` description text
    * @returns {void}
@@ -180,6 +216,7 @@ export default class IdsToggleButton extends IdsButton {
    * @returns {void}
    */
   refreshIcon(): void {
+    if (this.disableIcon) return;
     this.icon = this[this.pressed ? 'iconOn' : 'iconOff'];
   }
 
