@@ -1065,11 +1065,8 @@ test.describe('IdsDropdown tests', () => {
       await expect(dropdown.locator('ids-list-box-option[value="AZ"]')).toHaveClass(/is-selected/);
     });
 
-    test('should set typeahead', async ({ page }) => {
+    test('should set typeahead by default', async ({ page }) => {
       const dropdown = await page.locator('#dropdown-1');
-      expect(await dropdown.evaluate((element: IdsDropdown) => element.typeahead)).toBeFalsy();
-      await expect(dropdown.locator('ids-trigger-field')).toHaveAttribute('readonly');
-      await dropdown.evaluate((element: IdsDropdown) => { element.typeahead = true; });
       expect(await dropdown.evaluate((element: IdsDropdown) => element.typeahead)).toBeTruthy();
       expect(await dropdown.evaluate((element: IdsDropdown) => element.container?.classList.contains('typeahead'))).toBeTruthy();
       await dropdown.locator('ids-trigger-button').click();
@@ -1079,8 +1076,6 @@ test.describe('IdsDropdown tests', () => {
     test('should unset typeahead', async ({ page }) => {
       await page.goto('/ids-dropdown/typeahead.html');
       const dropdown = await page.locator('ids-dropdown').first();
-      expect(await dropdown.evaluate((element: IdsDropdown) => element.typeahead)).toBeTruthy();
-      await expect(dropdown.locator('ids-trigger-field')).not.toHaveAttribute('readonly');
       await dropdown.evaluate((element: IdsDropdown) => { element.typeahead = false; });
       expect(await dropdown.evaluate((element: IdsDropdown) => element.typeahead)).toBeFalsy();
       expect(await dropdown.evaluate((element: IdsDropdown) => element.container?.classList.contains('typeahead'))).toBeFalsy();

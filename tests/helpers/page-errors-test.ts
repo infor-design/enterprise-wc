@@ -32,9 +32,6 @@ export class PageErrorsTest {
    */
   hasErrors(): boolean {
     const hasErrors = this.errors.length > 0;
-    if (hasErrors) {
-      console.info(this.errors);
-    }
     return hasErrors;
   }
 

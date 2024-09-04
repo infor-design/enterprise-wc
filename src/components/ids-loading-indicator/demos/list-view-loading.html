@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <%= htmlWebpackPlugin.options.font %>
+  </head>
+  <body>
+    <ids-container role="main" padding="0" hidden>
+      <ids-toolbar id="toolbar-container">
+        <ids-toolbar-section type="button">
+          <ids-button id="menu-button" icon="menu" role="button">
+            <span class="audible">Menu Button</span>
+          </ids-button>
+        </ids-toolbar-section>
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20">Notification Center</ids-text>
+        </ids-toolbar-section>
+        <ids-toolbar-section align="end">
+          <ids-search-field
+            collapsible
+            id="header-search"
+            clearable
+            label-state="collapsed"
+            no-margins
+          >
+            <ids-trigger-button slot="trigger-start" icon="search"></ids-trigger-button>
+          </ids-search-field>
+        </ids-toolbar-section>
+      </ids-toolbar>
+      <ids-layout-grid
+        id="container-grid"
+        class="container-enabled"
+        cols="12"
+        justify-content="start"
+      >
+        <ids-layout-grid-cell id="listview-cell" col-span="12" col-span-md="4" col-span-lg="3" height="calc(100vh - 64px)">
+          <ids-list-view
+            id="demo-lv-selectable-single"
+            selectable="single"
+            item-height="76"
+          >
+            <template>
+              <ids-text font-size="16" type="h2">${productName}</ids-text>
+              <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+              <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+            </template>
+            <ids-loading-indicator align="center" overlay contained></ids-loading-indicator>
+          </ids-list-view>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell id="hidden-cell-md" col-span="12" col-span-md="8" col-span-lg="9" hide="md">
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+    </ids-container>
+  </body>
+</html>
