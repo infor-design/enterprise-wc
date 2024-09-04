@@ -4,8 +4,9 @@
   @include mixins.antialiased();
 
   display: flex;
-  font-family: var(--ids-font-family-default);
-  margin-top: var(--ids-space-xxs);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+  margin-top: var(--ids-space-2xs);
+  max-width: var(--ids-input-width-full);
 
   &.has-custom-icon {
     color: var(--ids-icon-color-default);
@@ -16,7 +17,7 @@
   }
 
   .ids-icon {
-    margin-inline-end: var(--ids-space-xxs);
+    margin-inline-end: var(--ids-space-2xs);
   }
 
   &.alert {

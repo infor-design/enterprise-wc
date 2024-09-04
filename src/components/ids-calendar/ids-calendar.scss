@@ -3,31 +3,31 @@
 // Mixin for palettes
 @mixin palette-colors($prefix, $property, $suffix:null) {
   #{$prefix}[color='blue']#{$suffix} {
-    #{$property}: var(--ids-color-blue-60);
+    #{$property}: var(--ids-color-accent-blue-strong);
   }
 
   #{$prefix}[color='orange']#{$suffix} {
-    #{$property}: var(--ids-color-orange-60);
+    #{$property}: var(--ids-color-accent-orange-strong);
   }
 
   #{$prefix}[color='purple']#{$suffix} {
-    #{$property}: var(--ids-color-purple-60);
+    #{$property}: var(--ids-color-accent-purple-strong);
   }
 
   #{$prefix}[color='green']#{$suffix} {
-    #{$property}: var(--ids-color-green-60);
+    #{$property}: var(--ids-color-accent-green-strong);
   }
 
   #{$prefix}[color='red']#{$suffix} {
-    #{$property}: var(--ids-color-red-60);
+    #{$property}: var(--ids-color-accent-red-strong);
   }
 
   #{$prefix}[color='teal']#{$suffix} {
-    #{$property}: var(--ids-color-teal-60);
+    #{$property}: var(--ids-color-accent-teal-strong);
   }
 
   #{$prefix}[color='neutral']#{$suffix} {
-    #{$property}: var(--ids-color-gray-60);
+    #{$property}: var(--ids-color-accent-neutral-strong);
   }
 }
 
@@ -88,7 +88,7 @@ ids-toolbar-section::part(container),
   @include palette-colors('ids-accordion-header', background-color, '::part(header)');
 
   ids-accordion-header::part(header) {
-    color: var(--ids-color-white-100);
+    color: var(--ids-color-foreground-light-default);
   }
 
   ids-accordion-header ids-text::part(text) {
@@ -118,7 +118,7 @@ ids-accordion-panel::part(content) {
 }
 
 .btn-today-text {
-  color: var(--ids-color-blue-60); // token
+  color: var(--ids-color-accent-blue-strong); // token
 }
 
 .calendar-events-list {
@@ -131,7 +131,7 @@ ids-accordion-panel::part(content) {
     background-color: var(--ids-calendar-toolbar-color-background);
     border-style: solid;
     border-color: var(--ids-calendar-toolbar-color-border);
-    border-width: 1px;
+    border-width: var(--ids-border-width-sm);
     border-inline-start-width: 4px;
     cursor: pointer;
     display: flex;
@@ -204,13 +204,13 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
 
 #event-form-header {
   align-items: center;
-  color: var(--ids-color-gray-10);
+  color: var(--ids-color-neutral-10);
   height: 40px;
   padding-inline-start: 16px;
   padding-inline-end: 8px;
 
   ids-icon[data-action='close'] {
-    color: var(--ids-color-gray-10);
+    color: var(--ids-color-neutral-10);
     padding: 5px;
     border-radius: 50%;
     cursor: pointer;
@@ -249,7 +249,7 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
 #event-form-actions {
   ids-button {
     flex-grow: 1;
-    border: 1px solid var(--ids-color-gray-40);
+    border: 1px solid var(--ids-color-neutral-40);
     border-bottom-width: 0;
 
     &::part(button) {

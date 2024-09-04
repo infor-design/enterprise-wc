@@ -9,7 +9,7 @@
   margin-block-end: var(--ids-space-sm);
 
   #group-message-container {
-    padding-top: var(--ids-space-xxs);
+    padding-top: var(--ids-space-2xs);
     width: min-content;
     min-width: 100%;
   }
@@ -22,7 +22,7 @@
 ::slotted(*) {
   display: inline-block;
   vertical-align: top;
-  margin-inline-end: var(--ids-space-xxxs);
+  margin-inline-end: var(--ids-space-3xs);
 
   &::part(field-container) {
     border-color: yellow;

@@ -9,7 +9,7 @@
 .ids-text {
   @include mixins.antialiased();
 
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   font-weight: var(--ids-font-weight-normal);
   display: block;
   margin: 0;
@@ -19,7 +19,7 @@
   color: currentColor;
 
   // Other defaults
-  font-size: var(--ids-font-size-40);
+  font-size: var(--ids-font-size-sm);
   text-decoration: unset;
 
   &.audible {
@@ -188,53 +188,53 @@
 
 /* Ids Typography System */
 .ids-text-10 {
-  font-size: var(--ids-font-size-10);
+  font-size: var(--ids-font-size-3xs);
   text-transform: uppercase;
 }
 
 .ids-text-12 {
-  font-size: var(--ids-font-size-20);
+  font-size: var(--ids-font-size-2xs);
   text-transform: uppercase;
 }
 
 .ids-text-14 {
-  font-size: var(--ids-font-size-30);
+  font-size: var(--ids-font-size-xs);
 }
 
 .ids-text-16 {
-  font-size: var(--ids-font-size-40);
+  font-size: var(--ids-font-size-sm);
 }
 
 .ids-text-20 {
-  font-size: var(--ids-font-size-50);
+  font-size: var(--ids-font-size-md);
 }
 
 .ids-text-24 {
-  font-size: var(--ids-font-size-60);
+  font-size: var(--ids-font-size-lg);
 }
 
 .ids-text-28 {
-  font-size: var(--ids-font-size-70);
+  font-size: var(--ids-font-size-xl);
 }
 
 .ids-text-32 {
-  font-size: var(--ids-font-size-80);
+  font-size: var(--ids-font-size-2xl);
 }
 
 .ids-text-40 {
-  font-size: var(--ids-font-size-90);
+  font-size: var(--ids-font-size-3xl);
 }
 
 .ids-text-48 {
-  font-size: var(--ids-font-size-100);
+  font-size: var(--ids-font-size-4xl);
 }
 
 .ids-text-60 {
-  font-size: var(--ids-font-size-110);
+  font-size: var(--ids-font-size-5xl);
 }
 
 .ids-text-72 {
-  font-size: var(--ids-font-size-120);
+  font-size: var(--ids-font-size-6xl);
   margin-block-end: 0;
 }
 

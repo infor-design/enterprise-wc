@@ -143,6 +143,11 @@
       color: var(--ids-calendar-month-view-color-text-compact);
     }
 
+    &.is-disabled .day-text {
+      background-color: var(--ids-color-neutral-10);
+      color: var(--ids-color-neutral-30);
+    }
+
     ids-text::part(text) {
       border-radius: 50%;
       box-sizing: border-box;
@@ -157,11 +162,6 @@
       .day-text {
         color: var(--ids-calendar-month-view-weekday-color-text-compact-hover);
       }
-    }
-
-    &.is-disabled .day-text {
-      background-color: var(--ids-color-gray-10);
-      color: var(--ids-color-gray-30);
     }
 
     &.ids-disabled:hover {

@@ -1,7 +1,7 @@
 /* Ids Switch Component */
 
-$slider-width: 40px;
-$slider-height: 24px;
+$slider-width: var(--ids-space-xl);
+$slider-height: var(--ids-space-md);
 $slider-compact-height: 20px;
 $slider-compact-width: 34px;
 
@@ -47,7 +47,7 @@ $slider-start-extra-padding: 7px;
         top: 1px;
         background-color: var(--ids-switch-toggle-color-background-default);
         border-radius: var(--ids-border-radius-circle);
-        box-shadow: 0 0 2px 0 var(--ids-color-gray-40);
+        box-shadow: 0 0 2px 0 var(--ids-color-neutral-40);
         transition: all var(--ids-motion-duration) var(--ids-motion-ease);
       }
     }
@@ -89,8 +89,8 @@ $slider-start-extra-padding: 7px;
         height: $slider-compact-height;
 
         &::after {
-          width: 16px;
-          height: 16px;
+          width: var(--ids-space-sm);
+          height: var(--ids-space-sm);
         }
       }
     }
@@ -105,6 +105,7 @@ $slider-start-extra-padding: 7px;
     }
   }
 }
+
 
 // label position start
 :host([label-position='start']) {

@@ -34,7 +34,7 @@
   @include mixins.antialiased();
 
   padding: var(--ids-space-sm);
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   scroll-snap-align: start;
   scroll-snap-stop: always;
   min-width: calc(100% - 32px);

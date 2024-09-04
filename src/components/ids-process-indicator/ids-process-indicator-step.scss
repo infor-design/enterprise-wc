@@ -69,7 +69,7 @@
 
     &.label {
       margin: var(--ids-process-indicator-margin);
-      margin-bottom: 16px;
+      margin-bottom: var(--ids-space-sm);
       white-space: nowrap;
     }
   }

@@ -11,23 +11,23 @@
     z-index: var(--ids-z-index-90);
 
     &.bottom-end {
-      bottom: 8px;
-      right: 8px;
+      bottom: var(--ids-space-xs);
+      right: var(--ids-space-xs);
     }
 
     &.bottom-start {
-      bottom: 8px;
-      left: 8px;
+      bottom: var(--ids-space-xs);
+      left: var(--ids-space-xs);
     }
 
     &.top-end {
-      top: 8px;
-      right: 8px;
+      top: var(--ids-space-xs);
+      right: var(--ids-space-xs);
     }
 
     &.top-start {
-      top: 8px;
-      left: 8px;
+      top: var(--ids-space-xs);
+      left: var(--ids-space-xs);
     }
   }
 }
@@ -35,23 +35,23 @@
 :host([dir='rtl']) {
   .toast-container {
     &.bottom-end {
-      left: 8px;
+      left: var(--ids-space-xs);
       right: unset;
     }
 
     &.bottom-start {
       left: unset;
-      right: 8px;
+      right: var(--ids-space-xs);
     }
 
     &.top-end {
-      left: 8px;
+      left: var(--ids-space-xs);
       right: unset;
     }
 
     &.top-start {
       left: unset;
-      right: 8px;
+      right: var(--ids-space-xs);
     }
   }
 }

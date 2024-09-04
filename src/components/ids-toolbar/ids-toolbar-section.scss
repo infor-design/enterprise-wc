@@ -60,8 +60,8 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   // Contains rows of buttons
   &.title,
   &.buttonset {
-    padding-inline-start: 8px;
-    padding-inline-end: 8px;
+    padding-inline-start: var(--ids-space-xs);
+    padding-inline-end: var(--ids-space-xs);
   }
 
   // Intended for use by developers that need "custom" sections that stretch to fit.

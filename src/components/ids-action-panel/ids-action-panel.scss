@@ -3,23 +3,23 @@
 .ids-modal-header {
   background-color: var(--ids-action-panel-header-color-background);
   border-bottom: 1px solid var(--ids-action-panel-header-color-border);
-  padding: 0;
+  padding: var(--ids-space-none);
   height: var(--ids-action-panel-header-height)
 }
 
 .ids-modal-content {
-  padding-inline: 0;
+  padding-inline: var(--ids-space-none);
   height: calc(100% - var(--ids-action-panel-header-height));
   background-color: var(--ids-action-panel-content-background-color);
 }
 
 .ids-modal-footer {
-  margin-top: 0;
+  margin-top: var(--ids-space-none);
 }
 
 ::slotted(ids-toolbar) {
   --ids-button-tertiary-color-background-hover: var(--ids-action-panel-button-color-background-hover);
 
-  padding-inline: var(--ids-action-panel-header-padding) 0;
+  padding-inline: var(--ids-action-panel-header-padding) var(--ids-space-none);
   height: 100%;
 }

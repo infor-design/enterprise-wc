@@ -3,15 +3,15 @@ const path = require('path');
 
 // Constants
 const basePath = `./src/themes`;
-const tokenPath = `./node_modules/ids-foundation/`;
+const tokenPath = `./node_modules/ids-foundation`;
 const outputPath = `./src/assets/data/themeData/`;
 
 const tokenFiles = {
-  core: `${tokenPath}/theme-soho/core.scss`,
-  semanticContrast: `${tokenPath}/theme-soho/semantic-contrast.scss`,
-  semanticLight: `${tokenPath}/theme-soho/semantic-light.scss`,
-  semanticDark: `${tokenPath}/theme-soho/semantic-dark.scss`,
-  themeColors: `${tokenPath}/theme-soho/theme-colors.scss`
+  core: `${tokenPath}/theme-soho/scss/core.scss`,
+  semanticContrast: `${tokenPath}/theme-soho/scss/semantic-contrast.scss`,
+  semanticLight: `${tokenPath}/theme-soho/scss/semantic-light.scss`,
+  semanticDark: `${tokenPath}/theme-soho/scss/semantic-dark.scss`,
+  themeColors: `${tokenPath}/theme-soho/scss/theme-colors.scss`
 };
 const themeFiles = [
   `${basePath}/default/ids-theme-default-core.scss`,
