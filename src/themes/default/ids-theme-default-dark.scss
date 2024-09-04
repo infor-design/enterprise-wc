@@ -434,6 +434,11 @@
   --ids-search-field-header-color-text: var(--ids-color-text-default);
   --ids-search-field-header-color-icon-default: var(--ids-color-neutral-10);
 
+  // Segmented Control
+  --ids-segmented-control-text-color: var(--ids-color-foreground-default-secondary);
+  --ids-segmented-control-background-hover: var(--ids-color-background-default);
+  --ids-segmented-control-background-selected: var(--ids-color-background-default);
+
   // Slider
   --ids-slider-tick-color-background-default: var(--ids-color-primary-60);
   --ids-slider-thumb-color-background-default: var(--ids-color-primary-60);

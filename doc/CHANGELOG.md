@@ -9,9 +9,12 @@
 ## 1.4.3 Features
 
 - `[Card]` Adds `draggable` attribute to ids-card which allows card to be used in drag and drop scenarios. ([#2423](https://github.com/infor-design/enterprise-wc/issues/2423))
+- `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615]https://github.com/infor-design/enterprise-wc/issues/2615)
+- `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615](https://github.com/infor-design/enterprise-wc/issues/2615))
 - `[LoadingIndicator]` Added a setting `contained` which confines the loading indicator within it's nearest parent. ([#2256](https://github.com/infor-design/enterprise-wc/issues/2256))
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160](https://github.com/infor-design/enterprise-wc/issues/2160))
+- `[SegmentedControl]` Added the IdsSegmentedControl component. ([#2180]https://github.com/infor-design/enterprise-wc/issues/2180)
 - `[Switch]` Added a label position setting that allows positioning the label on either the right or left side of the slider. ([#2579](https://github.com/infor-design/enterprise-wc/issues/2579))
 - `[Themes]` Added a setting `IdsGlobal.themePath` that you can use to set the location of the theme files. ([#2125](https://github.com/infor-design/enterprise-wc/issues/2125))
 - `[Themes]` Added latest round of semantic tokens. ([#2471](https://github.com/infor-design/enterprise-wc/issues/2471))

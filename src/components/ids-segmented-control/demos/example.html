@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Segmented Control (toggle)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="1" padding="md">
+      <ids-layout-grid-cell>
+        <ids-segmented-control>
+          <ids-toggle-button
+            id="btn-toggle-1"
+            disable-icon
+            text-off="Option 1"
+            text-on="Option 1"
+          ></ids-toggle-button>
+          <ids-toggle-button
+            id="btn-toggle-2"
+            disable-icon
+            text-off="Second Option"
+            text-on="Second Option"
+          ></ids-toggle-button>
+          <ids-toggle-button
+            id="btn-toggle-3"
+            disable-icon
+            text-off="Last Option"
+            text-on="Last Option"
+          ></ids-toggle-button>
+        </ids-segmented-control>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-segmented-control>
+          <ids-toggle-button
+            id="btn-toggle-4"
+            icon-off="mail"
+            icon-on="mail"
+            text-off="Option 1"
+            text-on="Option 1"
+          ></ids-toggle-button>
+          <ids-toggle-button
+            id="btn-toggle-5"
+            icon-off="bullet-list"
+            icon-on="bullet-list"
+            text-off="Second Option"
+            text-on="Second Option"
+          ></ids-toggle-button>
+          <ids-toggle-button
+            id="btn-toggle-6"
+            icon-off="settings"
+            icon-on="settings"
+            text-off="Last Option"
+            text-on="Last Option"
+          ></ids-toggle-button>
+        </ids-segmented-control>
+      </ids-layout-grid-cell>
+
+      <ids-layout-grid-cell>
+        <ids-segmented-control>
+          <ids-toggle-button
+            id="btn-toggle-7"
+            icon-off="mail"
+            icon-on="mail"
+          ></ids-toggle-button>
+          <ids-toggle-button
+            id="btn-toggle-8"
+            icon-off="bullet-list"
+            icon-on="bullet-list"
+          ></ids-toggle-button>
+          <ids-toggle-button
+            id="btn-toggle-9"
+            icon-off="settings"
+            icon-on="settings"
+          ></ids-toggle-button>
+        </ids-segmented-control>
+      </ids-layout-grid-cell>
+
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

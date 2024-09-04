@@ -1,0 +1,5 @@
+<ids-segmented-control>
+          <ids-toggle-button id="btn-toggle-1" disable-icon="" text-off="Option 1" text-on="Option 1" class="ids-toggle-button-segmented"><span>Option 1</span></ids-toggle-button>
+          <ids-toggle-button id="btn-toggle-2" disable-icon="" text-off="Second Option" text-on="Second Option" class="ids-toggle-button-segmented"><span>Second Option</span></ids-toggle-button>
+          <ids-toggle-button id="btn-toggle-3" disable-icon="" text-off="Last Option" text-on="Last Option" class="ids-toggle-button-segmented"><span>Last Option</span></ids-toggle-button>
+        </ids-segmented-control>
