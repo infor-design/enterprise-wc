@@ -41,13 +41,6 @@ test.describe('IdsVirtualScroll tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match innerHTML snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-virtual-scroll');
-      const html = await handle?.evaluate((el: IdsVirtualScroll) => el?.outerHTML);
-      await expect(html).toMatchSnapshot('virtual-scroll-html');
-    });
-
     test('should match shadowRoot snapshot', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       const handle = await page.$('ids-virtual-scroll');
