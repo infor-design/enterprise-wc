@@ -161,14 +161,14 @@ $image-sizes: (
 }
 
 .user-status-wrapper .user-status {
-  svg {
-    border-radius: var(--ids-image-border-radius);
-    background-color: var(--ids-color-background-default);
-  }
-
   position: unset;
   width: 18px;
   height: 18px;
   margin-left: 36px;
   margin-top: -18px;
+
+  svg {
+    border-radius: var(--ids-image-border-radius);
+    background-color: var(--ids-color-background-default);
+  }
 }

@@ -1,6 +1,5 @@
 @import '../../themes/mixins/ids-core-mixins';
 
-// ================================================
 // Styles specific to the in-page Accordion
 
 @mixin accordion-header-standard-colors() {
@@ -15,32 +14,14 @@
   }
 }
 
-@mixin accordion-header-disabled-colors() {
-  color: var(--ids-accordion-header-color-text-disabled);
-
-  ids-icon {
-    color: var(--ids-accordion-header-color-border-disabled);
-  }
-}
-
 // ================================================
 // Styles specific to the Top-level App Menu Accordions
 
 @mixin accordion-header-app-menu-colors() {
-  margin-inline: 8px;
-  border-radius: 4px;
-
-  // Contrasts background of the Drawer
-  background-color: var(--ids-color-transparent);
-  border-color: var(--ids-color-transparent);
-
   &.expanded {
     background-color: var(--ids-color-transparent);
     border-color: var(--ids-color-transparent);
   }
-
-  // Light Mode Styles
-  color: var(--ids-app-menu-accordion-header-color-text-default);
 
   &:hover {
     background-color: var(--ids-app-menu-header-color-background-hover);
@@ -72,13 +53,6 @@
   &.hidden-by-filter.child-filter-match {
     color: var(--ids-app-menu-accordion-header-filter-match-color-text);
   }
-}
-
-// ================================================
-// Styles specific to the Sub-level App Menu Accordions
-
-@mixin accordion-header-nested-app-menu-colors() {
-  margin: 0;
 }
 
 // ================================================
@@ -144,9 +118,12 @@
     }
 
     &.disabled {
-      @include accordion-header-disabled-colors();
-
+      color: var(--ids-accordion-header-color-text-disabled);
       cursor: unset;
+
+      ids-icon {
+        color: var(--ids-accordion-header-color-border-disabled);
+      }
     }
   }
 
@@ -162,17 +139,35 @@
 
   // Top Level App Menu Accordions
   &.color-variant-app-menu {
-    @include accordion-header-app-menu-colors();
+    margin-inline: 8px;
+    border-radius: 4px;
 
+    // Contrasts background of the Drawer
+    background-color: var(--ids-color-transparent);
+    border-color: var(--ids-color-transparent);
+
+    // Light Mode Styles
+    color: var(--ids-app-menu-accordion-header-color-text-default);
     padding: var(--ids-accordion-header-app-menu-padding);
+
+    @include accordion-header-app-menu-colors();
   }
 
   // Sub-level App Menu Accordions
   &.color-variant-sub-app-menu {
-    @include accordion-header-app-menu-colors();
-    @include accordion-header-nested-app-menu-colors();
+    margin-inline: 8px;
+    border-radius: 4px;
 
+    // Contrasts background of the Drawer
+    background-color: var(--ids-color-transparent);
+    border-color: var(--ids-color-transparent);
+
+    // Light Mode Styles
+    color: var(--ids-app-menu-accordion-header-color-text-default);
+    margin: 0;
     padding: var(--ids-accordion-header-sub-app-menu-padding);
+
+    @include accordion-header-app-menu-colors();
   }
 
   // =========================================

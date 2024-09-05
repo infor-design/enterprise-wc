@@ -2,11 +2,11 @@
 @import './ids-toolbar-common';
 
 :host {
-  @include ids-toolbar-section-host-size-styles();
-
   display: block;
   width: 100%;
   box-sizing: border-box;
+
+  @include ids-toolbar-section-host-size-styles();
 
   &[disabled] {
     ::slotted(.ids-text) {

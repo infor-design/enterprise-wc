@@ -321,17 +321,17 @@ $input-size-full: 100%;
     padding-inline-end: var(--ids-space-12);
     font-size: var(--ids-input-font-size);
     width: 100%;
-
-    &:focus-visible {
-      outline: none;
-    }
-
     appearance: none;
     display: inline-block;
     height: fit-content;
     resize: none;
     text-align: left;
     text-overflow: ellipsis;
+
+
+    &:focus-visible {
+      outline: none;
+    }
 
     &.text-ellipsis {
       text-overflow: ellipsis;
@@ -407,7 +407,7 @@ $input-size-full: 100%;
     .validation-message {
       width: $border-input-size-xs;
     }
-  } 
+  }
 
   &.sm {
     .field-container,

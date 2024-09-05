@@ -359,6 +359,10 @@
     border-width: 0 1px 1px;
     position: relative;
     transition: 0.1s background-color ease-out;
+    height: 99px;
+    width: 14.3%;
+    overflow: hidden;
+    user-select: none;
 
     &:last-child {
       border-right: 0;
@@ -367,11 +371,6 @@
     &:first-child {
       border-left: 0;
     }
-
-    height: 99px;
-    width: 14.3%;
-    overflow: hidden;
-    user-select: none;
 
     &:not(.is-selected):not(.has-legend):not(.is-disabled):hover,
     &:not(.is-selected):not(.has-legend):not(.is-disabled):active {

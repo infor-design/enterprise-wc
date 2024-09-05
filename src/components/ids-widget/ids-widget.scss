@@ -1,5 +1,12 @@
 /* Ids Widget Component */
 .ids-widget {
+  // Search Styles
+  --ids-search-field-color-border-default: var(--ids-widget-search-field-color-background);
+  --ids-search-field-color-background-default: var(--ids-widget-search-field-color-background);
+  --ids-search-field-margin: 0px var(--ids-space-xs);
+  --ids-search-field-border-radius: var(--ids-widget-search-field-border-radius);
+  --ids-list-view-height: 264px;
+
   background-color: var(--ids-widget-color-background);
   border: 1px solid var(--ids-widget-color-border);
   border-radius: var(--ids-widget-border-radius);
@@ -42,13 +49,6 @@
     outline: 1px solid var(--ids-widget-color-border-hover);
     box-shadow: var(--ids-widget-color-shadow-hover);
   }
-
-  // Search Styles
-  --ids-search-field-color-border-default: var(--ids-widget-search-field-color-background);
-  --ids-search-field-color-background-default: var(--ids-widget-search-field-color-background);
-  --ids-search-field-margin: 0px var(--ids-space-xs);
-  --ids-search-field-border-radius: var(--ids-widget-search-field-border-radius);
-  --ids-list-view-height: 264px;
 }
 
 :host {

@@ -63,16 +63,16 @@
   }
 
   .ids-data-grid-checkbox {
+    border-color: var(--ids-data-grid-cell-checkbox-color-border);
+    position: relative;
+    left: var(--ids-space-none);
+    top: var(--ids-space-none);
+
     @include checkbox-unchecked();
 
     &.editable {
       cursor: var(--ids-cursor-pointer);
     }
-
-    border-color: var(--ids-data-grid-cell-checkbox-color-border);
-    position: relative;
-    left: var(--ids-space-none);
-    top: var(--ids-space-none);
 
     &.disabled {
       @include checkbox-disabled-unchecked();

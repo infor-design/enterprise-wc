@@ -286,11 +286,6 @@
   .track-area {
     width: 100%; // horizontal
     height: var(--ids-space-md); // horizontal
-    &.vertical {
-      height: 100%; // vert
-      width: var(--ids-space-md); // vert
-    }
-
     background-color: var(--ids-color-transparent);
     align-items: center; // horizontal
     justify-content: center; // vertical
@@ -298,6 +293,12 @@
     position: absolute;
     z-index: 50;
     cursor: pointer;
+
+    &.vertical {
+      height: 100%; // vert
+      width: var(--ids-space-md); // vert
+    }
+
   }
 
   .track {
@@ -306,15 +307,15 @@
     justify-content: flex-start; // horizontal
     height: var(--ids-space-2xs); // horizontal
     width: calc(100% - (var(--ids-slider-thumb-size) / 2)); // horizontal
+    position: absolute;
+    z-index: 30;
+    border-radius: var(--ids-border-radius-2xs);
+
     &.vertical {
       justify-content: center; // vertical
       width: var(--ids-space-2xs); // vert
       height: calc(100% - (var(--ids-slider-thumb-size) / 2)); // vert
     }
-
-    position: absolute;
-    z-index: 30;
-    border-radius: var(--ids-border-radius-2xs);
 
     .track-progress {
       height: inherit;

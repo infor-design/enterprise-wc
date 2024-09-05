@@ -6,14 +6,14 @@
 }
 
 .ids-tree {
-  @include tree-node-badge();
-
   list-style-type: none;
   margin-bottom: var(--ids-space-4xs);
   display: inline-block;
   margin-block-start: 0;
   margin-block-end: 0;
   padding-inline-start: 0;
+
+  @include tree-node-badge();
 }
 
 @include tree-node-badge();

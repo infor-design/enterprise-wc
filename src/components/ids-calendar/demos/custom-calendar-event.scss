@@ -18,9 +18,9 @@
 // Calendar Event Type Themes
 .ids-calendar-event:not([color]),
 .ids-calendar-event[color='blue'] {
-  @include event-border-accent(var(--ids-color-blue-70));
-
   background: var(--ids-color-blue-20);
+
+  @include event-border-accent(var(--ids-color-blue-70));
 }
 
 .ids-calendar-event[mode='contrast']:not([color]),
@@ -29,39 +29,39 @@
 }
 
 .ids-calendar-event[color='orange'] {
-  @include event-border-accent(var(--ids-color-orange-70));
-
   background: var(--ids-color-orange-30);
+
+  @include event-border-accent(var(--ids-color-orange-70));
 }
 
 .ids-calendar-event[color='purple'] {
-  @include event-border-accent(var(--ids-color-purple-70));
-
   background: var(--ids-color-purple-30);
+
+  @include event-border-accent(var(--ids-color-purple-70));
 }
 
 .ids-calendar-event[color='green'] {
-  @include event-border-accent(var(--ids-color-green-70));
-
   background: var(--ids-color-green-30);
+
+  @include event-border-accent(var(--ids-color-green-70));
 }
 
 .ids-calendar-event[color='red'] {
-  @include event-border-accent(var(--ids-color-red-70));
-
   background: var(--ids-color-red-30);
+
+  @include event-border-accent(var(--ids-color-red-70));
 }
 
 .ids-calendar-event[color='teal'] {
-  @include event-border-accent(var(--ids-color-teal-70));
-
   background: var(--ids-color-teal-30);
+
+  @include event-border-accent(var(--ids-color-teal-70));
 }
 
 .ids-calendar-event[color='neutral'] {
-  @include event-border-accent(var(--ids-color-neutral-70));
-
   background: var(--ids-color-neutral-30);
+
+  @include event-border-accent(var(--ids-color-neutral-70));
 }
 
 .ids-calendar-event {

@@ -31,6 +31,7 @@ ids-separator::part(separator) {
 }
 
 .ids-module-nav-settings {
+  @include ids-module-nav-button-styles-root();
   @include ids-base-button-styles();
   @include ids-module-nav-button-styles();
 

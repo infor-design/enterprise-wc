@@ -122,10 +122,10 @@ ids-accordion-panel::part(content) {
 }
 
 .calendar-events-list {
-  @include palette-colors('.detail-item', border-inline-start-color);
-
   margin-top: 20px;
   padding: 0;
+
+  @include palette-colors('.detail-item', border-inline-start-color);
 
   .detail-item {
     background-color: var(--ids-calendar-toolbar-color-background);
@@ -164,10 +164,10 @@ ids-accordion-panel::part(content) {
 }
 
 .event-types-legend {
-  @include palette-colors('.event-type-color', background-color);
-
   display: none;
   padding: 10px;
+
+  @include palette-colors('.event-type-color', background-color);
 }
 
 .event-type-label {
@@ -222,12 +222,12 @@ $event-form-input-width: $event-form-width - ($event-form-padding * 2);
 }
 
 #event-form {
-  @include palette-colors('#event-form-header', background-color);
-
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
+
+  @include palette-colors('#event-form-header', background-color);
 
   ids-list-box-option {
     text-align: left;

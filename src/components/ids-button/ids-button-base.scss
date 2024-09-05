@@ -28,6 +28,9 @@
 @mixin ids-base-button-styles() {
   @include blank-shadow();
 
+  border: 1px solid transparent;
+  background-color: var(--ids-color-transparent);
+  color: var(--ids-button-color-text-default);
   font-weight: var(--ids-font-weight-normal);
   font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   font-size: var(--ids-font-size-sm);
@@ -35,6 +38,14 @@
   padding-bottom: calc(var(--ids-space-xs) - 2px);
   padding-top: calc(var(--ids-space-xs) - 2px);
   position: relative;
+
+  // Animate BG/Text/Border color changes on all styles
+  transition:
+    background-color var(--ids-motion-duration) var(--ids-motion-ease),
+    border-color var(--ids-motion-duration) var(--ids-motion-ease),
+    color var(--ids-motion-duration) var(--ids-motion-ease),
+    opacity var(--ids-motion-duration) var(--ids-motion-ease);
+  white-space: nowrap;
 
   &,
   &::before,
@@ -46,21 +57,6 @@
   * {
     pointer-events: none;
   }
-
-  // ====================================================
-  // Base Button styles (default/tertiary)
-
-  border: 1px solid transparent;
-  background-color: var(--ids-color-transparent);
-  color: var(--ids-button-color-text-default);
-
-  // Animate BG/Text/Border color changes on all styles
-  transition:
-    background-color var(--ids-motion-duration) var(--ids-motion-ease),
-    border-color var(--ids-motion-duration) var(--ids-motion-ease),
-    color var(--ids-motion-duration) var(--ids-motion-ease),
-    opacity var(--ids-motion-duration) var(--ids-motion-ease);
-  white-space: nowrap;
 
   &:focus {
     // Disable standard focus state in Chrome
@@ -142,7 +138,7 @@
 /**
  * Provides the standard color rules for all regular buttons
  */
-@mixin ids-standard-button-colors() {
+@mixin ids-standard-button-colors-root() {
   display: inline-flex;
   font-weight: var(--ids-button-tertiary-font-weight);
   border-radius: var(--ids-button-radius);
@@ -152,7 +148,9 @@
   background-color: var(--ids-button-tertiary-color-background-default);
   border-color: var(--ids-button-tertiary-color-border-default);
   color: var(--ids-button-tertiary-color-text-default);
+}
 
+@mixin ids-standard-button-colors() {
   &:not(.hide-focus).is-active,
   &:not(.hide-focus).is-focused,
   &:not(.hide-focus):focus,

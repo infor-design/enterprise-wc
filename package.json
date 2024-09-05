@@ -99,7 +99,7 @@
     "stylelint-scss": "^6.5.1",
     "terser-webpack-plugin": "^5.3.10",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4",
+    "typescript": "5.4.5",
     "webpack": "5.94.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",

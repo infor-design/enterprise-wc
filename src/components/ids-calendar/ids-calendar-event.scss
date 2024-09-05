@@ -17,51 +17,51 @@
 
 // Calendar Event Type Themes
 .ids-calendar-event:not([color]) {
-  @include event-border-accent(var(--ids-calendar-event-color-border-default));
-
   background-color: var(--ids-calendar-event-color-background);
+
+  @include event-border-accent(var(--ids-calendar-event-color-border-default));
 }
 
 .ids-calendar-event[color='blue'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-blue));
-
   background-color: var(--ids-calendar-event-color-background-accent-blue);
+
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-blue));
 }
 
 .ids-calendar-event[color='orange'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-orange));
-
   background-color: var(--ids-calendar-event-color-background-accent-orange);
+
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-orange));
 }
 
 .ids-calendar-event[color='purple'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-purple));
-
   background-color: var(--ids-calendar-event-color-background-accent-purple);
+
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-purple));
 }
 
 .ids-calendar-event[color='green'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-green));
-
   background-color: var(--ids-calendar-event-color-background-accent-green);
+
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-green));
 }
 
 .ids-calendar-event[color='red'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-red));
-
   background-color: var(--ids-calendar-event-color-background-accent-red);
+
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-red));
 }
 
 .ids-calendar-event[color='teal'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-turqoise));
-
   background-color: var(--ids-calendar-event-color-background-accent-turqoise);
+
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-turqoise));
 }
 
 .ids-calendar-event[color='neutral'] {
-  @include event-border-accent(var(--ids-calendar-event-color-border-accent-neutral));
-
   background-color: var(--ids-calendar-event-color-background-accent-neutral);
+
+  @include event-border-accent(var(--ids-calendar-event-color-border-accent-neutral));
 }
 
 .ids-calendar-event {

@@ -75,6 +75,7 @@ button {
 .ids-button,
 .ids-toggle-button,
 .ids-menu-button {
+  @include ids-standard-button-colors-root();
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
 
@@ -117,14 +118,15 @@ button {
 }
 
 .ids-icon-button {
-  @include ids-base-button-styles();
-  @include ids-standard-button-colors();
-
   // Everything below is only for icon buttons
   padding-inline-start: var(--ids-button-icon-padding);
   padding-inline-end: var(--ids-button-icon-padding);
   padding-block-start: var(--ids-button-icon-padding);
   padding-block-end: var(--ids-button-icon-padding);
+
+  @include ids-standard-button-colors-root();
+  @include ids-base-button-styles();
+  @include ids-standard-button-colors();
 
   &:not(.no-padding) {
     padding-inline-start: var(--ids-button-icon-padding);
@@ -173,9 +175,6 @@ button {
 // Specific Modifications for Modal Buttons
 // Do not apply styles to modal close icon button, appearance as icon is required
 .ids-modal-button:not(.ids-modal-icon-button) {
-  @include ids-base-button-styles();
-  @include ids-modal-button-color-defaults();
-
   padding-block-start: var(--ids-space-12);
   padding-block-end: var(--ids-space-12);
   display: block;
@@ -183,6 +182,9 @@ button {
   justify-content: center;
   height: 100%;
   width: 100%;
+
+  @include ids-base-button-styles();
+  @include ids-modal-button-color-defaults();
 
   &:focus {
     z-index: 1;

@@ -14,7 +14,7 @@
   @include single-line-ellipsis-text();
 }
 
-@mixin ids-module-nav-button-styles() {
+@mixin ids-module-nav-button-styles-root() {
   display: flex;
   align-self: center;
   background-color: var(--ids-color-transparent);
@@ -25,7 +25,9 @@
   color: var(--ids-module-nav-item-text-color);
   height: var(--ids-module-nav-switcher-button-size);
   width: var(--ids-module-nav-switcher-button-size);
+}
 
+@mixin ids-module-nav-button-styles() {
   &:hover {
     background-color: var(--ids-module-nav-item-hover-bg-color);
     color: var(--ids-module-nav-item-hover-text-color);
@@ -66,10 +68,11 @@
 }
 
 .ids-module-nav-button {
-  @include ids-module-nav-button-styles();
-
   height: var(--ids-module-nav-item-collapsed-size);
   padding-inline: var(--ids-module-nav-switcher-button-icon-margin);
+
+  @include ids-module-nav-button-styles-root();
+  @include ids-module-nav-button-styles();
 
   // =====================================================
   // Display Mode: Collapsed
