@@ -59,7 +59,8 @@ export default class IdsTab extends Base {
       attributes.DISMISSIBLE,
       attributes.DISABLED,
       attributes.SELECTED,
-      attributes.VALUE
+      attributes.VALUE,
+      attributes.VALIDATION_HAS_ERROR,
     ];
   }
 
@@ -109,6 +110,7 @@ export default class IdsTab extends Base {
 
     return `<div ${cssClassAttr} tabindex="-1" part="container">
       ${innerContent}
+      <ids-icon icon="error" color="error" size="small" class="ids-tab-error-icon"></ids-icon>
       <div class="ids-tab-trigger-container">
         <slot name="close"></slot>
       </div>
@@ -303,6 +305,21 @@ export default class IdsTab extends Base {
       bubbles: true,
       detail: { value: `${value}` }
     });
+  }
+
+  set validationHasError(value: boolean | string) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.VALIDATION_HAS_ERROR, val.toString());
+      this.container?.classList.add(attributes.VALIDATION_HAS_ERROR);
+    } else {
+      this.removeAttribute(attributes.VALIDATION_HAS_ERROR);
+      this.container?.classList.remove(attributes.VALIDATION_HAS_ERROR);
+    }
+  }
+
+  get validationHasError(): boolean {
+    return stringToBool(this.getAttribute(attributes.VALIDATION_HAS_ERROR));
   }
 
   /** @returns {string} value The number of items represented in the tab (may or may not apply) */

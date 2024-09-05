@@ -12,6 +12,7 @@ import styles from './ids-tabs-context.scss';
 
 import type IdsTabContent from './ids-tab-content';
 import type IdsTabs from './ids-tabs';
+import type IdsTab from './ids-tab';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 const Base = IdsOrientationMixin(
@@ -52,6 +53,20 @@ export default class IdsTabsContext extends Base {
     // Set active pane when content is inserted dynamically
     this.onEvent('slotchange', this.container, () => {
       this.#changeContentPane(this.value, this.value);
+    });
+
+    this.onEvent('validate', this, () => {
+      this.querySelectorAll<IdsTabContent>('ids-tab-content').forEach((content) => {
+        // TODO: Figure out how to extract the type from the mixin
+        type ValidationMixinElement = HTMLElement & { isValid: boolean };
+
+        const tab = this.tabList?.querySelector<IdsTab>(`ids-tab[value="${content.value}"]`);
+        if (tab) {
+          const validated = content.querySelectorAll<ValidationMixinElement>('[validate]');
+          const valid = [...validated].every((el) => el.isValid);
+          tab.validationHasError = !valid;
+        }
+      });
     });
 
     this.#afterConnectedCallback();

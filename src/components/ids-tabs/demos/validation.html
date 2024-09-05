@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="sm">
+      <ids-text font-size="12" type="h1">Tabs</ids-text>
+    </ids-layout-grid>
+    <ids-tabs-context>
+      <ids-tabs>
+        <ids-tab value="with-required">Has Required</ids-tab>
+        <ids-tab value="other">Other</ids-tab>
+        <ids-tab value="always-error" validation-has-error>Manual Error</ids-tab>
+      </ids-tabs>
+      <ids-tab-content value="with-required">
+        <ids-layout-grid auto-fit="true" padding="sm">
+          <ids-input label="Required Field" validate="required"></ids-input>
+          <ids-input label="Another Required Field" validate="required"></ids-input>
+        </ids-layout-grid>
+      </ids-tab-content>
+      <ids-tab-content value="other">
+        <div class="tab-content">
+          <ids-layout-grid auto-fit="true" padding="sm">
+            <ids-text font-size="16" type="p">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed unde laboriosam veniam. Perferendis neque vero mollitia harum delectus, perspiciatis ratione ducimus reprehenderit voluptatibus aspernatur, velit doloribus unde veritatis rerum quidem!
+            </ids-text>
+          </ids-layout-grid>
+        </div>
+      </ids-tab-content>
+      <ids-tab-content value="always-error">
+        <div class="tab-content">
+          <ids-layout-grid auto-fit="true" padding="sm">
+            <ids-text font-size="16" type="p">
+              This tab always has an error indicator because of the validation-has-error attribute.
+            </ids-text>
+          </ids-layout-grid>
+        </div>
+      </ids-tab-content>
+    </ids-tabs-context>
+  </ids-container>
+</body>
+</html>
