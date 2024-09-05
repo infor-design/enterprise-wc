@@ -48,11 +48,6 @@ jobs:
     - name: Install Browsers
       run: npx playwright install --with-deps
 
-    - name: Run Tests with Coverage
-      run: npm run test:coverage:ci
-      env:
-        NODE_OPTIONS: "--max-old-space-size=8192"
-
     - name: Build again
       run: npm run build
 
@@ -61,6 +56,11 @@ jobs:
       env:
         NODE_OPTIONS: "--max-old-space-size=8192"
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+
+    - name: Run Tests with Coverage
+      run: npm run test:coverage:ci
+      env:
+        NODE_OPTIONS: "--max-old-space-size=8192"
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
