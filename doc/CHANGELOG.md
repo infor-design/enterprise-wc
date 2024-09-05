@@ -43,6 +43,7 @@
 - `[Radio]` Fixed an issue where the radio group could not set checked for radio elements when using Angular's FormControl and value binding. ([#2700](https://github.com/infor-design/enterprise-wc/issues/2700))
 - `[Splitter]` Converted datagrid popups to fixed to go over splitter panes. ([#2499](https://github.com/infor-design/enterprise-wc/issues/2499))
 - `[Splitter]` Fixed an issue where position was not retained when expanding and collapsing. ([#2527](https://github.com/infor-design/enterprise-wc/issues/2527))
+- `[Switch]` Fixed an issue where switch triggered `change` event twice. ([#2681](https://github.com/infor-design/enterprise-wc/issues/2681))
 
 ## 1.4.2
 
