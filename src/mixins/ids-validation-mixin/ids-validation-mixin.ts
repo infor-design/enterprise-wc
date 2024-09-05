@@ -40,6 +40,17 @@ export type IdsValidationRule = {
   check: (input: any) => boolean;
 };
 
+export type IdsValidateEvent = CustomEvent<{
+  elem: IdsValidatedElement;
+  value?: unknown;
+  isValid: boolean;
+}>;
+
+/**
+ * Represents an instance that has the {@link IdsValidationMixin} applied.
+ */
+export type IdsValidatedElement = InstanceType<ReturnType<typeof IdsValidationMixin>>;
+
 type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
@@ -572,7 +583,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         elem: this,
         value: (this as IdsInputInterface).value,
         isValid,
-      },
+      } satisfies IdsValidateEvent['detail'],
       bubbles: true,
     });
   }

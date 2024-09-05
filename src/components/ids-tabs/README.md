@@ -122,6 +122,7 @@ Tabs can be configured to display an optional [IdsTriggerButton](../ids-trigger-
 
 - `actionable` {boolean} labels a tab as having a corresponding action, such as "Add", "Reset", "Activate Application Menu", etc.  Tabs that use this setting should also have an `onAction` callback applied, which will be triggered upon selecting the tab.  Tabs that are `actionable` will not cause content in tab panels to be displayed.
 - `disabled` {boolean} allows you to disable a tab among a set of tabs.
+- `has-error` {boolean} display an error indicator on the tab.
 - `selected` {boolean} allows for a tab to display its selected state.  In some cases, tabs with this value set to true will also automatically display their corresponding Tab Panel's content.  Tabs that have an `actionable` attribute applied are not able to be "selected" -- selecting those tabs will focus them.
 - `value` {string | number} the value which when the parent `ids-tabs` also has an equivalent for, selects this tab.
 

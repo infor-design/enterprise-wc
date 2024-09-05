@@ -205,7 +205,7 @@ test.describe('IdsTabs tests', () => {
 
     test('should not be visible by default', async ({ page }) => {
       const tab = await page.locator('ids-tab[value="with-required"]');
-      await expect(tab).not.toHaveAttribute('validation-has-error', /.*/);
+      await expect(tab).not.toHaveAttribute('has-error', /.*/);
       await expect(tab.locator('ids-icon[icon="error"]')).not.toBeVisible();
     });
 
@@ -217,7 +217,7 @@ test.describe('IdsTabs tests', () => {
       await firstInput.evaluate((el: IdsInput) => { el.value = 'hello'; });
       await firstInput.evaluate((el: IdsInput) => { el.value = ''; });
 
-      await expect(tab).toHaveAttribute('validation-has-error', 'true');
+      await expect(tab).toHaveAttribute('has-error', 'true');
       await expect(tab.locator('ids-icon[icon="error"]')).toBeVisible();
     });
   });

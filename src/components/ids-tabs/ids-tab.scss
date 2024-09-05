@@ -92,7 +92,7 @@ $ids-tab-vertical-height: 42px;
   outline: none;
 }
 
-:host(ids-tab:not([validation-has-error])) .ids-tab-error-icon {
+:host(ids-tab:not([has-error])) .ids-tab-error-icon {
   display: none;
 }
 

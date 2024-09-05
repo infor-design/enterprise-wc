@@ -60,7 +60,7 @@ export default class IdsTab extends Base {
       attributes.DISABLED,
       attributes.SELECTED,
       attributes.VALUE,
-      attributes.VALIDATION_HAS_ERROR,
+      attributes.HAS_ERROR,
     ];
   }
 
@@ -307,19 +307,17 @@ export default class IdsTab extends Base {
     });
   }
 
-  set validationHasError(value: boolean | string) {
+  set hasError(value: boolean | string) {
     const val = stringToBool(value);
     if (val) {
-      this.setAttribute(attributes.VALIDATION_HAS_ERROR, val.toString());
-      this.container?.classList.add(attributes.VALIDATION_HAS_ERROR);
+      this.setAttribute(attributes.HAS_ERROR, val.toString());
     } else {
-      this.removeAttribute(attributes.VALIDATION_HAS_ERROR);
-      this.container?.classList.remove(attributes.VALIDATION_HAS_ERROR);
+      this.removeAttribute(attributes.HAS_ERROR);
     }
   }
 
-  get validationHasError(): boolean {
-    return stringToBool(this.getAttribute(attributes.VALIDATION_HAS_ERROR));
+  get hasError(): boolean {
+    return stringToBool(this.getAttribute(attributes.HAS_ERROR));
   }
 
   /** @returns {string} value The number of items represented in the tab (may or may not apply) */

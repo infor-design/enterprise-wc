@@ -12,8 +12,8 @@ import styles from './ids-tabs-context.scss';
 
 import type IdsTabContent from './ids-tab-content';
 import type IdsTabs from './ids-tabs';
-import type IdsTab from './ids-tab';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import type { IdsValidateEvent, IdsValidatedElement } from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 
 const Base = IdsOrientationMixin(
   IdsEventsMixin(
@@ -55,18 +55,18 @@ export default class IdsTabsContext extends Base {
       this.#changeContentPane(this.value, this.value);
     });
 
-    this.onEvent('validate', this, () => {
-      this.querySelectorAll<IdsTabContent>('ids-tab-content').forEach((content) => {
-        // TODO: Figure out how to extract the type from the mixin
-        type ValidationMixinElement = HTMLElement & { isValid: boolean };
-
-        const tab = this.tabList?.querySelector<IdsTab>(`ids-tab[value="${content.value}"]`);
-        if (tab) {
-          const validated = content.querySelectorAll<ValidationMixinElement>('[validate]');
-          const valid = [...validated].every((el) => el.isValid);
-          tab.validationHasError = !valid;
-        }
-      });
+    this.onEvent('validate', this, (e: IdsValidateEvent) => {
+      const content = e.detail.elem?.closest<IdsTabContent>('ids-tab-content');
+      if (!content) {
+        return;
+      }
+      const tab = this.tabList?.tabs.find(({ value }) => value === content.value);
+      if (!tab) {
+        return;
+      }
+      const validatedElements = content.querySelectorAll<IdsValidatedElement>('[validate]');
+      const valid = [...validatedElements].every((el) => el.isValid);
+      tab.hasError = !valid;
     });
 
     this.#afterConnectedCallback();
