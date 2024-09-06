@@ -204,21 +204,29 @@ test.describe('IdsTabs tests', () => {
     });
 
     test('should not be visible by default', async ({ page }) => {
-      const tab = await page.locator('ids-tab[value="with-required"]');
-      await expect(tab).not.toHaveAttribute('has-error', /.*/);
-      await expect(tab.locator('ids-icon[icon="error"]')).not.toBeVisible();
+      const contexts = await page.locator('ids-tabs-context').all();
+      for (const context of contexts) {
+        const tab = context.locator('ids-tab[value="with-required"]');
+        await expect(tab).not.toHaveAttribute('has-error', /.*/);
+        await expect(tab.locator('ids-icon[icon="error"]')).not.toBeVisible();
+      }
     });
 
-    test('should be visible when there is a validation error', async ({ page }) => {
-      const tab = page.locator('ids-tab[value="with-required"]');
-      const tabContent = page.locator('ids-tab-content[value="with-required"]');
-      const firstInput = tabContent.locator('ids-input').first();
+    test('should only be visible when there is a validation error', async ({ page }) => {
+      const contexts = await page.locator('ids-tabs-context').all();
+      for (const context of contexts) {
+        const tab = context.locator('ids-tab[value="with-required"]');
+        const content = context.locator('ids-tab-content[value="with-required"]');
+        const input = content.locator('ids-input').first();
+        const icon = tab.locator('ids-icon[icon="error"]');
 
-      await firstInput.evaluate((el: IdsInput) => { el.value = 'hello'; });
-      await firstInput.evaluate((el: IdsInput) => { el.value = ''; });
+        await input.evaluate((el: IdsInput) => { el.value = 'hello'; });
+        await input.evaluate((el: IdsInput) => { el.value = ''; });
+        await expect(icon).toBeVisible();
 
-      await expect(tab).toHaveAttribute('has-error', 'true');
-      await expect(tab.locator('ids-icon[icon="error"]')).toBeVisible();
+        await input.evaluate((el: IdsInput) => { el.value = 'hello'; });
+        await expect(icon).not.toBeVisible();
+      }
     });
   });
 });

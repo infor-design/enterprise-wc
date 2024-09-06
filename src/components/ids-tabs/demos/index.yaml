@@ -36,7 +36,7 @@
     type: Example
     description: Shows vertical tabs
   - link: validation.html
-    type: Example
+    type: Test
     description: Shows validation indicator in tabs
   - link: side-by-side.html
     type: Side by Side
