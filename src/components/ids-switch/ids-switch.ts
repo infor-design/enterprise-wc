@@ -295,11 +295,7 @@ export default class IdsSwitch extends Base {
    * @param {string} value the value property
    */
   set value(value: string) {
-    if (!value) {
-      this.removeAttribute(attributes.VALUE);
-      return;
-    }
-    this.setAttribute(attributes.VALUE, value || '');
+    super.value = value;
   }
 
   /**

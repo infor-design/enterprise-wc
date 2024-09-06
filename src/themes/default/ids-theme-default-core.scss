@@ -403,7 +403,7 @@
   --ids-button-ai-color-loading-dot-default: var(--ids-color-white-100);
 
   // Breadcrumb
-  --ids-breadcrumb-color-text-default: var(--ids-color-foreground-default-tertiary);
+  --ids-breadcrumb-color-text-default: var(--ids-color-foreground-default-default);
   --ids-breadcrumb-color-text-disabled: var(--ids-color-foreground-default-disabled);
   --ids-breadcrumb-color-text-emphasis: var(--ids-color-text-inverse);
   --ids-breadcrumb-color-text-selected: var(--ids-color-foreground-default-default);
@@ -1309,6 +1309,12 @@
   --ids-search-field-header-color-icon-hover: var(--ids-button-tertiary-color-background-hover);
   --ids-search-field-card-color-text: var(--ids-color-text-default);
   --ids-search-field-card-color-background: var(--ids-color-neutral-10);
+
+  // Segmented Control
+  --ids-segmented-control-box-shadow: 0px 1px 10px 0px rgab(0 0 0 / 10%);
+  --ids-segmented-control-text-color: var(--ids-color-foreground-dark-default);
+  --ids-segmented-control-background-hover: var(--ids-color-background-elevated);
+  --ids-segmented-control-background-selected: var(--ids-color-background-elevated);
 
   // Separator
   --ids-separator-color-background: var(--ids-color-accent-neutral-default);
