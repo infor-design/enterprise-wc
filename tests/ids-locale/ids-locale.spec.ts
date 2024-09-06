@@ -393,6 +393,7 @@ test.describe('IdsLocale tests', () => {
       await validateDefault(page);
 
       await runLocaleFunction(page, 'setLanguage', 'nn');
+      await runLocaleFunction(page, 'setLanguage', 'nn');
       expect(await runLocaleFunction(page, 'translate', 'Actions')).toEqual('Handlinger');
       expect((await getLocaleValues(page, 'language.name'))).toEqual('nn');
     });
@@ -664,6 +665,7 @@ test.describe('IdsLocale tests', () => {
       await runLocaleFunction(page, 'setLanguage', 'nb');
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laster');
 
+      await runLocaleFunction(page, 'setLanguage', 'nn');
       await runLocaleFunction(page, 'setLanguage', 'nn');
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laster');
     });
