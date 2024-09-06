@@ -17,15 +17,6 @@
   - link: load-data.html
     type: Example
     description: Showing loading data on beforeShow (with ajax)
-  - link: in-action-panel.html
-    type: Example
-    description: Showing a menu button in an action panel
-  - link: in-modal.html
-    type: Example
-    description: Showing a menu button in a modal
-  - link: in-popup.html
-    type: Example
-    description: Showing a menu button in a popup
   - link: side-by-side.html
     type: Side-by-side Example
     description: Showing a menu button side by side with 4.x

@@ -1,4 +1,4 @@
-import '../ids-menu-button';
+import '../../ids-menu-button/ids-menu-button';
 import '../../ids-popup/ids-popup';
 import css from '../../../assets/css/ids-popup/index.css';
 

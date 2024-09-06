@@ -1,4 +1,4 @@
-import '../ids-menu-button';
+import '../../ids-menu-button/ids-menu-button';
 import '../../ids-input/ids-input';
 import '../../ids-list-box/ids-list-box';
 import '../../ids-modal/ids-modal';
