@@ -11,8 +11,6 @@ A curated list of resources related to this project and web components.
 - [Mixins](https://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
 - [Accessibility for Web Components](https://developer.salesforce.com/blogs/2020/01/accessibility-for-web-components)
 - [Execution Context](https://www.youtube.com/watch?v=Nt-qa_LlUH0)
-- [El](https://github.com/frameable/el)
-- [ShoeLace](https://shoelace.style/)
 - [State Of Web Components](https://eisenbergeffect.medium.com/2023-state-of-web-components-c8feb21d4f16)
 
 ## Performance
@@ -68,3 +66,5 @@ https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
 - [FicusJS](https://docs.ficusjs.org/docs/composition/)
 - [KorUI](https://kor-ui.com/introduction/welcome)
 - [FAST](https://www.fast.design/)
+- [El](https://github.com/frameable/el)
+- [ShoeLace](https://shoelace.style/)
