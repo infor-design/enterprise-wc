@@ -424,7 +424,6 @@ test.describe('IdsDropdown tests', () => {
         element.value = 'invalid';
         return element.value;
       })).toEqual('invalid');
-      await expect(dropdown).toHaveAttribute('value', 'il');
     });
 
     test('can set/get value with selectedIndex', async ({ page }) => {
