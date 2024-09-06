@@ -2,6 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, htmlAttributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import {
+  getClosest,
   getElementAtMouseLocation,
   parents,
   validMaxHeight
@@ -355,6 +356,14 @@ export default class IdsPopupMenu extends Base {
       this.setAttribute(attributes.OFFSET_CONTAINER, this.parentMenu.offsetContainer);
     }
 
+    const isInModal = getClosest(this, 'ids-modal');
+    const isInActionPanel = getClosest(this, 'ids-action-panel');
+    if (isInModal) {
+      this.setAttribute(attributes.OFFSET_CONTAINER, 'ids-modal');
+    }
+    if (isInActionPanel) {
+      this.setAttribute(attributes.OFFSET_CONTAINER, 'ids-action-panel');
+    }
     // Show the popup and do placement
     this.popup!.positionStyle = this.positionStyle;
     this.popup?.setAttribute('visible', 'true');
