@@ -212,12 +212,14 @@ const IdsPopupInteractionsMixin = <T extends Constraints>(superclass: T) => clas
         }
 
         // Open/Close the menu when the trigger element is clicked
-        this.offEvent('click.trigger');
-        this.onEvent('click.trigger', targetElem, (e: Event) => {
-          if (typeof this.onTriggerClick === 'function') {
-            return this.onTriggerClick(e);
-          }
-          return true;
+        requestAnimationFrame(() => {
+          this.offEvent('click.trigger');
+          this.onEvent('click.trigger', targetElem, (e: Event) => {
+            if (typeof this.onTriggerClick === 'function') {
+              return this.onTriggerClick(e);
+            }
+            return true;
+          });
         });
 
         break;
