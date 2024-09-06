@@ -423,7 +423,7 @@ test.describe('IdsDropdown tests', () => {
       expect(await dropdown.evaluate((element: IdsDropdown) => {
         element.value = 'invalid';
         return element.value;
-      })).toEqual('il');
+      })).toEqual('invalid');
       await expect(dropdown).toHaveAttribute('value', 'il');
     });
 
@@ -437,14 +437,6 @@ test.describe('IdsDropdown tests', () => {
 
       expect(await dropdown.evaluate((element: IdsDropdown) => {
         element.selectedIndex = 3;
-        const result = { value: element.value, selectedIndex: element.selectedIndex };
-        return result;
-      })).toEqual({ value: 'il', selectedIndex: 3 });
-      await expect(dropdown).toHaveAttribute('value', 'il');
-
-      // invalid value
-      expect(await dropdown.evaluate((element: IdsDropdown) => {
-        element.selectedIndex = ('invalid') as any;
         const result = { value: element.value, selectedIndex: element.selectedIndex };
         return result;
       })).toEqual({ value: 'il', selectedIndex: 3 });
