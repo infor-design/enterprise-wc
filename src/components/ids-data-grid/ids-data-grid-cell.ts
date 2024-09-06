@@ -263,24 +263,38 @@ export default class IdsDataGridCell extends IdsElement {
     if (!columnEditor || !columnEditor.editor || this.isEditing) return;
 
     // Init Editor
-    let canEdit = !(this.classList.contains('is-readonly') || this.classList.contains('is-disabled'));
+    let canEdit: any = !(this.classList.contains('is-readonly') || this.classList.contains('is-disabled'));
     if (!canEdit) {
       return;
     }
-
-    const response = (veto: any) => {
-      canEdit = !!veto;
-    };
 
     this.dataGrid.triggerEvent('beforecelledit', this.dataGrid, {
       detail: {
-        elem: this, editor: this.editor, column, data: this.dataGrid.data[this.dataGrid.activeCell.row], response
+        elem: this,
+        editor: this.editor,
+        column,
+        data: this.dataGrid.data[this.dataGrid.activeCell.row],
+        response: (veto: boolean | Promise<void | boolean>) => {
+          canEdit = veto;
+        }
       }
     });
 
-    if (!canEdit) {
-      return;
+    if (canEdit instanceof Promise || canEdit?.constructor?.name === 'AsyncFunction') {
+      (canEdit instanceof Promise ? canEdit : canEdit())
+        .then((veto?: boolean) => { if (veto !== false) this.#startCellEdit(column, columnEditor, clickEvent); })
+        .catch(() => { /** ignore if promise rejected */ });
+    } else if (canEdit !== false) {
+      this.#startCellEdit(column, columnEditor, clickEvent);
     }
+  }
+
+  #startCellEdit(
+    column: IdsDataGridColumn,
+    columnEditor: { type: string, editor?: IdsDataGridEditor },
+    clickEvent?: MouseEvent
+  ) {
+    if (!columnEditor || !columnEditor.editor || this.isEditing) return;
 
     this.originalValue = this.value;
     this.editor = columnEditor.editor;
@@ -300,7 +314,7 @@ export default class IdsDataGridCell extends IdsElement {
       this.classList.remove('is-invalid');
       this.isInValid = true;
     }
-    if (column.editor.inline) this.classList.add('is-inline');
+    if (column.editor?.inline) this.classList.add('is-inline');
     this.isEditing = true;
 
     // Pass column text alignment rules into the cell editor
