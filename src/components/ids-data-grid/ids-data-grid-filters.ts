@@ -176,6 +176,7 @@ export default class IdsDataGridFilters {
       trigger-type="click"
       id="popup-${id}"
       no-margins
+      compact="true"
       ${format}${showToday}${firstDayOfWeek}${value}${disabled}></ids-date-picker-popup>`;
 
     if (column.align === 'right') return `${trigger}${filterButton}${popup}`;
