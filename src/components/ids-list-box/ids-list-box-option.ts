@@ -67,7 +67,7 @@ export default class IdsListBoxOption extends Base {
     const slot = this.shadowRoot?.querySelector('slot');
     const listBox = this.parentElement;
 
-    this.onEvent('slotchange', slot, (evt: CustomEvent) => {
+    this.onEvent('slotchange.list-box-option', slot, () => {
       const assignedNode = slot?.assignedNodes()?.[0];
       const mutationObserver = (mutationList: any[]) => {
         for (const m of mutationList) {
