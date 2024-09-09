@@ -314,6 +314,7 @@ $input-size-full: 100%;
     box-sizing: border-box;
     background-color: var(--ids-color-transparent);
     border: none;
+    color: inherit;
     font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
     padding-block-start: var(--ids-space-2xs);
     padding-block-end: var(--ids-space-2xs);
@@ -407,7 +408,7 @@ $input-size-full: 100%;
     .validation-message {
       width: $border-input-size-xs;
     }
-  } 
+  }
 
   &.sm {
     .field-container,
@@ -904,6 +905,10 @@ $input-size-full: 100%;
 .caps-lock-indicator {
   padding-inline-start: var(--ids-space-xs);
   padding-inline-end: var(--ids-space-xs);
+}
+
+.show-hide-password {
+  padding-inline-end: var(--ids-space-3xs);
 }
 
 .is-uppercase {

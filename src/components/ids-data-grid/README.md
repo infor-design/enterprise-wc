@@ -310,6 +310,16 @@ To cancel editing based on some condition or if editing is not allowed you can v
   });
 ```
 
+If the callback for the `beforecelledit` event requires async operations, the user can pass an `async function` or a `Promise<boolean>`.
+```js
+  dataGrid.addEventListener('beforecelledit', (e: Event) => {
+    (<CustomEvent>e).detail.response(async () => {
+      const dbResponse: boolean = await fetchDbResponse;
+      return dbResponse;
+    });
+  });
+```
+
 There are a few utility functions for editing the data grid mentioned in the Methods section.
 
 ### Grouped Rows (Groupable)

@@ -111,10 +111,6 @@
     margin-inline: var(--ids-space-none);
   }
 
-  &:not(.no-margins) {
-    margin: var(--ids-button-alt-margin);
-  }
-
   &.field-height-xxs:not(.btn-secondary):not(.no-margins) {
     margin-block-start: 3px;
     margin-inline-end: -2px;
@@ -734,4 +730,3 @@
     }
   }
 }
-

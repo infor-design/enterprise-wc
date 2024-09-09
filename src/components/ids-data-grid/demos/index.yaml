@@ -23,6 +23,9 @@
   - link: auto-fit.html
     type: Example
     description: Shows a data grid that sizes to the size of the parent container
+  - link: beforecelledit-async.html
+    type: Example
+    description: Shows usage of async beforecelledit event
   - link: columns-auto.html
     type: Example
     description: Shows auto column widths

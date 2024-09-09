@@ -29,6 +29,15 @@
   - link: position-style.html
     type: Test
     description: Shows the effect of changing position style
+  - link: in-action-panel.html
+    type: Example
+    description: Showing a menu button in an action panel
+  - link: in-modal.html
+    type: Example
+    description: Showing a menu button in a modal
+  - link: in-popup.html
+    type: Example
+    description: Showing a menu button in a popup
   - link: in-offset-container.html
     type: Test
     description: Shows the effect of setting `offset-container` to adjust popup's fixed position
