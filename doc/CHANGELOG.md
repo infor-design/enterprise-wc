@@ -12,6 +12,7 @@
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615]https://github.com/infor-design/enterprise-wc/issues/2615)
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615](https://github.com/infor-design/enterprise-wc/issues/2615))
+- `[Dropdown]` Add `data` setter to dropdown to load options. ([#2689](https://github.com/infor-design/enterprise-wc/issues/2689))
 - `[LoadingIndicator]` Added a setting `contained` which confines the loading indicator within it's nearest parent. ([#2256](https://github.com/infor-design/enterprise-wc/issues/2256))
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160](https://github.com/infor-design/enterprise-wc/issues/2160))
 - `[Popup]` Fixed a bug where in Angular the click events cause menus to open when navigating. ([#2747](https://github.com/infor-design/enterprise-wc/issues/2747))

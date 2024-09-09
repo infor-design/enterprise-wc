@@ -720,6 +720,15 @@ test.describe('IdsDropdown tests', () => {
       await expect(dropdown).toHaveAttribute('language', 'de');
     });
 
+    test('can load data via setter', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const data = await dropdown.evaluate((elem: IdsDropdown, args: any[]) => {
+        elem.data = args;
+        return elem.data;
+      }, countries.slice(0, 2));
+      expect(data.length).toEqual(2);
+    });
+
     test('can open on arrow down', async ({ page }) => {
       const dropdown = await page.locator('#dropdown-1');
       expect(await isDropdownShown(dropdown)).toBeFalsy();
