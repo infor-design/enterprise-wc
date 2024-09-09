@@ -51,6 +51,17 @@ export type IdsValidateEvent = CustomEvent<{
  */
 export type IdsValidatedElement = InstanceType<ReturnType<typeof IdsValidationMixin>>;
 
+/**
+ * Check whether an element has the {@link IdsValidationMixin} applied.
+ * @param {Element} element The element to check.
+ * @returns {boolean} `true` if the element has the mixin.
+ */
+export function isIdsValidatedElement(element: Element): element is IdsValidatedElement {
+  // Note: Could introduce a Symbol or similar instead.
+  return typeof (element as IdsValidatedElement)?.checkValidation === 'function'
+  && typeof (element as IdsValidatedElement)?.validate === 'string';
+}
+
 type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**

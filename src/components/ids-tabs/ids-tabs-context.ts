@@ -13,7 +13,7 @@ import styles from './ids-tabs-context.scss';
 import type IdsTabContent from './ids-tab-content';
 import type IdsTabs from './ids-tabs';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import type { IdsValidateEvent, IdsValidatedElement } from '../../mixins/ids-validation-mixin/ids-validation-mixin';
+import { isIdsValidatedElement, type IdsValidateEvent } from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 
 const Base = IdsOrientationMixin(
   IdsEventsMixin(
@@ -64,9 +64,8 @@ export default class IdsTabsContext extends Base {
       if (!tab) {
         return;
       }
-      const validatedElements = content.querySelectorAll<IdsValidatedElement>('[validate]');
-      const valid = [...validatedElements].every((el) => el.isValid);
-      tab.hasError = !valid;
+      const validatedElements = [...content.querySelectorAll('[validate]')].filter(isIdsValidatedElement);
+      tab.hasError = validatedElements.some((el) => !el.isValid);
     });
 
     this.#afterConnectedCallback();
