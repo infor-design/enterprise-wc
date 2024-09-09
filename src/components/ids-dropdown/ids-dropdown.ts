@@ -695,7 +695,7 @@ export default class IdsDropdown extends Base {
   loadDataSet(dataset: IdsDropdownOptions) {
     let html = '';
 
-    const listbox = this.dropdownList?.querySelector('ids-list-box') || this.querySelector('ids-list-box');
+    const listbox = this.dropdownList?.querySelector<IdsListBox>('ids-list-box') || this.querySelector<IdsListBox>('ids-list-box');
     if (listbox) listbox.innerHTML = '';
 
     dataset.forEach((option: IdsDropdownOption) => {
@@ -745,7 +745,7 @@ export default class IdsDropdown extends Base {
       this.input?.setAttribute(attributes.READONLY, 'true');
       const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
       if (this.input) this.input.value = initialValue || '';
-      this.loadDataSet(this.optionsData);
+      // this.loadDataSet(this.optionsData);
       (window.getSelection() as Selection).removeAllRanges();
       this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
@@ -1429,7 +1429,7 @@ export default class IdsDropdown extends Base {
    * @returns {boolean} typeahead attribute value converted to boolean
    */
   get typeahead(): boolean {
-    return this.hasAttribute(attributes.TYPEAHEAD) ? stringToBool(this.getAttribute(attributes.TYPEAHEAD)) : false;
+    return this.hasAttribute(attributes.TYPEAHEAD) ? stringToBool(this.getAttribute(attributes.TYPEAHEAD)) : true;
   }
 
   onClearableTextChange(val: string | null) {
