@@ -60,13 +60,13 @@ export default class IdsListBoxOption extends Base {
 
   /**
    * Establish Internal Event Handlers
-   * @private
-   * @returns {object} The object for chaining.
+   * @returns {void}
    */
-  #attachEventHandlers() {
+  #attachEventHandlers(): void {
     const slot = this.shadowRoot?.querySelector('slot');
     const listBox = this.parentElement;
 
+    this.offEvent('slotchange.list-box-option', slot);
     this.onEvent('slotchange.list-box-option', slot, () => {
       const assignedNode = slot?.assignedNodes()?.[0];
       const mutationObserver = (mutationList: any[]) => {
@@ -84,8 +84,6 @@ export default class IdsListBoxOption extends Base {
         characterData: true
       });
     });
-
-    return this;
   }
 
   #hideEmptyGroupOption() {
