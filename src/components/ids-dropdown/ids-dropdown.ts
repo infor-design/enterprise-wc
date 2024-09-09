@@ -1429,7 +1429,7 @@ export default class IdsDropdown extends Base {
    * @returns {boolean} typeahead attribute value converted to boolean
    */
   get typeahead(): boolean {
-    return this.hasAttribute(attributes.TYPEAHEAD) ? stringToBool(this.getAttribute(attributes.TYPEAHEAD)) : true;
+    return this.hasAttribute(attributes.TYPEAHEAD) ? stringToBool(this.getAttribute(attributes.TYPEAHEAD)) : false;
   }
 
   onClearableTextChange(val: string | null) {
