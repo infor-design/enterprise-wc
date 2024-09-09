@@ -169,6 +169,7 @@ export default class IdsDataGridFilters {
 
     const filterButton = `${this.#filterButtonTemplate(TYPE, column)}`;
     const trigger = `${this.#triggerFieldTemplate(TYPE, column, 'calendar', 'DatePickerTriggerButton')}`;
+
     const popup = `<ids-date-picker-popup
       attachment=".ids-data-grid-wrapper"
       data-filter-type="${TYPE}"
