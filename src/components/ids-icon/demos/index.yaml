@@ -20,6 +20,9 @@
   - link: align-icon.html
     type: Example
     description: Icon lined up within text
+  - link: tooltip.html
+    type: Example
+    description: Icon with tooltip
   - link: variant-alternate.html
     type: Test
     description: Test showing the alternate variant color

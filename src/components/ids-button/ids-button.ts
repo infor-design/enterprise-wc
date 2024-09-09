@@ -9,6 +9,8 @@ import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-mixin';
 import IdsLoadingIndicatorMixin from '../../mixins/ids-loading-indicator-mixin/ids-loading-indicator-mixin';
 
+import { type IdsColorValueStatus } from '../../utils/ids-color-utils/ids-color-utils';
+
 import IdsElement from '../../core/ids-element';
 
 import {
@@ -82,6 +84,7 @@ export default class IdsButton extends Base {
       configurable: true,
       enumerable: true
     });
+    this.refreshProtoClasses();
   }
 
   /**
@@ -95,6 +98,14 @@ export default class IdsButton extends Base {
     if (this.getAttribute('width')) this.width = this.getAttribute('width');
     this.cssClass = this.cssClass;
     this.#attachEventHandlers();
+
+    requestAnimationFrame(() => {
+      this.refreshProtoClasses();
+    });
+  }
+
+  mountedCallback(): void {
+    this.refreshProtoClasses();
   }
 
   #attachEventHandlers() {
@@ -801,5 +812,42 @@ export default class IdsButton extends Base {
       if (!(el instanceof HTMLSpanElement)) el.colorVariant = this.colorVariant;
     };
     [...icons, ...texts].forEach(iterator);
+  }
+
+  /**
+   * @param {IdsColorValueStatus | null} value sets the color of the notification badge
+   */
+  set badgeColor(value: IdsColorValueStatus | null) {
+    if (value) {
+      this.setAttribute(attributes.BADGE_COLOR, value);
+      this.iconEl?.setAttribute(attributes.BADGE_COLOR, value);
+    } else {
+      this.removeAttribute(attributes.BADGE_COLOR);
+      this.iconEl?.removeAttribute(attributes.BADGE_COLOR);
+    }
+  }
+
+  get badgeColor(): IdsColorValueStatus | null | undefined {
+    return this.iconEl?.getAttribute(attributes.BADGE_COLOR) as IdsColorValueStatus;
+  }
+
+  /**
+   * @returns {string | null} position of notification badge
+   */
+  get badgePosition(): string | null | undefined {
+    return this.iconEl?.getAttribute(attributes.BADGE_POSITION);
+  }
+
+  /**
+   * @param {string} value sets the postion of the notification badge
+   */
+  set badgePosition(value: string | null) {
+    if (value) {
+      this.setAttribute(attributes.BADGE_POSITION, value);
+      this.iconEl?.setAttribute(attributes.BADGE_POSITION, value);
+    } else {
+      this.removeAttribute(attributes.BADGE_POSITION);
+      this.iconEl?.removeAttribute(attributes.BADGE_POSITION);
+    }
   }
 }

@@ -16,8 +16,8 @@ $textarea-size-default-height: 120px;
 .ids-textarea {
   display: block;
   margin-bottom: var(--ids-space-12);
-  font-size: var(--ids-font-size-40);
-  font-family: var(--ids-font-family-default);
+  font-size: var(--ids-font-size-sm);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
 
   .hidden {
     display: none;
@@ -153,13 +153,13 @@ $textarea-size-default-height: 120px;
     border-color: var(--ids-textarea-color-border-default);
     color: var(--ids-textarea-color-text-default);
     box-sizing: border-box;
-    margin-bottom: var(--ids-space-xxs);
+    margin-bottom: var(--ids-space-2xs);
     padding: var(--ids-space-12);
-    font-size: var(--ids-font-size-40);
+    font-size: var(--ids-font-size-sm);
     appearance: none;
-    font-family: var(--ids-font-family-default);
+    font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
     border-collapse: separate;
-    border-radius: var(--ids-border-radius-xxs);
+    border-radius: var(--ids-border-radius-2xs);
     display: inline-block;
     text-align: left;
     width: 100%;
@@ -185,7 +185,7 @@ $textarea-size-default-height: 120px;
       border-color: var(--ids-textarea-color-border-focus);
       box-shadow: var(--ids-textarea-shadow-focus);
       outline: none;
-      outline-color: transparent;
+      outline-color: var(--ids-color-transparent);
     }
 
     &[readonly],
@@ -200,7 +200,7 @@ $textarea-size-default-height: 120px;
     }
 
     &.bg-transparent {
-      background-color: transparent;
+      background-color: var(--ids-color-transparent);
 
       &:focus {
         border-color: var(--ids-textarea-color-border-focus);
@@ -226,7 +226,7 @@ $textarea-size-default-height: 120px;
     }
 
     ~ .btn-clear {
-      margin-top: var(--ids-space-xxs);
+      margin-top: var(--ids-space-2xs);
       position: absolute;
       right: 0;
     }
@@ -319,7 +319,7 @@ $textarea-size-default-height: 120px;
   }
 
   .validation-message {
-    margin-top: var(--ids-space-xxs);
+    margin-top: var(--ids-space-2xs);
   }
 
   &.disabled {
@@ -339,7 +339,7 @@ $textarea-size-default-height: 120px;
   color: var(--ids-textarea-label-color-text-default);
   margin-bottom: var(--ids-space-xs);
   align-items: baseline;
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   display: flex;
 
   // Simulate standard label text size while empty with a non-breaking space
@@ -352,11 +352,11 @@ $textarea-size-default-height: 120px;
   &.required {
     &::after {
       position: relative;
-      padding-inline: var(--ids-space-xxxs);
-      font-size: var(--ids-font-size-50);
+      padding-inline: var(--ids-space-3xs);
+      font-size: var(--ids-font-size-md);
       content: '*';
       color: var(--ids-input-required-indicator-color-text-default);
-      font-family: var(--ids-font-family-default);
+      font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
       margin-top: -10px;
       top: 1px;
     }

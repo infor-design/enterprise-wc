@@ -116,6 +116,7 @@ export const attributes = {
   COMPONENT_NAME: 'component-name',
   CONDITION: 'condition',
   CONFIRM: 'confirm',
+  CONTAINED: 'contained',
   CONTAINER_TARGET: 'container-target',
   CONTENT_ALIGN: 'content-align',
   COPYRIGHT_YEAR: 'copyright-year',
@@ -134,6 +135,7 @@ export const attributes = {
   DIRTY_TRACKER: 'dirty-tracker',
   DISABLE_CLIENT_FILTER: 'disable-client-filter',
   DISABLE_EVENTS: 'disable-native-events',
+  DISABLE_ICON: 'disable-icon',
   DISABLE_ROW_HIGHLIGHT: 'disable-row-highlight',
   DISABLED: 'disabled',
   DISMISSIBLE: 'dismissible',
@@ -146,6 +148,14 @@ export const attributes = {
   DRAG_MODE: 'drag-mode',
   DRAGGABLE: 'draggable',
   DRAGGING: 'dragging',
+  DRAG_WIDTH: 'drag-width',
+  DRAG_HEIGHT: 'drag-height',
+  DRAG_BG_COLOR: 'drag-bg-color',
+  DROPPED: 'dropped',
+  DROP_WIDTH: 'drop-width',
+  DROP_HEIGHT: 'drop-height',
+  DROP_BG_COLOR: 'drop-bg-color',
+  DROP_TARGET: 'drop-target',
   DROPDOWN_ICON: 'dropdown-icon',
   EDGE: 'edge',
   EDIT_NEXT_ON_ENTER_PRESS: 'edit-next-on-enter-press',
@@ -202,6 +212,7 @@ export const attributes = {
   GROUP_DISABLED: 'group-disabled',
   GROUP_LABEL: 'group-label',
   GROUP_SELECTS_CHILDREN: 'group-selects-children',
+  GROUPABLE: 'groupable',
   GROUPED: 'grouped',
   GROW: 'grow',
   HANDLE: 'handle',
@@ -317,6 +328,8 @@ export const attributes = {
   NO_HEADER: 'no-header',
   NO_MARGINS: 'no-margins',
   NO_PADDING: 'no-padding',
+  NO_SCROLL: 'no-scroll',
+  OFFSET_CONTAINER: 'offset-container',
   OFFSET_CONTENT: 'offset-content',
   OPACITY: 'opacity',
   OPERATOR: 'operator',
@@ -442,6 +455,7 @@ export const attributes = {
   SHOW_LIST_ITEM_ICON: 'show-list-item-icon',
   SHOW_LOADING_INDICATOR: 'show-loading-indicator',
   SHOW_EXPAND_AND_COLLAPSE_ICONS: 'show-expand-and-collapse-icons',
+  SHOW_EXPAND_AND_TOGGLE_ICONS: 'show-expand-and-toggle-icons',
   SHOW_PICKLIST_MONTH: 'show-picklist-month',
   SHOW_PICKLIST_WEEK: 'show-picklist-week',
   SHOW_PICKLIST_YEAR: 'show-picklist-year',
@@ -591,7 +605,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.3.0';
+export const version = '1.4.2';
 
 export enum IdsDirection {
   Up = 'up',

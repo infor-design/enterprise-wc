@@ -1,4 +1,4 @@
-# Ids Textarea Component
+# ids-textarea
 
 ## Description
 
@@ -12,7 +12,7 @@ The IDS Textarea component is a simple wrapper around a standard HTMLTextareaEle
 ## Terminology
 
 - Textarea: A standard basic textarea element. It can set to various types, size, and functionality. IDS Textarea will add `aria-required` for required elements.
-- Label: HTMLLabelElement to keep matching with HTMLTextareaElement. Make sure the textarea label has a meaningful relative to textarea. IDS Textarea will add sudo ui `*` for required elements.
+- Label: HTMLLabelElement to keep matching with HTMLTextareaElement. Make sure the textarea label has a meaningful relative to textarea. IDS Textarea will add pseudo UI `*` for required elements.
 
 ## Features (With Code Samples)
 
@@ -130,7 +130,6 @@ Set the sizes, available sizes are `'sm'|'md'|'lg'|'full'` and default type is `
 - `resizable` {boolean} set to resize the height of the textarea.
 - `rows` {number|string} set to visible height of a textarea in lines.
 - `text-align` {string} set text-align to textarea, it will set `left` as defaults.
-- `type` {string} set the textarea type, it will set `text` as defaults.
 - `validate` {string} set the textarea validation rules, use `space` to add multiple validation rules.
 - `validationEvents` {string} set the textarea validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
 - `value` {string} set the textarea value.

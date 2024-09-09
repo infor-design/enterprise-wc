@@ -139,9 +139,41 @@ test.describe('IdsPager tests', () => {
         return element.disabled;
       })).toBeTruthy();
       children.forEach(async (child) => {
-        await expect(child).toHaveAttribute('disabled');
         await expect(child).toHaveAttribute('parent-disabled');
       });
+      await idsPager.evaluate((element: IdsPager) => {
+        element.disabled = false;
+      });
+      children.slice(0, -1).forEach(async (child) => {
+        await expect(child).not.toHaveAttribute('parent-disabled');
+        await expect(child).not.toHaveAttribute('disabled');
+      });
+    });
+
+    test('nav buttons should stay disabled', async () => {
+      // Nav buttons with the "nav-disabled" attribute should stay disabled
+      // when the parent toggles its disabled state
+      await idsLast.click();
+      await expect(idsFirst).not.toHaveAttribute('nav-disabled');
+      await expect(idsFirst.locator('ids-button')).not.toHaveAttribute('disabled');
+      await expect(idsPrevious).not.toHaveAttribute('nav-disabled');
+      await expect(idsPrevious.locator('ids-button')).not.toHaveAttribute('disabled');
+      await idsPager.evaluate((element: IdsPager) => { element.disabled = true; });
+      await expect(idsFirst).toHaveAttribute('parent-disabled');
+      await expect(idsFirst.locator('ids-button')).toHaveAttribute('disabled');
+      await expect(idsPrevious).toHaveAttribute('parent-disabled');
+      await expect(idsPrevious.locator('ids-button')).toHaveAttribute('disabled');
+      await expect(idsLast).toHaveAttribute('nav-disabled');
+      await expect(idsNext).toHaveAttribute('nav-disabled');
+      await expect(idsLast.locator('ids-button')).toHaveAttribute('disabled');
+      await expect(idsNext.locator('ids-button')).toHaveAttribute('disabled');
+      await idsPager.evaluate((element: IdsPager) => { element.disabled = false; });
+      await expect(idsLast).toHaveAttribute('nav-disabled');
+      await expect(idsNext).toHaveAttribute('nav-disabled');
+      await expect(idsLast.locator('ids-button')).toHaveAttribute('disabled');
+      await expect(idsNext.locator('ids-button')).toHaveAttribute('disabled');
+      await expect(idsFirst.locator('ids-button')).not.toHaveAttribute('disabled');
+      await expect(idsPrevious.locator('ids-button')).not.toHaveAttribute('disabled');
     });
 
     test.skip('can set/get pageSize attribute', async () => {

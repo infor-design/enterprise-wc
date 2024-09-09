@@ -1,4 +1,4 @@
-# Ids Virtual Scroll Component
+# ids-virtual-scroll
 
 ## Description
 

@@ -95,30 +95,76 @@ test.describe('IdsAccordion tests', () => {
 
     test('expanding/collapsing pane when pressing Enter', async ({ page }) => {
       const panelHandle = await page.locator('ids-accordion ids-accordion-panel').first();
+      const headerHandle = await page.locator('ids-accordion ids-accordion-header').first();
 
-      // press Enter to expand pane and check
-      await panelHandle.evaluate((panel: IdsAccordionPanel) => { panel.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' })); });
+      // Ensure the header is focusable
+      await headerHandle.evaluate((header) => {
+        header.setAttribute('tabindex', '0');
+      });
+
+      // Ensure the header is focused before dispatching the keydown event
+      await headerHandle.focus();
+
+      // Check if the focus is on the correct element
+      const isFocused = await headerHandle.evaluate((header) => document.activeElement === header);
+      if (!isFocused) {
+        throw new Error('Header element is not focused');
+      }
+
+      // Press Enter to expand pane
+      await headerHandle.evaluate((header) => {
+        const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+        header.dispatchEvent(event);
+      });
       await expect(panelHandle.locator('.ids-accordion-pane')).toBeVisible();
-      expect(await panelHandle.evaluate((panel: IdsAccordionPanel) => panel.expanded)).toBeTruthy();
+      const isExpandedAfterEnter = await panelHandle.evaluate((panel: any) => panel.expanded);
+      expect(isExpandedAfterEnter).toBeTruthy();
 
-      // press Enter to collapse pane and check
-      await panelHandle.evaluate((panel: IdsAccordionPanel) => { panel.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' })); });
+      // Press Enter to collapse pane
+      await headerHandle.evaluate((header) => {
+        const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+        header.dispatchEvent(event);
+      });
       await expect(panelHandle.locator('.ids-accordion-pane')).not.toBeVisible();
-      expect(await panelHandle.evaluate((panel: IdsAccordionPanel) => panel.expanded)).toBeFalsy();
+      const isExpandedAfterSecondEnter = await panelHandle.evaluate((panel: any) => panel.expanded);
+      expect(isExpandedAfterSecondEnter).toBeFalsy();
     });
 
     test('expanding/collapsing pane when pressing Space', async ({ page }) => {
       const panelHandle = await page.locator('ids-accordion ids-accordion-panel').first();
+      const headerHandle = await page.locator('ids-accordion ids-accordion-header').first();
 
-      // press Space to expand pane and check
-      await panelHandle.evaluate((panel: IdsAccordionPanel) => { panel.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' })); });
+      // Ensure the header is focusable
+      await headerHandle.evaluate((header) => {
+        header.setAttribute('tabindex', '0');
+      });
+
+      // Ensure the header is focused before dispatching the keydown event
+      await headerHandle.focus();
+
+      // Check if the focus is on the correct element
+      const isFocused = await headerHandle.evaluate((header) => document.activeElement === header);
+      if (!isFocused) {
+        throw new Error('Header element is not focused');
+      }
+
+      // Press Space to expand pane and check
+      await headerHandle.evaluate((header) => {
+        const event = new KeyboardEvent('keydown', { key: ' ', bubbles: true });
+        header.dispatchEvent(event);
+      });
       await expect(panelHandle.locator('.ids-accordion-pane')).toBeVisible();
-      expect(await panelHandle.evaluate((panel: IdsAccordionPanel) => panel.expanded)).toBeTruthy();
+      const isExpandedAfterSpace = await panelHandle.evaluate((panel: any) => panel.expanded);
+      expect(isExpandedAfterSpace).toBeTruthy();
 
-      // press Space to collapse pane and check
-      await panelHandle.evaluate((panel: IdsAccordionPanel) => { panel.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' })); });
+      // Press Space to collapse pane and check
+      await headerHandle.evaluate((header) => {
+        const event = new KeyboardEvent('keydown', { key: ' ', bubbles: true });
+        header.dispatchEvent(event);
+      });
       await expect(panelHandle.locator('.ids-accordion-pane')).not.toBeVisible();
-      expect(await panelHandle.evaluate((panel: IdsAccordionPanel) => panel.expanded)).toBeFalsy();
+      const isExpandedAfterSecondSpace = await panelHandle.evaluate((panel: any) => panel.expanded);
+      expect(isExpandedAfterSecondSpace).toBeFalsy();
     });
 
     test('expanding/collapsing pane programatically', async ({ page }) => {

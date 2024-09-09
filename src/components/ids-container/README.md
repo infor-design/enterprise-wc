@@ -1,8 +1,8 @@
-# Ids Container Component
+# ids-container 
 
 ## Description
 
-We created a root container component. This is used currently for theming the page and reseting the browser styles. In addition the container is the parent element for the locale and language, all components that are in it will use this locale/language.
+A root container component that's used for theming the page and resetting the browser styles. The ids-container is also the parent element for the locale and language, all components that are in it will use this locale/language.
 
 ## Use Cases
 
@@ -34,10 +34,10 @@ A normal container with a set padding.
 
 ## Settings and Attributes
 
-- `scrollable` {boolean} Turns on the overflow to allow for scroll
-- `padding` {number} Sets the padding in px around the container (defaults to 0 / none)
-- `color-variant` {string} can be set to "alternate" to display contrasting color for text/icons via the [IdsColorVariantMixin](../../src/mixins/ids-color-variant-mixin/README.md)
-- `background-color` {boolean} can be set to "true" to display a background color (different based on theme)
+- `scrollable` {boolean} If `true`, turns on the overflow to allow for scroll.
+- `padding` {number} Sets the padding (in px) around the container. Defaults to 0 / none.
+- `color-variant` {string} Can be set to "alternate" to display contrasting color for text or icons via the [IdsColorVariantMixin](../../src/mixins/ids-color-variant-mixin/README.md).
+- `background-color` {boolean} Set as `true` to display a background color (different based on theme).
 
 ## States and Variations (With Code Examples)
 

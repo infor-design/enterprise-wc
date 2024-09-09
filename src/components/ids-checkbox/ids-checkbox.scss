@@ -17,7 +17,7 @@
     cursor: var(--ids-cursor-pointer);
     user-select: none;
     padding-block-start: 1px;
-    padding-inline-start: 25px;
+    padding-inline-start: var(--ids-space-md);
     margin-inline-end: 10px;
     position: relative;
     display: inline-block;
@@ -28,8 +28,8 @@
 
     &.required .label-checkbox::after {
       position: absolute;
-      font-family: var(--ids-font-family-default);
-      font-size: var(--ids-font-size-50);
+      font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+      font-size: var(--ids-font-size-md);
       color: var(--ids-input-required-indicator-color-text-default);
       content: '*';
       right: -10px;
@@ -143,7 +143,7 @@
   @include checkbox.checkbox-colored();
 
   .validation-message {
-    margin-top: var(--ids-space-xxs);
+    margin-top: var(--ids-space-2xs);
     margin-inline-start: -1px;
   }
 
@@ -180,5 +180,17 @@
 
   .ids-checkbox label {
     padding-inline-start: var(--ids-space-sm);
+  }
+}
+
+:host(.multiselect-loaded) {
+  .ids-checkbox {
+    text-indent: 0;
+    margin-inline-start: var(--ids-space-xs);
+
+    label {
+      margin-inline-end: 0;
+      padding-inline-start: 12px;
+    }
   }
 }

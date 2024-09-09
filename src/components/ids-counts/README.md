@@ -1,4 +1,4 @@
-# Ids Counts Component
+# ids-counts
 
 ## Description
 

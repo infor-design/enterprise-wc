@@ -1,4 +1,4 @@
-# Ids Stats Component
+# ids-stats
 
 ## Description
 

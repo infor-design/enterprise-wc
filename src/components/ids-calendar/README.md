@@ -1,8 +1,8 @@
-# Ids Calendar Component
+# ids-calendar
 
 ## Description
-The `ids-calendar` component is a web component that provides calendar view that displays month, week, and day views.
-User can switch between month, week, and day views using menu button inside the toolbar.
+
+The ids-calendar component provides a calendar view that displays month, week, and day views. See more [usage details](https://design.infor.com/components/components/calendar).
 
 ## Use Cases
 - Displays month view in selected date

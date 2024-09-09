@@ -35,7 +35,6 @@ You may want to run the test commands in a few ways depending what your doing. S
 - `npm run test` Silences percy and runs playwright tests, can add `-- component` to this
 - `npx nyc report` Make a readable coverage report
 - `open coverage/index.html` Open the coverage report
-- `npm run test:ci` Command that the `ci` (github actions) runs, shows more log and different report
 - `npx playwright test --update-snapshots` Update snapshots for all tests and
 - `npx playwright test --ui` Run the playwright GUI tool, most things in here are also in the Visual studio code plugin
 

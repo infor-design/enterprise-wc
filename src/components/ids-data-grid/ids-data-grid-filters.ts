@@ -169,6 +169,7 @@ export default class IdsDataGridFilters {
 
     const filterButton = `${this.#filterButtonTemplate(TYPE, column)}`;
     const trigger = `${this.#triggerFieldTemplate(TYPE, column, 'calendar', 'DatePickerTriggerButton')}`;
+
     const popup = `<ids-date-picker-popup
       attachment=".ids-data-grid-wrapper"
       data-filter-type="${TYPE}"
@@ -460,220 +461,245 @@ export default class IdsDataGridFilters {
     const isCleared = !conditions.length && this.root.datasource.filtered;
     let isFilterApply = false;
 
-    const checkRow = (row: any, index: number) => {
+    const checkColumn = (c: any, row: any, index: any, isKeyword: boolean = false) => {
       let isMatch = true;
+      if (!c.columnData) {
+        c.columnData = this.root.columnDataById(c.columnId);
+        if (!c.columnData) return;
+      }
 
-      for (let i = 0, l = conditions.length; i < l; i++) {
-        const c = conditions[i] || {};
-        if (!c.columnData) {
-          c.columnData = this.root.columnDataById(c.columnId);
-          if (!c.columnData) continue;
-        }
-
+      if (!isKeyword) {
         // Must be filter type
         if (typeof c.columnData.filterType !== 'function'
-          && typeof c.columnData.filterFunction !== 'function') continue;
+          && typeof c.columnData.filterFunction !== 'function') return;
 
         // Use custom filter
         if (typeof c.columnData.filterFunction === 'function') {
           isMatch = c.columnData.filterFunction({ data: row, index, condition: c });
           if (!isMatch) {
             this.#filterIsProcessing = false;
-            return true;
+            return isMatch;
           }
-          continue;
+          return;
         }
+      }
 
-        // All other use in-built filters
-        const filterType = c.columnData.filterType?.name;
+      // All other use in-built filters
+      const filterType = c.columnData.filterType?.name || 'text';
 
-        // Single filter
-        const filterWrapper = this.filterWrapperById(c.columnId);
-        if (hasClass(filterWrapper, 'disabled') || hasClass(filterWrapper, 'readonly')) continue;
+      // Single filter
+      const filterWrapper = this.filterWrapperById(c.columnId);
+      if (hasClass(filterWrapper, 'disabled') || hasClass(filterWrapper, 'readonly')) return;
 
-        const column = c.columnData;
-        const stringVal = (v: any) => ((v === null || v === undefined) ? '' : v.toString().toLowerCase());
-        const formatterVal = () => {
-          const val = IdsDataGridCell.template(row, column, index, this.root);
-          const rex = /(<([^>]+)>)|(amp;)|(&lt;([^>]+)&gt;)/ig;
-          return val.replace(rex, '').trim().toLowerCase();
-        };
-        let conditionValue = stringVal(c.value);
-        let value = row[column.field];
-        let valueStr = stringVal(value);
+      const column = c.columnData;
 
-        // Dropdown, multiselect and contents types
-        if (/dropdown|multiselect|contents/g.test(filterType)) {
-          if ((value === null || typeof value === 'undefined') && c.value === '') {
-            const temp = 'filter-blank-value-temp';
-            value = temp;
-            conditionValue = temp;
-          } else {
-            conditionValue = c.value;
+      const stringVal = (v: any) => ((v === null || v === undefined) ? '' : v.toString().toLowerCase());
+      const formatterVal = () => {
+        const val = IdsDataGridCell.template(row, column, index, this.root);
+        const rex = /(<([^>]+)>)|(amp;)|(&lt;([^>]+)&gt;)/ig;
+        return val.replace(rex, '').trim().toLowerCase();
+      };
+      let conditionValue = stringVal(c.value);
+      let value = row[column.field];
+      let valueStr = stringVal(value);
+
+      // Dropdown, multiselect and contents types
+      if (/dropdown|multiselect|contents/g.test(filterType)) {
+        if ((value === null || typeof value === 'undefined') && c.value === '') {
+          const temp = 'filter-blank-value-temp';
+          value = temp;
+          conditionValue = temp;
+        } else {
+          conditionValue = c.value;
+        }
+      }
+
+      // Run Data over the formatter
+      if (filterType === 'text') {
+        value = formatterVal();
+        valueStr = stringVal(value);
+      }
+
+      // Integer
+      if (filterType === 'integer') {
+        value = formatterVal();
+        value = this.root.localeAPI?.parseNumber(value);
+        conditionValue = this.root.localeAPI?.parseNumber(conditionValue);
+      }
+
+      // Date Time
+      if (filterType === 'date' || filterType === 'time') {
+        if (/string|undefined/g.test(typeof value)) value = formatterVal();
+        const getValues = (rValue: any, cValue: any) => {
+          // NOTE: HERE IS THE DATE PROBLEM, format is always equal to a time format, not a date format
+          const defaultFilterFormat = filterType === 'date'
+            ? this.root.localeAPI?.calendar().dateFormat
+            : this.root.localeAPI?.calendar().timeFormat;
+          const format = c.format || column.formatOptions || defaultFilterFormat;
+
+          cValue = this.root.localeAPI?.parseDate(cValue, format);
+          if (cValue) {
+            if (filterType === 'time') {
+              // drop the day, month and year
+              cValue.setDate(1);
+              cValue.setMonth(0);
+              cValue.setYear(0);
+            }
+
+            cValue = cValue.getTime();
           }
-        }
 
-        // Run Data over the formatter
-        if (filterType === 'text') {
-          value = formatterVal();
-          valueStr = stringVal(value);
-        }
+          if (typeof rValue === 'string' && rValue) {
+            rValue = this.root.localeAPI?.parseDate(rValue, format);
 
-        // Integer
-        if (filterType === 'integer') {
-          value = formatterVal();
-          value = this.root.localeAPI?.parseNumber(value);
-          conditionValue = this.root.localeAPI?.parseNumber(conditionValue);
-        }
-
-        // Date Time
-        if (filterType === 'date' || filterType === 'time') {
-          if (/string|undefined/g.test(typeof value)) value = formatterVal();
-          const getValues = (rValue: any, cValue: any) => {
-            // NOTE: HERE IS THE DATE PROBLEM, format is always equal to a time format, not a date format
-            const defaultFilterFormat = filterType === 'date'
-              ? this.root.localeAPI?.calendar().dateFormat
-              : this.root.localeAPI?.calendar().timeFormat;
-            const format = c.format || column.formatOptions || defaultFilterFormat;
-
-            cValue = this.root.localeAPI?.parseDate(cValue, format);
-            if (cValue) {
+            if (rValue) {
               if (filterType === 'time') {
                 // drop the day, month and year
-                cValue.setDate(1);
-                cValue.setMonth(0);
-                cValue.setYear(0);
+                rValue.setDate(1);
+                rValue.setMonth(0);
+                rValue.setYear(0);
+              } else if (!(column.formatOptions?.showTime)) {
+                // Drop any time component of the row data for the filter
+                // as it is a date only field
+                rValue.setHours(0);
+                rValue.setMinutes(0);
+                rValue.setSeconds(0);
+                rValue.setMilliseconds(0);
               }
-
-              cValue = cValue.getTime();
+              rValue = rValue.getTime();
             }
-
-            if (typeof rValue === 'string' && rValue) {
-              rValue = this.root.localeAPI?.parseDate(rValue, format);
-
-              if (rValue) {
-                if (filterType === 'time') {
-                  // drop the day, month and year
-                  rValue.setDate(1);
-                  rValue.setMonth(0);
-                  rValue.setYear(0);
-                } else if (!(column.formatOptions?.showTime)) {
-                  // Drop any time component of the row data for the filter
-                  // as it is a date only field
-                  rValue.setHours(0);
-                  rValue.setMinutes(0);
-                  rValue.setSeconds(0);
-                  rValue.setMilliseconds(0);
-                }
-                rValue = rValue.getTime();
-              }
-            }
-            return { rValue, cValue };
-          };
-
-          let values = null;
-          if (c.operator === 'in-range') { // range stuff
-            const datePickerPopup: IdsDatePickerPopup = this.root.wrapper.querySelector(`#${c.filterElem.getAttribute('aria-controls')}`)!;
-            if (datePickerPopup) {
-              if (c.value.indexOf(datePickerPopup.rangeSettings.separator) > -1) {
-                const cValues = c.value.split(datePickerPopup.rangeSettings.separator);
-                const range = { start: getValues(value, cValues[0]), end: getValues(value, cValues[1]) };
-                values = {
-                  rValue: range.start.rValue,
-                  cValue: { start: range.start.cValue, end: range.end.cValue }
-                };
-              } else values = getValues(value, c.value);
-            }
-          } else {
-            values = getValues(value, c.value);
           }
-          value = values ? values.rValue : value;
-          conditionValue = values ? values.cValue : conditionValue;
+          return { rValue, cValue };
+        };
+
+        let values = null;
+        if (c.operator === 'in-range') { // range stuff
+          const datePickerPopup: IdsDatePickerPopup = this.root.wrapper.querySelector(`#${c.filterElem.getAttribute('aria-controls')}`)!;
+          if (datePickerPopup) {
+            if (c.value.indexOf(datePickerPopup.rangeSettings.separator) > -1) {
+              const cValues = c.value.split(datePickerPopup.rangeSettings.separator);
+              const range = { start: getValues(value, cValues[0]), end: getValues(value, cValues[1]) };
+              values = {
+                rValue: range.start.rValue,
+                cValue: { start: range.start.cValue, end: range.end.cValue }
+              };
+            } else values = getValues(value, c.value);
+          }
+        } else {
+          values = getValues(value, c.value);
         }
+        value = values ? values.rValue : value;
+        conditionValue = values ? values.cValue : conditionValue;
+      }
+      switch (c.operator) {
+        case 'equals':
+          isMatch = (value === conditionValue && value !== '');
+          break;
+        case 'does-not-equal':
+          isMatch = (value !== conditionValue);
+          break;
+        case 'contains':
+          isMatch = (valueStr.indexOf(conditionValue) > -1 && value.toString() !== '');
+          break;
+        case 'does-not-contain':
+          isMatch = (valueStr.indexOf(conditionValue) === -1);
+          break;
+        case 'end-with':
+          isMatch = (valueStr.lastIndexOf(conditionValue) === (valueStr.length - conditionValue.toString().length) && valueStr !== '' && (valueStr.length >= conditionValue.toString().length));
+          break;
+        case 'start-with':
+          isMatch = (valueStr.indexOf(conditionValue) === 0 && valueStr !== '');
+          break;
+        case 'does-not-end-with':
+          isMatch = (valueStr.lastIndexOf(conditionValue) === (valueStr.length - conditionValue.toString().length) && valueStr !== '' && (valueStr.length >= conditionValue.toString().length));
+          isMatch = !isMatch;
+          break;
+        case 'does-not-start-with':
+          isMatch = !(valueStr.indexOf(conditionValue) === 0 && valueStr !== '');
+          break;
+        case 'is-empty':
+          isMatch = (valueStr === '');
+          break;
+        case 'is-not-empty':
+          if (typeof value === 'string') {
+            isMatch = !!value.length;
+            break;
+          }
+          if (typeof value === 'number') {
+            isMatch = !Number.isNaN(value);
+            break;
+          }
+          isMatch = value !== null && value !== undefined;
+          break;
+        case 'in-range':
+          if (typeof conditionValue === 'object') {
+            isMatch = value >= conditionValue.start && value <= conditionValue.end && value !== '';
+          } else isMatch = (value === conditionValue && value !== '');
+          break;
+        case 'less-than':
+          isMatch = (value < conditionValue && (value !== '' && value !== null));
+          break;
+        case 'less-equals':
+          isMatch = (value <= conditionValue && (value !== '' && value !== null));
+          break;
+        case 'greater-than':
+          isMatch = (value > conditionValue && (value !== '' && value !== null));
+          break;
+        case 'greater-equals':
+          isMatch = (value >= conditionValue && (value !== '' && value !== null));
+          break;
+        case 'selected':
+          if (typeof c.columnData.isChecked === 'function') {
+            isMatch = c.columnData.isChecked(value);
+            break;
+          }
+          isMatch = (valueStr === '1' || valueStr === 'true' || value === true || value === 1) && valueStr !== '';
+          break;
+        case 'not-selected':
+          if (typeof c.columnData.isChecked === 'function') {
+            isMatch = !c.columnData.isChecked(value);
+            break;
+          }
+          isMatch = (valueStr === '0' || valueStr === 'false' || value === false || value === 0 || valueStr === '');
+          break;
+        case 'selected-notselected':
+          isMatch = true;
+          break;
+        default:
+          break;
+      }
 
-        switch (c.operator) {
-          case 'equals':
-            isMatch = (value === conditionValue && value !== '');
-            break;
-          case 'does-not-equal':
-            isMatch = (value !== conditionValue);
-            break;
-          case 'contains':
-            isMatch = (valueStr.indexOf(conditionValue) > -1 && value.toString() !== '');
-            break;
-          case 'does-not-contain':
-            isMatch = (valueStr.indexOf(conditionValue) === -1);
-            break;
-          case 'end-with':
-            isMatch = (valueStr.lastIndexOf(conditionValue) === (valueStr.length - conditionValue.toString().length) && valueStr !== '' && (valueStr.length >= conditionValue.toString().length));
-            break;
-          case 'start-with':
-            isMatch = (valueStr.indexOf(conditionValue) === 0 && valueStr !== '');
-            break;
-          case 'does-not-end-with':
-            isMatch = (valueStr.lastIndexOf(conditionValue) === (valueStr.length - conditionValue.toString().length) && valueStr !== '' && (valueStr.length >= conditionValue.toString().length));
-            isMatch = !isMatch;
-            break;
-          case 'does-not-start-with':
-            isMatch = !(valueStr.indexOf(conditionValue) === 0 && valueStr !== '');
-            break;
-          case 'is-empty':
-            isMatch = (valueStr === '');
-            break;
-          case 'is-not-empty':
-            if (typeof value === 'string') {
-              isMatch = !!value.length;
-              break;
-            }
-            if (typeof value === 'number') {
-              isMatch = !Number.isNaN(value);
-              break;
-            }
-            isMatch = value !== null && value !== undefined;
-            break;
-          case 'in-range':
-            if (typeof conditionValue === 'object') {
-              isMatch = value >= conditionValue.start && value <= conditionValue.end && value !== '';
-            } else isMatch = (value === conditionValue && value !== '');
-            break;
-          case 'less-than':
-            isMatch = (value < conditionValue && (value !== '' && value !== null));
-            break;
-          case 'less-equals':
-            isMatch = (value <= conditionValue && (value !== '' && value !== null));
-            break;
-          case 'greater-than':
-            isMatch = (value > conditionValue && (value !== '' && value !== null));
-            break;
-          case 'greater-equals':
-            isMatch = (value >= conditionValue && (value !== '' && value !== null));
-            break;
-          case 'selected':
-            if (typeof c.columnData.isChecked === 'function') {
-              isMatch = c.columnData.isChecked(value);
-              break;
-            }
-            isMatch = (valueStr === '1' || valueStr === 'true' || value === true || value === 1) && valueStr !== '';
-            break;
-          case 'not-selected':
-            if (typeof c.columnData.isChecked === 'function') {
-              isMatch = !c.columnData.isChecked(value);
-              break;
-            }
-            isMatch = (valueStr === '0' || valueStr === 'false' || value === false || value === 0 || valueStr === '');
-            break;
-          case 'selected-notselected':
-            isMatch = true;
-            break;
-          default:
-            break;
-        }
+      isFilterApply = true;
 
-        isFilterApply = true;
+      if (!isMatch) {
+        this.#filterIsProcessing = false;
+      }
 
-        if (!isMatch) {
-          this.#filterIsProcessing = false;
-          return true;
+      return isMatch;
+    };
+
+    const checkRow = (row: any, index: number) => {
+      let isMatch = true;
+
+      for (let i = 0, l = conditions.length; i < l; i++) {
+        const c = conditions[i] || {};
+
+        if (c?.column === 'all') {
+          const columns = this.root.columns;
+          for (let j = 0; j < columns.length; j++) {
+            const column = columns[j];
+            const columnMatch = checkColumn({ ...c, columnId: column?.id }, row, index, true);
+            isMatch = !!columnMatch;
+            if (isMatch) {
+              break;
+            }
+          }
+        } else {
+          const columnMatch = checkColumn(c, row, index);
+          if (typeof columnMatch === 'undefined') {
+            continue;
+          }
+          isMatch = columnMatch;
         }
       }
       this.#filterIsProcessing = false;

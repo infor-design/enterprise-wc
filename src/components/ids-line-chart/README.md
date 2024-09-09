@@ -1,4 +1,4 @@
-# Ids Line Chart Component
+# ids-line-chart
 
 ## Description
 

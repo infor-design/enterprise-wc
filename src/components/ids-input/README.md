@@ -1,4 +1,4 @@
-# Ids Input Component
+# ids-input
 
 ## Description
 
@@ -12,7 +12,7 @@ The IDS Input component is a simple wrapper around a standard HTMLInputElement t
 ## Terminology
 
 - Input: A standard basic input element. It can set to various types, size, and functionality. IDS Input will add `aria-required` for required elements.
-- Label: HTMLLabelElement to keep matching with HTMLInputElement. Make sure the input label has a meaningful relative to input. IDS Input will add sudo ui `*` for required elements.
+- Label: HTMLLabelElement to keep matching with HTMLInputElement. Make sure the input label has a meaningful relative to input. IDS Input will add pseudo UI `*` for required elements.
 
 ## Features (With Code Samples)
 

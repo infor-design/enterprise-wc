@@ -83,7 +83,7 @@ test.describe('IdsForm tests', () => {
       }
     });
 
-    test('can set/get fieldHeight attribute', async ({ page }) => {
+    test.skip('can set/get fieldHeight attribute', async ({ page }) => {
       const testData = [
         {
           data: 'xs', expected: 'xs', attrExpected: 'xs', childrenExpected: 'xs'

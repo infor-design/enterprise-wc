@@ -4,7 +4,7 @@
           <div class="ids-card-header" part="header">
             <slot name="card-header"></slot>
           </div>
-          <div class="ids-card-content  " part="content">
+          <div class="ids-card-content" part="content">
             <slot name="card-content"></slot>
           </div>
           <div class="ids-card-checkbox hidden">

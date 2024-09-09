@@ -41,7 +41,7 @@ const Base = IdsClearableMixin(
 export default class IdsColorPicker extends Base {
   isFormComponent = true;
 
-  useDefaultSwatches = true;
+  useDefaultSwatches = false;
 
   initialized = false;
 
@@ -191,7 +191,7 @@ export default class IdsColorPicker extends Base {
       ...Object.values(['--ids-color-blue-10', '--ids-color-blue-20', '--ids-color-blue-30', '--ids-color-blue-40', '--ids-color-blue-50', '--ids-color-blue-60', '--ids-color-blue-70', '--ids-color-blue-80', '--ids-color-blue-90', '--ids-color-blue-100']),
       ...Object.values(['--ids-color-teal-10', '--ids-color-teal-20', '--ids-color-teal-30', '--ids-color-teal-40', '--ids-color-teal-50', '--ids-color-teal-60', '--ids-color-teal-70', '--ids-color-teal-80', '--ids-color-teal-90', '--ids-color-teal-100']),
       ...Object.values(['--ids-color-purple-10', '--ids-color-purple-20', '--ids-color-purple-30', '--ids-color-purple-40', '--ids-color-purple-50', '--ids-color-purple-60', '--ids-color-purple-70', '--ids-color-purple-80', '--ids-color-purple-90', '--ids-color-purple-100']),
-      ...Object.values(['--ids-color-gray-10', '--ids-color-gray-20', '--ids-color-gray-30', '--ids-color-gray-40', '--ids-color-gray-50', '--ids-color-gray-60', '--ids-color-gray-70', '--ids-color-gray-80', '--ids-color-gray-90', '--ids-color-gray-100']),
+      ...Object.values(['--ids-color-neutral-10', '--ids-color-neutral-20', '--ids-color-neutral-30', '--ids-color-neutral-40', '--ids-color-neutral-50', '--ids-color-neutral-60', '--ids-color-neutral-70', '--ids-color-neutral-80', '--ids-color-neutral-90', '--ids-color-neutral-100']),
     ].map(createColor);
 
     return paletteGroups;
@@ -486,7 +486,7 @@ export default class IdsColorPicker extends Base {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.popup.show();
     this.popup?.addOpenEvents();
-    this.#configureSwatches();
+    this.#configureSwatches(true);
   }
 
   /**
@@ -660,8 +660,11 @@ export default class IdsColorPicker extends Base {
     this.offEvent('input.color-picker-input', this.colorInput);
   }
 
-  /** Configure disabled/labels/tooltips attributes on IdsColor swatches */
-  #configureSwatches(): void {
+  /**
+   * Configure disabled/labels/tooltips attributes on IdsColor swatches
+   * @param {boolean} shouldFocus true if a swatch should be focused
+   */
+  #configureSwatches(shouldFocus = false): void {
     this.swatches.forEach((swatch: IdsColor) => {
       swatch.classList.add('outlined');
       swatch.tooltip = this.suppressLabels ? (this.tooltip || swatch.hex) : (this.tooltip || swatch.label);
@@ -674,7 +677,9 @@ export default class IdsColorPicker extends Base {
       }
     });
 
-    (this.#findColorSwatch(this.value) || this.swatches[0])?.swatch?.focus();
+    if (shouldFocus) {
+      (this.#findColorSwatch(this.value) || this.swatches[0])?.swatch?.focus();
+    }
   }
 
   /**

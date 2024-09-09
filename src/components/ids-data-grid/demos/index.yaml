@@ -23,6 +23,9 @@
   - link: auto-fit.html
     type: Example
     description: Shows a data grid that sizes to the size of the parent container
+  - link: beforecelledit-async.html
+    type: Example
+    description: Shows usage of async beforecelledit event
   - link: columns-auto.html
     type: Example
     description: Shows auto column widths
@@ -103,6 +106,9 @@
     description: Shows a data grid with ability to add rows
   - link: editable.html
     type: Example
+    description: Shows a data grid with an empty dropdown
+  - link: editable-empty-options.html
+    type: Example
     description: Shows a data grid with editable cells
   - link: editable-lookup.html
     type: Example
@@ -137,10 +143,16 @@
   - link: filter.html
     type: Example
     description: Shows a filter row
+  - link: grouped-rows.html
+    type: Example
+    description: Shows row grouping
   - link: header-multiline.html
     type: Example
     description: Shows a two line header
   - link: in-modal.html
+    type: Example
+    description: Shows a data grid in a modal
+  - link: in-tabs.html
     type: Example
     description: Shows a data grid in a modal
   - link: infinite-scroll.html
@@ -194,6 +206,9 @@
   - link: single-selection.html
     type: Example
     description: Shows a data grid with single selection
+  - link: splitter.html
+    type: Example
+    description: Shows data grids in a splitter
   - link: standalone-css.html
     type: Standalone CSS
     description: Shows a css only styles table
@@ -278,3 +293,6 @@
   - link: xss-prevention.html
     type: Test
     description: Shows a data grid can prevent xss
+  - link: searchable.html
+    type: Searchable
+    description: Shows a data grid can search for the keyword

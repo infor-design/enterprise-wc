@@ -1,4 +1,4 @@
-# Ids Theme Switcher Component
+# ids-theme-switcher
 
 ## Description
 

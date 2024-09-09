@@ -1,16 +1,12 @@
-# Ids Date Picker Component
+# ids-date-picker
 
 ## Description
-The `ids-date-picker` is a web component to support date entry
-
-## Use Cases
-- Display date form field with input attributes (value, label, placeholder, disabled, readonly) and validation
-- Display date picker in calendar toolbar (`ids-week-view`, `ids-month-view`)
+The date picker supports date entry with input attributes (value, label, placeholder, disabled, readonly) and validation. See more [usage details](https://design.infor.com/components/components/datepicker).
 
 ## Settings (Attributes)
-- `colorVariant` {string} set the current color variant.
-- `compact` {boolean} sets the component to be compact mode.
-- `fieldHeight` {string} defines the field height. See [Ids Field Height Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-field-height-mixin/README.md) for more information.
+- `colorVariant` {string} Sets the current color variant.
+- `compact` {boolean} Sets the component to be compact mode.
+- `fieldHeight` {string} Defines the field height. See [Ids Field Height Mixin](https://github.com/infor-design/enterprise-wc/blob/main/src/mixins/ids-field-height-mixin/README.md) for more information.
 - `value` {string|null} - Input value
 - `placeholder` {true|false} - Whether or not to show date format as input placeholder
 - `label` {string|null} - Input label
@@ -222,16 +218,6 @@ datePicker.disableSettings = {
 - <kbd>T</kbd> inserts today's date. Except for cases where date format includes wide/abbreviated months
 - <kbd>+</kbd> Is used to increment the day in the calendar. This is in addition to the <kbd>Right</kbd>. This works both when in the input field or when the calendar picker is open. If the date pattern contains a `-` in it then this key interferes with typing so this key shortcut is disabled.
 - <kbd>-</kbd>  Is used to increment the day in the calendar. This is in addition to the <kbd>Left</kbd>. This works both when in the input field or when the calendar picker is open. If the date pattern contains a `-` in it then this key interferes with typing so this key shortcut is disabled.
-
-## Accessibility
-The Date Picker is a complex control to code for accessibility.
-
-- Always associate labels to the input field
-- Add an `aria` label to the calendar element
-- Add `aria-selected=true` to selected day
-- Add instructional information like "Use down arrow to select" to the input as an audible label
-- Each calendar item should have an audible label to announce the day of week while arrowing through days
-- For comparison, see a similar <a href="http://oaa-accessibility.org/example/15/" target="_blank">example</a>
 
 ## Converting from Previous Versions (Breaking Changes)
 

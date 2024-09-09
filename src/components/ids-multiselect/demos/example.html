@@ -14,15 +14,15 @@
     <ids-layout-grid auto-fit="true" padding-x="md">
       <ids-layout-grid-cell>
 
-        <ids-multiselect id="multiselect-1" label="Multiselect (with max 3 choices and dirty tracker)" max="3" dirty-tracker="true">
+        <ids-multiselect id="multiselect-1" placeholder="Select states" label="Multiselect (with max 6 choices and dirty tracker)" max="6" dirty-tracker="true">
           <ids-list-box>
             <ids-list-box-option id="al1" value="al" tooltip="The State of Alabama"><ids-checkbox label="Alabama"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="ak1" value="ak" tooltip="The State of Alaska"><ids-checkbox label="Alaska"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="az1" value="az" tooltip="The State of Arizona"><ids-checkbox label="Arizona"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="ar1" value="ar" tooltip="The State of Arkansas"><ids-checkbox label="Arkansas"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option id="ca1" value="ca" tooltip="The State of California" selected><ids-checkbox label="California"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="ca1" value="ca" tooltip="The State of California"><ids-checkbox label="California"></ids-checkbox></ids-list-box-option>
             <ids-list-box-option id="co1" value="co" tooltip="The State of Colorado"><ids-checkbox label="Colorado"></ids-checkbox></ids-list-box-option>
-            <ids-list-box-option id="nj1" value="nj" tooltip="The State of New Jersey" selected><ids-checkbox label="New Jersey"></ids-checkbox></ids-list-box-option>
+            <ids-list-box-option id="nj1" value="nj" tooltip="The State of New Jersey"><ids-checkbox label="New Jersey"></ids-checkbox></ids-list-box-option>
           </ids-list-box>
         </ids-multiselect>
 
@@ -44,7 +44,7 @@
           </ids-list-box>
         </ids-multiselect>
 
-        <ids-multiselect id="multiselect-3" tags="true" label="Multiselect (with icons)" max="4" dirty-tracker="false">
+        <ids-multiselect id="multiselect-3" placeholder="Multiselect with icons" tags="true" label="Multiselect (with icons)" max="4" dirty-tracker="false">
           <ids-list-box>
             <ids-list-box-option value="opt1" id="opt1-d5">
               <ids-icon icon="user-profile"></ids-icon>
@@ -89,7 +89,6 @@
             <ids-list-box-option value="ak">Alaska</ids-list-box-option>
           </ids-list-box>
         </ids-multiselect>
-
       </ids-layout-grid-cell>
     </ids-layout-grid>
 

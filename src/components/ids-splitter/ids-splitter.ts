@@ -190,6 +190,7 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   collapse(options: IdsSplitterCollapseExpandOpts = {}): void {
+    const { useRTL } = this.#prop;
     if (this.disabled) {
       if (!options.initial) return;
     }
@@ -207,11 +208,9 @@ export default class IdsSplitter extends Base {
       const before = this.#sizes[idx];
       const hasSize = this.#sizes[idx] > this.#minSizes[idx];
 
-      (this.#expandSizes as any)[idx] = hasSize ? this.#sizes[idx] : this.#defaultsSize;
-
       if (hasSize) {
         const diff = this.#minSizes[idx] - this.#sizes[idx];
-        const pixelDiff = this.#toPixel(diff);
+        const pixelDiff = this.#toPixel(diff * (useRTL ? -1 : 1));
         this.#move({ ...pair, diff: pixelDiff, initial: options.initial });
       }
       if (before !== this.#sizes[idx]) {
@@ -230,6 +229,7 @@ export default class IdsSplitter extends Base {
    * @returns {void}
    */
   expand(options: IdsSplitterCollapseExpandOpts = {}): void {
+    const { useRTL } = this.#prop;
     if (this.disabled) {
       return;
     }
@@ -248,7 +248,7 @@ export default class IdsSplitter extends Base {
       const collapsed = stringToBool(pane.getAttribute(COLLAPSED));
       if (collapsed) {
         const diff = this.#expandSizes[idx] - this.#minSizes[idx];
-        this.#move({ ...pair, diff: this.#toPixel(diff) });
+        this.#move({ ...pair, diff: this.#toPixel(diff * (useRTL ? -1 : 1)) });
       }
       if (before !== this.#sizes[idx]) {
         pane.removeAttribute(COLLAPSED);
@@ -1019,12 +1019,9 @@ export default class IdsSplitter extends Base {
     end.pane.style[this.#prop.dimension] = `${newSize.end}%`;
     start.pane.setAttribute(attributes.SIZE, `${newSize.start}%`);
     end.pane.setAttribute(attributes.SIZE, `${newSize.end}%`);
-    if (newSize.start === 0) {
-      start.pane.setAttribute(COLLAPSED, '');
-    }
-    if (newSize.end === 0) {
-      end.pane.setAttribute(COLLAPSED, '');
-    }
+
+    start.pane.toggleAttribute(COLLAPSED, newSize.start === 0);
+
     this.initialized = true;
     return newSize;
   }

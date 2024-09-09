@@ -1,4 +1,4 @@
-# Ids Tag Component
+# ids-tag
 
 ## Description
 

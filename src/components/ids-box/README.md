@@ -1,16 +1,8 @@
-# Ids Box Component
+# ids-box
 
 ## Description
 
-Boxes are small UI that are a base layer to cards and widgets that. They can be used as a lightweight container on their own for visual information. If your looking for most specific card features you might expect. Do checkout the card component as it is much more useful. If your looking for home page "cards" look at the widget component.
-
-## Use Cases
-
-- Use when you want to show visual information in a box with border or without and center the content
-
-## Dos and Don'ts
-
-- Overcrowd your content with boxes, so people can see the items clearly.
+ids-box is a primitive component that cards and widgets build on. Also consider ids-card, as it includes additional interactivity. See ids-widget for use with Role-Based Workspaces (RBWS).
 
 ## Terminology
 
@@ -20,7 +12,7 @@ Boxes are small UI that are a base layer to cards and widgets that. They can be 
 
 ## Features (With Code Examples)
 
-A box tag used as a web component with 16x padding by default.
+A box with default padding:
 
 ```html
 <ids-box>
@@ -28,7 +20,7 @@ A box tag used as a web component with 16x padding by default.
 </ids-box>
 ```
 
-A square box with padding and unrounded corners
+A square box with padding and unrounded corners:
 
 ```html
 <ids-box square padding-x="32" padding-y="32" border-radius="0">
@@ -44,10 +36,10 @@ A square box with padding and unrounded corners
 ## Settings (Attributes)
 
 - `actionable` {boolean} Adds actionable states (when used in cards)
-- `backgroundColor` {string} Set the background color (as a css variable)
+- `backgroundColor` {string} Set the background color (as a CSS variable)
 - `borderless` {boolean} Turns off the borders
 - `borderRadius` {number} Sets the border radius to something non-default
-- `shadowed` {number} Turn off the border but leave the shadow (for home pages)
+- `shadowed` {number} Turn off the border but leave the shadow (for RBWS)
 - `width` {string} Sets a width in pixels or percent
 - `height` {string} Sets a height in pixels or percent
 - `paddingX` {string} Set the x axis padding on the box contents (in pixels)

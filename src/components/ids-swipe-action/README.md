@@ -1,4 +1,4 @@
-# Ids Swipe Action Component
+# ids-swipe-action
 
 ## Description
 

@@ -131,5 +131,102 @@ test.describe('IdsNotificationBanner tests', () => {
         (elem: IdsNotificationBanner) => elem.container?.querySelector<HTMLElement>('.ids-notification-banner-link')?.hasAttribute('hidden')
       )).toBeTruthy();
     });
+
+    test('should handle line clamp setting', async ({ page }) => {
+      const notificationBanner = await page.locator('ids-notification-banner').first();
+      const lineClampValue = await notificationBanner.evaluate((banner: IdsNotificationBanner) => {
+        banner.lineClamp = 2;
+        return banner.lineClamp;
+      });
+
+      expect(lineClampValue).toEqual(2);
+    });
+
+    test('should fire beforeclose event', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const banner = document.querySelector<IdsNotificationBanner>('ids-notification-banner');
+        banner?.addEventListener('beforeclose', () => { calls++; });
+        banner?.dismiss();
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+
+    test('should fire close event', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const banner = document.querySelector<IdsNotificationBanner>('ids-notification-banner');
+        banner?.addEventListener('close', () => { calls++; });
+        banner?.dismiss();
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+
+    test('should fire afterclose event', async ({ page }) => {
+      const noOfCalls = await page.evaluate(() => {
+        let calls = 0;
+        const banner = document.querySelector<IdsNotificationBanner>('ids-notification-banner');
+        banner?.addEventListener('afterclose', () => { calls++; });
+        banner?.dismiss();
+        return calls;
+      });
+      expect(await noOfCalls).toBe(1);
+    });
+  });
+
+  test.describe('Notification Banner Service Tests', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-notification-banner/as-service.html');
+    });
+
+    test('should be able to show a few messages', async ({ page }) => {
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+
+      const count = await page.evaluate(() => document.querySelectorAll('ids-notification-banner').length);
+      expect(count).toBe(3);
+    });
+
+    test('should be able to check count', async ({ page }) => {
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+
+      const count = await page.evaluate(() => (window as any).IdsNotificationBannerService.count);
+      expect(count).toBe(3);
+    });
+
+    test('should be able to close all', async ({ page }) => {
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+
+      await page.evaluate(() => (window as any).IdsNotificationBannerService.dismissAll());
+      const count = await page.evaluate(() => document.querySelectorAll('ids-notification-banner').length);
+      expect(count).toBe(0);
+    });
+
+    test('should be able to close first', async ({ page }) => {
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+
+      await page.evaluate(() => (window as any).IdsNotificationBannerService.dismissNewest());
+      const count = await page.evaluate(() => document.querySelectorAll('ids-notification-banner').length);
+      expect(count).toBe(2);
+    });
+
+    test('should be able to close last', async ({ page }) => {
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+      await page.locator('#show-notification').click();
+
+      await page.evaluate(() => (window as any).IdsNotificationBannerService.dismissOldest());
+      const count = await page.evaluate(() => document.querySelectorAll('ids-notification-banner').length);
+      expect(count).toBe(2);
+    });
   });
 });

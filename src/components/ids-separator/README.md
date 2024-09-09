@@ -1,4 +1,4 @@
-# Ids Separator Component
+# ids-separator
 
 The Separator Component provides a visual separator between two items. Its currently used on `ids-toolbar` and `ids-menu` and `ids-popupmenu`. In each case it adds a vertical line between two of the respective items.
 

@@ -2,18 +2,19 @@
 
 ## Publishing a package to NPM
 
-- Search for `1.3.0` (current version) and replace with new version (currently `1.3.0`), It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js` and this file (but not the change log)
+- Confirm the change log versions and information
+- Search for `1.4.2` (current version) and replace with new version (currently `1.4.2`), It will be in`package.json`, `package-dist.json`, about tests, and `src/core/ids-attributes.js` and this file (but not the change log)
 - Commit and push
-- Make and push a tag with `git tag 1.3.0 && git push origin --tags`
+- Make and push a tag with `git tag 1.4.2 && git push origin --tags`
 - Run command `npm run publish:dry-run` to test first if you wish
 - Run command `npm run publish:npm` or `publish:debug` (we may want to publish debuggable code for a period of time of stability)
 - If not installed, install GitHub cli so you get the [`gh`](https://cli.github.com/manual/gh_release_create) command with `brew install gh`
-- Run command `gh release create 1.3.0 --title "1.3.0"`
+- Run command `gh release create 1.4.2 --title "1.4.2"`
 - Go to [`the releases page`](https://github.com/infor-design/enterprise-wc/releases) and edit the changelog contents to just the current release and if needed and make it pre-release
 - Commit and push (direct to repo or PR)
-- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-130`
+- Update the stackblitz `https://stackblitz.com/edit/ids-enterprise-wc-141`
 - Post in announcements section following other similar link
-- update all the enterprise-wc-examples projects
+- update all the `enterprise-wc-examples` projects
 - (Run the docs generator (TBD) for `https://design.infor.com/web-components/` by running `scripts/docs-generator/main.js`
 
 ```sh
@@ -82,4 +83,4 @@ Limitations:
 - Run `ncu` to see whats new if you do not have this check util install it `npm install -g npm-check-updates`
 - Run `npm i` to update the dependencies, if you get any errors like `overriding peer dependency` then revert the one change, it means something isn't quite in sync yet
 - Copy the icon.json from ids-identity into the icons folder (doing this while old icons are needed)
-- Search for `ids-enterprise@4.92.1` and update
+- Search for `ids-enterprise@4.98.2` and update

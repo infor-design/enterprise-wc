@@ -1,4 +1,4 @@
-# Ids Widget Component
+# ids-widget
 
 ## Description
 

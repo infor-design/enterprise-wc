@@ -3,17 +3,19 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsDropdown from '../ids-dropdown/ids-dropdown';
+import { IdsDropdownOptions } from '../ids-dropdown/ids-dropdown-common';
 
-import '../ids-checkbox/ids-checkbox';
 import '../ids-tag/ids-tag';
 import '../ids-text/ids-text';
 import '../ids-list-box/ids-list-box-option';
+import '../ids-search-field/ids-search-field';
 
 import styles from './ids-multiselect.scss';
 
 import type IdsListBoxOption from '../ids-list-box/ids-list-box-option';
 import type IdsTag from '../ids-tag/ids-tag';
 import type IdsText from '../ids-text/ids-text';
+import IdsCheckbox from '../ids-checkbox/ids-checkbox';
 
 /**
  * IDS Multiselect Component
@@ -42,9 +44,21 @@ class IdsMultiselect extends IdsDropdown {
       this.#populateSelected();
     });
 
-    const innerInput = this.shadowRoot?.querySelector('ids-trigger-field')?.shadowRoot?.querySelector('input');
-    innerInput?.style.setProperty('color', 'transparent');
+    if (!this.typeahead) {
+      const innerInput = this.shadowRoot?.querySelector('ids-trigger-field')?.shadowRoot?.querySelector('input');
+      innerInput?.style.setProperty('color', 'transparent');
+    }
+
+    if (this.typeahead) {
+      this.setOptionsData();
+
+      if (this.tags) {
+        this.#handleSearchField(true);
+      }
+    }
   }
+
+  optionsData: IdsDropdownOptions = [];
 
   internalSelectedList: Array<string> = [];
 
@@ -104,6 +118,28 @@ class IdsMultiselect extends IdsDropdown {
    */
   get tags(): boolean {
     return stringToBool(this.getAttribute(attributes.TAGS));
+  }
+
+  /**
+   * Sets the placeholder attribute
+   * @param {string} value - the placeholder text
+   */
+  set placeholder(value: string) {
+    if (value) {
+      this.setAttribute(attributes.PLACEHOLDER, value);
+      this.input?.setAttribute(attributes.PLACEHOLDER, value);
+    } else {
+      this.removeAttribute(attributes.PLACEHOLDER);
+      this.input?.removeAttribute(attributes.PLACEHOLDER);
+    }
+  }
+
+  /**
+   * Get the placeholder attribute
+   * @returns {string} the placeholder text
+   */
+  get placeholder(): string {
+    return this.getAttribute(attributes.PLACEHOLDER) ?? '';
   }
 
   /**
@@ -224,7 +260,9 @@ class IdsMultiselect extends IdsDropdown {
         return;
       }
 
-      this.#optionChecked(this.selected);
+      if (this.selected) {
+        this.#optionChecked(this.selected);
+      }
     });
   }
 
@@ -244,6 +282,17 @@ class IdsMultiselect extends IdsDropdown {
 
     if (this.selected) {
       this.deselectOption(this.selected);
+    }
+
+    if (this.typeahead) {
+      // In case unfinished typeahead (typing is in process)
+      // closing popup will reset multiselect to the initial value
+      this.input?.setAttribute(attributes.READONLY, 'true');
+      this.#updateDisplay();
+      this.loadDataSet(this.optionsData);
+      (window.getSelection() as Selection).removeAllRanges();
+      this.searchField?.clear();
+      this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
 
     if (!noFocus) {
@@ -266,20 +315,20 @@ class IdsMultiselect extends IdsDropdown {
 
   /**
    * Check option checkbox and update selected list
-   * @param {HTMLElement} option selected ids-list-box-option element
+   * @param {IdsListBoxOption} option selected ids-list-box-option element
    */
-  #optionChecked(option: any) {
+  #optionChecked(option: IdsListBoxOption) {
     if (!option || option?.hasAttribute(attributes.GROUP_LABEL)) return;
 
     const value = option.getAttribute('value');
     const isSelected = this.internalSelectedList.some((item) => value === item);
-    const checkbox = option.querySelector('ids-checkbox');
+    const checkbox = option.querySelector<IdsCheckbox>('ids-checkbox');
     const canSelect = this.max !== this.value.length;
 
     if (isSelected || canSelect) {
       this.internalSelectedList = isSelected
         ? this.internalSelectedList.filter((item) => item !== value)
-        : [...this.internalSelectedList, value];
+        : [...this.internalSelectedList, value].filter((item): item is string => item !== null);
 
       if (checkbox) {
         checkbox.onEvent('change', checkbox, (e: CustomEvent) => {
@@ -301,6 +350,20 @@ class IdsMultiselect extends IdsDropdown {
   }
 
   /**
+   * Add custom placeholder text to the input
+   */
+  #addPlaceholder() {
+    this.input?.insertAdjacentHTML('afterbegin', `<ids-text class="placeholder">${this.placeholder}</ids-text>`);
+  }
+
+  /**
+   * Remove placeholder text from the input
+   */
+  #removePlaceholder() {
+    this.input?.querySelector<IdsText>('.placeholder')?.remove();
+  }
+
+  /**
    * Update value in the input visually
    */
   #updateDisplay() {
@@ -308,9 +371,14 @@ class IdsMultiselect extends IdsDropdown {
     const selected = optionsSorted.filter((item: IdsListBoxOption) => this.internalSelectedList.includes(item.value));
     const newValue = selected.map((item: IdsListBoxOption) => item.label).join(', ');
 
-    // Clear tags/text before rerender
+    // Clear tags/text and placeholder before rerender
     this.input?.querySelectorAll<IdsTag>('ids-tag').forEach((item) => item.remove());
     this.input?.querySelector<IdsText>('ids-text')?.remove();
+    this.#removePlaceholder();
+
+    if (this.placeholder && selected.length === 0) {
+      this.#addPlaceholder();
+    }
 
     if (this.tags) {
       const tags = selected.map((item: any) => {
@@ -327,7 +395,9 @@ class IdsMultiselect extends IdsDropdown {
       }).join('');
       this.input?.insertAdjacentHTML('afterbegin', tags);
     } else {
-      this.input?.insertAdjacentHTML('afterbegin', `<ids-text overflow="ellipsis" tooltip="true">${newValue}</ids-text>`);
+      if (!this.typeahead) {
+        this.input?.insertAdjacentHTML('afterbegin', `<ids-text overflow="ellipsis" tooltip="true">${newValue}</ids-text>`);
+      }
 
       const text = this.input?.querySelector<IdsText>('ids-text');
       const fieldContainer = this.input?.fieldContainer;
@@ -402,6 +472,47 @@ class IdsMultiselect extends IdsDropdown {
     });
 
     this.value = this.internalSelectedList;
+  }
+
+  /**
+   * Set typeahead attribute
+   * @param {string | boolean | null} value typeahead value
+   */
+  set typeahead(value: string | boolean | null) {
+    const val = stringToBool(value);
+    const innerInput = this.shadowRoot?.querySelector('ids-trigger-field')?.shadowRoot?.querySelector('input');
+
+    if (val) {
+      this.setAttribute(attributes.TYPEAHEAD, String(val));
+      this.setOptionsData();
+      innerInput?.style.removeProperty('color');
+      if (this.tags) {
+        this.#handleSearchField(true);
+      }
+    } else {
+      innerInput?.style.setProperty('color', 'transparent');
+      this.#handleSearchField(false);
+    }
+    this.#updateDisplay();
+
+    this.container?.classList.toggle('typeahead', val);
+  }
+
+  /**
+   * Get the typeahead attribute
+   * @returns {boolean} typeahead attribute value converted to boolean
+   */
+  get typeahead(): boolean {
+    return stringToBool(this.getAttribute(attributes.TYPEAHEAD));
+  }
+
+  #handleSearchField(shouldAdd?: boolean) {
+    requestAnimationFrame(() => {
+      this.searchField?.remove();
+      if (shouldAdd) {
+        this.popup?.insertAdjacentHTML('afterbegin', `<ids-search-field slot="content" label-state="collapsed" placeholder="" color-variant="dropdown" no-margins></ids-search-field>`);
+      }
+    });
   }
 }
 

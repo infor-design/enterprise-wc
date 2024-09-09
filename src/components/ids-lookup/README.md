@@ -1,4 +1,4 @@
-# Ids Lookup Component
+# ids-lookup
 
 ## Description
 
@@ -49,6 +49,18 @@ lookup.dataGridSettings = {
   pagination: 'client-side'
 };
 lookup.data = data;
+```
+
+Set the sizes, available sizes are `'xs'|'sm'|'mm'|'md'|'lg'|'full'` and default type is `size="md"`.
+
+```html
+<ids-lookup label="Default" value="opt3"></ids-lookup>
+<ids-lookup label="Extra Small" value="1" size="xs"></ids-lookup>
+<ids-lookup label="Small" value="opt3" size="sm"></ids-lookup>
+<ids-lookup label="Small - Medium" value="opt3" size="mm"></ids-lookup>
+<ids-lookup label="Medium" value="opt3" size="md"></ids-lookup>
+<ids-lookup label="Large" value="opt3" size="lg"></ids-lookup>
+<ids-lookup label="Full" value="opt3" size="full"></ids-lookup>
 ```
 
 ### Lookup search
@@ -116,7 +128,8 @@ Then use the `search` and `cleared` events to implement search logic. The events
 
 ## Events
 
-- `change` Fires when the lookup is changed either by typing, or selecting rows in the lookup modal
+- `change` Fires when the lookup is changed and blurred, or selecting rows in the lookup modal
+- `input` Fires when the lookup is changed either by typing, or selecting rows in the lookup modal
 - `search` Fires when enabling `searchable="true"` and then typing and hitting enter in the search field on the modal
 - `clear` Fires if `searchable="true"` and you clear the search field by hitting the `x` button
 - `beforerowselected` Fires before selecting a row and can be vetoed

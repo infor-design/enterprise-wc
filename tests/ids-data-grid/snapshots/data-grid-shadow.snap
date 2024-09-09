@@ -19,8 +19,8 @@
         
       </span>
     
-      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="2" column-id="rowNumber" role="columnheader">
-        <span class="ids-data-grid-header-cell-content is-reorderable">
+      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="2" column-id="rowNumber" role="columnheader">
+        <span class="ids-data-grid-header-cell-content">
         
         
         <span class="ids-data-grid-header-text">
@@ -28,7 +28,7 @@
         </span>
         
         
-      </span><span class="resizer"></span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
+      </span><span class="resizer"></span>
         
       </span>
     
@@ -115,8 +115,8 @@
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="9" column-id="transactionCurrency" role="columnheader">
-        <span class="ids-data-grid-header-cell-content">
+      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="9" column-id="transactionCurrency" role="columnheader">
+        <span class="ids-data-grid-header-cell-content is-reorderable">
         
         
         <span class="ids-data-grid-header-text">
@@ -124,12 +124,12 @@
         </span>
         
         
-      </span>
+      </span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="10" column-id="integer" role="columnheader">
-        <span class="ids-data-grid-header-cell-content">
+      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="10" column-id="integer" role="columnheader">
+        <span class="ids-data-grid-header-cell-content is-reorderable">
         
         
         <span class="ids-data-grid-header-text">
@@ -137,12 +137,12 @@
         </span>
         
         
-      </span>
+      </span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="11" column-id="location" role="columnheader">
-        <span class="ids-data-grid-header-cell-content">
+      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="11" column-id="location" role="columnheader">
+        <span class="ids-data-grid-header-cell-content is-reorderable">
         
         
         <span class="ids-data-grid-header-text">
@@ -150,12 +150,12 @@
         </span>
         
         
-      </span>
+      </span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="12" column-id="postHistory" role="columnheader">
-        <span class="ids-data-grid-header-cell-content">
+      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="12" column-id="postHistory" role="columnheader">
+        <span class="ids-data-grid-header-cell-content is-reorderable">
         
         
         <span class="ids-data-grid-header-text">
@@ -163,12 +163,12 @@
         </span>
         
         
-      </span>
+      </span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="13" column-id="active" role="columnheader">
-        <span class="ids-data-grid-header-cell-content">
+      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="13" column-id="active" role="columnheader">
+        <span class="ids-data-grid-header-cell-content is-reorderable">
         
         
         <span class="ids-data-grid-header-text">
@@ -176,12 +176,12 @@
         </span>
         
         
-      </span>
+      </span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="14" column-id="convention" role="columnheader">
-        <span class="ids-data-grid-header-cell-content">
+      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="14" column-id="convention" role="columnheader">
+        <span class="ids-data-grid-header-cell-content is-reorderable">
         
         
         <span class="ids-data-grid-header-text">
@@ -189,12 +189,12 @@
         </span>
         
         
-      </span>
+      </span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="15" column-id="methodSwitch" role="columnheader">
-        <span class="ids-data-grid-header-cell-content">
+      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="15" column-id="methodSwitch" role="columnheader">
+        <span class="ids-data-grid-header-cell-content is-reorderable">
         
         
         <span class="ids-data-grid-header-text">
@@ -202,12 +202,12 @@
         </span>
         
         
-      </span>
+      </span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="16" column-id="trackDeprecationHistory" role="columnheader">
-        <span class="ids-data-grid-header-cell-content">
+      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="16" column-id="trackDeprecationHistory" role="columnheader">
+        <span class="ids-data-grid-header-cell-content is-reorderable">
         
         
         <span class="ids-data-grid-header-text">
@@ -215,12 +215,12 @@
         </span>
         
         
-      </span>
+      </span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="17" column-id="useForEmployee" role="columnheader">
-        <span class="ids-data-grid-header-cell-content">
+      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="17" column-id="useForEmployee" role="columnheader">
+        <span class="ids-data-grid-header-cell-content is-reorderable">
         
         
         <span class="ids-data-grid-header-text">
@@ -228,12 +228,12 @@
         </span>
         
         
-      </span>
+      </span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
         
       </span>
     
-      <span class="ids-data-grid-header-cell" part="header-cell" aria-colindex="18" column-id="deprecationHistory" role="columnheader">
-        <span class="ids-data-grid-header-cell-content">
+      <span class="ids-data-grid-header-cell is-actionable" draggable="true" part="header-cell" aria-colindex="18" column-id="deprecationHistory" role="columnheader">
+        <span class="ids-data-grid-header-cell-content is-reorderable">
         
         
         <span class="ids-data-grid-header-text">
@@ -241,7 +241,7 @@
         </span>
         
         
-      </span>
+      </span><div class="reorderer"><ids-icon icon="drag" size="medium" style="--ids-icon-height-default: 18px; --ids-icon-width-default: 18px;"></ids-icon></div>
         
       </span>
     
@@ -277,5 +277,7 @@
         </slot>
         <slot name="loading-container">
           <ids-loading-indicator stopped=""></ids-loading-indicator>
+        </slot>
+        <slot name="modal-container">
         </slot>
       </div>

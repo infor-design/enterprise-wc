@@ -1,4 +1,4 @@
-# Ids Filter Field Component
+# ids-filter-field
 
 ## Description
 

@@ -4,7 +4,7 @@
 // Styles specific to the in-page Accordion
 
 @mixin accordion-header-standard-colors() {
-  border-color: transparent;
+  border-color: var(--ids-color-transparent);
   border-bottom-color: var(--ids-accordion-header-color-border-bottom);
 }
 
@@ -31,12 +31,12 @@
   border-radius: 4px;
 
   // Contrasts background of the Drawer
-  background-color: transparent;
-  border-color: transparent;
+  background-color: var(--ids-color-transparent);
+  border-color: var(--ids-color-transparent);
 
   &.expanded {
-    background-color: transparent;
-    border-color: transparent;
+    background-color: var(--ids-color-transparent);
+    border-color: var(--ids-color-transparent);
   }
 
   // Light Mode Styles
@@ -113,7 +113,7 @@
 .ids-accordion-header {
   @include antialiased();
 
-  border-width: 1px;
+  border-width: var(--ids-border-width-sm);
   border-style: solid;
   align-items: center;
   cursor: pointer;

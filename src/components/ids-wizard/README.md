@@ -1,4 +1,4 @@
-# Ids Wizard Component
+# ids-wizard
 
 ## Description
 

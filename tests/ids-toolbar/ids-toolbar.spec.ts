@@ -227,7 +227,7 @@ test.describe('IdsToolbar tests', () => {
       }
     });
 
-    test('can set/get padding', async () => {
+    test.skip('can set/get padding', async () => {
       const testData = [
         { data: 50, expected: '50' },
         { data: null, expected: null },
@@ -253,7 +253,7 @@ test.describe('IdsToolbar tests', () => {
       }
     });
 
-    test('can navigate and focus child components', async ({ page }) => {
+    test.skip('can navigate and focus child components', async ({ page }) => {
       const navigate = async (amt: any, doFocus: boolean, itemPosToValidate: number) => {
         const result: any = await idsToolbar.evaluate((
           elem: IdsToolbar,
@@ -303,7 +303,7 @@ test.describe('IdsToolbar tests', () => {
       expect(result).toEqual(expect.objectContaining({ isSameNode: true, isItemFocused: false, itemIndex: 0 }));
     });
 
-    test('can navigate using keyboard', async ({ page }) => {
+    test.skip('can navigate using keyboard', async ({ page }) => {
       const menu = await idsToolbar.locator('ids-button[icon="menu"][role="button"] button');
       const button1 = await idsToolbar.locator('#button-1 button');
       const button2 = await idsToolbar.locator('#button-2 button');

@@ -1,18 +1,8 @@
-# Ids Card Component
+# ids-card
 
 ## Description
 
-A card is a UI design pattern that groups related information in a flexible-size container visually resembling a playing card. Cards are also known as widgets when used in a home page tile layout. See the widget component for widget functionality. The card is a simpler version used to organize content and add a few features like links, selection ect.
-
-## Use Cases
-
-- Cards are good for grouping information, for example in a homepage dashboard layout
-- Cards allow for flexible layout, and can be used in smaller and larger sizes.
-- Cards contain various forms of content and actions. Elements like input texts, images, charts, can be displayed inside a card.
-
-## Dos and Don'ts
-
-- Don't use a card on a popup like a modal or a contextual action panel. The popup itself should be able to stand alone.
+A card is an element that groups related information in a flexible container. See more [usage details](https://design.infor.com/components/components/card).
 
 ## Terminology
 
@@ -48,6 +38,24 @@ A card can be an actionable with the behavior of a button.
   <div slot="actionable-text">
     <ids-text font-size="16" type="p">Actionable Button Card</ids-text>
   </div>
+</ids-card>
+```
+
+A card can be a draggable with custom drag-size and drag-styling.
+
+```html
+<ids-card draggable drop-target="droppable-panel" width="100%" fixed="true" drag-width="200px" drag-height="400px" drop-width="200px" drop-height="400px">
+    <img src="datagrid-icon.png">
+    <ids-text slot="card-header" font-size="16">Form</ids-text>
+</ids-card>
+```
+
+A card can be a draggable that can be stacked.
+
+```html
+<ids-card draggable stacked="true" fixed="true" drag-width="200px" drag-height="400px" drop-width="200px" drop-height="400px" width="100%">
+    <img src="datagrid-icon.png">
+    <ids-text slot="card-header" font-size="16">Form</ids-text>
 </ids-card>
 ```
 
@@ -96,6 +104,17 @@ A card with footer element and vertical no-padding.
 - `height` {number} It will make the card have a fixed height (used primarily on actionable cards)
 - `href` {number} Sets the href attribute for actionable cards that are hyperlinks
 - `noHeader` {boolean} Hides the header area
+- `backgroundColor` {string} Set the background-color of the card
+- `width` {number} Sets the default width of the card
+- `dragWidth` {number} Sets the width of the card when being dragged
+- `dragHeight` {number} Sets the height of the card when being dragged
+- `dragBgColor` {string} Set the background-color of the card while its being dragged
+- `dropped` {boolean} Whethere the card has been dropped or not
+- `dropWidth` {number} Set the width that the card should be once it's dropped
+- `dropHeight` {number} Set the height that the card should be once it's dropped
+- `dropBgColor` {string} Set the background-color that the card should be once it's dropped
+- `fixed` {boolean} If true, the dragged card will remain in its original place while a shadow of the card will be dragged.
+- `stacked` {boolean} If true, the dragged card can be dropped (i.e. stacked) on top of another card.
 
 NOTE: See also `ids-box` settings as some of these will also work on cards.
 

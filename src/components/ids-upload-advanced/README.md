@@ -1,4 +1,4 @@
-# Ids Upload Advanced Component
+# ids-upload-advanced
 
 ## Description
 

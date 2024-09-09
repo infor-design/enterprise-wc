@@ -31,7 +31,6 @@
 .ids-list-view {
   height: var(--ids-list-view-height);
   overflow: auto;
-  scroll-behavior: smooth;
   position: relative;
 
   .ids-list-view-body {
@@ -67,7 +66,7 @@
       }
 
       .list-item-checkbox[disabled]::part(checkmark) {
-        background-color: transparent;
+        background-color: var(--ids-color-transparent);
       }
     }
   }
@@ -79,7 +78,7 @@
 }
 
 ids-swappable-item {
-  border-bottom-color: var(--ids-color-gray-20);
+  border-bottom-color: var(--ids-color-neutral-20);
   border: none;
 
   ids-list-view-item[selected],
@@ -89,7 +88,7 @@ ids-swappable-item {
 }
 
 ids-swappable-item[over] {
-  border: 1px dashed var(--ids-color-gray-80);
+  border: 1px dashed var(--ids-color-neutral-80);
 }
 
 ::slotted(ids-search-field) {

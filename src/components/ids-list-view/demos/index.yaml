@@ -17,9 +17,6 @@
   - link: list-view-items-selectable-mixed.html
     type: Example
     description: Showing a list view with the mixed selection functionality using the list-view-item child components
-  - link: list-view-items-sortable.html
-    type: Example
-    description: Showing a list view with the sortable functionality
   - link: list-view-items-search.html
     type: Example
     description: Showing a list view with the search functionality
@@ -41,6 +38,9 @@
   - link: card.html
     type: Example
     description: Showing a list view wrapped in ids-card
+  - link: append-to-bottom.html
+    type: Example
+    description: Showing using the append to bottom method
   - link: tooltip-overflow-ellipses.html
     type: Example
     description: Showing a list view with tooltip, max-width and overflow-ellipses
@@ -53,6 +53,9 @@
   - link: embellishment.html
     type: Example
     description: Showing a list view using embellishment types
+  - link: group-headers.html
+    type: Example
+    description: Showing a list view with group headers
   - link: search.html
     type: Example
     description: Showing a list view using search field
@@ -77,4 +80,3 @@
   - link: standalone-css.html
     type: Standalone CSS
     description: Showing a limited list view that works with css only
-

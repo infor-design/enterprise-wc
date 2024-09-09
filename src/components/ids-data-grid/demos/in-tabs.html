@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-tabs-context>
+          <ids-tabs>
+            <ids-tab value="variables">Variables</ids-tab>
+          </ids-tabs>
+
+          <ids-tab-content value="variables">
+            <ids-layout-grid auto-fit="true" padding-x="sm">
+                <ids-layout-grid-cell>
+                      <ids-toolbar>
+                        <ids-toolbar-section align="end" favor>
+                          <ids-button id="add-row" (click)="onAddRowClick()">
+                              <ids-icon icon="add"></ids-icon>
+                              <span>Add</span>
+                          </ids-button>
+                          <ids-button id="delete-row" (click)="onDeleteRowClick()">
+                            <ids-icon icon="delete"></ids-icon>
+                            <span>Delete</span>
+                          </ids-button>
+                        </ids-toolbar-section>
+                      </ids-toolbar>
+
+                      <ids-data-grid
+                        list-style="true"
+                        id="data-grid-1"
+                        suppress-row-click-selection="true"
+                        row-selection="multiple"
+                        editable="true"
+                        edit-next-on-enter-press="true"
+                        add-new-at-end="true">
+                      </ids-data-grid>
+                </ids-layout-grid-cell>
+            </ids-layout-grid>
+
+          </ids-tab-content>
+        </ids-tabs-context>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

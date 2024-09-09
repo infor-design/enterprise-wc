@@ -267,7 +267,12 @@ export default class IdsElement extends HTMLElement {
     // Handle auto themes
     const baseHref = document.querySelector('base');
     const subUrl = baseHref?.getAttribute('href') || '/';
-    const response = await fetch(`..${subUrl}themes/ids-theme-${theme}.css`, { cache: 'default' });
+    let themePath = `..${subUrl}themes/ids-theme-${theme}.css`;
+
+    if (IdsGlobal?.themePath) {
+      themePath = `${IdsGlobal.themePath}ids-theme-${theme}.css`;
+    }
+    const response = await fetch(themePath, { cache: 'default' });
     const themeStyles = await response.text();
     const head = (document.head as any);
     const styleElem = document.querySelector('#ids-theme');
@@ -283,6 +288,7 @@ export default class IdsElement extends HTMLElement {
       html[lang='zh-Hans'] {--ids-font-family-default: var(--ids-font-family-zh-hans)}
       html[lang='zh-Hant'] {--ids-font-family-default: var(--ids-font-family-zh-hant)}
     `;
+
     style.textContent = `${themeStyles}${localeFonts}`;
     style.id = 'ids-theme';
     if (this.nonce) style.setAttribute('nonce', this.nonce);

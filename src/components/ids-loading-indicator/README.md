@@ -1,4 +1,4 @@
-# Ids Loading Indicator Component
+# ids-loading-indicator
 
 ## Description
 
@@ -52,6 +52,12 @@ In the following example, the indicator is determinate, with 10% completion and
 affixed to the top of view it is currently in:
 ```html
 <ids-loading-indicator progress="10" sticky></ids-loading-indicator>
+```
+
+The `contained` setting is a boolean attribute that controls whether the IdsLoadingIndicator is confined within its parent element. When this setting is enabled, the loading indicator will remain within the boundaries of its nearest parent element, preventing it from overflowing or overlapping other content.
+
+```html
+<ids-loading-indicator contained></ids-loading-indicator>
 ```
 
 ## Settings and Attributes
