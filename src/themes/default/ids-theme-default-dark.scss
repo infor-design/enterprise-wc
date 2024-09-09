@@ -242,11 +242,11 @@
   --ids-empty-message-color-icon-fill: var(--ids-color-transparent);
 
   // Headers
-  --ids-header-color-border-bottom: var(--ids-color-accent-neutral-weaker);
-  --ids-header-color-background: var(--ids-color-accent-neutral-weakest);
+  --ids-header-color-border-bottom: var(--ids-color-neutral-80);
+  --ids-header-color-background: var(--ids-color-neutral-90);
   --ids-header-gradient-opacity-none: rgb(40 40 42 / 1);
   --ids-header-gradient-opacity-full: rgb(40 40 42 / 0);
-  --ids-header-breadcrumb-gradient: linear-gradient(to right, var(--ids-color-accent-neutral-weakest), rgba(255 255 255 / 0));
+  --ids-header-breadcrumb-gradient: linear-gradient(to right, var(--ids-color-neutral-90), rgba(255 255 255 / 0));
 
   // Hierarchy
   --ids-hierarchy-item-leaf-color-border: var(--ids-color-neutral-70);
@@ -313,7 +313,7 @@
   --ids-loading-indicator-tertiary-destructive-color-border: var(--ids-color-red-30);
 
   // Masthead
-  --ids-masthead-color-background: var(--ids-color-accent-neutral-weaker);
+  --ids-masthead-color-background: var(--ids-color-neutral-100);
   --ids-masthead-color-text: var(--ids-color-accent-neutral-strongest);
 
   // Modal
@@ -484,6 +484,12 @@
   --ids-swipe-action-color-text-left: var(--ids-color-white-100);
   --ids-swipe-action-color-background-right: var(--ids-color-primary-50);
   --ids-swipe-action-color-text-right: var(--ids-color-white-100);
+
+  // Tabs
+  --ids-tab-module-color-text-selected: var(--ids-color-white-100);
+  --ids-tab-module-color-background-selected: var(--ids-color-neutral-90);
+  --ids-tab-module-color-background-default: var(--ids-color-neutral-80);
+  --ids-tab-module-color-background-disabled: var(--ids-color-neutral-80);
 
   // Time Picker
   --ids-time-picker-popup-color-background: var(--ids-color-neutral-80);
