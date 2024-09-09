@@ -1079,8 +1079,9 @@ export default class IdsSlider extends Base {
       let closestValue = this.vertical ? ticks[ticks.length - 1].value : ticks[0].value;
 
       if (!labelValueClicked) {
-        const diff = Number(this.ticks[1].value - this.ticks[0].value);
-        const threshold = diff < 100 ? diff : (diff / 2);
+        const diff = Math.abs(Number(this.ticks[1].value - this.ticks[0].value));
+        let threshold = Math.abs(diff < 100 ? diff : (diff / 2));
+        if (this.vertical) threshold = Math.abs(diff / 2);
         for (let i = 0; i < this.ticks.length; i++) {
           if (Math.abs(this.ticks[i].value - passedValue) < threshold) {
             closestValue = this.ticks[i].value;
