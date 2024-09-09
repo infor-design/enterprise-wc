@@ -146,7 +146,7 @@ button {
     border-radius: var(--ids-border-radius-none);
   }
 
-  .ids-icon {
+  .ids-icon:not(.dropdown-icon) {
     display: block;
     padding-inline-start: var(--ids-space-3xs);
     font-size: 0;
