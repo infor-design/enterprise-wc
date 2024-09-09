@@ -109,6 +109,24 @@ Tabs can be configured to display an optional [IdsTriggerButton](../ids-trigger-
 <ids-tab value="one" dismissible>Example One</dismissible>
 ```
 
+### Validation Errors
+
+When a tab contains a field that has a validation error, an error icon will be displayed on the tab. This is useful in scenarios where all tabs must contain valid data before proceeding (e.g when inside a modal). The error icon can also be manually controlled by setting the `has-error` attribute on the tab. The error icon is slotted and can be replaced or styled as needed.
+
+```html
+<ids-tab value="manual-error" has-error>
+    Manually show error icon
+</ids-tab>
+<ids-tab value="custom-error">
+    Custom error icon
+    <ids-icon slot="error" color="warning" icon="alert" size="small"></ids-icon>
+</ids-tab>
+<ids-tab value="hidden-error">
+    No error icon
+    <template slot="error"></template>
+</ids-tab>
+```
+
 ## Settings and Attributes
 
 ### Tab Container Settings (`ids-tabs`)

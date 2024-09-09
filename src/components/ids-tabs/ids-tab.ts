@@ -82,7 +82,7 @@ export default class IdsTab extends Base {
    * @returns {string} the template to render
    */
   template(): string {
-    const hasIcon = this.querySelector('ids-icon');
+    const hasIcon = this.querySelector('ids-icon:not([slot="error"])');
     const hasCount = this.hasAttribute(attributes.COUNT);
     const cssClassAttr = buildClassAttrib(
       'ids-tab',
@@ -110,7 +110,9 @@ export default class IdsTab extends Base {
 
     return `<div ${cssClassAttr} tabindex="-1" part="container">
       ${innerContent}
-      <ids-icon icon="error" color="error" size="small" class="ids-tab-error-icon"></ids-icon>
+      <slot name="error">
+        <ids-icon icon="error" color="error" size="small"></ids-icon>
+      </slot>
       <div class="ids-tab-trigger-container">
         <slot name="close"></slot>
       </div>
