@@ -608,7 +608,7 @@
   --ids-data-grid-row-grouped-font-weight: var(--ids-font-weight-semibold);
 
   // Date Picker
-  --ids-date-picker-open-trigger-button-color-text: var(--ids-color-primary)
+  --ids-date-picker-open-trigger-button-color-text: var(--ids-color-primary);
   --ids-date-picker-color-border: var(--ids-color-primary);
   --ids-date-picker-dropdown-button-color-text: var(--ids-color-neutral-100);
   --ids-date-picker-dropdown-color-focus: var(--ids-shadow-md);
@@ -1336,7 +1336,7 @@
   --ids-spinbox-color-background-default: var(--ids-trigger-field-color-background-default);
   --ids-spinbox-color-background-readonly: var(--ids-trigger-field-color-background-readonly);
   --ids-spinbox-color-text-readonly: var(--ids-trigger-field-color-text-readonly);
-  --ids-spinbox-color-border-focus: var(--ids-trigger-field-color-border-focus)
+  --ids-spinbox-color-border-focus: var(--ids-trigger-field-color-border-focus);
   --ids-spinbox-shadow-focus: var(--ids-trigger-field-shadow-focus);
   --ids-spinbox-color-text-disabled: var(--ids-trigger-field-color-text-disabled);
   --ids-spinbox-color-border-disabled: var(--ids-trigger-field-color-border-disabled);
@@ -1668,7 +1668,7 @@
   --ids-trigger-field-color-background-readonly: var(--ids-input-color-background-readonly);
   --ids-trigger-field-color-border-readonly: var(--ids-input-color-border-readonly);
   --ids-trigger-field-color-text-readonly: var(--ids-input-color-text-readonly);
-  --ids-trigger-field-color-border-focus: var(--ids-input-color-border-focus)
+  --ids-trigger-field-color-border-focus: var(--ids-input-color-border-focus);
   --ids-trigger-field-shadow-focus: var(--ids-input-shadow-info-focus);
   --ids-trigger-field-color-text-disabled: var(--ids-color-foreground-default-default);
   --ids-trigger-field-color-border-disabled: var(--ids-input-color-border-disabled);

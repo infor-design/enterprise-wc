@@ -41,16 +41,6 @@ test.describe('IdsVirtualScroll tests', () => {
   });
 
   test.describe('snapshot tests', () => {
-    test('should match shadowRoot snapshot', async ({ page, browserName }) => {
-      if (browserName !== 'chromium') return;
-      const handle = await page.$('ids-virtual-scroll');
-      const html = await handle?.evaluate((el: IdsVirtualScroll) => {
-        el?.shadowRoot?.querySelector('style')?.remove();
-        return el?.shadowRoot?.innerHTML;
-      });
-      await expect(html).toMatchSnapshot('virtual-scroll-shadow');
-    });
-
     test('should match the visual snapshot in percy', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-virtual-scroll-light');

@@ -17,6 +17,7 @@
         "use"
       ]
     }],
+    "scss/at-import-partial-extension": null,
     "max-nesting-depth": [4, {
       "ignore": ["pseudo-classes"],
       "ignoreAtRules": [

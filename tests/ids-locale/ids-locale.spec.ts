@@ -661,11 +661,14 @@ test.describe('IdsLocale tests', () => {
 
     test('can treat no-NO, nn-NO, and nb-NO as same locale', async ({ page }) => {
       await runLocaleFunction(page, 'setLanguage', 'no');
+      await runLocaleFunction(page, 'setLanguage', 'no');
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laster');
 
       await runLocaleFunction(page, 'setLanguage', 'nb');
+      await runLocaleFunction(page, 'setLanguage', 'nb');
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laster');
 
+      await runLocaleFunction(page, 'setLanguage', 'nn');
       await runLocaleFunction(page, 'setLanguage', 'nn');
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laster');
     });

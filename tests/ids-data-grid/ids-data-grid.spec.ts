@@ -82,7 +82,7 @@ test.describe('IdsDataGrid tests', () => {
 
     test('should match the visual snapshot in percy (auto fit)', async ({ page, browserName }) => {
       if (browserName !== 'chromium') return;
-      await page.goto('/ids-data-grid/list-style.html');
+      await page.goto('/ids-data-grid/auto-fit.html');
       await percySnapshot(page, 'ids-data-grid-auto-fit-light');
     });
 

@@ -43,4 +43,16 @@
       }
     }
   }
+
+
+  [data-filter-conditions-button] {
+    --ids-button-icon-height: 32px;
+    --ids-button-icon-width: 38px;
+
+    margin-inline-end: 2px;
+
+    ids-icon-button {
+      padding-inline-start: 0;
+    }
+  }
 }
