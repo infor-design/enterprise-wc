@@ -9,6 +9,8 @@
 ### 1.4.3 Features
 
 - `[Card]` Adds `draggable` attribute to ids-card which allows card to be used in drag and drop scenarios. ([#2423](https://github.com/infor-design/enterprise-wc/issues/2423))
+- `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615](https://github.com/infor-design/enterprise-wc/issues/2615))
+- `[Dropdown]` Fixed IdsDropdown default value.  There was a bug where the value property was not working properly with dynamic data. ([#2727](https://github.com/infor-design/enterprise-wc/issues/2727))
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615]https://github.com/infor-design/enterprise-wc/issues/2615)
 - `[Datagrid]` Added async/await to beforecelledit. ([#2726]https://github.com/infor-design/enterprise-wc/issues/2726)
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
@@ -39,6 +41,8 @@
 - `[Locale]` Fixed translation issue of `Available` into Thai and Italian. ([#8786](https://github.com/infor-design/enterprise-wc/issues/8786))
 - `[Listbuilder]` Fixed buggy builder styles. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
 - `[Listbuilder]` Fixed an issue where clicking the row in the wrong spot would edit the wrong row. ([#2701](https://github.com/infor-design/enterprise-wc/issues/2701))
+- `[Locale]` Fixed translation issue of `small` into Spanish. ([#8962](https://github.com/infor-design/enterprise-wc/issues/8962))
+- `[Locale]` Fixed translation issue of `Available` into Thai and Italian. ([#8786](https://github.com/infor-design/enterprise-wc/issues/8786))
 - `[Modal]` Fixed missing border between modal buttons. ([#4660](https://inforwiki.atlassian.net/browse/IDS-4660))
 - `[Multiselect]` Added `placeholder` attribute to `ids-multiselect` to allow for a placeholder value. ([#2758](https://github.com/infor-design/enterprise-wc/issues/2758))
 - `[Multiselect]` Converted multiselect tests to playwright. ([#1957](https://github.com/infor-design/enterprise-wc/issues/1957))

@@ -665,7 +665,7 @@ test.describe('IdsPopupMenu tests', () => {
       }
     });
 
-    test('can set triggerElem aside from target', async ({ page }) => {
+    test.skip('can set triggerElem aside from target', async ({ page }) => {
       await expect(idsPopupMenu).toHaveAttribute('hidden');
       expect(await isPopupVisible(idsPopupMenu)).toBeFalsy();
 

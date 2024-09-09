@@ -329,6 +329,7 @@ export default class IdsDropdown extends Base {
     if (labels.includes(label)) {
       value = this.optionValues[labels.indexOf(label)];
     }
+
     this.#syncInputTextWithOption(value);
   }
 
@@ -1047,7 +1048,10 @@ export default class IdsDropdown extends Base {
     }
 
     const listBoxOption = [...this.dropdownList?.listBox?.querySelectorAll<IdsListBoxOption>(selector) ?? []].at(0);
-    if (!listBoxOption) return;
+    if (!listBoxOption) {
+      if (value) this.setAttribute(attributes.VALUE, String(value));
+      return;
+    }
 
     // NOTE: setAttribute() must be called here, before the internal input.value is set below
     this.setAttribute(attributes.VALUE, String(value));
