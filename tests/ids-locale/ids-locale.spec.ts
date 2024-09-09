@@ -393,6 +393,7 @@ test.describe('IdsLocale tests', () => {
       await validateDefault(page);
 
       await runLocaleFunction(page, 'setLanguage', 'nn');
+      await runLocaleFunction(page, 'setLanguage', 'nn');
       expect(await runLocaleFunction(page, 'translate', 'Actions')).toEqual('Handlinger');
       expect((await getLocaleValues(page, 'language.name'))).toEqual('nn');
     });
