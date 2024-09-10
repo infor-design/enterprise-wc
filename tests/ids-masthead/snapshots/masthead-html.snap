@@ -27,23 +27,13 @@
               <ids-button icon="user" color-variant="alternate" type="button" class="ids-button-masthead"><ids-icon icon="user" class="ids-icon"></ids-icon><span class="audible">User Button</span></ids-button>
               <ids-button icon="mingle-share" color-variant="alternate" type="button" class="ids-button-masthead"><ids-icon icon="mingle-share" class="ids-icon"></ids-icon><span class="audible">Mingle Button</span></ids-button>
               <ids-button icon="bookmark-outlined" color-variant="alternate" type="button" class="ids-button-masthead"><ids-icon icon="bookmark-outlined" class="ids-icon"></ids-icon><span class="audible">Bookmark Button</span></ids-button>
-            </ids-toolbar-section>
 
-            <ids-toolbar-more-actions overflow=""><ids-menu-button tooltip="More" id="more-actions" menu="more-actions-menu" aria-controls="more-actions-menu" color-variant="alternate" type="button" class="ids-button-masthead" aria-haspopup="menu">
+              <ids-toolbar-more-actions overflow="" tabindex="-1"><ids-menu-button tooltip="More" id="more-actions" menu="more-actions-menu" aria-controls="more-actions-menu" color-variant="alternate" type="button" class="ids-button-masthead" aria-haspopup="menu">
         <ids-icon icon="more"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
-      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" hidden=""><ids-menu-group more-actions="" role="group" aria-label="Menu group containing 7 item(s)">
-      <ids-menu-item icon="home" hidden=""><ids-icon slot="icon" icon="home" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
-      Home
-      
-    </ids-menu-item><ids-menu-item icon="star-outlined" hidden=""><ids-icon slot="icon" icon="star-outlined" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
-      Star
-      
-    </ids-menu-item><ids-menu-item icon="info" hidden=""><ids-icon slot="icon" icon="info" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
-      Info
-      
-    </ids-menu-item><ids-menu-item icon="user" hidden=""><ids-icon slot="icon" icon="user" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" hidden=""><ids-menu-group more-actions="" role="group" aria-label="Menu group containing 4 item(s)">
+      <ids-menu-item icon="user" hidden=""><ids-icon slot="icon" icon="user" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       User Button
       
     </ids-menu-item><ids-menu-item icon="mingle-share" hidden=""><ids-icon slot="icon" icon="mingle-share" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
@@ -52,54 +42,26 @@
     </ids-menu-item><ids-menu-item icon="bookmark-outlined" hidden=""><ids-icon slot="icon" icon="bookmark-outlined" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
       Bookmark Button
       
-    </ids-menu-item><ids-menu-item icon="more" hidden=""><ids-icon slot="icon" icon="more" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
-      More Actions Button
-      <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
-          <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
-            <ids-menu-item disabled="">
-      Option One (disabled)
+    </ids-menu-item><ids-menu-item hidden="">
+      More Actions Button                                 Option One (disabled)                   Option Two                   Option Three                   More Options                                                                     Option Four                         Option Five (disabled)                         Option Six
       
-    </ids-menu-item><ids-menu-item>
-      Option Two
-      
-    </ids-menu-item><ids-menu-item>
-      Option Three
-      
-    </ids-menu-item><ids-menu-item>
-      More Options
-      <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
-          <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
-            <ids-menu-item>
-      Option Four
-      
-    </ids-menu-item><ids-menu-item disabled="">
-      Option Five (disabled)
-      
-    </ids-menu-item><ids-menu-item>
-      Option Six
-      
-    </ids-menu-item>
-          </ids-menu-group>
-        </ids-popup-menu>
-    </ids-menu-item>
-          </ids-menu-group>
-        </ids-popup-menu>
     </ids-menu-item>
     </ids-menu-group><ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
-                <ids-menu-item value="1" disabled="">Option One (disabled)</ids-menu-item>
-                <ids-menu-item value="2">Option Two</ids-menu-item>
-                <ids-menu-item value="3">Option Three</ids-menu-item>
-                <ids-menu-item>More Options
-                  <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
-                    <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
-                      <ids-menu-item value="4">Option Four</ids-menu-item>
-                      <ids-menu-item value="5" disabled="">Option Five (disabled)</ids-menu-item>
-                      <ids-menu-item value="6">Option Six</ids-menu-item>
-                    </ids-menu-group>
-                  </ids-popup-menu>
-                </ids-menu-item>
-              </ids-menu-group></ids-popup-menu>
-              
-            </ids-toolbar-more-actions>
+                  <ids-menu-item value="1" disabled="">Option One (disabled)</ids-menu-item>
+                  <ids-menu-item value="2">Option Two</ids-menu-item>
+                  <ids-menu-item value="3">Option Three</ids-menu-item>
+                  <ids-menu-item>More Options
+                    <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
+                      <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
+                        <ids-menu-item value="4">Option Four</ids-menu-item>
+                        <ids-menu-item value="5" disabled="">Option Five (disabled)</ids-menu-item>
+                        <ids-menu-item value="6">Option Six</ids-menu-item>
+                      </ids-menu-group>
+                    </ids-popup-menu>
+                  </ids-menu-item>
+                </ids-menu-group></ids-popup-menu>
+                
+              </ids-toolbar-more-actions>
+            </ids-toolbar-section>
           </ids-toolbar>
         </ids-masthead>

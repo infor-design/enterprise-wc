@@ -124,6 +124,13 @@ button {
   }
 }
 
+:host(.ids-button-masthead.icon-logo),
+.ids-button-masthead.icon-logo {
+  &::part(button) {
+    top: var(--ids-masthead-logo-top-space-icon);
+  }
+}
+
 .ids-icon-button {
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
