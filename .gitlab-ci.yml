@@ -36,6 +36,41 @@ test:
         --namespace kubefill \
         --job_name enterprise-wc-percy-tests \
         --job_id $CI_JOB_ID
+    - aws s3 cp coverage/cobertura-coverage.xml s3://$S3_BUCKET/$S3_COVERAGE_DIR/cobertura-coverage.xml
+    - aws s3 cp test-results/junit-results.xml s3://$S3_BUCKET/$S3_COVERAGE_DIR/junit-results.xml
+
+download_reports:
+  stage: test
+  tags:
+    - dsa
+    - DIND
+  needs:
+    - test
+  image: python:3.12
+  variables:
+    S3_BUCKET: infor-design-assets-downloads
+    S3_COVERAGE_DIR: oxford/${CI_JOB_ID}/coverage
+  before_script:
+    - 'command -v aws >/dev/null 2>&1 || { echo >&2 "Installing AWS CLI..."; pip install awscli; }'
+    - >
+      export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s"
+      $(aws sts assume-role
+      --role-arn ${AWS_ROLE_ARN}
+      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
+      --duration-seconds 3600
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+      --output text))
+    - aws configure set default.region $AWS_DEFAULT_REGION
+  script:
+    - aws s3 cp s3://$S3_BUCKET/$S3_COVERAGE_DIR/junit-results.xml test-results/junit-results.xml
+    - aws s3 cp s3://$S3_BUCKET/$S3_COVERAGE_DIR/cobertura-coverage.xml coverage/cobertura-coverage.xml
+  coverage: /All files[^\|]*\|[^\|]*\s+([\d\.]+)/
+  artifacts:
+    reports:
+      junit: test-results/junit-results.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
 
 build:
   stage: build
