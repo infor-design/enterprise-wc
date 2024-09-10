@@ -1,12 +1,12 @@
 # What's New with Enterprise Web Components
 
-## 1.4.3
+## 1.5.0
 
-### 1.4.3 Important Changes
+### 1.5.0 Important Changes
 
 - `[NotificationBanner]` Renamed `beforeNotificationRemove/notificationRemove/afterNotificationRemove` events to `beforeclose/close/afterclose` to match current event name structure. ([#2484](https://github.com/infor-design/enterprise-wc/issues/2484))
 
-### 1.4.3 Features
+### 1.5.0 Features
 
 - `[Card]` Adds `draggable` attribute to ids-card which allows card to be used in drag and drop scenarios. ([#2423](https://github.com/infor-design/enterprise-wc/issues/2423))
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615](https://github.com/infor-design/enterprise-wc/issues/2615))
@@ -26,7 +26,7 @@
 - `[Themes]` Added latest round of semantic tokens. ([#2471](https://github.com/infor-design/enterprise-wc/issues/2471))
 - `[Validation]` Improved the validation message to prevent it from overflowing the field area. ([#2706](https://github.com/infor-design/enterprise-wc/issues/2706))
 
-### 1.4.3 Fixes
+### 1.5.0 Fixes
 
 - `[Breadcrumb]` Fixed bug where the current item could be clicked. ([#/2780](https://github.com/infor-design/enterprise/issues//2780))
 - `[ColorPicker]` Fixed bug where custom colors were being overridden. ([#8964](https://github.com/infor-design/enterprise/issues/8964))
