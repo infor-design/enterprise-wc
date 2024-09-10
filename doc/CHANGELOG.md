@@ -54,6 +54,7 @@
 - `[Splitter]` Converted datagrid popups to fixed to go over splitter panes. ([#2499](https://github.com/infor-design/enterprise-wc/issues/2499))
 - `[Splitter]` Fixed an issue where position was not retained when expanding and collapsing. ([#2527](https://github.com/infor-design/enterprise-wc/issues/2527))
 - `[Switch]` Fixed an issue where switch triggered `change` event twice. ([#2681](https://github.com/infor-design/enterprise-wc/issues/2681))
+- `[Tabs]` Fixed color issues in dark mode. ([#4716](https://inforwiki.atlassian.net/browse/IDS-4716))
 
 ## 1.4.2
 
