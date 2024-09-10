@@ -1,4 +1,5 @@
 /* Ids Masthead Component */
+:host,
 .ids-masthead {
   background-color: var(--ids-masthead-color-background);
   color: var(--ids-masthead-color-text);
@@ -12,30 +13,4 @@
 
   --ids-button-formatter-color-background-hover: transparant;
   --ids-button-formatter-color-text-hover: var(--ids-masthead-color-hover);
-
-  #logo.icon-logo {
-    padding-inline: var(--ids-masthead-logo-padding-icon-inline);
-    position: relative;
-    top: var(--ids-masthead-logo-top-space-icon);
-
-    &::part(button) {
-      margin: var(--ids-space-none);
-      padding: var(--ids-space-none);
-      opacity: 1;
-    }
-  }
-
-  #title {
-    margin-inline: var(--ids-masthead-title-margin-inline);
-  }
-
-  #more {
-    &.hidden {
-      display: none;
-    }
-  }
-
-  ::slotted([slot='more']) {
-    display: none;
-  }
 }

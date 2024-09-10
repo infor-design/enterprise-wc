@@ -116,6 +116,14 @@ button {
   }
 }
 
+:host(.ids-button-masthead),
+.ids-button-masthead {
+  &::part(button),
+  .is-active {
+    background-color: var(--ids-masthead-color-background-active);
+  }
+}
+
 .ids-icon-button {
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
