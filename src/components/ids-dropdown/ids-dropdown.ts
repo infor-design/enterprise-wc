@@ -695,8 +695,15 @@ export default class IdsDropdown extends Base {
   loadDataSet(dataset: IdsDropdownOptions) {
     let html = '';
 
-    const listbox = this.dropdownList?.querySelector<IdsListBox>('ids-list-box') || this.querySelector<IdsListBox>('ids-list-box');
+    let listbox = this.dropdownList?.querySelector('ids-list-box') || this.querySelector('ids-list-box');
     if (listbox) listbox.innerHTML = '';
+
+    if (!listbox) {
+      listbox = document.createElement('ids-list-box');
+      this.dropdownList?.insertAdjacentElement('afterbegin', listbox);
+      this.dropdownList?.configureListBox();
+      this.configureDropdownList();
+    }
 
     dataset.forEach((option: IdsDropdownOption) => {
       html += this.#templateListBoxOption(this.#sanitizeOption(option));
@@ -720,6 +727,17 @@ export default class IdsDropdown extends Base {
   }
 
   get beforeShow() { return this.state.beforeShow; }
+
+  set data(val: IdsDropdownOptions) {
+    if (Array.isArray(val)) {
+      this.optionsData = val;
+      this.loadDataSet(val);
+    }
+  }
+
+  get data(): IdsDropdownOptions {
+    return this.optionsData;
+  }
 
   /**
    * Close the dropdown popup
