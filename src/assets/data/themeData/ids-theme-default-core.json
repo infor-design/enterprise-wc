@@ -10485,11 +10485,11 @@
     {
       "id": "id-1725374355204-3583",
       "tokenName": "--ids-chart-color-accent-01",
-      "tokenValue": "var(--ids-dataviz-color-sequential-01)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-01)",
       "children": [
         {
           "id": "id-1725374355204-3580",
-          "tokenName": "--ids-dataviz-color-sequential-01",
+          "tokenName": "--ids-color-dataviz-sequential-01",
           "tokenValue": "var(--ids-color-blue-80)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10508,7 +10508,7 @@
             }
           ],
           "colorValue": "#0054b1",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-01)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-01)"
         }
       ],
       "type": "Component",
@@ -10519,11 +10519,11 @@
     {
       "id": "id-1725374355204-3587",
       "tokenName": "--ids-chart-color-accent-02",
-      "tokenValue": "var(--ids-dataviz-color-sequential-02)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-02)",
       "children": [
         {
           "id": "id-1725374355204-3584",
-          "tokenName": "--ids-dataviz-color-sequential-02",
+          "tokenName": "--ids-color-dataviz-sequential-02",
           "tokenValue": "var(--ids-color-teal-60)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10542,7 +10542,7 @@
             }
           ],
           "colorValue": "#40bdbe",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-02)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-02)"
         }
       ],
       "type": "Component",
@@ -10553,11 +10553,11 @@
     {
       "id": "id-1725374355204-3591",
       "tokenName": "--ids-chart-color-accent-03",
-      "tokenValue": "var(--ids-dataviz-color-sequential-03)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-03)",
       "children": [
         {
           "id": "id-1725374355204-3588",
-          "tokenName": "--ids-dataviz-color-sequential-03",
+          "tokenName": "--ids-color-dataviz-sequential-03",
           "tokenValue": "var(--ids-color-purple-60)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10576,7 +10576,7 @@
             }
           ],
           "colorValue": "#7928e1",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-03)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-03)"
         }
       ],
       "type": "Component",
@@ -10587,11 +10587,11 @@
     {
       "id": "id-1725374355204-3595",
       "tokenName": "--ids-chart-color-accent-04",
-      "tokenValue": "var(--ids-dataviz-color-sequential-04)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-04)",
       "children": [
         {
           "id": "id-1725374355204-3592",
-          "tokenName": "--ids-dataviz-color-sequential-04",
+          "tokenName": "--ids-color-dataviz-sequential-04",
           "tokenValue": "var(--ids-color-neutral-40)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10610,7 +10610,7 @@
             }
           ],
           "colorValue": "#bbbbbf",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-04)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-04)"
         }
       ],
       "type": "Component",
@@ -10621,11 +10621,11 @@
     {
       "id": "id-1725374355204-3599",
       "tokenName": "--ids-chart-color-accent-05",
-      "tokenValue": "var(--ids-dataviz-color-sequential-05)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-05)",
       "children": [
         {
           "id": "id-1725374355204-3596",
-          "tokenName": "--ids-dataviz-color-sequential-05",
+          "tokenName": "--ids-color-dataviz-sequential-05",
           "tokenValue": "var(--ids-color-orange-30)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10644,7 +10644,7 @@
             }
           ],
           "colorValue": "#fcc888",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-05)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-05)"
         }
       ],
       "type": "Component",
@@ -10655,11 +10655,11 @@
     {
       "id": "id-1725374355204-3603",
       "tokenName": "--ids-chart-color-accent-06",
-      "tokenValue": "var(--ids-dataviz-color-sequential-06)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-06)",
       "children": [
         {
           "id": "id-1725374355204-3600",
-          "tokenName": "--ids-dataviz-color-sequential-06",
+          "tokenName": "--ids-color-dataviz-sequential-06",
           "tokenValue": "var(--ids-color-orange-70)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10678,7 +10678,7 @@
             }
           ],
           "colorValue": "#df6f00",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-06)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-06)"
         }
       ],
       "type": "Component",
@@ -10689,11 +10689,11 @@
     {
       "id": "id-1725374355204-3607",
       "tokenName": "--ids-chart-color-accent-07",
-      "tokenValue": "var(--ids-dataviz-color-sequential-07)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-07)",
       "children": [
         {
           "id": "id-1725374355204-3604",
-          "tokenName": "--ids-dataviz-color-sequential-07",
+          "tokenName": "--ids-color-dataviz-sequential-07",
           "tokenValue": "var(--ids-color-green-80)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10712,7 +10712,7 @@
             }
           ],
           "colorValue": "#1f9254",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-07)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-07)"
         }
       ],
       "type": "Component",
@@ -10723,11 +10723,11 @@
     {
       "id": "id-1725374355204-3611",
       "tokenName": "--ids-chart-color-accent-08",
-      "tokenValue": "var(--ids-dataviz-color-sequential-08)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-08)",
       "children": [
         {
           "id": "id-1725374355204-3608",
-          "tokenName": "--ids-dataviz-color-sequential-08",
+          "tokenName": "--ids-color-dataviz-sequential-08",
           "tokenValue": "var(--ids-color-blue-30)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10746,7 +10746,7 @@
             }
           ],
           "colorValue": "#8abff7",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-08)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-08)"
         }
       ],
       "type": "Component",
@@ -10757,11 +10757,11 @@
     {
       "id": "id-1725374355204-3615",
       "tokenName": "--ids-chart-color-accent-09",
-      "tokenValue": "var(--ids-dataviz-color-sequential-09)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-09)",
       "children": [
         {
           "id": "id-1725374355204-3612",
-          "tokenName": "--ids-dataviz-color-sequential-09",
+          "tokenName": "--ids-color-dataviz-sequential-09",
           "tokenValue": "var(--ids-color-red-80)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10780,7 +10780,7 @@
             }
           ],
           "colorValue": "#a30d11",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-09)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-09)"
         }
       ],
       "type": "Component",
@@ -10791,11 +10791,11 @@
     {
       "id": "id-1725374355204-3619",
       "tokenName": "--ids-chart-color-accent-10",
-      "tokenValue": "var(--ids-dataviz-color-sequential-10)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-10)",
       "children": [
         {
           "id": "id-1725374355204-3616",
-          "tokenName": "--ids-dataviz-color-sequential-10",
+          "tokenName": "--ids-color-dataviz-sequential-10",
           "tokenValue": "var(--ids-color-neutral-20)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10814,7 +10814,7 @@
             }
           ],
           "colorValue": "#e0e0e1",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-10)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-10)"
         }
       ],
       "type": "Component",
@@ -10825,11 +10825,11 @@
     {
       "id": "id-1725374355204-3623",
       "tokenName": "--ids-chart-color-accent-11",
-      "tokenValue": "var(--ids-dataviz-color-sequential-11)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-11)",
       "children": [
         {
           "id": "id-1725374355204-3620",
-          "tokenName": "--ids-dataviz-color-sequential-11",
+          "tokenName": "--ids-color-dataviz-sequential-11",
           "tokenValue": "var(--ids-color-teal-60)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10848,7 +10848,7 @@
             }
           ],
           "colorValue": "#40bdbe",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-11)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-11)"
         }
       ],
       "type": "Component",
@@ -10859,11 +10859,11 @@
     {
       "id": "id-1725374355204-3627",
       "tokenName": "--ids-chart-color-accent-12",
-      "tokenValue": "var(--ids-dataviz-color-sequential-12)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-12)",
       "children": [
         {
           "id": "id-1725374355204-3624",
-          "tokenName": "--ids-dataviz-color-sequential-12",
+          "tokenName": "--ids-color-dataviz-sequential-12",
           "tokenValue": "var(--ids-color-orange-90)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10882,7 +10882,7 @@
             }
           ],
           "colorValue": "#bb5500",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-12)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-12)"
         }
       ],
       "type": "Component",
@@ -10893,11 +10893,11 @@
     {
       "id": "id-1725374355204-3631",
       "tokenName": "--ids-chart-color-accent-13",
-      "tokenValue": "var(--ids-dataviz-color-sequential-13)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-13)",
       "children": [
         {
           "id": "id-1725374355204-3628",
-          "tokenName": "--ids-dataviz-color-sequential-13",
+          "tokenName": "--ids-color-dataviz-sequential-13",
           "tokenValue": "var(--ids-color-purple-30)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10916,7 +10916,7 @@
             }
           ],
           "colorValue": "#c2a1f1",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-13)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-13)"
         }
       ],
       "type": "Component",
@@ -10927,11 +10927,11 @@
     {
       "id": "id-1725374355204-3635",
       "tokenName": "--ids-chart-color-accent-14",
-      "tokenValue": "var(--ids-dataviz-color-sequential-14)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-14)",
       "children": [
         {
           "id": "id-1725374355204-3632",
-          "tokenName": "--ids-dataviz-color-sequential-14",
+          "tokenName": "--ids-color-dataviz-sequential-14",
           "tokenValue": "var(--ids-color-blue-60)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10950,7 +10950,7 @@
             }
           ],
           "colorValue": "#0072ed",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-14)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-14)"
         }
       ],
       "type": "Component",
@@ -10961,11 +10961,11 @@
     {
       "id": "id-1725374355204-3639",
       "tokenName": "--ids-chart-color-accent-15",
-      "tokenValue": "var(--ids-dataviz-color-sequential-15)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-15)",
       "children": [
         {
           "id": "id-1725374355204-3636",
-          "tokenName": "--ids-dataviz-color-sequential-15",
+          "tokenName": "--ids-color-dataviz-sequential-15",
           "tokenValue": "var(--ids-color-red-30)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -10984,7 +10984,7 @@
             }
           ],
           "colorValue": "#ee9496",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-15)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-15)"
         }
       ],
       "type": "Component",
@@ -10995,11 +10995,11 @@
     {
       "id": "id-1725374355204-3643",
       "tokenName": "--ids-chart-color-accent-16",
-      "tokenValue": "var(--ids-dataviz-color-sequential-16)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-16)",
       "children": [
         {
           "id": "id-1725374355204-3640",
-          "tokenName": "--ids-dataviz-color-sequential-16",
+          "tokenName": "--ids-color-dataviz-sequential-16",
           "tokenValue": "var(--ids-color-purple-80)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -11018,7 +11018,7 @@
             }
           ],
           "colorValue": "#591da8",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-16)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-16)"
         }
       ],
       "type": "Component",
@@ -11029,11 +11029,11 @@
     {
       "id": "id-1725374355204-3647",
       "tokenName": "--ids-chart-color-accent-17",
-      "tokenValue": "var(--ids-dataviz-color-sequential-17)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-17)",
       "children": [
         {
           "id": "id-1725374355204-3644",
-          "tokenName": "--ids-dataviz-color-sequential-17",
+          "tokenName": "--ids-color-dataviz-sequential-17",
           "tokenValue": "var(--ids-color-green-30)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -11052,7 +11052,7 @@
             }
           ],
           "colorValue": "#a1e4bf",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-17)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-17)"
         }
       ],
       "type": "Component",
@@ -11063,11 +11063,11 @@
     {
       "id": "id-1725374355204-3651",
       "tokenName": "--ids-chart-color-accent-18",
-      "tokenValue": "var(--ids-dataviz-color-sequential-18)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-18)",
       "children": [
         {
           "id": "id-1725374355204-3648",
-          "tokenName": "--ids-dataviz-color-sequential-18",
+          "tokenName": "--ids-color-dataviz-sequential-18",
           "tokenValue": "var(--ids-color-teal-80)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -11086,7 +11086,7 @@
             }
           ],
           "colorValue": "#2f8d8e",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-18)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-18)"
         }
       ],
       "type": "Component",
@@ -11097,11 +11097,11 @@
     {
       "id": "id-1725374355204-3655",
       "tokenName": "--ids-chart-color-accent-19",
-      "tokenValue": "var(--ids-dataviz-color-sequential-19)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-19)",
       "children": [
         {
           "id": "id-1725374355204-3652",
-          "tokenName": "--ids-dataviz-color-sequential-19",
+          "tokenName": "--ids-color-dataviz-sequential-19",
           "tokenValue": "var(--ids-color-neutral-60)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -11120,7 +11120,7 @@
             }
           ],
           "colorValue": "#6f6f76",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-19)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-19)"
         }
       ],
       "type": "Component",
@@ -11131,11 +11131,11 @@
     {
       "id": "id-1725374355204-3659",
       "tokenName": "--ids-chart-color-accent-20",
-      "tokenValue": "var(--ids-dataviz-color-sequential-20)",
+      "tokenValue": "var(--ids-color-dataviz-sequential-20)",
       "children": [
         {
           "id": "id-1725374355204-3656",
-          "tokenName": "--ids-dataviz-color-sequential-20",
+          "tokenName": "--ids-color-dataviz-sequential-20",
           "tokenValue": "var(--ids-color-red-40)",
           "type": "Semantic",
           "source": "semanticLightTokens",
@@ -11154,7 +11154,7 @@
             }
           ],
           "colorValue": "#e66467",
-          "tokenNameCSS": "var(--ids-dataviz-color-sequential-20)"
+          "tokenNameCSS": "var(--ids-color-dataviz-sequential-20)"
         }
       ],
       "type": "Component",
