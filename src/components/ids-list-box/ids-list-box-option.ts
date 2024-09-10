@@ -60,27 +60,30 @@ export default class IdsListBoxOption extends Base {
 
   /**
    * Establish Internal Event Handlers
-   * @private
-   * @returns {object} The object for chaining.
+   * @returns {void}
    */
-  #attachEventHandlers() {
-    const mutationObserver = (mutationList: any[]) => {
-      for (const m of mutationList) {
-        const assignedNode = this.shadowRoot?.querySelector('slot')?.assignedNodes()?.[0];
-        if (m.target === this || m.target === assignedNode) {
-          this.parentElement?.dispatchEvent(new CustomEvent('slotchange', { bubbles: true }));
+  #attachEventHandlers(): void {
+    const slot = this.shadowRoot?.querySelector('slot');
+    const listBox = this.parentElement;
+
+    this.offEvent('slotchange.list-box-option', slot);
+    this.onEvent('slotchange.list-box-option', slot, () => {
+      const assignedNode = slot?.assignedNodes()?.[0];
+      const mutationObserver = (mutationList: any[]) => {
+        for (const m of mutationList) {
+          if (m.target === this || m.target === assignedNode) {
+            listBox?.dispatchEvent(new CustomEvent('slotchange', { bubbles: true }));
+          }
         }
-      }
-    };
+      };
 
-    const observer = new MutationObserver(mutationObserver);
-    observer.observe(this, {
-      childList: true,
-      subtree: true,
-      characterData: true
+      const observer = new MutationObserver(mutationObserver);
+      observer.observe(this, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
     });
-
-    return this;
   }
 
   #hideEmptyGroupOption() {
