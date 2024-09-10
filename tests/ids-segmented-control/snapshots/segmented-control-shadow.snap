@@ -1,0 +1,3 @@
+<div class="ids-segmented-control" part="container">
+      <slot></slot>
+    </div>

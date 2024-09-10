@@ -109,6 +109,14 @@ The promise should resolve and return data with id, value and label info.
 }
 ```
 
+You can also load options into a dropdown via the `data` setter.
+```js
+  const ur = '/data/states.json';
+  const res = await fetch(url);
+  dropdown.data = await res.json();
+  dropdown.value = 'CA';
+```
+
 For groups you should add `group-label` attribute to `ids-list-box-option` to indicate group start, all group items should be below.
 
 ```html

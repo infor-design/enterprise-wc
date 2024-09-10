@@ -386,17 +386,22 @@ export default class IdsLayoutGrid extends IdsElement {
    * Set the maxWidth attribute
    * @param {string | null} value The value of the max-width [null, 'xs', 'sm', 'md', 'lg', 'xl', 'xxl', '###px']
    */
-  set maxWidth(value: string | null) {
-    if (!value || MAX_WIDTH_SIZES.indexOf(value as any) <= 0) {
-      this.removeAttribute(attributes.MAX_WIDTH);
-
-      // If custom value is set use custom property
-      if (value?.endsWith('px')) {
-        this.style.setProperty('--max-width', value);
-        this.setAttribute(attributes.MAX_WIDTH, value);
-      }
-    } else {
+  set maxWidth(value: string | null | any) {
+    if (MAX_WIDTH_SIZES.indexOf(value as any) >= 0) {
       this.setAttribute(attributes.MAX_WIDTH, value);
+      this.style.removeProperty('--max-width');
+    } else if (/^\d+$/.test(value)) {
+      // If the value is a number without a unit, add 'px'
+      value = `${value}px`;
+      this.style.setProperty('--max-width', value);
+      this.setAttribute(attributes.MAX_WIDTH, value);
+    } else if (value?.endsWith('px')) {
+      // If the value already has a 'px' unit, use it directly
+      this.style.setProperty('--max-width', value);
+      this.setAttribute(attributes.MAX_WIDTH, value);
+    } else {
+      // If the value is invalid or null, remove the attribute and the custom property
+      this.removeAttribute(attributes.MAX_WIDTH);
       this.style.removeProperty('--max-width');
     }
   }

@@ -403,7 +403,7 @@
   --ids-button-ai-color-loading-dot-default: var(--ids-color-white-100);
 
   // Breadcrumb
-  --ids-breadcrumb-color-text-default: var(--ids-color-foreground-default-tertiary);
+  --ids-breadcrumb-color-text-default: var(--ids-color-foreground-default-default);
   --ids-breadcrumb-color-text-disabled: var(--ids-color-foreground-default-disabled);
   --ids-breadcrumb-color-text-emphasis: var(--ids-color-text-inverse);
   --ids-breadcrumb-color-text-selected: var(--ids-color-foreground-default-default);
@@ -608,7 +608,7 @@
   --ids-data-grid-row-grouped-font-weight: var(--ids-font-weight-semibold);
 
   // Date Picker
-  --ids-date-picker-open-trigger-button-color-text: var(--ids-color-primary)
+  --ids-date-picker-open-trigger-button-color-text: var(--ids-color-primary);
   --ids-date-picker-color-border: var(--ids-color-primary);
   --ids-date-picker-dropdown-button-color-text: var(--ids-color-neutral-100);
   --ids-date-picker-dropdown-color-focus: var(--ids-shadow-md);
@@ -1310,6 +1310,12 @@
   --ids-search-field-card-color-text: var(--ids-color-text-default);
   --ids-search-field-card-color-background: var(--ids-color-neutral-10);
 
+  // Segmented Control
+  --ids-segmented-control-box-shadow: 0px 1px 10px 0px rgab(0 0 0 / 10%);
+  --ids-segmented-control-text-color: var(--ids-color-foreground-dark-default);
+  --ids-segmented-control-background-hover: var(--ids-color-background-elevated);
+  --ids-segmented-control-background-selected: var(--ids-color-background-elevated);
+
   // Separator
   --ids-separator-color-background: var(--ids-color-accent-neutral-default);
   --ids-separator-height: var(--ids-space-md);
@@ -1330,7 +1336,7 @@
   --ids-spinbox-color-background-default: var(--ids-trigger-field-color-background-default);
   --ids-spinbox-color-background-readonly: var(--ids-trigger-field-color-background-readonly);
   --ids-spinbox-color-text-readonly: var(--ids-trigger-field-color-text-readonly);
-  --ids-spinbox-color-border-focus: var(--ids-trigger-field-color-border-focus)
+  --ids-spinbox-color-border-focus: var(--ids-trigger-field-color-border-focus);
   --ids-spinbox-shadow-focus: var(--ids-trigger-field-shadow-focus);
   --ids-spinbox-color-text-disabled: var(--ids-trigger-field-color-text-disabled);
   --ids-spinbox-color-border-disabled: var(--ids-trigger-field-color-border-disabled);
@@ -1347,6 +1353,7 @@
   --ids-slider-track-color-background-progress: var(--ids-color-primary);
   --ids-slider-tooltip-color-background: var(--ids-color-accent-neutral-stronger);
   --ids-slider-tooltip-color-text: var(--ids-color-foreground-light-default);
+  --ids-slider-tooltip-padding: 1px 4px;
   --ids-slider-color-disabled: var(--ids-color-neutral-30);
   --ids-slider-tick-color-background-disabled: var(--ids-color-neutral-30);
   --ids-slider-thumb-color-background-disabled: var(--ids-color-neutral-30);
@@ -1657,11 +1664,12 @@
   --ids-trigger-field-button-border-radius-inline: 0;
   --ids-trigger-field-button-margin: -2px;
   --ids-trigger-field-button-margin-start: 2px;
+  --ids-trigger-field-button-inset-inline-start: -3px;
   --ids-trigger-field-color-background-default: var(--ids-input-color-background-default);
   --ids-trigger-field-color-background-readonly: var(--ids-input-color-background-readonly);
   --ids-trigger-field-color-border-readonly: var(--ids-input-color-border-readonly);
   --ids-trigger-field-color-text-readonly: var(--ids-input-color-text-readonly);
-  --ids-trigger-field-color-border-focus: var(--ids-input-color-border-focus)
+  --ids-trigger-field-color-border-focus: var(--ids-input-color-border-focus);
   --ids-trigger-field-shadow-focus: var(--ids-input-shadow-info-focus);
   --ids-trigger-field-color-text-disabled: var(--ids-color-foreground-default-default);
   --ids-trigger-field-color-border-disabled: var(--ids-input-color-border-disabled);

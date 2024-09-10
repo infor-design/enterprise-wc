@@ -17,6 +17,9 @@
   - link: clearable.html
     type: Example
     description: Showing a dropdown with clearable functionality
+  - link: data-setter.html
+    type: Example
+    description: Showing loading a dropdown with data setter
   - link: groups.html
     type: Example
     description: Showing a dropdown with grouping functionality

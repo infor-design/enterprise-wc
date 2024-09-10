@@ -314,6 +314,7 @@ $input-size-full: 100%;
     box-sizing: border-box;
     background-color: var(--ids-color-transparent);
     border: none;
+    color: inherit;
     font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
     padding-block-start: var(--ids-space-2xs);
     padding-block-end: var(--ids-space-2xs);
@@ -359,6 +360,11 @@ $input-size-full: 100%;
   .validation-message {
     margin-block-start: var(--ids-space-2xs);
     margin-bottom: var(--ids-space-none);
+
+    .ids-icon {
+      place-self: self-start;
+      margin-top: 1px;
+    }
   }
 
   // If `no-margins` is used:
@@ -397,36 +403,53 @@ $input-size-full: 100%;
 
   // input sizes: [xs, sm, mm, md, lg, full]
   // Subtracting 2 takes into account that the width includes the `.field-container` border on both sides.
-  &.xs .field-container {
-    width: $border-input-size-xs;
+  &.xs {
+    .field-container,
+    .validation-message {
+      width: $border-input-size-xs;
+    }
   }
 
-  &.sm .field-container {
-    width: $border-input-size-sm;
+  &.sm {
+    .field-container,
+    .validation-message {
+      width: $border-input-size-sm;
+    }
   }
 
-  &.mm .field-container {
-    width: $border-input-size-mm;
+  &.mm {
+    .field-container,
+    .validation-message {
+      width: $border-input-size-mm;
+    }
   }
 
-  &.md .field-container {
-    width: $border-input-size-md;
+  &.md {
+    .field-container,
+    .validation-message {
+      width: $border-input-size-md;
+    }
   }
 
-  &.lg .field-container {
-    width: $border-input-size-lg;
+  &.lg {
+    .field-container,
+    .validation-message {
+      width: $border-input-size-lg;
+    }
   }
 
   &.full {
     display: block;
 
-    .field-container {
+    .field-container,
+    .validation-message {
       width: var(--ids-input-width-full);
     }
   }
 
   @media (max-width: mixins.$breakpoint-xs) {
-    .field-container {
+    .field-container,
+    .validation-message {
       max-width: $border-input-size-mm;
     }
   }
@@ -882,6 +905,10 @@ $input-size-full: 100%;
 .caps-lock-indicator {
   padding-inline-start: var(--ids-space-xs);
   padding-inline-end: var(--ids-space-xs);
+}
+
+.show-hide-password {
+  padding-inline-end: var(--ids-space-3xs);
 }
 
 .is-uppercase {

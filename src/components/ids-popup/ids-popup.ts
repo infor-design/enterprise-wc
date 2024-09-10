@@ -1022,8 +1022,10 @@ export default class IdsPopup extends Base {
       this.#visible = trueVal;
       if (trueVal) {
         this.setAttribute(attributes.VISIBLE, '');
+        this.addOpenEvents();
       } else {
         this.removeAttribute(attributes.VISIBLE);
+        this.removeOpenEvents();
       }
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.refreshVisibility();
@@ -1554,11 +1556,16 @@ export default class IdsPopup extends Base {
     if (this.useRight) xProp = 'right';
 
     if (this.offsetContainer) {
-      const containerElem = getClosest(this, this.offsetContainer);
+      let containerElem = getClosest(this, this.offsetContainer);
+      let offsetY = 0;
+      if (containerElem?.nodeName === 'IDS-MODAL' || containerElem?.nodeName === 'IDS-ACTION-PANEL') {
+        containerElem = containerElem.shadowRoot.querySelector('ids-popup')?.container;
+        offsetY = getClosest(this, 'ids-data-grid') ? 60 : 0;
+      }
       if (containerElem) {
         const containerRect: DOMRect = containerElem.getBoundingClientRect();
         popupRect.x -= containerRect.left;
-        popupRect.y -= containerRect.top;
+        popupRect.y -= containerRect.top + offsetY;
       }
     }
 

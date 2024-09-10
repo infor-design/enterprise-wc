@@ -393,6 +393,7 @@ test.describe('IdsLocale tests', () => {
       await validateDefault(page);
 
       await runLocaleFunction(page, 'setLanguage', 'nn');
+      await runLocaleFunction(page, 'setLanguage', 'nn');
       expect(await runLocaleFunction(page, 'translate', 'Actions')).toEqual('Handlinger');
       expect((await getLocaleValues(page, 'language.name'))).toEqual('nn');
     });
@@ -402,6 +403,7 @@ test.describe('IdsLocale tests', () => {
     test.skip('can show in current language when language is not loaded', async ({ page }) => {
       await validateDefault(page);
 
+      await runLocaleFunction(page, 'setLanguage', 'fi');
       await runLocaleFunction(page, 'setLanguage', 'fi');
       expect(await runLocaleFunction(page, 'translate', 'Actions')).toEqual('Toiminnot');
       expect(await runLocaleFunction(page, 'translate', 'Actions', { language: 'de' })).toEqual('Aktionen');
@@ -659,11 +661,14 @@ test.describe('IdsLocale tests', () => {
 
     test('can treat no-NO, nn-NO, and nb-NO as same locale', async ({ page }) => {
       await runLocaleFunction(page, 'setLanguage', 'no');
+      await runLocaleFunction(page, 'setLanguage', 'no');
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laster');
 
       await runLocaleFunction(page, 'setLanguage', 'nb');
+      await runLocaleFunction(page, 'setLanguage', 'nb');
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laster');
 
+      await runLocaleFunction(page, 'setLanguage', 'nn');
       await runLocaleFunction(page, 'setLanguage', 'nn');
       expect(await runLocaleFunction(page, 'translate', 'Loading')).toEqual('Laster');
     });

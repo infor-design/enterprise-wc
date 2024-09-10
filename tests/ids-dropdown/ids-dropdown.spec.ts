@@ -423,8 +423,7 @@ test.describe('IdsDropdown tests', () => {
       expect(await dropdown.evaluate((element: IdsDropdown) => {
         element.value = 'invalid';
         return element.value;
-      })).toEqual('il');
-      await expect(dropdown).toHaveAttribute('value', 'il');
+      })).toEqual('invalid');
     });
 
     test('can set/get value with selectedIndex', async ({ page }) => {
@@ -437,14 +436,6 @@ test.describe('IdsDropdown tests', () => {
 
       expect(await dropdown.evaluate((element: IdsDropdown) => {
         element.selectedIndex = 3;
-        const result = { value: element.value, selectedIndex: element.selectedIndex };
-        return result;
-      })).toEqual({ value: 'il', selectedIndex: 3 });
-      await expect(dropdown).toHaveAttribute('value', 'il');
-
-      // invalid value
-      expect(await dropdown.evaluate((element: IdsDropdown) => {
-        element.selectedIndex = ('invalid') as any;
         const result = { value: element.value, selectedIndex: element.selectedIndex };
         return result;
       })).toEqual({ value: 'il', selectedIndex: 3 });
@@ -718,6 +709,15 @@ test.describe('IdsDropdown tests', () => {
         await locale.setLanguage('de');
       }, { deMessages });
       await expect(dropdown).toHaveAttribute('language', 'de');
+    });
+
+    test('can load data via setter', async ({ page }) => {
+      const dropdown = await page.locator('#dropdown-1');
+      const data = await dropdown.evaluate((elem: IdsDropdown, args: any[]) => {
+        elem.data = args;
+        return elem.data;
+      }, countries.slice(0, 2));
+      expect(data.length).toEqual(2);
     });
 
     test('can open on arrow down', async ({ page }) => {

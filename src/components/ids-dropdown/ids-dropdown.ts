@@ -329,6 +329,7 @@ export default class IdsDropdown extends Base {
     if (labels.includes(label)) {
       value = this.optionValues[labels.indexOf(label)];
     }
+
     this.#syncInputTextWithOption(value);
   }
 
@@ -694,8 +695,15 @@ export default class IdsDropdown extends Base {
   loadDataSet(dataset: IdsDropdownOptions) {
     let html = '';
 
-    const listbox = this.dropdownList?.querySelector('ids-list-box') || this.querySelector('ids-list-box');
+    let listbox = this.dropdownList?.querySelector('ids-list-box') || this.querySelector('ids-list-box');
     if (listbox) listbox.innerHTML = '';
+
+    if (!listbox) {
+      listbox = document.createElement('ids-list-box');
+      this.dropdownList?.insertAdjacentElement('afterbegin', listbox);
+      this.dropdownList?.configureListBox();
+      this.configureDropdownList();
+    }
 
     dataset.forEach((option: IdsDropdownOption) => {
       html += this.#templateListBoxOption(this.#sanitizeOption(option));
@@ -719,6 +727,17 @@ export default class IdsDropdown extends Base {
   }
 
   get beforeShow() { return this.state.beforeShow; }
+
+  set data(val: IdsDropdownOptions) {
+    if (Array.isArray(val)) {
+      this.optionsData = val;
+      this.loadDataSet(val);
+    }
+  }
+
+  get data(): IdsDropdownOptions {
+    return this.optionsData;
+  }
 
   /**
    * Close the dropdown popup
@@ -744,7 +763,6 @@ export default class IdsDropdown extends Base {
       this.input?.setAttribute(attributes.READONLY, 'true');
       const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
       if (this.input) this.input.value = initialValue || '';
-      this.loadDataSet(this.optionsData);
       (window.getSelection() as Selection).removeAllRanges();
       this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
@@ -1047,7 +1065,10 @@ export default class IdsDropdown extends Base {
     }
 
     const listBoxOption = [...this.dropdownList?.listBox?.querySelectorAll<IdsListBoxOption>(selector) ?? []].at(0);
-    if (!listBoxOption) return;
+    if (!listBoxOption) {
+      if (value) this.setAttribute(attributes.VALUE, String(value));
+      return;
+    }
 
     // NOTE: setAttribute() must be called here, before the internal input.value is set below
     this.setAttribute(attributes.VALUE, String(value));
