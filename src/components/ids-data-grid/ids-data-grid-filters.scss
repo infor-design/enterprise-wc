@@ -4,6 +4,13 @@
   --ids-button-formatter-color-background-hover: var(--ids-data-grid-filter-icon-color-background-hover);
   --ids-button-formatter-color-text-hover: var(--ids-data-grid-filter-icon-color-hover);
   --ids-menu-item-width-min: 190px;
+  --ids-trigger-field-button-inset-inline-start: 0;
+
+  ids-dropdown {
+    --ids-trigger-field-button-inset-inline-start: 2px;
+
+    padding-top: 3px;
+  }
 
   ::slotted([slot^='filter-']) {
     align-items: center;
