@@ -17,3 +17,9 @@
   - link: update-value.html
     type: Example
     description: Demonstrates a slider with its value bound to an IdsInput field
+  - link: min-max-step.html
+    type: Example
+    description: Demonstrates a slider with steps and min and max
+  - link: vertical.html
+    type: Example
+    description: Demonstrates a vertical slider min and max

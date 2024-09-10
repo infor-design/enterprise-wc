@@ -404,6 +404,7 @@ test.describe('IdsLocale tests', () => {
       await validateDefault(page);
 
       await runLocaleFunction(page, 'setLanguage', 'fi');
+      await runLocaleFunction(page, 'setLanguage', 'fi');
       expect(await runLocaleFunction(page, 'translate', 'Actions')).toEqual('Toiminnot');
       expect(await runLocaleFunction(page, 'translate', 'Actions', { language: 'de' })).toEqual('Aktionen');
     });
