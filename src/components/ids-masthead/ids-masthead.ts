@@ -23,19 +23,6 @@ const Base = IdsKeyboardMixin(
   )
 );
 
-export type MastheadSlots = {
-  start: HTMLElement | null;
-  center: HTMLElement | null;
-  end: HTMLElement | null;
-  more: HTMLElement | null;
-};
-
-export type MastheadBreakpoints = {
-  mobile: MediaQueryList;
-  tablet: MediaQueryList;
-  desktop: MediaQueryList;
-};
-
 /**
  * IDS Masthead Component
  * @type {IdsMasthead}
