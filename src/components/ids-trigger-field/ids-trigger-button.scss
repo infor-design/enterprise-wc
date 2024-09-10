@@ -50,7 +50,7 @@
 
   &.ids-icon-button {
     padding: var(--ids-space-2xs);
-    inset-inline-start: -3px;
+    inset-inline-start: var(--ids-trigger-field-button-inset-inline-start);
 
     &[disabled] {
       color: var(--ids-trigger-field-color-text-disabled);
