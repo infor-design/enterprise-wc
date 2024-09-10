@@ -62,8 +62,10 @@ download_reports:
     - aws configure set default.region $AWS_DEFAULT_REGION
   script:
     - aws s3 cp s3://$S3_BUCKET/$S3_COVERAGE_DIR/cobertura-coverage.xml coverage/cobertura-coverage.xml
+  coverage: /All files[^\|]*\|[^\|]*\s+([\d\.]+)/
   artifacts:
     reports:
+      junit: test-results/junit-results.xml
       coverage_report:
         coverage_format: cobertura
         path: coverage/cobertura-coverage.xml
