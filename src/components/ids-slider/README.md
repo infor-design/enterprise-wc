@@ -27,7 +27,8 @@ Displays a range of selectable values(s) between a minimum and maximum, which ca
 - `color` {string} set the color of the slider
 - `type` {'single' | 'range' | 'step'} set the type of the slider
 - `show-tooltip` {boolean} if true, allows the display of a Tooltip on each slider handle during interactions
-- `step-number` {number >= 0} number of steps between the start and end steps (applicable only for the step slider)
+- `step-number` {number >= 0} number of steps between the start and end steps (applicable only for the step slider) for example if set to 4 6 steps are shown (the end and start steps are included)
+- `step-interval` {number >= 0} the amount between each step when using the step slider
 - `vertical` {boolean}
 
 ## Settings (Non-attributes)
@@ -62,7 +63,7 @@ A step slider with custom color and 5 intervals
 <ids-slider type="step" step-number="5" color="green"></ids-slider>
 ```
 
-A vertical step slider witih 12 intervals
+A vertical step slider with 12 intervals
 
 ```html
 <ids-slider vertical type="step" step-number="12"></ids-slider>
@@ -101,7 +102,7 @@ slider.stepNumber = labels.length;
 **4.x to 5.x**
 
 - Slider is now a custom element `<ids-slider></ids-slider>`
-- Slider options are avaiable as attributes (such as `vertical`, `type`, etc)
+- Slider options are available as attributes (such as `vertical`, `type`, etc)
 
 ### Converting from 4.x
 

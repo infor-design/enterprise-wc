@@ -10,11 +10,13 @@
 
 - `[Card]` Adds `draggable` attribute to ids-card which allows card to be used in drag and drop scenarios. ([#2423](https://github.com/infor-design/enterprise-wc/issues/2423))
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615](https://github.com/infor-design/enterprise-wc/issues/2615))
+- `[Dropdown|ListBox]` Fix `ids-dropdown` so that it doesn't lose track of it's value when `ids-list-box-option` is dynamically set in Angular. ([#2612](https://github.com/infor-design/enterprise-wc/issues/2612))
 - `[Dropdown]` Fixed IdsDropdown default value.  There was a bug where the value property was not working properly with dynamic data. ([#2727](https://github.com/infor-design/enterprise-wc/issues/2727))
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615]https://github.com/infor-design/enterprise-wc/issues/2615)
 - `[Datagrid]` Added async/await to beforecelledit. ([#2726]https://github.com/infor-design/enterprise-wc/issues/2726)
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615](https://github.com/infor-design/enterprise-wc/issues/2615))
+- `[Dropdown]` Add `data` setter to dropdown to load options. ([#2689](https://github.com/infor-design/enterprise-wc/issues/2689))
 - `[LoadingIndicator]` Added a setting `contained` which confines the loading indicator within it's nearest parent. ([#2256](https://github.com/infor-design/enterprise-wc/issues/2256))
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160](https://github.com/infor-design/enterprise-wc/issues/2160))
 - `[Popup]` Fixed a bug where in Angular the click events cause menus to open when navigating. ([#2747](https://github.com/infor-design/enterprise-wc/issues/2747))
@@ -53,6 +55,7 @@
 - `[Splitter]` Converted datagrid popups to fixed to go over splitter panes. ([#2499](https://github.com/infor-design/enterprise-wc/issues/2499))
 - `[Splitter]` Fixed an issue where position was not retained when expanding and collapsing. ([#2527](https://github.com/infor-design/enterprise-wc/issues/2527))
 - `[Switch]` Fixed an issue where switch triggered `change` event twice. ([#2681](https://github.com/infor-design/enterprise-wc/issues/2681))
+- `[Tabs]` Fixed color issues in dark mode. ([#4716](https://inforwiki.atlassian.net/browse/IDS-4716))
 
 ## 1.4.2
 

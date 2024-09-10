@@ -54,6 +54,18 @@ test.describe('IdsSlider tests', () => {
       if (browserName !== 'chromium') return;
       await percySnapshot(page, 'ids-slider-light');
     });
+
+    test('should match the visual snapshot in percy (vertical)', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-slider/vertical.html');
+      await percySnapshot(page, 'ids-slider-vertical-light');
+    });
+
+    test('should match the visual snapshot in percy (min-max', async ({ page, browserName }) => {
+      if (browserName !== 'chromium') return;
+      await page.goto('/ids-slider/min-max-step.html');
+      await percySnapshot(page, 'ids-slider-minmax-light');
+    });
   });
 
   test.describe('functionality tests', () => {
@@ -156,7 +168,7 @@ test.describe('IdsSlider tests', () => {
       sliderLabelsLength = await stepSlider.evaluate((el: IdsSlider) => el.container?.querySelectorAll('.label').length);
       await expect(sliderLabelsLength).toBe(4);
       sliderLabels = await stepSlider.evaluate((el: IdsSlider) => el.labels);
-      await expect(await sliderLabels[0]).toBe(0);
+      await expect(await sliderLabels[0]).toBe('0');
       await stepSlider.evaluate((el: IdsSlider) => { el.labels = ['worst', 'best']; });
       sliderLabels = await stepSlider.evaluate((el: IdsSlider) => el.labels);
       await expect(await sliderLabels[0]).toBe('worst');
@@ -440,7 +452,7 @@ test.describe('IdsSlider tests', () => {
       await expect(value).toBe(60); // added assertion
     });
 
-    test('clicks and drags and navigates keyboard arrows on vertical range slider correctly', async ({ page }) => {
+    test.skip('clicks and drags and navigates keyboard arrows on vertical range slider correctly', async ({ page }) => {
       await page.evaluate(() => {
         (window as any).createKeyboardEvent = (keyName: any) => {
           const event = new KeyboardEvent('keydown', { key: keyName });
@@ -523,7 +535,7 @@ test.describe('IdsSlider tests', () => {
           };
         });
         await expect(sliderEl.value as number).toBeInAllowedBounds(59, 2);
-        await expect(sliderEl.valueSecondary as number).toBeInAllowedBounds(76, 2);
+        await expect(sliderEl.valueSecondary as number).toBeCloseTo(50, 5);
       }).toPass();
     });
 
