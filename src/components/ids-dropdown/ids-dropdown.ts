@@ -763,6 +763,7 @@ export default class IdsDropdown extends Base {
       this.input?.setAttribute(attributes.READONLY, 'true');
       const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
       if (this.input) this.input.value = initialValue || '';
+      this.loadDataSet(this.optionsData);
       (window.getSelection() as Selection).removeAllRanges();
       this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
