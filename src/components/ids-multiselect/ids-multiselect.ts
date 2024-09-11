@@ -171,7 +171,7 @@ class IdsMultiselect extends IdsDropdown {
    */
   set value(value: any) {
     let matched = true;
-    value = !Array.isArray(value) ? [String(value)] : value;
+    value = !Array.isArray(value) ? [String(value ?? '')] : value;
     if (!Array.isArray(value) || value.length > this.max) {
       return;
     }
