@@ -937,7 +937,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
         const transform = this.rotateNameLabels !== 0
           ? ` transform="rotate(${this.rotateNameLabels}, ${left}, ${top})"` : '';
         const value = this.#formatXLabel((this.data as any)[0]?.data[index]?.name);
-        labelHtml += `<text x="${left}" y="${top}" aria-hidden="true"${transform}>${value}</text>`;
+        labelHtml += `<text x="${left}" y="${top}"${transform}>${value}</text>`;
         top += gap;
       }
     } else {
@@ -951,10 +951,10 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
         if (this.alignXLabels === 'middle') {
           const x = left + (this.sectionWidths[index].width / 2);
           transform = this.rotateNameLabels !== 0 ? ` transform="rotate(${this.rotateNameLabels}, ${x}, ${top})" transform-origin="8px 8px"` : '';
-          labelHtml += `<text x="${x}" y="${top}" alignment-baseline="middle" text-anchor="middle" aria-hidden="true"${transform}>${value}</text>`;
+          labelHtml += `<text x="${x}" y="${top}" alignment-baseline="middle" text-anchor="middle"${transform}>${value}</text>`;
         } else {
           transform = this.rotateNameLabels !== 0 ? ` transform="rotate(${this.rotateNameLabels}, ${left}, ${top})" text-anchor="end"` : '';
-          labelHtml += `<text x="${left}" y="${top}" aria-hidden="true"${transform}>${value}</text>`;
+          labelHtml += `<text x="${left}" y="${top}"${transform}>${value}</text>`;
         }
         left += this.alignXLabels === 'middle' ? this.sectionWidths[index].width : gap;
       }
@@ -978,7 +978,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       if (this.axisLabelTop) top += this.axisLabelMargin;
 
       this.markerData.scaleValues?.slice().forEach((value: any) => {
-        lineHtml += `<text x="${left}" y="${top}" aria-hidden="true">${this.formatYLabel(value)}</text>`;
+        lineHtml += `<text x="${left}" y="${top}">${this.formatYLabel(value)}</text>`;
         left += this.#valuesLineGap();
       });
     } else {
@@ -988,7 +988,7 @@ export default class IdsAxisChart extends Base implements ChartSelectionHandler 
       top = this.margins.top + textSize;
 
       this.markerData.scaleValues?.slice().reverse().forEach((value: any) => {
-        lineHtml += `<text x="${left}" y="${top}" aria-hidden="true">${this.formatYLabel(value)}</text>`;
+        lineHtml += `<text x="${left}" y="${top}">${this.formatYLabel(value)}</text>`;
         top += this.#valuesLineGap();
       });
     }
