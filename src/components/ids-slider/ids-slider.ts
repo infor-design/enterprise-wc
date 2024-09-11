@@ -20,15 +20,9 @@ type IdsSliderTrackBounds = {
   TOP: number;
 };
 
-const TYPES = [
-  'single',
-  'range',
-  'step'
-];
-
 const DEFAULT_MIN = 0;
 const DEFAULT_MAX = 100;
-const DEFAULT_TYPE = TYPES[0];
+const DEFAULT_TYPE = 'single';
 const DEFAULT_TRACKER_BOUNDS = {
   BOTTOM: NaN,
   LEFT: NaN,
@@ -151,7 +145,7 @@ export default class IdsSlider extends Base {
     this.#attachUIStyles();
     this.#attachARIA();
     this.#setVertical();
-    this.#setStepNumber();
+    this.#setStepTicks();
     this.#setStepLabels();
 
     // @TODO find a better way to apply animation/transition rules after the component loads (#698)
@@ -173,6 +167,7 @@ export default class IdsSlider extends Base {
       attributes.MIN,
       attributes.MAX,
       attributes.READONLY,
+      attributes.STEP_INTERVAL,
       attributes.STEP_NUMBER,
       attributes.SHOW_TOOLTIP,
       attributes.TYPE,
@@ -433,11 +428,32 @@ export default class IdsSlider extends Base {
       type = 'secondary';
     }
 
-    if (tooltipText) tooltipText.innerHTML = String(Math.ceil(Number(value)));
+    let containsDecimals = false;
+
+    for (let i = 0; i < this.ticks.length; i++) {
+      if (this.ticks[i].element.innerHTML.indexOf('.') > -1 || this.ticks[i].element.innerHTML.indexOf(',') > -1) {
+        containsDecimals = true;
+        break;
+      }
+    }
+    const tooltipValue = this.type === 'step' && containsDecimals ? String(Number(value).toFixed(2)) : String(Number(value).toFixed(0));
+    if (tooltipText) tooltipText.innerHTML = tooltipValue;
 
     if (this.type !== 'step') {
       this.#updateTooltipDisplay(false, type);
     }
+  }
+
+  get ticks() : { element: HTMLElement, value: number }[] {
+    const ticks = Array.from(this.container?.querySelectorAll('.tick') || []);
+    const map = ticks.map((tick, i) => ({
+      element: tick as HTMLElement,
+      // eslint-disable-next-line no-nested-ternary
+      value: Number.isNaN(Number(tick.textContent))
+        // eslint-disable-next-line max-len
+        ? this.vertical ? (this.labels[this.labels.length - 1 - i] as any).value : (this.labels[i] as any).value : Number(tick.textContent)
+    }));
+    return map;
   }
 
   /**
@@ -521,7 +537,12 @@ export default class IdsSlider extends Base {
 
       if (labels && labelsLength === labelElementsLength) {
         labelElements?.forEach((x: { innerHTML: any; classList: { add: (arg0: string) => any; }; }, i: number) => {
-          x.innerHTML = this.vertical ? labels[labelsLength - 1 - i] : labels[i];
+          let labelText = this.vertical ? labels[labelsLength - 1 - i] : labels[i];
+
+          if ((labels[0] as any).text) {
+            labelText = this.vertical ? (labels[labelsLength - 1 - i] as any).text : (labels[i] as any).text;
+          }
+          x.innerHTML = labelText;
           if (this.vertical) x?.classList.add('vertical'); // add vertical styles
         });
       }
@@ -538,17 +559,19 @@ export default class IdsSlider extends Base {
    * Helper method for setLabels and initialization of labels
    * @returns {Array} An array the size of stepNumber with numerical intervals between the min and max
    */
-  #generateNumericalLabels(): Array<any> {
+  #generateNumericalLabels(): Array<string> {
     const arr = [];
+    const stepSize = (this.max - this.min) / (this.stepNumber - 1);
+
     for (let i = 0; i < this.stepNumber; i++) {
-      // rounds floats to 1st decimal
-      arr[i] = Math.round(((this.max / (this.stepNumber - 1)) * i) * 10) / 10;
+      arr.push(Number((this.min + i * stepSize).toFixed(1)).toString());
     }
+
     return arr;
   }
 
   /**
-   * Sets the interval between start and end slider tick (only applicable to step sliders)
+   * Sets the number of steps between start and end slider tick (only applicable to step sliders)
    * @param {string | number | any} value the amount of steps
    */
   set stepNumber(value: string | number | any) {
@@ -560,11 +583,11 @@ export default class IdsSlider extends Base {
       this.removeAttribute(attributes.STEP_NUMBER);
     }
 
-    this.#setStepNumber();
+    this.#setStepTicks();
   }
 
   /**
-   * @returns {number} the interval between start and end slider tick
+   * @returns {number} the steps between start and end slider tick
    */
   get stepNumber(): number {
     const attrVal = this.getAttribute(attributes.STEP_NUMBER);
@@ -574,7 +597,30 @@ export default class IdsSlider extends Base {
     return val + 2;
   }
 
-  #setStepNumber() {
+  /**
+   * Sets the interval between start and end slider tick (only applicable to step sliders)
+   * @param {string | number | any} value the amount of steps
+   */
+  set stepInterval(value: number | string) {
+    if (parseInt(value.toString()) > 0) {
+      this.setAttribute(attributes.STEP_INTERVAL, value.toString());
+      this.stepNumber = Math.ceil((this.max - this.min) / parseInt(value.toString(), 10) - 1);
+    } else {
+      this.removeAttribute(attributes.STEP_INTERVAL);
+      this.stepNumber = 2;
+    }
+
+    this.#setStepTicks();
+  }
+
+  /**
+   * @returns {number} the interval between start and end slider tick
+   */
+  get stepInterval(): number | string {
+    return Number(this.getAttribute(attributes.STEP_INTERVAL)) || 'auto';
+  }
+
+  #setStepTicks() {
     if (this.type === 'step') {
       if (this.stepNumber >= 2) {
         const stepLength = this.container?.querySelectorAll('.tick').length ?? 0;
@@ -646,7 +692,7 @@ export default class IdsSlider extends Base {
    * @returns {number} the corrected slider number
    */
   #sanitizeValue(value: string | number | any, secondary?: boolean): number {
-    const fixedValue = Math.ceil(parseFloat(value));
+    const fixedValue = parseFloat(value);
     if (fixedValue <= this.min) {
       return this.min;
     }
@@ -794,7 +840,7 @@ export default class IdsSlider extends Base {
    * @param {IdsSliderType} value The type of slider
    */
   set type(value: IdsSliderType) {
-    if (value && TYPES.includes(value)) {
+    if (value && ['step', 'range', 'single'].includes(value)) {
       this.setAttribute(attributes.TYPE, value);
     } else {
       this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
@@ -1020,25 +1066,31 @@ export default class IdsSlider extends Base {
       // for step sliders, snap to the closest interval
       const arr = [];
 
+      const stepSize = (this.max - this.min) / (this.stepNumber - 1);
+
       for (let i = 0; i < this.stepNumber; i++) {
-        arr[i] = (this.max / (this.stepNumber - 1)) * i;
+        arr.push(Number((this.min + i * stepSize).toFixed(1)));
       }
 
-      const passedValue = labelValueClicked || this.#calcPercentFromClick(x, y);
-      const differences = arr.map((val) => Math.abs(val - ((passedValue / 100) * this.max)));
+      let passedValue = labelValueClicked || this.#calcPercentFromClick(x, y);
+      if (this.max !== 100) passedValue = (passedValue / 100) * this.max;
 
-      let min = differences[0];
-      let minIndex = 0;
+      const ticks = this.ticks;
+      let closestValue = this.vertical ? ticks[ticks.length - 1].value : ticks[0].value;
 
-      for (let i = 0; i < differences.length; i++) {
-        if (differences[i] < min) {
-          min = differences[i];
-          minIndex = i;
+      if (!labelValueClicked) {
+        const diff = Math.abs(Number(this.ticks[1].value - this.ticks[0].value));
+        let threshold = Math.abs(diff < 100 ? diff : (diff / 2));
+        if (this.vertical) threshold = Math.abs(diff / 2);
+        for (let i = 0; i < this.ticks.length; i++) {
+          if (Math.abs(this.ticks[i].value - passedValue) < threshold) {
+            closestValue = this.ticks[i].value;
+          }
         }
       }
 
-      const targetValue = arr[minIndex];
-      this.percent = targetValue;
+      const targetValue = labelValueClicked || Number(closestValue);
+      this.percent = ((targetValue - this.min) / (this.max - this.min)) * 100;
       if (targetValue !== this.value) {
         this.value = targetValue;
       } else {
@@ -1107,10 +1159,11 @@ export default class IdsSlider extends Base {
    */
   #calcTranslateFromPercent(nStart: number, nEnd: number, percent: number, centered: boolean): number {
     // minus thumb height bc it overshoots
-    const editedRange = Math.abs(nEnd - nStart) - (this.thumbDraggable?.clientWidth ?? NaN);
-    let coord = (Math.ceil(percent) / 100) * editedRange;
+    const editedRange = Math.abs(nEnd - nStart) - (this.thumbDraggable?.clientWidth || 0);
+    // if (this.stepNumber <= 10 && this.percent > this.min
+    //  && this.percent < this.max) editedRange += (this.thumbDraggable?.clientWidth || 0);
+    let coord = (percent / 100) * editedRange;
     coord = centered ? coord - (editedRange / 2) : coord;
-
     return coord;
   }
 
@@ -1268,15 +1321,22 @@ export default class IdsSlider extends Base {
       }
 
       const className = event.target.className;
-      const clickedIdsSlider = className.includes('ids-slider');
+      const clickedSlider = className.includes('ids-slider');
       const clickedLabel = className.includes('label');
       const clickedTrackArea = className.includes('track-area');
 
-      if (clickedIdsSlider || clickedLabel || clickedTrackArea) {
-        if (clickedTrackArea || clickedIdsSlider) {
+      if (clickedSlider || clickedLabel || clickedTrackArea) {
+        if (clickedTrackArea || clickedSlider) {
           this.#calculateUIFromClick(event.clientX, event.clientY);
         } else {
-          const labelValueClicked = parseFloat(event.target.innerHTML);
+          let labelValueClicked = parseFloat(event.target.innerHTML);
+          if (Number.isNaN(labelValueClicked)) {
+            const index = Array.from((event.target as any).parentElement.parentNode.children)
+              .indexOf((event.target as any).parentElement);
+
+            labelValueClicked = this.vertical
+              ? (this.labels[this.labels.length - 1 - index] as any).value : (this.labels[index] as any).value;
+          }
           this.#calculateUIFromClick(event.clientX, event.clientY, labelValueClicked);
         }
       }
@@ -1347,8 +1407,9 @@ export default class IdsSlider extends Base {
       obj.thumbDraggable?.focus();
       // to ensure that after dragging, the value is updated only after dragging has ended..
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event
-      const freshPercent = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : this.percent;
-      this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, freshPercent, obj.primaryOrSecondary);
+      let labelValue: any = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : (this.percent * (this.max - this.min)) / 100;
+      if (this.type === 'step') labelValue = undefined;
+      if (!this.vertical) this.#calculateUIFromClick(e.detail.mouseX, e.detail.mouseY, labelValue, obj.primaryOrSecondary);
       this.#updateThumbShadow(false, obj.primaryOrSecondary);
     });
   }
@@ -1466,7 +1527,7 @@ export default class IdsSlider extends Base {
   #decreaseValue(primaryOrSecondary: string): void {
     switch (this.type) {
       case 'step':
-        this.value -= (this.max / (this.stepNumber - 1));
+        this.value -= ((this.max - this.min) / (this.stepNumber - 1));
         break;
       case 'range':
         if (primaryOrSecondary === 'secondary') {
@@ -1488,7 +1549,7 @@ export default class IdsSlider extends Base {
   #increaseValue(primaryOrSecondary: string): void {
     switch (this.type) {
       case 'step':
-        this.value += (this.max / (this.stepNumber - 1));
+        this.value = Math.min(this.max, Math.max(this.min, this.value + (this.max - this.min) / (this.stepNumber - 1)));
         break;
       case 'range':
         if (primaryOrSecondary === 'secondary') {

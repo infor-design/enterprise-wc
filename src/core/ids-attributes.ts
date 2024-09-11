@@ -479,6 +479,7 @@ export const attributes = {
   STATUS: 'status',
   STATUS_COLOR: 'status-color',
   STEP: 'step',
+  STEP_INTERVAL: 'step-interval',
   STEP_NUMBER: 'step-number',
   STEPS_IN_PROGRESS: 'steps-in-progress',
   STICKY: 'sticky',
@@ -605,7 +606,7 @@ export const prefix = {
   PREFIX: 'ids'
 };
 
-export const version = '1.4.2';
+export const version = '1.5.0';
 
 export enum IdsDirection {
   Up = 'up',

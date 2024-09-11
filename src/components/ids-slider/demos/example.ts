@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const survey = (document as any).querySelector('.survey');
   if (survey) {
     // Set label text
-    survey.labels = labels.map((el) => el.text);
+    survey.labels = labels;
 
     // Adjust slider track/tick color when value changes
     const fixSliderColorOnChange = (e: CustomEvent) => {

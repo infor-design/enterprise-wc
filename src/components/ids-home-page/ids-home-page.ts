@@ -353,7 +353,7 @@ export default class IdsHomePage extends Base {
       }
     }
 
-    // If reach to end of columns and next row is not avaiable then add new row
+    // If reach to end of columns and next row is not available then add new row
     // Make all columns available, if not assigned earlier as unavailable
     if (addRow) {
       if (!this.#rowsAndCols[r + 1]) {
