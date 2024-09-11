@@ -323,7 +323,7 @@ export default class IdsDropdown extends Base {
    * @param {string} value The value/id to use
    */
   set value(value: string | null) {
-    value = (Array.isArray(value) ? value[0] : value) || '';
+    value = (Array.isArray(value) ? value[0] : value) || String(value ?? '');
     const labels = this.labels;
     const label = String(value);
     if (labels.includes(label)) {
