@@ -13,6 +13,7 @@ import styles from './ids-tabs-context.scss';
 import type IdsTabContent from './ids-tab-content';
 import type IdsTabs from './ids-tabs';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { isIdsValidatedElement, type IdsValidateEvent } from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 
 const Base = IdsOrientationMixin(
   IdsEventsMixin(
@@ -52,6 +53,19 @@ export default class IdsTabsContext extends Base {
     // Set active pane when content is inserted dynamically
     this.onEvent('slotchange', this.container, () => {
       this.#changeContentPane(this.value, this.value);
+    });
+
+    this.onEvent('validate', this, (e: IdsValidateEvent) => {
+      const content = e.detail.elem?.closest<IdsTabContent>('ids-tab-content');
+      if (!content) {
+        return;
+      }
+      const tab = this.tabList?.tabs.find(({ value }) => value === content.value);
+      if (!tab) {
+        return;
+      }
+      const validatedElements = [...content.querySelectorAll('[validate]')].filter(isIdsValidatedElement);
+      tab.hasError = validatedElements.some((el) => !el.isValid);
     });
 
     this.#afterConnectedCallback();

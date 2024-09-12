@@ -6,6 +6,7 @@ import { test } from '../base-fixture';
 import IdsTabs from '../../src/components/ids-tabs/ids-tabs';
 import IdsTab from '../../src/components/ids-tabs/ids-tab';
 import IdsTabContent from '../../src/components/ids-tabs/ids-tab-content';
+import IdsInput from '../../src/components/ids-input/ids-input';
 
 test.describe('IdsTabs tests', () => {
   const url = '/ids-tabs/example.html';
@@ -194,6 +195,38 @@ test.describe('IdsTabs tests', () => {
       const tab = await page.locator('ids-tab').first();
       await page.getByLabel('Contracts').click();
       await expect(tab).toHaveAttribute('selected');
+    });
+  });
+
+  test.describe('validation indicator', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/ids-tabs/validation.html');
+    });
+
+    test('should not be visible by default', async ({ page }) => {
+      const contexts = await page.locator('ids-tabs-context').all();
+      for (const context of contexts) {
+        const tab = context.locator('ids-tab[value="with-required"]');
+        await expect(tab).not.toHaveAttribute('has-error', /.*/);
+        await expect(tab.locator('ids-icon[icon="error"]')).not.toBeVisible();
+      }
+    });
+
+    test('should only be visible when there is a validation error', async ({ page }) => {
+      const contexts = await page.locator('ids-tabs-context').all();
+      for (const context of contexts) {
+        const tab = context.locator('ids-tab[value="with-required"]');
+        const content = context.locator('ids-tab-content[value="with-required"]');
+        const input = content.locator('ids-input').first();
+        const icon = tab.locator('ids-icon[icon="error"]');
+
+        await input.evaluate((el: IdsInput) => { el.value = 'hello'; });
+        await input.evaluate((el: IdsInput) => { el.value = ''; });
+        await expect(icon).toBeVisible();
+
+        await input.evaluate((el: IdsInput) => { el.value = 'hello'; });
+        await expect(icon).not.toBeVisible();
+      }
     });
   });
 });

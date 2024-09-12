@@ -40,6 +40,28 @@ export type IdsValidationRule = {
   check: (input: any) => boolean;
 };
 
+export type IdsValidateEvent = CustomEvent<{
+  elem: IdsValidatedElement;
+  value?: unknown;
+  isValid: boolean;
+}>;
+
+/**
+ * Represents an instance that has the {@link IdsValidationMixin} applied.
+ */
+export type IdsValidatedElement = InstanceType<ReturnType<typeof IdsValidationMixin>>;
+
+/**
+ * Check whether an element has the {@link IdsValidationMixin} applied.
+ * @param {Element} element The element to check.
+ * @returns {boolean} `true` if the element has the mixin.
+ */
+export function isIdsValidatedElement(element: Element): element is IdsValidatedElement {
+  // Note: Could introduce a Symbol or similar instead.
+  return typeof (element as IdsValidatedElement)?.checkValidation === 'function'
+  && typeof (element as IdsValidatedElement)?.validate === 'string';
+}
+
 type Constraints = IdsConstructor<EventsMixinInterface>;
 
 /**
@@ -199,7 +221,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         }
       });
       this.isTypeNotValid = null;
-      this.triggerEvent('validate', this, { detail: { elem: this, value: (this as IdsInputInterface).value, isValid } });
+      this.#triggerValidateEvent(isValid);
     };
 
     if ((this as IdsInputInterface).input) {
@@ -561,6 +583,17 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     if ((this as IdsInputInterface).input) {
       destroy((this as IdsInputInterface).input);
     }
+  }
+
+  #triggerValidateEvent(isValid: boolean) {
+    this.triggerEvent('validate', this, {
+      detail: {
+        elem: this,
+        value: (this as IdsInputInterface).value,
+        isValid,
+      } satisfies IdsValidateEvent['detail'],
+      bubbles: true,
+    });
   }
 
   /**
