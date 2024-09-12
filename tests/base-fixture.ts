@@ -6,9 +6,12 @@ import {
   Page,
   test as baseTest,
   expect as baseExpect,
-  Locator
+  Locator,
+  ElementHandle
 } from '@playwright/test';
-import { CustomEventTest, PageErrorsTest } from './helper-fixture';
+import { CustomEventTest } from './helpers/custom-events-test';
+import { PageErrorsTest } from './helpers/page-errors-test';
+import { PageDate } from './helpers/page-date';
 
 const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output');
 
@@ -21,8 +24,35 @@ export function generateUUID(): string {
 }
 
 interface CustomParameters {
+  /**
+   * Helper object for custom events testing
+   */
   eventsTest: CustomEventTest;
+  /**
+   * Helper object to check for errors in the page during execution.
+   */
   pageErrorsTest: PageErrorsTest;
+  /**
+   * Helper object to retrieve the proper Date object from the page.
+   *
+   * **CONTEXT**
+   *
+   * When executing a test case locally, `new Date()` comes from **node.js** and comparing the
+   * results of the test case may vary.
+   *
+   * This helper provides dates directly coming from the page/browser in context.
+   *
+   * ```ts
+   * // if the test case below is executed outside of America/New_York timezone, the results differ
+   * test('compare dates', async ({ page }) => {
+   *   const nodeDate = new Date();
+   *   const pageDate = await page.evaluate(() => new Date());
+   *   // this may pass or fail depending on where the execution happens
+   *   expect(nodeDate).toEqual(pageDate);
+   * });
+   * ```
+   */
+  pageDate: PageDate;
 }
 
 /**
@@ -47,6 +77,10 @@ export const test = baseTest.extend<CustomParameters>({
   pageErrorsTest: async ({ page }, use) => {
     const errorTest = new PageErrorsTest(page);
     await use(errorTest);
+  },
+  pageDate: async ({ page }, use) => {
+    const browserDate = new PageDate(page);
+    await use(browserDate);
   }
 });
 
@@ -138,6 +172,8 @@ export const expect = baseExpect.extend({
    * **USAGE**
    *
    * ```js
+   * import { expect } from '../base-fixture';
+   *
    * await expect(30).toBeInAllowedBounds(29, 1); // passed
    * // lowerBound is 29, upperbound is 31
    * // 28 is not within the lowerBound and upperBound
@@ -175,6 +211,8 @@ export const expect = baseExpect.extend({
    * **USAGE**
    *
    * ```js
+   * import { expect } from '../base-fixture';
+   *
    * expect('Invalid Date').toBeValidDate(); // failed
    * expect('11/11/2011').toBeValidDate(); // passed
    * expect(new Date()).toBeValidDate(); // passed
@@ -194,6 +232,53 @@ export const expect = baseExpect.extend({
     }
     return {
       message: () => `Actual is not a date\n Actual:  ${actual}`,
+      pass: false
+    };
+  },
+  /**
+   * **CUSTOM ASSERTION - NOT PLAYWRIGHT NATIVE**
+   *
+   * Check if both elements are the same using `isSameNode()` method
+   *
+   * **USAGE**
+   *
+   * *HTML*
+   * ```html
+   * <div id="first">This is the first element.</div>
+   * <div>This is the second element.</div>
+   * <div>This is the first element.</div>
+   * ```
+   * *JavaScript*
+   * ```js
+   * import { expect } from '../base-fixture';
+   *
+   * const divList = await page.locator('div').all();
+   * const first = await page.locator('#first').elementHandle();
+   *
+   * await expect(divList[0]).toBeSameElement(divList[0]); // passed
+   * await expect(divList[1]).toBeSameElement(divList[0]); // failed
+   * await expect(divList[2]).toBeSameElement(divList[0]); // failed
+   * // in cases where element positioning changes, pass an ElementHandle object as expected instead
+   * await expect(divList[0]).toBeSameElement(first); // passed
+   * ```
+   * @param {Locator} actual `Locator` object to be matched
+   * @param {Locator | ElementHandle} expected `Locator` or `ElementHandle` object to be matched
+   * @returns {void}
+   */
+  async toBeSameElement(actual: Locator, expected: Locator | ElementHandle | null):
+  Promise<{ message: () => string; pass: true; } | { message: () => string; pass: false; }> {
+    const exp = (expected?.constructor.name === 'Locator') ? (await (expected as Locator).elementHandle()) : expected;
+    const actH = await actual.elementHandle();
+    const isSame = exp ? await actual.evaluate((act, arg) => act.isSameNode(arg), exp as ElementHandle) : false;
+    if (isSame) {
+      return {
+        message: () => 'passed',
+        pass: true
+      };
+    }
+    return {
+      message: () => `${this.utils.matcherHint('toBeSameElement', undefined, undefined, { isNot: this.isNot })}`
+        + `\n\nExpected: ${this.utils.printExpected(exp)}\nReceived: ${this.utils.printReceived(actH)}`,
       pass: false
     };
   }

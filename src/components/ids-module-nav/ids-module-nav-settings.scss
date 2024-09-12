@@ -11,7 +11,7 @@
 
 ::slotted(ids-icon) {
   margin-inline-start: 0;
-  margin-inline-end: var(--ids-module-nav-item-expanded-icon-text-spacing-size);
+  margin-inline-end: var(--ids-module-nav-item-expanded-icon-text-space-size);
 }
 
 ::slotted(ids-menu-button) {
@@ -34,8 +34,8 @@ ids-separator::part(separator) {
   @include ids-base-button-styles();
   @include ids-module-nav-button-styles();
 
-  &:not(.ids-icon-button) ::slotted(ids-icon) {
-    padding-inline-end: 0;
+  &:not(.ids-icon-button):not(.align-icon-end) ::slotted(ids-icon:not([icon="insights-smart-panel"])) {
+    margin-inline-end: 0;
   }
 
   &.color-variant-module-nav {
@@ -43,7 +43,7 @@ ids-separator::part(separator) {
     // Display Mode: Hidden
     &:not([class*='display-mode-']) {
       height: var(--ids-module-nav-item-collapsed-size);
-      margin-block: var(--ids-module-nav-item-collapsed-general-spacing-size);
+      margin-block: var(--ids-module-nav-item-collapsed-general-space-size);
       margin-inline: auto;
       padding-block: var(--ids-module-nav-item-margin-inline);
       padding-inline: auto;
@@ -69,7 +69,7 @@ ids-separator::part(separator) {
       ::slotted(ids-menu-button) {
         height: var(--ids-module-nav-item-collapsed-size);
         width: var(--ids-module-nav-item-collapsed-size);
-        margin: var(--ids-module-nav-item-collapsed-general-spacing-size) auto;
+        margin: var(--ids-module-nav-item-collapsed-general-space-size) auto;
       }
 
       ::slotted(ids-icon) {
@@ -84,6 +84,7 @@ ids-separator::part(separator) {
       padding: var(--ids-module-nav-item-margin-inline);
       margin-block-end: var(--ids-module-nav-accordion-gutter-size);
       text-align: start;
+      gap: 1rem;
 
       ::slotted(ids-menu-button) {
         justify-content: start;

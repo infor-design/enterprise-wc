@@ -9,6 +9,26 @@ export const PAGINATION_TYPES = {
 
 export type PaginationTypes = typeof PAGINATION_TYPES[keyof typeof PAGINATION_TYPES];
 
+export type AggregationTypes = { name: 'sum', field: null } | { name: 'avg', field: null } | { name: 'min', field: null } | { name: 'max', field: null } | { name: 'count', field: null };
+
+// Interfaces
+export interface GroupableOptions {
+  /* Set the fields to group */
+  fields: Array<string>;
+  /* Set the aggregators to use */
+  aggregators?: Array<AggregationTypes>;
+  /* Set the aggregators to use */
+  expanded?: true | ((row: number, cell: number, data: Record<string, any>) => boolean);
+  /* Function to format the group row (header) */
+  // eslint-disable-next-line max-len
+  groupRowFormatter?: (idx: number, row: number, cell: number, value: any, col: any, item: Record<string, any>, api: any) => void;
+  /* If true show a footer row with optional formatter */
+  groupFooterRow?: boolean;
+  /* Function to format the group footer */
+  // eslint-disable-next-line max-len
+  groupFooterRowFormatter?: (idx: number, row: number, cell: number, value: any, col: any, item: Record<string, any>, api: any) => void;
+}
+
 /**
  * Handle Attaching Array / Object Data to Components
  * Features (now and future):
@@ -20,7 +40,6 @@ export type PaginationTypes = typeof PAGINATION_TYPES[keyof typeof PAGINATION_TY
  *  - retrieval
  *  - CRUD
  *  - paging (pageSize, serverSide, cache)
- *  - aggregates / group by
  *  - events (requestStart, requestEnd, change, error)
  *  - sync (sync back original array)
  */
@@ -80,6 +99,12 @@ class IdsDataSource {
   #flatten = false;
 
   /**
+   * If set use a grouped data representation
+   * @private
+   */
+  #groupable?: GroupableOptions;
+
+  /**
    * If true use a filtered data representation
    * @private
    */
@@ -108,9 +133,10 @@ class IdsDataSource {
    * Sets the data array on the data source object
    * @param {Array | null} value The array to attach
    */
-  set data(value) {
-    this.#currentData = this.#flattenData(deepClone(value));
-    this.#originalData = value;
+  set data(value: Array<Record<string, any>> | null) {
+    const copy = deepClone(value) ?? [];
+    this.#currentData = this.groupable ? this.#groupData(copy) : this.#flattenData(copy);
+    this.#originalData = copy.slice(0);
     this.#total = this.#currentData?.length || 0;
   }
 
@@ -150,6 +176,16 @@ class IdsDataSource {
     this.#flatten = value;
   }
 
+  /* If set a grouped data model is used */
+  get groupable(): GroupableOptions | undefined {
+    return this.#groupable;
+  }
+
+  /* If true a grouped data model is used */
+  set groupable(value: GroupableOptions) {
+    this.#groupable = value;
+  }
+
   /* If true data is currently filtered */
   get filtered() {
     return this.#filtered;
@@ -167,7 +203,6 @@ class IdsDataSource {
    */
   #flattenData(data: Array<Record<string, any>>) {
     if (!this.#flatten) return data;
-
     this.#vsRefId = 0;
 
     const newData: Array<Record<string, any>> = [];
@@ -255,6 +290,21 @@ class IdsDataSource {
     });
 
     return newData;
+  }
+
+  /**
+   * Group data into a tree form of data
+   * @param {Record<string, unknown>} data The data array
+   * @returns {Record<string, unknown>} The flattened data
+   */
+  #groupData(data: Array<Record<string, any>>) {
+    if (!this.groupable) return data;
+
+    let groupedData = this.#groupBy(data, this.groupable.fields[0], this.groupable.aggregators);
+    this.flatten = true;
+    groupedData = this.#flattenData(groupedData);
+    this.flatten = false;
+    return groupedData;
   }
 
   /**
@@ -421,11 +471,23 @@ class IdsDataSource {
       if (!(this.primaryKey in updatedRecord)) {
         updatedRecord[this.primaryKey] = index;
       }
-      const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
-      if (i > -1) {
-        const newRecord = overwrite ? updatedRecord : { ...this.#currentData[i], ...updatedRecord };
-        this.#originalData[i] = newRecord;
-        this.#currentData[i] = newRecord;
+      const idx = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+
+      if (idx > -1) {
+        const newRecord = overwrite ? updatedRecord : { ...this.#currentData[idx], ...updatedRecord };
+        this.#originalData[idx] = newRecord;
+        this.#currentData[idx] = newRecord;
+      }
+
+      // If filter is active, update stored original data
+      if (this.#currentFilterData) {
+        const filterIdx = this.#currentFilterData
+          .findIndex((rec: Record<string, any>) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+
+        if (filterIdx > -1) {
+          const newRecord = overwrite ? updatedRecord : { ...this.#currentFilterData[filterIdx], ...updatedRecord };
+          this.#currentFilterData[filterIdx] = newRecord;
+        }
       }
     });
   }
@@ -442,10 +504,20 @@ class IdsDataSource {
 
     // Delete records
     items.forEach((updatedRecord) => {
-      const i = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
-      if (i > -1) {
-        this.originalData.splice(i, 1);
-        this.currentData.splice(i, 1);
+      const idx = this.#currentData.findIndex((rec) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+      if (idx > -1) {
+        this.originalData.splice(idx, 1);
+        this.currentData.splice(idx, 1);
+      }
+
+      // If filter is active, update stored original data
+      if (this.#currentFilterData) {
+        const filterIdx = this.#currentFilterData
+          .findIndex((rec: Record<string, any>) => rec[this.primaryKey] === updatedRecord[this.primaryKey]);
+
+        if (filterIdx > -1) {
+          this.#currentFilterData.splice(filterIdx, 1);
+        }
       }
     });
 
@@ -478,6 +550,12 @@ class IdsDataSource {
       const unFlattenData = this.#unFlattenData(this.#currentData);
       unFlattenData.sort(sort);
       this.#currentData = this.#flattenData(unFlattenData);
+      return;
+    }
+
+    if (this.groupable) {
+      this.#originalData.sort(sort);
+      this.#currentData = this.#groupData(deepClone(this.#originalData));
       return;
     }
     this.#currentData.sort(sort);
@@ -582,6 +660,50 @@ class IdsDataSource {
     } else if (this.#currentFilterData) {
       resetCurrentData(); // reset, if callback not found
     }
+  }
+
+  /**
+   * Group By a specific field
+   * @param {Array<Record<string, any>>} data the actions to add on grouped rows
+   * @param {string} field the field to group by
+   * @param {Array<string>} aggregators the actions to add on grouped rows
+   * @returns {Array<unknown>} the grouped data
+   */
+  #groupBy(data: Array<Record<string, any>>, field: string, aggregators?: Array<AggregationTypes>) {
+    const groups: any = [];
+
+    data.forEach((row: any) => {
+      const value1 = row[field];
+      const key = `${value1}`;
+
+      let foundParent = groups.find((x: Record<string, unknown>) => x[field] === key);
+      if (!foundParent) {
+        const groupRow: Record<string, unknown> = { isGroupRow: true, groupChildCount: 1, children: [row] };
+        groupRow[field] = value1;
+        groupRow.groupLabel = value1;
+        groups.push(groupRow);
+        foundParent = groups.find((x: Record<string, unknown>) => x[field] === key);
+      } else {
+        foundParent.children.push(row);
+        foundParent.groupChildCount++;
+      }
+    });
+
+    // TODO: Add more aggregators
+    if (aggregators) {
+      groups.forEach((group: any) => {
+        group.children.forEach((row: any) => {
+          aggregators.forEach((aggregator: any) => {
+            if (aggregator.name === 'sum') {
+              if (!group.sum) group.sum = 0;
+              group.sum += Number(row[aggregator.field]);
+            }
+          });
+        });
+      });
+    }
+
+    return groups;
   }
 }
 

@@ -1,4 +1,4 @@
-# Ids Week View Component
+# ids-week-view
 
 ## Description
 The `ids-week-view` component is a web component that provides calendar view that displays weeks and days

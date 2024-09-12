@@ -1,4 +1,4 @@
-# Ids Tooltip Component
+# ids-tooltip
 
 ## Description
 
@@ -117,6 +117,7 @@ document.querySelector('#button-1').visible = true;
 - Content can now be set with `tooltipElem.textContent`
 - Instead of open and close use `tooltipElem.visible=true`
 - `aftershow` event was not needed as its the same as `show`, so this has been removed
+- `showOnKeyboardFocus` is now `trigger="focus"`
 
 ## Accessibility Guidelines
 

@@ -46,7 +46,7 @@ test.describe('IdsGlobal tests', () => {
         window.IdsGlobal.personalize,
         window.IdsGlobal.themeLoaded
       ]);
-      expect(values[0]).toContain('1.3.0');
+      expect(values[0]).toContain('1.5.0');
       expect(values[1]).toBe('default-light');
       expect(values[2]).toBeFalsy();
       expect(values[3]).toBeTruthy();

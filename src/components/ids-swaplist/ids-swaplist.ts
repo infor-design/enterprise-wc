@@ -253,7 +253,7 @@ export default class IdsSwapList extends Base {
       const listTemplate = `<ids-card
         class="list-card ${arrLen === i + 1 ? `card card-${i} card-last` : `card card-${i}`}"
         data-id="${list.id}"
-        data-name="${list.name}">
+        data-name="${list.name}" overflow="hidden">
         <div slot="card-header">
           <ids-text font-size="20">${list.name}</ids-text>
           <div class="swap-buttons">

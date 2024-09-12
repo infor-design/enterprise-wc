@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Dropdowns (in action panel)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid auto-fit="true" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-button id="popup-trigger-btn" appearance="secondary">
+          <span>Trigger an Action Panel</span>
+        </ids-button>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+
+    <ids-action-panel id="abc">
+      <ids-toolbar slot="toolbar">
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20" type="h2">Action Panel Dropdown</ids-text>
+        </ids-toolbar-section>
+      </ids-toolbar>
+      <ids-layout-grid auto-fit="true" padding="md">
+        <ids-layout-grid-column>
+          <ids-menu-button id="menu-button" icon="settings" appearance="tertiary" menu="my-menu" dropdown-icon>
+            <span>Settings</span>
+          </ids-menu-button>
+          <ids-popup-menu id="my-menu" target="menu-button" trigger-type="click">
+            <ids-menu-group>
+              <ids-menu-item>Personalize Columns...</ids-menu-item>
+            </ids-menu-group>
+            <ids-separator></ids-separator>
+            <ids-menu-group select="single" id="sizes">
+              <ids-menu-header>Row Height</ids-menu-header>
+              <ids-menu-item disabled="true" value="extra-small">Extra Small</ids-menu-item>
+              <ids-menu-item value="small">Small</ids-menu-item>
+              <ids-menu-item value="medium">Medium</ids-menu-item>
+              <ids-menu-item value="large" selected="true">Large</ids-menu-item>
+            </ids-menu-group>
+            <ids-separator></ids-separator>
+            <ids-menu-group select="multiple" keep-open="true">
+              <ids-menu-header>Filtering Options</ids-menu-header>
+              <ids-menu-item selected="true">Show Filter Row</ids-menu-item>
+              <ids-menu-item value="run-filter">Run Filter</ids-menu-item>
+              <ids-menu-item value="clear-filter">Clear Filter</ids-menu-item>
+            </ids-menu-group>
+          </ids-popup-menu>
+        </ids-layout-grid-column>
+      </ids-layout-grid>
+    </ids-action-panel>
+
+  </ids-container>
+</body>
+
+</html>

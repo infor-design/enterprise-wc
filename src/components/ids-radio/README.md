@@ -1,48 +1,44 @@
-# Ids Radio Component
+# ids-radio
 
 ## Description
 
-The IDS Radio component is a web component wrapper around a standard input radio element that is styled to Infor branding, and contains some additional API that makes it easy to set radio, label, and functionality.
-
-The IDS Radio Group component is a simple wrapper around list of IDS radio, and contains some additional API that makes it easy to create a group of radios and add a group label, and other functionality.
-
-## Use Cases
-
-- Allows for making one selection out of a group of radio options.
-- Radio buttons are particularly useful in allowing users to make single choices from lists of selectable options. When
+The ids-radio is a Web Component wrapper around a standard `<input type="radio">`, while the ids-radio-group is a wrapper around a list of radio buttons. They each include API for setting states, groups, labels, and more. See more [usage details](https://design.infor.com/components/components/radios).
 
 ## Terminology
 
-**Radio Button:** A standard basic radio button element. It can set to checked, unchecked and disabled.
-**Label:** HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful content. IDS Radio Group will add sudo ui `*` for required elements.
+- **Radio Button:** A standard basic radio button element. It can be set to checked, unchecked and disabled.
+- **Label:** An `HTMLLabelElement` to keep matching with `HTMLInputElement`. The IDS Radio Group will add a pseudo UI `*` for required elements.
 
 ## Features (With Code Samples)
 
-A standard single unchecked radio element:
+### Radios
+
+A standard unchecked radio button:
 
 ```html
 <ids-radio value="opt1" label="Option one"></ids-radio>
 ```
 
-Set the radio as checked:
+Set a `checked` radio:
 
 ```html
 <ids-radio value="opt1" label="Option one" checked="true"></ids-radio>
 ```
 
-Add an unchecked and disabled radio:
+Add an unchecked, `disabled` radio:
 
 ```html
 <ids-radio value="opt1" label="Option one" disabled="true"></ids-radio>
 ```
 
-Add an checked and disabled radio:
+Add a `checked`, `disabled` radio:
 
 ```html
 <ids-radio value="opt1" label="Option one" checked="true" disabled="true"></ids-radio>
 ```
+### Radio Groups
 
-A standard Radio Group unchecked element:
+A standard unchecked radio group element:
 
 ```html
 <ids-radio-group label="Select delivery method">
@@ -51,7 +47,7 @@ A standard Radio Group unchecked element:
 </ids-radio-group>
 ```
 
-Set as Checked, the radio in Radio Group.
+Set a `checked` radio within a radio group.
 
 ```html
 <ids-radio-group label="Select delivery method">
@@ -60,7 +56,7 @@ Set as Checked, the radio in Radio Group.
 </ids-radio-group>
 ```
 
-Set Radio Group as No label.
+Set a radio group without a label.
 
 ```html
 <ids-radio-group>
@@ -69,7 +65,7 @@ Set Radio Group as No label.
 </ids-radio-group>
 ```
 
-Set Radio Group Checked and Value
+Set the value and the radio group to `checked`:
 
 ```html
 <ids-radio-group label="Select delivery method" value="opt1">
@@ -78,7 +74,7 @@ Set Radio Group Checked and Value
 </ids-radio-group>
 ```
 
-Set Radio Group as Disabled Group (each radio will set to disabled):
+Set a radio group as `disabled`, which disables all radios within:
 
 ```html
 <ids-radio-group label="Select delivery method" disabled="true">
@@ -87,7 +83,7 @@ Set Radio Group as Disabled Group (each radio will set to disabled):
 </ids-radio-group>
 ```
 
-Set Radio Group as Disabled Item:
+Set a `disabled` item within the radio group:
 
 ```html
 <ids-radio-group label="Select delivery method">
@@ -97,7 +93,7 @@ Set Radio Group as Disabled Item:
 </ids-radio-group>
 ```
 
-Set validation `required` to Radio Group this way:
+Set validation `required` to radio group:
 
 ```html
 <ids-radio-group label="Select delivery method" validate="required" id="ids-radio-validation">
@@ -108,7 +104,7 @@ Set validation `required` to Radio Group this way:
 <button id="btn-radio-validate">Validate</button>
 ```
 
-You can also check validation with the JS api.
+You can also check validation with the JS API.
 
 ```javascript
 document.querySelector('#btn-radio-validate').addEventListener('click', () => {
@@ -117,7 +113,7 @@ document.querySelector('#btn-radio-validate').addEventListener('click', () => {
 });
 ```
 
-Set validation `required` to Radio Group without label required indicator:
+Set validation `required` to radio group without label required indicator:
 
 ```html
 <ids-radio-group label="Select delivery method" label-required="false" validate="required">
@@ -126,7 +122,7 @@ Set validation `required` to Radio Group without label required indicator:
 </ids-radio-group>
 ```
 
-Set Radio Group as Horizontal:
+Set the radio group as `horizontal`:
 
 ```html
 <ids-radio-group label="Select delivery method" horizontal="true">
@@ -135,25 +131,25 @@ Set Radio Group as Horizontal:
 </ids-radio-group>
 ```
 
-## Settings (Attributes) (for Radios)
+## Settings (Attributes) - Radios
 
-- `checked` {boolean} set checked state.
-- `disabled` {boolean} set disabled state.
-- `group-disabled` {boolean} set disabled state, if group disabled.
-- `horizontal` {boolean} set radio layout inline as horizontal.
-- `label` {string} set the label text.
-- `validation-has-error` {boolean} set the validation error state.
-- `value` {string} set the radio value.
+- `checked` {boolean} Sets the checked state.
+- `disabled` {boolean} Sets the disabled state.
+- `group-disabled` {boolean} Sets disabled state, if group disabled.
+- `horizontal` {boolean} Sets the radio layout inline as horizontal.
+- `label` {string} Sets the label text.
+- `validation-has-error` {boolean} Sets the validation error state.
+- `value` {string} Sets the radio value.
 
-## Settings (Attributes) (for Radio Groups)
+## Settings (Attributes) - Radio Groups
 
-- `disabled` {boolean} set disabled state.
-- `horizontal` {boolean} set radio group layout inline as horizontal.
-- `label` {string} set the label text.
-- `label-required` {boolean} set validation `required` indicator, default is set to `true`.
-- `validate` {string} set the validation rule `required`.
-- `validation-events` {string} set the validation events, use `space` to add multiple default is set to `change`.
-- `value` {string} set the radio group value, will set as checked the matching radio value in list.
+- `disabled` {boolean} Sets the disabled state.
+- `horizontal` {boolean} Set radio group layout inline as horizontal.
+- `label` {string} Sets the label text.
+- `label-required` {boolean} Set validation `required` indicator, default is set to `true`.
+- `validate` {string} Set the validation rule `required`.
+- `validation-events` {string} Sets the validation events. Use `space` to add multiple. Defaults to `change`.
+- `value` {string} Sets the radio group value, will set as checked the matching radio value in list.
 
 ## Themeable Parts
 
@@ -172,18 +168,10 @@ Set Radio Group as Horizontal:
 - Dirty (Not supported on this component)
 - Active
 
-## Keyboard Guidelines
-
-The IDS Radio doesn't contain any interactions beyond a standard radio input element:
-
-- <kbd>Tab</kbd> and <kbd>Shift Tab</kbd> moves focus into the edit field to/from the next focusable item in the tab order.
-- <kbd>Space</kbd> Toggle the checked/unchecked state on the active radio button.
-- <kbd>ArrowDown</kbd>, <kbd>ArrowRight</kbd>, <kbd>ArrowUp</kbd>, <kbd>ArrowLeft</kbd>, Moves within a radio group, each key will move and set checked next radio in the list.
-
 ## Responsive Guidelines
 
-- Default display set vertical but can also use the  `horizontal` attribute as true for some cases.
-- Default display set as `block`, but can change to `inline-block` by use of `horizontal` attribute as `true`.
+- The default display is set to vertical, but you can use the `horizontal` attribute set to `true` for horizontal layout.
+- The default display is set as `block`, but you can change it to `inline-block` by setting the `horizontal` attribute to `true`.
 
 ## Converting from Previous Versions (Breaking Changes)
 

@@ -693,6 +693,27 @@ export default class IdsPopup extends Base {
   }
 
   /**
+   * Sets offset container, such as a container with a `container-type
+   * set which directly affects a popup's position
+   * @param {string|null} selector CSS selector of container
+   */
+  set offsetContainer(selector: string | null) {
+    if (selector) {
+      this.setAttribute(attributes.OFFSET_CONTAINER, selector);
+    } else {
+      this.removeAttribute(attributes.OFFSET_CONTAINER);
+    }
+  }
+
+  /**
+   * Gets offset container if any
+   * @returns {string|null} CSS selector of container
+   */
+  get offsetContainer(): string | null {
+    return this.getAttribute(attributes.OFFSET_CONTAINER);
+  }
+
+  /**
    * Changes the CSS class controlling the animation style of the Popup
    * @param {string} newStyle the type of animation
    * @returns {void}
@@ -1001,8 +1022,10 @@ export default class IdsPopup extends Base {
       this.#visible = trueVal;
       if (trueVal) {
         this.setAttribute(attributes.VISIBLE, '');
+        this.addOpenEvents();
       } else {
         this.removeAttribute(attributes.VISIBLE);
+        this.removeOpenEvents();
       }
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.refreshVisibility();
@@ -1380,14 +1403,6 @@ export default class IdsPopup extends Base {
       popupRect = this.onPlace(popupRect, this);
     }
 
-    if (this.containingElem?.classList?.contains('app-menu-is-open')) {
-      const appMenu = this.containingElem?.querySelector('.app-menu');
-      const appMenuRect = appMenu?.getBoundingClientRect();
-      if (navigator.userAgent.indexOf('Firefox') === -1) {
-        popupRect.x -= appMenuRect?.width || 300;
-      }
-    }
-
     // Correct for RTL Position
     popupRect = this.#correctRTL(popupRect);
 
@@ -1539,6 +1554,21 @@ export default class IdsPopup extends Base {
 
     let xProp = 'left';
     if (this.useRight) xProp = 'right';
+
+    if (this.offsetContainer) {
+      let containerElem = getClosest(this, this.offsetContainer);
+      let offsetY = 0;
+      if (containerElem?.nodeName === 'IDS-MODAL' || containerElem?.nodeName === 'IDS-ACTION-PANEL') {
+        containerElem = containerElem.shadowRoot.querySelector('ids-popup')?.container;
+        offsetY = getClosest(this, 'ids-data-grid') ? 60 : 0;
+      }
+      if (containerElem) {
+        const containerRect: DOMRect = containerElem.getBoundingClientRect();
+        popupRect.x -= containerRect.left;
+        popupRect.y -= containerRect.top + offsetY;
+      }
+    }
+
     this.style.setProperty(xProp, `${popupRect.x}px`);
     this.style.setProperty('top', `${popupRect.y}px`);
   }

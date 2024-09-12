@@ -1,4 +1,4 @@
-# Ids List Box Component
+# ids-list-box
 
 ## Description
 

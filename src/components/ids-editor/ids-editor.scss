@@ -28,8 +28,8 @@ $editor-container-height: 285px;
         content: '*';
         color: var(--ids-input-required-indicator-color-text-default);
         font-family: var(--ids-editor-font-family);
-        font-size: var(--ids-font-size-50);
-        margin-inline: var(--ids-space-xxxs);
+        font-size: var(--ids-font-size-md);
+        margin-inline: var(--ids-space-3xs);
         margin-top: -10px;
         position: relative;
         top: 1px;
@@ -95,8 +95,8 @@ $editor-container-height: 285px;
   }
 
   .toolbar-container {
-    border-top-left-radius: var(--ids-space-xxxxs);
-    border-top-right-radius: var(--ids-space-xxxxs);
+    border-top-left-radius: var(--ids-space-4xs);
+    border-top-right-radius: var(--ids-space-4xs);
   }
 
   // Causes overflow to occur on Formatter Toolbar
@@ -242,18 +242,18 @@ $editor-container-height: 285px;
   }
 }
 
-::slotted(div#editor-container) {
+::slotted(div.editor-container) {
   padding: var(--ids-editor-padding);
   box-sizing: border-box;
   min-height: 100%;
   outline: none;
 }
 
-::slotted(div#editor-container:empty) {
+::slotted(div.editor-container:empty) {
   &::before {
     content: attr(placeholder);
+    color: var(--ids-editor-color-text-placeholder);
     display: inline-block;
-    opacity: 0.7;
   }
 
   &:focus::before {

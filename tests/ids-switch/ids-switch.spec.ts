@@ -166,5 +166,46 @@ test.describe('IdsSwitch tests', () => {
 
       await expect(value).toContain('Allow notifications');
     });
+
+    test('should set/get label position', async ({ page }) => {
+      const switchElem = await page.locator('ids-switch').first();
+      await expect(switchElem).not.toHaveAttribute('label-position');
+      expect(await switchElem.evaluate((elem: IdsSwitch) => elem.labelPosition)).toBe('end');
+      await switchElem.evaluate((elem: IdsSwitch) => {
+        elem.labelPosition = 'start';
+      });
+      await expect(switchElem).toHaveAttribute('label-position', 'start');
+      expect(await switchElem.evaluate((elem: IdsSwitch) => elem.labelPosition)).toBe('start');
+      await switchElem.evaluate((elem: IdsSwitch) => {
+        elem.labelPosition = null;
+      });
+      await expect(switchElem).not.toHaveAttribute('label-position');
+      expect(await switchElem.evaluate((elem: IdsSwitch) => elem.labelPosition)).toBe('end');
+    });
+
+    test('should set/get size', async ({ page }) => {
+      const switchElem = await page.locator('ids-switch').first();
+      const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+      const checkSize = async (size: string) => {
+        await switchElem.evaluate((elem: any, arg: string) => {
+          elem.size = arg;
+        }, size);
+        expect(await switchElem.getAttribute('size')).toEqual(size);
+        expect(await switchElem.evaluate((elem: IdsSwitch) => elem.size)).toEqual(size);
+      };
+
+      expect(await switchElem.evaluate((elem: IdsSwitch) => elem.size)).toBeNull();
+      expect(await switchElem.getAttribute('size')).toBeNull();
+
+      for (const size of sizes) {
+        await checkSize(size);
+      }
+
+      await switchElem.evaluate((elem: any) => {
+        elem.size = null;
+      });
+      expect(await switchElem.evaluate((elem: IdsSwitch) => elem.size)).toBeNull();
+      expect(await switchElem.getAttribute('size')).toBeNull();
+    });
   });
 });

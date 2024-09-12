@@ -1,4 +1,4 @@
-# Ids Block Grid Component
+# ids-block-grid
 
 ## Description
 

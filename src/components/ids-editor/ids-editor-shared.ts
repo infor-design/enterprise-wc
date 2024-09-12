@@ -85,7 +85,9 @@ export const EDITOR_ATTRIBUTES = [
   attributes.PLACEHOLDER,
   attributes.READONLY,
   attributes.SOURCE_FORMATTER,
-  attributes.VIEW
+  attributes.VIEW,
+  attributes.VALUE,
+  attributes.ACCEPT
 ];
 
 /**

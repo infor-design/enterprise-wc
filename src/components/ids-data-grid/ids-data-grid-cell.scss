@@ -14,7 +14,7 @@
 
   // Hide first/last border
   &:first-child {
-    border-inline-start-width: 0;
+    border-inline-start-width: var(--ids-border-width-none);
   }
 
   // Reset badge margin to center it vertically
@@ -49,7 +49,7 @@
     + span {
       vertical-align: middle;
       line-height: 25px;
-      padding-inline: 4px;
+      padding-inline: var(--ids-space-2xs);
     }
   }
 
@@ -57,14 +57,14 @@
   &.align-center {
     & > *:first-child {
       display: inline-flex;
-      margin: 0 auto;
+      margin: var(--ids-space-none) auto;
     }
   }
 
   &.align-right {
     & > *:first-child {
       margin-inline-start: auto;
-      margin-inline-end: 0;
+      margin-inline-end: var(--ids-space-none);
     }
 
     ids-input {
@@ -139,13 +139,13 @@
       justify-content: space-between;
 
       .text-ellipsis {
-        padding-inline-end: 0;
+        padding-inline-end: var(--ids-space-none);
       }
     }
 
     .editor-cell-icon {
       margin-inline-end: 10px;
-      margin-block-start: 2px;
+      margin-block-start: var(--ids-space-3xs);
       display: none;
     }
 
@@ -180,7 +180,7 @@
     width: 100%;
     position: relative;
     left: 6px;
-    top: 4px;
+    top: var(--ids-space-2xs);
   }
 
   // Editing with popups
@@ -199,6 +199,10 @@
     .dropdown-cell-value {
       width: 100%;
     }
+
+    &.is-editing:not(.is-inline) {
+      border-inline-start-width: 0;
+    }
   }
 
   // Dropdown Editing Inline
@@ -206,13 +210,8 @@
     box-shadow: none;
 
     ids-dropdown {
-      padding: 0 4px;
+      padding: 0 var(--ids-space-2xs);
     }
-  }
-
-  // Text Editable Cell
-  &.formatter-text {
-    white-space: pre;
   }
 
   // Editing Uppercase
@@ -237,14 +236,14 @@
     border-inline-end: 1px solid var(--ids-data-grid-cell-color-border);
 
     + .ids-data-grid-cell {
-      border-inline-start-width: 0;
+      border-inline-start-width: var(--ids-border-width-none);
     }
   }
 
   &.frozen-left {
     background-color: var(--ids-data-grid-color-background);
     position: sticky;
-    left: 0;
+    left: var(--ids-space-none);
 
     // Dynamically added widths
     @for $i from 2 through 10 {
@@ -256,7 +255,7 @@
 
   &.frozen-right {
     position: sticky;
-    right: 0;
+    right: var(--ids-space-none);
   }
 
   &.is-dirty::before {
@@ -315,7 +314,7 @@
   }
 
   ids-button {
-    --ids-button-icon-padding: 2px;
+    --ids-button-icon-padding: var(--ids-space-3xs);
   }
 
   ids-badge {
@@ -324,7 +323,7 @@
 
   ids-input,
   ids-trigger-field {
-    --ids-space-xxxs: 0;
+    --ids-space-3xs: 0;
     --ids-input-font-size-sm: var(--ids-data-grid-font-size-sm);
   }
 
@@ -342,21 +341,21 @@
 
   // Adjust non inline editor
   .ids-data-grid-cell.is-editable .editor-cell-icon {
-    margin-inline-end: 2px;
+    margin-inline-end: var(--ids-space-3xs);
   }
 
   // Adjust dropdown editor
   .ids-data-grid-cell.is-editable.is-inline ids-icon.editor-cell-icon {
-    margin-inline-end: 4px;
+    margin-inline-end: var(--ids-space-2xs);
   }
 
   .ids-data-grid-cell.is-editable.is-inline {
     --ids-trigger-field-button-margin: -2px;
-    --ids-button-tertiary-color-background-hover: transparent;
+    --ids-button-tertiary-color-background-hover: var(--ids-color-transparent);
   }
 
   .ids-data-grid-cell.is-editing.is-dropdown.is-inline ids-dropdown {
-    padding: 0 1px;
+    padding: var(--ids-space-none) var(--ids-space-4xs);
 
     --ids-input-font-size-sm: var(--ids-data-grid-font-size-sm);
   }
@@ -367,7 +366,7 @@
     }
 
     &.is-editable.is-editable.is-invalid ids-alert {
-      margin-inline-end: var(--ids-space-xxxxs);
+      margin-inline-end: var(--ids-space-4xs);
     }
   }
 }
@@ -405,22 +404,22 @@
 
   // Adjust non inline editor
   .ids-data-grid-cell.is-editable .editor-cell-icon {
-    margin-inline-end: 2px;
+    margin-inline-end: var(--ids-space-3xs);
   }
 
   // Adjust dropdown editor
   .ids-data-grid-cell.is-editable.is-inline ids-icon.editor-cell-icon {
-    margin-inline-end: 4px;
+    margin-inline-end: var(--ids-space-2xs);
   }
 
   .ids-data-grid-cell.is-editable.is-inline {
     --ids-trigger-field-button-margin: -2px;
-    --ids-button-tertiary-color-background-hover: transparent;
+    --ids-button-tertiary-color-background-hover: var(--ids-color-transparent);
     --ids-input-font-size-sm: var(--ids-data-grid-font-size-sm);
   }
 
   .ids-data-grid-cell.is-editing.is-dropdown.is-inline ids-dropdown {
-    padding: 0 2px;
+    padding: var(--ids-space-none) var(--ids-space-3xs);
   }
 
   .ids-data-grid-cell {
@@ -436,7 +435,7 @@
 
 [data-row-height='sm'] {
   ids-button {
-    --ids-button-icon-padding: 4px;
+    --ids-button-icon-padding: var(--ids-space-2xs);
   }
 
   // Adjust non inline editor
@@ -451,7 +450,7 @@
 
   .ids-data-grid-cell.is-editable.is-inline {
     --ids-trigger-field-button-margin: -1px;
-    --ids-button-tertiary-color-background-hover: transparent;
+    --ids-button-tertiary-color-background-hover: var(--ids-color-transparent);
   }
 
   .ids-data-grid-cell {
@@ -473,7 +472,7 @@
 
   .ids-data-grid-cell.is-editable.is-inline {
     --ids-trigger-field-button-margin: -3px;
-    --ids-button-tertiary-color-background-hover: transparent;
+    --ids-button-tertiary-color-background-hover: var(--ids-color-transparent);
   }
 
   .ids-data-grid-cell {
@@ -495,7 +494,7 @@
 .ids-data-grid.is-list-style {
   // Change Cell Borders/BG
   .ids-data-grid-cell {
-    border-inline-start-width: 0;
+    border-inline-start-width: var(--ids-border-width-none);
     border-bottom: 1px solid var(--ids-data-grid-list-cell-color-border);
 
     &.is-readonly {
@@ -523,14 +522,14 @@ td.ids-data-grid-cell {
 :host([dir='rtl']) {
   .ids-data-grid.is-list-style {
     .ids-data-grid-cell {
-      border-inline-end-width: 0;
+      border-inline-end-width: var(--ids-border-width-none);
     }
   }
 
   // Negate Borders
   .ids-data-grid-cell {
     &:last-child {
-      border-inline-end-width: 0;
+      border-inline-end-width: var(--ids-border-width-none);
     }
 
     &.is-dirty {
@@ -544,5 +543,5 @@ td.ids-data-grid-cell {
 
 // Fix slotted trigger button margins when nested within cells
 .ids-trigger-field-slot-trigger-end {
-  margin-inline-end: 0;
+  margin-inline-end: var(--ids-space-none);
 }

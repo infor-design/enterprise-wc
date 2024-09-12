@@ -1,4 +1,4 @@
-# Ids Icon Component
+# ids-icon 
 
 ## Description
 

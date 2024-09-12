@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <%= htmlWebpackPlugin.options.font %>
+</head>
+<body>
+  <ids-container role="main" padding="8" hidden>
+    <ids-theme-switcher mode="light"></ids-theme-switcher>
+    <ids-layout-grid auto-fit="true" padding="md">
+      <ids-text font-size="12" type="h1">Slider (vertical)</ids-text>
+    </ids-layout-grid>
+
+    <ids-layout-grid cols="4" cols-md="2" gap="xl" padding-x="md">
+      <ids-layout-grid-cell>
+        <ids-slider type="single" vertical color="red" show-tooltip label="Colorful single-thumb"></ids-slider>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-slider type="range" vertical color="green" show-tooltip label="Colorful multi-thumb minimum" label-secondary="Colorful multi-thumb maximum"></ids-slider>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-slider class="survey" type="step" vertical step-number="4" color="" label="Status"></ids-slider>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell>
+        <ids-slider vertical="true" max="100" min="50" show-tooltip type="range"></ids-slider>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
+  </ids-container>
+</body>
+</html>

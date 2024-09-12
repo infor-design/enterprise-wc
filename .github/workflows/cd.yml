@@ -15,7 +15,7 @@ jobs:
         node-version: [20.x]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - uses: szenius/set-timezone@v1.0
       with:
@@ -52,7 +52,12 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Tests
-      run: npx percy exec -- npm run test:ci
+      run: npm run test:coverage:ci
+      env:
+        NODE_OPTIONS: "--max-old-space-size=8192"
+
+    - name: Run Tests (percy)
+      run: npm run test:percy:ci
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
         NODE_OPTIONS: "--max-old-space-size=8192"

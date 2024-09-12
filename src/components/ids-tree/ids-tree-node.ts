@@ -3,31 +3,63 @@ import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
-import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
-
 import IdsTreeShared from './ids-tree-shared';
+
 import '../ids-badge/ids-badge';
 import '../ids-text/ids-text';
 import '../ids-checkbox/ids-checkbox';
 
 import styles from './ids-tree-node.scss';
-import type IdsTree from './ids-tree';
 import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
-import { getClosest } from '../../utils/ids-dom-utils/ids-dom-utils';
+import type IdsIcon from '../ids-icon/ids-icon';
+import type IdsText from '../ids-text/ids-text';
+import type IdsTree from './ids-tree';
 
-const Base = IdsLocaleMixin(
-  IdsEventsMixin(
-    IdsElement
-  )
-);
+export type TreeNodeBadge = {
+  color?: string;
+  shape?: string;
+  text?: string;
+  textAudible?: string;
+  icon?: string;
+};
+
+export type IdsTreeNodeData = {
+  /* Set the id attribute */
+  id?: string;
+  /* Sets the text label */
+  text?: string;
+  /* Sets the icon name */
+  icon?: string;
+  /* Sets if expanded */
+  expanded?: string | boolean;
+  /* Sets if disabled */
+  disabled?: string | boolean;
+  /* Sets if expanded */
+  children?: Array<IdsTreeNodeData>;
+  /* IdsBadge config */
+  badge?: TreeNodeBadge;
+  /** Sets selected state */
+  selected?: boolean;
+  /** Sets collapse icon */
+  collapseIcon?: string;
+  /** Sets expand icon */
+  expandIcon?: string;
+  /** Sets toggle collapse icon */
+  toggleCollapseIcon?: string;
+  /** Sets toggle expand icon */
+  toggleExpandIcon?: string;
+  /** Sets showing both expand and toggle icon */
+  showExpandAndToggleIcons?: boolean;
+};
+
+const Base = IdsEventsMixin(IdsElement);
 
 /**
  * IDS Tree Node Component
  * @type {IdsTreeNode}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsLocaleMixin
  * @part group-node - the group node element
  * @part node - the node element
  * @part node-container - the node container element
@@ -45,7 +77,13 @@ export default class IdsTreeNode extends Base {
 
   groupNodesEl?: HTMLElement | null = null;
 
-  tree?: IdsTree | null = null;
+  childrenTreeNodes: Array<IdsTreeNode> = [];
+
+  checkboxElem: IdsCheckbox | null = null;
+
+  textElem: IdsText | null = null;
+
+  #tree: IdsTree | null = null;
 
   constructor() {
     super();
@@ -56,8 +94,10 @@ export default class IdsTreeNode extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.nodeContainer = this.shadowRoot?.querySelector('.node-container');
-    this.groupNodesEl = this.shadowRoot?.querySelector('.group-nodes');
+    this.nodeContainer = this.shadowRoot!.querySelector('.node-container');
+    this.groupNodesEl = this.shadowRoot!.querySelector('.group-nodes');
+    this.checkboxElem = this.shadowRoot!.querySelector<IdsCheckbox>('ids-checkbox');
+    this.textElem = this.shadowRoot!.querySelector<IdsText>('ids-text');
     this.#attachEventListeners();
   }
 
@@ -72,19 +112,90 @@ export default class IdsTreeNode extends Base {
       attributes.DISABLED,
       attributes.EXPAND_ICON,
       attributes.EXPANDED,
+      attributes.EXPAND_TARGET,
       attributes.ICON,
       attributes.LABEL,
       attributes.SELECTABLE,
       attributes.SELECTED,
-      attributes.TABBABLE,
-      attributes.EXPAND_TARGET
+      attributes.SHOW_EXPAND_AND_TOGGLE_ICONS,
+      attributes.TOGGLE_EXPAND_ICON,
+      attributes.TOGGLE_COLLAPSE_ICON
     ];
   }
 
+  get elem(): IdsTreeNode {
+    return this;
+  }
+
+  get iconElement(): IdsIcon | null {
+    return this.container?.querySelector<IdsIcon>('.icon') ?? null;
+  }
+
+  get hasChildren(): boolean {
+    return !!this.querySelector('ids-tree-node');
+  }
+
+  get isAsyncParent(): boolean {
+    return this.hasAttribute('load-async');
+  }
+
   get isGroup(): boolean {
-    const isNodeEl = (el: HTMLElement) => /^ids-tree-node$/i.test(el.nodeName);
-    return [...this.childNodes].some((el) => isNodeEl(el as HTMLElement))
-      || !!this.container?.querySelector('.group-nodes');
+    return !!this.querySelector('ids-tree-node') || this.isAsyncParent;
+  }
+
+  get slottedTreeNodes(): Array<IdsTreeNode> {
+    return [...this.querySelectorAll<IdsTreeNode>(':scope > ids-tree-node')];
+  }
+
+  get data(): IdsTreeNodeData {
+    const nodeData: Partial<IdsTreeNodeData> = {
+      id: this.id,
+      text: this.label,
+      icon: this.icon,
+      expandIcon: this.expandIcon,
+      collapseIcon: this.collapseIcon,
+      expanded: this.expanded,
+      disabled: this.disabled,
+      selected: this.selected,
+      showExpandAndToggleIcons: this.showExpandAndToggleIcons,
+      toggleExpandIcon: this.toggleExpandIcon,
+      toggleCollapseIcon: this.toggleCollapseIcon
+    };
+
+    // only append children property if has children os is async parent
+    if (this.isAsyncParent || this.hasChildren) {
+      nodeData.children = this.slottedTreeNodes.map((child) => child.data);
+    }
+
+    return nodeData;
+  }
+
+  get treeElem(): IdsTree | null {
+    if (this.#tree) return this.#tree;
+
+    let cursor = this.parentElement;
+    while (cursor && !(cursor.nodeName === 'IDS-TREE')) {
+      cursor = cursor.parentElement;
+    }
+    this.#tree = cursor as IdsTree;
+
+    return this.#tree;
+  }
+
+  get isMultiSelect(): boolean {
+    return this.selectable === 'multiple';
+  }
+
+  get level(): number {
+    return Number(this.getAttribute('aria-level'));
+  }
+
+  get setsize(): number {
+    return Number(this.getAttribute('aria-setsize'));
+  }
+
+  get posinset(): number {
+    return Number(this.getAttribute('aria-posinset'));
   }
 
   /**
@@ -92,78 +203,26 @@ export default class IdsTreeNode extends Base {
    * @returns {string} The template
    */
   template() {
-    // Set the closest tree element
-    this.tree = this.tree || getClosest(this, 'ids-tree');
-
-    // Set the type is group or node
-    const isNodeEl = (el: HTMLElement) => /^ids-tree-node$/i.test(el.nodeName);
-
-    // Set group template
-    if (this.isGroup) {
-      let childNodesHTML = '';
-      for (let i = 0; i < this.childNodes.length; i++) {
-        const node = this.childNodes[i] as HTMLElement;
-        if (isNodeEl(node)) {
-          childNodesHTML += node.outerHTML;
-        }
-      }
-      const templ = this.getTemplate(true);
-      // Handle empty parent nodes
-      return templ.replace('{group-nodes}', childNodesHTML.replace('<ids-tree-node></ids-tree-node>', ''));
-    }
-
-    // Node template
-    return this.getTemplate();
-  }
-
-  /**
-   * Select node
-   * @private
-   * @param {boolean|undefined} isGroup If true node type is group
-   * @returns {string} The html template
-   */
-  getTemplate(isGroup?: boolean) {
     const disabled = `${this.disabled ? ' disabled' : ''}`;
     const selected = `${this.isSelected ? ' selected' : ''}`;
-    const ariaDisabled = ` aria-disabled="${this.disabled}"`;
-    const ariaSelected = ` aria-selected="${this.isSelected}"`;
-    const tabindex = ` tabindex="${this.isTabbable ? '0' : '-1'}"`;
+    const expanded = `${this.expanded ? 'expanded' : ''}`;
+    const nodeIcon = this.isGroup ? this.expandCollapseIcon : this.icon;
+    const toggleExpandCollapseIcon = this.toggleExpandCollapseIcon;
+    const toggleIcon = this.showExpandAndToggleIcons
+      ? `<ids-icon class="toggle-icon" part="toggle-icon" icon="${toggleExpandCollapseIcon}"></ids-icon>`
+      : '';
 
-    if (isGroup) {
-      const ariaExpanded = ` aria-expanded="${this.expanded}"`;
-      const cssClass = `class="ids-tree-node ${this.toggleClass}"`;
-      return `<li ${cssClass} part="group-node" role="none"${disabled}${selected}>
-          <span class="node-container" part="node-container" role="treeitem"${tabindex}${disabled}${selected}${ariaDisabled}${ariaSelected}${ariaExpanded}>
-            <ids-icon class="icon" icon="${this.nodeIcon}" part="icon"></ids-icon>
-            ${this.tree?.showExpandAndToggleIcons ? `<ids-icon class="icon" icon="${this.toggleIcon}" part="icon"></ids-icon>` : ''}
-            ${this.toggleIconHtml}
-            ${this.isMultiSelect ? `<ids-checkbox label="${this.label}" ${disabled}></ids-checkbox>` : ''}
-            <slot name="badge" class="badge"></slot>
-            <ids-text class="text" part="text" ${this.isMultiSelect ? 'hidden' : ''}>${this.label}</ids-text>
-          </span>
-          <ul class="group-nodes" role="group">{group-nodes}</ul>
-        </li>`;
-    }
-
-    return `
-      <li class="ids-tree-node" part="node" role="none"${disabled}${selected}>
-        <span class="node-container" part="node-container" role="treeitem"${tabindex}${disabled}${selected}${ariaDisabled}${ariaSelected}>
-          <ids-icon class="icon" part="icon" icon="${this.nodeIcon}"></ids-icon>
-          ${this.isMultiSelect ? `<ids-checkbox label="${this.label}" ${disabled}></ids-checkbox>` : ''}
-          <slot name="badge" class="badge"></slot>
-          <ids-text class="text" part="text" ${this.isMultiSelect ? 'hidden' : ''}><slot></slot></ids-text>
-        </span>
-      </li>`;
-  }
-
-  /**
-   * Get tree attribute value for given selector
-   * @private
-   * @param {string} selector The selector string
-   * @returns {string|null} The tree attribute value
-   */
-  treeAttribute(selector: string) {
-    return this.tree?.getAttribute(selector);
+    return `<div class="ids-tree-node ${expanded}" role="none" ${disabled} ${selected}>
+      <span class="node-container" part="node-container" role="treeitem" tabindex="0">
+        <ids-icon class="icon" part="icon" icon="${nodeIcon}"></ids-icon>
+        ${toggleIcon}
+        <slot name="badge" class="badge"></slot>
+        <ids-text class="text" part="text">${this.label}</ids-text>
+      </span>
+      <div class="group-nodes" part="group-nodes">
+        <slot></slot>
+      </div>
+    </div>`;
   }
 
   /**
@@ -171,158 +230,348 @@ export default class IdsTreeNode extends Base {
    * @returns {void}
    */
   setFocus(): void {
-    (this.nodeContainer as any).focus();
+    this.nodeContainer?.focus();
+  }
+
+  updateTreeArias(): void {
+    const nodeLevel = this.level;
+    const children = this.slottedTreeNodes;
+
+    children.forEach((node, idx) => {
+      const prevLevel = node.level;
+      node.setAttribute(`aria-level`, String(nodeLevel + 1));
+      node.setAttribute(`aria-setsize`, String(children.length));
+      node.setAttribute(`aria-posinset`, String(idx + 1));
+
+      // if node was moved from another level, update nested nodes
+      if (prevLevel && prevLevel !== nodeLevel + 1) node.updateTreeArias();
+    });
+  }
+
+  #canProceed(eventName: string): boolean {
+    let canProceed = true;
+
+    const response = (veto: boolean) => { canProceed = veto; };
+    this.triggerEvent(eventName, this, {
+      bubbles: true,
+      detail: { elem: this.#tree, response, node: this }
+    });
+
+    return canProceed;
   }
 
   /**
-   * Set the node to be expanded/collapsed
-   * @private
-   * @returns {void}
+   * Sets the tree node to be selected
+   * @param {boolean|string} value If true will set selected attribute
    */
-  #setExpandCollapse() {
-    const iconEl = this.shadowRoot?.querySelector('.icon');
-    iconEl?.setAttribute(attributes.ICON, this.nodeIcon);
-    this.container?.classList.remove(...Object.values(IdsTreeShared.TOGGLE_CLASSES));
-    this.container?.classList.add(this.toggleClass);
-    this.nodeContainer?.setAttribute('aria-expanded', this.expanded.toString());
+  set selected(value: boolean | string) {
+    const bool = stringToBool(value);
+    const prev = this.container?.hasAttribute(attributes.SELECTED);
+    const vetoEvent = bool ? 'beforeselected' : 'beforeunselected';
 
-    if (this.expandTarget === 'icon') {
-      const toggleIconEl = this.shadowRoot?.querySelector('.toggle-icon');
-      toggleIconEl?.setAttribute(attributes.ICON, this.toggleIcon);
-      this.#rotatePlusminus({
-        elem: toggleIconEl,
-        rotateClass: `rotate-${this.expanded ? 'forward' : 'backward'}`
-      });
-    }
-
-    if (this.groupNodesEl) {
-      if (this.expanded) {
-        // Expand
-        this.groupNodesEl.style.display = '';
-        this.groupNodesEl.style.maxHeight = `${this.groupNodesEl.scrollHeight}px`;
-        this.offEvent('transitionend.expanded.tree', this.groupNodesEl);
-        this.onEvent('transitionend.expanded.tree', this.groupNodesEl, () => {
-          this.groupNodesEl?.style.removeProperty('max-height');
-        });
-      } else {
-        // Collapse
-        this.offEvent('transitionend.expanded.tree', this.groupNodesEl);
-        this.groupNodesEl.style.transition = 'none';
-        this.groupNodesEl.style.maxHeight = `${this.groupNodesEl.scrollHeight}px`;
-        this.groupNodesEl.style.transition = '';
-        requestAnimationFrame(() => {
-          this.groupNodesEl?.style.setProperty('max-height', '0');
-          this.groupNodesEl?.style.setProperty('display', 'none');
-        });
-      }
-    }
-  }
-
-  /**
-   * Rotate class for plusminus icons.
-   * @private
-   * @param {object} target to set values.
-   * @returns {void}
-   */
-  #rotatePlusminus(target: any) {
-    if (this.tree?.toggleIconRotate && this.expandTarget === 'icon' && target?.elem) {
-      target.elem.classList.add(target.rotateClass);
-      const events = ['webkitAnimationEnd', 'oAnimationEnd', 'msAnimationEnd', 'animationend'];
-      events.forEach((evt) => {
-        this.onEvent(`${evt}.tree`, target.elem, () => {
-          target.elem.classList.remove(target.rotateClass);
-          events.forEach((rmEvt) => {
-            this.offEvent(`${rmEvt}.tree`, target.elem);
-          });
-        });
-      });
-    }
-  }
-
-  /**
-   * Set the node icon
-   * @private
-   * @returns {void}
-   */
-  #setNodeIcon() {
-    const iconEl = this.shadowRoot?.querySelector('.icon');
-    iconEl?.setAttribute(attributes.ICON, this.nodeIcon);
-  }
-
-  /**
-   * Set toggle icon element
-   * @private
-   * @returns {void}
-   */
-  #setToggleIconElement() {
-    const toggleIconEl = this.nodeContainer?.querySelector('.toggle-icon');
-    if (this.isGroup && this.expandTarget === 'icon' && !toggleIconEl) {
-      const refEl = this.shadowRoot?.querySelector('slot.badge') as HTMLSlotElement;
-      const template = document.createElement('template');
-      template.innerHTML = this.toggleIconHtml;
-      this.nodeContainer?.insertBefore(template.content.cloneNode(true), refEl);
+    if (
+      this.disabled
+      || bool === prev
+      || this.selectable === 'none'
+      || !this.#canProceed(vetoEvent)
+    ) {
+      this.toggleAttribute(attributes.SELECTED, prev);
       return;
     }
-    toggleIconEl?.remove();
+
+    this.toggleAttribute(attributes.SELECTED, bool);
+    this.#toggleSelected(bool);
+  }
+
+  get selected(): boolean {
+    return stringToBool(this.getAttribute(attributes.SELECTED));
   }
 
   /**
-   * Set node selection
-   * @private
-   * @returns {void}
+   * Sets the tree group to be expanded
+   * @param {boolean|string} value If true will set expanded attribute
    */
-  #setSelection() {
-    const checkboxElem = this.container?.querySelector<IdsCheckbox>('ids-checkbox');
+  set expanded(value: boolean | string) {
+    const bool = stringToBool(value);
+    const prev = this.container?.hasAttribute(attributes.EXPANDED);
+    const vetoEvent = bool ? 'beforeexpanded' : 'beforecollapsed';
 
-    if (!!this.selectable && this.isSelected) {
-      this.container?.setAttribute(attributes.SELECTED, '');
-      this.nodeContainer?.setAttribute(attributes.SELECTED, '');
-      this.nodeContainer?.setAttribute('aria-selected', 'true');
-      if (checkboxElem) checkboxElem.checked = true;
-    } else {
-      this.container?.removeAttribute(attributes.SELECTED);
-      this.nodeContainer?.removeAttribute(attributes.SELECTED);
-      this.nodeContainer?.setAttribute('aria-selected', 'false');
-      if (checkboxElem) checkboxElem.checked = false;
+    if (
+      this.disabled
+      || bool === prev
+      || !this.#canProceed(vetoEvent)
+    ) {
+      this.toggleAttribute(attributes.EXPANDED, prev);
+      return;
     }
+
+    this.toggleAttribute(attributes.EXPANDED, bool);
+    this.#toggleExpanded(bool);
   }
 
-  /**
-   * Set node as tabbable or not
-   * @private
-   * @returns {void}
-   */
-  #setTabbable() {
-    this.nodeContainer?.setAttribute('tabindex', (this.isTabbable ? '0' : '-1'));
+  get expanded(): boolean {
+    return stringToBool(this.getAttribute(attributes.EXPANDED));
+  }
+
+  get isIndeterminate(): boolean {
+    return stringToBool(this.checkboxElem?.getAttribute(attributes.INDETERMINATE));
   }
 
   /**
    * Attach event listeners
    */
   #attachEventListeners() {
-    this.onEvent('click', this.checkbox, (e: any) => {
-      e.preventDefault();
+    const slotElem = this.container?.querySelector<HTMLSlotElement>('.group-nodes > slot');
+    const badgeSlot = this.container?.querySelector<HTMLSlotElement>('slot[name="badge"]');
+
+    this.offEvent('click.tree-node', this.nodeContainer);
+    this.onEvent('click.tree-node', this.nodeContainer, (evt: CustomEvent) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      this.handleClickEvent(evt);
+    });
+
+    let nodeSelectDelay: any;
+    this.offEvent('selected.tree-node', slotElem);
+    this.onEvent('selected.tree-node', slotElem, (evt: CustomEvent) => {
+      clearTimeout(nodeSelectDelay);
+
+      // if selected node is direct child of this node
+      if ((evt.target as Element).parentElement === this) {
+        nodeSelectDelay = setTimeout(() => this.#updateIndeterminateState(), 10);
+      }
+    });
+
+    let nodeDeselectDelay: any;
+    this.offEvent('unselected.tree-node', slotElem);
+    this.onEvent('unselected.tree-node', slotElem, (evt: CustomEvent) => {
+      clearTimeout(nodeDeselectDelay);
+
+      // if selected node is direct child of this node
+      if ((evt.target as Element).parentElement === this) {
+        nodeDeselectDelay = setTimeout(() => this.#updateIndeterminateState(), 10);
+      }
+    });
+
+    this.offEvent('transitionend.expanded-tree', this.groupNodesEl);
+    this.onEvent('transitionend.expanded-tree', this.groupNodesEl, () => {
+      if (this.expanded) {
+        this.groupNodesEl?.style.setProperty('max-height', 'max-content');
+      }
+    });
+
+    this.offEvent('slotchange', slotElem);
+    this.onEvent('slotchange', slotElem, () => {
+      // filter out text nodes and move them to ids-text
+      const slottedNodes = slotElem?.assignedNodes();
+      const textNode = slottedNodes?.find((n) => n.nodeType === 3);
+
+      if (textNode && textNode.textContent?.trim()) {
+        this.setAttribute(attributes.LABEL, textNode.textContent?.trim() ?? '');
+        this.removeChild(textNode);
+        return;
+      }
+
+      this.#updateSelectableMode();
+      this.updateTreeArias();
+    });
+
+    this.offEvent('slotchange', badgeSlot);
+    this.onEvent('slotchange', badgeSlot, () => {
+      this.querySelector('ids-badge')?.toggleAttribute(attributes.NO_MARGINS, true);
+    });
+  }
+
+  #updateIndeterminateState() {
+    if (!this.isMultiSelect) return;
+    const isIndeterminate = this.#isIndeterminateParent();
+    this.toggleAttribute(attributes.SELECTED, !!this.slottedTreeNodes.find((child) => child.selected));
+    this.#toggleIndeterminate(this.selected && isIndeterminate);
+  }
+
+  // TreeNode is indeterminate if not all children are checked
+  #isIndeterminateParent(): boolean {
+    const children = this.slottedTreeNodes;
+    return !!children.length && !!children.find((child) => !child.selected || child.isIndeterminate);
+  }
+
+  handleClickEvent(evt: CustomEvent, skipExpansion?: boolean) {
+    if (this.disabled) return;
+
+    const clickTarget = evt.target as Element;
+    const isCheckboxClick = clickTarget.nodeName === 'IDS-CHECKBOX';
+    const isIconClick = clickTarget.nodeName === 'IDS-ICON';
+
+    // HANDLE EXPANSION
+    const isValidExpandClick = this.treeElem?.expandTarget === 'icon' ? isIconClick : true;
+    const shouldHandleExpansion = this.isGroup && isValidExpandClick && !skipExpansion;
+
+    if (shouldHandleExpansion && this.isGroup && !isCheckboxClick) {
+      const shouldExpand = !this.expanded;
+      this.toggleAttribute(attributes.EXPANDED, shouldExpand);
+    }
+
+    // HANDLE SELECTION
+    const shouldHandleSelection = !isIconClick && this.selectable !== 'none';
+
+    if (shouldHandleSelection) {
+      const shouldSelect = !this.selected;
+
+      if (this.isMultiSelect && this.hasChildren) {
+        this.toggleSelectedChildren(shouldSelect);
+      } else {
+        this.toggleAttribute(attributes.SELECTED, this.isMultiSelect ? shouldSelect : true);
+      }
+    }
+
+    // FOCUS ON CLICK
+    this.setFocus();
+  }
+
+  toggleSelectedChildren(shouldSelect: boolean): void {
+    if (this.disabled) return;
+
+    if (this.hasChildren) {
+      this.slottedTreeNodes.forEach((childNode) => childNode.toggleSelectedChildren(shouldSelect));
+      return;
+    }
+
+    this.toggleAttribute(attributes.SELECTED, shouldSelect);
+  }
+
+  #toggleIndeterminate(isIndeterminate: boolean): void {
+    this.checkboxElem?.toggleAttribute(attributes.INDETERMINATE, isIndeterminate);
+  }
+
+  /**
+   * Sets selected states on node elements
+   */
+  #select() {
+    if (this.container?.hasAttribute(attributes.SELECTED)) return;
+
+    this.container?.setAttribute(attributes.SELECTED, '');
+    this.nodeContainer?.setAttribute('aria-selected', 'true');
+    this.checkboxElem?.setAttribute(attributes.CHECKED, '');
+
+    this.triggerEvent(`selected.tree-node`, this, {
+      bubbles: true,
+      detail: { elem: this.#tree, node: this }
     });
   }
 
   /**
-   * Gets toggle icon html
-   * @returns {HTMLElement} the toggle icon html
+   * Sets unselected states on node elements
    */
-  get toggleIconHtml(): any {
-    return this.expandTarget === 'icon'
-      ? `<ids-icon class="toggle-icon" icon="${this.toggleIcon}" part="toggle-icon"></ids-icon>`
-      : '';
+  #deselect() {
+    if (!this.container?.hasAttribute(attributes.SELECTED)) return;
+
+    this.container?.removeAttribute(attributes.SELECTED);
+    this.nodeContainer?.setAttribute('aria-selected', 'false');
+    this.checkboxElem?.removeAttribute(attributes.CHECKED);
+
+    this.triggerEvent(`unselected.tree-node`, this, {
+      bubbles: true,
+      detail: { elem: this }
+    });
+  }
+
+  /**
+   * Toggles selected states on node elements
+   * @param {boolean} selected selected state
+   */
+  #toggleSelected(selected?: boolean) {
+    selected = typeof selected === 'boolean' ? selected : !this.selected;
+
+    if (selected) {
+      this.#select();
+    } else {
+      this.#deselect();
+    }
+  }
+
+  /**
+   * Toggles expanded states on node elements
+   * @param {boolean} expanded expanded state
+   */
+  #toggleExpanded(expanded?: boolean) {
+    expanded = typeof expanded === 'boolean' ? expanded : !this.selected;
+
+    if (expanded) {
+      this.#expand();
+    } else {
+      this.#collapse();
+    }
+  }
+
+  /**
+   * Sets expanded states on node elements
+   */
+  #expand(): void {
+    const expand = () => {
+      this.container?.setAttribute(attributes.EXPANDED, '');
+      this.groupNodesEl?.style.setProperty('display', 'block');
+      this.groupNodesEl?.style.setProperty('max-height', `${this.groupNodesEl.scrollHeight}px`);
+      this.nodeContainer?.querySelector('.icon')?.setAttribute(attributes.ICON, this.expandIcon);
+      this.nodeContainer?.querySelector('.toggle-icon')?.setAttribute(attributes.ICON, this.toggleExpandIcon);
+      this.#rotateToggleIcon(true);
+
+      this.triggerEvent('expanded', this, {
+        bubbles: true,
+        detail: { elem: this.#tree, node: this }
+      });
+    };
+
+    // Async load children, then expand
+    if (this.isAsyncParent && !this.hasChildren) {
+      this.triggerEvent('expandready', this, {
+        bubbles: true,
+        detail: { node: this, onReady: () => expand() }
+      });
+      return;
+    }
+
+    expand();
+  }
+
+  /**
+   * Sets collapsed states on node elements
+   */
+  #collapse(): void {
+    this.container?.removeAttribute(attributes.EXPANDED);
+    this.groupNodesEl?.style.setProperty('max-height', `0px`);
+    this.groupNodesEl?.style.setProperty('display', `none`);
+    this.container?.querySelector('.icon')?.setAttribute(attributes.ICON, this.collapseIcon);
+    this.container?.querySelector('.toggle-icon')?.setAttribute(attributes.ICON, this.toggleCollapseIcon);
+    this.#rotateToggleIcon(false);
+
+    this.triggerEvent('collapsed', this, {
+      bubbles: true,
+      detail: { elem: this.#tree, node: this }
+    });
+  }
+
+  /**
+   * Rotate toggle icon
+   * @param {boolean} rotateForward Rotate forward if true, rotate backward if false
+   */
+  #rotateToggleIcon(rotateForward: boolean) {
+    const toggleIcon = this.nodeContainer?.querySelector('.toggle-icon');
+
+    if (!toggleIcon || !this.treeElem?.toggleIconRotate) return;
+
+    const rotateClass = rotateForward ? 'rotate-forward' : 'rotate-backward';
+    toggleIcon.classList.add(rotateClass);
+    this.onEvent(`animationend`, toggleIcon, () => {
+      toggleIcon.classList.remove(rotateClass);
+      toggleIcon.setAttribute(attributes.ICON, this.toggleExpandCollapseIcon);
+    }, { once: true });
   }
 
   /**
    * Gets the current node icon or expand/collapse icon
-   * @returns {HTMLElement} the current icon
+   * @returns {string} the current icon name
    */
-  get nodeIcon(): any {
-    if (this.isGroup) {
-      return this.expanded ? this.expandIcon : this.collapseIcon;
-    }
+  get nodeIcon(): string {
     return this.icon;
   }
 
@@ -330,42 +579,32 @@ export default class IdsTreeNode extends Base {
    * Gets the current state is selected or not
    * @returns {boolean} the state is selected or not
    */
-  get isSelected() { return !!this.selectable && this.selected; }
+  get isSelected() {
+    return !!this.selectable && this.selected;
+  }
 
   get checkbox() {
     return this.shadowRoot?.querySelector('ids-checkbox');
   }
 
   /**
-   * Gets the current state is tabbable or not
-   * @returns {boolean} the state is tabbable or not
+   * Sets the tree node to disabled
+   * @param {boolean|string} value If true will set disabled attribute
    */
-  get isTabbable() { return !this.disabled && this.tabbable; }
+  set disabled(value) {
+    const isDisabled = stringToBool(value);
 
-  get isMultiSelect() { return this.tree?.selectable === 'multiple'; }
+    this.toggleAttribute(attributes.DISABLED, isDisabled);
+    this.container?.toggleAttribute(attributes.DISABLED, isDisabled);
+    this.nodeContainer?.toggleAttribute(attributes.DISABLED, isDisabled);
+    this.nodeContainer?.setAttribute('aria-disabled', `${isDisabled}`);
 
-  /**
-   * Gets the current toggle css class name
-   * @returns {string} the toggle css class name
-   */
-  get toggleClass(): string {
-    return this.expanded
-      ? IdsTreeShared.TOGGLE_CLASSES.expanded : IdsTreeShared.TOGGLE_CLASSES.collapsed;
+    // Disable children
+    this.slottedTreeNodes.forEach((child) => child.toggleAttribute(attributes.DISABLED, isDisabled));
   }
 
-  /**
-   * Sets the tree group toggle icon
-   * @returns {string} The toggle icon
-   */
-  get toggleIcon(): string {
-    if (this.expandTarget === 'icon' || this.tree?.showExpandAndToggleIcons) {
-      return this.expanded
-        ? (this.treeAttribute(attributes.TOGGLE_EXPAND_ICON)
-          || IdsTreeShared.DEFAULTS.toggleExpandIcon)
-        : (this.treeAttribute(attributes.TOGGLE_COLLAPSE_ICON)
-          || IdsTreeShared.DEFAULTS.toggleCollapseIcon);
-    }
-    return '';
+  get disabled(): boolean {
+    return stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
   /**
@@ -378,32 +617,13 @@ export default class IdsTreeNode extends Base {
     } else {
       this.removeAttribute(attributes.COLLAPSE_ICON);
     }
-    this.#setNodeIcon();
+
+    this.#updateNodeIcon();
   }
 
-  get collapseIcon(): string | null { return IdsTreeShared.getVal((this as any), attributes.COLLAPSE_ICON); }
-
-  /**
-   * Sets the tree node to disabled
-   * @param {boolean|string} value If true will set disabled attribute
-   */
-  set disabled(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DISABLED, '');
-      this.container?.setAttribute(attributes.DISABLED, '');
-      this.nodeContainer?.setAttribute(attributes.DISABLED, '');
-      this.nodeContainer?.setAttribute('aria-disabled', 'true');
-    } else {
-      this.removeAttribute(attributes.DISABLED);
-      this.container?.removeAttribute(attributes.DISABLED);
-      this.nodeContainer?.removeAttribute(attributes.DISABLED);
-      this.nodeContainer?.setAttribute('aria-disabled', 'false');
-    }
-    this.#setTabbable();
+  get collapseIcon(): string {
+    return this.getAttribute(attributes.COLLAPSE_ICON) || IdsTreeShared.DEFAULTS.collapseIcon;
   }
-
-  get disabled() { return stringToBool(this.getAttribute(attributes.DISABLED)); }
 
   /**
    * Sets the tree group expand icon
@@ -415,122 +635,179 @@ export default class IdsTreeNode extends Base {
     } else {
       this.removeAttribute(attributes.EXPAND_ICON);
     }
-    this.#setNodeIcon();
+
+    this.#updateNodeIcon();
   }
 
-  get expandIcon(): string | null { return IdsTreeShared.getVal((this as any), attributes.EXPAND_ICON); }
+  get expandIcon(): string {
+    return this.getAttribute(attributes.EXPAND_ICON) || IdsTreeShared.DEFAULTS.expandIcon;
+  }
 
-  /**
-   * Sets the tree group to be expanded
-   * @param {boolean|string} value If true will set expanded attribute
-   */
-  set expanded(value: boolean | string) {
-    if (IdsTreeShared.isBool(value)) {
-      this.setAttribute(attributes.EXPANDED, `${value}`);
+  get expandCollapseIcon(): string {
+    return this.expanded
+      ? this.getAttribute(attributes.EXPAND_ICON) || IdsTreeShared.DEFAULTS.expandIcon
+      : this.getAttribute(attributes.COLLAPSE_ICON) || IdsTreeShared.DEFAULTS.collapseIcon;
+  }
+
+  set toggleExpandIcon(value: string) {
+    if (value) {
+      this.setAttribute(attributes.TOGGLE_EXPAND_ICON, value);
     } else {
-      this.removeAttribute(attributes.EXPANDED);
+      this.removeAttribute(attributes.TOGGLE_EXPAND_ICON);
     }
-    this.#setExpandCollapse();
+
+    this.#updateToggleIcons();
   }
 
-  get expanded(): boolean { return IdsTreeShared.getBoolVal((this as any), attributes.EXPANDED); }
+  get toggleExpandIcon(): string {
+    return this.getAttribute(attributes.TOGGLE_EXPAND_ICON) || IdsTreeShared.DEFAULTS.toggleExpandIcon;
+  }
+
+  set toggleCollapseIcon(value: string) {
+    if (value) {
+      this.setAttribute(attributes.TOGGLE_COLLAPSE_ICON, value);
+    } else {
+      this.removeAttribute(attributes.TOGGLE_COLLAPSE_ICON);
+    }
+
+    this.#updateToggleIcons();
+  }
+
+  get toggleCollapseIcon(): string {
+    return this.getAttribute(attributes.TOGGLE_COLLAPSE_ICON) || IdsTreeShared.DEFAULTS.toggleCollapseIcon;
+  }
+
+  get toggleExpandCollapseIcon(): string {
+    return this.expanded
+      ? this.getAttribute(attributes.TOGGLE_EXPAND_ICON) || IdsTreeShared.DEFAULTS.toggleExpandIcon
+      : this.getAttribute(attributes.TOGGLE_COLLAPSE_ICON) || IdsTreeShared.DEFAULTS.toggleCollapseIcon;
+  }
+
+  set showExpandAndToggleIcons(value: boolean | null) {
+    const show = stringToBool(value);
+    this.toggleAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS, show);
+    this.#updateToggleIcons();
+  }
+
+  get showExpandAndToggleIcons(): boolean {
+    return stringToBool(this.getAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS));
+  }
 
   /**
    * Sets the tree node icon
    * @param {string|null} value The icon name
    */
   set icon(value: string | null) {
-    if (value) {
-      this.setAttribute(attributes.ICON, value.toString());
-    } else {
-      this.removeAttribute(attributes.ICON);
-    }
-    this.#setNodeIcon();
+    this.setAttribute(attributes.ICON, value ?? IdsTreeShared.DEFAULTS.icon);
+    this.#updateNodeIcon();
   }
 
-  get icon(): string | null { return IdsTreeShared.getVal((this as any), attributes.ICON); }
+  get icon(): string {
+    return this.getAttribute(attributes.ICON) || IdsTreeShared.DEFAULTS.icon;
+  }
 
   /**
    * Set the node label text
    * @param {string} value of the label text
    */
-  set label(value: string) {
+  set label(value: string | null) {
     if (value) {
       this.setAttribute(attributes.LABEL, value.toString());
     } else {
       this.removeAttribute(attributes.LABEL);
     }
 
-    const textElem = this.shadowRoot?.querySelector('.text');
-    if (textElem) {
-      textElem.textContent = `${value}`;
+    if (this.textElem) {
+      this.textElem.textContent = value ?? '';
+    }
+
+    if (this.checkboxElem) {
+      this.checkboxElem.setAttribute(attributes.LABEL, value ?? '');
     }
   }
 
-  get label(): string { return this.getAttribute(attributes.LABEL) || ''; }
+  get label(): string {
+    return this.getAttribute(attributes.LABEL) || '';
+  }
 
   /**
-   * Sets the tree node to be selectable 'single', 'multiple'
-   * @param {string | null | boolean} value The icon name
+   * Sets the tree node to be selectable 'single', 'multiple', 'none'
+   * @param {string} val selectable mode
    */
-  set selectable(value: any) {
-    const val = `${value}`;
-    const isValid = IdsTreeShared.SELECTABLE.indexOf(val) > -1;
+  set selectable(val: string) {
+    const isValid = IdsTreeShared.SELECTABLE.includes(val);
+
     if (isValid) {
       this.setAttribute(attributes.SELECTABLE, val);
     } else {
       this.removeAttribute(attributes.SELECTABLE);
     }
-    this.#setSelection();
+
+    this.#updateSelectableMode();
   }
 
-  get selectable(): string | null | boolean {
-    const value = this.getAttribute(attributes.SELECTABLE);
-    if (value === 'false') {
-      return false;
-    }
-    return value !== null ? value : IdsTreeShared.DEFAULTS.selectable;
+  get selectable(): string {
+    const attrVal = this.getAttribute(attributes.SELECTABLE) ?? 'single';
+    return IdsTreeShared.SELECTABLE.includes(attrVal) ? attrVal : 'single';
   }
-
-  /**
-   * Sets the tree node to be selected
-   * @param {boolean|string} value If true will set selected attribute
-   */
-  set selected(value: boolean | string) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.SELECTED, '');
-    } else {
-      this.removeAttribute(attributes.SELECTED);
-    }
-    this.#setSelection();
-  }
-
-  get selected(): boolean | string { return stringToBool(this.getAttribute(attributes.SELECTED)); }
-
-  /**
-   * Set if the node is tabbable
-   * @param {boolean|string} value The tabbable
-   */
-  set tabbable(value: boolean | string) {
-    this.setAttribute(attributes.TABBABLE, `${value}`.toString());
-    this.#setTabbable();
-  }
-
-  get tabbable(): boolean | string { return stringToBool(this.getAttribute(attributes.TABBABLE)); }
 
   /**
    * Sets the trees expand target between clicking the whole node or just the icon
    * @param {boolean|string} value Either 'node' or 'icon'
    */
-  set expandTarget(value: 'node' | 'icon' | string) {
-    if (IdsTreeShared.isBool(value)) {
-      this.setAttribute(attributes.EXPAND_TARGET, `${value}`);
+  set expandTarget(value: 'node' | 'icon') {
+    if (value === 'node' || value === 'icon') {
+      this.setAttribute(attributes.EXPAND_TARGET, value);
     } else {
       this.removeAttribute(attributes.EXPAND_TARGET);
     }
-    this.#setToggleIconElement();
   }
 
-  get expandTarget(): 'node' | 'icon' | string { return this.getAttribute(attributes.EXPAND_TARGET) || 'node'; }
+  get expandTarget(): 'node' | 'icon' {
+    return (this.getAttribute(attributes.EXPAND_TARGET) as 'node' | 'icon') || IdsTreeShared.DEFAULTS.expandTarget;
+  }
+
+  #updateSelectableMode() {
+    const selectableMode = this.selectable;
+
+    if (selectableMode === 'multiple' && !this.checkboxElem) {
+      this.checkboxElem = document.createElement('ids-checkbox') as IdsCheckbox;
+      this.checkboxElem.checked = this.selected;
+      this.checkboxElem.setAttribute(attributes.LABEL, this.label);
+      this.checkboxElem.setAttribute('tabindex', '-1');
+      this.nodeContainer?.insertBefore(this.checkboxElem, this.textElem);
+      this.textElem?.style.setProperty('display', 'none');
+    }
+
+    if (selectableMode === 'single') {
+      this.checkboxElem?.remove();
+      this.checkboxElem = null;
+      this.textElem?.style.setProperty('display', 'inline-block');
+    }
+
+    this.slottedTreeNodes.forEach((node) => node.setAttribute(attributes.SELECTABLE, selectableMode));
+  }
+
+  #updateNodeIcon() {
+    const nodeIcon = this.isGroup ? this.expandCollapseIcon : this.icon;
+    this.nodeContainer?.querySelector('.icon')?.setAttribute(attributes.ICON, nodeIcon);
+  }
+
+  #updateToggleIcons() {
+    if (!this.showExpandAndToggleIcons || !this.isGroup) {
+      this.container?.querySelector('.toggle-icon')?.remove();
+      return;
+    }
+
+    // add icon component if does not exist
+    const toggleIconElem = this.container?.querySelector('.toggle-icon');
+    const toggleExpandCollapseIcon = this.toggleExpandCollapseIcon;
+
+    if (!toggleIconElem) {
+      const tmpl = `<ids-icon class="toggle-icon" part="toggle-icon" icon="${toggleExpandCollapseIcon}"></ids-icon>`;
+      this.nodeContainer?.querySelector('.icon')?.insertAdjacentHTML('afterend', tmpl);
+    } else {
+      toggleIconElem?.setAttribute(attributes.ICON, toggleExpandCollapseIcon);
+    }
+  }
 }

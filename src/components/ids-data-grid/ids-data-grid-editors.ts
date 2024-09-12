@@ -258,18 +258,12 @@ export class DropdownEditor implements IdsDataGridEditor {
     this.list.setAttribute('attachment', '.ids-data-grid-wrapper');
     this.list.appendToTargetParent();
     if (this.list.popup) {
-      this.list.popup.popupOpenEventsTarget = document.body;
-      this.list.popup.setAttribute('position-style', 'fixed');
       this.list.popup.alignTarget = this.input;
-      this.list.popup.type = 'dropdown';
-      this.list.popup.container?.classList.add('dropdown');
       this.list.popup.onPlace = (popupRect: DOMRect) => {
-        const margin = cell?.dataGrid?.rowHeight === 'xxs' ? -3 : 0;
-        const x = (this.input?.getBoundingClientRect().x || 0) - 1;
-        const y = (this.input?.getBoundingClientRect().bottom || 0) + margin;
-        popupRect.x = x;
-        popupRect.y = y;
-        popupRect.width = 1000;
+        const yOffset = cell?.dataGrid?.rowHeight === 'xxs' ? -3 : 0; // acounts for xxs size rows
+        const xOffset = isInline ? -1 : 0;
+        popupRect.x += 1 + xOffset;
+        popupRect.y += 1 + yOffset;
         return popupRect;
       };
     }
@@ -345,7 +339,7 @@ export class DropdownEditor implements IdsDataGridEditor {
   /* Save selected dropdown value */
   save() {
     return {
-      value: this.#value,
+      value: this.input?.value,
       dirtyCheckValue: this.input?.input?.value
     };
   }
@@ -417,6 +411,7 @@ export class DatePickerEditor implements IdsDataGridEditor {
 
       this.popup.appendToTargetParent();
       if (this.popup.popup) {
+        this.popup.popup.positionStyle = 'fixed';
         this.popup.popup.popupOpenEventsTarget = document.body;
         this.popup.popup.onOutsideClick = (e: MouseEvent) => {
           // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -575,6 +570,7 @@ export class TimePickerEditor implements IdsDataGridEditor {
 
       this.popup.appendToTargetParent();
       if (this.popup.popup) {
+        this.popup.popup.positionStyle = 'fixed';
         this.popup.popup.popupOpenEventsTarget = document.body;
         this.popup.popup.onOutsideClick = async (e: MouseEvent) => {
           if (!e.composedPath().includes(popup)) { await popup.hide(); }

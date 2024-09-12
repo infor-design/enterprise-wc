@@ -9,6 +9,7 @@
   &.ids-about {
     .ids-modal-content.has-scrollbar {
       overflow: auto;
+      padding: var(--ids-about-content-padding);
     }
   }
 }
@@ -40,7 +41,7 @@
     padding: var(--ids-about-content-padding);
     margin-block-start: 0;
     margin-block-end: 24px;
-    border-radius: var(--ids-border-radius-xxs);
+    border-radius: var(--ids-border-radius-2xs);
     max-height: 199px;
     outline: 0;
     overflow: auto;
@@ -51,7 +52,7 @@
       border-color: var(--ids-about-color-border-focus);
       box-shadow: var(--ids-about-shadow-focus);
       outline: 0;
-      outline-color: transparent;
+      outline-color: var(--ids-color-transparent);
     }
 
     &:hover {
@@ -80,7 +81,7 @@
 // Cancels out a border style applied by IdsModal
 // (not needed since buttons are aligned differently here)
 ::slotted([slot='buttons']:not(:first-of-type)) {
-  border-left: transparent;
+  border-left: var(--ids-color-transparent);
 }
 
 // Move Stuff for RTL

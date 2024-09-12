@@ -36,20 +36,21 @@
 
 :host(.expand-button),
 .expand-button {
-  position: relative;
-  inset-inline: 17px;
+  margin-top: -3px;
+  height: var(--ids-button-height);
+  width: var(--ids-button-width);
 }
 
 .ids-trigger-button {
   align-items: center;
-  background-color: transparent;
+  background-color: var(--ids-color-transparent);
   display: flex;
   color: var(--ids-trigger-field-icon-color);
   justify-content: center;
 
   &.ids-icon-button {
-    padding: var(--ids-space-xxs);
-    inset-inline-start: -2px;
+    padding: var(--ids-space-2xs);
+    inset-inline-start: var(--ids-trigger-field-button-inset-inline-start);
 
     &[disabled] {
       color: var(--ids-trigger-field-color-text-disabled);
@@ -61,8 +62,8 @@
 
       &:hover {
         cursor: default;
-        background-color: transparent;
-        border-color: transparent;
+        background-color: var(--ids-color-transparent);
+        border-color: var(--ids-color-transparent);
       }
     }
   }
@@ -127,7 +128,7 @@
   }
 
   &.color-variant-alternate-formatter {
-    padding: var(--ids-space-xxxs);
+    padding: var(--ids-space-3xs);
   }
 
   // ===================================================

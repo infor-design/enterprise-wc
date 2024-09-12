@@ -618,6 +618,7 @@ class IdsDatePicker extends Base {
         id: 'availableDate',
         type: 'error',
         message: this.localeAPI?.translate('UnavailableDate'),
+        messageId: 'UnavailableDate',
         check: (input: any) => {
           if (!input.value) return true;
 

@@ -26,8 +26,8 @@
   color: var(--ids-badge-color-text-default);
 
   // Fonts
-  font-family: var(--ids-font-family-default);
-  font-size: var(--ids-font-size-30);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
+  font-size: var(--ids-font-size-xs);
   white-space: nowrap;
 
   // Dimensional
@@ -48,6 +48,10 @@
     height: var(--ids-size-10);
     padding: var(--ids-space-none);
     width: var(--ids-size-10);
+  }
+
+  &.no-margins {
+    margin: 0;
   }
 
   &[color='info'] {

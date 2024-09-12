@@ -1,4 +1,4 @@
-# Ids Action Sheet Component
+# ids-action-sheet
 
 ## Description
 

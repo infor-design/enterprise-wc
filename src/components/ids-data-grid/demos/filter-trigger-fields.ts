@@ -3,9 +3,16 @@ import '../ids-data-grid';
 import type { IdsDataGridColumn } from '../ids-data-grid-column';
 import '../../ids-container/ids-container';
 import booksJSON from '../../../assets/data/books.json';
+import IdsPopupMenu from '../../ids-popup-menu/ids-popup-menu';
+import IdsMenuItem from '../../ids-menu/ids-menu-item';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector<IdsDataGrid>('#data-grid-filter-triggers')!;
+
+const rowHeightMenu = document.querySelector<IdsPopupMenu>('#row-height-menu')!;
+rowHeightMenu?.addEventListener('selected', (e: Event) => {
+  dataGrid.rowHeight = (e.target as IdsMenuItem).value as string;
+});
 
 (async function init() {
   const columns: IdsDataGridColumn[] = [];

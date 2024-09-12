@@ -8,12 +8,12 @@
   - link: example.html
     type: Main Example
     description: Showing a simple notification Banner
-  - link: dynamic.html
-    type: Example
-    description: Showing adding notification banners dynamically
   - link: card.html
     type: Example
     description: Showing adding notification banners in a card/widget
+  - link: as-service.html
+    type: Example
+    description: Showing using the ntification banner as a service
   - link: side-by-side.html
     type: Example
     description: Showing a notification banners side by side with 4.x

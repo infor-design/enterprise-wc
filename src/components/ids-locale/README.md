@@ -2,7 +2,7 @@
 
 ## Description
 
-The locale API handles globalization use cases such as dates, numbers, calendars (`arabic` and `gregorian`), translation and right to left (RTL). The Locale component is used as a mixin in many other components to handle these use cases. The main locale API will be available on the `ids-container` as the root element to set the locale or language. Its also available on each component that needs the locale information so they can be set separate.
+The locale API handles globalization use cases such as dates, numbers, calendars (`arabic` and `gregorian`), translation and right to left (RTL). The main locale API will be available on the `IdsGlobal` element to set the locale or language. The Locale component is used as a mixin on many other components.  Its also available on some components directly that may need specific locale information so they can be set separate.
 
 The Locale API handles the following
 
@@ -49,16 +49,27 @@ All source for the data are from the Unicode Common Locale Data Repository (CLDR
 You can set the locale or language on the root container. If you do this then all elements in the container will get that locale or language. It is possible to use the translation strings in another language, independently of the locale settings for date and numbers ect. to do this just call the `setLanguage` api function or set the language attribute on the container. Note that the locale should be set first before setting the language or it will just switch it back.
 
 ```js
-await document.querySelector('ids-container').setLocale('de-DE');
-// Do something with it
+import IdsGlobal from '../../ids-global/ids-global';
+// Set language and wait for it to load
+const initialLocale = 'en';
+const locale = IdsGlobal.getLocale();
+await locale.setLanguage(initialLocale);
+
+// Do something with the components
 ```
 
 It is possible to use the translation strings in another language, independently of the locale settings for date and numbers ect. to do this just call the `setLanguage` api function. As with the `setLocale` function with both functions they run async so you can use the `await` keyword to use them if you need the information right away.
 
 ```javascript
-await document.querySelector('ids-container').setLocale('de-DE');
-await document.querySelector('ids-container').setLanguage('da');
+await locale.setLocale('de-DE');
+await locale.setLanguage('da');
 document.querySelector('ids-container').localeAPI.translate('Actions'); // Returns 'Handlinger'
+```
+
+The main element is also available on the `window` object as `IdsGlobal` so you can use it in any component.
+
+```javascript
+window.IdsGlobal.locale.setLocale('ar-SA')
 ```
 
 ## Currently Supported Locales
@@ -200,9 +211,9 @@ The following options are deprecated options from 4.x
 - `round` - Considered no longer needed as toLocaleString will round all the time depending on FractionDigits
 - `group` - Will map to true/false on `useGrouping` now and use the passed in locale
 - `currencySign` - Is deprecated as an option use `currency` and `currencyCode`
-- `decimal` - Is deprecated as an option  but this is handled by `Number.toLocaleString` directly
+- `decimal` - Is deprecated as an option as this is handled by `Number.toLocaleString` directly
 - `currencyFormat` - Is deprecated as an option use `currency` and `currencyCode`
-- `groupSize` - Is deprecated as an option but this is handled by `Number.toLocaleString` directly
+- `groupSize` - Is deprecated as an option as this is handled by `Number.toLocaleString` directly
 - `style: 'integer'` and now be done with `minimumFractionDigits: 0`
 - `style: 'currency'` now requires a currency code for example `style: 'currency', currency: 'EUR'`
 - `currencySign` now uses the currency codes instead i.e. `currency: 'USD'`

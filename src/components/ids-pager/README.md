@@ -1,4 +1,4 @@
-# Ids Pager Component
+# ids-pager
 
 The IDS Pager Component is used to provide an interface for browsing paginated data, providing methods of navigating and calculating the pages when provided a baseline of attributes.
 

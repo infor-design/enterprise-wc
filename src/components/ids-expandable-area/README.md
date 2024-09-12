@@ -1,4 +1,4 @@
-# Ids Expandable Area Component
+# ids-expandable-area
 
 ## Description
 

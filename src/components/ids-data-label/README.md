@@ -1,12 +1,8 @@
-# Ids Data Label Component
+# ids-data-label
 
 ## Description
 
-The IDS Data Label component used to show both label and value for readonly (non editable data).
-
-## Use Cases
-
-- When you need to show a readonly data item with a label.
+The ids-data-label is used to show a label and value for non-editable content.
 
 ## Feature (With the Code Examples)
 

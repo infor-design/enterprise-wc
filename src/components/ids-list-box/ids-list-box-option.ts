@@ -55,6 +55,35 @@ export default class IdsListBoxOption extends Base {
     this.setAttribute('role', this.groupLabel ? 'none' : 'option');
     this.setAttribute('tabindex', '-1');
     this.#hideEmptyGroupOption();
+    this.#attachEventHandlers();
+  }
+
+  /**
+   * Establish Internal Event Handlers
+   * @returns {void}
+   */
+  #attachEventHandlers(): void {
+    const slot = this.shadowRoot?.querySelector('slot');
+    const listBox = this.parentElement;
+
+    this.offEvent('slotchange.list-box-option', slot);
+    this.onEvent('slotchange.list-box-option', slot, () => {
+      const assignedNode = slot?.assignedNodes()?.[0];
+      const mutationObserver = (mutationList: any[]) => {
+        for (const m of mutationList) {
+          if (m.target === this || m.target === assignedNode) {
+            listBox?.dispatchEvent(new CustomEvent('slotchange', { bubbles: true }));
+          }
+        }
+      };
+
+      const observer = new MutationObserver(mutationObserver);
+      observer.observe(this, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    });
   }
 
   #hideEmptyGroupOption() {

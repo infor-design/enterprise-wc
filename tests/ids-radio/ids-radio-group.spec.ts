@@ -300,31 +300,6 @@ test.describe('IdsRadioGroup tests', () => {
       expect(await page.evaluate(() => rg.getAttribute('value'))).toEqual(null);
     });
 
-    test('should not renders wrong value', async ({ page }) => {
-      let value: any = 'Test radio button 1';
-      let rb1: any = await page.evaluate(() => {
-        value = 'Test radio button 1';
-        return document.querySelector(`ids-radio[value="${value}"]`)?.getAttribute('checked');
-      });
-
-      expect(rb1).toEqual(null);
-      expect(await page.evaluate(() => rg.getAttribute('value'))).toEqual(null);
-
-      await page.evaluate(() => {
-        const wrongVal = 'some other value';
-        rg.value = wrongVal;
-      });
-
-      rb1 = await page.evaluate(() => document.querySelector(`ids-radio[value="${value}"]`)?.getAttribute('checked'));
-
-      expect(rb1).toEqual(null);
-      expect(await page.evaluate(() => rg.getAttribute('value'))).toEqual(null);
-
-      await page.evaluate(() => {
-        rg.value = null;
-      });
-    });
-
     test('should set value', async ({ page }) => {
       let elem: IdsRadioGroup;
       let rb1: IdsRadio;

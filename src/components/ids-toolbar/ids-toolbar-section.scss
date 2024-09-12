@@ -28,6 +28,11 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     pointer-events: none;
   }
 
+  ::slotted(ids-theme-switcher) {
+    margin-inline-start: -10px;
+    margin-top: -2px;
+  }
+
   // ================================================
   // Built-in Section Type Styles
 
@@ -55,8 +60,8 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   // Contains rows of buttons
   &.title,
   &.buttonset {
-    padding-inline-start: 8px;
-    padding-inline-end: 8px;
+    padding-inline-start: var(--ids-space-xs);
+    padding-inline-end: var(--ids-space-xs);
   }
 
   // Intended for use by developers that need "custom" sections that stretch to fit.

@@ -3,7 +3,7 @@
   color: var(--ids-dropdown-color-text-default);
   cursor: var(--ids-cursor-pointer);
   display: block;
-  font-family: var(--ids-font-family-default);
+  font-family: var(--ids-font-family-default), var(--ids-font-family-system-sans);
   font-size: 16px;
   line-height: 35px;
   outline: none;
@@ -17,13 +17,18 @@
   white-space: nowrap;
 }
 
-:host(.multiselect-option) {
+:host(.multiselect-option),
+:host(.icon-option) {
   display: flex;
 
   ::slotted(ids-icon) {
     margin: 0;
     margin-inline-start: var(--ids-dropdown-space-text);
   }
+}
+
+:host(.multiselect-loaded) {
+  align-items: center;
 }
 
 :host([disabled]:not([disabled='false'])) {

@@ -1,4 +1,4 @@
-# Ids Progress Chart Component
+# ids-progress-chart
 
 ## Description
 

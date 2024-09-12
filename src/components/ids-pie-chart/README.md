@@ -1,8 +1,8 @@
-# Ids Pie/Donut Chart Component
+# ids-pie-chart
 
 ## Description
 
-A pie chart (or a circle chart) is a circular statistical graphic which is divided into slices to illustrate numerical proportion. In a pie chart, the arc length of each slice is proportional to the quantity it represents.
+A pie chart (or donut chart) is a circular statistical graphic which is divided into slices to illustrate numerical proportion. In a pie chart, the arc length of each slice is proportional to the quantity it represents.
 
 The pie chart can be made into a donut chart by setting the `donut` setting. A donut chart is almost identical to a pie chart, but the center is cut out (hence the name `donut`). Donut charts are also used to show proportions of categories that make up the whole, but the center can also be used to display a data label.
 

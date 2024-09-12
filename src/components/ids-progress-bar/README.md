@@ -1,4 +1,4 @@
-# Ids Progress Bar Component
+# ids-progress-bar
 
 ## Description
 

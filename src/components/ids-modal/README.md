@@ -1,28 +1,23 @@
-# Ids Modal Component
+# ids-modal
 
-The Modal Component provides an interface for displaying information, forms, and other content over top of other content on the page.
+## Description
 
-The IDS Modal Component builds on top of the [Ids Popup](../ids-popup/README.md).
-
-## Use Cases
-
-- Display messages to the user regarding errors, alerts, or other info
-- Display small forms that may apply to the next step in a workflow, like inputs/buttons/dropdowns/etc.
+The modal is a dialog, built on top of the [ids-popup](../ids-popup/README.md), that displays information over page content. See more [usage details](https://design.infor.com/components/components/modal).
 
 ## Terminology
 
-**Overlay** The transparent background that exists between the Modal and the page content.  Its opacity can be adjusted.
+**Overlay** The transparent background that exists between the Modal and the page content. The opacity is adjustable.
 **Target** Refers to the element that will "trigger" the Modal by click.  This element is optional, as Modals can exist and be triggered by other operations.
 
 ## Settings (Attributes)
 
-- `fullsize` used for defining what breakpoint (if any) should cause the modal to transform into full size mode, which takes up 100% width/height of the browser viewport.  Can also be set to `''` (no change) or `always` (always at 100%)
-- `visible` can be used to make the Modal show or hide
-- `buttons` (readonly) contains a list of references to any Modal Buttons present
-- `messageTitle` The text present at the very top of the Modal to indicate its purpose
-- `scrollable` If true, allows the "modal-content" element inside the modal to scroll its contents
-- `showCloseButton` used to show the close button in modal
-- `clickOutsideToClose` {true|false} - Whether or not to allow the modal to close by clicking outside. Default is false
+- `fullsize` Defines what breakpoint (if any) should cause the modal to transform into full size mode, which takes up 100% width/height of the browser viewport. Can also be set to `''` (no change) or `always` (always at 100%).
+- `visible` Shows or hides the Modal.
+- `buttons` (readonly) contains a list of references to any Modal Buttons present.
+- `messageTitle` The text present at the very top of the modal to indicate its purpose.
+- `scrollable` If `true`, allows the "modal-content" element inside the modal to scroll its contents.
+- `showCloseButton` Used to show the close button in modal.
+- `clickOutsideToClose` {true|false} - If `true`, the modal can be closed by clicking outside. Default is `false`.
 
 ## Themeable Parts
 
@@ -31,7 +26,7 @@ The IDS Modal Component builds on top of the [Ids Popup](../ids-popup/README.md)
 
 ## Features (With Code Examples)
 
-To generate a standalone Modal component, simply add an `ids-modal` tag to the page with some content in its default slot.
+To generate a standalone modal component, add an `ids-modal` tag to the page with some content in its default slot.
 
 ```html
 <ids-modal id="my-modal">
@@ -39,7 +34,7 @@ To generate a standalone Modal component, simply add an `ids-modal` tag to the p
 </ids-modal>
 ```
 
-This modal can be controlled with Javascript
+This modal can be controlled with Javascript:
 
 ```js
 const modal = document.querySelector('#my-modal');
@@ -52,7 +47,7 @@ modal.hide();
 
 ### Using a target
 
-Other elements on the page, such as an [Ids Button](../ids-button/README.md) can be used as a triggering element.  In this case, a click event is bound to the defined trigger element that will activate the modal.
+Other elements on the page, such as an [ids-button](../ids-button/README.md) can be used as a triggering element. In this case, a click event is bound to the defined trigger element that will activate the modal.
 
 ```html
 <ids-modal id="my-modal">
@@ -75,10 +70,10 @@ btn.click();
 ```
 ### Adding a Message Title and Buttons
 
-It's possible to append a Message Title to add more context, and Buttons to create multiple actions that can be triggered from the Modal.  To do so, take advantage of the Modal's slots:
+Add the title and modal actions by using the Modal's slots:
 
-- The "title" slot, which can be populated by an [IdsText](../ids-text/README.md) or other text element, and will be located at the top of the Modal.
-- The "buttons" slot, which can be filled with one or multiple [IdsModalButtons](../ids-modal-button/README.md), and will be located at the bottom of the Modal.
+- The "title" slot, which can be populated by an [ids-text](../ids-text/README.md) or another text element, is at the top of the Modal.
+- The "buttons" slot, which can be filled with one or multiple ids-modal-buttons, is at the bottom of the Modal.
 
 ```html
 <ids-modal id="my-modal">
@@ -112,9 +107,9 @@ Scrolled content on IdsModal can be configured using the `scrollable` setting.  
 
 If a scrollable element such as [IdsSplitter](../ids-splitter/README.md) has been slotted, a best practice is to defer to that element for scrolling behavior on its own child elements.  In this case, `scrollable` should be set to false.
 
-### Ids Modal Button Component
+### ids-modal-button
 
-The IdsModalButton Component is an extension of the regular [IdsButton Component](../ids-button/README.md) that displays the button in a larger style that fits within [IdsModal Components](../ids-modal/README.md). Used to create buttons for use within Modal-type components.
+The Modal Button is an extension of the [ids-button](../ids-button/README.md), displaying in a larger style that fits within Modal. Used to create buttons for use within Modal-type components.
 
 #### States/Attributes
 

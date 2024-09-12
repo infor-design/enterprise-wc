@@ -1,0 +1,10 @@
+---
+ component: Segmented Control
+ link: ids-segmented-control
+ description: Multiple toggle button control
+ category: Navigation and Interaction
+ keywords: menu, selection, button, segmented control
+ examples:
+  - link: example.html
+    type: Main Example
+    description: Shows a basic segmented control

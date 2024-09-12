@@ -14,12 +14,21 @@
   - link: add-node.html
     type: Example
     description: Shows the add node function
+  - link: large-tree.html
+    type: Example
+    description: Shows tree with large dataset.
+  - link: expand-toggle-icons.html
+    type: Example
+    description: Shows tree with various expand/toggle icons per node.
   - link: load-children.html
     type: Example
     description: Shows loading children with ajax
   - link: reset.html
     type: Example
     description: Shows delete all nodes, set one and reset.
+  - link: markup-only.html
+    type: Example
+    description: Shows usage via markup.
   - link: sandbox.html
     type: Sandbox
     description: Shows other tree scenarios

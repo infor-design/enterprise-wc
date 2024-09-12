@@ -234,6 +234,7 @@ columns.push({
       editorValidation: {
         check: (input) => input.value.length < 50>,
         message: 'Maximum of 50 characters',
+        messageId: 'translationKey',
         id: 'maxchars'
       }
     }
@@ -286,7 +287,7 @@ The following settings are available on editors.
 `editorSettings.validate` Text will be selected when entering edit mode
 `editorSettings.mask` Will pass mask settings to the input (if supported).
 `editorSettings.maskOptions` Will pass maskOptions settings to the input (if supported).
-`editorSettings.options` Dataset used for dropdown editor's list box options.
+`editorSettings.options` Dataset used for dropdown editor's list box options. If none are specified the value in the data will be applied as the only options.
 `editorSettings.maxlength` Sets the input editor's `maxlength` property to the max characters you can type
 `editorSettings.uppercase` Sets the input editor's to all uppercase
 `editorValidation` Optional property to set custom validation rule
@@ -309,7 +310,38 @@ To cancel editing based on some condition or if editing is not allowed you can v
   });
 ```
 
+If the callback for the `beforecelledit` event requires async operations, the user can pass an `async function` or a `Promise<boolean>`.
+```js
+  dataGrid.addEventListener('beforecelledit', (e: Event) => {
+    (<CustomEvent>e).detail.response(async () => {
+      const dbResponse: boolean = await fetchDbResponse;
+      return dbResponse;
+    });
+  });
+```
+
 There are a few utility functions for editing the data grid mentioned in the Methods section.
+
+### Grouped Rows (Groupable)
+
+The grouped row feature start by setting `groupable` setting to an object containing fields to group by. Only one group by field is currently supported.
+
+```js
+  dataGrid.groupable = {
+    fields: ['type']
+  };
+```
+
+The `groupable` object can contain the following properties some are for future support. Aggregators do work in the data now but the footer is not yet available.
+
+- `fields` {array} Sets the field to group by on
+- `aggregators` {array} For future support.
+- `expanded`: {boolean | function} For future support.
+- `groupRowFormatter`: {function} For future support.
+- `groupFooterRow`: {boolean} For future support.
+- `groupFooterRowFormatter`: {function} For future support.
+
+When a row is collapsed the internal grouped data will set a field`groupCollapsed` on your data object and hide child rows.
 
 ## Settings and Attributes
 
@@ -369,12 +401,13 @@ When used as an attribute in the DOM the settings are kebab case, when used in J
 |`field` | {string} | The name of the field (column) in the data array attached to the grid for example `description`. This can also be nested in an object for example `children.name`. |
 |`showHeaderExpander` | {boolean} | If true, an expand/collapse icon will appear on the column's header.|
 |`sortable` | {boolean} | If false, the column cannot be sorted. When completed a `sorted` event will fire.|
+|`hideable` | {boolean} | If false, the column cannot be hidden. When the personalization dialog is open the field will appear disabled.
 |`resizable` | {boolean} | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.  When completed a `columnresized` event will fire. See the `columns-resizable` example for a working example. |
 |`reorderable` | {boolean} | If true the column can be dragged into another position with adjacent columns. When completed a `columnmoved` event will fire. See the `columns-reorderable` example for a working example. This currently does not work with grouped columns. |
 |`readonly` | {boolean or Function} | If true the cell will be set to readonly color, indicating no editing.|
 |`disabled` | {boolean or Function} | If true the cell will be set to disabled color, indicating no editing.|
 |`formatter`| {Function} | Controls how the data is rendered in the cell.|
-|`hidden` | {boolean} | Excludes the column from being added to the DOM.|
+|`hidden` | {boolean} | Excludes the column from being added to the DOM, it can be shown in the personalization dialog.|
 |`align` | {string} | Can be `left` or `right` or `center` to align both the cell and the header. Left is the default so does not need to be specified. |
 |`filterAlign` | {string} | Can be `left` or `right` or `center` to control the alignment of just the filter row in the cell header. Left is the default so does not need to be specified. |
 |`headerAlign` | {string} | Can be `left` or `right` or `center` to align just the header. Left is the default so does not need to be specified. |
@@ -528,7 +561,9 @@ The formatter is then linked via the column on the formatter setting. When the g
 ## Methods
 
 - `setColumnWidth` Can be used to set the width of a column.
-- `setColumnVisibility` Can be used to set the visibility of a column.
+- `hideColumn(columnId)` Can be used to set the visibility of a column.
+- `showColumn(columnId)` Can be used to set the visibility of a column.
+- `setColumnVisible(columnId, visible)` Can be used to set the visibility of a column.
 - `setActivateCell(cell, row)` Can be used to set focus of a cell.
 - `selectedRows` Lists the indexes of the currently selected rows.
 - `saveSetting(setting: string)` Save the given setting to local storage.
@@ -561,6 +596,7 @@ The formatter is then linked via the column on the formatter setting. When the g
 - `cellByIndex(rowIndex: number, columnIndex: number)` method to retrieve a specific cell from datagrid.
 - `cellByIndex(columnIndex: number)` IdsDataGridRow method to retrieve a specific cell from row.
 - `loadingIndicator.start() / loadingIndicator.stop()` The member `loadingIndicator` lets you get to the loading indictor in the data grid. Then you can start and stop it with `.start()/stop()`
+- `showPersonalizationDialog()` Show the dialog to select visible columns and reorder. The dialog can be customized by setting the `modalTemplate` property but by default will show you the available columns and let you drag and hide/show them as needed. In order to drag the column it should be `reorderable`. In order to hide/show the column it should be `hideable`.
 
 ## Filters
 

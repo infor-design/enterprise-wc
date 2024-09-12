@@ -1,4 +1,4 @@
-# Ids Area Chart Component
+# ids-area-chart
 
 ## Description
 
