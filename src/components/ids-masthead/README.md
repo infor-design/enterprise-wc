@@ -30,35 +30,63 @@ Some optional features in the masthead:
 ## Terminology
 
 - **Masthead**: A custom HTML element that serves as the primary header bar on a page.
-- **Icon**: Icon is the company-logo in the masthead.
-- **Title**: Title is text that appears next to the logo.
-- **Slots**: Slots are sections in the masthead that allow users to customize where buttons appear in the masthead. There are 4 slots: `start`, `center`, `end`, `more`.
+- **Slot**: The masthead now has a single slot where users can place an ids-toolbar element. This toolbar can contain the desired buttons and controls for the masthead.
 
 ## Feature (With the Code Examples)
 
-An masthead is created by using the `ids-masthead` tag. It has a `icon` property to set the desired logo/icon for the masthead.  It also has a `title` property to set the text that appears next to the logo/icon.
+An masthead is created by using the `ids-masthead` tag.
 
-Masthead with `icon` and `title` attributes:
-
-```html
-<ids-masthead icon="logo" title="Infor Application"></ids-masthead>
-```
-
-Masthead with `nav` elements as slots:
+Masthead with `ids-toolbar` elements in the slot:
 
 ```html
-<ids-masthead icon="logo" title="Infor Application">
-  <section slot="start">
-    <ids-button icon="grid"></ids-button>
-    <ids-button icon="star-outline"></ids-button>
-  </section>
-  <section slot="center">
-    <ids-button icon="info"></ids-button>
-  </section>
-  <section slot="end">
-    <ids-button icon="user"></ids-button>
-    <ids-button icon="bookmark-outline"></ids-button>
-  </section>
+<ids-masthead title="Infor Application" icon="logo" role="navigation">
+    <ids-toolbar id="my-toolbar">
+        <ids-toolbar-section align="start" favor>
+            <ids-layout-flex gap="8" align-items="center">
+            <ids-layout-flex-item>
+                <ids-button id="logo" class="icon-logo" color-variant="alternate" square="true">
+                <ids-icon icon="logo" viewbox="0 0 32 34" width="32" height="32"></ids-icon>
+                <ids-text audible="true">Masthead logo</ids-text>
+                </ids-button>
+            </ids-layout-flex-item>
+            <ids-layout-flex-item>
+                <ids-text id="title" color-variant="alternate" font-size="14" font-weight="semi-bold">Infor Application</ids-text>
+            </ids-layout-flex-item>
+            <ids-layout-flex-item>
+                <ids-button icon="grid"><span class="audible">Grid Button</span></ids-button>
+            </ids-layout-flex-item>
+            </ids-layout-flex>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section type="buttonset" align="start">
+            <ids-button id="button-1" icon="home"><span>Home</span></ids-button>
+            <ids-button id="button-2" icon="star-outlined"><span>Star</span></ids-button>
+            <ids-button id="button-3" icon="info"><span>Info</span></ids-button>
+        </ids-toolbar-section>
+
+        <ids-toolbar-section type="buttonset" align="end">
+            <ids-button icon="user"><span class="audible">User Button</span></ids-button>
+            <ids-button icon="mingle-share"><span class="audible">Mingle Button</span></ids-button>
+            <ids-button icon="bookmark-outlined"><span class="audible">Bookmark Button</span></ids-button>
+        </ids-toolbar-section>
+
+        <ids-toolbar-more-actions overflow>
+            <ids-menu-group>
+            <ids-menu-item value="1" disabled>Option One (disabled)</ids-menu-item>
+            <ids-menu-item value="2">Option Two</ids-menu-item>
+            <ids-menu-item value="3">Option Three</ids-menu-item>
+            <ids-menu-item>More Options
+                <ids-popup-menu>
+                <ids-menu-group>
+                    <ids-menu-item value="4">Option Four</ids-menu-item>
+                    <ids-menu-item value="5" disabled>Option Five (disabled)</ids-menu-item>
+                    <ids-menu-item value="6">Option Six</ids-menu-item>
+                </ids-menu-group>
+                </ids-popup-menu>
+            </ids-menu-item>
+            </ids-menu-group>
+        </ids-toolbar-more-actions>
+    </ids-toolbar>
 </ids-masthead>
 ```
 
@@ -72,13 +100,7 @@ Masthead with `nav` elements as slots:
 
 ## Settings
 
-- `icon` {string} Sets the masthead's icon attribute
-- `title` {string} Sets the masthead's title attribute
-- `slots` {readonly} An object containing the masthead's slots/sections for start|center|end|more
-- `breakpoints` {readonly}  object containing (window.matchMedia) breakpoints for mobile|tablet|desktop
-- `isMobile` {readonly} Returns true if the mobile breakpoint is active
-- `isTablet` {readonly} Returns true if the tablet breakpoint is active
-- `isDesktop` {readonly} Returns true if the desktop breakpoint is active
+- `slot` {readonly} An object containing the masthead's sections for start|center|end|more
 
 ## Events
 
