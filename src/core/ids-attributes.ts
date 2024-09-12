@@ -216,6 +216,7 @@ export const attributes = {
   GROUPED: 'grouped',
   GROW: 'grow',
   HANDLE: 'handle',
+  HAS_ERROR: 'has-error',
   HEADER_MENU_ID: 'header-menu-id',
   HEIGHT: 'height',
   HEX: 'hex',

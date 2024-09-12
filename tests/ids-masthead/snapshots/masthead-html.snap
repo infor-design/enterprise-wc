@@ -1,15 +1,105 @@
 <ids-masthead title="Infor Application" icon="logo" role="navigation">
-          <section title="start" slot="start">
-            <ids-button icon="grid" color-variant="alternate" type="button"><ids-icon icon="grid" class="ids-icon"></ids-icon><span class="audible">Grid Button</span></ids-button>
-          </section>
-          <section title="center" slot="center">
-            <ids-button icon="home" color-variant="alternate" type="button"><ids-icon icon="home" class="ids-icon"></ids-icon><span>Home</span></ids-button>
-            <ids-button icon="star-outlined" color-variant="alternate" type="button"><ids-icon icon="star-outlined" class="ids-icon"></ids-icon><span>Star</span></ids-button>
-            <ids-button icon="info" color-variant="alternate" type="button"><ids-icon icon="info" class="ids-icon"></ids-icon><span>Info</span></ids-button>
-          </section>
-          <section title="end" slot="end">
-            <ids-button icon="user" color-variant="alternate" type="button"><ids-icon icon="user" class="ids-icon"></ids-icon><span class="audible">User Button</span></ids-button>
-            <ids-button icon="mingle-share" color-variant="alternate" type="button"><ids-icon icon="mingle-share" class="ids-icon"></ids-icon><span class="audible">Mingle Button</span></ids-button>
-            <ids-button icon="bookmark-outlined" color-variant="alternate" type="button"><ids-icon icon="bookmark-outlined" class="ids-icon"></ids-icon><span class="audible">Bookmark Button</span></ids-button>
-          </section>
+          <ids-toolbar id="my-toolbar" role="toolbar">
+            <ids-toolbar-section align="start" favor="">
+              <ids-layout-flex gap="8" align-items="center">
+                <ids-layout-flex-item>
+                  <ids-button id="logo" class="icon-logo ids-button-masthead" color-variant="alternate" square="true" type="button">
+                    <ids-icon icon="logo" viewbox="0 0 32 34" width="32" height="32" style="--ids-icon-height-default: 32px; --ids-icon-width-default: 32px;"></ids-icon>
+                    <ids-text audible="true" color-variant="alternate">Masthead logo</ids-text>
+                  </ids-button>
+                </ids-layout-flex-item>
+                <ids-layout-flex-item>
+                  <ids-text id="title" color-variant="alternate" font-size="14" font-weight="semi-bold">Infor Application</ids-text>
+                </ids-layout-flex-item>
+                <ids-layout-flex-item>
+                  <ids-button icon="grid" color-variant="alternate" type="button" class="ids-button-masthead"><ids-icon icon="grid" class="ids-icon"></ids-icon><span class="audible">Grid Button</span></ids-button>
+                </ids-layout-flex-item>
+              </ids-layout-flex>
+            </ids-toolbar-section>
+
+            <ids-toolbar-section type="buttonset" align="start">
+              <ids-button id="button-1" icon="home" color-variant="alternate" type="button" class="ids-button-masthead"><ids-icon icon="home" class="ids-icon"></ids-icon><span>Home</span></ids-button>
+              <ids-button id="button-2" icon="star-outlined" color-variant="alternate" type="button" class="ids-button-masthead"><ids-icon icon="star-outlined" class="ids-icon"></ids-icon><span>Star</span></ids-button>
+              <ids-button id="button-3" icon="info" color-variant="alternate" type="button" class="ids-button-masthead"><ids-icon icon="info" class="ids-icon"></ids-icon><span>Info</span></ids-button>
+            </ids-toolbar-section>
+
+            <ids-toolbar-section type="buttonset" align="end">
+              <ids-button icon="user" color-variant="alternate" type="button" class="ids-button-masthead"><ids-icon icon="user" class="ids-icon"></ids-icon><span class="audible">User Button</span></ids-button>
+              <ids-button icon="mingle-share" color-variant="alternate" type="button" class="ids-button-masthead"><ids-icon icon="mingle-share" class="ids-icon"></ids-icon><span class="audible">Mingle Button</span></ids-button>
+              <ids-button icon="bookmark-outlined" color-variant="alternate" type="button" class="ids-button-masthead"><ids-icon icon="bookmark-outlined" class="ids-icon"></ids-icon><span class="audible">Bookmark Button</span></ids-button>
+            </ids-toolbar-section>
+
+            <ids-toolbar-more-actions overflow=""><ids-menu-button tooltip="More" id="more-actions" menu="more-actions-menu" aria-controls="more-actions-menu" color-variant="alternate" type="button" class="ids-button-masthead" aria-haspopup="menu">
+        <ids-icon icon="more"></ids-icon>
+        <span class="audible">More Actions Button</span>
+      </ids-menu-button>
+      <ids-popup-menu id="more-actions-menu" target="#more-actions" trigger-type="click" hidden=""><ids-menu-group more-actions="" role="group" aria-label="Menu group containing 7 item(s)">
+      <ids-menu-item icon="home" hidden=""><ids-icon slot="icon" icon="home" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+      Home
+      
+    </ids-menu-item><ids-menu-item icon="star-outlined" hidden=""><ids-icon slot="icon" icon="star-outlined" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+      Star
+      
+    </ids-menu-item><ids-menu-item icon="info" hidden=""><ids-icon slot="icon" icon="info" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+      Info
+      
+    </ids-menu-item><ids-menu-item icon="user" hidden=""><ids-icon slot="icon" icon="user" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+      User Button
+      
+    </ids-menu-item><ids-menu-item icon="mingle-share" hidden=""><ids-icon slot="icon" icon="mingle-share" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+      Mingle Button
+      
+    </ids-menu-item><ids-menu-item icon="bookmark-outlined" hidden=""><ids-icon slot="icon" icon="bookmark-outlined" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+      Bookmark Button
+      
+    </ids-menu-item><ids-menu-item icon="more" hidden=""><ids-icon slot="icon" icon="more" part="icon" class="ids-icon ids-menu-item-display-icon"></ids-icon>
+      More Actions Button
+      <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
+          <ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
+            <ids-menu-item disabled="">
+      Option One (disabled)
+      
+    </ids-menu-item><ids-menu-item>
+      Option Two
+      
+    </ids-menu-item><ids-menu-item>
+      Option Three
+      
+    </ids-menu-item><ids-menu-item>
+      More Options
+      <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
+          <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
+            <ids-menu-item>
+      Option Four
+      
+    </ids-menu-item><ids-menu-item disabled="">
+      Option Five (disabled)
+      
+    </ids-menu-item><ids-menu-item>
+      Option Six
+      
+    </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+    </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+    </ids-menu-item>
+    </ids-menu-group><ids-menu-group role="group" aria-label="Menu group containing 4 item(s)">
+                <ids-menu-item value="1" disabled="">Option One (disabled)</ids-menu-item>
+                <ids-menu-item value="2">Option Two</ids-menu-item>
+                <ids-menu-item value="3">Option Three</ids-menu-item>
+                <ids-menu-item>More Options
+                  <ids-popup-menu slot="submenu" aria-expanded="false" hidden="">
+                    <ids-menu-group role="group" aria-label="Menu group containing 3 item(s)">
+                      <ids-menu-item value="4">Option Four</ids-menu-item>
+                      <ids-menu-item value="5" disabled="">Option Five (disabled)</ids-menu-item>
+                      <ids-menu-item value="6">Option Six</ids-menu-item>
+                    </ids-menu-group>
+                  </ids-popup-menu>
+                </ids-menu-item>
+              </ids-menu-group></ids-popup-menu>
+              
+            </ids-toolbar-more-actions>
+          </ids-toolbar>
         </ids-masthead>

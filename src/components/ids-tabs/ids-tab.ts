@@ -9,6 +9,8 @@ import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-
 import IdsElement from '../../core/ids-element';
 
 import '../ids-text/ids-text';
+import '../ids-trigger-field/ids-trigger-button';
+import '../ids-icon/ids-icon';
 
 import styles from './ids-tab.scss';
 import type IdsText from '../ids-text/ids-text';
@@ -59,7 +61,8 @@ export default class IdsTab extends Base {
       attributes.DISMISSIBLE,
       attributes.DISABLED,
       attributes.SELECTED,
-      attributes.VALUE
+      attributes.VALUE,
+      attributes.HAS_ERROR,
     ];
   }
 
@@ -81,7 +84,7 @@ export default class IdsTab extends Base {
    * @returns {string} the template to render
    */
   template(): string {
-    const hasIcon = this.querySelector('ids-icon');
+    const hasIcon = this.querySelector('ids-icon:not([slot="error"])');
     const hasCount = this.hasAttribute(attributes.COUNT);
     const cssClassAttr = buildClassAttrib(
       'ids-tab',
@@ -109,6 +112,9 @@ export default class IdsTab extends Base {
 
     return `<div ${cssClassAttr} tabindex="-1" part="container">
       ${innerContent}
+      <slot name="error">
+        <ids-icon icon="error" color="error" size="small"></ids-icon>
+      </slot>
       <div class="ids-tab-trigger-container">
         <slot name="close"></slot>
       </div>
@@ -303,6 +309,19 @@ export default class IdsTab extends Base {
       bubbles: true,
       detail: { value: `${value}` }
     });
+  }
+
+  set hasError(value: boolean | string) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.HAS_ERROR, val.toString());
+    } else {
+      this.removeAttribute(attributes.HAS_ERROR);
+    }
+  }
+
+  get hasError(): boolean {
+    return stringToBool(this.getAttribute(attributes.HAS_ERROR));
   }
 
   /** @returns {string} value The number of items represented in the tab (may or may not apply) */

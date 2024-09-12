@@ -695,11 +695,21 @@ export default class IdsDropdown extends Base {
   loadDataSet(dataset: IdsDropdownOptions) {
     let html = '';
 
-    let listbox = this.dropdownList?.querySelector('ids-list-box') || this.querySelector('ids-list-box');
+    let listbox = this.dropdownList?.querySelector<IdsListBox>('ids-list-box') || this.querySelector<IdsListBox>('ids-list-box');
+    const listboxOptions = listbox?.options;
+
+    if (listboxOptions) {
+      let noDifference = listboxOptions.length === dataset.length;
+      if (noDifference) {
+        noDifference = dataset.every((option: IdsDropdownOption, idx: number) => option.value === listboxOptions[idx].value);
+      }
+      if (noDifference) return;
+    }
+
     if (listbox) listbox.innerHTML = '';
 
     if (!listbox) {
-      listbox = document.createElement('ids-list-box');
+      listbox = document.createElement('ids-list-box') as IdsListBox;
       this.dropdownList?.insertAdjacentElement('afterbegin', listbox);
       this.dropdownList?.configureListBox();
       this.configureDropdownList();
@@ -763,6 +773,7 @@ export default class IdsDropdown extends Base {
       this.input?.setAttribute(attributes.READONLY, 'true');
       const initialValue: string | null | undefined = this.selectedOption?.textContent?.trim();
       if (this.input) this.input.value = initialValue || '';
+      this.loadDataSet(this.optionsData);
       (window.getSelection() as Selection).removeAllRanges();
       this.replaceTriggerIcon(this.dropdownIcon || 'dropdown');
     }
