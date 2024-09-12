@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.5.1
+
+### 1.5.1 Features
+
+- `[ExpandableArea]` Fix `toggle-btn` type in `ids-expandable-area` for Angular. ([#2730](https://github.com/infor-design/enterprise/issues/2730))
+
 ## 1.5.0
 
 ### 1.5.0 Important Changes
@@ -14,7 +20,6 @@
 - `[Dropdown]` Fixed IdsDropdown default value.  There was a bug where the value property was not working properly with dynamic data. ([#2727](https://github.com/infor-design/enterprise-wc/issues/2727))
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615]https://github.com/infor-design/enterprise-wc/issues/2615)
 - `[Datagrid]` Added async/await to beforecelledit. ([#2726]https://github.com/infor-design/enterprise-wc/issues/2726)
-- `[ExpandableArea]` Fix `toggle-btn` type in `ids-expandable-area` for Angular. ([#2730](https://github.com/infor-design/enterprise/issues/2730))
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615](https://github.com/infor-design/enterprise-wc/issues/2615))
 - `[Dropdown]` Add `data` setter to dropdown to load options. ([#2689](https://github.com/infor-design/enterprise-wc/issues/2689))
