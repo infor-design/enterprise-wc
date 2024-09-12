@@ -22,6 +22,7 @@
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615](https://github.com/infor-design/enterprise-wc/issues/2615))
 - `[Dropdown|ListBox]` Fix `ids-dropdown` so that it doesn't lose track of it's value when `ids-list-box-option` is dynamically set in Angular. ([#2612](https://github.com/infor-design/enterprise-wc/issues/2612))
 - `[Dropdown]` Fixed IdsDropdown default value.  There was a bug where the value property was not working properly with dynamic data. ([#2727](https://github.com/infor-design/enterprise-wc/issues/2727))
+- `[Dropdown|Multiselect]` Fixed a bug where 0-indexed values were not being properly displayed in `ids-dropdown`. ([#2686](https://github.com/infor-design/enterprise-wc/issues/2686))
 - `[Datagrid]` Fix Clear Row / Eraser button so that changes persist throughout pagination. ([#2615]https://github.com/infor-design/enterprise-wc/issues/2615)
 - `[Datagrid]` Added async/await to beforecelledit. ([#2726]https://github.com/infor-design/enterprise-wc/issues/2726)
 - `[NotificationBanner]` Added a notification service which can be used to manage notification banners on a page. ([#2160]https://github.com/infor-design/enterprise-wc/issues/2160)
