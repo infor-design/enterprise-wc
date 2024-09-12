@@ -109,6 +109,24 @@ Tabs can be configured to display an optional [IdsTriggerButton](../ids-trigger-
 <ids-tab value="one" dismissible>Example One</dismissible>
 ```
 
+### Validation Errors
+
+When a tab contains a field that has a validation error, an error icon will be displayed on the tab. This is useful in scenarios where all tabs must contain valid data before proceeding (e.g when inside a modal). The error icon can also be manually controlled by setting the `has-error` attribute on the tab. The error icon is slotted and can be replaced or styled as needed.
+
+```html
+<ids-tab value="manual-error" has-error>
+    Manually show error icon
+</ids-tab>
+<ids-tab value="custom-error">
+    Custom error icon
+    <ids-icon slot="error" color="warning" icon="alert" size="small"></ids-icon>
+</ids-tab>
+<ids-tab value="hidden-error">
+    No error icon
+    <template slot="error"></template>
+</ids-tab>
+```
+
 ## Settings and Attributes
 
 ### Tab Container Settings (`ids-tabs`)
@@ -122,6 +140,7 @@ Tabs can be configured to display an optional [IdsTriggerButton](../ids-trigger-
 
 - `actionable` {boolean} labels a tab as having a corresponding action, such as "Add", "Reset", "Activate Application Menu", etc.  Tabs that use this setting should also have an `onAction` callback applied, which will be triggered upon selecting the tab.  Tabs that are `actionable` will not cause content in tab panels to be displayed.
 - `disabled` {boolean} allows you to disable a tab among a set of tabs.
+- `has-error` {boolean} display an error indicator on the tab.
 - `selected` {boolean} allows for a tab to display its selected state.  In some cases, tabs with this value set to true will also automatically display their corresponding Tab Panel's content.  Tabs that have an `actionable` attribute applied are not able to be "selected" -- selecting those tabs will focus them.
 - `value` {string | number} the value which when the parent `ids-tabs` also has an equivalent for, selects this tab.
 

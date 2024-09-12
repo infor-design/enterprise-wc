@@ -35,6 +35,9 @@
   - link: vertical.html
     type: Example
     description: Shows vertical tabs
+  - link: validation.html
+    type: Test
+    description: Shows validation indicator in tabs
   - link: side-by-side.html
     type: Side by Side
     description: Showing a tab element side by side working with 4.x

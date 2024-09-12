@@ -175,6 +175,10 @@ export default class IdsTabs extends Base {
     return [...this.querySelectorAll<IdsTab>('ids-tab')].pop();
   }
 
+  get tabs(): IdsTab[] {
+    return [...this.querySelectorAll<IdsTab>('ids-tab')];
+  }
+
   /**
    * @readonly
    * @returns {any} [IdsTab | null] The last possible tab with a usable value in the list
