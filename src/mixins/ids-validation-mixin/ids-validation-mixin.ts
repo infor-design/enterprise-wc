@@ -206,7 +206,6 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
     const checkRules = (input: any) => {
       this.isTypeNotValid = {};
       let isValid = true;
-      const wasValid = this.isValid;
       const useRules = this.useRules.get(input);
       useRules?.forEach((thisRule: any) => {
         if (thisRule.rule !== undefined && !thisRule.rule?.check(input, this.rules) && this.isTypeNotValid) {
@@ -222,9 +221,7 @@ const IdsValidationMixin = <T extends Constraints>(superclass: T) => class exten
         }
       });
       this.isTypeNotValid = null;
-      if (isValid !== wasValid) { // Only trigger if the state has changed, for performance.
-        this.#triggerValidateEvent(isValid);
-      }
+      this.#triggerValidateEvent(isValid);
     };
 
     if ((this as IdsInputInterface).input) {
