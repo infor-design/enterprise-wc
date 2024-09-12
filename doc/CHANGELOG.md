@@ -38,6 +38,7 @@
 
 ### 1.5.0 Fixes
 
+- `[BarChart]` Fixed legend URL behavior when selectable attribute is true. ([#2494](https://github.com/infor-design/enterprise-wc/issues/2494))
 - `[Breadcrumb]` Fixed bug where the current item could be clicked. ([#/2780](https://github.com/infor-design/enterprise/issues//2780))
 - `[ColorPicker]` Fixed bug where custom colors were being overridden. ([#8964](https://github.com/infor-design/enterprise/issues/8964))
 - `[Datagrid]` Fixed bug where datagrid mutates original data passed in by user. ([#2724](https://github.com/infor-design/enterprise-wc/issues/2724))
