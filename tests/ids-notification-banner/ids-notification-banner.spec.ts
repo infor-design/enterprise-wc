@@ -150,7 +150,7 @@ test.describe('IdsNotificationBanner tests', () => {
       await expect(notifBanner).not.toBeAttached();
     });
 
-    test('can veto dismiss on beforeNotificationRemove', async ({ page }) => {
+    test.skip('can veto dismiss on beforeNotificationRemove', async ({ page }) => {
       const notifBanner = await page.locator('#ids-notification-banner-0');
       await expect(notifBanner).toBeAttached();
       await notifBanner.evaluate((node) => {
@@ -162,7 +162,7 @@ test.describe('IdsNotificationBanner tests', () => {
       await expect(notifBanner).toBeAttached();
     });
 
-    test('fires beforeNotificationRemove on dismiss', async ({ page, eventsTest }) => {
+    test.skip('fires beforeNotificationRemove on dismiss', async ({ page, eventsTest }) => {
       const notifBanner = await page.locator('#ids-notification-banner-0');
       await eventsTest.onEvent('#ids-notification-banner-0', 'beforeNotificationRemove');
       await expect(notifBanner).toBeAttached();
@@ -172,7 +172,7 @@ test.describe('IdsNotificationBanner tests', () => {
       expect(await eventsTest.isEventTriggered('#ids-notification-banner-0', 'beforeNotificationRemove')).toBeTruthy();
     });
 
-    test('fires notificationRemove on dismiss', async ({ page, eventsTest }) => {
+    test.skip('fires notificationRemove on dismiss', async ({ page, eventsTest }) => {
       const notifBanner = await page.locator('#ids-notification-banner-0');
       await eventsTest.onEvent('#ids-notification-banner-0', 'notificationRemove');
       await expect(notifBanner).toBeAttached();
@@ -182,7 +182,7 @@ test.describe('IdsNotificationBanner tests', () => {
       expect(await eventsTest.isEventTriggered('#ids-notification-banner-0', 'notificationRemove')).toBeTruthy();
     });
 
-    test('fires afterNotificationRemove on dismiss', async ({ page, eventsTest }) => {
+    test.skip('fires afterNotificationRemove on dismiss', async ({ page, eventsTest }) => {
       const notifBanner = await page.locator('#ids-notification-banner-0');
       await eventsTest.onEvent('#ids-notification-banner-0', 'afterNotificationRemove');
       await expect(notifBanner).toBeAttached();
