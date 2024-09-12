@@ -344,7 +344,7 @@ export default class IdsBarChart extends IdsAxisChart {
 
         barHTML += `<g role="listitem">
           <text class="audible" x="${left}" y="${this.markerData.gridBottom}">${label} ${point.value}</text>
-          <rect class="bar color-${groupIndex + 1}" aria-hidden="true" group-index="${groupIndex}" index="${index}" width="${barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
+          <rect class="bar color-${groupIndex + 1}" group-index="${groupIndex}" index="${index}" width="${barWidth}" height="${height}" x="${left}" y="${top}"${pattern}>
             <animate attributeName="height" from="0" to="${height}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
             <animate attributeName="y" from="${bottom}" to="${top}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
           </rect></g>`;
@@ -401,7 +401,7 @@ export default class IdsBarChart extends IdsAxisChart {
 
         barHTML += `<g role="listitem">
           <text class="audible" x="${x}" y="${this.markerData.gridBottom}">${label} ${point.value}</text>
-          <rect class="bar color-${groupIndex + 1}" aria-hidden="true" group-index="${groupIndex}" index="${index}" width="${width}" height="${barHeight}" x="${x}" y="${top}"${pattern}>
+          <rect class="bar color-${groupIndex + 1}" group-index="${groupIndex}" index="${index}" width="${width}" height="${barHeight}" x="${x}" y="${top}"${pattern}>
             <animate attributeName="x" from="${startEdge}" to="${x}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
             <animate attributeName="width" from="0" to="${width}" ${this.animated ? this.cubicBezier : this.cubicBezier.replace('0.8s', '0.01s')}></animate>
           </rect></g>`;

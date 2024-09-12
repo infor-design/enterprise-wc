@@ -49,6 +49,17 @@ export default class IdsExpandableArea extends Base {
 
   connectedCallback(): void {
     super.connectedCallback();
+
+    if (this.type === EXPANDABLE_AREA_TYPES[0]) {
+      // NOTE: For Angular, need to re-run what already happened in IdsExpandableArea#template();
+      // NOTE: since IdsElement.render() is ran in constructor, this.type was not ready in IdsExpandableArea.template()
+      const header = this.shadowRoot?.querySelector('.ids-expandable-area-header');
+      const footer = this.shadowRoot?.querySelector('.ids-expandable-area-footer');
+      header?.setAttribute('data-expander', 'header');
+      header?.setAttribute('aria-expanded', 'false');
+      footer?.remove();
+    }
+
     this.expander = this.shadowRoot?.querySelector('[data-expander]');
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
@@ -220,10 +231,12 @@ export default class IdsExpandableArea extends Base {
    * @returns {void}
    */
   #attachEventHandlers(): void {
+    this.offEvent('click', this.expander);
     this.onEvent('click', this.expander, () => {
       this.setAttributes();
     });
 
+    this.offEvent('touchstart', this.expander);
     this.onEvent('touchstart', this.expander, (e: any) => {
       if (e.touches && e.touches.length > 0) {
         this.setAttributes();
@@ -232,6 +245,7 @@ export default class IdsExpandableArea extends Base {
       passive: true
     });
 
+    this.offEvent('transitionend', this.pane);
     this.onEvent('transitionend', this.pane, () => {
       const eventOpts = {
         detail: { elem: this }
@@ -271,6 +285,7 @@ export default class IdsExpandableArea extends Base {
       </div>
     `;
 
+    // NOTE: Because IdsElement.render() is ran in constructor, this.type is not ready at this point for Angular
     if (this.type === EXPANDABLE_AREA_TYPES[0]) { // Toggle Button Type
       header = `
         <div class="ids-expandable-area-header" part="header" aria-expanded="false" data-expander="header">
