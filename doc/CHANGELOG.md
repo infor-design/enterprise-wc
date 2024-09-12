@@ -1,16 +1,11 @@
 # What's New with Enterprise Web Components
 
-## 1.6.0
-
-### 1.6.0 Features
-
-- `[Tabs]` Added validation error indicator ([#2793](https://github.com/infor-design/enterprise-wc/issues/2793))
-
 ## 1.5.1
 
 ### 1.5.1 Features
 
 - `[ExpandableArea]` Fix `toggle-btn` type in `ids-expandable-area` for Angular. ([#2730](https://github.com/infor-design/enterprise/issues/2730))
+- `[Tabs]` Added validation error indicator ([#2793](https://github.com/infor-design/enterprise-wc/issues/2793)
 
 ### 1.5.1 Fixes
 
