@@ -1,6 +1,6 @@
 stages:
-  - build
   - test
+  - build
   - deploy
 
 variables:
@@ -9,59 +9,47 @@ variables:
   CLOUDFRONT_DISTRIBUTION_ID: E2Q51X0UO412XH
   AWS_ROLE_ARN: arn:aws:iam::611646686338:role/OxfordRole
   GIT_STRATEGY: fetch
-  GIT_CLEAN_FLAGS: "-xdfq --exclude=build"
-  NODE_OPTIONS: "--max-old-space-size=8192"
-
-build:
-  stage: build
-  tags:
-    - dsa
-    - DIND
-  image: node:20
-  timeout: 2h
-  # before_script:
-  #  - apt-get update -y && apt-get install -y libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 curl
-  script:
-    # - uname -a
-    # - curl http://169.254.169.254/latest/meta-data/instance-type
-    # - cat /proc/cpuinfo
-    # - cat /proc/meminfo
-    # - node -e 'console.log(v8.getHeapStatistics().heap_size_limit/(1024*1024))'
-    - npm ci
-    - npm run build
+  GIT_CLEAN_FLAGS: "-xdfq --exclude=build/ --exclude=node_modules/"
 
 test:
   stage: test
   tags:
     - dsa
     - DIND
-  image: node:20
   timeout: 3h
+  image:
+    name: omhq/gitlab-k8s-runner:0.0.4
+  variables:
+    DEBUG: "False"
+    BRANCH: ${CI_COMMIT_REF_NAME}
+    CLUSTER_NAME: worker-prod
+    NAMESPACE: kubefill
+    JOB_NAME: enterprise-wc-percy-tests
+    S3_BUCKET: infor-design-assets-downloads
+    S3_COVERAGE_DIR: oxford/${CI_JOB_ID}/coverage
   script:
-    - npm ci
-    - npm run build:coverage
-    - npm run lint
-    - rm -rf .nyc_output
-    - rm -rf coverage
-    - npx playwright install chromium --with-deps
-    # - npx playwright test -- tag
-    # - ls test-results
-    - npx playwright test --grep-invert 'percy'
-    - npx percy exec -- npx playwright test --workers=1 --grep 'percy'
-    - npx nyc report
-  coverage: /All files[^\|]*\|[^\|]*\s+([\d\.]+)/
-  artifacts:
-    reports:
-      junit: test-results/junit-results.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage/cobertura-coverage.xml
+    - source /workspace/scripts/init.sh
+    - aws sts get-caller-identity
+    - >
+      exec python3 /workspace/src/main.py \
+        --manifest_path /builds/infor-design/enterprise-wc/job-enterprise-wc.yml \
+        --namespace kubefill \
+        --job_name enterprise-wc-percy-tests \
+        --job_id $CI_JOB_ID
+    - aws s3 cp coverage/cobertura-coverage.xml s3://$S3_BUCKET/$S3_COVERAGE_DIR/cobertura-coverage.xml
+    - aws s3 cp test-results/junit-results.xml s3://$S3_BUCKET/$S3_COVERAGE_DIR/junit-results.xml
 
-deploy:
-  stage: deploy
+download_reports:
+  stage: test
   tags:
     - dsa
     - DIND
+  needs:
+    - test
+  image: python:3.12
+  variables:
+    S3_BUCKET: infor-design-assets-downloads
+    S3_COVERAGE_DIR: oxford/${CI_JOB_ID}/coverage
   before_script:
     - 'command -v aws >/dev/null 2>&1 || { echo >&2 "Installing AWS CLI..."; pip install awscli; }'
     - >
@@ -73,7 +61,44 @@ deploy:
       --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
       --output text))
     - aws configure set default.region $AWS_DEFAULT_REGION
+  script:
+    - aws s3 cp s3://$S3_BUCKET/$S3_COVERAGE_DIR/junit-results.xml test-results/junit-results.xml
+    - aws s3 cp s3://$S3_BUCKET/$S3_COVERAGE_DIR/cobertura-coverage.xml coverage/cobertura-coverage.xml
+  coverage: /All files[^\|]*\|[^\|]*\s+([\d\.]+)/
+  artifacts:
+    reports:
+      junit: test-results/junit-results.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+
+build:
+  stage: build
+  tags:
+    - dsa
+    - DIND
+  image: node:20.12
+  script:
+    - npm ci
+    - npm run build
+
+deploy:
+  stage: deploy
+  tags:
+    - dsa
+    - DIND
   image: python:3.12
+  before_script:
+    - 'command -v aws >/dev/null 2>&1 || { echo >&2 "Installing AWS CLI..."; pip install awscli; }'
+    - >
+      export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s"
+      $(aws sts assume-role
+      --role-arn ${AWS_ROLE_ARN}
+      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}"
+      --duration-seconds 3600
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+      --output text))
+    - aws configure set default.region $AWS_DEFAULT_REGION
   script:
     - branch_name=$(echo $CI_COMMIT_REF_NAME | sed 's/[./-]/_/g')
     - echo "Deploying ${branch_name}"
