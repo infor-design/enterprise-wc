@@ -35,6 +35,7 @@
     margin-inline-end: 8px;
     height: 12px;
     width: 12px;
+    pointer-events: none; // prevent URL changes
 
     @for $i from 1 through 21 {
       &.color-#{$i} {
