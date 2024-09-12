@@ -2,4 +2,4 @@ blank_issues_enabled: false
 contact_links:
   - name: Ids Jira Project
     url: https://inforwiki.atlassian.net/jira/software/c/projects/IDS/issues
-    about: Jira is now our issue reporter
+    about: Please use Jira for all issues
