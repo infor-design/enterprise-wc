@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.5.1
+
+### 1.5.1 Features
+
+- `[ExpandableArea]` Fix `toggle-btn` type in `ids-expandable-area` for Angular. ([#2730](https://github.com/infor-design/enterprise/issues/2730))
+
 ## 1.5.0
 
 ### 1.5.0 Important Changes
