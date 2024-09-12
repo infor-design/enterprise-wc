@@ -6,6 +6,10 @@
 
 - `[ExpandableArea]` Fix `toggle-btn` type in `ids-expandable-area` for Angular. ([#2730](https://github.com/infor-design/enterprise/issues/2730))
 
+### 1.5.1 Fixes
+
+- `[BarChart]` Fixed legend URL behavior when selectable attribute is true. ([#2494](https://github.com/infor-design/enterprise-wc/issues/2494))
+
 ## 1.5.0
 
 ### 1.5.0 Important Changes
