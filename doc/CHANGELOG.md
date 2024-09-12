@@ -4,6 +4,7 @@
 
 ### 1.5.1 Features
 
+- `[Datagrid]` Fix virtual-scroll performance on datagrid. ([#2472](https://github.com/infor-design/enterprise-wc/issues/2472))
 - `[ExpandableArea]` Fix `toggle-btn` type in `ids-expandable-area` for Angular. ([#2730](https://github.com/infor-design/enterprise/issues/2730))
 - `[Tabs]` Added validation error indicator ([#2793](https://github.com/infor-design/enterprise-wc/issues/2793)
 
@@ -15,7 +16,6 @@
 
 ### 1.5.0 Important Changes
 
-- `[Datagrid]` Fix virtual-scroll performance on datagrid. ([#2472](https://github.com/infor-design/enterprise-wc/issues/2472))
 - `[NotificationBanner]` Renamed `beforeNotificationRemove/notificationRemove/afterNotificationRemove` events to `beforeclose/close/afterclose` to match current event name structure. ([#2484](https://github.com/infor-design/enterprise-wc/issues/2484))
 
 ### 1.5.0 Features
