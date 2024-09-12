@@ -9,6 +9,8 @@ import IdsHideFocusMixin from '../../mixins/ids-hide-focus-mixin/ids-hide-focus-
 import IdsElement from '../../core/ids-element';
 
 import '../ids-text/ids-text';
+import '../ids-trigger-field/ids-trigger-button';
+import '../ids-icon/ids-icon';
 
 import styles from './ids-tab.scss';
 import type IdsText from '../ids-text/ids-text';
