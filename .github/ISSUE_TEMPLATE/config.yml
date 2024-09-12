@@ -2,4 +2,4 @@ blank_issues_enabled: false
 contact_links:
   - name: Please use Jira to report Issues
     url: https://inforwiki.atlassian.net/jira/software/c/projects/IDS/issues
-    about: Please report security vulnerabilities here.
+    about: Jira is now the issue reporter
