@@ -30,6 +30,7 @@
 - `[Switch]` Added a label position setting that allows positioning the label on either the right or left side of the slider. ([#2579](https://github.com/infor-design/enterprise-wc/issues/2579))
 - `[Themes]` Added a setting `IdsGlobal.themePath` that you can use to set the location of the theme files. ([#2125](https://github.com/infor-design/enterprise-wc/issues/2125))
 - `[Themes]` Added latest round of semantic tokens. ([#2471](https://github.com/infor-design/enterprise-wc/issues/2471))
+- `[Tabs]` Added validation error indicator ([#2793](https://github.com/infor-design/enterprise-wc/issues/2793))
 - `[Validation]` Improved the validation message to prevent it from overflowing the field area. ([#2706](https://github.com/infor-design/enterprise-wc/issues/2706))
 
 ### 1.5.0 Fixes
