@@ -59,12 +59,6 @@ $ids-tab-vertical-height: 42px;
   display: block;
 }
 
-:host([count]) {
-  ::slotted(ids-trigger-button) {
-    padding-inline-start: var(--ids-space-xs);
-  }
-}
-
 // =================================================
 // Default Variant
 // =================================================
@@ -99,6 +93,8 @@ $ids-tab-vertical-height: 42px;
 .ids-tab {
   display: flex;
   position: relative;
+  align-items: center;
+  gap: var(--ids-space-2xs);
   color: var(--ids-tab-color-text-default);
   box-sizing: border-box;
   height: 100%;
