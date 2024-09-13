@@ -5,6 +5,10 @@
 [![Build Check](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml/badge.svg)](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/infor-design/enterprise-wc/badge.svg?branch=main)](https://coveralls.io/github/infor-design/enterprise-wc?branch=main)
 
+> [!IMPORTANT]
+> This repo has been moved to https://oxford.awsdev.infor.com/infor-design/enterprise-wc
+> 
+
 Infor Design System Enterprise Web Components Library is a framework independent UI library consisting of CSS and JS that provides Infor product development teams, partners, and customers the tools to create user experiences that are approachable, focused, relevant, and perceptive.
 
 ## Key Features
