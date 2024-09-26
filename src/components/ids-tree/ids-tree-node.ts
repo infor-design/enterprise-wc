@@ -15,6 +15,7 @@ import type IdsCheckbox from '../ids-checkbox/ids-checkbox';
 import type IdsIcon from '../ids-icon/ids-icon';
 import type IdsText from '../ids-text/ids-text';
 import type IdsTree from './ids-tree';
+import { unescapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 export type TreeNodeBadge = {
   color?: string;
@@ -51,6 +52,8 @@ export type IdsTreeNodeData = {
   toggleExpandIcon?: string;
   /** Sets showing both expand and toggle icon */
   showExpandAndToggleIcons?: boolean;
+  /** Extra properties  */
+  [extra: string | number | symbol]: any;
 };
 
 const Base = IdsEventsMixin(IdsElement);
@@ -70,20 +73,15 @@ const Base = IdsEventsMixin(IdsElement);
 @customElement('ids-tree-node')
 @scss(styles)
 export default class IdsTreeNode extends Base {
-  /**
-   * Main node container
-   */
-  nodeContainer?: HTMLElement | null = null;
-
-  groupNodesEl?: HTMLElement | null = null;
-
   childrenTreeNodes: Array<IdsTreeNode> = [];
 
-  checkboxElem: IdsCheckbox | null = null;
-
-  textElem: IdsText | null = null;
-
   #tree: IdsTree | null = null;
+
+  originalData: IdsTreeNodeData = {
+    id: '',
+    text: '',
+    ...IdsTreeShared.DEFAULTS
+  };
 
   constructor() {
     super();
@@ -94,10 +92,6 @@ export default class IdsTreeNode extends Base {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.nodeContainer = this.shadowRoot!.querySelector('.node-container');
-    this.groupNodesEl = this.shadowRoot!.querySelector('.group-nodes');
-    this.checkboxElem = this.shadowRoot!.querySelector<IdsCheckbox>('ids-checkbox');
-    this.textElem = this.shadowRoot!.querySelector<IdsText>('ids-text');
     this.#attachEventListeners();
   }
 
@@ -121,6 +115,22 @@ export default class IdsTreeNode extends Base {
       attributes.TOGGLE_EXPAND_ICON,
       attributes.TOGGLE_COLLAPSE_ICON
     ];
+  }
+
+  get nodeContainer(): HTMLElement | null {
+    return this.shadowRoot!.querySelector<HTMLElement>('.node-container');
+  }
+
+  get groupNodesEl(): HTMLElement | null {
+    return this.shadowRoot!.querySelector<HTMLElement>('.group-nodes')!;
+  }
+
+  get checkboxElem(): IdsCheckbox | null {
+    return this.shadowRoot!.querySelector<IdsCheckbox>('ids-checkbox');
+  }
+
+  get textElem(): IdsText | null {
+    return this.shadowRoot!.querySelector<IdsText>('ids-text');
   }
 
   get elem(): IdsTreeNode {
@@ -147,6 +157,66 @@ export default class IdsTreeNode extends Base {
     return [...this.querySelectorAll<IdsTreeNode>(':scope > ids-tree-node')];
   }
 
+  #buildNodeFromData(nodeData: IdsTreeNodeData): void {
+    const processed = (s: any) => (/&#?[^\s].{1,9};/g.test(s) ? unescapeHTML(s) : s);
+    this.setAttribute(attributes.ID, nodeData.id ?? '');
+    this.setAttribute(attributes.LABEL, processed(nodeData.text));
+    this.toggleAttribute(attributes.DISABLED, stringToBool(nodeData.disabled));
+    this.toggleAttribute(attributes.SELECTED, stringToBool(nodeData.selected));
+    let nodeIcon = nodeData.icon!;
+
+    if (this.originalData.children) {
+      this.toggleAttribute(attributes.EXPANDED, stringToBool(this.originalData.expanded));
+      nodeIcon = this.originalData.expanded
+        ? this.originalData.expandIcon!
+        : this.originalData.collapseIcon!;
+
+      // for async children
+      this.toggleAttribute('load-async', this.originalData.children.length === 0);
+
+      // remove pre-exising nodes if any
+      this.slottedTreeNodes.forEach((treeNode) => treeNode.remove());
+
+      // build direct children of this node
+      nodeData.children?.forEach((childNodeData: IdsTreeNodeData) => {
+        const childNode = document.createElement('ids-tree-node') as IdsTreeNode;
+        childNode.setAttribute('aria-level', String(this.level + 1));
+        childNode.data = childNodeData;
+        this.insertAdjacentElement('beforeend', childNode);
+      });
+    }
+
+    // node icons
+    this.setAttribute(attributes.ICON, nodeIcon);
+    this.setAttribute(attributes.TOGGLE_COLLAPSE_ICON, nodeData.toggleCollapseIcon!);
+    this.setAttribute(attributes.TOGGLE_EXPAND_ICON, nodeData.toggleExpandIcon!);
+    this.setAttribute(attributes.COLLAPSE_ICON, nodeData.collapseIcon!);
+    this.setAttribute(attributes.EXPAND_ICON, nodeData.expandIcon!);
+    this.toggleAttribute(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS, stringToBool(nodeData.showExpandAndToggleIcons));
+  }
+
+  #buildBadgeFromData(badgeData: TreeNodeBadge) {
+    // build badge element
+    let badgeHTML = '';
+    if (badgeData) {
+      badgeHTML = `<ids-badge slot="badge"
+        ${badgeData.color ? `color="${badgeData.color}"` : ''}
+        ${badgeData.shape ? `shape="${badgeData.shape}"` : ''}>
+        ${badgeData.text ? `${badgeData.text}` : ''}
+        ${badgeData.textAudible ? `<ids-text audible="true">${badgeData.textAudible}</ids-text>` : ''}
+        ${badgeData.icon ? `<ids-icon icon="${badgeData.icon}"></ids-icon>` : ''}
+      </ids-badge>`;
+
+      this.insertAdjacentHTML('beforeend', badgeHTML);
+    }
+  }
+
+  set data(val: IdsTreeNodeData) {
+    this.originalData = { ...this.originalData, ...val };
+    this.#buildNodeFromData(this.originalData);
+    if (this.originalData.badge) this.#buildBadgeFromData(this.originalData.badge);
+  }
+
   get data(): IdsTreeNodeData {
     const nodeData: Partial<IdsTreeNodeData> = {
       id: this.id,
@@ -157,6 +227,7 @@ export default class IdsTreeNode extends Base {
       expanded: this.expanded,
       disabled: this.disabled,
       selected: this.selected,
+      selectable: this.selectable,
       showExpandAndToggleIcons: this.showExpandAndToggleIcons,
       toggleExpandIcon: this.toggleExpandIcon,
       toggleCollapseIcon: this.toggleCollapseIcon
@@ -167,7 +238,7 @@ export default class IdsTreeNode extends Base {
       nodeData.children = this.slottedTreeNodes.map((child) => child.data);
     }
 
-    return nodeData;
+    return { ...this.originalData, ...nodeData };
   }
 
   get treeElem(): IdsTree | null {
@@ -378,7 +449,7 @@ export default class IdsTreeNode extends Base {
 
     this.offEvent('slotchange', badgeSlot);
     this.onEvent('slotchange', badgeSlot, () => {
-      this.querySelector('ids-badge')?.toggleAttribute(attributes.NO_MARGINS, true);
+      badgeSlot?.assignedElements().forEach((elem) => elem?.toggleAttribute(attributes.NO_MARGINS, true));
     });
   }
 
@@ -510,7 +581,8 @@ export default class IdsTreeNode extends Base {
     const expand = () => {
       this.container?.setAttribute(attributes.EXPANDED, '');
       this.groupNodesEl?.style.setProperty('display', 'block');
-      this.groupNodesEl?.style.setProperty('max-height', `${this.groupNodesEl.scrollHeight}px`);
+      const scrollHeight = this.groupNodesEl?.scrollHeight;
+      this.groupNodesEl?.style.setProperty('max-height', `${scrollHeight ? `${scrollHeight}px` : 'max-content'}`);
       this.nodeContainer?.querySelector('.icon')?.setAttribute(attributes.ICON, this.expandIcon);
       this.nodeContainer?.querySelector('.toggle-icon')?.setAttribute(attributes.ICON, this.toggleExpandIcon);
       this.#rotateToggleIcon(true);
@@ -771,17 +843,16 @@ export default class IdsTreeNode extends Base {
     const selectableMode = this.selectable;
 
     if (selectableMode === 'multiple' && !this.checkboxElem) {
-      this.checkboxElem = document.createElement('ids-checkbox') as IdsCheckbox;
-      this.checkboxElem.checked = this.selected;
-      this.checkboxElem.setAttribute(attributes.LABEL, this.label);
-      this.checkboxElem.setAttribute('tabindex', '-1');
-      this.nodeContainer?.insertBefore(this.checkboxElem, this.textElem);
+      const checkboxElem = document.createElement('ids-checkbox') as IdsCheckbox;
+      checkboxElem.checked = this.selected;
+      checkboxElem.setAttribute(attributes.LABEL, this.label);
+      checkboxElem.setAttribute('tabindex', '-1');
+      this.nodeContainer?.insertBefore(checkboxElem, this.textElem);
       this.textElem?.style.setProperty('display', 'none');
     }
 
     if (selectableMode === 'single') {
       this.checkboxElem?.remove();
-      this.checkboxElem = null;
       this.textElem?.style.setProperty('display', 'inline-block');
     }
 

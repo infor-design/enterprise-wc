@@ -17,10 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const newSingleNode = (): Array<IdsTreeNodeData> => {
-    const singleNode = [
+    const singleNode: Array<IdsTreeNodeData> = [
       {
         id: 'newa',
-        text: 'New node'
+        text: 'New node',
+        customData: {
+          customDataId: 'custom-id',
+          customDataChildren: [
+            { customDataId: 'extra-1' },
+            { customDataId: 'extra-1' },
+            { customDataId: 'extra-1' }
+          ]
+        }
       }
     ];
 
@@ -28,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const newMultiNode = (): Array<IdsTreeNodeData> => {
-    const multiNode = [
+    const multiNode: Array<IdsTreeNodeData> = [
       {
         id: 'newb',
         text: 'New node 1'

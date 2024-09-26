@@ -13,7 +13,6 @@
     display: inline-flex;
     padding: var(--ids-space-2xs);
     color: var(--ids-tree-node-color-text-default);
-    align-items: baseline;
     border-radius: var(--ids-border-radius-2xs);
     margin-bottom: var(--ids-space-4xs);
     transition: background-color var(--ids-motion-duration) var(--ids-motion-ease), opacity var(--ids-motion-duration) var(--ids-motion-ease);
@@ -110,5 +109,3 @@
 ids-checkbox::part(root) {
   margin-bottom: var(--ids-space-none);
 }
-
-@include tree-node-badge();

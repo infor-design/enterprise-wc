@@ -1,5 +1,11 @@
 # What's New with Enterprise Web Components
 
+## 1.5.1
+
+### 1.5.1 Fixes
+
+- `[Tree]` Fix bug where custom properties were ignored and not persisted. ([#4879](https://github.com/infor-design/enterprise-wc/issues/4879))
+
 ## 1.5.0
 
 ### 1.5.0 Important Changes

@@ -153,6 +153,29 @@ test.describe('IdsTree tests', () => {
       expect(nodeData[1]).toContain('¡, ¢, £, ¤, ¥, ¦, §, ©');
     });
 
+    test('including custom properties in the tree data', async ({ page }) => {
+      const nodeData = await page.evaluate(() => {
+        const tree = document.querySelector<IdsTree>('ids-tree');
+        const data = [{
+          id: 'cp-1',
+          text: 'Custom Properties',
+          customString: 'foo',
+          customObject: {
+            foo: 'bar'
+          },
+        }];
+        tree!.data = data;
+        return tree!.getNode('#cp-1')?.data;
+      });
+
+      expect(nodeData).toMatchObject({
+        customString: 'foo',
+        customObject: {
+          foo: 'bar'
+        },
+      });
+    });
+
     test('can set node to selectable', async ({ page }) => {
       const handle = await page.$('ids-tree');
       let selectable = await handle?.evaluate((tree: IdsTree) => tree!.getNode('#home')?.selectable);

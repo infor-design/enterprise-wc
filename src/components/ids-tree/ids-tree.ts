@@ -12,7 +12,6 @@ import './ids-tree-node';
 import { type IdsTreeNodeData } from './ids-tree-node';
 import type IdsTreeNode from './ids-tree-node';
 
-import { unescapeHTML, escapeHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-tree.scss';
@@ -116,6 +115,7 @@ export default class IdsTree extends Base {
    */
   set data(value: Array<IdsTreeNodeData>) {
     if (Array.isArray(value)) {
+      value = this.#processTreeNodeData(value);
       this.redraw(value);
       return;
     }
@@ -197,7 +197,7 @@ export default class IdsTree extends Base {
     this.#updateNodeAttribute(attributes.COLLAPSE_ICON);
   }
 
-  get collapseIcon(): string | null {
+  get collapseIcon(): string {
     return this.getAttribute(attributes.COLLAPSE_ICON) ?? IdsTreeShared.DEFAULTS.collapseIcon;
   }
 
@@ -233,7 +233,7 @@ export default class IdsTree extends Base {
     this.#updateNodeAttribute(attributes.EXPAND_ICON);
   }
 
-  get expandIcon(): string | null {
+  get expandIcon(): string {
     return this.getAttribute(attributes.EXPAND_ICON) ?? IdsTreeShared.DEFAULTS.expandIcon;
   }
 
@@ -498,25 +498,26 @@ export default class IdsTree extends Base {
    * @returns {void}
    */
   addNodes(nodeData: Array<IdsTreeNodeData>, location?: 'bottom' | 'top' | 'before' | 'after' | 'child', node?: IdsTreeNode): void {
-    const treeNodeHTML = nodeData.reduce((tmpl, data) => tmpl + this.#buildTreeNodeHTML(data), '');
+    const treeNodeElems = nodeData.map((data) => this.#buildTreeNodeElem(data));
 
     switch (location) {
       case 'top':
-        this.insertAdjacentHTML('afterbegin', treeNodeHTML);
+        treeNodeElems.forEach((treeNode) => this.insertAdjacentElement('afterbegin', treeNode));
         break;
       case 'before':
-        node?.insertAdjacentHTML('beforebegin', treeNodeHTML);
+        treeNodeElems.forEach((treeNode) => node?.insertAdjacentElement('beforebegin', treeNode));
         break;
       case 'after':
-        node?.insertAdjacentHTML('afterend', treeNodeHTML);
+        treeNodeElems.forEach((treeNode) => node?.insertAdjacentElement('afterend', treeNode));
         break;
       case 'child':
-        node?.insertAdjacentHTML('beforeend', treeNodeHTML);
+        treeNodeElems.forEach((treeNode) => node?.insertAdjacentElement('beforeend', treeNode));
         node?.toggleAttribute(attributes.EXPANDED, true);
+        node?.style.setProperty('max-height', 'max-content');
         break;
       case 'bottom':
       default:
-        this.insertAdjacentHTML('beforeend', treeNodeHTML);
+        treeNodeElems.forEach((treeNode) => this.insertAdjacentElement('beforeend', treeNode));
     }
   }
 
@@ -765,73 +766,39 @@ export default class IdsTree extends Base {
 
   redraw(treeData: Array<IdsTreeNodeData> = []): void {
     this.clear();
-    const treeHTML = treeData.map((data) => this.#buildTreeNodeHTML(data));
-    this.insertAdjacentHTML('afterbegin', treeHTML.join(''));
+    treeData.forEach((data) => {
+      const treeNode = this.#buildTreeNodeElem(data);
+      this.insertAdjacentElement('beforeend', treeNode);
+    });
   }
 
-  #buildTreeNodeHTML(n: IdsTreeNodeData): string {
-    const attrs: string[] = [];
-    const processed = (s: any) => (/&#?[^\s].{1,9};/g.test(s) ? unescapeHTML(s) : s);
-    const validatedText = (s: any) => escapeHTML(processed(s));
-    const addAttr = (key: keyof IdsTreeNodeData, useKey?: string) => {
-      if (typeof n[key] !== 'undefined') {
-        const value = n[key];
+  #processTreeNodeData(nodeData: Array<IdsTreeNodeData>): Array<IdsTreeNodeData> {
+    // cache current tree attribute values
+    const treeIcon = this.icon;
+    const treeExpandIcon = this.expandIcon;
+    const treeCollapseIcon = this.collapseIcon;
+    const treeToggleExpandIcon = this.toggleExpandIcon;
+    const treeToggleCollapseIcon = this.toggleCollapseIcon;
+    const treeShowToggleAndExpandIcons = this.showExpandAndToggleIcons;
 
-        if (typeof value === 'boolean' && value === true) {
-          attrs.push(useKey || key);
-          return;
-        }
+    nodeData.forEach((data) => {
+      data.showExpandAndToggleIcons ??= treeShowToggleAndExpandIcons;
+      data.toggleCollapseIcon ??= treeToggleCollapseIcon;
+      data.toggleExpandIcon ??= treeToggleExpandIcon;
+      data.collapseIcon ??= treeCollapseIcon;
+      data.expandIcon ??= treeExpandIcon;
+      data.icon ??= treeIcon;
 
-        const safeValue = typeof value === 'string' ? validatedText(value) : value;
-        attrs.push(`${useKey || key}="${safeValue}"`);
-      }
-    };
+      if (data.children?.length) this.#processTreeNodeData(data.children);
+    });
 
-    // set icon from tree
-    if (this.icon) n.icon ??= this.icon;
+    return nodeData;
+  }
 
-    // build tree node specific attributes
-    addAttr('id');
-    addAttr('disabled');
-    addAttr('text', 'label');
-    addAttr('icon');
-    addAttr('selected');
-    attrs.push(`${attributes.TOGGLE_COLLAPSE_ICON}="${n.toggleCollapseIcon ?? this.toggleCollapseIcon}"`);
-    attrs.push(`${attributes.TOGGLE_EXPAND_ICON}="${n.toggleExpandIcon ?? this.toggleExpandIcon}"`);
-    attrs.push(`${attributes.COLLAPSE_ICON}="${n.collapseIcon ?? this.collapseIcon}"`);
-    attrs.push(`${attributes.EXPAND_ICON}="${n.expandIcon ?? this.expandIcon}"`);
-
-    if (this.showExpandAndToggleIcons || n.showExpandAndToggleIcons) {
-      attrs.push(attributes.SHOW_EXPAND_AND_TOGGLE_ICONS);
-    }
-
-    // build children tree nodes
-    let children = '';
-    if (n.children) {
-      addAttr('expanded');
-
-      // for async children
-      if (n.children.length === 0) {
-        attrs.push('load-async');
-      }
-
-      children = n.children
-        .map((child) => this.#buildTreeNodeHTML(child))
-        .join('');
-    }
-
-    const badgeConfig = n.badge;
-    let badgeHTML = '';
-    if (badgeConfig) {
-      badgeHTML = `<ids-badge slot="badge"
-        ${badgeConfig.color ? `color="${badgeConfig.color}"` : ''}
-        ${badgeConfig.shape ? `shape="${badgeConfig.shape}"` : ''}>
-        ${badgeConfig.text ? `${badgeConfig.text}` : ''}
-        ${badgeConfig.textAudible ? `<ids-text audible="true">${badgeConfig.textAudible}</ids-text>` : ''}
-        ${badgeConfig.icon ? `<ids-icon icon="${badgeConfig.icon}"></ids-icon>` : ''}
-      </ids-badge>`;
-    }
-
-    return `<ids-tree-node ${attrs.join(' ')}>${badgeHTML}${children}</ids-tree-node>`;
+  #buildTreeNodeElem(nodeData: IdsTreeNodeData): IdsTreeNode {
+    const treeNode = document.createElement('ids-tree-node') as IdsTreeNode;
+    treeNode.setAttribute('aria-level', '1');
+    treeNode.data = nodeData;
+    return treeNode;
   }
 }
